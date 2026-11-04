@@ -14,6 +14,8 @@
 
 Dependencies: 1 -> {2, 3}; 3 -> 4; {2, 4} -> 5. Model download (2) progresses independently of GLM implementation and verification (3/4).
 
+The dependency on step4 applies to final cleanup, the completed validation archive and final synchronization. While the exact GPU job is externally queued, completed preparation commits and their explicitly incomplete verification status can be synchronized incrementally; this does not mark step4 or step5 complete.
+
 ## Acceptance
 
 - Branch and final remote SHA match; working tree changes are accounted for.

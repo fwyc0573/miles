@@ -2,7 +2,7 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-05 | Create the agentic OPD preparation record. |
+| 2026-11-05 | Record preparation, failures, cleanup and resource-blocked synchronization. |
 
 # Progress
 
@@ -589,45 +589,68 @@
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
-| 1. 分支与验收 | PASS | agent-opd及任务验收记录已核对。 |
-| 2. 模型准备 | PASS | 22文件完整下载校验已记录，未重复下载。 |
-| 3. 原始turn与launcher | PASS | 已提交代码和四类turn/必要CPU检查的证据存在。 |
-| 4. 16H200 OPD验证 | FAILED | 完整首次广播失败；原差分作业仍排队。 |
-| 5. 清理与push | TODO | 旧产物已清理，实际训练与最终交付未完成。 |
+| 1. 分支与验收 | PASS | agent-opd、requirements.md 和 plan.md 已核对。 |
+| 2. 模型准备 | PASS | 22文件完整下载校验已记录，无重复下载。 |
+| 3. 原始turn与launcher | PASS | 四类turn和新增snapshot已通过，代码已提交。 |
+| 4. 16H200 OPD验证 | BLOCKED | 更新数仍为0，原差分Pending；可用H200只有8卡。 |
+| 5. 清理与push | TODO | 旧产物已清理，准备代码可增量同步；最终训练验收与清理未完成。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次channel候选提交至当前续接核对｜**当前前沿：** step4
+**检测窗口：** 上次channel候选提交至本次容量核对与准备归档｜**当前前沿：** step4；step5的独立清理和增量同步
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 续接仅核对现有代码与运行状态，未扩展工具或重复测试。 |
-| D2 细节反复重试 | CLEAR | 原差分有事前假设；保持原作业，无新的参数猜测或完整模型重试。 |
-| D3 支线问题修补 | CLEAR | 没有无关模块或依赖修复。 |
-| D4 可并行任务停滞 | CLEAR | 模型与turn记录已完成，清理持续推进；最终结论依赖step4。 |
-| D5 超范围镀金 | CLEAR | 仍为16H200和两次更新。 |
-| D6 分析空转 | CLEAR | 当前阻塞由精确队列状态确认，没有新增无结果的分析交付。 |
-| D7 路线违背 | CLEAR | 个人Python API、本机source和不留warmup数据约束保留。 |
+| D1 工具打磨 | CLEAR | 临时容量脚本只核对GPU前提，结论明确后已删除；无新增测试或依赖。 |
+| D2 细节反复重试 | CLEAR | 保持原差分和原job；没有重复GPU提交或参数猜测。 |
+| D3 支线问题修补 | CLEAR | 仅处理原GPU资源阻塞、用户要求的清理和个人repo同步。 |
+| D4 可并行任务停滞 | CLEAR | 清理、推送权限及准备归档在GPU排队时推进。 |
+| D5 超范围镀金 | CLEAR | 原16H200、两次更新和原代码范围不变。 |
+| D6 分析空转 | CLEAR | 容量核对确定codesign没有H200标签、当前非抢占替代不可行；停止其他quota探索。 |
+| D7 路线违背 | CLEAR | 原job及launcher保留；增量同步不替代最终训练验收。 |
 
-**文档检查：** S1–S6均未发现明显缺陷。
-**归因：** 无。
+**文档检查：** S1 plan.md把step5的全部工作放在step4之后，与已经并行执行的用户要求清理和已授权代码同步不一致；已澄清只有最终归档/清理/同步等待step4。S2–S6未发现明显缺陷。
+**归因：** 无执行偏离。
 
 ## 3. 纠正建议
 
-**分支：** A：spec/tickets合理，无需改动。
+**分支：** B：澄清最终依赖与可独立执行的准备工作。
+
+**文档更新（先执行）：**
+
+1. plan.md dependencies：说明已验证准备代码及真实未完成状态可以增量同步，最终验收和同步仍依赖step4（可直接执行，未改变资源或验收要求，已完成）。
 
 **需停止的偏离行为：无**
 
 **接下去的路线：**
-1. step4：读取原差分实际输出 → 完成标志：确认或排除channel假设。
-2. step4：完成真实两次OPD更新与native产物检查 → 完成标志：finite更新、teacher/R3和same-token/same-weight证据。
-3. step5：删除任务临时产物并提交push → 完成标志：仅代码和Markdown结论、remote SHA一致。
+
+1. step4：保持launcher50766，读取原差分实际输出 → 完成标志：确认或排除channel假设。
+2. 并行：step5将已验证准备代码和明确未完成状态同步个人repo → 完成标志：增量remote SHA与HEAD一致，输入与raw数据不进入Git。
+3. step4/5：两次真实更新和native检查后立即清理全部warmup产物，更新最终报告并同步 → 完成标志：finite更新、teacher/R3、same-token/same-weight数值、inspection exit0与最终remote SHA一致。
 
 ## 4. 最值得关注的 3 点
 
-1. 当前optimizer update仍为0，不能报告OPD PASS。
-2. 当前集群无可用H200；原launcher存活，禁止因排队重复提交。
-3. 最终删除任务日志、缓存和warmup数据，保留共享模型和源数据。
+1. 当前optimizer update仍为0；GPU排队和增量push不能报告OPD PASS。
+2. 本人其他任务已占48张非抢占H200；本任务继续原preemptible配置，无已验证的其他H200 quota。
+3. 新增容量脚本/响应已删除；活动输入和临时Python source仅供后续验收，完成后删除。
 
 - 2026-11-05T04:19:42.027531+08:00 step4 source review: the research sidecar returned no file; closed it and retained the existing primary-source rationale in the test report instead of creating a second topic document. Direct native consumer inspection qualifies GRPO/n_samples_per_prompt=1 for this pure-OPD hook: zero task rewards bypass default normalization, GRPO expands zero rewards without std, OPD applies detached token KL and advantage whitening defaults false. Confirmed R3 and custom TIS flags reach their native consumers. No configuration, training behavior, dependency or test was changed. Real finite updates and routing/logprob arrays remain pending.
+
+- 2026-11-05T04:42:24.463038+08:00 step5 incremental cleanup: removed completed CPU lint cache and Ruff cache (approximately50MiB in the prior du measurement;100186282+428 apparent bytes across files/hard links), plus consumed shape/usage/capacity snapshots. The pinned SGLang source remains temporarily available for any necessary CPU verification of the active GPU outcome. Launcher50766 and its entrypoint/manifest/auth were not affected; shared environments and other jobs were not touched.
+
+- 2026-11-05T04:46:36.039300+08:00 step5 checkout-cache cleanup: removed untracked root pytest/Ruff caches whose November5 mtimes match the recorded task checks: [{'path': '/data/ycfeng/sota-engine/miles/.pytest_cache', 'apparent_bytes': 113789, 'last_modified': '2026-11-05T01:07:25.329275+08:00'}, {'path': '/data/ycfeng/sota-engine/miles/.ruff_cache', 'apparent_bytes': 567, 'last_modified': '2026-11-05T01:33:27.033753+08:00'}]. The current diagnostic remains Pending; no native output exists. No source file, shared model/dataset, credential or other job was changed.
+
+- 2026-11-05T05:04:39.246862+08:00 continuation: current agent-opd HEAD10172fbf and all existing requirements/verification boundaries re-read. Exact personal inspection again reports exp-1105-031302-898658 Pending, creator i-fengyicheng and local NFS100.96.128.195. Launcher50766 remains alive. Applied the check-progress checkpoint above: no scope change, duplicate submission, dependency repair or unrelated edit. The next result remains the original GPU differential; raw observations stay temporary.
+
+- 2026-11-05T05:14:21.620403+08:00 step4 queue observation: exact original job remains Pending/creator i-fengyicheng; queue annotation rank8 and insufficient-GPU reason. Current step_main returned64 nodes with8 usable GPUs (previously0), below the unchanged16-GPU gang requirement. Queue reason now reports H200=441 versus473 in the prior snapshot; this is a scheduling observation, not a reservation. Launcher50766 remains alive. The consumed temporary capacity/usage snapshots are removed.
+
+- 2026-11-05T05:27:29.169669+08:00 step5 prerequisite: read-only `gh api repos/fwyc0573/miles --jq '{full_name, push_allowed: .permissions.push}'` returned full_name=fwyc0573/miles and push_allowed=true. No external write was made; final push still follows actual warmup acceptance. Rechecked /data free111GiB, task tmp173MiB and active evidence988KiB; no growth or new warmup output.
+
+- 2026-11-05T05:32:16.227644+08:00 step4 bounded queue refresh: original job Pending, queue approval empty/rank annotation8;64 step_main nodes still have8 usable GPUs. Queue reason reports H200=409, previously441. No resource/configuration change or duplicate submission. Removed the consumed raw capacity snapshot; launcher50766 remains active.
+
+- 2026-11-05T05:35:26.690452+08:00 step4 resource decision: fresh personal Running/Starting query reports48 non-preemptible H200 across6 unrelated jobs (previously40/5). A16-GPU non-preemptible replacement cannot meet the stated32-GPU usage limit. Preserve all unrelated jobs and keep the original preemptible diagnostic. The consumed usage snapshot is removed.
+
+- 2026-11-05T05:50:29.873528+08:00 step4 alternate-capacity investigation completed: the authenticated codesign response returned all185 reported nodes; GPUType labels show166 H800 and19 without a GPUType label, with190/0 usable GPUs respectively and no H200 label. This does not satisfy the requested H200 hardware. The one-off capacity script and raw response are removed; no alternate submission or quota change.
+
+- 2026-11-05T05:50:29.873528+08:00 step5 intermediate synchronization decision: GPU execution remains externally queued after repeated exact-job reads. Synchronize the already-verified preparation code and truthful incomplete validation record to the requested personal origin while retaining launcher50766 and the original job. This is an intermediate branch update, not completion of the warmup; final numerical results, cleanup and synchronization still follow step4. No new acceptance criterion or GPU resource is introduced.

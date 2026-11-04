@@ -2,7 +2,7 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-05 | Record CPU input qualification and initial environment failures; GPU validation pending. |
+| 2026-11-05 | Record CPU/GPU prerequisites, native failures, resource constraints and cleanup; OPD qualification pending. |
 
 # Agentic OPD Warmup Validation
 
@@ -590,3 +590,55 @@ failure reports. The continuation requires actual asymmetric sender bounds
 unset, the identical truncation, and matching-case exit0, so a no-op setting
 change cannot falsely qualify the cause. This remains GPU-unverified while
 exp-1105-031302-898658 is Pending.
+
+## Resource checkpoint and cleanup: GPU validation still incomplete
+
+At the November5 continuation, the original exact job
+`exp-1105-031302-898658` remains Pending with creator `i-fengyicheng`,
+preemptible=yes and local NFS 100.96.128.195. Launcher session 50766 is alive.
+The last full-model attempt completed zero optimizer updates; no new native
+warmup output exists for the queued job.
+
+The current personal Running/Starting query reports 48 non-preemptible H200
+across 6 unrelated jobs. Adding 16 non-preemptible GPUs would exceed the stated 32
+limit. All unrelated jobs are preserved. Current step_main capacity reads
+return all 64 nodes with 8 usable GPUs; this is below the 16-GPU gang requirement.
+The queue annotation remains rank8 and approval empty; its reason reports
+H200=409 at the latest refresh. These observations are neither reservations
+nor successful execution evidence.
+
+The alternate codesign query returned all 185 reported nodes. Platform
+`metadata.labels.GPUType` counts are H800=166 and no_gpu_type_label=19;
+usable GPU counts are190 and 0 respectively. No H200 label was returned.
+The prior infer_af_test query returned only 2 CPU nodes. Neither observation
+provides a verified alternate allocation for the requested H200 warmup.
+
+Exact observation commands used the existing personal wrapper and Python3.10.6
+with brainpp2.8.6:
+
+```bash
+timeout 60s bash /data/ycfeng/tmp/agent-opd-20261105/personal_exec.sh   /data/ycfeng/steptron/tests/integration/inspect_stepmind_personal_job.py   exp-1105-031302-898658
+timeout 60s bash /data/ycfeng/tmp/agent-opd-20261105/personal_exec.sh   /data/ycfeng/tmp/agent-opd-20261105/current_h200_usage.py
+timeout 60s bash /data/ycfeng/tmp/agent-opd-20261105/personal_exec.sh   /data/ycfeng/tmp/agent-opd-20261105/queue_read.py
+```
+
+The one-off codesign query used the same authenticated client's
+`/kapis/node.brainpp.cn/v1alpha1/nodes/details` endpoint, tenant=shai,
+project=shai-core, group=codesign, page 1/pageSize=500 and 25s request timeout.
+Its temporary script and response were removed after the aggregate counts
+above were recorded. All consumed usage/capacity snapshots, inactive smoke
+inputs, raw RCA/logs, lint caches and root pytest/Ruff caches have been removed.
+Earlier raw-file paths in this report document historical commands rather
+than retained artifacts. Requested model assets and shared original data are
+preserved. The active manifest/entrypoint and pinned Python source remain
+necessary inputs for the queued job and any affected CPU verification.
+
+Observed `/data` free space is 111GiB, with task tmp 173MiB and active inputs 988KiB;
+these values were stable during this continuation. There is no new compiled,
+log or smoke-data growth. The prior task-only image cleanup recovered about 83GB.
+
+Read-only `gh api repos/fwyc0573/miles --jq '{full_name, push_allowed: .permissions.push}'`
+returned `full_name=fwyc0573/miles` and `push_allowed=true`. Only the verified
+preparation snapshot and Markdown conclusions are ready for intermediate
+synchronization. Actual channel diagnosis, two optimizer updates and numeric
+parity remain unqualified.
