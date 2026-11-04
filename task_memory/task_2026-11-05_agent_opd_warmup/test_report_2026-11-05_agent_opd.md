@@ -2,7 +2,7 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-05 | Record CPU/GPU prerequisites, native failures, resource constraints and cleanup; OPD qualification pending. |
+| 2026-11-05 | Record CPU/GPU prerequisites, native failures, resource constraints, cleanup and intermediate synchronization; OPD qualification pending. |
 
 # Agentic OPD Warmup Validation
 
@@ -642,3 +642,25 @@ returned `full_name=fwyc0573/miles` and `push_allowed=true`. Only the verified
 preparation snapshot and Markdown conclusions are ready for intermediate
 synchronization. Actual channel diagnosis, two optimizer updates and numeric
 parity remain unqualified.
+
+## Continuation checkpoint: preparation synchronized; actual warmup BLOCKED
+
+At 2026-11-05T06:47:27.391606+08:00, read-only `git ls-remote --heads origin agent-opd`
+matched local HEAD `c403bdc7af16b7ddce640c4af1144b7f36e7fc31`. This proves the preparation
+branch is synchronized; it does not qualify OPD. No training code, parameters
+or resource shape changed in this continuation.
+
+The exact personal inspection reports `exp-1105-031302-898658` Pending,
+creator `i-fengyicheng` and local NFS source100.96.128.195. Launcher50766
+is alive. The original queue has rank8, approval empty and explicitly says
+insufficient GPU quota; its remaining-H200 field is460, a queue observation.
+All64 step_main nodes report 8 usable GPUs total, below the16-GPU
+gang requirement. No worker or native result file exists yet, and actual
+optimizer updates remain0.
+
+Local `/data` free111GiB; task temporary inputs/source173MiB and active
+evidence988KiB. The consumed query responses and exact-job log snapshot were
+removed after these aggregate conclusions were recorded. Active job inputs,
+shared environments, credentials, requested model assets and original datasets
+remain available. PASS for intermediate synchronization and consumed-data
+cleanup; BLOCKED for GPU channel diagnosis and real OPD optimization.

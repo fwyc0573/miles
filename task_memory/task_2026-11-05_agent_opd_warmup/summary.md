@@ -2,14 +2,16 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-05 | Archive the verified preparation snapshot and explicitly pending GPU qualification. |
+| 2026-11-05 | Archive verified preparation, confirmed intermediate GitHub synchronization and pending GPU qualification. |
 
 # Agentic OPD Preparation Snapshot
 
 The preparation code and requested model assets are ready. **The actual GLM OPD
 warmup has not passed.** Previous full model attempts completed zero optimizer
 updates; the current diagnostic job is queued for 16 H200 GPUs. This record is
-an intermediate snapshot with GPU qualification still pending.
+an intermediate snapshot with GPU qualification still pending. The preparation
+branch has been synchronized to the personal origin at commit
+`c403bdc7af16b7ddce640c4af1144b7f36e7fc31`; this is not warmup completion.
 
 ## Deliverables
 
@@ -70,8 +72,9 @@ deleted or modified.
 Keep local launcher session 50766 alive for
 `exp-1105-031302-898658`. It uses the personal StepMind Python RJobBackend,
 local Miles NFS 100.96.128.195, 2 × 8 H200 and preemptible=yes. Do not submit a duplicate.
-Current step_main capacity has 8 usable GPUs; unrelated non-preemptible usage
-is 48 GPUs. Codesign returned 166 H800 nodes and 19 nodes without GPUType, with no
+At 2026-11-05T06:47:27.391606+08:00, the exact job is Pending, queue rank8 and approval empty.
+The capacity query reports 8 usable GPUs in step_main. The last personal
+non-preemptible usage query recorded48 GPUs across6 unrelated jobs. Codesign returned 166 H800 nodes and 19 nodes without GPUType, with no
 H200 label; infer_af_test returned only CPU nodes.
 
 The queued entrypoint compares receiver8/sender-unset with matching8/8.
@@ -97,6 +100,8 @@ Consumed raw logs/RCA, inactive smoke inputs, lint caches and root pytest/Ruff
 caches have been removed. Image removal for this task recovered about 83GB.
 Current local free space is approximately 111GiB; the remaining task tmp is 173MiB
 and active inputs are 988KiB. These remaining dependencies support the queued job and pending verification. Requested model assets and shared source data remain available.
-Only code and Markdown conclusions belong in the branch. The current prepared
-snapshot may be synchronized while GPU qualification is pending; final
-verification, cleanup and synchronization remain unfinished.
+Only code and Markdown conclusions belong in the branch. The preparation
+snapshot was synchronized to personal origin `fwyc0573/miles`; a read-only
+`git ls-remote --heads origin agent-opd` check at 2026-11-05T06:47:27.391606+08:00
+matched local commit `c403bdc7af16b7ddce640c4af1144b7f36e7fc31`. Final verification, cleanup
+and synchronization after training remain unfinished.

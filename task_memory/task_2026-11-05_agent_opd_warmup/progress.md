@@ -654,3 +654,53 @@
 - 2026-11-05T05:50:29.873528+08:00 step4 alternate-capacity investigation completed: the authenticated codesign response returned all185 reported nodes; GPUType labels show166 H800 and19 without a GPUType label, with190/0 usable GPUs respectively and no H200 label. This does not satisfy the requested H200 hardware. The one-off capacity script and raw response are removed; no alternate submission or quota change.
 
 - 2026-11-05T05:50:29.873528+08:00 step5 intermediate synchronization decision: GPU execution remains externally queued after repeated exact-job reads. Synchronize the already-verified preparation code and truthful incomplete validation record to the requested personal origin while retaining launcher50766 and the original job. This is an intermediate branch update, not completion of the warmup; final numerical results, cleanup and synchronization still follow step4. No new acceptance criterion or GPU resource is introduced.
+
+- 2026-11-05T06:47:27.391606+08:00 continuation: re-read task requirements, plan, reports and applicable rules; exact personal query confirms the original job Pending/creator i-fengyicheng/local NFS100.96.128.195. Launcher50766 remains alive. Queue rank8/approval empty/insufficient quota,64 step_main nodes with8 usable GPUs; no actual worker output or optimizer update. Verified preparation remote SHA equals local c403bdc7af16b7ddce640c4af1144b7f36e7fc31. Updated the existing English snapshot and report to distinguish successful preparation push from unfinished warmup. Consumed query/log snapshots are deleted; no training or runtime configuration changed.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd 和原验收要求已核对。 |
+| 2. 公司模型准备 | PASS | 22 文件完整校验已记录，共享模型保留。 |
+| 3. glm5.2 turn 与配置 | PASS | 四类真实 turn、原始 tokens 和 CPU 检查已通过。 |
+| 4. 16 H200 OPD 验证 | BLOCKED | 原差分仍 Pending，真实更新为0；当前只可用8卡。 |
+| 5. 清理与同步 | TODO | 准备 SHA 已同步；最终训练结论和清理仍依赖 step4。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次准备同步决策至本次原作业与 remote SHA 核对｜**当前前沿：** step4；step5 的独立清理与记录
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 没有增加测试、依赖或诊断功能；只核对原作业。 |
+| D2 细节反复重试 | CLEAR | 保留原假设、作业及配置，没有重复提交。 |
+| D3 支线问题修补 | CLEAR | 未处理其他68项基线失败或其他任务。 |
+| D4 可并行任务停滞 | CLEAR | 准备同步和消费后清理已经推进；最终结果依赖 GPU。 |
+| D5 超范围镀金 | CLEAR | 仍为16 H200、两次真实更新和单 turn 范围。 |
+| D6 分析空转 | CLEAR | 阻塞明确为原队列配额；停止其他 quota 和已完成 CPU 的探索。 |
+| D7 路线违背 | CLEAR | 个人 API、本机 source、清理和原 GPU 资源要求均保留。 |
+
+**文档检查：** S1–S6 均未发现明显缺陷；已将实际准备 push 写入现有记录。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets 合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+
+1. step4：保持 launcher50766，读取原 GPU 差分 → 完成标志：确认或排除 channel 假设。
+2. step4：符合原条件后在同一 allocation 完成 warmup → 完成标志：两次正常、finite 更新、teacher/R3 与 same-token/same-weight 实测。
+3. step5：消费结果后清理全部任务产物并更新个人分支 → 完成标志：只留代码与 Markdown 结论、最终 remote SHA 一致。
+
+## 4. 最值得关注的 3 点
+
+1. 已推送准备代码，真实 optimizer update 仍为0，不能报告 warmup PASS。
+2. 原16卡作业仍在等待配额，保持 launcher 和原配置；不影响其他训练。
+3. 原始日志和查询响应消费后删除，活动输入与必要 Python source 在完成验收后删除。
