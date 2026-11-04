@@ -544,3 +544,20 @@ success in the matching case permit the unchanged two-update warmup to run
 in that same allocation. Otherwise it reports diagnosis only. The actual
 channel cause, full-model synchronization, optimizer updates and numerical
 parity remain unverified until GPU execution.
+
+### External Ray canonical-value propagation: PASS
+
+A canonical channel override exported only in the submitting process may be
+absent from an already-running external Ray cluster. `_training_env` now emits
+SGLANG_DETERMINISTIC_NCCL_NCHANNELS as well as both NCCL bounds. The value
+still comes from the installed SGLang field; no default is duplicated.
+A direct call with only the submitter's canonical env set to4 returned all
+three runtime-env fields as4: PASS. Updated snapshot2PASS/1.42s, full launcher
+suite584PASS/18FAIL/50ERROR in20.31s. The sole new snapshot field is the
+source-derived canonical8; known unrelated baseline failures remain.
+
+The diagnostic records actual inherited sender/receiver bounds, including
+failure reports. The continuation requires actual asymmetric sender bounds
+unset, the identical truncation, and matching-case exit0, so a no-op setting
+change cannot falsely qualify the cause. This remains GPU-unverified while
+exp-1105-031302-898658 is Pending.

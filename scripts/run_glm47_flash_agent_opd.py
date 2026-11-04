@@ -92,6 +92,7 @@ def _training_env(args: ScriptArgs) -> dict[str, str]:
     )
     if channels < 1:
         raise ValueError("Deterministic NCCL channels must be positive")
+    requested[envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.name] = str(channels)
     for key in ("NCCL_MIN_NCHANNELS", "NCCL_MAX_NCHANNELS"):
         value = effective.get(key, str(channels))
         if int(value) != channels:

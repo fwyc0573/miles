@@ -540,7 +540,7 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次诊断提交checkpoint至当前CPU候选配置交付｜**当前前沿：** step4
+**检测窗口：** 上次诊断提交checkpoint至当前CPU配置传递验收｜**当前前沿：** step4
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -573,3 +573,9 @@
 3. 若差分成立，同一allocation直接继续真实warmup，减少下一次排队。
 
 - Incremental cleanup: removed86 inactive task-owned evidence/log/receipt files (1693913bytes), including download reports, original smoke selections and old runtime results. Only the queued job's manifest, entrypoint/configuration, active inspection, launcher helpers and still-needed CPU source/lint caches remain temporary. The empty old warmup rendezvous was removed. Shared model/source datasets, credentials and other tasks were untouched.
+
+- Diagnostic evidence refinement before execution: record the actual inherited min/max bounds in each actor, including failed-case initialization observations. A None constructor argument alone does not prove unset worker environment. The conditional continuation additionally requires the asymmetric sender's actual bounds to be unset; this prevents falsely assigning cause to a no-op setting change. This adds no collective or model work.
+
+- Bounded alternate H200 capacity read: infer_af_test contains2CPU-only nodes,0GPUs; no alternate submission or quota change. Current global queue stillrank8. A reachable configuration gap was identified: a canonical channel override exported only in the submitting shell does not necessarily reach an already-running external Ray cluster. Explicitly emit the source-derived SGLang canonical value together with both NCCL bounds through the existing runtime env; this adds no setting or fallback.
+
+- Canonical env propagation validation: submitter-only canonical4 produces canonical/min/max4 in the actual runtime-env dictionary; snapshot2PASS/1.42s, full suite584PASS/18FAIL/50ERROR/20.31s. Applied check-progress self-check against this delivery: steps1/2/3PASS,4FAILED pending the original differential,5TODO; D1-D7 and S1-S6 CLEAR. Stop further support-tool changes now; the next result must be the already-queued GPU differential.

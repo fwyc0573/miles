@@ -61,7 +61,13 @@ class _WeightSyncRank:
         expected = self.size * (self.size + 1) / 2
         if value.item() != expected:
             raise ValueError(f"{self.role} default-world reduction differs: {value.item()} != {expected}")
-        return {"role": self.role, "rank": self.rank, "world_size": self.size, "sum": value.item()}
+        return {
+            "role": self.role,
+            "rank": self.rank,
+            "world_size": self.size,
+            "sum": value.item(),
+            "nccl_channel_bounds": {key: os.environ.get(key) for key in ("NCCL_MIN_NCHANNELS", "NCCL_MAX_NCHANNELS")},
+        }
 
     def connect_weights(self, address: str, port: int, rank: int, size: int) -> None:
         if self.role == "trainer":
@@ -110,6 +116,7 @@ def main():
     args = parser.parse_args()
     ray.init(address=args.address, log_to_driver=False)
     actors = []
+    initialized = []
     stage = "discover_nodes"
     try:
         nodes = [node for node in ray.nodes() if node["Alive"]]
@@ -183,6 +190,7 @@ def main():
             "status": "failed",
             "stage": stage,
             "error_type": type(error).__name__,
+            "default_worlds": initialized,
             "traceback": traceback.format_exc(),
         }
         args.report.parent.mkdir(parents=True, exist_ok=True)
