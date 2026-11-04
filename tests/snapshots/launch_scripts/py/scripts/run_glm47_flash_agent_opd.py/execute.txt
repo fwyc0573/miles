@@ -1,0 +1,164 @@
+### 0
+pkill -9 sglang; sleep 3; ray stop
+  --force; pkill -9 ray; pkill -9 miles; sleep 3; pkill -9 ray; pkill -9 miles; pkill -9 redis; true; 
+
+### 1
+export PYTHONUNBUFFERED=1 && ray start
+  --head
+  --node-ip-address 127.0.0.1
+  --num-gpus 8
+  --disable-usage-stats
+
+### 2
+nvidia-smi topo -m 2>/dev/null | grep -o 'NV[0-9][0-9]*' | wc -l
+
+### 3
+export no_proxy=127.0.0.1 && export PYTHONUNBUFFERED=1 && ray job submit
+  --address="http://127.0.0.1:8265"
+  --runtime-env-json='{"env_vars": {"PYTHONUNBUFFERED": "1", "CUDA_DEVICE_MAX_CONNECTIONS": "1", "NCCL_NVLS_ENABLE": "0", "no_proxy": "127.0.0.1,127.0.0.1", "MASTER_ADDR": "127.0.0.1", "NVTE_ALLOW_NONDETERMINISTIC_ALGO": "0", "CUBLAS_WORKSPACE_CONFIG": ":4096:8", "PYTHONPATH": "<REPO_ROOT>:/root/Megatron-LM:/frozen/pythonpath"}}'
+  -- python3 <REPO_ROOT>/train.py
+  --moe-layer-freq '[0]*1+[1]*46'
+  --num-experts 64
+  --moe-shared-expert-intermediate-size 1536
+  --moe-router-topk 4
+  --moe-grouped-gemm
+  --moe-permute-fusion
+  --moe-ffn-hidden-size 1536
+  --moe-router-score-function sigmoid
+  --moe-router-pre-softmax
+  --moe-router-enable-expert-bias
+  --moe-router-bias-update-rate 0
+  --moe-router-load-balancing-type seq_aux_loss
+  --moe-router-topk-scaling-factor 1.8
+  --moe-aux-loss-coeff 0
+  --moe-router-dtype fp32
+  --make-vocab-size-divisible-by 64
+  --num-layers 47
+  --hidden-size 2048
+  --ffn-hidden-size 10240
+  --num-attention-heads 20
+  --disable-bias-linear
+  --add-qkv-bias
+  --swiglu
+  --untie-embeddings-and-output-weights
+  --position-embedding-type rope
+  --rope-type rope
+  --no-position-embedding
+  --normalization RMSNorm
+  --norm-epsilon 1e-5
+  --qk-layernorm
+  --multi-latent-attention
+  --q-lora-rank 768
+  --kv-lora-rank 512
+  --qk-head-dim 192
+  --v-head-dim 256
+  --kv-channels 192
+  --qk-pos-emb-head-dim 64
+  --vocab-size 154880
+  --rotary-base 1000000
+  --no-rope-fusion
+  --mtp-num-layers 1
+  --hf-checkpoint /root/models/GLM-4.7-Flash
+  --ref-load /root/models/GLM-4.7-Flash
+  --megatron-to-hf-mode bridge 
+  --prompt-data /root/datasets/glm5.2-warmup.jsonl
+  --input-key prompt
+  --metadata-key metadata
+  --custom-generate-function-path examples.agentic_opd.rollout.generate
+  --custom-rm-path examples.agentic_opd.rollout.score_teacher
+  --custom-reward-post-process-path miles.rollout.on_policy_distillation.post_process_rewards
+  --num-rollout 2
+  --rollout-batch-size 4
+  --n-samples-per-prompt 1
+  --global-batch-size 4
+  --rollout-max-response-len 1024
+  --rollout-max-context-len 65536
+  --rollout-temperature 1
+  --rollout-top-p 1
+  --rollout-top-k -1
+  --rollout-seed 42 
+  --tensor-model-parallel-size 4
+  --pipeline-model-parallel-size 1
+  --context-parallel-size 1
+  --expert-model-parallel-size 8
+  --expert-tensor-parallel-size 1
+  --sequence-parallel
+  --recompute-granularity full
+  --recompute-method uniform
+  --recompute-num-layers 1
+  --use-dynamic-batch-size
+  --max-tokens-per-gpu 45056
+  --seq-length 65536 
+  --use-opd
+  --opd-type sglang
+  --opd-log-prob-top-k 0
+  --opd-kl-coef 1
+  --advantage-estimator grpo
+  --calculate-per-token-loss
+  --use-rollout-routing-replay
+  --get-mismatch-metrics
+  --use-tis
+  --custom-tis-function-path examples.infra_features.train_infer_mismatch_helper.mis.compute_mis_weights_with_cp
+  --tis-mode mask
+  --tis-lower-bound 0.5
+  --tis-upper-bound 2
+  --eps-clip 0.2
+  --eps-clip-high 0.28
+  --entropy-coef 0 
+  --optimizer adam
+  --lr 2e-06
+  --lr-decay-style constant
+  --lr-warmup-iters 0
+  --weight-decay 0
+  --adam-beta1 0.9
+  --adam-beta2 0.98
+  --optimizer-cpu-offload
+  --overlap-cpu-optimizer-d2h-h2d
+  --use-precision-aware-optimizer 
+  --rollout-num-gpus 8
+  --rollout-num-gpus-per-engine 4
+  --sglang-config base64:<frozen-pseudo-file-1>
+  --sglang-context-length 65536
+  --sglang-mem-fraction-static 0.75
+  --sglang-max-running-requests 4
+  --sglang-chunked-prefill-size 8192
+  --sglang-disable-cuda-graph
+  --sglang-enable-deterministic-inference
+  --sglang-attention-backend fa3
+  --sglang-moe-runner-backend triton
+  --sglang-dtype bfloat16 
+  --dump-details /root/shared_data/260101-000000-000
+  --check-weight-update-equal
+  --log-inference-engine-weight-checksums
+  --attention-dropout 0
+  --hidden-dropout 0
+  --accumulate-allreduce-grads-in-fp32
+  --attention-softmax-in-fp32
+  --attention-backend flash
+  --actor-num-nodes 1
+  --actor-num-gpus-per-node 8
+  --num-gpus-per-node 8 
+  --use-wandb
+  --wandb-project miles-run_glm47_flash_agent_opd
+  --wandb-group 260101-000000-000
+  --wandb-key 'frozen-wandb-api-key'
+  --disable-wandb-random-suffix  
+  --deploy-component all
+
+### pseudo file 1
+models:
+- model_path: /root/models/GLM-4.7-Flash
+  name: default
+  server_groups:
+  - num_gpus: 4
+    num_gpus_per_engine: 4
+    worker_type: regular
+  update_weights: true
+- model_path: /root/models/GLM-4.7-Flash-Coder
+  name: teacher
+  server_groups:
+  - num_gpus: 4
+    num_gpus_per_engine: 4
+    worker_type: regular
+  update_weights: false
+

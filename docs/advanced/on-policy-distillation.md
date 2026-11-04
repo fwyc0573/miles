@@ -165,6 +165,22 @@ bash examples/on_policy_distillation/run-qwen3-8B-opd.sh
 bash examples/on_policy_distillation/run-qwen3-8B-opd-megatron.sh
 ```
 
+## Agentic GLM Turn Warmup
+
+`scripts/run_glm47_flash_agent_opd.py` runs the GLM-4.7-Flash-Coder teacher and GLM-4.7-Flash student with the native sampled-token OPD path. Prepare glm5.2 JSONL with `tests/manual/agent_opd/prepare_glm5_2.py`, passing the frozen ticket07 parent manifest with `--manifest`, the pinned student tokenizer, an output path and a report path. The preparer selects the shortest complete training turn per category; the manifest contains original JSON byte ranges and prompt/completion token hashes. The preparer rejects changed source bytes or token boundaries.
+
+The custom generator uses a role-only `<|assistant|>` prefix with `clear_thinking=False`, preserves history and original completion fields, and lets the student choose its next thinking mode. Training uses newly sampled token IDs. Dumps retain the raw completion, reasoning, ordinary body, parsed tool calls, source identity, sampling probabilities, routing replay and weight versions. The `submit` call defines control; a completion without `submit` can still contain other tools. Historical probabilities are unavailable and remain unset.
+
+The launcher reserves eight training GPUs and two four-GPU inference engines on an external Ray cluster. Its short recipe enables R3, TIS, token-mean loss, mismatch metrics and weight synchronization checks. Performance features such as speculative decoding are outside this warmup recipe. Treat the numeric logprob comparison and successful optimizer updates as separate acceptance checks. Use a disposable output directory and remove large warmup dumps after retaining a small verification report.
+
+```bash
+MILES_SCRIPT_EXTERNAL_RAY=1 python scripts/run_glm47_flash_agent_opd.py \
+  --student-checkpoint /root/models/GLM-4.7-Flash \
+  --teacher-checkpoint /root/models/GLM-4.7-Flash-Coder \
+  --prompt-data /root/datasets/glm5.2-warmup.jsonl \
+  --output-dir /root/shared_data --num-rollout 2
+```
+
 ## Preliminary Results
 
 Using Qwen3-8B-Base model SFT-ed on part of the [OpenThoughts3-1.2M](https://huggingface.co/datasets/open-thoughts/OpenThoughts3-1.2M) dataset, on-policy distillation with a Qwen3-32B teacher on the remaining data yields:
