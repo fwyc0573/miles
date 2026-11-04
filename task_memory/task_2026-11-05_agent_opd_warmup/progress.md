@@ -579,3 +579,55 @@
 - Bounded alternate H200 capacity read: infer_af_test contains2CPU-only nodes,0GPUs; no alternate submission or quota change. Current global queue stillrank8. A reachable configuration gap was identified: a canonical channel override exported only in the submitting shell does not necessarily reach an already-running external Ray cluster. Explicitly emit the source-derived SGLang canonical value together with both NCCL bounds through the existing runtime env; this adds no setting or fallback.
 
 - Canonical env propagation validation: submitter-only canonical4 produces canonical/min/max4 in the actual runtime-env dictionary; snapshot2PASS/1.42s, full suite584PASS/18FAIL/50ERROR/20.31s. Applied check-progress self-check against this delivery: steps1/2/3PASS,4FAILED pending the original differential,5TODO; D1-D7 and S1-S6 CLEAR. Stop further support-tool changes now; the next result must be the already-queued GPU differential.
+
+
+- 2026-11-05T04:11:10.444266+08:00 continuation checkpoint: re-read requirements/plan/latest progress and validation; confirmed agent-opd at bfc58830, clean tracked files, no remote branch yet. Launcher50766 remains alive. Exact personal query reports exp-1105-031302-898658 Pending, creator i-fengyicheng and current local NFS100.96.128.195. Global queue rank8; all64 returned step_main nodes have usable_gpu=0. No duplicate allocation or workload/config change. Task temporary sources/lint cache total approximately223MiB; /data free approximately111GiB. The next dependency remains actual GPU execution.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd及任务验收记录已核对。 |
+| 2. 模型准备 | PASS | 22文件完整下载校验已记录，未重复下载。 |
+| 3. 原始turn与launcher | PASS | 已提交代码和四类turn/必要CPU检查的证据存在。 |
+| 4. 16H200 OPD验证 | FAILED | 完整首次广播失败；原差分作业仍排队。 |
+| 5. 清理与push | TODO | 旧产物已清理，实际训练与最终交付未完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次channel候选提交至当前续接核对｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 续接仅核对现有代码与运行状态，未扩展工具或重复测试。 |
+| D2 细节反复重试 | CLEAR | 原差分有事前假设；保持原作业，无新的参数猜测或完整模型重试。 |
+| D3 支线问题修补 | CLEAR | 没有无关模块或依赖修复。 |
+| D4 可并行任务停滞 | CLEAR | 模型与turn记录已完成，清理持续推进；最终结论依赖step4。 |
+| D5 超范围镀金 | CLEAR | 仍为16H200和两次更新。 |
+| D6 分析空转 | CLEAR | 当前阻塞由精确队列状态确认，没有新增无结果的分析交付。 |
+| D7 路线违背 | CLEAR | 个人Python API、本机source和不留warmup数据约束保留。 |
+
+**文档检查：** S1–S6均未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：读取原差分实际输出 → 完成标志：确认或排除channel假设。
+2. step4：完成真实两次OPD更新与native产物检查 → 完成标志：finite更新、teacher/R3和same-token/same-weight证据。
+3. step5：删除任务临时产物并提交push → 完成标志：仅代码和Markdown结论、remote SHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 当前optimizer update仍为0，不能报告OPD PASS。
+2. 当前集群无可用H200；原launcher存活，禁止因排队重复提交。
+3. 最终删除任务日志、缓存和warmup数据，保留共享模型和源数据。
+
+- 2026-11-05T04:19:42.027531+08:00 step4 source review: the research sidecar returned no file; closed it and retained the existing primary-source rationale in the test report instead of creating a second topic document. Direct native consumer inspection qualifies GRPO/n_samples_per_prompt=1 for this pure-OPD hook: zero task rewards bypass default normalization, GRPO expands zero rewards without std, OPD applies detached token KL and advantage whitening defaults false. Confirmed R3 and custom TIS flags reach their native consumers. No configuration, training behavior, dependency or test was changed. Real finite updates and routing/logprob arrays remain pending.

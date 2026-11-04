@@ -265,6 +265,35 @@ validation rejects that combination. Untruncated temperature1/top-p1/top-k-1
 sampling keeps the scored distribution consistent with the native softmax.
 Numerical agreement is measured separately; these flags do not prove it.
 
+
+### Native consumer review: single-sample GRPO is compatible with pure OPD
+
+The actual custom reward hook returns zero scalar task rewards and records
+teacher logprobs (`miles/rollout/on_policy_distillation.py:411`).
+`miles/ray/rollout/train_data_conversion.py:375` returns that hook result before
+the default reward-normalization branch. `get_grpo_returns`
+(`miles/backends/training_utils/loss/hub/math_utils.py:516`) expands each scalar
+reward to its token positions without computing a within-prompt standard
+deviation. `compute_advantages_and_returns`
+(`miles/backends/training_utils/loss/objective.py:113`) then applies the detached
+old-student minus teacher token logprob penalty; `normalize_advantages` defaults
+to False (`miles/utils/args/configs/algo.py:155`). Thus one sample per prompt
+provides a pure token OPD signal without a singleton standard-deviation NaN in
+this inspected path. Even the unused default normalization branch requires
+more than one rollout before computing its standard deviation. This is source
+qualification, not an observed finite optimizer update.
+
+R3 reaches both consumers: engine setup enables return_routed_experts
+(`miles/backends/sglang_utils/sglang_engine.py:145`), each request asks for the
+routes (`miles/rollout/generate_utils/generate_endpoint_utils.py:107`), and the
+Megatron replay registration maps the received layer arrays to local MoE layers
+(`miles/backends/megatron_utils/replay_utils.py:5`). The configured custom TIS
+consumer computes exp(old-training-logprob minus rollout-logprob), detaches the
+weights, and masks out-of-range token positions using the configured bounds
+(`examples/infra_features/train_infer_mismatch_helper/mis.py:234`). These checks
+confirm the existing flags have consumers; the actual route arrays and numeric
+ratios still require the pending GPU run.
+
 ## CUDA-compatible 16-H200 retry: Starting
 
 Created `exp-1105-015559-912357` at01:55:59HKT with the original image and
