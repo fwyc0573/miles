@@ -44,6 +44,22 @@ def one_rank_at_a_time():
         dist.barrier(group=get_gloo_group())
 
 
+@contextmanager
+def _no_split_from_default_group():
+    """Create an independent world without inheriting a device-bound communicator."""
+    default_pg = _world.default_pg
+    bound_device_id = None if default_pg is None else default_pg.bound_device_id
+    if bound_device_id is None:
+        yield
+        return
+    # Weight-transfer ranks can lie outside the default training world.
+    default_pg.bound_device_id = None
+    try:
+        yield
+    finally:
+        default_pg.bound_device_id = bound_device_id
+
+
 # Copy from pytorch to allow creating multiple main groups.
 # https://github.com/pytorch/pytorch/blob/main/torch/distributed/distributed_c10d.py
 def init_process_group(
@@ -86,16 +102,17 @@ def init_process_group(
     # https://github.com/pytorch/pytorch/commit/a0c7029a75628cd5fa8df83c0de0ea98ee7fd844
     # We need to determine the appropriate parameter name based on PyTorch version
     pg_options_param_name = "backend_options" if parse(torch.__version__) >= parse("2.6") else "pg_options"
-    pg, _ = _new_process_group_helper(
-        world_size,
-        rank,
-        [],
-        backend,
-        store,
-        group_name=group_name,
-        **{pg_options_param_name: pg_options},
-        timeout=timeout,
-    )
+    with _no_split_from_default_group():
+        pg, _ = _new_process_group_helper(
+            world_size,
+            rank,
+            [],
+            backend,
+            store,
+            group_name=group_name,
+            **{pg_options_param_name: pg_options},
+            timeout=timeout,
+        )
 
     _world.pg_group_ranks[pg] = {i: i for i in range(world_size)}
 
