@@ -1,0 +1,471 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-05 | Record CPU input qualification and initial environment failures; GPU validation pending. |
+
+# Agentic OPD Warmup Validation
+
+## Scope and expected results
+
+Use the actual frozen glm5.2 training turns, distinct GLM-4.7-Flash-Coder teacher and GLM-4.7-Flash student, native Miles OPD/R3, and 16 H200 GPUs. Require at least two finite optimizer updates; preserve thinking, body text and all tool calls; measure train/inference logprob differences on identical token IDs and weights. A process exit alone is insufficient. Retain code and Markdown conclusions only; remove all task-owned raw warmup data, logs, caches and cloud outputs after inspection.
+
+## CPU GLM serialization: PASS
+
+Environment: `/data/ycfeng/envs/openmopd-py312/bin/python`, Python3.12.13. Script: `examples/agentic_opd/glm_turns.py`; the exact instrumented probe and raw logs are in `/data/ycfeng/tmp/agent-opd-20261105/cpu-tokenizer-probe.log`. The unchanged ticket07 parent manifest is `/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/task_memory/task_2026-10-25_swe_behavior_turn_replay/evidence/glm-replay-subsets-20261104.json`. The preparer selects the shortest complete training turn per category directly from that manifest. Selected complete prompt byte ranges were fetched read-only from the personal cloud mount; their conversation SHA256s matched.
+
+The probe instantiated `AutoTokenizer.from_pretrained(.../glm-input/tokenizer, local_files_only=True)`, encoded each complete source history and selected assistant completion, then asserted both token counts and SHA256s against the fixed manifest.
+
+| Category | Prompt tokens | Completion tokens | Count/hash assertions |
+| --- | ---: | ---: | --- |
+| control_and_thinking | 40380 | 614 | PASS |
+| control_only | 28408 | 598 | PASS |
+| thinking_only | 33616 | 464 | PASS |
+| neither | 10366 | 23 | PASS |
+
+All prompts end with `<|assistant|>`; the initial thinking tag is not forced. All previous reasoning is retained with `clear_thinking=False`. No source text was shortened or replaced. `control_only` contains ordinary body text without reasoning. `thinking_only` and `neither` still contain non-submit tool calls; absence of control is not absence of tools.
+
+The first 60-second invocation timed out during environment startup; an instrumented unbounded process with asynchronous tool monitoring completed all assertions. Transformers emitted a generic tokenizer regex warning. The pinned source token counts/hashes still matched, so no unverified regex change was applied. This is input serialization evidence, not GPU numerical parity.
+
+## Launcher snapshot: initial FAIL (environment)
+
+Exact command:
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 \
+MILES_UPDATE_LAUNCH_SCRIPT_SNAPSHOTS=1 \
+/data/ycfeng/envs/openmopd-py312/bin/python -m pytest \
+  tests/manual/launch_scripts/test_py_launch_scripts.py \
+  -k run_glm47_flash_agent_opd -q
+```
+
+Observed: test collection failed because the shared CPU environment lacks `polars`, imported by `miles/dashboard/store.py`. No launcher assertion ran. Fix: use a separate persistent Miles CPU environment and install the missing declared dependency there. Raw traceback: `/data/ycfeng/tmp/agent-opd-20261105/launcher-snapshot.log`.
+
+## GPU and workflow validation: PENDING
+
+Initial CUDA12 0-GPU probe `exp-1105-003619-953445` failed by importing TransformerEngine without an injected libcuda.so.1. Corrected CPU probe `exp-1105-004709-090270` Succeeded. Its Ray2.59.0 is outside the project requirement <2.59; the CUDA12 image is not used for training. New cu13 image qualification is in progress. At this initial runtime checkpoint, the 16-H200 training run had not yet been submitted; the latest GPU attempt is recorded below.
+
+## Requested model preparation: PASS
+
+Authenticated Lark CLI searches used the personal user identity. FrogNano returned zero visible results (`has_more=false`); Qwen3.5-4B returned three contextual documents without a verified asset directory. This is limited visible search evidence, not proof of company-wide absence. Read the current HF artifact-proxy document through Lark: `https://wvixbzgc0u7.feishu.cn/wiki/SZrWwFFSDivOERkXLYscs5Yonic`.
+
+The first known company-runtime download (`exp-1105-002603-492786`) failed on FrogNano's second shard with curl HTTP408. Incident-bound platform/replica objects show worker exit1 at2026-11-04T16:36:31Z and platform Failed16:36:32Z; subsequent launcher cleanup is not the initiating cause. All eight RCA read sources completed; no separate initiating OOM/preemption/manual-stop event was identified. New 45s HEAD checks returned200 through both company mirrors and the existing VPN, while official direct timed out after10s. This supported retrying the cached company object; VPS was unnecessary.
+
+The temporary `python:3.10-slim` retry failed because curl was absent. Reused the first download's known company runtime rather than installing packages in workers. Final job `exp-1105-005757-165193` finished Succeeded at00:59:13HKT; launcher exit0. All22 files,18,685,617,357 bytes, were verified by size and full SHA256, including four LFS weight shards.
+
+Exact successful worker command:
+
+```bash
+python3 tests/manual/agent_opd/download_models.py \
+  --manifest task_memory/task_2026-11-05_agent_opd_warmup/evidence/model-download-manifest.json \
+  --output-root /mnt/codesign-exp/ycfeng/opd-assets/models \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/model-download-result.json \
+  --endpoint https://a.z01.normandyfunc.com/artifactory/api/huggingfaceml/huggingface-mirror \
+  --workers 2 --timeout 3600
+```
+
+Model directories:
+
+- `/mnt/codesign-exp/ycfeng/opd-assets/models/microsoft/FrogNano-4B-2609/b90468c11a913c1916b4542b4b7a530ec42024a4`
+- `/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`
+
+| Model shard | Bytes | Verified SHA256 |
+| --- | ---: | --- |
+| FrogNano 00000 | 5,350,373,880 | `4a3ea221092b94e9c28adffe554d3d944ee189043cad8aa569e0d9c241fc4aed` |
+| FrogNano 00001 | 3,969,447,040 | `5805e9ec4b8a243108ba41d02e1b254a6d234e491aee068f617559806e77dd09` |
+| Qwen3.5 00001 | 5,329,398,688 | `26a93f066e1916adb13453dae5a0c707c0fbc71299ed98779571a907b8e74c61` |
+| Qwen3.5 00002 | 3,990,429,408 | `cb544bd9bfae93dc59b0f22b292f5933573854a7f9b97835c67060d7d910e188` |
+
+## Local disk cleanup: PASS (first milestone)
+
+No container used this task's pinned CUDA12 image. `docker image rm docker.io/radixark/miles@sha256:49637ea95c9757f6bbf461faf902f95a5cd0c0f0a3dfbda194595e42f48164c5` removed only that image; no global prune or forced removal was used. `/data` available space increased from34GB to117GB. CPU dependency work subsequently used approximately5GB; all task-owned disposable caches/logs remain scheduled for cleanup.
+
+## Completion parsing and launcher qualification: PASS (2026-11-05 continuation)
+
+CPU runtime: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python3.12.13,
+Torch2.11/torchvision0.26/torchaudio2.11, Transformers5.19.0 and Ray2.58.1.
+Parser source is SGLang commit `056f871a7ee8b4573832049011f0fdf52589cfd8`,
+matching the qualified worker image. The shared CPU environment was unchanged.
+
+All four original completions matched original reasoning, body and JSON tool
+arguments: `control_and_thinking` (93 reasoning chars,2491 body chars,submit),
+`control_only` (0,2460,submit), `thinking_only` (1650,86,bash), and
+`neither` (0,0,str_replace_editor). Plain body, empty-reasoning `</think>`,
+explicit and implicit opening reasoning markers, truncated thinking and
+truncated tool envelopes passed. Raw tokens/text remain available when a tool
+envelope is incomplete. GLM emits `</think>` even without reasoning; selecting
+`force_reasoning` from that marker fixed the observed control-only mismatch.
+Tool calls use native `call_` IDs for subsequent tool-response linkage.
+
+The new launcher snapshot passed both entrypoint checks. Its sequence flag is
+native `--seq-length`; its run ID uses the snapshot-frozen `U.create_run_id()`.
+Removed mutually exclusive `--use-rollout-logprobs` when TIS is enabled.
+Response budget1024 includes the two historical598/614-token completions.
+
+Exact full-suite command (source path abbreviated only here):
+
+```bash
+PYTHONPATH=/data/ycfeng/tmp/agent-opd-20261105/sglang-source/sglang-056f871a7ee8b4573832049011f0fdf52589cfd8/python:/data/ycfeng/sota-engine/miles \
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest \
+  tests/fast/launch_scripts tests/manual/launch_scripts -q
+```
+
+Observed:584 passed,18 failed,50 errors in25.49s. The new launcher passed.
+Errors include `PermissionError: /root/models`; failed cases concern other
+tracked recipes and missing or stale snapshots. Their relationship to the
+unchanged baseline still needs a scoped check. No unrelated recipe was edited.
+The suite as a whole is not PASS.
+
+## Pinned CUDA13 CPU runtime: PASS; GPU qualification still pending
+
+Job `exp-1105-005353-468156` Succeeded at01:04:18HKT; launcher exit0,
+creator `i-fengyicheng`, local Miles NFS source. Image:
+`artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805`.
+Observed Python3.12.16 (`/opt/sglang/bin/python3`), Torch2.14.1+cu130,
+Transformers5.19.0, Ray2.58.1, SGLang0.5.24.dev80+g056f871,
+Polars1.42.1 and safetensors0.8.0. The two zero-GPU replicas shared one CPU node;
+this is not evidence for two distinct physical nodes or any GPU imports.
+The platform rank variables are `KUBEBRAIN_REPLICA/TOTAL/NAME` and
+`KUBEBRAIN_RJOB_NAME`, confirmed in Steptron's existing rank implementation.
+
+## Unchanged launcher baseline classification: PASS
+
+Extracted unchanged HEAD `ff97a63b` with `git archive HEAD` into task-owned
+`/data/ycfeng/tmp/agent-opd-20261105/baseline`. Ran the same full launcher suite
+with its PYTHONPATH pointing to that extracted checkout and the same pinned
+SGLang source/CPU interpreter. Observed582 passed,18 failed,50 errors in22.32s.
+All68 failing/error test IDs are identical to the modified checkout; the only
+count difference is the new launcher's two passing checks. This establishes
+the observed full-suite failures as unchanged baseline/environment failures.
+No unrelated recipe or snapshot was repaired. The extracted checkout and raw
+baseline log are disposable and removed after this conclusion was recorded.
+
+## First 16-H200 attempt: FAIL before training
+
+Exact job: `exp-1105-012438-455920`, created01:24:38HKT from this local
+Miles checkout using personal StepMind Python `spawn_tasks`/RJobBackend.
+Creator independently verified `i-fengyicheng`; non-preemptible `no`;
+step_main;2 replicas, each8H200/48CPU/600000Mi. Final limits preserve
+`mellanox.com/mlnx_rdma:1` and `rdma/mlnx_shared:8`. NFS source is
+`100.96.128.195:/data/ycfeng/sota-engine/miles:/data/ycfeng/sota-engine/miles`.
+Native inference checksum logging is enabled to compare initial and first
+updated inference weights. The default driver does not sync after its final
+update, so synchronization qualification covers updates actually published.
+
+Worker command is the current `tests/manual/agent_opd/rjob_warmup.py` with
+`--manifest` pointing to a disposable identical parent-manifest copy,
+`--student/--teacher` pointing to the unchanged personal GLM asset paths,
+`--output-root /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105`,
+`--shared-dir` pointing to this task's disposable rendezvous directory, and
+`--num-rollout 2`. Interpreter is `/opt/sglang/bin/python3` in the pinned image.
+
+
+## CUDA driver failure RCA: PASS (cause identified; workload not qualified)
+
+Job `exp-1105-012438-455920` ended Failed at2026-11-04T17:37:05Z
+(2026-11-05 01:37:05HKT). Replica1 on `gpu-h200-0040.lgcm.sh.istep.fun`
+exited1 at17:37:03Z. Its first CUDA initialization warning at17:36:40Z and
+final traceback report `The NVIDIA driver on your system is too old (found
+version12080)`. Torch is2.14.1+cu130. Training and dataset preparation had not
+started. Replica0 on `gpu-h200-1033.lgcm.sh.istep.fun` reported driver570.124.06,
+eight H200s, CUDA available and GPU module imports passed; it did not execute
+an arithmetic kernel. Its SIGTERM at17:37:05Z followed replica1's failure.
+
+The job's returned system stop annotation is `Task fail policy [any] caused
+undesired running replicas.` Its stopTimestamp is17:37:05Z; the historical
+RJob Events show the sibling Pod delete at that time and replica close at
+17:37:06Z. These are failure cleanup. No initiating manual-stop actor, reason
+or audited request time was returned; those fields remain UNKNOWN.
+
+Executed the bundled `collect_failure_evidence.py` twice through the existing
+personal wrapper, binding each exact replica and owner UID, creator
+`i-fengyicheng`, and the window17:35:00Z–17:38:00Z. Both collectors exited0;
+all eight read sources succeeded and pagination completed. Driver-case
+live/historical RJob Events2/10, replica Events3/3, all-operation RJob/replica
+audits18/1; sibling replica Events2/4 and audits6. Existing DeepScan count0.
+Returned Events/container state contain no positive initiating
+OOM/preemption/manual-stop evidence. This is limited platform coverage;
+Sherlock native Pod/node/audit logs were not needed to identify the explicit
+application CUDA failure and were not queried. Worker-init's missing `ip`
+executable is a separate platform P2P-probe error, not this traceback.
+
+Exact collector invocation shape:
+
+```bash
+timeout 60s bash /data/ycfeng/tmp/agent-opd-20261105/personal_exec.sh   /data/ycfeng/stepcode-codex-home/.stepcode/codex/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py   exp-1105-012438-455920 --replica exp-1105-012438-455920-c4ca4238   --expected-creator i-fengyicheng   --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng   --start 2026-11-04T17:35:00Z --end 2026-11-04T17:38:00Z   --timeout 45 --output /data/ycfeng/tmp/agent-opd-20261105/rca-glm16-driver
+```
+
+Second call changes the replica suffix to`cfcd2084` and output to
+`rca-glm16-sibling`. Collector environment is Python3.10.6/brainpp2.8.6.
+Raw evidence is disposable and will be removed after these conclusions.
+
+## CUDA compatibility repair: hypothesis and CPU qualification in progress
+
+The pinned public image config confirms a build step for`cuda-compat-13-0`;
+its default LD_LIBRARY_PATH places host NVIDIA libraries first and omits the
+compat directory. NVIDIA's official forward-compatibility table marks
+`cuda-compat-13-0` compatible with570+ drivers. Source:
+https://docs.nvidia.com/deploy/cuda-compatibility/forward-compatibility.html
+(read2026-11-05). The image's exact compatibility layer is
+`sha256:f0af354daeda18f18684b23520969ef6bb3de82bb267936f867b12769be9125d`,
+compressed104,893,539bytes. Inspect this layer on the CPU host before retrying.
+
+Hypothesis before retry: explicitly preferring the pinned image's
+`/usr/local/cuda-13.0/compat` libraries before Python startup will resolve the
+CUDA13 initialization failure on both570-driver nodes. The worker adapter
+passes the selected LD_LIBRARY_PATH through the existing Ray runtime-env
+mechanism. The runtime probe now requires FP32 elementwise reduction and
+BF16 cuBLAS matmul on every allocated GPU, and records loaded driver libraries
+and driver API version. Failure of either node's kernels rules out this repair.
+No host driver, unrelated environment, or package installation is changed.
+
+
+CPU compatibility qualification: PASS. Full image layer size and SHA256 match
+the pinned manifest. It contains libcuda580.126.20 and its NVVM/PTX JIT companion
+libraries. A CPU-host ctypes load returned cuDriverGetVersion13000/exit0; ldd
+resolved all dependencies of all versioned libraries. This proves the
+selected files/layout and CPU ELF dependencies, not GPU execution. The adapter
+syntax and CPU --help imports passed after the runtime-probe changes.
+
+Exact CPU driver query used LD_LIBRARY_PATH pointing to the extracted
+`compat-image/usr/local/cuda-13.0/compat`, then
+`ctypes.CDLL(.../libcuda.so.1).cuDriverGetVersion(byref(c_int()))`.
+The extracted layer and libraries are removed immediately; GPU workers use
+the unchanged pinned image's own copies.
+
+
+## Community parameter rationale (primary sources inspected)
+
+The recipe uses student-generated completions scored by the frozen teacher on
+the same input IDs, matching Thinking Machines' sampled-token reverse-KL OPD
+recipe (2025-10-27):
+https://thinkingmachines.ai/blog/on-policy-distillation/ .
+`--opd-log-prob-top-k 0` intentionally exercises that existing native path;
+top-k reward experiments are outside this workflow warmup.
+
+Miles' TITO article describes token-preserving turn boundaries and identifies
+retokenization and discarded reasoning as alignment failures:
+https://www.lmsys.org/blog/2026-05-13-no-token-left-behind/ .
+The adapter retains the original prompt and generated token IDs rather than
+training on parsed/re-rendered text; it uses clear_thinking=False for histories.
+This warmup verifies individual complete turns and does not claim qualification
+of a live multi-turn tool execution loop.
+
+The Miles authors' training/inference mismatch article describes R3 plus
+importance-sampling correction:
+https://staging.lmsys.org/blog/2026-01-16-training-inference-mismatch .
+The recipe enables native routing replay, mismatch measurements, TIS/IcePop
+masking with the existing0.5–2 bounds, deterministic Hopper FA3, zero dropout,
+FP32 softmax and gradient accumulation. Pinned SGLang056f871 selects FA3 for
+Hopper deterministic GLM4MoeLite and rejects FlashInfer radix-cache determinism
+for MLA; this was checked against source before the GPU attempt. No
+`--use-rollout-logprobs` flag is combined with TIS because native argument
+validation rejects that combination. Untruncated temperature1/top-p1/top-k-1
+sampling keeps the scored distribution consistent with the native softmax.
+Numerical agreement is measured separately; these flags do not prove it.
+
+## CUDA-compatible 16-H200 retry: Starting
+
+Created `exp-1105-015559-912357` at01:55:59HKT with the original image and
+16-GPU shape. Creator, quota, local mount and RDMA limits verified through the
+personal API. The command is the first warmup command prefixed by:
+
+```text
+env LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat:/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda/lib64 /opt/sglang/bin/python3 -u -B
+```
+
+The local launcher remains alive. Two worker IPs are distinct. GPU kernel and
+training observations are pending; no success is inferred from Starting.
+
+## CUDA-compatible GPU and Ray prerequisite: PASS (2026-11-05T02:11:53.226300+08:00)
+
+The same retry is Running. Both nodes (gpu-h200-0192 and gpu-h200-0024) report eight NVIDIA H200 GPUs,143771MiB each,driver570.124.06. Both load `/usr/local/cuda-13.0/compat/libcuda.so.580.126.20`, return driver API13000, and pass actual FP32 reduction10416 and BF16 matrix product16 on each of the16 GPUs. Ray reports the two distinct IPs10.204.16.46/10.204.8.36 and16 total GPUs. This verifies the recorded compatibility hypothesis on this pinned image and these nodes; it does not prove all CUDA features or business training.
+
+The warmup preparer writes four actual glm5.2 training turns and repeats the exact prompt/completion counts and hashes above. Native student and teacher loading is underway; optimizer and numerical qualification remain pending. Runtime0 records source77efcf319eebae42d86db06b0056de50896cf995 and the three uncommitted manual-run scripts. Runtime1 uses the earlier probe report schema and has no source_revision field; the shared local NFS source is independently verified for both replicas.
+
+## Second 16-H200 attempt: FAIL at initial weight synchronization
+
+Job `exp-1105-015559-912357` finished Failed at2026-11-04T18:13:05Z
+(2026-11-05 02:13:05HKT). Replica0 `cfcd2084` on gpu-h200-0192 exits1
+at18:13:04Z. Native trainer actors loaded HF weights and initialized, then the
+first `broadcast.py:187` weight transfer reports NCCL2.30.7 and
+`Message truncated : received 2048 bytes instead of 512`. There is no completed
+optimizer update, rollout dump or train dump. The successful CUDA kernels,
+Ray topology, tokenizers and original-turn preparation remain prerequisite PASS.
+
+Replica1 `c4ca4238` on gpu-h200-0024 is subsequently Stopped, with a stale running
+container snapshot. RJob stopTimestamp18:13:05Z and the system annotation
+`Task fail policy [any] caused undesired running replicas.` are cleanup. All-operation
+replica audits contain five system rjob-controller stop rows at18:13:05/06Z,
+after the application failure. No initiating manual-stop actor/reason/request
+was returned; those fields are UNKNOWN. Startup scheduling messages about
+waiting for other preempted Pods do not establish preemption of this running job.
+
+Both exact-replica RCA collectors exited0 with all eight queries successful and
+pagination complete, window18:10–18:14Z, log limit3000. Trainer live/historical
+RJob Events2/10, replica Events0/3, RJob/replica audits11/1; sibling replica
+Events2/5 and audits6. Both RJob audit snapshots have count11 versus page total9;
+report actual returned rows, not an invented consistent total. Incident log
+rows1363/1, below limit; existing DeepScan0. No returned terminal state or
+incident event positively identifies OOM or preemption. Native Sherlock logs
+were not queried because an explicit application traceback identifies the failure.
+Raw evidence is removed once these conclusions are recorded.
+
+## Independent process-group CPU regression: PASS; GPU qualification pending
+
+Environment: isolated Python3.12.13, Torch2.11 CPU and pytest9.1.1. Command:
+
+```bash
+PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest \
+  tests/fast/utils/test_independent_process_group.py -q -p no:cacheprovider
+```
+
+Expected: the real PyTorch `_new_process_group_helper` must construct an independent
+5-rank world without `Options.split_from` from an eager-device-bound8-rank
+parent; the parent device must be restored even when construction raises.
+Observed before fix:1FAIL/1.12s, `An independent world inherited the trainer's
+communicator`. After the minimal context around the existing helper:
+1PASS/1.02s. Only the NCCL constructor is replaced; ProcessGroup/HashStore and
+the helper's splitting logic are real. This test qualifies that code path,
+not actual cross-node NCCL or OPD optimization.
+
+The fixed SGLang revision056f871a7ee8b4573832049011f0fdf52589cfd8 already
+protects `init_custom_process_group` with `_no_split_from_default_group`
+(common.py2856–2945). Miles sender lacked it. Ranked predictions are recorded
+before GPU retry in progress.md. The CUDA probe uses trainer world8, inference
+world4, independent transfer world5, BF16 tensor versions0/1 and restored
+parent-world reductions. It releases all probe actors before real warmup.
+
+## Minimal GPU probe attempt: FAIL with initiating exception unavailable
+
+Exact job `exp-1105-023323-244560` Failed at2026-11-04T18:35:36Z
+(2026-11-05 02:35:36HKT), launcher exit1. Both workers independently record
+source a465e4b4 and pass all16 FP32/BF16 kernels using compat libcuda580.126.20.
+Ray registers distinct nodes10.204.4.55/10.204.9.75, eight GPUs each. The child
+probe connects at18:35:22Z and returns1 by18:35:31Z, before any weight-sync
+report or native model/data artifact. Returned logs contain the parent
+CalledProcessError, but no initiating child exception. Its cause remains
+UNKNOWN; this is not evidence that the NCCL fix failed.
+
+RCA completed all eight queries for both exact owner-bound replicas, exit0,
+pagination complete; incident window18:33–18:36Z and limit3000:
+
+```json
+[
+  {
+    "name": "exp-1105-023323-244560-cfcd2084",
+    "node": "gpu-h200-0040.lgcm.sh.istep.fun",
+    "phase": "Failed",
+    "coverage": {
+      "rjob-live-events": 10,
+      "replica-live-events": 8,
+      "rjob-historical-events": 10,
+      "replica-historical-events": 2,
+      "rjob-audit": 11,
+      "replica-audit": 1,
+      "existing-deepscan": 0
+    },
+    "incident_rows": 161
+  },
+  {
+    "name": "exp-1105-023323-244560-c4ca4238",
+    "node": "gpu-h200-1033.lgcm.sh.istep.fun",
+    "phase": "Stopped",
+    "coverage": {
+      "rjob-live-events": 10,
+      "replica-live-events": 13,
+      "rjob-historical-events": 10,
+      "replica-historical-events": 5,
+      "rjob-audit": 11,
+      "replica-audit": 5,
+      "existing-deepscan": 0
+    },
+    "incident_rows": 77
+  }
+]
+```
+
+Replica0 exits1 at18:35:34Z; sibling Stopped retains a stale running container
+snapshot. System fail-policy cleanup and RJob stopTimestamp18:35:36Z follow
+this application exit. No initiating manual-stop actor/reason/time, OOMKilled
+or incident-bound preemption is returned. No existing DeepScan; Sherlock was
+not queried because the immediate next diagnostic targets the missing child
+exception. Raw logs/RCA/runtime files are disposable and removed now.
+
+CPU prediction tested before another GPU allocation: Ray cloudpickle actor
+serialization succeeded (18,916bytes), excluding the recorded serialization
+hypothesis. The probe now writes stage/error/traceback before Ray cleanup.
+An injected node-discovery StopIteration on CPU produced the exact failed
+report and kept the original exception; PASS. This verifies evidence capture,
+not the actual GPU failure. Same image, shape and NCCL parameters are retained
+for a sharper minimal-probe rerun.
+
+## Exact probe-state failure and CPU repair: cause identified
+
+Job `exp-1105-024340-358946` ended Failed at2026-11-04T18:50:40Z
+(2026-11-05 02:50:40HKT). The child failure report identifies
+`initialize_default_worlds`, `RayTaskError(AttributeError)` and
+`_world.default_pg` being None immediately after native init. All16 kernels
+and the two-node Ray topology passed; independent broadcasts and GLM training
+were not reached. Replica0 on gpu-h200-1033 exits1 at18:50:36Z;
+replica1 on gpu-h200-0107 is subsequently Stopped with a stale running snapshot.
+System fail-policy stopTimestamp18:50:39Z follows the application error.
+Launcher90266 exited1 at02:50:42HKT.
+
+Both exact-owner RCA collectors exited0 with all eight read sources successful,
+complete pagination, window18:49–18:52Z, loglimit3000. RJob live/historical
+Events7/7 and audits10; trainer replica live/historical Events9/2 and audit1;
+sibling8/2 and audit4. Existing DeepScan0. No initiating manual-stop
+actor/reason/request time is returned; keep these UNKNOWN. The sibling's
+stopped-by rjob-controller and terminal timestamps describe cleanup.
+The explicit application traceback identifies the failure; no native Sherlock
+query was needed.
+
+CPU reproduction used Python3.12.13, Ray2.58.1,
+`ray.cloudpickle.loads(dumps(_WeightSyncRank.__ray_metadata__.modified_class))`
+and `inspect.unwrap(restored.initialize).__globals__`. The captured `_world`
+is a different object from `torch.distributed.distributed_c10d._world`: PASS
+for the cause reproduction. Serialization itself can succeed while capturing
+a stale process-global snapshot.
+
+The probe now reads `dist.group.WORLD.bound_device_id` through the referenced
+Torch module. On the actual deserialized actor method, a newly installed
+real ProcessGroup/HashStore with bound cuda0 is observed correctly: PASS.
+Only the init call and subsequent numeric method were substituted on CPU;
+this qualifies actor state identity, not GPU collectives. Ruff0.14.7, cached
+Black and isort checks passed. No core, image, topology or NCCL setting changed.
+
+Exact probe RCA incident logs returned90 trainer rows and76 sibling rows, belowlimit3000. All returned audit data fields are null; sibling controller stop rows occur at18:50:40/41Z after trainer exit18:50:36Z. Event messages cover startup placement/image/configmap events and subsequent sibling deletion; no incident-bound OOMKilled or preemption is returned. These are bounded negative observations, not a proof of complete log ingestion. Removed the exact old job raw RCA/log/rendezvous after recording this conclusion.
+
+## Independent NCCL GPU broadcast: PASS (job025447)
+
+Actual job `exp-1105-025447-723908` is Running with creator
+`i-fengyicheng`, the same local NFS100.96.128.195, original pinned image,
+2x8H200/48CPU/600000Mi, both RDMA limits and nonpreemptible=no.
+Runtime reports on both nodes repeat16 actual FP32/BF16 CUDA kernel PASS.
+Source revision a465e4b4 plus the four recorded manual scripts.
+
+The deserialized Ray actors initialize eagerly device-bound default NCCL
+worlds8/4, using trainer node10.204.9.75 and inference node10.204.14.5.
+Their default reductions equal36/10. The independent weight world5 uses
+Miles sender and pinned SGLang receiver factories. Both32-element BF16
+versions are bitwise equal at all5 participants: sums496 and528. After
+weight-world destruction, every default-world reduction still equals36/10.
+All probe actors are released before the real GLM workflow. This is actual
+cross-node broadcast qualification for the minimum case; full model transfer
+and optimizer updates still need native observations.
+
+Actual worker probe command:
+
+```bash
+/opt/sglang/bin/python3 tests/manual/agent_opd/weight_sync_probe.py \
+  --address 10.204.9.75:9223 \
+  --report <task-rendezvous>/exp-1105-025447-723908/weight-sync.json \
+  --trainer-gpus 8 --inference-gpus 4
+```
+
+The same job's data preparer again verifies all4 fixed original turns and
+token hashes. Native run ID is `261104-185538-q770`. Real student/teacher
+loading follows the probe without a new GPU submission or package install.

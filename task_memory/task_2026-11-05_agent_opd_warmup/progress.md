@@ -1,0 +1,466 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-05 | Create the agentic OPD preparation record. |
+
+# Progress
+
+- completed: inspected root rules and confirmed a clean starting `main` and personal origin `https://github.com/fwyc0573/miles.git`; created `agent-opd`.
+- in-progress: inspect ticket07 source/data/model evidence and existing Miles GLM/OPD/TITO support; read Lark, StepMind, and check-progress skills.
+- observed: ticket07 reports complete GLM models and a failed Steptron numerical qualification. This is a risk to measure independently in Miles, not evidence that Miles fails.
+- pending: Lark model search/download, preparation implementation, CPU and 16-H200 verification, cleanup, commit/push.
+- environment: login shell has `python3`, not `python`; use an explicit project/runtime interpreter after inspection.
+
+- completed: step 1 branch/spec/plan established. Lark FrogNano exact search has no results; Qwen search has three contextual results with no verified asset path. Public pinned inventories cover 22 assets (18,685,617,357 bytes). GLM cloud index presence independently verified teacher12/12/student48/48.
+- in-progress: model download (step 2) and GLM preparation (step 3) proceed independently.
+
+- 2026-11-05 checkpoint: download launcher remains alive (session 50012); exact job `exp-1105-002603-492786`. Anonymous registry metadata resolved linux/amd64 Miles latest and latest-cu12 digests. Runtime and download completion remain unverified.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 0｜TODO 4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支、规则、需求与验收 | PASS | 当前分支 agent-opd，requirements.md 和 plan.md 已建立。 |
+| 2. Lark 查询与缺失模型下载 | TODO | 查询完成，下载 job 已创建，尚无完成回执。 |
+| 3. glm5.2 turn 记录与 launcher | TODO | 已检查现有 OPD/R3 和 ticket07 renderer，尚未实现。 |
+| 4. CPU 与 16-H200 验证 | TODO | runtime image digest 已查到，尚未运行训练。 |
+| 5. 清理、报告、commit/push | TODO | 依赖实际业务验证。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** step 1 完成至本次 checkpoint｜**当前前沿：** steps 2、3
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 下载脚本和 image 查询直接服务 steps 2、3。 |
+| D2 细节反复重试 | CLEAR | 已记录一次 Python3.10 hash API 修正，未见重复无假设重试。 |
+| D3 支线问题修补 | CLEAR | 已观察工作均属于模型准备或 GLM 环境。 |
+| D4 可并行任务停滞 | CLEAR | 下载正在运行，GLM 实现同时推进。 |
+| D5 超范围镀金 | CLEAR | 没有扩大为正式 200-step 实验。 |
+| D6 分析空转 | NO DATA | 历史执行 trace 已压缩；当前已得出 pinned-image 和资产决策。 |
+| D7 路线违背 | CLEAR | 使用本机 personal RJobBackend 和个人云卷。 |
+
+**文档检查：** S1 plan.md dependencies 把独立 Frog/Qwen 下载错误设为 GLM 验证前置；S5 progress.md 资产数量误写28，manifest 实际22。S2、S3、S4、S6 未发现明显缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets 存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md dependencies：改为 3 -> 4，{2,4} -> 5；下载与 GLM 训练独立（可直接执行，已完成）。
+2. progress.md 模型 inventory：修正为22个文件、18,685,617,357 bytes（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step 3：固定 runtime，实现真实 glm5.2 input 和 completion 记录 → 完成标志：CPU checks 与 launcher snapshot 通过。
+2. 并行：step 2 下载完整 size/hash 验证 ‖ step 3 实现。
+3. step 4：实际16H200短训练 → 完成标志：两次更新、teacher signal、训推数值和同步证据。
+
+## 4. 最值得关注的 3 点
+
+1. 尚未进行 GPU 训练，不可把镜像查询或作业创建记成 workflow PASS。
+2. 固定 glm5.2 源 turn 的 prefix 较长，必须完整保留，不得静默截断。
+3. 下载完成不阻塞 GLM 预热；下一项交付是可运行的 adapter 和 launcher。
+
+- 2026-11-05 step 3: implemented the GLM role-only renderer and original-turn preparation. CPU Python3.12.13 verified all four selected prompt and completion counts/hashes against ticket07 (40380/614, 28408/598, 33616/464, 10366/23). Initial 60s process timeout was import startup; the instrumented continuation completed, with no tensor/template failure. Generic Transformers tokenizer regex warning is retained; changing the regex would change the frozen input, so no unverified tokenizer mutation was applied.
+- 2026-11-05 step 3: native checkpoint loader supports HF loading via bridge; use existing HF student weights directly. The warmup does not need a disposable ~60GB conversion. Added the new native single-turn generator, teacher scoring and 8+4+4 launcher. Runtime probe job `exp-1105-003619-953445` is Starting while its pinned CUDA12 image pulls. CPU launcher snapshot verification is in progress.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 0｜TODO 4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | 当前 agent-opd，需求与依赖已纠正。 |
+| 2. 模型下载 | TODO | Qwen分片已校验；Frog完整回执待收。 |
+| 3. 数据与launcher | TODO | 四类真实turn CPU哈希一致，代码已实现；snapshot依赖缺polars。 |
+| 4. 16H200验证 | TODO | 0GPU runtime probe排队启动；实际训练未提交。 |
+| 5. 清理与推送 | TODO | 依赖训练、下载和报告。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上一checkpoint至本次原始turn编码交付｜**当前前沿：** steps 2、3
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | parser、dump和snapshot直接验证请求的三类信号与workflow。 |
+| D2 细节反复重试 | CLEAR | CPU import超时已定位并完成；polars首次缺失，隔离环境修复。 |
+| D3 支线问题修补 | CLEAR | 未修复无关模块。 |
+| D4 可并行任务停滞 | CLEAR | download、runtime和真实数据准备并行。 |
+| D5 超范围镀金 | CLEAR | 两次warmup；使用已有HF loader减少转换工作。 |
+| D6 分析空转 | CLEAR | 本窗口产出renderer、preparer、generator和launcher。 |
+| D7 路线违背 | CLEAR | 保留本机mount和个人身份；未提前提交未验证runtime的GPU训练。 |
+
+**文档检查：** S1–S6 均未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step3：补齐隔离CPU依赖、完成snapshot和runtime检查 → 完成标志：相关checks通过、真实数据report通过。
+2. 并行：step2下载 ‖ step3验收。
+3. step4：runtime通过后提交16H200，检查两次更新、R3、TIS、logprob和weight sync。
+
+## 4. 最值得关注的 3 点
+
+1. 四类源turn已精确匹配固定token边界，是本窗口可观察交付。
+2. 当前活动非抢占H200为8卡，本任务16卡运行时合计24，尚需提交前复核。
+3. GPU业务验收仍未开始，下载和image启动不能代替训练证据。
+
+- 2026-11-05 continuation: the task-owned Docker pull completed; no container used the pinned CUDA12 image. Removed only that image reference with `docker image rm` (no force/prune). `/data` available space increased from 34GB to 117GB (97% to 89% used).
+- 2026-11-05 download diagnosis: exact job `exp-1105-002603-492786` Failed after curl HTTP408 on FrogNano shard2; launcher cleanup was subsequent. Bounded current HEAD checks now return200 on both company mirror domains and official-through-VPN; official direct times out at10s. This supports retrying the newly cached company object rather than moving to VPS.
+- 2026-11-05 runtime: corrected CPU probe `exp-1105-004709-090270` Succeeded, Python3.12.3/torch2.13.0+cu129/Transformers5.12.1/Ray2.59.0/SGLang0.5.20.dev59. GPU module imports remain unverified. Repo requires Ray<2.59 and SGLang0.5.23/Transformers5.19.0; CUDA12 runtime is unsuitable. Local isolated CPU dependencies upgraded to the project pins for launcher/parser checks; the shared environment was preserved.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支和验收 | PASS | agent-opd 和任务记录已建立。 |
+| 2. 模型下载 | FAILED | 第一作业在 FrogNano shard2 返回408，补齐作业的失败正在读取。 |
+| 3. turn记录和launcher | TODO | 固定输入哈希通过，parser和snapshot尚待通过。 |
+| 4. 16H200验证 | TODO | CUDA12镜像Ray版本不符合repo；cu13两节点CPU检查进行中。 |
+| 5. 清理和推送 | TODO | 已回收本任务本地镜像，尚未完成训练和推送。 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D2。
+**检测窗口：** 上次输入序列化checkpoint至当前续接｜**当前前沿：** steps2、3
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | parser和launcher测试是下一步GPU启动前的必要检查。 |
+| D2 细节反复重试 | HIT | CPU依赖按polars/sglang/transformers/IPython逐个暴露，尚无snapshot结果。 |
+| D3 支线问题修补 | CLEAR | 环境修复直接阻塞step3，没有无关代码改动。 |
+| D4 可并行任务停滞 | CLEAR | 模型下载和runtime检查与CPU实现并行。 |
+| D5 超范围镀金 | CLEAR | 仍是两次更新，无正式实验。 |
+| D6 分析空转 | CLEAR | 已恢复磁盘空间并形成明确镜像/依赖决策。 |
+| D7 路线违背 | CLEAR | 本机personalPython提交和个人云盘限制仍成立。 |
+
+**文档检查：** S1–S6均未发现明显缺陷。
+**归因：** D2执行偏离。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：**
+- D2：停止逐个猜测补包；读取并使用现有CPU CI依赖，形成一次完整的CPU import和snapshot结果。
+
+**接下去的路线：**
+1. step3：补齐现有CPU CI依赖，检查四类真实completion和launcher→完成标志：解析与snapshot通过。
+2. 并行：step2缺失分片下载与校验 ‖ step3新版镜像和平台两节点环境检查。
+3. step4：经过必要环境检查后启动16H200→完成标志：两次finite更新及same-token/same-weight数值记录。
+
+## 4. 最值得关注的 3 点
+
+1. 清理本任务镜像已回收约83GB，当前无需大型本地拉取。
+2. CUDA12镜像的Ray2.59存在repo明确指出的API不兼容，不能直接训练。
+3. 尚未进行GPU业务验证，CPU输入哈希不证明训推一致。
+- 2026-11-05 source inspection: native argument validation explicitly rejects `use_rollout_logprobs` together with `use_tis`. Removed `--use-rollout-logprobs`; TIS computes old-policy logprobs through the training engine and compares them with native recorded rollout logprobs. Increased max new tokens from512 to1024 because two frozen complete completions contain598/614 tokens. The generated sequence remains below the existing full prompt/sequence budget.
+
+- completed (step2, 2026-11-05 00:59HKT): `exp-1105-005757-165193` Succeeded, launcher exit0, creator i-fengyicheng and current local NFS source. All22 pinned assets complete, total18,685,617,357 bytes; each weight SHA256 matches the public LFS manifest. Qwen and FrogNano are retained as requested model prerequisites. The intermediate Python slim attempt `exp-1105-005339-218875` failed due to missing curl, not renewed mirror failure; the known company runtime repaired that prerequisite without worker pip installs.
+- checkpoint (step2 completion): steps1/2 PASS, steps3/4/5 TODO. Mainline is completion parsing + launcher/runtime qualification -> actual16H200 -> cleanup/push. D1/D3/D4/D5/D6/D7 CLEAR; D2 remains the sole execution risk from inherited CPU binary dependencies. Apply the existing CPU CI Torch2.11/torchvision0.26/torchaudio2.11 tuple, then stop environment work once affected imports/checks pass. S1-S6 CLEAR; no scope/criteria changes. Download work is complete and needs no additional optimization or VPS work.
+
+- completed (step3 CPU milestone): all four real completion categories and additional plain/truncated cases passed with pinned SGLang056f871. Fixed the observed empty-reasoning closing-marker parse, used native call IDs, corrected native --seq-length and snapshot run IDs. New launcher snapshot2/2 passed. Full launcher suite584 PASS,18 FAIL,50 ERROR; other recipe snapshots and /root/models permissions need a bounded baseline classification, not unrelated repairs.
+- completed (CPU runtime prerequisite): cu13 probe exp-1105-005353-468156 Succeeded, launcher0. Python3.12.16/Torch2.14.1+cu130/Transformers5.19/Ray2.58.1/SGLang0.5.24.dev80+g056f871. Both0GPU replicas shared one CPU host; GPU and two-node checks remain pending.
+- in-progress (step4): implement the minimal platform-rank/shared-file adapter for external Ray. Reuse KUBEBRAIN_REPLICA/TOTAL and existing ray_worker_port_args; no SSHD assumption or worker dependency installation.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支和验收 | PASS | agent-opd及需求记录已建立。 |
+| 2. 模型下载 | PASS | 22文件完整size/SHA256验证。 |
+| 3. GLM输入、completion与launcher | PASS | 四类真实turn、补充解析场景及新snapshot2/2通过。 |
+| 4. 16H200 workflow与数值验证 | TODO | CPU runtime已通过；平台Ray bootstrap和实际训练待执行。 |
+| 5. 清理、commit/push | TODO | 已回收本任务镜像；等待业务验收与最终清理。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 模型下载完成checkpoint至本次CPU交付｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | CPU检查已完成，下一步转为平台Ray启动。 |
+| D2 细节反复重试 | CLEAR | 完整CPU依赖后得到解析及snapshot结果，停止补包。 |
+| D3 支线问题修补 | CLEAR | 全suite失败仅记录，未扩大修复其他recipe。 |
+| D4 可并行任务停滞 | CLEAR | 模型下载已完成；剩余最终清理依赖warmup。 |
+| D5 超范围镀金 | CLEAR | 仍为两次更新的预热，无正式实验。 |
+| D6 分析空转 | CLEAR | 解析修正、snapshot及runtime均有结果。 |
+| D7 路线违背 | CLEAR | 本机personalPython、16H200和清理授权未变。 |
+
+**文档检查：** S5文档旧selection CLI与实现--manifest不符，已纠正。S1、S2、S3、S4、S6未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：存在过时操作说明，先更新文档再继续。
+
+**文档更新（先执行）：**
+1. on-policy-distillation.md和本报告：直接读取parent manifest及最短train turn选择（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：平台rank两节点Ray adapter → 完成标志：两个不同节点合计16H200和完整GPU imports。
+2. step4：真实glm5.2两次OPD更新 → 完成标志：teacher同token评分、finite梯度/更新、R3和same-weight logprob及sync记录。
+3. step5：验收后删除全部warmup数据和缓存，保留Markdown结论，提交并核对remoteSHA。
+
+## 4. 最值得关注的 3 点
+
+1. 不再进行CPU环境扩展；实际训练是当前唯一主线。
+2. 全suite尚未通过，应独立记录其范围，不能称全体检查成功。
+3. 两次更新后最后一次原生训练默认不再同步，应按实际调用报告同步验收边界。
+
+- step4 prerequisite: personal cloud read confirms teacher/student tokenizer model, added tokens, normalizer, pre-tokenizer, post-processor and decoder equal; tokenizer_config.json and chat_template.jinja byte-identical. Both GLM4MoeLite BF16, vocab154880/47layers/64experts. Adapter syntax and CPU --help imports pass. Platform rendezvous uses unique job directory; Ray's worker cache path is shortened to remain within Unix socket pathname limits.
+- step4 recipe decision before GPU launch: use explicit FA3 deterministic attention on H200. Pinned SGLang056f871 resolves Hopper deterministic inference to FA3, and identifies GLM4MoeLite as MLA; its deterministic compatibility table marks FlashInfer radix cache unsupported. This is a source-grounded prelaunch choice, not a post-failure parameter retry. Existing R3 path remains enabled.
+
+- completed (baseline classification): unchanged ff97a63b full suite582PASS/18FAIL/50ERROR. All68 failure/error IDs exactly match current584PASS/18FAIL/50ERROR; new launcher adds2PASS, no new failures. Stop unrelated test investigation. Native inference checksum logging added so the first published update has direct changed-tensor evidence; final native update is not published by the default driver.
+- in-progress (step4): exp-1105-012438-455920 submitted01:24:38HKT, Pending on first authenticated read. creator i-fengyicheng; local NFS100.96.128.195; pinnedcu13;2x8H200;48CPU/600000Mi each; both native RDMA limits retained. Existing nonpreemptibleRunning8GPUs means this warmup would bring Running usage to24. Preserve pending jobs belonging to other tasks.
+
+
+- 2026-11-05 01:54HKT continuation (step4): first16-H200 job Failed before data preparation or training. Exact two-case RCA completed all eight read sources; replica1 CUDA13/driver12080 initialization fails and exits1 at17:37:03Z; sibling termination17:37:05Z is platform fail-policy cleanup. No initiating manual stop fields returned. Original cause and coverage recorded in the test report.
+- step4 repair hypothesis recorded before retry: the pinned image already builds cuda-compat-13-0 but omits its directory from default LD_LIBRARY_PATH. Verify its104,893,539-byte layer on CPU, then prefer the exact image compat libraries before Python startup and preserve that path in Ray runtime env. New runtime checks require actual FP32/BF16 kernels on all16GPUs; imports alone no longer qualify this prerequisite.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd及任务记录已建立。 |
+| 2. 模型下载 | PASS | 22文件完整size/SHA256校验，不需重下。 |
+| 3. 输入、completion与launcher | PASS | 四类真实turn、补充解析及新增snapshot2/2通过。 |
+| 4. 16H200 workflow与数值验证 | FAILED | 首轮在第二节点CUDA初始化失败，尚无训练更新。 |
+| 5. 清理与推送 | TODO | 用户新增要求已记录；依赖实际训练验收。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次CPU交付至本次GPU失败RCA｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 新增kernel检查直接验证已经失败的GPU前提。 |
+| D2 细节反复重试 | CLEAR | 只有一次GPU训练尝试，compat修复先记录明确假设。 |
+| D3 支线问题修补 | CLEAR | 未修其他recipe；CUDA故障直接阻塞step4。 |
+| D4 可并行任务停滞 | CLEAR | 下载已完成，最终清理和推送依赖step4。 |
+| D5 超范围镀金 | CLEAR | 仍为16H200、两次更新，无正式训练扩展。 |
+| D6 分析空转 | CLEAR | 精确RCA和镜像层检查形成可验证的library选择。 |
+| D7 路线违背 | CLEAR | 本机personalPython和原NFS来源不变。 |
+
+**文档检查：** S5 test_report旧“execution pending”已由实际GPU失败取代，已更新。S1、S2、S3、S4、S6未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：报告状态过时，先更新文档再继续。
+
+**文档更新（先执行）：**
+1. test_report：记录首轮FAIL、两节点RCA及compat修复假设（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：CPU检查镜像已有compat库，提交原16H200配置 → 完成标志：两节点实际CUDA kernels通过。
+2. step4：真实glm5.2两次更新及native dump检查 → 完成标志：teacher评分、finite更新、R3、same-weight logprob及实际发布证据。
+3. step5：立即删除本任务数据、日志、编译缓存，提交推送 → 完成标志：仅代码和Markdown结论保留，remoteSHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 首轮没有训练更新，不能将GPU分配和imports作为训练PASS。
+2. 先验证镜像现有库，避免随机重排队或再次补包循环。
+3. 按用户最新要求删除全部warmup原始数据，只保留必要文字结论。
+
+- step4 CPU compat prerequisite PASS: exact image layer104,893,539bytes/digest match; libcuda580.126.20 loads with driver API13000 and all ldd dependencies resolve. Syntax and CPU adapter import/--help pass. Remove extracted layer immediately, then submit the unchanged16H200 shape with explicit image compat precedence.
+
+- 2026-11-05T01:59:38.092120+08:00 step4 retry submitted: exp-1105-015559-912357, launcher session3822 remains alive. Personal API verifies creator i-fengyicheng, nonpreemptible no, step_main,2x8H200/48CPU/600000Mi, both RDMA limits, and current-local NFS100.96.128.195. Two distinct worker IPs assigned; current phase Starting. Explicit LD_LIBRARY_PATH prefers image cuda13 compat libraries. Running nonpreemptible personal usage8 before submission,24 including this task. Other tasks were inspected only and preserved.
+
+- 2026-11-05T02:02:00.082557+08:00 step3 code committed77efcf31: GLM renderer/parser, native OPD launcher, dataset/model preparation and canonical OPD documentation. Latest new-launcher snapshot2PASS in1.35s. Ruff passed. git diff --cached --check reports whitespace in the generated command snapshot (source commands match its required recording); no hand-edit of generated output. GPU adapter/inspector remain in progress and are committed after actual validation.
+
+- 2026-11-05T02:11:53.226300+08:00 step4 GPU runtime prerequisite PASS: both replicas of exp-1105-015559-912357 load image libcuda580.126.20 (driver API13000); all16H200 execute FP32 squared-sum10416 and BF16 matmul16 successfully. Ray registers two distinct IPs with8GPUs each. Dataset preparation repeats all four frozen token-count/hash matches. Teacher and student are currently loading weights; no optimizer update is yet recorded. Local /data has111GB available. Observed RoPE warnings are investigated against the unchanged config before deciding whether they indicate mismatch.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd与记录已建立。 |
+| 2. 模型下载 | PASS | 22文件完整校验；不重复下载。 |
+| 3. 原始turn与launcher | PASS | 四类turn及新增snapshot通过，已提交77efcf31。 |
+| 4. 16H200业务和数值验证 | TODO | CUDA修复已在全部16卡验证；真实数据已准备，模型加载中。 |
+| 5. 清理与推送 | TODO | 依赖业务验收；本地111GB可用。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** CUDA失败RCA checkpoint至本次GPU运算交付｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 最小kernel probe验证直接阻塞训练的CUDA问题，已停止扩展。 |
+| D2 细节反复重试 | CLEAR | compat假设先记录，CPU库检查和16GPU执行均支持它。 |
+| D3 支线问题修补 | CLEAR | 没有修复无关recipe或模型。 |
+| D4 可并行任务停滞 | CLEAR | 下载已完成，最终业务清理依赖运行结束。 |
+| D5 超范围镀金 | CLEAR | 维持原16卡及两次更新。 |
+| D6 分析空转 | CLEAR | 本窗口产生实际CUDA、Ray及数据准备结果。 |
+| D7 路线违背 | CLEAR | 个人Python API、本机NFS、云目录和资源限制不变。 |
+
+**文档检查：** S1–S6均未发现明显缺陷；报告旧Starting条目保留为历史，新增本次运行状态。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：继续当前作业，检查两次更新和teacher/R3/native dumps → 完成标志：原计划业务与数值验收完整记录。
+2. step5：结束后立即清理全部原始warmup产物，整理文字结论并推送 → 完成标志：remoteSHA一致且无任务遗留数据。
+
+## 4. 最值得关注的 3 点
+
+1. GPU运行前提已验证，不能再停在imports或环境优化。
+2. 当前仍没有optimizer结果，不能声称workflow通过。
+3. 训推数值和RoPE配置需用实际输出及源码区分观察和推断。
+
+- step4 prerequisite documentation: updated the authoritative StepMind runbook in place with the exact pinned-image compat path and observed16H200 kernels. Removed the first failed job's exact root-owned rendezvous directory using local sudo; no other job or shared environment affected.
+
+- 2026-11-05T02:29:33.200764+08:00 step4 continuation: exact previous job exp-1105-015559-912357 is Failed (02:13:05HKT), local launcher3822 has exited1. All16H200 kernel checks, two-node Ray, real data preparation and native model initialization passed; the first distributed weight broadcast fails with NCCL2.30.7 `Message truncated: received2048 bytes instead of512`. No optimizer update or rollout/train dumps exist. Both RCA collectors already completed all eight reads; their artifacts were inspected without requerying.
+- step4 ranked hypotheses before repair: (1) independent weight-transfer world5 inherits trainer default world8's device-bound communicator; removing that inheritance must turn the real-helper CPU regression green and permit a cross-node tensor broadcast. (2) node/network communication fails independently; the minimal broadcast would still fail after(1). (3) tensor metadata/order differs in the full transfer; the minimal fixed tensor would pass while native model synchronization would fail. No model or sampling parameter is changed for these tests.
+- step4 CPU regression: exact existing command `PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest tests/fast/utils/test_independent_process_group.py -q -p no:cacheprovider` produced1FAIL in1.12s before the fix and1PASS in1.02s after it. The real PyTorch helper reached the mocked NCCL constructor with inherited split_from before the fix; it now uses an independent communicator and restores the parent device even after constructor failure.
+- step4 implementation: added the smallest default-device context around the existing helper, preserving its public interface and original world registration. The pinned SGLang056f871 receiver already uses the same protection. Added a manual CUDA probe for eager-bound default worlds8/4 and cross-node transfer world5, followed by default-world reductions and actor cleanup. Actual GPU proof remains pending. Online primary-source fetch returned no content; the diagnosis is grounded in the inspected local pinned PyTorch/SGLang source and reproduction.
+
+- completed core fix: commit a465e4b4, regression1PASS/1.02s; Ruff, Black and isort pass for the changed core/test and all manual warmup scripts. New weight-sync probe imports and --help pass in the isolated CPU environment. Raw RCA and the failed job's local/cloud outputs were removed; cloud event files were root-owned and required exact-path sudo removal.
+- submission resource check: current personal Running/Starting non-preemptible GPU usage8; this16-GPU retry makes24, within the32-H200 ceiling. Other queued/running tasks were inspected only. Preserve the original image, replica count, quotas and platform NCCL settings; prepend the image compat path to inherited LD_LIBRARY_PATH.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd及任务记录已建立。 |
+| 2. 模型下载 | PASS | 22文件完整校验，无需重下。 |
+| 3. turn记录与launcher | PASS | 四类原始turn与新增snapshot通过，已提交。 |
+| 4. 16H200业务和数值验证 | FAILED | 首次同步失败；最小修复a465e4b4已通过CPU复现。 |
+| 5. 清理与推送 | TODO | 失败原始产物已清理，最终验收和push仍待完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** GPU前提checkpoint至当前同步修复｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 小tensor probe直接验证已失败的同步环节，验证后释放actors。 |
+| D2 细节反复重试 | CLEAR | CPU复现先失败再通过；GPU retry前已有三个可证伪预测。 |
+| D3 支线问题修补 | CLEAR | 只修改阻塞本任务的独立PG创建，未修其他recipe。 |
+| D4 可并行任务停滞 | CLEAR | 下载已完成；最终验收和清理依赖训练。 |
+| D5 超范围镀金 | CLEAR | 仍为16H200、两次更新。 |
+| D6 分析空转 | CLEAR | 已完成精确RCA、CPU验证与修复提交。 |
+| D7 路线违背 | CLEAR | 个人Python API、本机source和用户清理要求不变。 |
+
+**文档检查：** S1–S6均未发现明显缺陷；旧Running条目为历史，最新失败和修复已补录。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：同一16H200作业内验证跨节点5-rank广播 → 完成标志：两次tensor版本一致且原8/4-rank默认world仍可通信。
+2. step4：释放probe后执行真实两次OPD更新 → 完成标志：teacher同token评分、finite更新、R3、训推logprob及实际发布证据。
+3. step5：清理本任务数据、日志、编译缓存并推送 → 完成标志：仅代码和Markdown结论保留，remoteSHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. CPU修复通过不代替实际NCCL和optimizer验收。
+2. 本次与现有非抢占8卡合计24H200，未超过32卡限制。
+3. 原模型与共享源数据保留；warmup产物在结论写下后立即删除。
+
+- 2026-11-05T02:35:01.285730+08:00 step4 retry created: exp-1105-023323-244560, local launcher session36834. Same pinned image and2x8H200 allocation; worker command now prepends image compat to inherited LD_LIBRARY_PATH before Python, and executes the minimal5-rank broadcast before real models. Await actual replica/runtime/business observations.
+
+- step4 probe attempt exp-1105-023323-244560 Failed02:35:36HKT; launcher36834 exited1. Both source_revision a465e4b4, all16 CUDA kernels and two-node Ray10.204.4.55/10.204.9.75 passed. The probe connected at02:35:22 and returned1 by02:35:31; no weight-sync report or native model artifacts exist. Platform logs/incident reads contain only the parent CalledProcessError, so the probe's initiating exception is UNKNOWN pending a sharper feedback loop.
+- step4 new prediction before CPU test: the probe actor's by-value Ray serialization may capture PyTorch's global `_world` object. The actual cloudpickle actor-class serialization should fail on CPU without allocating GPUs if this is the cause. Added a local probe failure report before Ray cleanup so later exceptions cannot disappear from platform evidence. No communication/runtime parameters are changed.
+
+- step4 CPU narrowing: actual Ray cloudpickle actor serialization PASS (18,916bytes), ruling out the recorded hypothesis. Injected node-discovery exception produced status=failed/stage=discover_nodes/error_type=StopIteration before cleanup, PASS. Keep the unqualified GPU cause UNKNOWN; rerun the same minimal probe with exception evidence rather than change network/model settings.
+- cleanup: recorded both RCA coverage/timelines; removed their raw evidence, failed job rendezvous, and bounded raw replica log. No native GLM cloud data was created in this probe attempt.
+
+- 2026-11-05T02:45:33.006294+08:00 step4 same-configuration evidence retry created exp-1105-024340-358946; launcher session90266 alive. Fresh nonpreemptible personal H200 read remains8,24 with this retry. Added probe exception/stage capture only; core/image/resources/NCCL settings unchanged.
+
+- 2026-11-05 step4 exact probe failure: exp-1105-024340-358946 Failed; child report stage=initialize_default_worlds, RayTaskError(AttributeError), imported _world.default_pg is None after successful native init. No weight broadcast or GLM model load was reached. Launcher90266 exited1 after platform failure.
+- CPU cause reproduction: actual Ray modified actor class cloudpickle roundtrip produces a captured _world object distinct from torch.distributed.distributed_c10d._world. Earlier serialization-success check only tested encodability, not live state identity. Use dist.group.WORLD through the referenced torch module so each worker reads its actual current default group. This changes only the probe assertion. Prediction before retry: the deserialized actor must observe a newly installed default group on CPU; the GPU probe must then reach the independent world and report two actual BF16 broadcasts.
+
+- completed probe CPU repair: actual deserialized actor reads the live dist.group.WORLD; detached-state cause reproduced before the change, live-state assertion PASS after. Existing cached Ruff/Black/isort checks PASS; no CPU dependencies installed. Fresh personal nonpreemptible H200 Running/Starting usage8; unchanged16GPU retry would make24, <=32.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd与任务记录已建立。 |
+| 2. 请求模型准备 | PASS | 22文件完整校验，无需重下。 |
+| 3. turn记录与launcher | PASS | 真实四类turn及新增snapshot通过，已提交。 |
+| 4. 16H200 OPD验证 | TODO | 跨节点world5广播及默认world恢复已通过，真实模型加载中。 |
+| 5. 清理及push | TODO | 依赖真实更新与数值验收。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** a465e4b4修复checkpoint至当前GPU广播交付｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | trace报告给出原始异常；只修当前GPU路径的状态读取。 |
+| D2 细节反复重试 | CLEAR | 当前重试增加取证并得到具体原因；CPU序列化检查验证了状态身份。 |
+| D3 支线问题修补 | CLEAR | 没有无关模块修复。 |
+| D4 可并行任务停滞 | CLEAR | 下载已完成；清理和push依赖step4。 |
+| D5 超范围镀金 | CLEAR | 仍为原16卡、两次更新。 |
+| D6 分析空转 | CLEAR | 实际trace和CPU复现形成最小修复。 |
+| D7 路线违背 | CLEAR | 个人API、本机mount与清理约束保持。 |
+
+**文档检查：** S1–S6均未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：继续当前job完整模型同步和两次更新 → 完成标志：native同步成功及两次normal optimizer outcomes。
+2. step4：同一job真实GLM训练 → 完成标志：两次更新、teacher/R3、logprob数值及更新发布证据。
+3. step5：删除全部任务warmup数据、日志和编译缓存，再提交push → 完成标志：仅代码及Markdown结论、remoteSHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 独立world已通过实际NCCL广播；完整权重同步和optimizer仍待验收。
+2. 停止扩展已通过的CPU环境和下载资产；实际训练是唯一前沿。
+3. 使用原16卡配额且任务数据及时清理，保留共享模型和原始数据。
+
+- 2026-11-05 02:54:47HKT step4 retry created exp-1105-025447-723908, launcher68571 alive. Only the probe default-group reference changed after a CPU by-value serialization reproduction; retain image/source mount/resources/NCCL and original two-update GLM recipe.
+
+- 2026-11-05T02:58:40.112281+08:00 step4 GPU broadcast milestone PASS: world5 BF16 versions496/528 equal on all5 ranks; eager-bound parent world8/4 reductions36/10 remain correct afterwards. Probe actors released; same job prepares all4 actual glm5.2 turns and starts native run261104-185538-q770. Latest full check-progress checkpoint updated above: steps1/2/3PASS, step4TODO, step5TODO; allD/S patterns clear.
