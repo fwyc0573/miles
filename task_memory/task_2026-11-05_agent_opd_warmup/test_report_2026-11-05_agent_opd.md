@@ -469,3 +469,78 @@ Actual worker probe command:
 The same job's data preparer again verifies all4 fixed original turns and
 token hashes. Native run ID is `261104-185538-q770`. Real student/teacher
 loading follows the probe without a new GPU submission or package install.
+
+## Full-model synchronization after the minimum probe: FAIL
+
+Job`exp-1105-025447-723908` on gpu-h200-1033/gpu-h200-0107 failed at
+2026-11-04T19:05:12Z (November5 03:05:12HKT). Native trainer rank0
+`broadcast.py:187` reports NCCL2.30.7`Message truncated : received 2048 bytes
+instead of 512` at19:04:53Z. Source0ec6a6af was committed while the job ran;
+loaded worker code was a465e4b4 plus the manual probe repairs recorded above.
+Both engines finished loading; the first HF broadcast failed before rollout
+or optimization. This invalidates full-model synchronization qualification;
+the earlier minimum broadcast observations remain limited PASS.
+
+RCA ran the same bundled collector on both exact owner-bound replicas, with
+window19:03–19:06Z and loglimit3000. All eight queries succeeded with complete
+pagination. RJob live/historical Events2/4 and audits10; trainer replica
+Events0/0 and audit1; sibling Events2/1 and audit4. Incident logs614/0 rows;
+existing DeepScan0. Trainer exits1 at19:05:11Z. Sibling Stopped retains a stale
+running container snapshot; system fail-policy stopTimestamp19:05:12Z and
+controller stop audits19:05:12/13Z follow the application failure. Every returned
+audit data field is null; initiating manual-stop actor/reason/request are
+UNKNOWN. No incident-bound OOMKilled/preemption evidence is returned. Native
+Sherlock was not needed for this explicit application exception.
+
+Pinned SGLang source`arg_groups/attention_hook.py:735–737` sets deterministic
+NCCL channels from`envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS` (default8).
+The prior probe did not model this receiver-only launch setting. Before
+retrying full GLM, the minimum probe now tests asymmetric versus equal channel
+configuration. The exact initiating transport cause remains unqualified until
+that differential test executes.
+
+## Candidate channel alignment CPU checks: PASS; GPU diagnosis Pending
+
+The current job is exp-1105-031302-898658, local launcher50766, creator
+`i-fengyicheng`, personal local NFS100.96.128.195, original pinned image and
+2x8H200/48CPU/600000Mi. Both RDMA limits are present. It is preemptible=yes;
+no new non-preemptible GPUs were added. A bounded queue read reports global
+queue rank8 and no usable GPUs in64 queried step_main nodes. Queue messages
+are placement observations, not training outcomes.
+
+Prepared `scripts/run_glm47_flash_agent_opd.py::_training_env` as a candidate
+configuration change. It derives the channel count from pinned SGLang's
+`envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS`, uses the existing
+`U.resolve_extra_env_vars` precedence, retains matching inherited bounds,
+and rejects conflicting bounds at startup. No copied default or transport
+fallback was introduced. CPU assertions passed for source-derived default8,
+a canonical runtime override4, matching inherited min, preserved
+LD_LIBRARY_PATH/NCCL_IB_HCA overrides, and rejected conflicting min/max9.
+
+CPU commands use Python3.12.13 in `/data/ycfeng/envs/miles-agent-opd-cpu` and
+PYTHONPATH pointing to the pinned SGLang056f871 source and Miles checkout,
+TMPDIR=/data/ycfeng/tmp and PYTHONDONTWRITEBYTECODE=1:
+
+```bash
+MILES_UPDATE_LAUNCH_SCRIPT_SNAPSHOTS=1 python -m pytest   tests/manual/launch_scripts/test_py_launch_scripts.py   -k run_glm47_flash_agent_opd -q -p no:cacheprovider
+python -m pytest tests/fast/launch_scripts tests/manual/launch_scripts   -q -p no:cacheprovider
+```
+
+New snapshot:2PASS/1.38s; exactly two runtime-env keys were added,
+NCCL_MIN_NCHANNELS=8 and NCCL_MAX_NCHANNELS=8. Full suite:584PASS,
+18FAIL,50ERROR/22.18s, the same counts and unrelated failing recipes as the
+already classified baseline. No unrelated recipe was changed. Ruff0.14.7,
+Black and isort pass for the five changed Python files. The three manual
+entrypoints' CPU imports and --help pass.
+
+The inspector additionally matches each completion's recorded weight version
+to the corresponding native checksum publication. This is an offline
+acceptance assertion, not a change to training or an invented numerical
+parity tolerance.
+
+The queued job now runs the original asymmetric/matching differential before
+any model load. Only identical-truncation failure in the asymmetric case and
+success in the matching case permit the unchanged two-update warmup to run
+in that same allocation. Otherwise it reports diagnosis only. The actual
+channel cause, full-model synchronization, optimizer updates and numerical
+parity remain unverified until GPU execution.

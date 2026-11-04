@@ -464,3 +464,112 @@
 - 2026-11-05 02:54:47HKT step4 retry created exp-1105-025447-723908, launcher68571 alive. Only the probe default-group reference changed after a CPU by-value serialization reproduction; retain image/source mount/resources/NCCL and original two-update GLM recipe.
 
 - 2026-11-05T02:58:40.112281+08:00 step4 GPU broadcast milestone PASS: world5 BF16 versions496/528 equal on all5 ranks; eager-bound parent world8/4 reductions36/10 remain correct afterwards. Probe actors released; same job prepares all4 actual glm5.2 turns and starts native run261104-185538-q770. Latest full check-progress checkpoint updated above: steps1/2/3PASS, step4TODO, step5TODO; allD/S patterns clear.
+
+- step4 continuation: exp-1105-025447-723908 failed at03:05:12HKT; actual model weight sync again reports NCCL2.30.7 Message truncated2048/512 at the first broadcast. No optimizer update or rollout/train dump exists. Minimal equal-environment probe passed; it did not emulate SGLang deterministic NCCL channel settings.
+- step4 hypothesis before the next allocation: (1) native deterministic SGLang pins NCCL_MIN/MAX_NCHANNELS=8 while the sender leaves them unset, causing bootstrap-size disagreement; (2) actual lazy/default communicator initialization differs from the eager-bound probe; (3) first HF tensor/bucket metadata differs between sender and receiver. Rank1 follows rank0 failure during EP all-gather. Both sides report NCCL2.30.7, weakening the library-version hypothesis.
+- feedback plan: use the existing small BF16 broadcast with receiver channels8 and sender unset, then change only sender channels to8 in a fresh actor world. Require the first case to reproduce Message truncated and the second to deliver both exact BF16 versions and restored parent reductions before changing the real recipe. This job loads no model/dataset and records no warmup data beyond temporary aggregate probe reports.
+
+- cleanup continuation: removed job025447 cloud directory and local rendezvous with exact-path sudo because GPU workers wrote root-owned files. Removed the recorded raw RCA and bounded logs. No shared model/dataset or other job was changed.
+- current resource observation: personal nonpreemptible H200 Running/Starting=40 across five unrelated8-GPU jobs. Preserve those jobs; this task adds no nonpreemptible allocation. Diagnostic exp-1105-031302-898658 uses16preemptible H200, local launcher50766 remains alive.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd 和 requirements/plan 已建立。 |
+| 2. 模型准备 | PASS | 22文件已完成校验，无需重下。 |
+| 3. turn记录与launcher | PASS | 四类原始turn和新snapshot通过。 |
+| 4. 16H200 OPD验证 | FAILED | 完整模型首次广播仍失败；channel差分诊断已提交。 |
+| 5. 清理及push | TODO | 失败产物已清理，最终交付依赖实际训练。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 0ec6a6af最小广播交付至当前精确失败和诊断提交｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 小tensor诊断针对真实首次广播失败；不加载模型。 |
+| D2 细节反复重试 | CLEAR | 最小广播通过排除了已修PG边界；新重试事先记录channel假设并做差分。 |
+| D3 支线问题修补 | CLEAR | 只处理阻塞warmup的通信问题。 |
+| D4 可并行任务停滞 | CLEAR | 下载已完成，失败产物清理与诊断准备并行推进。 |
+| D5 超范围镀金 | CLEAR | 仍为16卡两次更新，没有新增正式训练。 |
+| D6 分析空转 | CLEAR | 原始trace、native设置与差分运行形成明确下一步。 |
+| D7 路线违背 | CLEAR | 本机personalPython和个人云盘；新作业preemptible避免增加既有非抢占用量。 |
+
+**文档检查：** S1–S6均未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：检验receiver8/sender未设与双方8的差分 → 完成标志：明确复现或排除channel假设。
+2. step4：仅应用已证实的配置修复，运行两次真实OPD更新 → 完成标志：normal optimizer outcomes和same-token数值证据。
+3. step5：清理全部测试产物，提交并push → 完成标志：仅代码和Markdown结论、remoteSHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 完整模型同步尚未通过；最小通信PASS不足以宣布workflow完成。
+2. 停止重复加载整套模型进行猜测；小tensor差分直接检验channel设置。
+3. 既有其他任务40张非抢占卡保留，本次16卡使用preemptible。
+
+- 2026-11-05 continuation: current channel differential job exp-1105-031302-898658 remains Pending; local launcher50766 alive. Creator, local NFS, pinned image,2x8H200,preemptible=yes and both RDMA limits verified. No duplicate submission. The inspector now explicitly matches each completion weight version to its corresponding published policy version; this closes the same-weight acceptance check without changing training. Documentation now follows the user's no-warmup-data cleanup decision.
+
+- Before GPU diagnosis completion: prepare a candidate launch-env change deriving both channel bounds from pinned SGLang envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS. Existing runtime-env overrides are resolved through U.resolve_extra_env_vars; conflicts with platform/user channel bounds fail at startup. This remains a candidate, not a confirmed transport fix. Prediction: asymmetric receiver8/sender-unset reproduces the identical truncation, matching8/8 passes, and the same allocation can then test the full native weights and two updates. If the differential does not meet both conditions, do not load models. Queue read reports rank8, no usable GPUs in the queried step_main nodes; preserve the exact queued job and launcher.
+
+- Candidate CPU qualification PASS: default channel count derives as8 from pinned SGLang; canonical runtime override4 propagates to both bounds; matching platform bound and LD_LIBRARY_PATH/NCCL_IB_HCA values remain intact; mismatching min/max bounds both fail explicitly. Updated launcher snapshot2/2PASS, only the two new channel runtime-env keys differ. Current queued diagnostic entrypoint now continues the unchanged two-update GLM workload in the same16-H200 allocation only after the recorded asymmetric-failure/matching-success condition. Otherwise it reports diagnostic results without loading models. This removes a second queue wait and adds no GPU allocation.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd 与 requirements/plan 已建立。 |
+| 2. 模型准备 | PASS | 22文件校验完成，无需重下。 |
+| 3. 原始turn与launcher | PASS | 四类turn、snapshot及必要CPU检查通过。 |
+| 4. 16H200业务验证 | FAILED | 完整权重广播未通过；差分诊断排队，候选配置CPU通过。 |
+| 5. 清理与推送 | TODO | 持续删除失效产物，最终验收与push待完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次诊断提交checkpoint至当前CPU候选配置交付｜**当前前沿：** step4
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 配置与version核对直接满足通信和same-weight验收，CPU检查后停止扩展。 |
+| D2 细节反复重试 | CLEAR | 单一差分有事前可证伪预测；没有重复GPU提交或盲目完整模型加载。 |
+| D3 支线问题修补 | CLEAR | 只修改本任务配置，未修复其他68个基线失败。 |
+| D4 可并行任务停滞 | CLEAR | 旧产物清理与GPU排队并行；最终结论依赖实际训练。 |
+| D5 超范围镀金 | CLEAR | 同一16卡作业、两次更新，未增加训练规模。 |
+| D6 分析空转 | CLEAR | CPU候选配置与明确续接条件已落地；GPU状态受队列约束。 |
+| D7 路线违背 | CLEAR | 原资源、个人身份、本机source与不留测试数据约束均保留。 |
+
+**文档检查：** S1–S6均未发现明显缺陷；已记录仅差分证实后才在同一作业内继续warmup。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：检查已排队的差分诊断 → 完成标志：明确复现或排除channel假设。
+2. step4：差分证实后执行同一作业的真实warmup → 完成标志：两次finite更新、teacher/R3和same-token/same-weight数值。
+3. step5：持续清理失效文件，最终提交并push → 完成标志：仅代码和Markdown结论、remoteSHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 候选配置CPU通过尚不证明channel根因或完整同步。
+2. 当前无可用GPU且排队rank8；保持launcher，避免重复申请。
+3. 若差分成立，同一allocation直接继续真实warmup，减少下一次排队。
+
+- Incremental cleanup: removed86 inactive task-owned evidence/log/receipt files (1693913bytes), including download reports, original smoke selections and old runtime results. Only the queued job's manifest, entrypoint/configuration, active inspection, launcher helpers and still-needed CPU source/lint caches remain temporary. The empty old warmup rendezvous was removed. Shared model/source datasets, credentials and other tasks were untouched.

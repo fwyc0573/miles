@@ -7,6 +7,7 @@ an independent weight-transfer world must avoid. Probe actors are then released.
 
 import argparse
 import json
+import os
 import traceback
 from datetime import timedelta
 from pathlib import Path
@@ -15,6 +16,7 @@ import ray
 import torch
 import torch.distributed as dist
 from ray.util.scheduling_strategies import NodeAffinitySchedulingStrategy
+from sglang.srt.environ import envs
 
 from miles.utils.distributed_utils import init_process_group
 from miles.utils.misc import get_free_port
@@ -23,7 +25,10 @@ from miles.utils.port_range import service_port_range
 
 @ray.remote(num_gpus=1, num_cpus=1)
 class _WeightSyncRank:
-    def __init__(self, role: str, rank: int, size: int, timeout: int):
+    def __init__(self, role: str, rank: int, size: int, timeout: int, channels: int | None):
+        if channels is not None:
+            os.environ["NCCL_MIN_NCHANNELS"] = str(channels)
+            os.environ["NCCL_MAX_NCHANNELS"] = str(channels)
         self.role = role
         self.rank = rank
         self.size = size
@@ -101,6 +106,7 @@ def main():
     parser.add_argument("--inference-gpus", type=int, default=4)
     parser.add_argument("--tensor-elements", type=int, default=32)
     parser.add_argument("--timeout", type=int, default=120)
+    parser.add_argument("--sender-channels", type=int)
     args = parser.parse_args()
     ray.init(address=args.address, log_to_driver=False)
     actors = []
@@ -119,7 +125,13 @@ def main():
             for rank in range(count):
                 actor = _WeightSyncRank.options(
                     scheduling_strategy=NodeAffinitySchedulingStrategy(node["NodeID"], soft=False)
-                ).remote(role, rank, count, args.timeout)
+                ).remote(
+                    role,
+                    rank,
+                    count,
+                    args.timeout,
+                    args.sender_channels if role == "trainer" else envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.get(),
+                )
                 actors.append(actor)
                 ranks.append(actor)
         stage = "allocate_ports"
@@ -158,6 +170,8 @@ def main():
             "weight_world_size": len(participants),
             "tensor_elements": args.tensor_elements,
             "dtype": "bfloat16",
+            "sender_channels": args.sender_channels,
+            "receiver_channels": envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.get(),
             "broadcasts": broadcasts,
             "default_worlds_after_weight_transfer": restored,
         }

@@ -20,12 +20,14 @@ Example:
         --output-dir /root/shared_data --num-rollout 2
 """
 
+import os
 import shlex
 from dataclasses import dataclass, field
 from pathlib import Path
 
 import typer
 import yaml
+from sglang.srt.environ import envs
 
 from miles.utils.external_utils import command_utils as U
 
@@ -76,6 +78,27 @@ class ScriptArgs(U.ExecuteTrainConfig):
             raise ValueError("The 16-GPU warmup reserves four GPUs for each inference model")
         if self.student_path == self.teacher_path:
             raise ValueError("OPD requires distinct student and teacher checkpoints")
+
+
+def _training_env(args: ScriptArgs) -> dict[str, str]:
+    requested = U.resolve_extra_env_vars(
+        {"NVTE_ALLOW_NONDETERMINISTIC_ALGO": "0", "CUBLAS_WORKSPACE_CONFIG": ":4096:8"}, args
+    )
+    effective = {**os.environ, **requested}
+    channels = (
+        envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.parse(value)
+        if (value := effective.get(envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.name)) is not None
+        else envs.SGLANG_DETERMINISTIC_NCCL_NCHANNELS.get()
+    )
+    if channels < 1:
+        raise ValueError("Deterministic NCCL channels must be positive")
+    for key in ("NCCL_MIN_NCHANNELS", "NCCL_MAX_NCHANNELS"):
+        value = effective.get(key, str(channels))
+        if int(value) != channels:
+            raise ValueError(f"{key}={value} conflicts with SGLang deterministic channels={channels}")
+        # SGLang pins both bounds at engine startup; senders need the same count.
+        requested[key] = value
+    return requested
 
 
 def execute(args: ScriptArgs):
@@ -170,7 +193,7 @@ def execute(args: ScriptArgs):
         num_gpus_per_node=args.num_gpus_per_node,
         megatron_model_type="glm4.7-flash",
         megatron_path=args.megatron_path,
-        extra_env_vars={"NVTE_ALLOW_NONDETERMINISTIC_ALGO": "0", "CUBLAS_WORKSPACE_CONFIG": ":4096:8"},
+        extra_env_vars=_training_env(args),
     )
 
 
