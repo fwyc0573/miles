@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
 | 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
@@ -60,7 +61,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: the unique16H800 learner exp-1105-224939-805330 isRunning onnodes0146/0039 as ofNovember6,00:52HKT; runtime,communication and80-turn input checks passed. Original nativeevaluation continues andquestions17–19 have resumed unchanged afterheadreadiness. HFsave qualification,boundedFrog/Qwen qualification andthecorrected local-log path haveactualGPUevidence. Timestampedcounts aremaintained inprogress.md. Twenty normalupdates,finalHFexport/reload,two complete80-result cells,finalscoring/cleanup andsynchronization remainpending.
+Current phase status: As of 2026-11-06 02:06 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. The first updated benchmark server exp-1106-015719-434508 actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Original native grading has 76/80 valid outcomes; updated has 0/80; invalid=0. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Timestamped evidence is maintained in progress.md and the learning report.
 
 
 ## Confirmed continuation and export route (18:17 HKT)

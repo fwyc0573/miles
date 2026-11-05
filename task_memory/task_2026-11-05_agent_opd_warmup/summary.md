@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
 | 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
@@ -10,7 +11,7 @@
 
 # Agentic OPD Warmup
 
-The additional twenty-update and twenty-question avg@4 phase is in progress. The unique sixteen-H800 learner exp-1105-224939-805330 started on nodes0146 and0039 on November6; runtime, communication and80-turn data preparation passed. Actual twenty updates, final export/reload and complete paired grading remain required. Original native evaluation and prompt raw-output consumption continue; the three deferred questions resumed unchanged after learner head readiness. Timestamped counts and exact terminal incidents are maintained in progress.md. The earlier two-update observations below do not complete this later phase.
+The additional twenty-update phase has completed native training and actual update20 reload. As of 2026-11-06 02:06 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. The first updated benchmark server exp-1106-015719-434508 actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Original native grading has 76/80 valid outcomes; updated has 0/80; invalid=0. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Timestamped evidence is maintained in progress.md and the learning report.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 

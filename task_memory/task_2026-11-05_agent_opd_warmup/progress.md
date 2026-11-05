@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify twenty-update native completion, actual HF reload and retained numerical limits. |
 | 2026-11-06 | Resume exact-job monitoring; retain queued learner and ongoing native benchmark. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
@@ -3060,3 +3061,147 @@ Consumed the inspected local RCA/log files after Markdown conclusions: 11 files/
 
 
 01:20 HKT: question2 consumption completed, removing 30 files/69045818bytes. All 17 completed original jobs have removed 1182633398 raw bytes. The unique learner now has six normal optimizer updates, rollouts0–5; latest loss0.1464621826,gradient norm8.0870571136 and native train/decode absolute difference0.0254483809. Final HF and training completion remain pending.
+
+
+01:27 HKT: independent read-only SSH inspection of the exact native events confirmed optimizer rollouts0–7, all trainer-rank outcomes normal, finite loss/gradient metrics, published inference weight versions0–8 and1396changed published tensor checksums relative to version0. This establishes actual updated weights in the rollout engine during this learning run. Command read the exact personal cloud events directory through python3, bounded by timeout60s; no output files or GPU jobs were created. Final update20 export/reload and complete paired grading remain pending. Documentation synchronization a202573ea7398eac53f0459a9c93227b5639775a matched independent gitls-remote.
+
+
+01:44 HKT: current learner has16normalupdates (0–15); loss0.0987479515, gradient norm6.3188695908 and native trainer/decode difference0.0255329991 were finite at the latest read. The remaining original benchmark progressed to69/80valid,updated0/80,invalid0. Independent exact cloud receipt inspection confirmed question17 `django__django-14493`, seed1730, returned with actual sampler verification after63engine requests/2854.481741seconds and resolved=True. Its native trajectory contains63assistant/thinking turns,32body turns,40bash calls,21str_replace_editor calls,2submit calls and63tool responses. This provides a complete native execution with all requested signal classes through the corrected worker-local log path; the other three seeds are still active, so that job's raw outputs are not consumed prematurely. Source `native_benchmark.py:103–134` filters actual request.received records bysampling_seed and checks n/temperature/top_p; its grading path records the observed trajectory signals. Selected receipt fields were read by bounded read-only SSH/python3 from the exact job root; no extra model request or GPU job was created. Local task scratch is547487bytes.
+
+
+01:49 HKT: the current exact training command, canonical original question0 command and prepared updated command template were recorded in the maintained learning report after credential-pattern checks. The updated template is explicitly unexecuted; recording it is not execution evidence. No training, sampling, launch gate or resource setting changed.
+
+
+## Twenty real optimizer updates completed
+
+01:55 HKT: independent exact native event inspection confirmed optimizer rollouts0–19, all trainer ranks normal, twenty finite training metrics, positive gradients and learning rates, and inference publications0–19. Compared with publication0,1424published tensor checksums changed. Final loss0.0993334422,gradient norm12.0843124390,native trainer/decode absolute difference0.0271187614. Actual complete update20 HF is still pending: the scoped read observed43partial HF files/21,615,638,984bytes,without .complete or learning_identity.json. No updated evaluation was submitted at that read.
+
+Personal Python inspection verified the exact learner UID a21ebb29-e36c-4c55-a144-031cdffd86f6 remainsRunning; both replicas areRunning/restart0 with the same personal creator,codesign,pinnedimage,localNFS and16H800 shape. Returned logs contain all final native metric output. The historical platform ip-executable error occurred before successful startup and the twenty updates; it is not a new training failure. Original benchmark72/80,updated0/80,invalid0.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和初始预热 | PASS | 已有实际验证与同步 |
+| 冻结输入和 CPU 准备 | PASS | 固定80turns、20题与四seeds |
+| Frog/Qwen 有限验证 | PASS | 两次正常更新，已完成清理 |
+| HF 保存及本地日志资格验证 | PASS | 短程完整导出和真实四seed收尾通过 |
+| 本轮20次正常更新 | PASS | 实际事件0–19，全部rank正常且指标有限 |
+| 本轮完整HF及实际重载 | TODO | 正在写HF；完成和身份标记未出现 |
+| 两组完整benchmark | TODO | 原始72/80，更新0/80 |
+| 最终统计、清理及同步 | TODO | 完整评分仍未就绪 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** November6 01:19 HKT 至本次20更新里程碑｜**当前前沿：** HF导出验收、原始剩余评分与产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 核验当前权重发布和新信号记录，未增加smoke或工具功能 |
+| D2 细节反复重试 | CLEAR | 当前训练持续推进；未重复提交或重跑有效seed |
+| D3 支线问题修补 | CLEAR | 精确RCA、命令及信号证据均服务验收 |
+| D4 可并行任务停滞 | CLEAR | 原始评分从68推进到72，同时完成20次训练更新 |
+| D5 超范围镀金 | CLEAR | 模型、输入、参数、规模和题库保持 |
+| D6 分析空转 | CLEAR | 权重和真实turn信号核验后直接记录，未追加调查或实现 |
+| D7 路线违背 | CLEAR | 保持HF验收、首题native评测和后续分片顺序 |
+
+**文档检查：** S5：plan.md当前状态仍列20次正常更新为pending；summary.md当前段落仍未反映已完成更新。按实际回执更新状态，其他S1–S4、S6无新缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md、summary.md当前段落：记录本轮20次正常更新已完成，保留完整HF、实际重载和80+80评分未完成状态（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 验收本轮完整HF、原始token/R3/版本和native终态；实际重载后完成首题四seeds，再推进现有更新分片。
+2. 并行完成原始剩余八份评分，及时消费每个终态完整作业。
+3. 完整80+80有效结果后配对统计、清理精确任务根并正常同步分支。
+
+## 4. 最值得关注的 3 点
+
+1. 二十次真实更新已完成，当前关键工作是完整导出和实际重载。
+2. 部分HF文件不等于可用checkpoint，当前没有完成标记。
+3. 原始72/80和更新0/80仍不足以形成学习效果结论。
+
+
+Consumed two inspected local platform logs after recording conclusions: 127640bytes removed. Native in-progress training outputs and all active launchers remain available.
+
+
+## Completed native training, full HF and actual update20 reload
+
+2026-11-06 02:06 HKT: training RJob `exp-1105-224939-805330`, UID `a21ebb29-e36c-4c55-a144-031cdffd86f6`, is Succeeded at 2026-11-05T17:57:56Z. Replica cfcd2084 on node0146 ended exit0/Completed at17:57:11Z; c4ca4238 on node0039 ended exit0/Completed at17:57:54Z; both restart0. Personal creator, codesign, two eight-H800 replicas, 600000Mi per replica, the pinned company image, both RDMA limits and current-local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng` were independently rechecked. Native `training.json` and `finished.json` are succeeded; inspection_exit_code=0.
+
+Actual HF `/mnt/codesign-exp/ycfeng/miles/agent-opd/learning-20261105/exp-1105-224939-805330/261105-165007-kj7u/hf/step_19` has a completed-update20 identity and passed `_check_export`: 9491 decoder tensors, 126 actual indexed safetensor shards, 7622 decoder tensors with changed sampled values, 210 untrained MTP tensors omitted and two shared aliases fully equal to their decoder sources. This compares every name/shape/index location and bounded sampled values; it is not a full original-versus-export tensor checksum comparison.
+
+Updated first-question job `exp-1106-015719-434508`, UID `45fa3f0e-a40b-4d2b-85ef-858b89683dd3`, is actually Running on node0507 with four H800, 24CPU/300000Mi, personal creator/codesign and the same current-local NFS source. Independent scoped cloud reads of `export-validation.json` and `engine-20.json` confirm the exact HF path, `weight_version="20"`, served model `agent-opd-step20`, safetensors loading, glm45 reasoning parser and glm47 tool parser. There are no active root cloud logs. Native grading is still incomplete and is not inferred from server readiness.
+
+All eighty distinct original turns, four categories with twenty each, passed source/token/R3/version checks: {'control_only': 20, 'neither': 20, 'thinking_only': 20, 'control_and_thinking': 20}. Newly generated completion signals: {'thinking': 23, 'body': 52, 'tools': 80, 'submit': 23}. Scored completion tokens=22887; weighted trainer/decode mean absolute difference=0.0247716117; maximum=0.9885630608; TIS outside[0.5,2]=7/22887=0.03058505%. Independent same-student prefill status is measured for 80/80 turns. Numerical equality remains unestablished for both model pairs.
+
+Both memory receipts have zero OOM-counter growth. Maximum sampled usage was225213022208bytes on rank0 and629143793664bytes on rank1 against629145600000bytes. The rank1 observation is near the limit; successful execution does not establish safe memory headroom. Worker runtime source315f177551b6e5d7aa59af3d28a304b25273c82e and export metadata sourcea202573ea7398eac53f0459a9c93227b5639775a differ only in four task Markdown files, verified by `git diff --stat` between those revisions. No training implementation changed between these source observations.
+
+Exact platform inspections: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_job.py exp-1105-224939-805330` and the same command for `exp-1106-015719-434508 --logs`. Personal Python3.10.6/brainpp2.8.6; actual workers Python3.12.16/Torch2.14.1+cu130/Transformers5.19.0/Ray2.58.1/SGLang0.5.24.dev80+g056f871. Scoped cloud metadata was read through bounded SSH/python3 from the exact corresponding personal job root. These reads created no inference request or GPU allocation.
+
+Raw training consumer `exp-1106-015804-529579` Succeeded; its existing continuation reported197files/5769346275bytes removed, retaining only the HF needed by updated evaluation. Completed original question17/job005024-029909, UID89e424d2-8c67-4ff6-b675-855d74872e71, separately Succeeded with four zero native pipeline exits and four valid results. Its consumer removed27files/79147974bytes. Current counts: original76/80, updated0/80, invalid0. No valid seed or training job was repeated.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 6｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和初始预热 | PASS | 已有实测、清理和个人分支同步记录 |
+| 冻结输入和 CPU 准备 | PASS | 80个不同turns、20题和四seeds保持 |
+| Frog/Qwen 有限验证 | PASS | 两次真实正常更新，产物已消费 |
+| HF 保存及本地日志资格验证 | PASS | 短程完整导出和真实四seed收尾已通过 |
+| 本轮20次正常更新 | PASS | 事件0–19，所有rank正常、有限且梯度非零 |
+| 本轮完整HF及实际重载 | PASS | native检查exit0，实际server报告update20路径和版本 |
+| 两组完整benchmark | TODO | 原始76/80，更新0/80 |
+| 最终统计、清理及同步 | TODO | 等待两个完整评分分母 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** November6 01:55 HKT 至 2026-11-06 02:06 HKT｜**当前前沿：** 原始剩余评分、更新首题native评分与终态产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 复用现有执行链，仅核验真实HF与终态 |
+| D2 细节反复重试 | CLEAR | 训练已成功；没有重复训练或重跑有效seed |
+| D3 支线问题修补 | CLEAR | 本窗口只处理导出、重载、评分和消费 |
+| D4 可并行任务停滞 | CLEAR | 原始评分持续推进，同时启动更新首题 |
+| D5 超范围镀金 | CLEAR | 输入、题库、模型、参数和规模保持 |
+| D6 分析空转 | CLEAR | 读取证据后直接记录，未扩大调查 |
+| D7 路线违背 | CLEAR | 保持首题有效native结果后提交其余更新题目 |
+
+**文档检查：** S5：plan.md和summary.md当前段落仍称完整HF/重载待完成；learning report顶部仍称训练排队。已按独立实测更新，其他S1–S4、S6无新缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md、summary.md及learning report当前状态：记录真实HF、重载和终态成功，保留评分和最终清理未完成状态（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 更新首题继续native工具执行和评分；第一份有效评分出现后，由现有调度器提交其余19题 → 完成标志：更新80份有效结果。
+2. 并行完成原始剩余评分与每个终态作业的产物消费 → 完成标志：原始80份有效结果。
+3. 两个完整分母后执行现有配对统计、精确任务根清理及正常分支同步 → 完成标志：完整报告、云端/本地产物不存在、远端SHA相同。
+
+## 4. 最值得关注的 3 点
+
+1. 真实20次更新、完整HF和实际update20重载已完成。
+2. 两个评分分母仍未齐全，不能给出学习效果结论。
+3. rank1内存曾接近上限；数值残差和H200训练验证仍有明确边界。
