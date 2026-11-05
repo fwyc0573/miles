@@ -67,7 +67,7 @@ def _sample_checks(path: Path, expected_samples: int) -> tuple[dict, dict]:
     return indexed, {"rollout_id": dump["rollout_id"], "samples": observations}
 
 
-def _train_checks(paths: list[Path], samples: dict) -> dict:
+def _train_checks(paths: list[Path], samples: dict, *, routing_replay: bool = True) -> dict:
     differences, ratios = [], []
     seen = []
     route_shapes = []
@@ -90,11 +90,12 @@ def _train_checks(paths: list[Path], samples: dict) -> dict:
                 raise ValueError("Training, rollout and teacher token logprobs differ in shape")
             if not all(torch.isfinite(value).all() for value in (old, rollout, teacher)):
                 raise ValueError("A training logprob tensor is non-finite")
-            replay = _tensor(batch["rollout_routed_experts"][i])
-            original = _tensor(sample["rollout_routed_experts"])
-            if replay.shape[0] != len(tokens) - 1 or not torch.equal(replay, original):
-                raise ValueError("Training R3 arrays differ from the inference routes")
-            route_shapes.append(list(replay.shape))
+            if routing_replay:
+                replay = _tensor(batch["rollout_routed_experts"][i])
+                original = _tensor(sample["rollout_routed_experts"])
+                if replay.shape[0] != len(tokens) - 1 or not torch.equal(replay, original):
+                    raise ValueError("Training R3 arrays differ from the inference routes")
+                route_shapes.append(list(replay.shape))
             differences.append((old - rollout).abs())
             ratios.append((old - rollout).exp())
             scored = sample["metadata"].get("student_rescoring")
@@ -137,7 +138,7 @@ def _train_checks(paths: list[Path], samples: dict) -> dict:
         "student_rescoring": rescoring,
         "scored_tokens": difference.numel(),
         "same_token_ids": True,
-        "r3_arrays_equal": True,
+        "r3_arrays_equal": True if routing_replay else None,
         "r3_shapes": route_shapes,
         "logprob_abs_mean": difference.mean().item(),
         "logprob_abs_p50": difference.quantile(0.5).item(),
@@ -197,6 +198,9 @@ def main():
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--expected-rollouts", type=int, default=2)
     parser.add_argument("--expected-samples", type=int, default=4)
+    parser.add_argument(
+        "--without-routing-replay", action="store_true", help="Inspect a dense model without MoE routes"
+    )
     args = parser.parse_args()
     results = []
     for rollout_id in range(args.expected_rollouts):
@@ -204,7 +208,9 @@ def main():
             args.run_dir / "rollout_data" / f"{rollout_id}.pt", args.expected_samples
         )
         observations["training"] = _train_checks(
-            sorted((args.run_dir / "train_data").glob(f"{rollout_id}_*.pt")), samples
+            sorted((args.run_dir / "train_data").glob(f"{rollout_id}_*.pt")),
+            samples,
+            routing_replay=not args.without_routing_replay,
         )
         results.append(observations)
     policy = [

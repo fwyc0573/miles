@@ -65,3 +65,14 @@ Current phase status:1 input freeze completed;2 configuration completed with act
 - This disposable test requires exact final inference weights, not a resumable optimizer checkpoint. Use existing --save-hf alone and the existing collective export_hf API. Preserve native --save behavior for resumable checkpoints; do not claim its eager-staging memory problem is repaired.
 - Verify HF-only dispatch/error propagation on CPU; then run the same16H800/600000Mi shape for actual20updates, retain memory observations from both replicas, inspect .complete/index/identity and reload the actual update20 weights before the updated benchmark.
 - For alignment, add same-student generation versus re-scoring and trainer comparison on identical tokens and versions, with category measurements. TIS remains a mitigation rather than a numerical proof. Frog/Qwen additionally requires the actual Qwen3.5 hybrid-attention/text-weight path.
+
+
+## Execution dependencies after CPU save validation
+
+The shared production save validation and actor-dispatch regressions pass. The
+separate0GPU pinned-image/full-actor inspection runs in parallel with the unique
+new16GPU learning workload; a delayed image pull is not an extra gate. Actual
+recipe startup, twenty normal updates, complete final export and actual reload
+remain required. BoundedFrog/Qwen uses a separate8GPU worker and two updates;
+it proceeds independently within the stated128GPU quota and creates no second
+full benchmark.

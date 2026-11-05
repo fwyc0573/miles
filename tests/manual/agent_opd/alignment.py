@@ -12,6 +12,11 @@ from miles.rollout.sglang_rollout import get_model_url
 
 async def score_glm_teacher(args, sample, **kwargs):
     reward = await score_teacher(args, sample, **kwargs)
+    await rescore_student(args, sample)
+    return reward
+
+
+async def rescore_student(args, sample):
     try:
         payload = _build_prefill_scoring_payload(args, sample, {"top_p": 1, "top_k": -1})
         # A distinct existing cache namespace makes this an independent prefill.
@@ -45,4 +50,3 @@ async def score_glm_teacher(args, sample, **kwargs):
             "reason": str(error)[:400],
         }
         print("AGENT_OPD_ALIGNMENT_UNVERIFIED", type(error).__name__, str(error)[:400], flush=True)
-    return reward

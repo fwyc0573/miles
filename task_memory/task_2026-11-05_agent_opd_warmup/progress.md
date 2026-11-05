@@ -1849,3 +1849,62 @@
 1.CPU修复不能证明实际HF导出的内存峰值和重载通过。
 2.原生resumable torch_dist保存仍有已观测内存问题。
 3.两组合的数值证据及完整80+80评分仍待完成。
+
+
+## 18:33 HKT: Qwen preparation and execution route
+
+- Bounded Frog/Qwen adapter prepared with existing rawHF/mbridge/hybrid attention,2updates and8distinct source turns,4trainer+2student+2teacher on one8H800 replica. CPU imports/config/format checks PASS. Native execution and numerical qualification remainTODO; this preparation is not a qualified training run.
+- Same-student re-scoring is shared by GLM and Qwen callbacks; the offline inspector supports explicit no-routing for a dense model. Default GLM route equality checks are retained. Regression7PASS after the refactor.
+- Corrected an unnecessary operational edge: the0GPU image pull still delays that separate actor/image test. Shared production save validation and dispatch already pass, so submit the authorized16H80020-update job while image inspection proceeds independently. The real run still must pass actual startup/export/reload; no criterion is removed. No duplicate preflight or benchmark submission.
+- Mainline now: submit16GPU unique replacement, run initial benchmark independently, prepare/execute boundedFrog qualification within128GPU quota. Final updated evaluation requires complete changedupdate20weights; finalcleanup/push follows complete scoring. Current max simultaneous requested session GPUs with76original+16GLM+8Frog is100, subject to platform scheduling and other personal jobs.
+
+## 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED1｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |既有固定训练/评测membership不变。|
+|20更新导出 | FAILED |历史save失败，HF-only代码及CPU检查完成。|
+| 原始评测 | TODO |10/80valid outcomes，19shardsRunning。|
+| updated评测/评分 | TODO |依赖可重载update20。|
+| Frog/Qwen对齐 | TODO |boundedadapter CPU准备完成，尚无实际更新。|
+| 清理同步 | TODO |只保留活跃任务的消费依赖。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**HF-only提交至Qwen准备｜**当前前沿：**GLM新run、原始评分、Frog实际资格检查。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+|D1工具打磨 | CLEAR |新增adapter仅服务已授权Frog两步对齐。|
+|D2细节反复重试 | CLEAR |没有重复保存probe或调整内存阈值。|
+|D3支线问题修补 | CLEAR |Qwen对齐是用户确认的任务。|
+|D4可并行任务停滞 | CLEAR |取消imagepull额外依赖，GLM提交与preflight独立继续。|
+|D5超范围镀金 | CLEAR |Qwen无完整benchmark或checkpoint要求。|
+|D6分析空转 | CLEAR |实际boundedadapter及CPU检查已完成。|
+|D7路线违背 | CLEAR |保持H800、个人API和个人云；接受条件未缩减。|
+
+**文档检查：**S1额外imagepull阻塞边不必要，已将独立image检查改为并行；S2–S6未发现新的缺陷。
+**归因：**无执行偏离。
+
+## 3. 纠正建议
+
+**分支：**B：修正操作依赖后继续。
+
+**文档更新（先执行）：**
+1.progress/plan：将独立0GPU preflight与GPUrun设为并行；actualstartup/export/reload仍必验（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.GLM唯一replacement ->20normalupdates与完整HF导出。
+2.并行：0GPU镜像检查、原始评分、Frog两步对齐。
+3.完整导出重载 ->updated80grader ->真实avg@4/差值，清理并push。
+
+## 4. 最值得关注的3点
+
+1.19originalshardsRunning不等于76valid；当前只有10valid。
+2.两组合的实际数值差异需要测量，CPU配置不能证明解决。
+3.原生resumable保存仍未修复；本次导出只满足disposable评测需求。
