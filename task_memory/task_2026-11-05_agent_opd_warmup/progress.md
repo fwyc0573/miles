@@ -2184,3 +2184,72 @@ Pinned Ray preflight completed HTTP200 and a real submitted Python entrypoint. O
 - completed: BaseMindnativecreate/shellPASS21.13s after correctingprobeHTTP400missingstartupcommand toinspectednative tail-f. No completeagent/graderclaim.
 - in-progress: explicitmanualsandbox-backend selector reusesexistingSweAgentEvalConfig/ACSsubclass; recordsselection. Bothfinalbenchmarkcells mustusesamebackend and no cross-routepooling. CPUconfigdiff/importchecksnext, thenoriginalquestion0×4fullnativeexecution.
 - completed: Qwenqualifiedconsumption193234 removed35cloudfiles/61924229bytes and8localfiles/34169bytes; independentlycloudabsent. Wave2exactcontainerexit0/restart0verified.
+
+
+## 19:45 HKT: sixteen updates and wave3 consumption
+
+- in-progress:GLM16normalupdates0–15; actualHFsave/reloadpending.
+- pending-placement:BaseMind193530-337236firstquestion4GPU,exactUnschedulable/noassignednode;launcher62463keptalive. CurrentcodesignRunningrequests56GPUs,plus4queued;otherstep_mainjobspreserved.
+- completed:wave3consumption193840-982593containerexit0/restart0;117files/182666981bytesremoved,5sourcesindependentlyabsentaftermetadatapropagation.
+- completed:personalremote03a00863ed5ab1bc0fb49d04e494a15b133a4559verified;23consumedlocalrawfiles/612041bytesdeleted.
+
+
+## 19:58 HKT: final-save orchestration failure and verified correction
+
+- GLM `exp-1105-183414-941283` completed rollout19 optimizer work at11:50:37.699Z (loss0.1342189833, grad10.9480171, lr2e-6), then failed before HF writing. The exact exception is `RolloutExecutor.save`: `the orchestration only saves when --save is set`. Rank0 exit1/restart0 at11:50:58Z; platformFailed11:51:04Z; peerStopped11:51:07Z. Launcher cleanup follows at11:51:08Z and did not initiate the training exception. NoHFfiles exist in this namespace.
+- Cause: the preceding HF-only change covered parser and actor dispatch but omitted the synchronous driver's unconditional rollout checkpoint save. `train.py` now saves data progress only with `args.save`; its resumable ordering remains covered. Two new full-driver cases reproduced the exact assertion before the fix; all23driver/actor cases pass afterward inPython3.12.13. RealHFwriting remainsunverified.
+- RCA collector exactUID450b84ef-b814-48d4-a722-fbbf04203733 / replicaUID83038262-7b03-4b0a-88d4-88e45dd1e95d: live/historicalevents,incidentlogs andexistingDeepScan reads succeed; bothall-operationauditstimeout15s. LiveRJobevents show subsequentpeerdelete/close, replicaevents empty; existingDeepScan0. Workloadtrace establishes the initiating assertion; noOOM/preemption attribution.
+- Correction: first perform aone-update16H800actualHFsave/reloadqualification, then rerun theunchanged20-updatepopulation. Consume and delete thefailed20-updateoutputs afterofflineinspection. Do not treat thefailedsave run as acompletebenchmark checkpoint.
+- BaseMindfirstquestion193530 nowRunningon0036with4H800. Existing9ACSRunning jobs cannot feed thechosen same-BaseMind finalcomparison; stop them throughrequiredpersonalrjob_stop.sh andconsume/delete theiroutputs. Retain BaseMindlauncher62463 andfollowup31162.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED1｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |80turns/20questions/4seeds不变。|
+| HF-only CPU配置/dispatch | PASS |新增driver回归后23PASS。|
+| GLM20更新与导出 | FAILED |已到rollout19，保存前driverassertion，未产HF。|
+| 原始80有效评分 | TODO |BaseMind首题Running，完整native结果待到。|
+| updated80与avg@4 | TODO |依赖完整update20HF与真实reload。|
+| Qwen两步数值测量 | PASS |实际2normal、3269tokens，已消费清理。|
+| 最终清理与同步 | TODO |ACS停止/失败GLM消费待做，最终结果未全。|
+
+## 2. 偏离检测
+
+**结论：**未偏移，按失败证据修正主线。
+**检测窗口：**19:45记录至19:58失败取证｜**当前前沿：**实际HF保存、BaseMind首题、消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |driver回归直接覆盖真实保存失败。|
+| D2 细节反复重试 | CLEAR |明确未覆盖调用断言；重跑前先短实测保存。|
+| D3 支线问题修补 | CLEAR |HF保存是update20评测的直接依赖。|
+| D4 可并行任务停滞 | CLEAR |BaseMind与保存修复、已消费清理并行。|
+| D5 超范围镀金 | CLEAR |仅修实际sync路径，不扩展其他driver。|
+| D6 分析空转 | CLEAR |原因已定位，23checksPASS，下一步实际写出。|
+| D7 路线违背 | CLEAR |同题/seed/模型/个人H800storage规则保持。|
+
+**文档检查：**S5旧plan当前GLM完成表述与真实Failed冲突，直接纠正；S1–S4/S6无新缺陷。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**B：更新最新状态后继续。
+
+**文档更新（先执行）：**
+1.plan/summary/report：明确driver保存失败、23CPUchecks及短真实保存资格检查（直接更新）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.16H800短实际HF保存→完整文件/identity与reload→同配置20normal更新。
+2.并行：BaseMind首题有效native结果→原始19题；失败GLM/无用ACS消费清理。
+3.update20reload→updated80valid→avg@4/pairedinterval→最终清理/push。
+
+## 4. 最值得关注的3点
+
+1.真实HF保存尚未被执行成功，CPUdispatch通过不足以验收。
+2.保存失败的20更新不能给出updated模型分数。
+3.BaseMind首题Running仍不证明agent/grader完整有效。

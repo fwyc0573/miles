@@ -55,7 +55,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status:1 input freeze completed;2 HF-only configuration and actual parser/actor preflight passed, replacement16H800Running with real export pending;3 native benchmark15/80valid with infrastructureinvalidpairs under targeted recovery;4 prior20updates verified butsavefailed, currentreplacement20updates/export and boundedFrog/Qwen8H800/two-update qualification completed with measured numerical differences;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
+Current phase status: input freeze and CPU preparation completed; GLM replacement completed20optimizerrollouts butfailed before HFwriting at the synchronous rollout-checkpoint assertion. Driver regression is repaired and23CPUchecks pass; aone-update16H800actualHFsavequalification now precedes theunchanged20-update rerun. Qwen8H800/two-update qualification completedwithmeasurednumericaldifferences andcleanup. BaseMindfirstquestionRunning; oldACSresults cannot be pooledinto finalsame-backend cells. Final80+80validresults,cleanup andpush remainpending.
 
 
 ## Confirmed continuation and export route (18:17 HKT)

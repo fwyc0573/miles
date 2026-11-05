@@ -103,8 +103,9 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
             if args.use_critic and args.offload_train:
                 await model.offload()
 
-        # Persist data progress before model saving publishes the latest checkpoint.
-        await rollout_executor.save(rollout_id)
+        # Resumable checkpoints include data progress; standalone HF exports do not.
+        if args.save is not None:
+            await rollout_executor.save(rollout_id)
         if (not args.use_critic) or (rollout_id >= args.num_critic_only_steps):
             await save_training_model(actor_model)
         if args.use_critic:

@@ -41,6 +41,8 @@ def _make_args(**overrides: Any) -> SimpleNamespace:
         offload_rollout=False,
         offload_rollout_level="",
         offload_train=False,
+        save=None,
+        save_hf=None,
         save_interval=None,
         save_trigger_sentinel=None,
         skip_eval_before_train=False,
@@ -286,7 +288,9 @@ class TestApiServerWiring:
 class TestCheckpointPublication:
     async def test_checkpoint_and_eval_share_the_completed_rollout_cadence(self, monkeypatch: pytest.MonkeyPatch):
         events: list[str] = []
-        args = _make_args(num_rollout=40, save_interval=20, eval_interval=20, skip_eval_before_train=True)
+        args = _make_args(
+            num_rollout=40, save="/checkpoints/native", save_interval=20, eval_interval=20, skip_eval_before_train=True
+        )
         components = _install_driver_fakes(monkeypatch, args, events, num_rollout_per_epoch=100)
 
         await with_disposer(train_driver.train, _startup_info(args))
@@ -300,10 +304,33 @@ class TestCheckpointPublication:
                 < events.index(f"eval:{rollout_id}")
             )
 
+    @pytest.mark.parametrize("export_fails", [False, True])
+    async def test_hf_only_export_needs_no_rollout_checkpoint(self, monkeypatch: pytest.MonkeyPatch, export_fails: bool):
+        """The full driver reaches export without requesting resumable data progress."""
+        events: list[str] = []
+        args = _make_args(num_rollout=20, save_hf="/checkpoints/hf/{rollout_id}", save_interval=20)
+        components = _install_driver_fakes(monkeypatch, args, events, num_rollout_per_epoch=100)
+
+        async def reject_rollout_checkpoint(rollout_id):
+            raise AssertionError("the orchestration only saves when --save is set")
+
+        components.rollout_executor.save = reject_rollout_checkpoint
+        if export_fails:
+
+            async def fail_export(rollout_id, force_sync=False):
+                raise OSError("HF export failed")
+
+            components.actor_model.save_model = fail_export
+            with pytest.raises(OSError, match="HF export failed"):
+                await with_disposer(train_driver.train, _startup_info(args))
+        else:
+            await with_disposer(train_driver.train, _startup_info(args))
+            assert components.actor_model.saved == [19]
+
     async def test_rollout_save_failure_does_not_publish_a_model_checkpoint(self, monkeypatch: pytest.MonkeyPatch):
         """A resumable model checkpoint must not precede its matching data progress."""
         events: list[str] = []
-        args = _make_args(num_rollout=1, save_interval=20)
+        args = _make_args(num_rollout=1, save="/checkpoints/native", save_interval=20)
         components = _install_driver_fakes(monkeypatch, args, events)
 
         async def fail_rollout_save(rollout_id):
