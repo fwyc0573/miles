@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Create the agentic OPD preparation record. |
 | 2026-11-05 | Record two verified H800 optimizer updates, numeric alignment and complete artifact cleanup. |
 
@@ -54,4 +55,4 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: 1/2/3 in-progress;4/5 pending. The prior two-update phase remains completed and does not satisfy this phase.
+Current phase status:1 input freeze completed;2 configuration completed with actual export pending;3 native adapter CPU preparation completed with actual runtime/grading pending;4 twenty optimizer updates verified but final save failed; root-cause save probe and initial benchmark in progress;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.

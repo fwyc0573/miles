@@ -2,9 +2,12 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Archive the verified real 16 H800 OPD warmup and record its limits. |
 
 # Agentic OPD Warmup
+
+The additional twenty-update and twenty-question avg@4 phase is in progress. The completed two-update results below remain the earlier warmup only. Current evidence and incomplete acceptance are recorded in `test_report_2026-11-05_agent_opd_learning.md`; no twenty-update or benchmark result is claimed yet.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 
@@ -54,3 +57,6 @@ Relevant CPU evidence includes 413 passed GPU-visibility/platform checks with 23
 The native workers removed their own compilation, Ray, kernel and temporary caches before successful exit. All consumed local raw logs, copied manifest/configuration, samples/dumps/receipts and the 173 MiB temporary SGLang source were removed. Only code and Markdown conclusions remain in the task directory. Requested model assets, shared datasets, credentials and persistent Python environments were preserved.
 
 Previous failed cloud outputs and the old H200 warmup dataset were removed. Final zero-GPU cleanup `exp-1105-144243-835275` succeeded at06:46:57Z; its container exited0/Completed with no restarts. Independent read-only SSH confirmed the completed141808 cloud root and oldH200 dataset are absent; the task cloud namespace contains no warmup data. The short cleanup log API returned0rows, so no unobserved file/byte count is asserted. Personal Running/Starting jobs were empty. Local free disk space is approximately110GiB. Archive commit `e975d4070989f869a53807c618b32c6fd58a2973` was pushed normally and independently matched `origin/agent-opd` via `git ls-remote`. Only task records differ from the qualified source commit; training code is unchanged. The final status commit records this completed synchronization; its SHA is reported with the completion response. All current H800 warmup deliverables and cleanup are complete. H200 qualification remains unverified.
+
+
+The current twenty-update test remains incomplete. Offline inspection verified20normal updates,80unique actual UID/prompt-hash pairs, exact token/R3 routes and published versions0–19. Native checkpoint save then failed; no complete update20 HF model exists. A two-update save diagnostic with cgroup and bounded Ray logs is queued, and original native SWE evaluation now has its first valid resolved outcome. The other19questions are submitted as four-GPU question shards. Actual benchmark scores, final cleanup and final synchronization remain pending. See the learning test report for authoritative metrics and failure coverage.

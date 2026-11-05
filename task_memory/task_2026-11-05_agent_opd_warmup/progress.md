@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Record preparation, failures, cleanup and resource-blocked synchronization. |
 
 # Progress
@@ -1306,3 +1307,228 @@
 - New user acceptance is20updates and20questions×4; bounded test with complete temporary-artifact deletion. Prior branch38ff410a is clean and has no active allocation. Read all repository rules, authoritative local RJob handbook, GPU-worker/check-progress skills, latest Ticket06 fixed50 and Ticket07 source manifest. before-steptron-run excludes this explicitly non-formal test.
 - Current native driver skips final publication unless evaluation is due. Final HF export after rollout19 must be verified as20 completed optimizer updates before benchmark; version19 alone is inadequate.
 - Fixed50 uses6astropy/44django, seeds1729–1732,temp1/top_p.95. Select2/18 before generation, preserve all175 parent exclusions. Pinned GLM pool has52/45/79/129 turns <=61440 prompt tokens, enough20/category. Native SWE environment and sandbox auth discovery proceed; no new run submitted yet. Local free109GiB.
+
+- Source019bc05a submitted20-update test as exp-1105-153807-012700/UID60113a67-cc0a-48bd-a1cd-c82130b59a4b. Actual personalcreator/codesign/nonpreemptible/two8GPUresources/pinnedimage/current100.96.128.195:/data/ycfeng mountPASS. Failedbeforebusiness at07:38:41Z; replica c4ca4238 ongpu-h800-0415 containerexit1/Error after3s, sibling0432 stopped beforestartup. Native logs currently0rows; exact incidentcollector inprogress. No optimizerupdates. Sourceinspection finds spawn_tasks overwrites configured PYTHONPATH withmountroot atstepmind.py:917; this is a candidate import cause requiring the initiatingtrace before repair. Correct wrapper would export the actual Miles importroot after that platform override.
+
+- Initiatingtrace confirms import failure,36incidentrows; worker-env override reproducedRED/GREEN onCPU. No core edit. New Bash wrapper explicitly exportsMiles+Steptron importroots afterplatform setup. Six of8RCAcategoriesreturned, audits timedout; do not inferpreemption/OOM. Exact failedlauncher exited; replacement will be unique.
+
+## 1. 规划完成情况
+
+**汇总：** PASS0｜BLOCKED/FAILED/SKIPPED1｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. Inputs/20questions | TODO | sourcecapacity/provenancechecked; actual80turns/fixed20 pending |
+| 2. Final export configuration | TODO | native ordering and hookCPU importPASS; actualexportpending |
+| 3. Native benchmark | TODO | existingPython3.10.20 importsPASS; GLM adapterpending |
+| 4. Twenty updates/benchmark | FAILED | firstattempt importfailurebeforeupdates; repairRED/GREEN |
+| 5. Cleanup/push | TODO | noheavyartifacts frominitialfailure; finaloutputsnotyetcreated |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** Newacceptance至firstsubmissionRCA｜**当前前沿：** input/nativeevaluator and repairedlearning
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | existingtestadapterextendedonlyfor20updatesandactualexport |
+| D2 细节反复重试 | CLEAR | onefailure,initiatingtraceandCPUhypothesistest |
+| D3 支线问题修补 | CLEAR | importrootblocksactuallearning |
+| D4 可并行任务停滞 | CLEAR | nativeevaluatorimports/selectionprogressduringfirstjob |
+| D5 超范围镀金 | CLEAR | unchanged16H800/R3/TIS, requested20×4comparison |
+| D6 分析空转 | CLEAR | actualsubmissionandnarrowrepair |
+| D7 路线违背 | CLEAR | personalPythonAPI/localmount/codesign |
+
+**文档检查：** S1–S6无已确认缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+**需停止的偏离行为：无**
+**接下去的路线：**
+1. Unique repaired16H800 job ->20normalfiniteupdatesandactualHFexport.
+2. 并行：freeze20questions/nativeGLMbenchmark ->80validattemptspermodel.
+3. Consumeanddeletealltemporaryoutputs;archiveconciseevidence/push.
+
+## 4. 最值得关注的 3 点
+
+1. No new optimizer update yet; the prior2updatesdo notsatisfy20.
+2. SharedmountneedsBashimportrootexport; exactCPURED/GREENpassed.
+3. Nativegradingandbenchmarkremainrequired; alloutputsdisposable.
+
+- Continuation15:54HKT: input job154320Succeeded and frozen20 membership/hash independently read. Actual80unique source turns verified. Export comparator positive/negative cases PASS and removed; paired-score accounting fixture PASS and removed. Learning154247Running on0105/0029; actual normal-update events still0. Baseline evaluation prepared for unique4H800 job in parallel; final evaluation remains dependent on exact rollout19/update20 HF export. Training commit remains019bc05a until save identity is captured.
+
+## 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 固定输入 | PASS |154320成功，20题hash和80不同turns实测。|
+| 2. 更新/导出 | TODO |019bc05a配置通过CPU检查，实际导出待完成。|
+| 3. 原生评测 | TODO |native imports/help和分母验证通过，真实grader待完成。|
+| 4. 学习与评测 | TODO |154247学习Running，155335初始benchmark提交。|
+| 5. 清理同步 | TODO |已消费fixtures/raw删除；最终测试仍运行。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 新的学习验收与挂载修复至固定输入和初始benchmark提交｜**当前前沿：** 实际updates与两组native评测
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |增加的adapter/accounting仅用于当前20×4要求。|
+| D2 细节反复重试 | CLEAR |一次导入修复有RED/GREEN，未改训练参数。|
+| D3 支线问题修补 | CLEAR |不重复模型下载或既有环境问题。|
+| D4 可并行任务停滞 | CLEAR |初始模型评测已在训练导出前独立提交。|
+| D5 超范围镀金 | CLEAR |只20updates与同题两组80attempts。|
+| D6 分析空转 | CLEAR |实际训练与benchmark均已提交。|
+| D7 路线违背 | CLEAR |H800/codesign，个人API，本机NFS，测试产物可删除。|
+
+**文档检查：** S5旧summary仅描述两步完成；已追加20步仍进行中的状态。S1–S4/S6无未修正缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：文档存在旧阶段状态，已直接更新。
+
+**文档更新（先执行）：**
+1. summary/plan：区分旧两步完成与新阶段进行中，记录初始评测无导出依赖（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 学习：实际20normalfinite更新和HF19/update20身份对账。
+2. 并行初始benchmark：80valid outcomes；导出后同设置运行updated80。
+3. 汇总实测分数、数值差异与配对区间；删除全部临时产物并push。
+
+## 4. 最值得关注的 3 点
+
+1. 初始benchmark155335已独立提交，避免等待导出造成空闲。
+2. 学习仍未出现normal-update事件，不能宣称20步成功。
+3. 本次是测试，fixtures和已消费raw即删；最后不留checkpoint或samples。
+
+- First new normal update observed: rollout0, all8rank outcomesnormal, loss0.0893142959670058, grad_norm5.2714080810546875, lr2e-6, native abslogprobdiff0.012675963844889412 and TISmask fractions0. Actualone update; finalHF/20-step/benchmark remain incomplete. Initialbenchmark155335scheduled0044 andcreatingcontainer; launcher11005alive.
+
+- 16:18HKT actuallearning progress8/20normal updates; lastloss0.17682715023265166/grad17.908859252929688/abslogprobdiff0.015761585796580595. Originalbenchmark0044 isRunning and allfour seeds execute realeditor/test commands; firstquestiongradingstillpending. Actualrequestmetadata matches allfourseeds/n1/temp1/top_p.95. No scoreclaim.
+- Active local lifecycle sessions: learning24768 (RJob154247); originalbenchmark11005 (RJob155335); dependent updatedbenchmark65209 (waiting, laterexecspersonal RJob launcher); readonlywatch6791. Keep alljoblaunchersalive untilterminal. Updatedlaunchmanifest and awaitingverification script are temporary under `/data/ycfeng/tmp/agent-opd-learning-20261105`. Consume/deleteallnamespaceoutputsafterverification; originaldata/modelassetsunchanged.
+
+- Actual fourteen normal updates observed. Final inspector now also records source_uid and prompt_sha256 in per-turn observations, so actual80training turns can be reconciled against the prepared80membership rather than relying on row count. This changes observation fields only; training/loss/config unchanged. ASTPASS. Finalpostsavecommit identity remains019bc05a until captured. Originalbenchmarkstillfirstquestion/fourseeds, active tools/no completedgrader.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 20题及80源turn已核验。 |
+| 第20次更新与导出 | TODO | 当前16次正常更新，导出尚未完成。 |
+| 原生评测 | TODO | 四seed真实工具执行，首题最终grader尚未返回。 |
+| 学习与两组分数 | TODO | 实际作业健康运行，80+80分母尚未齐备。 |
+| 清理和同步 | TODO | 已消费本机查询日志即删除；最终依赖评测完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次固定输入checkpoint至16次更新｜**当前前沿：** 最后4次更新、原始模型评测、更新后评测。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只新增实际80turn身份观察，未扩展训练行为。 |
+| D2 细节反复重试 | CLEAR | 没有重提交健康作业或调整训练参数。 |
+| D3 支线问题修补 | CLEAR | 未重复下载或修复已验收的环境。 |
+| D4 可并行任务停滞 | CLEAR | baseline在训练期间执行，updated等待实际导出。 |
+| D5 超范围镀金 | CLEAR | 当前仍是20updates、20题、四seed。 |
+| D6 分析空转 | CLEAR | 实际更新持续增加，benchmark持续请求并执行工具。 |
+| D7 路线违背 | CLEAR | 个人API、本机mount、H800/codesign保持一致。 |
+
+**文档检查：** S5 learning报告开头仍写无更新，与最新实测冲突；已改为16/20且无最终分数。S1–S4/S6无已确认缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：旧状态字段需更新。
+
+**文档更新（先执行）：**
+1. learning报告status：同步16次正常更新、baseline进行中（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 第20次更新与导出：核验原生inspector和80UID/hash对账。
+2. 并行：baseline80 valid outcomes，实际导出后updated80 valid outcomes。
+3. 汇总avg@4与数值差异，然后删除临时数据并push。
+
+## 4. 最值得关注的 3 点
+
+1. 16次正常更新，未把先前两步验收当作当前阶段完成。
+2. 首题仍在健康工具执行，不能用中间测试输出计算最终分数。
+3. 已消费日志及时删除，当前本机109GiB可用。
+
+
+## 17:05 HKT continuation: twenty updates verified; final save failed
+
+- Offline inspector `exp-1105-164845-421010` Succeeded, container exit0 at08:57:12Z. It checked all20 rollouts from failed learning job `exp-1105-154247-809306`; this does not change that training job's Failed status.
+- Actual80 source UID/prompt-SHA256 pairs exactly equal the prepared80 pairs, with no duplicates. All20 same-token/R3 checks passed; sampled versions0–19 equal publications0–19. Final update20 was not published to inference.
+- Generated completions contain 18 thinking turns, 50 body turns and 17 submit turns. Completion-category counts: {'control_only': 9, 'neither': 53, 'thinking_only': 10, 'control_and_thinking': 8}.
+- Mean absolute same-token logprob difference across rollout means: range 0.005970–0.035865; maximum token difference 1.597615. TIS outside0.5–2 fraction maximum 0.002751. These are measured residuals, not a zero-parity claim. Last loss 0.04617585, grad_norm 12.71181965.
+- Native torch_dist save started08:42:54Z; worker PID2227 on node0105 disconnected about7seconds later. Three partial distcp files total22.50GB; no .metadata/tracker/HF completion marker. Not recoverable as a completed checkpoint. Root OOM/preemption/segfault cause remains UNKNOWN; Sherlock userinfo401 and new QR monitoring ended unauthenticated.
+- Next hypothesis test: a two-update run with the same models/topology/save/resource600000Mi per replica will exercise the same native save, with cgroup counters and bounded Ray logs retained before cleanup. An OOM counter increase or worker kill log can identify memory pressure; a complete save rules out a universally failing save path under this shape. No training algorithm or arbitrary memory scaling is changed.
+- In parallel, evaluate remaining19 original questions using one4H800 TP4 job per question; retain original job's current first question. Each shard keeps allfour seeds, native5h per-question budget and6h outer budget. Initial maximum task allocation96GPUs including16GPU save probe and4GPU original job; queued jobs remain in FIFO, no duplicate submissions.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定训练与评测输入 | PASS | 80 个 UID/hash 实际对账一致，20 题 membership 已固定。 |
+| 20 次更新与完整导出 | FAILED | 更新已完成，原生保存期间 worker 失联；未得到可评测权重。 |
+| 原生评测执行 | TODO | 原始首题继续，另外 19 题已按题提交；尚无有效 grader outcome。 |
+| 两组 avg@4 与解释 | TODO | 需要原始和第 20 步各 80 个有效 outcome。 |
+| 清理与同步 | TODO | 失效 namespace 清理已提交，最终清理和 push 待验收。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 固定输入后的 checkpoint 至离线 20 步对账、保存诊断和 19 题提交｜**当前前沿：** 保存根因、原始模型评测。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | cgroup 和失败日志仅用于当前保存根因；分片用于既定 20 题要求。 |
+| D2 细节反复重试 | CLEAR | 保存 probe 在提交前记录假设，资源与算法不变；尚未进行无证据调参。 |
+| D3 支线问题修补 | CLEAR | 未重复已完成的模型下载或旧两步验收。 |
+| D4 可并行任务停滞 | CLEAR | 19 个原始问题评测与 16GPU 保存诊断同时推进。 |
+| D5 超范围镀金 | CLEAR | 保持 20 更新、20 题、四 seed 和原生工具/grader。 |
+| D6 分析空转 | CLEAR | 离线对账完成，诊断与评测已实际提交；认证查询有界。 |
+| D7 路线违背 | CLEAR | 使用个人 Python API、本机 NFS、H800/codesign 和个人云路径。 |
+
+**文档检查：** S5 plan 的当前阶段状态滞后于保存失败，已更新；S1–S4/S6 无明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：文档状态存在缺陷，已更新后继续。
+
+**文档更新（先执行）：**
+1. plan/progress/test_report：记录 20 次更新已验证、导出失败、实际分片和保存诊断作业（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 保存诊断：读取完整 checkpoint/HF 标记或 cgroup/worker 失败证据 → 定位当前根因并完成 20 更新导出。
+2. 并行原始评测：20 题四 seed 的原生有效评分；导出后执行更新模型同设置评分。
+3. 消费证据后立即清理，完成两组实际分数报告和正常 push。
+
+## 4. 最值得关注的 3 点
+
+1. 更新成功与保存成功分别验收；当前没有可评测的第 20 步模型。
+2. 原始评测 19 个分片已提交，排队不重复提交；总资源上限 96GPU。
+3. 原始来源与模型资产保留；任务生成的训练/评测文件均删除。
+
+
+- 17:09 HKT: first real native result for original model, task astropy__astropy-12907/seed1729: resolved. Other three first-question seeds still running. This is one valid attempt, not avg@4. Save/shard GPU jobs remain unscheduled; the0GPU cleanup worker0344 is pulling the image. Consumed local raw RCA/logs/QR removed. Failed-run receipts are root-owned on NFS, so their exact local directory cleanup is appended to the already-approved0GPU cleanup worker; no broad permission change.
+- Reusable benchmark and observation implementation reviewed locally; changes affect manual adapters only. Formatting/import checks pass; GPU save diagnostic and full native grading remain pending. Incremental branch synchronization records these limits.

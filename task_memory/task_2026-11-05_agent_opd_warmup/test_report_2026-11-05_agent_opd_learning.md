@@ -2,11 +2,12 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Start the bounded20-update learning and20×4 native benchmark verification. |
 
 # Twenty-update OPD learning test
 
-Status: preparation in progress; no new optimizer update or benchmark result is claimed.
+Status: 20 normal optimizer updates verified offline; final native checkpoint save failed. Root cause remains UNKNOWN. No complete post-update-20 export or benchmark score is available. A save diagnostic and original-model question shards are running or queued.
 
 Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
 
@@ -22,3 +23,54 @@ AST parse of modified prepare_glm5_2.py/rjob_warmup.py and new checkpoint_identi
 The20-update adapter changes only bounded input count,4096-token response cap, native final save and export identity. Four rows per rollout/global batch and20rollouts mean20optimizer updates if every native outcome is normal.80different prompts are selected from20different groups per category under<=61440prompt tokens, with no wraparound; exact-source/hash checks execute before training. Original fixed175 membership and parent selection evidence are rehashed. This reuses inherited exact-text/marker exclusions and does not guarantee semantic paraphrase isolation.
 
 Local source mount for this phase uses `/data/ycfeng` because Miles, the independently maintained Steptron input manifests and existing native evaluator environment are in different local directories. Expected NFS source remains the current local host, never the SSH server. Large outputs stay under the personal cloud learning namespace; local scratch is confined to `/data/ycfeng/tmp/agent-opd-learning-20261105` and deleted after consumption.
+
+
+## Initial shared-mount import failure and repair
+
+`exp-1105-153807-012700` failed before native runtime initialization,20updates=0. Exact RJob UID60113a67-cc0a-48bd-a1cd-c82130b59a4b; replica c4ca4238 UID644c9ced-f59d-40c6-804f-30075900e3be on0415, exit1/Error07:38:35Z; platformFailed07:38:41Z. The incident API returned36rows in07:38:25–07:39:00Z, ending with `ModuleNotFoundError: No module named 'scripts'` at rjob_warmup.py:21. Personal local NFS and16GPU requests were correct. `spawn_tasks` atsteptron/utils/stepmind.py:917 overwrites PYTHONPATH with the mountroot; no runtime library or training change is needed.
+
+Hypothesis/falsifier before rerun: explicit `export PYTHONPATH=/data/ycfeng/sota-engine/miles:/data/ycfeng/steptron` in Bash after platform mount preparation must make the same import pass; the same traceback would falsify the repair. CPU Python3.12.13 reproduces REDexit1 with PYTHONPATH=/data/ycfeng and GREENexit0/rollout_batch_size4 with corrected paths, cwd=/data/ycfeng.
+
+Collector: `timeout 60s bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/stepcode-codex-home/.stepcode/codex/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py exp-1105-153807-012700 --replica exp-1105-153807-012700-c4ca4238 --expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng --start 2026-11-05T07:38:25Z --end 2026-11-05T07:39:00Z --timeout 12 --output /data/ycfeng/tmp/agent-opd-learning-20261105/rca-mount-import`. Six of8query categories returned; both all-operation audits timed out. Existing DeepScan0, historical root12events. Initiating manual-stop fields UNKNOWN; root-cause import traceback is independent of unavailable audits. All consumed raw RCA files are disposable.
+
+## Prepared inputs and benchmark adapter
+
+Input job `exp-1105-154320-374829` succeeded at 2026-11-05T07:47:51Z; container exit0/Completed/restart0. Independently read frozen membership from personal cloud:20 tasks (2 astropy,18 django), seeds1729–1732, temperature1/top_p0.95, denominator80. Question dataset SHA256 `03a9beccd8ef6c4de38e1c24a51ffe9193d8afc2e0e14680e0bc3b258f5007af`; parent SHA256 `260c24512ed780274bcc735c8c264bb15309f79b8fd33d6bda64e86994d792aa`. All20 belong to unchanged fixed175 exclusions. The actual prepared training receipt contains80unique UIDs, prompt tokens10366–57113,20/category.
+
+Existing CPU interpreter `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python` executed the export-value fixture: changed tensors PASS; wrong completed-update identity, unchanged sampled values and mismatched shapes rejected PASS. Fixture removed. Native Python3.10.20 `-B tests/manual/agent_opd/native_benchmark.py --help` with the recorded Steptron/SWE/StepAlign/Harbor/datahub/step_env paths exited0. The adapter uses the unchanged native RunCheckPipeline generation, tools and grader; grading validates the original outcome function. Per-attempt infrastructure/invalid outcomes remain missing.
+
+Host Python3.10.6 fixture exercised `summarize_benchmark.summarize`:20×4 scores0.50→0.75 produce paired difference0.25, question-bootstrap95% interval[0.10,0.45] with10000 resamples/seed20261105. Invalid actual seed gives79valid attempts, avg@4=null and no paired claim. These are synthetic checks of denominator/accounting only, not measured model results. Fixture removed.
+
+Benchmark resource plan: one4H800 TP4 job per model, original evaluation concurrent with16H800 training; updated evaluation only after the actual final export. Identical BF16/FA3/deterministic/GLM reasoning+tool parsers/131072 context/staticmemory0.75 settings. Four native seed pipelines, concurrency1 per seed, real sandbox tools/unit-test grader. SGLang JSON request logs verify actual sampling_seed,n,temperature/top_p in each generation interval; one active native pipeline per seed makes interval attribution unambiguous within each model server.
+
+## Actual original-model evaluator startup
+
+Personal job `exp-1105-155335-867117` isRunning: creator i-fengyicheng,codesign,one4H800 replica,24CPU/300000Mi,bothRDMAresources,100.96.128.195:/data/ycfeng localmount,pinnedimage. Worker0044 started07:59:52Z/restart0. Actual/model_info confirms the pinned originalGLM student path, servedname agent-opd-step0, weight_version0, glm45 reasoning parser and glm47 tool-call parser. Four native pipelines each load exactly20ordered questions,repeat1,run/checkconcurrency1. Actual SGLang request.received JSON confirms seeds1729–1732,n1,temp1/top_p0.95, independently of config parsing. Native requests have returned real token usage/weight-version metadata and continue multi-turn tool execution; no completed native grader result is claimed yet.
+
+CPU request/config/loss checks repeated after adapter preparation:20PASS in3.65s, Python3.12.13/pytest9.1.1; no further broadening is required without new concerns.
+
+Actual original sampling-default check: SGLang received top_k=-1,min_p0,presence/frequency penalties0,repetition_penalty1,max_new_tokens=null,ignore_eosFalse,skip_special_tokensFalse, in addition to the frozen seed/n/temp/top_p. Original generation_config defines eos[154820,154827,154829],pad154820 andtemperature1; it has no top_k setting. Native SnapshotPublisher.write_model copies the original non-weight/non-index metadata unchanged at lines91–95, including config/tokenizer/generation_config; compare actual copied files again after export. This resolves the investigated default-config concern without changing sampling.
+
+Dependent updated benchmark launcher is waiting in local session65209. It submits once only after local native inspector confirms optimizer_rollouts0–19,published versions0–19,nonzero gradients and positive learningrates. Worker startup additionally checks finalHF .complete, rollout19/update20 identity, every exported tensor name/shape and changed sampled values before serving updatedweights. No updated evaluation job exists yet.
+
+
+## 17:05 HKT continuation: twenty updates verified; final save failed
+
+- Offline inspector `exp-1105-164845-421010` Succeeded, container exit0 at08:57:12Z. It checked all20 rollouts from failed learning job `exp-1105-154247-809306`; this does not change that training job's Failed status.
+- Actual80 source UID/prompt-SHA256 pairs exactly equal the prepared80 pairs, with no duplicates. All20 same-token/R3 checks passed; sampled versions0–19 equal publications0–19. Final update20 was not published to inference.
+- Generated completions contain 18 thinking turns, 50 body turns and 17 submit turns. Completion-category counts: {'control_only': 9, 'neither': 53, 'thinking_only': 10, 'control_and_thinking': 8}.
+- Mean absolute same-token logprob difference across rollout means: range 0.005970–0.035865; maximum token difference 1.597615. TIS outside0.5–2 fraction maximum 0.002751. These are measured residuals, not a zero-parity claim. Last loss 0.04617585, grad_norm 12.71181965.
+- Native torch_dist save started08:42:54Z; worker PID2227 on node0105 disconnected about7seconds later. Three partial distcp files total22.50GB; no .metadata/tracker/HF completion marker. Not recoverable as a completed checkpoint. Root OOM/preemption/segfault cause remains UNKNOWN; Sherlock userinfo401 and new QR monitoring ended unauthenticated.
+- Next hypothesis test: a two-update run with the same models/topology/save/resource600000Mi per replica will exercise the same native save, with cgroup counters and bounded Ray logs retained before cleanup. An OOM counter increase or worker kill log can identify memory pressure; a complete save rules out a universally failing save path under this shape. No training algorithm or arbitrary memory scaling is changed.
+- In parallel, evaluate remaining19 original questions using one4H800 TP4 job per question; retain original job's current first question. Each shard keeps allfour seeds, native5h per-question budget and6h outer budget. Initial maximum task allocation96GPUs including16GPU save probe and4GPU original job; queued jobs remain in FIFO, no duplicate submissions.
+
+
+## Save diagnostics and question shards: implementation checks
+
+Six changed/new manual adapters AST PASS; Black24.3.0 and isort5.13.2 format PASS; Ruff0.14.7 `check --no-cache` PASS. Formatter packages were installed in task temporary storage; the host Python3.10 lacks ensurepip, so the existing CPU Python3.12.13 installed them with `pip --target` without changing its dependencies. Installer warnings describe the pre-existing optional GPU stack and are unrelated to the manual adapter checks. The temporary formatter environment/packages are deleted after use.
+
+After formatting, CPU Python3.12.13 `rjob_benchmark.py --help` PASS; native Python3.10.20 `native_benchmark.py --help` PASS with the recorded native Python path and `--task-index`. Formatting does not change native sampling/grading.
+
+Actual failed worker node0105 replica `-c4ca4238` was queried for08:42:40–08:44:00Z with the exact job/replica UIDs. Six of eight RCA reads succeeded; all-operation audits timed out and no existing DeepScan result identified the initiating cause. The old authenticated October29 session now returns userinfo400; normal Feilian SSO reuse ended with a bounded Sherlock read timeout. No OOM or preemption diagnosis is inferred from these unavailable sources.
+
+Save probe `exp-1105-170005-882383`, UID0d3ed9ef-e365-4ec3-95e0-b12e71e8c088, is queued/Starting. Confirmed personal creator, codesign, two8H800 allocations, each48CPU/600000Mi, pinned company image and100.96.128.195:/data/ycfeng source. Launcher session57076 remains alive. Original question shard launchers remain alive in session97672;19 exact job receipts have been created, some Pending/Starting. Capacity endpoint HTTP200 returned186 accessible machine records; this is not a reservation or proof of free quota. Task allocation cap96GPUs.

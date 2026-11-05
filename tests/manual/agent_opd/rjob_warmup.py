@@ -16,6 +16,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from threading import Event, Thread
 
 import ray
 from scripts.run_glm47_flash_agent_opd import ScriptArgs, _training_env
@@ -61,6 +62,75 @@ def _worker_environment(local: Path) -> None:
     for key in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "http_proxy", "https_proxy", "all_proxy"):
         os.environ.pop(key, None)
     os.environ["NO_PROXY"] = os.environ["no_proxy"] = "*"
+
+
+def _record_memory(path: Path, stopped: Event) -> None:
+    """Observe cgroup counters locally without affecting the training workload."""
+    files = [
+        Path("/sys/fs/cgroup") / name for name in ("memory.current", "memory.peak", "memory.max", "memory.events")
+    ] + [
+        Path("/sys/fs/cgroup/memory") / name
+        for name in (
+            "memory.usage_in_bytes",
+            "memory.max_usage_in_bytes",
+            "memory.limit_in_bytes",
+            "memory.failcnt",
+            "memory.oom_control",
+        )
+    ]
+    try:
+        with path.open("w") as stream:
+            while not stopped.is_set():
+                counters = {str(file): file.read_text().strip() for file in files if file.is_file()}
+                stream.write(json.dumps({"unix_time": time.time(), "counters": counters}) + "\n")
+                stream.flush()
+                stopped.wait(1)
+    except OSError as error:
+        print("AGENT_OPD_MEMORY_OBSERVATION_UNAVAILABLE", type(error).__name__, flush=True)
+
+
+def _memory_receipt(path: Path) -> dict:
+    rows = [json.loads(line) for line in path.read_text().splitlines()]
+    used = [
+        int(value)
+        for row in rows
+        for file, value in row["counters"].items()
+        if file.endswith(("memory.current", "memory.usage_in_bytes"))
+    ]
+    return {
+        "samples": len(rows),
+        "max_sampled_usage_bytes": max(used) if used else None,
+        "initial_counters": rows[0]["counters"] if rows else {},
+        "final_counters": rows[-1]["counters"] if rows else {},
+    }
+
+
+def _retain_failure_diagnostics(local: Path, cloud: Path, rank: int) -> None:
+    """Retain bounded worker failure logs before the existing temporary cleanup."""
+    destination = cloud / "failure-diagnostics" / f"rank-{rank}"
+    try:
+        destination.mkdir(parents=True, exist_ok=True)
+        files = [local / "memory.jsonl"]
+        logs = local / "ray" / "session_latest" / "logs"
+        for pattern in ("raylet.out", "raylet.err", "worker-*.err"):
+            files.extend(logs.glob(pattern))
+        credentials = [
+            os.environ[key]
+            for key in ("BRAINPP_ACCESS_KEY", "BRAINPP_SECRET_KEY", "SR_USER_TOKEN", "AK_BASEMIND", "SK_BASEMIND")
+            if os.environ.get(key)
+        ]
+        for file in files:
+            if not file.is_file():
+                continue
+            with file.open("rb") as stream:
+                stream.seek(max(0, file.stat().st_size - 4 * 1024 * 1024))
+                text = stream.read().decode(errors="replace")
+            for credential in credentials:
+                text = text.replace(credential, "<REDACTED>")
+            (destination / file.name).write_text(text)
+        print("AGENT_OPD_FAILURE_DIAGNOSTICS", str(destination), flush=True)
+    except OSError as error:
+        print("AGENT_OPD_FAILURE_DIAGNOSTICS_UNAVAILABLE", type(error).__name__, flush=True)
 
 
 def _start_ray(rank: int, directory: Path, local: Path, args) -> dict:
@@ -197,14 +267,20 @@ def _run_training(head: dict, directory: Path, args) -> None:
     training_extra_args = args.training_extra_args
     if args.save_final_hf:
         run_dir = cloud / head["run_id"]
-        training_extra_args += " " + shlex.join([
-            "--save", str(run_dir / "checkpoint"),
-            "--save-interval", str(args.num_rollout),
-            "--save-hf", str(run_dir / "hf" / "step_{rollout_id}"),
-            "--no-save-optim", "--no-save-rng",
-            "--custom-megatron-post-save-hook-path",
-            "tests.manual.agent_opd.checkpoint_identity.record_export",
-        ])
+        training_extra_args += " " + shlex.join(
+            [
+                "--save",
+                str(run_dir / "checkpoint"),
+                "--save-interval",
+                str(args.num_rollout),
+                "--save-hf",
+                str(run_dir / "hf" / "step_{rollout_id}"),
+                "--no-save-optim",
+                "--no-save-rng",
+                "--custom-megatron-post-save-hook-path",
+                "tests.manual.agent_opd.checkpoint_identity.record_export",
+            ]
+        )
     os.environ["MILES_SCRIPT_EXTERNAL_RAY"] = "1"
     os.environ["MASTER_ADDR"] = head["ip"]
     os.environ["RAY_ADDRESS"] = f"http://{head['ip']}:{head['dashboard_port']}"
@@ -253,8 +329,9 @@ def _run_training(head: dict, directory: Path, args) -> None:
             "status": "succeeded",
             "run_dir": str(cloud / head["run_id"]),
             "dataset": str(dataset),
-            "final_hf": str(cloud / head["run_id"] / "hf" / f"step_{args.num_rollout - 1}")
-            if args.save_final_hf else None,
+            "final_hf": (
+                str(cloud / head["run_id"] / "hf" / f"step_{args.num_rollout - 1}") if args.save_final_hf else None
+            ),
             "inspection_exit_code": inspection.returncode,
         },
     )
@@ -292,6 +369,9 @@ def main():
     local = args.local_root / f"ao-{job.removeprefix('exp-')}"
     _worker_environment(local)
     result = {"status": "failed"}
+    memory_stopped = Event()
+    memory_observer = Thread(target=_record_memory, args=(local / "memory.jsonl", memory_stopped), daemon=True)
+    memory_observer.start()
     try:
         subprocess.run(
             [
@@ -322,6 +402,14 @@ def main():
             if result["status"] != "succeeded":
                 raise RuntimeError("The head replica failed the warmup")
     finally:
+        memory_stopped.set()
+        memory_observer.join(timeout=2)
+        try:
+            _write_json(directory / f"memory-{rank}.json", _memory_receipt(local / "memory.jsonl"))
+        except (OSError, ValueError) as error:
+            print("AGENT_OPD_MEMORY_RECEIPT_UNAVAILABLE", type(error).__name__, flush=True)
+        if result["status"] != "succeeded":
+            _retain_failure_diagnostics(local, args.output_root / job, rank)
         if rank == 0 and result["status"] != "succeeded":
             _write_json(directory / "finished.json", result)
         subprocess.run([sys.executable, "-m", "ray.scripts.scripts", "stop", "--force"], timeout=45)

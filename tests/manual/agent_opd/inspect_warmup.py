@@ -51,6 +51,8 @@ def _sample_checks(path: Path, expected_samples: int) -> tuple[dict, dict]:
         observations.append(
             {
                 "source_category": source["category"],
+                "source_uid": source["uid"],
+                "prompt_sha256": source["prompt_sha256"],
                 "completion_category": completion["category"],
                 "prompt_tokens": count,
                 "completion_tokens": len(response),
