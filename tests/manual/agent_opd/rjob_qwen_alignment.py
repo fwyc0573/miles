@@ -198,7 +198,16 @@ def main():
             {
                 "training_args": train_args,
                 "source_commit": subprocess.check_output(
-                    ["git", "-C", str(U.repo_base_dir), "rev-parse", "HEAD"], text=True
+                    [
+                        "git",
+                        "-c",
+                        f"safe.directory={U.repo_base_dir}",
+                        "-C",
+                        str(U.repo_base_dir),
+                        "rev-parse",
+                        "HEAD",
+                    ],
+                    text=True,
                 ).strip(),
                 "gpu_names": gpus,
                 "python": sys.version.split()[0],

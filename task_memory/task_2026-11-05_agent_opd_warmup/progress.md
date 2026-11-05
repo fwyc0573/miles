@@ -1908,3 +1908,11 @@
 1.19originalshardsRunning不等于76valid；当前只有10valid。
 2.两组合的实际数值差异需要测量，CPU配置不能证明解决。
 3.原生resumable保存仍未修复；本次导出只满足disposable评测需求。
+
+
+## 18:39 HKT: actual pinned parser and Git ownership repair
+
+- UniqueGLM replacementexp-1105-183414-941283 and boundedFrog/Qwenexp-1105-183444-310710 submitted locally; launchers60634/66342alive. Existing19benchmarkshards retained; no duplicates.
+-0GPU preflight failed after actualMegatron validation/recipeassertions passed, before runningactor tests. Exact full remote read traceback identifies plain git rev-parse exit128/dubious ownership. All-operation RCAcollector launched separately in session95361; available root-cause evidence is the commandtraceback, not a platformpreemption guess.
+- Fixed per-command Git trust in both finalexport identity and Qwenpre-training identity, matchingexistingruntime_probe. Root with emptyGitglobalconfig gives RED128/GREENactualHEAD. The0GPU preflight script has the same repair; resubmit once after commit to reachfullactorsuite. HealthyGPUjobs remainrunning/queued despiteauxiliaryfailure.
+- Code/config+records3c384bb5 pushed to personalorigin; latestfixcommit stillpending. Consumedsource24files/554365bytes removed,exactabsenceverified,localfree108.2GiB. Finalcleanup stilldepends on training/evaluationconsumption.

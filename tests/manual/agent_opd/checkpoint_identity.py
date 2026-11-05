@@ -23,6 +23,7 @@ def record_export(args, rollout_id: int, checkpoint_dir: str | None, hf_checkpoi
                 tensors[name] = weights.get_slice(name).get_shape()
     if not tensors:
         raise ValueError("The native HF export contains no tensors")
+    repository = Path(__file__).resolve().parents[3]
     result = {
         "rollout_id": rollout_id,
         "completed_optimizer_updates": rollout_id + 1,
@@ -30,7 +31,7 @@ def record_export(args, rollout_id: int, checkpoint_dir: str | None, hf_checkpoi
         "megatron_directory": checkpoint_dir,
         "tensor_count": len(tensors),
         "source_commit": subprocess.check_output(
-            ["git", "-C", str(Path(__file__).resolve().parents[3]), "rev-parse", "HEAD"], text=True
+            ["git", "-c", f"safe.directory={repository}", "-C", str(repository), "rev-parse", "HEAD"], text=True
         ).strip(),
         "identity_scope": "Native save is invoked after training this rollout; reconcile with normal step events",
     }
