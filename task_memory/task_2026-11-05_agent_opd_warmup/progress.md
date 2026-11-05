@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Record preparation, failures, cleanup and resource-blocked synchronization. |
 
@@ -1532,3 +1533,71 @@
 
 - 17:09 HKT: first real native result for original model, task astropy__astropy-12907/seed1729: resolved. Other three first-question seeds still running. This is one valid attempt, not avg@4. Save/shard GPU jobs remain unscheduled; the0GPU cleanup worker0344 is pulling the image. Consumed local raw RCA/logs/QR removed. Failed-run receipts are root-owned on NFS, so their exact local directory cleanup is appended to the already-approved0GPU cleanup worker; no broad permission change.
 - Reusable benchmark and observation implementation reviewed locally; changes affect manual adapters only. Formatting/import checks pass; GPU save diagnostic and full native grading remain pending. Incremental branch synchronization records these limits.
+
+
+## 17:19 HKT: reconcile the reported 72 H800 GPUs
+
+- Request: reconcile current session ownership and the apparent scheduling contradiction; raw follow-up is recorded in requirements.md.
+- Personal authenticated read at2026-11-05T09:19:10Z: all21 active codesign RJobs match this session's exact submission receipts. One4GPU original benchmark Running; thirteen4GPU question shards Starting; one16GPU save probe Starting; six4GPU question shards Pending. Running+Starting request sum72GPUs; all active requests96GPUs.
+- Replica/container evidence: original benchmark0044 has one Running container (4GPUs). Question01 job exp-1105-170054-047953 and question16 job exp-1105-170054-012647 are bound to0036, ContainerCreating (8GPUs). Eleven other Starting shards and both save-probe replicas have no nodeName, PodScheduled=False/Unschedulable (60GPUs). Pending requests24GPUs have no replicas. Thus bound requests12GPUs; Running containers4GPUs. This reads placement, not hardware utilization or a native quota-accounting counter.
+- Corrected the prior capacity statement: a machine-resource snapshot cannot establish personal free quota or every job's placement. It is inaccurate to label every Starting job queued or to label all72GPUs actually running. Starting and Running request accounting is consistent with the user's72GPU display; the display's exact accounting implementation was not independently inspected.
+- Other active step_main jobs belong to independent work by local-source/receipt evidence. They were not changed. One stale personal list row returnedNotFound and is excluded; all codesign exact reads succeeded.
+- Consumption cleanup confirmed: failed-run cloud namespace and exact root-owned local receipts are absent after exp-1105-170054-161169 Succeeded, UID998f9795-0f44-4a4c-944d-5f6269f6b334. Removed215files/28,278,315,373bytes. Shared models/source datasets unchanged.
+- Native first-question evidence following the17:19HKT audit: taskastropy__astropy-12907, seeds1729/1731/1732 all returned withseed_verified=True and nativegraderresolved; seed1730 generationstillrunning. Threevalidattempts, no full avg@4 or pairedcomparison. Original four completed generation/grading pairs will be consumed as question0 only; remaining19 questions are covered by the existing exact shards.
+- Next actions: keep saveprobe/shard launchers alive; after allfour question0 outcomes validate, stop the original job through the mandated script, verify terminal replicas, then preserve only eight temporary outcome receipts and remove its raw outputs. Continue saveRCA and the same20-update export; full two-model80+80 benchmark and finalcleanup remain pending.
+
+
+- Consumption guard started after the 17:19 HKT audit in localsession93006: exact original-jobUID and creator checks; read-only personal cloud checks every30seconds. Currentvalidseeds1729/1731/1732. Oncefourvalidquestion0outcomes exist, it usesrjob_stop.sh, waits for terminaljob/replica, then submits a0GPU personal local RJob to copy only8outcome receipts plusengineidentity to `benchmark/original-question-00` and delete the exact original-job rawoutputroot. No stop or cleanup has yet been issued by this guard. Both task-specific scripts ASTPASS; previouslyverified native accounting is reused. The scripts are temporary and self-delete after the consumption launcher completes. Existing nineteen shard receipts remain authoritative; no duplicate shard was submitted.
+
+## 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED1｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定训练与评测输入 | PASS |80sourceUID/hash已对账；20questions已固定。|
+|20次更新与完整导出 | FAILED |20updates已验证，最终save失效且diagnostic尚未获得节点。|
+| 原生评测执行 | TODO |3validnativeoutcomes；剩余题分片已提交，部分开始创建容器。|
+| 两组avg@4及解释 | TODO |缺完整update20权重及两组各80outcomes。|
+| 清理与同步 | TODO |失效28.28GB已删；question0guard运行；最终cleanup依赖评测完成。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**17:05保存失败checkpoint至17:24资源核对｜**当前前沿：**saveRCA、原始benchmark、已消费产物清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+|D1工具打磨 | CLEAR |一次性guard仅消费既定question0并删除其rawoutputs；未增加评测功能。|
+|D2细节反复重试 | CLEAR |未调参或重提交，检查既有diagnostic和shards。|
+|D3支线问题修补 | CLEAR |资源核对由用户明确要求。|
+|D4可并行任务停滞 | CLEAR |benchmark持续执行；save诊断已提交，等待节点。|
+|D5超范围镀金 | CLEAR |仍20updates、20题、4seeds。|
+|D6分析空转 | CLEAR |资源读取给出72requests/4Running/8Creating/60unscheduled并纠正报告。|
+|D7路线违背 | CLEAR |个人API、本机mount、codesign及个人云路径保持一致。|
+
+**文档检查：**S5 learning报告仍写无有效grader、updatedwaiter仍存活；已改为3valid及waiter已停。S1–S4/S6未发现明显缺陷。
+**归因：**无执行偏离。
+
+## 3. 纠正建议
+
+**分支：**B：旧状态字段存在缺陷，已直接更新。
+
+**文档更新（先执行）：**
+1. learning报告/progress：记录实际资源状态、3validgrader、28.28GB清理及消费guard（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. save诊断：实际执行并读完整save或cgroup/Ray起因证据→修复后完成20updates与完整HF导出。
+2. 并行：原始模型20题×4seed的真实grader；完整导出后运行updated同题同seed。
+3. 消费question0后立即释放原始4GPU并删除rawoutputs；完成全部评分后删除其余测试产物，正常push。
+
+## 4. 最值得关注的3点
+
+1. 72 卡对应本 session 的 Running + Starting 申请量；17:25 HKT 已有 12 卡容器 Running，60 卡仍未绑定节点。
+2.save诊断仍无nodeName，当前没有可评测的update20权重。
+3.失败产物28.28GB已清理；健康评测保持运行，消费后及时释放和删除。
+
+
+- Refresh at 2026-11-05T09:25:23Z (17:25 HKT): all 21 current-session job and replica reads succeeded. Running requests and running containers both total 12 GPUs: the original benchmark on 0044 plus question 01 and question 16 on 0036. Starting requests total 60 GPUs, all unbound and Unschedulable: eleven 4-GPU shards plus the 16-GPU save diagnostic. Pending requests remain 24 GPUs. Running + Starting remains 72 GPUs; total active requests remain 96 GPUs. No new GPU job was submitted during this audit.

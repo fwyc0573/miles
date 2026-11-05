@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Start the bounded20-update learning and20×4 native benchmark verification. |
 
@@ -45,13 +46,13 @@ Benchmark resource plan: one4H800 TP4 job per model, original evaluation concurr
 
 ## Actual original-model evaluator startup
 
-Personal job `exp-1105-155335-867117` isRunning: creator i-fengyicheng,codesign,one4H800 replica,24CPU/300000Mi,bothRDMAresources,100.96.128.195:/data/ycfeng localmount,pinnedimage. Worker0044 started07:59:52Z/restart0. Actual/model_info confirms the pinned originalGLM student path, servedname agent-opd-step0, weight_version0, glm45 reasoning parser and glm47 tool-call parser. Four native pipelines each load exactly20ordered questions,repeat1,run/checkconcurrency1. Actual SGLang request.received JSON confirms seeds1729–1732,n1,temp1/top_p0.95, independently of config parsing. Native requests have returned real token usage/weight-version metadata and continue multi-turn tool execution; no completed native grader result is claimed yet.
+Personal job `exp-1105-155335-867117` isRunning: creator i-fengyicheng,codesign,one4H800 replica,24CPU/300000Mi,bothRDMAresources,100.96.128.195:/data/ycfeng localmount,pinnedimage. Worker0044 started07:59:52Z/restart0. Actual/model_info confirms the pinned originalGLM student path, servedname agent-opd-step0, weight_version0, glm45 reasoning parser and glm47 tool-call parser. Four native pipelines each load exactly20ordered questions,repeat1,run/checkconcurrency1. Actual SGLang request.received JSON confirms seeds1729–1732,n1,temp1/top_p0.95, independently of config parsing. Native requests have returned real token usage/weight-version metadata. The later resource verification records three completed native grader outcomes; the full80-attempt benchmark remains incomplete.
 
 CPU request/config/loss checks repeated after adapter preparation:20PASS in3.65s, Python3.12.13/pytest9.1.1; no further broadening is required without new concerns.
 
 Actual original sampling-default check: SGLang received top_k=-1,min_p0,presence/frequency penalties0,repetition_penalty1,max_new_tokens=null,ignore_eosFalse,skip_special_tokensFalse, in addition to the frozen seed/n/temp/top_p. Original generation_config defines eos[154820,154827,154829],pad154820 andtemperature1; it has no top_k setting. Native SnapshotPublisher.write_model copies the original non-weight/non-index metadata unchanged at lines91–95, including config/tokenizer/generation_config; compare actual copied files again after export. This resolves the investigated default-config concern without changing sampling.
 
-Dependent updated benchmark launcher is waiting in local session65209. It submits once only after local native inspector confirms optimizer_rollouts0–19,published versions0–19,nonzero gradients and positive learningrates. Worker startup additionally checks finalHF .complete, rollout19/update20 identity, every exported tensor name/shape and changed sampled values before serving updatedweights. No updated evaluation job exists yet.
+The dependent updated benchmark waiter was stopped after the final save failed. There is no updated benchmark RJob. Resubmission depends on a complete actual post-update20 export and verified normal updates. Worker startup additionally checks finalHF .complete, rollout19/update20 identity, every exported tensor name/shape and changed sampled values before serving updatedweights. No updated evaluation job exists yet.
 
 
 ## 17:05 HKT continuation: twenty updates verified; final save failed
@@ -74,3 +75,18 @@ After formatting, CPU Python3.12.13 `rjob_benchmark.py --help` PASS; native Pyth
 Actual failed worker node0105 replica `-c4ca4238` was queried for08:42:40–08:44:00Z with the exact job/replica UIDs. Six of eight RCA reads succeeded; all-operation audits timed out and no existing DeepScan result identified the initiating cause. The old authenticated October29 session now returns userinfo400; normal Feilian SSO reuse ended with a bounded Sherlock read timeout. No OOM or preemption diagnosis is inferred from these unavailable sources.
 
 Save probe `exp-1105-170005-882383`, UID0d3ed9ef-e365-4ec3-95e0-b12e71e8c088, is queued/Starting. Confirmed personal creator, codesign, two8H800 allocations, each48CPU/600000Mi, pinned company image and100.96.128.195:/data/ycfeng source. Launcher session57076 remains alive. Original question shard launchers remain alive in session97672;19 exact job receipts have been created, some Pending/Starting. Capacity endpoint HTTP200 returned186 accessible machine records; this is not a reservation or proof of free quota. Task allocation cap96GPUs.
+
+
+## Resource and cleanup verification
+
+Commands: personal Python 3.10.6 / brainpp 2.8.6 through `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh <scratch>/audit_active.py`; exact read through `<scratch>/read_job.py exp-1105-155335-867117 --logs`. The audit filtered active jobs by creator and queried exact RJob and replica objects. These reads submitted or stopped no jobs. Consumed temporary audit files and raw query logs were deleted.
+
+PASS at 2026-11-05T09:19:10Z: all 21 active codesign jobs matched current session receipts. Running + Starting requests totaled 72 GPUs (4 + 52 + 16); Pending requests totaled 24 GPUs; total active requests were 96 GPUs. Running containers accounted for 4 GPUs; two ContainerCreating replicas bound to node 0036 accounted for 8 GPUs. The remaining Starting requests, including both save-probe replicas, accounted for 60 GPUs and had PodScheduled=False, Unschedulable and no nodeName. The user's 72-GPU display is consistent with Running + Starting request accounting. The display implementation and hardware utilization were not queried. Independent step_main jobs were preserved.
+
+PASS refresh at 2026-11-05T09:25:23Z: the two bound question shards had entered Running. Running containers and Running requests now both totaled 12 GPUs; Starting requests totaled 60 GPUs and remained unbound; Pending requests remained 24 GPUs. Running + Starting remained 72 GPUs. This confirms that the same request total can cover different container states over time.
+
+PASS cleanup: job `exp-1105-170054-161169` Succeeded. It removed 215 files totaling 28,278,315,373 bytes; cloud and local failed-run directories were both absent afterward. Partial failed checkpoints are unavailable for updated-model evaluation. Shared original models and datasets remain.
+
+PARTIAL benchmark: the first original-model task, `astropy__astropy-12907`, has three valid resolved outcomes (seeds 1729, 1731 and 1732), each with verified actual seed/sampling. Seed 1730 is still generating. Generation durations were 3738.97, 4053.83 and 4095.01 seconds; native grading durations were 106.64, 113.74 and 111.91 seconds. The 80-attempt avg@4 remains undefined. No updated-model score is available.
+
+The temporary question-0 consumption guard runs in local session 93006. After all four valid outcomes exist, it will verify the exact original job UID/creator, stop through rjob_stop.sh, wait for terminal replica status, then submit a personal 0-GPU RJob. That worker copies only eight temporary outcome receipts plus engine identity into `benchmark/original-question-00`, verifies four valid attempts with the existing reader, and deletes the exact original-job raw output directory. Both temporary scripts passed AST parsing; consumption has not yet executed. The nineteen existing question shards remain the source of all other questions.
