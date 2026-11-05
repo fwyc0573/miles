@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
 | 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
 | 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
@@ -61,10 +62,14 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: As of 2026-11-06 02:06 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. The first updated benchmark server exp-1106-015719-434508 actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Original native grading has 76/80 valid outcomes; updated has 0/80; invalid=0. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Timestamped evidence is maintained in progress.md and the learning report.
+Current phase status: Native twenty-update training, complete final HF export and actual update20 reload are verified. Both full native eighty-attempt benchmark cells, final paired aggregation, disposable cleanup and final branch synchronization remain required. The timestamped measured state is maintained in [the learning report](test_report_2026-11-05_agent_opd_learning.md); [progress.md](progress.md) records exact job and queue observations.
 
 
-## Confirmed continuation and export route (18:17 HKT)
+## Historical preparation and recovery (November 5)
+
+These dated decisions describe earlier execution stages. The current submission edge is defined by the final section, Updated evaluation concurrency after training completion.
+
+### Confirmed continuation and export route (18:17 HKT)
 
 - The user confirmed continued GLM save/export and benchmark work plus bounded actual Frog/Qwen alignment qualification. Frog/Qwen does not depend on the GLM final export; it can run independently within H800 quota.
 - Pinned Megatron eb547f33 uses eager per-rank CPU staging even for synchronous torch_dist save. The probe identifies a Ray memory kill; the original learning failure remains UNKNOWN.
@@ -89,9 +94,9 @@ full benchmark.
 GLM replacement completed its first normal update and published version1. Qwen185108 Failed before training; replacement191135 subsequently completed two normal updates. The historical failure was dashboard MetricsHead exit followed by /api/version connection refusal. The generated MetricsHead socket path is108bytes, exceeding Ray's107byte limit; the exact path reproduces the validation error onCPU. A0GPU pinned-image test now compares the original path with the existing explicit-temp-dir start mechanism. Do not submit another QwenGPU run until this specific hypothesis is verified. Completed original benchmark shards are consumed independently.
 
 
-## Native sandbox prerequisite after targeted recovery
+### Native sandbox prerequisite after targeted recovery (superseded submission edge)
 
-A full recovery attempt still encountered ACS server-side VM DNS failure after multiple verified model requests. Existing heartbeat/retries are already active. Continue healthy training and existing evaluation; do not repeat missing pairs without new recovery evidence. After verified update20, launch one question/four seeds for actual HF reload and a full native execution check; launch the remaining nineteen updated questions only once full native execution gives valid grader outcomes. This does not alter question membership, seeds, model sampling or grader logic. All80validoutcomes per model remain the acceptance criterion.
+A full recovery attempt still encountered ACS server-side VM DNS failure after multiple verified model requests. Existing heartbeat/retries are already active. Continue healthy training and existing evaluation; do not repeat missing pairs without new recovery evidence. After verified update20, launch one question/four seeds for actual HF reload and a full native execution check; the earlier plan held the remaining nineteen updated questions until full native execution gave valid grader outcomes. The completed training and actual reload subsequently allowed independent updated questions to proceed under the current concurrency section. This does not alter question membership, seeds, model sampling or grader logic. All80validoutcomes per model remain the acceptance criterion.
 
 
 ## 19:38 HKT: same-backend native evaluation

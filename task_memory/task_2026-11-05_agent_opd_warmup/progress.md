@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Recheck existing benchmark jobs and correct stale current-state descriptions. |
 | 2026-11-06 | Verify twenty-update native completion, actual HF reload and retained numerical limits. |
 | 2026-11-06 | Resume exact-job monitoring; retain queued learner and ongoing native benchmark. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
@@ -3277,3 +3278,82 @@ The same disposable followup controller now propagates selected engine model_pat
 1. 19个原本等待的updated题已各提交一次；新作业实际阶段包括排队，不能称全部运行。
 2. 最终仍需完整80+80有效评分；当前结果不足以说明学习增益。
 3. GPU请求最多84，低于96；保持所有个人launchers与非阻塞观察，避免损失健康评测。
+
+
+2026-11-06 02:37 HKT: original valid native grading reached79/80; updated0/80;invalid0. Exact personal query of pending updated question1/jobexp-1106-022355-285409,UID403c6c9f-0f42-402f-a117-61a3fd3ca912,returned queuecodesign-default/ranking2 and explicit InsufficientGPUquota: this job needs4H800, queue remainingH800=1. Exact native QueueWaiting events show remaining0 from18:24:03Z–18:29:18Z and remaining1 from18:30:21Z–18:36:37Z,November5; the latter isNovember6 02:36:37HKT. NativeEvents pagination is complete. This is a job-specific scheduler result; no personal free-quota or hardware-utilization number is inferred from a node-resource snapshot. Four current task native jobs areRunning,each4GPUs;seventeen updated jobs remainPending. All launchers remain alive; no duplicate or alternate-cluster submission was made.
+
+Selected exact-read command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh -` with personalRJobClient, get_namespaced_custom_object for the exact job, and corev1_api.list_namespaced_event(field_selector='involvedObject.name=exp-1106-022355-285409',limit=100,_request_timeout=(5,12)). Python3.10.6/brainpp2.8.6; selected queue/status/quota fields only,credentials omitted. The existing original-output consumer removed26files/67201329bytes for completedquestion19/jobexp-1106-005024-046594 after four valid results and Succeeded/exit0. Localtask scratch is738871bytes; free disk92.13GiB at02:32HKT. Personal remote SHA independently matches84f3034754b9a4a3b6fc0dab4b19d26d20b32d2b.
+
+
+## November 6 continuation checkpoint (2026-11-06 02:48:20 HKT)
+
+The latest exact personal inspection and scoped native receipts verify all existing submissions; there is no new failed job. Valid grading is original80/80,updated0/80,invalid0. Four benchmark jobs areRunning and seventeen arePending; all twenty updated questions were submitted once. Existing GPU launchers, the raw-output consumer and finalizer waiter are alive. Mainline work is complete160validnative outcomes -> paired aggregation -> final disposable cleanup -> personal branch synchronization. The training/source/export and bounded Frog/Qwen qualification do not require another run.
+
+The check-progress self-check below uses the prior02:23HKT checkpoint through this continuation. Its S5 correction has been applied: summary/plan now point to the measured learning report; earlier failure and submission-edge descriptions are explicitly historical. No acceptance criterion, resource, model, dataset, sampler or grader changed.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始阶段1：branch与仓库约束 | PASS | agent-opd与个人origin已核验 |
+| 初始阶段2：公司模型查询与完整资产 | PASS | Lark证据和22文件完整校验已记录 |
+| 初始阶段3：glm5.2信号与OPD配置 | PASS | 原始tokens、thinking、正文、tools和R3已验证 |
+| 初始阶段4：真实16H800两步warmup | PASS | native inspector、两个容器和平台均成功 |
+| 初始阶段5：初始warmup清理与同步 | PASS | 该阶段测试产物已清理并核对个人远端SHA |
+| 学习阶段1：固定20题与80原始turns | PASS | learning report记录membership和来源排除 |
+| 学习阶段2：20更新和最终HF身份 | PASS | rollout0–19正常；完整update20实际重载 |
+| 学习阶段3：原生SWE evaluator | PASS | 同一BaseMind后端已有80份有效original评分 |
+| 学习阶段4：original80次benchmark | PASS | 生产汇总器验证20题×4seeds完整有效 |
+| 学习阶段4：updated80次benchmark | TODO | 全部已提交；评分未齐 |
+| 学习阶段5：配对结论、最终清理与同步 | TODO | 等待完整评分与全部终态 |
+| 已确认补充：Frog/Qwen实际有限资格验证 | PASS | 两次真实更新、测量和清理已记录 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 02:23 HKT至本次续接｜**当前前沿：** 完整original/updated评分及逐题消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅核对现有作业、消费者与实际重载；未扩展harness |
+| D2 细节反复重试 | CLEAR | 原有20题均已有receipt；无重复训练或有效seed重跑 |
+| D3 支线问题修补 | CLEAR | 未修补任务范围以外的问题 |
+| D4 可并行任务停滞 | CLEAR | 全部独立题目已提交；17个排队受精确quota事件约束 |
+| D5 超范围镀金 | CLEAR | 模型、题库、seeds、grader和资源形状未变 |
+| D6 分析空转 | CLEAR | 有界检查确认现有前沿状态；消费者持续工作 |
+| D7 路线违背 | CLEAR | 沿用已记录的update20实际重载后并行提交路线 |
+
+**文档检查：** S5 summary.md末尾和plan.md旧提交边仍以当前时态描述历史失败/等待，已与完成export和全部提交的实际状态冲突；S1–S4、S6均未发现当前缺陷。
+**归因：** 无执行偏离；S5为历史描述未明确限定阶段。
+
+## 3. 纠正建议
+
+**分支：** B：存在S5，先更新文档再继续
+
+**文档更新（先执行）：**
+1. summary.md当前阶段：引用learning report的测量状态；历史失败段明确标为November5记录（可直接执行，已应用）。
+2. plan.md当前阶段和历史submission edge：明确现行并行提交边；旧等待边标为历史（可直接执行，已应用）。
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：现有original最后一seed ‖ 已提交的updated20题；完成标志为各80份有效native grader结果。
+2. 逐题消费：每题四份有效结果与精确终态核验后删除原始输出。
+3. 配对聚合与清理：完成160份评分后报告avg@4、配对差值和question bootstrap；确认测试云端/本地目录不存在，再正常push并核对SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 原生20次更新和完整HF重载已完成；无需追加学习作业。
+2. 当前评分缺口来自现有执行与quota排队，不能把Pending或Running记为有效评分。
+3. 最终HF仍为排队评测的输入；完整评分后按精确路径清理并同步结论。
+
+
+## Original benchmark completed (2026-11-06 02:52 HKT)
+
+completed: the unchanged production summarizer verifies all twenty original questions and four seeds, including identity, sampling, native boolean outcomes and duplicate checks. Exact avg@4 and numerator/denominator are maintained in the learning report's Original benchmark completed section. The last original job is Succeeded and its consumer is active; its released allocation is used by an existing queued updated job. No model request was repeated.
+
+The same check-progress checkpoint was reapplied after this verified baseline milestone: original grading is nowPASS; updated grading and final aggregation/cleanup/synchronization remainTODO. All independent updated questions are already submitted, with sixteen pending due to current quota. The route remains existing updated grading -> final paired aggregation -> exact cleanup -> normal personal push. D1–D7 remainCLEAR after the recorded S5 correction.
+
+The disposable finalizer retains the already computed twenty per-question means/paired differences in Markdown, permitting score/bootstrap verification after raw-output deletion. It also retains measured cgroup limits and zero OOM growth beside the observed sampled maxima. AST parsingPASS; no training, grader, sampling or resource change. The finalizer still waits for complete160validoutcomes and exact terminal identities.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify all existing evaluation submissions and preserve final-score prerequisites. |
 | 2026-11-06 | Record completed training/export, actual update20 reload and consumed raw training outputs. |
 | 2026-11-06 | Record exact question2 post-grading RCA, five current normal updates and continued native evaluation. |
 | 2026-11-06 | Record question10 valid native results and subsequent unexplained exit1. |
@@ -17,7 +18,7 @@
 
 # Twenty-update OPD learning test
 
-As of 2026-11-06 02:06 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. The first updated benchmark server exp-1106-015719-434508 actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Original native grading has 76/80 valid outcomes; updated has 0/80; invalid=0. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Timestamped evidence is maintained in progress.md and the learning report.
+As of 2026-11-06 02:48:20 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. Three updated servers have actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Valid native grading: original 80/80, updated 0/80; invalid=0. All twenty updated question jobs have been created once. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Exact job and queue evidence is maintained in progress.md.
 
 Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
 
@@ -531,3 +532,28 @@ Observation: all three comparisons retain nonzero residuals. Exact source/token/
 02:23 HKT mainline correction: waiting for the first updated question's full native grader unnecessarily serialized nineteen independent questions. The shared native BaseMind backend already has77valid original outcomes; native training/inspection Succeeded and the actual first server has the exact exported HF/version20. These observations satisfy submission prerequisites without making another question's grader output an input. The existing first grader remains required within the final80-result updated denominator and is monitored in parallel. This changes an internal execution edge only; question membership,seeds,worker shape,sampling,grader,final numerical claims and160validoutcome acceptance are unchanged.
 
 The same disposable followup controller now propagates selected engine model_path/weight_version from the existing canonical cloud receipt and admits updated followups only when they match native training.final_hf/version20. AST parsing passed. Only its CPU parent was frozen briefly and terminated after verifying there were no pending updated manifests/receipts or child submitters. The existing GPU launchers723005/1509710 were individually preserved alive. The replacement will submit the remaining nineteen questions once; existing receipts still prevent duplicates. Maximum remaining task request is84H800GPUs, below96. Healthy first-question/original native execution and the consumer/finalizer continue.
+
+
+2026-11-06 02:37 HKT: original valid native grading reached79/80; updated0/80;invalid0. Exact personal query of pending updated question1/jobexp-1106-022355-285409,UID403c6c9f-0f42-402f-a117-61a3fd3ca912,returned queuecodesign-default/ranking2 and explicit InsufficientGPUquota: this job needs4H800, queue remainingH800=1. Exact native QueueWaiting events show remaining0 from18:24:03Z–18:29:18Z and remaining1 from18:30:21Z–18:36:37Z,November5; the latter isNovember6 02:36:37HKT. NativeEvents pagination is complete. This is a job-specific scheduler result; no personal free-quota or hardware-utilization number is inferred from a node-resource snapshot. Four current task native jobs areRunning,each4GPUs;seventeen updated jobs remainPending. All launchers remain alive; no duplicate or alternate-cluster submission was made.
+
+Selected exact-read command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh -` with personalRJobClient, get_namespaced_custom_object for the exact job, and corev1_api.list_namespaced_event(field_selector='involvedObject.name=exp-1106-022355-285409',limit=100,_request_timeout=(5,12)). Python3.10.6/brainpp2.8.6; selected queue/status/quota fields only,credentials omitted. The existing original-output consumer removed26files/67201329bytes for completedquestion19/jobexp-1106-005024-046594 after four valid results and Succeeded/exit0. Localtask scratch is738871bytes; free disk92.13GiB at02:32HKT. Personal remote SHA independently matches84f3034754b9a4a3b6fc0dab4b19d26d20b32d2b.
+
+
+## Existing native benchmark verification after resumption
+
+Expected: preserve the unique learner and all existing question/seed submissions; check exact personal creator, current-machine NFS, running/queued states, loaded update20 identities and actual valid grader counts. No additional training or benchmark request is required.
+
+Command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/query_basemind_current.py`. At 2026-11-06 02:46:17 HKT, personal Python3.10.6/brainpp2.8.6 returned44exact job records with zero query failures:13Succeeded,10historicalFailed,4Running and17Pending. The active four-GPU jobs were005024-026007 (original question18),015719-434508 (updated question0),022355-241310 (updated question5) and022355-479316 (updated question17). These are16requestedGPUs in Running jobs; hardware utilization was not queried. The historical failure set was unchanged.
+
+At approximately02:47HKT, bounded read-only SSH/Python inspection of the four exact personal cloud roots verified three actual model_path/version20 receipts and four running seed generations for each updated question. Original question18 has three valid outcomes and one running seed1729; seed1730 completed5711.7537seconds of native generation and returned a valid unresolved result with observed thinking/body/bash/editor/submit/tool-response signals. Running generations are not counted as valid results.
+
+Observed valid denominators at 2026-11-06 02:48:20 HKT: original80/80,updated0/80,invalid0. PASS for identity/submission preservation and actual reload; TODO for complete paired grading. Local task scratch is738979bytes in311files; only the final HF needed by existing updated jobs is retained from training. The original-output consumer, updated launchers and final-score/cleanup waiter are alive. No successful seed or learner was resubmitted.
+
+
+## Original benchmark completed (2026-11-06 02:52:08 HKT)
+
+The existing production `summarize_benchmark.py` function was streamed unchanged through bounded read-only SSH/Python to the exact personal cloud roots and frozen membership. `_read_model` verified twenty unique questions, four frozen seeds, actual sampling verification, matching model0 identities, valid boolean native outcomes and absence of duplicate valid attempts. Observed original:80valid/80expected,50resolved,avg@4=0.62500000;20complete question averages. Updated:0valid/80expected,avg@4=null; paired resultstatus=incomplete. This completes the baseline only; no learning-gain claim is made.
+
+Exact personal batch verification subsequently returned original question18/job005024-026007 Succeeded and replaced its four-card Running allocation with the already queued updated job022355-404162. All four Running jobs are now updated; sixteen updated jobs remainPending. All80requested GPUs belong to existing updated submissions;16GPUs are requested by Running jobs. The original raw-output consumer submitted a0GPUconsumption for question18 without another model request.
+
+The disposable finalizer now includes the existing twenty per-question means and paired differences in its final Markdown report, so avg@4 and the bootstrap input remain auditable after requested raw-output deletion. It also reports the actual cgroup limits beside already recorded sampled maxima and zero OOM growth, preserving the observed rank1 memory limitation. These are report changes using existing measured fields; no training/evaluation behavior or extra GPU run changed. `python3` AST parsing of the finalizer PASS. The finalizer has not run; all160validoutcomes and exact terminal identities remain prerequisites.
