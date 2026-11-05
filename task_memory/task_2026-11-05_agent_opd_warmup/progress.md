@@ -4050,6 +4050,14 @@ completed: the disposable consumer now excludes unreviewed native grader-invalid
 Consumer tool session17244/PID4182314 replaces session38943/PID3451371. Old CPU parent had no children during replacement; all sixteen submit.py launchers remained alive. Both recovery controllers, followup controller48024, final waiter96862 and Q2/Q5 holds remain active. Eventual in-place native regrading and raw consumption remain unverified operational work; healthy generation continues.
 
 
+
+## Native continuation (2026-11-06T06:21:46.791301+08:00)
+
+completed: preserved existing launchers and independently read40valid updated outcomes plus exact later-server reload receipts. Full observations, commands, cleanup measurements and verification limits are recorded in [the learning report](test_report_2026-11-05_agent_opd_learning.md).
+
+in-progress: complete updated native grading, exact Q2/Q5 diagnostics, four existing recoveries and final score/cleanup.
+
+
 ## 1. 规划完成情况
 
 **汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
@@ -4058,35 +4066,35 @@ Consumer tool session17244/PID4182314 replaces session38943/PID3451371. Old CPU 
 | --- | --- | --- |
 | 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
 | 初始2：模型资产 | PASS | 22文件完整核验已归档 |
-| 初始3：glm5.2信号与配置 | PASS | tokens、thinking、正文、tools和R3已验证 |
+| 初始3：glm5.2信号与配置 | PASS | 原始tokens、thinking、正文、tools和R3已验证 |
 | 初始4：16H800两步warmup | PASS | 原生检查及实际终态成功 |
-| 初始5：初始清理与同步 | PASS | 初始产物已删除，个人分支已同步 |
+| 初始5：初始清理与同步 | PASS | 初始产物已删除并同步 |
 | 学习1：20题与80turns | PASS | 固定成员与训练排除已归档 |
-| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
-| 学习3：原生SWE evaluator | PASS | baseline与updated实际执行已验证 |
+| 学习2：20更新与HF | PASS | 唯一learner、完整导出及实际重载成功 |
+| 学习3：原生SWE evaluator | PASS | 两个模型的实际native执行已验证 |
 | 学习4：original80 | PASS | 80有效，50resolved，avg@4=0.625 |
-| 学习4：归档代码与CPU验证 | PASS | 10检查及个人远端SHA已核验 |
-| 学习4：updated80 | TODO | 最新35有效，完整80仍未达到 |
-| 学习4：失败诊断、恢复和消费 | TODO | 自动保留invalid已启动；两份原件未归档，四个恢复仍Pending |
+| 学习4：归档代码与CPU验证 | PASS | 10检查通过并已推送 |
+| 学习4：updated80 | TODO | 最新40有效，完整80仍未达到 |
+| 学习4：失败诊断、恢复和消费 | TODO | 两份held原件未归档，四个唯一恢复排队 |
 | 学习5：配对评分、清理与同步 | TODO | 依赖160有效结果与全部终态 |
-| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量与清理完成 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量及清理完成 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次归档同步checkpoint至2026-11-06T06:09:14.323340+08:00｜**当前前沿：** updated评分、既有恢复、精确invalid诊断及消费
+**检测窗口：** 上次06:09HKTcheckpoint至2026-11-06T06:21:46.791301+08:00｜**当前前沿：** updated评分、既有恢复、精确invalid诊断及消费
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 自动保留修正避免两个实际invalid的原件丢失；实际查询通过后停止工具扩展 |
-| D2 细节反复重试 | CLEAR | 没有重复GPU提交或再次尝试403路径；旧CPU消费者无children才替换 |
-| D3 支线问题修补 | CLEAR | 新修正直接服务学习4所需的精确诊断和完整分母 |
-| D4 可并行任务停滞 | CLEAR | 全部GPU launchers、恢复与final waiter保留，新消费者已存活 |
-| D5 超范围镀金 | CLEAR | benchmark成员、sampling、native执行和GPU规格均保持原配置 |
-| D6 分析空转 | CLEAR | 结果保留缺口已修复；后续仅等实际原件，不继续静态猜测原因 |
-| D7 路线违背 | CLEAR | invalid未记为模型失败，健康和有效pairs未重新生成 |
+| D1 工具打磨 | CLEAR | 没有新增测试、smoke或GPU诊断；仅读取实际运行与已有归档 |
+| D2 细节反复重试 | CLEAR | 没有重试403路径、重复恢复或再次训练 |
+| D3 支线问题修补 | CLEAR | 本轮读取均服务完整updated分母与精确错误诊断 |
+| D4 可并行任务停滞 | CLEAR | 原评测、四个恢复、消费者与final waiter并行存活；Pending为平台排队 |
+| D5 超范围镀金 | CLEAR | 题目、seeds、sampling、native grader和GPU规格保持原配置 |
+| D6 分析空转 | CLEAR | 实际update20结果从35增至40；等待必要原件，没有扩大静态猜测 |
+| D7 路线违背 | CLEAR | invalid未计零分，HF和未诊断原件继续保留 |
 
-**文档检查：** S1–S6均未发现明显缺陷；失败诊断和消费由学习4拥有。
+**文档检查：** S1–S6均未发现明显缺陷；诊断、恢复和消费由学习4拥有。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -4096,12 +4104,12 @@ Consumer tool session17244/PID4182314 replaces session38943/PID3451371. Old CPU 
 **需停止的偏离行为：** 无
 
 **接下去的路线：**
-1. 并行：现有generation/grade ‖ 四个已提交恢复 ‖ 新消费者；完成标志为80唯一有效updated结果。
-2. 两份held原件归档后仅执行能区分实际错误起因的读取，再按合法trajectory/patch决定native重评或确证的生成恢复；不扩展测试夹具或再训练。
-3. 收齐160有效后调用原production summarizer，报告配对差值和question bootstrap，再核验终态、精确清理并正常push。
+1. 并行：既有generation/grade ‖ 四个唯一恢复 ‖ 消费者；完成标志为80唯一有效updated结果。
+2. Q2/Q5原件归档后读取实际native错误、trajectory metadata和check结果；有合法patch时优先仅重评。观察后续worker的实际单seed归档。
+3. 收齐160有效后调用既有production summarizer，再核验终态、精确删除测试产物并正常push。
 
 ## 4. 最值得关注的 3 点
 
-1. 20次更新、完整HF和实际重载已完成，当前等待实际native生成和评分。
-2. 自动消费者保留每份invalid原件，未增加训练或生成负担；source消费必须晚于精确诊断。
-3. 新consumer17244替代38943；所有GPU launchers、HF和必要receipts保留至验收，其余测试数据及时消费。
+1. 20次更新、完整HF及实际重载已完成，当前不需要更多训练。
+2. 更新模型40/80；两个grader-invalid和五个EnvInitError pairs保持不同诊断与恢复路径。
+3. 所有GPU launchers、HF与未诊断原件保留至验收；已完成分片及时消费，H200与数值一致性限制继续明确。
