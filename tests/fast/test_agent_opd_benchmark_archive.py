@@ -27,6 +27,7 @@ def _scenario(tmp_path: Path):
         native_pythonpath="native/source",
         membership=tmp_path / "membership.json",
         sandbox_backend="basemind",
+        sandbox_registry=None,
         task_index=2,
         benchmark_timeout=21600,
     )

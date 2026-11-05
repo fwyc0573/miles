@@ -129,3 +129,10 @@ Recorded updated attempts with final EnvInitError generation receipts are tracke
 ## Closed native seed diagnostics
 
 Two actual invalid grades require exact native trajectory/check-result diagnosis. Subsequent workers archive each seed's closed native log and work directory into the existing per-job diagnostics path as soon as that seed exits, and consume its worker-local copy only after successful archival. The server log is archived after shutdown. This improves the existing failure diagnosis and timely cleanup step without changing benchmark membership, sampling, tool execution or grader. The two already-running held sources retain their loaded whole-job archive behavior. CPU qualification is recorded in [the seed archive report](test_report_2026-11-06_seed_archive.md); actual per-seed cloud archival is now verified while three sibling generators remain running. Question2 native regrading and question5 diagnosis remain acceptance work.
+
+
+## Current native failure recovery route (November 6)
+
+The unchanged Q2 patch caused two native1200-second timeouts and a reproducible regex performance defect on native URL-test inputs. Diagnose with the actual native image and activated grader interpreter, plus an empty-prediction native grader control. Keep the generated answer and original timeout result. Infrastructure failures remain missing; a proven model-caused failure must not be regenerated into a different answer. Question5 still requires its original artifact diagnosis.
+
+Q4 generation initialization failed on the original registry. The documented registry alias has the same actual image digest and passed native Ready/shell/independent closure. Forward only the existing native agent environment registry field for the one missing seed; preserve the original grader namespace and every model/question/sampling/resource parameter. Other targeted recoveries continue independently.

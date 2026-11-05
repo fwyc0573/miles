@@ -4126,3 +4126,98 @@ completed: question14/seed1732 archival is available while all three sibling see
 1. 20次更新、完整HF及实际重载已完成，当前不需要更多训练。
 2. 更新模型47/80；两个grader-invalid和五个EnvInitError pairs保持不同诊断与恢复路径。
 3. 所有GPU launchers、HF与未诊断原件保留至验收；已完成分片及时消费，H200与数值一致性限制继续明确。
+
+
+## Exact Q4/Q8 image-pull failures and targeted recovery (2026-11-06T06:53:01.388603+08:00)
+
+completed: three final EnvInitError receipts and source UID/creator/NFS were independently read. Closed native archives confirm Q4manifestHEAD502 and Q8manifestHEAD500 on exact source images; internal registry causeUNKNOWN. Details and pre-launch hypothesis are in [the learning report](test_report_2026-11-05_agent_opd_learning.md).
+
+in-progress: existing recovery helper with `native-init-recovery-plan-new.json` will test fresh same-image availability/Ready,then submit onlyQ4seed1732 andQ8seeds1730/1732. Six total recovery jobs will cover eight original initialization-invalid pairs if these new probes qualify. Preserve all existing launchers and Q2/Q5 holds.
+
+
+## Native benchmark continuation and pre-test hypotheses (2026-11-06T07:08:48.666227+08:00)
+
+Observed current native producer has original80 valid and updated57 valid, two grader-invalid receipts. Independent personal Python platform query found ten benchmarkRunning and two benchmarkPending; existing requested recoveries are preserved. These phases are not GPU utilization or free quota. All active GPU submit.py launchers remain alive.
+
+Question2/seed1731 unchanged-patch native regrading has again timed out at the identical1200-second native deadline; recovery exp-1106-063643-673687/UID44f8e6e6-15c5-435c-ab37-16e55d66afb3 reports ValueError after1216.5792seconds, checked_at2026-11-05T23:03:32.795910Z. Its latest platform/container terminal identity and post-attempt original hashes still require independent verification. No third unchanged regrading is planned without causal evidence.
+
+Pre-test hypothesis: the submitted URLValidator authentication regex contains nested repeated character classes, including an inner empty match. This may cause catastrophic backtracking on the unchanged URL validator suite. A bounded CPU differential compares the exact original regex from archived source with the exact submitted replacement on the same native test-patch context and added URLs. Patched-only timeout with fast original completion is positive evidence of a model-patch performance defect; a negative test does not locate the native timeout. Keep the original generated patch and grading receipts unchanged.
+
+Question4/seed1732 has no recovery receipt: its fresh same-image probe failed oncpu0652 with manifest HEAD context canceled. The prior controller marks that probe attempted and will not recreate it. New registry hypothesis from authenticated Lark handbook revision1786: hub.stepfun-inc.com serves the same repository/tag as hub.i.basemind.com. Independently compare actual manifest bytes/digest and reachability before deciding whether the same-image native readiness route can unblock the missing seed. This does not authorize different image contents, shared platform changes, or regenerated valid samples.
+
+Question8/seeds1730/1732 has one existing recovery exp-1106-065634-390466,UIDf7a6ce20-5e6e-4428-8c34-422a3bf2f310,Pending. Question5/seed1732 stays held until exact archived FileNotFoundError provenance can be read. Healthy grading, targeted recoveries and timely terminal consumption continue in parallel.
+
+
+## Bounded differential result and exact regrading failure RCA (2026-11-06T07:11:11.777363+08:00)
+
+PASS for the recorded CPU causal test: exact archived original and submitted URLValidator patterns were evaluated on16native test-patch/context URLs,each with3secondsSIGALRM. The original returned for all16in0.00000342–0.00003921seconds. Submitted patch alone timed out on79/261character native context URLs; the other14returned. This is positive evidence of a model-patch performance regression. It does not by itself locate the full native grader's active test. No score or source artifact was modified. Next causal verification uses the exact native image/interpreter and validator source, preserving the original generated patch and the1200second full-grader result.
+
+Independent source hashes after failed regrading exactly match all three pre-launch hashes: trajectoryd85d5503363107f71d9ce520c8c84a6034fba5b3a5c29a1f992e495271d59228,patchb3a2a607b946d9abce98bf1ae2d26ca0afa655704f2b12f5f2a88bafa44335d7,generation5ee5e2fed7ea09bb6cc3af7de0f1c97f05680e7037e205876b8a049734a282b8. The original grading receipt remainsinvalid.
+
+RecoveryRJobexp-1106-063643-673687/UID44f8e6e6-15c5-435c-ab37-16e55d66afb3 isFailed; replicacda7531e-20bc-4f93-9b34-4b03f5738b0e onH800node0204 exited1/restart0at2026-11-05T23:03:34Z. Exact incident logs show the1200second nativeCheckTimeoutError result followed by the adapter'sValueError; this is the initiating business exception,then user commandexit1,andRJobfinish23:03:36Z. Bundled personal RCAcollector completed all8reads: liveEvents0/0,historicalEvents2/1,incidentlogs8below3000limit,all-operationaudits11/1completepages,existingDeepScan0. No positive OOM,preemption orinitiatingmanualstop evidence appears in this bounded coverage. SystemSomecriticaltasksfailed is subsequent cleanup;manualstopactor/reason/requesttime remainUNKNOWN. Querysuccess doesnot exclude anunsampled platform incident. RawRCAfiles aretemporary and willbeconsumed after selected conclusions.
+
+Q4registrycomparisonPASS: bothhub.i.basemind.com andhub.stepfun-inc.com returnedHTTP200 andsameDocker-Content-Digestsha256:f821080544e1fe3d31e483adbfdf2cc25850f42add4068de5b1dda8935f4d2cb for identicalswe-bench2512-tags/base:django_1776_django-10914. ThecurrentLarkmanualrevision1786 explicitlydocuments equivalentpath/tag onthealias. NativeReady/shellandclosure usingthissame-contentalias stillrequireexecution before a uniqueQ4seed1732recovery. No registrypublish orsharedconfigchange isneeded.
+
+Commands: hostPython3.10.6 CPUassignment-onlyASTread withsignal.setitimer;boundedpersonalPythonhash/statequeries throughpersonal_exec.sh;collect_failure_evidence.py exactjob/replica/window23:01:30–23:04:30Z and--timeout45. Original80/updated57 are observed complete-score counts,not finalupdatedavg@4.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始 1–5：branch、资产、信号、两步 H800 warmup、阶段清理与同步 | PASS | 各阶段验收和远端 SHA 已归档，共 5 项 |
+| 学习 1–3：固定题库与输入、20 次更新与 HF、native evaluator | PASS | 完整导出和实际重载已验证，共 3 项 |
+| 学习 4：original 80 | PASS | 80 个有效结果、50 resolved、avg@4 0.625 |
+| 学习 4：提前归档 | PASS | CPU 验证及真实 worker 提前归档已完成 |
+| 学习 4：updated 80 | TODO | 57 个有效结果；完整分母尚未达到 |
+| 学习 4：失败诊断、恢复与消费 | TODO | Q2 已有因果测试；Q4 同 digest alias 待 native Ready；Q5 原件待归档 |
+| 学习 5：配对结果、最终清理与同步 | TODO | 依赖完整评测和实际终态 |
+| 补充：Frog/Qwen 资格验证 | PASS | 两次真实更新、测量与清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 06:53 HKT 至 2026-11-06T07:12:03.011105+08:00｜**当前前沿：** updated 评分、Q2/Q5 诊断、Q4 及既有恢复、终态消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 临时诊断直接服务两个已记录缺失；不扩展训练或测试库 |
+| D2 细节反复重试 | CLEAR | Q2 仅一次预记录重评后转入精确 regex 假设；Q4 更换路线前先验证 digest |
+| D3 支线问题修补 | CLEAR | 所有读取和修复对应学习 4 的完整分母 |
+| D4 可并行任务停滞 | CLEAR | 评分、五个唯一恢复、Q2 CPU 取证及 Q4 digest 检查并行推进 |
+| D5 超范围镀金 | CLEAR | 没有增加模型、题库、学习步数、sampling 或 benchmark |
+| D6 分析空转 | CLEAR | 新证据确认 Q2 原 patch 的性能缺陷和 Q4 alias 同内容；评分继续增长 |
+| D7 路线违背 | CLEAR | 不改变原生成、不给未知基础设施错误记零；保留 GPU launchers |
+
+**文档检查：** S1–S6 均未发现明显缺陷；失败诊断和必要恢复由学习 4 拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan 合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行验证 Q2 在 exact native image 内的原始与提交代码差异，及 Q4 同 digest alias 的 Ready/shell/关闭；每项以真实结果结束。
+2. 监督既有 healthy 生成和唯一恢复；Q5 归档后读取原生错误与 trajectory，避免替换模型导致的失败答案。
+3. 完整 80+80 后用既有 summarizer 计算配对结果，核验实际终态并清理，再正常 push 和核验 SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 训练与重载已完成；剩余 GPU 时间用于完成既有 benchmark。
+2. Q2 原 patch 的 regex 已造成可复现超时；评分必须保留这个答案的实际表现。
+3. Q4 尚无恢复请求；同 digest registry alias 已核验，下一项是 native 可执行性。
+
+
+## Verified Q4 registry route and CPU change (2026-11-06T07:16:06.937847+08:00)
+
+Q4 alias qualification passed: native image `hub.stepfun-inc.com/swe-bench2512-tags/base:django_1776_django-10914`, same digest `sha256:f821080544e1fe3d31e483adbfdf2cc25850f42add4068de5b1dda8935f4d2cb`; session `1d49733b-bbac-4e48-94e7-24f9d7c87de1` reached Ready, shell returned exit0 and `agent_opd_sandbox_ok`, elapsed16.2644seconds. Independent authenticated state read returned HTTP200/phaseSucceeded.
+
+Implementation: `tests/manual/agent_opd/rjob_benchmark.py` forwards an optional `--sandbox-registry` to `native_benchmark.py`, which sets the existing native `env.docker_registry` field. Native grader namespace remains the original configured namespace. This avoids altering shared platform configuration, dataset contents, model sampling or native grader logic. The field addresses a reachable native image-pull failure; it is not a general retry policy. The existing archive fixture includes the default `None`. Recovery source argv prefix and all resource/source/image/env fields were compared unchanged; only seed1732 and the verified agent sandbox registry hostname are appended. No Q4 recovery receipt exists before submission.
+
+CPU command: `timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_agent_opd_benchmark_archive.py tests/fast/test_agent_opd_export.py --basetemp=/data/ycfeng/tmp/agent-opd-learning-20261105/pytest-registry-20261106a -p no:cacheprovider`. Python3.12.13, pytest9.1.1; actual10passed in1.23seconds, three existing deprecation warnings. `git diff --check` passed. Native configuration validation also produced the exact alias image through the existing Config API.
+
+Q2 first sandbox differential is limited: conda activation was extracted without the native profile initialization; observed Python was the image base interpreter3.11.5. Therefore that artifact does not verify the grader interpreter. The corrected exact eval-script source/activation and expected `/envs/testbed/` interpreter are being checked before any score classification. Planned native baseline control runs only the unchanged checker with an empty prediction patch, same instance/config/deadline; it does not regenerate the answer. Baseline resolved/unresolved test summaries within1200seconds plus a patched-only hang under that interpreter distinguish a model timeout from a generic grader failure.

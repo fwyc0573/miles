@@ -31,6 +31,7 @@ def main():
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--task-index", type=int)
     parser.add_argument("--sandbox-backend", choices=("acs", "basemind"), default="acs")
+    parser.add_argument("--sandbox-registry", help="Registry hostname for the native agent sandbox image")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--server-log", type=Path, required=True)
     args = parser.parse_args()
@@ -43,6 +44,8 @@ def main():
         raise ValueError("Frozen benchmark questions changed")
     config_type = {"acs": SweAgentACSEvalConfig, "basemind": SweAgentEvalConfig}[args.sandbox_backend]
     config = config_type().to_dict()
+    if args.sandbox_registry is not None:
+        config["env"]["docker_registry"] = args.sandbox_registry
     config.update(repeat=1, concurrency=1, check_concurrency=1, save_stepeval_checkpoint=False, use_exit_code=False)
     config["check"]["concurrency"] = 1
     config["dataset"]["name_or_path"] = str(dataset)

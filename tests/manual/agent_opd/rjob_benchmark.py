@@ -228,6 +228,8 @@ def _run_seed(server: dict, seed: int, args, output: Path, logs: Path) -> int:
     ]
     if args.task_index is not None:
         command.extend(["--task-index", str(args.task_index)])
+    if args.sandbox_registry is not None:
+        command.extend(["--sandbox-registry", args.sandbox_registry])
     native_log = logs / f"native-{server['version']}-{seed}.log"
     with native_log.open("w") as log:
         exit_code = subprocess.run(
@@ -258,6 +260,7 @@ def main():
     parser.add_argument("--native-pythonpath", required=True)
     parser.add_argument("--task-index", type=int)
     parser.add_argument("--sandbox-backend", choices=("acs", "basemind"), default="acs")
+    parser.add_argument("--sandbox-registry", help="Registry hostname for the native agent sandbox image")
     parser.add_argument("--seeds", nargs="+", type=int)
     parser.add_argument("--engine-gpus", type=int, default=4)
     parser.add_argument("--context-tokens", type=int, default=131072)
