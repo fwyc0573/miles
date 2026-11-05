@@ -1737,12 +1737,12 @@
 | 20 次更新与完整导出 | FAILED | 保存诊断再次失败，直接原因已定位为 Ray 内存压力杀 worker。 |
 | 原生评测 | TODO | 原始模型题目分片继续执行。 |
 | 两组 avg@4 | TODO | 尚无完整第 20 步模型及两组完整有效评分。 |
-| 清理与同步 | TODO | 消费过的查询文件已删除；失败诊断清理作业已提交。 |
+| 清理与同步 | TODO | 失败诊断清理成功，118 个文件/5.98GB 已删除；最终评测清理仍待完成。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 17:50 恢复核对至保存失败 RCA｜**当前前沿：** 保存内存问题、原始评测、消费清理。
+**检测窗口：** 17:50 恢复核对至 18:02 保存失败 RCA 与消费清理｜**当前前沿：** 保存内存问题、原始评测、消费清理。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -1776,3 +1776,6 @@
 1. 当前已知保存错误是 Ray 内存阈值触发，不应将 head 副本的低内存记录套用于训练节点。
 2. 该次错误不能直接用作此前另一个作业的原因，原作业仍独立记录 UNKNOWN。
 3. 两组合的数值一致性与完整学习/benchmark 验收仍未完成。
+
+
+- Failed-probe consumption PASS at18:02HKT: cleanup exp-1105-175752-778698/UIDe6735d7b-3cd9-430f-8496-5ce4eeba22fa Succeeded, container exit0/restart0. Removed118files/5,982,614,544bytes; exact cloud/local failedprobe directories independently absent. Consumed query/RCA files and probe/cleanup temporary scripts, manifests and receipts deleted. The preceding check-progress was refreshed after this verified consumption step; broader20-update export, two benchmark scores and final cleanup remain incomplete.
