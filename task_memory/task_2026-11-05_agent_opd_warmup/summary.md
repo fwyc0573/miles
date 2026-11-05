@@ -9,7 +9,7 @@
 
 # Agentic OPD Warmup
 
-The additional twenty-update and twenty-question avg@4 phase is in progress. The completed two-update results below remain the earlier warmup only. Current evidence and incomplete acceptance are recorded in `test_report_2026-11-05_agent_opd_learning.md`; no complete post-update-20 export or benchmark result is claimed yet.
+The additional twenty-update and twenty-question avg@4 phase is in progress. The completed two-update results below remain the earlier warmup only. Current evidence and incomplete acceptance are recorded in `test_report_2026-11-05_agent_opd_learning.md`; no complete post-update-20 export or benchmark result is claimed yet. The two-update bucketed HF export and complete decoder/shared-alias verification passed at22:49HKT, and its61.56GB of outputs were consumed. The unique twenty-update rerun224939-805330 is queued; originalBaseMind20/80valid,updated0/80.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 

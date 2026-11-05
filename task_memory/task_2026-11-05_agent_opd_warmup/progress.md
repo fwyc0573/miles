@@ -2644,3 +2644,56 @@ completed: actualshort205143-864435 two normal updates and bucketedHFwriting, pl
 
 
 22:40 HKT completed diagnosis: actualGLMBridgeclones two shared MTPaliases, actualSGLangskipsMTPnamespace fordecoder; bothsavedaliastensors fullyequal canonicalupdatedBF16weights. Narrowvalidatorrepair rejects unexpectedMTPparameters and corruptedaliasvalues;6CPUregressionsPASS,Black/isort/diffPASS. Incidentquery capturedoriginalValueError;bothauditreads timedout, no platformfailure inferred. Next: one0GPUcorrectedinspection ofexistingHF, then existingunique20updatewaiter. Original19/80valid,0invalid; no newGPUsubmissionduringthisfix.
+
+
+## 22:50 HKT verified export milestone
+
+completed: zeroGPU224011-496529 inspectionPASS,pinned6testsPASS,9491decoder+2full-equalaliases,126shards,3727changedtensor samples. Both shorttrainingandinspectorSucceeded/container0. Removed169cloudfiles/61560123647bytes; independentSSHabsencePASS. Removed15consumedlocaldiagnostics/454295bytes. Existingwaitercreatedunique20update16H800job224939-805330,UIDa21ebb29-e36c-4c55-a144-031cdffd86f6; personalcreator,codesign,localNFS,shape andPendingverified. Original20/80valid,updated0/80. LoguruFileSinkErrno5observedonsomeactiveevaluations; nativeoutcomecountsadvance; no failuredenominator substitution.
+
+## 1. 规划完成情况
+
+**汇总：** PASS4｜BLOCKED/FAILED/SKIPPED0｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和原始预热 | PASS | 先前已验证并同步 |
+| 冻结输入和CPU准备 | PASS |80turns、固定20题和4seeds |
+| Frog/Qwen有限验证 | PASS | 实际两步更新与清理 |
+| HF保存资格验证 | PASS |224011实际完整检查通过，短程产物清理 |
+|20步导出重载 | TODO | 唯一224939已排队 |
+| 两组完整评测 | TODO |20/80与0/80 |
+| 最终评分、清理和同步 | TODO | 等待完整结果 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**22:38HKT至今｜**当前前沿：**20步训练、原始评测及产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 校验修正直接解决真实导出阻塞 |
+| D2 细节反复重试 | CLEAR | 共享别名假设以源码和完整值验证后修复成功 |
+| D3 支线问题修补 | CLEAR | 无新增支线 |
+| D4 可并行任务停滞 | CLEAR | 原始评测和清理继续 |
+| D5 超范围镀金 | CLEAR | 只允许两个来源明确的别名 |
+| D6 分析空转 | CLEAR | 实际验证完成且20步已提交 |
+| D7 路线违背 | CLEAR | 题库、训练和硬件约定保持 |
+
+**文档检查：** S1–S6均未发现明显缺陷；当前状态已更新。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 监测唯一16卡作业，完成20次正常更新、实际导出及第20步重载。
+2. 并行完成原始80评测，持续消费完成作业的产物；随后完成更新80评测和最终清理。
+
+## 4. 最值得关注的 3 点
+
+1. 保存修正已通过真实GPU与实际权重检查，不再追加短程GPU测试。
+2.20步作业排队不等于已训练；以正常更新和导出回执验收。
+3. 部分调试日志发生I/O错误，完整有效grader分母仍是必要条件。
