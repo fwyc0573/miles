@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
 | 2026-11-06 | Recheck existing benchmark jobs and correct stale current-state descriptions. |
 | 2026-11-06 | Verify twenty-update native completion, actual HF reload and retained numerical limits. |
@@ -3555,3 +3556,84 @@ Command: `PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/tmp/stepmind-env/bin/python -B 
 Actual scoped cloud observation: original80/80valid,updated12/80valid; exact three source EnvInitErrorpairs remain missing. Twenty-nine actual native cloud roots are currently present; forty submitted native receipts include eleven queued updated jobs that have not created output roots. Personal batch returned eightupdatedRunning/elevenPending/oneSucceeded,with32H800requested by Running jobs and no newplatformFailedcases. No GPUutilization measurement is inferred.
 
 New recoverycontroller is toolsession16803. Its first fresh manifest read at2026-11-06T04:13:57+08:00 found AstropyHTTP500 and DjangoReadTimeout; no nativeprobe or recoveryGPU was submitted. It checks each image independently every300seconds with10secondmetadatareadtimeout,while all existingGPUlaunchers,rawconsumer1036andfinalwaiter96862 continue. Source failurediagnostics await siblingwriters/terminalarchive. The controller's selected CPU verification is complete; rawtestinputs were consumed.
+
+
+## Registry authorization hypothesis (2026-11-06T04:27:44+08:00)
+
+Before the next bounded read: anonymous token issuanceHTTP200 does not alone prove the issued token grants pull for the exact repository. Inspect only the token's repository/action claims in memory; print no token, subject or unrelated claim. If pull is absent, the observer's anonymous manifest check cannot establish native authenticated availability; if pull is present, the current500/timeout occurs after an explicit pull grant and this authorization hypothesis is narrowed. This is a single metadata-only read for the already affected Astropy image; no Docker/image/model download or GPU submission. Existing native grading and all launchers continue.
+
+Selected authorization observation: {"timestamp": "2026-11-06T04:27:44+08:00", "host": "hub.i.basemind.com", "repository": "swe-bench2512-tags/base", "tag": "astropy_1776_astropy-13398", "manifest_challenge_status": 401, "token_status": 200, "exact_repository_claims_present": true, "pull_granted": true}
+
+
+## Native recovery qualified and submitted (2026-11-06T04:39:24+08:00)
+
+The existing observer obtained fresh HTTP 200 manifest responses for both exact images, then passed both native generation-pool probes. Astropy session `2ca72a8a-1bdd-43e0-8667-b3276b6262a6` reached Ready, executed the shell command with exit 0, exact output and empty stderr, and requested closure in 11.01837 seconds. Django session `2768b83e-12af-4b59-892e-efe5b68325a4` passed the same checks in 15.82391 seconds. Independent reads of both exact session states returned HTTP 200 and phase Succeeded. The temporary probe JSON and logs were consumed after selected evidence was recorded.
+
+Exactly two recovery RJobs exist:
+
+| Question index | Requested seeds | RJob | UID | Verified phase |
+| --- | --- | --- | --- | --- |
+| 1 | 1731, 1732 | exp-1106-043046-217297 | a661e88e-9776-4825-9e90-86507b4ba394 | Pending |
+| 13 | 1729 | exp-1106-043046-214233 | 5aefab13-a352-46a1-8b04-4f7132016492 | Pending |
+
+Personal Python API verification at 2026-11-06T04:35:58+08:00 confirmed creator `i-fengyicheng`, quota `codesign`, one replica with four H800 GPUs, 24 CPUs, 300000 Mi memory, the pinned image and current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. Actual recovery manifests preserve every source argument and resource field except the selected seeds and task label/receipt. Both GPU launchers remain owned by controller session 16803. All existing GPU launchers, the raw-output consumer and the final waiter remain active. The producer recorded {'original': 80, 'updated': 20, 'invalid': 0} at 2026-11-06T04:38:51+08:00. Requested recovery attempts are not yet valid grades.
+
+The separate metadata-only authorization read observed an explicit repository pull grant. Inspected native grader code creates fresh same-image sessions with IfNotPresent; its node group is `sessionrouter`, while the actual generation node group is empty. The native Config-only read verified both exact images, generation node group, 2 CPU/8 Gi resource fields and port 24772 without creating a session. These observations do not establish availability for every pool. Both actual generation probes subsequently passed through the existing controller; the qualified implementation remains unchanged.
+
+Operator inspection: attempted CPU observer replacement briefly paused only PID 2989056. The proc children file was unavailable, so termination was not issued. The observer was immediately resumed. Process-parent inspection revealed GPU launchers 3169421 and 3169425; both were preserved, and their actual RJobs were verified as above. No RJob stop request or GPU launcher termination occurred. Future CPU observer replacement must inspect actual process-parent IDs and resume the observer on an inspection error.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd及个人origin已核验 |
+| 初始2：公司模型与资产 | PASS | 22文件完整校验已归档 |
+| 初始3：glm5.2信号与配置 | PASS | 原始tokens、thinking、正文、tools与R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及平台终态成功 |
+| 初始5：初始清理与同步 | PASS | 该阶段产物已消费、远端SHA已核验 |
+| 学习1：冻结20题与80turns | PASS | 成员和训练排除证据已归档 |
+| 学习2：20更新与最终HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | 完整baseline及实际updated执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4为0.625 |
+| 学习4：updated80 | TODO | producer当前记录20有效，全部既有作业继续 |
+| 学习4：初始化恢复与消费 | TODO | 两个native probes通过，仅3个失败seeds的恢复已排队 |
+| 学习5：配对结论、清理及同步 | TODO | 依赖完整160有效评分及全部终态 |
+| 补充：Frog/Qwen有限资格验证 | PASS | 两次真实更新、测量及清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 04:14 HKT至2026-11-06T04:39:24+08:00｜**当前前沿：** updated评分、三个失败seeds的恢复、逐作业消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | Ready/关闭/真实payload核验直接完成恢复前沿；通过后停止工具改动 |
+| D2 细节反复重试 | CLEAR | token权限及native grading按预先记录的假设调查；两次实际Ready probes通过后只提交一次恢复 |
+| D3 支线问题修补 | CLEAR | 调查只服务已记录的初始化失败；没有其他组件修补 |
+| D4 可并行任务停滞 | CLEAR | 现有评测、两个恢复launchers和消费者并行；先前串行依赖已解除 |
+| D5 超范围镀金 | CLEAR | 模型、题库、sampling、grader及资源规格保持原值 |
+| D6 分析空转 | CLEAR | 实际恢复已经提交；新的替代可用性路线没有继续实现 |
+| D7 路线违背 | CLEAR | 全部GPU launchers保留，原生80有效分母保持 |
+
+**文档检查：** S1–S6均未发现明显缺陷；最新恢复及实际Pending状态已记录。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：既有updated评分 ‖ 两个已排队的恢复；完成标志为80唯一有效updated结果。
+2. 原失败作业终态后读取各自diagnostics并消费raw outputs；保留真实UID与失败来源。
+3. 收齐80+80后聚合avg@4、配对差值及question bootstrap；精确清理后正常push并核对远端SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 两个真实native Ready/shell/关闭检查通过，三个缺失seeds已有唯一恢复请求。
+2. 恢复作业仍Pending，评分尚未齐全；现有launchers和HF必须继续保留。
+3. 更新、导出及重载已经完成；数值残差和H200训练限制仍须如实报告。

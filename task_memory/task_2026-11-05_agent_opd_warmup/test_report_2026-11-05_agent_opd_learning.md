@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
 | 2026-11-06 | Verify all existing evaluation submissions and preserve final-score prerequisites. |
 | 2026-11-06 | Record completed training/export, actual update20 reload and consumed raw training outputs. |
@@ -639,3 +640,30 @@ Command: `PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/tmp/stepmind-env/bin/python -B 
 Actual scoped cloud observation: original80/80valid,updated12/80valid; exact three source EnvInitErrorpairs remain missing. Twenty-nine actual native cloud roots are currently present; forty submitted native receipts include eleven queued updated jobs that have not created output roots. Personal batch returned eightupdatedRunning/elevenPending/oneSucceeded,with32H800requested by Running jobs and no newplatformFailedcases. No GPUutilization measurement is inferred.
 
 New recoverycontroller is toolsession16803. Its first fresh manifest read at2026-11-06T04:13:57+08:00 found AstropyHTTP500 and DjangoReadTimeout; no nativeprobe or recoveryGPU was submitted. It checks each image independently every300seconds with10secondmetadatareadtimeout,while all existingGPUlaunchers,rawconsumer1036andfinalwaiter96862 continue. Source failurediagnostics await siblingwriters/terminalarchive. The controller's selected CPU verification is complete; rawtestinputs were consumed.
+
+
+NATIVE_INIT_RECOVERY_PROBE {"native_exit": 0, "probes": [{"task_id": "astropy__astropy-13398", "endpoint": "http://session-router-basemind.i-stepfun.com", "image": "hub.i.basemind.com/swe-bench2512-tags/base:astropy_1776_astropy-13398", "unix_time": 1793910600.4525504, "session_id": "2ca72a8a-1bdd-43e0-8667-b3276b6262a6", "ready": true, "shell": {"exit_status": 0, "stdout": "agent_opd_sandbox_ok", "stderr": ""}, "status": "passed", "close_requested": true, "elapsed_seconds": 11.01837294921279}, {"task_id": "django__django-14034", "endpoint": "http://session-router-basemind.i-stepfun.com", "image": "hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034", "unix_time": 1793910611.4733658, "session_id": "2768b83e-12af-4b59-892e-efe5b68325a4", "ready": true, "shell": {"exit_status": 0, "stdout": "agent_opd_sandbox_ok", "stderr": ""}, "status": "passed", "close_requested": true, "elapsed_seconds": 15.82391437701881}], "independent_closures": [{"session_id": "2ca72a8a-1bdd-43e0-8667-b3276b6262a6", "http_status": 200, "phase": "Succeeded", "terminal": true}, {"session_id": "2768b83e-12af-4b59-892e-efe5b68325a4", "http_status": 200, "phase": "Succeeded", "terminal": true}]}
+
+
+NATIVE_INIT_TARGETED_RECOVERY_STARTED: source exp-1106-022355-285409, UID 403c6c9f-0f42-402f-a117-61a3fd3ca912, question index 1, seeds [1731, 1732], launcher PID 3169421; exact original parameters plus selected seeds only.
+
+
+NATIVE_INIT_TARGETED_RECOVERY_STARTED: source exp-1106-022355-404162, UID f524e895-d38a-4443-9031-c241ed8bd14b, question index 13, seeds [1729], launcher PID 3169425; exact original parameters plus selected seeds only.
+
+
+## Native recovery qualified and submitted (2026-11-06T04:39:24+08:00)
+
+The existing observer obtained fresh HTTP 200 manifest responses for both exact images, then passed both native generation-pool probes. Astropy session `2ca72a8a-1bdd-43e0-8667-b3276b6262a6` reached Ready, executed the shell command with exit 0, exact output and empty stderr, and requested closure in 11.01837 seconds. Django session `2768b83e-12af-4b59-892e-efe5b68325a4` passed the same checks in 15.82391 seconds. Independent reads of both exact session states returned HTTP 200 and phase Succeeded. The temporary probe JSON and logs were consumed after selected evidence was recorded.
+
+Exactly two recovery RJobs exist:
+
+| Question index | Requested seeds | RJob | UID | Verified phase |
+| --- | --- | --- | --- | --- |
+| 1 | 1731, 1732 | exp-1106-043046-217297 | a661e88e-9776-4825-9e90-86507b4ba394 | Pending |
+| 13 | 1729 | exp-1106-043046-214233 | 5aefab13-a352-46a1-8b04-4f7132016492 | Pending |
+
+Personal Python API verification at 2026-11-06T04:35:58+08:00 confirmed creator `i-fengyicheng`, quota `codesign`, one replica with four H800 GPUs, 24 CPUs, 300000 Mi memory, the pinned image and current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. Actual recovery manifests preserve every source argument and resource field except the selected seeds and task label/receipt. Both GPU launchers remain owned by controller session 16803. All existing GPU launchers, the raw-output consumer and the final waiter remain active. The producer recorded {'original': 80, 'updated': 20, 'invalid': 0} at 2026-11-06T04:38:51+08:00. Requested recovery attempts are not yet valid grades.
+
+The separate metadata-only authorization read observed an explicit repository pull grant. Inspected native grader code creates fresh same-image sessions with IfNotPresent; its node group is `sessionrouter`, while the actual generation node group is empty. The native Config-only read verified both exact images, generation node group, 2 CPU/8 Gi resource fields and port 24772 without creating a session. These observations do not establish availability for every pool. Both actual generation probes subsequently passed through the existing controller; the qualified implementation remains unchanged.
+
+Operator inspection: attempted CPU observer replacement briefly paused only PID 2989056. The proc children file was unavailable, so termination was not issued. The observer was immediately resumed. Process-parent inspection revealed GPU launchers 3169421 and 3169425; both were preserved, and their actual RJobs were verified as above. No RJob stop request or GPU launcher termination occurred. Future CPU observer replacement must inspect actual process-parent IDs and resume the observer on an inspection error.
