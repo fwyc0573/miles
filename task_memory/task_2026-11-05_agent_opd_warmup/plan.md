@@ -55,7 +55,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status:1 input freeze completed;2 configuration completed with actual export pending;3 native adapter preparation completed with four valid first-question outcomes; complete benchmark pending;4 twenty optimizer updates verified but final save failed; save diagnostic failed with a native Ray memory-pressure kill and initial benchmark in progress;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
+Current phase status:1 input freeze completed;2 HF-only configuration and actual parser/actor preflight passed, replacement16H800Running with real export pending;3 native benchmark15/80valid with infrastructureinvalidpairs under targeted recovery;4 prior20updates verified butsavefailed, currentreplacement20updates/export and boundedFrog/Qwen8H800/two-update qualification pending;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
 
 
 ## Confirmed continuation and export route (18:17 HKT)
@@ -76,3 +76,8 @@ recipe startup, twenty normal updates, complete final export and actual reload
 remain required. BoundedFrog/Qwen uses a separate8GPU worker and two updates;
 it proceeds independently within the stated128GPU quota and creates no second
 full benchmark.
+
+
+## 19:07 HKT actual continuation
+
+GLM replacement completed its first normal update and published version1. Qwen185108 Failed before training: dashboard MetricsHead exited, followed by /api/version connection refusal. The generated MetricsHead socket path is108bytes, exceeding Ray's107byte limit; the exact path reproduces the validation error onCPU. A0GPU pinned-image test now compares the original path with the existing explicit-temp-dir start mechanism. Do not submit another QwenGPU run until this specific hypothesis is verified. Completed original benchmark shards are consumed independently.

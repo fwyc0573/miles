@@ -1979,3 +1979,130 @@
 
 
 - Qwen64kpreparation PASS: actual productionrendering8turns andrecipe,alllengths11430–48129+1024<=65536,zeroGPUcontainerexit0 andmarker. Manualadapterdefault updatedtoverified64k; original32kcontext is unsuitablefortheconfigured source categories. Nextunique8H800replacementusesqwen-launch-b.json; initialfailednamespacecleanupconsumesdiagnosticsonly.
+
+
+## 19:02 HKT: actual startup, sandbox recovery and consumption
+
+- GLMRunning0381/0534:runtime/16GPU/Ray/transfer/80turnprepared; native261105-105050-rwb3,modelinitializationunderway. TwoGitHEADs d8b92035/0770861c differonlyQwencontextandtaskrecords; GLMcodeequivalenceverified.
+- Frog/QwenStarting0165,unique8GPUreplacement185108-624627/launcher73955. Actual64kpreparationPASS; twoGPUupdatesnotyetobserved.
+- NativeACSsingletoolprobePASS21.54s,closedandindependentlyterminal. Sixexistingadapterrecoveryjobs/11invalidpairs submittedwithsameseeds/model/config; parent49799alive. Noadditionalretrybatchbeforeactualevidence.
+- Original15/80valid;38infra-invalid (29DNSliteral,9EnvRetryRequestError). Finalscoreundefined. TwooriginalshardsSucceeded; consumeoutcomereceiptsbeforedeletingtheirrawlogs/trajectories.
+- QwenfirstfailednamespaceconsumptionSucceeded,cloud3353bytes/local804bytesremoved; independentabsence/containernext. RawRCA/preflight/probe/helperfilesreadyforconsumption; currentlaunchers/inputskeptonlyforactivework.
+
+## 1. 规划完成情况
+
+**汇总：**PASS2｜BLOCKED/FAILED/SKIPPED0｜TODO5
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |80turns/20questions/4seeds未变。|
+| HF-only启动与actor检查 | PASS |pinnedimage81PASS；真实GLM已启动。|
+| GLM20更新/导出 | TODO |Ray/传输通过，模型初始化中。|
+| 原始80有效评分 | TODO |15valid；基础设施失败正在定向补测。|
+| updated评分/avg@4 | TODO |依赖实际update20重载。|
+| Frog/Qwen两步对齐 | TODO |64k编码PASS；唯一replacementStarting。|
+| 清理和最终同步 | TODO |失败产物消费通过，活跃结果仍有依赖。|
+
+## 2. 偏离检测
+
+**结论：**未偏移，正常推进。
+**检测窗口：**18:51预检至19:02实际启动/补测｜**当前前沿：**两模型真实更新、原始有效评分、消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |短工具检查只检验已失败的sandbox路径，通过后停止扩展。|
+| D2 细节反复重试 | CLEAR |补测前记录DNS瞬态假设并实测同镜像shell；无失败参数轮换。|
+| D3 支线问题修补 | CLEAR |环境invalid直接阻塞80valid验收。|
+| D4 可并行任务停滞 | CLEAR |GLM、Qwen、原始补测及消费任务并行。|
+| D5 超范围镀金 | CLEAR |复用已有seed/task-index，无新通用重试机制。|
+| D6 分析空转 | CLEAR |Qwen预检PASS、GLMRunning、实际补测提交推进状态。|
+| D7 路线违背 | CLEAR |原模型/题库/seed/grader和个人GPU/storage规则保持。|
+
+**文档检查：**S5旧summary/plan保存状态滞后已修正；S1–S4/S6无新缺陷。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**B：修正文档后继续。
+
+**文档更新（先执行）：**
+1.summary/plan最新状态：明确HF-only预检PASS、GLMRunning、QwenStarting和原始定向补测（已直接更新）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.GLM20正常更新→完整HF→重载；同时Qwen两次更新与独立数值对照。
+2.并行：原始缺失pair补测→80valid；结束分片消费→删除raw产物。
+3.updated80valid→真实avg@4/配对区间→最终清理/commit/push核对。
+
+## 4. 最值得关注的3点
+
+1.GLM训练和导出仍需实际业务证据；Running不是验收。
+2.一次shell正常不能证明全部agent/grader恢复，invalid仍缺失。
+3.两组训推一致性仍未充分验收，不使用TIS或结构一致作为充分结论。
+
+
+## 19:07 HKT: resumed actual state and Ray path diagnosis
+
+- Existing launcher tool sessions60634/97672/49799 remain alive; they are tool session IDs rather thanOS PIDs. Qwen73955 exited1 after the already-failed worker, not before its initiating failure.
+- GLM183414 Running on0381/0534; first normal update at11:03:57Z loss0.0987902981 and native logprob absolute difference0.0154928413; publication1 at11:04:06Z. Remaining19updates/export still pending.
+- Qwen185108 Failed at10:58:04Z; containerexit1/restart0. Original ray start did run; dashboard MetricsHead died before submission. Prior external-Ray/no-start hypothesis is rejected and no patch was made on that basis.
+- Exact generated socket path108bytes reproduces OSError with Ray get_socket_path onCPU. Pinned-image zeroGPU paired path probe190654-544591/launcher56865 tests the suspected cause before a newGPU run.
+- Exact Qwen failure collector completed all8query categories; selected evidence must be inspected before claiming platform causes. Original benchmark now has7completedquestion shards awaiting consumption; their4records each are consumed before raw roots are deleted.
+
+
+## 19:12 HKT verified Ray startup and phase checkpoint
+
+Pinned Ray preflight completed HTTP200 and a real submitted Python entrypoint. Original probe PID50 had106byte socket path and was healthy; exact failed PID1092 path108bytes fails Ray validation onCPU. ManualQwen worker now reuses short explicit-temp Ray startup and checks one-node8GPU registration. CPU module/import/CLI passed in persistentPython3.12.13. Seven completed original roots consumed216files/441621454bytes; full80validcount remains pending.
+
+## 1. 规划完成情况
+
+**汇总：** PASS2｜BLOCKED/FAILED/SKIPPED0｜TODO5
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |80turns/20questions/4seeds已固定。|
+| HF-only配置与预检 | PASS |实际parser/actor检查81PASS。|
+| GLM20更新与导出 | TODO |新作业第1次更新已确认，完整导出未到。|
+| 原始80有效评分 | TODO |持续评分，结束分片已消费；补测仍运行。|
+| updated80评分与avg@4 | TODO |依赖真正update20重载。|
+| Frog/Qwen两步对齐 | TODO |dashboard路径修复已预检，真实更新待替代作业。|
+| 最终清理与同步 | TODO |消费清理推进，尚需最终结果与push。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**19:02记录至19:12实测修复｜**当前前沿：**GLM更新、Qwen替代启动、原始评分、已消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |Ray预检只解决实际启动阻塞，通过后停止扩展。|
+| D2 细节反复重试 | CLEAR |精确108byte路径假设经CPU验证，短路径实际执行通过。|
+| D3 支线问题修补 | CLEAR |dashboard错误阻塞已授权Qwen两步验收。|
+| D4 可并行任务停滞 | CLEAR |GLM、原始评分、Ray预检和消费同时推进。|
+| D5 超范围镀金 | CLEAR |无新增配置开关、模型或评测范围。|
+| D6 分析空转 | CLEAR |完成预检、具体修复和7分片清理。|
+| D7 路线违背 | CLEAR |个人API、本机NFS、H800/codesign和原始题库保持。|
+
+**文档检查：**S5旧QwenStarting状态已纠正；S1–S4/S6无新缺陷。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**B：状态文档已更新。
+
+**文档更新（先执行）：**
+1.plan/summary/progress/report：记录QwenFailed、拒绝错误假设和实测路径证据（已直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.GLM20normal更新→完整HF→实际重载。
+2.并行：唯一Qwen替代→两步numerical对照；原始缺失pair→80valid。
+3.updated80valid→avg@4与配对区间→消费清理→commit/push。
+
+## 4. 最值得关注的3点
+
+1.Ray启动通过不替代Qwen模型初始化和数值验收。
+2.缺失或invalid评分不能作为模型失败计分。
+3.最终导出、两模型数值证据和80+80结果仍未完成。

@@ -15,16 +15,19 @@ import subprocess
 import sys
 from pathlib import Path
 from threading import Event, Thread
+from types import SimpleNamespace
 
 import yaml
 from examples.agentic_opd.glm_turns import normalize_tool_arguments, token_hash
 from scripts.run_glm47_flash_agent_opd import _training_env
 from scripts.run_qwen3_dense import ScriptArgs as DenseArgs
 from tests.manual.agent_opd.rjob_warmup import (
+    _check_cluster,
     _check_tokenizers,
     _memory_receipt,
     _record_memory,
     _retain_failure_diagnostics,
+    _start_ray,
     _worker_environment,
     _write_json,
 )
@@ -177,7 +180,7 @@ def main():
     cloud.mkdir(parents=True, exist_ok=False)
     records = args.shared_dir / job
     records.mkdir(parents=True, exist_ok=False)
-    local = Path("/var/tmp") / f"ao-qwen-{job.removeprefix('exp-')}"
+    local = Path("/var/tmp") / f"aq-{job.removeprefix('exp-')}"
     _worker_environment(local)
     stopped = Event()
     observer = Thread(target=_record_memory, args=(local / "memory.jsonl", stopped), daemon=True)
@@ -213,6 +216,14 @@ def main():
                 "python": sys.version.split()[0],
             },
         )
+        # Explicit temp-dir avoids Ray appending another /ray and exceeding
+        # the Unix socket limit for dashboard subprocesses.
+        ray_args = SimpleNamespace(nodes=1, gpus_per_node=len(gpus), startup_timeout=args.startup_timeout)
+        head = _start_ray(0, records, local, ray_args)
+        _check_cluster(head, records, ray_args)
+        os.environ["MILES_SCRIPT_EXTERNAL_RAY"] = "1"
+        os.environ["MASTER_ADDR"] = head["ip"]
+        os.environ["RAY_ADDRESS"] = f"http://{head['ip']}:{head['dashboard_port']}"
         backend = U.default_config().create_backend()
         backend.execute_train(
             train_args=train_args,
