@@ -1145,3 +1145,155 @@
 - 135028Failed06:08:21Z beforeoptimizer; fourgeneratedturns and initialweightsPASS. Exactfrozennamespaceassignmentfailureinlocalrewardadapter. NativeentrypointregressionRED1FAIL in2.13s;minimalmodel_copyrepair115PASS with2independentlocalRayfixtureerrors. Rankedcauseandfalsifyingpredictionsrecordedbeforefix. Cleanup141209Succeeded, partialrolloutinspectionfourturnsPASS; cloudremovalconfirmationpendingAPIread. Mainline remains actualtwooptimizerupdates, notextra harnesschanges; fixwillcommitandrunsame16H800afterverification.
 
 - LocalRayfixtureisolationalsofailsGCSstartuptimeoutwithallproxiescleared; thisdoesnotexercise the rewardadapterandbothactualGPURaynodesalreadyPASS. Noenvironment/corechangeforthisindependentfixture. Keep115passedchecksand2explicitlyunverifiedobjectstorechecks; proceedtoreal16H800. Phasecheckpoint: steps1/2/3PASS,step4FAILEDlatestattempt/repairedhookGREEN,step5TODO. D1–D7CLEAR: no furtherRayfixtureloop,corefixatnativeboundary,cleanupinparallel;S5latestfailureandpartialchecksupdated,otherSchecksCLEAR. Nextfrontier: commitverifiedrepairandrun;thenconsume/deleteallrawoutputsandfinalpush.
+
+- 2026-11-05 14:18 HKT continuation: committed frozen-hook repair 0e78c5e5 submitted as exp-1105-141808-864508 via local personal StepMind Python RJobBackend; launcher session80047 remains alive. Same 2×8 H800/codesign, 48CPU/600000Mi per replica, pinned image/models/manifest, R3/TIS/0.75 static memory, and two updates. Normal push and ls-remote confirm 0e78c5e5cf81cd2f9bc030f8ea21ed734dc95b32. Previous cleanup141209 confirmed Succeeded, containerexit0/Completed/restart0, removed20files/116,994,959bytes; SSH read-only verified exact previous135028 cloudroot absent. Consumed local receipts, platformrawlogs and CPU network/Ray test scratch removed. Real optimizer evidence still pending.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd，最新16H800决定已记录。 |
+| 2. 模型资产 | PASS | 既有22文件完整校验，不重复下载。 |
+| 3. 数据与配置 | PASS | 四类原始turns，真实冻结hook修复已验证。 |
+| 4. 真实OPD更新 | TODO | 141808已分配gpu-h800-0105/0157，等待容器；更新0。 |
+| 5. 清理与同步 | TODO | 最新修复push通过，上一轮cloud/raw已删除；最终验收待完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 冻结hook修复完成至真实重新提交及清理｜**当前前沿：** step4和step5清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 复用既有launcher和inspector，没有扩展harness。 |
+| D2 细节反复重试 | CLEAR | 精确frozen-instance根因及RED/GREEN后单次重跑。 |
+| D3 支线问题修补 | CLEAR | 不再修本地Ray fixture，无关失败仅记录。 |
+| D4 可并行任务停滞 | CLEAR | GPU提交、push和旧产物清理同步推进。 |
+| D5 超范围镀金 | CLEAR | 同模型、原始数据、16GPU及两次更新。 |
+| D6 分析空转 | CLEAR | 直接提交已验证修复，个人API确认分配。 |
+| D7 路线违背 | CLEAR | 个人Python API、本机NFS、codesign、原参数。 |
+
+**文档检查：** S1–S6均未发现未修正缺陷；summary已更新当前job和远端SHA。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：保持141808 launcher直到终态，检查两次normal finite更新、非零梯度、token/R3/权重版本及实测logprob/TIS。
+2. 并行step5：消费当前证据后删除raw/cloud/cache，归档Markdown并最终push核对SHA。
+
+**暂缓事项：** 既有本地Ray/GCS fixture失败 → 已记入test_report验证限制，不阻塞真实GPU路径。
+
+## 4. 最值得关注的 3 点
+
+1. 真实16H800已分配，optimizer仍0，尚未完成训练验收。
+2. 最新修复已push；旧warmup117MB及本地raw/scratch已删除。
+3. H800结论不能声称H200训练已通过。
+
+- Runtime milestone141808: both replicas loaded exact source0e78c5e5 with targeted source_status empty. All16H800 FP32 squared sums10416 and BF16 matmul checks passed; Python3.12.16/Torch2.14.1+cu130/Transformers5.19.0/Ray2.58.1/SGLang0.5.24.dev80+g056f871. Native run261105-062519-86os; two distinct Raynodes10.191.5.41/10.191.8.32,16GPUs. Independent transfer passed two broadcasts496/528 and parent reductions36/10, matching NCCL channelbounds8. Exact old H200dataset cleanup142043 Succeeded06:24:59Z, containerexit0/Completed/restart0; SSH verified olddataset absent. No optimizer outcome yet.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd及16H800决定。 |
+| 2. 模型资产 | PASS | 完整下载校验既有证据。 |
+| 3. 数据与配置 | PASS | 原始turns及冻结hook修复。 |
+| 4. 真实OPD更新 | TODO | 141808的16GPU/runtime/Ray/独立传输PASS，实际更新待运行。 |
+| 5. 清理与同步 | TODO | 旧cloud/raw已删除，修复已push，当前产物待消费。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 实际分配至runtime/通信PASS｜**当前前沿：** step4和step5清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只运行原有必要检查，未扩展工具。 |
+| D2 细节反复重试 | CLEAR | 原始修复后同一作业，未改参数或重复提交。 |
+| D3 支线问题修补 | CLEAR | 无额外环境或baseline修补。 |
+| D4 可并行任务停滞 | CLEAR | 清理旧H200数据与真实运行并行。 |
+| D5 超范围镀金 | CLEAR | 仍两次更新及原有验收。 |
+| D6 分析空转 | CLEAR | 直接推进真实模型/optimizer，当前是正常启动等待。 |
+| D7 路线违背 | CLEAR | 个人API、本机NFS、H800/codesign及原参数。 |
+
+**文档检查：** S1–S6未发现未修正缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：模型初始化、两次normal有限更新及非零梯度，实测token/R3/权重版本/logprob/TIS。
+2. 并行step5：当前产物消费后精确清理，完成英文归档和最终push。
+
+## 4. 最值得关注的 3 点
+
+1. 16H800 runtime及跨节点独立传输实测通过。
+2. 实际optimizer和训推数值仍未验收。
+3. 保持launcher直到终态，最终只保留代码和Markdown结论。
+
+- Native initialization milestone141808: both GLM engines server_info statusready, TP4/base0/gpustep1/BF16/FA3/deterministic/routed-expertTrue/staticmemory0.75. Redacted native logs confirm disjoint subprocess masks0,1,2,3 and4,5,6,7 and14.37GB weights perTP rank. All8trainer ranks on0105 retainens20np0; inference/controller processes on0157 retainens22np0, eachmatchingplatformNVSHMEMsocket. Thisrun directly verifies heterogeneousNIC retention. Initial native checksum and weight_update_result publishversion0. Actualoptimizerupdates still0 while firstrollout proceeds.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | 16H800/codesign及原验收。 |
+| 2. 模型资产 | PASS | 已完成，不重复。 |
+| 3. 数据与配置 | PASS | 原始turns及修复已验证。 |
+| 4. 真实OPD更新 | PASS | 两轮16rank outcomes normal，inspector0，token/R3/version全部对齐。 |
+| 5. 清理与同步 | TODO | 旧产物清理和修复push通过，当前产物待消费。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 首轮optimizer至双轮验收和平台Succeeded｜**当前前沿：** step5最终清理与push
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 读取必要的既有native证据，没有扩展持久harness。 |
+| D2 细节反复重试 | CLEAR | 当前同一作业正常推进，无参数变更。 |
+| D3 支线问题修补 | CLEAR | 已知非致命freeze_gc仅记录。 |
+| D4 可并行任务停滞 | CLEAR | 已完成资产和旧产物清理，当前只待训练。 |
+| D5 超范围镀金 | CLEAR | 保留原模型、数据、16GPU和两次更新。 |
+| D6 分析空转 | CLEAR | Native真实首轮optimizer outcome和metrics已观察。 |
+| D7 路线违背 | CLEAR | 原资源及参数，保留每节点NCCL环境。 |
+
+**文档检查：** S1–S6未发现未修正缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step5：确认cleanup144243及所有raw删除，完成英文归档。
+2. step5：commit/push并核对最终remote SHA与workingtree。
+
+## 4. 最值得关注的 3 点
+
+1. 两轮真实optimizer/inspector通过，梯度8.0742/5.3127均非零有限。
+2. 本轮直接验证ens20/ens22异名NIC保留，设备隔离保持0.75。
+3. 更新已2；1368published tensors变化，立即清理和归档push。
+
+- First real optimizer milestone141808 at14:37HKT: rollout0 all8actor rank outcomesnormal; loss/pg_loss0.12183857215740436, grad_norm8.074162483215332, native train_rollout_logprob_abs_diff0.02285756704150949. Trainshards0_0.pt and0_4.pt exist. Frozen-hook repair passed actualtraining. Updates1; version1 publication, second update and fulltoken/R3/numericalinspector remain awaited. Check-progress latestcheckpoint updated: noD/Sdrift; mainline is second nativeupdate then aggregateverification/cleanup.
+
+- Finaltraining milestone141808: two8-rank normal outcomes, nonzero finitegradients8.074162483215332/5.312740802764893, inspector exit0. Eightturns and2779scoredtokens; exactstudent/teacher/trainer token IDs andR3arrays, version0/1alignment,1368changedinferencechecksums. Unmaskedlogprobmeans0.0228575673/0.0253208224; TISoutside0/1137 and1/1642. Native finalupdate intentionallyunpublished; noH200qualification. BothcontainersCompleted/exit0/restart0 andplatformSucceeded06:41:31Z. Check-progress step4PASS; frontieronlycleanup/archive/push, D1–D7CLEAR andS1–S6CLEAR. Cleanup144243submitted; localrawdata/evidence/173MiBsource alreadydeleted.
+
+- Finalcleanup144243PASS: Succeeded06:46:57Z, exit0/Completed/restart0, native logrows0 (countsUNKNOWN). SSHconfirms exactcurrentcloudroot and oldH200datasetabsent, taskparentempty. Personalactivejobs[]; localfree110GiB. Alllocaltaskraw/source/evidence removed; remainingtemporaryhelpersremoved afterqueriesfinish. Step4 remainsPASS andstep5cleanupPASS; nextonlyarchivecommit/pushandremoteSHAverification.

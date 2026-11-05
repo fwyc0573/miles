@@ -932,3 +932,353 @@ ZeroGPUcodesignjob141209runs the existing _sample_checks on rollout_data/0.pt wi
   ]
 }
 ```
+
+## Previous failed-run cleanup: PASS
+
+Personal Python read_job.py exp-1105-141209-419267 returned Succeeded, finish2026-11-05T06:12:25Z; sole containerexit0/Completed, restart0, finished06:12:23Z. Existing partial-rollout inspection passed four samples before deleting20files/116,994,959bytes. Read-only SSH command `test ! -e /mnt/ws-jfs/ycfeng/miles/agent-opd/warmup-20261105-h800/exp-1105-135028-837379` returned success and PREVIOUS_WARMUP_ABSENT. Exact consumed local receipt directory, previous platformrawlogs and task-owned CPU test scratch were deleted. Shared model/source assets were preserved.
+
+## Frozen-hook repaired real H800 rerun: in progress
+
+Local submission at14:18HKT: exp-1105-141808-864508, source0e78c5e5, launcher80047. Exact command is tasktmp/agent-opd-native-h800-frozen-hook-launch.json, derived unchanged from the existing explicit-bash launch receipt. Configuration: 2×8H800/codesign,48CPU/600000Mi each, both RDMA requests, original pinned image, original four-turn manifest and distinct teacher/student weights, R3/TIS/staticmemory0.75, two updates. Remote preparation SHA confirmed0e78c5e5cf81cd2f9bc030f8ea21ed734dc95b32. Platform/runtime/optimizer/numerical results are awaited; submission and push are not training acceptance.
+
+## Repaired-run runtime and independent transfer: PASS
+
+Actual141808 replicas on gpu-h800-0105/0157 passed16H800 kernel checks (FP32sum10416, BF16matrix everyoutput16), mounted source0e78c5e5 with no targeted code modifications, and the same pinned package versions. CUDA13 uses existing compatlibcuda580.126.20, driverAPI13000. Ray confirmed two distinct nodes/16GPUs. Existing weight_sync_probe.py passed BF16broadcastsum496/528 plus independent parent reductions36/10; all sender/receiverNCCL channelbounds8. Native run261105-062519-86os. Model/optimizer/numerical results remain awaited. ZeroGPUold-dataset cleanup142043 endedSucceeded06:24:59Z, containerexit0/restart0; SSH read-only confirmed previousH200glm5.2-warmup.jsonl absent. Platform log API returned0rows for this short cleanup, so deletion is established by workerexit and independent fileabsence, not a capturedbyte-count receipt.
+
+## Exact repaired-run worker command
+
+Submitted locally via the personal StepMind Python3.10.6/brainpp2.8.6 `spawn_tasks` → `RJobBackend` path. Current-machine NFS source is100.96.128.195:/data/ycfeng/sota-engine/miles. ResourceConfig: gpu8,cpu48,mem_gb600,replica2,positive_tags[H800],charged_groupcodesign,preemptibleFalse,pull_codeFalse,extra_requirements[], default RDMA requests, and mountjuicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp. Image:
+
+```text
+artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805
+```
+
+Worker command (literal, no credential values):
+
+```bash
+bash -lc 'export LD_LIBRARY_PATH="/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" && exec /opt/sglang/bin/python3 -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/rjob_warmup.py --manifest /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/glm-replay-parent.json --student /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/zai-org/GLM-4.7-Flash/7dd20894a642a0aa287e9827cb1a1f7f91386b67 --teacher /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/whitecircle/GLM-4.7-Flash-Coder/d3c65039ae0797fb41d87cfa0c26438d7c425aa9 --output-root /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800 --shared-dir /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/native-warmup-h800 --gpu-type H800 --nodes 2 --gpus-per-node 8 --num-rollout 2 --startup-timeout 600 --training-timeout 3600'
+```
+
+Expected: two successful finite optimizer updates, nonzero gradients, published weight changes, identical inference/teacher/training token IDs, unmodified R3 arrays, consistent sampled/published weight versions, measured logprob differences and TIS, and explicit inspector exit0. Native H800 run directory: `/mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800/exp-1105-141808-864508/261105-062519-86os`. Temporary manifest/raw outputs are removed after verification; the preserved source task and preparer identify the original data.
+
+## Repaired-run native model initialization: PASS
+
+Both returned engine_env_report server_info dictionaries are flat and statusready. Effective settings: separate pinned student/teacher paths,base_gpu_id0,gpu_id_step1,tp_size4,mem_fraction_static0.75,deterministicTrue,attentionFA3,dtypeBF16,MoErunnertriton,routed-expertreturnTrue. Redacted native command logs contain disjoint CUDA_VISIBLE_DEVICES0,1,2,3 and4,5,6,7; weights14.37GB perTP rank, free63.58GB afterload. Known pinnedSGLangfreeze_gcConnectionRefused exception is logged/caught and followed byserverready, not initiating failure. Nativeenvreports verify all8trainerranks on0105 useplatformens20np0; inference/controller on0157 useplatformens22np0. No jobwideNICoverride. Initial inference checksum and weight_update_result version0observed. Firstrollout/optimizer/numericalvalidation stillawaited.
+
+## First actual OPD optimizer update: PASS
+
+Native event train_group_step_end roleactor/rollout0 reports all8rank cell_outcomesnormal. Native metric event reports loss=pg_loss0.12183857215740436, grad_norm8.074162483215332 (finite andnonzero), train_rollout_logprob_abs_diff0.02285756704150949. Trainshards0_0.pt and0_4.pt are present. This directly verifies the repaired frozen rewardhook reaches a successful optimizerupdate. Expectedtotalupdates2; actual1sofar. Fulltoken/R3 equality, detailednumericdistributions and updatedweightpublication still require the nativeinspectorafterbothrollouts.
+
+## Final native H800 dump inspection: PASS
+
+The unchanged native inspector exited0 after both optimizer updates. All8sampledturns have matching source/completion boundaries, exact inference/teacher/training token IDs, identical full R3 arrays and matching published weight versions0/1. Native policydebug contains8calls, allfinite. All16rank outcomes across two steps are normal; both nonzero gradientnorms and losses arefinite. Initial/intermediate nativepublication checks passed;1368inference tensorchecksumschanged. Seven completions finished normally; one1024-tokencompletion is explicitlytruncated and its thinking/body/tokens remain represented, teacher-scored and consumed exactly. Nativegeneratedtoolcalls arebash/editor; originalsubmitserialization and sourcehashes were validated separately. The final optimizer update is not published by the existingdriver, so the publication claim covers0/1only. H200training remainsunqualified. Complete aggregateobservations follow; no rawsamples/tensors are retained.
+
+
+```json
+{
+  "structural_checks": "passed",
+  "sampled_weight_versions_match_publications": true,
+  "numerical_parity": "measured; no uncalibrated tolerance asserted",
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800/exp-1105-141808-864508/261105-062519-86os",
+  "rollouts": [
+    {
+      "rollout_id": 0,
+      "samples": [
+        {
+          "source_category": "thinking_only",
+          "completion_category": "thinking_only",
+          "prompt_tokens": 33616,
+          "completion_tokens": 777,
+          "reasoning_chars": 221,
+          "body_chars": 131,
+          "tool_names": [
+            "bash"
+          ],
+          "status": "completed",
+          "weight_version": "0",
+          "teacher_mean_logprob": -0.4306682496571575
+        },
+        {
+          "source_category": "control_only",
+          "completion_category": "neither",
+          "prompt_tokens": 28408,
+          "completion_tokens": 34,
+          "reasoning_chars": 0,
+          "body_chars": 0,
+          "tool_names": [
+            "str_replace_editor"
+          ],
+          "status": "completed",
+          "weight_version": "0",
+          "teacher_mean_logprob": -0.4551735063888013
+        },
+        {
+          "source_category": "neither",
+          "completion_category": "neither",
+          "prompt_tokens": 10366,
+          "completion_tokens": 45,
+          "reasoning_chars": 0,
+          "body_chars": 81,
+          "tool_names": [
+            "str_replace_editor"
+          ],
+          "status": "completed",
+          "weight_version": "0",
+          "teacher_mean_logprob": -0.4903947015119417
+        },
+        {
+          "source_category": "control_and_thinking",
+          "completion_category": "neither",
+          "prompt_tokens": 40380,
+          "completion_tokens": 281,
+          "reasoning_chars": 0,
+          "body_chars": 175,
+          "tool_names": [
+            "bash"
+          ],
+          "status": "completed",
+          "weight_version": "0",
+          "teacher_mean_logprob": -0.5565820278699095
+        }
+      ],
+      "training": {
+        "sample_count": 4,
+        "scored_tokens": 1137,
+        "same_token_ids": true,
+        "r3_arrays_equal": true,
+        "r3_shapes": [
+          [
+            40660,
+            47,
+            4
+          ],
+          [
+            28441,
+            47,
+            4
+          ],
+          [
+            34392,
+            47,
+            4
+          ],
+          [
+            10410,
+            47,
+            4
+          ]
+        ],
+        "logprob_abs_mean": 0.02285756729543209,
+        "logprob_abs_p50": 2.656690776348114e-05,
+        "logprob_abs_p95": 0.18422430753707886,
+        "logprob_abs_p99": 0.36120176315307617,
+        "logprob_abs_max": 0.5691769123077393,
+        "tis_ratio_mean": 0.9968857765197754,
+        "tis_outside_0_5_to_2_fraction": 0.0
+      }
+    },
+    {
+      "rollout_id": 1,
+      "samples": [
+        {
+          "source_category": "thinking_only",
+          "completion_category": "thinking_only",
+          "prompt_tokens": 33616,
+          "completion_tokens": 1024,
+          "reasoning_chars": 185,
+          "body_chars": 3499,
+          "tool_names": [],
+          "status": "truncated",
+          "weight_version": "1",
+          "teacher_mean_logprob": -0.4535876809412073
+        },
+        {
+          "source_category": "neither",
+          "completion_category": "thinking_only",
+          "prompt_tokens": 10366,
+          "completion_tokens": 40,
+          "reasoning_chars": 81,
+          "body_chars": 0,
+          "tool_names": [
+            "str_replace_editor"
+          ],
+          "status": "completed",
+          "weight_version": "1",
+          "teacher_mean_logprob": -0.5513941243233639
+        },
+        {
+          "source_category": "control_only",
+          "completion_category": "neither",
+          "prompt_tokens": 28408,
+          "completion_tokens": 34,
+          "reasoning_chars": 0,
+          "body_chars": 0,
+          "tool_names": [
+            "str_replace_editor"
+          ],
+          "status": "completed",
+          "weight_version": "1",
+          "teacher_mean_logprob": -0.4337148281568356
+        },
+        {
+          "source_category": "control_and_thinking",
+          "completion_category": "neither",
+          "prompt_tokens": 40380,
+          "completion_tokens": 544,
+          "reasoning_chars": 0,
+          "body_chars": 1236,
+          "tool_names": [
+            "bash"
+          ],
+          "status": "completed",
+          "weight_version": "1",
+          "teacher_mean_logprob": -0.5337220707877887
+        }
+      ],
+      "training": {
+        "sample_count": 4,
+        "scored_tokens": 1642,
+        "same_token_ids": true,
+        "r3_arrays_equal": true,
+        "r3_shapes": [
+          [
+            40923,
+            47,
+            4
+          ],
+          [
+            28441,
+            47,
+            4
+          ],
+          [
+            34639,
+            47,
+            4
+          ],
+          [
+            10405,
+            47,
+            4
+          ]
+        ],
+        "logprob_abs_mean": 0.02532082237303257,
+        "logprob_abs_p50": 2.8676120564341545e-05,
+        "logprob_abs_p95": 0.18200476467609406,
+        "logprob_abs_p99": 0.4187361001968384,
+        "logprob_abs_max": 0.8846728801727295,
+        "tis_ratio_mean": 0.9986959099769592,
+        "tis_outside_0_5_to_2_fraction": 0.0006090134265832603
+      }
+    }
+  ],
+  "policy_loss_calls": 8,
+  "events": {
+    "event_types": {
+      "env_report": 47,
+      "metric": 8,
+      "engine_env_report": 2,
+      "inference_engine_weight_checksum": 2,
+      "weight_update_result": 2,
+      "train_group_step_end": 2
+    },
+    "optimizer_rollouts": [
+      0,
+      1
+    ],
+    "train_metrics": [
+      {
+        "train/loss": 0.12183857215740436,
+        "train/pg_loss": 0.12183857215740436,
+        "train/entropy_loss": 0.0,
+        "train/pg_clipfrac": 0.0,
+        "train/ppo_kl": 0.0,
+        "train/ess_ratio": 1.0,
+        "train/train_rollout_logprob_abs_diff": 0.02285756704150949,
+        "train/train_rollout_kl": 0.002687046584479098,
+        "train/ois": 1.0,
+        "train/mis_training_log_ppl": 0.34395530251106254,
+        "train/mis_training_ppl": 1.4137525466207674,
+        "train/mis_rollout_log_ppl": 0.33815406389999725,
+        "train/mis_rollout_ppl": 1.4056794796476473,
+        "train/mis_kl": 0.0058012700647037075,
+        "train/mis_k3_kl": 0.002687044697260794,
+        "train/mis_log_ppl_diff": 0.005801262935212336,
+        "train/mis_log_ppl_abs_diff": 0.005822579695031427,
+        "train/mis_ppl_ratio": 1.0058240529834543,
+        "train/mis_chi2_token": -0.0011238617758637683,
+        "train/mis_chi2_seq": -0.7602492360137698,
+        "train/mis_tis_weight_before_bound": 0.9968857576475924,
+        "train/mis_tis_mask_fraction_low": 0.0,
+        "train/mis_tis_mask_fraction_high": 0.0,
+        "train/mis_tis_weight_after_bound": 0.9968857576475924,
+        "train/mis_is_ratio_mean_after_tis_rs": 0.9968857576475924,
+        "train/mis_is_ratio_mean_final": 0.9968857576475924,
+        "train/mis_is_ratio_min_final": 0.602818095694536,
+        "train/mis_is_ratio_max_final": 1.466305265535675,
+        "train/opd_reverse_kl": 0.12092809081601803,
+        "train/grad_norm": 8.074162483215332,
+        "train/lr-pg_0": 2e-06,
+        "train/lr-pg_1": 2e-06,
+        "train/lr-pg_2": 2e-06,
+        "train/step": 0
+      },
+      {
+        "train/loss": 0.133864148380405,
+        "train/pg_loss": 0.133864148380405,
+        "train/entropy_loss": 0.0,
+        "train/pg_clipfrac": 0.0,
+        "train/ppo_kl": 0.0,
+        "train/ess_ratio": 1.0,
+        "train/train_rollout_logprob_abs_diff": 0.02478204604043159,
+        "train/train_rollout_kl": 0.0028686325965351657,
+        "train/ois": 1.0,
+        "train/mis_training_log_ppl": 0.35087910697463076,
+        "train/mis_training_ppl": 1.4217762732186359,
+        "train/mis_rollout_log_ppl": 0.34637908377978455,
+        "train/mis_rollout_ppl": 1.4154628144983252,
+        "train/mis_kl": 0.004500048750065422,
+        "train/mis_k3_kl": 0.003195986823245756,
+        "train/mis_log_ppl_diff": 0.004500045265262803,
+        "train/mis_log_ppl_abs_diff": 0.004500045265262803,
+        "train/mis_ppl_ratio": 1.004514222603913,
+        "train/mis_chi2_token": 0.004229121028142783,
+        "train/mis_chi2_seq": -0.9780310608727923,
+        "train/mis_tis_weight_before_bound": 0.9986958846395402,
+        "train/mis_tis_mask_fraction_low": 0.0,
+        "train/mis_tis_mask_fraction_high": 0.0006090133982947625,
+        "train/mis_tis_weight_after_bound": 0.9986958846395402,
+        "train/mis_is_ratio_mean_after_tis_rs": 0.9986958846395402,
+        "train/mis_is_ratio_mean_final": 0.9986958846395402,
+        "train/mis_is_ratio_min_final": 0.6196195391005633,
+        "train/mis_is_ratio_max_final": 1.862143810425548,
+        "train/opd_reverse_kl": 0.1317913227336851,
+        "train/grad_norm": 5.312740802764893,
+        "train/lr-pg_0": 2e-06,
+        "train/lr-pg_1": 2e-06,
+        "train/lr-pg_2": 2e-06,
+        "train/step": 1
+      }
+    ],
+    "published_weight_versions": [
+      0,
+      1
+    ],
+    "changed_inference_tensors": 1368,
+    "final_optimizer_update_published": false
+  }
+}
+```
+
+
+## Final terminal state and numerical interpretation
+
+Personal Pythonread_job.py exact141808query: platformSucceededfinish2026-11-05T06:41:31Z; head0105containerexit0/Completedfinished06:40:55Z, sibling0157containerexit0/Completedfinished06:41:29Z; bothrestart0. Launcher80047reported succeededandexit0, with lifecyclecleanup06:41:34Z. Nativeinspector exit0 and businessmarkers are separateverifiedevidence; noGPUallocation remains for thisrun. Bothworkerwrappers reached successfulreturnafterRaystop and `shutil.rmtree` of their task-owned `/var/tmp/ao-1105-141808-864508` directories.
+
+Numericaldifferences are observed, not exactbitwiseparity. Unmasked inspector tokenmeans0.02285756729543209/0.02532082237303257, p950.18422430753707886/0.18200476467609406, maxima0.5691769123077393/0.8846728801727295. TISout-of-range0/1137 and1/1642 (0%/0.0609013%), ratiosmean0.9968857765197754/0.9986959099769592. Native trainingmetrics0.02285756704150949/0.02478204604043159 use the reducer rebuilt from modifiedTISmasks in `miles/backends/training_utils/loss/hub/losses.py`; the inspector concatenates allsampledtoken differences. The secondmean discrepancy has differentmask/reduction scope and isnot a differentrun. Do not infer the exact numericalcause or claimall configurationsarequalified. No token/R3/versionmisalignment wasfound in these8turns.
+
+FinalzeroGPUcodesigncleanup submittedasexp-1105-144243-835275, launcher72043, samepinnedimage/personalidentity/localmount. Scope isonly exact141808cloudroot; deletionconfirmationpending. Consumed local173MiB pinnedSGLangsource, rawlogs, allwarmupmanifest/configuration/dumps/receipts undertaskevidence aredeleted afteraggregateMarkdownwasretained. Sharedsource datasets, modelassets, credentials and persistentPythonenvironmentsremain.
+
+## Final artifact cleanup: PASS
+
+Exactpersonal Pythonquery144243: Succeededfinish2026-11-05T06:46:57Z, containerCompleted/exit0/restart0, finished06:46:45Z oncpu-0131. LogAPIreturned0rows for thisshortjob; file/bytecountsUNKNOWN. Read-onlySSH independentlyconfirmed exact141808cloudroot and oldH200glm5.2-warmup.jsonl absent; listingthetaskcloudnamespace showedonlyanempty warmup-20261105-h800parent. Personal Running/Startingjoblist isempty. Nativeworker caches were removed beforeexit; alltask-localraw/evidence/temp source were consumed andremoved. Finaltemporaryhelper/launch-receiptdirectory `/data/ycfeng/tmp/agent-opd-20261105` is removed afteralllaunchers/queriesexit. Sharedmodels/datasets/credentials/environmentsandglobalJuiceFStrash were preserved. Localdfreportsapproximately110GiBfree. Taskdirectorycontainsonlyrequirements/plan/progress/summary/testreportMarkdown. gitdiff--checkPASS; noadditionalCPU/GPUtestsare justified for thisdocumentation-only archive.

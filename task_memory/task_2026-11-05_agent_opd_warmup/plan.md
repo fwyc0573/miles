@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-05 | Create the agentic OPD preparation record. |
+| 2026-11-05 | Record two verified H800 optimizer updates, numeric alignment and complete artifact cleanup. |
 
 # Plan
 
@@ -33,3 +34,11 @@ warmup on H800/codesign, with an explicit worker GPU-type check. This establishe
 workflow and H800 numerical evidence; the original H200 training qualification
 remains open. The queued H200 replacement is stopped through the mandated script.
 Do not expand the training size, change model/data inputs or retain warmup data.
+
+## Verified execution status (November 5, 2026)
+
+1. Branch, repository contracts and acceptance: completed.
+2. Company search and pinned FrogNano/Qwen3.5-4B downloads: completed,22files fullyverified.
+3. Actual glm5.2 turns and the native GLM OPD recipe: completed.
+4. Current temporary16H800/codesign warmup: completed. Two normal finite optimizer updates, nonzero gradients, exact token/R3 alignment, matching weightversions0/1,1368changedpublished tensors and measuredlogprob/TIS. Inspector exit0; bothcontainers andplatformSucceeded. H200training qualification remains outside theseH800observations.
+5. Final disposable artifact cleanup: completed and independently verified. Final archive commit and branch synchronization are in progress; only code and Markdown remain.
