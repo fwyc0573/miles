@@ -1601,3 +1601,119 @@
 
 
 - Refresh at 2026-11-05T09:25:23Z (17:25 HKT): all 21 current-session job and replica reads succeeded. Running requests and running containers both total 12 GPUs: the original benchmark on 0044 plus question 01 and question 16 on 0036. Starting requests total 60 GPUs, all unbound and Unschedulable: eleven 4-GPU shards plus the 16-GPU save diagnostic. Pending requests remain 24 GPUs. Running + Starting remains 72 GPUs; total active requests remain 96 GPUs. No new GPU job was submitted during this audit.
+
+
+## 2026-11-05T09:42:30.751051+00:00: alignment assessment and continued execution
+
+- User asked whether both student/teacher pairs have fully resolved training/inference mismatch. Answer: no. The GLM test has structural alignment evidence and residual measured logprob differences; Frog/Qwen has no recorded OPD training evidence. The authoritative assessment and numeric values are appended to the learning test report.
+- New read-only Frog/Qwen prerequisite check passed six tokenizer components plus byte equality of tokenizer_config.json/chat_template.jinja. No weight copying, caches, new GPU jobs or raw metadata artifacts.
+- Existing save probe is Running on 0178/0128 with runtime/Ray startup and four-turn preparation. Existing original first-question outcomes are all four resolved; original job was stopped at17:33:05HKT through the mandated script. Native replica phaseStopped and finishTimestamp09:33:09Z coexist with a retained old container Running snapshot. Direct native Pod read403. The original guard's overly strict historical-container check prevented cleanup submission; it was diagnosed and corrected to terminal replica phase plus finishTimestamp. Only the read-only local guard was restarted in session62319; no GPU launcher was interrupted. Consumption cleanup is still separately verified.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 80 个 source UID/hash 和 20 题已固定。 |
+| 20 次更新与完整导出 | FAILED | 更新已验证，最终保存失败；诊断开始执行。 |
+| 原生评测 | TODO | 首题四个有效评分，剩余题分片继续执行。 |
+| 两组 avg@4 | TODO | 缺完整 update20 模型和两组各 80 个有效评分。 |
+| 清理与同步 | TODO | 失效产物已删；原始首题消费和最终清理待确认。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 17:25 资源核对至当前两组合对齐检查｜**当前前沿：** 保存诊断、原始评测、消费后清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 消费 guard 的修正直接解决原始产物清理阻塞。 |
+| D2 细节反复重试 | CLEAR | 一次基于终态和历史容器字段冲突的修正；没有训练调参。 |
+| D3 支线问题修补 | CLEAR | 两组合对齐核查由用户要求。 |
+| D4 可并行任务停滞 | CLEAR | 保存诊断和剩余评测均执行或排队。 |
+| D5 超范围镀金 | CLEAR | 没有新增 Qwen 训练任务或扩大 benchmark。 |
+| D6 分析空转 | CLEAR | tokenizer 比较给出新证据；对齐结论明确为未充分验证。 |
+| D7 路线违背 | CLEAR | 本机个人 API、H800/codesign、个人云路径保持一致。 |
+
+**文档检查：** S5 plan/summary 的诊断排队和首题评分状态已滞后，已直接更新；S1–S4/S6 未发现明显缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：状态字段存在缺陷，已更新。
+
+**文档更新（先执行）：**
+1. plan/summary/learning 报告：记录诊断 Running、首题四个评分和两个组合的验证边界（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 保存诊断：收集原生保存结果和 cgroup/Ray 证据，定位失败后完成 20 次更新导出。
+2. 并行：剩余原始模型评测；导出后执行同题同 seed 的更新模型评测。
+3. 消费首题回执后删除原始产物，完成全部评分后删除其余测试产物并同步分支。
+
+## 4. 最值得关注的 3 点
+
+1. GLM 的 token/路由/版本检查通过，但残余数值差异没有经过充分验收。
+2. Frog/Qwen tokenizer 前提已验证，训练和数值对齐尚未验证。
+3. 保存诊断已开始执行，不能把 Running 或四个评分当作完整测试通过。
+
+
+- Question0 consumption completed: exp-1105-174121-815795 Succeeded, exact personal creator/local NFS, replica Completed exit0/restart0. Copied only eight outcome receipts plus engine identity; four valid/resolved outcomes independently read. Removed42files/98,215,176bytes. Worker source_exists_afterFalse; SSH observer at09:44:03Z still saw an empty directory with0files/0bytes, so independent directory absence is not claimed. Final cleanup owns that empty directory. Corrected guard62319 exited and its scripts/manifest self-deleted. This verifies the affected consumption step; the broader cleanup/80+80 benchmark remainsTODO under the preceding checkpoint.
+
+
+## 2026-11-05T09:51:37.040468+00:00: resumed alignment answer and live-job inspection
+
+- Re-read requirements, plan, latest report, repository rules, StepMind handbook and check-progress. No new training experiment or parameter change. GLM numerical qualification remains incomplete; Frog/Qwen has tokenizer prerequisites only. Source inspection confirms that TIS changes weights/masks and does not establish forward equality.
+- Exact save-probe read confirms Running replicas0128/0178. Personal cloud snapshot09:50:39Z includes normal rollout0 and matching publications0/1; no completed save markers. The save hypothesis remains pending. Existing original benchmark shards:6Running/13Starting; original serialjobStopped and failedcleanupSucceeded. Launchers remain alive.
+- Corrected the summary's outdated statement about twenty-update observations and its wording about replay arrays. Recorded the user's alignment status question in requirements. Model/student-teacher differences remain the intended OPD signal; same-student training/rollout differences require separate qualification.
+- Current route: consume the existing save diagnostic, then complete the exact update20 export; original-question grading continues independently. Do not rerun download preparation or launch a Qwen experiment to answer this status question. Cleanup consumed query logs/snapshots; local free109GiB.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 80 个训练来源和 20 道评测题已固定并对账。 |
+| 20 次更新与完整导出 | FAILED | 20 次更新已验证；最终保存失败，现有诊断继续执行。 |
+| 原生评测 | TODO | 首题四次有效评分；其余 19 题分片正在运行或启动。 |
+| 两组 avg@4 | TODO | 缺完整第 20 步模型与两组各 80 个有效评分。 |
+| 清理与同步 | TODO | 首题和失败产物已消费清理；最终清理依赖评测完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 17:42 对齐检查至 17:50 恢复核对｜**当前前沿：** 保存诊断、原始评测、已消费产物清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 读取现有脚本和作业，没有扩展测试工具。 |
+| D2 细节反复重试 | CLEAR | 检查既有保存假设；未调参或重复提交。 |
+| D3 支线问题修补 | CLEAR | 两组合的证据边界由用户要求核查。 |
+| D4 可并行任务停滞 | CLEAR | 原始评测与保存诊断同时执行。 |
+| D5 超范围镀金 | CLEAR | 没有新增 Qwen GPU 实验。 |
+| D6 分析空转 | CLEAR | 结论已明确，最新查询确认作业推进和保存仍未完成。 |
+| D7 路线违背 | CLEAR | 个人 Python API、本机 NFS、H800/codesign 和个人云目录保持一致。 |
+
+**文档检查：** S1–S6 均未发现明显缺陷；已将本次状态问题记录到 requirements，并纠正 summary 的历史措辞。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets 合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 保存诊断：读取完整标记或失败原因证据，完成可供评测的第 20 步导出。
+2. 并行：原始模型 20 题四 seed 原生评分；完整导出后执行更新模型同题同 seed 评分。
+3. 消费证据后清理临时文件，汇总实际分数，推送正常分支。
+
+## 4. 最值得关注的 3 点
+
+1. GLM 结构对齐检查通过，残余 logprob 差异仍未充分验收。
+2. Frog/Qwen 没有训练数值证据，资产准备不能视为训练通过。
+3. 两组 benchmark 和完整第 20 步模型仍是本阶段未完成事项。

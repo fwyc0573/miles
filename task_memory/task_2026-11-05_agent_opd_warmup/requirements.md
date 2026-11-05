@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record the two-model-pair alignment status question without expanding GPU test scope. |
 | 2026-11-05 | Record the requested reconciliation of 72 H800 GPUs with this session and actual scheduling states. |
 | 2026-11-05 | Create the agentic OPD preparation record. |
 
@@ -58,3 +59,10 @@ ps：及时清理测试产物和大文件，当前不是正式训练任务，在
 当前 h800 有72张卡（i-fengyicheng)被使用，这是当前session提交的rjobs吗？如果是，为什么你又说“容量快照中没有满足保存诊断或评测分片规格的空闲节点，作业会保持排队”？
 
 - Reconcile current session receipts against personal active RJobs and exact replica/container states. Distinguish GPU requests, node placement, running containers and unqueried hardware utilization; do not derive personal free quota from a node-resource snapshot. This question does not cancel the ongoing learning/benchmark test.
+
+
+[Original Request] 2026-11-05 alignment status question:
+当前测试过程中，2个组合（student+teacher）的训推不一致问题是否被充分解决？
+
+- Report actual evidence separately for GLM-4.7-Flash-Coder → GLM-4.7-Flash and FrogNano-4B-2609 → Qwen3.5-4B. Enabled flags, tokenizer equality, successful optimizer updates and benchmark outcomes do not individually establish training/inference numerical agreement.
+- This status question preserves the ongoing GLM twenty-update/benchmark objective. The current task has no Frog/Qwen OPD training execution; do not represent model-asset preparation as a second qualified training run.
