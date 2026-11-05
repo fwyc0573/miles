@@ -759,3 +759,66 @@ Diagnostic hypothesis before the next archive inspection: inspectedRunCheckPipel
 The exactquestion5sourceUIDis`b95c90fa-17b8-4429-9f16-b26336399418`. A disposablelocalhold in`/data/ycfeng/tmp/agent-opd-learning-20261105/native-diagnostic-holds.json` keeps only`exp-1106-022355-241310` out ofterminalrawconsumption until itsFileNotFoundErrorisdiagnosed. Theactualreadinesspredicate wasCPUevaluated: aheldterminalrowisexcluded while anunheldterminalsiblingremainsready; releasingthehold restoresboth. ASTparsePASS; nofixtureorGPUcreated.
 
 The oldconsumerCPUparent2741383waspausedonlyafteranexactcommandcheck; actualpsparentIDsconfirmednochildrenbothbeforeandafterthepause. Itwasthenreplacedbyconsumer toolsession38943. NoGPUlauncher,followupcontroller,recoverycontrollerorfinalwaiterwasstopped. Subsequent scansreadtheholdfileeachtime,so releasingthediagnosisholdrequiresnorestart. Healthyterminaljobscontinueconsumption. Onlytheexactneededtrajectory/diagnosticsaretemporarilyretained; currentlocaldisksafetyremains94GiBfree.
+
+
+## Exact Django native initialization cause (2026-11-06T05:05:49.860928+08:00)
+
+PASS for the exact initiating-event attribution: source`exp-1106-022355-404162`,UID`f524e895-d38a-4443-9031-c241ed8bd14b`,question13/seed1729. The selected archived`diagnostics/native-20-1729.log`containsaSessionRouterCreateErroreventfornativePod`session-6980254f-8e4b-44d6-bcee-c8567772e7aa`,UID`0344433f-678f-4eaa-b96b-f53c8d202efc`. Eventtime2026-11-06T02:52:15+08:00(2026-11-05T18:52:15Z): failedtoresolve/pull`hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034`; registrymanifestHEADreturned500InternalServerError. ThewrapperreportsSessioncreationfailedafter3attempts. Thisconfirmsnativeimagepullfailureforatleastthisrecordedevent; theupstreamregistryserver'sinternalcauseisUNKNOWN. Astropy'sseparateconsumedsourcefailuresremainUNKNOWN.
+
+Exactscopedreadcommand: localpython3subprocessSSH`shai-ycfeng`,verifiedremoteidentity`i-fengyicheng`,bounded`timeout60spython3-`; readonlypathsremainunder`/mnt/ws-jfs/ycfeng/miles/agent-opd/learning-20261105/benchmark-basemind/exp-1106-022355-404162`. SelectedeventlineswerestrippedofANSIandcredential-bearinglinesomitted; norawlogwasretainedlocally. Pipelineexitsare[0,0,0,0]. Theworkercontainerterminatedexit0/Completed/restart0at2026-11-06T05:02:56+08:00,whiletheRJobphasewasstillRunninginthe05:03:41HKTsnapshot. Asecondworker`exp-1106-022355-269932`hadalsoterminatedexit0/restart0whileitsplatformphaselagged. PhaseRunningalonecannotbecountedashardwareutilization.
+
+ExistingDjangorecovery`exp-1106-043046-214233`stillPendingwithnoreplica; noadditionalsubmissionwasmade. Producerupdatedvalidcountincreasedto22/80; originalremains80/80.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-404162`, UID `f524e895-d38a-4443-9031-c241ed8bd14b`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 3. Failed attempts remain missing and never become model failures. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-14034",
+    "seed": 1729,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034\": rpc error: code = Unknown desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034\": unexpected status from HEAD request to https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-14034: 500 Internal Server Error', 'type': 'Warning', 'creationTimestamp': '2026-11-06T02:52:15+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-6980254f-8e4b-44d6-bcee-c8567772e7aa', 'uid': '0344433f-678f-4eaa-b96b-f53c8d202efc', 'apiVersion': 'v1', 'resourceVersion': '17630756877', 'fieldPath': 'spec.containers{session-6980254f-8e4b-44d6-bcee-c8567772e7aa}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T18:52:15Z', 'lastTimestamp': '2026-11-05T18:52:15Z', 'sourceKind': 'pod', 'sourceName': 'session-6980254f-8e4b-44d6-bcee-c8567772e7aa', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  }
+]
+```
+
+
+## Additional native initialization recovery preparation
+
+Source question6/seed1732: exp-1106-022355-203919, UID7ca968e3-a1e3-4a62-b110-49640e3642e3, django__django-11099; EnvInitError at2026-11-06T04:44:08+08:00,27.2356seconds. Source question18/seed1729: exp-1106-022355-200090, UID11a921d2-c0a5-4248-8e45-df23938ad74a, django__django-14500; EnvInitError at2026-11-06T05:08:52+08:00,88.2089seconds. Their initiating causes remainUNKNOWN until exact source diagnostics are available.
+
+A separate plan native-init-recovery-plan-followup.json owns only these two failed pairs. The same disposable recovery/probe implementation now accepts --plan, takes allowed task IDs and the probe result path from that plan, and avoids fixed two-image choices. Existing controller16803 and both GPUchildren remain unchanged. Actual source argument equality, resource equality, personal UID/quota and failed/active-copy exclusion passed. The first CPU fixture incorrectly expected a charged_group manifest field; the actual submit.py owns charged_group=codesign. The corrected source checks passed. A second fixture then shadowed its own plan Path with the probe's correctly parsed plan dictionary. These are CPU validation-script errors, not worker failures; no native session or GPU was submitted by either check. The check-progress correction above has been applied: plan.md references the actual failures, and the remaining qualification uses native Config API directly. All benchmark parameters and the80validdenominator are preserved.
+
+
+NATIVE_INIT_RECOVERY_PROBE {"native_exit": 0, "probes": [{"task_id": "django__django-11099", "endpoint": "http://session-router-basemind.i-stepfun.com", "image": "hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11099", "unix_time": 1793913599.2144244, "session_id": "a7216ad5-c27e-4c88-b4cd-2df86fccc434", "ready": true, "shell": {"exit_status": 0, "stdout": "agent_opd_sandbox_ok", "stderr": ""}, "status": "passed", "close_requested": true, "elapsed_seconds": 16.009140263311565}, {"task_id": "django__django-14500", "endpoint": "http://session-router-basemind.i-stepfun.com", "image": "hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14500", "unix_time": 1793913615.2256556, "session_id": "140d1f1a-25c2-46af-8410-76a91f30a8aa", "ready": true, "shell": {"exit_status": 0, "stdout": "agent_opd_sandbox_ok", "stderr": ""}, "status": "passed", "close_requested": true, "elapsed_seconds": 10.92830130085349}], "independent_closures": [{"session_id": "a7216ad5-c27e-4c88-b4cd-2df86fccc434", "http_status": 200, "phase": "Succeeded", "terminal": true}, {"session_id": "140d1f1a-25c2-46af-8410-76a91f30a8aa", "http_status": 200, "phase": "Succeeded", "terminal": true}]}
+
+
+NATIVE_INIT_TARGETED_RECOVERY_STARTED: source exp-1106-022355-203919, UID 7ca968e3-a1e3-4a62-b110-49640e3642e3, question index 6, seeds [1732], launcher PID 3700901; exact original parameters plus selected seeds only.
+
+
+NATIVE_INIT_TARGETED_RECOVERY_STARTED: source exp-1106-022355-200090, UID 11a921d2-c0a5-4248-8e45-df23938ad74a, question index 18, seeds [1729], launcher PID 3700903; exact original parameters plus selected seeds only.
+
+
+## Verified followup recovery identities and live scoring (2026-11-06T05:25:54.941216+08:00)
+The local personal Python RJobClient verified both already-submitted recovery receipts; no additional pair was submitted. Exact payloads retain one replica, four H800 GPUs, 24 CPUs, 300000 Mi memory, the pinned company image, quota codesign, and current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. Both remain Pending without replicas.
+| Question index | Seed | RJob | UID | Phase |
+| --- | --- | --- | --- | --- |
+| 6 | 1732 | exp-1106-052044-875988 | e5799e86-fa09-4d9c-ade2-618e8d761b8e | Pending |
+| 18 | 1729 | exp-1106-052044-894487 | 83653e8a-25a3-483c-b60e-61f55cd7074c | Pending |
+
+Scoring read at `2026-11-06T05:24:49.320565+08:00`:44 native source/recovery receipts,80 valid original and26 valid updated outcomes. Five generation EnvInitError pairs and one returned-generation/grader-invalid FileNotFoundError pair are tracked separately; all five initialization pairs already have unique recovery requests. Exact question5/seed1732 source UID remains `b95c90fa-17b8-4429-9f16-b26336399418`; its other seeds1729/1731 are still generating, so final diagnostics and pipeline exits are not yet archived. Its hold remains in effect while all healthy jobs continue.
+Personal current-object query returned eight updated Running and eleven Pending, including the four existing recovery RJobs; no new platform failure was found among the updated benchmark jobs. These phases do not measure GPU hardware utilization. The native adapter can record returned after an internally handled agent error; the prior no-trajectory/no-patch hypothesis remains unresolved pending exact diagnostic artifacts.
+Commands: `timeout 60s bash personal_exec.sh -` for exact personal job/payload reads; `timeout 60s bash personal_exec.sh query_basemind_current.py`; scoped local `python3` SSH read of membership-bound generation/grading receipts under the exact personal benchmark root. Host Python3 is used because plain python is absent. Selected temporary JSON is task scratch and will be consumed after final aggregation.
+All existing GPU launchers, recovery controllers, raw-output consumer38943 and final waiter96862 remain alive. The second recovery controller is PID3692388, with children3700901/3700903. Local available disk remains94GiB; no consumed large output is retained for this inspection.

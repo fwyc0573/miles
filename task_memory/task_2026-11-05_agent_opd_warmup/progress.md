@@ -3743,3 +3743,151 @@ Diagnostic hypothesis before the next archive inspection: inspectedRunCheckPipel
 The exactquestion5sourceUIDis`b95c90fa-17b8-4429-9f16-b26336399418`. A disposablelocalhold in`/data/ycfeng/tmp/agent-opd-learning-20261105/native-diagnostic-holds.json` keeps only`exp-1106-022355-241310` out ofterminalrawconsumption until itsFileNotFoundErrorisdiagnosed. Theactualreadinesspredicate wasCPUevaluated: aheldterminalrowisexcluded while anunheldterminalsiblingremainsready; releasingthehold restoresboth. ASTparsePASS; nofixtureorGPUcreated.
 
 The oldconsumerCPUparent2741383waspausedonlyafteranexactcommandcheck; actualpsparentIDsconfirmednochildrenbothbeforeandafterthepause. Itwasthenreplacedbyconsumer toolsession38943. NoGPUlauncher,followupcontroller,recoverycontrollerorfinalwaiterwasstopped. Subsequent scansreadtheholdfileeachtime,so releasingthediagnosisholdrequiresnorestart. Healthyterminaljobscontinueconsumption. Onlytheexactneededtrajectory/diagnosticsaretemporarilyretained; currentlocaldisksafetyremains94GiBfree.
+
+
+## Exact Django native initialization cause (2026-11-06T05:05:49.860928+08:00)
+
+PASS for the exact initiating-event attribution: source`exp-1106-022355-404162`,UID`f524e895-d38a-4443-9031-c241ed8bd14b`,question13/seed1729. The selected archived`diagnostics/native-20-1729.log`containsaSessionRouterCreateErroreventfornativePod`session-6980254f-8e4b-44d6-bcee-c8567772e7aa`,UID`0344433f-678f-4eaa-b96b-f53c8d202efc`. Eventtime2026-11-06T02:52:15+08:00(2026-11-05T18:52:15Z): failedtoresolve/pull`hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14034`; registrymanifestHEADreturned500InternalServerError. ThewrapperreportsSessioncreationfailedafter3attempts. Thisconfirmsnativeimagepullfailureforatleastthisrecordedevent; theupstreamregistryserver'sinternalcauseisUNKNOWN. Astropy'sseparateconsumedsourcefailuresremainUNKNOWN.
+
+Exactscopedreadcommand: localpython3subprocessSSH`shai-ycfeng`,verifiedremoteidentity`i-fengyicheng`,bounded`timeout60spython3-`; readonlypathsremainunder`/mnt/ws-jfs/ycfeng/miles/agent-opd/learning-20261105/benchmark-basemind/exp-1106-022355-404162`. SelectedeventlineswerestrippedofANSIandcredential-bearinglinesomitted; norawlogwasretainedlocally. Pipelineexitsare[0,0,0,0]. Theworkercontainerterminatedexit0/Completed/restart0at2026-11-06T05:02:56+08:00,whiletheRJobphasewasstillRunninginthe05:03:41HKTsnapshot. Asecondworker`exp-1106-022355-269932`hadalsoterminatedexit0/restart0whileitsplatformphaselagged. PhaseRunningalonecannotbecountedashardwareutilization.
+
+ExistingDjangorecovery`exp-1106-043046-214233`stillPendingwithnoreplica; noadditionalsubmissionwasmade. Producerupdatedvalidcountincreasedto22/80; originalremains80/80.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整校验已归档 |
+| 初始3：glm5.2信号与配置 | PASS | tokens、thinking、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及平台终态通过 |
+| 初始5：初始清理与同步 | PASS | 初始产物已删除，远端SHA已核验 |
+| 学习1：20题与80turns | PASS | 成员和训练排除证据已归档 |
+| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline和updated真实执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4为0.625 |
+| 学习4：updated80 | TODO | 最新producer有24有效，其他generation继续 |
+| 学习4：失败诊断、恢复和消费 | TODO | Django14034起因已确认；新增2个EnvInitError需同镜像Ready验证 |
+| 学习5：配对结果、清理和同步 | TODO | 依赖160有效结果和全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新和清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中 D1。
+**检测窗口：** 2026-11-06 04:58HKT至2026-11-06T05:18:20.468411+08:00｜**当前前沿：** updated评分、新缺失seeds的唯一恢复、精确失败诊断和消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | HIT | 新恢复CPU检查引入额外AST执行fixture，发生两个检查脚本错误；实际参数和来源核验已通过，余项只需native Config API |
+| D2 细节反复重试 | CLEAR | 没有重复GPU尝试；上述CPU fixture工作归入D1，真实恢复仍以Fresh Ready为条件 |
+| D3 支线问题修补 | CLEAR | 诊断仅服务完整80有效评分；没有修改无关组件 |
+| D4 可并行任务停滞 | CLEAR | 评测、原有恢复和终态消费继续并行；新源检查已通过 |
+| D5 超范围镀金 | CLEAR | 模型、bank、sampling、grader和4GPU规格保持原值 |
+| D6 分析空转 | CLEAR | 新逐seed扫描定位了question6/18的真实缺失pairs；Django原始事件完成归因 |
+| D7 路线违背 | CLEAR | 全部既有GPU launchers保留，缺失与invalid未被计为模型失败 |
+
+**文档检查：** S5 plan.md最后的Native initialization recovery段落仍写Three updated attempts；05:09阶段读取已有5份EnvInitError，应改为引用实际失败记录的表述。S1–S4、S6未发现明显缺陷。
+**归因：** D1执行偏离；文档中的数字不是CPU fixture错误的原因。
+
+## 3. 纠正建议
+
+**分支：** B：spec/plan存在状态表述缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md / Native initialization recovery：删除过期的固定3份计数，引用学习报告中的实际失败和seeds（可直接执行，80有效验收不变）。
+
+**需停止的偏离行为：**
+- D1 工具打磨：停止通用AST fixture和重复已通过的源参数检查；改为必要native Config字段比较，随后执行真实Ready/shell及独立关闭检查。
+
+**接下去的路线：**
+1. question6/seed1732与question18/seed1729：native Config镜像匹配后执行同镜像真实Ready/shell；通过并独立关闭后仅提交各自缺失seed。
+2. 并行：全部现有generation ‖ 已有3恢复seeds ‖ 终态消费；question5原始错误在其writers结束后诊断。
+3. 收齐160有效后报告avg@4、配对差值和questionbootstrap，再核验全部终态、精确删除测试产物并正常push。
+
+## 4. 最值得关注的 3 点
+
+1. CPU检查不应增加实际恢复的等待；已有参数与UID核验无需重复。
+2. 新2份EnvInitError来自不同源作业，不能把Django14034的HTTP500起因套用到它们。
+3. 训练、导出与重载已完成；当前关键路径是实际native生成和完整有效评分。
+
+
+## Additional native initialization recovery preparation
+
+Source question6/seed1732: exp-1106-022355-203919, UID7ca968e3-a1e3-4a62-b110-49640e3642e3, django__django-11099; EnvInitError at2026-11-06T04:44:08+08:00,27.2356seconds. Source question18/seed1729: exp-1106-022355-200090, UID11a921d2-c0a5-4248-8e45-df23938ad74a, django__django-14500; EnvInitError at2026-11-06T05:08:52+08:00,88.2089seconds. Their initiating causes remainUNKNOWN until exact source diagnostics are available.
+
+A separate plan native-init-recovery-plan-followup.json owns only these two failed pairs. The same disposable recovery/probe implementation now accepts --plan, takes allowed task IDs and the probe result path from that plan, and avoids fixed two-image choices. Existing controller16803 and both GPUchildren remain unchanged. Actual source argument equality, resource equality, personal UID/quota and failed/active-copy exclusion passed. The first CPU fixture incorrectly expected a charged_group manifest field; the actual submit.py owns charged_group=codesign. The corrected source checks passed. A second fixture then shadowed its own plan Path with the probe's correctly parsed plan dictionary. These are CPU validation-script errors, not worker failures; no native session or GPU was submitted by either check. The check-progress correction above has been applied: plan.md references the actual failures, and the remaining qualification uses native Config API directly. All benchmark parameters and the80validdenominator are preserved.
+
+
+## Verified followup recovery identities and live scoring (2026-11-06T05:25:54.941216+08:00)
+The local personal Python RJobClient verified both already-submitted recovery receipts; no additional pair was submitted. Exact payloads retain one replica, four H800 GPUs, 24 CPUs, 300000 Mi memory, the pinned company image, quota codesign, and current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. Both remain Pending without replicas.
+| Question index | Seed | RJob | UID | Phase |
+| --- | --- | --- | --- | --- |
+| 6 | 1732 | exp-1106-052044-875988 | e5799e86-fa09-4d9c-ade2-618e8d761b8e | Pending |
+| 18 | 1729 | exp-1106-052044-894487 | 83653e8a-25a3-483c-b60e-61f55cd7074c | Pending |
+
+Scoring read at `2026-11-06T05:24:49.320565+08:00`:44 native source/recovery receipts,80 valid original and26 valid updated outcomes. Five generation EnvInitError pairs and one returned-generation/grader-invalid FileNotFoundError pair are tracked separately; all five initialization pairs already have unique recovery requests. Exact question5/seed1732 source UID remains `b95c90fa-17b8-4429-9f16-b26336399418`; its other seeds1729/1731 are still generating, so final diagnostics and pipeline exits are not yet archived. Its hold remains in effect while all healthy jobs continue.
+Personal current-object query returned eight updated Running and eleven Pending, including the four existing recovery RJobs; no new platform failure was found among the updated benchmark jobs. These phases do not measure GPU hardware utilization. The native adapter can record returned after an internally handled agent error; the prior no-trajectory/no-patch hypothesis remains unresolved pending exact diagnostic artifacts.
+Commands: `timeout 60s bash personal_exec.sh -` for exact personal job/payload reads; `timeout 60s bash personal_exec.sh query_basemind_current.py`; scoped local `python3` SSH read of membership-bound generation/grading receipts under the exact personal benchmark root. Host Python3 is used because plain python is absent. Selected temporary JSON is task scratch and will be consumed after final aggregation.
+All existing GPU launchers, recovery controllers, raw-output consumer38943 and final waiter96862 remain alive. The second recovery controller is PID3692388, with children3700901/3700903. Local available disk remains94GiB; no consumed large output is retained for this inspection.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整size/SHA256验证已归档 |
+| 初始3：glm5.2信号与配置 | PASS | 原始tokens、thinking、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及平台终态成功 |
+| 初始5：初始清理与同步 | PASS | 该阶段产物已删除、远端SHA已核验 |
+| 学习1：20题与80turns | PASS | 成员和训练排除证据已归档 |
+| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline和updated真实执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4=0.625 |
+| 学习4：updated80 | TODO | 2026-11-06T05:24:49.320565+08:00有26有效，既有作业继续 |
+| 学习4：失败诊断、恢复和消费 | TODO | 5个初始化缺失pairs已有唯一恢复；question5诊断待其writers结束 |
+| 学习5：配对结果、清理和同步 | TODO | 依赖160有效评分及全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量及清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 05:18 HKT至2026-11-06T05:25:54.941216+08:00｜**当前前沿：** updated评分、既有恢复、精确失败诊断和终态消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 前次fixture偏离已停止；本轮只读现有receipts和实际payload |
+| D2 细节反复重试 | CLEAR | 五个缺失pairs已有唯一请求，没有重新提交 |
+| D3 支线问题修补 | CLEAR | 检查仅服务学习4完整有效分母 |
+| D4 可并行任务停滞 | CLEAR | 8Running、11Pending、恢复和消费者并行 |
+| D5 超范围镀金 | CLEAR | 模型、bank、sampling、grader及资源未改变 |
+| D6 分析空转 | CLEAR | 实际恢复UID已核验；26有效，继续真实评测 |
+| D7 路线违背 | CLEAR | 全部GPU launchers保留，invalid与模型分数分开 |
+
+**文档检查：** S1–S6均未发现明显缺陷；plan的过期固定失败计数已修正，当前恢复由学习4拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：既有updated评分 ‖ 四个已提交的恢复RJobs；完成标志为80唯一有效updated结果。
+2. question5及新初始化失败的精确diagnostics在writers结束后读取；有合法patch时仅重评，按实际起因处理缺失。
+3. 持续消费终态raw outputs；160有效后聚合avg@4、配对差值和questionbootstrap，再核验终态、精确清理并正常push。
+
+## 4. 最值得关注的 3 点
+
+1. 20次更新、完整HF及实际重载已完成，不需要重新训练。
+2. 初始化恢复仍Pending，question5的两份健康generation继续；不能重复这些pairs或用invalid替代分数。
+3. HF和评分receipts保留到验收，已消费大文件及时删除；数值残差与H200限制如实报告。
+
+
+2026-11-06T05:27:29.067295+08:00 queue verification: exact question3/job`exp-1106-022355-416903`,UID`4d681b11-e8f0-4080-b751-241ce1436ac3`,remainsPending/ranking1. Its latest native QueueWaiting event at2026-11-05T21:24:39Z (November6 05:24:39HKT) explicitly reports request4H800/queue remainingH800=1; one page/one event/no continuation. This is an exact scheduler quota observation, not a node-capacity or hardware-utilization estimate. Both new recovery jobs remainPending in codesign-default with no current live Events returned; the empty event results do not prove a scheduling cause. No duplicate request was submitted. Existing producer at2026-11-06T05:28:00.217195+08:00 records{'original': 80, 'updated': 27, 'invalid': 1}; updated full denominator remainsincomplete.
