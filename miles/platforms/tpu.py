@@ -8,6 +8,7 @@ from miles.platforms import Platform
 
 class TpuPlatform(Platform):
     device_type = "tpu"
+    visible_devices_env_var = "TPU_VISIBLE_CHIPS"
     # the tpu compile backend takes static shapes only
     dynamic_shapes = False
     nvml_numa_affinity = False

@@ -13,7 +13,7 @@ reward adapter is verified on CPU and pushed at `b3fd5780`.
 
 The user requested a temporary switch to H800/codesign. The queued H200 replacement
 `exp-1105-124538-296267` was intentionally stopped through the mandated script.
-The current warmup will use16H800, with otherwise unchanged training parameters.
+The latest16H800 warmup confirmed runtime and independent transfer, but its student and teacher overlapped local GPUs4/5. It was intentionally stopped at13:19:27HKT before any optimizer update. Per-engine subprocess visibility binding is repaired and passed413related CPU checks with23existing GPU/TPU skips; rerun the same training parameters for actual validation.
 H200 training qualification remains open.
 
 ## Deliverables
@@ -66,11 +66,11 @@ cleanup. Incident-bound preemption/OOM was not established.
 
 Fresh codesign query before H800 submission returned186nodes/63usable GPUs and
 0personal Running/Starting GPUs. This is capacity evidence, not a reservation.
-The explicit H800 worker CLI check passed. Local launcher 72538 created `exp-1105-130232-725485`; personal API confirmed Starting, two eight-GPU replicas, current-local NFS and both RDMA limits. Actual H800 optimizer execution is pending.
+The explicit H800 worker CLI check passed. `exp-1105-130232-725485` failed before Python: the local-mount wrapper tried to exec the export builtin. Exact worker logs and a CPU reproduction confirmed exit 127; an explicit bash wrapper passed. Two eight-GPU replicas, current-local NFS and RDMA limits were verified; The corrected job exp-1105-130933-760790 passed all16 CUDA kernel checks and independent transfer, then encountered the GPU overlap and native KV-memory failure. Actual optimizer execution remains unverified.
 
 ## Remaining work
 
-1. Run the selected16H800 warmup and inspect actual worker/GPU/source/runtime.
+1. Run the selected16H800 warmup with the verified per-engine device binding.
 2. Confirm two normal finite updates, nonzero gradients, changed published
    weights, identical teacher/student token IDs, R3 arrays, weight versions and
    measured train/inference logprob and TIS differences.
@@ -88,6 +88,6 @@ Consumed failed cloud output117,262,536bytes, raw RCA/logs/channel receipts and
 CPU test scratch have been removed. Earlier task image cleanup recovered about
 83GB. Local free space is approximately110GiB; remaining task temporary source
 is173MiB and active manifest/configuration988KiB. These are removed when no longer
-needed. Only code and Markdown conclusions enter Git. Verified scalar-fix remote
-SHA is `b3fd5780dabe40ca761d99110c7779d7b71be68d`; final validation and synchronization
+needed. Only code and Markdown conclusions enter Git. Latest preparation remote
+SHA is `26a1ad72f8be17bb265fdd52b290dd6016ad56d7`; final validation and synchronization
 remain unfinished.

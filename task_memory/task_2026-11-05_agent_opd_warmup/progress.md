@@ -872,3 +872,155 @@
 1. 真实 H800 作业已创建；optimizer 更新仍未观察到。
 2. 当前本机 NFS、个人身份、2×8 GPU 和 RDMA limits 已确认。
 3. 保持现有 allocation；H800 结果与 H200 未验证限制分开报告。
+
+- 2026-11-05T13:09:29.653529+08:00 step4 H800 attempt failed before Python: exp-1105-130232-725485 ended Failed at13:06:43HKT, launcher72538 exit1. Exact job UID5f0b16ab-c269-41cf-b090-8e612eca7ca5; failing replica UID4bde48ca-33bd-47c9-9c4a-dd624befaf9d on gpu-h800-0056 exit127 at13:06:36. Incident log confirms exec: export: not found. Local-mount RJob.submit_rjob wraps the entrypoint as cd SOURCE && exec COMMAND; our bare export command was invalid. CPU reconstruction returns127; explicit bash -lc wrapper returns0 and verifies inherited CUDA compat prefix. Sibling UID9b6e74d9-c0f8-4a8c-8a33-d899a4de07e8 on gpu-h800-0415 was closed by rjob-controller at13:06:43 before its container started. No training or optimizer update. This is a submission-command fix only; no package install, GPU parameter or native code change.
+
+- 2026-11-05T13:09:33+08:00 corrected H800 submission: exp-1105-130933-760790, launcher8731 alive. The user entrypoint is now explicit bash -lc wrapping the compatibility export and exec of /opt/sglang/bin/python3 -u -B; same pinned image, 2×8 H800/codesign non-preemptible, models, input and 2-rollout recipe. Previous allocation is terminal Failed; no duplicate active job.
+
+- Corrected H800 job Running on gpu-h800-0056/0415. Both worker runtime probes report source26a1ad72 with targeted source_status empty, Python3.12.16, Torch2.14.1+cu130, Transformers5.19.0, Ray2.58.1 and SGLang0.5.24.dev80+g056f871. All16 actual NVIDIA H800 GPUs pass FP32 sum10416 and BF16 matrix product16; both load the existing cuda-compat580.126.20 library and report driver API13000. Personal API confirms 2×8 GPU, local NFS100.96.128.195 and both RDMA limits. Native training still pending; this is runtime qualification only.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd 与最新 H800 指令一致。 |
+| 2. 模型资产 | PASS | 原完整校验保持有效。 |
+| 3. 数据与配置 | PASS | 实际 dataset.json 已发布；原始四类 turns 不变。 |
+| 4. 真实 16 H800 OPD | TODO | 16 张设备、CUDA、Ray、跨节点 transfer 已 PASS；更新待观察。 |
+| 5. 清理与同步 | TODO | 已消费失败 RCA 删除；准备提交已 push，最终清理待验收。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** H800 提交至实际 runtime/transfer 通过｜**当前前沿：** step4；step5 独立清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | CPU shell 复现直接修复实际启动失败；未扩展持久 harness。 |
+| D2 细节反复重试 | CLEAR | 原日志确认 exec export；先 RED/GREEN，再一次修正提交。 |
+| D3 支线问题修补 | CLEAR | 非阻塞平台 ip 诊断仅记录；未修无关依赖。 |
+| D4 可并行任务停滞 | CLEAR | 运行、远端准备同步、消费后 RCA 清理均推进。 |
+| D5 超范围镀金 | CLEAR | 相同 16 GPU、两次更新和原模型/data。 |
+| D6 分析空转 | CLEAR | 实际 H800 runtime/独立传输已通过，模型流程已启动。 |
+| D7 路线违背 | CLEAR | 个人 API、本机 NFS、codesign 和清理要求均保留。 |
+
+**文档检查：** S1–S6 无未修正缺陷；实际失败和修正命令已写入报告。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+
+1. step4：保持 launcher 8731，消费 native 模型与优化结果 → 完成标志：两次正常更新、finite/nonzero gradients、changed published weights、token/R3 与数值实测。
+2. 并行 step5：已消费文件及时删除；完成后最终 push → 完成标志：所有 task-owned warmup 数据清理，remote SHA 一致。
+
+## 4. 最值得关注的 3 点
+
+1. 真实 16 H800 的 CUDA、Ray 和通信已经通过；OPD update 尚未验证。
+2. 当前仅 exp-1105-130933-760790 活动；原失败来自命令包装，CPU 修复已有直接证据。
+3. 不再调整已通过的环境或通信；继续真实训练与数值验收。
+
+- 2026-11-05 continuation: personal API confirms exp-1105-130933-760790 Stopped at05:19:27Z; launcher8731 exited1 after requested stop. Replica phase is Stopped; cached container running fields do not establish live processes after Pod deletion. Optimizer updates remain0. Actual student context local_gpu_ids=[2,3,0,1] under CUDA_VISIBLE_DEVICES=2,3,0,1,4,5,7,6; current base_gpu_id=2 and gpu_id_step=1 use local2,3,4,5, overlapping teacher base4 on4,5. Student weight-memory28.75GB and native KV planning failure follow teacher allocation. The overlap is directly demonstrated by the launch parameters; its contribution to the memory failure is an inference. Next hypothesis: restrict each engine subprocess to its assigned physical IDs, use base0, preserve generic remapping order. Expected: disjoint engine allocations with unchanged0.75 static memory; both ready and two native optimizer updates.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd，16H800 steering已记录。 |
+| 2. 模型资产 | PASS | 22文件完整校验已完成。 |
+| 3. 数据与配置 | PASS | 原始四类turns及reward链路已验证。 |
+| 4. 真实OPD更新 | FAILED | 最近H800 engine GPU重叠，更新0，作业已主动停止。 |
+| 5. 清理与同步 | TODO | 准备SHA26a1ad72已push；最终清理和验收待完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次runtime检查至GPU映射根因｜**当前前沿：** step4及独立清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅建立实际GPU重叠回归。 |
+| D2 细节反复重试 | CLEAR | 原始argv和worker映射形成可证伪假设，禁止盲增显存比例。 |
+| D3 支线问题修补 | CLEAR | 不处理无关baseline或平台ip诊断。 |
+| D4 可并行任务停滞 | CLEAR | 模型已完成；清理与CPU修复同步推进。 |
+| D5 超范围镀金 | CLEAR | 同样16GPU及两次更新。 |
+| D6 分析空转 | CLEAR | GPU配置已定位，下一步实现并提交。 |
+| D7 路线违背 | CLEAR | 使用个人API、本机NFS和codesign。 |
+
+**文档检查：** S5 summary仍称H800待启动，需更新为已停止/GPU overlap；S1–S4/S6未发现缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：更新过时状态后继续。
+
+**文档更新（先执行）：**
+1. summary/report：记录Stopped、GPU映射证据及0updates（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：engine设备隔离回归RED/GREEN后提交16H800 → 完成标志：两次正常finite更新及token/R3/weight/logprob实测。
+2. 并行step5：消费后删除旧cloud/raw文件 → 完成标志：仅活动输入及代码/Markdown。
+
+## 4. 最值得关注的 3 点
+
+1. 真实16H800 runtime和独立NCCL通过，但训练更新仍0。
+2. student/teacher重叠两张卡是已确认启动缺陷；保留原显存参数验证修复。
+3. H800验收不能声称H200训练已通过。
+
+- GPU isolation implementation complete: original4-case regression RED; core/worker/remapping308PASS and platform/Helm/engine105PASS23SKIP. Launch prefix restricts assigned physical devices and base0; platform owns CUDA/HIP/TPU variable. Static memory remains0.75. No unrelated baseline fixes. Step4 advances to actual rerun; step5 removes consumed stopped outputs through a local zero-GPU codesign cleanup job.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | H800 steering已记录。 |
+| 2. 模型资产 | PASS | 22文件完整。 |
+| 3. 数据与配置 | PASS | 四类turns和reward适配已验证。 |
+| 4. 实际训练 | FAILED | GPU隔离修复413PASS23SKIP；真实更新仍0，等待重新执行。 |
+| 5. 清理与同步 | TODO | 旧产物cleanup132840已提交；最终push等待验收。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** GPU隔离修复RED至相关检查通过｜**当前前沿：** step4和step5清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 回归直接覆盖实际overlap，已停止扩展。 |
+| D2 细节反复重试 | CLEAR | 单次有根因的修复已通过，不改显存参数。 |
+| D3 支线问题修补 | CLEAR | 未处理无关baseline。 |
+| D4 可并行任务停滞 | CLEAR | 旧cloud清理与代码验证同步推进。 |
+| D5 超范围镀金 | CLEAR | 仅设备绑定，无模型/算法扩展。 |
+| D6 分析空转 | CLEAR | 修复可提交，下一步实际16H800。 |
+| D7 路线违背 | CLEAR | 保留原资源、token和清理约束。 |
+
+**文档检查：** S1–S6均未发现未修正缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：commit并提交设备隔离后的16H800 → 完成标志：两个engine独占设备且两次normal optimizer更新，数值检查完成。
+2. 并行step5：消费后清理 → 完成标志：raw输出删除，最终remote SHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 设备隔离CPU验证通过，真实初始化仍需运行证据。
+2. 不增加0.75显存比例掩盖overlap。
+3. launcher必须存活直到平台终态；H200训练资格仍未验证。

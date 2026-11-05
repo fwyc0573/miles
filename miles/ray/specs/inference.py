@@ -8,6 +8,7 @@ from miles.backends.sglang_utils.sglang_api_client import WorkerType
 from miles.backends.sglang_utils.sglang_config import ModelConfig, ServerGroupConfig
 from miles.backends.sglang_utils.sglang_engine import compute_engine_launch_cmd
 from miles.backends.sglang_utils.sglang_scaling_config import ServerGroupScalingConfig
+from miles.platforms import current_platform
 from miles.ray.utils import NOSET_VISIBLE_DEVICES_ENV_VARS_LIST
 from miles.rollout.session.config import compute_session_server_config
 from miles.router.backend import make_router_backend
@@ -341,13 +342,13 @@ class InferenceEngineSpec(BaseCommandSpec):
         random_seed = (
             args.seed + group_scaling.engine_offset + ctx.cell_index * num_workers_per_cell + ctx.worker_in_cell_index
         )
-        return compute_engine_launch_cmd(
+        command = compute_engine_launch_cmd(
             args=args,
             interpreter_prefix=interpreter_prefix,
             # TODO: make the indexing it k8s native compatible
             node_rank=ctx.worker_in_cell_index,
             worker_type=server_group_config.worker_type,
-            base_gpu_id=ctx.local_gpu_ids[0],
+            base_gpu_id=0,
             sglang_overrides=server_group_config.overrides,
             num_gpus_per_engine=server_group_config.num_gpus_per_engine,
             dist_init_addr=f"{dist_init.host}:{dist_init.port}",
@@ -359,6 +360,10 @@ class InferenceEngineSpec(BaseCommandSpec):
             gated_launch_port=ctx.self_addrs[GATE_PORT_NAME].port,
             random_seed=random_seed,
         )
+        # Placement owns device selection. Override inherited visibility in the subprocess so
+        # SGLang's consecutive local ranks cover exactly these IDs, including permuted masks.
+        visibility = f"{current_platform.visible_devices_env_var}={','.join(map(str, ctx.gpu_ids))}"
+        return f"{shlex.join(['env', visibility])} {command}"
 
 
 def _compute_inference_engine_scheduling(

@@ -744,3 +744,60 @@ export LD_LIBRARY_PATH="/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRA
 ```
 
 Expected: 16 actual H800 GPUs; two normal finite updates, nonzero gradients, changed published weights and native token/R3/logprob inspection. Actual: requested allocation shape is confirmed; GPU runtime and optimizer observations are pending.
+
+## H800 first attempt: FAIL before Python; command wrapping fixed on CPU
+
+`exp-1105-130232-725485` ended Failed at 13:06:43 HKT. Job UID `5f0b16ab-c269-41cf-b090-8e612eca7ca5`; replica `cfcd2084` UID `4bde48ca-33bd-47c9-9c4a-dd624befaf9d` on gpu-h800-0056 started its container at 13:06:34, then exited 127 / Error at 13:06:36. The exact incident log contains `bash: line 1: exec: export: not found`. `RJob.submit_rjob` wraps a local-mounted command with `cd SOURCE && exec COMMAND`; an entrypoint beginning with export becomes an invalid exec of a shell builtin.
+
+CPU command reconstruction used `/usr/bin/python3`, Bash and Python shlex quoting. The original `bash -lc 'cd SOURCE && exec export ... && exec PROBE'` returned 127 with the same error. The corrected outer command execs `bash -lc INNER`, where INNER performs the export before execing Python. It returned 0 and printed WRAPPED_COMMAND_PASS after asserting the CUDA compatibility directory was prepended. This reproduces and fixes command semantics only; actual H800 Python and GPU training remain unverified. The earlier pinned image observations independently verified `/opt/sglang/bin/python3`.
+
+Sibling `c4ca4238` UID `9b6e74d9-c0f8-4a8c-8a33-d899a4de07e8` on gpu-h800-0415 was still creating its container when the RJob failed. Its stop annotation names `system:serviceaccount:kubebrain:rjob-controller`; stopTimestamp 13:06:43 follows the other replica's error. Its final container exit code is UNKNOWN. The local launcher's Job Stop at 13:06:44.956 is later cleanup. There is no initiating preemption or OOM evidence in returned incident data.
+
+RCA used the installed collect_failure_evidence.py through the existing personal Python 3.10.6 / brainpp 2.8.6 wrapper. Window 2026-11-05T05:06:25Z through 05:07:10Z, timeout 12s, exact job/replica names and personal creator. Logs returned 33 failing-replica rows and 0 sibling rows, below limit 3000. Live Events 9/11 and 9/4, historical Events 8/4 and 8/2; all pages completed. Existing DeepScan count 0. Both all-operation audit queries for both replicas timed out at 12s, so audited stop-request details remain unavailable. This query failure does not invalidate the observed shell error or container/stop timeline. No Python receipt or cloud warmup output was produced.
+
+Consumed raw RCA files were removed immediately. Real optimizer updates remain 0.
+
+## Corrected H800 submission
+
+Local launcher 8731 created `exp-1105-130933-760790` at 13:09:33 HKT. Same submission flags and allocation as the first H800 attempt; name `agent-opd-native-h800-bash`. The corrected exact user command is:
+
+```bash
+bash -lc 'export LD_LIBRARY_PATH="/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" && exec /opt/sglang/bin/python3 -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/rjob_warmup.py --manifest /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/glm-replay-parent.json --student /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/zai-org/GLM-4.7-Flash/7dd20894a642a0aa287e9827cb1a1f7f91386b67 --teacher /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/whitecircle/GLM-4.7-Flash-Coder/d3c65039ae0797fb41d87cfa0c26438d7c425aa9 --output-root /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800 --shared-dir /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/native-warmup-h800 --gpu-type H800 --nodes 2 --gpus-per-node 8 --num-rollout 2 --startup-timeout 600 --training-timeout 3600'
+```
+
+This retains the platform local-mount wrapper and only places the required export inside an executable bash entrypoint. No worker package changes or training parameter changes.
+
+## Actual H800 runtime and allocation: PASS
+
+Corrected job `exp-1105-130933-760790` is Running on gpu-h800-0056 and gpu-h800-0415. Personal API verifies creator i-fengyicheng, codesign, non-preemptible, current-local NFS 100.96.128.195, two replicas with 8 GPUs / 48 CPU / 600000 Mi and both RDMA limits. Both actual runtime reports list eight NVIDIA H800 devices.
+
+Both workers run `/opt/sglang/bin/python3`, Python 3.12.16, Torch 2.14.1+cu130, Transformers 5.19.0, Ray 2.58.1, SGLang 0.5.24.dev80+g056f871, Polars 1.42.1 and Safetensors 0.8.0. Source revision is 26a1ad72f8be17bb265fdd52b290dd6016ad56d7; both targeted source_status lists are empty. This revision adds records to the previously committed H800 code.
+
+All 16 GPUs execute the native runtime probe's FP32 elementwise reduction and BF16 cuBLAS multiplication. Expected/actual squared sum 10416; expected/actual every matrix output 16. Both workers load `/usr/local/cuda-13.0/compat/libcuda.so.580.126.20` and return driver API 13000. Expected GPU count/type, imports and kernels PASS. Ray/communication, models, optimizer and numerical alignment require separate observations.
+
+## Actual H800 independent transfer worlds: PASS
+
+The same allocation passed weight_sync_probe.py with eight trainer ranks, four student-inference ranks and a separate five-rank transfer world. Both sender and receiver use channel bounds 8. BF16 tensor broadcast expected/actual sums 496 (version 0) and 528 (version 1), including all four receivers. Independent parent reductions expected/actual 36 for the trainer world and 10 for inference, before and after transfer. This verifies communication isolation on both actual H800 nodes. Both nvidia-smi outputs report 81559 MiB per GPU and driver 570.124.06. The platform's missing `ip` executable diagnostic is the same non-blocking P2P-probe message observed previously; all workload runtime/communication checks above completed. Native full-model synchronization and optimizer updates are still pending.
+
+
+## H800 engine device binding: FAIL before optimization
+
+Exact job exp-1105-130933-760790 is Stopped at2026-11-05T05:19:27Z after the authorized stop script; launcher8731 exited1. Native run261105-051021-ev3r produced24 env reports but no optimizer event, rollout/train dump or weight publication. Updates=0.
+
+Worker gpu-h800-0056 inherited CUDA_VISIBLE_DEVICES=2,3,0,1,4,5,7,6. The student context local_gpu_ids=[2,3,0,1] became --base-gpu-id2 --tp-size4 --gpu-id-step1, so SGLang used local2,3,4,5. Teacher base4 used4,5,6,7. Overlap4/5 is established by native argv and the pinned SGLang GPU-index formula. Ray2.58.1 get_gpu_ids returns IDs from the original visibility mask; the generic Miles remapper correctly preserves requested order. The loss of the remaining IDs occurs at the inference-spec launch consumer.
+
+Student reported28.75GB weight memory and failed every TP rank with Loaded weights leave no GPU memory for the KV cache under mem-fraction-static0.75; minimum0.7512. Teacher had14.37GB weights and28.79GB KV. Device overlap plausibly caused the planning failure; successful isolated initialization must test this inference. No memory-fraction increase is justified before that test. Regression covers identity, actual reordered and interleaved masks, two disjoint four-GPU engines, and platform-specific visibility environment selection.
+
+
+## Device isolation CPU regression: PASS
+
+The engine command now binds only ctx.gpu_ids in its subprocess through the platform visibility variable and uses base_gpu_id0. Ray worker and generic remapper contracts remain unchanged. This overrides inherited visibility because placement owns device selection. CUDA/HIP/TPU variable selection belongs to Platform; no call-site hardware branch was added.
+
+Environment: /data/ycfeng/envs/miles-agent-opd-cpu/bin/python, Python3.12.13, pytest9.1.1, Torch2.11CPU, pinned SGLang056f871 source. All commands use PYTHONPATH=/data/ycfeng/tmp/agent-opd-20261105/sglang-source/sglang-056f871a7ee8b4573832049011f0fdf52589cfd8/python:/data/ycfeng/sota-engine/miles, TMPDIR=/data/ycfeng/tmp and PYTHONDONTWRITEBYTECODE=1.
+
+- RED: python -m pytest tests/fast/ray/specs/test_inference.py -k TestEngineBaseGpuId -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/gpu-binding-pytest. Four failures in1.94s: no isolation prefix under identity/reordered/interleaved masks, and missing platform variable consumer.
+- GREEN: python -m pytest tests/fast/ray/specs/test_inference.py tests/fast/utils/workers/test_ray_worker_manager.py tests/fast/utils/test_misc.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/gpu-binding-pytest-green. 308PASS in7.65s. Both four-device engine sets match their allocation and are disjoint; existing ID-order and worker lifecycle checks pass.
+- Related: python -m pytest tests/fast/test_platform_contract.py tests/fast/utils/test_platforms.py tests/fast/backends/sglang_utils/test_sglang_engine.py tests/fast/utils/external_utils/command_utils/helm_backend/launcher/values/test_pool_entry.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/gpu-binding-pytest-related. 105PASS,23SKIP in6.19s. GPU/TPU-dependent cases retain their existing skips on this CPU host. No new failure.
+- git diff --check: PASS. Ruff executable is absent from the existing CPU environment; no package was installed for this optional check.
+
+Real GPU initialization and OPD numerical acceptance remain required. CPU launch correctness alone does not establish the absence of an H800 memory or training error.

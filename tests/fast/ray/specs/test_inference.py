@@ -1091,9 +1091,47 @@ def _make_engine_ctx(
 
 
 class TestEngineBaseGpuId:
-    def test_the_launch_command_uses_the_gpu_ids_the_worker_itself_resolved(self, tmp_path, monkeypatch):
-        """The manager runs without a visibility mask, so passing its physical ids would point sglang at
-        a device the engine process cannot see."""
+    @pytest.mark.parametrize(
+        "visible_ids",
+        [list(range(8)), [2, 3, 0, 1, 4, 5, 7, 6], [0, 4, 1, 5, 2, 6, 3, 7]],
+    )
+    def test_engine_commands_bind_disjoint_devices_under_permuted_visibility(self, tmp_path, monkeypatch, visible_ids):
+        """An engine must use all its assigned devices even when their local ordinals are not consecutive."""
+        config_path = tmp_path / "sglang.yaml"
+        config_path.write_text(
+            make_sglang_config_yaml(
+                server_groups=[{"worker_type": "regular", "num_gpus": 8, "num_gpus_per_engine": 4}]
+            )
+        )
+        args = make_args(sglang_config=str(config_path), rollout_num_gpus=8)
+        recorded: list[dict] = []
+        monkeypatch.setenv("CUDA_VISIBLE_DEVICES", ",".join(map(str, visible_ids)))
+
+        def _record(**kwargs) -> str:
+            recorded.append(kwargs)
+            return "launch-cmd"
+
+        monkeypatch.setattr(inference_specs, "compute_engine_launch_cmd", _record)
+        (spec,) = specs_inference_engine(args)
+        assignments = []
+        for cell_index, gpu_ids in enumerate(([0, 1, 2, 3], [4, 5, 6, 7])):
+            command = spec.launch_command(
+                _make_engine_ctx(
+                    spec,
+                    cell_index=cell_index,
+                    gpu_ids=gpu_ids,
+                    local_gpu_ids=[visible_ids.index(gpu_id) for gpu_id in gpu_ids],
+                )
+            )
+            argv = shlex.split(command)
+            assert argv == ["env", "CUDA_VISIBLE_DEVICES=" + ",".join(map(str, gpu_ids)), "launch-cmd"]
+            selected = list(map(int, argv[1].split("=", 1)[1].split(",")))
+            base = recorded[-1]["base_gpu_id"]
+            assignments.append(set(selected[base : base + 4]))
+            assert assignments[-1] == set(gpu_ids)
+        assert assignments[0].isdisjoint(assignments[1])
+
+    def test_visibility_binding_uses_the_platform_environment(self, tmp_path, monkeypatch):
         config_path = tmp_path / "sglang.yaml"
         config_path.write_text(
             make_sglang_config_yaml(
@@ -1101,17 +1139,13 @@ class TestEngineBaseGpuId:
             )
         )
         args = make_args(sglang_config=str(config_path), rollout_num_gpus=4)
-        recorded: dict = {}
-
-        def _record(**kwargs) -> str:
-            recorded.update(kwargs)
-            return "launch-cmd"
-
-        monkeypatch.setattr(inference_specs, "compute_engine_launch_cmd", _record)
+        monkeypatch.setattr(inference_specs, "compute_engine_launch_cmd", lambda **kwargs: "launch-cmd")
+        monkeypatch.setattr(
+            inference_specs, "current_platform", SimpleNamespace(visible_devices_env_var="HIP_VISIBLE_DEVICES")
+        )
         (spec,) = specs_inference_engine(args)
-        spec.launch_command(_make_engine_ctx(spec, gpu_ids=[6, 7], local_gpu_ids=[2, 3]))
-
-        assert recorded["base_gpu_id"] == 2
+        command = spec.launch_command(_make_engine_ctx(spec, gpu_ids=[6, 7], local_gpu_ids=[2, 3]))
+        assert shlex.split(command) == ["env", "HIP_VISIBLE_DEVICES=6,7", "launch-cmd"]
 
 
 class TestEngineMetaApiKey:

@@ -13,6 +13,7 @@ class Platform:
     """CUDA, and the base other platforms override: every method is the call main makes on CUDA."""
 
     device_type = "cuda"
+    visible_devices_env_var = "HIP_VISIBLE_DEVICES" if torch.version.hip else "CUDA_VISIBLE_DEVICES"
     # torch.compile(dynamic=True) works here; a platform without it runs dynamic-shape helpers eager
     dynamic_shapes = True
     # NVML sees the devices, so each training rank is pinned to its GPU's NUMA node
