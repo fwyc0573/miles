@@ -3891,3 +3891,85 @@ All existing GPU launchers, recovery controllers, raw-output consumer38943 and f
 
 
 2026-11-06T05:27:29.067295+08:00 queue verification: exact question3/job`exp-1106-022355-416903`,UID`4d681b11-e8f0-4080-b751-241ce1436ac3`,remainsPending/ranking1. Its latest native QueueWaiting event at2026-11-05T21:24:39Z (November6 05:24:39HKT) explicitly reports request4H800/queue remainingH800=1; one page/one event/no continuation. This is an exact scheduler quota observation, not a node-capacity or hardware-utilization estimate. Both new recovery jobs remainPending in codesign-default with no current live Events returned; the empty event results do not prove a scheduling cause. No duplicate request was submitted. Existing producer at2026-11-06T05:28:00.217195+08:00 records{'original': 80, 'updated': 27, 'invalid': 1}; updated full denominator remainsincomplete.
+
+
+## Exact held-seed timing and unavailable live Pod read (2026-11-06T05:32:53.454918+08:00)
+
+The held question5/seed1732 generation receipt records returned,seed_verified=true,230matchingmodelrequests and8216.695125764236seconds. Its grading receipt is invalid/FileNotFoundError after0.007200274616479874seconds. These observations do not identify the missing native artifact or initiating agent/environment cause. The previously recorded no-trajectory/no-patch hypothesis remains unresolved.
+
+A bounded personal Python read reverified sourceRJob`exp-1106-022355-241310`,UID`b95c90fa-17b8-4429-9f16-b26336399418`,creatori-fengyicheng and replicaownerUID; exact nativePodread`corev1_api.read_namespaced_pod(exp-1106-022355-241310-cfcd2084,client.namespace)` returnedForbiddenException/HTTP403. No exec,permissionchange,alternateprincipal orworkercontrol was attempted. Wait for the existing writer/archive path and retain the exactdiagnostichold. Allothernativeworkers,consumerandfinalwaitercontinue. Existingproducerrecords{'original': 80, 'updated': 28, 'invalid': 1} at2026-11-06T05:32:35.910115+08:00;80validupdatedremainsrequired.
+
+Normal personal push and independent ls-remote matched`20b1f0ddfe76195986f1128b8ce5d18553217738`; this synchronizes the current incomplete progress, not final benchmark acceptance.
+
+
+## Second native grader-invalid attempt retained (2026-11-06T05:44:05.886075+08:00)
+
+New question2/task`django__django-10097`,seed1731,updated20,source`exp-1106-022355-230182`,UID`e60b5398-a648-47a3-a635-8cf6c5be5c41`: native generation returned after7079.126944520511seconds with185verifiedengine requests. Grading returnedinvalid/ValueError after1215.2773185772821seconds. Its nativetrajectory/result diagnostics are not archived while siblingseeds1729/1730 stillgenerate. The exact source is held fromrawconsumption. Sourcecreator,codesign,pinnedimage,currentlocalNFS,4H800/24CPU/300000MiandRunningcontainer/restart0were reverified throughpersonalPythonAPI; nativePodread remainsunavailable bytheprior403probe.
+
+The existing native `_build_check_request` useschecktimeout1200 bydefault. Before artifact inspection: the1215.28secondgrade iscompatiblewiththenativecheckdeadline plusclosure/writeoverhead,butdurationdoesnotprove a timeoutorwhetheritwasinfrastructure/model-caused. Exactnativecheckresult status/error/testsummary mustsettle thishypothesis. Ifanexistingvalidtrajectory/patchisavailable,repeatonlythenativegraderunderthesameconfiguration; nogenerationrecoveryiscurrentlyauthorizedbythisincompletecauseevidence.
+
+Question5/seed1732remainsseparatelyheldwithFileNotFoundError. Allfivenativeinitializationfailuresretain theiralreadycreated uniquerecoveryrequests. Existingproducerat2026-11-06T05:42:33.896722+08:00recorded32validupdated/80originaland2grader-invalid; nofullupdatedavg@4isreported.
+
+
+## Closed-seed archival preparation verified (2026-11-06T05:53:49.028513+08:00)
+
+completed: inspectedwhole-jobarchiveexplainswhythenativeinvaliddiagnosticswaitforhealthy siblings. Thequalifiedcandidatearchivesonlythecompletedseed'sclosedfiles,thenconsumesitslocalcopy;finalserverarchiveusesexistingdestinationmerge. Fourdirectcandidatecasespassedbeforetheatomicliveedit. TheactualsourceandnewrepeatableI/OfailuretestsplusnativeHFexportregressionspassed10/10in1.29seconds. Exactcommands,conditionsandlimitsarein`test_report_2026-11-06_seed_archive.md`. Consumed55temporaryfiles/25230bytes;noGPUsubmitted.
+
+in-progress:existingproducerrecords{'original': 80, 'updated': 34, 'invalid': 2}at2026-11-06T05:53:20.708542+08:00. Bothsourcequestion2/seed1731andquestion5/seed1732areheld;oldworkerbytecoderetainsitsloadedarchivebehavior. Actualnew-workerearlyarchivewillbecheckedthroughitscanonicalfiles. Thisisanevidence-basedrecoveryroute;theuser'sexistingauthorizationremainsineffect.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd及个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整size/SHA256验证已归档 |
+| 初始3：glm5.2信号与配置 | PASS | 原始tokens、thinking、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及终态成功 |
+| 初始5：初始清理与同步 | PASS | 该阶段产物已删除、远端SHA已核验 |
+| 学习1：20题与80turns | PASS | 成员和训练排除证据已归档 |
+| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline和updated实际执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4=0.625 |
+| 学习4：归档代码与CPU验证 | PASS | 新旧归档问题已定位；4新回归和6既有导出回归通过 |
+| 学习4：updated80 | TODO | 最新producer记录34有效，完整80仍未达到 |
+| 学习4：失败诊断、恢复和消费 | TODO | 5个初始化pairs已有唯一恢复；2个invalid待精确诊断；新GPU归档待观察 |
+| 学习5：配对结果、清理和同步 | TODO | 依赖160有效评分及全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量及清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 05:25 HKT至2026-11-06T05:53:49.028513+08:00｜**当前前沿：** updated评分、既有恢复、两个invalid的精确诊断和终态消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 归档变更直接解除两份已记录诊断的等待问题；仅做4个必要回归并停止扩展 |
+| D2 细节反复重试 | CLEAR | 五个初始化pairs未重复提交；第二invalid先记录1200秒deadline假设再等原始证据 |
+| D3 支线问题修补 | CLEAR | 变更只服务学习4的失败诊断和及时清理 |
+| D4 可并行任务停滞 | CLEAR | 既有评分、恢复及消费者持续并行；quota限制已有精确事件 |
+| D5 超范围镀金 | CLEAR | 复用既有diagnostics路径和native执行；没有模型、参数、题库或grader扩展 |
+| D6 分析空转 | CLEAR | 精确UID、错误类型和持有记录已落地；归档准备代码及10检查已完成 |
+| D7 路线违背 | CLEAR | 全部GPU launchers保留，missing/invalid保持独立，未重新生成健康pairs |
+
+**文档检查：** S1–S6均未发现明显缺陷；plan已补充现有诊断/清理步骤的归档时机，验收范围不变。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：既有updated评分 ‖ 四个已提交的恢复RJobs；完成标志为80唯一有效updated结果。
+2. 两个held sources归档后，读取实际native错误和check结果；存在合法trajectory/patch时只复用nativegrader。后续worker的早期归档用实际文件验证。
+3. 持续消费终态raw outputs；160有效后聚合avg@4、配对差值和questionbootstrap，再核验终态、精确清理并正常push。
+
+## 4. 最值得关注的 3 点
+
+1. 两个invalid来自不同错误阶段，诊断不能合并归因或直接记零分。
+2. 完成seed的诊断归档代码已通过CPU验证；当前旧worker仍须等待其健康siblings结束。
+3. 全部评分和恢复继续；最终HF、最小receipts及未诊断原件保留到验收，其余大文件及时消费。

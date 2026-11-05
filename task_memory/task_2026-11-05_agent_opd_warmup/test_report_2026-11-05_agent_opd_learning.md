@@ -822,3 +822,37 @@ Scoring read at `2026-11-06T05:24:49.320565+08:00`:44 native source/recovery rec
 Personal current-object query returned eight updated Running and eleven Pending, including the four existing recovery RJobs; no new platform failure was found among the updated benchmark jobs. These phases do not measure GPU hardware utilization. The native adapter can record returned after an internally handled agent error; the prior no-trajectory/no-patch hypothesis remains unresolved pending exact diagnostic artifacts.
 Commands: `timeout 60s bash personal_exec.sh -` for exact personal job/payload reads; `timeout 60s bash personal_exec.sh query_basemind_current.py`; scoped local `python3` SSH read of membership-bound generation/grading receipts under the exact personal benchmark root. Host Python3 is used because plain python is absent. Selected temporary JSON is task scratch and will be consumed after final aggregation.
 All existing GPU launchers, recovery controllers, raw-output consumer38943 and final waiter96862 remain alive. The second recovery controller is PID3692388, with children3700901/3700903. Local available disk remains94GiB; no consumed large output is retained for this inspection.
+
+
+## Second native grader-invalid attempt retained (2026-11-06T05:44:05.886075+08:00)
+
+New question2/task`django__django-10097`,seed1731,updated20,source`exp-1106-022355-230182`,UID`e60b5398-a648-47a3-a635-8cf6c5be5c41`: native generation returned after7079.126944520511seconds with185verifiedengine requests. Grading returnedinvalid/ValueError after1215.2773185772821seconds. Its nativetrajectory/result diagnostics are not archived while siblingseeds1729/1730 stillgenerate. The exact source is held fromrawconsumption. Sourcecreator,codesign,pinnedimage,currentlocalNFS,4H800/24CPU/300000MiandRunningcontainer/restart0were reverified throughpersonalPythonAPI; nativePodread remainsunavailable bytheprior403probe.
+
+The existing native `_build_check_request` useschecktimeout1200 bydefault. Before artifact inspection: the1215.28secondgrade iscompatiblewiththenativecheckdeadline plusclosure/writeoverhead,butdurationdoesnotprove a timeoutorwhetheritwasinfrastructure/model-caused. Exactnativecheckresult status/error/testsummary mustsettle thishypothesis. Ifanexistingvalidtrajectory/patchisavailable,repeatonlythenativegraderunderthesameconfiguration; nogenerationrecoveryiscurrentlyauthorizedbythisincompletecauseevidence.
+
+Question5/seed1732remainsseparatelyheldwithFileNotFoundError. Allfivenativeinitializationfailuresretain theiralreadycreated uniquerecoveryrequests. Existingproducerat2026-11-06T05:42:33.896722+08:00recorded32validupdated/80originaland2grader-invalid; nofullupdatedavg@4isreported.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-203919`, UID `7ca968e3-a1e3-4a62-b110-49640e3642e3`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 3. Failed attempts remain missing and never become model failures. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-11099",
+    "seed": 1732,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11099\": rpc error: code = Unknown desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11099\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11099\": unexpected status from HEAD request to https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-11099: 500 Internal Server Error', 'type': 'Warning', 'creationTimestamp': '2026-11-06T04:44:07+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-5528148b-bda7-4b3b-b636-8535c8268501', 'uid': 'b0f4116c-1583-4fc8-bca3-9fbe625d8598', 'apiVersion': 'v1', 'resourceVersion': '17631747768', 'fieldPath': 'spec.containers{session-5528148b-bda7-4b3b-b636-8535c8268501}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T20:44:07Z', 'lastTimestamp': '2026-11-05T20:44:07Z', 'sourceKind': 'pod', 'sourceName': 'session-5528148b-bda7-4b3b-b636-8535c8268501', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  }
+]
+```

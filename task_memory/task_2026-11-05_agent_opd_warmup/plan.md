@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Archive completed native seed diagnostics before sibling generation ends. |
 | 2026-11-06 | Reference actual native initialization failures instead of a stale fixed count. |
 | 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
 | 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
@@ -123,3 +124,8 @@ After complete update20 HF/native inspection and actual first-server reload, use
 ## Native initialization recovery (November 6)
 
 Recorded updated attempts with final EnvInitError generation receipts are tracked by their exact source jobs and seeds in the learning report. First retain their exact native error and terminal identities; a bounded fresh same-image BaseMind readiness/tool probe runs in parallel. Recover only stable missing question/seed pairs through the existing --task-index/--seeds mechanism after new availability evidence. Preserve every valid or still-running pair. Partial source jobs and any recovery jobs retain their own UID, exits and outcome provenance. Final aggregation uses the production duplicate/identity checks across all actual roots; adapt disposable consumers to these actual receipts instead of requiring every job to supply four valid outcomes. The result still requires exactly80valid unique attempts per model and no inference/training parameter change.
+
+
+## Closed native seed diagnostics
+
+Two actual invalid grades require exact native trajectory/check-result diagnosis. Subsequent workers archive each seed's closed native log and work directory into the existing per-job diagnostics path as soon as that seed exits, and consume its worker-local copy only after successful archival. The server log is archived after shutdown. This improves the existing failure diagnosis and timely cleanup step without changing benchmark membership, sampling, tool execution or grader. The two already-running held sources retain their loaded whole-job archive behavior. CPU qualification is recorded in [the seed archive report](test_report_2026-11-06_seed_archive.md); actual GPU behavior remains a pending observation.

@@ -228,10 +228,24 @@ def _run_seed(server: dict, seed: int, args, output: Path, logs: Path) -> int:
     ]
     if args.task_index is not None:
         command.extend(["--task-index", str(args.task_index)])
-    with (logs / f"native-{server['version']}-{seed}.log").open("w") as log:
-        return subprocess.run(
+    native_log = logs / f"native-{server['version']}-{seed}.log"
+    with native_log.open("w") as log:
+        exit_code = subprocess.run(
             command, env=environment, stdout=log, stderr=subprocess.STDOUT, timeout=args.benchmark_timeout
         ).returncode
+    # This pipeline has exited; its files can be archived while sibling seeds run.
+    destination = output / "diagnostics"
+    destination.mkdir(parents=True, exist_ok=True)
+    seed_directory = logs / f"step{server['version']}" / f"seed-{seed}"
+    seed_exists = seed_directory.is_dir()
+    if seed_exists:
+        shutil.copytree(seed_directory, destination / seed_directory.relative_to(logs))
+    shutil.copy2(native_log, destination / native_log.name)
+    # Preserve local evidence if either archive operation fails.
+    if seed_exists:
+        shutil.rmtree(seed_directory)
+    native_log.unlink()
+    return exit_code
 
 
 def main():
@@ -294,8 +308,8 @@ def main():
                     server["process"].wait(timeout=10)
             server["log"].close()
         try:
-            # High-frequency logs stay local; archive only after all writers exit.
-            shutil.copytree(logs, output / "diagnostics")
+            # Completed seeds are already archived. The server is now closed.
+            shutil.copytree(logs, output / "diagnostics", dirs_exist_ok=True)
         finally:
             shutil.rmtree(local)
 
