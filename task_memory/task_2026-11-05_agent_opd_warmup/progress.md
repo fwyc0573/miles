@@ -1024,3 +1024,63 @@
 1. 设备隔离CPU验证通过，真实初始化仍需运行证据。
 2. 不增加0.75显存比例掩盖overlap。
 3. launcher必须存活直到平台终态；H200训练资格仍未验证。
+
+- Actual isolated-device submission: exp-1105-132957-419084 at13:29:57HKT; launcher13179 alive. Source4188258a, same two eight-H800 replicas/codesign, pinned CUDA13 image, originalmanifest/student/teacher, two rollouts and0.75static fraction. Capacity query returned186nodes/78usable GPUs and zero personal active GPUs before this submission. CPU final regression4PASS in1.78s after explicit ambient visibility setup. Consumed pytest scratch/raw previous job logs removed.
+
+- Personal API verifies fresh job132957 Starting: replicas2, creator i-fengyicheng, nonpreemptible,2×8GPU/48CPU/600000Mi, bothRDMA limits and NFS100.96.128.195. Nodes gpu-h800-0029/0056; sibling already Running, head ContainerCreating. Normal push succeeded; ls-remote confirms4188258a630041f8a91f7c13edc3b22c9055ac20. Consumed CPU logs removed. Previous native receipts required sudo due worker-root-owned directory; only the exact stopped-job directory was removed. Active input/receipts remain until consumption.
+
+- Startup inspection: sibling gpu-h800-0056 runtime confirms source4188258a and8H800 CUDA/BF16checks. Headgpu-h800-0029 and cleanupcpu-0007 events show Pulling pinnedimage at05:30:32Z/05:28:50Z. Head had initial05:30:13/14Z node authorization/mount events, followed by Pulling; these earlier events do not establish a persistent mount fault or training failure. Exact event queries each returned a completed page without continuation. Keep currentlauncher/allocation while containers initialize.
+
+- Cleanup132840 Succeeded at13:32:51HKT, launcher40972 exit0. Read-only SSH confirms exact previous130933 cloud path absent. No sharedmodel/source dataset or globalJuiceFS trash was touched. Current132957 head remainsContainerCreating/Pulling; siblingruntime8H800PASS, no optimizerupdate yet.
+
+- Runtime milestone: both132957 replicasRunning, all16H800 arithmeticPASS, twoRaynodes/16GPU and independenttransferPASS. Native run261105-053527-goqu. Phasecheckpoint: steps1/2/3PASS; step4TODOactualengine/optimizer; step5TODO. D1–D7CLEAR: directcurrentrun, no extra harness or recipechanges. S1–S6CLEAR after updating lateststate. Nextfrontier: nativebinding, twooptimizerupdates and numericaloutputs; then exactcleanup/push.
+
+- 13:43:48HKT isolated-device warmup132957 Failed; launcher13179 exit1 with latercleanup13:43:51. Updates0. Bothactualenginecommands use disjointphysicalmasks0,1,2,3 and4,5,6,7 withSGLangdefaultbase0. StudentTPweights14.37GB/free63.83GB, comparedto28.75GB inpreviousoverlaprun. Native0.75KVplanning passed andHTTPserverstartupcompleted. FreezeGCRequestException at05:42:14Z is logged/caught bypinnedSGLang and did notinitiatefailure.
+- Newinitiatingtrace: Megatronoptimizer _get_param_groups -> torch.distributed.all_gather_object at05:43:24Z -> ncclInvalidUsage / Bootstrap:no socket interface found. All8trainerenvreports onnode0056 showNCCL_SOCKET_IFNAME=ens20np0 whilethatnode'splatformNVSHMEMsocket andworker-initNCCLsocket areens22np0. Driverheadnode0029 hasens20np0. Raybackend automaticallycopiedheadNCCL/GLOOinterface envintojobwide runtime_env. Independentprobeusesnodeinheritedenvandpassed.
+- Feedbackloop: existingRaybackend submissionfixture withlauncherens20np0/workerens22np0. RED1FAIL1PASS in1.16s, exactwrongworkerinterface; explicitoverride/channelcontrols testalreadyPASS. Rankedhypothesesbeforefix: broadcastnode-specificselector; missingworkerNIC; collectivefault. Firsthypothesis directlymatchesenvreports andRED; second/thirdweakenedbyindependentNCCLprobe. MinimalfixremovesautomaticNICforwarding; explicitextra_env_varsandNCCLdebug/channelcontrolsstillforward. FullRaybackend/launchsuiteinprogress. Nextnativeexpectation: trainerretainsitsnodeplatformselectorandoptimizerinitializationpasses.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd和16H800约束。 |
+| 2. 模型资产 | PASS | 完整权重已下载并验证。 |
+| 3. 输入与配置 | PASS | 四类原turns，GPU隔离实测PASS，NIC回归PASS。 |
+| 4. 实际OPD | FAILED | nativeoptimizer初始化NIC覆盖，更新0；修复已验证待重跑。 |
+| 5. 清理与同步 | TODO | 旧130933已删除；本次失败输出待清理和最终push。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 隔离GPU实测至NIC修复GREEN｜**当前前沿：** step4及step5清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 一个实际NIC覆盖回归，已停止扩展。 |
+| D2 细节反复重试 | CLEAR | 两个不同启动缺陷均有实测/RED；未猜参数重试。 |
+| D3 支线问题修补 | CLEAR | 非致命freezeGC和无关baseline仅记录。 |
+| D4 可并行任务停滞 | CLEAR | CPU修复与精确RCA同时进行；资产已完成。 |
+| D5 超范围镀金 | CLEAR | 仍16H800和2次更新，无算法扩展。 |
+| D6 分析空转 | CLEAR | 已有最小代码修复，直接提交下一轮。 |
+| D7 路线违背 | CLEAR | 保留平台每节点NIC与原channel/模型配置。 |
+
+**文档检查：** S5最新Failed和NIC根因已同步summary；S1–S4/S6无缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：记录已修正，无需改范围。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：提交NIC修复并重跑16H800 → 完成标志：原nativeoptimizer初始化通过及两次normal更新/数值验收。
+2. 并行step5：清理132957失败输出与rawRCA → 完成标志：仅活动输入和代码/Markdown；最终push匹配。
+
+## 4. 最值得关注的 3 点
+
+1. GPU隔离已通过真实模型初始化，保留0.75参数。
+2. 训推数值和optimizer仍未验收，更新0。
+3. 已定位广播节点NIC根因，停止分析，运行已验证修复。

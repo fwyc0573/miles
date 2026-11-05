@@ -128,7 +128,9 @@ class RayCommandBackend(BaseCommandBackend):
             "NCCL_NVLS_ENABLE": os.environ.get("NCCL_NVLS_ENABLE") or str(int(self._check_has_nvlink())),
             **{
                 k: os.environ[k]
-                for k in ("NCCL_SOCKET_IFNAME", "GLOO_SOCKET_IFNAME", "NCCL_DEBUG", "NCCL_DEBUG_FILE")
+                # NIC names belong to each Ray node's inherited platform environment. A job-wide
+                # override is forwarded only when explicitly supplied through extra_env_vars.
+                for k in ("NCCL_DEBUG", "NCCL_DEBUG_FILE")
                 if k in os.environ
             },
             "no_proxy": f"127.0.0.1,{master_addr}",

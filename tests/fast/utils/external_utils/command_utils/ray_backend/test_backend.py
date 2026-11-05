@@ -90,6 +90,37 @@ class TestARayLaunchWithAGuard:
         assert recorded_ray_launch.submitted == []
 
 
+class TestNodeNetworkEnvironment:
+    def test_inherited_interface_names_do_not_override_other_ray_nodes(
+        self, recorded_ray_launch: RecordedRayLaunch, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """An external Ray node inherits its own platform NIC names, which may differ from the launcher."""
+        monkeypatch.setenv("MILES_SCRIPT_EXTERNAL_RAY", "1")
+        monkeypatch.setenv("NCCL_SOCKET_IFNAME", "ens20np0")
+        monkeypatch.setenv("GLOO_SOCKET_IFNAME", "ens20np0")
+        _launch(job_lifetime="launcher", submission_id="network-env")
+        submitted = recorded_ray_launch.submitted[0]["runtime_env"]["env_vars"]
+        worker_env = {"NCCL_SOCKET_IFNAME": "ens22np0", "GLOO_SOCKET_IFNAME": "ens22np0", **submitted}
+        assert worker_env["NCCL_SOCKET_IFNAME"] == "ens22np0"
+        assert worker_env["GLOO_SOCKET_IFNAME"] == "ens22np0"
+
+    def test_explicit_interface_overrides_and_nccl_controls_reach_the_workers(
+        self, recorded_ray_launch: RecordedRayLaunch, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("NCCL_SOCKET_IFNAME", "ens20np0")
+        monkeypatch.setenv("NCCL_DEBUG", "INFO")
+        ExecuteTrainConfig(extra_env_vars='{"NCCL_SOCKET_IFNAME":"=eth0"}').create_backend().execute_train(
+            train_args="--train-backend fsdp",
+            num_gpus_per_node=8,
+            megatron_model_type=None,
+            extra_env_vars={"NCCL_MIN_NCHANNELS": "8", "NCCL_MAX_NCHANNELS": "8"},
+        )
+        submitted = recorded_ray_launch.submitted[0]["runtime_env"]["env_vars"]
+        assert submitted["NCCL_SOCKET_IFNAME"] == "=eth0"
+        assert submitted["NCCL_DEBUG"] == "INFO"
+        assert submitted["NCCL_MIN_NCHANNELS"] == submitted["NCCL_MAX_NCHANNELS"] == "8"
+
+
 def _launch(
     *,
     job_lifetime: Literal["independent", "launcher"],

@@ -801,3 +801,40 @@ Environment: /data/ycfeng/envs/miles-agent-opd-cpu/bin/python, Python3.12.13, py
 - git diff --check: PASS. Ruff executable is absent from the existing CPU environment; no package was installed for this optional check.
 
 Real GPU initialization and OPD numerical acceptance remain required. CPU launch correctness alone does not establish the absence of an H800 memory or training error.
+
+
+## Isolated-device 16H800 rerun: runtime PASS, optimization pending
+
+Local personal Python submission exp-1105-132957-419084 at13:29:57HKT; launcher13179 remains alive. Creator i-fengyicheng, codesign, nonpreemptible,2×8H800,48CPU/600000Mi per replica, bothRDMA resources, pinnedimage165ff0be and localNFS100.96.128.195:/data/ycfeng/sota-engine/miles. Nodesgpu-h800-0029/0056. Head image pull completed and container started05:34:43Z; bothreplicas are Running.
+
+Both runtime receipts confirm committedsource4188258a630041f8a91f7c13edc3b22c9055ac20,Python3.12.16,Torch2.14.1+cu130,Transformers5.19.0,Ray2.58.1,SGLang0.5.24.dev80+g056f871. Actual16NVIDIAH800,81559MiB/driver570.124.06; existingcuda-compat580.126.20/driverAPI13000; all16FP32sum10416/BF16matmul16PASS. Ray registers two distinctnodes and16GPU. Independentweight-sync probePASS with matchingchannelbounds8 and intacttrainer/inferenceparentworlds.
+
+The worker command is the recorded corrected bash-wrapped command, with identicalmodels/manifest, num-rollout2,startup-timeout600,training-timeout3600 and mem-fraction-static0.75. Native run261105-053527-goqu; cloud /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800/exp-1105-132957-419084/261105-053527-goqu. Actualenginebinding and optimizer/numerical inspection remain pending.
+
+Old outputcleanup exp-1105-132840-138098 Succeeded05:32:48Z, solecontainerexit0/restart0. It removed13files/4,497,154bytes only from the previous130933cloudpath. Read-onlySSH confirms absence. Worker-root-owned localreceipts were removed with sudo scoped to the exactpreviousjobdirectory. No sharedassets or globaltrash cleanup.
+
+
+## Real engine isolation PASS; native trainer initialization FAIL
+
+132957 endedFailed05:43:48Z with0optimizerupdates. ActualSGLangsubprocesscommands bindstudentCUDA_VISIBLE_DEVICES=0,1,2,3 andteacher=4,5,6,7; bothTP4 anddefaultbase0. Studentweightsfinished05:41:51Z,14.37GBperGPU/free63.83GB. Original0.75memoryfractionpassedKVplanning;HTTPstartupcompleted05:42:14Z. post-warmupfreeze_gcfailed withConnectionRefused, butpinnedhttp_server.py catchesRequestException and logsawarning; thisisnotaninitiatingtrainingexception.
+
+Initiatingtrace05:43:24Z: Megatronoptimizer _get_param_groups invokesall_gather_object; NCCL2.30.7 reportsncclInvalidUsage / Bootstrap:no socket interface found. All8trainerenvreports ongpu-h800-0056 containNCCL_SOCKET_IFNAME=ens20np0, despiteworker-init/platformNVSHMEMselectorens22np0. Driverongpu-h800-0029 correctlyusesens20np0. RayCommandBackend._ray_env_vars automaticallyforwardedthishead-onlyNICname toallworkers. TheindependentNCCLprobe, whichretainsnodeenvironment,passed.
+
+CPUfeedback: PYTHONPATH=/data/ycfeng/sota-engine/miles TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest tests/fast/utils/external_utils/command_utils/ray_backend/test_backend.py -k TestNodeNetworkEnvironment -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/network-env-red. Result1FAIL1PASS in1.16s: inheritedlauncherens20np0 overwritesworkerens22np0. Explicitinterfaceoverride andfixedchannelcontrols alreadyPASS.
+
+Fix: removeautomaticNCCL_SOCKET_IFNAME/GLOO_SOCKET_IFNAME forwardingfromRaybackend; workersinheritindividualplatformNICnames. Explicitextra_env_vars retainsnormalprecedence. NCCLdebug/channelsettings remainunchanged. Verifyfullbackend/launcherchecks, thenreruntheoriginal16H800recipe. Thisisa root-causeconfigurationrepair, withoutarbitraryNICnames,memorytuning orerror-suppression.
+
+
+## Network environment fix CPU validation and RCA
+
+GREEN command uses the same isolatedPython3.12.13/pytest9.1.1 environment with pinnedSGLangPYTHONPATH:
+
+python -m pytest tests/fast/utils/external_utils/command_utils/ray_backend tests/fast/launch_scripts tests/manual/launch_scripts -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/network-env-green
+
+Result601PASS,18FAIL,50ERROR in20.92s. All17Raybackend casesPASS, including inheritedper-nodeNICpreservation and explicitoverride/channelcontrols. The68launcher failures retainthe recordedbaselinecategories/counts; no launcherrecipe/snapshotchange. gitdiff--checkPASS. TheNICcopyrepairistworemovedautomaticenvkeys, withno trainalgorithmchange.
+
+RCAexactRJobUIDa5ab46b8-9254-4506-8893-0d5ae70b3b6f. FailingheadreplicaUID3d002713-9cde-40e4-8784-84ba174c28ef ongpu-h800-0029 containerexit1/Error at05:43:43Z/restart0. PlatformstopTimestamp05:43:47Z andFailedfinish05:43:48Z followthe05:43:24Ztrainerexception. SiblingUID01d304ba-40f4-4711-8de8-e02686d0767c ongpu-h800-0056 closedbyrjob-controller at05:43:48Z; cachedcontainerstate remainsrunning,soterminalexitcodeUNKNOWN. LauncherJobStop05:43:51Z islatercleanup.
+
+Collectorcommands: existingpersonal_exec.sh invokes installedstepmind-gpu-worker/scripts/collect_failure_evidence.py withoneexact--replica percall,expectedcreatori-fengyicheng,credentialdirbrainctl-auth-i-fengyicheng,start2026-11-05T05:43:15Z/end05:44:05Z,timeout12,outputs tasktmp/rca-isolated-head andrca-isolated. Eachcompleted6/8readcategories. Head/siblingincidentlogs1042/0rows,belowlimit3000. Historicaljob9events; historicalreplicas5/1;livejob2;livereplicas0/2. Allreturnedpagescomplete; existingDeepScancount0forboth. Fourall-operationauditqueriestimedoutat12s. AuditedinitiatingstopdetailsUNKNOWN. ReturnedincidentdatadoesnotestablishpreemptionorOOM; nativeNICmismatchanditsCPUreproductionestablishtheapplicationconfigurationfailure.
+
+Task-owned failedcloudoutput24,494,868bytesawaitsexactcleanup; sharedmodel/datasetunchanged. RawRCA/logsaredeletedafterthisMarkdownconclusion.

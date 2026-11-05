@@ -13,7 +13,7 @@ reward adapter is verified on CPU and pushed at `b3fd5780`.
 
 The user requested a temporary switch to H800/codesign. The queued H200 replacement
 `exp-1105-124538-296267` was intentionally stopped through the mandated script.
-The latest16H800 warmup confirmed runtime and independent transfer, but its student and teacher overlapped local GPUs4/5. It was intentionally stopped at13:19:27HKT before any optimizer update. Per-engine subprocess visibility binding is repaired and passed413related CPU checks with23existing GPU/TPU skips; rerun the same training parameters for actual validation.
+The previous16H800 warmup overlapped student/teacher local GPUs4/5 and was intentionally stopped at13:19:27HKT before optimization. The repaired rerun exp-1105-132957-419084 passed all16H800 runtime checks, independent transfer and disjoint engine initialization, then failed05:43:48Z during Megatron optimizer initialization. The Ray job broadcast the head node NIC ens20np0 onto a trainer node configured for ens22np0. A CPU regression reproduces the overwrite; the minimal Ray environment fix is under verification. Updates remain0. Per-engine subprocess visibility binding is repaired and passed413related CPU checks with23existing GPU/TPU skips; rerun the same training parameters for actual validation.
 H200 training qualification remains open.
 
 ## Deliverables
