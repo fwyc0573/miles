@@ -918,18 +918,23 @@ class MegatronTrainRayActor(TrainRayActor):
 
         self._finalize_pending_async_save()
 
-        save(
-            self.args,
-            rollout_id,
-            self.model,
-            self.optimizer,
-            self.opt_param_scheduler,
-            snapshot_publisher=self.snapshot_publisher,
-        )
+        if self.args.backend.save is not None:
+            save(
+                self.args,
+                rollout_id,
+                self.model,
+                self.optimizer,
+                self.opt_param_scheduler,
+                snapshot_publisher=self.snapshot_publisher,
+            )
 
         if self.args.save_hf is not None and self.role == "actor":
-            assert self.snapshot_publisher is not None, "HF export requires a snapshot publisher"
-            save_hf_model(self.args, rollout_id, self.model, publisher=self.snapshot_publisher)
+            if self.args.backend.save is None:
+                # A standalone evaluation export uses the existing collective exporter.
+                self.export_hf(rollout_id, self.args.save_hf.format(rollout_id=rollout_id))
+            else:
+                assert self.snapshot_publisher is not None, "HF export requires a snapshot publisher"
+                save_hf_model(self.args, rollout_id, self.model, publisher=self.snapshot_publisher)
 
         if force_sync:
             self._finalize_pending_async_save()
@@ -941,7 +946,11 @@ class MegatronTrainRayActor(TrainRayActor):
 
             from miles.utils.function_registry import load_function
 
-            checkpoint_dir = get_checkpoint_name(self.args.backend.save, rollout_id, return_base_dir=True)
+            checkpoint_dir = (
+                get_checkpoint_name(self.args.backend.save, rollout_id, return_base_dir=True)
+                if self.args.backend.save is not None
+                else None
+            )
             hf_checkpoint_dir = (
                 self.args.save_hf.format(rollout_id=rollout_id)
                 if self.args.save_hf is not None and self.role == "actor"

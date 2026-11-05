@@ -1285,13 +1285,19 @@ def miles_validate_args(args):
         )
 
     if args.save_interval is not None:
-        assert args.save is not None, "'--save' is required when save_interval is set."
+        assert (
+            args.save is not None or args.save_hf is not None
+        ), "'--save' or '--save-hf' is required when save_interval is set."
 
     if args.save_trigger_sentinel is not None:
-        assert args.save is not None, "'--save' is required when save_trigger_sentinel is set."
+        assert (
+            args.save is not None or args.save_hf is not None
+        ), "'--save' or '--save-hf' is required when save_trigger_sentinel is set."
 
     if args.custom_megatron_post_save_hook_path is not None:
-        assert args.save is not None, "'--save' is required when custom_megatron_post_save_hook_path is set."
+        assert (
+            args.save is not None or args.save_hf is not None
+        ), "'--save' or '--save-hf' is required when custom_megatron_post_save_hook_path is set."
 
     validate_lora_args(args)
     _resolve_data_source_path(args)

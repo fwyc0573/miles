@@ -24,6 +24,7 @@ class AlgoConfig(BaseConfig):
             help=(
                 "Path to save the model in HuggingFace format when using Megatron backend. "
                 "The model will be saved to `save_hf.format(rollout_id)`. "
+                "Without --save, export only HF weights through the collective exporter. "
             )
         ),
     ] = None
@@ -41,7 +42,7 @@ class AlgoConfig(BaseConfig):
         Arg(
             help=(
                 "Path to a custom function invoked on rank 0 after every checkpoint save. "
-                "Signature: def hook(args, rollout_id: int, checkpoint_dir: str, "
+                "Signature: def hook(args, rollout_id: int, checkpoint_dir: str | None, "
                 "hf_checkpoint_dir: str | None) -> None."
             ),
         ),

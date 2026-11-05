@@ -1894,16 +1894,39 @@ def test_custom_megatron_post_save_hook_path_is_parsed():
     assert args.custom_megatron_post_save_hook_path == "pkg.module.hook"
 
 
-def test_custom_megatron_post_save_hook_path_requires_save():
-    parser = get_megatron_arg_parser()
+def test_custom_megatron_post_save_hook_path_requires_save_destination():
+    parser = build_fsdp_parser(extra_args_provider=get_miles_extra_args_provider())
     args = parser.parse_args(
-        ["--custom-megatron-post-save-hook-path", "pkg.module.hook", "--num-rollout", "1"] + REQUIRED_ARGS
+        ["--train-backend", "fsdp", "--custom-megatron-post-save-hook-path", "pkg.module.hook", "--num-rollout", "1"]
+        + REQUIRED_ARGS
     )
 
     with pytest.raises(
         AssertionError,
-        match="'--save' is required when custom_megatron_post_save_hook_path is set.",
+        match="'--save' or '--save-hf' is required when custom_megatron_post_save_hook_path is set.",
     ):
+        miles_validate_args(args)
+
+
+@pytest.mark.parametrize("destination", ["--save", "--save-hf"])
+@pytest.mark.parametrize(
+    "trigger", ["--save-interval", "--save-trigger-sentinel", "--custom-megatron-post-save-hook-path"]
+)
+def test_save_triggers_accept_native_or_hf_destination(destination, trigger):
+    value = "20" if trigger == "--save-interval" else "pkg.module.hook"
+    parser = build_fsdp_parser(extra_args_provider=get_miles_extra_args_provider())
+    args = parser.parse_args(
+        ["--train-backend", "fsdp", destination, "/checkpoints", trigger, value, "--num-rollout", "1"] + REQUIRED_ARGS
+    )
+    miles_validate_args(args)
+
+
+@pytest.mark.parametrize("trigger", ["--save-interval", "--save-trigger-sentinel"])
+def test_save_triggers_require_destination(trigger):
+    value = "20" if trigger == "--save-interval" else "/sentinel"
+    parser = build_fsdp_parser(extra_args_provider=get_miles_extra_args_provider())
+    args = parser.parse_args(["--train-backend", "fsdp", trigger, value, "--num-rollout", "1"] + REQUIRED_ARGS)
+    with pytest.raises(AssertionError, match="'--save' or '--save-hf' is required"):
         miles_validate_args(args)
 
 

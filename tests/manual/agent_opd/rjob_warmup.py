@@ -269,14 +269,10 @@ def _run_training(head: dict, directory: Path, args) -> None:
         run_dir = cloud / head["run_id"]
         training_extra_args += " " + shlex.join(
             [
-                "--save",
-                str(run_dir / "checkpoint"),
                 "--save-interval",
                 str(args.num_rollout),
                 "--save-hf",
                 str(run_dir / "hf" / "step_{rollout_id}"),
-                "--no-save-optim",
-                "--no-save-rng",
                 "--custom-megatron-post-save-hook-path",
                 "tests.manual.agent_opd.checkpoint_identity.record_export",
             ]

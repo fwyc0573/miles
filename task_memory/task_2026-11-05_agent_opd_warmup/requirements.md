@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record confirmation to continue GLM export/benchmark and real alignment checks for both model pairs. |
 | 2026-11-05 | Record the two-model-pair alignment status question without expanding GPU test scope. |
 | 2026-11-05 | Record the requested reconciliation of 72 H800 GPUs with this session and actual scheduling states. |
 | 2026-11-05 | Create the agentic OPD preparation record. |
@@ -66,3 +67,11 @@ ps：及时清理测试产物和大文件，当前不是正式训练任务，在
 
 - Report actual evidence separately for GLM-4.7-Flash-Coder → GLM-4.7-Flash and FrogNano-4B-2609 → Qwen3.5-4B. Enabled flags, tokenizer equality, successful optimizer updates and benchmark outcomes do not individually establish training/inference numerical agreement.
 - This status question preserves the ongoing GLM twenty-update/benchmark objective. The current task has no Frog/Qwen OPD training execution; do not represent model-asset preparation as a second qualified training run.
+
+
+[Original Request] 2026-11-05 continuation authorization:
+确认，继续
+
+- Continue the existing GLM save repair, exact twenty-update export and original/updated benchmark objective.
+- Add a bounded real FrogNano/Qwen OPD alignment qualification; student/teacher scoring equality is not the criterion. Do not expand Frog/Qwen to a second twenty-question benchmark.
+- Preserve the existing H800/codesign, personal submission, timely disposable cleanup and personal branch push authorization.

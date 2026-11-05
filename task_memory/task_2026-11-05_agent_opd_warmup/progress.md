@@ -1779,3 +1779,73 @@
 
 
 - Failed-probe consumption PASS at18:02HKT: cleanup exp-1105-175752-778698/UIDe6735d7b-3cd9-430f-8496-5ce4eeba22fa Succeeded, container exit0/restart0. Removed118files/5,982,614,544bytes; exact cloud/local failedprobe directories independently absent. Consumed query/RCA files and probe/cleanup temporary scripts, manifests and receipts deleted. The preceding check-progress was refreshed after this verified consumption step; broader20-update export, two benchmark scores and final cleanup remain incomplete.
+
+
+## 18:10 HKT continuation after explicit confirmation
+
+- Recorded the user confirmation to continue the existing GLM task and bounded actual Frog/Qwen numerical checks. No existing benchmark was resubmitted.
+- Personal exact batch read at18:10HKT:19original question shards,15Running/4Starting; prior original serial jobStopped and failed-run cleanupSucceeded. This is scheduling status, not measured GPU utilization or valid grading count.
+- Next save diagnosis compares pinned native Megatron/DCP implementations and extra CPU buffer ownership. Submit a0GPU source read with the pinned image; keep the16GPU shape/memory and Ray monitor unchanged until there is a falsifiable repair.
+
+
+## HF-only export repair: evidence and falsifiable checks
+
+- Source read exp-1105-181101-894134 copied only selected pinned sources; native Megatron HEAD eb547f33e183479530cfb5428b7c665a110c785f. filesystem_async.preload_tensors stores all CPU copies before writing, including synchronous torch_dist. Bridge AutoBridge.save_hf_weights uses a source.save_generator when loaded from indexed HF weights. Exact files/hashes were printed by the worker; no GPU allocated.
+- Ranked hypotheses before verification: (1)eager per-rank CPU checkpoint staging adds the avoidable peak; removing only unrequested native checkpoint from an HF-only test should allow export at the unchanged memory limit; (2)retained bridge/export weights dominate, in which case HF-only export still fails; (3)node/cgroup differences dominate, in which case replica-bound memory observations explain a different limit. These predictions do not retroactively identify the original20-update cause.
+- Regression command: CPU Python3.12.13 pytest tests/fast/backends/megatron_utils/test_hf_only_save.py. Before fix:2FAIL/1PASS; both failures show actual save_model calls native save despite backend.save=None. AST-loaded production methods avoid importing GPU libraries, and test only dispatch/error ownership, not the real memory peak.
+- Existing full actor lifecycle suite cannot collect on CPU:ModuleNotFoundError:No module named megatron. Record this environment limitation; verify actual imports and real export through the pinned worker instead.
+- Fix:save_model invokes native writer only when --save is present; standalone --save-hf calls existing export_hf and propagates errors. Post-save checkpoint_dir isNone for HF-only. Manual learning adapter requests only final HF export. Existing native-save tests now set explicit native destinations. Native resumable checkpoint memory remains unqualified.
+
+
+## 18:26 HKT: HF-only startup repair verified on CPU
+
+- Fixed the previously missed arguments.py destination checks. Actual shared validation RED6FAIL/4PASS -> GREEN10PASS; actor dispatch plus prefill extraction7PASS. CPU Megatron package remains unavailable, so actual recipe and full actor lifecycle checks are assigned to a0GPU pinned-image preflight before the new training launch.
+- Reason/expectation: skip only the unrequested resumable save and its eager CPU staging; keep the unchanged16H800/600000Mi limit and actual20updates. Export must contain complete changed weights with update20 identity and be reloaded before updated evaluation. If HF-only still fails, the bridge/memory hypothesis remains open; do not silence the native failure or weaken the Ray monitor.
+- Existing original question shards allRunning on exact API read; no duplicates. Independent Frog/Qwen qualification is now authorized and its native hybrid-attention path is the next parallel preparation item.
+
+## 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED1｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |80turns与20questions已固定。|
+|20更新和最终导出 | FAILED |历史20updates完成但导出失败；HF-only CPU修复完成，实测待验。|
+| 原始评测 | TODO |19question shardsRunning，完整80grader待验。|
+| 更新评测及avg@4 | TODO |依赖完整可重载的update20权重。|
+| Frog/Qwen实际对齐 | TODO |已授权，native路径准备中。|
+| 清理和同步 | TODO |已消费大产物持续清理；最终测试未完成。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**18:10确认续作至18:26HF-only CPU检查｜**当前前沿：**实际导出、原始评分、Frog/Qwen准备。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1工具打磨 | CLEAR |检查只覆盖当前HF-only保存与同student对照。|
+| D2细节反复重试 | CLEAR |原生源码明确暂存路径；修复使用已有独立导出，未猜测调参。|
+| D3支线问题修补 | CLEAR |startup校验直接阻塞本次导出。|
+| D4可并行任务停滞 | CLEAR |原始评分继续；Frog/Qwen准备与GLM实测无依赖。|
+| D5超范围镀金 | CLEAR |没有扩展Frog/Qwen为第二套完整benchmark。|
+| D6分析空转 | CLEAR |源码诊断已有代码修复和实际CPU证据。|
+| D7路线违背 | CLEAR |HF-only路线与授权测试所需最终推理权重一致。|
+
+**文档检查：**S1–S6无新的明显缺陷；plan已记录新增bounded对齐与导出路线。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**A：spec/plan合理，无需改动。
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.0GPU pinned-image实际recipe/actor检查 -> 唯一新的16H80020updates导出。
+2.并行原始native评分与Frog/Qwenbounded准备；完整导出后启动updated同题同seed80评分。
+3.消费后清理全部一次性产物，记录实测边界并push。
+
+## 4. 最值得关注的3点
+
+1.CPU修复不能证明实际HF导出的内存峰值和重载通过。
+2.原生resumable torch_dist保存仍有已观测内存问题。
+3.两组合的数值证据及完整80+80评分仍待完成。

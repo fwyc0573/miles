@@ -7,7 +7,7 @@ from pathlib import Path
 from safetensors import safe_open
 
 
-def record_export(args, rollout_id: int, checkpoint_dir: str, hf_checkpoint_dir: str | None) -> None:
+def record_export(args, rollout_id: int, checkpoint_dir: str | None, hf_checkpoint_dir: str | None) -> None:
     if hf_checkpoint_dir is None:
         raise ValueError("The learning test requires a final HF export")
     directory = Path(hf_checkpoint_dir)
@@ -29,7 +29,9 @@ def record_export(args, rollout_id: int, checkpoint_dir: str, hf_checkpoint_dir:
         "hf_directory": str(directory),
         "megatron_directory": checkpoint_dir,
         "tensor_count": len(tensors),
-        "source_commit": subprocess.check_output(["git", "-C", str(Path(__file__).resolve().parents[3]), "rev-parse", "HEAD"], text=True).strip(),
+        "source_commit": subprocess.check_output(
+            ["git", "-C", str(Path(__file__).resolve().parents[3]), "rev-parse", "HEAD"], text=True
+        ).strip(),
         "identity_scope": "Native save is invoked after training this rollout; reconcile with normal step events",
     }
     (directory / "learning_identity.json").write_text(json.dumps(result, indent=2) + "\n")

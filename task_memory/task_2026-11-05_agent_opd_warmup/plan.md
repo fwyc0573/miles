@@ -56,3 +56,12 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
 Current phase status:1 input freeze completed;2 configuration completed with actual export pending;3 native adapter preparation completed with four valid first-question outcomes; complete benchmark pending;4 twenty optimizer updates verified but final save failed; save diagnostic failed with a native Ray memory-pressure kill and initial benchmark in progress;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
+
+
+## Confirmed continuation and export route (18:17 HKT)
+
+- The user confirmed continued GLM save/export and benchmark work plus bounded actual Frog/Qwen alignment qualification. Frog/Qwen does not depend on the GLM final export; it can run independently within H800 quota.
+- Pinned Megatron eb547f33 uses eager per-rank CPU staging even for synchronous torch_dist save. The probe identifies a Ray memory kill; the original learning failure remains UNKNOWN.
+- This disposable test requires exact final inference weights, not a resumable optimizer checkpoint. Use existing --save-hf alone and the existing collective export_hf API. Preserve native --save behavior for resumable checkpoints; do not claim its eager-staging memory problem is repaired.
+- Verify HF-only dispatch/error propagation on CPU; then run the same16H800/600000Mi shape for actual20updates, retain memory observations from both replicas, inspect .complete/index/identity and reload the actual update20 weights before the updated benchmark.
+- For alignment, add same-student generation versus re-scoring and trainer comparison on identical tokens and versions, with category measurements. TIS remains a mitigation rather than a numerical proof. Frog/Qwen additionally requires the actual Qwen3.5 hybrid-attention/text-weight path.

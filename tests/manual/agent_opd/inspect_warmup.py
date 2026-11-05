@@ -71,6 +71,7 @@ def _train_checks(paths: list[Path], samples: dict) -> dict:
     differences, ratios = [], []
     seen = []
     route_shapes = []
+    rescoring = []
     for path in paths:
         dump = torch.load(path, map_location="cpu", weights_only=False)
         batch = dump["rollout_data"]
@@ -96,6 +97,36 @@ def _train_checks(paths: list[Path], samples: dict) -> dict:
             route_shapes.append(list(replay.shape))
             differences.append((old - rollout).abs())
             ratios.append((old - rollout).exp())
+            scored = sample["metadata"].get("student_rescoring")
+            if scored is not None:
+                observation = {
+                    "sample_index": index,
+                    "source_category": sample["metadata"]["source"]["category"],
+                    "completion_category": sample["metadata"]["completion"]["category"],
+                    "has_thinking": sample["metadata"]["completion"]["has_thinking"],
+                    "has_body": sample["metadata"]["completion"]["has_body"],
+                    "tool_names": sample["metadata"]["completion"]["tool_names"],
+                    **{key: value for key, value in scored.items() if key != "response_logprobs"},
+                }
+                if scored["status"] == "measured":
+                    prefill = _tensor(scored["response_logprobs"]).float()
+                    if prefill.shape != old.shape or not torch.isfinite(prefill).all():
+                        observation["status"] = "unverified"
+                        observation["reason"] = "Prefill shape or finite-value check failed"
+                    else:
+                        for name, left, right in (
+                            ("decode_vs_prefill", rollout, prefill),
+                            ("trainer_vs_prefill", old, prefill),
+                            ("trainer_vs_decode", old, rollout),
+                        ):
+                            error = (left - right).abs()
+                            observation[name] = {
+                                "tokens": error.numel(),
+                                "abs_mean": error.mean().item(),
+                                "abs_p99": error.quantile(0.99).item(),
+                                "abs_max": error.max().item(),
+                            }
+                rescoring.append(observation)
             seen.append(index)
     if sorted(seen) != sorted(samples):
         raise ValueError("Training shards did not consume each sampled turn exactly once")
@@ -103,6 +134,7 @@ def _train_checks(paths: list[Path], samples: dict) -> dict:
     ratio = torch.cat(ratios)
     return {
         "sample_count": len(seen),
+        "student_rescoring": rescoring,
         "scored_tokens": difference.numel(),
         "same_token_ids": True,
         "r3_arrays_equal": True,
