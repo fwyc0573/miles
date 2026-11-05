@@ -11,11 +11,13 @@ from torch_memory_saver import torch_memory_saver
 
 from miles.backends.megatron_utils.checkpoint_request import MegatronCkptLoadConfig
 from miles.backends.megatron_utils.hf_export import save_hf_model
-from miles.backends.megatron_utils.lora.utils import is_lora_enabled, lora_rollout_enabled
+from miles.backends.megatron_utils.lora.native.merge import merge_lora_into_weights
+from miles.backends.megatron_utils.lora.utils import is_lora_enabled, is_lora_model, lora_rollout_enabled
 from miles.backends.megatron_utils.megatron_config import has_megatron_checkpoint
 from miles.backends.megatron_utils.megatron_to_hf import converter_model_name
 from miles.backends.megatron_utils.rematerialize_utils import build_main_cast_context
 from miles.backends.megatron_utils.update_weight.hf_weight_iterator import get_hf_weight_iterator
+from miles.backends.training_utils.checkpoint.io import write_checkpoint_dir
 from miles.backends.training_utils.data.rollout import (
     DataIterator,
     get_data_iterator,
@@ -54,6 +56,7 @@ from miles.utils.audit_utils.witness.allocator import WitnessInfo
 from miles.utils.context_utils import with_defer
 from miles.utils.distributed_utils import get_gloo_group
 from miles.utils.ft_utils.indep_dp import IndepDPInfo
+from miles.utils.hf_utils.config import HF_EXPORT_COMPLETE_MARKER
 from miles.utils.logging_utils import rebind_env_reporting
 from miles.utils.lora.utils import build_lora_config, is_multi_lora_enabled
 from miles.utils.memory_utils import clear_memory, print_memory
@@ -965,16 +968,24 @@ class MegatronTrainRayActor(TrainRayActor):
     def export_hf(self, rollout_id: int, path: str) -> None:
         """Export current weights as an HF checkpoint to ``path`` (collective).
 
-        Uses the direct megatron->HF converters (the weight updater's machinery), so
-        export coverage matches weight-sync coverage. Unlike the periodic --save-hf
-        path inside save_model, failures propagate to the caller so an eval snapshot
-        that failed to export can be skipped loudly.
+        Reuses the weight publisher's converters and bucketed writer, keeping CPU
+        staging limited to one shard. Export failures propagate to the caller.
         """
         self._heartbeat.bump()
         assert self.snapshot_publisher is not None, "HF export requires a snapshot publisher"
-        save_hf_model(
-            self.args, rollout_id, self.model, publisher=self.snapshot_publisher, path=path, raise_on_error=True
-        )
+        weights = dict(self._named_actor_weights())
+        is_lora = is_lora_model(self.model)
+
+        def write_weights(checkpoint_dir):
+            self.snapshot_publisher.write_model(
+                checkpoint_dir,
+                weights=merge_lora_into_weights(self.model, weights) if is_lora else weights,
+                hf_checkpoint=self.args.hf_checkpoint,
+            )
+            if is_lora:
+                self.snapshot_publisher.write_adapter(None, checkpoint_dir / "adapter")
+
+        write_checkpoint_dir(path, write_weights, completion_marker=HF_EXPORT_COMPLETE_MARKER)
 
     def _named_actor_weights(self, *, translate_gpu_to_cpu: bool = False, include_model_companion: bool = False):
         return named_params_and_buffers(

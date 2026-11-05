@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Record preparation, failures, cleanup and resource-blocked synchronization. |
@@ -2253,3 +2254,140 @@ Pinned Ray preflight completed HTTP200 and a real submitted Python entrypoint. O
 1.真实HF保存尚未被执行成功，CPUdispatch通过不足以验收。
 2.保存失败的20更新不能给出updated模型分数。
 3.BaseMind首题Running仍不证明agent/grader完整有效。
+
+
+## 20:01 HKT: consumed GLM20 updates and released ACS
+
+- completed: failedGLM offlineinspection20normal/publications0–19,80distinctsources,80prefillmeasurements,1404changedpublishedtensors;signals thinking19/body52/tools80/submit19. Removed259cloudfiles/5.77GB;independentabsence/containerterminalnext.
+- completed:9obsoleteACSjobsconfirmedStoppedafterpersonalrjob_stop.sh. Localparentlaunchers mayexit afterchildren; noactiveACSwork isintended.
+- in-progress: actualHFsavequalification195913-137332/launcher91784,2updates16H800nodes0274/0323. Two updates satisfyexistinginspectorweight-changecheck;4distinctsourceprompts are reused, separatefromfinal20learningpopulation.
+- in-progress: BaseMindfirstquestionoriginal193530 actualenginecheckpoint/version0verified;allfourseedsrunningmodel/agentrequests,fullnativegraderresultsstillpending.
+- completed: remoteagent-opdindependentlymatchesfea1302190a2489e3a359d9347c8d44f88862f7a.
+
+
+## 20:08 HKT: obsolete ACS cleanup complete
+
+Completed:26obsoleteACSjobs terminal,9stops verified, bothparentlaunchers exited;372cloudfiles/535398390bytes deleted; independentcloudabsence andcleanupcontainerexit0/restart0 confirmed. FailedGLMcloudabsence andcleanupterminal also confirmed;21root-ownedlocalrawfiles/17.24MB deleted afterrecordingrank0memorycoverage. ActualHFsavequalification remainsRunning; uniqueinspection0GPUjob200430 isContainerCreating, unique20-stepwaiter49003 andupdatedwaiter88365 areactive and have not submitted theirdependentGPUjobs.
+
+
+## 20:23 HKT: resumed live HF export and checkpoint
+
+- Existing launchers 91784/71589/49003/62463/31162/88365 remain active. No learning-d receipt exists; no duplicate twenty-update or benchmark job was submitted.
+- Exact personal Python reads confirm short HF qualification Running on H800 nodes0274/0323, two replicas with eight GPUs, 48CPU/600000Mi and the original local NFS source. Normal updates0/1 observed; HF export began12:18:45Z. Only tokenizer/config files are visible so far; safetensors and completion marker are pending. Zero-GPU inspection200430 is Running on0206.
+- BaseMind original question0 remains Running on0036, four seeds in generation. Server log continues receiving requests; no valid native grader outcomes. This is progress evidence, not a benchmark acceptance result.
+- Corrected stale plan/summary wording from one-update to actual two-update HF qualification; actual reload belongs to final update20 benchmark.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 80distinctturns、20questions、4seeds已固定。 |
+| HF-only CPU修复 | PASS | fea13021，23driver/actor检查通过。 |
+| 实际HF保存及20步重跑 | TODO | 短验证2normal并进入真实导出，文件未完整。 |
+| 原始80有效结果 | TODO | BaseMind首题仍执行，完整grader结果未到。 |
+| updated80及avg@4 | TODO | 依赖真正update20 HF与完整native结果。 |
+| Qwen两步数值检查 | PASS | 2normal、3269tokens、终态及清理已记录。 |
+| 最终清理与同步 | TODO | 已消费输出删除，活跃依赖继续保留。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 19:58失败修复至20:23恢复检查｜**当前前沿：** 实际HF保存、BaseMind完整首题、及时消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 使用既有inspector，不扩展检查框架。 |
+| D2 细节反复重试 | CLEAR | driver回归复现后仅一次短实测；没有盲目再跑20步。 |
+| D3 支线问题修补 | CLEAR | 保存与sandbox均是benchmark的直接依赖。 |
+| D4 可并行任务停滞 | CLEAR | 保存、首题和消费清理并行推进。 |
+| D5 超范围镀金 | CLEAR | 无新模型、评测范围或核心接口扩展。 |
+| D6 分析空转 | CLEAR | 短验证已完成两步并开始导出。 |
+| D7 路线违背 | CLEAR | 本机个人API、H800/codesign、固定输入不变。 |
+
+**文档检查：** S5：plan/summary仍写one-update、旧九步状态；已按当前两步保存和历史失败修正。S1–S4/S6无新缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：状态文档有过期表述，已更新。
+
+**文档更新（先执行）：**
+1. plan.md/summary.md当前阶段：短验证为2updates；区分写出检查和最终update20 reload（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 短保存完整文件/identity通过→唯一20步重跑→真实update20 HF。
+2. 并行：BaseMind首题完整有效grader→原始其余19题；及时删除已消费产物。
+3. 真正update20 reload→updated80valid→avg@4与配对区间→最终清理与push。
+
+## 4. 最值得关注的 3 点
+
+1. 两步正常与导出开始仍不等于HF文件完整。
+2. BaseMind生成请求持续推进，完整grader尚待观察。
+3. 两模型数值差异已测量；没有经过校准的充分一致性结论。
+
+
+## 20:48 HKT: actual short-save failure, decoder correction and bucketed writer
+
+- FAILED: short16H800195913-137332 at12:30:22Z after2normal updates, before any safetensors/.complete. Peak629144678400/629145600000bytes; NCCLwatchdogabortduringBridge save_generator, explicitOOM/Ray-kill UNKNOWN. Oldinspector200430failedfromtrainingfailurebeforecomparison. ExactRCAcoverage/limits recordedinlearningreport.
+- completed: actualBridge0.7.0+a0c6d6e0 source containsMTPfixfunctions. Correctbenchmarkexpectation9491decoder/212excludedMTP; strictnames/shapes/index/changedvaluesandactualMTPidentity. Regression3PASS.
+- completed: explicitHFexportusesexistingSnapshotPublisher/iterator/bucketedwriter, nativeLoRAmerge/adapterandcollectivecheckpointwriter. RedwriterregressionFAIL→combined43PASS;actualGPUexportpending.
+- completed: restartonlyreadonlywatcher17850withpersonalplatformphase/UID/localfinishedstatus. Existing20stepwaiter49003,updatedwaiter88365,BaseMind62463/followup31162preserved. No learning-dsubmitted.
+- in-progress: recordfailureandconsume/deleteexactfailedroot;freshsame16H8002stepHFqualificationnext. OriginalBaseMindfirstquestionprogresses263requestswithoutvalidgraderoutcomeyet.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED1｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 80turns、20questions、4seeds不变。 |
+| CPU导出与decoder校验 | PASS | 43checks；真实writer差异已复现后修复。 |
+| GLM真实HF保存和20步重跑 | FAILED | 短保存195913失败；新逐bucket路径尚待GPU检查。 |
+| 原始80有效评分 | TODO | BaseMind首题仍有请求，无完整grader结果。 |
+| updated80与avg@4 | TODO | 等待真正update20保存与reload。 |
+| Frog/Qwen有限检查 | PASS | 已通过两步workflow并清理；数值差异仍存在。 |
+| 最终清理与同步 | TODO | 最新失败root待消费，最终benchmark未全。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，按具体失败证据修正主线。
+**检测窗口：** 20:23检查至20:48｜**当前前沿：** 短实际保存、首题完整grader、消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | decoder修复避免MTP误判；监控修复真实漏报失败。 |
+| D2 细节反复重试 | CLEAR | driver断言与Bridge保存失败已分别复现；新尝试预先定义内存缓冲假设。 |
+| D3 支线问题修补 | CLEAR | HF保存是updatedbenchmark直接依赖。 |
+| D4 可并行任务停滞 | CLEAR | 首题执行、源码/RCA读取与保存修复并行。 |
+| D5 超范围镀金 | CLEAR | 复用现有publisher，无新checkpoint格式或benchmark范围。 |
+| D6 分析空转 | CLEAR | 43checks通过并完成具体writer修复；下一步实际保存。 |
+| D7 路线违背 | CLEAR | 16H800/本机个人API/固定输入/清理约束保持。 |
+
+**文档检查：** S5：plan/summary仍将短作业写为Running；已改成实际Failed和GPU保存待验证。S1–S4/S6无新缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：状态文档过期，已更新后继续。
+
+**文档更新（先执行）：**
+1. plan/summary/report当前状态：记录短保存失败、证据边界和逐bucket修复（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 消费失败root→唯一新2步真实HF保存→9491decoder/index/identity完整→唯一20步重跑。
+2. 并行：BaseMind完整首题→原始其余19题；已消费大文件及时删除。
+3. 真正update20reload→80+80有效评分→avg@4/配对区间→清理/push。
+
+## 4. 最值得关注的 3 点
+
+1. 内存峰值接近上限，但不能把未知发起原因直接写成OOM。
+2. CPU检查通过不替代GPU保存和真正reload。
+3. 首题持续生成不等于完整benchmark评分；完整分母仍缺失。
+
+20:52HKT completed: explicitLoRAexportdispatch regressionadded; finaltargeted44PASS/1.75s. Black/supportedisort/diffchecksPASS. Codechangeisreadyforcommitandrealshort16H800verification.

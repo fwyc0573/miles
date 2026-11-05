@@ -39,10 +39,50 @@ def _weights(path: Path) -> dict:
                 shape = value.get_shape()
                 selection = tuple(slice(0, min(size, 4)) for size in shape)
                 sample = value[selection].contiguous().view(-1).float().numpy().tobytes()
-                tensors[name] = {"shape": shape, "sample_sha256": hashlib.sha256(sample).hexdigest()}
+                tensors[name] = {
+                    "shape": shape,
+                    "sample_sha256": hashlib.sha256(sample).hexdigest(),
+                    "shard": shard.name,
+                }
     if not tensors:
         raise ValueError("Checkpoint contains no safetensor weights")
     return tensors
+
+
+def _compare_export_weights(
+    original: Path, updated: Path, *, enable_mtp_training: bool, mtp_num_layers: int | None
+) -> dict:
+    if enable_mtp_training is not False or mtp_num_layers is not None:
+        raise ValueError("This GLM decoder qualification requires native MTP training to be disabled")
+    config = json.loads((original / "config.json").read_text())
+    if config["model_type"] != "glm4_moe_lite":
+        raise ValueError("This benchmark qualifies GLM-4.7-Flash decoder exports")
+    before, after = _weights(original), _weights(updated)
+    # resolve_mtp_num_layers builds no auxiliary nextn layers in this recipe.
+    mtp_prefixes = tuple(
+        f"model.layers.{layer}."
+        for layer in range(
+            config["num_hidden_layers"], config["num_hidden_layers"] + config["num_nextn_predict_layers"]
+        )
+    )
+    decoder = {name: value for name, value in before.items() if not name.startswith(mtp_prefixes)}
+    if {key: value["shape"] for key, value in decoder.items()} != {
+        key: value["shape"] for key, value in after.items()
+    }:
+        raise ValueError("Exported decoder tensor names/shapes differ from the original student")
+    index = json.loads((updated / "model.safetensors.index.json").read_text())
+    if index["weight_map"] != {name: value["shard"] for name, value in after.items()}:
+        raise ValueError("Exported HF index does not match actual tensor shard locations")
+    changed = sum(decoder[key]["sample_sha256"] != value["sample_sha256"] for key, value in after.items())
+    if not changed:
+        raise ValueError("No sampled exported tensor values changed after learning")
+    return {
+        "tensor_count": len(after),
+        "changed_tensor_samples": changed,
+        "excluded_untrained_mtp_tensors": len(before) - len(decoder),
+        "weight_shards": len(set(index["weight_map"].values())),
+        "comparison_scope": "Every trained decoder tensor name/shape and index location; at most four values per dimension",
+    }
 
 
 def _check_export(original: Path, updated: Path) -> dict:
@@ -51,18 +91,13 @@ def _check_export(original: Path, updated: Path) -> dict:
         raise ValueError("Benchmark must consume weights saved after update20")
     if not (updated / ".complete").is_file():
         raise ValueError("Native checkpoint export is incomplete")
-    before, after = _weights(original), _weights(updated)
-    if {key: value["shape"] for key, value in before.items()} != {key: value["shape"] for key, value in after.items()}:
-        raise ValueError("Exported model tensor names/shapes differ from the original student")
-    changed = sum(before[key]["sample_sha256"] != value["sample_sha256"] for key, value in after.items())
-    if not changed:
-        raise ValueError("No sampled exported tensor values changed after learning")
-    return {
-        "identity": identity,
-        "tensor_count": len(after),
-        "changed_tensor_samples": changed,
-        "comparison_scope": "Names/shapes of every tensor; at most four values per dimension for value comparison",
-    }
+    comparison = _compare_export_weights(
+        original,
+        updated,
+        enable_mtp_training=identity["enable_mtp_training"],
+        mtp_num_layers=identity["mtp_num_layers"],
+    )
+    return {"identity": identity, **comparison}
 
 
 def _start_server(path: Path, original: Path, version: int, args, output: Path):

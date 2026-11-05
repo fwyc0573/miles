@@ -30,6 +30,8 @@ def record_export(args, rollout_id: int, checkpoint_dir: str | None, hf_checkpoi
         "hf_directory": str(directory),
         "megatron_directory": checkpoint_dir,
         "tensor_count": len(tensors),
+        "enable_mtp_training": args.enable_mtp_training,
+        "mtp_num_layers": args.mtp_num_layers,
         "source_commit": subprocess.check_output(
             ["git", "-c", f"safe.directory={repository}", "-C", str(repository), "rev-parse", "HEAD"], text=True
         ).strip(),
