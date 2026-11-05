@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Resume exact-job monitoring; retain queued learner and ongoing native benchmark. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
@@ -2790,3 +2791,118 @@ Verification: six existing export regressions PASS(1.20s) under Python3.12.13/py
 
 
 23:47 HKT: original45/80 valid; updated0/80; learner224939 remainsPending with no native runtime artifacts. The source configuration remains unchanged. A fresh node snapshot had no full eight-GPU node, so lowering CPU requests would not solve the measured constraint and was not attempted. Tencompletednativejobs have removed599,838,663bytes. Localfree105GiB;taskscratch864KiB. Final synchronization now includes the maintained learning report and replaces the current-status paragraphs when actual acceptance passes.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS4｜BLOCKED/FAILED/SKIPPED1｜TODO2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和原始预热 | PASS | 既有实际验证和已同步源码 |
+| 冻结输入和CPU准备 | PASS |80训练turns、固定20题与4seeds |
+| Frog/Qwen有限资格验证 | PASS | 两次正常更新与清理已完成 |
+| HF保存资格验证 | PASS | 实际完整导出和共享别名校验通过 |
+|20步导出及重载 | BLOCKED | 唯一224939已排队约一小时，尚无worker业务回执 |
+| 两组完整评测 | TODO | 原始45/80，更新0/80 |
+| 最终评分、清理与同步 | TODO | 已消费10个完整评测作业，等待完整分母 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**23:11HKT至23:50HKT｜**当前前沿：**已提交训练的资源调度、原始评测、完成输出消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只修正真实日志错误、结果消费和最终文档遗漏 |
+| D2 细节反复重试 | CLEAR | 六个旧进程的相同异常分别核验，没有重跑有效seed |
+| D3 支线问题修补 | CLEAR | 所有操作服务于完整评测和主线资源调度 |
+| D4 可并行任务停滞 | CLEAR | 原始评测继续；三个未启动分片因完整节点竞争明确延后 |
+| D5 超范围镀金 | CLEAR | 无新模型、额外benchmark或短程GPU测试 |
+| D6 分析空转 | CLEAR | 资源审计排除遗留占用；新节点快照否定降低CPU即可解决的设想 |
+| D7 路线违背 | CLEAR | H800、16卡、20更新和80+80验收保持 |
+
+**文档检查：** S1–S6均未发现新的明显缺陷；当前排队状态和资源顺序已记录。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 等待唯一16卡训练获调度，验收20次正常更新、完整HF与实际重载；不要追加训练副本或短程测试。
+2. 并行完成现有原始评测并及时消费输出；训练head就绪后恢复相同的三个未启动题目。
+3. 完成更新80份有效评分后进行配对统计、最终清理和同步；资源不足不等于训练已完成。
+
+## 4. 最值得关注的 3 点
+
+1. 当前主线限制是完整GPU节点调度，已确认没有遗留旧GPU作业可清理释放。
+2. 六个旧版日志收尾异常均保留真实终态，native有效评分未丢弃或重复运行。
+3. 完整20步导出和更新模型benchmark仍未发生，不能声明学习效果已验证。
+
+
+00:00 HKT November6 continuation: the exact learner UID and personal creator were rechecked;224939-805330 remains Pending/RJob is queuing, with no native head/runtime receipt. Seven benchmark jobs remain Running, requesting28H800 in total; this is a platform request count, not GPU utilization. Native monitoring reached48/80original,0/80updated,invalid0. Two old jobs onnode0074 each have three valid results; their remaining pipeline logs continue changing and include the previously identified cloudlogErrno5. The corrected local-log job974424 isRunning onnode0044 with no active cloudroot logs; complete archival remains unverified. The latest scoped node snapshot has only5/6/5usableGPUs on its three candidates, no full eight-GPU candidate. No GPU job was resubmitted, stopped or reconfigured. All six existing launcher/continuation processes remain alive. The three small inspected platform logs were consumed; localfree105GiB andscratch<1MiB. The next mainline actions remain actual learner scheduling/training/export/reload and complete native evaluation; resource waiting is not training success.
+
+
+## November6 question10 post-grading termination
+
+Original question10 `exp-1105-205408-454576`/UID`f28093be-21fd-49aa-a3ec-e97fcb2fed60`,replicaUID`b675a0f7-a343-4df2-8bc0-3fb5ac75f65a`,node0074,returned four valid resolved `django__django-11999` outcomes,seeds1729–1732. Every generation/grading identity,BaseMind backend,returned/seed-verified status and boolean grade matched; native pipeline exits were[0,0,0,0]. The completion marker at2026-11-05T16:01:19Z preceded containerError/exit1 at16:01:26Z and platformFailed at16:01:28Z. Two full platform log reads returned32 then33rows, with completion andExitCode1 but no final traceback. Earlier active native logs containErrno5; this does not prove the final exception was the same. Initiating application cause,underlying storage cause and manual-stop actor/reason/request time remainUNKNOWN. Actual Failed/exit1 is preserved; four validseeds are not repeated.
+
+The standard collector ran through personal_exec.sh with exactjob/replica,expectedcreator i-fengyicheng,window2026-11-05T15:58:00Z–16:04:00Z,timeout15,Python3.10.6/brainpp2.8.6. All eight queries returned. Full audit pagination returned22RJob rows(21update,1create) and1replica create; no stop operation. ExistingDeepScancount0. SystemstopTimestamp and critical-task-failed annotation followed the application exit. No returned evidence establishesOOM orpreemption. The exact incident was registered for result consumption after independent native validation. This does not change the acceptance of other failed jobs.
+
+
+00:05 HKT: question10 consumption succeeded and removed28files/38,627,599bytes, retaining10minimal final-scoring files. Eleven complete original jobs have now been consumed. Native counts51/80original,0/80updated,invalid0. Six original GPU jobs remain Running; the only learner remains Pending. No valid seed has been rerun.
+
+## 1. 规划完成情况
+
+**汇总：** PASS4｜BLOCKED/FAILED/SKIPPED1｜TODO2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、模型资产和原始预热 | PASS | 已验证并同步 |
+| 冻结输入和CPU准备 | PASS | 固定80turns、20题与4seeds |
+| Frog/Qwen有限验证 | PASS | 两次正常更新并完成清理 |
+| HF保存资格验证 | PASS | 实际完整导出检查通过 |
+|20步导出及重载 | BLOCKED | 唯一224939未获节点，无head回执 |
+| 两组完整评测 | TODO | 原始51/80，更新0/80 |
+| 最终评分、清理和同步 | TODO | 已消费11个完成作业，等待完整分母 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**11月5日23:50至11月6日00:05HKT｜**当前前沿：**训练调度、原始评测与完成输出消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 未新增工具或GPU测试 |
+| D2 细节反复重试 | CLEAR | 新终态仅核验与消费，未重跑有效seed |
+| D3 支线问题修补 | CLEAR | 所有调查关联实际评测验收 |
+| D4 可并行任务停滞 | CLEAR | 六个评测继续，三题因已记录节点竞争暂缓 |
+| D5 超范围镀金 | CLEAR | 模型、题库、参数与训练规模保持 |
+| D6 分析空转 | CLEAR | 新RCA完成后已删除38.6MB原始输出 |
+| D7 路线违背 | CLEAR | 保持16H800和20更新、80+80评分条件 |
+
+**文档检查：** S5：summary.md和plan.md的无时间戳45/80当前计数已落后实际51/80；改为引用progress.md中的时间戳快照。S1–S4、S6无新缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. summary.md、plan.md当前状态：保留排队事实，将动态计数交给progress.md维护（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 保持唯一训练launcher，验收实际20次更新、完整导出和重载。
+2. 并行完成原始评测和产物消费；训练head就绪后恢复相同的三题。
+3. 完成更新80份评分后，统计配对结果、清理全部测试产物并同步分支。
+
+## 4. 最值得关注的 3 点
+
+1. 当前训练仍受完整节点调度限制，未额外提交训练副本。
+2. 第10题四个结果有效，但完成后的exit1原因仍未知，不能宣称平台成功。
+3.51/80仅是原始模型部分结果，无法证明update20学习效果。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
@@ -9,7 +10,7 @@
 
 # Agentic OPD Warmup
 
-The additional twenty-update and twenty-question avg@4 phase is in progress. The complete two-update HF save qualification passed and its outputs were deleted. The unique sixteen-H800 learner 224939-805330 remains queued. Original BaseMind evaluation has45/80 valid native results; update20 evaluation has0/80. Completed native outputs are consumed after validation. Three unstarted question jobs are deferred until learner head readiness to limit competition for complete nodes. The earlier two-update observations below do not establish completion of this later phase. Current evidence is in `test_report_2026-11-05_agent_opd_learning.md`.
+The additional twenty-update and twenty-question avg@4 phase remains in progress. The real two-update HF save qualification and bounded Frog/Qwen qualification are complete. The unique sixteen-H800 learner exp-1105-224939-805330 is queued as of November6,00:05HKT. Original native evaluation and output consumption continue; update20 evaluation depends on verified training/export/reload. Three unstarted original questions remain deferred until learner head readiness. Timestamped counts and exact terminal incidents are maintained in progress.md; the earlier two-update results below do not complete this later phase.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 

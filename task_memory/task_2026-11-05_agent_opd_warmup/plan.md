@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
@@ -59,7 +60,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: input freeze, CPU preparation, real two-update HF save validation, and bounded Frog/Qwen qualification are complete. Unique 16-H800 learning job 224939-805330 remains queued. Original questions0–16 are running or complete;45/80 original results and0/80 updated results are valid. Questions17–19 were stopped while still queued, without artifacts, and will be resubmitted unchanged after the unique learner obtains its nodes. Known post-grading log-close failures retain their true terminal status and independently verified grading evidence. Completed raw outputs are consumed promptly. Actual twenty-update export/reload, both complete eighty-result denominators, final cleanup and synchronization remain pending.
+Current phase status: input freeze, CPU preparation, real two-update HF save validation, and bounded Frog/Qwen qualification are complete. Unique16H800 learner exp-1105-224939-805330 remains queued as of November6,00:05HKT. Original evaluation and prompt output consumption continue; questions17–19 remain deferred until learner head readiness. Known post-grading failures preserve their actual terminal status and independently verified native results. Timestamped progress and result counts are maintained in progress.md. Actual twenty-update export/reload, complete eighty-result cells, final scoring/cleanup and synchronization remain pending.
 
 
 ## Confirmed continuation and export route (18:17 HKT)

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record question10 valid native results and subsequent unexplained exit1. |
 | 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
@@ -418,3 +419,10 @@ Verification: six existing export regressions PASS(1.20s) under Python3.12.13/py
 
 
 23:39 HKT: original42/80valid. Question1 astropy__astropy-13398 produced four valid unresolved model outcomes, allseed-verified/returned with fourzero pipeline exits. Job529569/UIDa9f50e72-eea0-46a9-b982-09109c4f9fb2,node0507,then failed at oldline268serverlogcloseErrno5; containerexit1at15:37:02Z,platformFailed15:37:04Z. StandardRCA window15:35–15:39Z returned objects/events/logs/existingDeepScan; both auditreads timedout. Actual grader failures remain in the model score, independently from the later logging failure. ExactUID incident admitted for consumption. Nine completed jobs have removed554,303,900bytes ofrawoutputs; no validseedhasbeenrerun.
+
+
+## November6 question10 post-grading termination
+
+Original question10 `exp-1105-205408-454576`/UID`f28093be-21fd-49aa-a3ec-e97fcb2fed60`,replicaUID`b675a0f7-a343-4df2-8bc0-3fb5ac75f65a`,node0074,returned four valid resolved `django__django-11999` outcomes,seeds1729–1732. Every generation/grading identity,BaseMind backend,returned/seed-verified status and boolean grade matched; native pipeline exits were[0,0,0,0]. The completion marker at2026-11-05T16:01:19Z preceded containerError/exit1 at16:01:26Z and platformFailed at16:01:28Z. Two full platform log reads returned32 then33rows, with completion andExitCode1 but no final traceback. Earlier active native logs containErrno5; this does not prove the final exception was the same. Initiating application cause,underlying storage cause and manual-stop actor/reason/request time remainUNKNOWN. Actual Failed/exit1 is preserved; four validseeds are not repeated.
+
+The standard collector ran through personal_exec.sh with exactjob/replica,expectedcreator i-fengyicheng,window2026-11-05T15:58:00Z–16:04:00Z,timeout15,Python3.10.6/brainpp2.8.6. All eight queries returned. Full audit pagination returned22RJob rows(21update,1create) and1replica create; no stop operation. ExistingDeepScancount0. SystemstopTimestamp and critical-task-failed annotation followed the application exit. No returned evidence establishesOOM orpreemption. The exact incident was registered for result consumption after independent native validation. This does not change the acceptance of other failed jobs.
