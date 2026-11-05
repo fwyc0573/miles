@@ -69,3 +69,6 @@ Bounded FrogNano/Qwen3.5 job `exp-1105-191135-503140` completed two normal updat
 
 
 Current save qualification `exp-1105-205143-864435` remains Starting without assigned nodes; both eight-GPU replicas retain the same approved shape. The zero-GPU decoder inspector `exp-1105-205240-904801` failed before reading training outputs: `find_spec` imported Bridge and Transformer Engine, which required an unavailable `libcuda.so.1`. The previously consumed source diagnostic was removed from that temporary inspector, with decoder validation unchanged and CPU imports verified. A corrected zero-GPU inspector is submitted; the unique twenty-update waiter and update20 evaluator waiter remain alive. No new twenty-update job has been submitted as of 21:15 HKT.
+
+
+At 21:41 HKT, original BaseMind has three valid resolved outcomes out of eighty; updated remains zero. The native seed1730 record includes125 thinking turns,39 body turns and two submit calls. Full paired scores remain unavailable. Temporary final-score/cleanup continuation11266 is prepared and waiting; actual complete training/export/reload and both full cells are its prerequisites. All existing launchers are preserved.

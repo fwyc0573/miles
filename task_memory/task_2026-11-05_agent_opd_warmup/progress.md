@@ -2515,3 +2515,72 @@ Completed:26obsoleteACSjobs terminal,9stops verified, bothparentlaunchers exited
 3. 训练与评测残留产物持续消费，最终清理在完整评分之后完成。
 
 Consumed inspector RCA/raw log cleanup: 11 files/56097 bytes removed after the report retained exact outcome and query limits; scoped raw directory absent.
+
+
+## 21:25 HKT: continuous consumption and queue verification
+
+- completed: temporary consume_basemind.py now accepts one explicit batch manifest and preserves each batch result until Markdown evidence is consumed. consume_completed_basemind.py is alive in session24065. It submits0GPUconsumerjobs only after allfour seed generation/nativegrade receipts are valid, pipeline exits are0, exact personalcreator/UID/Succeeded and containerexit0/restart0 are verified. It deletes large raw outputs while retaining minimal generation/grading/engine receipts for score aggregation. Cleanup errors are separate and do not stop training. AST compilePASS; no native consumption has run yet.
+- in-progress: correcteddecoderinspector211423-299458,UID73aad644-a362-4e8f-a49d-59c50322a9d9,node0451,containerRunning/restart0 from13:20:37Z;0GPU8CPU64000Mi,pinnedimage/localNFSverified. Exact API log currentlycontains worker startup only; do not infer completed validation.
+- in-progress: short205143-864435 queueapproved12:51:46.735586592Z,codesign-default,stillStarting. Live scheduler events include membergap2andlatermembergap1; this is gang placement waiting,notnative execution. No8GPUusable node appeared in the bounded capacity read; nodecapacity is not personalquota.
+- in-progress: originalbenchmarkmonitor nowlistsfive initializedrawjobroots; original2/80valid,updated0/80,invalid0. Recentrequest.received timestamps around13:23Z prove continued requests on originalfirstquestion and indices8/12; the sampled1MiBlogtails are bounded observations,notfull utilization coverage.
+- completed: personalorigin/agent-opd SHA0f04856a531f33b41369dfc4023398e4edbf82cd independentlymatchedafterpush. This synchronization records progress,notfinalacceptance. Localtask scratch508KiB,host106GiBfree. Existing13519/52544/49003/88365/62463/31162/17850/24065 remainalive; learning-dreceiptabsent.
+
+
+## 21:41 HKT: complete-result continuation prepared
+
+- in-progress: original3/80valid,updated0/80,invalid0. New seed1730 on originalastropy12907 resolvedtrue at13:31:42.197Z,106.527985sgrade,125assistant/thinking,39body,80bash,42editor,2submit,124toolresponses. The fourthseed1732 remainsinprogress; no fullavg@4existsyet.
+- in-progress: unique16H800short205143-864435 remainsStarting; learning-dreceiptabsent. Corrected0GPU211423-299458 remainsRunning/restart0. PersonalAPIandindependentremoteCLIlogreads bothreturnonlytwoworkerstartup lines. The readinessprintwasadded21:21:45HKT,aftercontainerstart21:20:37; the runningprocessmayhavealreadyloadedtheearliersilentwaitloop. No import completion or blockingcauseisasserted. Exactliveevents0; personalnativePodread403. No rerun or parameter workaround was added.
+- completed-preparation: final-resultcontinuation11266 isalive. await_benchmark_completion.py waitsforfortyconsumedfour-valid-resultnativejobs andexactSucceeded/UID/containerexit0onallfortypluslearning. Itthen submits0GPUfinalize_benchmark.py locally. That worker verifiesactual20normalupdates,sourceUID/promptSHA256membership,16H800runtime,9491decoderexport/index/identity,metadataequality,actualenginecheckpoint/versionandboth80-resultdenominators; runs existingpairedsummary; writesEnglishMarkdown; onlythendeletesexacttaskcloudroot. Localcontinuationverifiescleanupjobexit0andindependentSSHabsence,deletesexacttasklocaltempdirectorywithalready-authorizedsudo,commitsonlytaskdocs,andpushesnormallywithSHAverification.
+- verification-limit: bothnewtemporaryscriptsASTcompilePASS; theirfullactualexecutionhasnotoccurred. DynamicreportdateusesactualHKTcompletiondate. Cleanupandscoringlogicisconditional; nofinalscoreorcompletedtestisclaimednow. Nativeconsumer24065 remainsalive; allpreviouslaunchersarepreserved.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 20题/4seeds/80不同turns已核验。 |
+| 导出实现与CPU检查 | PASS | ac8cb05c；实际镜像44PASS。 |
+| 真实保存与20步 | TODO | 短保存尚未分配两节点；唯一20步等待程序存活。 |
+| 原始80有效结果 | TODO | 3valid，其余评测正在执行或排队。 |
+| updated80与配对评分 | TODO | 依赖实际完整update20export/reload。 |
+| Frog/Qwen有限验证 | PASS | 两步与数值测量已完成并消费。 |
+| 最终清理与push | TODO | 自动消费与最终条件程序已准备，尚无最终执行结果。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 21:14至21:41HKT｜**当前前沿：** 实际短保存、原始native评测及及时消费。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 支持程序仅连接已要求的评分/清理/push；准备后停止扩展，继续观察实际作业。 |
+| D2 细节反复重试 | CLEAR | 没有重复GPU提交；CPU诊断导入只修复一次。 |
+| D3 支线问题修补 | CLEAR | 没有新模型/服务修复或其他支线。 |
+| D4 可并行任务停滞 | CLEAR | 保存队列和原始评测并行，独立评分已有新valid。 |
+| D5 超范围镀金 | CLEAR | 没有新增训练/benchmark参数或新的正式任务。 |
+| D6 分析空转 | CLEAR | 支持程序已启动；真实第三个grader结果已确认。 |
+| D7 路线违背 | CLEAR | 本机个人API、H800/codesign、原始seeds与同BaseMind配置不变。 |
+
+**文档检查：** S5：当前summary/报告顶部的2valid滞后于最新3valid；已按时间更新。S1–S4/S6未发现新的明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：修正最新状态后继续。
+
+**文档更新（先执行）：**
+1. summary/报告当前状态：记录3valid与条件程序，明确实际执行未完成（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 继续观察唯一16H800短作业与修复检查→真实完整保存→唯一20步训练。
+2. 并行：各原始题四valid后核对终态并消费→80valid。
+3. 实际update20reload→updated80→配对分数→验证后清理/push。
+
+## 4. 最值得关注的 3 点
+
+1. 新增有效grader结果有实际工具和submit信号，完整分母仍缺失。
+2. 16GPU的真实节点调度仍是训练主线的外部等待条件。
+3. 最终程序已接上，但准备和编译通过不等于真实学习或评测完成。
