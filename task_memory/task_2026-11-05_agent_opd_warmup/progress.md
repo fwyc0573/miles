@@ -3455,3 +3455,103 @@ PASS: disposable consumers and the finalizer now derive each native job's questi
 CPU verification command: `PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -` imported the actual temporary benchmark_receipts.py and production summarize_benchmark.py, exercised the actual consume_basemind.py in an isolated temporary filesystem with only its path constants redirected, then removed the complete fixture. PASS: all40current launch manifests map to20original/20updated requests; partial source2valid+2EnvInitError receipts preserve both valid outcomes and both failure excerpts while deleting raw diagnostics/trajectory;78validupdated results keep avg@4=null; existing --seeds1731 1732 targeted recovery produces80validunique results; duplicate valid recovery seed raises ValueError. AST parsingPASS for allfive disposable scripts. These CPU fixture outcomes validate accounting/consumption, not model quality.
 
 An exact cloud read using the new consumer's unchanged remote scanner returned40ownednative roots,80validoriginal,9validupdated and21consumed roots,with no new terminal raw-output batch. Every GPU launcher remained alive while only the two old CPU observer parents3595540/4077855 were stopped after verifying neither had a submission child.19existing submit.py launchers were independently rechecked. The replacement raw consumer is toolsession1036; final-score/cleanup waiter is96862; both are running under the same personal Python environment. Existing native jobs and the followup controller were preserved. No training/evaluation submission or model request was made for this repair.
+
+
+## Registry availability comparison and next diagnostic hypothesis (2026-11-06 03:55 HKT)
+
+Bounded metadata-only queries used the three exact task image tags for questions0,1and13 and both documented registry names. Every anonymous manifest HEAD returned401; every corresponding anonymous-scope token request returned200. Subsequent authorized HEAD returned500 or timed out within8seconds, including the known-working baseline Astropy12907image. No checkpoint/model request, image download or GPU submission occurred. A visible token-service response alone therefore does not establish manifest/image availability.
+
+Current registry alias documentation was read with `lark-cli docs +fetch --as user --doc Nv9ZwQDVtiI0pbkSPPbcaxILn4s --scope keyword --keyword '拉取|替换|代理|500'`: documentIQuidnohKorQx6xravUcJu0Bn2e revision1786 says hub.stepfun-inc.com keeps the same paths/versions as hub.i.basemind.com; it requires checking migrated-image existence before replacement. Neither endpoint passed this check, so no registry switch is proposed. The November2platform reportOZ0EdxC5Qo7QpBxu1nqcQYVznLg revision4217 mentions recent session-router gateway load and a cloud registry access investigation. Those historical observations are context, not evidence that they caused the current three native seed failures.
+
+Hypothesis before the next bounded read: authorized manifest requests currently fail after token issuance. A small GET of the same manifest may return an explicit native registry error, or show that only HEAD is affected. GET200with a digest would narrow this to method/negotiation or transient behavior but would not yet prove a fresh native sandbox works. GET5xxwith a diagnostic supports manifest-service failure at this read. Perform at most two metadataGETrequests, retain only status/digest/media type/error codes and a bounded sanitized message, and continue existing healthy evaluation.
+
+Selected per-request statuses: [{"host": "hub.i.basemind.com", "tag": "astropy_1776_astropy-12907", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "error_type": "ReadTimeout", "elapsed_seconds": 8.293}, {"host": "hub.i.basemind.com", "tag": "astropy_1776_astropy-13398", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "authorized_manifest_head_status": 500, "digest": null, "elapsed_seconds": 0.469}, {"host": "hub.i.basemind.com", "tag": "django_1776_django-14034", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "error_type": "ReadTimeout", "elapsed_seconds": 8.117}, {"host": "hub.stepfun-inc.com", "tag": "astropy_1776_astropy-12907", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "authorized_manifest_head_status": 500, "digest": null, "elapsed_seconds": 0.401}, {"host": "hub.stepfun-inc.com", "tag": "astropy_1776_astropy-13398", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "authorized_manifest_head_status": 500, "digest": null, "elapsed_seconds": 0.256}, {"host": "hub.stepfun-inc.com", "tag": "django_1776_django-14034", "anonymous_manifest_head_status": 401, "anonymous_token_status": 200, "authorized_manifest_head_status": 500, "digest": null, "elapsed_seconds": 0.244}]
+
+
+## Bounded manifest GET result (2026-11-06 03:57 HKT)
+
+The hypothesis test completed: the exact Astropy13398 manifest GET on hub.i.basemind.com hit the10-second read timeout; hub.stepfun-inc.com returnedHTTP500 with native JSON errorcodeUNKNOWN,messageinternal server error,digest absent,in0.454seconds. Broader Docker/OCI manifest and index Accept types did not yield a usable manifest in these two reads. No initiating detail beyond this generic registry response was obtained. Neither alias provides new recovery availability evidence at this time; healthy native evaluation continues.
+
+The partial-accounting checkpoint was pushed normally to personalorigin/agent-opd and independently matched localHEADc01ae19a3f11a89443d885b50f0743ade8069795. This is an incomplete-phase checkpoint, not final scoring/cleanup completion.
+
+Next recovery is explicitly bounded to the three currently stable EnvInitErrorpairs. A disposable CPU observer may recheck registry metadata infrequently; it can submit the existing --task-index/--seeds recovery only after a same-image native Ready/shell probe passes and its session is independently terminal. Before submission it must reread actual outcomes across all roots, verify the original exact personal UID, exclude any valid or running copy of the pair, and avoid a second recovery receipt. Keep every submitted recovery launcher alive. The native evaluator, frozen membership, sampling, grader, model weights and4H800shape remain unchanged. Source-job raw logs and terminal identities continue to be consumed separately; allsource/recovery jobs must terminate before finalcleanup.
+
+Selected response: [{"host": "hub.i.basemind.com", "tag": "astropy_1776_astropy-13398", "method": "GET", "error_type": "ReadTimeout", "elapsed_seconds": 10.298}, {"host": "hub.stepfun-inc.com", "tag": "astropy_1776_astropy-13398", "method": "GET", "http_status": 500, "digest": null, "content_type": "application/json; charset=utf-8", "media_type": null, "error_codes": ["UNKNOWN"], "error_messages": ["internal server error"], "elapsed_seconds": 0.454}]
+
+
+## Independent native recovery preparation (2026-11-06 04:14 HKT)
+
+Continuation audit: all nineteen existing updated followup GPU launchers plus the first-question launcher remain alive. Raw consumer PID2741383 and finalizer waiter PID2741396 remain alive; no new learner or recovery RJob exists. The previous observer2883549 stopped without probe/submission children. Scratch remains below1MiB and local /data has94GiB available.
+
+The disposable recovery observer now treats each affected image independently: a passing Astropy availability/probe may submit only seeds1731/1732 while Django waits independently, without waiting for the Astropy GPU launcher to exit. The earlier requirement that both images be available serialized independent recovery and is removed. Before execution, restore exact task-to-image equality and require native Ready/shell output plus independently terminal session closure. A session creation failure without a returned sessionID cannot authorize recovery. Each target still receives at most one native probe/recovery after manifest availability; active grading or valid copies exclude submission. This change is not yet executed; targeted CPU verification and a new live availability read are the immediate acceptance steps.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd/个人origin与规则已重读 |
+| 初始2：公司模型与资产 | PASS |22文件完整验证已归档 |
+| 初始3：glm5.2与信号表达 | PASS |原生tokens、reasoning、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS |原生检查及平台终态成功 |
+| 初始5：初始清理与同步 | PASS |该阶段已完成并核对远端SHA |
+| 学习1：20题与80turns | PASS |冻结成员及训练排除证据已归档 |
+| 学习2：20次更新与最终HF | PASS |唯一learnerSucceeded、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS |完整baseline执行证明 |
+| 学习4：original80 | PASS |80有效/50resolved，avg@4=0.625 |
+| 学习4：updated80 | TODO |最新记录9有效；现有seeds继续执行 |
+| 学习4：初始化恢复与消费 | TODO |3个稳定缺失pairs；独立镜像恢复待验证执行 |
+| 学习5：配对结论、清理及同步 | TODO |依赖完整评分和全部终态 |
+| 补充：Frog/Qwen有限资格验证 | PASS |两次真实更新、测量与清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D4，已准备纠正。
+**检测窗口：** 2026-11-06 03:52HKT至2026-11-06T04:12:51+08:00｜**当前前沿：** updated评分、仅失败seed恢复、及时消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |子集消费/恢复逻辑是补齐80有效及安全清理所需；不扩充持久harness |
+| D2 细节反复重试 | CLEAR |registry读取按预先记录的HEAD/GET假设缩小问题；freshprobe失败后没有盲目GPU补跑 |
+| D3 支线问题修补 | CLEAR |初始化失败直接阻塞updated80，plan已有归属 |
+| D4 可并行任务停滞 | HIT |第一版恢复controller要求两个镜像同时可用；04:05AstropyHEAD200却仍依赖Django，已停止无childobserver并准备独立推进 |
+| D5 超范围镀金 | CLEAR |模型、题库、sampling、grader及4H800资源保持原值 |
+| D6 分析空转 | CLEAR |最新改变移除实测串行依赖，验证后立即执行 |
+| D7 路线违背 | CLEAR |保留全部现有launchers、唯一learner与160有效评分要求 |
+
+**文档检查：** S1–S6均未发现明显缺陷；plan没有要求两个镜像同时可用。最新恢复状态已记入progress.md。
+**归因：** D4执行偏离；人为提交边产生额外串行依赖。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：**
+- D4：停止等两个镜像全部恢复才启动；按精确镜像分别验证并只补其缺失seeds。
+
+**接下去的路线：**
+1. 当前恢复：CPU验证精确image/seed/参数与launcher生命周期后启动；完成标志是每个恢复仅覆盖无有效或active副本的失败pair。
+2. 并行：所有现有updated生成/评分 ‖ 原失败诊断及终态消费；完整原生评分达到80有效。
+3. 160有效聚合后报告avg@4、配对差值及10000draws的questionbootstrap；精确清理后正常push并独立核对SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 唯一20更新learner与实际HF重载已完成，无需重提训练。
+2. imageHEAD200不是native可用性证明；Ready/shell及独立关闭都须通过。
+3. 原生pipelineexit0可能含EnvInitError；有效分母由每份receipt证明。
+
+
+## Independent recovery CPU verification (2026-11-06T04:13:45+08:00)
+
+PASS: actual disposable recovery functions retain every original argument/resource field except the requested seeds and task label/receipt; exact task-to-image equality, native Ready/shell and independent close checks, active generation/grading exclusion, receipt deduplication and child lifetime are exercised. Each target can qualify independently. Creation without a returned sessionID does not authorize recovery. Shell success follows the native probe's existing exit0/exactstdout/empty-stderr predicate. Both scripts AST-parse. The isolated CPU fixture was removed.
+
+Command: `PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/tmp/stepmind-env/bin/python -B -`, importing `/data/ycfeng/tmp/agent-opd-learning-20261105/recover_native_init.py` and testing only temporary isolated rows/processes. No GPU or native session was created by these CPU checks. The already-running consumer/finalizer and every existing updated launcher are preserved. The next action is the unique recovery controller with new manifest/native availability evidence.
+
+
+## Existing benchmark and independent recovery active (2026-11-06T04:14:16+08:00)
+
+Actual scoped cloud observation: original80/80valid,updated12/80valid; exact three source EnvInitErrorpairs remain missing. Twenty-nine actual native cloud roots are currently present; forty submitted native receipts include eleven queued updated jobs that have not created output roots. Personal batch returned eightupdatedRunning/elevenPending/oneSucceeded,with32H800requested by Running jobs and no newplatformFailedcases. No GPUutilization measurement is inferred.
+
+New recoverycontroller is toolsession16803. Its first fresh manifest read at2026-11-06T04:13:57+08:00 found AstropyHTTP500 and DjangoReadTimeout; no nativeprobe or recoveryGPU was submitted. It checks each image independently every300seconds with10secondmetadatareadtimeout,while all existingGPUlaunchers,rawconsumer1036andfinalwaiter96862 continue. Source failurediagnostics await siblingwriters/terminalarchive. The controller's selected CPU verification is complete; rawtestinputs were consumed.
