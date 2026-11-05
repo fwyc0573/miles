@@ -119,4 +119,11 @@ async def score_teacher(args, sample: Sample, **kwargs):
         "scored_tokens": len(scores),
         "mean_logprob": sum(item[0] for item in scores) / len(scores),
     }
-    return reward
+    return {"reward": 0.0, "teacher_response": reward}
+
+
+def post_process_rewards(args, samples: list[Sample], **kwargs):
+    """Extract native teacher signals while rollout metrics read scalar rewards."""
+    teacher_args = copy.copy(args)
+    teacher_args.reward_key = "teacher_response"
+    return opd.post_process_rewards(teacher_args, samples, **kwargs)

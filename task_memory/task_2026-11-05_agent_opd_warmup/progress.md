@@ -704,3 +704,66 @@
 1. 已推送准备代码，真实 optimizer update 仍为0，不能报告 warmup PASS。
 2. 原16卡作业仍在等待配额，保持 launcher 和原配置；不影响其他训练。
 3. 原始日志和查询响应消费后删除，活动输入与必要 Python source 在完成验收后删除。
+
+
+- 2026-11-05T12:43:42.416158+08:00 step4 continuation: the original job exp-1105-031302-898658 ran on gpu-h200-0754/0232 and ended Failed at 07:28HKT; launcher50766 exited1. Correct the earlier Pending observations: there is no active launcher or GPU job for this task. The asymmetric transfer reproduced Message truncated (sender bounds unset; receiver8); matching bounds8 passed both BF16 broadcasts496/528 and unchanged trainer/inference reductions36/10. The allocation continued into real GLM initialization, weight publication and rollout, then failed before optimizer updates in metrics round(dict). Native events contain one inference checksum and one weight_update_result; no actor optimizer step.
+
+- step4 RCA: exact RJob UID b22aaac3-a467-4058-a787-2068319189c6, trainer replica UID a3a05fd6-2d52-4f99-ae53-90baf8a145bf, sibling UID0ff081fa-7bc8-43ea-9a69-f60d0bfc8e00 were verified. Both collectors completed8/8 sources with full pagination. Trainer exit1/Error at23:27:59Z preceded fail-policy stopTimestamp23:28:02Z and explicit rjob-controller stop audits for the sibling. This is workload failure followed by cleanup; no incident-bound preemption or OOM evidence. Historical Events39/7/8 are startup scheduling evidence; live Events0/0, existing DeepScan0. Sibling terminal container code remains UNKNOWN because its final projected state is stale running.
+
+- step4 fix: callback now returns scalar reward0 alongside untouched teacher_response; existing reward-key and a task post-process adapter select each consumer's field, delegating native OPD extraction on copied args. The corrected regression was red before the patch (missing scalar reward key); after patch106 OPD/metrics tests passed4.17s, with teacher token order/logprobs and launch args unchanged. Launcher snapshot2PASS/1.46s; full required suite is running. No core metrics schema or unrelated launcher was changed.
+
+- Resource read: current personal non-preemptible Running/Starting H200 usage24GPUs across3 unrelated jobs; original48GPU observation is historical. Adding16 non-preemptible would exceed32; retain approved preemptible16GPU configuration. /data has110GiB available.
+
+- Required launcher suite:584PASS/18FAIL/50ERROR in22.65s. All68 failing IDs belong to the previously verified unchanged baseline; this task's launcher passes. No unrelated fix is in scope. Incident log queries returned721 trainer lines/1 sibling line below3000 limit; provenance/pagination recorded above.
+
+- step5 cleanup: consumed raw RCA directories, downloaded log, channel inspection and GPU receipts removed. Worker-written root-owned receipts required scoped sudo; failed cloud warmup output117262536bytes also removed through scoped personal cloud path. No global JuiceFS trash, shared model/dataset or unrelated job was touched.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd与原始验收保持一致。 |
+| 2. 模型准备 | PASS | 22文件完整验证，无重复下载。 |
+| 3. 原始turn与配置 | PASS | 原数据与标量reward适配已验证。 |
+| 4. 真实16H200更新 | FAILED | 原作业通过通信后在metrics失败，真实更新0。 |
+| 5. 最终清理与同步 | TODO | 已消费失败数据删除；最终验收仍等待新作业。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 原作业失败发现至reward适配CPU验证｜**当前前沿：** step4；step5独立清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 一条回归验证实际reward链路，完成后停止扩展。 |
+| D2 细节反复重试 | CLEAR | NCCL差分已证实，下一次只匹配bounds；reward由原traceback定位。 |
+| D3 支线问题修补 | CLEAR | 未处理无关baseline failures。 |
+| D4 可并行任务停滞 | CLEAR | 检查、容量查询和消费后清理并行推进。 |
+| D5 超范围镀金 | CLEAR | 同样16卡、2次更新；未更改core schema。 |
+| D6 分析空转 | CLEAR | 已落地修复和106项通过，下一步提交真实训练。 |
+| D7 路线违背 | CLEAR | 保留原始tokens、个人auth、本机mount与资源/清理要求。 |
+
+**文档检查：** S5 summary的Pending状态已过时，已修正为真实失败；S1–S4/S6无缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：先修正历史状态再继续。
+
+**文档更新（先执行）：**
+1. summary/progress/test report：记录原作业Failed、channel PASS与更新0（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：提交已验证reward适配，在新16H200 allocation运行2次正常更新 → 完成标志：native optimizer、teacher/R3、same-weight数值。
+2. 并行：step5持续清理失败/已消费数据 → 完成标志：仅必要活动输入与Markdown结论。
+3. step5最终push → 完成标志：真实验收结束与remote SHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 通信修复有真实GPU证据，OPD optimizer仍为0。
+2. 当前24非抢占H200；本次16卡继续preemptible。
+3. CPU验证完毕，停止扩展辅助工具，直接运行真实warmup。

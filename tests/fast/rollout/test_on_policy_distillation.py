@@ -272,3 +272,39 @@ def test_routing_missing_name_without_default_raises():
     args = _routing_args(urls=["math=http://h1/generate"])
     with pytest.raises(ValueError, match="missing teacher key"):
         _teacher_url_for_sample(args, _tagged_sample({}))
+
+
+async def test_glm_teacher_scoring_keeps_scalar_metrics_and_native_opd_signals(monkeypatch):
+    from examples.agentic_opd import rollout as glm_rollout
+
+    from miles.ray.rollout.metrics import _compute_training_sample_metrics, _compute_zero_std_metrics
+
+    args = Namespace(
+        sglang_model_routers={"teacher": ("teacher", 30000)},
+        sglang_router_request_timeout_secs=60,
+        advantage_estimator="grpo",
+        reward_key="reward",
+        opd_log_prob_top_k=0,
+    )
+    teacher_response = {
+        "meta_info": {"input_token_logprobs": [[None, 10, None], [-0.2, 11, None], [-0.3, 12, None]]}
+    }
+    posted = []
+
+    async def score(url, payload, timeout_secs):
+        posted.append((url, payload, timeout_secs))
+        return teacher_response
+
+    monkeypatch.setattr(on_policy_distillation, "_post_json", score)
+    sample = Sample(tokens=[10, 11, 12], response_length=2, group_index=0)
+    sample.reward = await glm_rollout.score_teacher(args, sample)
+
+    assert _compute_training_sample_metrics(args, [sample])["episode_raw_reward"] == 0.0
+    assert _compute_zero_std_metrics(args, [sample])["zero_std/count_0.0"] == 1
+    original_args = vars(args).copy()
+    assert glm_rollout.post_process_rewards(args, [sample]) == ([0.0], [0.0])
+    assert vars(args) == original_args
+    assert sample.teacher_log_probs.tolist() == pytest.approx([-0.2, -0.3])
+    assert sample.reward["teacher_response"] is teacher_response
+    assert sample.metadata["teacher_scoring"]["token_ids_match"] is True
+    assert posted == [("http://teacher:30000/generate", _score_payload(sample.tokens), 60)]

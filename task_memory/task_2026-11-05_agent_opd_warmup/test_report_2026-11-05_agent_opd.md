@@ -664,3 +664,58 @@ removed after these aggregate conclusions were recorded. Active job inputs,
 shared environments, credentials, requested model assets and original datasets
 remain available. PASS for intermediate synchronization and consumed-data
 cleanup; BLOCKED for GPU channel diagnosis and real OPD optimization.
+
+
+## Original channel differential and first rollout: transfer PASS, OPD FAIL
+
+Exact job `exp-1105-031302-898658`, creator `i-fengyicheng`, source revision2171fd65,
+local NFS100.96.128.195,16H200 on gpu-h200-0754 and gpu-h200-0232.
+Image/runtime remain the pinned CUDA13 environment described above.
+The real asymmetric sender had both channel bounds unset and receivers8:
+`Message truncated : received 2048 bytes instead of 512` (FAIL).
+With both sender/receivers8: two BF16 broadcasts summed496 and528; parent
+worlds8/4 reduced36/10 before and after transfer (PASS). The subsequent matching
+weight probe also passed. The same allocation entered the full real model path,
+published initial weights and generated rollout0. It failed before any optimizer
+update when `_compute_zero_std_metrics` called `round()` on the teacher dict.
+The offline cloud check found20 files/117262536bytes and native event counts:
+env_report46,engine_env_report2,inference_engine_weight_checksum1,weight_update_result1;
+no actor optimizer event. `full_training_executed=false` indicates the training
+function never returned successfully, not that real models never started.
+
+RCA commands used the installed collect_failure_evidence.py, personal Python3.10.6/
+brainpp2.8.6 and exact trainer/sibling replicas with UTC window23:26–23:29 on
+November4. Eight sources per replica completed with pagination. RJob UID
+b22aaac3-a467-4058-a787-2068319189c6; replica UIDs
+a3a05fd6-2d52-4f99-ae53-90baf8a145bf and0ff081fa-7bc8-43ea-9a69-f60d0bfc8e00.
+Trainer container exit1/Error at23:27:59Z preceded fail-policy stop23:28:02Z;
+sibling audits explicitly identify rjob-controller at23:28:02/03Z.
+Historical Events counts39(job),7(trainer),8(sibling); audits73/1/6; live Events0,
+existing DeepScan0. Startup FailedScheduling messages are not incident preemption.
+Initiating failure: Python reward/metrics contract; subsequent sibling stop:
+fail-policy cleanup. Sibling final container code UNKNOWN (stale running projection).
+No OOM/preemption attribution is supported. Raw evidence is disposable.
+
+## Teacher reward adapter regression: PASS
+
+The unchanged native metrics ran before native OPD post-processing. Separate the
+zero task reward from the teacher response with existing reward-key/custom hook
+mechanisms. No core metrics change or launch-state mutation is needed.
+
+```bash
+PYTHONPATH=/data/ycfeng/tmp/agent-opd-20261105/sglang-source/sglang-056f871a7ee8b4573832049011f0fdf52589cfd8/python:/data/ycfeng/sota-engine/miles \
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest \
+ tests/fast/rollout/test_on_policy_distillation.py tests/fast/ray/rollout/test_metrics.py \
+ -q -p no:cacheprovider
+```
+
+Python3.12.13. Before patch: corrected regression FAIL/KeyError reward; the
+original no-reward-key native repro separately reproduced round(dict) TypeError.
+After patch:106PASS in4.17s. Expected/observed: scalar metric0, teacher logprobs
+[-0.2,-0.3] on exact tokens[11,12], unchanged args, unchanged response object,
+exact teacher scoring request. Launcher snapshot2PASS/1.46s;
+only reward-key and custom post-process path changed in snapshot.
+Real optimizer verification remains pending a new16H200 run.
+
+Required full launcher suite command used the same environment and `python -m pytest tests/fast/launch_scripts tests/manual/launch_scripts -q -p no:cacheprovider`:584PASS,18FAIL,50ERROR in22.65s. Failures remain the documented unchanged baseline IDs. Incident logs coverage721/1 rows below3000 limit.

@@ -8,7 +8,7 @@
 
 The preparation code and requested model assets are ready. **The actual GLM OPD
 warmup has not passed.** Previous full model attempts completed zero optimizer
-updates; the current diagnostic job is queued for 16 H200 GPUs. This record is
+updates; the original16H200 diagnostic completed the NCCL differential and then failed in rollout metrics. The scalar reward adapter is CPU-verified; a new real run is still required. This record is
 an intermediate snapshot with GPU qualification still pending. The preparation
 branch has been synchronized to the personal origin at commit
 `c403bdc7af16b7ddce640c4af1144b7f36e7fc31`; this is not warmup completion.

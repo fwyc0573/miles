@@ -133,8 +133,8 @@ def execute(args: ScriptArgs):
     rollout = (
         f"--prompt-data {shlex.quote(args.dataset_path)} --input-key prompt --metadata-key metadata "
         "--custom-generate-function-path examples.agentic_opd.rollout.generate "
-        "--custom-rm-path examples.agentic_opd.rollout.score_teacher "
-        "--custom-reward-post-process-path miles.rollout.on_policy_distillation.post_process_rewards "
+        "--custom-rm-path examples.agentic_opd.rollout.score_teacher --reward-key reward "
+        "--custom-reward-post-process-path examples.agentic_opd.rollout.post_process_rewards "
         f"--num-rollout {args.num_rollout} --rollout-batch-size {args.rollout_batch_size} "
         f"--n-samples-per-prompt 1 --global-batch-size {args.rollout_batch_size} "
         f"--rollout-max-response-len {args.rollout_max_response_len} "
