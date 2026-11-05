@@ -25,3 +25,11 @@ The dependency on step4 applies to final cleanup, the completed validation archi
 - Verify worker GPU type/count, creator, local source mounts, source revision, environment versions, terminal status and weight update behavior.
 - Cleanup removes only task-created disposable data/checkpoints after evidence is retained; shared models/dataset and other jobs remain available.
 - Run existing checks applicable to changed components. Keep exact commands and observed results in the Markdown test report; retain no raw warmup data or logs.
+
+## Temporary hardware steering
+
+The user requested H800 on November5. Step4 now executes the identical16-GPU
+warmup on H800/codesign, with an explicit worker GPU-type check. This establishes
+workflow and H800 numerical evidence; the original H200 training qualification
+remains open. The queued H200 replacement is stopped through the mandated script.
+Do not expand the training size, change model/data inputs or retain warmup data.

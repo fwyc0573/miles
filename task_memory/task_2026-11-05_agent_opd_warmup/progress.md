@@ -767,3 +767,59 @@
 1. 通信修复有真实GPU证据，OPD optimizer仍为0。
 2. 当前24非抢占H200；本次16卡继续preemptible。
 3. CPU验证完毕，停止扩展辅助工具，直接运行真实warmup。
+
+- 2026-11-05T12:46:54.624402+08:00 step4 new submission: exp-1105-124538-296267, launcher6754 alive, current source b3fd5780. Exact personal shape query confirms Pending/creator i-fengyicheng/preemptible=yes,2x8H200,48CPU/600000Mi per replica, both RDMA limits, pinned image and current-local NFS100.96.128.195. Command executes tests/manual/agent_opd/rjob_warmup.py with the original manifest, fixed student/teacher paths, output root warmup-20261105, shared evidence/native-warmup, num-rollout2/startup600/training3600; CUDA13 compat is exported before Python. No duplicate active allocation.
+
+- step5 intermediate synchronization: normal push origin agent-opd advanced2171fd65→b3fd5780. This includes the verified scalar reward fix and truthful original-failure report; real warmup is incomplete. Consumed full-suite log and task-owned pytest3712/3713 scratch removed.
+
+- 2026-11-05T12:59:11.473380+08:00 user hardware steering: temporarily use H800/codesign. Verified exact H200 job creator/phase Pending, then mandated rjob_stop.sh requested stop at12:57:35HKT. Fresh codesign API returns186 nodes/63 usable GPUs and personal Running/Starting usage0. Existing RJob entrypoint now takes --gpu-type H200/H800 and verifies that requested label against every actual device; defaultH200 preserved. No model/training algorithm or allocation size changes. CLI --help exit0; full required launcher suite running for its docstring update.
+
+- H800 preparation verification: worker --help exposes H200/H800 selection and exits0; full launcher suite584PASS/18FAIL/50ERROR in22.03s, matching documented baseline categories/counts. No native training flag or snapshot changed.
+
+- Stop confirmation: exp-1105-124538-296267 is Stopped, creator i-fengyicheng. No worker output was created. H800 preparation logs and this session's pytest3712 scratch are consumed and deleted.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支/验收 | PASS | 最新H800 steering已写入requirements/plan。 |
+| 2. 模型资产 | PASS | 原22文件完整校验保留。 |
+| 3. 数据/配置 | PASS | 原turn/reward配置通过，GPU检查支持H800。 |
+| 4. 实际更新 | FAILED | 历史H200更新0；H800尚未执行。 |
+| 5. 清理/push | TODO | 失败数据已删除，最终验收仍未完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 用户硬件切换至H800准备验证｜**当前前沿：** step4和独立清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅把实际GPU检查参数化；无新增harness。 |
+| D2 细节反复重试 | CLEAR | 原排队停止来自用户新指令；不是猜参数。 |
+| D3 支线问题修补 | CLEAR | 只修改当前资源检查/记录。 |
+| D4 可并行任务停滞 | CLEAR | stop、CPU检查和codesign查询并行。 |
+| D5 超范围镀金 | CLEAR | 同样16GPU、2次更新和模型/data。 |
+| D6 分析空转 | CLEAR | 63可用GPU与源码变更已有结果，下一步提交。 |
+| D7 路线违背 | CLEAR | H800是用户明确的新指令，H200不误报已验证。 |
+
+**文档检查：** S1–S6无未修正文档缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：提交16H800 codesign实际warmup → 完成标志：2次更新和native验收结果。
+2. 并行step5：消费后立即清理raw输出；最终推送代码/Markdown。
+
+## 4. 最值得关注的 3 点
+
+1. 当前H200 replacement已Stopped；无双重allocation。
+2. H800同一参数准备通过；实际更新仍为0。
+3. H800不能替代H200数值资格结论，保留该限制。

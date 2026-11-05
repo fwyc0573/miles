@@ -29,3 +29,12 @@
 补充：及时清理编译、日志、smoke等产物，避免本地磁盘空间oom。warmup阶段无需保留任何数据
 
 - Updated cleanup decision: remove all task-owned warmup datasets, raw logs, compile caches, checkpoints, token dumps, trajectories and smoke files as soon as they are no longer needed. Keep code and Markdown verification conclusions; the requested model assets and unchanged shared source datasets remain training prerequisites. Do not retain raw warmup data.
+
+
+[Original Request] Latest goal follow-up:
+继续，目标为完成真实 16 H200 OPD warmup
+
+[Original Request] 2026-11-05 hardware steering:
+请暂时切换到 h800集群
+
+- Temporary hardware decision: perform the current16-GPU warmup on H800/codesign. Stop this task's queued H200 replacement first; preserve unrelated jobs. Keep two eight-GPU replicas, the same models/data, two updates and verification/cleanup requirements. Report H800 observations explicitly; H200 training remains unverified.

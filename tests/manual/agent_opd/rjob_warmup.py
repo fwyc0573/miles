@@ -250,6 +250,7 @@ def main():
     parser.add_argument("--local-root", type=Path, default=Path("/var/tmp"))
     parser.add_argument("--nodes", type=int, default=2)
     parser.add_argument("--gpus-per-node", type=int, default=8)
+    parser.add_argument("--gpu-type", choices=("H200", "H800"), default="H200")
     parser.add_argument("--num-rollout", type=int, default=2)
     parser.add_argument("--startup-timeout", type=int, default=600)
     parser.add_argument("--training-timeout", type=int, default=3600)
@@ -257,7 +258,7 @@ def main():
     args.output_root.relative_to("/mnt/codesign-exp/ycfeng")
     rank = int(os.environ["KUBEBRAIN_REPLICA"])
     if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != args.nodes or args.nodes != 2:
-        raise ValueError("The 16-H200 warmup requires two platform replicas")
+        raise ValueError("The 16-GPU warmup requires two platform replicas")
     if args.gpus_per_node != ScriptArgs().num_gpus_per_node:
         raise ValueError("The platform GPU allocation differs from the GLM warmup recipe")
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
@@ -279,8 +280,8 @@ def main():
             check=True,
         )
         runtime = json.loads((directory / f"runtime-{rank}.json").read_text())
-        if any("H200" not in name for name in runtime["gpu_devices"]):
-            raise ValueError("The allocated GPUs are not H200")
+        if any(args.gpu_type not in name for name in runtime["gpu_devices"]):
+            raise ValueError(f"The allocated GPUs do not match the requested {args.gpu_type}")
         subprocess.run(
             ["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], check=True
         )

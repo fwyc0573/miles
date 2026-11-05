@@ -719,3 +719,16 @@ only reward-key and custom post-process path changed in snapshot.
 Real optimizer verification remains pending a new16H200 run.
 
 Required full launcher suite command used the same environment and `python -m pytest tests/fast/launch_scripts tests/manual/launch_scripts -q -p no:cacheprovider`:584PASS,18FAIL,50ERROR in22.65s. Failures remain the documented unchanged baseline IDs. Incident logs coverage721/1 rows below3000 limit.
+
+
+## Temporary H800 switch: preparation
+
+User request: temporarily switch to H800. At12:57:35HKT the mandated personal
+rjob_stop.sh stopped queued exp-1105-124538-296267 (creator checked); its terminal
+state will be confirmed. Fresh personal codesign query:186nodes,63usable GPUs,
+0personal Running/Starting GPUs. Capacity is a snapshot, not a reservation.
+The existing RJob entrypoint's explicit --gpu-type now selects H200/H800; --help
+passed in the pinned CPU environment. Training parameters and16GPU topology are
+unchanged. H800 evidence will not qualify H200 training.
+
+Required full launcher suite after the hardware docstring update:584PASS/18FAIL/50ERROR in22.03s (same exact CPU environment/command above). The H800 worker check will be exercised on allocated devices, not simulated CPU devices.

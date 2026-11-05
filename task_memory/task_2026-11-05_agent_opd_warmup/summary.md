@@ -2,106 +2,92 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-05 | Archive verified preparation, confirmed intermediate GitHub synchronization and pending GPU qualification. |
+| 2026-11-05 | Record verified preparation, real NCCL evidence, reward fix and temporary H800 steering. |
 
 # Agentic OPD Preparation Snapshot
 
-The preparation code and requested model assets are ready. **The actual GLM OPD
-warmup has not passed.** Previous full model attempts completed zero optimizer
-updates; the original16H200 diagnostic completed the NCCL differential and then failed in rollout metrics. The scalar reward adapter is CPU-verified; a new real run is still required. This record is
-an intermediate snapshot with GPU qualification still pending. The preparation
-branch has been synchronized to the personal origin at commit
-`c403bdc7af16b7ddce640c4af1144b7f36e7fc31`; this is not warmup completion.
+The preparation code and requested model assets are ready. **Real OPD optimizer
+updates remain zero.** The first16-H200 allocation confirmed the deterministic
+NCCL channel fix, then failed in rollout metrics before optimization. The scalar
+reward adapter is verified on CPU and pushed at `b3fd5780`.
+
+The user requested a temporary switch to H800/codesign. The queued H200 replacement
+`exp-1105-124538-296267` was intentionally stopped through the mandated script.
+The current warmup will use16H800, with otherwise unchanged training parameters.
+H200 training qualification remains open.
 
 ## Deliverables
 
-- Branch: `agent-opd` in `/data/ycfeng/sota-engine/miles`; requested personal
-  origin: `https://github.com/fwyc0573/miles.git`.
-- `examples/agentic_opd/glm_turns.py` and `examples/agentic_opd/rollout.py` retain
-  original token boundaries, reasoning, ordinary text, tool arguments and turn
-  identity. Parsed text never replaces the token sequence used for training.
-- `scripts/run_glm47_flash_agent_opd.py` configures native OPD, R3, TIS and
-  deterministic FA3 for 8 GPUs for student training, 4 GPUs for student inference and 4
-  GPUs for frozen teacher inference.
+- Branch `agent-opd` in `/data/ycfeng/sota-engine/miles`; personal origin
+  `https://github.com/fwyc0573/miles.git`.
+- `examples/agentic_opd/glm_turns.py` and `rollout.py` preserve original token
+  boundaries, reasoning, ordinary body, tool arguments and source identity.
+  Parsed fields never replace tokens used for training.
+- `scripts/run_glm47_flash_agent_opd.py` configures sampled-token OPD, R3, TIS,
+  deterministic FA3 and the scalar reward adapter:8student-training GPUs,
+  4student-inference GPUs and4frozen-teacher GPUs.
 - `tests/manual/agent_opd/prepare_glm5_2.py`, `rjob_warmup.py`, `runtime_probe.py`,
-  `weight_sync_probe.py` and `inspect_warmup.py` provide the reproducible source
-  preparation, worker entrypoint, actual-kernel checks and native inspection.
+  `weight_sync_probe.py` and `inspect_warmup.py` provide preparation, explicit
+  H200/H800 device checks and native output inspection.
 - `miles/utils/distributed_utils.py` and
   `tests/fast/utils/test_independent_process_group.py` cover the independent
   transfer-world initialization fix.
 - `docs/advanced/on-policy-distillation.md` documents the recipe. Exact commands,
-  observations, community sources and qualification limits are maintained in
-  `test_report_2026-11-05_agent_opd.md` in this task directory.
+  measurements, source rationale and limitations remain in this task's test report.
 
 ## Model assets
 
-Visible authenticated Lark search returned no FrogNano result and three
-contextual Qwen3.5-4B documents without a verified asset path. This does not
-establish company-wide absence. The company HF mirror completed the missing
-pinned download; all 22 files, 18,685,617,357 bytes, passed size and complete SHA256 checks.
-VPS fallback was unnecessary.
+Authenticated Lark search returned no FrogNano result and three contextual
+Qwen3.5-4B documents without a verified asset path. This does not establish
+company-wide absence. The company HF mirror completed both missing pinned
+assets:22files,18,685,617,357bytes, full size/SHA256 checks passed. VPS was unnecessary.
 
 - `/mnt/codesign-exp/ycfeng/opd-assets/models/microsoft/FrogNano-4B-2609/b90468c11a913c1916b4542b4b7a530ec42024a4`
 - `/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`
 
-The GLM student/teacher weights remain the existing shared personal assets
-recorded in the warmup configuration. No shared model or original dataset was
-deleted or modified.
+Shared GLM student/teacher weights and original glm5.2 sources remain unchanged.
 
 ## Observed validation
 
-- All four real glm5.2 source categories matched ticket07 prompt/completion
-  counts and hashes. Thinking, ordinary text, submit/bash/editor calls and
-  plain/truncated completion cases passed CPU inspection.
-- The new launcher has 2 passing snapshot checks. The full launcher suite is
-  584PASS/18FAIL/50ERROR; all 68 failing/error IDs match the unchanged baseline
-  (582PASS/18FAIL/50ERROR). These unrelated failures were not repaired.
-- The independent process-group regression passed on CPU. Actual two-node
-  H200 kernels passed on all 16 GPUs using the pinned CUDA13 image's existing
-  compatibility libraries. The minimum world 5 BF16 broadcast passed twice
-  with intact parent worlds 8/4; full model transfer still failed afterwards.
-- The latest full model failure is NCCL 2.30.7 `Message truncated`, 2048/512 bytes,
-  before rollout or optimization. Sender/receiver deterministic channel
-  alignment is a candidate qualified on CPU; GPU confirmation is pending.
-- Verification covers single turn OPD. Live multi-turn tool execution remains
-  unqualified. The native driver does not publish its final optimizer update;
-  publication checks apply to versions actually sent to inference.
+All four real source categories matched ticket07 counts/hashes. CPU inspection
+covered thinking, ordinary text, submit/bash/editor calls and truncated text.
+The scalar reward adapter passed106OPD/metrics checks in4.17s, including exact
+teacher token order, logprobs and unchanged launch arguments. Launcher snapshot
+checks passed; latest full suite:584passed,18failed,50errors in22.03s. These
+68failures remain the documented unchanged baseline.
 
-## Active work and resource constraint
+The original16H200 allocation used two distinct nodes and the pinned CUDA13
+image's existing compatibility libraries. The asymmetric sender had unset channel
+bounds while receivers had8; it reproduced Message truncated2048/512. Matching
+bounds8passed BF16 broadcasts496/528 and parent reductions36/10. The real GLM
+path then published initial weights and generated rollout0, but metrics attempted
+round(dict) and failed before optimization. Trainer exit1preceded fail-policy
+cleanup. Incident-bound preemption/OOM was not established.
 
-Keep local launcher session 50766 alive for
-`exp-1105-031302-898658`. It uses the personal StepMind Python RJobBackend,
-local Miles NFS 100.96.128.195, 2 × 8 H200 and preemptible=yes. Do not submit a duplicate.
-At 2026-11-05T06:47:27.391606+08:00, the exact job is Pending, queue rank8 and approval empty.
-The capacity query reports 8 usable GPUs in step_main. The last personal
-non-preemptible usage query recorded48 GPUs across6 unrelated jobs. Codesign returned 166 H800 nodes and 19 nodes without GPUType, with no
-H200 label; infer_af_test returned only CPU nodes.
+Fresh codesign query before H800 submission returned186nodes/63usable GPUs and
+0personal Running/Starting GPUs. This is capacity evidence, not a reservation.
+The explicit H800 worker CLI check passed; actual H800 execution is pending.
 
-The queued entrypoint compares receiver8/sender-unset with matching8/8.
-It proceeds to the same allocation's two-update GLM warmup only when the
-actual sender bounds are unset, the asymmetric case reproduces the identical
-truncation, and the matching case passes. RJob Succeeded alone does not prove
-OPD PASS; inspect the separate inspection exit code and native observations.
+## Remaining work
 
-Remaining work:
+1. Run the selected16H800 warmup and inspect actual worker/GPU/source/runtime.
+2. Confirm two normal finite updates, nonzero gradients, changed published
+   weights, identical teacher/student token IDs, R3 arrays, weight versions and
+   measured train/inference logprob and TIS differences.
+3. Immediately remove all task-owned raw data, logs, compile caches, manifests
+   and disposable cloud outputs. Retain code/Markdown conclusions and push the
+   final branch. Keep requested model assets and shared source datasets.
 
-1. Read the original job's actual channel differential and conditional
-   training result after placement.
-2. Verify two normal optimizer outcomes, finite/nonzero gradients and changed
-   published weights, teacher scoring of identical tokens, R3 arrays, weight versions
-   and measured train/inference logprob and TIS differences.
-3. Remove all remaining created by this task raw warmup outputs, logs, caches, manifests
-   and temporary source after inspection; update the final English archive
-   and synchronize `agent-opd` again.
+Verification covers single-turn OPD; live multi-turn tool execution is unqualified.
+The native driver does not publish its final optimizer update. Publication checks
+apply to versions actually sent to inference. H800 results do not qualify H200.
 
 ## Cleanup and synchronization
 
-Consumed raw logs/RCA, inactive smoke inputs, lint caches and root pytest/Ruff
-caches have been removed. Image removal for this task recovered about 83GB.
-Current local free space is approximately 111GiB; the remaining task tmp is 173MiB
-and active inputs are 988KiB. These remaining dependencies support the queued job and pending verification. Requested model assets and shared source data remain available.
-Only code and Markdown conclusions belong in the branch. The preparation
-snapshot was synchronized to personal origin `fwyc0573/miles`; a read-only
-`git ls-remote --heads origin agent-opd` check at 2026-11-05T06:47:27.391606+08:00
-matched local commit `c403bdc7af16b7ddce640c4af1144b7f36e7fc31`. Final verification, cleanup
-and synchronization after training remain unfinished.
+Consumed failed cloud output117,262,536bytes, raw RCA/logs/channel receipts and
+CPU test scratch have been removed. Earlier task image cleanup recovered about
+83GB. Local free space is approximately110GiB; remaining task temporary source
+is173MiB and active manifest/configuration988KiB. These are removed when no longer
+needed. Only code and Markdown conclusions enter Git. Verified scalar-fix remote
+SHA is `b3fd5780dabe40ca761d99110c7779d7b71be68d`; final validation and synchronization
+remain unfinished.

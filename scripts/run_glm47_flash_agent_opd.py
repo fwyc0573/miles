@@ -1,7 +1,7 @@
 """Warm up GLM-4.7-Flash on-policy distillation on complete glm5.2 turns.
 
 Requires local or mounted HF student/teacher weights, a prepared glm5.2 JSONL,
-and an external Ray cluster with 16 H200 GPUs. Eight GPUs train the student;
+and an external Ray cluster with 16 H200 or H800 GPUs. Eight GPUs train the student;
 four serve the student and four serve the frozen GLM-4.7-Flash-Coder teacher.
 
 Args:
