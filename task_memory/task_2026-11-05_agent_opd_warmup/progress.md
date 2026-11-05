@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
@@ -3973,3 +3974,134 @@ in-progress:existingproducerrecords{'original': 80, 'updated': 34, 'invalid': 2}
 1. 两个invalid来自不同错误阶段，诊断不能合并归因或直接记零分。
 2. 完成seed的诊断归档代码已通过CPU验证；当前旧worker仍须等待其健康siblings结束。
 3. 全部评分和恢复继续；最终HF、最小receipts及未诊断原件保留到验收，其余大文件及时消费。
+
+
+## Verified archive implementation synchronization (2026-11-06T06:02:34.396991+08:00)
+
+completed: the six reviewed archive-code, regression and task-record files are committed as `a601b5fc7204c35d9f90b00e78ee6f17cadb3428` and normally pushed to personal `origin/agent-opd`. Independent `git ls-remote origin refs/heads/agent-opd` returned the identical SHA; checkout was clean. The already-qualified ten CPU checks were not repeated. All existing GPU launchers, both recovery controllers, raw-output consumer and final waiter remain alive.
+
+in-progress: exact membership-bound native outcome read at `2026-11-06T06:00:08.696641+08:00` found original80/80, updated35/80, two grader-invalid attempts and five generation EnvInitError attempts across44 source/recovery requests. The two held sources still have no final diagnostics or pipeline-exits. The four unique recovery jobs remain Pending. The current personal API snapshot has eight updated Running and eight Pending; all original Failed phases were already separately recorded in verified-terminal-incidents.json. These are platform phases, not GPU hardware utilization.
+
+completed investigation: Django11099 question6/seed1732 now has exact archived native image-pull evidence in the learning report's latest Terminal partial native benchmark job section: manifest HEAD HTTP500 at2026-11-06T04:44:07+08:00, native Pod session-5528148b-bda7-4b3b-b636-8535c8268501/UIDb0f4116c-1583-4fc8-bca3-9fbe625d8598. Registry internal cause remains UNKNOWN. Its raw diagnostics have been consumed after retaining the selected evidence; the existing recovery request is preserved.
+
+next: continue all existing native generation and targeted recoveries; wait for exact Q2/Q5 native artifacts, then recover grading alone if a valid trajectory/patch is available. No training rerun, duplicate pair or extra smoke was submitted. Host available disk remains94GiB; all inspection output is small task scratch scheduled for final consumption.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整size/SHA256证据已归档 |
+| 初始3：glm5.2信号与配置 | PASS | 原始tokens、thinking、正文、tools与R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查与实际终态成功 |
+| 初始5：初始清理与同步 | PASS | 初始产物已删除，远端SHA已核验 |
+| 学习1：20题与80turns | PASS | 固定成员与训练排除证据已归档 |
+| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出与实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline与updated实际执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4=0.625 |
+| 学习4：归档代码与CPU验证 | PASS | 10检查已通过，六文件commit及远端SHA匹配 |
+| 学习4：updated80 | TODO | 最新精确读取35有效，完整80仍未达到 |
+| 学习4：失败诊断、恢复和消费 | TODO | 5初始化pairs已有唯一恢复；2invalid待原件；新worker早期归档待观察 |
+| 学习5：配对评分、清理与同步 | TODO | 依赖160有效结果与全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量与清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 05:53HKT至本次记录｜**当前前沿：** updated评分、既有恢复、精确invalid诊断与消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 已验证归档改动提交推送后停止扩展测试；没有新增GPU检查 |
+| D2 细节反复重试 | CLEAR | 五个初始化pairs保留唯一恢复；没有重试403的Pod读取路线 |
+| D3 支线问题修补 | CLEAR | 全部操作对应学习4完整分母与失败诊断 |
+| D4 可并行任务停滞 | CLEAR | 原评测、恢复、消费与最终waiter同时存活；Pending为外部排队 |
+| D5 超范围镀金 | CLEAR | 模型、题库、seeds、sampling、native grader及资源保持原配置 |
+| D6 分析空转 | CLEAR | 归档交付已同步；新原生证据确认Q6镜像拉取原因 |
+| D7 路线违背 | CLEAR | 未把invalid记为零分，未重复生成健康或有效pairs |
+
+**文档检查：** S1–S6均未发现明显缺陷；当前诊断、恢复和消费由学习4拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：既有updated生成和评分 ‖ 四个唯一恢复 ‖ 终态消费；完成标志为80唯一有效updated结果。
+2. Q2/Q5原件归档后诊断实际错误、trajectory metadata和check结果；有合法patch时仅重评。用后续真实worker文件核验早期归档。
+3. 收齐160有效后调用既有production summarizer，报告avg@4、配对差值与question bootstrap，再核验终态、精确删除本任务产物并正常push。
+
+## 4. 最值得关注的 3 点
+
+1. 20次更新、完整HF与实际重载已完成，无需再训练。
+2. updated评分35/80，五个初始化pairs和两个grader-invalid保持不同诊断与恢复路径。
+3. GPU launchers、HF及未诊断原件保留到验收；已消费大文件及时清理，H200和数值一致性限制保持明确。
+
+
+## Preserve unreviewed native grader-invalid evidence (2026-11-06T06:08:44.300568+08:00)
+
+completed: the disposable consumer now excludes unreviewed native grader-invalid sources from automatic deletion. The exact current query classified both held seeds and preserved separate EnvInitError handling; actual115 valid results across44 requests were read without submission or deletion. Commands and verification limits are canonical in [the learning report](test_report_2026-11-05_agent_opd_learning.md).
+
+Consumer tool session17244/PID4182314 replaces session38943/PID3451371. Old CPU parent had no children during replacement; all sixteen submit.py launchers remained alive. Both recovery controllers, followup controller48024, final waiter96862 and Q2/Q5 holds remain active. Eventual in-place native regrading and raw consumption remain unverified operational work; healthy generation continues.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整核验已归档 |
+| 初始3：glm5.2信号与配置 | PASS | tokens、thinking、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及实际终态成功 |
+| 初始5：初始清理与同步 | PASS | 初始产物已删除，个人分支已同步 |
+| 学习1：20题与80turns | PASS | 固定成员与训练排除已归档 |
+| 学习2：20更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline与updated实际执行已验证 |
+| 学习4：original80 | PASS | 80有效，50resolved，avg@4=0.625 |
+| 学习4：归档代码与CPU验证 | PASS | 10检查及个人远端SHA已核验 |
+| 学习4：updated80 | TODO | 最新35有效，完整80仍未达到 |
+| 学习4：失败诊断、恢复和消费 | TODO | 自动保留invalid已启动；两份原件未归档，四个恢复仍Pending |
+| 学习5：配对评分、清理与同步 | TODO | 依赖160有效结果与全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量与清理完成 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次归档同步checkpoint至2026-11-06T06:09:14.323340+08:00｜**当前前沿：** updated评分、既有恢复、精确invalid诊断及消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 自动保留修正避免两个实际invalid的原件丢失；实际查询通过后停止工具扩展 |
+| D2 细节反复重试 | CLEAR | 没有重复GPU提交或再次尝试403路径；旧CPU消费者无children才替换 |
+| D3 支线问题修补 | CLEAR | 新修正直接服务学习4所需的精确诊断和完整分母 |
+| D4 可并行任务停滞 | CLEAR | 全部GPU launchers、恢复与final waiter保留，新消费者已存活 |
+| D5 超范围镀金 | CLEAR | benchmark成员、sampling、native执行和GPU规格均保持原配置 |
+| D6 分析空转 | CLEAR | 结果保留缺口已修复；后续仅等实际原件，不继续静态猜测原因 |
+| D7 路线违背 | CLEAR | invalid未记为模型失败，健康和有效pairs未重新生成 |
+
+**文档检查：** S1–S6均未发现明显缺陷；失败诊断和消费由学习4拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：现有generation/grade ‖ 四个已提交恢复 ‖ 新消费者；完成标志为80唯一有效updated结果。
+2. 两份held原件归档后仅执行能区分实际错误起因的读取，再按合法trajectory/patch决定native重评或确证的生成恢复；不扩展测试夹具或再训练。
+3. 收齐160有效后调用原production summarizer，报告配对差值和question bootstrap，再核验终态、精确清理并正常push。
+
+## 4. 最值得关注的 3 点
+
+1. 20次更新、完整HF和实际重载已完成，当前等待实际native生成和评分。
+2. 自动消费者保留每份invalid原件，未增加训练或生成负担；source消费必须晚于精确诊断。
+3. 新consumer17244替代38943；所有GPU launchers、HF和必要receipts保留至验收，其余测试数据及时消费。

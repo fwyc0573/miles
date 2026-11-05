@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
@@ -856,3 +857,14 @@ Exact RJob `exp-1106-022355-203919`, UID `7ca968e3-a1e3-4a62-b110-49640e3642e3`,
   }
 ]
 ```
+
+
+## Preserve unreviewed native grader-invalid evidence (2026-11-06T06:08:44.300568+08:00)
+
+completed: the disposable raw-output consumer now reads native invalid-grade seeds in its existing exact outcome query and excludes those source jobs from automatic cleanup, in addition to explicit diagnostic holds. The observed native pipeline can return normally despite an internally handled agent failure. Without this exclusion, a newly invalid source could lose its only raw trajectory/check result before manual diagnosis. The change affects only post-run consumption; all healthy generation and grading continue.
+
+Actual source parsing passed. The exact updated remote query was executed read-only against44 current requests through the authorized personal SSH path. It identified exactly question2/seed1731 and question5/seed1732 as invalid grades, retained distinct generation-failure classification for the existing Astropy/Django initialization sources, and counted115 valid native outcomes. No fixture, additional GPU run or deletion was used for this verification. CPU command was `python3 -` with the canonical remote query read from `/data/ycfeng/tmp/agent-opd-learning-20261105/consume_completed_basemind.py`; actual interpreter `/usr/bin/python3`, Python3.10.6.
+
+The old CPU consumer3451371 had no children before or after SIGSTOP and was then replaced. All sixteen existing personal submit.py launchers were present after replacement. New consumerPID4182314,tool session17244,is alive; the old CPU observer exited. Followup controller48024, recovery controllers16803/48978 and final waiter96862 remain unchanged. Both existing Q2/Q5 holds remain active. Successful in-place regrading clears the native invalid grade, after which releasing its explicit hold allows normal consumption. If exact diagnosis instead requires generation recovery, the separately verified source can be consumed through the existing consume_basemind.py only after its needed evidence is retained; automatic invalid-source cleanup stays excluded.
+
+The new consumer has only been qualified against the actual current read path; full cleanup of a newly completed healthy source and eventual diagnosed-source handling remain operational observations. Continue existing generation/recovery and exact artifact diagnosis, with no additional tooling expansion.
