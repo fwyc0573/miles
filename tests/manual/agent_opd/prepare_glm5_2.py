@@ -1,4 +1,4 @@
-"""Prepare the shortest complete training turn in each pinned ticket07 category.
+"""Prepare complete training turns from each pinned ticket07 category.
 
 Only the selected JSON byte ranges are read. The original conversation hash,
 GLM prompt hash and completion hash must match before a training row is written.
@@ -87,22 +87,52 @@ def main():
     parser.add_argument("--tokenizer", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--turns-per-category", type=int, default=1)
+    parser.add_argument("--max-prompt-tokens", type=int)
     args = parser.parse_args()
+    if args.turns_per_category < 1:
+        parser.error("--turns-per-category must be positive")
     manifest_bytes = args.manifest.read_bytes()
     manifest = json.loads(manifest_bytes)
-    selected = {
-        category: min(
+    membership = manifest["membership"]
+    if hashlib.sha256(Path(membership["path"]).read_bytes()).hexdigest() != membership["sha256"]:
+        raise ValueError("The inherited fixed175 training exclusion membership changed")
+    for parent in manifest["parents"].values():
+        for reference in parent.values():
+            if hashlib.sha256(Path(reference["path"]).read_bytes()).hexdigest() != reference["sha256"]:
+                raise ValueError("The inherited source selection/exclusion evidence changed")
+    selected = []
+    used_prompts = set()
+    for category, bank in manifest["categories"].items():
+        candidates = sorted(
             bank["train"],
             key=lambda row: (row["prompt_token_count"], row["source_item_index"], row["assistant_turn_index"]),
         )
-        for category, bank in manifest["categories"].items()
-    }
+        groups = set()
+        count = 0
+        for row in candidates:
+            if args.max_prompt_tokens is not None and row["prompt_token_count"] > args.max_prompt_tokens:
+                continue
+            if row["prompt_sha256"] in used_prompts or row["group_id"] in groups:
+                continue
+            selected.append((category, row))
+            used_prompts.add(row["prompt_sha256"])
+            groups.add(row["group_id"])
+            count += 1
+            if count == args.turns_per_category:
+                break
+        if count != args.turns_per_category:
+            raise ValueError(f"{category}: only {count} distinct eligible task groups")
+    # Each four-row batch contains all source categories, with no repeated prompt.
+    selected = [selected[category * args.turns_per_category + position]
+                for position in range(args.turns_per_category)
+                for category in range(len(manifest["categories"]))]
     for name, expected in manifest["tokenizer"]["assets"].items():
         if hashlib.sha256((args.tokenizer / name).read_bytes()).hexdigest() != expected:
             raise ValueError(f"Pinned GLM tokenizer asset changed: {name}")
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, local_files_only=True)
     rows, evidence = [], []
-    for category, row in selected.items():
+    for category, row in selected:
         file = manifest["files"][row["file"]]
         conversation = _read_conversation(file, row)
         dataset_row, check = _make_row(tokenizer, conversation, file, row, category)
@@ -121,6 +151,10 @@ def main():
                 "tokenizer_class": type(tokenizer).__name__,
                 "parent_manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
                 "dataset": str(args.output),
+                "turns_per_category": args.turns_per_category,
+                "max_prompt_tokens": args.max_prompt_tokens,
+                "training_exclusion": manifest["membership"],
+                "isolation": manifest["isolation"],
                 "historical_sampling_probabilities": "unavailable; no probability fabricated",
                 "turns": evidence,
             },

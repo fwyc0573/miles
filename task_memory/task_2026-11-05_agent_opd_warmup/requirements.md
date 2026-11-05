@@ -38,3 +38,16 @@
 请暂时切换到 h800集群
 
 - Temporary hardware decision: perform the current16-GPU warmup on H800/codesign. Stop this task's queued H200 replacement first; preserve unrelated jobs. Keep two eight-GPU replicas, the same models/data, two updates and verification/cleanup requirements. Report H800 observations explicitly; H200 training remains unverified.
+
+
+[Original Request] 2026-11-05 learning verification:
+你要如何证明当前的训练workflow是正常有效的？我希望进行20steps内的学习，并对第20步进行benchmark的测试（测试20题，avg@4，测试题可采用/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6 ticket06的题库）
+
+[Original Request] 2026-11-05 cleanup clarification:
+ps：及时清理测试产物和大文件，当前不是正式训练任务，在完成测试后无需保留任何文件
+
+- Continue on H800/codesign with 16 GPUs for training. This is a bounded test, not a formal training run.
+- Execute 20 actual successful optimizer updates. Evaluate the exact post-update-20 HF weights and original student on identical 20 tasks and four seeds. avg@4 requires 80 valid attempts per model, not pass@4; infrastructure failures remain missing.
+- Use the latest Ticket06 fixed50 bank, deterministically select 20 questions before generation and preserve all parent fixed175 training exclusions. Reuse the native SWE agent, tools and test grader.
+- Use 80 distinct original glm5.2 turns from the verified Ticket07 pool, with four source categories represented. Report the selected length-limited population and completion budget; do not claim general convergence from this bounded test.
+- Delete all task-created checkpoints, derived datasets, trajectories, raw logs, benchmark results and compilation caches after consumption. Preserve requested/shared model prerequisites, original datasets, reusable implementation and concise Markdown conclusions. Push the reviewed implementation and conclusions to personal origin/agent-opd.

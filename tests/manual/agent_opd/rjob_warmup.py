@@ -187,9 +187,24 @@ def _run_training(head: dict, directory: Path, args) -> None:
             str(dataset),
             "--report",
             str(directory / "dataset.json"),
+            "--turns-per-category",
+            str(args.turns_per_category),
+            "--max-prompt-tokens",
+            str(recipe.max_seq_len - args.response_tokens),
         ],
         check=True,
     )
+    training_extra_args = args.training_extra_args
+    if args.save_final_hf:
+        run_dir = cloud / head["run_id"]
+        training_extra_args += " " + shlex.join([
+            "--save", str(run_dir / "checkpoint"),
+            "--save-interval", str(args.num_rollout),
+            "--save-hf", str(run_dir / "hf" / "step_{rollout_id}"),
+            "--no-save-optim", "--no-save-rng",
+            "--custom-megatron-post-save-hook-path",
+            "tests.manual.agent_opd.checkpoint_identity.record_export",
+        ])
     os.environ["MILES_SCRIPT_EXTERNAL_RAY"] = "1"
     os.environ["MASTER_ADDR"] = head["ip"]
     os.environ["RAY_ADDRESS"] = f"http://{head['ip']}:{head['dashboard_port']}"
@@ -209,6 +224,10 @@ def _run_training(head: dict, directory: Path, args) -> None:
             head["run_id"],
             "--num-rollout",
             str(args.num_rollout),
+            "--rollout-max-response-len",
+            str(args.response_tokens),
+            "--extra-args",
+            training_extra_args,
             "--extra-env-vars",
             json.dumps({"no_proxy": "*", "NO_PROXY": "*", "LD_LIBRARY_PATH": os.environ["LD_LIBRARY_PATH"]}),
         ],
@@ -234,6 +253,8 @@ def _run_training(head: dict, directory: Path, args) -> None:
             "status": "succeeded",
             "run_dir": str(cloud / head["run_id"]),
             "dataset": str(dataset),
+            "final_hf": str(cloud / head["run_id"] / "hf" / f"step_{args.num_rollout - 1}")
+            if args.save_final_hf else None,
             "inspection_exit_code": inspection.returncode,
         },
     )
@@ -252,6 +273,10 @@ def main():
     parser.add_argument("--gpus-per-node", type=int, default=8)
     parser.add_argument("--gpu-type", choices=("H200", "H800"), default="H200")
     parser.add_argument("--num-rollout", type=int, default=2)
+    parser.add_argument("--turns-per-category", type=int, default=1)
+    parser.add_argument("--response-tokens", type=int, default=1024)
+    parser.add_argument("--training-extra-args", default="")
+    parser.add_argument("--save-final-hf", action="store_true")
     parser.add_argument("--startup-timeout", type=int, default=600)
     parser.add_argument("--training-timeout", type=int, default=3600)
     args = parser.parse_args()

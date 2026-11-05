@@ -1299,3 +1299,10 @@
 - Finalcleanup144243PASS: Succeeded06:46:57Z, exit0/Completed/restart0, native logrows0 (countsUNKNOWN). SSHconfirms exactcurrentcloudroot and oldH200datasetabsent, taskparentempty. Personalactivejobs[]; localfree110GiB. Alllocaltaskraw/source/evidence removed; remainingtemporaryhelpersremoved afterqueriesfinish. Step4 remainsPASS andstep5cleanupPASS; nextonlyarchivecommit/pushandremoteSHAverification.
 
 - Completion: archive `e975d4070989f869a53807c618b32c6fd58a2973` normally pushed and remote SHA matched. All five steps PASS under the current H800 steering. Final code matches qualified0e78c5e5; only task Markdown changed. Exact cloud roots absent, local raw/evidence/tasktmp absent, no personal active jobs, approximately110GiB free. Requirements re-read. The final status commit records this closure and receives a last independent push/SHA/workingtree check.
+
+
+## 2026-11-05 20-update continuation
+
+- New user acceptance is20updates and20questions×4; bounded test with complete temporary-artifact deletion. Prior branch38ff410a is clean and has no active allocation. Read all repository rules, authoritative local RJob handbook, GPU-worker/check-progress skills, latest Ticket06 fixed50 and Ticket07 source manifest. before-steptron-run excludes this explicitly non-formal test.
+- Current native driver skips final publication unless evaluation is due. Final HF export after rollout19 must be verified as20 completed optimizer updates before benchmark; version19 alone is inadequate.
+- Fixed50 uses6astropy/44django, seeds1729–1732,temp1/top_p.95. Select2/18 before generation, preserve all175 parent exclusions. Pinned GLM pool has52/45/79/129 turns <=61440 prompt tokens, enough20/category. Native SWE environment and sandbox auth discovery proceed; no new run submitted yet. Local free109GiB.

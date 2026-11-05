@@ -42,3 +42,16 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 3. Actual glm5.2 turns and the native GLM OPD recipe: completed.
 4. Current temporary16H800/codesign warmup: completed. Two normal finite optimizer updates, nonzero gradients, exact token/R3 alignment, matching weightversions0/1,1368changedpublished tensors and measuredlogprob/TIS. Inspector exit0; bothcontainers andplatformSucceeded. H200training qualification remains outside theseH800observations.
 5. Final disposable artifact cleanup and branch synchronization: completed. Archive commit `e975d4070989f869a53807c618b32c6fd58a2973` matched the personal remote branch. Only code and Markdown remain; final source code equals the qualified0e78c5e5 revision. The final status commit records completion and is synchronized separately.
+
+
+## Twenty-update learning test (new acceptance phase)
+
+1. Freeze 20 questions from Ticket06 fixed50 (2 astropy,18 django; seed1234) and 80 distinct eligible Ticket07 glm5.2 turns (20/category); verify source boundaries and inherited fixed175 exclusions.
+2. Configure 20 real updates, native final HF export and unambiguous rollout19 -> completed-update20 identity. Preserve qualified R3/TIS/precision/topology; sample up to4096 tokens within65536 context.
+3. Prepare the existing native SWE evaluator for GLM/SGLang and identical model0/model20 sampling, tool execution, grading and complete80-attempt denominators. CPU-check supported imports and exact configuration.
+4. Submit the 16H800 learning test locally through personal Python RJobBackend; verify every normal finite update, version/R3/token alignment and actual final export. Run both80-attempt benchmark cells and report paired scores plus per-question bootstrap interval. Lack of improvement is reported honestly.
+5. Delete all task temporary local/cloud outputs, verify absence and no task GPU allocation, retain concise conclusions, commit and push branch with remote SHA check.
+
+Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
+
+Current phase status: 1/2/3 in-progress;4/5 pending. The prior two-update phase remains completed and does not satisfy this phase.
