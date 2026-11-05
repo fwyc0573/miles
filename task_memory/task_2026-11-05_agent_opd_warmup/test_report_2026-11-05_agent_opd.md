@@ -838,3 +838,97 @@ RCAexactRJobUIDa5ab46b8-9254-4506-8893-0d5ae70b3b6f. FailingheadreplicaUID3d0027
 Collectorcommands: existingpersonal_exec.sh invokes installedstepmind-gpu-worker/scripts/collect_failure_evidence.py withoneexact--replica percall,expectedcreatori-fengyicheng,credentialdirbrainctl-auth-i-fengyicheng,start2026-11-05T05:43:15Z/end05:44:05Z,timeout12,outputs tasktmp/rca-isolated-head andrca-isolated. Eachcompleted6/8readcategories. Head/siblingincidentlogs1042/0rows,belowlimit3000. Historicaljob9events; historicalreplicas5/1;livejob2;livereplicas0/2. Allreturnedpagescomplete; existingDeepScancount0forboth. Fourall-operationauditqueriestimedoutat12s. AuditedinitiatingstopdetailsUNKNOWN. ReturnedincidentdatadoesnotestablishpreemptionorOOM; nativeNICmismatchanditsCPUreproductionestablishtheapplicationconfigurationfailure.
 
 Task-owned failedcloudoutput24,494,868bytesawaitsexactcleanup; sharedmodel/datasetunchanged. RawRCA/logsaredeletedafterthisMarkdownconclusion.
+
+
+## Node-local network repair: actual16H800 rerun submitted
+
+Created exp-1105-135028-837379 at2026-11-05 13:50:28HKT, local launcher57382. The exact command is the corrected bash-wrapped command recorded above. Submission uses tasktmp/personal_exec.sh with submit.py --name agent-opd-native-h800-node-env --gpu-type H800 --gpus8 --replicas2 --cpus48 --memory600 --group codesign and the pinnedimage/command receipt. Local personal Python3.10.6/brainpp2.8.6. Source53dbed45 contains the node-local NIC repair. Expected: each trainer inherits its own platform NIC, engineGPUsets remain disjoint, two normal finite optimizerupdates and native token/R3/weight/logprob evidence.
+
+job_shape.py exact queryPASS: creatori-fengyicheng, nonpreemptible, two replicas,8GPU/48CPU/600000Mi each, bothRDMA limits, image165ff0be, NFS100.96.128.195:/data/ycfeng/sota-engine/miles. PhaseStarting is allocation evidence only; optimizer/numerical results remain pending.
+
+Independent zeroGPU cleanup exp-1105-135112-072712 uses the same localPythonbackend/codesign/mount/image,4CPU/16000Mi. It targets only /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800/exp-1105-132957-419084. Consumed RCA directories and network-env-tests.log removed locally; free109GiB atinspection.
+
+- Cleanup135112PASS: platformSucceeded05:51:34Z, solecontainerexit0/Completed/restart0, logged17files/24,494,868bytes removed and AGENT_OPD_CLEANUP_DONE True. Scope only previous132957cloudoutput. Consumed localroot-owned previousreceipts and rawlog snapshots removed precisely; sharedassets unchanged.
+
+- 135028runtime/communicationPASS: bothactualreplicasRunning ongpu-h800-0007/0083, source53dbed453c6e86a2ac30269a9cb73363c2c9a0ef withtargetedsource_status empty. Python3.12.16,Torch2.14.1+cu130,Transformers5.19.0,Ray2.58.1,SGLang0.5.24.dev80+g056f871. Both16H800 CUDAFP32sum10416/BF16matmul16PASS, existingcompat580.126.20/driverAPI13000. TwoRaynodes/16GPU; independenttransferPASS (496/528BF16broadcasts,36/10parentreductions,matching8channelbounds). Actualmanifest/dataset prepared. Native run261105-055650-95gn. Model/optimizerresults pending; knownplatformmissingipdiagnostic didnotblockthesechecks.
+- Phasecheckpointafterruntime: steps1/2/3PASS,step4TODOrealoptimizer,step5TODOfinalcleanup. D1–D7CLEAR: sameactualrun withno extra recipechange,cleanup/push progressed independently. S1–S6CLEAR aftercurrentstateupdate. Nextfrontier: nativeNICretention,disjointengineGPUsets,twofiniteupdates/token/routes/weights/numericalverification; consumeandremoveallrawoutputs.
+
+
+## Native frozen reward hook failure and repair
+
+Actual135028reached nativeinitialization, publishedinitialweightversion0 and completed/scored allfourglm5.2turns. Updates0. RolloutExecutor.get -> convert_samples_to_train_data -> _post_process_rewards -> examples.agentic_opd.rollout.post_process_rewards attempted teacher_args.reward_key assignment aftercopy.copy(args). Nativecustomhooks receive frozenImmutableNamespace; copyingpreservesfrozenbehavior. Outertraceprinted06:08:07.803Z afterwith_disposercleanup; exactthrowtimestampnotemitted. Headcontainerexit1/Error06:08:19Z; platformFailed/stopTimestamp06:08:21Z; launcherexit1/JobStop06:08:23.508Z. InferencechildSIGTERM/SIGQUIT06:08:00/01belongs todisposer cleanup, precedingtheoutertraceprint. CPUredreproduces the initiatingapplicationfailure. Nooptimizerstep ortrain_dump.
+
+RJobUIDf980ad3f-bfa8-4e3c-af0e-4bc8294edf9c; headReplicaUID0753f9c2-175e-4de2-99a8-c198c9abc836 ongpu-h800-0007. SiblingUID22d4a2fc-0479-4706-9e31-b2a3afc9cb67 ongpu-h800-0083, Stoppedbyrjob-controller06:08:21Z/finish06:08:24Z; cachedrunningcontainerfields leavefinalexitUNKNOWN. RCAcollectorcalledthroughpersonal_exec.sh/StepMindPython3.10.6/brainpp2.8.6 forboth exactreplicas,window06:07:30Z–06:08:40Z,timeout12s,limit3000. Each6/8categoriesreturned:85/0incidentlogrows; jobhistorical5/live2; headreplicahistorical1/live0, siblinghistorical2/live2; allpagescomplete; existingDeepScan0. Fourall-operationaudits timeout12s; initiatingmanualstopdetailsUNKNOWN. Returnedrecords do notestablishOOM/preemption.
+
+REDcommand: sameCPUenv/pinnedSGLangPYTHONPATH, python -m pytest tests/fast/rollout/test_on_policy_distillation.py -k glm_teacher_scoring -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/frozen-rewards-red. The updatedexistingtestcalls the native _post_process_rewards hookentrypoint withImmutableNamespace andCustomFunctionConfig. 1FAIL/25deselected in2.13s; exactfrozen_instance reward_keyexception. RankedhypothesesafterRED/beforefix: frozenconfigurationcopy (sameRED/directtrace), teacherpayloadfailure (wouldfailtokencallback, contradictedbyfourfinitealignedscores), externaltermination (wouldprecede nativefailure andneedsincidentplatformevidence).
+
+Repair uses args.model_copy(update={"reward_key":"teacher_response"}) in the localcallbackview. No globalmutation/fallback/newflag. Documentationupdated. GREENcommand: python -m pytest tests/fast/rollout/test_on_policy_distillation.py tests/fast/rollout/test_sglang_opd_request_contract.py tests/fast/ray/rollout/test_typed_conversion_hooks.py tests/fast/ray/rollout/test_train_data_conversion.py tests/fast/backends/training_utils/loss/test_opd.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/agent-opd-20261105/frozen-rewards-green. Result115PASS/2RayfixtureERROR in46.54s. FrozenrealhookPASS, originalargsunchanged, scalarreward0 andexactteacherlogprobs[-0.2,-0.3]PASS. ThetwoerrorsarelocalRaystartupprerequisites inexistingobjectstoretests,isolatedforenvironmentinspection. gitdiff--checkPASS.
+
+
+## Completed native sampled-turn inspection before cleanup
+
+ZeroGPUcodesignjob141209runs the existing _sample_checks on rollout_data/0.pt with expected_samples4. Exactcommand is tasktmp/agent-opd-cleanup-frozen-reward-launch.json; it reads only thisfailedjobcloudroot, writesaggregateMarkdown below, then removes the exactjobroot. Allfourprompt/completionhashboundaries,finiteinference/teacherlogprobs,teacher tokenIDs and version0spanchecksPASS. Trainingtoken/R3equality andnumericalparityremainunverified becauseoptimizationdidnotstart. The sampledcompletionsinclude thinking,ordinarybody,bash andeditorcalls; originalsubmitserializationwasverified separatelyonCPU.
+
+```json
+{
+  "rollout_id": 0,
+  "samples": [
+    {
+      "source_category": "thinking_only",
+      "completion_category": "thinking_only",
+      "prompt_tokens": 33616,
+      "completion_tokens": 777,
+      "reasoning_chars": 221,
+      "body_chars": 131,
+      "tool_names": [
+        "bash"
+      ],
+      "status": "completed",
+      "weight_version": "0",
+      "teacher_mean_logprob": -0.4306682496571575
+    },
+    {
+      "source_category": "control_only",
+      "completion_category": "neither",
+      "prompt_tokens": 28408,
+      "completion_tokens": 34,
+      "reasoning_chars": 0,
+      "body_chars": 0,
+      "tool_names": [
+        "str_replace_editor"
+      ],
+      "status": "completed",
+      "weight_version": "0",
+      "teacher_mean_logprob": -0.4551735063888013
+    },
+    {
+      "source_category": "neither",
+      "completion_category": "neither",
+      "prompt_tokens": 10366,
+      "completion_tokens": 45,
+      "reasoning_chars": 0,
+      "body_chars": 81,
+      "tool_names": [
+        "str_replace_editor"
+      ],
+      "status": "completed",
+      "weight_version": "0",
+      "teacher_mean_logprob": -0.4903947015119417
+    },
+    {
+      "source_category": "control_and_thinking",
+      "completion_category": "neither",
+      "prompt_tokens": 40380,
+      "completion_tokens": 281,
+      "reasoning_chars": 0,
+      "body_chars": 175,
+      "tool_names": [
+        "bash"
+      ],
+      "status": "completed",
+      "weight_version": "0",
+      "teacher_mean_logprob": -0.5565820278699095
+    }
+  ]
+}
+```

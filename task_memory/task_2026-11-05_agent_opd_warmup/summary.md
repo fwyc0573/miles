@@ -13,7 +13,7 @@ reward adapter is verified on CPU and pushed at `b3fd5780`.
 
 The user requested a temporary switch to H800/codesign. The queued H200 replacement
 `exp-1105-124538-296267` was intentionally stopped through the mandated script.
-The previous16H800 warmup overlapped student/teacher local GPUs4/5 and was intentionally stopped at13:19:27HKT before optimization. The repaired rerun exp-1105-132957-419084 passed all16H800 runtime checks, independent transfer and disjoint engine initialization, then failed05:43:48Z during Megatron optimizer initialization. The Ray job broadcast the head node NIC ens20np0 onto a trainer node configured for ens22np0. A CPU regression reproduces the overwrite; the minimal Ray environment fix is under verification. Updates remain0. Per-engine subprocess visibility binding is repaired and passed413related CPU checks with23existing GPU/TPU skips; rerun the same training parameters for actual validation.
+The previous16H800 warmup overlapped student/teacher local GPUs4/5 and was intentionally stopped at13:19:27HKT before optimization. The repaired rerun exp-1105-132957-419084 passed all16H800 runtime checks, independent transfer and disjoint engine initialization, then failed05:43:48Z during Megatron optimizer initialization. The Ray job broadcast the head node NIC ens20np0 onto a trainer node configured for ens22np0. A CPU regression reproduces the overwrite; the minimal Ray environment fix passed all17Ray backend tests and is committed at53dbed45. The replacement exp-1105-135028-837379 passed native initialization, published version0 and generated/scored four complete turns, then failed before optimization because the reward adapter tried to mutate a frozen custom-function namespace. The adapter now uses the existing model_copy update mechanism; the real hook regression passes. Updates remain0; rerun after the focused verification. Updates remain0. Per-engine subprocess visibility binding is repaired and passed413related CPU checks with23existing GPU/TPU skips; rerun the same training parameters for actual validation.
 H200 training qualification remains open.
 
 ## Deliverables
@@ -70,7 +70,7 @@ The explicit H800 worker CLI check passed. `exp-1105-130232-725485` failed befor
 
 ## Remaining work
 
-1. Run the selected16H800 warmup with the verified per-engine device binding.
+1. Monitor exp-1105-135028-837379 with verified device binding and node-local NIC preservation; obtain actual optimizer evidence.
 2. Confirm two normal finite updates, nonzero gradients, changed published
    weights, identical teacher/student token IDs, R3 arrays, weight versions and
    measured train/inference logprob and TIS differences.
@@ -89,5 +89,5 @@ CPU test scratch have been removed. Earlier task image cleanup recovered about
 83GB. Local free space is approximately110GiB; remaining task temporary source
 is173MiB and active manifest/configuration988KiB. These are removed when no longer
 needed. Only code and Markdown conclusions enter Git. Latest preparation remote
-SHA is `26a1ad72f8be17bb265fdd52b290dd6016ad56d7`; final validation and synchronization
+SHA is `53dbed453c6e86a2ac30269a9cb73363c2c9a0ef`; final validation and synchronization
 remain unfinished.

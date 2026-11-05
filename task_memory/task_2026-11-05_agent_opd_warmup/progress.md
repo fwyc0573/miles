@@ -1084,3 +1084,64 @@
 1. GPU隔离已通过真实模型初始化，保留0.75参数。
 2. 训推数值和optimizer仍未验收，更新0。
 3. 已定位广播节点NIC根因，停止分析，运行已验证修复。
+
+- 2026-11-05 13:50HKT continuation: actual branch agent-opd is clean apart from disposable evidence. NIC fix53dbed45 is committed; submitted exact replacement exp-1105-135028-837379 through local personal StepMind PythonRJobBackend. Launcher57382 stays alive. Same pinnedimage,2×8H800/codesign,48CPU/600000Mi perreplica, originalmanifest/models/R3/TIS/staticmemory0.75, two updates. Previous132957 cloud output cleanup is submitted independently; consumed RCA and CPU rawlog deleted. Acceptance remains actual optimizer/token/routes/weights/numerical evidence, then final cleanup and remote synchronization.
+
+- Normal pushPASS: origin/agent-opd and ls-remote53dbed453c6e86a2ac30269a9cb73363c2c9a0ef. New16H800 replicas are creating containers on gpu-h800-0007/0083. Local launcher remains alive; no duplicateGPUallocation.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支及约束 | PASS | agent-opd和当前16H800要求。 |
+| 2. 模型资产 | PASS | 完整校验既有证据。 |
+| 3. 数据与配置 | PASS | 四类glm5.2原turns，设备修复实测与NIC回归。 |
+| 4. 真实OPD | TODO | 修复后135028已提交，更新仍0。 |
+| 5. 清理与同步 | TODO | 修复已push，旧产物清理并行，最终验收未完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** NIC修复至真实提交及push｜**当前前沿：** step4及step5清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 复用命令，无额外持久harness。 |
+| D2 细节反复重试 | CLEAR | 已记录实际NIC假设及回归，单次修复提交。 |
+| D3 支线问题修补 | CLEAR | 没有无关修改。 |
+| D4 可并行任务停滞 | CLEAR | 实际运行、旧cloud清理和远端同步均推进。 |
+| D5 超范围镀金 | CLEAR | 同模型/data/16GPU/两次更新。 |
+| D6 分析空转 | CLEAR | 立即提交实际修复。 |
+| D7 路线违背 | CLEAR | 个人API、本机NFS、codesign和清理要求。 |
+
+**文档检查：** S5 summary远端SHA已更新；S1–S4/S6无缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：summary更新实际提交及远端SHA，已直接执行。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. step4：观察每节点NIC及真实更新 → 完成标志：两次normal有限更新和token/routes/weights/数值实测。
+2. 并行step5：消费后清理旧cloud/raw → 完成标志：无warmupraw留存，最终SHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 两台真实H800节点已分配，optimizer仍0。
+2. 修复已正常push，原模型和参数不变。
+3. launcher保持存活至终态；H800结果不能替代H200资格。
+
+- Cleanup135112PASS: platformSucceeded05:51:34Z, solecontainerexit0/Completed/restart0, logged17files/24,494,868bytes removed and AGENT_OPD_CLEANUP_DONE True. Scope only previous132957cloudoutput. Consumed localroot-owned previousreceipts and rawlog snapshots removed precisely; sharedassets unchanged.
+
+- 135028runtime/communicationPASS: bothactualreplicasRunning ongpu-h800-0007/0083, source53dbed453c6e86a2ac30269a9cb73363c2c9a0ef withtargetedsource_status empty. Python3.12.16,Torch2.14.1+cu130,Transformers5.19.0,Ray2.58.1,SGLang0.5.24.dev80+g056f871. Both16H800 CUDAFP32sum10416/BF16matmul16PASS, existingcompat580.126.20/driverAPI13000. TwoRaynodes/16GPU; independenttransferPASS (496/528BF16broadcasts,36/10parentreductions,matching8channelbounds). Actualmanifest/dataset prepared. Native run261105-055650-95gn. Model/optimizerresults pending; knownplatformmissingipdiagnostic didnotblockthesechecks.
+- Phasecheckpointafterruntime: steps1/2/3PASS,step4TODOrealoptimizer,step5TODOfinalcleanup. D1–D7CLEAR: sameactualrun withno extra recipechange,cleanup/push progressed independently. S1–S6CLEAR aftercurrentstateupdate. Nextfrontier: nativeNICretention,disjointengineGPUsets,twofiniteupdates/token/routes/weights/numericalverification; consumeandremoveallrawoutputs.
+
+- Native135028nodeenvironmentsPASS: all8trainerranks ongpu-h800-0083 inheritNCCL_SOCKET_IFNAMEens20np0 matchingtheirplatformNVSHMEM_BOOTSTRAP_UID_SOCK_IFNAME. Headgpu-h800-0007 alsohasens20np0. ActualjobruntimeomitsNICoverrides. Thisallocationdoesnotre-exercisetheheterogeneousNICnames;ens20/ens22preservationremainsdirectCPUregressionevidence. Bothinferenceengineenvreportspublished. SharedHFconfigreadconfirms47layers,hidden2048,q_lora768,kv_lora512,bfloat16,rope_theta1000000andno_rope_scaling inbothmodels,matchingMegatronrecipe. Noarbitraryparameteradjustment. Samepinnedfreeze_gcConnectionRefusedwarningiscaught/nonfatal;continueobservingnativeoptimizer.
+
+- 135028Failed06:08:21Z beforeoptimizer; fourgeneratedturns and initialweightsPASS. Exactfrozennamespaceassignmentfailureinlocalrewardadapter. NativeentrypointregressionRED1FAIL in2.13s;minimalmodel_copyrepair115PASS with2independentlocalRayfixtureerrors. Rankedcauseandfalsifyingpredictionsrecordedbeforefix. Cleanup141209Succeeded, partialrolloutinspectionfourturnsPASS; cloudremovalconfirmationpendingAPIread. Mainline remains actualtwooptimizerupdates, notextra harnesschanges; fixwillcommitandrunsame16H800afterverification.
+
+- LocalRayfixtureisolationalsofailsGCSstartuptimeoutwithallproxiescleared; thisdoesnotexercise the rewardadapterandbothactualGPURaynodesalreadyPASS. Noenvironment/corechangeforthisindependentfixture. Keep115passedchecksand2explicitlyunverifiedobjectstorechecks; proceedtoreal16H800. Phasecheckpoint: steps1/2/3PASS,step4FAILEDlatestattempt/repairedhookGREEN,step5TODO. D1–D7CLEAR: no furtherRayfixtureloop,corefixatnativeboundary,cleanupinparallel;S5latestfailureandpartialchecksupdated,otherSchecksCLEAR. Nextfrontier: commitverifiedrepairandrun;thenconsume/deleteallrawoutputsandfinalpush.

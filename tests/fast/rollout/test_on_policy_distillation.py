@@ -13,6 +13,9 @@ from miles.rollout.on_policy_distillation import (
     parse_teacher_urls,
     reward_func,
 )
+from miles.ray.rollout.train_data_conversion import _post_process_rewards
+from miles.utils.args.custom_function import CustomFunctionConfig
+from miles.utils.args.custom_view import ImmutableNamespace
 from miles.utils.types import Sample
 
 register_cpu_ci(est_time=60, suite="stage-b-cpu", labels=["rollout"])
@@ -279,7 +282,8 @@ async def test_glm_teacher_scoring_keeps_scalar_metrics_and_native_opd_signals(m
 
     from miles.ray.rollout.metrics import _compute_training_sample_metrics, _compute_zero_std_metrics
 
-    args = Namespace(
+    args = ImmutableNamespace(
+        custom_reward_post_process_path=CustomFunctionConfig(path="examples.agentic_opd.rollout.post_process_rewards"),
         sglang_model_routers={"teacher": ("teacher", 30000)},
         sglang_router_request_timeout_secs=60,
         advantage_estimator="grpo",
@@ -301,9 +305,11 @@ async def test_glm_teacher_scoring_keeps_scalar_metrics_and_native_opd_signals(m
 
     assert _compute_training_sample_metrics(args, [sample])["episode_raw_reward"] == 0.0
     assert _compute_zero_std_metrics(args, [sample])["zero_std/count_0.0"] == 1
-    original_args = vars(args).copy()
-    assert glm_rollout.post_process_rewards(args, [sample]) == ([0.0], [0.0])
-    assert vars(args) == original_args
+    original_args = dict(args).copy()
+    assert _post_process_rewards(
+        args, [sample], custom_reward_post_process_func=glm_rollout.post_process_rewards
+    ) == ([0.0], [0.0])
+    assert dict(args) == original_args
     assert sample.teacher_log_probs.tolist() == pytest.approx([-0.2, -0.3])
     assert sample.reward["teacher_response"] is teacher_response
     assert sample.metadata["teacher_scoring"]["token_ids_match"] is True

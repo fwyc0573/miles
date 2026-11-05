@@ -124,6 +124,5 @@ async def score_teacher(args, sample: Sample, **kwargs):
 
 def post_process_rewards(args, samples: list[Sample], **kwargs):
     """Extract native teacher signals while rollout metrics read scalar rewards."""
-    teacher_args = copy.copy(args)
-    teacher_args.reward_key = "teacher_response"
+    teacher_args = args.model_copy(update={"reward_key": "teacher_response"})
     return opd.post_process_rewards(teacher_args, samples, **kwargs)
