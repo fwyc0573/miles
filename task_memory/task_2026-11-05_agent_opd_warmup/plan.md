@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
@@ -57,7 +58,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: input freeze and CPU preparation completed; GLM replacement completed20optimizerrollouts butfailed before HFwriting at the synchronous rollout-checkpoint assertion. Driver regression is repaired and23CPUchecks pass; short two-update qualification195913 failed during Bridge HF saving. Explicit exports now use the existing bucketed SnapshotPublisher; a fresh two-update16H800 actual-save check precedes the unchanged twenty-update rerun. Qwen8H800/two-update qualification completedwithmeasurednumericaldifferences andcleanup. BaseMindfirstquestionRunning; oldACSresults cannot be pooledinto finalsame-backend cells. Final80+80validresults,cleanup andpush remainpending.
+Current phase status: input freeze and CPU preparation completed; actual two-update bucketedHF export completed on16H800. Strictdecoderinspection rejects two additional sharedMTPembedding/head keys; inspect their source and fullvalue equivalence before correction, then perform the unique twenty-update rerun. OriginalBaseMind18/80valid and updated0/80; rawoutputs from three completed native jobs consumed. Frog/Qwen bounded two-update qualification and cleanup completed. Final80+80results,cleanup andpush remainpending.
 
 
 ## Confirmed continuation and export route (18:17 HKT)

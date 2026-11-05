@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
@@ -2584,3 +2585,62 @@ Consumed inspector RCA/raw log cleanup: 11 files/56097 bytes removed after the r
 1. 新增有效grader结果有实际工具和submit信号，完整分母仍缺失。
 2. 16GPU的真实节点调度仍是训练主线的外部等待条件。
 3. 最终程序已接上，但准备和编译通过不等于真实学习或评测完成。
+
+
+## 22:38 HKT continuation and checkpoint
+
+completed: actualshort205143-864435 two normal updates and bucketedHFwriting, platformSucceeded/containers0. In-progress: zeroGPUstrictdecodercomparison failure caused by two unexpected sharedMTPkeys remains under investigation. CPU fixture reproduces the failure. Original18/80valid; updated0/80. Three completed original jobs consumed208635231bytes. Read-only watch restarted once after its120iterations expired; launchers and unique20updatewaiter preserved.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED1｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、模型资产和原始预热 | PASS | 先前报告和已同步提交 |
+| 冻结数据、题目和CPU准备 | PASS |80训练turns、固定20题和4seeds |
+| Frog/Qwen有限资格验证 | PASS | 两步实际更新与清理已记录 |
+| HF保存资格验证 | FAILED | 实际写出成功，严格校验拒绝两个额外键 |
+|20步HF导出及重载 | TODO | 唯一waiter等待保存资格通过 |
+| 原始/更新各80评测 | TODO |18/80与0/80 |
+| 最终评分、清理和同步 | TODO | 完整分母尚未具备 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**21:41HKT至今｜**当前前沿：**保存资格修正、原始评测与产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只重启过期观察器并验证实际保存与消费 |
+| D2 细节反复重试 | CLEAR | 新失败具有明确两个键的CPU复现，无GPU盲目重试 |
+| D3 支线问题修补 | CLEAR | 只处理最终导出所需校验 |
+| D4 可并行任务停滞 | CLEAR | 原始评测和清理持续进行 |
+| D5 超范围镀金 | CLEAR | 无新功能或模型规模 |
+| D6 分析空转 | CLEAR | 实际保存成功，结果引出具体校验修正 |
+| D7 路线违背 | CLEAR | H800及完整分母条件不变 |
+
+**文档检查：** S5报告首页仍写排队，已以22:38实际状态更新；S1–S4/S6无明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md和学习报告当前状态：记录实际保存成功与两个额外键导致的校验失败（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 核验共享键来源、完整值和加载规则，修正实际错误；以现有保存产物通过完整校验为完成条件。
+2. 并行：原始80评测和及时消费；随后唯一20步训练、精确重载和更新80评测。
+
+## 4. 最值得关注的 3 点
+
+1. 真实GPU保存成功已验证，不必因校验失败重跑训练。
+2. 未解释的额外键必须检查，不能只放宽数量断言。
+3. 原始18有效结果仍不满足完整avg@4，数值一致性也未被证明消除。
+
+
+22:40 HKT completed diagnosis: actualGLMBridgeclones two shared MTPaliases, actualSGLangskipsMTPnamespace fordecoder; bothsavedaliastensors fullyequal canonicalupdatedBF16weights. Narrowvalidatorrepair rejects unexpectedMTPparameters and corruptedaliasvalues;6CPUregressionsPASS,Black/isort/diffPASS. Incidentquery capturedoriginalValueError;bothauditreads timedout, no platformfailure inferred. Next: one0GPUcorrectedinspection ofexistingHF, then existingunique20updatewaiter. Original19/80valid,0invalid; no newGPUsubmissionduringthisfix.

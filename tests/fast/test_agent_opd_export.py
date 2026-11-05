@@ -15,7 +15,7 @@ def glm_export(tmp_path):
     original.mkdir()
     updated.mkdir()
     weights = {
-        name: torch.ones(2)
+        name: torch.ones(8)
         for name in (
             "model.embed_tokens.weight",
             "model.layers.0.input_layernorm.weight",
@@ -68,4 +68,38 @@ def test_decoder_export_rejects_incorrect_shard_mapping(glm_export):
     mapping = {name: "missing.safetensors" for name in weights}
     (updated / "model.safetensors.index.json").write_text(json.dumps({"weight_map": mapping}))
     with pytest.raises(ValueError, match="index"):
+        _check_export(original, updated)
+
+
+@pytest.mark.parametrize("corrupt_alias", [False, True])
+def test_decoder_export_checks_shared_mtp_alias_values(glm_export, corrupt_alias):
+    original, updated, weights = glm_export
+    aliases = {
+        "model.layers.47.embed_tokens.weight": "model.embed_tokens.weight",
+        "model.layers.47.shared_head.head.weight": "lm_head.weight",
+    }
+    for alias, source in aliases.items():
+        weights[alias] = weights[source].clone()
+    if corrupt_alias:
+        # The export sampler reads the first four values; aliases require full equality.
+        weights["model.layers.47.embed_tokens.weight"][-1] += 1
+    save_file(weights, updated / "model.safetensors")
+    (updated / "model.safetensors.index.json").write_text(
+        json.dumps({"weight_map": {name: "model.safetensors" for name in weights}})
+    )
+    if corrupt_alias:
+        with pytest.raises(ValueError, match="Shared MTP alias"):
+            _check_export(original, updated)
+    else:
+        result = _check_export(original, updated)
+        assert result["tensor_count"] == 7
+        assert result["decoder_tensor_count"] == result["changed_tensor_samples"] == 5
+        assert result["verified_shared_mtp_aliases"] == sorted(aliases)
+
+
+def test_decoder_export_rejects_untrained_mtp_parameters(glm_export):
+    original, updated, weights = glm_export
+    weights["model.layers.47.eh_proj.weight"] = torch.ones(8)
+    save_file(weights, updated / "model.safetensors")
+    with pytest.raises(ValueError, match="tensor names/shapes"):
         _check_export(original, updated)

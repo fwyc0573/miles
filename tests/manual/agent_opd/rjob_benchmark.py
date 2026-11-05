@@ -66,20 +66,43 @@ def _compare_export_weights(
         )
     )
     decoder = {name: value for name, value in before.items() if not name.startswith(mtp_prefixes)}
+    # GLM Bridge copies these shared decoder weights into its MTP namespace even
+    # when no MTP layer is built. SGLang skips that namespace for decoder loading.
+    aliases = {
+        prefix + suffix: source
+        for prefix in mtp_prefixes
+        for suffix, source in (
+            ("embed_tokens.weight", "model.embed_tokens.weight"),
+            ("shared_head.head.weight", "lm_head.weight"),
+        )
+        if prefix + suffix in after
+    }
     if {key: value["shape"] for key, value in decoder.items()} != {
-        key: value["shape"] for key, value in after.items()
+        key: value["shape"] for key, value in after.items() if key not in aliases
     }:
         raise ValueError("Exported decoder tensor names/shapes differ from the original student")
     index = json.loads((updated / "model.safetensors.index.json").read_text())
     if index["weight_map"] != {name: value["shard"] for name, value in after.items()}:
         raise ValueError("Exported HF index does not match actual tensor shard locations")
-    changed = sum(decoder[key]["sample_sha256"] != value["sample_sha256"] for key, value in after.items())
+    for alias, source in aliases.items():
+        with (
+            safe_open(updated / after[alias]["shard"], framework="pt", device="cpu") as alias_shard,
+            safe_open(updated / after[source]["shard"], framework="pt", device="cpu") as source_shard,
+        ):
+            alias_tensor, source_tensor = alias_shard.get_tensor(alias), source_shard.get_tensor(source)
+            if alias_tensor.dtype != source_tensor.dtype or not alias_tensor.equal(source_tensor):
+                raise ValueError(f"Shared MTP alias {alias} differs from its decoder source {source}")
+            del alias_tensor, source_tensor
+    changed = sum(value["sample_sha256"] != after[key]["sample_sha256"] for key, value in decoder.items())
     if not changed:
         raise ValueError("No sampled exported tensor values changed after learning")
     return {
         "tensor_count": len(after),
+        "decoder_tensor_count": len(decoder),
         "changed_tensor_samples": changed,
         "excluded_untrained_mtp_tensors": len(before) - len(decoder),
+        "omitted_untrained_mtp_tensors": len(before.keys() - after.keys()),
+        "verified_shared_mtp_aliases": sorted(aliases),
         "weight_shards": len(set(index["weight_map"].values())),
         "comparison_scope": "Every trained decoder tensor name/shape and index location; at most four values per dimension",
     }
