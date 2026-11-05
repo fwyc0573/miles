@@ -4058,6 +4058,19 @@ completed: preserved existing launchers and independently read40valid updated ou
 in-progress: complete updated native grading, exact Q2/Q5 diagnostics, four existing recoveries and final score/cleanup.
 
 
+
+## Q2 grader-only recovery preparation (2026-11-06T06:35:41.556272+08:00)
+
+completed: actual native check_result confirms1200-second timeout with no captured test output; original671-character submitted patch is intact and has no execution-error marker. Exact source platform/containerSucceeded and four native exits0 verified.
+
+in-progress: one grader-only recovery through unchanged native checker/config. The pre-launch hypothesis, exact hashes and pass condition are recorded in [the learning report](test_report_2026-11-05_agent_opd_learning.md). Preserve Q2 hold and all healthy benchmark launchers.
+
+
+## Actual early native archive (2026-11-06T06:41:40.928585+08:00)
+
+completed: question14/seed1732 archival is available while all three sibling seeds remaingeneration running. Exact native result, all requested signal counts and verification limits are canonical in [the seed archive report](test_report_2026-11-06_seed_archive.md). Q2 grader-only recovery `exp-1106-063643-673687`,UID`44f8e6e6-15c5-435c-ab37-16e55d66afb3`,is Starting onnode0204 with0GPU,8CPU,64000Mi and the current-machine/data NFS source; hold remains until actual result and terminal verification. Original generation receipt SHA256 before regrading is`5ee5e2fed7ea09bb6cc3af7de0f1c97f05680e7037e205876b8a049734a282b8`/185verified requests. No generation is rerun.
+
+
 ## 1. 规划完成情况
 
 **汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
@@ -4073,25 +4086,25 @@ in-progress: complete updated native grading, exact Q2/Q5 diagnostics, four exis
 | 学习2：20更新与HF | PASS | 唯一learner、完整导出及实际重载成功 |
 | 学习3：原生SWE evaluator | PASS | 两个模型的实际native执行已验证 |
 | 学习4：original80 | PASS | 80有效，50resolved，avg@4=0.625 |
-| 学习4：归档代码与CPU验证 | PASS | 10检查通过并已推送 |
-| 学习4：updated80 | TODO | 最新40有效，完整80仍未达到 |
-| 学习4：失败诊断、恢复和消费 | TODO | 两份held原件未归档，四个唯一恢复排队 |
+| 学习4：归档代码及实际worker验证 | PASS | 10检查通过，实际Q14提前归档已验证 |
+| 学习4：updated80 | TODO | 最新47有效，完整80仍未达到 |
+| 学习4：失败诊断、恢复和消费 | TODO | Q2原件已诊断并提交零GPU重评；Q5待归档，四个唯一恢复已提交 |
 | 学习5：配对评分、清理与同步 | TODO | 依赖160有效结果与全部终态 |
 | 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、测量及清理完成 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次06:09HKTcheckpoint至2026-11-06T06:21:46.791301+08:00｜**当前前沿：** updated评分、既有恢复、精确invalid诊断及消费
+**检测窗口：** 上次06:21HKTcheckpoint至2026-11-06T06:41:40.928585+08:00｜**当前前沿：** updated评分、既有恢复、精确invalid诊断及消费
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 没有新增测试、smoke或GPU诊断；仅读取实际运行与已有归档 |
-| D2 细节反复重试 | CLEAR | 没有重试403路径、重复恢复或再次训练 |
+| D1 工具打磨 | CLEAR | 原件读取确认Q2超时；仅评分恢复调用既有native checker，实际归档验证后停止扩展 |
+| D2 细节反复重试 | CLEAR | 一项预记录的原patch重评检验Q2超时；没有模型再生成或重复GPU提交 |
 | D3 支线问题修补 | CLEAR | 本轮读取均服务完整updated分母与精确错误诊断 |
 | D4 可并行任务停滞 | CLEAR | 原评测、四个恢复、消费者与final waiter并行存活；Pending为平台排队 |
 | D5 超范围镀金 | CLEAR | 题目、seeds、sampling、native grader和GPU规格保持原配置 |
-| D6 分析空转 | CLEAR | 实际update20结果从35增至40；等待必要原件，没有扩大静态猜测 |
+| D6 分析空转 | CLEAR | 实际结果从40增至47；Q2原件已产生明确诊断及重评行动，Q14归档实际验证 |
 | D7 路线违背 | CLEAR | invalid未计零分，HF和未诊断原件继续保留 |
 
 **文档检查：** S1–S6均未发现明显缺陷；诊断、恢复和消费由学习4拥有。
@@ -4105,11 +4118,11 @@ in-progress: complete updated native grading, exact Q2/Q5 diagnostics, four exis
 
 **接下去的路线：**
 1. 并行：既有generation/grade ‖ 四个唯一恢复 ‖ 消费者；完成标志为80唯一有效updated结果。
-2. Q2/Q5原件归档后读取实际native错误、trajectory metadata和check结果；有合法patch时优先仅重评。观察后续worker的实际单seed归档。
+2. 监督Q2唯一零GPU重评，核验原generation/trajectory/patch不变后释放hold；Q5归档后诊断实际错误，决定必要恢复。
 3. 收齐160有效后调用既有production summarizer，再核验终态、精确删除测试产物并正常push。
 
 ## 4. 最值得关注的 3 点
 
 1. 20次更新、完整HF及实际重载已完成，当前不需要更多训练。
-2. 更新模型40/80；两个grader-invalid和五个EnvInitError pairs保持不同诊断与恢复路径。
+2. 更新模型47/80；两个grader-invalid和五个EnvInitError pairs保持不同诊断与恢复路径。
 3. 所有GPU launchers、HF与未诊断原件保留至验收；已完成分片及时消费，H200与数值一致性限制继续明确。
