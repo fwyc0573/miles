@@ -1916,3 +1916,66 @@
 -0GPU preflight failed after actualMegatron validation/recipeassertions passed, before runningactor tests. Exact full remote read traceback identifies plain git rev-parse exit128/dubious ownership. All-operation RCAcollector launched separately in session95361; available root-cause evidence is the commandtraceback, not a platformpreemption guess.
 - Fixed per-command Git trust in both finalexport identity and Qwenpre-training identity, matchingexistingruntime_probe. CPU root with retainedSUDO_UID passed and did not reproduce worker trust. After clearingSUDO_UID/SUDO_USER/SUDO_GID, both plain and command-line-exception Git returned128; actual pinned-image GREEN is pending. Keep this host limitation separate from the observed worker error. The0GPU preflight script has the same repair; resubmit once after commit to reachfullactorsuite. HealthyGPUjobs remainrunning/queued despiteauxiliaryfailure.
 - Code/config+records3c384bb5 pushed to personalorigin; latestfixcommit stillpending. Consumedsource24files/554365bytes removed,exactabsenceverified,localfree108.2GiB. Finalcleanup stilldepends on training/evaluationconsumption.
+
+
+## 18:51 HKT: pinned preflight verified; independent jobs preserved
+
+- PASS: repaired0GPU pinned-image parser and full actor checks81PASS/14.24s, container exit0 and business marker; Git2.43.0 per-command trust works at actual revisiond8b92035. CPU Git2.34.1 limitation remains separately recorded.
+- In-progress: unique16H800 GLM job Starting on0381/0534. Both mounts/resources/creator exact; noGPU update/export yet observed for this replacement.
+- In-progress:64k Qwen data/rendering zeroGPU preflight submitted locally in launcher83211. Initial8GPU failed before training; source category constraints explain its cause. ReplacementGPU launch waits only for actual data preparation.
+- Benchmark:25invalid receipts observed; three inspected failures are unhealthy/Pending SWE sandbox DNS failures. Existing healthy original shards continue; failed pairs require targeted recovery, not denominator relabeling. Remaininginvalid causes under inspection.
+
+## 1. 规划完成情况
+
+**汇总：** PASS2｜BLOCKED/FAILED/SKIPPED1｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定训练和评测输入 | PASS |80turns和20题仍固定。|
+| HF-only实际parser/actor预检 | PASS |pinned image81PASS与业务标记。|
+| GLM20更新导出 | TODO |唯一replacement已Starting。|
+| 原始80次有效评分 | TODO |部分valid；部分sandbox基础设施失败。|
+| 更新评分/avg@4 | TODO |依赖完整update20权重。|
+| Frog/Qwen两步对齐 | FAILED |首次数据筛选失败；64k编码预检已提交。|
+| 最终清理/同步 | TODO |持续消费，最终产物仍有执行依赖。|
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**18:39Git修复至18:51真实预检验收｜**当前前沿：**GLM导出、原始评分恢复、Qwen数据验证。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |预检只验证实际失败的parser/actor/Git及Qwen长度。|
+| D2 细节反复重试 | CLEAR |Git假设由真实镜像检验收敛；Qwen长度有实测源约束。|
+| D3 支线问题修补 | CLEAR |sandbox失败直接阻塞既定80次有效评分。|
+| D4 可并行任务停滞 | CLEAR |GLM保持launcher；原始shards运行；Qwen零GPU编码并行。|
+| D5 超范围镀金 | CLEAR |未扩展模型组合benchmark或更改题库/seed。|
+| D6 分析空转 | CLEAR |预检从失败进入PASS；作业已真实提交。|
+| D7 路线违背 | CLEAR |个人Python/本机NFS/H800/个人云不变。|
+
+**文档检查：**S5学习报告顶部仅描述历史save失败，后续已有replacement，需明确最新状态；S1–S4/S6无新的缺陷。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**B：更新滞后状态后继续。
+
+**文档更新（先执行）：**
+1.学习报告顶部：明确新GLM作业Starting、预检PASS和Qwen数据失败/修复待验（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.GLM20更新/完整HF导出/实际重载 → 完成标志：真实update20可评测权重。
+2.并行：原始invalid按真实原因恢复 ‖ Qwen64k编码通过后两次真实更新。
+3.两组各80valid评分 → avg@4/配对区间 → 消费清理 → push核对。
+
+## 4. 最值得关注的3点
+
+1.81CPU用例通过不能替代GPU导出或数值验收。
+2.基础设施invalid不能作为模型失败计入avg@4。
+3.Qwen数据准备失败没有产生任何训练/推理一致性证据。
+
+
+- Qwen64kpreparation PASS: actual productionrendering8turns andrecipe,alllengths11430–48129+1024<=65536,zeroGPUcontainerexit0 andmarker. Manualadapterdefault updatedtoverified64k; original32kcontext is unsuitablefortheconfigured source categories. Nextunique8H800replacementusesqwen-launch-b.json; initialfailednamespacecleanupconsumesdiagnosticsonly.

@@ -164,7 +164,7 @@ def main():
     parser.add_argument("--glm-tokenizer", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--shared-dir", type=Path, required=True)
-    parser.add_argument("--context-tokens", type=int, default=32768)
+    parser.add_argument("--context-tokens", type=int, default=65536)
     parser.add_argument("--response-tokens", type=int, default=1024)
     parser.add_argument("--startup-timeout", type=int, default=600)
     args = parser.parse_args()
