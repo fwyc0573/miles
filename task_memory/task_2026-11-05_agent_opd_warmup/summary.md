@@ -66,7 +66,7 @@ cleanup. Incident-bound preemption/OOM was not established.
 
 Fresh codesign query before H800 submission returned186nodes/63usable GPUs and
 0personal Running/Starting GPUs. This is capacity evidence, not a reservation.
-The explicit H800 worker CLI check passed; actual H800 execution is pending.
+The explicit H800 worker CLI check passed. Local launcher 72538 created `exp-1105-130232-725485`; personal API confirmed Starting, two eight-GPU replicas, current-local NFS and both RDMA limits. Actual H800 optimizer execution is pending.
 
 ## Remaining work
 

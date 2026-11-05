@@ -823,3 +823,52 @@
 1. 当前H200 replacement已Stopped；无双重allocation。
 2. H800同一参数准备通过；实际更新仍为0。
 3. H800不能替代H200数值资格结论，保留该限制。
+
+- 2026-11-05T13:03:31.403443+08:00 step4 H800 submission: exp-1105-130232-725485, launcher72538 alive. Personal shape query confirms Starting, creator i-fengyicheng, non-preemptible,2x8GPU/48CPU/600000Mi and both RDMA resources. Current-machine NFS100.96.128.195 mounts the Miles checkout at cdb861da. Use the pinned Miles image, original manifest/student/teacher, two rollouts, H800 device check; output-root /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800. No active task H200 allocation. Actual H800 training qualification remains pending.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 1. 分支与验收 | PASS | agent-opd 及 H800 steering 已记录。 |
+| 2. 模型资产 | PASS | 22 文件完整校验已有记录。 |
+| 3. turns 与配置 | PASS | 原始 token/reward 链路与 H800 CLI 已验证。 |
+| 4. 真实 16 H800 更新 | TODO | exp-1105-130232-725485 Starting，launcher 72538 存活。 |
+| 5. 清理与同步 | TODO | 仅保留活动输入；最终清理和推送等待真实结果。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次 H800 准备检查至 13:03 HKT｜**当前前沿：** step4，step5 独立清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 直接提交已验证入口；没有新增训练 harness。 |
+| D2 细节反复重试 | CLEAR | 一次 H800 提交，沿用已证实修复；不重复 allocation。 |
+| D3 支线问题修补 | CLEAR | 没有处理其他任务或基线失败。 |
+| D4 可并行任务停滞 | CLEAR | 个人 API 验证、运行记录和存储核查均已推进。 |
+| D5 超范围镀金 | CLEAR | 仍为 16 GPU、两次更新和原模型/data。 |
+| D6 分析空转 | CLEAR | GPU 作业已实际创建，下一步消费 native 输出。 |
+| D7 路线违背 | CLEAR | 本机 personal 提交、codesign 和用户硬件决定一致。 |
+
+**文档检查：** S1–S6 无未修正缺陷；summary 已更新 Starting。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：当前记录合理，无需改动。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+
+1. step4：保持 launcher，核对两个实际 worker 和训练结果 → 完成标志：两次正常有限更新及 token/R3/weight/logprob 实测。
+2. 并行 step5：消费输出后删除 task-owned 原始数据，完成后同步 → 完成标志：仅代码与 Markdown，remote SHA 一致。
+
+## 4. 最值得关注的 3 点
+
+1. 真实 H800 作业已创建；optimizer 更新仍未观察到。
+2. 当前本机 NFS、个人身份、2×8 GPU 和 RDMA limits 已确认。
+3. 保持现有 allocation；H800 结果与 H200 未验证限制分开报告。

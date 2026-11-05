@@ -732,3 +732,15 @@ passed in the pinned CPU environment. Training parameters and16GPU topology are
 unchanged. H800 evidence will not qualify H200 training.
 
 Required full launcher suite after the hardware docstring update:584PASS/18FAIL/50ERROR in22.03s (same exact CPU environment/command above). The H800 worker check will be exercised on allocated devices, not simulated CPU devices.
+
+## Actual H800 warmup submission
+
+The local launcher session 72538 created `exp-1105-130232-725485` on November 5 at 13:02:32 HKT. Personal Python API confirms creator `i-fengyicheng`, phase Starting, `preemptible=no`, two replicas with 8 GPUs / 48 CPU / 600000 Mi each, both existing RDMA limits and current-machine NFS `100.96.128.195:/data/ycfeng/sota-engine/miles`. Source revision is `cdb861da`.
+
+The local submission used `bash /data/ycfeng/tmp/agent-opd-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-20261105/submit.py` with `--name agent-opd-native-h800 --gpu-type H800 --gpus 8 --replicas 2 --cpus 48 --memory 600 --group codesign` and the pinned image recorded above. The exact worker command was:
+
+```bash
+export LD_LIBRARY_PATH="/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" && exec /opt/sglang/bin/python3 /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/rjob_warmup.py --manifest /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/glm-replay-parent.json --student /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/zai-org/GLM-4.7-Flash/7dd20894a642a0aa287e9827cb1a1f7f91386b67 --teacher /mnt/codesign-exp/ycfeng/steptron/behavior-turn-replay-step3p6/glm-native-20261103/models/whitecircle/GLM-4.7-Flash-Coder/d3c65039ae0797fb41d87cfa0c26438d7c425aa9 --output-root /mnt/codesign-exp/ycfeng/miles/agent-opd/warmup-20261105-h800 --shared-dir /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-05_agent_opd_warmup/evidence/native-warmup-h800 --gpu-type H800 --nodes 2 --gpus-per-node 8 --num-rollout 2 --startup-timeout 600 --training-timeout 3600
+```
+
+Expected: 16 actual H800 GPUs; two normal finite updates, nonzero gradients, changed published weights and native token/R3/logprob inspection. Actual: requested allocation shape is confirmed; GPU runtime and optimizer observations are pending.
