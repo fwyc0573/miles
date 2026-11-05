@@ -10,7 +10,7 @@
 
 # Agentic OPD Warmup
 
-The additional twenty-update and twenty-question avg@4 phase remains in progress. The real two-update HF save qualification and bounded Frog/Qwen qualification are complete. The unique sixteen-H800 learner exp-1105-224939-805330 is queued as of November6,00:05HKT. Original native evaluation and output consumption continue; update20 evaluation depends on verified training/export/reload. Three unstarted original questions remain deferred until learner head readiness. Timestamped counts and exact terminal incidents are maintained in progress.md; the earlier two-update results below do not complete this later phase.
+The additional twenty-update and twenty-question avg@4 phase is in progress. The unique sixteen-H800 learner exp-1105-224939-805330 started on nodes0146 and0039 on November6; runtime, communication and80-turn data preparation passed. Actual twenty updates, final export/reload and complete paired grading remain required. Original native evaluation and prompt raw-output consumption continue; the three deferred questions resumed unchanged after learner head readiness. Timestamped counts and exact terminal incidents are maintained in progress.md. The earlier two-update observations below do not complete this later phase.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 

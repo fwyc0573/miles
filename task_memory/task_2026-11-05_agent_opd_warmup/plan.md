@@ -60,7 +60,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: input freeze, CPU preparation, real two-update HF save validation, and bounded Frog/Qwen qualification are complete. Unique16H800 learner exp-1105-224939-805330 remains queued as of November6,00:05HKT. Original evaluation and prompt output consumption continue; questions17–19 remain deferred until learner head readiness. Known post-grading failures preserve their actual terminal status and independently verified native results. Timestamped progress and result counts are maintained in progress.md. Actual twenty-update export/reload, complete eighty-result cells, final scoring/cleanup and synchronization remain pending.
+Current phase status: the unique16H800 learner exp-1105-224939-805330 isRunning onnodes0146/0039 as ofNovember6,00:52HKT; runtime,communication and80-turn input checks passed. Original nativeevaluation continues andquestions17–19 have resumed unchanged afterheadreadiness. HFsave qualification,boundedFrog/Qwen qualification andthecorrected local-log path haveactualGPUevidence. Timestampedcounts aremaintained inprogress.md. Twenty normalupdates,finalHFexport/reload,two complete80-result cells,finalscoring/cleanup andsynchronization remainpending.
 
 
 ## Confirmed continuation and export route (18:17 HKT)

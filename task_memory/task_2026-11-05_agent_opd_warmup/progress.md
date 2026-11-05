@@ -2980,3 +2980,83 @@ The native consumer independently verified all four result identities,engineiden
 1. 新日志路径已在真实四seed作业正常结束，不再是未验证修复。
 2. 训练Starting仍无节点，不代表已执行任何更新。
 3. 本地记录已提交但最新普通推送失败，最终同步仍需验证。
+
+
+00:36 HKT: after the real local-log completion milestone, ordinary push succeeded. Local HEAD and independent ls-remote both equal315f177551b6e5d7aa59af3d28a304b25273c82e. The earlier GitHub rejection is no longer blocking current synchronization; its initiating cause remainsUNKNOWN. No branch rule,credential,history or force-push change was required. Original62/80valid,updated0/80; learner has no nativehead yet.
+
+
+00:48 HKT: original66/80valid,updated0/80,invalid0. Question16/job225808-924274,UID01be919e-5b11-4267-b23e-d863028281ea,node0036,completed nativefour-seed grading andcontainerexit0 at2026-11-05T16:40:05Z; platformSucceeded16:40:09Z. Its27rawfiles/75,037,579bytes were consumed. Fifteencompletedjobs have removed1,018,115,692bytes. Two remaining running originals each have3/4validresults. An earlier scoped read of532529 confirmed allfour configuredseeds reached theengine before its old cloudlog stoppedupdating;seed1730 subsequently returned after8978.8seconds andcompleted nativegrading. No evidence supports canceling or rerunning its still-running lastseed. Currentlearner lackshead/runtime receipts; latestexplicitreplica read remainedunassigned/Unschedulable. SourceHEAD315f1775 remainsunchanged while thequeuedrun may start.
+
+
+## Actual learner startup and restored original questions
+
+00:52HKT: uniquelearner exp-1105-224939-805330 isRunning onnode0146(rank0,10.191.8.34) andnode0039(rank1,10.191.6.43),eight actualH800each. Containersstarted2026-11-05T16:49:27Z/16:49:31Z after nodeassignment16:43:28Z. Both runtime receipts report source315f177551b6e5d7aa59af3d28a304b25273c82e,clean relevantcode scope,Python3.12.16,pinnedpackageversions andimports_passed=true. CurrentlocalNFS100.96.128.195:/data/ycfeng:/data/ycfeng,personalcreator,codesign,companyimage andtwoRDMAresource limits were rechecked. Headrun261105-165007-kj7u;Rayregistered two distinct nodeswith8GPUeach. Nativeweight-sync checkpassed,includingBF16broadcasts496/528 andtrainer/inference reductions36/10.
+
+The platform background /jobutils/python/p2p_ping.py logged FileNotFoundError for the optional ip executable and ended; native runtime andcross-node communication subsequentlypassed. This error was not propagated into training and no image or fallback was changed. Dataset preparationpassed:80unique originalturns,fourcategories with20each,promptlength10366–57113tokens,allsource_unmodified/prefix_and_completion_match checks true. No normaloptimizerupdate had occurred at the00:52:43eventread;Running/startup is not counted as learning.
+
+The existing followup automatically restored exactlythreeunchanged originals:question17 exp-1106-005024-029909,question18 exp-1106-005024-026007,question19 exp-1106-005024-046594. The update20 waiter corrected its target to /mnt/codesign-exp/ycfeng/miles/agent-opd/learning-20261105/exp-1105-224939-805330/261105-165007-kj7u/hf/step_19 andstillrequires actual20updates/exportvalidation before submission. The existingwatch.py isreused withoutedits nowthat thelearner isactive; currentobserver session82905 writes the existinglearning-monitor.json every35seconds. It is observationonly,not anotherGPUjob. No requestedmodel,data,precision,topology ortrainingparameterchanged.
+
+
+## November6 original question2 post-grading termination
+
+01:20 HKT: exactjob `exp-1105-205408-532529`/UID`c38bf557-aad9-475d-824f-ad4f1acb6a20`,replicaUID`9368cd52-33cd-483d-afe2-a2b95fd916bd`,node0036,returned four valid resolved `django__django-10097` native outcomes,seeds1729–1732. Generation/grading identities match,BaseMindbackend,returnedstatus and actualseedverification pass; pipelineexits[0,0,0,0]. Incidentlogs show completion17:09:32Z,oldloadedsource ac8cb05c line268serverlogcloseErrno5 at17:09:38Z,containerError/exit1 at17:09:40Z andplatformFailed17:09:43Z. The exactUID incident is admitted for consumption while actualFailed/exit1 remains recorded; no validseed is repeated. Question15/421159 independentlySucceeded andits28rawfiles/95,471,888bytes were consumed. Sixteencompletedoriginaljobs have now removed1,113,587,580bytes.
+
+RCA command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/stepcode-codex-home/.stepcode/codex/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py exp-1105-205408-532529 --replica exp-1105-205408-532529-cfcd2084 --expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng --start 2026-11-05T17:06:00Z --end 2026-11-05T17:12:00Z --timeout 15 --output /data/ycfeng/tmp/agent-opd-learning-20261105/rca-benchmark-532529-20261106`. Python3.10.6/brainpp2.8.6. Exactobjects,liveEvents0/0,historicalEvents8/7(paginationcomplete),incidentlogs10/limit3000 andexistingDeepScancount0returned. BothalloperationauditsReadTimeout15s;collectorexit1reflects those unavailablequeries. Theinitiatingapplicationexception isobserved;underlyingstoragecause andmanualstopactor/reason/requesttime remainUNKNOWN. No returned initiatingOOM/preemption evidence. Source lookup `git show ac8cb05c:tests/manual/agent_opd/rjob_benchmark.py` binds line268 to the loadedclosecall.
+
+Currentlearner hasfive normalupdates[0–4],latestloss0.1410467264,gradnorm6.1619534492,train/decodeabsolute metric0.0213644424;HF/finishedmarkersremainabsent. Original68/80,updated0/80,invalid0;remainingoriginalquestions17–19areRunning. Current16H800training continues; no code,models,trainingparameters or GPUsubmission changed.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、模型资产和初始预热 | PASS | 已有实际执行、清理及同步证据 |
+| 冻结输入和 CPU 准备 | PASS | 80 原始 turns、20 固定题与四 seeds |
+| Frog/Qwen 有限资格验证 | PASS | 两次正常更新及清理完成 |
+| HF 导出和本地日志资格验证 | PASS | 完整导出和四 seed 收尾均已实测 |
+| 20 次更新、最终导出与重载 | TODO | 唯一训练已运行，五次正常更新 |
+| 两组完整评测 | TODO | 原始68/80、更新0/80，三题运行中 |
+| 最终统计、清理及同步 | TODO | 正在消费完成输出，等待完整分母 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** November6 00:34 HKT 至本次续接｜**当前前沿：** 现有训练、原始评测及完成输出消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只复核完成链所需检查，已通过的日志路径未增加测试 |
+| D2 细节反复重试 | CLEAR | 第2题核验的是旧进程新终态，未改参数或重跑有效 seed |
+| D3 支线问题修补 | CLEAR | 精确 RCA 直接服务于评分消费 |
+| D4 可并行任务停滞 | CLEAR | 三题与唯一训练同时运行 |
+| D5 超范围镀金 | CLEAR | 无新模型、benchmark 或功能扩展 |
+| D6 分析空转 | CLEAR | 核验后立即登记有效结果并消费原始产物 |
+| D7 路线违背 | CLEAR | 16H800、20更新和80+80验收保持 |
+
+**文档检查：** S1–S6 均未发现新的明显缺陷；动态状态由本文件带时间戳维护。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets 合理，无需改动
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 保持唯一训练，核验20次正常更新和完整HF；实际重载后完成更新模型80份有效评分。
+2. 并行完成原始剩余12份评分，及时消费已完成输出；所有有效seed只计一次。
+3. 完整配对统计后删除精确任务local/cloud根，正常提交推送并独立核对SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 训练已开始正常更新，当前不再受节点排队阻塞。
+2. 所有旧日志收尾失败保留真实平台终态，有效native评分未丢弃。
+3. 当前没有update20权重或更新模型完整成绩，不能宣称学习效果已验证。
+
+
+Consumed the inspected local RCA/log files after Markdown conclusions: 11 files/34143bytes removed. The exact incident registry and all active launcher processes remain available.
+
+
+01:20 HKT: question2 consumption completed, removing 30 files/69045818bytes. All 17 completed original jobs have removed 1182633398 raw bytes. The unique learner now has six normal optimizer updates, rollouts0–5; latest loss0.1464621826,gradient norm8.0870571136 and native train/decode absolute difference0.0254483809. Final HF and training completion remain pending.
