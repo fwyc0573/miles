@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
 | 2026-11-05 | Create the agentic OPD preparation record. |
@@ -92,3 +93,8 @@ A full recovery attempt still encountered ACS server-side VM DNS failure after m
 ## 19:38 HKT: same-backend native evaluation
 
 Existing `SweAgentEvalConfig` is the BaseMind environment variant; CPU native configuration comparison confirms only endpoint/labels differ from ACS. A direct same-image native sandbox availability test passed, while ACS full recovery remained infrastructure-invalid. Submit exactly one original question/four seeds with explicit BaseMind selection to verify full native agent and grader. The prepared update20 first-question launcher uses the same BaseMind selection. Both final80-attempt cells must use BaseMind if this route qualifies; earlier ACS outcomes remain separate diagnostic evidence and cannot be pooled into these scores. All remainingquestion submissions wait for a valid full native result; training continues independently.
+
+
+## Current frontier after resumption (21:15 HKT)
+
+The short16H800 save remains queued. Corrected0GPU decoder inspection replaces a diagnostic-import failure and does not require a GPU or Bridge import. Original BaseMind has2valid native grader results and twelve additional question jobs have been submitted once. The mainline remains actual short HF export/decoder validation -> unique twenty-update rerun -> exact update20 reload -> complete updated80 results. Original80 results and timely raw-output consumption progress independently. No new model pair, benchmark bank, precision, memory limit or topology is introduced.

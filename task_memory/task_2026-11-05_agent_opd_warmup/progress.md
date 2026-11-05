@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
@@ -2391,3 +2392,126 @@ Completed:26obsoleteACSjobs terminal,9stops verified, bothparentlaunchers exited
 3. 首题持续生成不等于完整benchmark评分；完整分母仍缺失。
 
 20:52HKT completed: explicitLoRAexportdispatch regressionadded; finaltargeted44PASS/1.75s. Black/supportedisort/diffchecksPASS. Codechangeisreadyforcommitandrealshort16H800verification.
+
+
+## 20:55 HKT: complete native first result and independent advancement
+
+- completed: BaseMindoriginalastropy12907/seed1731nativegraderresolved;4113.61sgeneration,101.16sgrade,98verifiedrequests/98thinking/8body/60bash/36editor/2submit. Fullnativebackendqualifiesoneattempt;original1/80valid,updated0/80.
+- in-progress: existingfollowuplauncher31162submittedoriginalindices1–12once,12childslots;13–19pendinguntilslotsfree. SameBaseMindquestion/seed/sampling/grader unchanged.
+- pending-placement: unique16H800short205143-864435,UIDa2cb96a7-d621-4880-8af9-b91249551745, noassignednodes/Unschedulable;launcher13519alive. ZeroGPUconsumer205157/inspector205240alive. learning-dabsent.
+- completed: codecommitac8cb05c2481caebc3032423778ffc2bff5325bc pushedandremotelyverified.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 20题、4seeds、80turns已固定。 |
+| CPU导出校验 | PASS | ac8cb05c，44checks。 |
+| 真实HF保存与20步 | TODO | 新短作业排队；旧保存失败已归档。 |
+| 原始80有效结果 | TODO | 首个完整native结果resolved；其余题已开始提交。 |
+| updated80与avg@4 | TODO | 依赖真正update20保存和reload。 |
+| Frog/Qwen有限验证 | PASS | 两步workflow/测量/清理完成。 |
+| 最终清理与同步 | TODO | 代码已push；实验与最终清理仍待完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 20:48至20:55｜**当前前沿：** 实际HF保存、原始分题评测、失败产物消费。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 未扩展已通过的44checks；进入真实运行。 |
+| D2 细节反复重试 | CLEAR | 仅一个新短作业，保留队列，无重复提交。 |
+| D3 支线问题修补 | CLEAR | 无新支线。 |
+| D4 可并行任务停滞 | CLEAR | 首题通过后原始12分题立即提交；保存/清理并行。 |
+| D5 超范围镀金 | CLEAR | 题目/seeds/资源/接口保持。 |
+| D6 分析空转 | CLEAR | 获得完整native结果并进入后续执行。 |
+| D7 路线违背 | CLEAR | 本机个人API/H800/同BaseMind配置保持。 |
+
+**文档检查：** S1–S6均未发现新缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：现有计划合理，无需改变范围。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 新短16H800保存→9491decoder完整→唯一20步重跑。
+2. 并行：原始分题完成与及时消费→80valid；失败root消费/absence确认。
+3. update20reload→updated80→avg@4/区间→清理/push。
+
+## 4. 最值得关注的 3 点
+
+1. 首个resolved验证完整nativeworkflow，仍不代表80attempts完成。
+2. 短保存目前无节点，保持现有launcher等待调度。
+3. 最终20步HF与reload仍是updated评测的实际依赖。
+
+20:58HKT completed: consumedlocalshortfailurelogs/oldinspectorlog/source-querylogandtwoRCArawdirectoriesremoved (16341366bytes), afterreportingexactfailure/querycoverage. ZeroGPUconsumer205157isassignednode0457/ContainerCreating;originalfollowupquestion8node0044containerRunning/restart0/localNFSverified. Preparedminimalpost-update20consumerremovesrawrunfileswhilepreservingexactHFweightsuntilallupdatedenginesconsume them;it hasnotrun.
+
+21:02HKT completed: actualpinnedimage205157-61568244PASS/1.58s,containerexit0/restart0/platformSucceeded;failedshortinspection2normal/4110tokens/tokenandR3identity/1368changedtensors. Removed108cloudfiles/407505081bytesandindependentSSHconfirmsabsence. Sourceclarification: indexedBridge save_generator bufferssource shards onrank0andexhaustsCPU-outputgeneratoronpeers; exactmemorycauseUNKNOWN. OriginalBaseMind2/80valid;newshort16GPUstillStarting/nohead.
+
+
+## 21:15 HKT: resumption and inspector repair
+
+- in-progress: short205143-864435 Starting, both replicas unbound/Unschedulable,16H800 shape unchanged; launcher13519 alive. learning-dreceiptabsent;49003/88365 preserved.
+- failed: decoderinspector205240-904801/libcuda diagnostic import, before decoder validation; exact replica/container/platform/RCA recorded in learning report.
+- completed: remove unnecessary previously consumed Bridge diagnostic; exactCPUdecoderimportsPASS; unique0GPUreplacement submitted in52544.
+- in-progress: BaseMind2/80original,0/80updated,invalid0; firstquestion plus indices8/12Running,remainingtenfollowupsStarting. Preserve all existing launchers and twelve-slot scheduler.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO4
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 20题、4seeds、80不同turns已核验。 |
+| 导出实现与CPU检查 | PASS | ac8cb05c，实际镜像44PASS。 |
+| 真实保存与20步 | TODO | 短保存排队；检查作业诊断导入已修复。 |
+| 原始80有效结果 | TODO | 2valid，十二后续题已提交。 |
+| updated80与配对评分 | TODO | 依赖完整update20保存/reload。 |
+| Frog/Qwen有限验证 | PASS | 两步及数值测量完成、产物已消费。 |
+| 最终清理与push | TODO | 清理持续执行，验收尚未完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 20:55至21:15HKT｜**当前前沿：** 短HF保存/检查、原始分题native评测与消费。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 去掉引起失败的重复诊断，保留当前保存验收所需检查。 |
+| D2 细节反复重试 | CLEAR | 单次有具体traceback的CPU修复；16GPU保持队列，无重复提交。 |
+| D3 支线问题修补 | CLEAR | 修复直接解除保存验收依赖。 |
+| D4 可并行任务停滞 | CLEAR | 原始题库评测与保存并行；未等updated再跑original。 |
+| D5 超范围镀金 | CLEAR | 无新增模型/题目/算法/拓扑。 |
+| D6 分析空转 | CLEAR | 查明检查脚本导入失败并提交具体修复。 |
+| D7 路线违背 | CLEAR | 个人本机API、H800/codesign与同BaseMind路径保持。 |
+
+**文档检查：** S5：summary/报告顶部仍写无有效grader、历史作业Running；已直接按最新证据纠正。S1–S4/S6未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：状态文档过期，先更新后继续。
+
+**文档更新（先执行）：**
+1. summary/报告顶部、plan当前前沿：记录2valid与实际检查失败/CPU修复（可直接执行，已完成）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 保留唯一短16GPU队列与修复后的CPU检查→完整9491decoder/HFidentity→唯一20步。
+2. 并行：原始各题4valid后消费大日志与trajectory→80valid。
+3. update20实际reload→updated80→avg@4/配对区间→最终清理与push。
+
+## 4. 最值得关注的 3 点
+
+1. CPU检查失败不代表训练失败，但必须修复缺失的保存通过标记。
+2. 原始2valid已验证完整native流程，仍不能计算完整avg@4。
+3. 训练与评测残留产物持续消费，最终清理在完整评分之后完成。
+
+Consumed inspector RCA/raw log cleanup: 11 files/56097 bytes removed after the report retained exact outcome and query limits; scoped raw directory absent.

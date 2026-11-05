@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
 | 2026-11-05 | Identify the save diagnostic Ray memory kill; distinguish head/inference cgroup counters from the training node. |
 | 2026-11-05 | Assess both OPD model pairs; verify Frog/Qwen tokenizer prerequisites and retain numerical qualification limits. |
@@ -11,7 +12,7 @@
 
 # Twenty-update OPD learning test
 
-Status: previous20-update run/save diagnostic failed; new16H800 HF-only replacementexp-1105-183414-941283 isRunning (Ray/transfer/80turn preparation passed). Actual pinned-image parser/actor preflightPASS81tests. Original benchmark partially valid with sandbox infrastructure failures; complete80+80score and updatedexport remain pending. BoundedFrog/Qwen first preparation failed;64kQwen-rendering preflight is in progress.
+Status at 21:15 HKT: current16H800 short bucketed-save qualification205143-864435 is Starting with no assigned nodes. Its original0GPU decoder inspector failed before validation due to an unnecessary Bridge diagnostic importing libcuda; CPU-only repair and unique replacement submitted. Actual44checks passed on the pinned image. The prior GLM twenty-update run completed normal updates but failed before export and was consumed. Frog/Qwen bounded actual two-update workflow and numerical measurements are completed and consumed. BaseMind original has2/80valid native outcomes; updated0/80. Actual complete update20 export/reload, both full denominators, final cleanup and synchronization remain pending.
 
 Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
 
@@ -312,3 +313,28 @@ Explicit export_hf formerly called save_hf_model / Bridge save_hf_pretrained des
 Command: PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_train.py tests/fast/backends/megatron_utils/test_hf_only_save.py tests/fast/test_agent_opd_export.py tests/fast/backends/training_utils/test_checkpoint_io.py tests/fast/backends/megatron_utils/lora/native/test_merge.py -q -p no:cacheprovider --tb=short. Actual43PASS/5warnings/1.68s, pytest9.1.1. This verifies dispatch, failure cleanup, unchanged native save order, decoder/index checks and LoRA deltas; actual16H800HFwriting/reload is still required. The read-only watcher was restarted to include personalAPIphase/UID and localfinished.json, correcting delayed failure visibility. No GPU launcher was stopped or duplicated. Original BaseMind firstquestion remains active;263 completed server request lines observed, no complete nativegrader result yet. Localfree107GiB.
 
 Final targeted CPU iteration added actual export LoRA merge/adapter dispatch coverage: same command44PASS/5warnings/1.75s. Black and supportedPython3.12isort checks PASS. The older lint-env isort rejected repository py_version310 before inspecting files; the supported mopd-repair-lint312 isort subsequently passed. No GPU behavior is inferred from these checks.
+
+
+## First complete BaseMind native outcome and current submission (20:55 HKT)
+
+Original first-question job193530-337236 returned the first valid native result: astropy__astropy-12907/seed1731/completed_updates0, generation returned/seed_verified true,98matchingengine requests,4113.611830s generation; nativegrader resolved true after101.155734s at12:53:19Z. Actual trajectory counts98assistant/thinking turns,8body turns,60bash calls,36str_replace_editor calls,2submit calls and98tool-response turns. This verifies full native generation/tool execution/grading for one attempt and all requested completion signals. It does not provide the complete80-attempt original avg@4 denominator.
+
+The existing followup launcher submitted original question indices1–12 once at12:54:08–09Z, fourGPU/seeds perjob; indices13–19 wait for its twelve concurrent child-launcher slots. Original and updated final cells remain on identical BaseMind/native configuration. No earlier ACSresult enters these scores.
+
+Bucketed short qualification205143-864435,UIDa2cb96a7-d621-4880-8af9-b91249551745, is Starting with both replicas Unschedulable and no assignednode at12:52Z. Exactcreator/localNFS/pinnedimage verified; shape2×8H800/48CPU/600000Mi unchanged. Launcher13519 remains alive. ZeroGPU failed-output consumer/preflight205157-615682 and decoder inspector205240-904801 are submitted; actual terminal/business checks remainpending. Personalremote ac8cb05c2481caebc3032423778ffc2bff5325bc matches pushed code. Twenty-update receipt-d remains absent; oldwaiters are preserved.
+
+
+## Failed short-run consumption and actual-image verification (21:02 HKT)
+
+ZeroGPU205157-615682, UID1bd7a469-468a-41ba-9185-8430965d7d63, personalcreator/codesign/8CPU/64000Mi/localNFS verified, node0457: actual imagePython3.12.16 ran the same44targetedchecks,44PASS/23warnings/1.58s. Containerexit0/Completed/restart0 at12:59:54Z; platformSucceeded13:00:02Z; launcherexit0 afterward. ActualAPIlog115rows includes44PASSandFAILED_SHORT_SAVE_CONSUMED. Offline native inspection of failedshortjob confirms2normalupdates, versions0/1,1368changedpublishedtensors,4110scoredtokens and exacttoken/R3arrays. Perupdate alltokenmeanabsolute differences0.0180543792/0.0251665413; TISoutside0.5–2fraction0%forboth. No numericalequality is asserted.
+
+Consumed and deleted108cloudfiles/407505081bytes fromexact195913-137332root; worker and independentSSHconfirmabsence. Actual pinned state.py save_generator retains originalshard buffers onrank0 and exhausts the CPU-output generator onpeers. This is a source observation, not proof that its buffer alone caused the629GBmemory peak. The earlier whole-model wording names the serializer API; for this indexed checkpoint the actual saver is source-shard-streaming. The corrected explicit API uses the existing update-weight iterator with GPU output/per-parameter dtypes and SnapshotPublisher buckets. Exact initiating memory-kill/OOM attribution remainsUNKNOWN untilnewactualsaveevidence; no suchcause is inferredfromscript orcontainer success.
+
+
+## 21:15 HKT: resumed inspector RCA and repair
+
+Exact command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_job.py exp-1105-205240-904801 --logs`. Personal job UID0409532b-505f-4946-82d6-168ab2fa9743, replica UID9294ed1e-d172-4da3-9119-bc27431a74b4, node0080,0GPU/8CPU/64000Mi,pinnedimage,localNFS100.96.128.195:/data/ycfeng. Containerexit1/restart0 at13:00:39Z,platformFailed13:00:42Z; launcher exited afterward. Traceback begins at temporary inspector line5 `find_spec('megatron.bridge.models.conversion.auto_bridge')` and reaches TransformerEngine `ctypes.CDLL`: OSError libcuda.so.1 missing. Actual decoder validation had not started.
+
+Collector command used the bundled collect_failure_evidence.py with exact job/replica,personal credential directory,start2026-11-05T12:59:00Z,end13:02:00Z,timeout15s,new scoped raw directory. Six query categories succeeded; live root/replica events0,historical root/replica each1image-Pulling event,existingDeepScan0. Both all-operation audits timed out15s. Incident traceback establishes the import failure independently; initiating manual-stop fields remainUNKNOWN. No OOM/preemption attribution is inferred.
+
+Repair removes only the previously consumed Bridge source diagnostic from the temporary inspector. CPU Python3.12.13/Torch2.11.0+cu130/safetensors0.8.0 imported the exact decoder checker successfully; AST compilePASS. No installed dependency or training behavior changed. Exact CPU command: `PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'from tests.manual.agent_opd.rjob_benchmark import _compare_export_weights; import safetensors,torch,sys; print(sys.version.split()[0],safetensors.__version__,torch.__version__,"CPU decoder imports PASS")'`. Corrected0GPU launcher52544 submits hf-save-decoder-inspection-launch-b.json; retains all9491 decoder/index/identity/changed-value checks.16GPU launcher13519 remains queued,49003/88365 waiters and62463/31162 benchmark launchers remain alive.
