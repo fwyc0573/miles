@@ -161,6 +161,8 @@ def _run_seed(server: dict, seed: int, args, output: Path) -> int:
         str(server["version"]),
         "--seed",
         str(seed),
+        "--sandbox-backend",
+        args.sandbox_backend,
         "--output",
         str(output / f"step{server['version']}" / f"seed-{seed}"),
         "--server-log",
@@ -183,6 +185,7 @@ def main():
     parser.add_argument("--native-python", type=Path, required=True)
     parser.add_argument("--native-pythonpath", required=True)
     parser.add_argument("--task-index", type=int)
+    parser.add_argument("--sandbox-backend", choices=("acs", "basemind"), default="acs")
     parser.add_argument("--seeds", nargs="+", type=int)
     parser.add_argument("--engine-gpus", type=int, default=4)
     parser.add_argument("--context-tokens", type=int, default=131072)

@@ -13,7 +13,7 @@ from collections import Counter
 from pathlib import Path
 
 import toml
-from playground.agenticeval.sweagents_configs import SweAgentACSEvalConfig
+from playground.agenticeval.sweagents_configs import SweAgentACSEvalConfig, SweAgentEvalConfig
 from playground.agenticeval.sweagents_swe import RunCheckPipeline
 from tests.e2e.mopd_step3p6_bounded_replay.swe_formal import outcome
 
@@ -30,6 +30,7 @@ def main():
     parser.add_argument("--version", type=int, required=True)
     parser.add_argument("--seed", type=int, required=True)
     parser.add_argument("--task-index", type=int)
+    parser.add_argument("--sandbox-backend", choices=("acs", "basemind"), default="acs")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--server-log", type=Path, required=True)
     args = parser.parse_args()
@@ -40,7 +41,8 @@ def main():
     dataset = Path(membership["dataset"])
     if hashlib.sha256(dataset.read_bytes()).hexdigest() != membership["dataset_sha256"]:
         raise ValueError("Frozen benchmark questions changed")
-    config = SweAgentACSEvalConfig().to_dict()
+    config_type = {"acs": SweAgentACSEvalConfig, "basemind": SweAgentEvalConfig}[args.sandbox_backend]
+    config = config_type().to_dict()
     config.update(repeat=1, concurrency=1, check_concurrency=1, save_stepeval_checkpoint=False, use_exit_code=False)
     config["check"]["concurrency"] = 1
     config["dataset"]["name_or_path"] = str(dataset)
@@ -75,6 +77,7 @@ def main():
                     "task_id": task_id,
                     "seed": args.seed,
                     "completed_updates": args.version,
+                    "sandbox_backend": args.sandbox_backend,
                     "stage": stage,
                     "status": status,
                     "unix_time": time.time(),

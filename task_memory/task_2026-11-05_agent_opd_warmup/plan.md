@@ -55,7 +55,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status:1 input freeze completed;2 HF-only configuration and actual parser/actor preflight passed, replacement16H800Running with real export pending;3 native benchmark15/80valid with infrastructureinvalidpairs under targeted recovery;4 prior20updates verified butsavefailed, currentreplacement20updates/export and boundedFrog/Qwen8H800/two-update qualification pending;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
+Current phase status:1 input freeze completed;2 HF-only configuration and actual parser/actor preflight passed, replacement16H800Running with real export pending;3 native benchmark15/80valid with infrastructureinvalidpairs under targeted recovery;4 prior20updates verified butsavefailed, currentreplacement20updates/export and boundedFrog/Qwen8H800/two-update qualification completed with measured numerical differences;5 final cleanup/push pending. Initial benchmark runs independently of the final training export. The prior two-update phase remains completed and does not satisfy this phase.
 
 
 ## Confirmed continuation and export route (18:17 HKT)
@@ -80,4 +80,14 @@ full benchmark.
 
 ## 19:07 HKT actual continuation
 
-GLM replacement completed its first normal update and published version1. Qwen185108 Failed before training: dashboard MetricsHead exited, followed by /api/version connection refusal. The generated MetricsHead socket path is108bytes, exceeding Ray's107byte limit; the exact path reproduces the validation error onCPU. A0GPU pinned-image test now compares the original path with the existing explicit-temp-dir start mechanism. Do not submit another QwenGPU run until this specific hypothesis is verified. Completed original benchmark shards are consumed independently.
+GLM replacement completed its first normal update and published version1. Qwen185108 Failed before training; replacement191135 subsequently completed two normal updates. The historical failure was dashboard MetricsHead exit followed by /api/version connection refusal. The generated MetricsHead socket path is108bytes, exceeding Ray's107byte limit; the exact path reproduces the validation error onCPU. A0GPU pinned-image test now compares the original path with the existing explicit-temp-dir start mechanism. Do not submit another QwenGPU run until this specific hypothesis is verified. Completed original benchmark shards are consumed independently.
+
+
+## Native sandbox prerequisite after targeted recovery
+
+A full recovery attempt still encountered ACS server-side VM DNS failure after multiple verified model requests. Existing heartbeat/retries are already active. Continue healthy training and existing evaluation; do not repeat missing pairs without new recovery evidence. After verified update20, launch one question/four seeds for actual HF reload and a full native execution check; launch the remaining nineteen updated questions only once full native execution gives valid grader outcomes. This does not alter question membership, seeds, model sampling or grader logic. All80validoutcomes per model remain the acceptance criterion.
+
+
+## 19:38 HKT: same-backend native evaluation
+
+Existing `SweAgentEvalConfig` is the BaseMind environment variant; CPU native configuration comparison confirms only endpoint/labels differ from ACS. A direct same-image native sandbox availability test passed, while ACS full recovery remained infrastructure-invalid. Submit exactly one original question/four seeds with explicit BaseMind selection to verify full native agent and grader. The prepared update20 first-question launcher uses the same BaseMind selection. Both final80-attempt cells must use BaseMind if this route qualifies; earlier ACS outcomes remain separate diagnostic evidence and cannot be pooled into these scores. All remainingquestion submissions wait for a valid full native result; training continues independently.

@@ -220,3 +220,49 @@ Exact failure RCA: personalPython3.10.6/brainpp2.8.6 collector with replica/node
 ## Completed original-shard consumption (19:10 HKT)
 
 Personal0GPUcleanup `exp-1105-190841-955298` consumed7terminalshards, questionindices1/5/10/11/12/15/16, after exactcreator/UID/containerexit0/restart0 verification. Raw216files/441621454bytes removed; allcopiedoutcomereceipts were bytechecked. Temporarycanonicalroots keep28gradingreceipts,7valid (3resolved/4unresolved),21invalid, plus actualengineidentity/pipelineexits. Canonicalrecords remain only untilfinal80+80summary. Worker confirmed7sourcesabsent; independentcloudabsence andcleanupcontainerterminal are separate checks. Invalidtrajectorymeta glob foundnone, so noadditionalper-shardDNSclassification is asserted fromthatcollector.
+
+
+## Same-student numerical observations from the current run
+
+Zero-GPU inspection `exp-1105-191241-407775` ran `inspect_active_alignment.py` using the pinned Python3.12.16 image and the existing `_sample_checks`/`_train_checks` functions. It inspected completed rollouts0/1 of native run261105-105050-rwb3 without changing the live training workload. The launcher reportedSucceeded; exact container terminal inspection remains separate. All8turns matched prompt/completion tokens and R3 input arrays. Independent prefill returned finite probabilities on identical tokens and version0/1 matching generation. The inspection retains no token contents in this report.
+
+| Rollout | Completion tokens | Trainer/decode absolute mean | p99 | maximum | TIS outside[0.5,2] |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 0 | 1888 | 0.0154928425 | 0.3675546050 | 0.4923357964 | 0.000000% |
+| 1 | 2992 | 0.0216231737 | 0.3965291679 | 0.6199111938 | 0.000000% |
+
+All8independent prefill observations were measured, finite, and version-matched. Decode/prefill per-turn absolute means ranged0.00057683–0.04651965; the largest observed absolute difference was0.9820261. Trainer/prefill per-turn means ranged0.00037427–0.05682833; maximum0.97993183. These are observations, not a calibrated pass threshold. Differences remain in both paths, so neither structural equality nor TIS coverage establishes exact numerical parity. An FSDP-only `rl_on_policy_target` flag in the inspected SGLang source is not applied to this Megatron run. No kernel, precision or algorithm change is made during the ongoing20-update workload.
+
+All8newcompletions containparsedbash/editorcalls; seven haveordinarybodytext, none hasnonemptyparsedthinking orsubmit. This verifies the observed signals only; originalsourcecompletion/CPUserialization evidence covers thinking/submit. Full80-turngeneratedsignalcounts will be checked afterthe run.
+
+Cleanup `exp-1105-191308-653972` reportedSucceeded and removed the failedQwen185108namespace (2cloudfiles/3310093bytes) and localrecords (4files/12747bytes); workerconfirmedabsence. Seven earlieroriginalrawroots were independentlyabsent aftermetadata propagation. Lastfailedsandboxstate readreturnedHTTPerror; eventsHTTP200empty. No service repair or external message was performed.
+
+
+## Actual FrogNano → Qwen3.5 qualification: PASS for the bounded workflow
+
+Personal RJob `exp-1105-191135-503140`, UID `e8d168d0-08a8-4e65-bdc4-96c376dca5c0`, completed two normal optimizer updates on eight H800 GPUs at node0237. Native inspector exit0, platform Succeeded at2026-11-05T11:25:53Z; the exact replica container exited0/Completed at11:25:52Z with restartCount0. Local launcher97361 exited0 after success. Creator `i-fengyicheng`, quota codesign, pinned Miles image, NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`, 48CPU/300000Mi. Runtime source commit `60f0d26b7e9fc584c4c117bfc4c7ad3953164ac1`, Python3.12.16. Exact command and configuration are implemented in `tests/manual/agent_opd/rjob_qwen_alignment.py` and recorded by `qwen-launch-c.json`; disposable launch receipts are removed after consumption.
+
+Expected: two actual updates, finite nonzero gradients/lr, four normal trainer-rank outcomes per update, identical generated/trainer/teacher tokens, finite independent same-student prefill on matching versions, actual changed publication. Actual: PASS. All8distinct turns inherited original glm5.2 identities and used Qwen-rendered inputs. Teacher scored all3269completion tokens; token IDs and policy versions0/1 matched. Both rollouts consumed each turn once, all8policy-loss calls were finite, and486published inference tensor checksums changed. The final second optimizer update is not published by the native driver; publication evidence covers the initial model and post-first-update model only. Qwen is dense with hybrid linear/full attention, so MoE R3 is inapplicable. No vision-training qualification is asserted.
+
+| Update | Loss | Gradient norm | LR | Completion tokens | Trainer/decode mean absolute logprob difference | p99 | Maximum | TIS outside[0.5,2] |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 0.0386500451 | 9.2263803482 | 2e-06 | 1289 | 0.0069650090 | 0.1116659567 | 0.1664958000 | 0.0% |
+| 2 | 0.0648641413 | 8.0529699326 | 2e-06 | 1980 | 0.0094554098 | 0.1201436445 | 0.2212731838 | 0.0% |
+
+Independent prefill was measured for all8turns using a separate cache namespace without replacing training probabilities. Decode/prefill per-turn absolute means range0.000165026–0.013270062, maximum0.242016315. Trainer/prefill per-turn absolute means range0.000118740–0.015510581, maximum0.197433949. These measured differences are not a calibrated parity threshold. TIS masks none of the sampled tokens, but this does not prove numerical equality.
+
+Actual generated signals:8/8turns have bash/editor tool calls,4/8nonemptythinking,6/8ordinarybody,0/8submit. One turn was explicitly truncated at1024tokens and retained/scored without token alteration. Originalsource/CPUserialization evidence covers submit; no newly generated submit is claimed. The observed cgroup maximum was68,286,664,704bytes against314,572,800,000bytes limit, with failcnt0/oom_kill0. Worker Ray/compile caches were deleted in finally. Cloud input/dumps/logs and local raw records are consumed immediately after this report.
+
+
+## Native BaseMind sandbox availability and evaluation route
+
+The existing `SweAgentEvalConfig` supports BaseMind sandbox; its ACS subclass overrides only the environment endpoint/labels. Native agent/model/dataset/grader configuration remains inherited. The manual adapter now exposes explicit `--sandbox-backend acs|basemind`, records that selection in each generation/grading receipt, and passes it through the worker subprocess. Existing ACS jobs keep their already-read configuration. A complete same-backend cell will be required for both original/update20; do not mix scores across environment routes.
+
+Actual nativePython3.10.20 command used `PYTHONPATH` from the established benchmark launcher and temporary `probe_basemind.py`. First create request returnedHTTP400 `execd session requires a startup command`; this was a probe configuration error. Inspection of native `_create_session` showed `command=['tail','-f']` and port24772. The corrected request matched that startup command,2CPU/8Gi,same django14376 image, originalexecd/trace labels, noGPU, max_retries1. Session `e8f26a86-297d-480c-bb98-5983c2bea830` became Ready and shell returnedexit0/exact`agent_opd_basemind_ok` in21.13486s. Native close was invoked after consumption. This establishes one short availability observation, not full nativeagent/grader recovery. One originalquestion×four-seeds will test completeexecution before remainingquestions are submitted.
+
+Qwen consumption `exp-1105-193234-627096` Succeeded; removed35cloudfiles/61,924,229bytes and8localfiles/34,169bytes. Worker and independentSSH confirmed the exact Qwencloudrootabsent. Originalwave2cleanup `exp-1105-192353-316914`,UID4600285b-77ba-4d00-be4a-ca1673341bfa, containerexit0/Completed/restart0;88files/183,300,849bytes removed fromthree consumedrawroots and independentlyabsent. Canonicalminimaloutcomereceipts remain only untilscore aggregation.
+
+
+CPU verification of explicit sandbox selection PASS: nativePython3.10.20 `check_basemind_config.py` compared both actual config dictionaries and asserted that only`env.session_router_url`/`env.extra_labels` differ; agent/model/check/dataset identical. It then imported/executed the actual native adapter CLI. Python3.12.13 `PYTHONPATH=<miles> python -B -m tests.manual.agent_opd.rjob_benchmark --help` passed and exposes the same selector. AST/import/CLI plus `git diff --check` settle this small wiring change; no GPU or synthetic grading assertion substitutes for the ongoing full native check.
+
+Qwen consumption193234 exact containerexit0/restart0 confirmed, UID7ef8035c-ad25-4c17-85bd-0e276efe5ae7, codesign/0GPU/localNFS/pinnedimage. Its temporaryfiles and consumedQwen/GLM querylogs are removed locally after conclusion recording.

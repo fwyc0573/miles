@@ -2106,3 +2106,81 @@ Pinned Ray preflight completed HTTP200 and a real submitted Python entrypoint. O
 1.Ray启动通过不替代Qwen模型初始化和数值验收。
 2.缺失或invalid评分不能作为模型失败计分。
 3.最终导出、两模型数值证据和80+80结果仍未完成。
+
+
+## 19:19 HKT: native recovery still infrastructure-invalid
+
+- GLM has four normal updates0–3; continuation/export remains healthy. Qwen191135-503140 is uniquelyStarting on0237, imagecreation pending.
+- Recoveryquestion6/seed1731 `exp-1105-185657-017391` completed but remainsinvalid. Its sampledrequests areseedverified; trajectorymeta saysEnvRetryRequestError after shell_exec_async, HTTP500fromACS, lookup of24772-session-router--8d7feff3d75a4b10878d0941eb803d11.vm-agent.i-stepfun.com at169.254.20.10 failed (`server misbehaving`), thenphasePending/execd_readyFalse. This rejects full-environment recovery fromthe earlier single-shellprobe; noadditionalrecoverybatch is submitted.
+- Existingclient already starts a60secondheartbeat and retries shell startup before session healthcheck. Addingheartbeat or maskingthe error is not justified. The exactfailedsession state read returnedHTTPerror; eventsHTTP200empty. ExistingLarkOncall revision353 describesOct24DNSOOM/Oct25Pending incidents, not aNov5cause or agent-executable remedy. Current initiatingDNSservicecause remainsUNKNOWN.
+- Latest raworiginalgrading records:14resolved/5unresolved/53invalid (including1recoveryinvalid). Completeavg@4 remainsundefined.
+- Route correction: prepare allupdatedshards but launch onlyquestion0 afterverifiedupdate20 for actualreload and a fullfour-seednative check. The other19updatedshards wait for actual validnativeexecution rather than another shortshell. This is an infrastructure prerequisite for newbenchmarkspending; healthyGLM/Qwentraining and existinggrading continue. Noauxiliaryharnesscancels training.
+- Personalremote now independentlymatches60f0d26b7e9fc584c4c117bfc4c7ad3953164ac1. Consumed local474files/45447851bytes deleted. Sevenoriginalrawroots are independentlyabsent aftercloudmetadata propagation.
+
+
+## 19:31 HKT: Qwen qualification consumed; GLM nine updates
+
+- completed: Qwen191135-503140 two normal updates, exact platform/containerexit0/restart0, inspector0,486changedpublishedtensors,3269tokens. Actual8independentprefillchecks/tokenIDs/versionsmatch; thinking4/body6/tools8/submit0. Numericaldifferences remain measured without sufficient-parityclaim. See learningreport for metrics.
+- in-progress: GLM183414 nine normalupdates0–8; finalHFnotyetcomplete. Currentbenchmarkrawrecords15resolved/6unresolved/55invalid across73uniquepairs; recordcountsincludeattemptedrecoveryduplicates and are not the validated80-attempt denominator.
+- completed: wave2cleanup192353-316914 deleted88files/183300849bytes; independentSSHconfirmed three rawrootsabsent. Exactcleanupcontainerterminalqueryremainsnext. Alignment191241andfailedQwenconsumption191308bothcontainerexit0/restart0confirmed.
+- pending: consumeQwenrawartifacts and completedbenchmarkshards; verifyexistingBaseMindsandbox availabilitybeforeanyroutechange. Endpoint/graderconfigurationinspectionfoundnativeSweAgentEvalConfig differsfromACS onlyendpoint/labels; noadapterchangehasyetbeenmade.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED1｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS |80turns/20questions/4seeds已验证且未变。|
+| HF-only配置与预检 | PASS |实际parser/actor81PASS。|
+| GLM20更新与导出 | TODO |9次normal更新；未到最终导出。|
+| 原始80有效评分 | BLOCKED |ACS服务端DNS错误，已有补测仍invalid。|
+| updated80评分与avg@4 | TODO |依赖真实update20导出与有效native执行。|
+| Frog/Qwen两步workflow与数值测量 | PASS |2次normal更新、3269tokens、8prefill测量、终态/容器exit0。|
+| 最终清理与同步 | TODO |Qwen已归档且消费作业提交；GLM/评测仍活跃。|
+
+## 2. 偏离检测
+
+**结论：**未偏移，正常推进。
+**检测窗口：**19:19checkpoint至Qwen完成｜**当前前沿：**GLM导出、sandbox阻塞、消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |数值消费使用已有inspector；未扩展验收范围。|
+| D2 细节反复重试 | CLEAR |ACS新完整失败后未追加GPU重试；检查已有独立backend。|
+| D3 支线问题修补 | CLEAR |环境错误直接阻塞benchmark。|
+| D4 可并行任务停滞 | CLEAR |GLM、Qwen、已提交评测与清理均推进。|
+| D5 超范围镀金 | CLEAR |Qwen仅两步；无第二完整benchmark。|
+| D6 分析空转 | CLEAR |Qwen已完成，GLM更新持续增加。|
+| D7 路线违背 | CLEAR |题目/seed/grader/个人资源不变；尚未切换sandbox。|
+
+**文档检查：**S5：plan/summary旧Qwenpending与实际两步完成矛盾，已直接修正。S1–S4/S6无新缺陷。
+**归因：**无。
+
+## 3. 纠正建议
+
+**分支：**B：状态文档已更新。
+
+**文档更新（先执行）：**
+1.plan/summary/report：记录Qwen完成与数值限制（已直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1.GLM20normal更新→完整HF→真实reload；同时检查已有BaseMindbackend，成功后保持双模型相同环境。
+2.并行：消费Qwen及完成评测产物→独立absence确认；现有有效结果持续消费。
+3.80+80有效结果→avg@4/配对区间→最终清理/push。
+
+## 4. 最值得关注的3点
+
+1.Qwen小规模workflow通过不等于训推数值完全一致。
+2.ACSinvalid结果不能计成模型失败；完整分母仍缺失。
+3.GLM最终导出与真实reload尚待实际执行。
+
+
+## 19:36 HKT: existing BaseMind selection and consumption
+
+- completed: BaseMindnativecreate/shellPASS21.13s after correctingprobeHTTP400missingstartupcommand toinspectednative tail-f. No completeagent/graderclaim.
+- in-progress: explicitmanualsandbox-backend selector reusesexistingSweAgentEvalConfig/ACSsubclass; recordsselection. Bothfinalbenchmarkcells mustusesamebackend and no cross-routepooling. CPUconfigdiff/importchecksnext, thenoriginalquestion0×4fullnativeexecution.
+- completed: Qwenqualifiedconsumption193234 removed35cloudfiles/61924229bytes and8localfiles/34169bytes; independentlycloudabsent. Wave2exactcontainerexit0/restart0verified.
