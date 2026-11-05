@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
@@ -2697,3 +2698,68 @@ completed: zeroGPU224011-496529 inspectionPASS,pinned6testsPASS,9491decoder+2ful
 1. 保存修正已通过真实GPU与实际权重检查，不再追加短程GPU测试。
 2.20步作业排队不等于已训练；以正常更新和导出回执验收。
 3. 部分调试日志发生I/O错误，完整有效grader分母仍是必要条件。
+
+
+## Post-grading log-close failure and bounded repair
+
+The original question6 job `exp-1105-205408-572187`, UID `c15d7886-439d-4138-ab26-a0f2107bf713`, replica UID `0f33997e-e00d-48fa-a2a7-2e75f13fbe05`, ran on H800 node0401. Its four native pipeline exits were zero; task `django__django-11099`, seeds1729–1732, returned four matching generation/grading identities, verified seeds and resolved=True. The subsequent traceback is `OSError: [Errno 5] Input/output error`. Matching the loaded source to commit `ac8cb05c` resolves line268 to `server["log"].close()`, after the completed-pipeline marker. Current NFS source lines in the traceback were misleading because the file had changed after loading. The process exited1/Error at2026-11-05T14:57:07Z; platformFailed at14:57:21Z. Its system stopTimestamp14:57:19Z and `Some critical tasks failed.` annotation followed the process failure. Do not claim platform success or rerun four already valid seeds.
+
+RCA command: existing personal wrapper ran `stepmind-gpu-worker/scripts/collect_failure_evidence.py` for that exact job/replica with `--expected-creator i-fengyicheng --start 2026-11-05T14:55:00Z --end 2026-11-05T14:59:00Z --timeout 15 --output /data/ycfeng/tmp/agent-opd-learning-20261105/rca-benchmark-question06`. Python3.10.6/brainpp2.8.6. Object/owner binding, historical and live events, incident logs and existing DeepScan queries returned; live events were empty, existing DeepScan count0, historical events cover earlier scheduling. Both all-operation audit queries timed out. The observed initiating application error is log close; underlying cloud-storage fault and any initiating manual stop actor/reason/time remain UNKNOWN. Returned evidence does not establish OOM or preemption.
+
+Repair: SGLang stdout, native stdout and native pipeline logs/trajectories now use the existing worker-local temporary directory; low-frequency generation/grading and engine receipts stay on the personal cloud. The parent archives diagnostics only after writers exit, then removes local files. No native model, question, seed, sampler, tool or grader changed, and I/O errors are not suppressed. Running processes retain their loaded code; subsequent jobs use this repair.
+
+Temporary consumption/finalization now read one exact name/UID-bound incident record and retain actual Failed/exit1 for this job. Every accepted benchmark job still requires all four valid native identities, seed verification, resolved/unresolved grading, engine identity and four zero pipeline exits. Unknown/new failures are not accepted automatically. Training still requires Succeeded and20 normal updates. This corrects an auxiliary requirement that contradicted result-level acceptance; no training or healthy evaluation is canceled.
+
+Verification: six existing export regressions PASS(1.20s) under Python3.12.13/pytest9.1.1. Native benchmark imports and CLI PASS in the existing br-native-swe-py310-1008am environment. `check_local_logs.py` invokes real lightweight subprocesses with cloud .log opens fault-injected, checks the shared local server-log path and archive, and deletes its outputs. Black initially required one line wrap, corrected; isort and git diff checks PASS. Actual subsequent GPU execution remains the required verification of this placement change. Local observer restarts affect only consumer/finalizer processes; all GPU launchers remain alive.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS4｜BLOCKED/FAILED/SKIPPED0｜TODO3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和原始预热 | PASS | 已记录实际验证与同步 |
+| 冻结输入和CPU准备 | PASS |80turns、20题、4seeds |
+| Frog/Qwen有限验证 | PASS | 两次更新及清理完成 |
+| HF保存资格验证 | PASS | 完整实际导出检查通过 |
+|20步导出重载 | TODO |224939仍在排队 |
+| 两组完整评测 | TODO | 原始28/80，更新0/80；第6题结果有效 |
+| 最终评分、清理和同步 | TODO | 消费器已接纳已诊断的收尾异常 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**22:50HKT至今｜**当前前沿：**20步训练、原始评测及产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅修正四个有效结果被辅助检查阻塞的问题 |
+| D2 细节反复重试 | CLEAR | 精确旧源码定位日志close，无GPU重跑 |
+| D3 支线问题修补 | CLEAR | 故障直接影响有效评测消费和剩余作业 |
+| D4 可并行任务停滞 | CLEAR | 原始评测继续，唯一训练保持已提交队列 |
+| D5 超范围镀金 | CLEAR | 未扩大模型、题库或训练规模 |
+| D6 分析空转 | CLEAR | 日志位置修正和第6题消费已执行 |
+| D7 路线违背 | CLEAR | H800、固定80+80分母保持 |
+
+**文档检查：** S1 plan.md收尾要求全部作业Succeeded，错误阻塞已完成native评分的作业；已改为独立验收业务结果并保留实际终态。S2–S6无明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md收尾条件：允许已独立查明的评分后日志失败，不改变四份有效结果条件（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 监测唯一16卡作业，完成20次正常更新、完整HF导出和实际重载。
+2. 并行完成原始80评测和已完成输出清理，再接续更新80评测与最终评分。
+
+## 4. 最值得关注的 3 点
+
+1. 第6题四个有效结果应保留，平台Failed必须如实报告。
+2. 高频日志已转到worker本地，后续真实作业仍需验证。
+3. 排队中的训练尚未更新参数，最终benchmark尚不具备完整分母。

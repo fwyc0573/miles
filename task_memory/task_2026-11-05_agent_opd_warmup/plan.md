@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Diagnose post-grading cloud log failure, use local active logs, and preserve valid results with actual terminal status. |
 | 2026-11-05 | Record actual bucketed save, unexpected shared aliases and ongoing native consumption. |
 | 2026-11-05 | Correct current BaseMind and save-inspector status after resumption. |
 | 2026-11-05 | Record failed short HF save, decoder/MTP qualification and bucketed explicit export repair. |
@@ -103,4 +104,4 @@ The short16H800 save remains queued. Corrected0GPU decoder inspection replaces a
 
 ## Completion continuation (21:41 HKT)
 
-The temporary local observer waits for every complete native four-seed job to be consumed and all forty native jobs plus learning to be Succeeded with zero container exits. It then submits a zero-GPU finalizer for actual twentieth-update identity, decoder/metadata/source checks, two complete eighty-result denominators and the existing paired bootstrap score. Only after verified scoring does it consume the exact cloud namespace, independently verify absence, consume local scratch and normally synchronize task Markdown. This is the existing final cleanup step; it does not change training, question membership, seeds or numerical acceptance. The temporary continuation is compiled and running but not yet executed to completion.
+The temporary local observer waits for every complete native four-seed job to be consumed and all forty native jobs to be terminal with complete valid native results, and learning to be Succeeded with zero container exits. It then submits a zero-GPU finalizer for actual twentieth-update identity, decoder/metadata/source checks, two complete eighty-result denominators and the existing paired bootstrap score. A diagnosed post-grading failure is accepted only through exact job/UID-bound evidence, with its real platform/container state retained. Only after verified scoring does it consume the exact cloud namespace, independently verify absence, consume local scratch and normally synchronize task Markdown. This is the existing final cleanup step; it does not change training, question membership, seeds or numerical acceptance. The temporary continuation is compiled and running but not yet executed to completion.

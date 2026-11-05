@@ -123,7 +123,7 @@ def _check_export(original: Path, updated: Path) -> dict:
     return {"identity": identity, **comparison}
 
 
-def _start_server(path: Path, original: Path, version: int, args, output: Path):
+def _start_server(path: Path, original: Path, version: int, args, logs: Path):
     url = f"http://127.0.0.1:{os.environ['PORT_AUTO0']}"
     model = f"agent-opd-step{version}"
     command = [
@@ -173,7 +173,7 @@ def _start_server(path: Path, original: Path, version: int, args, output: Path):
         "json",
     ]
     environment = dict(os.environ, CUDA_VISIBLE_DEVICES=",".join(map(str, range(args.engine_gpus))))
-    log = (output / f"server-{version}.log").open("w")
+    log = (logs / f"server-{version}.log").open("w")
     process = subprocess.Popen(command, env=environment, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
     return {
         "process": process,
@@ -203,7 +203,7 @@ def _wait_server(server: dict, timeout: int) -> dict:
     raise TimeoutError("SGLang benchmark server readiness deadline")
 
 
-def _run_seed(server: dict, seed: int, args, output: Path) -> int:
+def _run_seed(server: dict, seed: int, args, output: Path, logs: Path) -> int:
     environment = dict(os.environ, PYTHONPATH=args.native_pythonpath)
     command = [
         str(args.native_python),
@@ -224,11 +224,11 @@ def _run_seed(server: dict, seed: int, args, output: Path) -> int:
         "--output",
         str(output / f"step{server['version']}" / f"seed-{seed}"),
         "--server-log",
-        str(output / f"server-{server['version']}.log"),
+        str(logs / f"server-{server['version']}.log"),
     ]
     if args.task_index is not None:
         command.extend(["--task-index", str(args.task_index)])
-    with (output / f"native-{server['version']}-{seed}.log").open("w") as log:
+    with (logs / f"native-{server['version']}-{seed}.log").open("w") as log:
         return subprocess.run(
             command, env=environment, stdout=log, stderr=subprocess.STDOUT, timeout=args.benchmark_timeout
         ).returncode
@@ -261,13 +261,15 @@ def main():
     output.mkdir(parents=True, exist_ok=False)
     local = Path("/var/tmp") / f"ao-bench-{os.environ['KUBEBRAIN_RJOB_NAME']}"
     _worker_environment(local)
+    logs = local / "logs"
+    logs.mkdir()
     servers = []
     try:
         if args.updated is not None:
             _save(output / "export-validation.json", _check_export(args.student, args.updated))
         subprocess.run(["nvidia-smi", "-L"], check=True)
         path, version = (args.student, 0) if args.updated is None else (args.updated, 20)
-        servers.append(_start_server(path, args.student, version, args, output))
+        servers.append(_start_server(path, args.student, version, args, logs))
         for server in servers:
             _save(output / f"engine-{server['version']}.json", _wait_server(server, args.startup_timeout))
         membership = json.loads(args.membership.read_text())
@@ -275,7 +277,9 @@ def main():
         if not seeds or len(set(seeds)) != len(seeds) or any(seed not in membership["seeds"] for seed in seeds):
             raise ValueError("Benchmark seeds differ from the frozen membership")
         with ThreadPoolExecutor(max_workers=args.seed_concurrency) as pool:
-            futures = [pool.submit(_run_seed, server, seed, args, output) for server in servers for seed in seeds]
+            futures = [
+                pool.submit(_run_seed, server, seed, args, output, logs) for server in servers for seed in seeds
+            ]
             exits = [future.result() for future in futures]
         _save(output / "pipeline-exits.json", {"exit_codes": exits})
         print("AGENT_OPD_BENCHMARK_FINISHED", str(output), exits, flush=True)
@@ -289,7 +293,11 @@ def main():
                     os.killpg(server["process"].pid, signal.SIGKILL)
                     server["process"].wait(timeout=10)
             server["log"].close()
-        shutil.rmtree(local)
+        try:
+            # High-frequency logs stay local; archive only after all writers exit.
+            shutil.copytree(logs, output / "diagnostics")
+        finally:
+            shutil.rmtree(local)
 
 
 if __name__ == "__main__":

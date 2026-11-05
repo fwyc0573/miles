@@ -180,7 +180,9 @@ def main():
             print("AGENT_OPD_BENCHMARK_ATTEMPT", args.version, args.seed, instance["instance_id"], status, flush=True)
             return status
 
-    pipeline = RecordedPipeline(eval_config_path=config_path, work_dir=args.output)
+    # Native logs and trajectories are temporary until the worker archives them.
+    work_dir = args.server_log.parent / f"step{args.version}" / f"seed-{args.seed}"
+    pipeline = RecordedPipeline(eval_config_path=config_path, work_dir=work_dir)
     if [row["instance_id"] for row in pipeline.instances] != task_ids:
         raise ValueError("Native pipeline questions differ from the frozen ordered membership")
     pipeline.execute()
