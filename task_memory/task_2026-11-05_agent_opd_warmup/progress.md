@@ -1717,3 +1717,62 @@
 1. GLM 结构对齐检查通过，残余 logprob 差异仍未充分验收。
 2. Frog/Qwen 没有训练数值证据，资产准备不能视为训练通过。
 3. 两组 benchmark 和完整第 20 步模型仍是本阶段未完成事项。
+
+
+## 18:00 HKT: save hypothesis settled; memory failure localized
+
+- Existing two-update save probe Failed09:52:57Z, after two updates with eight normal outcomes each. Native Ray OutOfMemoryError identifies training node0128 save_model memory above95% threshold; surviving rank processes68.26–75.33GiB each. Exact error and byte values are in the learning report. This is a workload save failure; kernel OOM and the previous update20 initiating cause remain separately unproven.
+- Corrected the initial memory-counter interpretation: memory-0 describes head/inference0178, not training0128. Its219.92GB peak and oom_kill0 cannot exclude the recorded training-node Ray memory kill.
+- Both exact-replica RCA collections completed6/8 categories. No existing DeepScan, audits timed out. Local launcher failed after the native error; trainer replica controller stop was subsequent. No newGPUtraining job or parameter repair attempted. Native save calls precede HF export; the existing separate export_hf API is a potential supported seam to investigate, not a validated substitute.
+- Saveprobe cleanup submitted as personal0GPU exp-1105-175752-778698; terminal result and cloud/local absence pending. Original native benchmark shards continue. The current numerical status answer remains: neither model pair is sufficiently qualified.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 固定输入 | PASS | 既定 80 个训练来源和 20 题未变。 |
+| 20 次更新与完整导出 | FAILED | 保存诊断再次失败，直接原因已定位为 Ray 内存压力杀 worker。 |
+| 原生评测 | TODO | 原始模型题目分片继续执行。 |
+| 两组 avg@4 | TODO | 尚无完整第 20 步模型及两组完整有效评分。 |
+| 清理与同步 | TODO | 消费过的查询文件已删除；失败诊断清理作业已提交。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 17:50 恢复核对至保存失败 RCA｜**当前前沿：** 保存内存问题、原始评测、消费清理。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 复用现有 RCA/清理脚本，没有扩展验证工具。 |
+| D2 细节反复重试 | CLEAR | 已提交假设测试得到明确 Ray 内存错误；没有无证据重试。 |
+| D3 支线问题修补 | CLEAR | 保存阻塞既定第 20 步模型评测。 |
+| D4 可并行任务停滞 | CLEAR | 原始模型评测持续运行，保存故障独立处理。 |
+| D5 超范围镀金 | CLEAR | 没有新增 Qwen 训练或改变评测规模。 |
+| D6 分析空转 | CLEAR | 实际错误和进程内存报告收敛了直接失败原因。 |
+| D7 路线违背 | CLEAR | 本机个人 API 和授权的 0GPU 消费清理保持一致。 |
+
+**文档检查：** S5 plan/summary 的诊断 Running 已滞后于最新 Failed，已更新；S1–S4/S6 无明显缺陷。
+**归因：** 无执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：诊断状态已滞后，更新后继续。
+
+**文档更新（先执行）：**
+1. plan/summary/learning 报告：记录该次原生保存 Ray 内存错误、不同节点的 cgroup 记录和清理状态（可直接执行）。
+
+**需停止的偏离行为：无**
+
+**接下去的路线：**
+1. 保存路径：定位每个 rank 保存期间的 CPU 副本，修复支持的原生保存/导出 → 完成标志：完整且可重载的第 20 步 HF 权重。
+2. 并行：原始模型评测与消费清理；导出后执行更新模型同题同 seed 的 80 次评分。
+3. 取得完整评分后汇总并删除所有一次性产物，正常同步分支。
+
+## 4. 最值得关注的 3 点
+
+1. 当前已知保存错误是 Ray 内存阈值触发，不应将 head 副本的低内存记录套用于训练节点。
+2. 该次错误不能直接用作此前另一个作业的原因，原作业仍独立记录 UNKNOWN。
+3. 两组合的数值一致性与完整学习/benchmark 验收仍未完成。

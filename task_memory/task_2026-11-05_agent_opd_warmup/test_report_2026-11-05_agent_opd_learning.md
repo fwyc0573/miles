@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-05 | Identify the save diagnostic Ray memory kill; distinguish head/inference cgroup counters from the training node. |
 | 2026-11-05 | Assess both OPD model pairs; verify Frog/Qwen tokenizer prerequisites and retain numerical qualification limits. |
 | 2026-11-05 | Reconcile 72 requested H800 GPUs against exact replica/container states and record consumption cleanup. |
 | 2026-11-05 | Record twenty verified updates, incomplete checkpoint save, save diagnostics and question-sharded evaluation. |
@@ -9,7 +10,7 @@
 
 # Twenty-update OPD learning test
 
-Status: 20 normal optimizer updates verified offline; final native checkpoint save failed. Root cause remains UNKNOWN. No complete post-update-20 export or benchmark score is available. A save diagnostic and original-model question shards are running or queued.
+Status: 20 normal optimizer updates verified offline; final native checkpoint save failed, with that original failure still independently UNKNOWN. The subsequent two-update save diagnostic also failed; its initiating worker failure is identified as Ray memory-monitor killing during native save. No complete post-update-20 export or benchmark score is available. Original-model question shards remain active.
 
 Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
 
@@ -114,3 +115,18 @@ Question-0 consumption PASS: corrected guard session 62319 submitted personal 0-
 Continuation inspection on November 5 at 17:50 HKT: the exact save-diagnostic RJob and both replicas remain Running on nodes0128/0178, with creator i-fengyicheng, codesign, the pinned image and local NFS100.96.128.195:/data/ycfeng. Personal cloud read at09:50:39Z found native normal-step event for rollout0 and publication events0/1; no complete checkpoint metadata or HF identity marker existed in that snapshot. This does not settle the final-save hypothesis. A concurrent exact batch query found six original-question shards Running and thirteen Starting; the original serial job remains Stopped and failed-run cleanup remains Succeeded. GPU requests are not hardware utilization. No new GPU job was submitted in this continuation.
 
 Inspected primary implementation: the GLM launcher fixes sampling temperature1/top_p1/top_k-1 and dropout0, enables R3 plus deterministic BF16/FA3 and TIS mask, while inspect_warmup.py compares trainer batch log_probs against rollout_log_probs on unchanged tokens. The TIS implementation explicitly changes weights and masks. These source checks support the stated qualification limits; they do not calibrate the remaining numerical error. Local disk inspection reports109GiB available on /data. Consumed exact replica logs and batch/capacity snapshots are deleted; active launcher manifests/receipts and native rendezvous files remain until their workloads finish.
+
+
+## Save diagnostic: native save memory failure
+
+FAIL: `exp-1105-170005-882383` (RJob UID `0d3ed9ef-e365-4ec3-95e0-b12e71e8c088`) ended Failed at2026-11-05T09:52:57Z. Both rollouts had eight normal trainer outcomes before save; this does not validate the incomplete checkpoint. Head/inference replica `-cfcd2084` UID `eab98d69-a4c0-40a6-85a2-1198fb9f7ff8` on0178 exited1/Error at09:52:46Z. Training replica `-c4ca4238` UID `7b5fd3fc-c4db-425f-bd48-e5450363d0bd` on0128 was subsequently Stopped by rjob-controller at09:52:56Z, with finishTimestamp09:53:01Z and a stale retained Running container snapshot. The local launcher reports failed and invokes cleanup at09:53:03Z, after the initiating workload error. No user/session stop initiated this failure.
+
+Direct native evidence: `ray.exceptions.OutOfMemoryError` on training node0128/IP10.191.8.5. The Ray report records563.68/585.94GiB, ratio0.962021, and separately records memory usage601,435,770,880bytes above its597,688,320,000byte threshold (95% of629,145,600,000bytes). These snapshots are reported as returned and are not assumed identical measurements. Seven surviving Megatron save_model PIDs are listed at68.26–75.33GiB each; the user error is WorkerUnreachableError during save_model, then NonRetryableError after all cells fail. The initiating worker termination is a Ray memory-pressure kill; a kernel/cgroup OOM kill is not established. Six incomplete distcp files exist without .metadata or .complete and cannot support benchmark evaluation.
+
+Important correction: local `memory-0.json` records a maximum sampled219,919,810,560bytes, memory limit629,145,600,000bytes, failcnt0 and oom_kill0. Rank0 is the head/inference replica on0178; its counters do not describe the training replica on0128. No completed memory-1 receipt was available. The earlier user-facing implication that the220GB reading described the training node was corrected immediately after the exact Ray failure was read.
+
+RCA commands: exact `read_job.py exp-1105-170005-882383 --logs` and two `collect_failure_evidence.py` calls for the two replica suffixes, using personal Python3.10.6/brainpp2.8.6, `--expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng --start 2026-11-05T09:51:45Z --end 2026-11-05T09:53:05Z --timeout 12`. In both collections six of eight categories succeeded; both all-operation audits timed out. Historical RJob13events; head6/trainer5replica events; existing DeepScan0. Incident log reads returned898head rows and1trainer row, belowlimit3000. Stop-request audit actor/time remain unavailable; the recorded controller stop is subsequent to the native Ray error. This diagnosis applies to this probe only; it does not retroactively resolve the original update20 failure.
+
+Inspected save ownership: MegatronTrainRayActor.save_model calls native Megatron save before HF export; all rank save calls are collective. The framework already exposes a separate export_hf method, but no alternative export recipe or fix has been executed. Next acceptance work is to localize the native checkpoint CPU-memory peak, repair the supported save/export route, then rerun the exact20-update learning/export and complete80+80 native scores. Numerical alignment still requires independently calibrated same-student comparisons.
+
+Consumption cleanup submitted: personal0GPU RJob `exp-1105-175752-778698`, local source `/data/ycfeng`, pinned company image, removes only the failed probe cloud/local namespaces after the preceding evidence is recorded. Terminal cleanup and independent absence verification remain pending.
