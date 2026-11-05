@@ -59,7 +59,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: input freeze and CPU preparation completed. Actual16H800two-updatebucketedHFexport and strictdecoder/fullyequalsharedaliasinspectionPASS; shortartifactsdeleted. Unique20updatelearning224939-805330Pending incodesign. OriginalBaseMind20/80valid,updated0/80; rawoutputsfromcompletednativejobsconsumed. Frog/Qwenboundedtwo-updatequalificationandcleanupcompleted. Final20-updateexport/reload,80+80results,cleanupandpushremainpending.
+Current phase status: input freeze, CPU preparation, real two-update HF save validation, and bounded Frog/Qwen qualification are complete. Unique 16-H800 learning job 224939-805330 remains queued. All twenty original benchmark jobs are submitted; 38/80 original results and 0/80 updated results are valid. Known post-grading log-close failures retain their true terminal status and independently verified grading evidence. Completed raw outputs are consumed promptly. Actual twenty-update export/reload, both complete eighty-result denominators, final cleanup and synchronization remain pending.
 
 
 ## Confirmed continuation and export route (18:17 HKT)
