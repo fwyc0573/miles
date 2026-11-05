@@ -62,7 +62,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
 
-Current phase status: Native twenty-update training, complete final HF export and actual update20 reload are verified. Both full native eighty-attempt benchmark cells, final paired aggregation, disposable cleanup and final branch synchronization remain required. The timestamped measured state is maintained in [the learning report](test_report_2026-11-05_agent_opd_learning.md); [progress.md](progress.md) records exact job and queue observations.
+Current phase status: Native twenty-update training, complete final HF export and actual update20 reload are verified. The original eighty-attempt benchmark is complete. The updated eighty-attempt benchmark, final paired aggregation, disposable cleanup and final branch synchronization remain required. The timestamped measured state is maintained in [the learning report](test_report_2026-11-05_agent_opd_learning.md); [progress.md](progress.md) records exact job and queue observations.
 
 
 ## Historical preparation and recovery (November 5)
@@ -117,3 +117,8 @@ The temporary local observer waits for every complete native four-seed job to be
 ## Updated evaluation concurrency after training completion
 
 After complete update20 HF/native inspection and actual first-server reload, use twenty existing followup child slots. The original model has77valid native outcomes through the identical BaseMind pipeline, which qualifies this shared backend. Full grading of the first updated question is a parallel acceptance observation, not a data dependency of the other nineteen questions. The controller reads the exact first server engine receipt and requires its path/version to match native completed-update20 training before submitting. Final acceptance still requires80valid native grader outcomes per model, unchanged questions/seeds and exact terminal identities. With one original remaining, all twenty updated four-GPU jobs plus that original request at most84GPUs, below the recorded96GPU task cap. No existing GPU launcher is stopped or resubmitted.
+
+
+## Native initialization recovery (November 6)
+
+Three updated attempts have EnvInitError generation receipts while their sibling seeds remain running. First retain their exact native error and terminal identities; a bounded fresh same-image BaseMind readiness/tool probe runs in parallel. Recover only stable missing question/seed pairs through the existing --task-index/--seeds mechanism after new availability evidence. Preserve every valid or still-running pair. Partial source jobs and any recovery jobs retain their own UID, exits and outcome provenance. Final aggregation uses the production duplicate/identity checks across all actual roots; adapt disposable consumers to these actual receipts instead of requiring every job to supply four valid outcomes. The result still requires exactly80valid unique attempts per model and no inference/training parameter change.

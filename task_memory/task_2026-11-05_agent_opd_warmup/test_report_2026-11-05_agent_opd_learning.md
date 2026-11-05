@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
 | 2026-11-06 | Verify all existing evaluation submissions and preserve final-score prerequisites. |
 | 2026-11-06 | Record completed training/export, actual update20 reload and consumed raw training outputs. |
 | 2026-11-06 | Record exact question2 post-grading RCA, five current normal updates and continued native evaluation. |
@@ -18,7 +19,7 @@
 
 # Twenty-update OPD learning test
 
-As of 2026-11-06 02:48:20 HKT, the unique 16-H800 learner exp-1105-224939-805330 has completed twenty normal finite optimizer updates, a complete final HF export and native inspection (exit0). Both training replicas and the platform Succeeded with exit0/restart0. Three updated servers have actually loaded the exact rollout19/completed-update20 HF and reported weight_version20. Valid native grading: original 80/80, updated 0/80; invalid=0. All twenty updated question jobs have been created once. Full paired scoring, final disposable cleanup and final branch synchronization remain in progress. Exact job and queue evidence is maintained in progress.md.
+As of 2026-11-06 03:52:40 HKT, the unique sixteen-H800 learner has completed twenty normal finite updates, complete final HF/native inspection and actual update20 reload with platform/container success. Original:80valid/80expected,50resolved,avg@4=0.62500000; all original raw outputs were consumed. Updated:9/80valid; three generation initialization failures remain missing, separately from grader-invalid0. All twenty original and twenty updated question jobs were created once. The disposable consumer/finalizer has passed partial-source/subset-recovery accounting checks. Complete updated grading, paired scoring, final cleanup and synchronization remain incomplete.
 
 Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
 
@@ -557,3 +558,48 @@ The existing production `summarize_benchmark.py` function was streamed unchanged
 Exact personal batch verification subsequently returned original question18/job005024-026007 Succeeded and replaced its four-card Running allocation with the already queued updated job022355-404162. All four Running jobs are now updated; sixteen updated jobs remainPending. All80requested GPUs belong to existing updated submissions;16GPUs are requested by Running jobs. The original raw-output consumer submitted a0GPUconsumption for question18 without another model request.
 
 The disposable finalizer now includes the existing twenty per-question means and paired differences in its final Markdown report, so avg@4 and the bootstrap input remain auditable after requested raw-output deletion. It also reports the actual cgroup limits beside already recorded sampled maxima and zero OOM growth, preserving the observed rank1 memory limitation. These are report changes using existing measured fields; no training/evaluation behavior or extra GPU run changed. `python3` AST parsing of the finalizer PASS. The finalizer has not run; all160validoutcomes and exact terminal identities remain prerequisites.
+
+
+## First actual update20 native grader outcomes and original consumption
+
+Bounded read-only exact-root inspection at approximately02:56HKT confirms updated question17/jobexp-1106-022355-479316 usesversion20 andBaseMind. Seed1729 returned a valid resolved outcome after1579.6431seconds and66verified model requests; native signals:66thinking turns,2body turns,47bash/17editor/2submit calls and66tool-response turns. Seed1731 returned a valid unresolved outcome after1504.6787seconds and59verified requests; native signals:59thinking turns,13body turns,38bash/19editor/2submit calls and59tool-response turns. These are distinct seeds on the same frozen question; they verify actual update20 native execution but do not establish an overall learning gain.
+
+All twenty original consumer receipts are complete:553rawfiles/1,437,391,014bytes removed. The final original consumer removed28files/108,408,313bytes from exactjob005024-026007 after Succeeded/exit0, preserving only minimal outcome/engine/pipeline records until final scoring. Current local/remote branch SHA675f8c81bb5d5a202fc190e56d6c89e69abcf04f independently matched via `git ls-remote origin refs/heads/agent-opd`; this synchronizes the completed baseline and explicitly incomplete updated phase.
+
+
+## First completed update20 native question
+
+PASS: question17/jobexp-1106-022355-479316,UID8898662b-f9d1-4ca2-8f5d-7b4be55a092c,completed2026-11-06 03:13:44HKT. The personal Python client verifiescreatori-fengyicheng,codesign,nonpreemptible,pinnedcompanyimage,4H800/24CPU/300000Mi,bothRDMAresources andlocalNFS100.96.128.195:/data/ycfeng:/data/ycfeng. Replicacfcd2084 onH800node0196 exited0/Completed at03:13:42HKT,restart0; platformSucceeded. The bounded32-row platform log containsAGENT_OPD_BENCHMARK_FINISHED withnativeexits[0,0,0,0].
+
+Exact inspection command:`bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_job.py exp-1106-022355-479316 --logs`; personalPython3.10.6/brainpp2.8.6. Exact-root grader/generation JSON confirmsseeds1729–1732,version20,BaseMind,returnedstatus andactualseedverification for allfour. Valid resolved values in seedorder:[true,false,false,true]; verified model-request counts:[66,105,59,73]. This completes one frozen question, not the fullupdatedbenchmark or a learning-gain claim.
+
+The existing consumer can delete this terminal question's rawlogs/trajectories after its exactUID/zeroexit checks; finalHF and minimalgrading/engine/pipeline records remain until alltwentyquestions are complete. The current branch675f8c81 and actual trainingrevision315f1775 differ only in fourtaskMarkdownfiles,verified by `git diff --name-only 315f177551b6e5d7aa59af3d28a304b25273c82e 675f8c81bb5d5a202fc190e56d6c89e69abcf04f`. Training/export/evaluation code did not drift.
+
+
+## Native initialization failures after resumption (2026-11-06 03:33:10 HKT)
+
+in-progress: exact scoped generation receipts identify EnvInitError on updated question1/jobexp-1106-022355-285409,seeds1731/1732,and question13/jobexp-1106-022355-404162,seed1729. The platform jobs still run; no valid grade exists for these attempts. The native environment constructor exhausts three session-creation attempts before raising. RunCheckPipeline.execute records the exception and does not resubmit that instance. Native pipeline exit0 therefore does not establish a valid outcome. Existing healthy seeds and GPU launchers continue. The initiating sandbox error is not yet available because worker-local diagnostic logs are archived after all seed writers finish. No OOM, numerical or model failure is inferred from EnvInitError.
+
+Hypothesis before recovery: a transient sandbox initialization failure may permit a fresh session with the identical BaseMind endpoint/image/resources now. A new same-image session that cannot reach Ready and execute a shell command rules out immediate seed recovery. Run a bounded CPU-host native SessionRouterClient probe for the two affected images; consume its sessions and raw logs after recording selected findings. Do not resubmit any valid or still-running seed. Once exact native failure logs and fresh availability evidence exist, use the already supported --task-index/--seeds path only for stable missing pairs and retain original failure provenance. Full160valid-outcome acceptance is unchanged.
+
+Current verified state: original80/80,updated6/80,grader-invalid0; generation failures are separate from this last count. Personal API:8updatedRunning/11Pending/1Succeeded,32GPUs requested by Running jobs. Original raw-output consumption553files/1437391014bytes; first updated consumption25files/59241182bytes. Consumers and finalizer remain alive. Their four-valid-seeds-per-job assumption must be adjusted to actual partial/recovery receipts before final scoring; it may not hide infrastructure errors or stop healthy workloads.
+
+
+## Native startup probes and bounded recovery decision (2026-11-06 03:45 HKT)
+
+The two fresh same-image native startup probes both failed. Astropy session 8ebf7772-eb57-4b8e-99e8-877cda20ad55 on cpu-0657 took 77.02398 seconds; Django session 87ecbc98-4bf4-4147-9eb1-b65a3f41e735 on cpu-0643 took 77.34121 seconds. Their exact kubelet events report Failed to pull image and context canceled on a manifest HEAD to hub.i.basemind.com for the task image. These are initiating errors of the disposable probes, not yet evidence for the original three failed seeds. Both probes requested native close. Independent GET /session/state at approximately03:45HKT returned HTTP200,phaseSucceeded,readyPorts={} for each exact session; no active probe remains.
+
+The already-running bounded manifest query completed: hub.i.basemind.com Astropy HTTP500/0.541s, Django read timeout/12.203s; hub.stepfun-inc.com Astropy HTTP500/0.492s and Django HTTP500/0.510s. These anonymous-token/manifest observations cannot prove authenticated image availability or identify the original seeds' initiating cause. The current Oncall document A9HwdrClbo7WsexD2Lqc1i0YnFe revision353 describes only October23–27 ACS incidents and provides no current BaseMind explanation. No message was sent.
+
+Decision from the pre-recorded hypothesis: immediate same-image recovery was ruled out by both fresh startup failures. Keep healthy native execution and existing queued jobs. Prepare only the disposable consumer/finalizer correction required by partial source jobs and targeted recovery; do not submit another GPU or change registry/backend/sampling. Exact original diagnostics remain pending while their sibling writers run. Baseline80/80 and updated7/80 remain the measured denominators; grader-invalid0 excludes generation initialization failures.
+
+Probe command: the established native Python3.10.20 with the existing native PYTHONPATH executed /data/ycfeng/tmp/agent-opd-learning-20261105/probe_basemind_init.py. Independent close verification used the mounted personal Python3.10.6 requests client with trust_env=False and exact session IDs; credential headers remained in memory. Raw JSON responses are temporary and consumed after this selected record.
+
+
+## Partial source-job consumption verified (2026-11-06 03:52:40 HKT)
+
+PASS: disposable consumers and the finalizer now derive each native job's question index, model version and requested seeds from its exact existing launch manifest/receipt. Complete source jobs and subset recovery jobs have different requested denominators. Terminal partial source jobs retain every generation receipt, any grading receipt, their exact job UID/container state and selected failure diagnostics; invalid attempts stay missing. The production multi-root summarizer remains unchanged and rejects duplicate valid pairs. Final score/cleanup requires all actual native receipts consumed, every corresponding job plus the unique learner terminal, and exactly80unique valid outcomes per model. No fixed40/41job total remains in the score/cleanup acceptance.
+
+CPU verification command: `PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -` imported the actual temporary benchmark_receipts.py and production summarize_benchmark.py, exercised the actual consume_basemind.py in an isolated temporary filesystem with only its path constants redirected, then removed the complete fixture. PASS: all40current launch manifests map to20original/20updated requests; partial source2valid+2EnvInitError receipts preserve both valid outcomes and both failure excerpts while deleting raw diagnostics/trajectory;78validupdated results keep avg@4=null; existing --seeds1731 1732 targeted recovery produces80validunique results; duplicate valid recovery seed raises ValueError. AST parsingPASS for allfive disposable scripts. These CPU fixture outcomes validate accounting/consumption, not model quality.
+
+An exact cloud read using the new consumer's unchanged remote scanner returned40ownednative roots,80validoriginal,9validupdated and21consumed roots,with no new terminal raw-output batch. Every GPU launcher remained alive while only the two old CPU observer parents3595540/4077855 were stopped after verifying neither had a submission child.19existing submit.py launchers were independently rechecked. The replacement raw consumer is toolsession1036; final-score/cleanup waiter is96862; both are running under the same personal Python environment. Existing native jobs and the followup controller were preserved. No training/evaluation submission or model request was made for this repair.
