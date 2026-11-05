@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
 | 2026-11-06 | Recheck existing benchmark jobs and correct stale current-state descriptions. |
@@ -3637,3 +3638,108 @@ Operator inspection: attempted CPU observer replacement briefly paused only PID 
 1. 两个真实native Ready/shell/关闭检查通过，三个缺失seeds已有唯一恢复请求。
 2. 恢复作业仍Pending，评分尚未齐全；现有launchers和HF必须继续保留。
 3. 更新、导出及重载已经完成；数值残差和H200训练限制仍须如实报告。
+
+
+## Resumed native scoring and diagnostic consumption (2026-11-06T04:55:02.201609+08:00)
+
+The exact current consumer scan at2026-11-06T04:53:07+08:00 returned42ownednative requests,23consumedroots,80validoriginal and20validupdated outcomes. PersonalPythonquery verified eightupdatedRunning andelevenPending,including both existingrecoveryjobs; no duplicate seed recovery was submitted. AllGPUlaunchers,consumer1036andfinalwaiter96862remain alive. HostPython is invoked aspython3; plainpythonis absent. Localfree disk is94GiB.
+
+Completed terminal consumption from the actual selected result file:
+
+```json
+[
+  {
+    "job": "exp-1106-022355-285409",
+    "uid": "403c6c9f-0f42-402f-a117-61a3fd3ca912",
+    "version": 20,
+    "valid_attempts": 2,
+    "removed_files": 21,
+    "removed_bytes": 44411586,
+    "platform_phase": "Succeeded",
+    "container_exits": [
+      0
+    ]
+  },
+  {
+    "job": "exp-1106-022355-501602",
+    "uid": "20b9129e-26b5-426d-a19b-15ca94426a07",
+    "version": 20,
+    "valid_attempts": 4,
+    "removed_files": 25,
+    "removed_bytes": 69232605,
+    "platform_phase": "Succeeded",
+    "container_exits": [
+      0
+    ]
+  }
+]
+```
+
+The Astropy source failures retainEnvInitError and the exhausted-three-session-attempt wrapper only. Their initiating cause remainsUNKNOWN; the alreadyconsumeddiagnostic cannot be reconstructed or attributed to the independentimagepullprobe. The temporaryconsume_basemind.py now stripsANSIand retains up tofourinitiatinglines plus the lasttwoEnvInitErrorwrappers. The actualASTfragment passed the in-memory case in which animagepullcause is followed by twelvewrappers. No fixturefiles,modelrequests orGPUsubmissions were created. Futureconsumerworkers read thisscript without restarting the healthycontroller.
+
+New incomplete grader observation: exactupdatedjobexp-1106-022355-241310,questionindex5(django__django-11087),seed1732,version20returned gradinginvalid/FileNotFoundError at2026-11-06T04:51:11+08:00; nativepipeline-exits and archiveddiagnostics are not yet present. This attempt remainsmissing,not an unresolvedmodelscore. Existing recoveryrequests cover only the otherthreeEnvInitErrorpairs.
+
+Diagnostic hypothesis before the next archive inspection: inspectedRunCheckPipeline._prepare_check_request can returnno_trajectory,bad_trajectory orno_patch without writingcheck_results; the currentrecordingadapter then callsoutcome unconditionally and can raiseFileNotFoundError. The0.0072secondgradingduration is compatible with this route but does not identify whichartifactwasabsent or whether the source problem wasagent,infrastructure orI/O. Inspect only the exactcompletedseeddiagnostic/trajectorymetadata when available; avalidexistingpatch may be gradedagain withoutanothermodelgeneration. Do notconvert anunknownfailure into a binaryscore orrepeathealthysiblingseeds.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 10｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与约束 | PASS | agent-opd与个人origin已核验 |
+| 初始2：模型资产 | PASS | 22文件完整校验已归档 |
+| 初始3：glm5.2信号与配置 | PASS | tokens、thinking、正文、tools和R3已验证 |
+| 初始4：16H800两步warmup | PASS | 原生检查及平台终态通过 |
+| 初始5：初始清理与同步 | PASS | 初始测试产物已删除、远端SHA已核验 |
+| 学习1：冻结20题与80turns | PASS | 成员和训练排除证据已归档 |
+| 学习2：20次更新与HF | PASS | 唯一learner成功、完整导出及实际重载 |
+| 学习3：原生SWE evaluator | PASS | baseline和updated真实执行已验证 |
+| 学习4：original80 | PASS | 80有效、50resolved，avg@4为0.625 |
+| 学习4：updated80 | TODO | 04:53HKT仍为20有效，现有作业继续 |
+| 学习4：失败诊断、恢复和消费 | TODO | 原3seeds已有唯一恢复；新1份graderinvalid待精确诊断 |
+| 学习5：配对结果、清理和同步 | TODO | 依赖160有效结果和全部终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新及清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06 04:39HKT至2026-11-06T04:55:50.211992+08:00｜**当前前沿：** updated评分、三个已提交的恢复seeds、新invalid的精确诊断和逐作业消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 诊断提取修正直接保留失败起因，通过后未扩展工具 |
+| D2 细节反复重试 | CLEAR | 两个唯一恢复仍Pending；新grader缺失先读原生代码、记录可证伪假设 |
+| D3 支线问题修补 | CLEAR | 所有检查服务学习4的完整有效分母 |
+| D4 可并行任务停滞 | CLEAR | 8Running、11Pending、恢复和消费者并行，全部launcher保留 |
+| D5 超范围镀金 | CLEAR | 模型、bank、sampling、grader及资源保持原配置 |
+| D6 分析空转 | CLEAR | 新检查定位了额外缺失pair；其余真实评分持续推进 |
+| D7 路线违背 | CLEAR | 保留每份有效或active结果，未重复提交、未将invalid计作模型失败 |
+
+**文档检查：** S1–S6均未发现明显缺陷；当前失败诊断与恢复由学习4拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：既有updated评分 ‖ 两个唯一恢复；完成标志是80唯一有效updated结果。
+2. 精确invalid诊断：读取question5/seed1732终态后的原生错误及artifactmetadata；已有合法patch则仅重评，其他缺失仅按实际起因恢复。
+3. 持续消费终态原始文件；160有效后报告avg@4、配对差值及questionbootstrap，再精确清理和正常push。
+
+## 4. 最值得关注的 3 点
+
+1. 20更新、完整HF及实际重载已完成，无需再次训练。
+2. 原3个缺失seeds与新graderinvalid分开处理，80有效分母尚未完成。
+3. 健康GPUlauncher、HF和评分必要receipts须保留到验收；已消费原始大文件及时删除。
+
+
+## Native invalid-grader diagnostic hold (2026-11-06T04:57:43.992709+08:00)
+
+The exactquestion5sourceUIDis`b95c90fa-17b8-4429-9f16-b26336399418`. A disposablelocalhold in`/data/ycfeng/tmp/agent-opd-learning-20261105/native-diagnostic-holds.json` keeps only`exp-1106-022355-241310` out ofterminalrawconsumption until itsFileNotFoundErrorisdiagnosed. Theactualreadinesspredicate wasCPUevaluated: aheldterminalrowisexcluded while anunheldterminalsiblingremainsready; releasingthehold restoresboth. ASTparsePASS; nofixtureorGPUcreated.
+
+The oldconsumerCPUparent2741383waspausedonlyafteranexactcommandcheck; actualpsparentIDsconfirmednochildrenbothbeforeandafterthepause. Itwasthenreplacedbyconsumer toolsession38943. NoGPUlauncher,followupcontroller,recoverycontrollerorfinalwaiterwasstopped. Subsequent scansreadtheholdfileeachtime,so releasingthediagnosisholdrequiresnorestart. Healthyterminaljobscontinueconsumption. Onlytheexactneededtrajectory/diagnosticsaretemporarilyretained; currentlocaldisksafetyremains94GiBfree.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
 | 2026-11-06 | Record bounded sandbox startup failures, terminal probe closure and partial-job recovery requirements. |
 | 2026-11-06 | Verify all existing evaluation submissions and preserve final-score prerequisites. |
@@ -667,3 +668,94 @@ Personal Python API verification at 2026-11-06T04:35:58+08:00 confirmed creator 
 The separate metadata-only authorization read observed an explicit repository pull grant. Inspected native grader code creates fresh same-image sessions with IfNotPresent; its node group is `sessionrouter`, while the actual generation node group is empty. The native Config-only read verified both exact images, generation node group, 2 CPU/8 Gi resource fields and port 24772 without creating a session. These observations do not establish availability for every pool. Both actual generation probes subsequently passed through the existing controller; the qualified implementation remains unchanged.
 
 Operator inspection: attempted CPU observer replacement briefly paused only PID 2989056. The proc children file was unavailable, so termination was not issued. The observer was immediately resumed. Process-parent inspection revealed GPU launchers 3169421 and 3169425; both were preserved, and their actual RJobs were verified as above. No RJob stop request or GPU launcher termination occurred. Future CPU observer replacement must inspect actual process-parent IDs and resume the observer on an inspection error.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-285409`, UID `403c6c9f-0f42-402f-a117-61a3fd3ca912`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 2. Failed attempts remain missing and never become model failures. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "astropy__astropy-13398",
+    "seed": 1731,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise EnvInitError() from e",
+      "          \u2514 <class 'swe_agents.core.exceptions.EnvInitError'>",
+      "swe_agents.core.exceptions.EnvInitError",
+      "    \u2514 <Future at 0x7f471d5b7c70 state=finished raised EnvInitError>",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  },
+  {
+    "task_id": "astropy__astropy-13398",
+    "seed": 1732,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise EnvInitError() from e",
+      "          \u2514 <class 'swe_agents.core.exceptions.EnvInitError'>",
+      "swe_agents.core.exceptions.EnvInitError",
+      "    \u2514 <Future at 0x7f0b54f00b20 state=finished raised EnvInitError>",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  }
+]
+```
+
+
+## Resumed native scoring and diagnostic consumption (2026-11-06T04:55:02.201609+08:00)
+
+The exact current consumer scan at2026-11-06T04:53:07+08:00 returned42ownednative requests,23consumedroots,80validoriginal and20validupdated outcomes. PersonalPythonquery verified eightupdatedRunning andelevenPending,including both existingrecoveryjobs; no duplicate seed recovery was submitted. AllGPUlaunchers,consumer1036andfinalwaiter96862remain alive. HostPython is invoked aspython3; plainpythonis absent. Localfree disk is94GiB.
+
+Completed terminal consumption from the actual selected result file:
+
+```json
+[
+  {
+    "job": "exp-1106-022355-285409",
+    "uid": "403c6c9f-0f42-402f-a117-61a3fd3ca912",
+    "version": 20,
+    "valid_attempts": 2,
+    "removed_files": 21,
+    "removed_bytes": 44411586,
+    "platform_phase": "Succeeded",
+    "container_exits": [
+      0
+    ]
+  },
+  {
+    "job": "exp-1106-022355-501602",
+    "uid": "20b9129e-26b5-426d-a19b-15ca94426a07",
+    "version": 20,
+    "valid_attempts": 4,
+    "removed_files": 25,
+    "removed_bytes": 69232605,
+    "platform_phase": "Succeeded",
+    "container_exits": [
+      0
+    ]
+  }
+]
+```
+
+The Astropy source failures retainEnvInitError and the exhausted-three-session-attempt wrapper only. Their initiating cause remainsUNKNOWN; the alreadyconsumeddiagnostic cannot be reconstructed or attributed to the independentimagepullprobe. The temporaryconsume_basemind.py now stripsANSIand retains up tofourinitiatinglines plus the lasttwoEnvInitErrorwrappers. The actualASTfragment passed the in-memory case in which animagepullcause is followed by twelvewrappers. No fixturefiles,modelrequests orGPUsubmissions were created. Futureconsumerworkers read thisscript without restarting the healthycontroller.
+
+New incomplete grader observation: exactupdatedjobexp-1106-022355-241310,questionindex5(django__django-11087),seed1732,version20returned gradinginvalid/FileNotFoundError at2026-11-06T04:51:11+08:00; nativepipeline-exits and archiveddiagnostics are not yet present. This attempt remainsmissing,not an unresolvedmodelscore. Existing recoveryrequests cover only the otherthreeEnvInitErrorpairs.
+
+Diagnostic hypothesis before the next archive inspection: inspectedRunCheckPipeline._prepare_check_request can returnno_trajectory,bad_trajectory orno_patch without writingcheck_results; the currentrecordingadapter then callsoutcome unconditionally and can raiseFileNotFoundError. The0.0072secondgradingduration is compatible with this route but does not identify whichartifactwasabsent or whether the source problem wasagent,infrastructure orI/O. Inspect only the exactcompletedseeddiagnostic/trajectorymetadata when available; avalidexistingpatch may be gradedagain withoutanothermodelgeneration. Do notconvert anunknownfailure into a binaryscore orrepeathealthysiblingseeds.
+
+
+## Native invalid-grader diagnostic hold (2026-11-06T04:57:43.992709+08:00)
+
+The exactquestion5sourceUIDis`b95c90fa-17b8-4429-9f16-b26336399418`. A disposablelocalhold in`/data/ycfeng/tmp/agent-opd-learning-20261105/native-diagnostic-holds.json` keeps only`exp-1106-022355-241310` out ofterminalrawconsumption until itsFileNotFoundErrorisdiagnosed. Theactualreadinesspredicate wasCPUevaluated: aheldterminalrowisexcluded while anunheldterminalsiblingremainsready; releasingthehold restoresboth. ASTparsePASS; nofixtureorGPUcreated.
+
+The oldconsumerCPUparent2741383waspausedonlyafteranexactcommandcheck; actualpsparentIDsconfirmednochildrenbothbeforeandafterthepause. Itwasthenreplacedbyconsumer toolsession38943. NoGPUlauncher,followupcontroller,recoverycontrollerorfinalwaiterwasstopped. Subsequent scansreadtheholdfileeachtime,so releasingthediagnosisholdrequiresnorestart. Healthyterminaljobscontinueconsumption. Onlytheexactneededtrajectory/diagnosticsaretemporarilyretained; currentlocaldisksafetyremains94GiBfree.
