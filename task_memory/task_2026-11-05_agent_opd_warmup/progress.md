@@ -2906,3 +2906,77 @@ The standard collector ran through personal_exec.sh with exactjob/replica,expect
 1. 当前训练仍受完整节点调度限制，未额外提交训练副本。
 2. 第10题四个结果有效，但完成后的exit1原因仍未知，不能宣称平台成功。
 3.51/80仅是原始模型部分结果，无法证明update20学习效果。
+
+
+00:08 HKT: native counts53/80original,0/80updated,invalid0. Documentation commit936e6a9a910424a7db0ecfcdc0cbdcd3817ac316 is local. Two ordinary pushes returned remote fatal error in commit_refs_rules. Independent ls-remote and branch API agree on remote9eb5443608eab024ad0a80bdc7e094b50ff85561; branch API reports protected=false. No remote rule or authentication cause is established. No history rewrite,force push or rule change was attempted; synchronization remains unfinished while GPU work continues.
+
+
+00:13 HKT: corrected local-log job974424 returned its first valid resolved result,django__django-14053/seed1730. Generation isreturned/seed-verified with83engine requests; native trajectory records83assistant/thinking turns,7body turns,51bash calls,30editor calls,2submit calls and83tool responses. Cloudroot haszeroactive.log files. This verifies one complete native attempt through the corrected path; full four-seed completion/archive is stillpending. Original count55/80,updated0/80.
+
+
+00:21 HKT: GitHub read-only diagnosis returned no applicable branch rules,repositoryarchived=false/disabled=false and personalpushpermission=true. This does not explain the commit_refs_rules push rejection; root cause remainsUNKNOWN and no remote rule was changed. Native counts58/80original,0/80updated. The learner remains queued; no duplicate training submission was made.
+
+
+00:25 HKT: original question13/job221952-475586,UIDcc100e4f-2d78-40cb-b5e3-735ed802ad9c,node0401,completed all four valid native results and zero pipeline exits. Containerexit0/Completed at2026-11-05T16:23:08Z,platformSucceeded16:23:10Z. The consumer removed28files/178,215,789bytes;12complete original jobs have been consumed. Archive files were already deleted before the follow-up read, so this observation alone does not independently verify the new local-log archive path. Original59/80,updated0/80. Learner224939 is nowStarting, but both replicas have no assigned node andPodScheduled=False/Unschedulable. Returned co-scheduling text includes resource gap map[] member gap1 andassigned0; no training runtime/head receipt exists. Do not equateStarting with actual execution. Consumed the three inspected platform logs.
+
+
+00:28 HKT: original question5/job624375,UIDa823ef8c-b8f7-4b87-8b82-cf2dc7b57363,replicaUID268e39ea-ed4c-42e8-8ab7-bbc91db9be7a,node0074,has four native returned/seed-verified/unresolved django__django-11087 outcomes,seeds1729–1732. Generation/grading identities andBaseMind backend match; pipeline exits[0,0,0,0]. ContainerError exit1 at2026-11-05T16:25:56Z,platformFailed16:25:58Z. Returned traceback names oldloadedsource ac8cb05c:rjob_benchmark.py:268,serverlogclose OSErrorErrno5. CurrentNFSsource text in the traceback is not the loaded source. Exact incident registered for consumption,retaining actualFailed and all four model failures.
+
+StandardRCA via personal_exec.sh used the exactjob/replica,expectedcreator i-fengyicheng,window2026-11-05T16:23:00Z–16:29:00Z,timeout15,Python3.10.6/brainpp2.8.6. Objects/live+historicalEvents/incidentlogs/existingDeepScan returned; both audit queries timedout15s andcollector exited1 for those unavailable reads. ExistingDeepScancount0. Critical-taskfailed stopTimestamp16:25:58Z follows the application exit. Underlying storage cause and manual-stop actor/reason/time remainUNKNOWN; no returned evidence establishesOOM orpreemption. RawRCA and inspectedlogs were removed after recording these conclusions. Original60/80,updated0/80; no additional GPU job was submitted.
+
+
+## Real completion of the worker-local log path
+
+At00:34HKT, correctedjob exp-1105-223249-974424/UID507effe6-9a84-45f6-84ac-78c6229a01da,node0044,has four valid native results and pipelineexits[0,0,0,0]. Containerexit0/Completed at2026-11-05T16:33:01Z,no restarts; platformSucceeded16:33:02Z. Personalcreator,codesign,currentlocalNFS and pinnedimage were reverified. Earlier live inspection established zero active cloudroot logs and worker-local log placement. The completion path archives after writers exit and propagates archive failures; this real successful exit verifies that path completed. The subsequent cloudread foundconsumed=true,diagnosticsdirectorypresent,rootlogsabsent. Archive files had already been consumed; no claim is made of rereading their complete contents after deletion.
+
+The native consumer independently verified all four result identities,engineidentity andterminalstate,then deleted28files/84,290,396bytes. Fourteen completed jobs have removed943,078,113bytes in total. The corrected log path no longer remains unverified for end-to-end execution; no additional logging probe or GPU rerun is required. The incomplete mainline remains unique20-update training/export/reload and complete80+80nativegrading. Currentoriginal61/80,updated0/80; learnerStarting with no node/headreceipt at last query.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS4｜BLOCKED/FAILED/SKIPPED2｜TODO1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和原始预热 | PASS | 已有真实验证 |
+| 冻结输入和CPU准备 | PASS | 固定80turns、20题与4seeds |
+| Frog/Qwen有限验证 | PASS | 两次正常更新且产物已删除 |
+| HF保存及评测日志资格验证 | PASS | 实际完整导出已通过；新日志路径四seed正常完成 |
+|20步导出及重载 | BLOCKED | 唯一训练Starting但两个replica均无节点 |
+| 两组完整评测 | TODO | 原始61/80，更新0/80 |
+| 最终评分、清理和同步 | BLOCKED | 完整评分未就绪，普通GitHub推送被远端拒绝 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：**00:05至00:34HKT｜**当前前沿：**训练调度、原始评测与产物消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 新路径真实完成后停止追加日志测试 |
+| D2 细节反复重试 | CLEAR | 新旧失败各自核验，没有重跑有效seed；推送两次失败后暂停重复尝试 |
+| D3 支线问题修补 | CLEAR | 远端只读检查直接服务于用户要求的分支同步 |
+| D4 可并行任务停滞 | CLEAR | 原始评测继续；训练受实测联合调度条件限制 |
+| D5 超范围镀金 | CLEAR | 无模型、题库、拓扑、参数或代码扩展 |
+| D6 分析空转 | CLEAR | 完成新日志路径验证并消费14个作业的原始输出 |
+| D7 路线违背 | CLEAR | 保持16H800、20次更新、80+80有效分母 |
+
+**文档检查：** S1–S6无新明显缺陷。Starting未被记为实际训练，GitHub失败已记录为待同步。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 保持唯一训练launcher，等待真实节点分配后验收20次正常更新、完整导出与重载。
+2. 并行完成剩余原始评测并消费产物；head就绪后恢复原定三题。
+3. 完成更新80份评分后统计并清理；在下个实际交付点重试普通同步并核对远端。
+
+## 4. 最值得关注的 3 点
+
+1. 新日志路径已在真实四seed作业正常结束，不再是未验证修复。
+2. 训练Starting仍无节点，不代表已执行任何更新。
+3. 本地记录已提交但最新普通推送失败，最终同步仍需验证。
