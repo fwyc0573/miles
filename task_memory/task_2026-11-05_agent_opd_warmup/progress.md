@@ -3205,3 +3205,75 @@ Raw training consumer `exp-1106-015804-529579` Succeeded; its existing continuat
 1. 真实20次更新、完整HF和实际update20重载已完成。
 2. 两个评分分母仍未齐全，不能给出学习效果结论。
 3. rank1内存曾接近上限；数值残差和H200训练验证仍有明确边界。
+
+02:07 HKT: the completed training/HF/reload milestone was normally committed and pushed as4fe8e0d3e5b9c19e7e26fb7808d5fbb5397dc086; independentgitls-remote matches. Removed the consumed1975byte updated-platform log. The training-only read-onlyobserver watch.py/PID752715 had already exited when checked after native success and rawtraining consumption; its deleted event files cannot be used for current update counts. Nativevalidation.md remains the completion source. All active benchmark launchers, followup, consumer and finalizer remain alive.
+
+
+02:10 HKT resource-ordering continuation: exact personal batch inspection returned only three Running task jobs: originals005024-026007/046594 and updated015719-434508, each four GPUs, total12GPU requests. Training224939 is Succeeded. The previous twelve-child followup limit is no longer needed to reserve the completed learner's nodes. The same disposable followup controller now has20child slots; its unchanged first-valid-native-result gate will submit the remaining nineteen updated questions. With two originals plus all twenty updated questions, the upper bound is88requested GPUs, within the recorded96GPU task cap and128GPU quota. Question membership, seeds, native grader, worker memory, model/precision/topology and failure handling remain unchanged.
+
+AST parsing of the one-literal controller edit passed. Only the CPU followup controller PID3932638 received SIGTERM; the independently running Python GPU launchers723005/723007/1509710 were individually reverified alive and retain their exact receipts. The replacement uses the same script and receipt deduplication; no GPU job was stopped or resubmitted. No queued updated followup existed at replacement preparation.
+
+02:12 HKT: all80same-studentprefill records independently have matchingtokens/versions and training_logprobs_replaced=false. Weighteddecode/prefillabsolute mean0.0294098255,max1.3018279076;trainer/prefillmean0.0301890230,max1.2136869431;trainer/decode mean0.0247716117,max0.9885630608. The learning report records the three comparisons. These are aggregates of the existing validation receipt; no GPU request was added. Numerical equality is not claimed.
+
+
+02:23 HKT mainline correction: waiting for the first updated question's full native grader unnecessarily serialized nineteen independent questions. The shared native BaseMind backend already has77valid original outcomes; native training/inspection Succeeded and the actual first server has the exact exported HF/version20. These observations satisfy submission prerequisites without making another question's grader output an input. The existing first grader remains required within the final80-result updated denominator and is monitored in parallel. This changes an internal execution edge only; question membership,seeds,worker shape,sampling,grader,final numerical claims and160validoutcome acceptance are unchanged.
+
+The same disposable followup controller now propagates selected engine model_path/weight_version from the existing canonical cloud receipt and admits updated followups only when they match native training.final_hf/version20. AST parsing passed. Only its CPU parent was frozen briefly and terminated after verifying there were no pending updated manifests/receipts or child submitters. The existing GPU launchers723005/1509710 were individually preserved alive. The replacement will submit the remaining nineteen questions once; existing receipts still prevent duplicates. Maximum remaining task request is84H800GPUs, below96. Healthy first-question/original native execution and the consumer/finalizer continue.
+
+
+2026-11-06 02:28 HKT: all nineteen unchanged updated followup questions have unique actual RJob receipts. Personal API independently verified creator i-fengyicheng,codesign,current-local NFS100.96.128.195:/data/ycfeng:/data/ycfeng and one4GPUreplica for each. New-job phases={'Pending': 17, 'Running': 1, 'Starting': 1}. Actual current task native allocation is three Running four-GPU jobs at this snapshot,12requested GPUs in Running jobs; Pending/Starting requests are separate and are not hardware-utilization evidence. The original and first updated launchers remain alive. No updated attempt was duplicated.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 6｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 分支、资产和初始预热 | PASS | 已有实测、清理和个人同步 |
+| 冻结输入和 CPU 准备 | PASS | 80turns、20题与四seeds保持 |
+| Frog/Qwen 有限验证 | PASS | 两次真实正常更新，产物已消费 |
+| HF 保存及本地日志资格验证 | PASS | 完整短程保存及四seed收尾通过 |
+| 本轮20次正常更新 | PASS | 20个正常更新与非零有限梯度 |
+| 本轮完整HF及实际重载 | PASS | native检查exit0，实际server路径/版本20 |
+| 两组完整benchmark | TODO | 原始77/80；全部20个updated题作业已提交，评分待齐 |
+| 最终统计、清理及同步 | TODO | 两个完整分母仍是前置条件 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中 D4；当前依赖已修正并实际提交。
+**检测窗口：** November6 02:10 HKT 至 2026-11-06 02:28 HKT｜**当前前沿：** 原始剩余评分、全部updated评分及终态消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 复用调度器和真实回执，只补齐三种数值对照及必要提交 |
+| D2 细节反复重试 | CLEAR | 无重复训练、有效seed重跑或参数试错 |
+| D3 支线问题修补 | CLEAR | 仅处理实际评分、并发和结果消费 |
+| D4 可并行任务停滞 | HIT | 真实HF/重载与77份同后端原始结果已有；19个独立updated题仍等待首题完整grader，无数据依赖 |
+| D5 超范围镀金 | CLEAR | 模型、题库、seeds、worker规格与最终验收保持 |
+| D6 分析空转 | CLEAR | 识别错误依赖后直接修正并提交19个实际作业 |
+| D7 路线违背 | CLEAR | 修改内部依赖前更新当前计划并说明，完整160结果验收不变 |
+
+**文档检查：** S1：plan.md“Native sandbox prerequisite”中的首题完整grader依赖已在当前阶段失去必要性；共享native后端已有77份有效原始结果，update20完整导出/实际加载已通过。末尾当前并发规则已更新为独立提交，首题评分并行监测。S2–S6无新缺陷。
+**归因：** D4 由 S1 导致；按旧依赖执行会继续等待独立题目。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在缺陷，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md当前并发依赖：实际HF/native检查/重载及已验证共同native后端允许独立updated题提交；首题grader保留为最终验收，不阻塞其他题（可直接执行，已完成；题目、资源上限与最终验收未改变）。
+
+**需停止的偏离行为：**
+- D4：停止用一题的完整grader串行约束其他19题；改为实际重载之后并行评分，已执行。
+
+**接下去的路线：**
+1. 并行保持20个updated题与剩余original题的原生执行和个人launcher → 完成标志：每个模型80份有效native评分。
+2. 各终态作业通过既有消费者及时删除原始输出 → 完成标志：40个完整题作业已消费，最终HF仅保留到评分结束。
+3. 执行既有配对统计、精确任务根清理与正常同步 → 完成标志：完整Markdown结论、云端/本地产物不存在、远端SHA一致。
+
+## 4. 最值得关注的 3 点
+
+1. 19个原本等待的updated题已各提交一次；新作业实际阶段包括排队，不能称全部运行。
+2. 最终仍需完整80+80有效评分；当前结果不足以说明学习增益。
+3. GPU请求最多84，低于96；保持所有个人launchers与非阻塞观察，避免损失健康评测。

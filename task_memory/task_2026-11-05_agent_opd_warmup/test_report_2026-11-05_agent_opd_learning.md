@@ -508,3 +508,26 @@ Both memory receipts have zero OOM-counter growth. Maximum sampled usage was2252
 Exact platform inspections: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_job.py exp-1105-224939-805330` and the same command for `exp-1106-015719-434508 --logs`. Personal Python3.10.6/brainpp2.8.6; actual workers Python3.12.16/Torch2.14.1+cu130/Transformers5.19.0/Ray2.58.1/SGLang0.5.24.dev80+g056f871. Scoped cloud metadata was read through bounded SSH/python3 from the exact corresponding personal job root. These reads created no inference request or GPU allocation.
 
 Raw training consumer `exp-1106-015804-529579` Succeeded; its existing continuation reported197files/5769346275bytes removed, retaining only the HF needed by updated evaluation. Completed original question17/job005024-029909, UID89e424d2-8c67-4ff6-b675-855d74872e71, separately Succeeded with four zero native pipeline exits and four valid results. Its consumer removed27files/79147974bytes. Current counts: original76/80, updated0/80, invalid0. No valid seed or training job was repeated.
+
+
+02:10 HKT resource-ordering continuation: exact personal batch inspection returned only three Running task jobs: originals005024-026007/046594 and updated015719-434508, each four GPUs, total12GPU requests. Training224939 is Succeeded. The previous twelve-child followup limit is no longer needed to reserve the completed learner's nodes. The same disposable followup controller now has20child slots; its unchanged first-valid-native-result gate will submit the remaining nineteen updated questions. With two originals plus all twenty updated questions, the upper bound is88requested GPUs, within the recorded96GPU task cap and128GPU quota. Question membership, seeds, native grader, worker memory, model/precision/topology and failure handling remain unchanged.
+
+AST parsing of the one-literal controller edit passed. Only the CPU followup controller PID3932638 received SIGTERM; the independently running Python GPU launchers723005/723007/1509710 were individually reverified alive and retain their exact receipts. The replacement uses the same script and receipt deduplication; no GPU job was stopped or resubmitted. No queued updated followup existed at replacement preparation.
+
+
+## Full same-student decode, prefill and trainer comparison
+
+All eighty independent prefill measurements used matching token IDs and policy versions. `training_logprobs_replaced` was false throughout: diagnostic scoring did not overwrite native training logprobs. Aggregation weights each absolute mean by its actual scored-token count; maxima are the maximum observed token differences. No calibrated numerical-parity threshold is available.
+
+| Same-student comparison | Scored tokens | Weighted mean absolute logprob difference | Maximum absolute logprob difference |
+| --- | ---: | ---: | ---: |
+| Student decode vs independent prefill | 22887 | 0.0294098255 | 1.3018279076 |
+| Student trainer vs independent prefill | 22887 | 0.0301890230 | 1.2136869431 |
+| Student trainer vs decode | 22887 | 0.0247716117 | 0.9885630608 |
+
+Observation: all three comparisons retain nonzero residuals. Exact source/token/R3/version checks and TIS bounds do not prove numerical equality. The prefill comparison is diagnostic and is not the loss path. No further model request, training run or GPU allocation was made for this aggregation.
+
+
+02:23 HKT mainline correction: waiting for the first updated question's full native grader unnecessarily serialized nineteen independent questions. The shared native BaseMind backend already has77valid original outcomes; native training/inspection Succeeded and the actual first server has the exact exported HF/version20. These observations satisfy submission prerequisites without making another question's grader output an input. The existing first grader remains required within the final80-result updated denominator and is monitored in parallel. This changes an internal execution edge only; question membership,seeds,worker shape,sampling,grader,final numerical claims and160validoutcome acceptance are unchanged.
+
+The same disposable followup controller now propagates selected engine model_path/weight_version from the existing canonical cloud receipt and admits updated followups only when they match native training.final_hf/version20. AST parsing passed. Only its CPU parent was frozen briefly and terminated after verifying there were no pending updated manifests/receipts or child submitters. The existing GPU launchers723005/1509710 were individually preserved alive. The replacement will submit the remaining nineteen questions once; existing receipts still prevent duplicates. Maximum remaining task request is84H800GPUs, below96. Healthy first-question/original native execution and the consumer/finalizer continue.
