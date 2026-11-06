@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record C readiness timeout, continuous loading progress, exact cleanup chronology and per-pair startup wait verification. |
 | 2026-11-07 | Confirm repaired Ray startup on eight H800 GPUs and retain the distinct zero-update scheduler initialization failure and its exact RCA. |
 | 2026-11-07 | Verify actual 27B teacher readiness, diagnose the 133-byte Ray socket failure, and validate the one-boundary local-root fix with 58 CPU checks. |
 | 2026-11-07 | Record ineffective per-task correction, identify admission mutation with non-persisting server dry-runs, and validate all-single-node A/B configuration. |
@@ -366,3 +367,90 @@ Source `4a1364ca` was committed after the58 passing checks. Invocation from the 
 [A actual admission](evidence/platform-exp-1107-041127-564012.json) and [B actual admission](evidence/platform-exp-1107-041127-467864.json) pass personal identity, current-machine NFS source, pinned digest image,8+2 H800 resources, host-network shape, gang-group and no ConfigMap dependency. Both are Pending, with queue remaining H800=8. The read-only inspector first indexed the optional `hostNetwork` field and raised KeyError where native Kubernetes omits false; reading its documented false default completed the check without changing a job. Source/mount/resource admission is **PASS**; repaired native model scoring is **UNVERIFIED**.
 
 Document link validation passed59 local references after its first naive regex mistook fenced Python subscription/call syntax for a Markdown link; the corrected check excludes code. These auxiliary inspection errors did not propagate into any workload.
+
+## C readiness deadline expired during progressing weight loading
+
+The original C job `exp-1107-005818-919546` failed at 04:21 local. Its [student result](evidence/native-prerequisites/exp-1107-005818-919546/C/student-finished.json) records `TimeoutError: RJob rendezvous did not publish .../teacher-ready.json`, with no student subprocess return code. The student log is absent because `_run_student` opens it only after readiness; this was confirmed after the first bounded remote inspection encountered that missing path. No student generation, score or update occurred.
+
+Both [teacher status 0](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-status-0.json) and [status 1](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-status-1.json) report a live child before cleanup (`returncode=null`), followed by wrapper `SystemExit:143` and child shutdown return code -15. [Teacher tail 0](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-tail-0.log) retains continuous progress from 0 to 19/94 shards in 18:09 elapsed; [tail 1](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-tail-1.log) shows other TP ranks loading without a returned exception. These observations establish a readiness deadline failure while loading was progressing, not full teacher readiness or a measured total loading time.
+
+### Exact chronology and query coverage
+
+[Bound objects](evidence/c-readiness-rca-objects-20261107.json) identify the same personal RJob UID `7d7c069f-f0a2-47f5-85db-34da52395b1b`, student replica UID `b64ef802-0055-4bdb-9836-df33ba615ada`, node gpu-h800-0210 and pinned image:
+
+| Observation | UTC |
+| --- | --- |
+| Student container starts | 19:50:50 |
+| All teacher TP ranks log weight-load begin | 20:02:16 |
+| Student exits 1 after readiness timeout | 20:21:08 |
+| System-stop timestamp; both teacher pods deleted | 20:21:09 |
+| Teacher replicas close | 20:21:10 |
+| RJob Failed | 20:21:15 |
+| Local launcher cleanup | 20:21:15.688 |
+
+The student clock starts in `_run_student` after its initialization; the container-to-loading interval of 686 seconds is a conservative observed allowance, not an exact timer-start measurement. Tqdm provides elapsed loading times, not individual absolute timestamps.
+
+All eight [queries](evidence/c-readiness-rca-index-20261107.json) succeeded. [Selected events/audits/progress](evidence/c-readiness-rca-summary-20261107.json): live job/replica events 4/0, historical 16/0, all-operation audits 49/1, existing DeepScan 0, incident-log rows 1. Pagination completed for event/audit/flow queries. All 50 audit data fields were empty; retained text was checked against personal credential values. Returned coverage contains no positive initiating OOM/preemption evidence. There is no C kernel memory time series here; absent manual-stop actor/reason/request time remain UNKNOWN. Teacher deletion and launcher cleanup followed the application timeout.
+
+With the documented personal proxy initialized, Python 3.10.6/brainpp 2.8.6:
+
+```bash
+PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+/data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+exp-1107-005818-919546 --replica exp-1107-005818-919546-student-cfcd2084 \
+--expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+--start 2026-11-06T20:19:30Z --end 2026-11-06T20:21:30Z --timeout 35 \
+--output /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-readiness-exp-1107-005818-919546
+```
+
+Original full teacher logs remain at `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/teacher/C/exp-1107-005818-919546/rank-{0,1}.log`; read-only SSH accessed their `/mnt/ws-jfs/ycfeng/...` equivalents with bounded 18KB tails. Local copies retain only the already-created selected 8KB worker tails. [Subsequent platform check](evidence/platform-after-c-readiness-failure-20261107.json) confirms C student Failed and both teachers Stopped; A/B are independently Pending with no replicas.
+
+### Measured wait-policy correction and CPU verification
+
+Hypothesis: a common 1,800-second startup wait cannot cover this full teacher's observed load plus staggered container startup. A fake-clock run that still expires at 1,800 seconds despite selecting C's longer configured wait would disprove the correction. The actual loops are retained, with GPU/process/HTTP boundaries simulated.
+
+The observed first 19 shards take 1,089 seconds, giving an average-rate projection of 5,387.68 seconds for 94 shards. The slowest observed shard interval is 79 seconds; `94*79+686=8,112` seconds includes observed container startup but excludes final service warmup. C therefore receives a bounded **9,000-second (2.5-hour) startup wait** for the next full-load probe. This is an estimate from partial progress, not a measured full-loading bound or a guarantee. A/B retain 1,800 seconds. No automatic extension or readiness bypass was added.
+
+`qwen35_pair_worker._load_config` moves the selected pair's required timeout into the existing shared runtime config once. The JSON removes the former common input and owns one value under each pair. Existing waits, native child-error propagation, `/health` and exact `/model_info` identity checks remain authoritative. [Actual config validation](evidence/c-startup-config-check-20261107.json) resolves 1800/1800/9000 and confirms all other model/resource/workload fields equal the committed configuration.
+
+| Check | Expected | Actual |
+| --- | --- | --- |
+| Regression before correction | C still expires under the old shared wait | 4 failed / 3 passed — red |
+| Same selection after correction | Late readiness accepted only after health/identity; timeout and native error still propagate | 7 passed, 0.66s |
+| Owner combined run without reference Megatron path | Available tests pass; native fixture dependency reported | 70 passed / 12 skipped, 9.66s |
+| Parent combined run with existing read-only reference path | All affected checks execute | **82 passed, no skips, 10.73s** |
+| Actual JSON, role shapes and workload comparison | Only timeout ownership/C value changes | PASS |
+
+Python 3.12.13; exact complete command:
+
+```bash
+MEGATRON_PATH=/data/ycfeng/envs/verl-agent-opd-megatron-sglang/lib/python3.12/site-packages \
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 \
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest \
+tests/fast/test_qwen35_pair_worker.py tests/fast/test_qwen35_opd_launcher.py \
+-q -p no:cacheprovider \
+--basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-startup-final-$(date +%s)-$$ --tb=short \
+2>&1 | tee /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-startup-final-20261107.log
+```
+
+Readiness at simulated second 8,112 precedes student launch; no readiness by second 9,000 fails. A native teacher error code 23 propagates at simulated second 1,000. These tests establish wait semantics only. Actual full teacher loading, scoring, training capacity and D8 numerical qualification remain **UNVERIFIED**.
+
+### Submitter integration closure
+
+Parent's real CLI check with the changed C JSON reproduced `TypeError: 'int' object is not subscriptable` in `submit_qwen35._task_specs`: its loop treated every pair key as a resource role. No platform job was created. Three new A/B/C regressions were red with the same error; the caller now constructs only the two supported student/teacher roles. This is the second consumer of the changed configuration shape, not a new scheduling mode.
+
+```bash
+python3 -B tests/manual/agent_opd/submit_qwen35.py \
+--config task_memory/task_2026-11-06_qwen35_three_pairs/native_probe_config.json --pair C --dry-run
+
+# Red: 3 failed, 0.51s; all reproduced the integer-as-role error.
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 \
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest \
+tests/fast/test_qwen35_pair_worker.py -k startup_budget_is_not_a_submitted_role \
+-q -p no:cacheprovider --tb=short
+```
+
+The complete command from the preceding section was rerun after the submitter repair, changing the basetemp prefix to `qwen-startup-submit-final-` and the retained log to `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-startup-submit-final-20261107.log`: **85 passed, 0 skipped, 10.94s**, Python 3.12.13. Real CLI `--dry-run` for each pair then returned exactly student/teacher tasks, 10/10/24 GPUs and `submitted=false`; [retained outputs](evidence/c-startup-submit-dry-run-20261107.json) establish the final config-to-submission contract. Final CPU/config acceptance is PASS; native completion remains unverified.

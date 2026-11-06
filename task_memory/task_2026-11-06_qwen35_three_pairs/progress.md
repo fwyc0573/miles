@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record C readiness failure, exact loading/timeline evidence, per-pair wait correction and 85 passing integrated CPU checks; keep independent A/B queues. |
 | 2026-11-07 | Confirm native Ray repair, diagnose the zero-update scheduler assertion, and assign the existing optimizer-free baseline path for scoped verification. |
 | 2026-11-07 | Record actual 27B teacher readiness, A's reproducible Ray socket-length failure and B's preventive stop; retain C's queue and assign the scoped repair. |
 | 2026-11-07 | Close the teacher diagnostic's full-prefix identity finding after 98 combined checks; retain GPU qualification as the frontier. |
@@ -133,42 +134,47 @@
 65. `QWEN-P2-LAUNCH` completed the scoped zero-update correction: only baseline0 adds native `--debug-disable-optimizer`. Actual launcher/native setup/reference scheduler tests were3 failed/3 passed before repair and6 passed after; full launcher tests58 passed/10.14s, Python3.12.13. Production scoring without an optimizer preserves weights/version and driver baseline performs no training/save. Parent inspected the complete two-file diff; `git diff --check` passed. No core, formal100 optimizer/scheduler settings or GPU shape changed. The [native report](test_report_2026-11-07_native_prerequisites.md) records exact commands and CPU fixture boundaries. Ready to commit and restore A/B; actual HF load/CUDA residency/scoring remain unverified.
 66. Committed correction/evidence as `4a1364ca`. Initial local invocations from the repo directory failed the existing local-NFS cwd guard before job creation; using required workdir `/data/ycfeng` fixed the invocation without changing code. New independent jobs created04:11:27 local: A `exp-1107-041127-564012`, B `exp-1107-041127-467864`. Both actual API readbacks pass personal creator, current-machine NFS source, pinned image,8+2 H800, host-network shape, gang-group and no ConfigMap refs; selected receipts are `evidence/platform-<job>.json`. Both are Pending with eight H800 remaining. An auxiliary inspector initially indexed omitted `hostNetwork` directly; recognizing the native optional boolean's false default fixed that read, with no job change. A local document checker first mistook fenced Python for a Markdown link; excluding code regions validated59 local links. C's original24-GPU worker continues loading its teacher; actual native baseline scoring is next.
 
+67. C `exp-1107-005818-919546` failed at 04:21 local. Student's required teacher-ready wait expired before any student subprocess launched. Teacher rank 0 continuously advanced through 19/94 shards in 1,089 seconds; both teacher processes were still alive before subsequent SIGTERM cleanup. Exact object binding, eight successful RCA queries and retained tails establish student exit 1 at 20:21:08Z before system stop/teacher deletion at 20:21:09Z. The common 1,800-second wait included staggered container startup: student container start to teacher weight-load begin was 686 seconds. Full load was not complete; no model score/update was produced. Details and limits are in the native prerequisite report.
+68. `QWEN-P2-PAIR-WORKER` changed the config reader to resolve startup wait once from the selected pair. The JSON now owns A=1,800/B=1,800/C=9,000 seconds, with the superseded common input removed. C's 9,000-second bound derives from the observed slowest shard interval 79 seconds: 94*79+686=8,112 seconds before final service warmup, rounded to a bounded 2.5-hour probe allowance. It is an estimate, not measured full loading time. Red had 4 failed/3 passed, green 7 passed; initial combined run had 70 passed/12 skipped without the reference Megatron path. Parent supplied that existing path and completed all 82 checks in 10.73s, no skips, Python 3.12.13. Fake-clock tests preserve actual wait loops, health/model identity checks, deadline failure and immediate native error propagation. Direct actual-config validation passed and confirms all other model/resource/workload fields equal the committed version. Latest exact API observation has A/B Pending with no replicas; C student Failed and both teachers Stopped. Ready to commit and resubmit only C.
+
+69. Before submission, parent exercised the actual submit CLI with the changed JSON and found `_task_specs` incorrectly treating the new pair-level timeout integer as a resource role (`TypeError: 'int' object is not subscriptable`). Three new A/B/C regression cases reproduced it. Restricting task construction to the two supported roles fixes the config consumer without a fallback. Final complete pair-worker/launcher checks passed **85/85 in 10.94s**, no skips; actual CLI dry-runs for A/B/C pass with exactly two tasks and 10/10/24 GPUs (`evidence/c-startup-submit-dry-run-20261107.json`). No job was created by these checks. Retained the preceding 82-test result as intermediate evidence only.
+
 ## Next actions
 
-1. Inspect native model initialization/scoring for new A `exp-1107-041127-564012`, B `exp-1107-041127-467864` and retained running C `exp-1107-005818-919546` as each becomes ready.
+1. Commit the verified per-pair startup wait correction and resubmit C; preserve queued A `exp-1107-041127-564012` and B `exp-1107-041127-467864`.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 0｜TODO 5
+**汇总：** PASS 2｜BLOCKED 4｜TODO 1
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 修复4a1364ca通过58项检查；新A/B入队并回读通过，C的24张H800在加载教师。 |
-| P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
-| P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
-| P3-C | TODO | 正式训练尚未开始，C基线教师加载中。 |
-| P4 汇总交付 | TODO | 等待各组合的运行及导出结果。 |
+| P2 前置核验与实现 | TODO | 按组期限与提交端集成修复通过 85 项检查，实际 CLI dry-run 通过；准备重提 C，A/B 仍排队。 |
+| P3-A | BLOCKED | A 原生基线尚未通过，当前排队。 |
+| P3-B | BLOCKED | B 原生基线尚未通过，当前排队。 |
+| P3-C | BLOCKED | C 原生基线启动超时，修复待实际重跑。 |
+| P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** Ray-root修复验证至实际Ray启动和scheduler故障定位｜**当前前沿：** P2 零步baseline初始化修复和独立基线资格验证
+**检测窗口：** 零步 scheduler 修复提交至 C 启动超时修复验证｜**当前前沿：** P2 C 原生恢复与各组独立基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 修复覆盖实际出现的初始化故障，已有reader/绘图未继续扩展。 |
-| D2 细节反复重试 | CLEAR | Ray问题已实际通过；新scheduler异常原样red/green验证，未重复盲跑。 |
-| D3 支线问题修补 | CLEAR | 零步scheduler直接阻塞P2 baseline，未改无关环境/平台。 |
-| D4 可并行任务停滞 | CLEAR | B采用同一已知错误命令而暂停；C已实际启动，代码修复与RCA并行。 |
-| D5 超范围镀金 | CLEAR | 已验证的修正复用已有optimizer禁用机制，不增加参数或扩展预算。 |
-| D6 分析空转 | CLEAR | 实际Ray节点回执和Megatron原始trace把前沿推进到模型初始化。 |
-| D7 路线违背 | CLEAR | 不把零优化baseline当作反向/优化容量验收；正式100步保持D14。 |
+| D1 工具打磨 | CLEAR | 检查实际超时和提交边界，最终 85 项通过后停止扩测。 |
+| D2 细节反复重试 | CLEAR | C 首次加载有连续进度；按明确的期限不足假设修复，尚未重复重提。 |
+| D3 支线问题修补 | CLEAR | C 启动等待直接阻塞 P2，归属 plan.md:47。 |
+| D4 可并行任务停滞 | CLEAR | A/B 保留队列；C 代码修复与平台 RCA 并行，未用 C 的故障阻塞其他组。 |
+| D5 超范围镀金 | CLEAR | 仅把已有等待值放入 pair 配置，不扩展模型、GPU、训练预算或 readiness 条件。 |
+| D6 分析空转 | CLEAR | 原始加载进度和退出时间已转成配置、回归和重提决策。 |
+| D7 路线违背 | CLEAR | 原生基线与优化容量仍分别验收，D8/D9/D14 未变。 |
 
-**文档检查：** S5：旧“等待Ray启动”已被实际PASS与新的scheduler失败替代，需更新本页和plan.md；本次已更新。S1/S2/S3/S4/S6未发现明显缺陷，原生启动缺口仍由P2持有。
+**文档检查：** S5：plan.md:47 和本页原先写 C 正在加载，现已失败；本次同步状态及 P2 修复归属。S1/S2/S3/S4/S6 未发现明显缺陷。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -176,17 +182,17 @@
 **分支：** B：同步运行状态，不改变 scope 或验收值。
 
 **文档更新（先执行）：**
-1. plan.md P2切片、progress.md 下一步：记录Ray通过、零步scheduler失败、B停止与C保留；归属P2（可直接执行，已执行）。
+1. plan.md P2 切片、progress.md 下一步：记录 C 失败、按组等待期限及恢复路径，A/B 保持独立（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：检验新A/B和保留C的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
+1. P2：重提 C 并检验 A/B/C 的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
-1. Ray修复已在8张H800上通过，任务已推进到Megatron初始化。
-2. 既有optimizer禁用路径修复零步baseline，58项CPU检查通过；尚无有效模型数值。
-3. C三节点共24张H800已实际启动，教师加载中；正式100步和HF重载仍未验证。
+1. C 的 student 等待超时先发生，之后平台才停止仍在加载的教师。
+2. 按组等待与提交集成修复通过 85 项 CPU 检查；9,000 秒是有测量依据的估算，完整加载仍待验证。
+3. A/B 仍独立排队；三组正式 100 步和 HF 重载尚未验证。

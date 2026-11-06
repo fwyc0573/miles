@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "job": "exp-1107-005818-919546",
+  "pair": "C",
+  "returncode": null,
+  "error_type": "TimeoutError",
+  "reason": "RJob rendezvous did not publish /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-ready.json"
+}

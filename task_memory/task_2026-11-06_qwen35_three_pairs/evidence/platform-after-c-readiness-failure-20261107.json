@@ -1,0 +1,88 @@
+{
+  "observed_at": "2026-11-06T20:28:27.879170+00:00",
+  "records": [
+    {
+      "pair": "A",
+      "job": "exp-1107-041127-564012",
+      "uid": "fef8c6a7-e5e6-42f9-b41f-890a171fff0e",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replicas": {}
+    },
+    {
+      "pair": "B",
+      "job": "exp-1107-041127-467864",
+      "uid": "34c67372-0a65-414d-a87b-f974844c4e5b",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replicas": {}
+    },
+    {
+      "pair": "C",
+      "job": "exp-1107-005818-919546",
+      "uid": "7d7c069f-f0a2-47f5-85db-34da52395b1b",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 2,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-06T20:21:15Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-005818-919546-student-cfcd2084",
+            "ip": "10.191.9.44",
+            "phase": "Failed"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-005818-919546-teacher-c4ca4238",
+            "ip": "10.191.9.34",
+            "phase": "Stopped"
+          },
+          {
+            "name": "exp-1107-005818-919546-teacher-cfcd2084",
+            "ip": "10.191.5.19",
+            "phase": "Stopped"
+          }
+        ]
+      }
+    }
+  ]
+}

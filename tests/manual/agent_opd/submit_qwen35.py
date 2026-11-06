@@ -14,7 +14,8 @@ from pathlib import Path
 
 def _task_specs(config: dict, pair: str) -> dict:
     tasks = {}
-    for role, resource in config["pairs"][pair].items():
+    for role in ("student", "teacher"):
+        resource = config["pairs"][pair][role]
         envs = {"QWEN35_ROLE": role}
         if resource["nodes"] > 1:
             envs["DISTRIBUTED_JOB"] = "true"

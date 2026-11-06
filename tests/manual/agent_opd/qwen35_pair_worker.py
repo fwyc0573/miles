@@ -39,6 +39,8 @@ def _parser() -> argparse.ArgumentParser:
 def _load_config(path: Path, pair: str) -> dict:
     config = json.loads(path.read_text())
     allocation = config["pairs"][pair]
+    # Resolve once for both roles; the selected pair is the sole input owner.
+    config["startup_timeout"] = allocation.pop("startup_timeout")
     # Only the selected pair is inspected. Source paths need not be opened here.
     for model in (allocation["student"], allocation["teacher"]):
         source = Path(model["path"])

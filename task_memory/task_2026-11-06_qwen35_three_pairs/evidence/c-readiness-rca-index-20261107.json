@@ -1,0 +1,56 @@
+{
+  "python": "3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0]",
+  "brainpp": "2.8.6",
+  "namespace": "shai-core",
+  "cluster_entry": "https://platform.shaipower.com",
+  "creator": "i-fengyicheng",
+  "log_window": {
+    "start": "2026-11-06T20:19:30+00:00",
+    "end": "2026-11-06T20:21:30+00:00"
+  },
+  "log_limit": 3000,
+  "sources": [
+    {
+      "query": "rjob-historical-events",
+      "ok": true
+    },
+    {
+      "query": "replica-historical-events",
+      "ok": true
+    },
+    {
+      "query": "rjob-live-events",
+      "ok": true
+    },
+    {
+      "query": "replica-live-events",
+      "ok": true
+    },
+    {
+      "query": "incident-logs",
+      "ok": true
+    },
+    {
+      "query": "rjob-audit",
+      "ok": true
+    },
+    {
+      "query": "replica-audit",
+      "ok": true
+    },
+    {
+      "query": "existing-deepscan",
+      "ok": true
+    }
+  ],
+  "limitations": [
+    "Empty or failed queries do not establish absence of an incident.",
+    "A full log-limit response may be truncated; narrow the time window.",
+    "DeepScan findings are returned text, not original Kubernetes Event objects.",
+    "RJob finishTime is not an audited stop-request timestamp.",
+    "Stopped phase alone does not identify the actor or the initiating cause.",
+    "All-operation audit rows may lack changed fields or an initiating reason.",
+    "A controller update after SIGTERM is not an initiating stop request.",
+    "Audit data is arbitrary; inspect workload-specific secrets before archiving."
+  ]
+}

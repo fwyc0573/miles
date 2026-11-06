@@ -1,0 +1,84 @@
+s/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+[2026-11-06 20:02:11 TP11] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP8] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP9] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP10] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP11] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP8] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP9] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP10] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP15] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP12] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP14] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP15] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP12] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP14] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP13] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP13] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:14 TP10] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP11] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP9] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP8] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP12] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP14] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP15] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP13] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP14] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP15] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP9] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP13] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP12] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP11] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP10] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP8] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:16 TP11] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP8] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP12] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP15] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP9] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP10] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP14] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP13] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP11] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP11] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP8] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP8] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP9] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP12] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP9] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP12] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP15] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP15] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP10] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP10] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP14] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP14] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP11] using attn output gate!
+[2026-11-06 20:02:16 TP8] using attn output gate!
+[2026-11-06 20:02:16 TP13] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP13] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP9] using attn output gate!
+[2026-11-06 20:02:16 TP15] using attn output gate!
+[2026-11-06 20:02:16 TP12] using attn output gate!
+[2026-11-06 20:02:16 TP10] using attn output gate!
+[2026-11-06 20:02:16 TP14] using attn output gate!
+[2026-11-06 20:02:16 TP13] using attn output gate!
+/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 8 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

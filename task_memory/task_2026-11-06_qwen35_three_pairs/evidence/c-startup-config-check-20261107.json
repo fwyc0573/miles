@@ -1,0 +1,11 @@
+{
+  "config": "task_memory/task_2026-11-06_qwen35_three_pairs/native_probe_config.json",
+  "verdict": "PASS",
+  "previous_common_wait_seconds": 1800,
+  "resolved_pair_wait_seconds": {
+    "A": 1800,
+    "B": 1800,
+    "C": 9000
+  },
+  "all_other_model_resource_workload_fields_equal": true
+}

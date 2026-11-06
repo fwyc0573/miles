@@ -1,0 +1,76 @@
+g: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+/opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+  warnings.warn(
+[2026-11-06 20:02:11 TP1] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP3] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP2] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP1] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP3] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP2] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP7] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP4] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP7] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP6] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP4] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP6] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP5] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP5] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP0] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:11 TP0] Detected Megatron Core, using Megatron-FSDP with Megatron.
+[2026-11-06 20:02:14 TP3] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP1] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP2] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP4] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP7] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP6] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:14 TP5] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP0] Multimodal data loading enabled with 16 worker threads (auto).
+[2026-11-06 20:02:15 TP0] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP7] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP6] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP5] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP4] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP3] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP1] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:15 TP2] Memory baseline taken. mem usage=0.00 GB
+[2026-11-06 20:02:16 TP1] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP2] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP3] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP7] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP0] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP5] Load weight begin. avail mem=77.86 GB
+[2026-11-06 20:02:16 TP4] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP6] Load weight begin. avail mem=77.87 GB
+[2026-11-06 20:02:16 TP1] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP3] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP7] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP2] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP1] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP0] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP3] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP7] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP0] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP2] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP6] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP6] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP4] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP5] Multimodal attention backend not set. Use fa3.
+[2026-11-06 20:02:16 TP4] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP5] Using fa3 as multimodal attention backend.
+[2026-11-06 20:02:16 TP1] using attn output gate!
+[2026-11-06 20:02:16 TP0] using attn output gate!
+[2026-11-06 20:02:16 TP3] using attn output gate!
+[2026-11-06 20:02:16 TP2] using attn output gate!
+[2026-11-06 20:02:16 TP7] using attn output gate!
+[2026-11-06 20:02:16 TP6] using attn output gate!
+[2026-11-06 20:02:16 TP5] using attn output gate!
+[2026-11-06 20:02:16 TP4] using attn output gate!
+Multi-thread loading shards:   0% Completed | 0/94 [00:00<?, ?it/s]Multi-thread loading shards:   1% Completed | 1/94 [00:44<1:09:24, 44.78s/it]Multi-thread loading shards:   2% Completed | 2/94 [01:47<1:24:40, 55.22s/it]Multi-thread loading shards:   3% Completed | 3/94 [02:39<1:21:54, 54.00s/it]Multi-thread loading shards:   4% Completed | 4/94 [03:58<1:35:40, 63.78s/it]Multi-thread loading shards:   5% Completed | 5/94 [04:47<1:26:37, 58.40s/it]Multi-thread loading shards:   6% Completed | 6/94 [05:42<1:24:08, 57.36s/it]Multi-thread loading shards:   7% Completed | 7/94 [06:35<1:20:56, 55.82s/it]Multi-thread loading shards:   9% Completed | 8/94 [07:42<1:25:15, 59.48s/it]Multi-thread loading shards:  10% Completed | 9/94 [08:37<1:22:11, 58.01s/it]Multi-thread loading shards:  11% Completed | 10/94 [09:39<1:22:45, 59.12s/it]Multi-thread loading shards:  12% Completed | 11/94 [10:39<1:22:12, 59.42s/it]Multi-thread loading shards:  13% Completed | 12/94 [11:30<1:17:55, 57.02s/it]Multi-thread loading shards:  14% Completed | 13/94 [12:23<1:15:17, 55.77s/it]Multi-thread loading shards:  15% Completed | 14/94 [13:21<1:15:16, 56.46s/it]Multi-thread loading shards:  16% Completed | 15/94 [14:12<1:12:08, 54.79s/it]Multi-thread loading shards:  17% Completed | 16/94 [15:04<1:09:58, 53.83s/it]Multi-thread loading shards:  18% Completed | 17/94 [16:19<1:17:13, 60.18s/it]Multi-thread loading shards:  19% Completed | 18/94 [17:15<1:14:45, 59.02s/it]Multi-thread loading shards:  20% Completed | 19/94 [18:09<1:11:57, 57.57s/it]/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 8 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '

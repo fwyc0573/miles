@@ -9,7 +9,6 @@
   "shared_dir": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites",
   "num_rollout": 0,
   "context_tokens": 131072,
-  "startup_timeout": 1800,
   "request_timeout": 3600,
   "teacher_port": 30000,
   "teacher_dist_port": 29501,
@@ -24,6 +23,7 @@
   ],
   "pairs": {
     "A": {
+      "startup_timeout": 1800,
       "student": {
         "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
         "nodes": 1,
@@ -54,6 +54,7 @@
       }
     },
     "B": {
+      "startup_timeout": 1800,
       "student": {
         "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
         "nodes": 1,
@@ -84,6 +85,7 @@
       }
     },
     "C": {
+      "startup_timeout": 9000,
       "student": {
         "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
         "nodes": 1,

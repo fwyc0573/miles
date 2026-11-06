@@ -10,6 +10,7 @@ from types import SimpleNamespace
 
 import pytest
 from tests.manual.agent_opd import qwen35_pair_worker as worker
+from tests.manual.agent_opd import submit_qwen35 as submitter
 
 
 @pytest.fixture
@@ -21,6 +22,7 @@ def config(tmp_path, monkeypatch):
     pairs = {}
     for pair, source in zip(("A", "B", "C"), sources.values(), strict=True):
         pairs[pair] = {
+            "startup_timeout": 9000 if pair == "C" else 1800,
             "student": {
                 "path": str(personal / "models" / ("27B" if pair == "C" else "4B")), "gpus_per_node": 8,
                 "tp_size": 4 if pair == "C" else 2, "engine_gpus": 4 if pair == "C" else 2,
@@ -47,11 +49,15 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
     path = tmp_path / "config.json"
     selected = config["pairs"][pair]
     config["pairs"] = {pair: selected, "unselected": {"path": "/outside/never-inspected"}}
+    config.pop("startup_timeout")
     path.write_text(json.dumps(config))
-    assert worker._load_config(path, pair) == config
+    resolved = worker._load_config(path, pair)
+    budget = 9000 if pair == "C" else 1800
+    assert resolved["startup_timeout"] == budget
+    assert "startup_timeout" not in resolved["pairs"][pair]
     head = {"ip": "10.0.0.7"}
     for rank in range(selected["teacher"]["nodes"]):
-        assert worker._teacher_command(config, pair, rank, head) == [
+        assert worker._teacher_command(resolved, pair, rank, head) == [
             sys.executable, "-B", "-m", "sglang.launch_server", "--model-path", selected["teacher"]["path"],
             "--host", "0.0.0.0", "--port", "30000", "--nnodes", str(selected["teacher"]["nodes"]),
             "--node-rank", str(rank), "--dist-init-addr", "10.0.0.7:29501", "--tp-size", str(selected["teacher"]["tp_size"]),
@@ -60,8 +66,8 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
             "--enable-deterministic-inference", "--attention-backend", "fa3", "--linear-attn-prefill-backend", "triton",
         ]
     for rollouts in (0, 100):
-        config["num_rollout"] = rollouts
-        argv = worker._student_command(config, pair, {"url": "http://10.0.0.7:30000/generate"}, tmp_path / "local")
+        resolved["num_rollout"] = rollouts
+        argv = worker._student_command(resolved, pair, {"url": "http://10.0.0.7:30000/generate"}, tmp_path / "local")
         assert argv[:4] == [sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd"]
         values = dict(zip(argv[4::2], argv[5::2], strict=True))
         assert values == {
@@ -73,12 +79,40 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
             "--tensor-model-parallel-size": str(selected["student"]["tp_size"]), "--max-tokens-per-gpu": "131072",
             "--sglang-mem-fraction-static": "0.7", "--sglang-max-running-requests": "1",
             "--sglang-chunked-prefill-size": "8192", "--sglang-router-request-timeout-secs": "3600",
-            "--startup-timeout": "1800", "--num-rollout": str(rollouts),
+            "--startup-timeout": str(budget), "--num-rollout": str(rollouts),
         }
     selected["teacher"]["path"] = str(Path(selected["teacher"]["path"]).parent)
     path.write_text(json.dumps(config))
     with pytest.raises(ValueError, match="exactly approved"):
         worker._load_config(path, pair)
+
+
+@pytest.mark.parametrize("pair", ["A", "B", "C"])
+def test_startup_budget_is_not_a_submitted_role(config, pair):
+    config["rdma_resources"] = ["fixture-rdma:1"]
+    config["pairs"][pair]["student"]["nodes"] = 1
+    for role in ("student", "teacher"):
+        config["pairs"][pair][role].update(
+            cpu_per_node=64, memory_gb_per_node=512, host_network=True, gang_start=True,
+        )
+    tasks = submitter._task_specs(config, pair)
+    assert set(tasks) == {"student", "teacher"}
+    assert sum(task["gpu"] * task["replica"] for task in tasks.values()) == (24 if pair == "C" else 10)
+    assert tasks["student"]["is_critical"] is True
+    assert tasks["teacher"]["is_critical"] is False
+    assert tasks["teacher"]["custom_resources"] == (config["rdma_resources"] if pair == "C" else [])
+
+
+@pytest.mark.parametrize("budget,error", [(None, KeyError), (0, ValueError)])
+def test_selected_pair_startup_budget_is_required_and_positive(config, tmp_path, budget, error):
+    if budget is None:
+        del config["pairs"]["C"]["startup_timeout"]
+    else:
+        config["pairs"]["C"]["startup_timeout"] = budget
+    path = tmp_path / "pair-config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(error, match="startup_timeout"):
+        worker._load_config(path, "C")
 
 
 def test_native_student_ray_socket_paths_fit_and_remain_job_isolated(config, monkeypatch):
@@ -147,20 +181,129 @@ def test_peer_can_finish_before_head_without_deadlock_and_environment_preserves_
     assert worker._teacher_head(tmp_path, 1, evidence, 1) == evidence
 
 
-def _execution(config, tmp_path, monkeypatch, role):
-    directory = Path(config["shared_dir"]) / "test-job" / "A"
+def _execution(config, tmp_path, monkeypatch, role, pair="A"):
+    directory = Path(config["shared_dir"]) / "test-job" / pair
     directory.mkdir(parents=True)
     monkeypatch.setattr(worker, "_worker_environment", lambda local: None)
     monkeypatch.setattr(worker, "_allocation", lambda *args: {
-        "job": "test-job", "pair": "A", "ip": "10.0.0.7", "nodes": 1, "gpu_devices": ["fixture H800"],
+        "job": "test-job", "pair": pair, "ip": "10.0.0.7", "nodes": config["pairs"][pair]["teacher"]["nodes"],
+        "gpu_devices": ["fixture H800"],
     })
     ready = {
-        "status": "ready", "job": "test-job", "pair": "A", "ip": "10.0.0.7",
-        "url": "http://10.0.0.7:30000/generate", "model_info": {"model_path": config["pairs"]["A"]["teacher"]["path"]},
+        "status": "ready", "job": "test-job", "pair": pair, "ip": "10.0.0.7",
+        "url": "http://10.0.0.7:30000/generate", "model_info": {"model_path": config["pairs"][pair]["teacher"]["path"]},
     }
     if role == "student":
         worker._write_json(directory / "teacher-ready.json", ready)
     return directory, ready
+
+
+@pytest.mark.parametrize("pair,ready_at,budget", [
+    ("A", 1799, 1800), ("B", 1799, 1800), ("C", 8112, 9000), ("C", 9001, 9000),
+])
+def test_pair_startup_budget_waits_for_verified_teacher_before_student(config, tmp_path, monkeypatch, pair, ready_at, budget):
+    path = tmp_path / "pair-config.json"
+    # An old shared 1800-second value must not override the selected pair's budget.
+    path.write_text(json.dumps(config))
+    config = worker._load_config(path, pair)
+    directory, ready = _execution(config, tmp_path, monkeypatch, "student", pair)
+    (directory / "teacher-ready.json").unlink()
+    clock = SimpleNamespace(now=0)
+    launched_at, http_calls = [], []
+    server = SimpleNamespace(poll=lambda: None)
+
+    def get(url, timeout):
+        http_calls.append((url, clock.now))
+        assert clock.now >= ready_at
+        return SimpleNamespace(raise_for_status=lambda: None, json=lambda: ready["model_info"])
+
+    def sleep(seconds):
+        clock.now += seconds
+        if clock.now == ready_at:
+            info = worker._wait_teacher_ready(
+                server, "http://10.0.0.7:30000", config["pairs"][pair]["teacher"]["path"],
+                directory / "student-finished.json", config["startup_timeout"],
+            )
+            worker._write_json(directory / "teacher-ready.json", {**ready, "model_info": info})
+
+    def launch(command, **kwargs):
+        assert (directory / "teacher-ready.json").exists()
+        assert clock.now == ready_at
+        assert command[command.index("--startup-timeout") + 1] == str(budget)
+        launched_at.append(clock.now)
+        return SimpleNamespace(wait=lambda: 0, poll=lambda: 0, returncode=0)
+
+    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(worker.time, "sleep", sleep)
+    monkeypatch.setattr(worker.requests, "get", get)
+    monkeypatch.setattr(worker.subprocess, "Popen", launch)
+    if ready_at < budget:
+        assert worker._run_student(config, pair, 0, directory, tmp_path / "local") == 0
+        assert launched_at == [ready_at]
+        assert http_calls == [
+            ("http://10.0.0.7:30000/health", ready_at), ("http://10.0.0.7:30000/model_info", ready_at),
+        ]
+    else:
+        with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
+            worker._run_student(config, pair, 0, directory, tmp_path / "local")
+        assert launched_at == http_calls == []
+    assert clock.now == min(ready_at, budget)
+    finished = json.loads((directory / "student-finished.json").read_text())
+    assert finished["status"] == ("native_execution_succeeded" if ready_at < budget else "failed")
+
+
+@pytest.mark.parametrize("outcome,stop_at", [("ready", 8113), ("error", 1000), ("timeout", 9686)])
+def test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate(config, tmp_path, monkeypatch, outcome, stop_at):
+    path = tmp_path / "pair-config.json"
+    path.write_text(json.dumps(config))
+    config = worker._load_config(path, "C")
+    directory, ready = _execution(config, tmp_path, monkeypatch, "teacher", "C")
+    clock = SimpleNamespace(now=686)
+    server = SimpleNamespace(args=["native", "teacher"], code=None)
+    server.poll = lambda: 23 if outcome == "error" and clock.now >= 1000 else server.code
+    stopped, http_calls = [], []
+
+    def get(url, timeout):
+        if outcome != "ready" or clock.now < 8112:
+            raise worker.requests.ConnectionError("Teacher is still loading")
+        http_calls.append((url, clock.now))
+        return SimpleNamespace(raise_for_status=lambda: None, json=lambda: ready["model_info"])
+
+    def sleep(seconds):
+        clock.now += seconds
+        if outcome == "ready" and clock.now == 8113:
+            assert (directory / "teacher-ready.json").exists()
+            worker._write_json(directory / "student-finished.json", {"status": "native_execution_succeeded", "returncode": 0})
+
+    def stop(process):
+        stopped.append(process)
+        if process.poll() is None:
+            process.code = -15
+
+    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(worker.time, "sleep", sleep)
+    monkeypatch.setattr(worker.requests, "get", get)
+    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: server)
+    monkeypatch.setattr(worker, "_stop_child", stop)
+    if outcome == "ready":
+        assert worker._run_teacher(config, "C", 0, directory, tmp_path / "local") == 0
+        assert http_calls == [
+            ("http://10.0.0.7:30000/health", 8112), ("http://10.0.0.7:30000/model_info", 8112),
+        ]
+        published = json.loads((directory / "teacher-ready.json").read_text())
+        assert published["model_info"] == ready["model_info"]
+    else:
+        error = subprocess.CalledProcessError if outcome == "error" else TimeoutError
+        with pytest.raises(error) as caught:
+            worker._run_teacher(config, "C", 0, directory, tmp_path / "local")
+        if outcome == "error":
+            assert caught.value.returncode == 23
+        assert not (directory / "teacher-ready.json").exists()
+    assert clock.now == stop_at
+    assert stopped == [server]
+    status = json.loads((directory / "teacher-status-0.json").read_text())
+    assert status["returncode"] == (23 if outcome == "error" else None)
+    assert status["status"] == ("student_finished" if outcome == "ready" else "failed")
 
 
 @pytest.mark.parametrize("returncode", [0, 17, -9])
