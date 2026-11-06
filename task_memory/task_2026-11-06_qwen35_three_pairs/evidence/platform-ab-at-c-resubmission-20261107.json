@@ -1,0 +1,45 @@
+{
+  "observed_at": "2026-11-06T20:44:08.780599+00:00",
+  "records": [
+    {
+      "pair": "A",
+      "job": "exp-1107-041127-564012",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    {
+      "pair": "B",
+      "job": "exp-1107-041127-467864",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    }
+  ]
+}

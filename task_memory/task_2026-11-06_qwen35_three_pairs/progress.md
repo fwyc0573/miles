@@ -139,9 +139,11 @@
 
 69. Before submission, parent exercised the actual submit CLI with the changed JSON and found `_task_specs` incorrectly treating the new pair-level timeout integer as a resource role (`TypeError: 'int' object is not subscriptable`). Three new A/B/C regression cases reproduced it. Restricting task construction to the two supported roles fixes the config consumer without a fallback. Final complete pair-worker/launcher checks passed **85/85 in 10.94s**, no skips; actual CLI dry-runs for A/B/C pass with exactly two tasks and 10/10/24 GPUs (`evidence/c-startup-submit-dry-run-20261107.json`). No job was created by these checks. Retained the preceding 82-test result as intermediate evidence only.
 
+70. Committed the complete wait-policy/config/submitter correction and selected C failure evidence as `6461e6e2`. From required workdir `/data/ycfeng`, submitted only C as `exp-1107-044223-241566` at 04:42:23 local. Actual API readback passes personal identity, current-machine NFS source, pinned image, 8-GPU student plus two 8-GPU teacher nodes, host networking, gang-group/gang-start and expected C ConfigMap references (`evidence/platform-exp-1107-044223-241566.json`). C is Pending with four H800 remaining. A/B retained their jobs and are now Running (`evidence/platform-ab-at-c-resubmission-20261107.json`); four native node receipts verify 8+2 H800 per pair, 20 total, with the correct model paths and image. Student readiness/scoring remains unverified. Bounded cleanup of completed startup-test basetemps/caches was delegated separately; raw RCA, logs and all three launchers are protected.
+
 ## Next actions
 
-1. Commit the verified per-pair startup wait correction and resubmit C; preserve queued A `exp-1107-041127-564012` and B `exp-1107-041127-467864`.
+1. Inspect actual readiness/scoring as running A `exp-1107-041127-564012`, B `exp-1107-041127-467864` and queued C `exp-1107-044223-241566` progress.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -153,9 +155,9 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 按组期限与提交端集成修复通过 85 项检查，实际 CLI dry-run 通过；准备重提 C，A/B 仍排队。 |
-| P3-A | BLOCKED | A 原生基线尚未通过，当前排队。 |
-| P3-B | BLOCKED | B 原生基线尚未通过，当前排队。 |
+| P2 前置核验与实现 | TODO | 6461e6e2 的 85 项检查和新 C 回读通过；A/B 各 10 张 H800 已实际运行，C 排队。 |
+| P3-A | BLOCKED | A 原生基线尚未通过，当前模型启动中。 |
+| P3-B | BLOCKED | B 原生基线尚未通过，当前模型启动中。 |
 | P3-C | BLOCKED | C 原生基线启动超时，修复待实际重跑。 |
 | P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
 
@@ -187,7 +189,7 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：重提 C 并检验 A/B/C 的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
+1. P2：检验正在运行的 A/B 和新 C 的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
@@ -195,4 +197,4 @@
 
 1. C 的 student 等待超时先发生，之后平台才停止仍在加载的教师。
 2. 按组等待与提交集成修复通过 85 项 CPU 检查；9,000 秒是有测量依据的估算，完整加载仍待验证。
-3. A/B 仍独立排队；三组正式 100 步和 HF 重载尚未验证。
+3. A/B 已独立运行，C 重提后排队；三组正式 100 步和 HF 重载尚未验证。

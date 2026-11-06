@@ -1,0 +1,15 @@
+{
+  "job": "exp-1107-041127-467864",
+  "pair": "B",
+  "role": "teacher",
+  "rank": 0,
+  "nodes": 1,
+  "hostname": "rjob-7e97cdc90b4c98e2-12b353edd056a1c8-0",
+  "ip": "100.99.208.5",
+  "gpu_devices": [
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06"
+  ],
+  "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+}
