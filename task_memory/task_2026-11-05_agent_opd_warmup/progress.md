@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify Q18 captured patch/native failure, consume its source and record synchronous deadline overrun. |
 | 2026-11-06 | Verify the existing four-sample frontier after resumption; stop legacy sandbox-interface exploration. |
 | 2026-11-06 | Resume the four existing benchmark attempts; verify budgets and limit legacy sandbox diagnostics. |
 | 2026-11-06 | Resume exact native failure diagnosis and dynamic benchmark completion. |
@@ -4723,3 +4724,129 @@ in-progress: Q1/1732, Q8/1732, Q13/1729 and Q18/1731 remain the only missing ben
 1. 训练已完成，当前16H800请求全部用于四份剩余benchmark。
 2. 真实native结果尚为76/80；没有按部分分母或时钟估计给出最终分数。
 3. 既有observer负责完成与清理；避免重复observer、重复训练或旧接口支线。
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd；工作树干净 |
+| 初始2：Lark检索与模型资产 | PASS | 固定版本22files验证完成 |
+| 初始3：glm5.2与completion信号 | PASS | 原始身份/token及三类内容已验证 |
+| 初始4：16H800 warmup | PASS | 真实更新与数值残差已验证 |
+| 初始5：阶段清理和同步 | PASS | 已完成的代码与记录正常push；当前学习阶段另行验收 |
+| 学习1：固定20题与80turns | PASS | 排除与采样边界已验证 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner实际完成 |
+| 学习3：native evaluator | PASS | 相同工具/grader和真实update20reload |
+| 学习4：20updates/export/reload | PASS | 直接读数20updates/22887tokens/1424changedtensors |
+| 学习4：original80 | PASS | 80native结果，50resolved |
+| 学习4：updated80 | TODO | 11:11HKT仍为76evaluated；四份运行 |
+| 学习4：恢复来源与消费 | TODO | Q18续评和来源消费尚未完成 |
+| 学习5：配对评分、最终清理与push | TODO | 完整评分后还需最终报告与同步 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次更新及清理已验证 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 11:03HKT接续核验至11:13HKT正常同步｜**当前前沿：** 四份评分、Q18来源消费、最终汇总和清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅复核当前deadline语义、实际训练读数与已完成变更同步；没有扩展辅助工具 |
+| D2 细节反复重试 | CLEAR | 既有调用边界解释预算估计；没有新重试或GPU提交 |
+| D3 支线问题修补 | CLEAR | 没有返回旧sandbox接口支线 |
+| D4 可并行任务停滞 | CLEAR | 四份生成继续，已完成代码同步独立完成 |
+| D5 超范围镀金 | CLEAR | 没有功能、模型、数据或问题扩张 |
+| D6 分析空转 | CLEAR | 得到实际update/signal指标与独立remoteSHA；尚缺评分明确保留 |
+| D7 路线违背 | CLEAR | 原始结果和预算保留；没有提前删除HF |
+
+**文档检查：** S1–S6均未发现明显缺陷；plan允许完成记录增量同步，最终报告仍依赖完整评分。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 保持唯一observer与四份原有benchmark；完成标志为真实native评分或必要的原件恢复。
+2. 完成Q18来源消费与80+80固定分母汇总；按现有机制删除精确任务产物。
+3. 最终报告与独立cloud/local/terminal核验后正常push并再次核验remoteSHA。
+
+## 4. 最值得关注的 3 点
+
+1. 11:13HKT正常push通过；HEAD与gitls-remote均为8c541de3a3744ac160a168001bb324418d318eeb，工作树当时干净。
+2. 20次真实更新与三类completion/submit记录有直接数值证据；数值残差没有消失。
+3. 四份评分尚未完成，最终清理和最终branch结论仍未完成；不把增量push当作全任务完成。
+
+
+## Resumed Q18 final outcome (2026-11-06T11:34:03.587264+08:00)
+
+completed: retained the existing continuation through its dynamic diagnostic hold; exact native patch/result comparison passed. Q18 has a genuine applied nonempty patch and unresolved test result,not a missing patch or grader failure. The empty error-trajectory meta.patch was not scored. Source consumption is already owned by the unique observer. No training,re-generation or extra restoration was submitted.
+
+in-progress: original80/80native grades/50resolved; updated77/80evaluated/50resolved (76native+1confirmed model timeout). Three unique existing pairs remain: Q1/1732,Q8/1732,Q13/1729. Keep their launchers and the unique final observer. Complete80+80,paired question bootstrap,actual terminal identities,precise cleanup and final push remain pending.
+
+New verification limit: Q18 preserved the configured remaining budget,but its synchronous call returned after the deadline; the native timeout records7118.1s against5517.4s. The learning report records the actual outcome and timing; no strict wall-clock equivalence claim is made.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 12｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | 当前agent-opd，原始要求保留 |
+| 初始2：Lark与模型资产 | PASS | 固定版本22files已验证 |
+| 初始3：glm5.2与completion信号 | PASS | 原始身份/token和thinking/body/tool均已记录 |
+| 初始4：16H800 warmup | PASS | 真实更新及数值残差完成 |
+| 初始5：阶段清理和同步 | PASS | 已完成阶段已正常同步；最终学习阶段另行验收 |
+| 学习1：固定20题/80turns | PASS | 采样与固定排除已验证 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner实际完成 |
+| 学习3：native evaluator | PASS | 同一工具/grader和update20重载 |
+| 学习4：20updates/export/reload | PASS | 原生闭环已归档 |
+| 学习4：original80 | PASS | 80native，50resolved |
+| 学习4：updated80 | TODO | 77evaluated，三份原有任务仍运行 |
+| 学习4：恢复来源与消费 | PASS | 四份恢复已评分；Q18实际patch核验通过，原来源及continuation均已消费 |
+| 学习5：完整汇总/清理/push | TODO | 仍依赖剩余三份实际评分与终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新与清理完成 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 11:13HKT同步自检至11:39HKT实际Q18评分/消费核验｜**当前前沿：** 三份updated评分、结果消费、最终汇总清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 既有hold保留Q18至实际patch/grade核验；核验后立即释放，无新增恢复执行 |
+| D2 细节反复重试 | CLEAR | Q18出现真实结果后检验原假设；确认patch有效后停止诊断，无重复生成 |
+| D3 支线问题修补 | CLEAR | 所有读取直接服务于剩余评分和正确消费 |
+| D4 可并行任务停滞 | CLEAR | Q1/Q8/Q13生成并行；Q18消费和最终报告准备独立推进 |
+| D5 超范围镀金 | CLEAR | 没有新增训练/题目/seed/模型组合或持久功能 |
+| D6 分析空转 | CLEAR | updated从76升至77；实际patch/grade通过且Q18原件已消费，不再追加恢复 |
+| D7 路线违背 | CLEAR | 保留原预算配置/原响应；记录同步调用超时限制，不宣称严格wall-clock等价 |
+
+**文档检查：** S1–S6均未发现明显缺陷；原配置预算与实际耗时区分已补入学习报告和finalizer输出。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 保留三个原有launcher与唯一observer；完成标志为实际native评分或需诊断的原始失败。
+2. 并行：已完成Q18消费；finalizer已包含实测patch和deadline限制，等待其余三份原件消费。
+3. 完整80+80后生产汇总/10000次question bootstrap、全部实际receipt终态、精确cloud/local清理、最终正常push和独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 实际训练已经完成；Q18补丁存在且成功应用，其unresolved是真实测试失败。
+2. 当前updated77/80；只剩Q1/1732、Q8/1732、Q13/1729，不按部分分母计算完整分数。
+3. 原native同步调用可能超过已配置deadline；Q18实测超时保留为评测限制，无新生成或参数变更。
+
+
+Latest independent read at2026-11-06T11:39:38.537901+08:00 confirmsQ18continuation and originalsource consumed; exactlythreebenchmarkroots remain unconsumed,each with its one missing pair. Original80native/50resolved;updated77evaluated/50resolved. The uniqueobserver14752 remainsalive;no new training or benchmark copy was submitted. Final paired scoring/cleanup/push remains required.

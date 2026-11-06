@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify Q18 captured patch/native failure, consume its source and record synchronous deadline overrun. |
 | 2026-11-06 | Verify the four remaining native attempts, the live observer and bounded local storage. |
 | 2026-11-06 | Verify remaining native budgets and record the unavailable legacy sandbox status read. |
 | 2026-11-06 | Record original Q5 errors, Q2 consumer terminal success and dynamic72-outcome state. |
@@ -1164,3 +1165,51 @@ Q18 native historicalReplica read binds ownerUID6d22fe5c-c2ee-4b08-9bf8-1eae181c
 At11:11:01.740740HKT the same four generation receipts remainRunning; all80original and76updated counts are unchanged. Native deadline checks execute before/after synchronous calls, so the filesystem budget estimate does not identify the current call or prove termination. Current outcomes remain missing until actual native grading or necessary original-answer recovery.
 
 A direct CPU read of the unique learner's retained `native/exp-1105-224939-805330/validation.md` independently confirms20optimizer rollouts0–19, allfinite losses/nonzero finitegradients,80unique source turns,22887scored completiontokens and1424changed published inference tensors. Loss range0.05897253285–0.32062291559; gradientnorm5.02026987076–26.53436660767. Generated signals:23thinkingturns,52bodyturns,80toolturns and23submitturns. Weighted trainer/decodeMAE0.0247716116668,max0.9885630607605; structural_checks=passed. These exact measurements establish update/signal evidence; they do not establish numerical equality or benchmark improvement.
+
+
+## Q18 continuation final patch and native outcome verified (2026-11-06T11:34:03.587264+08:00)
+
+PASS for the actual captured patch and native scoring. RJob `exp-1106-092533-163895`, UID `6d22fe5c-c2ee-4b08-9bf8-1eae181c1a83`, Q18 `django__django-14500`, seed1731, completed_updates20 returned with verified seed and17 live model queries. The original trajectory hash still equals its continuation boundary. The configured original elapsed12482.593137343414seconds and remaining5517.406862656586seconds were retained; native latest_half truncated history once.
+
+The final `AgentLoopTimeoutError` error trajectory contains an empty meta.patch. The continuation entrypoint caught the native timeout, restored env methods and extracted the workspace patch before native error serialization; its same captured variable was passed directly to the native checker and hash-bound in the grade. The grader confirms patch_exists=true,patch_is_None=false,patch_successfully_applied=true for patch SHA256 `354d9d40ddd44a285390643b443fd656102bd1d5832fd9b696c63be70fb4f0c4`. Exact status/instance/detail fields equal the archived native check result. Native outcome unresolved; FAIL_TO_PASS0success/1failure, PASS_TO_PASS12success/9failure,32allcases; native check took7.023960469290614seconds. No empty patch was substituted and no additional generation or regrading is needed.
+
+Measured deadline limitation: continuation entrypoint elapsed7298.754872618243seconds includes prefix replay. The native timeout message reports7118.1seconds versus its5517.4-second limit; the synchronous model call returned beyond the deadline before the installed check raised. The configured budget was preserved, but a strict18000-second wall-clock cap was not enforced. Q18 remains a failed requested attempt; this overrun limits runtime comparisons and is not numerical alignment evidence. Parameters were not changed while evaluation was running.
+
+Exact reads: bounded host Python3.10.6 `subprocess.run` over personal read-only SSH,confined to the existing task root; checked generation/grading/error trajectory/check_result and selected native log markers. Temporary JSON/log evidence stays in task scratch until final consumption. The dynamic diagnostic hold protects raw continuation outputs until this verification; release follows immediately. Original80/80native grades and updated77/80evaluated (76native+1confirmed model timeout) are observed. Only Q1/1732,Q8/1732,Q13/1729 remain missing; full updated average is pending.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-200090`, UID `11a921d2-c0a5-4248-8e45-df23938ad74a`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 2. Original invalid attempts retain their recovery provenance; unknown failures remain missing. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-14500",
+    "seed": 1729,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14500\": rpc error: code = Canceled desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14500\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-14500\": failed to do request: Head \"https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-14500\": context canceled', 'type': 'Warning', 'creationTimestamp': '2026-11-06T05:08:50+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-d7781b7a-4656-409b-96b0-e246144b09f6', 'uid': 'f9b4bece-183c-472e-8372-7dfa1d801128', 'apiVersion': 'v1', 'resourceVersion': '17631955783', 'fieldPath': 'spec.containers{session-d7781b7a-4656-409b-96b0-e246144b09f6}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T21:08:50Z', 'lastTimestamp': '2026-11-05T21:08:50Z', 'sourceKind': 'pod', 'sourceName': 'session-d7781b7a-4656-409b-96b0-e246144b09f6', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  },
+  {
+    "task_id": "django__django-14500",
+    "seed": 1731,
+    "completed_updates": 20,
+    "generation_status": "returned",
+    "error_type": "FileNotFoundError",
+    "grading_status": "invalid",
+    "diagnostic_excerpt": []
+  }
+]
+```
+
+
+Q18 source consumption verified at2026-11-06T11:37:12.150314+08:00: exact0GPU job `exp-1106-113011-154322` returnedSucceeded; source result binds UID11a921d2-c0a5-4248-8e45-df23938ad74a and retains exactlynative seeds1730/1732,2valid outcomes. Removed23raw files/85923067bytes;12minimal evidence files retained until final scoring. The uniqueobserver resumed without duplicate source submission. Last active native log snapshot at11:35:44HKT showsfresh model requests for Q1/1732,Q8/1732,Q13/1729 and continuing decode6.50/7.40/8.24token/s respectively. Each exactpersonal replica isRunning/restart0 and requests4H800. Native logs were read through the established SSH Replica log exception; only metadata and batch metrics were saved to task scratch. A3-job12GPUrequest is not a utilization measurement. Local task scratch measured56MiB with timeout60sdu-sh;host free disk about94GiB.
