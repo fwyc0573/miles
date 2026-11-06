@@ -641,3 +641,24 @@ Student `exp-1107-055408-748211-student-cfcd2084` exited0; [platform receipt](ev
 TIS retention is4144/4144 (100%), separate from acceptance. Overall `r*d-r+1` / `r-1-d` means are0.0004250543 /0.0004268913 for decode and0.0004645935 /0.0004653941 for prefill, under student-decode sampling. Teacher diagnostic mean absolute difference is0.26660944; its K3 means are0.19362471 /0.15517800. Complete per-stratum values/positions remain in JSON. Only the initial component passes; whole-run/publication remains INCOMPLETE pending training.
 
 A uses the same qualified4B student recipe and shared100-step configuration with its independently qualified27B teacher. [A dry-run](evidence/a-training-config-check.json) exits0 from `/data/ycfeng`, declares100 positions and8+2 H800 with both gang flagsFalse. No code or numerical threshold changes precede formal submission.
+
+### C corrected initial baseline — PASS
+
+Full27B student and full397B teacher: student `exp-1107-044223-241566-student-cfcd2084` completed with exit0; [platform receipt](evidence/platform-c-prefill-completed-20261107.json) reports `All critical tasks are finished.` with one succeeded student and two stopped teacher replicas. The0-GPU pinned inspection `exp-1107-063622-906464` succeeded. It uses the B reader command/environment above with `C/exp-1107-044223-241566` substituted in run, readiness and report paths. Full report: `.../native-prerequisites/student/C/exp-1107-044223-241566/baseline-inspection.json`.
+
+[Selected report](evidence/baseline-inspection-C-exp-1107-044223-241566.json) and [native versions](evidence/native-version-receipt-C-exp-1107-044223-241566.json) cover24 fixed samples,8 per stratum,6264 original valid completion tokens and complete consumed version0. No missing/nonfinite tokens or identity/version issue. All eight pre-TIS means pass the unchanged0.03 threshold:
+
+| Comparison | Population | Valid tokens | Mean absolute difference | p95 | p99 | Maximum | Result |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Decode vs trainer | Overall | 6264 | 0.00728468 | 0.05381254 | 0.11104039 | 0.24931288 | PASS |
+| Decode vs trainer | Short | 801 | 0.00677597 | 0.04768109 | 0.11118031 | 0.24931288 | PASS |
+| Decode vs trainer | Medium | 3614 | 0.00637314 | 0.04796911 | 0.10885454 | 0.22327065 | PASS |
+| Decode vs trainer | Long | 1849 | 0.00928673 | 0.07037997 | 0.11490409 | 0.24423504 | PASS |
+| Prefill vs trainer | Overall | 6264 | 0.00699045 | 0.05093436 | 0.11149427 | 0.24912834 | PASS |
+| Prefill vs trainer | Short | 801 | 0.00527244 | 0.03930244 | 0.09489143 | 0.24912834 | PASS |
+| Prefill vs trainer | Medium | 3614 | 0.00622416 | 0.04361378 | 0.10994312 | 0.22137904 | PASS |
+| Prefill vs trainer | Long | 1849 | 0.00923246 | 0.06670346 | 0.11630136 | 0.19011164 | PASS |
+
+TIS retention6264/6264 (100%) remains separate from acceptance. Overall `r*d-r+1` / `r-1-d` means are0.0002590555 /0.0002600748 for decode and0.0002439790 /0.0002443282 for prefill. Teacher/student diagnostic mean absolute difference0.13626035 and K3 means0.06422706 /0.06149636 are not training-improvement evidence. All positions/stratum details remain in JSON. Whole-run/publication remains INCOMPLETE until actual updated/final monitoring exists.
+
+All three **initial** qualification components now PASS. [C formal dry-run](evidence/c-training-config-check.json) declares100 positions,8 student plus16 teacher H800, the original two-node teacher RDMA resources and gang settings, and the unchanged first-round configuration. Existing27B recipe CPU optimizer offload remains enabled; real optimization is still to be measured in the formal attempt.

@@ -38,6 +38,10 @@ Expected B native artifact root:
 `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/`.
 Final intended HF destination is `hf/step_99` beneath that root;99 denotes the final planned rollout position, not an asserted successful-update count or model version. Local launch/terminal receipts go under `evidence/first-round/`.
 
+## A launch and admission
+
+A's initial baseline `exp-1107-055408-748211` passes independently. Formal job **`exp-1107-063447-691018`** was submitted from source/config commit `b9cd2442` with the same command above, changing only `--pair A`. [API admission](evidence/platform-exp-1107-063447-691018-training.json) verifies Running, personal identity, exact local source, pinned image,8+2 H800 and the correct training configuration. Its cloud run root is `.../first-round/student/A/exp-1107-063447-691018/`; final intended HF destination is `hf/step_99`. Native optimization evidence remains pending.
+
 ## Actual training results
 
 Pending. Admission is verified; real optimizer outcomes, memory, monitoring, export and reload have not yet been measured. Retain original native failures and actual partial progress if the attempt ends early. Do not extend the100-position budget automatically.

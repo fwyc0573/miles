@@ -1,0 +1,91 @@
+{
+  "name": "exp-1107-044223-241566",
+  "pair": "C",
+  "observed_at": "2026-11-06T22:39:49.570741+00:00",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Stopped",
+    "reason": "RJobStopped",
+    "message": "RJob stopped",
+    "taskStatuses": {
+      "student": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 2,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-06T22:34:37Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished.",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=14."
+  },
+  "student_replica_status": {
+    "conditions": [
+      {
+        "type": "Initialized",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T21:00:52Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "Ready",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T22:34:23Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "ContainersReady",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T22:34:23Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "PodScheduled",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T21:00:52Z"
+      }
+    ],
+    "hostIP": "10.191.6.22",
+    "podIP": "10.191.6.22",
+    "podIPs": [
+      {
+        "ip": "10.191.6.22"
+      }
+    ],
+    "startTime": "2026-11-06T21:00:52Z",
+    "containerStatuses": [
+      {
+        "name": "student",
+        "state": {
+          "terminated": {
+            "exitCode": 0,
+            "reason": "Completed",
+            "startedAt": "2026-11-06T21:00:57Z",
+            "finishedAt": "2026-11-06T22:34:21Z",
+            "containerID": "containerd://4d3f524a59f21a78550dddccf3858d752b962f39dabfedd5cccde02894b6dbfc"
+          }
+        },
+        "lastState": {},
+        "ready": false,
+        "restartCount": 0,
+        "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+        "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+        "containerID": "containerd://4d3f524a59f21a78550dddccf3858d752b962f39dabfedd5cccde02894b6dbfc",
+        "started": false
+      }
+    ],
+    "qosClass": "Guaranteed",
+    "phase": "Succeeded",
+    "nodeName": "gpu-h800-0024.host.platform.shaipower.com",
+    "finishTimestamp": "2026-11-06T22:34:24Z"
+  }
+}

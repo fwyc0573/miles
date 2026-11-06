@@ -1,0 +1,10 @@
+{
+  "status": "failed",
+  "job": "exp-1107-044223-241566",
+  "pair": "C",
+  "rank": 1,
+  "returncode": null,
+  "error_type": "SystemExit",
+  "reason": "143",
+  "shutdown_returncode": 0
+}
