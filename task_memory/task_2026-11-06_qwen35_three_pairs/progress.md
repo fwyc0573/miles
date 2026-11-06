@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Close the teacher diagnostic's full-prefix identity finding after 98 combined checks; retain GPU qualification as the frontier. |
 | 2026-11-07 | Correct the ineffective per-task gang change using observed server admission behavior; preserve C and verify final A/B server dry-run without allocation. |
 | 2026-11-07 | Record three native submissions, the exact A teacher ConfigMap failure, controlled A/B stops and the remaining teacher-diagnostic handoff. |
 | 2026-11-07 | Commit verified data/export work, close monitor lifecycle findings with 142 passing checks and prepare independent native H800 baseline jobs. |
@@ -118,11 +119,13 @@
 53. Updated A/B student flags to false as well; C remains unchanged. Final A/B server dry-runs preserve empty refs, the pair gang-group label, local NFS and all GPU/replica/network settings. This verifies admission, not actual worker execution. Recorded the rule and source links in the existing StepMind handbook. QWEN-P2-TEACHER-DIAGNOSTIC is independently implementing the offline raw-response/teacher-identity reader in its two owned files; runtime producers remain unchanged.
 54. Committed the admission fix as `5e9f5551`; submitted A `exp-1107-021450-020231` and B `exp-1107-021450-039035` at 02:14 local. Actual API readback now passes for both: no ConfigMap refs in either task, correct personal creator/image/local NFS/resources, retained pair gang-group. Both are Pending; scheduler reports eight remaining H800, below their ten-GPU request. C `exp-1107-005818-919546` remains Pending with its original launcher and 24-GPU request. Selected exact readbacks are retained under `evidence/platform-<job>.json`.
 55. Completed D9 plotting support by replacing the old fixed two-model CLI with repeated labeled reports and retaining signed original loss points. Direct one-report/three-report checks produced two/six panels and verified all original x/y values stay visible. Python 3.10.6/Matplotlib 3.7.1 passed; selected synthetic PNGs are not learning results. See [plot verification](test_report_2026-11-07_training_plot.md). No native producer was changed.
+56. QWEN-P2-TEACHER-DIAGNOSTIC delivered the two-file offline reader/test slice. Parent combined `tests/fast/test_qwen35_monitoring.py tests/fast/test_qwen35_opd_launcher.py` passed 96/96 in 52.55 s (Python 3.12.13, 22 warnings); the command/log are `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-teacher-combined-20261107.log` and the recorded native CPU pytest invocation with a unique `qwen-teacher-combined-*` basetemp. Reviewer `ses_e4e792d5affeGsj3IUWlUanlWV` inspected the changed reader/tests plus actual producer/worker and found one P2: completion IDs were checked but raw prefix IDs could differ. Assigned the implementation owner `ses_e4e739140ffeErr0KEUsX8tYbe` to validate all preserved input IDs, retain the first logprob placeholder, keep metrics response-only, and verify diagnostic failure leaves D8 unchanged. This slice is not yet committed or closed; live runtime producers remain unchanged.
+57. Closed that finding: all raw prefix/completion IDs, including the first placeholder's ID, now match the exact sample before response slicing. The new two-case regression failed before repair; afterward teacher checks passed 29/29 and the final full reader/launcher combination passed 98/98 in 52.68 s. Parent inspected the fix and tests; the reviewer checked the frozen diff and closed the phase with no remaining actionable finding. Probability semantics remain explicitly source/launch-derived, with startup/launch teacher identity and no invented per-response revision. See [teacher diagnostic report](test_report_2026-11-07_teacher_diagnostic.md). Actual native outputs, not additional CPU tooling, are now the next validation input.
 
 ## Next actions
 
 1. Preserve the three queued launchers and inspect actual container/model execution once resources are allocated. Admitted A/B objects are verified; native execution and all three numerical baselines remain unfinished.
-2. Complete per-pair baseline qualification and connect the existing raw teacher scoring evidence to the learning diagnostic with actual teacher identity binding before each formal run.
+2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
@@ -142,38 +145,34 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 原生提交、首次配置修正至服务端 admission 对照验证｜**当前前沿：** P2 原生启动与基线资格验证
+**检测窗口：** 服务端 admission 修正、实际对象回读至教师诊断复核关闭｜**当前前沿：** P2 原生启动与基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 239 项所需检查后已实际提交；新增模板核验只验证已观察到的启动依赖。 |
+| D1 工具打磨 | CLEAR | 实际作业已排队；教师诊断修复真实 dump 路径和已发现前缀缺陷，98 项通过后停止扩展，等待原生证据。 |
 | D2 细节反复重试 | CLEAR | 首次修正被实际 API 否定后停止排队作业；完整本地链取样与服务端双配置 dry-run 定位改写条件，第二次配置已通过服务端检查。 |
 | D3 支线问题修补 | CLEAR | ConfigMap 阻塞 P2；教师原始评分绑定属于 D9；清理由用户明确要求。 |
-| D4 可并行任务停滞 | CLEAR | 三组曾并行提交；A/B 同配置暂停修正，C 保留队列；CPU 取证与清理并行。共享配额限制有实际回执。 |
+| D4 可并行任务停滞 | CLEAR | A/B 已恢复且实际对象验证通过；C 保留队列。独立教师诊断和绘图已完成，三组共享配额不足有实际回执。 |
 | D5 超范围镀金 | CLEAR | 使用已有 per-task gang 选项；未新增控制平面修补、模型替换或预算扩展。 |
-| D6 分析空转 | CLEAR | 对照证据识别了本地模板检查遗漏的 admission 改写，已经形成服务端验证通过的配置；下一步为实际启动。 |
+| D6 分析空转 | CLEAR | admission 调查形成已提交并回读通过的配置；诊断缺口形成可执行 reader 并关闭复核。下一步依赖实际资源与模型输出。 |
 | D7 路线违背 | CLEAR | P2 探针与 D9 正式预算分开；只停止未开始训练的受阻作业；C 及所有验收值保留。 |
 
-**文档检查：** S5：plan 的 P2 切片、progress 的“提交代码”下一步及原生报告的“尚未提交/所有 task gang_start=true”已落后于代码与运行事实，需同步本次配置和失败回执。S1/S2/S3/S4/S6 未发现明显缺陷；运行启动和教师评分绑定均由 P2 持有。
-**归因：** 无执行偏离；陈旧状态直接更新。
+**文档检查：** S1–S6 均未发现新的明显缺陷；旧 S5 已同步实际作业、admission 结论和教师诊断关闭状态。GPU 排队和原生验证仍由 P2 持有。
+**归因：** 无。
 
 ## 3. 纠正建议
 
-**分支：** B：计划和执行状态需要同步，不改变已确认范围或验收值。
-
-**文档更新（先执行）：**
-1. plan.md 的 P2 切片：标明实现已提交、原生启动修正与学习诊断绑定待完成（可直接执行，已执行）。
-2. progress/native test report：记录真实作业、停止原因、显式 gang 参数与下一次验证条件（可直接执行，已执行）。
+**分支：** A：spec/plan 合理，无需改变范围或验收值。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
 1. P2：等待资源分配并验证三组实际启动 → 完成标志：教师进入原生进程、设备及模型身份有实际回执。
-2. 并行：A/B 受影响基线 ‖ C 独立队列；原始教师评分绑定 → 完成标志：原生数值/终态和学习监测输入均可复核。
+2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
 1. A 的失败发生于教师容器初始化；八张 student H800 设备证据不能代替模型数值或训练容量验收。
 2. 仅关闭教师被服务端改写；A/B 两个单节点 task 同时关闭已通过服务端 dry-run，仍需实际启动验证。
-3. C 保留排队，A/B 不需等待 C；正式训练之前还需绑定已有原始教师评分及真实教师身份。
+3. 教师 reader 已通过98项组合检查并关闭复核；实际学习指标、100步训练与最终HF重载均未完成。

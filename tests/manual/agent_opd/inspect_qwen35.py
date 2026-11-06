@@ -21,6 +21,12 @@ Full D8 also requires the native events/ JSONL publication chain, model-companio
 counter advances, and changed engine model checksums. The final monitoring
 forward must consume the final actual published version. A baseline checkpoint
 may pass its numerical check while the full D8 verdict remains INCOMPLETE.
+
+Teacher diagnostics use the original reward.teacher_response input-logprob
+array: native eval is dumped before reward post-processing fills teacher_log_probs.
+--teacher-ready binds startup identity to its sibling native student-launch.json.
+The pinned input-probability semantic argument is explicitly source/launch-derived,
+not a sampled request, model revision, or runtime-kernel receipt.
 """
 
 import argparse
@@ -38,6 +44,7 @@ from tests.manual.agent_opd.inspect_warmup import _tensor
 from tests.manual.agent_opd.prepare_qwen35 import LENGTH_STRATA, MONITOR_PER_STRATUM
 
 from miles.backends.training_utils.data.context_parallel import get_logits_and_tokens_offset_with_cp
+from miles.rollout.on_policy_distillation import _score_payload, _trim_input_field
 from miles.utils.audit_utils.event_analyzer.rules import (
     inference_engine_weight_checksum_consistency,
     inference_engine_weight_checksum_coverage,
@@ -278,11 +285,15 @@ def _prefill(sample, version):
     return values
 
 
-def _token_metrics(train, infer, *, sample, mask, threshold):
+def _token_metrics(train, infer, *, sample, mask, threshold, missing_positions=None):
     _require(len(infer) == len(mask), "inference_shape_mismatch", "Inference scores differ from original response length")
     positions = torch.nonzero(mask).flatten()
-    finite = torch.isfinite(train) & torch.isfinite(infer)
-    invalid = int((mask & ~finite).sum())
+    missing = torch.zeros_like(mask) if missing_positions is None else missing_positions
+    finite = torch.isfinite(train) & torch.isfinite(infer) & ~missing
+    nonfinite = (~torch.isfinite(train) & ~missing) | ~torch.isfinite(infer)
+    invalid = int((mask & nonfinite).sum())
+    missing_valid = int((mask & missing).sum())
+    unavailable = int((mask & (nonfinite | missing)).sum())
     selected = positions[finite[positions]]
     delta = train[selected] - infer[selected]
     invalid_delta = ~torch.isfinite(delta)
@@ -296,6 +307,8 @@ def _token_metrics(train, infer, *, sample, mask, threshold):
     issues = []
     if invalid:
         issues.append({"code": "nonfinite_valid_token", "detail": str(invalid)})
+    if missing_valid:
+        issues.append({"code": "missing_valid_token", "detail": str(missing_valid)})
     if derived_nonfinite:
         issues.append({"code": "nonfinite_unclamped_k3", "detail": str(derived_nonfinite)})
     if subtraction_nonfinite:
@@ -315,11 +328,12 @@ def _token_metrics(train, infer, *, sample, mask, threshold):
             "k3_r_minus_1_minus_d": _json_number(k3_reverse[row]),
             "tis_retained": bool(tis.tis_lower_bound <= ratio[row] <= tis.tis_upper_bound),
         })
-    result = _aggregate_metrics(records, expected_tokens=len(positions), missing_tokens=invalid + subtraction_nonfinite,
+    result = _aggregate_metrics(records, expected_tokens=len(positions), missing_tokens=unavailable + subtraction_nonfinite,
                                 zero_target_samples=int(not len(positions)), threshold=threshold, issues=issues)
-    result.update(nonfinite_valid_tokens=invalid, nonfinite_unclamped_k3=derived_nonfinite,
+    result.update(nonfinite_valid_tokens=invalid, missing_valid_tokens=missing_valid, nonfinite_unclamped_k3=derived_nonfinite,
                   nonfinite_logprob_differences=subtraction_nonfinite,
-                  nonfinite_masked_positions=int((~mask & ~finite).sum()))
+                  nonfinite_masked_positions=int((~mask & nonfinite).sum()),
+                  missing_masked_positions=int((~mask & missing).sum()))
     return result, records
 
 
@@ -346,7 +360,133 @@ def _aggregate_metrics(records, *, expected_tokens, missing_tokens, zero_target_
             "sampling_distribution": "student_decode", "delta_definition": "train_logprob - inference_logprob"}
 
 
-def _sample_summary(sample, frozen, slices, population, threshold):
+def _argv_value(argv, option):
+    _require(isinstance(argv, list) and argv.count(option) == 1, "teacher_launch_argument_missing_or_duplicate", option)
+    index = argv.index(option) + 1
+    _require(index < len(argv) and isinstance(argv[index], str) and not argv[index].startswith("--"),
+             "teacher_launch_argument_missing_or_duplicate", option)
+    return argv[index]
+
+
+def _teacher_contract(run_dir, teacher_ready):
+    result = {"status": "incomplete", "issues": [], "teacher_ready": str(teacher_ready) if teacher_ready else None,
+              "probability_definition": {"definition": "full_vocabulary_log_softmax",
+                  "basis": "source_and_launch_contract_derived", "sample_recorded": False,
+                  "source_commit": "056f871a7ee8b4573832049011f0fdf52589cfd8",
+                  "source_url": "https://raw.githubusercontent.com/sgl-project/sglang/056f871a7ee8b4573832049011f0fdf52589cfd8/python/sglang/srt/layers/logprob_processor.py",
+                  "producer": "qwen_alignment.score_teacher -> on_policy_distillation._score_payload",
+                  "explanation": "The task-pinned deterministic SGLang input-logprob processor applies log_softmax to raw logits; temperature=0 selects decoding and does not scale input logprobs."},
+              "evidence_limits": ["Request fields and probability semantics are source/launch-contract-derived, not sample-recorded receipts.",
+                                  "Teacher identity is startup model_info plus the frozen-teacher launch contract; no per-response model revision or consumed teacher weight version is recorded."]}
+    try:
+        _require(teacher_ready is not None, "teacher_identity_unbound", "Provide the native teacher-ready.json rendezvous")
+        ready = json.loads(teacher_ready.read_text())
+        launch_path = teacher_ready.parent / "student-launch.json"
+        launch = json.loads(launch_path.read_text())
+        result["student_launch"] = str(launch_path)
+        _require(ready["status"] == "ready" and ready["role"] == "teacher" and ready["rank"] == 0,
+                 "teacher_readiness_invalid", "Need the head teacher's successful native readiness receipt")
+        _require(launch["role"] == "student" and launch["rank"] == 0 and ready["image"]
+                 and (ready["job"], ready["pair"], ready["image"]) == (launch["job"], launch["pair"], launch["image"]),
+                 "teacher_launch_identity_mismatch", "Student and teacher receipts belong to different jobs, pairs or images")
+        server, student = ready["argv"], launch["argv"]
+        _require(server[1:4] == ["-B", "-m", "sglang.launch_server"]
+                 and student[1:4] == ["-B", "-m", "tests.manual.agent_opd.run_qwen35_opd"],
+                 "teacher_launch_contract_unknown", "Receipts do not name the supported native teacher/student producers")
+        expected = _argv_value(student, "--teacher")
+        _require(expected == ready["model_info"]["model_path"] == ready["model_path"] == _argv_value(server, "--model-path")
+                 and expected != _argv_value(student, "--student") == launch["model_path"],
+                 "teacher_model_identity_mismatch", "Startup model_info/server argv do not match the student's expected distinct teacher asset")
+        _require(ready["url"] == launch["teacher_url"] == _argv_value(student, "--teacher-url")
+                 == f"http://{ready['ip']}:{_argv_value(server, '--port')}/generate",
+                 "teacher_endpoint_identity_mismatch", "Readiness and student launch do not identify the same native teacher endpoint")
+        expected_run = Path(_argv_value(student, "--output-root")) / ready["pair"] / ready["job"]
+        _require(expected_run == run_dir.absolute() and _argv_value(student, "--pair") == ready["pair"],
+                 "teacher_launch_run_mismatch", "Provided run is not the recorded student output-root/pair/job; relocated copies lack a run-origin receipt")
+        _require(server.count("--enable-deterministic-inference") == 1 and _argv_value(server, "--node-rank") == "0",
+                 "teacher_probability_contract_unestablished", "The pinned input-logprob semantic argument requires the native deterministic head-server launch")
+        request = _score_payload([])
+        _require(request == {"input_ids": [], "sampling_params": {"temperature": 0, "max_new_tokens": 0, "skip_special_tokens": False},
+                             "return_logprob": True, "logprob_start_len": 0},
+                 "teacher_request_contract_changed", "The task producer's input-scoring request shape changed")
+        request.pop("input_ids")
+        result.update(status="established", endpoint=ready["url"], expected_model_path=expected,
+                      startup_model_path=ready["model_info"]["model_path"], job=ready["job"], pair=ready["pair"], image=ready["image"])
+        result["probability_definition"]["request_shape_from_source"] = request
+        result["probability_definition"]["input_ids_from_source"] = "Exact sample.tokens, without re-tokenization; the request itself is not recorded"
+    except FileNotFoundError as error:
+        result["issues"].append({"code": "teacher_identity_evidence_missing", "detail": str(error)})
+    except Exception as error:
+        result["issues"].append(_issue(error))
+    return result
+
+
+def _teacher_diagnostic(sample, mask, contract, threshold):
+    measured = _aggregate_metrics([], expected_tokens=int(mask.sum()), missing_tokens=int(mask.sum()),
+                                  zero_target_samples=int(not mask.any()), threshold=threshold, issues=[])
+    measured.update(verdict="INCOMPLETE", delta_definition="teacher_logprob - student_decode_logprob",
+                    missing_valid_tokens=None, nonfinite_valid_tokens=None, nonfinite_masked_positions=None,
+                    missing_masked_positions=None, score_source="reward.teacher_response.meta_info.input_token_logprobs",
+                    expected_input_score_entries=len(sample["tokens"]), input_score_entries=None)
+    try:
+        response = (sample.get("reward") or {}).get("teacher_response")
+        _require(isinstance(response, dict), "teacher_response_missing", "Native eval precedes reward post-processing; use its preserved raw teacher response, not teacher_log_probs")
+        raw = response["meta_info"].get("input_token_logprobs")
+        _require(isinstance(raw, list), "teacher_scores_missing", "Raw input-token logprobs are absent")
+        measured["input_score_entries"] = len(raw)
+        _require(len(raw) == len(sample["tokens"]), "teacher_input_score_coverage_mismatch", "Native logprob_start_len=0 must retain one entry per input token, including its first placeholder")
+        _require(all(isinstance(item, (list, tuple)) and len(item) >= 2 for item in raw),
+                 "teacher_input_score_shape_mismatch", "Raw input entries must preserve their token IDs, including the first logprob placeholder")
+        ids = [item[1] for item in raw]
+        _require(all(type(value) is int for value in ids) and ids == sample["tokens"],
+                 "teacher_input_token_mismatch", "Rechecked raw teacher input IDs differ from the exact student prefix or completion")
+        scores = _trim_input_field(response["meta_info"], "input_token_logprobs", sample["response_length"])
+        values = [item[0] for item in scores]
+        _require(all(value is None or type(value) in (int, float) for value in values), "teacher_score_value_invalid", "Raw scores must be numeric or explicitly missing")
+        missing = torch.tensor([value is None for value in values], dtype=torch.bool)
+        # An internal NaN marks an absent value; its separate missing mask excludes
+        # it before math and preserves the original denominator and missing count.
+        teacher = torch.tensor([math.nan if value is None else value for value in values], dtype=torch.float64)
+        measured.update(missing_valid_tokens=int((mask & missing).sum()),
+                        nonfinite_valid_tokens=int((mask & ~missing & ~torch.isfinite(teacher)).sum()),
+                        missing_masked_positions=int((~mask & missing).sum()),
+                        nonfinite_masked_positions=int((~mask & ~missing & ~torch.isfinite(teacher)).sum()))
+        receipt = sample["metadata"].get("teacher_scoring", {})
+        _require(receipt.get("token_ids_match") is True and receipt.get("scored_tokens") == len(mask),
+                 "teacher_token_receipt_missing", "Native score_teacher completion receipt is absent or inconsistent")
+        _require(contract and contract["status"] == "established",
+                 contract["issues"][0]["code"] if contract and contract["issues"] else "teacher_identity_unbound",
+                 contract["issues"][0]["detail"] if contract and contract["issues"] else "Native teacher identity/semantic contract is unbound")
+        _require(receipt.get("endpoint") == contract["endpoint"], "teacher_sample_endpoint_mismatch", "Sample's actual score endpoint differs from the bound teacher readiness/launch endpoint")
+        definition = sample["metadata"].get("probability_definition", {})
+        _require(definition.get("decode") == "full_vocabulary_log_softmax" and definition.get("sampling_distribution") == "student_decode"
+                 and all(definition.get("sampling_params", {}).get(name) == value for name, value in (("temperature", 1), ("top_p", 1), ("top_k", -1))),
+                 "teacher_student_sampling_definition_unestablished", "Student sampling/probability receipt is missing or transformed")
+        decode = _vector(sample["rollout_log_probs"], "decode scores")
+        measured, records = _token_metrics(teacher, decode, sample=sample, mask=mask, threshold=threshold, missing_positions=missing)
+        if measured["missing_masked_positions"] or measured["nonfinite_masked_positions"]:
+            # Native score_teacher validates every completion score, not just
+            # target positions. Corrupt masked values cannot be a complete native
+            # receipt, although the original mask still owns all metric math.
+            measured["issues"].append({"code": "masked_probability_evidence_invalid",
+                                       "detail": "Retained masked scores are missing/nonfinite; eligible metrics retain their original mask and denominator"})
+            measured["verdict"] = "INCOMPLETE"
+        for token in records:
+            token["teacher_logprob"] = token.pop("train_logprob")
+            token.pop("tis_retained")
+        measured.update(verdict="INCOMPLETE" if measured["verdict"] == "INCOMPLETE" else "DIAGNOSTIC",
+                        delta_definition="teacher_logprob - student_decode_logprob",
+                        score_source="reward.teacher_response.meta_info.input_token_logprobs",
+                        teacher_identity={"endpoint": contract["endpoint"], "model_path": contract["startup_model_path"]},
+                        probability_basis="source_and_launch_contract_derived",
+                        expected_input_score_entries=len(sample["tokens"]), input_score_entries=len(raw))
+        return measured, records
+    except Exception as error:
+        measured["issues"].append(_issue(error))
+        return measured, []
+
+
+def _sample_summary(sample, frozen, slices, population, threshold, teacher_contract=None):
     summary = {"source_uid": frozen["uid"], "stratum": frozen["stratum"], "sample_index": sample.get("index"),
                "response_tokens": sample.get("response_length"), "expected_valid_tokens": None,
                "zero_target": None, "issues": [], "comparisons": {}}
@@ -356,6 +496,12 @@ def _sample_summary(sample, frozen, slices, population, threshold):
         summary.update(expected_valid_tokens=int(mask.sum()), zero_target=not bool(mask.any()))
         _source_check(sample, frozen, population)
         version = _decode_version(sample, frozen["prompt_token_count"])
+    except Exception as error:
+        summary["issues"].append(_issue(error))
+        summary["comparisons"]["teacher_student"] = {"verdict": "INCOMPLETE", "issues": [_issue(error)]}
+        return summary, records
+    summary["comparisons"]["teacher_student"], records["teacher_student"] = _teacher_diagnostic(sample, mask, teacher_contract, threshold)
+    try:
         train, meta = _assemble_scores(slices, sample, mask)
         _require(str(meta["weight_version"]) == version, "trainer_decode_version_mismatch",
                  f"Trainer {meta['weight_version']} versus consumed {version}; never inferred from rollout index")
@@ -363,35 +509,13 @@ def _sample_summary(sample, frozen, slices, population, threshold):
     except Exception as error:
         summary["issues"].append(_issue(error))
         return summary, records
-    for name in records:
+    for name in ("decode", "prefill"):
         try:
             _probability_check(sample, meta, name)
             infer = _vector(sample["rollout_log_probs"], "decode scores") if name == "decode" else _prefill(sample, version)
             summary["comparisons"][name], records[name] = _token_metrics(train, infer, sample=sample, mask=mask, threshold=threshold)
         except Exception as error:
             summary["comparisons"][name] = {"verdict": "INCOMPLETE", "issues": [_issue(error)]}
-    teacher = sample.get("teacher_log_probs")
-    if teacher is not None:
-        try:
-            receipt = sample["metadata"].get("teacher_scoring", {})
-            _require(receipt.get("token_ids_match") is True and receipt.get("scored_tokens") == len(mask),
-                     "teacher_token_receipt_missing", "Teacher must score the exact student completion")
-            _require(sample["metadata"].get("probability_definition", {}).get("teacher") == "full_vocabulary_log_softmax",
-                     "teacher_probability_definition_missing", "Teacher probability definition is undeclared")
-            teacher = _vector(teacher, "teacher scores")
-            decode = _vector(sample["rollout_log_probs"], "decode scores")
-            _require(len(teacher) == len(mask), "teacher_shape_mismatch", "Teacher response length differs")
-            _require(bool(torch.isfinite(teacher[mask]).all()), "teacher_nonfinite", "Teacher eligible scores are nonfinite")
-            measured, records["teacher_student"] = _token_metrics(teacher, decode, sample=sample, mask=mask, threshold=threshold)
-            for token in records["teacher_student"]:
-                token["teacher_logprob"] = token.pop("train_logprob")
-                token.pop("tis_retained")
-            # D8 is a same-student gate, not a teacher/student divergence threshold.
-            measured["verdict"] = "INCOMPLETE" if measured["verdict"] == "INCOMPLETE" else "DIAGNOSTIC"
-            measured["delta_definition"] = "teacher_logprob - student_decode_logprob"
-            summary["comparisons"]["teacher_student"] = measured
-        except Exception as error:
-            summary["comparisons"]["teacher_student"] = {"verdict": "INCOMPLETE", "issues": [_issue(error)]}
     return summary, records
 
 
@@ -401,7 +525,8 @@ def _comparison_summary(samples, records, name, threshold, issues):
         rows = [row for row in samples if stratum == "overall" or row["stratum"] == stratum]
         chosen = [token for row in rows for token in records.get(row["source_uid"], {}).get(name, [])]
         faults = list(issues)
-        faults.extend(issue for row in rows for issue in row["issues"])
+        if name != "teacher_student":
+            faults.extend(issue for row in rows for issue in row["issues"])
         faults.extend(issue for row in rows for issue in row["comparisons"].get(name, {}).get("issues", []))
         if any(name not in row["comparisons"] for row in rows):
             faults.append({"code": "comparison_missing", "detail": name})
@@ -415,8 +540,9 @@ def _comparison_summary(samples, records, name, threshold, issues):
                                              threshold=threshold, issues=faults)
         result[stratum]["unknown_denominator_samples"] = unknown
         result[stratum]["sample_count"] = len(rows)
-        for field in ("nonfinite_valid_tokens", "nonfinite_unclamped_k3", "nonfinite_logprob_differences", "nonfinite_masked_positions"):
-            result[stratum][field] = sum(row["comparisons"].get(name, {}).get(field, 0) for row in rows)
+        for field in ("nonfinite_valid_tokens", "nonfinite_unclamped_k3", "nonfinite_logprob_differences", "nonfinite_masked_positions", "missing_valid_tokens", "missing_masked_positions"):
+            values = [row["comparisons"].get(name, {}).get(field, None if name == "teacher_student" else 0) for row in rows]
+            result[stratum][field] = sum(values) if all(value is not None for value in values) else None
     verdict = _verdict([row["verdict"] for row in result.values()])
     return {"verdict": verdict, **result}
 
@@ -435,7 +561,7 @@ def _verdict(values):
     return "INCOMPLETE" if not values or "INCOMPLETE" in values else "FAIL" if "FAIL" in values else "PASS"
 
 
-def _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold):
+def _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold, teacher_contract=None):
     raw_path = run_dir / "rollout_data" / f"eval_{rollout_id}.pt"
     stem = f"eval_{quote(dataset, safe='')}_{rollout_id}"
     paths = sorted((run_dir / "train_data").glob(f"{stem}_*.pt"))
@@ -466,7 +592,7 @@ def _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold):
                               "comparisons": {}, "issues": [{"code": "monitoring_sample_missing", "detail": uid}]})
             continue
         sample = raw_samples[uid]
-        summary, tokens = _sample_summary(sample, row, slices.get(sample["index"], []), population, threshold)
+        summary, tokens = _sample_summary(sample, row, slices.get(sample["index"], []), population, threshold, teacher_contract)
         summaries.append(summary)
         records[uid] = tokens
     comparisons = {name: _comparison_summary(summaries, records, name, threshold, issues) for name in ("decode", "prefill")}
@@ -482,7 +608,7 @@ def _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold):
                           "retained_fraction_of_measurable": sum(token["tis_retained"] for token in decode_tokens) / len(decode_tokens) if decode_tokens else None,
                           "acceptance_uses_pre_tis_population": True}}
     if any("teacher_student" in row["comparisons"] for row in summaries):
-        checkpoint["teacher_student_sampled_divergence"] = _teacher_summary(summaries, records, threshold, issues)
+        checkpoint["teacher_student_sampled_divergence"] = _teacher_summary(summaries, records, threshold, [issue for issue in issues if issue.get("path") == str(raw_path)])
     return checkpoint, records
 
 
@@ -595,7 +721,7 @@ def _publication_checks(run_dir, checkpoints):
     return result
 
 
-def inspect(run_dir, population_report, *, dataset="monitor", checkpoints=(0, 19, 39, 59, 79, 99), threshold=0.03):
+def inspect(run_dir, population_report, *, dataset="monitor", checkpoints=(0, 19, 39, 59, 79, 99), threshold=0.03, teacher_ready=None):
     """Return JSON-compatible evidence. Corrupt/missing samples never abort later checkpoints."""
     _require(threshold == 0.03, "acceptance_threshold_changed", "D8's accepted threshold is exactly 0.03")
     _require(tuple(checkpoints) == (0, 19, 39, 59, 79, 99), "monitoring_schedule_changed", "D9 requires all six native monitoring positions")
@@ -611,9 +737,10 @@ def inspect(run_dir, population_report, *, dataset="monitor", checkpoints=(0, 19
         result["issues"].append(_issue(error))
         return result
     result["monitoring_uids"] = list(frozen)
+    result["teacher_contract"] = _teacher_contract(run_dir, teacher_ready)
     all_samples, all_records = [], {}
     for rollout_id in checkpoints:
-        checkpoint, records = _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold)
+        checkpoint, records = _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold, result["teacher_contract"])
         result["checkpoints"].append(checkpoint)
         for row in checkpoint["samples"]:
             key = f"{rollout_id}:{row['source_uid']}"
@@ -622,7 +749,9 @@ def inspect(run_dir, population_report, *, dataset="monitor", checkpoints=(0, 19
     faults = [issue for checkpoint in result["checkpoints"] for issue in checkpoint["issues"]]
     result["aggregate"] = {name: _comparison_summary(all_samples, all_records, name, threshold, faults) for name in ("decode", "prefill")}
     if any("teacher_student" in row["comparisons"] for row in all_samples):
-        result["aggregate"]["teacher_student_sampled_divergence"] = _teacher_summary(all_samples, all_records, threshold, faults)
+        teacher_faults = [issue for checkpoint in result["checkpoints"] for issue in checkpoint["issues"]
+                         if issue.get("path") == checkpoint["raw_artifacts"]["samples"]]
+        result["aggregate"]["teacher_student_sampled_divergence"] = _teacher_summary(all_samples, all_records, threshold, teacher_faults)
     result["weight_publication"] = _publication_checks(run_dir, result["checkpoints"])
     result["verdict"] = _verdict([checkpoint["verdict"] for checkpoint in result["checkpoints"]]
                                 + [result["weight_publication"]["verdict"]])
@@ -639,8 +768,9 @@ def main():
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--dataset", default="monitor")
     parser.add_argument("--threshold", type=float, default=0.03)
+    parser.add_argument("--teacher-ready", type=Path, help="Native pair-worker teacher-ready.json; its sibling student-launch.json binds the expected teacher and run")
     args = parser.parse_args()
-    report = inspect(args.run_dir, args.population_report, dataset=args.dataset, threshold=args.threshold)
+    report = inspect(args.run_dir, args.population_report, dataset=args.dataset, threshold=args.threshold, teacher_ready=args.teacher_ready)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2, allow_nan=False) + "\n")
     print("QWEN35_NUMERICAL_ACCEPTANCE", report["verdict"], str(args.report), flush=True)

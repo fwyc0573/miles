@@ -4,8 +4,10 @@ All probabilities are deterministic fixtures, not measured model results.
 """
 
 import copy
+import asyncio
 import json
 import math
+from types import SimpleNamespace
 
 import pytest
 import torch
@@ -22,6 +24,7 @@ from miles.utils.audit_utils.event_logger.models import (
     WeightUpdateResultEvent,
 )
 from miles.utils.audit_utils.process_identity import SimpleProcessIdentity, TrainerControllerProcessIdentity
+from miles.utils.types import Sample
 
 # The complete file measured 34.57 seconds in the task's CPU environment.
 register_cpu_ci(est_time=45, suite="stage-b-cpu", labels=["megatron"])
@@ -156,7 +159,7 @@ def native_run(tmp_path_factory, native_fixture):
     return root, path
 
 
-def _fault_run(tmp_path, native_run, native_fixture, mutate, checkpoint=0, *, full=False):
+def _fault_run(tmp_path, native_run, native_fixture, mutate, checkpoint=0, *, full=False, teacher_ready=None):
     root, population = native_run
     for directory in ("rollout_data", "train_data"):
         (tmp_path / directory).mkdir()
@@ -167,9 +170,10 @@ def _fault_run(tmp_path, native_run, native_fixture, mutate, checkpoint=0, *, fu
     _write_checkpoint(tmp_path, native_fixture[1], checkpoint, mutate, weight_version=version)
     if full:
         (tmp_path / "events").symlink_to(root / "events", target_is_directory=True)
-        return inspector.inspect(tmp_path, population)
+        return inspector.inspect(tmp_path, population, teacher_ready=teacher_ready)
     frozen = inspector._population(native_fixture[0])
-    result, _ = inspector._checkpoint(tmp_path, native_fixture[0], frozen, checkpoint, "monitor", 0.03)
+    contract = inspector._teacher_contract(tmp_path, teacher_ready)
+    result, _ = inspector._checkpoint(tmp_path, native_fixture[0], frozen, checkpoint, "monitor", 0.03, contract)
     return {"verdict": result["verdict"], "checkpoints": [result]}
 
 
@@ -413,21 +417,212 @@ def test_valid_nonfinite_is_incomplete_but_masked_nonfinite_is_excluded(native_f
     assert metrics["nonfinite_masked_positions"] == 1
 
 
-def test_teacher_student_divergence_is_separate_diagnostic_not_d8_failure(tmp_path, native_run, native_fixture):
-    def mutate(dump, batch):
-        for sample in dump["samples"]:
-            sample["teacher_log_probs"] = [-1.8, -1.8]
-            sample["metadata"]["probability_definition"]["teacher"] = "full_vocabulary_log_softmax"
-            sample["metadata"]["teacher_scoring"] = {"token_ids_match": True, "scored_tokens": 2}
-    report = _fault_run(tmp_path, native_run, native_fixture, mutate)
-    checkpoint = report["checkpoints"][0]
-    assert checkpoint["verdict"] == report["verdict"] == "PASS"
-    teacher = checkpoint["teacher_student_sampled_divergence"]
-    assert teacher["verdict"] == "DIAGNOSTIC"
-    assert teacher["overall"]["abs_mean"] == pytest.approx(0.2)
-    assert teacher["overall"]["delta_definition"] == "teacher_logprob - student_decode_logprob"
-    assert "teacher_logprob" in teacher["overall"]["worst_tokens"][0]
-    assert "tis_retained" not in teacher["overall"]["worst_tokens"][0]
+@pytest.fixture(scope="module")
+def native_teacher_samples(native_fixture):
+    """Exercise actual score_teacher and Sample serialization before reward conversion.
+
+    Only HTTP and the unrelated student observer are replaced. Neither flattened
+    teacher tensors nor a sample-recorded teacher probability declaration exist.
+    """
+    from tests.manual.agent_opd import qwen_alignment
+
+    requests, output = [], []
+    args = SimpleNamespace(rm_url="http://127.0.0.1:30000/generate", sglang_router_request_timeout_secs=60)
+    async def post(url, payload, timeout_secs):
+        requests.append((url, payload, timeout_secs))
+        tokens = payload["input_ids"]
+        prefix = len(tokens) - 2
+        values = [[None, tokens[0], "prefix"]] + [[-100.0, 17, "prefix"]] * (prefix - 1)
+        values += [[-1.8, token, "completion"] for token in tokens[prefix:]]
+        return {"meta_info": {"input_token_logprobs": values}}
+    async def rescore(*args):
+        return None
+    async def produce():
+        for row in copy.deepcopy(native_fixture[1]):
+            _versions(row, "17")
+            sample = Sample.from_dict(row)
+            sample.reward = await qwen_alignment.score_teacher(args, sample)
+            output.append(sample.to_dict())
+    with pytest.MonkeyPatch.context() as patch:
+        patch.setattr(qwen_alignment.opd, "_post_json", post)
+        patch.setattr(qwen_alignment, "rescore_student", rescore)
+        asyncio.run(produce())
+    return output, requests
+
+
+def _write_teacher_ready(run_dir):
+    from tests.manual.agent_opd import qwen35_pair_worker as worker
+    from tests.manual.agent_opd.prepare_qwen35 import CONTEXT_TOKENS
+
+    root = run_dir.parents[2]
+    student = {"path": "/models/student", "gpus_per_node": 8, "engine_gpus": 4, "tp_size": 2,
+               "max_tokens_per_gpu": CONTEXT_TOKENS, "mem_fraction_static": 0.7,
+               "max_running_requests": 1, "chunked_prefill_size": 8192}
+    teacher = {"path": "/models/frozen-teacher", "nodes": 1, "tp_size": 8, "mem_fraction_static": 0.7,
+               "max_running_requests": 1, "chunked_prefill_size": 8192}
+    config = {"pairs": {"A": {"student": student, "teacher": teacher}}, "run_root": str(root),
+              "shared_dir": str(root / "shared"), "population_dir": str(root / "population"),
+              "teacher_port": 30000, "teacher_dist_port": 29500, "context_tokens": CONTEXT_TOKENS,
+              "startup_timeout": 1800, "request_timeout": 60, "num_rollout": 100}
+    evidence = {"job": run_dir.name, "pair": "A", "rank": 0, "ip": "127.0.0.1", "image": "fixture-image@sha256:fixture"}
+    ready = {**evidence, "status": "ready", "role": "teacher", "model_path": teacher["path"],
+             "url": "http://127.0.0.1:30000/generate", "model_info": {"model_path": teacher["path"]},
+             "argv": worker._teacher_command(config, "A", 0, evidence)}
+    launch = {**evidence, "role": "student", "model_path": student["path"], "teacher_url": ready["url"],
+              "argv": worker._student_command(config, "A", ready, root / "local")}
+    directory = root / "shared" / run_dir.name / "A"
+    directory.mkdir(parents=True)
+    path = directory / "teacher-ready.json"
+    path.write_text(json.dumps(ready))
+    (directory / "student-launch.json").write_text(json.dumps(launch))
+    return path
+
+
+def test_native_nested_teacher_response_is_separate_diagnostic_with_bound_launch(tmp_path, native_fixture, native_teacher_samples):
+    samples, requests = native_teacher_samples
+    root = tmp_path / "student" / "A" / "teacher-job"
+    (root / "rollout_data").mkdir(parents=True)
+    (root / "train_data").mkdir()
+    ready = _write_teacher_ready(root)
+    population = root / "population.json"
+    population.write_text(json.dumps(native_fixture[0]))
+    versions = _write_native_events(root)
+    for position in (0, 19, 39, 59, 79, 99):
+        _write_checkpoint(root, samples, position, weight_version=versions[None if position == 0 else position])
+    report = inspector.inspect(root, population, teacher_ready=ready)
+    assert report["verdict"] == "PASS"
+    assert all(sample["teacher_log_probs"] is None for sample in samples)
+    assert all("teacher" not in sample["metadata"]["probability_definition"] for sample in samples)
+    assert requests[0] == ("http://127.0.0.1:30000/generate", inspector._score_payload(samples[0]["tokens"]), 60)
+    contract = report["teacher_contract"]
+    assert contract["status"] == "established"
+    assert contract["probability_definition"]["basis"] == "source_and_launch_contract_derived"
+    assert contract["probability_definition"]["sample_recorded"] is False
+    assert contract["startup_model_path"] == contract["expected_model_path"] == "/models/frozen-teacher"
+    for checkpoint in report["checkpoints"]:
+        teacher = checkpoint["teacher_student_sampled_divergence"]
+        assert checkpoint["verdict"] == "PASS" and teacher["verdict"] == "DIAGNOSTIC"
+        assert teacher["overall"]["expected_valid_tokens"] == teacher["overall"]["compared_finite_tokens"] == 48
+        assert teacher["overall"]["abs_mean"] == pytest.approx(0.2)
+        assert teacher["overall"]["delta_definition"] == "teacher_logprob - student_decode_logprob"
+        assert "teacher_logprob" in teacher["overall"]["worst_tokens"][0]
+        assert "tis_retained" not in teacher["overall"]["worst_tokens"][0]
+    assert report["aggregate"]["teacher_student_sampled_divergence"]["verdict"] == "DIAGNOSTIC"
+    json.dumps(report, allow_nan=False)
+
+
+@pytest.mark.parametrize("prefix_position", [0, 1])
+def test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, prefix_position):
+    root = tmp_path / "student" / "A" / "teacher-job"
+    root.mkdir(parents=True)
+    contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+    index = MONITOR_PER_STRATUM
+    sample = copy.deepcopy(native_teacher_samples[0][index])
+    raw = sample["reward"]["teacher_response"]["meta_info"]["input_token_logprobs"]
+    assert raw[0][0] is None
+    assert prefix_position < sample["metadata"]["source"]["prompt_token_count"]
+    batch = _batch([sample], 0, weight_version=17)
+    slices = [(batch, 0, "native.pt")]
+    frozen = native_fixture[0]["population"][index]
+    valid, _ = inspector._sample_summary(sample, frozen, slices, native_fixture[0], 0.03, contract)
+    assert valid["comparisons"]["teacher_student"]["verdict"] == "DIAGNOSTIC"
+    assert valid["comparisons"]["teacher_student"]["expected_valid_tokens"] == 2
+    assert valid["comparisons"]["teacher_student"]["abs_mean"] == pytest.approx(0.2)
+    # Isolate the row: immutable prefix entries are shared in this CPU fixture.
+    raw[prefix_position] = list(raw[prefix_position])
+    raw[prefix_position][1] += 1
+    assert sum(item[1] != token for item, token in zip(raw, sample["tokens"], strict=True)) == 1
+    assert [item[1] for item in raw[-sample["response_length"]:]] == sample["tokens"][-sample["response_length"]:]
+    summary, records = inspector._sample_summary(sample, frozen, slices, native_fixture[0], 0.03, contract)
+    assert summary["comparisons"]["decode"]["verdict"] == summary["comparisons"]["prefill"]["verdict"] == "PASS"
+    teacher = summary["comparisons"]["teacher_student"]
+    assert teacher["verdict"] == "INCOMPLETE"
+    assert teacher["issues"][0]["code"] == "teacher_input_token_mismatch"
+    assert records["teacher_student"] == []
+
+
+@pytest.mark.parametrize("fault,code", [
+    ("token_ids", "teacher_input_token_mismatch"),
+    ("missing_field", "teacher_scores_missing"),
+    ("short_array", "teacher_input_score_coverage_mismatch"),
+    ("missing_value", "missing_valid_token"),
+    ("nonfinite", "nonfinite_valid_token"),
+    ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+    ("unbound", "teacher_identity_unbound"),
+    ("ready_url", "teacher_endpoint_identity_mismatch"),
+    ("ready_model", "teacher_model_identity_mismatch"),
+    ("server_model", "teacher_model_identity_mismatch"),
+    ("deterministic", "teacher_probability_contract_unestablished"),
+])
+def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+    root = tmp_path / "student" / "A" / "teacher-job"
+    root.mkdir(parents=True)
+    ready = _write_teacher_ready(root)
+    sample = copy.deepcopy(native_teacher_samples[0][0])
+    raw = sample["reward"]["teacher_response"]["meta_info"]["input_token_logprobs"]
+    if fault == "token_ids":
+        raw[-1][1] = 999
+    elif fault == "missing_field":
+        sample["reward"]["teacher_response"]["meta_info"]["input_token_logprobs"] = None
+    elif fault == "short_array":
+        raw.pop()
+    elif fault == "missing_value":
+        raw[-1][0] = None
+    elif fault == "nonfinite":
+        raw[-1][0] = math.nan
+    elif fault == "sample_endpoint":
+        sample["metadata"]["teacher_scoring"]["endpoint"] = "http://wrong-teacher:30000/generate"
+    elif fault == "unbound":
+        ready = None
+    else:
+        receipt = json.loads(ready.read_text())
+        if fault == "ready_url":
+            receipt["url"] = "http://wrong-teacher:30000/generate"
+        elif fault == "ready_model":
+            receipt["model_info"]["model_path"] = "/models/wrong-teacher"
+        elif fault == "server_model":
+            receipt["argv"][receipt["argv"].index("--model-path") + 1] = "/models/wrong-teacher"
+        elif fault == "deterministic":
+            receipt["argv"].remove("--enable-deterministic-inference")
+        ready.write_text(json.dumps(receipt))
+    contract = inspector._teacher_contract(root, ready)
+    batch = _batch([sample], 0, weight_version=17)
+    summary, records = inspector._sample_summary(sample, native_fixture[0]["population"][0], [(batch, 0, "native.pt")], native_fixture[0], 0.03, contract)
+    assert summary["comparisons"]["decode"]["verdict"] == summary["comparisons"]["prefill"]["verdict"] == "PASS"
+    teacher = summary["comparisons"]["teacher_student"]
+    assert teacher["verdict"] == "INCOMPLETE"
+    assert code in {issue["code"] for issue in teacher["issues"]}
+    assert teacher["expected_valid_tokens"] == 2
+    if fault in ("missing_value", "nonfinite"):
+        assert teacher["compared_finite_tokens"] == len(records["teacher_student"]) == 1
+        assert teacher["missing_or_nonfinite_tokens"] == 1
+        assert teacher["missing_valid_tokens"] == int(fault == "missing_value")
+        assert teacher["nonfinite_valid_tokens"] == int(fault == "nonfinite")
+    if fault in ("short_array", "missing_field"):
+        assert teacher["nonfinite_valid_tokens"] is None
+    json.dumps(summary, allow_nan=False)
+
+
+@pytest.mark.parametrize("missing", [False, True])
+def test_teacher_masked_corruption_is_incomplete_with_original_denominator(tmp_path, native_fixture, native_teacher_samples, missing):
+    root = tmp_path / "student" / "A" / "teacher-job"
+    root.mkdir(parents=True)
+    contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+    sample = copy.deepcopy(native_teacher_samples[0][0])
+    sample["loss_mask"] = [1, 0]
+    sample["reward"]["teacher_response"]["meta_info"]["input_token_logprobs"][-1][0] = None if missing else math.nan
+    batch = _batch([sample], 0, weight_version=17)
+    summary, records = inspector._sample_summary(sample, native_fixture[0]["population"][0], [(batch, 0, "native.pt")], native_fixture[0], 0.03, contract)
+    teacher = summary["comparisons"]["teacher_student"]
+    assert teacher["verdict"] == "INCOMPLETE"
+    assert teacher["issues"][0]["code"] == "masked_probability_evidence_invalid"
+    assert summary["comparisons"]["decode"]["verdict"] == summary["comparisons"]["prefill"]["verdict"] == "PASS"
+    assert teacher["expected_valid_tokens"] == teacher["compared_finite_tokens"] == 1
+    assert teacher["missing_valid_tokens"] == teacher["nonfinite_valid_tokens"] == 0
+    assert teacher["missing_masked_positions"] == int(missing)
+    assert teacher["nonfinite_masked_positions"] == int(not missing)
+    assert records["teacher_student"][0]["response_position"] == 0
+    assert sample["loss_mask"] == [1, 0]
 
 
 def test_token_weighted_not_sample_weighted_and_each_stratum_is_gated(tmp_path, native_run, native_fixture):
