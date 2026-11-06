@@ -131,10 +131,11 @@
 63. A `exp-1107-030522-873302` passed native Ray initialization: one live8-GPU node and actual Megatron actor/model construction. It then failed at19:45:48Z on native scheduler `assert self.lr_decay_steps > 0`, derived from the baseline command's `num_rollout=0`. Retained exact cloud traceback, object/UID/timeline, all eight successful RCA query receipts and sampled memory counters; the [native prerequisite report](test_report_2026-11-07_native_prerequisites.md) owns details. This is not another socket failure or an observed OOM. Read-only SSH cloud inspection is now available as i-fengyicheng. Assigned `QWEN-P2-LAUNCH` to validate/reuse the existing optimizer-free path only for zero-update baselines, with native-branch red/green coverage and no fabricated scheduler duration. Formal100-step settings remain required. B had no student-launch receipt and was stopped via rjob_stop.sh at03:50:30 to prevent the same known initialization failure; its launcher confirmed Stopped03:50:40. C remains in its original independent queue.
 64. Exact pre-retry API checks confirm old A Failed/teacher Stopped and old B both replicas Stopped (`evidence/platform-before-scheduler-retry-20261107.json`). C then left its queue: three actual containers are Running on student gpu-h800-0210 and teacher gpu-h800-0071/0223 (`evidence/platform-c-starting-20261107.json`). Its three native node receipts verify8 H800 each,24 total,81,559MiB/device and driver570.124.06, with correct full27B/397B paths and pinned image. At20:02:16Z both teacher logs reached TP0–15 model construction; head reported `Multi-thread loading shards: 0/94`. This proves allocated devices/distributed startup, not completed weight loading or model readiness. C's original launcher continues while the baseline-only correction is CPU-verified separately.
 65. `QWEN-P2-LAUNCH` completed the scoped zero-update correction: only baseline0 adds native `--debug-disable-optimizer`. Actual launcher/native setup/reference scheduler tests were3 failed/3 passed before repair and6 passed after; full launcher tests58 passed/10.14s, Python3.12.13. Production scoring without an optimizer preserves weights/version and driver baseline performs no training/save. Parent inspected the complete two-file diff; `git diff --check` passed. No core, formal100 optimizer/scheduler settings or GPU shape changed. The [native report](test_report_2026-11-07_native_prerequisites.md) records exact commands and CPU fixture boundaries. Ready to commit and restore A/B; actual HF load/CUDA residency/scoring remain unverified.
+66. Committed correction/evidence as `4a1364ca`. Initial local invocations from the repo directory failed the existing local-NFS cwd guard before job creation; using required workdir `/data/ycfeng` fixed the invocation without changing code. New independent jobs created04:11:27 local: A `exp-1107-041127-564012`, B `exp-1107-041127-467864`. Both actual API readbacks pass personal creator, current-machine NFS source, pinned image,8+2 H800, host-network shape, gang-group and no ConfigMap refs; selected receipts are `evidence/platform-<job>.json`. Both are Pending with eight H800 remaining. An auxiliary inspector initially indexed omitted `hostNetwork` directly; recognizing the native optional boolean's false default fixed that read, with no job change. A local document checker first mistook fenced Python for a Markdown link; excluding code regions validated59 local links. C's original24-GPU worker continues loading its teacher; actual native baseline scoring is next.
 
 ## Next actions
 
-1. Commit the verified zero-update baseline initialization correction, resume A/B and preserve running C `exp-1107-005818-919546`; evaluate actual per-pair model scoring once ready.
+1. Inspect native model initialization/scoring for new A `exp-1107-041127-564012`, B `exp-1107-041127-467864` and retained running C `exp-1107-005818-919546` as each becomes ready.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -146,7 +147,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 零步scheduler修复58项通过，准备恢复A/B；C已分配24张H800，教师正在加载。 |
+| P2 前置核验与实现 | TODO | 修复4a1364ca通过58项检查；新A/B入队并回读通过，C的24张H800在加载教师。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
 | P3-C | TODO | 正式训练尚未开始，C基线教师加载中。 |
@@ -180,7 +181,7 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：验证零步初始化修正并恢复A/B，保留C → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
+1. P2：检验新A/B和保留C的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
