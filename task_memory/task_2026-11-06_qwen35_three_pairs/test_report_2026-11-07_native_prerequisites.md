@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Verify B's real initial numerical PASS with complete KV provenance; record C full-teacher readiness and the100-step training configuration. |
 | 2026-11-07 | Record successful A/B native baseline execution and original numerical evidence; missing engine prefill-version tracking leaves both baselines INCOMPLETE. |
 | 2026-11-07 | Record C readiness timeout, continuous loading progress, exact cleanup chronology and per-pair startup wait verification. |
 | 2026-11-07 | Confirm repaired Ray startup on eight H800 GPUs and retain the distinct zero-update scheduler initialization failure and its exact RCA. |
@@ -578,3 +579,44 @@ The observed warnings remain recorded. Source checks establish launch/runtime co
 ### Corrected baseline submissions
 
 Code/evidence commit: `b8f18e25`. The unchanged submitter was invoked from `/data/ycfeng` with the existing personal auth and `STEPMIND_BACKEND=rjob`, passing the absolute `native_probe_config.json` path and `--pair A` / `--pair B`. New jobs are A `exp-1107-055408-748211` and B `exp-1107-055408-654957`. [A admission](evidence/platform-exp-1107-055408-748211-prefill.json) and [B admission](evidence/platform-exp-1107-055408-654957-prefill.json) pass exact creator, image, current-host NFS, one8-GPU student plus one2-GPU teacher, and empty ConfigMap-reference checks. Observed B Running; A Pending with6 H800 quota remaining against10 requested. [C readback](evidence/platform-exp-1107-044223-241566-prefill.json) remains Running with one student and two teacher replicas; its historical queue annotation does not override current Running status. Actual new generation-version receipts and numerical results remain pending; platform admission is not model acceptance.
+
+### B corrected initial baseline — PASS
+
+Student `exp-1107-055408-654957-student-cfcd2084` completed with exit0 on `gpu-h800-0128`; the platform stopped the teacher with `All critical tasks are finished.` [Terminal evidence](evidence/platform-b-prefill-completed-20261107.json) matches the native completion receipt. No optimizer update ran in this qualification job.
+
+Analysis job `exp-1107-061257-663034` used the same pinned image with0 GPUs and succeeded. Exact reader invocation:
+
+```bash
+export PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1
+export LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/B/exp-1107-055408-654957 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites/exp-1107-055408-654957/B/teacher-ready.json \
+  --report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/B/exp-1107-055408-654957/baseline-inspection.json
+```
+
+[Selected report](evidence/baseline-inspection-B-exp-1107-055408-654957.json) and [unaltered native version fields](evidence/native-version-receipt-B-exp-1107-055408-654957.json) cover all24 frozen identities, with8 samples per length stratum and5,294 original valid completion tokens. Complete prefix/KV spans and decode spans are present at consumed version0, matching trainer and rescoring. No missing/nonfinite token or identity/version issue is reported. All means below are token weighted and computed **before TIS**. Expected mean is<=0.03 overall and separately in each stratum; all eight comparisons PASS. Tail values remain diagnostic.
+
+| Comparison | Population | Valid tokens | Mean absolute difference | p95 | p99 | Maximum | Result |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Decode vs trainer | Overall | 5294 | 0.01056995 | 0.06848872 | 0.12017054 | 0.35296845 | PASS |
+| Decode vs trainer | Short | 583 | 0.01118235 | 0.06625770 | 0.11709056 | 0.21037328 | PASS |
+| Decode vs trainer | Medium | 3182 | 0.00867859 | 0.06012945 | 0.11804156 | 0.35296845 | PASS |
+| Decode vs trainer | Long | 1529 | 0.01427256 | 0.08412118 | 0.12341742 | 0.24377966 | PASS |
+| Prefill vs trainer | Overall | 5294 | 0.01035514 | 0.07125655 | 0.11880700 | 0.29956949 | PASS |
+| Prefill vs trainer | Short | 583 | 0.01334293 | 0.09633328 | 0.12168886 | 0.18583846 | PASS |
+| Prefill vs trainer | Medium | 3182 | 0.00825168 | 0.05679854 | 0.11441972 | 0.29956949 | PASS |
+| Prefill vs trainer | Long | 1529 | 0.01359343 | 0.08105359 | 0.12306704 | 0.24506187 | PASS |
+
+For `d=lp_train-lp_inference`, `r=exp(d)`, under student-decode sampling, overall means of `r*d-r+1` / `r-1-d` are0.0003931341 /0.0003962745 for decode and0.0003929886 /0.0003938704 for prefill. Original-position worst tokens and all per-stratum values remain in the report. TIS retains5294/5294 measured tokens (100%); that retention is not the acceptance population. Teacher/student diagnostic covers all5294 tokens, with absolute mean0.23404884 and the two declared sampled K3 means0.10989031 /0.11289273. It is not a numerical acceptance gate or a learning-improvement claim.
+
+Only the **initial baseline component** passes. Whole-run verdict and publication gate remain INCOMPLETE because this zero-update run has no updated/final checkpoints. Optimizer/backward capacity, actual updates, weight synchronization after updates, learning behavior and text-HF reload remain unverified. The authorized100-step attempt will exercise real optimization within its existing budget; no extra optimizer probe or budget extension is introduced.
+
+### C full teacher and next-stage configuration
+
+C's [ready receipt](evidence/native-prerequisites/exp-1107-044223-241566/C/teacher-ready.json) verifies the full397B teacher identity and successful health/model-info responses after two-node TP16 startup. Cloud business logs reach06:09:40 local; the platform stdout instead ends with an unrelated startup `p2p_ping` warning about absent `ip`, so that stdout tail must not be mistaken for the live SGLang progress. The student launch receipt is now present. A is Running in the same terminal/status readback.
+
+`training_config.json` differs from the verified baseline JSON in exactly three fields: `num_rollout=100`, personal cloud output root `.../first-round`, and local rendezvous/evidence root `evidence/first-round`. Model identities, frozen population, GPU shapes, pinned image and resource settings are identical. The first ready pair is B; A/C still require their own numerical baseline evidence. The89-check pinned suite already covers the0/100 native launch contracts. Submission dry-run evidence and subsequent actual platform admission will be recorded separately.
+
+[Config/dry-run receipt](evidence/b-training-config-check.json): exact three-key comparison PASS; `submit_qwen35.py --config <task>/training_config.json --pair B --dry-run` exited0 from `/data/ycfeng`, declaring100 positions,10 H800, the correct source/image and both single-node gang flagsFalse. Independent read-only readiness check `QWEN-P3-B-READY` found no code/config blocker. Parent confirmed the formal path excludes `--debug-disable-optimizer`; final save is `hf/step_99`, with baseline plus20/40/60/80/100 monitoring. Successful update counters and final publisher version are **not** equated to planned positions. Existing recipe CPU optimizer offload isFalse for4B andTrue for27B; no optimizer-memory configuration is changed by this launch. C's actual native launch also confirms the prefill tracking flag and source `0317bb58`.

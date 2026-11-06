@@ -1,0 +1,34 @@
+{
+  "task": "QWEN-P3-B-READY",
+  "config": "task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json",
+  "baseline_config": "task_memory/task_2026-11-06_qwen35_three_pairs/native_probe_config.json",
+  "changed_keys": ["num_rollout", "run_root", "shared_dir"],
+  "num_rollout": 100,
+  "baseline_qualification": "exp-1107-055408-654957",
+  "baseline_component_verdict": "PASS",
+  "native_submitter_dry_run": {
+    "command": "python3 -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json --pair B --dry-run",
+    "cwd": "/data/ycfeng",
+    "exit_code": 0,
+    "submitted": false,
+    "requested_gpus": 10,
+    "student_gpus": 8,
+    "teacher_gpus": 2,
+    "charged_group": "codesign",
+    "gpu_tag": "H800",
+    "preemptible": false,
+    "student_gang_start": false,
+    "teacher_gang_start": false
+  },
+  "source_readiness_review": {
+    "session": "ses_e4d101774ffexBoAwTgdMgATqU",
+    "code_or_config_blockers": [],
+    "scope": "Native launch, sampling, optimizer enablement, monitoring cadence, final-only text-HF save",
+    "limits": [
+      "The first real optimizer update must be measured within the100 planned positions.",
+      "Published versions must be read from native evidence, not equated to schedule positions; skipped updates are allowed.",
+      "Actual final text-inference reload remains required."
+    ]
+  },
+  "checks": "PASS"
+}

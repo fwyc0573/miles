@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    {
+      "ip": "10.191.6.22",
+      "gpus": 8.0,
+      "node_id": "7a22b081c371bfc6ee27f4073ee661f35edcd58b8f9c7cfd714d17dc"
+    }
+  ]
+}

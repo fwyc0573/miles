@@ -1,0 +1,139 @@
+{
+  "observed_at": "2026-11-06T22:12:54.778223+00:00",
+  "jobs": [
+    {
+      "pair": "B",
+      "name": "exp-1107-055408-654957",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-06T22:10:40Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "annotations": {
+        "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+      },
+      "student_replica_status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T21:54:14Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T22:10:25Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T22:10:25Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T21:54:14Z"
+          }
+        ],
+        "hostIP": "10.191.8.5",
+        "podIP": "10.191.8.5",
+        "podIPs": [
+          {
+            "ip": "10.191.8.5"
+          }
+        ],
+        "startTime": "2026-11-06T21:54:14Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-06T21:54:31Z",
+                "finishedAt": "2026-11-06T22:10:25Z",
+                "containerID": "containerd://25505c33f1cb402b017fbe76b81743ae420cc6956ee720e5155bee78f1eee277"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://25505c33f1cb402b017fbe76b81743ae420cc6956ee720e5155bee78f1eee277",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Succeeded",
+        "nodeName": "gpu-h800-0128.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-06T22:10:26Z"
+      }
+    },
+    {
+      "pair": "A",
+      "name": "exp-1107-055408-748211",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "annotations": {
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=6."
+      }
+    },
+    {
+      "pair": "C",
+      "name": "exp-1107-044223-241566",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 2,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "annotations": {
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=14."
+      }
+    }
+  ]
+}
