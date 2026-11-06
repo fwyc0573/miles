@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record the Miles-only correction and move the interview to dense-student R3 applicability. |
 | 2026-11-06 | Start the documentation milestone, record inspected facts and preserve the pending framework decision. |
 
 # Progress
@@ -9,8 +10,8 @@
 ## Current state
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
-- pending — P1: first interview decision is framework. No answer or shared-understanding confirmation has been recorded.
-- pending — P2: selected runtime, authorized model locations, token compatibility and capacity are unverified.
+- in-progress — P1: D1 confirms implementation in current Miles. The immediately preceding verl wording is superseded by the user's correction. Route-replay applicability is the next question; full shared-understanding confirmation is still pending.
+- pending — P2: Miles is selected; exact runtime/image, authorized model locations, token compatibility and capacity are unverified.
 - pending — P3-A / P3-B / P3-C: no task GPU submission, training, repair or model export has occurred.
 - pending — P4: runtime acceptance and completion archive.
 
@@ -22,6 +23,7 @@
 4. Root Steptron source search was negative for Qwen3.5 names, but local remote-tracking ref `origin/zhuchenglin/qwen3p5-35a3-port` contains the model, GatedDeltaNet, RoPE, vision and reshaper implementations. This rules out a justified claim of general absence from a root-only search. No branch was checked out or merged.
 5. The handbook distinguishes pre-TIS same-policy agreement, policy staleness and teacher/student learning. Proposed gates preserve these distinctions and require final-update synchronization and HF reload.
 6. Inventory locations for three larger models are outside the allowed personal codesign namespace. The planning task read only the local inventory; actual cloud access/copy remains unresolved.
+7. D1 follow-up: stop treating Steptron as a candidate implementation. Miles `register_replay_list_moe` attaches streams to MoE layers, and its Qwen FSDP adapter separates dense from MoE routing support. OPD teacher scoring consumes student tokens rather than providing student routing choices. This supports the proposed dense-student R3 `N/A` interpretation; that decision remains unanswered.
 
 ## Commands and recoveries
 
@@ -33,7 +35,7 @@
 
 ## Next actions
 
-1. Ask the framework decision with its code evidence and recommended interpretation; record the actual answer in requirements.
+1. Ask the dense-student R3 applicability question with Miles source evidence; record the actual answer in requirements.
 2. Continue the one-question-at-a-time interview for the remaining material decisions. Keep the three runtime branches pending until their true prerequisites are satisfied.
 3. After shared understanding, complete shared and per-pair prerequisites, then release ready pair work concurrently.
 
@@ -44,8 +46,8 @@
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | P0 文档落地 | PASS | requirements、plan、design、progress 和 GLOSSARY 已创建，静态检查通过。 |
-| P1 设计访谈 | TODO | 尚未收到框架选择；其余决策依次确认。 |
-| P2 前置核验 | TODO | 尚未选择运行代码、镜像和可访问模型副本。 |
+| P1 设计访谈 | TODO | D1 已确认当前 Miles；下一项为 dense student 的 R3 适用范围。 |
+| P2 前置核验 | TODO | 已确定 Miles，具体镜像和可访问模型副本尚未核验。 |
 | P3-A | TODO | 未启动 GPU 验证。 |
 | P3-B | TODO | 未启动 GPU 验证。 |
 | P3-C | TODO | 未启动 GPU 验证。 |
@@ -54,7 +56,7 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 本任务开始至 P0 完成｜**当前前沿：** P1 逐项访谈
+**检测窗口：** P0 完成至 D1 文档更新｜**当前前沿：** P1 的 R3 适用范围
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -63,8 +65,8 @@
 | D3 支线问题修补 | CLEAR | 所有读取服务于框架、特性或验收设计；未修复无关问题。 |
 | D4 可并行任务停滞 | CLEAR | 三组执行依赖用户要求的设计访谈；plan 明确按各组真实前置条件分别放行。 |
 | D5 超范围镀金 | CLEAR | 未创建新架构、ADR、tickets 或运行组件。 |
-| D6 分析空转 | CLEAR | 调研产出文档及首个可回答的框架决策；停止扩大代码搜索。 |
-| D7 路线违背 | CLEAR | 保持 docs first，未把旧任务授权或阈值迁移到新任务。 |
+| D6 分析空转 | CLEAR | 收到框架答复后已更新文档，后续读取仅针对 R3 实际消费者。 |
+| D7 路线违背 | CLEAR | 当前方案已明确 Miles，保留 Steptron 历史调查但不作为实施路线。 |
 
 **文档检查：** S1–S6 均未发现明显缺陷。阈值、预算和输入总体明确由 P1 负责冻结，尚不构成可直接执行的验收配置。
 **归因：** 无。
@@ -76,11 +78,11 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P1：先确认框架，再确认 R3 适用解释和剩余关键决策 → 完成标志：requirements 有真实答复和共同理解确认。
+1. P1：确认 R3 适用解释和剩余关键决策 → 完成标志：requirements 有真实答复和共同理解确认；D1 的 Miles 选择不再重问。
 2. P2 后并行：P3-A ‖ P3-B ‖ P3-C → 完成标志：各组合分别提供接受标准要求的实际证据；一个组合缺资源不阻止已就绪组合。
 
 ## 4. 最值得关注的 3 点
 
-1. Steptron 本地远端分支已有 Qwen3.5 接入代码，不能凭当前根分支未找到就判定架构普遍缺失。
+1. 用户已明确本任务必须在当前 Miles 实现；Steptron 仅作为语义和验收参考，verl 字样已被纠正。
 2. 三个 student 均为 dense；R3 适用解释需要记录，不能用无实际效果的开关代替验证。
 3. 三个较大模型的清单路径在个人 codesign 范围之外，必须先解决资产访问前提，且尚未核验实际 GPU 容量。

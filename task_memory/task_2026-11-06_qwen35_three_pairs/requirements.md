@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Confirm current Miles as the implementation framework; supersede the immediately corrected verl wording. |
 | 2026-11-06 | Record the original request and open the documentation-first design interview. |
 
 # Requirements
@@ -24,6 +25,18 @@
 > - 如果出现了普遍性质的架构支持性缺失，先具体定位这些缺失模块和依据，交给我决策。
 
 [Original Request] The supplied `grill-with-docs` skill invokes `grilling` and `domain-modeling`.
+
+## Framework decision — confirmed
+
+[Original Request] First reply, immediately corrected by the user:
+
+> A；必须在当前verl实现当前task，而不是使用steptron中实现，注意区别
+
+[Original Request] Authoritative correction:
+
+> A；必须在当前miles实现当前task，而不是使用steptron中实现，注意区别
+
+**Decision D1:** Implement, diagnose, repair and validate all three pairs in the current Miles repository. Steptron is a reference for requested feature semantics and acceptance evidence only. Do not implement this task in Steptron or verl, switch to either framework, or count their runtime results as Miles qualification. The corrected wording supersedes `verl` in the preceding message. This answers the framework question; the remaining interview decisions are still open.
 
 ## Explicit requirements
 
@@ -49,14 +62,14 @@ No Base, quantized, reduced-layer or different model substitution is approved. A
 ## Scope and authority
 
 - This is a new task. Prior warmup choices such as 20 updates, the GLM5.2 dataset, four seeds, learning rate, cleanup, benchmark and GitHub push do not become decisions for this task.
-- The request names Steptron, while the active workspace is Miles (`agent-opd`). The framework is the first interview decision. Do not silently switch frameworks or treat the previous canceled Steptron investigation as authority for a new port.
+- The current Miles workspace (`agent-opd`) is the confirmed implementation target under D1. The original request's Steptron wording supplies semantic references; the earlier canceled Steptron investigation and initial branch inspection supply no implementation authority for this task.
 - Documentation and local read-only investigation are active. Implementation and GPU execution wait for shared understanding under the explicitly invoked grilling skill. No RJobs have been submitted by this task.
 - Preserve unrelated `.serena/` and `task_memory/task_2026-11-06_qwen_model_inventory/` work. No README edit, publication, cloud copy, deletion or broad refactor is part of this documentation phase.
 - Future runs follow the workspace GPU/storage rules: personal StepMind Python submission, H800/codesign, local source mounts, live quota check, and cloud reads/writes confined to `/mnt/codesign-exp/ycfeng`. The stated 128 GPUs are a ceiling to check, not observed free capacity. Auxiliary validators remain non-blocking for runs using 32 or more GPUs.
 
 ## Decisions to resolve in order
 
-1. **Framework:** literal Steptron execution, or Miles execution with equivalent Steptron semantics. No answer recorded yet.
+1. **Framework — resolved:** current Miles only, as recorded in D1 above.
 2. **Route replay:** whether all three dense-student routes should explicitly report R3 as not applicable, with separate teacher routing diagnosis if needed. No answer recorded yet.
 3. **Learning workload:** dataset and split, fresh sampling versus any offline objective, text/vision scope, history/thinking policy, token lengths, optimizer-update budget and success criterion. Historical defaults are evidence only.
 4. **Numerical acceptance:** frozen input population, same-version comparisons before TIS, exact formulas, aggregation, tail checks and predeclared thresholds. The handbook's 0.03 example is a discussion point, not an accepted threshold.
