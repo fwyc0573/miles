@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Correct the ineffective per-task gang change using observed server admission behavior; preserve C and verify final A/B server dry-run without allocation. |
 | 2026-11-07 | Record three native submissions, the exact A teacher ConfigMap failure, controlled A/B stops and the remaining teacher-diagnostic handoff. |
 | 2026-11-07 | Commit verified data/export work, close monitor lifecycle findings with 142 passing checks and prepare independent native H800 baseline jobs. |
 | 2026-11-06 | Complete actual population/asset/CPU-runtime checks, record monitor integration review and follow-up, and finish verified local artifact cleanup. |
@@ -113,10 +114,12 @@
 49. Read-only teacher-probability follow-up (`QWEN-TEACHER-PROBABILITY`, `ses_e4e2d51c3ffeXvVTl4YUridmd3`) found the complete teacher response is already preserved inside raw eval `Sample.reward`, before the derived `teacher_log_probs` field is populated. The current reader only looks for that derived vector, so the learning diagnostic needs its actual producer/dump path connected before formal runs. The exact runtime SGLang source commit `056f871a7ee8b4573832049011f0fdf52589cfd8` confirms the prefill-only full-vocabulary input-logprob semantics. Teacher identity still needs binding to the actual `teacher-ready.json`; no model metrics are inferred from source inspection. Both K3 forms already exist in the reader. Live/queued runtime source has not been changed for this follow-up.
 50. The cleanup follow-up removed 77,078,528 allocated bytes (73.51 MiB) of completed P2 temporary outputs. Latest free-space observation was 237,998,190,592 bytes (221.65 GiB), 79% used; unrelated concurrent gains are not attributed to this cleanup. C's local launcher remained alive and 481 protected evidence files retained their SHA256 values. The appended iteration preserves the original cleanup receipt and its earlier totals.
 51. Diagnosed the task-owned startup dependency using native SDK serialization, A's actual pod environment and the Feishu ConfigMap troubleshooting/multi-task documents. A/B single-node teachers already receive their three required `KUBEBRAIN_*` identity variables directly; their application-layer rendezvous needs no distributed ConfigMap. Made `gang_start` explicit per resource: false only for A/B teachers, true for students and the two-node C teacher. Native SDK serialization passed all six task contracts, including empty A/B teacher `envFrom`, retained C maps, unchanged GPUs/replicas/network modes and the pair gang-group label. The deeper platform network-data reason for the absent map is not established: its documented diagnostic hostname does not resolve here. This is one scoped configuration correction awaiting actual startup validation, not a platform-controller repair.
+52. Committed that first correction as `f9966cdf`, then submitted A `exp-1107-015013-220777` and B `exp-1107-015014-617751`. API readback disproved its effect: both teacher references were reintroduced. Stopped both while Pending at 01:57 using `rjob_stop.sh`; no new GPUs or optimizer steps were consumed. Full local submission-chain capture preserved the empty reference, narrowing the issue to the server boundary. A server-side `dry_run=All` then proved root gang-start=true injects the map into every task; setting both single-node roles false preserves empty refs. GET404 confirmed no dry-run job persisted.
+53. Updated A/B student flags to false as well; C remains unchanged. Final A/B server dry-runs preserve empty refs, the pair gang-group label, local NFS and all GPU/replica/network settings. This verifies admission, not actual worker execution. Recorded the rule and source links in the existing StepMind handbook. QWEN-P2-TEACHER-DIAGNOSTIC is independently implementing the offline raw-response/teacher-identity reader in its two owned files; runtime producers remain unchanged.
 
 ## Next actions
 
-1. Commit the verified single-node teacher configuration correction and resubmit affected A/B baselines; preserve C's independent queued launcher. Verify actual container startup and model outputs rather than treating serialization as runtime success.
+1. Commit the server-verified all-single-node A/B gang configuration and resubmit affected baselines; preserve C's independent queued launcher. Verify the admitted object, actual container startup and model outputs separately.
 2. Complete per-pair baseline qualification and connect the existing raw teacher scoring evidence to the learning diagnostic with actual teacher identity binding before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -128,7 +131,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 239 项 CPU 检查通过并提交；三组基线已提交，A 启动失败后完成配置修正的原生模板核验，仍待实际启动验证。 |
+| P2 前置核验与实现 | TODO | 239 项 CPU 检查通过；服务端 dry-run 已定位并验证 gang 配置，实际容器/模型执行仍待完成。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
 | P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
@@ -137,16 +140,16 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 最终监测契约验证、原生提交至 ConfigMap 配置修正｜**当前前沿：** P2 原生启动与基线资格验证
+**检测窗口：** 原生提交、首次配置修正至服务端 admission 对照验证｜**当前前沿：** P2 原生启动与基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | 239 项所需检查后已实际提交；新增模板核验只验证已观察到的启动依赖。 |
-| D2 细节反复重试 | CLEAR | A 首次失败保留原始事件；基于 ConfigMap 注入规则形成一项配置修正，未增加超时或盲目重复提交。 |
+| D2 细节反复重试 | CLEAR | 首次修正被实际 API 否定后停止排队作业；完整本地链取样与服务端双配置 dry-run 定位改写条件，第二次配置已通过服务端检查。 |
 | D3 支线问题修补 | CLEAR | ConfigMap 阻塞 P2；教师原始评分绑定属于 D9；清理由用户明确要求。 |
 | D4 可并行任务停滞 | CLEAR | 三组曾并行提交；A/B 同配置暂停修正，C 保留队列；CPU 取证与清理并行。共享配额限制有实际回执。 |
 | D5 超范围镀金 | CLEAR | 使用已有 per-task gang 选项；未新增控制平面修补、模型替换或预算扩展。 |
-| D6 分析空转 | CLEAR | 现场证据将问题定位到 Python 启动前；SDK/平台文档已产出可验证配置决策。下一步为实际重启验证。 |
+| D6 分析空转 | CLEAR | 对照证据识别了本地模板检查遗漏的 admission 改写，已经形成服务端验证通过的配置；下一步为实际启动。 |
 | D7 路线违背 | CLEAR | P2 探针与 D9 正式预算分开；只停止未开始训练的受阻作业；C 及所有验收值保留。 |
 
 **文档检查：** S5：plan 的 P2 切片、progress 的“提交代码”下一步及原生报告的“尚未提交/所有 task gang_start=true”已落后于代码与运行事实，需同步本次配置和失败回执。S1/S2/S3/S4/S6 未发现明显缺陷；运行启动和教师评分绑定均由 P2 持有。
@@ -170,5 +173,5 @@
 ## 4. 最值得关注的 3 点
 
 1. A 的失败发生于教师容器初始化；八张 student H800 设备证据不能代替模型数值或训练容量验收。
-2. 单节点教师的 ConfigMap 依赖已在实际 SDK 序列化中移除；必须以新的原生启动结果验证修正。
+2. 仅关闭教师被服务端改写；A/B 两个单节点 task 同时关闭已通过服务端 dry-run，仍需实际启动验证。
 3. C 保留排队，A/B 不需等待 C；正式训练之前还需绑定已有原始教师评分及真实教师身份。

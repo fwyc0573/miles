@@ -1,0 +1,52 @@
+[
+  {
+    "mode": "mixed_per_task",
+    "server_dry_run": "All",
+    "name": "exp-1107-020333-492369",
+    "before_root_gang": "true",
+    "before_envFrom": {
+      "student": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-020333-492369-student"
+          }
+        }
+      ],
+      "teacher": []
+    },
+    "after_envFrom": {
+      "student": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-020333-492369-student"
+          }
+        }
+      ],
+      "teacher": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-020333-492369-teacher"
+          }
+        }
+      ]
+    },
+    "after_root_gang": "true",
+    "persisted": false
+  },
+  {
+    "mode": "all_single_node_without_gang",
+    "server_dry_run": "All",
+    "name": "exp-1107-020333-781674",
+    "before_root_gang": null,
+    "before_envFrom": {
+      "student": [],
+      "teacher": []
+    },
+    "after_envFrom": {
+      "student": [],
+      "teacher": []
+    },
+    "after_root_gang": null,
+    "persisted": false
+  }
+]

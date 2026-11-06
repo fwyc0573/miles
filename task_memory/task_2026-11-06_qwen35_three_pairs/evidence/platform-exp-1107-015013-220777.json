@@ -1,0 +1,30 @@
+{
+  "pair": "A",
+  "job": "exp-1107-015013-220777",
+  "source_commit": "f9966cdf",
+  "phase": "Stopped",
+  "root_gang_annotation": "true",
+  "tasks": {
+    "student": {
+      "envFrom": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-015013-220777-student"
+          }
+        }
+      ],
+      "gang_annotation": null
+    },
+    "teacher": {
+      "envFrom": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-015013-220777-teacher"
+          }
+        }
+      ],
+      "gang_annotation": null
+    }
+  },
+  "correction_applied_to_server_object": false
+}

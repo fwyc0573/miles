@@ -1,0 +1,50 @@
+[
+  {
+    "pair": "A",
+    "submitted": false,
+    "capture_boundary": "RJobController.submit, before client/API creation",
+    "root_gang_annotation": "true",
+    "tasks": {
+      "student": {
+        "native_gang_start": true,
+        "envFrom": [
+          {
+            "configMapRef": {
+              "name": "exp-1107-020033-811991-student"
+            }
+          }
+        ],
+        "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      },
+      "teacher": {
+        "native_gang_start": false,
+        "envFrom": [],
+        "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      }
+    }
+  },
+  {
+    "pair": "B",
+    "submitted": false,
+    "capture_boundary": "RJobController.submit, before client/API creation",
+    "root_gang_annotation": "true",
+    "tasks": {
+      "student": {
+        "native_gang_start": true,
+        "envFrom": [
+          {
+            "configMapRef": {
+              "name": "exp-1107-020033-821556-student"
+            }
+          }
+        ],
+        "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      },
+      "teacher": {
+        "native_gang_start": false,
+        "envFrom": [],
+        "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      }
+    }
+  }
+]

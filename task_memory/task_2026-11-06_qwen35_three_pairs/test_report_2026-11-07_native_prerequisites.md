@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record ineffective per-task correction, identify admission mutation with non-persisting server dry-runs, and validate all-single-node A/B configuration. |
 | 2026-11-07 | Add real job identities, H800 allocation evidence, ConfigMap startup failure and controlled stop receipts. |
 | 2026-11-07 | Record native qualification configuration, CPU worker/SDK checks, live quota observation and exact submission procedure. |
 
@@ -29,7 +30,7 @@ Each pair is one RJob with separate `student` and `teacher` task GPU allocations
 
 The two-GPU A/B teachers explicitly set `host_network=false` so their fixed HTTP/rendezvous ports remain isolated when sharing a physical node. Full-node students and the distributed C teacher keep native host networking. ResourceConfig defaults to host networking and only automatically disables it for partial-node allocations in its separate node-task-map branch; this ordinary task-spec path therefore requires the explicit JSON value (`steptron/exp/base_exp.py:4066,4442–4461`).
 
-The first attempt inherited `gang_start=true` on every task. After the recorded ConfigMap failure, `gang_start` is explicit: false for the one-node A/B teachers, true for the students and the two-node C teacher. The corrected serialized payload retains the pair's native `stepmind.com/gang-group=true` label. Job-level resource scheduling and successful container initialization remain distinct observations; the group label did not prevent A's teacher initialization failure.
+The current configuration makes `gang_start=false` explicit for both single-node tasks in A/B; both C tasks retain true. The intermediate teacher-only correction was ineffective because server admission reintroduced the map reference under the job-wide annotation, as shown below. The final server dry-run retains `stepmind.com/gang-group=true`, GPU/replica counts, local source and network modes. Job-level resource scheduling and successful container initialization remain distinct observations.
 
 Native ResourceConfig resolution on the local Python 3.10.6 StepMind environment checked all six task shapes, replicas, role envs, criticality, image, mounts and C teacher RDMA values. Retained output: [native-resource-resolution-20261107.json](evidence/native-resource-resolution-20261107.json). The first inspection iterated dictionary keys and printed `None` attributes; it was not counted as validation. Correct inspection uses `for name, task_config in resource` and asserts the actual resolved fields.
 
@@ -103,7 +104,7 @@ The wrapper verified both creators and codesign quota before stopping them. Both
 
 **Result:** startup qualification FAIL for A; B deliberately held before the same startup path; C unfinished. Repair the established launch cause, verify the resolved SDK payload and actual container startup, then resume affected qualification. Preserve the approved finite formal-run budget.
 
-## Single-node teacher configuration correction
+## First configuration correction: local serialization passed, admission failed
 
 The original single-node teachers unnecessarily inherited the trainer's gang-start ConfigMap dependency. The failed replica's actual container already contains direct `KUBEBRAIN_RJOB_NAME`, `KUBEBRAIN_REPLICA=0` and `KUBEBRAIN_REPLICA_TOTAL=1` environment entries; the application's independent head/ready markers provide its rendezvous. See [the retained actual replica inspection](evidence/configmap-investigation-exp-1107-005818-695093.json). No platform address value is invented or overridden.
 
@@ -148,4 +149,51 @@ for pair in config['pairs']:
 PY
 ```
 
-The executed check also serialized its Python version and the six observed rows into the linked JSON. The first inspection tried importing `tests.manual` alongside Steptron's distinct `tests` package and failed before construction with `ModuleNotFoundError`; using `runpy.run_path` on the exact standalone submitter resolved that inspection-only namespace collision. No package or worker environment was altered. **Limit:** serialization proves removal of the failing dependency; actual native startup remains to be verified after the corrected submission.
+The executed check also serialized its Python version and the six observed rows into the linked JSON. The first inspection tried importing `tests.manual` alongside Steptron's distinct `tests` package and failed before construction with `ModuleNotFoundError`; using `runpy.run_path` on the exact standalone submitter resolved that inspection-only namespace collision. No package or worker environment was altered. **Corrected limit:** this proves only the local representation. The subsequent API readback disproved removal of the dependency from the actual submitted object.
+
+## Admission mutation and second configuration correction
+
+The first correction was committed as `f9966cdf`. A `exp-1107-015013-220777` and B `exp-1107-015014-617751` were created at 01:50 local, but both stored objects still referenced their teacher ConfigMap. The initial verification asserted before writing its receipt; filtered exact objects were subsequently recovered into [A](evidence/platform-exp-1107-015013-220777.json) and [B](evidence/platform-exp-1107-015014-617751.json). Both were stopped while Pending at 01:57 through the required wrapper, before GPU allocation:
+
+```bash
+bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh --creator i-fengyicheng --reason 'P2 corrected A/B submission readback still contains teacher ConfigMap envFrom despite native local serialization with gang_start false. Stop queued incompatible submissions before allocation; diagnose exact full submission pipeline. No optimizer updates.' exp-1107-015013-220777 exp-1107-015014-617751
+```
+
+Full `spawn_tasks -> RJobBackend -> RJobController.submit` interception still showed teacher `gang_start=false` and `envFrom=[]` immediately before the client/API call, with the actual local NFS source: [full-chain capture](evidence/configmap-full-pipeline-capture-20261107.json). Client `validate` is a no-op; submission serializes this object directly. This narrowed the change to the server boundary.
+
+At 02:03, actual server-side dry-runs isolated the cause:
+
+| Input configuration | Before admission | After admission | Persisted job |
+| --- | --- | --- | --- |
+| Student true, teacher false | Root gang-start annotation true; teacher reference empty | Teacher `<job>-teacher` ConfigMap reference inserted | No: GET404 |
+| Both single-node tasks false | No root gang-start annotation; both references empty | Both references remain empty | No: GET404 |
+
+Evidence: [admission before/after](evidence/configmap-admission-dry-run-20261107.json). This is observed server mutation, not an inference from the old documentation. The underlying reason why the original map was never generated remains separate and unproven.
+
+The JSON now sets false for **both A/B student and teacher**, since each is a single-node task with its own application rendezvous. C remains true for both tasks, including its two-node teacher. At 02:07 the exact final A and B configuration both PASS server admission: no root gang-start annotation or ConfigMap refs; pair gang-group label true; expected host networking, replicas, GPUs and `100.96.128.195:/data/ycfeng:/data/ycfeng` retained. All dry-run names return GET404: [final admission checks](evidence/configmap-admission-final-20261107.json).
+
+The checks used the same Python 3.10.6 environment and proxy/auth setup as submission. The verification intercepted `RJobController.submit` after the complete `spawn_tasks` construction; for its native `job.job.to_k8s_template(namespace=client.namespace)` body, the exact server calls were:
+
+```python
+admitted = client.api.create_namespaced_custom_object(
+    group=client.group, version=client.version, namespace=client.namespace,
+    plural=client.plural, body=body, dry_run="All", _request_timeout=25,
+)
+assert "kubebrain.brainpp.cn/gang-start" not in admitted["metadata"]["annotations"]
+assert admitted["metadata"]["labels"]["stepmind.com/gang-group"] == "true"
+for role, task in admitted["spec"]["taskSpecs"].items():
+    expected = config["pairs"][pair][role]
+    pod = task["template"]["spec"]
+    assert not pod["containers"][0].get("envFrom", [])
+    assert pod.get("hostNetwork", False) == expected["host_network"]
+    assert task["replicas"] == expected["nodes"]
+    assert int(pod["containers"][0]["resources"]["limits"]["nvidia.com/gpu"]) == expected["gpus_per_node"]
+    assert task["template"]["metadata"]["annotations"]["kubebrain.brainpp.cn/filestore-volume"] == "100.96.128.195:/data/ycfeng:/data/ycfeng"
+# An ApiException with status == 404 is required; any persisted object fails this check.
+client.api.get_namespaced_custom_object(
+    group=client.group, version=client.version, namespace=client.namespace,
+    plural=client.plural, name=body["metadata"]["name"], _request_timeout=15,
+)
+```
+
+No native worker environment, training implementation or controller was patched. The verified admission behavior, source links and runtime limitation were added to `/data/ycfeng/stepfun-env-handbook/stepmind-python-rjob.md`; that handbook directory has no Git repository and was not initialized. **Admission contract PASS; actual container/model execution still INCOMPLETE.** C's existing launcher is preserved. The latest recorded scheduler capacity before these corrections was zero H800; see [capacity receipt](evidence/codesign-capacity-before-configmap-retry-20261107.json).
