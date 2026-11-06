@@ -1,0 +1,114 @@
+{
+  "collected_at": "2026-11-06T18:49:05.187271+00:00",
+  "jobs": [
+    {
+      "pair": "A",
+      "name": "exp-1107-021450-020231",
+      "uid": "af12917c-4f79-46da-8605-8ff860338855",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-06T18:47:42Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "annotations": {
+        "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed.",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=7."
+      },
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-021450-020231-student-cfcd2084",
+            "ip": "10.191.9.44",
+            "phase": "Failed"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-021450-020231-teacher-cfcd2084",
+            "ip": "100.103.68.164",
+            "phase": "Stopped"
+          }
+        ]
+      }
+    },
+    {
+      "pair": "B",
+      "name": "exp-1107-021450-039035",
+      "uid": "e0946953-053d-4e58-81b0-9a2047115e34",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "annotations": {
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=0."
+      },
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-021450-039035-student-cfcd2084",
+            "ip": "10.191.9.44",
+            "phase": "Running"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-021450-039035-teacher-cfcd2084",
+            "ip": "100.103.68.165",
+            "phase": "Running"
+          }
+        ]
+      }
+    },
+    {
+      "pair": "C",
+      "name": "exp-1107-005818-919546",
+      "uid": "7d7c069f-f0a2-47f5-85db-34da52395b1b",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "annotations": {
+        "kubebrain.brainpp.cn/gang-start": "true",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=0."
+      },
+      "replicas": {}
+    }
+  ]
+}

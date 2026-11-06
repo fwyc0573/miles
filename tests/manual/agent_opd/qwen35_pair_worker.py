@@ -121,11 +121,12 @@ def _teacher_command(config: dict, pair: str, rank: int, head: dict) -> list[str
 
 def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[str]:
     student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+    # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
     return [
         sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
         "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
         "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
-        "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local),
+        "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
         "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
         "--tensor-model-parallel-size", str(student["tp_size"]),
         "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Verify actual 27B teacher readiness, diagnose the 133-byte Ray socket failure, and validate the one-boundary local-root fix with 58 CPU checks. |
 | 2026-11-07 | Record ineffective per-task correction, identify admission mutation with non-persisting server dry-runs, and validate all-single-node A/B configuration. |
 | 2026-11-07 | Add real job identities, H800 allocation evidence, ConfigMap startup failure and controlled stop receipts. |
 | 2026-11-07 | Record native qualification configuration, CPU worker/SDK checks, live quota observation and exact submission procedure. |
@@ -205,3 +206,74 @@ No native worker environment, training implementation or controller was patched.
 Configuration commit `5e9f5551` was submitted at 02:14 local through the same long-lived Python RJobBackend commands. A is `exp-1107-021450-020231`; B is `exp-1107-021450-039035`. Actual stored API objects now PASS all identity/source/resource checks: `i-fengyicheng`, pinned digest, expected NFS and network modes, per-task GPU/replica counts, no root gang-start annotation, **empty envFrom on both tasks**, and retained `stepmind.com/gang-group=true`. Receipts: [A](evidence/platform-exp-1107-021450-020231.json), [B](evidence/platform-exp-1107-021450-039035.json).
 
 Both are Pending at the readback. The scheduler explicitly reports eight remaining H800 against ten requested per A/B pair. C remains Pending with 24 requested GPUs, as recorded immediately before submission in [the capacity observation](evidence/codesign-capacity-before-admission-fixed-launch-20261107.json). All three launchers remain long-lived; this is not worker-startup, numerical, training or export acceptance.
+
+## Actual startup and Ray socket-path failure
+
+A `exp-1107-021450-020231` subsequently started both native containers. [Student devices](evidence/native-prerequisites/exp-1107-021450-020231/A/student-node.json) show eight H800 GPUs on `gpu-h800-0210.host.platform.shaipower.com`; [teacher devices](evidence/native-prerequisites/exp-1107-021450-020231/A/teacher-node-0.json) show two. All report 81,559 MiB and driver570.124.06. The [teacher-ready receipt](evidence/native-prerequisites/exp-1107-021450-020231/A/teacher-ready.json) binds the actual configured 27B model and external URL. Its [tail](evidence/native-prerequisites/exp-1107-021450-020231/A/teacher-tail-0.log) shows native warmup completion and health/model-info HTTP200 at18:46:13Z. **The gang-start correction therefore passed actual container startup.** This is not 128K scoring or student-training acceptance.
+
+At18:47:23Z, the [student tail](evidence/native-prerequisites/exp-1107-021450-020231/A/student-tail.log) instead reports:
+
+```text
+OSError: validate_socket_filename failed: AF_UNIX path length cannot exceed 107 bytes: /var/tmp/qp-exp-1107-021450-020231-A-student-0/qo-1107-021450-020231/ray/session_2026-11-06_18-47-23_102563_1114/sockets/plasma_store
+```
+
+Parent executed this deterministic CPU feedback loop before changing code; Python3.12.13 reproduced the same OSError, exit1, with `observed socket path bytes=133`:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
+from ray._private.utils import validate_socket_filepath
+path='/var/tmp/qp-exp-1107-021450-020231-A-student-0/qo-1107-021450-020231/ray/session_2026-11-06_18-47-23_102563_1114/sockets/plasma_store'
+print(f'observed socket path bytes={len(path.encode())}',flush=True)
+validate_socket_filepath(path)
+PY
+```
+
+The direct exception and native validator establish the cause, so no speculative multi-hypothesis or environment-install loop was needed. `qwen35_pair_worker._student_command` passed an already job-scoped temporary directory as `--local-root`; `run_qwen35_opd._run` then appended its own job directory. The fix passes `local.parent` through the existing argument. The student CLI retains its own job isolation. Native worker/package code, dataset/model/numerical settings and startup timeout were not changed.
+
+### Failure/cleanup chronology
+
+- Student container exit1:18:47:28Z; `reason=Error`, `message=user command: exit status 1`.
+- System stop timestamp18:47:30Z; `Some critical tasks failed.` Teacher subsequently receives termination.
+- RJob Failed:18:47:42Z, `Tasks with failed status: [student]`.
+- Local launcher cleanup `Job Stop`:02:47:45 local (UTC+8), after the original failure.
+
+The exact job/replica UIDs, owner binding, container/image/node and timestamps are retained in [selected objects](evidence/ray-path-failure-rca-objects-20261107.json). The eight source queries all succeeded; [query index](evidence/ray-path-failure-rca-index-20261107.json) and [selected events/audits](evidence/ray-path-failure-rca-summary-20261107.json) retain coverage. Live job/replica event counts were2/0; historical counts9/0; all-operation audit counts20/1, with `data` absent; no existing DeepScan flow. Returned events contain startup/queue and subsequent teacher-close records, not a positive preemption/OOM event. The initiating application exception is preserved independently; a missing explicit manual-stop actor remains UNKNOWN rather than inferred from a later controller update. Raw incident/response/audit files remain under `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-exp-1107-021450-020231`.
+
+After the standard runbook proxy setup, the exact collector command was:
+
+```bash
+PYTHONPATH=/data/ycfeng/steptron PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+  /data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+  exp-1107-021450-020231 --replica exp-1107-021450-020231-student-cfcd2084 \
+  --expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+  --start 2026-11-06T18:46:50Z --end 2026-11-06T18:47:50Z --timeout 35 \
+  --output /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-exp-1107-021450-020231
+```
+
+At02:49 local, B was Running with the same already-imported faulty caller, while C was Pending ([API observation](evidence/platform-after-ray-path-failure-20261107.json)). B had no teacher-ready/student-launch receipt and was stopped at02:52:39 to avoid the known identical student failure:
+
+```bash
+bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh --creator i-fengyicheng --reason 'P2 A native student failed before Ray startup: nested worker local-root produces 133-byte AF_UNIX socket path, above107. CPU native validator reproduced. B imported the same pair-worker launcher and has not produced teacher-ready/student-launch; stop before predictable student failure. No optimizer updates. Preserve C queued.' exp-1107-021450-039035
+```
+
+Its launcher confirmed Stopped at02:52:57. C keeps its existing queued job and local source mount; its future import will use the corrected source, whose actual Git state is recorded by the native student launch receipt.
+
+### Scoped repair verification
+
+Owner `QWEN-P2-PAIR-WORKER` changed only `qwen35_pair_worker.py:129` and its test module. Parent inspected the complete diff. The regression calls the actual student CLI and observes its chosen directory before worker initialization; it then invokes native Ray's validator with real session-name structure, the observed PID and a seven-digit PID. It checks two distinct job IDs without duplicating the CLI's directory-composition logic or starting Ray/GPU processes.
+
+```bash
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest \
+tests/fast/test_qwen35_pair_worker.py::test_native_student_ray_socket_paths_fit_and_remain_job_isolated \
+-q -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen35-pair-worker
+
+# Green used the same command with cache_dir=.../pytest-qwen35-pair-worker-green.
+HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest \
+tests/fast/test_qwen35_pair_worker.py tests/fast/test_qwen35_opd_launcher.py \
+-q -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen35-pair-worker-full
+```
+
+Python3.12.13: regression before fix **1 failed**, after fix **1 passed/0.48s**; complete pair-worker/launcher checks **58 passed (15+43)/8.74s**. Corrected paths are95 bytes for the observed PID and98 for seven-digit PID, within107; job directories remain distinct. `git diff --check` PASS. **CPU repair PASS; actual repaired Ray startup and all original numerical/training/export gates remain unfinished.**

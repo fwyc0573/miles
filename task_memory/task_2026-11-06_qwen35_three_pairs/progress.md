@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record actual 27B teacher readiness, A's reproducible Ray socket-length failure and B's preventive stop; retain C's queue and assign the scoped repair. |
 | 2026-11-07 | Close the teacher diagnostic's full-prefix identity finding after 98 combined checks; retain GPU qualification as the frontier. |
 | 2026-11-07 | Correct the ineffective per-task gang change using observed server admission behavior; preserve C and verify final A/B server dry-run without allocation. |
 | 2026-11-07 | Record three native submissions, the exact A teacher ConfigMap failure, controlled A/B stops and the remaining teacher-diagnostic handoff. |
@@ -122,10 +123,13 @@
 56. QWEN-P2-TEACHER-DIAGNOSTIC delivered the two-file offline reader/test slice. Parent combined `tests/fast/test_qwen35_monitoring.py tests/fast/test_qwen35_opd_launcher.py` passed 96/96 in 52.55 s (Python 3.12.13, 22 warnings); the command/log are `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-teacher-combined-20261107.log` and the recorded native CPU pytest invocation with a unique `qwen-teacher-combined-*` basetemp. Reviewer `ses_e4e792d5affeGsj3IUWlUanlWV` inspected the changed reader/tests plus actual producer/worker and found one P2: completion IDs were checked but raw prefix IDs could differ. Assigned the implementation owner `ses_e4e739140ffeErr0KEUsX8tYbe` to validate all preserved input IDs, retain the first logprob placeholder, keep metrics response-only, and verify diagnostic failure leaves D8 unchanged. This slice is not yet committed or closed; live runtime producers remain unchanged.
 57. Closed and committed that finding as `7f330877`: all raw prefix/completion IDs, including the first placeholder's ID, now match the exact sample before response slicing. The new two-case regression failed before repair; afterward teacher checks passed 29/29 and the final full reader/launcher combination passed 98/98 in 52.68 s. Parent inspected the fix and tests; the reviewer checked the frozen diff and closed the phase with no remaining actionable finding. Probability semantics remain explicitly source/launch-derived, with startup/launch teacher identity and no invented per-response revision. See [teacher diagnostic report](test_report_2026-11-07_teacher_diagnostic.md). Actual native outputs, not additional CPU tooling, are now the next validation input. A narrowly scoped cleanup of the completed teacher-test temporary directories was delegated; the three local GPU launchers and retained evidence are protected.
 58. Final teacher-test cleanup completed: five ended basetemps removed, releasing exactly 144,228,352 allocated bytes (137.55 MiB). Latest observed free space is 237,920,309,248 bytes (221.58 GiB), 79% used. All three local launcher PIDs remained present; six retained log/diff/plot/HF-log SHA256 checks were unchanged. The appended `completed_teacher_diagnostic_20261107` receipt preserves the previous cleanup history and totals. No symlink was followed, no native evidence was removed, and this bounded cleanup has stopped.
+59. A `exp-1107-021450-020231` reached actual H800 execution. Its external 27B teacher passed health/model-info and native warmup at 02:46 local; worker receipts verify teacher 2×H800 and student 8×H800, 81,559 MiB/device, driver 570.124.06. Student failed before Ray initialization at 02:47:23: its Unix socket path was 133 bytes against Ray's 107-byte limit. Parent reproduced the exact error with the CPU native validator. `_student_command` passed an already job-scoped directory as `--local-root`, and `_run` appended a second job scope. The pair-worker owner is repairing this two-file boundary with a red/green regression; no numerical/model-capacity acceptance is claimed.
+60. The exact A API/replica object confirms student container exit1 at18:47:28Z, system cleanup at18:47:30Z and RJob Failed at18:47:42Z; the local launcher stop at02:47:45 local followed failure. All eight scoped RCA queries succeeded; selected events/audits and UID/time binding are in `evidence/ray-path-failure-rca-summary-20261107.json`, with originals under its recorded temporary directory. At02:49 B was Running and C Pending. B had already imported the same faulty caller, so parent stopped only B with `rjob_stop.sh` at02:52:39 before its student-launch receipt existed; its launcher confirmed Stopped at02:52:57. C retains its original queue position and will load the fixed mounted source before its future student launch.
+61. Ray-root repair is CPU-verified: `_student_command` now passes `local.parent`, letting the existing child CLI own job isolation. The actual CLI/native-Ray regression was red before repair and green afterward; corrected socket paths are95/98 bytes against107. Complete pair-worker/launcher checks passed58/58 in8.74s, Python3.12.13. Parent inspected the complete two-file diff. The [native prerequisite report](test_report_2026-11-07_native_prerequisites.md) records the exact repro, commands, native receipts, RCA and limits. Next action is verified source commit and A/B resubmission, retaining C rather than recreating its queue entry.
 
 ## Next actions
 
-1. Preserve the three queued launchers and inspect actual container/model execution once resources are allocated. Admitted A/B objects are verified; native execution and all three numerical baselines remain unfinished.
+1. Commit the verified Ray-root fix, then resubmit A/B while preserving C's independent queued launcher. Verify actual Ray/model startup and all three numerical baselines.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -137,7 +141,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 已提交的 A/B 对象回读通过，C 保留；三组均受配额排队，容器/模型执行待完成。 |
+| P2 前置核验与实现 | TODO | A 教师实际就绪；student 在 Ray 启动前因路径长度失败。修复进行中，B 已停止，C 保留队列。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
 | P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
@@ -146,34 +150,37 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 服务端 admission 修正、实际对象回读至教师诊断复核关闭｜**当前前沿：** P2 原生启动与基线资格验证
+**检测窗口：** 教师诊断复核关闭至 A 原生启动故障复现｜**当前前沿：** P2 Ray-root 修复和独立基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 实际作业已排队；教师诊断修复真实 dump 路径和已发现前缀缺陷，98 项通过后停止扩展，等待原生证据。 |
-| D2 细节反复重试 | CLEAR | 首次修正被实际 API 否定后停止排队作业；完整本地链取样与服务端双配置 dry-run 定位改写条件，第二次配置已通过服务端检查。 |
-| D3 支线问题修补 | CLEAR | ConfigMap 阻塞 P2；教师原始评分绑定属于 D9；清理由用户明确要求。 |
-| D4 可并行任务停滞 | CLEAR | A/B 已恢复且实际对象验证通过；C 保留队列。独立教师诊断和绘图已完成，三组共享配额不足有实际回执。 |
-| D5 超范围镀金 | CLEAR | 使用已有 per-task gang 选项；未新增控制平面修补、模型替换或预算扩展。 |
-| D6 分析空转 | CLEAR | admission 调查形成已提交并回读通过的配置；诊断缺口形成可执行 reader 并关闭复核。下一步依赖实际资源与模型输出。 |
-| D7 路线违背 | CLEAR | P2 探针与 D9 正式预算分开；只停止未开始训练的受阻作业；C 及所有验收值保留。 |
+| D1 工具打磨 | CLEAR | 98 项通过后停止扩展；当前回归只针对实际启动故障，清理由用户明确要求。 |
+| D2 细节反复重试 | CLEAR | ConfigMap 修正已通过实际容器/教师启动；新故障的133字节路径已在CPU原样复现，先修调用边界再重提。 |
+| D3 支线问题修补 | CLEAR | Ray 启动直接阻塞 P2；未转向无关平台或模型优化。 |
+| D4 可并行任务停滞 | CLEAR | B 已载入相同故障代码而暂停；C 保留队列。修复与精确 RCA 并行，配额限制有回执。 |
+| D5 超范围镀金 | CLEAR | 复用既有 local-root 参数；未提议新 flag、模型替换或预算扩展。 |
+| D6 分析空转 | CLEAR | 日志与确定性 CPU 复现直接定位双层目录拼接，并形成明确一处调用修正。 |
+| D7 路线违背 | CLEAR | 只停止尚未训练且确定受同一故障影响的 B；C 和已确认科学参数保留。 |
 
-**文档检查：** S1–S6 均未发现新的明显缺陷；旧 S5 已同步实际作业、admission 结论和教师诊断关闭状态。GPU 排队和原生验证仍由 P2 持有。
+**文档检查：** S5：plan.md 的“三组均排队”和本页等待资源的下一步已被实际 A failure/B stop 替代，需同步新事件与修复前提；本次已更新。S1/S2/S3/S4/S6 未发现明显缺陷，启动故障仍由 P2 持有。
 **归因：** 无。
 
 ## 3. 纠正建议
 
-**分支：** A：spec/plan 合理，无需改变范围或验收值。
+**分支：** B：同步运行状态，不改变 scope 或验收值。
+
+**文档更新（先执行）：**
+1. plan.md P2切片、progress.md 下一步：记录教师就绪、Ray失败、B停止与C保留；归属P2（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：等待资源分配并验证三组实际启动 → 完成标志：教师进入原生进程、设备及模型身份有实际回执。
+1. P2：完成 Ray-root 回归修正后恢复 A/B → 完成标志：原生 Ray 和模型启动成功，保留实际路径、设备和模型身份回执。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
-1. A 的失败发生于教师容器初始化；八张 student H800 设备证据不能代替模型数值或训练容量验收。
-2. 仅关闭教师被服务端改写；A/B 两个单节点 task 同时关闭已通过服务端 dry-run，仍需实际启动验证。
-3. 教师 reader 已通过98项组合检查并关闭复核；实际学习指标、100步训练与最终HF重载均未完成。
+1. ConfigMap 修正已通过实际启动：A 的27B教师健康就绪；长前缀评分与学生数值仍未完成。
+2. Student 的133字节Ray socket超过107字节限制；直接故障已CPU复现，尚待修复后的原生启动。
+3. B停止以避免相同已知故障，C保留队列；正式100步训练及HF重载仍未开始。

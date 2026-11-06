@@ -1,0 +1,57 @@
+AGENT_OPD_TOKENIZERS_MATCH 5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/opt/sglang/lib/python3.12/site-packages/ray/scripts/scripts.py", line 3014, in <module>
+    main()
+  File "/opt/sglang/lib/python3.12/site-packages/ray/scripts/scripts.py", line 3010, in main
+    return cli()
+           ^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/click/core.py", line 1631, in __call__
+    return self.main(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/click/core.py", line 1552, in main
+    rv = self.invoke(ctx)
+         ^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/click/core.py", line 2032, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/click/core.py", line 1415, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/click/core.py", line 910, in invoke
+    return callback(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/ray/autoscaler/_private/cli_logger.py", line 812, in wrapper
+    return f(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/ray/scripts/scripts.py", line 1071, in start
+    node = ray._private.node.Node(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/ray/_private/node.py", line 338, in __init__
+    self._plasma_store_socket_name = self._prepare_socket_file(
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/sglang/lib/python3.12/site-packages/ray/_private/node.py", line 1271, in _prepare_socket_file
+    validate_socket_filepath(result.split("://", 1)[-1])
+  File "/opt/sglang/lib/python3.12/site-packages/ray/_private/utils.py", line 1760, in validate_socket_filepath
+    raise OSError(
+OSError: validate_socket_filename failed: AF_UNIX path length cannot exceed 107 bytes: /var/tmp/qp-exp-1107-021450-020231-A-student-0/qo-1107-021450-020231/ray/session_2026-11-06_18-47-23_102563_1114/sockets/plasma_store
+2026-11-06 18:47:23,099	INFO usage_lib.py:448 -- Usage stats collection is disabled.
+2026-11-06 18:47:23,102	INFO scripts.py:1042 -- [37mLocal node IP[39m: [1m10.191.9.44[22m
+AGENT_OPD_FAILURE_DIAGNOSTICS /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics/rank-0
+2026-11-06 18:47:25,512	INFO scripts.py:1490 -- Did not find any active Ray processes.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/run_qwen35_opd.py", line 366, in <module>
+    main()
+  File "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/run_qwen35_opd.py", line 362, in main
+    _run(args)
+  File "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/run_qwen35_opd.py", line 317, in _run
+    head = _start_ray(0, records, local, ray_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/rjob_warmup.py", line 169, in _start_ray
+    subprocess.run(command, check=True, timeout=args.startup_timeout)
+  File "/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/opt/sglang/bin/python3', '-m', 'ray.scripts.scripts', 'start', '--node-ip-address', '10.191.9.44', '--num-gpus', '8', '--disable-usage-stats', '--head', '--port', '9228', '--dashboard-host', '0.0.0.0', '--dashboard-port', '9337', '--temp-dir', '/var/tmp/qp-exp-1107-021450-020231-A-student-0/qo-1107-021450-020231/ray']' returned non-zero exit status 1.

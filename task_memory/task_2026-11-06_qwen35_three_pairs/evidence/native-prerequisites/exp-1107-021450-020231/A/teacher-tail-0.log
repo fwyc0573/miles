@@ -1,0 +1,68 @@
+pilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:31 TP0] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.13 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:31] INFO:     100.103.68.164:35844 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:32 TP1] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.15 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:32 TP0] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.16 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:32] INFO:     100.103.68.164:35848 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:33] INFO:     100.103.68.164:35862 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:34 TP1] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.25 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:34 TP0] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.25 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:34] INFO:     100.103.68.164:35864 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:35 TP1] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.22 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:35 TP0] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.22 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:35] INFO:     100.103.68.164:35878 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:36 TP1] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.20 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:36 TP0] Triton kernel 'chunk_gated_delta_rule_fwd_kkt_solve_kernel' took 1.19 s to compile after serving started. Serving-time compilation can stall the engine; pre-compile it during engine init.
+[2026-11-06 18:45:36] INFO:     100.103.68.164:35886 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:38] INFO:     100.103.68.164:55282 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:39] INFO:     100.103.68.164:55288 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:40] INFO:     100.103.68.164:55298 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:41] INFO:     100.103.68.164:55312 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:42] INFO:     100.103.68.164:55314 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:43] INFO:     100.103.68.164:55326 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:44] INFO:     100.103.68.164:55330 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:45] INFO:     100.103.68.164:55332 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:46] INFO:     100.103.68.164:55338 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:47] INFO:     100.103.68.164:55352 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:48] INFO:     100.103.68.164:48276 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:49] INFO:     100.103.68.164:48278 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:50] INFO:     100.103.68.164:48280 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:51] INFO:     100.103.68.164:48296 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:52] INFO:     100.103.68.164:48304 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:53] INFO:     100.103.68.164:48312 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:54] INFO:     100.103.68.164:48324 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:55] INFO:     100.103.68.164:48334 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:56] INFO:     100.103.68.164:48350 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:57] INFO:     100.103.68.164:48366 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:58] INFO:     100.103.68.164:47872 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:45:59] INFO:     100.103.68.164:47886 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:00] INFO:     100.103.68.164:47890 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:01] INFO:     100.103.68.164:47892 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:02] INFO:     100.103.68.164:47902 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:03] INFO:     100.103.68.164:47914 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:04] INFO:     100.103.68.164:47922 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:05] INFO:     100.103.68.164:47924 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:06] INFO:     100.103.68.164:47934 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:06 TP0] Using fused GDN decode QKVZ/BA unpack + indexed Conv1D.
+[2026-11-06 18:46:07] INFO:     100.103.68.164:47940 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:08] INFO:     100.103.68.164:35584 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:09] INFO:     100.103.68.164:35590 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:10] INFO:     100.103.68.164:35594 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:10 TP0] Prefill batch, #new-seq: 1, #new-token: 80, #cached-token: 0, full token usage: 0.00, mamba usage: 0.01, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 1.36
+[2026-11-06 18:46:11] INFO:     100.103.68.164:35602 - "GET /health HTTP/1.1" 503 Service Unavailable
+[2026-11-06 18:46:11] INFO:     127.0.0.1:36824 - "POST /v1/chat/completions HTTP/1.1" 200 OK
+[2026-11-06 18:46:11] INFO:     127.0.0.1:37266 - "POST /freeze_gc HTTP/1.1" 200 OK
+[2026-11-06 18:46:11] The server is fired up and ready to roll!
+/opt/sglang/lib/python3.12/site-packages/triton/language/core.py:2625: UserWarning: tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.
+  warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+/opt/sglang/lib/python3.12/site-packages/triton/language/core.py:2625: UserWarning: tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.
+  warn("tl.make_block_ptr is deprecated. Use TensorDescriptor or tl.make_tensor_descriptor instead.")
+[2026-11-06 18:46:12 TP0] Prefill batch, #new-seq: 1, #new-token: 1, #cached-token: 0, full token usage: 0.00, mamba usage: 0.00, #running-req: 0, #queue-req: 0, #pending-token: 0, cuda graph: False, input throughput (token/s): 0.52
+[2026-11-06 18:46:13] INFO:     100.103.68.164:35618 - "GET /health HTTP/1.1" 200 OK
+[2026-11-06 18:46:13] INFO:     100.103.68.164:35622 - "GET /model_info HTTP/1.1" 200 OK
+[2026-11-06 18:47:30] SIGTERM received. signum=None frame=None. Draining requests and shutting down...
+[2026-11-06 18:47:31] Subprocess scheduler_0 (pid=236) crashed with exit code -15. Triggering SIGQUIT for cleanup...
+[2026-11-06 18:47:31] SIGQUIT received. signum=None, frame=None. It usually means one child failed.
+[2026-11-06 18:47:31] Sleeping 5 seconds before crash diagnostics to let GPU activity settle.
+[2026-11-06 18:47:36] No live scheduler processes found; skipping py-spy and CUDA coredump.
+[2026-11-06 18:47:36] kill_process_tree called: parent_pid=189, include_parent=True, pid=189

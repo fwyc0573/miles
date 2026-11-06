@@ -68,7 +68,7 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
             "--pair": pair, "--student": selected["student"]["path"], "--teacher": selected["teacher"]["path"],
             "--teacher-url": "http://10.0.0.7:30000/generate", "--population-dir": config["population_dir"],
             "--output-root": str(Path(config["run_root"]) / "student"),
-            "--shared-dir": str(Path(config["shared_dir"]) / "student"), "--local-root": str(tmp_path / "local"),
+            "--shared-dir": str(Path(config["shared_dir"]) / "student"), "--local-root": str(tmp_path),
             "--gpus-per-node": "8", "--student-engine-gpus": str(selected["student"]["engine_gpus"]),
             "--tensor-model-parallel-size": str(selected["student"]["tp_size"]), "--max-tokens-per-gpu": "131072",
             "--sglang-mem-fraction-static": "0.7", "--sglang-max-running-requests": "1",
@@ -79,6 +79,39 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
     path.write_text(json.dumps(config))
     with pytest.raises(ValueError, match="exactly approved"):
         worker._load_config(path, pair)
+
+
+def test_native_student_ray_socket_paths_fit_and_remain_job_isolated(config, monkeypatch):
+    from ray._private.utils import validate_socket_filepath
+    from tests.manual.agent_opd import run_qwen35_opd as student_cli
+
+    local_directories = []
+
+    def observe_local(local):
+        local_directories.append(local)
+        raise RuntimeError("Native student local directory observed before worker initialization")
+
+    monkeypatch.setattr(student_cli, "_validate_args", lambda args: None)
+    monkeypatch.setattr(student_cli, "_worker_environment", observe_local)
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", "0")
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "1")
+    sessions = (
+        "session_2026-11-06_18-47-23_102563_1114",
+        "session_2026-11-07_00-00-00_999999_4194303",
+    )
+    for job in ("exp-1107-021450-020231", "exp-1107-021450-020232"):
+        monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", job)
+        local = Path("/var/tmp") / f"qp-{job}-A-student-0"
+        argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, local)
+        args = student_cli._parser().parse_args(argv[4:])
+        with pytest.raises(RuntimeError, match="Native student local directory observed"):
+            student_cli._run(args)
+        # Use the native CLI's observed directory, not a copy of its composition logic.
+        for session in sessions:
+            filepath = str(local_directories[-1] / "ray" / session / "sockets" / "plasma_store")
+            validate_socket_filepath(filepath)
+        assert job.removeprefix("exp-") in local_directories[-1].name
+    assert local_directories[0] != local_directories[1]
 
 
 def test_readiness_checks_health_and_exact_model_identity(config, tmp_path, monkeypatch):
