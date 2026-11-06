@@ -1,0 +1,91 @@
+{
+  "replica": "exp-1107-005818-695093-teacher-cfcd2084",
+  "observed_at": "2026-11-06T17:17:48.546198+00:00",
+  "uid": "8e529853-6078-42a9-9f02-e984797ebadc",
+  "status": {
+    "conditions": [
+      {
+        "type": "Initialized",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T16:58:33Z"
+      },
+      {
+        "type": "Ready",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T16:58:33Z",
+        "reason": "ContainersNotReady",
+        "message": "containers with unready status: [teacher]"
+      },
+      {
+        "type": "ContainersReady",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T16:58:33Z",
+        "reason": "ContainersNotReady",
+        "message": "containers with unready status: [teacher]"
+      },
+      {
+        "type": "PodScheduled",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-06T16:58:33Z"
+      }
+    ],
+    "hostIP": "10.191.5.7",
+    "podIP": "100.98.76.67",
+    "podIPs": [
+      {
+        "ip": "100.98.76.67"
+      }
+    ],
+    "startTime": "2026-11-06T16:58:33Z",
+    "containerStatuses": [
+      {
+        "name": "teacher",
+        "state": {
+          "waiting": {
+            "reason": "CreateContainerConfigError",
+            "message": "configmaps \"exp-1107-005818-695093-teacher\" not found"
+          }
+        },
+        "lastState": {},
+        "ready": false,
+        "restartCount": 0,
+        "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+        "imageID": "",
+        "started": false
+      }
+    ],
+    "qosClass": "Guaranteed",
+    "phase": "Starting",
+    "nodeName": "gpu-h800-0057.host.platform.shaipower.com"
+  },
+  "events": [
+    {
+      "reason": "Failed",
+      "message": "Error: configmaps \"exp-1107-005818-695093-teacher\" not found",
+      "last_timestamp": "2026-11-06 17:04:56+00:00",
+      "count": 0
+    },
+    {
+      "reason": "Pulling",
+      "message": "Pulling image \"artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805\"",
+      "last_timestamp": "2026-11-06 16:58:44+00:00",
+      "count": 0
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4500 nodes are available: pre-filter pod exp-1107-005818-695093-teacher-cfcd2084 cannot find enough sibling pods, current pods number: 1, minMember of group: 2. co-scheduling member not ready, pre-filter pod exp-1107-005818-695093-teacher-cfcd2084 cannot find enough sibling pods, current pods number: 1, minMember of group: 2, pre-filter pod exp-1107-005818-695093-teacher-cfcd2084 cannot find enough sibling pods, current pods number: 1, minMember of group: 2.",
+      "last_timestamp": "2026-11-06 16:58:23+00:00",
+      "count": 0
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4500 nodes are available: 3 Insufficient nvidia.com/gpu, 4497 node(s) didn't match Pod's node affinity/selector. preemption: .",
+      "last_timestamp": "2026-11-06 16:58:23+00:00",
+      "count": 0
+    }
+  ]
+}

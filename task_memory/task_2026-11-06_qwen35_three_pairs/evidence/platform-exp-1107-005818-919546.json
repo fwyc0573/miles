@@ -1,0 +1,75 @@
+{
+  "pair": "C",
+  "name": "exp-1107-005818-919546",
+  "observed_at": "2026-11-06T17:02:22.519416+00:00",
+  "phase": "Pending",
+  "creator_fields": {
+    "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+    "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+    "kubebrain.brainpp.cn/creator-type": "user",
+    "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign"
+  },
+  "local_host": "kun-workspace-vgen2",
+  "expected_nfs_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "source_commit": "ec127a1a",
+  "scheduling": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "stepmind.com/gang-group": "true",
+    "stepmind.com/queue-status": "suspend",
+    "kubebrain.brainpp.cn/gang-start": "true",
+    "rjob.brainpp.cn/rjob-queue-approved": "",
+    "stepmind.com/queue-elem-ranking": "2",
+    "stepmind.com/queue-name": "codesign-default",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=6."
+  },
+  "tasks": {
+    "student": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "host_network": true,
+      "containers": [
+        {
+          "name": "student",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "memory": "750Gi",
+              "nvidia.com/gpu": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "750Gi",
+              "nvidia.com/gpu": "8"
+            }
+          }
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 2,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "host_network": true,
+      "containers": [
+        {
+          "name": "teacher",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8",
+              "rdma/mlnx_shared": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

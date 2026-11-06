@@ -24,6 +24,7 @@ def _task_specs(config: dict, pair: str) -> dict:
             "mem_gb": resource["memory_gb_per_node"],
             "replica": resource["nodes"],
             "host_network": resource["host_network"],
+            "gang_start": resource["gang_start"],
             "envs": envs,
             "custom_resources": config["rdma_resources"] if resource["nodes"] > 1 else [],
             "is_critical": role == "student",

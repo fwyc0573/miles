@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Add real job identities, H800 allocation evidence, ConfigMap startup failure and controlled stop receipts. |
 | 2026-11-07 | Record native qualification configuration, CPU worker/SDK checks, live quota observation and exact submission procedure. |
 
 # Native H800 prerequisite execution
@@ -28,7 +29,7 @@ Each pair is one RJob with separate `student` and `teacher` task GPU allocations
 
 The two-GPU A/B teachers explicitly set `host_network=false` so their fixed HTTP/rendezvous ports remain isolated when sharing a physical node. Full-node students and the distributed C teacher keep native host networking. ResourceConfig defaults to host networking and only automatically disables it for partial-node allocations in its separate node-task-map branch; this ordinary task-spec path therefore requires the explicit JSON value (`steptron/exp/base_exp.py:4066,4442–4461`).
 
-Native `gang_start=true` applies to all resolved tasks; `ResourceConfig.gang_group=true` also requires every task in the pair to have resources before group startup (`base_exp.py:4065,4144–4148`, `stepmind.py:453–460`). Retain these defaults so startup deadlines do not run on a partially scheduled student/teacher pair.
+The first attempt inherited `gang_start=true` on every task. After the recorded ConfigMap failure, `gang_start` is explicit: false for the one-node A/B teachers, true for the students and the two-node C teacher. The corrected serialized payload retains the pair's native `stepmind.com/gang-group=true` label. Job-level resource scheduling and successful container initialization remain distinct observations; the group label did not prevent A's teacher initialization failure.
 
 Native ResourceConfig resolution on the local Python 3.10.6 StepMind environment checked all six task shapes, replicas, role envs, criticality, image, mounts and C teacher RDMA values. Retained output: [native-resource-resolution-20261107.json](evidence/native-resource-resolution-20261107.json). The first inspection iterated dictionary keys and printed `None` attributes; it was not counted as validation. Correct inspection uses `for name, task_config in resource` and asserts the actual resolved fields.
 
@@ -63,4 +64,88 @@ From `/data/ycfeng`, initialize the runbook's proxy and personal credentials wit
 /data/ycfeng/tmp/stepmind-env/bin/python -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/native_probe_config.json --pair C
 ```
 
-The script sets the required EXP_ID before constructing the backend and calls `spawn_tasks`, whose wait keeps the local launcher alive. Inspect each exact returned job for creator, both task shapes/mount sources, worker H800 devices, teacher native load/readiness, generated/scored monitoring artifacts, and terminal state. Current status at creation of this report: **not submitted**. Append actual job IDs and observations after submission; these commands alone are not execution evidence.
+The script sets the required EXP_ID before constructing the backend and calls `spawn_tasks`, whose wait keeps the local launcher alive. Inspect each exact returned job for creator, both task shapes/mount sources, worker H800 devices, teacher native load/readiness, generated/scored monitoring artifacts, and terminal state. Actual observations follow; commands alone are not execution evidence.
+
+## First native submissions and observed startup failure
+
+Submission source: `ec127a1a`; local Python 3.10.6 StepMind environment and the exact configuration above. All were created at approximately 2026-11-07 00:58 local.
+
+| Pair | RJob | Observed result |
+| --- | --- | --- |
+| A | `exp-1107-005818-695093` | Student Running with eight verified H800 devices; teacher Starting with `CreateContainerConfigError`; explicitly stopped at 01:22 before model execution. |
+| B | `exp-1107-005818-919543` | Pending; explicitly stopped at 01:22 to avoid repeating A's identical two-GPU teacher startup configuration before diagnosis. |
+| C | `exp-1107-005818-919546` | Pending at the recorded inspection; its local launcher remains alive. |
+
+Creator, current-host NFS source, image and both task allocations were read back through the personal Python API. The initial scheduler reported six GPUs remaining while B/C queued; that is a timestamped scheduler observation, not a permanent free-capacity value.
+
+Allocation receipt: [A student node](evidence/native-prerequisites/exp-1107-005818-695093/A/student-node.json). Observed hostname `gpu-h800-0128.host.platform.shaipower.com`, IP `10.191.8.5`, eight `NVIDIA H800, 81559 MiB, 570.124.06` devices, expected 4B source and pinned image. Platform startup log also records inherited `NCCL_*` values. This proves actual device allocation, not model loading, CUDA scoring, 128K capacity or D8 numerical acceptance.
+
+At 2026-11-06T17:17:48.546198Z, the exact teacher replica was scheduled on `gpu-h800-0057.host.platform.shaipower.com`, host IP `10.191.5.7`, pod IP `100.98.76.67`. Container status:
+
+```text
+state.waiting.reason = CreateContainerConfigError
+state.waiting.message = configmaps "exp-1107-005818-695093-teacher" not found
+started = false
+restartCount = 0
+```
+
+The matching platform event reports the same missing ConfigMap. Evidence: [startup status and events](evidence/startup-reason-exp-1107-005818-695093-teacher-cfcd2084.json), [replica summary](evidence/startup-exp-1107-005818-695093.json), [student startup log](evidence/startup-exp-1107-005818-695093-student-cfcd2084.log). The teacher produced no process log. This is a platform/container initialization failure before Python or SGLang, not evidence of a Qwen, CUDA or model-capacity failure.
+
+The local SDK at `/data/ycfeng/tmp/stepmind-env/lib/python3.10/site-packages/brainpp/rjob/struct.py:775–779` injects `envFrom.configMapRef=<rjob>-<task>` whenever that task has `gang_start=true`. The missing map's generation condition is not yet verified. The `host_network=false`/gang interaction is under investigation; no causal claim beyond the observed missing ConfigMap is accepted yet.
+
+Controlled resource release used the required existing wrapper:
+
+```bash
+bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh --creator i-fengyicheng --reason "P2 native prerequisite cannot start: A teacher CreateContainerConfigError, task ConfigMap absent; hold identical A/B two-GPU teacher configuration for diagnosis before retry. No optimizer updates started." exp-1107-005818-695093 exp-1107-005818-919543
+```
+
+The wrapper verified both creators and codesign quota before stopping them. Both native launchers subsequently printed `QWEN35_PAIR_FINISHED ... stopped`; exit 0 is not classified as successful qualification. Audit records are retained in `/data/ycfeng/tmp/rjob-stop-audit.log`. C was not stopped. No optimizer update, completed monitoring population, learning metric or HF export is claimed from these attempts.
+
+**Result:** startup qualification FAIL for A; B deliberately held before the same startup path; C unfinished. Repair the established launch cause, verify the resolved SDK payload and actual container startup, then resume affected qualification. Preserve the approved finite formal-run budget.
+
+## Single-node teacher configuration correction
+
+The original single-node teachers unnecessarily inherited the trainer's gang-start ConfigMap dependency. The failed replica's actual container already contains direct `KUBEBRAIN_RJOB_NAME`, `KUBEBRAIN_REPLICA=0` and `KUBEBRAIN_REPLICA_TOTAL=1` environment entries; the application's independent head/ready markers provide its rendezvous. See [the retained actual replica inspection](evidence/configmap-investigation-exp-1107-005818-695093.json). No platform address value is invented or overridden.
+
+Supporting platform documents, read as the authenticated user:
+
+- [RJob ConfigMap waiting diagnosis](https://wvixbzgc0u7.feishu.cn/docx/Z0jQdtdf0ontxvx8yiTc3HJynbh), revision 727: gang-start generates the map; required network information can delay it, including non-host-network Multus data.
+- [RJob multi-task tests](https://wvixbzgc0u7.feishu.cn/wiki/NpOWwvm5NiIecnk3YExc2qhnnQg), revision 689: records missing ConfigMaps with gang-start and task-level configuration. This older example is supporting evidence, not proof of the current controller's internal fault.
+
+The first document's diagnostic endpoint could not be queried because `sys-platform-k8s.iap.platform.shaipower.com` does not resolve on this host. Therefore the underlying missing network field/controller condition is not claimed as diagnosed. The task-owned correction is to select native non-gang mode for a standalone one-node teacher, retaining its isolated pod networking and all GPU/model/workload settings. The two-node C teacher retains gang-start, host networking and RDMA. No runtime producer/training code was changed.
+
+Changes: `submit_qwen35._task_specs` passes the explicit per-resource `gang_start`; the JSON sets false only for A/B teachers. Direct native `ResourceConfig -> RJob -> Job.to_k8s_template('shai-core')` verification used Python 3.10.6 without submission. All six serialized task contracts PASS: A/B teacher `envFrom=[]`; other tasks retain their expected map reference; replica/GPU counts and host-network settings match the JSON; the pair gang-group label remains true. Evidence: [native serialized payload checks](evidence/native-configmap-payload-20261107.json).
+
+Verification environment and entrypoint:
+
+```bash
+PYTHONPATH=/data/ycfeng/steptron PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 EXP_ID=qwen35-configmap-verification TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/tmp/stepmind-env/bin/python -B - <<'PY'
+import json, runpy
+from pathlib import Path
+from steptron.exp.base_exp import ResourceConfig
+from steptron.utils.stepmind import RJob
+module = runpy.run_path('/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py')
+path = Path('/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/native_probe_config.json')
+config = json.loads(path.read_text())
+for pair in config['pairs']:
+    resource = ResourceConfig(image=config['image'], positive_tags=[config['gpu_tag']], extra_requirements=[], mounts=config['mounts'], envs={}, command='{COMMAND}', task_specs=module['_task_specs'](config, pair), preemptible=config['preemptible'])
+    resource.exp_name = f'qwen35-{pair.lower()}-payload-only'
+    job = RJob(resource.exp_name, config['charged_group'], resource, exp_id=resource.exp_name)
+    job.meta.name = resource.exp_name
+    for name, leaf in resource:
+        job.add(module['_worker_command'](config, path, pair), task_name=name, cfg=leaf)
+    payload = job.job.to_k8s_template(namespace='shai-core')
+    assert payload['metadata']['labels']['stepmind.com/gang-group'] == 'true'
+    for role, task in payload['spec']['taskSpecs'].items():
+        expected = config['pairs'][pair][role]
+        pod = task['template']['spec']
+        container = pod['containers'][0]
+        refs = [{'configMapRef': {'name': f'{resource.exp_name}-{role}'}}] if expected['gang_start'] else []
+        assert container['envFrom'] == refs
+        assert pod['hostNetwork'] == expected['host_network']
+        assert task['replicas'] == expected['nodes']
+        assert int(container['resources']['limits']['nvidia.com/gpu']) == expected['gpus_per_node']
+PY
+```
+
+The executed check also serialized its Python version and the six observed rows into the linked JSON. The first inspection tried importing `tests.manual` alongside Steptron's distinct `tests` package and failed before construction with `ModuleNotFoundError`; using `runpy.run_path` on the exact standalone submitter resolved that inspection-only namespace collision. No package or worker environment was altered. **Limit:** serialization proves removal of the failing dependency; actual native startup remains to be verified after the corrected submission.

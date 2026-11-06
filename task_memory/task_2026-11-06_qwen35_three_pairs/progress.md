@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record three native submissions, the exact A teacher ConfigMap failure, controlled A/B stops and the remaining teacher-diagnostic handoff. |
 | 2026-11-07 | Commit verified data/export work, close monitor lifecycle findings with 142 passing checks and prepare independent native H800 baseline jobs. |
 | 2026-11-06 | Complete actual population/asset/CPU-runtime checks, record monitor integration review and follow-up, and finish verified local artifact cleanup. |
 | 2026-11-06 | Complete the single-token CPU repair; record parallel implementation ownership, personal API success and the tool-blocked asset/runtime probe. |
@@ -24,8 +25,8 @@
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
-- in-progress — P2: data/export/source evidence committed as `ede719c1`; frozen population is 924 training + 24 monitoring prefixes with 8/8/8 coverage and complete-group isolation. Native monitor lifecycle and final-publication findings are closed; required native-monitor/launcher-reader/worker CPU checks pass 142 + 83 + 14 cases. H800 baseline allocations are configured at A=10, B=10 and C=24 GPUs, not yet capacity-qualified. The tool blocker is resolved.
-- pending — P3-A / P3-B / P3-C: no task GPU submission, training, repair or model export has occurred.
+- in-progress — P2: data/export/source evidence committed as `ede719c1`, native integration as `ec127a1a`; 924 training + 24 monitoring prefixes are frozen with 8/8/8 coverage and complete-group isolation. Required CPU checks pass 142 + 83 + 14 cases. All three baseline RJobs were submitted. A's student verified eight actual H800 devices, but its teacher cannot start because the task ConfigMap is absent. A and the identically configured queued B were explicitly stopped for diagnosis; C retains its queued launcher. No native model numerical or training-capacity acceptance is established.
+- pending — P3-A / P3-B / P3-C: no formal 100-update run or final model export has occurred. The separate P2 prerequisite submissions are recorded below.
 - pending — P4: runtime acceptance and completion archive.
 
 ## Investigation and rationale
@@ -107,11 +108,16 @@
 44. `QWEN-P2-PAIR-WORKER` (`ses_e4e5821c5ffe0Iy1DaD0qtzN7I`) delivered separate student/teacher task orchestration reusing the native student launcher. Parent added the local Python RJobBackend submitter and explicit JSON resource plan, verified resolved task shapes and C teacher RDMA, and reused the previously proven image CUDA13 compatibility path. Worker checks passed 14/14 after using configuration-owned shapes and native deterministic-channel validation. The SDK's automatic public-tenant mount is documented; no task code accesses that namespace. Live codesign API observations show 33 Running jobs requesting 112 GPUs, not a proven free-GPU count. Exact commands and remaining native gates are in the [native prerequisite report](test_report_2026-11-07_native_prerequisites.md).
 45. `QWEN-P2-NUMERIC-REPORT` completed the final-publication repair using existing strict native event reading and successful-update counters. Its 40 checks pass with nonzero initial versions, skipped updates and stale/unchanged final-model cases. Final producer/reader combination passes 83/83 in 43.62 s; no new native metadata is needed. Closure review is in progress, while qualified baseline execution can proceed independently.
 46. Final monitoring phase review closed the publication P1 with no additional actionable defect. Its scope remains the CPU evidence/reader contract. Native task resources explicitly isolate the two-GPU teachers' ports with `host_network=false`, retaining full-node/multinode host networking; resolved SDK payload checks cover these values before submission.
+47. Submitted the verified native integration (`ec127a1a`) through three independent long-lived local Python launchers: A `exp-1107-005818-695093`, B `exp-1107-005818-919543`, C `exp-1107-005818-919546`. Personal creator, local NFS source, pinned image and task resources were checked. Initial scheduler evidence showed A Starting and B/C Pending with six GPUs remaining. A's student later reported eight NVIDIA H800 devices, each 81,559 MiB, driver 570.124.06, on `gpu-h800-0128`; this is allocation evidence only.
+48. Native startup inspection found A teacher `CreateContainerConfigError`: `configmaps "exp-1107-005818-695093-teacher" not found`. Exact status/events are retained in `evidence/startup-reason-exp-1107-005818-695093-teacher-cfcd2084.json`. This occurred before the teacher process or model loading; the student was waiting for readiness. At 01:22 local, the approved `rjob_stop.sh --creator i-fengyicheng` stopped A and the identically configured queued B; both launchers reported `stopped`. C was not stopped. Local SDK inspection shows task `gang_start` injects the per-task ConfigMap reference; its interaction with the actual platform remains under diagnosis. No timeout increase, speculative replacement run or optimizer work has occurred.
+49. Read-only teacher-probability follow-up (`QWEN-TEACHER-PROBABILITY`, `ses_e4e2d51c3ffeXvVTl4YUridmd3`) found the complete teacher response is already preserved inside raw eval `Sample.reward`, before the derived `teacher_log_probs` field is populated. The current reader only looks for that derived vector, so the learning diagnostic needs its actual producer/dump path connected before formal runs. The exact runtime SGLang source commit `056f871a7ee8b4573832049011f0fdf52589cfd8` confirms the prefill-only full-vocabulary input-logprob semantics. Teacher identity still needs binding to the actual `teacher-ready.json`; no model metrics are inferred from source inspection. Both K3 forms already exist in the reader. Live/queued runtime source has not been changed for this follow-up.
+50. The cleanup follow-up removed 77,078,528 allocated bytes (73.51 MiB) of completed P2 temporary outputs. Latest free-space observation was 237,998,190,592 bytes (221.65 GiB), 79% used; unrelated concurrent gains are not attributed to this cleanup. C's local launcher remained alive and 481 protected evidence files retained their SHA256 values. The appended iteration preserves the original cleanup receipt and its earlier totals.
+51. Diagnosed the task-owned startup dependency using native SDK serialization, A's actual pod environment and the Feishu ConfigMap troubleshooting/multi-task documents. A/B single-node teachers already receive their three required `KUBEBRAIN_*` identity variables directly; their application-layer rendezvous needs no distributed ConfigMap. Made `gang_start` explicit per resource: false only for A/B teachers, true for students and the two-node C teacher. Native SDK serialization passed all six task contracts, including empty A/B teacher `envFrom`, retained C maps, unchanged GPUs/replicas/network modes and the pair gang-group label. The deeper platform network-data reason for the absent map is not established: its documented diagnostic hostname does not resolve here. This is one scoped configuration correction awaiting actual startup validation, not a platform-controller repair.
 
 ## Next actions
 
-1. Commit verified native monitor/launcher work and proceed directly to native baseline qualification.
-2. Submit and qualify the configured independent H800 pair jobs on the frozen population, preserving queue/lifecycle and exact creator/source evidence; measure native baseline scores/capacity before formal updates.
+1. Commit the verified single-node teacher configuration correction and resubmit affected A/B baselines; preserve C's independent queued launcher. Verify actual container startup and model outputs rather than treating serialization as runtime success.
+2. Complete per-pair baseline qualification and connect the existing raw teacher scoring evidence to the learning diagnostic with actual teacher identity binding before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
@@ -122,47 +128,47 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 实际资产/总体、239 项监测/入口 CPU 检查及监测阶段审查已通过；H800 验证待完成。 |
-| P3-A | TODO | 未运行本任务 GPU 实验。 |
-| P3-B | TODO | 未运行本任务 GPU 实验。 |
-| P3-C | TODO | 未运行本任务 GPU 实验。 |
+| P2 前置核验与实现 | TODO | 239 项 CPU 检查通过并提交；三组基线已提交，A 启动失败后完成配置修正的原生模板核验，仍待实际启动验证。 |
+| P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
+| P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
+| P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
 | P4 汇总交付 | TODO | 等待各组合的运行及导出结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 监测生命周期修复至最终发布绑定与作业配置验证｜**当前前沿：** P2 H800 基线资格验证
+**检测窗口：** 最终监测契约验证、原生提交至 ConfigMap 配置修正｜**当前前沿：** P2 原生启动与基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | guard 修复解除真实提交阻塞；数据/导出/监测检查已产出对应交付，外围缺依赖扩测已停止。 |
-| D2 细节反复重试 | CLEAR | 生命周期修复分别验证 fail-fast sibling、恢复成功后的 soft gate、外层远端取消三个具体边界；真实回归先复现再修复，最终 142 项通过。 |
-| D3 支线问题修补 | CLEAR | 监测两项问题直接影响 P2 生命周期/soft gate；本机清理由用户明确要求。 |
-| D4 可并行任务停滞 | CLEAR | RPC、eval、入口、数值报告与平台数据审计并行；修复按文件所有权分派。 |
-| D5 超范围镀金 | CLEAR | 只读评分补齐固定监测所需观测，复用 native forward；未扩展视觉导出或模型矩阵。 |
-| D6 分析空转 | CLEAR | 实际总体与资产已通过；924/24 数据、文本导出和原生监测接口已有实现及证据。 |
-| D7 路线违背 | CLEAR | 保持全部 D1–D14；共享模型源只读例外和守卫修复均有明确授权。 |
+| D1 工具打磨 | CLEAR | 239 项所需检查后已实际提交；新增模板核验只验证已观察到的启动依赖。 |
+| D2 细节反复重试 | CLEAR | A 首次失败保留原始事件；基于 ConfigMap 注入规则形成一项配置修正，未增加超时或盲目重复提交。 |
+| D3 支线问题修补 | CLEAR | ConfigMap 阻塞 P2；教师原始评分绑定属于 D9；清理由用户明确要求。 |
+| D4 可并行任务停滞 | CLEAR | 三组曾并行提交；A/B 同配置暂停修正，C 保留队列；CPU 取证与清理并行。共享配额限制有实际回执。 |
+| D5 超范围镀金 | CLEAR | 使用已有 per-task gang 选项；未新增控制平面修补、模型替换或预算扩展。 |
+| D6 分析空转 | CLEAR | 现场证据将问题定位到 Python 启动前；SDK/平台文档已产出可验证配置决策。下一步为实际重启验证。 |
+| D7 路线违背 | CLEAR | P2 探针与 D9 正式预算分开；只停止未开始训练的受阻作业；C 及所有验收值保留。 |
 
-**文档检查：** S5：旧状态仍称工具阻塞、源目录未授权、总体未审计；已按授权与实际回执更新 requirements/plan/design/progress。S1/S2/S3/S4/S6 未发现新缺陷；P2 的并行实现、审查修复和资源前提均有所有者。
-**归因：** 无执行偏离；陈旧状态已修正。
+**文档检查：** S5：plan 的 P2 切片、progress 的“提交代码”下一步及原生报告的“尚未提交/所有 task gang_start=true”已落后于代码与运行事实，需同步本次配置和失败回执。S1/S2/S3/S4/S6 未发现明显缺陷；运行启动和教师评分绑定均由 P2 持有。
+**归因：** 无执行偏离；陈旧状态直接更新。
 
 ## 3. 纠正建议
 
-**分支：** B：spec/plan 状态需更新，已按实际答复与依赖落实。
+**分支：** B：计划和执行状态需要同步，不改变已确认范围或验收值。
 
 **文档更新（先执行）：**
-1. requirements/plan/design：同步共享源只读授权、冻结总体和实际接口；不改 D8/D9/D11 验收值（可直接执行，已执行）。
-2. progress/test report：保留历史失败边界，更新真实作业/CPU 结果与审查待办（可直接执行，已执行）。
+1. plan.md 的 P2 切片：标明实现已提交、原生启动修正与学习诊断绑定待完成（可直接执行，已执行）。
+2. progress/native test report：记录真实作业、停止原因、显式 gang 参数与下一次验证条件（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：提交已验监测/入口代码 → 完成标志：生命周期与输入证据契约回归通过、源码有可复核提交。
-2. H800 基线执行 → 完成标志：三组实际原生数值、资源容量与终态有可复核证据。
-3. P3-A ‖ P3-B ‖ P3-C：各自前提满足后释放 → 完成标志：按 D8/D9 记录数值、训练、监测和最终 HF 重载结果。
+1. P2：提交已验 gang 配置并验证 A/B 实际启动 → 完成标志：教师进入原生进程、设备及模型身份有实际回执。
+2. 并行：A/B 受影响基线 ‖ C 独立队列；原始教师评分绑定 → 完成标志：原生数值/终态和学习监测输入均可复核。
+3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
-1. 完整 Qwen 总体已冻结为 924 训练 + 24 监测；短层实际恰有 8 个前缀，已满足已确认规则。
-2. 监测生命周期与最终发布绑定审查均已关闭，239 项所需 CPU 检查通过。
-3. 原生基线候选配置共 44 H800；平台当前运行申请为 112 GPU，实际排队与容量以调度/执行结果为准。
+1. A 的失败发生于教师容器初始化；八张 student H800 设备证据不能代替模型数值或训练容量验收。
+2. 单节点教师的 ConfigMap 依赖已在实际 SDK 序列化中移除；必须以新的原生启动结果验证修正。
+3. C 保留排队，A/B 不需等待 C；正式训练之前还需绑定已有原始教师评分及真实教师身份。

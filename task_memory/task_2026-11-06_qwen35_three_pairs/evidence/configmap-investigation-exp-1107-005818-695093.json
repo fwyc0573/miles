@@ -1,0 +1,113 @@
+{
+  "replica": "exp-1107-005818-695093-teacher-cfcd2084",
+  "phase": "Stopped",
+  "spec_keys": [
+    "volumes",
+    "containers",
+    "restartPolicy",
+    "terminationGracePeriodSeconds",
+    "securityContext",
+    "imagePullSecrets",
+    "hostname",
+    "subdomain",
+    "affinity",
+    "dnsConfig",
+    "enableServiceLinks",
+    "type",
+    "selector",
+    "stopTimestamp"
+  ],
+  "network_annotations": {
+    "stepboard.stepfun.com/enabled": "false",
+    "stepboard.stepfun.com/exp": "qwen35-a-baseline",
+    "stepboard.stepfun.com/project": "default_project",
+    "stepboard.stepfun.com/steptron_commit": "UNKNOWN_COMMIT_ID"
+  },
+  "network_labels": {
+    "stepmind.com/gang-group": "true"
+  },
+  "containers": [
+    {
+      "name": "teacher",
+      "envFrom": [
+        {
+          "configMapRef": {
+            "name": "exp-1107-005818-695093-teacher"
+          }
+        }
+      ],
+      "env": [
+        {
+          "name": "KUBEBRAIN_CLUSTER_ENTRY",
+          "value": "https://platform.shaipower.com"
+        },
+        {
+          "name": "KUBEBRAIN_WORKSPACE_NAME",
+          "value": "ws-7fb014dfb4e3d7fe"
+        },
+        {
+          "name": "KUBEBRAIN_NODE_NAME",
+          "valueFrom": {
+            "fieldRef": {
+              "fieldPath": "spec.nodeName"
+            }
+          }
+        },
+        {
+          "name": "KUBEBRAIN_CLUSTER_ENTRY",
+          "value": "https://platform.shaipower.com"
+        },
+        {
+          "name": "KUBEBRAIN_QUOTA_GROUP",
+          "value": "codesign"
+        },
+        {
+          "name": "KUBEBRAIN_WORKSPACE_NAMESPACE",
+          "value": "shai-core"
+        },
+        {
+          "name": "KUBEBRAIN_NAMESPACE",
+          "value": "shai-core"
+        },
+        {
+          "name": "KUBEBRAIN_RJOB_NAME",
+          "value": "exp-1107-005818-695093"
+        },
+        {
+          "name": "KUBEBRAIN_REPLICA",
+          "value": "0"
+        },
+        {
+          "name": "KUBEBRAIN_REPLICA_TOTAL",
+          "value": "1"
+        },
+        {
+          "name": "KUBEBRAIN_HOSTNAME_PREFIX",
+          "value": "rjob-9cf03c36df6a4ad1-12b353edd056a1c8"
+        },
+        {
+          "name": "KUBEBRAIN_RESOURCE_TYPE",
+          "value": "rjob"
+        },
+        {
+          "name": "KUBEBRAIN_REPLICA_NAME",
+          "value": "exp-1107-005818-695093-teacher-cfcd2084"
+        }
+      ],
+      "resources": {
+        "limits": {
+          "cpu": "16",
+          "mellanox.com/mlnx_rdma": "1",
+          "memory": "125Gi",
+          "nvidia.com/gpu": "2"
+        },
+        "requests": {
+          "cpu": "16",
+          "memory": "125Gi",
+          "nvidia.com/gpu": "2"
+        }
+      }
+    }
+  ],
+  "diagnostic_error": "ConnectionError: HTTPSConnectionPool(host='sys-platform-k8s.iap.platform.shaipower.com', port=443): Max retries exceeded with url: /rjob-configmap?namespace=shai-core&job=exp-1107-005818-695093 (Caused by NameResolutionError(\"HTTPSConnection(host='sys-platform-k8s.iap.platform.shaipower.com', port=443): Failed to resolve 'sys-platform-k8s.iap.platform.shaipower.com' ([Errno -5] No address associated with hostname)\"))"
+}

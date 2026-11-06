@@ -1,0 +1,32 @@
+{"@caller":"gitlab.basemind.com/basemind/brainpp/projects/kubebrain/cmd/worker-init/app/options.(*Options).Run","@file":"projects/kubebrain/cmd/worker-init/app/options/options.go:80","@level":"info","@msg":"SSHD not enabled","@timestamp":"2026-11-06T16:58:52.048Z"}
+2026-11-06 16:58:52: DEBUG: Calling worker_init, DISTRIBUTED_JOB_ENVS_INITIALIZED=
+2026-11-06 16:58:52: DEBUG: worker_init() function called
+2026-11-06 16:58:52: DEBUG: SCRIPT_PATH=/jobutils/scripts, BASE_DIR=/jobutils
+SOCKET_IP=10.191.8.5
+0 reranked to 0
+MASTER_NODE_NAME=gpu-h800-0128.host.platform.shaipower.com, LAST_NODE_NAME=gpu-h800-0128.host.platform.shaipower.com
+MASTER_SOCKET_ADDR=10.191.8.5, LAST_SOCKET_ADDR=10.191.8.5
+NODE_NAME=gpu-h800-0128.host.platform.shaipower.com
+GPU_TYPE=H800
+GPU_VENDOR=NVIDIA
+NODE_RANK=0
+NODE_COUNT=1
+MASTER_ADDR=10.191.8.5
+PROC_PER_NODE=8
+JOB_ID=exp-1107-005818-695093
+2026-11-06 16:58:55: [replica_labels] 2026-11-06 16:58:54.449 | WARNING  | utils:<module>:21 - clickhouse_connect 模块未安装，ClickHouse 功能将不可用。p2p_ping 等不需要 ClickHouse 的功能仍可正常使用。
+RDMA_NETWORK_LINK_TYPE=RoCE
+LLDP_INFO_FILE=/host-config/lldp-info.txt
+USE_BRAINVF=false
+NET_IF_PREFIX=brainpf
+Verifying all RoCEv2 GID indexes equal to 3 ...
+NCCL_SOCKET_IFNAME=ens20np0
+NVSHMEM_BOOTSTRAP_UID_SOCK_IFNAME=ens20np0
+NCCL_IB_HCA==mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_6,mlx5_7,mlx5_8
+NCCL_IB_GID_INDEX=3
+NVSHMEM_HCA_PE_MAPPING=mlx5_0:1:1,mlx5_1:1:1,mlx5_2:1:1,mlx5_3:1:1,mlx5_4:1:1,mlx5_6:1:1,mlx5_7:1:1,mlx5_8:1:1
+LLDP_INFO_FILE=/host-config/lldp-info.txt
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+2026-11-06 16:58:56: Ready to go.
+2026/11/06 16:58:56 [DEBUG] packaging-url , packaging-dir /workdir/src/rjob, Starting packaging server
+2026-11-06 16:58:57: [replica_labels] 2026-11-06 16:58:57.533 | WARNING  | utils:<module>:21 - clickhouse_connect 模块未安装，ClickHouse 功能将不可用。p2p_ping 等不需要 ClickHouse 的功能仍可正常使用。

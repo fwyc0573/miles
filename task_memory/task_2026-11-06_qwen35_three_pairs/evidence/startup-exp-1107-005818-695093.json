@@ -1,0 +1,26 @@
+{
+  "job": "exp-1107-005818-695093",
+  "observed_at": "2026-11-06T17:07:50.161985+00:00",
+  "replicas": [
+    {
+      "task": "student",
+      "name": "exp-1107-005818-695093-student-cfcd2084",
+      "phase": "Running",
+      "hostname": null,
+      "ip": "10.191.8.5",
+      "status": null,
+      "log_file": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/startup-exp-1107-005818-695093-student-cfcd2084.log",
+      "log_lines": 32
+    },
+    {
+      "task": "teacher",
+      "name": "exp-1107-005818-695093-teacher-cfcd2084",
+      "phase": "Starting",
+      "hostname": null,
+      "ip": "100.98.76.67",
+      "status": null,
+      "log_file": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/startup-exp-1107-005818-695093-teacher-cfcd2084.log",
+      "log_lines": 0
+    }
+  ]
+}
