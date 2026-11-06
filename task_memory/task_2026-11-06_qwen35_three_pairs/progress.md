@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Complete the single-token CPU repair; record parallel implementation ownership, personal API success and the tool-blocked asset/runtime probe. |
 | 2026-11-06 | Resume, confirm D9–D14, complete P1, and open P2 with corrected local prerequisite evidence and approved Git-lock cleanup. |
 | 2026-11-06 | Apply latest D4 preserve-all default across user messages and rerun the existing CPU preservation probe; keep D6/D7/D8 unchanged. |
 | 2026-11-06 | Confirm D8 numerical acceptance, audit source identities and prepare a finite training/monitoring budget for the next decision. |
@@ -21,7 +22,7 @@
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
-- in-progress — P2: local source/runtime-record inspection is complete; native assets, complete Qwen population audit, text-only export integration, one-token repair and H800 capacity remain open. A complete CPU environment ran existing normalization/export tests (16 passed, 1 xfailed); this is not the selected worker image. Corrected evidence is in the resume test report.
+- in-progress — P2: the demonstrated single-token defect is repaired and its CPU checks pass (29 focused + 3 CP=2). Data preparation and text-only export implementation are delegated independently; native assets, the complete Qwen population audit, monitoring integration and H800 capacity remain open. Personal API access works, but the zero-GPU asset/runtime submission was rejected by the tool layer before a job receipt. Exact evidence is in the P2 report.
 - pending — P3-A / P3-B / P3-C: no task GPU submission, training, repair or model export has occurred.
 - pending — P4: runtime acceptance and completion archive.
 
@@ -91,14 +92,15 @@
 31. Delegated local read-only prerequisites as QWEN-P2-LOCAL-RESUME, session `ses_e4fa4d3d6ffehAZgu9UTqI2VjN`. Completed source/image/history inspection and one CPU test selection; exact receipts and environment differences are recorded in the resume report. Its initial claim that the short Qwen stratum is infeasible was rejected: GLM counts and four-fixture length ratios do not establish actual Qwen coverage, and D11 does not require eight distinct groups in every stratum. The agent corrected that claim and withdrew unmeasured topology minima. Actual Qwen lengths remain the next source of truth.
 32. Inspected raw HF export, GPT construction, Qwen tensor conversion and the Inkling-only frozen-tower extension. Presented complete-model reconstruction versus text-only delivery; the user chose D13 text-only. P2 will adapt the exported config/name contract and verify text reload, rather than implement the rejected VLM reconstruction. Two documentation patches initially failed context matching without applying; corrected exact-line patches landed. One guessed export filename was absent; the actual actor/publisher/iterator owners supplied the evidence.
 33. Reread current requirements. Resume documentation validation passed with system Python 3.10.6: nine maintained documents, 72 local links, D9–D14, budget arithmetic and `git diff --check`. The exact old index lock was removed after a fresh process check and explicit approval. The user's follow-up authorizes analogous routine Git housekeeping without repeated questions. The resume report preserves CPU test limits and the single-token xfail.
+34. Committed the verified documentation baseline as `a476e982`. Parallel P2 ownership: actual-Qwen preparation (`QWEN-P2-DATA`, session `ses_e4f8ab177ffe1xOtrk8j0VIVcF`), text-only export (`QWEN-P2-HF`, session `ses_e4f8ab167ffeaA07chV3shmdoG`), and the singleton repair (`QWEN-P2-ONE-TOKEN`, session `ses_e4f8ab166ffefjF8IxD4g2CcAz`). Parent owns launcher integration, records and platform operations. Read-only monitoring-seam analysis is `QWEN-P2-MONITOR-SEAM`, session `ses_e4f8515dfffeWjouYg6VNOkop0`.
+35. Single-token implementation completed: confirmed `squeeze(-1)` turns the scorer's `[1]` output into a scalar; changed only that shape normalization and its explanatory docstring, then promoted/expanded the existing regression. Reproduction failed as expected before the fix; 29 focused tests and 3 CP=2 tests passed afterwards. Parent inspected the two-file diff. No probability, mask or normalization policy changed. See the [P2 report](test_report_2026-11-06_p2.md); GPU acceptance remains pending.
+36. Personal local API query succeeded. SSH identity/storage reads timed out. Wrote the scoped personal-asset inspector and checked its syntax and manifest schema, then attempted a local zero-GPU runtime/asset probe. The tool rejected that command with the exact user-invoked-only skill error retained in the P2 report; no RJob receipt exists. No alternate execution path was used to bypass that rejection. This blocks cloud validation, not the independent local work.
 
 ## Next actions
 
-Latest D4 verification completed before the next interview question: `python3` checked eight maintained documents and 66 local links, requirements D4/D6/D7/D8, rerun/retained preservation JSON equality, probe/template hashes and proposed-budget arithmetic; PASS. `git diff --check` exited 0. Exact commands and the initial bare-`python` PATH error are recorded in the documentation test report. Requirements were reread. The pre-existing Git index lock remains untouched; this update is saved but not committed. The milestone self-check below covers the latest default correction; no implementation or GPU result is claimed.
-
-1. Verify and commit the current task documents after the approved exact lock cleanup; preserve unrelated files.
-2. In parallel, implement actual-Qwen population preparation, text-only HF export/reload support, and the demonstrated one-token regression repair; integrate them with the existing rollout/eval/version mechanisms.
-3. Verify personal model copies and source bytes, selected runtime and feasible H800 topology. Only release a pair's P3 execution when its own prerequisites are met; report actual outcomes without automatic budget extension.
+1. Commit the verified singleton repair and its evidence, then integrate the independently completed data/export deliverables.
+2. Finish the existing-loop launcher and same-version fixed-monitoring integration after the scoped interface analysis; preserve D9's monitoring/training separation.
+3. Resolve the submission-tool restriction, then verify personal assets, actual Qwen population, selected runtime and feasible H800 topology. Release each P3 pair only when its own prerequisites pass.
 
 ## 1. 规划完成情况
 
@@ -117,39 +119,38 @@ Latest D4 verification completed before the next interview question: `python3` c
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次 D4/D8 检查至本次恢复和 D14 确认｜**当前前沿：** P2 实现与独立前置核验
+**检测窗口：** D14 文档基线至单 token 修复验证｜**当前前沿：** P2 数据/导出/监测实现；云端验证受工具拦截
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 复用原有测试和导出/监测机制，检查服务于 P1 决策和 P2 缺口定位。 |
-| D2 细节反复重试 | CLEAR | 选用已有完整 CPU 环境后取得测试结果；文档补丁匹配错误已纠正。 |
-| D3 支线问题修补 | CLEAR | 本轮发现均直接影响数据、数值或 HF 交付；其他任务未改。 |
-| D4 可并行任务停滞 | CLEAR | 本地前提检查与逐项决策并行；实现于 D14 后释放。 |
-| D5 超范围镀金 | CLEAR | 用户选择文本 HF，未实施完整 VLM 重建方案。 |
-| D6 分析空转 | CLEAR | 六项决策已关闭，P1 转为 completed。 |
-| D7 路线违背 | CLEAR | 保持 Miles、三组合和既定限制；未按 GLM 长度推算改动 Qwen 分层。 |
+| D1 工具打磨 | CLEAR | 复用已有回归验证具体缺陷；资产检查直接服务 P2 前置条件。 |
+| D2 细节反复重试 | CLEAR | 先复现维度根因再修复，相关检查通过后停止扩测；工具拒绝未绕路重试。 |
+| D3 支线问题修补 | CLEAR | 单 token、数据、导出和监测均在 P2 验收路径上。 |
+| D4 可并行任务停滞 | CLEAR | 三块实现并行，父代理处理平台前提；监测接口独立分析。 |
+| D5 超范围镀金 | CLEAR | 修复保留既有目标与算式；未扩展至视觉模型重建。 |
+| D6 分析空转 | CLEAR | 单 token 项已取得代码与通过结果，文档基线已提交。 |
+| D7 路线违背 | CLEAR | 保持既定模型/预算/分层；平台命令被拒绝后未换路径执行。 |
 
-**文档检查：** S1：旧 P1→P2 总边会掩盖可并行的本地只读检查，plan 已明确拆分调查与运行依赖。S5：D9–D14 后的待确认表述已更新。S2/S3/S4/S6 未发现新增缺陷；P2 继续拥有实际资源、覆盖与实现验收。
-**归因：** 无执行偏离；依赖边与当前状态的文档修正已落实。
+**文档检查：** S5：旧 Next actions 仍称 Git 锁未处理、单 token xfail 待修；已按提交与测试证据更新。S1/S2/S3/S4/S6 未发现新缺陷；P2 已拥有工具阻塞与监测接口工作。
+**归因：** 无执行偏离；陈旧状态已修正。
 
 ## 3. 纠正建议
 
 **分支：** B：spec/plan 状态需更新，已按实际答复与依赖落实。
 
 **文档更新（先执行）：**
-1. requirements：记录 D9–D14 和锁清理实际答复（已获用户确认）。
-2. plan：区分本地调查与运行依赖，完成 P1 并开启 P2（可直接执行，已执行）。
-3. design/progress：同步已确认设置并记录文本导出缺口；保留历史测试的时间与环境边界（可直接执行，已执行）。
+1. design：将已修复 singleton 缺陷指向实际 P2 验证记录（可直接执行，已执行）。
+2. progress：替换陈旧的锁/xfail 待办，保留历史记录的时间边界并记录工具阻塞（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2 文档基线：核验并提交任务文件 → 完成标志：决策、证据与实际检查结果一致。
-2. 并行：数据准备 ‖ 文本导出 ‖ 单 token 修复 ‖ 资产/运行前提 → 完成标志：P2 所需接口、实际身份与资源证据完备。
+1. P2 singleton：提交已验证修复 → 完成标志：代码与 CPU 证据归档，保留 GPU 验证边界。
+2. 并行：数据准备 ‖ 文本导出 ‖ 监测/运行入口；云端检查待工具限制解除 → 完成标志：P2 所需接口、实际身份与资源证据完备。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足后释放 → 完成标志：按 D8/D9 记录数值、训练、监测和最终 HF 重载结果。
 
 ## 4. 最值得关注的 3 点
 
-1. P1 已完成，首轮规模及执行基线明确；还没有三组 GPU 实测结果。
-2. 较大模型的个人目录副本和实际 Qwen 长度待核验，不能用元数据推算代替。
-3. 用户选择纯文本 HF；已知单 token xfail 与文本配置/权重适配由 P2 修复验证。
+1. 单 token 缺陷已修复，29 项针对性与 3 项 CP=2 CPU 检查通过；尚无 Qwen GPU 数值结果。
+2. 本机个人 API 可用，但资产/镜像检查的提交命令被工具层拒绝；实际个人副本和总体长度仍未验证。
+3. 数据准备、纯文本导出和固定监测接入继续并行，P2 总体验收尚未完成。

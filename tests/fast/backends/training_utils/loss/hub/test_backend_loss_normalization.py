@@ -9,6 +9,7 @@ from tests.fast.backends.training_utils.backend_owner_fixtures import (
     uneven_policy_batch,
 )
 
+from miles.backends.training_utils.loss.hub.logit_processors import get_log_probs_and_entropy
 from miles.backends.training_utils.loss.hub.losses import policy_loss_function
 from miles.backends.training_utils.loss.objective import loss_function
 from miles.utils.args.custom_function import CustomFunctionConfig
@@ -81,25 +82,53 @@ class TestBackendLossNormalization:
 
         assert loss.item() == pytest.approx(expected)
 
-    @pytest.mark.xfail(
-        strict=True,
-        raises=RuntimeError,
-        reason="Existing single-response-token log-probability squeeze drops the token dimension",
-    )
+    @pytest.mark.parametrize("per_token,expected", [(False, -4.0), (True, -10.0)])
+    @pytest.mark.parametrize("chunk_size", [-1, 1])
     def test_single_response_token_preserves_a_concatenable_log_probability_dimension(
         self,
         native_backend_owner_state: None,
         policy_backend_args: Namespace,
         single_token_policy_batch: dict,
+        per_token: bool,
+        expected: float,
+        chunk_size: int,
     ) -> None:
-        """A one-token response retains its token dimension through real policy log-probability concatenation."""
-        try:
-            policy_loss_function(
-                args=policy_backend_args,
-                batch=single_token_policy_batch,
-                logits=torch.zeros((1, 6, 2), requires_grad=True),
-                sum_of_sample_mean=torch.mean,
-            )
-        except RuntimeError as error:
-            assert str(error) == "zero-dimensional tensor (at position 0) cannot be concatenated"
-            raise
+        """Singleton and multi-token responses retain scores, normalization and response-aligned gradients."""
+        args = policy_backend_args
+        args.backend.calculate_per_token_loss = per_token
+        args.log_probs_chunk_size = chunk_size
+        args.observe_training_entropy = True
+        logits = torch.zeros((1, 6, 2), requires_grad=True)
+
+        loss, metrics = policy_loss_function(
+            args=args,
+            batch=single_token_policy_batch,
+            logits=logits,
+            sum_of_sample_mean=torch.mean,
+        )
+        outputs = get_log_probs_and_entropy(
+            logits,
+            args=args,
+            unconcat_tokens=single_token_policy_batch["unconcat_tokens"],
+            total_lengths=single_token_policy_batch["total_lengths"],
+            response_lengths=single_token_policy_batch["response_lengths"],
+            with_entropy=True,
+        )
+
+        assert [tuple(score.shape) for score in outputs["log_probs"]] == [(1,), (3,)]
+        assert [tuple(entropy.shape) for entropy in outputs["entropy"]] == [(1,), (3,)]
+        torch.testing.assert_close(
+            torch.cat(outputs["log_probs"]), torch.cat(single_token_policy_batch["log_probs"]), rtol=0, atol=0
+        )
+        assert loss.item() == pytest.approx(expected)
+        assert metrics["pg_loss"].item() == pytest.approx(expected)
+        assert metrics["ppo_kl"].item() == 0.0
+        entropy_sum = (4 if per_token else 2) * torch.log(torch.tensor(2.0)).item()
+        assert metrics["entropy_loss"].item() == pytest.approx(entropy_sum)
+
+        loss.backward()
+        weight = 1.5 if per_token else 0.5
+        expected_gradient = torch.tensor(
+            [[[0.5, -0.5], [0.0, 0.0], [weight, -weight], [-weight, weight], [weight, -weight], [0.0, 0.0]]]
+        )
+        torch.testing.assert_close(logits.grad, expected_gradient, rtol=0, atol=0)

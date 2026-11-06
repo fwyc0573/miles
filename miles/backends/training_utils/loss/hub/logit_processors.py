@@ -169,9 +169,10 @@ def get_log_probs_and_entropy(
     """Compute per-token log-probabilities (and optionally entropy) on responses.
 
     For each sample, extracts response-aligned logits and tokens, then computes
-    log-probabilities via softmax across the tensor-parallel group. Log-probs
-    are squeezed from `[R, 1]` to `[R]`. Entropy is computed and returned only
-    when requested. With `--log-probs-backend fused` all samples go through one
+    log-probabilities via softmax across the tensor-parallel group. Scorer outputs
+    of shape `[R]` or `[R, 1]` are returned as `[R]`, including singleton responses.
+    Entropy is computed and returned only when requested. With
+    `--log-probs-backend fused` all samples go through one
     fused op, normalized over the true vocabulary (`args.vocab_size`), whose
     backward writes the gradient into `logits` unless `--recompute-loss-function`:
     after it, `logits` holds the gradient, not the logits.
@@ -395,7 +396,7 @@ def _torch_log_probs_and_entropy(
                 debug_unified_grad_fused_logprob=args.debug_unified_grad_fused_logprob,
             )
 
-        log_probs_list.append(log_prob.squeeze(-1))
+        log_probs_list.append(log_prob.reshape(-1))
         if with_entropy:
             entropy_list.append(entropy)
 

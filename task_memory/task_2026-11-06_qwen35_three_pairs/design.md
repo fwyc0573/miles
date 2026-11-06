@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record the verified singleton-response dimension repair and retain native numerical qualification as pending. |
 | 2026-11-06 | Apply confirmed D9 training/monitoring counts; keep unconfirmed population details distinct. |
 | 2026-11-06 | Adopt the latest preserve_thinking=True default across user messages; map it to existing Miles and referenced Steptron settings while retaining completion-only loss. |
 | 2026-11-06 | Accept numerical qualification under D8 and prepare a finite training/monitoring budget from existing Miles mechanisms. |
@@ -79,7 +80,7 @@ The [loss-semantics report](test_report_2026-11-06_loss_semantics.md) records th
 
 Reuse the existing pre-TIS policy debug dump and sample/version evidence to calculate the acceptance population independently of rejection. The dump is emitted before TIS and contains raw current-forward, old trainer and rollout logprobs plus the original local mask. Keep current-forward versus old-trainer roles explicit: only compare policies whose consumed weight versions match. Reconstruct CP slices and deduplicate TP replicas using existing metadata; first verify that the selected native path supplies enough identity and position information. Record nonfinite and missing values as invalid evidence rather than allowing native sanitization to make them zero.
 
-With `calculate_per_token_loss=True`, the inspected reducer sums masked token contributions. `loss_function` computes its normalizer from the original response masks before TIS and delegates Megatron's global gradient normalization to `finalize_model_grads`. TIS changes numerator contributions, not the original-token denominator. `count_loss_tokens` clamps a completely masked sample's count to one; zero-target samples must be counted explicitly before claiming exact global token-mean equivalence. This is a source trace, not proof of the selected worker's distributed normalization. Existing tests also declare a single-response-token concatenation xfail; P2 must reproduce and resolve its actual relevance before qualification, without filtering away one-token model outputs merely to evade it.
+With `calculate_per_token_loss=True`, the inspected reducer sums masked token contributions. `loss_function` computes its normalizer from the original response masks before TIS and delegates Megatron's global gradient normalization to `finalize_model_grads`. TIS changes numerator contributions, not the original-token denominator. `count_loss_tokens` clamps a completely masked sample's count to one; zero-target samples must be counted explicitly before claiming exact global token-mean equivalence. This is a source trace, not proof of the selected worker's distributed normalization. P2 reproduced and repaired the single-response-token concatenation defect by preserving the scorer's response dimension; the former xfail now passes with loss/entropy/gradient checks. The [P2 report](test_report_2026-11-06_p2.md) records CPU and CP=2 verification. Native Qwen qualification remains required; no one-token output is filtered away to evade the defect.
 
 ### Numerical acceptance — accepted under D8
 
