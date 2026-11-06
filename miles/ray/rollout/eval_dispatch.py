@@ -4,6 +4,9 @@ import os
 import shutil
 import time
 from collections import deque
+from collections.abc import Awaitable, Callable
+
+from miles.utils.data import RolloutDataPack
 
 logger = logging.getLogger(__name__)
 
@@ -17,17 +20,31 @@ class EvalDispatcher:
     instead.
     """
 
-    def __init__(self, args, actor_model, rollout_manager):
+    def __init__(
+        self,
+        args,
+        actor_model,
+        rollout_manager,
+        *,
+        eval_train_data_callback: Callable[[int, dict[str, RolloutDataPack]], Awaitable[None]] | None = None,
+    ):
         self.args = args
         self.actor_model = actor_model
         self.rollout_manager = rollout_manager
         self.pending: deque[tuple[int, asyncio.Task, str | None]] = deque()
         self._exported: list[str] = []
+        self._eval_train_data_callback = eval_train_data_callback
 
     async def dispatch(self, rollout_id: int, hf_dir: str | None = None, force: bool = False) -> None:
         """A caller-supplied ``hf_dir`` is an existing checkpoint, not one of our exports."""
         if not self.args.eval_uses_snapshots:
-            await self.rollout_manager.eval(rollout_id)
+            if self.args.eval_train_log_probs:
+                assert self._eval_train_data_callback is not None, "Evaluation scoring requires a driver callback"
+                packs = await self.rollout_manager.eval(rollout_id, return_train_data=True)
+                if packs is not None:
+                    await self._eval_train_data_callback(rollout_id, packs)
+            else:
+                await self.rollout_manager.eval(rollout_id)
             return
 
         await self._reap_finished()

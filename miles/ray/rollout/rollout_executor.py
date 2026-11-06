@@ -4,6 +4,7 @@ import time
 from collections import defaultdict
 from collections.abc import Iterable, Sequence
 from contextlib import nullcontext
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, TypeVar
 
@@ -241,16 +242,33 @@ class RolloutExecutor(DedicatedRpcLoopWorker):
                 custom_convert_samples_to_train_data_func=self.custom_convert_samples_to_train_data_func,
                 custom_reward_post_process_func=self.custom_reward_post_process_func,
             )
-            sample_indices = train_data.get("sample_indices")
+            config = (
+                None
+                if self.args.delay_split_train_data_by_dp
+                else self._train_parallel_configs_of_model_id[trainer_model_id]
+            )
+            return self._pack_train_data(train_data, config)
+
+    def _pack_train_data(self, train_data: dict, train_parallel_config: TrainParallelConfig | None) -> RolloutDataPack:
+        store = object_store.get_instance()
+        refs = []
+        try:
             if self.args.delay_split_train_data_by_dp:
-                data_ref = object_store.get_instance().put(value=train_data, value_spec=ROLLOUT_DATA_VALUE_SPEC)
+                data_ref = store.put(value=train_data, value_spec=ROLLOUT_DATA_VALUE_SPEC)
+                refs.append(data_ref)
             else:
-                shards = split_train_data_by_dp(
-                    self.args, train_data, self._train_parallel_configs_of_model_id[trainer_model_id]
-                )
-                store = object_store.get_instance()
-                data_ref = [store.put(value=shard, value_spec=ROLLOUT_DATA_VALUE_SPEC) for shard in shards]
-            return RolloutDataPack(sample_indices=sample_indices, data_ref=data_ref)
+                shards = split_train_data_by_dp(self.args, train_data, train_parallel_config)
+                for shard in shards:
+                    refs.append(store.put(value=shard, value_spec=ROLLOUT_DATA_VALUE_SPEC))
+                data_ref = refs
+            return RolloutDataPack(sample_indices=train_data.get("sample_indices"), data_ref=data_ref)
+        except BaseException:
+            for ref in refs:
+                try:
+                    store.remove(ref)
+                except Exception:
+                    logger.exception("Failed to remove a partially packed rollout data reference")
+            raise
 
     async def release(self, rollout_id: int) -> None:
         """Delete the output store objects of rollout ``rollout_id``, which has trained."""
@@ -305,8 +323,11 @@ class RolloutExecutor(DedicatedRpcLoopWorker):
         export_time_seconds: float | None = None,
         require_marker: bool = True,
         weight_version: str | None = None,
-    ) -> None:
+        return_train_data: bool = False,
+    ) -> dict[str, RolloutDataPack] | None:
         if weight_version is not None or self.args.eval_uses_snapshots:
+            if return_train_data:
+                raise ValueError("Evaluation train data is only available for shared-engine evaluation")
             return await self._eval_checkpoint(
                 rollout_id, hf_dir, export_time_seconds, require_marker, weight_version=weight_version
             )
@@ -329,10 +350,45 @@ class RolloutExecutor(DedicatedRpcLoopWorker):
                     evaluation=True,
                 )
         data = result.data
-        save_debug_rollout_data(self.args, data, rollout_id=rollout_id, evaluation=True)
+        dump_kwargs = {}
+        if return_train_data:
+            dump_kwargs["metadata"] = {
+                "eval_dataset_names": [name for name, info in data.items() for _ in info["samples"]]
+            }
+        save_debug_rollout_data(self.args, data, rollout_id=rollout_id, evaluation=True, **dump_kwargs)
         metrics = log_eval_rollout_data(rollout_id, self.args, data, result.metrics)
         if self._metric_checker is not None:
             self._metric_checker.on_eval(metrics)
+        if return_train_data:
+            return self._convert_eval_train_data(data)
+
+    def _convert_eval_train_data(self, data: dict[str, dict[str, Any]]) -> dict[str, RolloutDataPack]:
+        packs = {}
+        # Forward-only scoring consumes all rows, not optimizer-step-sized batches.
+        try:
+            config = self._train_parallel_configs_of_model_id[None].model_copy(
+                update={"supports_precomputed_schedule": False}
+            )
+        except Exception:
+            logger.exception("Evaluation train logprobs unverified: no actor parallel configuration")
+            return packs
+        for dataset, result in data.items():
+            try:
+                samples = deepcopy(result["samples"])
+                if len(samples) < config.dp_size:
+                    raise ValueError(f"{len(samples)} evaluation samples cannot populate {config.dp_size} DP ranks")
+                with SampleOwnershipRecorder.suppress_drop_logging():
+                    train_data = convert_samples_to_train_data(
+                        self.args,
+                        samples,
+                        metadata={},
+                        custom_convert_samples_to_train_data_func=self.custom_convert_samples_to_train_data_func,
+                        custom_reward_post_process_func=self.custom_reward_post_process_func,
+                    )
+                    packs[dataset] = self._pack_train_data(train_data, config)
+            except Exception:
+                logger.exception("Evaluation train logprobs unverified: conversion failed for dataset %s", dataset)
+        return packs
 
     async def _eval_checkpoint(
         self,

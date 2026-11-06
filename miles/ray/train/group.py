@@ -332,6 +332,49 @@ class TrainerController:
 
     # ------------------------ API :: others ------------------------
 
+    async def score_log_probs(self, rollout_id: int, rollout_data: RolloutDataPack) -> list[object_store.StoreObjectRef]:
+        """Collect native raw-score references without optimizer steps or cell recovery.
+
+        Drain every worker RPC before reporting failure or caller cancellation,
+        so the driver can safely restore colocated inference memory afterward.
+        The driver must serialize this with training and weight updates.
+        """
+        assert rollout_data.data_ref is not None, "log-probability scoring requires rollout data references"
+        was_active = self._health_checker_activeness.get().active
+        self._health_checker_activeness.bump_active(True)
+        try:
+            alive_cells = [cell for cell in self._cells if cell.is_alive]
+            if not alive_cells:
+                raise NonRetryableError("No alive cells")
+            # cell.execute cancels sibling waits on failure. A cancelled Ray wait
+            # does not stop its remote synchronous actor, so scoring owns these
+            # native worker calls until each actor's residency restoration ends.
+            pending = asyncio.gather(
+                *[
+                    worker.score_log_probs(rollout_id=rollout_id, rollout_data_ref=rollout_data.data_ref)
+                    for cell in alive_cells
+                    for worker in cell._get_worker_handles()
+                ],
+                return_exceptions=True,
+            )
+            cancellation: asyncio.CancelledError | None = None
+            while True:
+                try:
+                    results = await asyncio.shield(pending)
+                    break
+                except asyncio.CancelledError as error:
+                    if cancellation is None:
+                        cancellation = error
+            refs = [result for result in results if result is not None and not isinstance(result, BaseException)]
+            if (error := cancellation or _first_exception(results)) is not None:
+                store = object_store.get_instance()
+                for ref in refs:
+                    store.remove(ref)
+                raise error
+            return refs
+        finally:
+            self._health_checker_activeness.bump_active(was_active)
+
     @init_once
     async def init(self, request: TrainerControllerInitRequest) -> list[Any]:
         """

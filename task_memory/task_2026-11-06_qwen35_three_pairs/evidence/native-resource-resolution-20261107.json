@@ -1,0 +1,143 @@
+[
+  {
+    "pair": "A",
+    "task": "student",
+    "gpu": 8,
+    "cpu": 64,
+    "mem_gb": 512,
+    "replica": 1,
+    "host_network": true,
+    "gang_start": true,
+    "role": "student",
+    "is_critical": true,
+    "custom_resources": [],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  },
+  {
+    "pair": "A",
+    "task": "teacher",
+    "gpu": 2,
+    "cpu": 16,
+    "mem_gb": 128,
+    "replica": 1,
+    "host_network": false,
+    "gang_start": true,
+    "role": "teacher",
+    "is_critical": false,
+    "custom_resources": [],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  },
+  {
+    "pair": "B",
+    "task": "student",
+    "gpu": 8,
+    "cpu": 64,
+    "mem_gb": 512,
+    "replica": 1,
+    "host_network": true,
+    "gang_start": true,
+    "role": "student",
+    "is_critical": true,
+    "custom_resources": [],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  },
+  {
+    "pair": "B",
+    "task": "teacher",
+    "gpu": 2,
+    "cpu": 16,
+    "mem_gb": 128,
+    "replica": 1,
+    "host_network": false,
+    "gang_start": true,
+    "role": "teacher",
+    "is_critical": false,
+    "custom_resources": [],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  },
+  {
+    "pair": "C",
+    "task": "student",
+    "gpu": 8,
+    "cpu": 64,
+    "mem_gb": 768,
+    "replica": 1,
+    "host_network": true,
+    "gang_start": true,
+    "role": "student",
+    "is_critical": true,
+    "custom_resources": [],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  },
+  {
+    "pair": "C",
+    "task": "teacher",
+    "gpu": 8,
+    "cpu": 64,
+    "mem_gb": 512,
+    "replica": 2,
+    "host_network": true,
+    "gang_start": true,
+    "role": "teacher",
+    "is_critical": false,
+    "custom_resources": [
+      "mellanox.com/mlnx_rdma:1",
+      "rdma/mlnx_shared:8"
+    ],
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain",
+      "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
+    ],
+    "command": "{COMMAND}",
+    "positive_tags": [
+      "H800"
+    ]
+  }
+]

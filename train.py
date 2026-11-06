@@ -1,9 +1,11 @@
 import asyncio
 import logging
 import os
+from urllib.parse import quote
 
 from sglang.srt.constants import GPU_MEMORY_TYPE_CUDA_GRAPH, GPU_MEMORY_TYPE_KV_CACHE, GPU_MEMORY_TYPE_WEIGHTS
 
+from miles.backends.training_utils.metrics.train_dump import save_debug_train_data_for_rank
 from miles.ray.placement_group import (
     create_rollout_components,
     create_trainer_handles,
@@ -13,8 +15,9 @@ from miles.ray.placement_group import (
 )
 from miles.ray.rollout.eval_dispatch import EvalDispatcher
 from miles.ray.specs.train import compute_trainer_configs
+from miles.utils import object_store
 from miles.utils.async_utils import Disposer, with_disposer
-from miles.utils.data import remove_rollout_data_refs, remove_train_output_refs
+from miles.utils.data import RolloutDataPack, remove_rollout_data_refs, remove_train_output_refs
 from miles.utils.ft_utils.mini_ft_controller import maybe_start_mini_ft_controller
 from miles.utils.lora.utils import lora_rollout_enabled
 from miles.utils.misc import should_run_periodic_action
@@ -25,6 +28,92 @@ from miles.utils.orchestration_utils import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _rollout_offload_tags(args) -> list[str]:
+    tags = [GPU_MEMORY_TYPE_CUDA_GRAPH]
+    if "kv_cache" in args.offload_rollout_level:
+        tags.append(GPU_MEMORY_TYPE_KV_CACHE)
+    if "weight" in args.offload_rollout_level:
+        tags.append(GPU_MEMORY_TYPE_WEIGHTS)
+    return tags
+
+
+async def _score_eval_train_data(
+    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack]
+) -> None:
+    # Cancelling a driver wait does not stop its remote controller or workers.
+    # Keep the scoring transaction, including residency restoration, alive.
+    pending = asyncio.create_task(_score_eval_datasets(args, actor_model, inference_controller, rollout_id, packs))
+    cancellation: asyncio.CancelledError | None = None
+    while not pending.done():
+        try:
+            await asyncio.shield(pending)
+        except asyncio.CancelledError as error:
+            if cancellation is None:
+                cancellation = error
+    pending.result()
+    if cancellation is not None:
+        raise cancellation
+
+
+async def _score_eval_datasets(
+    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack]
+) -> None:
+    refs = [ref for pack in packs.values() for ref in pack.data_refs]
+    offload_tags = _rollout_offload_tags(args) if args.offload_rollout else []
+    offload_started = False
+    observer_errors: list[tuple[str | None, Exception]] = []
+    try:
+        if not packs:
+            logger.warning("Evaluation train logprobs unverified: no input packs at rollout %s", rollout_id)
+            return
+        if offload_tags:
+            offload_started = True
+            await inference_controller.offload(tags=offload_tags)
+        for dataset, pack in packs.items():
+            try:
+                results = await actor_model.score_log_probs(rollout_id, pack)
+                refs.extend(results)
+                for ref in results:
+                    with object_store.get_instance().get(ref) as payload:
+                        metadata = payload["metadata"]
+                        save_debug_train_data_for_rank(
+                            args,
+                            rollout_id=f"eval_{quote(dataset, safe='')}_{rollout_id}",
+                            rollout_data=payload,
+                            rank=metadata["rank"],
+                            cp_rank=metadata["cp_rank"],
+                            cp_size=metadata["cp_size"],
+                        )
+                if not results:
+                    raise ValueError("The actor returned no scoring payloads")
+            except Exception as error:
+                observer_errors.append((dataset, error))
+    except Exception as error:
+        observer_errors.append((None, error))
+    finally:
+        try:
+            for ref in refs:
+                try:
+                    object_store.get_instance().remove(ref)
+                except Exception:
+                    logger.exception("Evaluation train logprobs unverified: reference cleanup failed")
+        finally:
+            if offload_started:
+                await inference_controller.onload(tags=offload_tags)
+                await inference_controller.prepare_eval()
+    for dataset, error in observer_errors:
+        context = (
+            f"preparation failed at rollout {rollout_id}"
+            if dataset is None
+            else f"scoring/dump failed for dataset {dataset} at rollout {rollout_id}"
+        )
+        logger.error(
+            "Evaluation train logprobs unverified: %s",
+            context,
+            exc_info=(type(error), error, error.__traceback__),
+        )
 
 
 async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
@@ -77,7 +166,15 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
     if args.offload_rollout:
         await inference_controller.onload_kv()
 
-    eval_dispatcher = EvalDispatcher(args, actor_model, rollout_executor)
+    async def score_eval_train_data(rollout_id, packs):
+        await _score_eval_train_data(args, actor_model, inference_controller, rollout_id, packs)
+
+    eval_dispatcher = EvalDispatcher(
+        args,
+        actor_model,
+        rollout_executor,
+        **({"eval_train_data_callback": score_eval_train_data} if args.eval_train_log_probs else {}),
+    )
     disposer.add(eval_dispatcher.drain)
 
     # special case for eval-only
@@ -130,12 +227,7 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
                 await actor_model.onload()
                 await inference_controller.offload_weights()
             else:
-                offload_tags = [GPU_MEMORY_TYPE_CUDA_GRAPH]
-                if "kv_cache" in args.offload_rollout_level:
-                    offload_tags.append(GPU_MEMORY_TYPE_KV_CACHE)
-                if "weight" in args.offload_rollout_level:
-                    offload_tags.append(GPU_MEMORY_TYPE_WEIGHTS)
-                await inference_controller.offload(tags=offload_tags)
+                await inference_controller.offload(tags=_rollout_offload_tags(args))
 
         if args.use_critic:
             values = await critic_model.train(rollout_id, rollout_data_pack)

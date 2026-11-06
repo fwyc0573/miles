@@ -2,10 +2,12 @@ import atexit
 import logging
 import os
 import shutil
-from contextlib import ExitStack, nullcontext
+from collections.abc import Iterator
+from contextlib import ExitStack, contextmanager, nullcontext
 
 import torch
 import torch.distributed as dist
+from megatron.core.utils import get_model_config
 from megatron.training.async_utils import maybe_finalize_async_save
 from torch_memory_saver import torch_memory_saver
 
@@ -37,7 +39,7 @@ from miles.backends.training_utils.model_companion import (
     ModelCompanionWeightVersionUtils,
 )
 from miles.backends.training_utils.replay.data import fill_replay_data, register_replay_list_sequential
-from miles.backends.training_utils.types import TrainStepOutput
+from miles.backends.training_utils.types import LogProbScoreBatch, LogProbScoreMetadata, TrainStepOutput
 from miles.backends.training_utils.weight_update.hf_weight_iterator import WeightUpdatePlacement
 from miles.backends.training_utils.weight_update.snapshot_publisher import SnapshotPublisher
 from miles.backends.training_utils.weight_update.updater import WeightUpdater
@@ -102,6 +104,16 @@ logging.getLogger("megatron").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 CRITIC_VALUES_VALUE_SPEC: dict[str, ValueSpec] = {"values": ValueSpec(codec="typed_ragged")}
+LOG_PROBS_VALUE_SPEC: dict[str, ValueSpec] = {
+    "log_probs": ValueSpec(codec="typed_ragged"),
+    "tokens": ValueSpec(codec="typed_ragged", dtype="int64"),
+    "loss_masks": ValueSpec(codec="typed_ragged", dtype="int32"),
+    "sample_indices": ValueSpec(codec="ndarray", dtype="int64"),
+    "total_lengths": ValueSpec(codec="ndarray", dtype="int64"),
+    "response_lengths": ValueSpec(codec="ndarray", dtype="int64"),
+    "max_seq_lens": ValueSpec(codec="ndarray", dtype="int64"),
+    "metadata": ValueSpec(codec="auto"),
+}
 
 
 def _setup_disk_offload_reclaim(disk_dir: str) -> None:
@@ -631,6 +643,119 @@ class MegatronTrainRayActor(TrainRayActor):
                 fp32_output=False,
                 use_rollout_sampling_mask=store_prefix == "" and self.args.use_sampling_support_replay,
             )
+
+    @with_logs
+    def score_log_probs(
+        self, rollout_id: int, rollout_data_ref: StoreObjectRef | list[StoreObjectRef]
+    ) -> StoreObjectRef | None:
+        """Score current actor weights without training or publishing them (collective).
+
+        Only PP-last/TP0 returns a reference to ``LogProbScoreBatch``. The caller
+        owns those output references, including full consumed-token and original
+        response-mask receipts. Rollout engines must release colocated GPU memory
+        before this call; the actor restores its original residency.
+        """
+        assert self.role == "actor", "log-probability scoring requires an actor"
+        assert self._active_model_tag == "actor", "log-probability scoring requires current actor weights"
+        self._heartbeat.bump()
+        was_asleep = self._asleep
+        try:
+            with self._log_prob_scoring_state():
+                if self.args.offload_train and was_asleep:
+                    self.wake_up()
+                rollout_data, store_get_result = get_rollout_data(
+                    args=self.args,
+                    rollout_data_ref=rollout_data_ref,
+                    output_store_read=self.output_store_read,
+                    train_parallel_config=get_parallel_state().train_parallel_config(
+                        supports_precomputed_schedule=False
+                    ),
+                )
+                with store_get_result:
+                    scored_data = rollout_data
+                    parallel = get_parallel_state()
+                    if parallel.is_pp_last_stage and parallel.tp.rank == 0:
+                        scored_data = {
+                            **rollout_data,
+                            "tokens": [value.detach().to(device="cpu", copy=True) for value in rollout_data["tokens"]],
+                            "loss_masks": [value.detach().to(device="cpu", copy=True) for value in rollout_data["loss_masks"]],
+                        }
+                    data_iterator, num_microbatches = get_data_iterator(self.args, self.model, rollout_data)
+                    scores = self._compute_log_prob(
+                        data_iterator, num_microbatches, rollout_id=rollout_id, store_prefix="score_"
+                    )
+                    return self._store_log_prob_scores(rollout_id, scored_data, scores)
+        finally:
+            try:
+                if self.args.offload_train and was_asleep and not self._asleep:
+                    self.sleep()
+            finally:
+                self._heartbeat.bump()
+
+    @contextmanager
+    def _log_prob_scoring_state(self) -> Iterator[None]:
+        # Native forward_only changes model modes and config.timers; replay hooks
+        # also select a current stream, even in fallthrough mode.
+        random_state = RandomState.capture()
+        model_modes = [(module, module.training) for chunk in self.model for module in chunk.modules()]
+        config = get_model_config(self.model[0])
+        timers = config.timers
+        replay_states = [(manager, manager.stage, manager.current) for manager in all_replay_managers]
+        self._set_replay_stage("fallthrough")
+        try:
+            yield
+        finally:
+            for manager, stage, current in replay_states:
+                manager.stage = stage
+                manager.current = current
+            for module, training in model_modes:
+                module.training = training
+            config.timers = timers
+            random_state.restore()
+
+    def _store_log_prob_scores(
+        self, rollout_id: int, rollout_data: RolloutBatch, scores: dict[str, list[torch.Tensor]]
+    ) -> StoreObjectRef | None:
+        parallel = get_parallel_state()
+        if not parallel.is_pp_last_stage or parallel.tp.rank != 0:
+            return None
+        log_probs = scores["score_log_probs"]
+        sample_indices = rollout_data["sample_indices"]
+        assert len(log_probs) == len(sample_indices), "scoring did not cover every local sample"
+        assert all(value.ndim == 1 for value in log_probs), "scoring requires one-dimensional response scores"
+        metadata: LogProbScoreMetadata = {
+            "rollout_id": rollout_id,
+            "weight_version": self._get_actor_weight_version(),
+            "cell_index": self._cell_index,
+            "rank": dist.get_rank(),
+            "dp_rank": parallel.effective_dp.rank,
+            "dp_size": parallel.effective_dp.size,
+            "tp_rank": parallel.tp.rank,
+            "tp_size": parallel.tp.size,
+            "cp_rank": parallel.cp.rank,
+            "cp_size": parallel.cp.size,
+            "pp_rank": parallel.pp.rank,
+            "pp_size": parallel.pp.size,
+            "qkv_format": self.args.qkv_format,
+            "allgather_cp": self.args.allgather_cp,
+            "response_layout": "zigzag" if parallel.cp.size > 1 else "response",
+            "rollout_temperature": self.args.rollout_temperature,
+            "log_probs_backend": self.args.log_probs_backend,
+            "true_on_policy_mode": self.args.true_on_policy_mode,
+            "use_rollout_sampling_mask": False,
+        }
+        batch: LogProbScoreBatch = {
+            "log_probs": [value.detach().cpu() for value in log_probs],
+            "tokens": rollout_data["tokens"],
+            "loss_masks": rollout_data["loss_masks"],
+            "sample_indices": [int(index) for index in sample_indices],
+            "total_lengths": list(rollout_data["total_lengths"]),
+            "response_lengths": list(rollout_data["response_lengths"]),
+            "metadata": metadata,
+        }
+        if self.args.qkv_format == "bshd":
+            batch["max_seq_lens"] = list(rollout_data["max_seq_lens"])
+        return object_store.get_instance().put(value=batch, value_spec=LOG_PROBS_VALUE_SPEC)
 
     @with_logs
     @event_logger_context(

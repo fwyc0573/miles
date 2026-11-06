@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Close both lifecycle findings, add full native input receipts and record the final 142-check combined pass; retain the newly identified final-publication reader gap. |
 | 2026-11-06 | Add preparation/export/monitoring CPU results, repaired guard and symlink/report regressions, full zero-GPU population/asset evidence and cleanup receipts. |
 | 2026-11-06 | Record the reproduced single-token defect, verified repair, personal API access and blocked cloud probe. |
 
@@ -178,3 +179,31 @@ Phase review `QWEN-P2-MONITOR-REVIEW` (`ses_e4e792d5affeGsj3IUWlUanlWV`) found t
 `QWEN-LOCAL-DISK-CLEANUP` (`ses_e4e952011ffe8xhc4aK4k5uzXI`) deleted 154,955,776 allocated bytes of completed Qwen test artifacts, then 5,615,460,352 bytes of completed sklearn caches and byte-identical duplicate EP ledgers. Total attributed deletion is **5,770,416,128 bytes (about 5.37 GiB)**. The second deletion's adjacent `df` free-space readings were **104,587,931,648 -> 110,170,853,376 bytes**, 91% -> 90% used. Other concurrent cleanup gains are not attributed to this task.
 
 The selected original HF log and protected current outputs were unchanged; 263 processes had no references to the second deletion targets, and retained-file/ledger hashes matched. Unreplicated profiling traces, source trees, environments, models and active outputs remain intact. Exact deleted paths, per-item sizes, commands and before/after evidence are in [cleanup-20261106.json](evidence/cleanup-20261106.json). No cloud operation was performed by the cleanup agent.
+
+## November 7 native-monitor repair closure
+
+The controller now owns and drains every submitted worker RPC before returning failures or cancellation. Real Ray failed-rank/slow-sibling and repeated-cancellation cases reproduced two failures before the repair; the corrected controller plus ordinary cell failure/concurrency regressions passed **9 checks in 68.04 s**. Ordinary training fail-fast behavior and cell APIs are unchanged.
+
+Observer preparation/scoring/report failures are now logged as unverified only after successful residency/health restoration. Restoration errors and cancellation remain errors. The offload regression initially had **2 failures / 2 passes**; the final five preparation/cancellation cases passed in **0.45 s**, including an actual two-step driver continuation.
+
+A closure review correctly found that shielding the controller's inner worker calls alone did not protect the driver's remote-controller boundary. The driver now shields and drains the complete scoring/restoration transaction before propagating cancellation. `tests/fast/test_eval_score_remote_cancellation.py` uses the actual driver -> `RayWorkerHandle(controller)` -> native controller -> synchronous Ray workers chain: **2 failed** before repair; **13 observer checks passed in 25.13 s** after repair; the final two real-transport cases passed in **24.32 s**. They verify repeated cancellation, input-ref lifetime, exactly-once result/input cleanup and propagation of restoration failures. Review `QWEN-P2-MONITOR-REVIEW` closed both original lifecycle findings.
+
+Native score payloads now additionally preserve complete consumed `tokens` (CPU int64) and original response `loss_masks` (CPU int32), copied before iterator scheduling and CP slicing. They retain nontrivial masks without fabricating all-ones values. The actual D8 assembler reads the native dump in the focused actor regression: **22 passed, 19.98 s**. CPU-copy cost is limited to the explicit monitoring path; output artifacts are personal cloud data in actual runs.
+
+Final combined command after these production and receipt changes:
+
+```bash
+env TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode RAY_TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/backends/megatron_utils/test_score_log_probs.py tests/fast/ray/train/test_score_log_probs.py tests/fast/ray/rollout/test_eval_train_data.py tests/fast/ray/rollout/test_eval_dispatch.py tests/fast/test_train.py tests/fast/test_eval_score_remote_cancellation.py tests/fast/utils/test_eval_train_log_probs_args.py tests/fast/ray/rollout/test_rollout_executor_store_refs.py tests/fast/ray/rollout/test_rollout_executor.py tests/fast/ray/rollout/test_rollout_executor_rpc_surface.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-score-eval-final-20261107 -o addopts=''
+```
+
+Observed **142 passed, 16 warnings, 91.00 s**, exit 0. Native CUDA/Megatron behavior and permanent-collective-hang recovery remain outside this CPU result. No cancellation timeout, retry or kill was added to the scoring path.
+
+The task reader initially passed **33 CPU checks in 25.14 s**, covering original-token weighting, masks/IDs/versions, CP2/CP4 zigzag, missing slices/coverage, nonfinite scores, tails, both unclamped K3 forms and independent decode/prefill comparisons. Producer/reader probability declarations now derive from actual supported D14 requests; grammar/logit-bias or other unknown semantics remain INCOMPLETE. Combined launcher/reader checks passed **76 tests in 32.29 s**. A subsequent phase review identified a remaining P1: six baseline-version files could satisfy the existing same-checkpoint checks without proving updated or final published weights. The reader owner is adding an independent native update/publication binding; full-run D8 acceptance remains blocked until that repair and actual native evidence exist. Optional teacher-probability semantics remain undeclared rather than inferred, so no teacher/student learning improvement is claimed.
+
+That publication defect was subsequently repaired using existing native `EventReader(strict=True)` records: `TrainGroupStepEndEvent`, `WeightUpdateResultEvent` and `InferenceEngineWeightChecksumEvent`. Native successful-optimizer counter increments determine success/skip accounting within one load epoch; `NORMAL` call outcomes and rollout numbers do not imply successful updates. A complete full run additionally requires an updated engine checksum and final monitoring of the actual last publisher version, with latest-publication coverage checked. Baseline-only probes retain independent numeric checkpoint results while full-run D8 remains INCOMPLETE. Real typed event-writer fixtures include baseline version 17 -> final version 114 with 97 successes and 3 skips, plus stale final, unchanged model, absent/corrupt checksum and baseline-only failures: **40 passed, 34.57 s**. Final phase review closure is pending.
+
+```bash
+env PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q -p no:cacheprovider tests/fast/test_qwen35_opd_launcher.py tests/fast/test_qwen35_monitoring.py --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-launch-report-final-20261107 -o addopts=''
+```
+
+Final producer/reader integration after this repair: **83 passed, 22 warnings, 43.62 s**, exit 0. Native fixture receipts are not GPU/model results. Along with the distinct 142 native-monitor and 14 worker tests, the current required CPU checks comprise 239 passing cases. No full CPU suite is claimed: the unrelated broader backend/snapshot environment limitations reported above remain unchanged. Final `QWEN-P2-MONITOR-REVIEW` closure inspected the repaired native event chain and regression cases and closed the publication P1 with no additional actionable finding; its scope is the monitoring evidence contract, not GPU or orchestration qualification.

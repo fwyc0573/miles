@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Commit verified data/export work, close monitor lifecycle findings with 142 passing checks and prepare independent native H800 baseline jobs. |
 | 2026-11-06 | Complete actual population/asset/CPU-runtime checks, record monitor integration review and follow-up, and finish verified local artifact cleanup. |
 | 2026-11-06 | Complete the single-token CPU repair; record parallel implementation ownership, personal API success and the tool-blocked asset/runtime probe. |
 | 2026-11-06 | Resume, confirm D9–D14, complete P1, and open P2 with corrected local prerequisite evidence and approved Git-lock cleanup. |
@@ -23,7 +24,7 @@
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
-- in-progress — P2: singleton repair committed as `315a8724`; actual source availability, identical tokenizer assets and full Qwen population audit passed in zero-GPU `exp-1106-233008-986003`. Shared data is frozen at 924 training + 24 monitoring prefixes with 8/8/8 coverage and complete-group isolation. Text-export CPU checks pass. Native monitor integration passes 132 combined CPU checks; phase review requires remote-score draining and recovered-offload handling (the latter now repaired and checked). Launcher implementation/CPU checks are complete; the original-token report, remaining review repair and H800 capacity/native runtime qualification remain open. The tool blocker is resolved.
+- in-progress — P2: data/export/source evidence committed as `ede719c1`; frozen population is 924 training + 24 monitoring prefixes with 8/8/8 coverage and complete-group isolation. Native monitor lifecycle and final-publication findings are closed; required native-monitor/launcher-reader/worker CPU checks pass 142 + 83 + 14 cases. H800 baseline allocations are configured at A=10, B=10 and C=24 GPUs, not yet capacity-qualified. The tool blocker is resolved.
 - pending — P3-A / P3-B / P3-C: no task GPU submission, training, repair or model export has occurred.
 - pending — P4: runtime acceptance and completion archive.
 
@@ -102,11 +103,15 @@
 40. Implemented native read-only scoring (`QWEN-P2-SCORE-RPC`, `ses_e4e9609a8ffe5AnxsFNmb1aKAe`) and shared-engine fixed eval (`QWEN-P2-EVAL-INTEGRATION`, `ses_e4e90ed01ffefB7zW2Ke1EOk6A`). Primary combined affected checks: 132 passed in 50.84 s. Actual 24-row loading, original scores, rank/CP/version metadata and native dump/RPC interfaces are covered on CPU. Actor GPU boundaries remain fixtures. Review `QWEN-P2-MONITOR-REVIEW` (`ses_e4e792d5affeGsj3IUWlUanlWV`) found a fail-fast remote-score residency race and a recovered observer-offload exception escaping the soft gate. Both were assigned to their original owners; the offload repair now passes its five focused regressions. Remote draining remains in progress.
 41. `QWEN-P2-LAUNCH` (`ses_e4e816732ffe8dVT7YpV1OmpUd`) delivered the common three-pair worker entrypoint, generic external teacher scoring/provenance and minimum training identity metadata. Its 74 focused launcher/argument/MIS checks and four selected model-argument snapshots passed; real C command composition/dry-run passed. Unrelated missing snapshots/dependencies were not repaired or counted as passing. `QWEN-P2-NUMERIC-REPORT` (`ses_e4e739140ffeErr0KEUsX8tYbe`) owns the independent original-token reader; no model agreement is inferred from native filtered logs.
 42. User-requested `QWEN-LOCAL-DISK-CLEANUP` (`ses_e4e952011ffe8xhc4aK4k5uzXI`) removed 5,770,416,128 allocated bytes of verified completed caches/test outputs and identical duplicate ledgers, about 5.37 GiB. The last adjacent free-space reading was 110,170,853,376 bytes (90% used); unrelated concurrent cleanup gains are not attributed here. Active work, protected evidence, models/environments and unique raw profiler data were retained. Exact evidence is in `evidence/cleanup-20261106.json`.
+43. Committed validated data/export/asset contracts and selected actual evidence as `ede719c1`. Both monitor lifecycle findings were repaired, including the outer driver -> remote controller cancellation boundary identified at closure review. Final combined affected suite: 142 passed, 16 warnings, 91.00 s. Full consumed token/mask receipts now join native score dumps to original eval Samples. The task reader's 33 initial checks and 76 producer/reader integration checks passed, but review identified missing proof of the actual final publication; that specific reader repair remains with `QWEN-P2-NUMERIC-REPORT`.
+44. `QWEN-P2-PAIR-WORKER` (`ses_e4e5821c5ffe0Iy1DaD0qtzN7I`) delivered separate student/teacher task orchestration reusing the native student launcher. Parent added the local Python RJobBackend submitter and explicit JSON resource plan, verified resolved task shapes and C teacher RDMA, and reused the previously proven image CUDA13 compatibility path. Worker checks passed 14/14 after using configuration-owned shapes and native deterministic-channel validation. The SDK's automatic public-tenant mount is documented; no task code accesses that namespace. Live codesign API observations show 33 Running jobs requesting 112 GPUs, not a proven free-GPU count. Exact commands and remaining native gates are in the [native prerequisite report](test_report_2026-11-07_native_prerequisites.md).
+45. `QWEN-P2-NUMERIC-REPORT` completed the final-publication repair using existing strict native event reading and successful-update counters. Its 40 checks pass with nonzero initial versions, skipped updates and stale/unchanged final-model cases. Final producer/reader combination passes 83/83 in 43.62 s; no new native metadata is needed. Closure review is in progress, while qualified baseline execution can proceed independently.
+46. Final monitoring phase review closed the publication P1 with no additional actionable defect. Its scope remains the CPU evidence/reader contract. Native task resources explicitly isolate the two-GPU teachers' ports with `host_network=false`, retaining full-node/multinode host networking; resolved SDK payload checks cover these values before submission.
 
 ## Next actions
 
-1. Commit verified data/export/asset-contract work and selected evidence; finish the monitor review repair and original-token report without expanding optional test/tooling work.
-2. Qualify native launcher/scoring on the frozen population and H800 with independently allocated frozen teachers; measure capacity and actual consumed versions before formal updates.
+1. Commit verified native monitor/launcher work and proceed directly to native baseline qualification.
+2. Submit and qualify the configured independent H800 pair jobs on the frozen population, preserving queue/lifecycle and exact creator/source evidence; measure native baseline scores/capacity before formal updates.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
@@ -117,7 +122,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 实际资产/总体与 CPU 接口已验证；监测审查修复、原始数值报告及 H800 验证待完成。 |
+| P2 前置核验与实现 | TODO | 实际资产/总体、239 项监测/入口 CPU 检查及监测阶段审查已通过；H800 验证待完成。 |
 | P3-A | TODO | 未运行本任务 GPU 实验。 |
 | P3-B | TODO | 未运行本任务 GPU 实验。 |
 | P3-C | TODO | 未运行本任务 GPU 实验。 |
@@ -126,12 +131,12 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次 singleton 检查点至实际总体审计与监测审查｜**当前前沿：** P2 监测审查修复、原始数值报告、H800 配置验证
+**检测窗口：** 监测生命周期修复至最终发布绑定与作业配置验证｜**当前前沿：** P2 H800 基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | guard 修复解除真实提交阻塞；数据/导出/监测检查已产出对应交付，外围缺依赖扩测已停止。 |
-| D2 细节反复重试 | CLEAR | 每次失败有不同且已定位的根因；EXP_ID 修正后原生提交成功，未换路径绕过守卫。 |
+| D2 细节反复重试 | CLEAR | 生命周期修复分别验证 fail-fast sibling、恢复成功后的 soft gate、外层远端取消三个具体边界；真实回归先复现再修复，最终 142 项通过。 |
 | D3 支线问题修补 | CLEAR | 监测两项问题直接影响 P2 生命周期/soft gate；本机清理由用户明确要求。 |
 | D4 可并行任务停滞 | CLEAR | RPC、eval、入口、数值报告与平台数据审计并行；修复按文件所有权分派。 |
 | D5 超范围镀金 | CLEAR | 只读评分补齐固定监测所需观测，复用 native forward；未扩展视觉导出或模型矩阵。 |
@@ -152,12 +157,12 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：提交已验数据/导出切片，完成监测审查修复 → 完成标志：真实缺陷回归通过，源码与证据一致。
-2. 并行：原始数值报告 ‖ H800 资源/入口验证 → 完成标志：固定总体可按原始同版本 token 验收，原生配置和实际容量合格。
+1. P2：提交已验监测/入口代码 → 完成标志：生命周期与输入证据契约回归通过、源码有可复核提交。
+2. H800 基线执行 → 完成标志：三组实际原生数值、资源容量与终态有可复核证据。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足后释放 → 完成标志：按 D8/D9 记录数值、训练、监测和最终 HF 重载结果。
 
 ## 4. 最值得关注的 3 点
 
 1. 完整 Qwen 总体已冻结为 924 训练 + 24 监测；短层实际恰有 8 个前缀，已满足已确认规则。
-2. 监测合并 CPU 检查 132 项通过，但远端评分失败后的 drain 缺陷仍需修复；H800 数值/容量未验收。
-3. 守卫已修复，指定模型源可读；清理释放约 5.37 GiB，下一主线是原生运行资格验证。
+2. 监测生命周期与最终发布绑定审查均已关闭，239 项所需 CPU 检查通过。
+3. 原生基线候选配置共 44 H800；平台当前运行申请为 112 GPU，实际排队与容量以调度/执行结果为准。

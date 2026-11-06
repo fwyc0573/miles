@@ -22,6 +22,10 @@ class DummyTrainActor:
         self._train_return_value: Any = TrainStepOutput(outcome=TrainStepOutcome.NORMAL)
         self._train_return_values_per_attempt: list[Any] = []
         self._update_weights_return_value: Any = None
+        self._score_return_value: Any = None
+        self._score_gate: Any = None
+        self._score_worker_id: str | None = None
+        self._asleep = True
         self._train_parallel_config: TrainParallelConfig | None = None
         self._heartbeat = SimpleHeartbeat()
         self._heartbeat.bump()
@@ -72,6 +76,26 @@ class DummyTrainActor:
     def get_train_parallel_config(self) -> TrainParallelConfig | None:
         self._record("get_train_parallel_config", (), {})
         return self._train_parallel_config
+
+    def set_score_return_value(self, value: Any) -> None:
+        self._score_return_value = value
+
+    def set_score_gate(self, gate: Any, worker_id: str) -> None:
+        self._score_gate = gate
+        self._score_worker_id = worker_id
+
+    def score_log_probs(self, *args: Any, **kwargs: Any) -> Any:
+        if self._score_gate is None:
+            self._record("score_log_probs", args, kwargs)
+            return self._score_return_value
+        self._asleep = False
+        try:
+            ray.get(self._score_gate.wait.remote(self._score_worker_id))
+            self._record("score_log_probs", args, kwargs)
+            return self._score_return_value
+        finally:
+            self._asleep = True
+            ray.get(self._score_gate.finish.remote(self._score_worker_id, self._asleep))
 
     def wake_up(self) -> None:
         self._record("wake_up", (), {})

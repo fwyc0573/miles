@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
+import torch
 import train as train_driver
 from tests.fast.fixtures.driver_fakes import (
     FakeInferenceController,
@@ -17,6 +18,7 @@ from miles.backends.megatron_utils.megatron_config import MegatronConfig, Megatr
 from miles.backends.training_utils.types import TrainStepOutcome, TrainStepOutput
 from miles.ray import placement_group, wiring
 from miles.utils import object_store
+from miles.utils.data import RolloutDataPack
 from miles.utils.async_utils import with_disposer
 from miles.utils.orchestration_utils import ArgvOrchestratorStartupInfo
 
@@ -33,6 +35,7 @@ def _make_args(**overrides: Any) -> SimpleNamespace:
         debug_exit_after_rollout=None,
         eval_interval=None,
         eval_uses_snapshots=False,
+        eval_train_log_probs=False,
         ft_components=[],
         fully_async=False,
         hf_checkpoint="/base/checkpoint",
@@ -448,3 +451,269 @@ class TestOutputStoreRelease:
         await with_disposer(train_driver.train, _startup_info(args))
 
         assert trained_at_release == [(0, [0]), (1, [0, 1]), (2, [0, 1, 2])]
+
+
+class TestEvalTrainLogProbs:
+    @pytest.mark.parametrize("restore_failure", [None, "onload", "prepare_eval"])
+    async def test_preparation_failure_is_soft_only_after_successful_restoration(
+        self, monkeypatch, caplog, restore_failure
+    ):
+        events = []
+        args = _make_args(offload_rollout=True, offload_rollout_level="kv_cache,weight")
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+        packs = {"monitor": RolloutDataPack(data_ref=store.put({"tokens": [[1, 2]]}))}
+        inference = SimpleNamespace(resident=True)
+
+        async def offload(*, tags):
+            events.append("offload")
+            inference.resident = False
+            raise ValueError("monitor preparation failed")
+
+        async def onload(*, tags):
+            events.append("onload")
+            if restore_failure == "onload":
+                raise OSError("onload restoration failed")
+            inference.resident = True
+
+        async def prepare_eval():
+            events.append("prepare_eval")
+            if restore_failure == "prepare_eval":
+                raise OSError("prepare_eval restoration failed")
+
+        async def score(*_args):
+            pytest.fail("An incompletely prepared observer must not run the actor forward")
+
+        log_error = train_driver.logger.error
+
+        def record_error(*args, **kwargs):
+            assert inference.resident and events[-1] == "prepare_eval"
+            events.append("unverified")
+            log_error(*args, **kwargs)
+
+        monkeypatch.setattr(train_driver.logger, "error", record_error)
+        inference.offload = offload
+        inference.onload = onload
+        inference.prepare_eval = prepare_eval
+        actor = SimpleNamespace(score_log_probs=score)
+
+        if restore_failure is None:
+            await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+            assert events == ["offload", "onload", "prepare_eval", "unverified"]
+            assert "unverified: preparation failed" in caplog.text
+            assert "monitor preparation failed" in caplog.text
+        else:
+            with pytest.raises(OSError, match=f"{restore_failure} restoration failed"):
+                await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+            assert events == ["offload", "onload"] + (["prepare_eval"] if restore_failure == "prepare_eval" else [])
+            assert "unverified" not in caplog.text
+        assert store._values == {}
+
+    async def test_monitor_preparation_failure_restores_and_training_continues(self, monkeypatch, tmp_path, caplog):
+        events = []
+        args = _make_args(
+            num_rollout=2,
+            eval_interval=1,
+            eval_train_log_probs=True,
+            offload_train=True,
+            offload_rollout=True,
+            offload_rollout_level="kv_cache,weight",
+            save_debug_train_data=str(tmp_path / "{rollout_id}_{rank}.pt"),
+            qkv_format="thd",
+        )
+        components = _install_driver_fakes(monkeypatch, args, events)
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+        offload_failed = False
+        native_offload = components.inference_controller.offload
+
+        async def offload(*, tags):
+            nonlocal offload_failed
+            if not offload_failed:
+                offload_failed = True
+                events.append("monitor_offload_failed")
+                raise ValueError("monitor preparation failed")
+            await native_offload(tags)
+
+        async def onload(*, tags):
+            events.append("monitor_residency_restored")
+
+        async def evaluate(rollout_id, *, return_train_data):
+            assert return_train_data
+            events.append(f"eval:{rollout_id}")
+            return {"monitor": RolloutDataPack(data_ref=store.put({"tokens": [[1, 2]]}))}
+
+        async def score(rollout_id, pack):
+            events.append(f"score:{rollout_id}")
+            return [store.put(dict(metadata=dict(rank=0, cp_rank=0, cp_size=1), log_probs=[torch.tensor([-1.0])]))]
+
+        components.inference_controller.offload = offload
+        components.inference_controller.onload = onload
+        components.rollout_executor.eval = evaluate
+        components.actor_model.score_log_probs = score
+        await with_disposer(train_driver.train, _startup_info(args))
+
+        restored = events.index("monitor_residency_restored")
+        assert events.index("monitor_offload_failed") < restored
+        assert restored < events.index("prepare_eval", restored) < events.index("generate_start:0")
+        assert components.actor_model.trained == [0, 1]
+        assert components.rollout_executor.released == [0, 1]
+        assert [event for event in events if event.startswith("score:")] == ["score:0", "score:1"]
+        assert store._values == {}
+        assert "unverified: preparation failed" in caplog.text
+
+    async def test_monitoring_follows_baseline_and_all_published_d9_points(self, monkeypatch, tmp_path):
+        events = []
+        args = _make_args(
+            num_rollout=100,
+            eval_interval=20,
+            eval_train_log_probs=True,
+            save_debug_train_data=str(tmp_path / "{rollout_id}_{rank}.pt"),
+            qkv_format="thd",
+        )
+        components = _install_driver_fakes(monkeypatch, args, events, num_rollout_per_epoch=100)
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+
+        async def evaluate(rollout_id, *, return_train_data):
+            assert return_train_data
+            events.append(f"eval:{rollout_id}")
+            return {"monitor": RolloutDataPack(data_ref=store.put({"tokens": [[1, 2]]}))}
+
+        async def score(rollout_id, pack):
+            assert store.contains(pack.data_ref)
+            events.append(f"score:{rollout_id}")
+            return [store.put(dict(metadata=dict(rank=0, cp_rank=0, cp_size=1), log_probs=[torch.tensor([-1.0])]))]
+
+        components.rollout_executor.eval = evaluate
+        components.actor_model.score_log_probs = score
+        await with_disposer(train_driver.train, _startup_info(args))
+
+        points = [0, 19, 39, 59, 79, 99]
+        assert [event for event in events if event.startswith("score:")] == [f"score:{point}" for point in points]
+        assert events.index("score:0") < events.index("actor_train:0")
+        for point in points[1:]:
+            assert events.index(f"actor_train:{point}") < events.index(f"update_weights:{point}")
+            assert (
+                events.index(f"update_weights:{point}") < events.index(f"eval:{point}") < events.index(f"score:{point}")
+            )
+        assert components.actor_model.trained == list(range(100))
+        assert components.rollout_executor.released == list(range(100))
+        assert store._values == {}
+        assert sorted(path.name for path in tmp_path.glob("*.pt")) == sorted(
+            f"eval_monitor_{point}_0.pt" for point in points
+        )
+
+    @pytest.mark.parametrize("failure", [None, "score", "dump", "cancel", "preparation_cancel"])
+    async def test_scoring_cleanup_and_residency_are_finally_restored(self, monkeypatch, tmp_path, caplog, failure):
+        import asyncio
+
+        events = []
+        args = _make_args(
+            offload_rollout=True,
+            offload_rollout_level="kv_cache,weight",
+            save_debug_train_data=str(tmp_path / "{rollout_id}_{rank}.pt"),
+            qkv_format="thd",
+        )
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+        input_ref = store.put({"tokens": [[1, 2]]})
+        removed = []
+        remove = store.remove
+
+        def record_remove(ref):
+            removed.append(ref)
+            remove(ref)
+
+        monkeypatch.setattr(store, "remove", record_remove)
+        packs = {"monitor/short": RolloutDataPack(data_ref=input_ref)}
+        actor = SimpleNamespace(sleeping=True)
+        inference = SimpleNamespace(resident=True)
+        payload = dict(
+            metadata=dict(rank=7, cp_rank=1, cp_size=2, qkv_format="thd", weight_version=20),
+            log_probs=[torch.tensor([float("nan"), -2.0])],
+        )
+
+        async def offload(*, tags):
+            inference.resident = False
+            events.append("offload")
+            if failure == "preparation_cancel":
+                raise asyncio.CancelledError()
+
+        async def onload(*, tags):
+            assert actor.sleeping
+            inference.resident = True
+            events.append("onload")
+
+        async def prepare():
+            events.append("prepare_eval")
+
+        async def score(rollout_id, pack):
+            assert rollout_id == 19 and pack.data_ref is input_ref
+            assert not inference.resident
+            actor.sleeping = False
+            try:
+                events.append("score")
+                if failure == "score":
+                    raise ValueError("observer forward failed")
+                if failure == "cancel":
+                    raise asyncio.CancelledError()
+                return [store.put(payload)]
+            finally:
+                actor.sleeping = True
+
+        actor.score_log_probs = score
+        inference.offload = offload
+        inference.onload = onload
+        inference.prepare_eval = prepare
+        log_error = train_driver.logger.error
+        logged_after_restoration = []
+
+        def record_error(*args, **kwargs):
+            logged_after_restoration.append(inference.resident and actor.sleeping and events[-1] == "prepare_eval")
+            log_error(*args, **kwargs)
+
+        monkeypatch.setattr(train_driver.logger, "error", record_error)
+        if failure == "dump":
+
+            def fail_dump(*args, **kwargs):
+                raise OSError("observer output failed")
+
+            monkeypatch.setattr(train_driver, "save_debug_train_data_for_rank", fail_dump)
+
+        if failure in {"cancel", "preparation_cancel"}:
+            with pytest.raises(asyncio.CancelledError):
+                await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+        else:
+            await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+        assert actor.sleeping and inference.resident
+        assert events == ["offload"] + ([] if failure == "preparation_cancel" else ["score"]) + [
+            "onload",
+            "prepare_eval",
+        ]
+        assert store._values == {}
+        assert len(removed) == len(set(removed)) == (1 if failure in {"score", "cancel", "preparation_cancel"} else 2)
+        assert logged_after_restoration == ([True] if failure in {"score", "dump"} else [])
+        if failure in {"score", "dump"}:
+            assert "unverified: scoring/dump failed" in caplog.text
+        if failure is None:
+            dump = torch.load(tmp_path / "eval_monitor%2Fshort_19_7.pt", weights_only=False)
+            assert dump["cp_rank"] == 1 and dump["cp_size"] == 2
+            assert dump["rollout_data"]["metadata"]["weight_version"] == 20
+            assert torch.isnan(dump["rollout_data"]["log_probs"][0][0])
+
+    async def test_one_failed_dataset_does_not_discard_other_scoring(self, monkeypatch, tmp_path, caplog):
+        args = _make_args(save_debug_train_data=str(tmp_path / "{rollout_id}_{rank}.pt"), qkv_format="thd")
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+        packs = {name: RolloutDataPack(data_ref=store.put({"dataset": name})) for name in ("bad", "good")}
+
+        async def score(rollout_id, pack):
+            if store.get(pack.data_ref).value["dataset"] == "bad":
+                raise ValueError("bad observation")
+            return [store.put(dict(metadata=dict(rank=0, cp_rank=0, cp_size=1), log_probs=[-1.0]))]
+
+        await train_driver._score_eval_train_data(args, SimpleNamespace(score_log_probs=score), None, 19, packs)
+        assert (tmp_path / "eval_good_19_0.pt").exists()
+        assert store._values == {}
+        assert "unverified: scoring/dump failed" in caplog.text

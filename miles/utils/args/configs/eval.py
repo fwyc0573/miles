@@ -5,6 +5,16 @@ from miles.utils.eval_config import EvalDatasetConfig
 
 class EvalConfig(BaseConfig):
     eval_uses_snapshots: bool
+    eval_train_log_probs: A[
+        bool,
+        Arg(
+            help=(
+                "Score shared-engine evaluation samples with the read-only Megatron actor forward. "
+                "Requires synchronous training and --save-debug-train-data; scoring failures "
+                "mark the observation unverified without stopping training."
+            )
+        ),
+    ] = False
 
     eval_prompt_data: A[
         list[str] | None,

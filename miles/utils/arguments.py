@@ -1706,6 +1706,8 @@ def miles_validate_args(args):
                 f"save_interval={args.save_interval}). Set --eval-hf-dir for independent snapshots."
             )
 
+    validate_eval_train_log_probs(args)
+
     if args.num_steps_per_rollout is not None:
         global_batch_size = args.rollout_batch_size * args.n_samples_per_prompt // args.num_steps_per_rollout
         if args.global_batch_size is not None:
@@ -1859,6 +1861,41 @@ def miles_validate_args(args):
         raise ValueError("--mini-ft-controller-enable requires --api-server-port to be set (non-zero)")
 
     _validate_deploy_component(args)
+
+
+def validate_eval_train_log_probs(args) -> None:
+    if not args.eval_train_log_probs:
+        return
+    option = "--eval-train-log-probs"
+    assert args.entry == "train" and not args.fully_async, f"{option} requires the synchronous train.py driver"
+    assert args.train_backend == "megatron", f"{option} requires --train-backend megatron"
+    assert not args.eval_uses_snapshots and args.eval_num_gpus == 0, f"{option} requires shared-engine evaluation"
+    assert args.eval_interval is not None, f"{option} requires --eval-interval"
+    assert not args.indep_dp and not args.multi_lora and not args.use_critic, (
+        f"{option} supports a single actor without independent DP, multi-LoRA or a critic"
+    )
+    assert not args.debug_train_only and not args.debug_rollout_only and args.load_debug_rollout_data is None, (
+        f"{option} requires live training and evaluation engines"
+    )
+    assert not args.use_dynamic_global_batch_size, f"{option} does not support dynamic global batches"
+    assert not args.use_output_store, f"{option} requires inline evaluation sample arrays, not --use-output-store"
+    if args.colocate:
+        assert args.offload_train and args.offload_rollout and "weight" in args.offload_rollout_level, (
+            f"{option} with --colocate requires actor offload and rollout weight offload"
+        )
+        assert args.colocate_memory_peak_device != "gpu", (
+            f"{option} does not support --colocate-memory-peak-device gpu's actor-managed weight handoff"
+        )
+    template = args.save_debug_train_data
+    assert template is not None, f"{option} requires --save-debug-train-data"
+    fields = {field for _, field, _, _ in Formatter().parse(template)}
+    assert {"rollout_id", "rank"} <= fields, (
+        f"{option} requires {{rollout_id}} and {{rank}} in --save-debug-train-data"
+    )
+    try:
+        template.format(rollout_id="eval_dataset_0", rank=0)
+    except (KeyError, ValueError, IndexError) as error:
+        raise ValueError(f"{option} requires a debug template accepting an evaluation-prefixed rollout_id") from error
 
 
 def validate_skip_actor_forward_only(args) -> None:

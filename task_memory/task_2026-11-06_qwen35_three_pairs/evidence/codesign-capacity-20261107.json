@@ -1,0 +1,14 @@
+{
+  "queried_utc": "2026-11-06T16:12:15.747108+00:00",
+  "quota_group": "codesign",
+  "reported_ceiling_gpus": 128,
+  "returned_jobs": 33,
+  "limit": 256,
+  "phase_counts": {
+    "Running": 33
+  },
+  "requested_gpu_counts": {
+    "Running/preemptible=no": 112
+  },
+  "free_gpu_capacity": "UNKNOWN: active requested resources are not a quota availability prediction; scheduler placement remains authoritative"
+}
