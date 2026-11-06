@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record authorized v2 guard repair, local runtime-artifact cleanup, and the workspace's explicit read-only model-source exceptions. |
 | 2026-11-06 | Confirm D14 execution baseline/shared understanding and explicit removal of the old Git index lock before the task-document commit. |
 | 2026-11-06 | Confirm D13: deliver a text-only HF student model with matching configuration/names and real text-inference reload. |
 | 2026-11-06 | Confirm D11 length-balanced task-group-isolated monitoring and D12 token-level TIS mask settings. |
@@ -229,6 +230,28 @@ This authorizes that exact lock cleanup and task-document commit; preserve unrel
 
 For analogous routine Git issues, verify the state and handle stale locks/task-scoped commits without asking again. Preserve unrelated work; this does not expand the training or external-publication scope.
 
+## Execution support authorizations
+
+[Original Request] After the false-positive v2 tool guard was diagnosed and its local repair was requested:
+
+> 授权，继续
+
+The authorization covers the local v2 plugin repair and verification while preserving its protected-skill restrictions. It does not authorize changes to v1 or reading the protected skill.
+
+[Original Request] During P2 implementation:
+
+> ps：及时分派子agent清理在当前机器生成的运行产物，当前磁盘空间快要达到上限。
+
+Delegate local generated-artifact cleanup promptly. Preserve active work, source/model/data assets and necessary evidence; verify ownership, completion and retained results before removing generated outputs from older tasks.
+
+The updated workspace instruction explicitly permits read-only model access to these three sources for this Qwen task:
+
+- `/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model`
+- `/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model`
+- `/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B`
+
+These are narrow exceptions to the former personal-only read restriction. All cloud writes remain under `/mnt/codesign-exp/ycfeng`; no other shared cloud directories are authorized. Mount posttrain through Python RJobBackend as `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`, as verified by the local inventory and existing Steptron recipes. Existing personal Qwen3.5-4B and GLM source assets remain the inputs for their respective roles.
+
 ## Explicit requirements
 
 | ID | Requirement |
@@ -258,7 +281,7 @@ No Base, quantized, reduced-layer or different model substitution is approved. A
 - The current Miles workspace (`agent-opd`) is the confirmed implementation target under D1. The original request's Steptron wording supplies semantic references; the earlier canceled Steptron investigation and initial branch inspection supply no implementation authority for this task.
 - D14 closes the shared-understanding gate and authorizes in-scope implementation/prerequisite checks. GPU execution still needs the specified assets/runtime/resource prerequisites. At the D14 decision, no RJobs have been submitted by this task.
 - Preserve unrelated `.serena/` and `task_memory/task_2026-11-06_qwen_model_inventory/` work. No README edit, external publication, unrelated deletion or broad refactor is authorized. The exact old Git index-lock cleanup is separately approved above. Cloud operations remain within the personal namespace and approved run scope.
-- Future runs follow the workspace GPU/storage rules: personal StepMind Python submission, H800/codesign, local source mounts, live quota check, and cloud reads/writes confined to `/mnt/codesign-exp/ycfeng`. The stated 128 GPUs are a ceiling to check, not observed free capacity. Auxiliary validators remain non-blocking for runs using 32 or more GPUs.
+- Future runs follow the workspace GPU/storage rules: personal StepMind Python submission, H800/codesign, local source mounts, live quota check, personal cloud writes and only the explicit model-read exceptions above. The stated 128 GPUs are a ceiling to check, not observed free capacity. Auxiliary validators remain non-blocking for runs using 32 or more GPUs.
 
 ## Decisions to resolve in order
 
@@ -266,7 +289,7 @@ No Base, quantized, reduced-layer or different model substitution is approved. A
 2. **Route replay — resolved:** all three student paths report R3 as not applicable, per D2. Other required features remain enabled and subject to verification.
 3. **Workload — resolved by D3/D4/D6/D7/D9–D12/D14:** fresh single-turn OPD with preserved history, completion-only targets, enabled fresh thinking, finite first-round budget, length-balanced group-isolated monitoring, token-mask TIS and a fixed execution/assessment baseline. Existing template configuration remains user-controllable. Actual population identities/eligibility and native results remain to be verified.
 4. **Numerical acceptance — resolved by D8:** pre-TIS same-version global token-weighted mean absolute error <= 0.03, both overall and by prefix-length stratum, with tails/K3 and unresolved-defect exclusions. D9/D11 fix monitoring counts, cadence and stratum boundaries; actual identities and complete same-version evidence remain prerequisites.
-5. **Deployment — current choice resolved by D5; resources pending:** colocate the student trainer/rollout and use an external frozen teacher. Establish personal model copies, feasible topology, concurrent GPU budget and timing. Track NCCL-direct validation as deferred under this temporary choice. Exact unsupported requirements go back to the user.
+5. **Deployment — current choice resolved by D5; resources pending:** colocate the student trainer/rollout and use an external frozen teacher. Establish authorized model sources, feasible topology, concurrent GPU budget and timing. Track NCCL-direct validation as deferred under this temporary choice. Exact unsupported requirements go back to the user.
 6. **HF output — resolved by D13/D14:** retain one final text-only HF artifact per pair, with matching configuration/tensors/tokenizer and real text-inference reload. Freeze exact personal output paths and verify loader support in P2. Resumable optimizer state and full-VLM reconstruction are not requested.
 
 The [design](design.md) owns inspected facts and proposed verification semantics. The [plan](plan.md) owns the dependency graph and completion conditions. No numerical or resource proposal is accepted merely by appearing in either file.

@@ -1,0 +1,133 @@
+{
+  "task_id": "QWEN-LOCAL-DISK-CLEANUP",
+  "completed_at_utc": "2026-11-06T15:18:24.197478+00:00",
+  "scope": "Local generated Qwen test artifacts only; no source edits, commits, GPU, StepMind, SSH, cloud operations, environment removal, or unrelated-directory deletion.",
+  "status": "Initial Qwen cleanup and expanded largest-three-root cleanup complete; remaining non-identical/native evidence retained.",
+  "filesystem": {
+    "device": "/dev/rbd1",
+    "mount": "/data",
+    "total_bytes": 1098974756864,
+    "initial": {"used_bytes": 1063264526336, "available_bytes": 35710230528, "use_percent": 97},
+    "immediately_before_deletion": {"used_bytes": 1010795577344, "available_bytes": 88179179520, "use_percent": 92},
+    "immediately_after_deletion": {"used_bytes": 1010640486400, "available_bytes": 88334270464, "use_percent": 92},
+    "immediate_available_delta_bytes": 155090944,
+    "attribution_limit": "The 52468948992-byte availability increase before this agent's deletion occurred concurrently and is not attributed to this task. This agent deleted 154955776 allocated bytes (147.77734375 MiB)."
+  },
+  "deletion_safety": {
+    "process_check": "sudo -n timeout 60s python3 inspected local /proc cmdline, cwd, exe, fd and maps immediately before deletion. The earlier complete preflight covered 232 processes, zero permission-limited processes and zero target references; the deletion command repeated the check and rejected any reference.",
+    "path_check": "Every target was a real directory with an exact allowlisted parent. os.walk(followlinks=False) measured only local entries; symlinks were not traversed. shutil.rmtree removed only the eleven explicit targets, and os.path.lexists confirmed every target absent.",
+    "command": "sudo -n timeout 60s python3 -; exact targets are listed below, with guarded shutil.rmtree and protected-artifact assertions.",
+    "python": "System Python 3.10.6",
+    "provenance": [
+      "HF test directories contain generated tiny source/export fixtures matching tests/fast/test_qwen_text_export.py. The retained qwen-p2-hf-tests-4.log reports 22 passed, 2 warnings in 4.31s; test generation 4 remains available.",
+      "Data generations a/b contain synthetic per-test source.json and CLI split fixtures. Generation c remains available for parent acceptance and evidence recording.",
+      "The report-I/O red directory contains two generated tiny export fixtures; report-I/O green remains protected.",
+      "The resume report explicitly identifies opencode-v2-tmp/pt-loss and opencode-v2-tmp/torchinductor_brainpp as temporary pytest/compiler outputs. pt-loss contains six tiny decoder-export tests; the compiler directory contains generated precompiled headers. No process referenced either directory."
+    ]
+  },
+  "deleted": [
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-text-export-qwen-p2-hf-1", "allocated_bytes": 2650112, "file_bytes": 1736797, "regular_files": 310, "symlinks_not_followed": 10, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-text-export-qwen-p2-hf-2", "allocated_bytes": 2650112, "file_bytes": 1740477, "regular_files": 313, "symlinks_not_followed": 13, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-text-export-qwen-p2-hf-3", "allocated_bytes": 2879488, "file_bytes": 1855710, "regular_files": 365, "symlinks_not_followed": 13, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-cache-qwen-p2-hf-1", "allocated_bytes": 20480, "file_bytes": 2635, "regular_files": 5, "symlinks_not_followed": 0, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-cache-qwen-p2-hf-2", "allocated_bytes": 20480, "file_bytes": 3164, "regular_files": 5, "symlinks_not_followed": 0, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-cache-qwen-p2-hf-3", "allocated_bytes": 16384, "file_bytes": 2776, "regular_files": 4, "symlinks_not_followed": 0, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-data-pytest-20261106-a", "allocated_bytes": 15302656, "file_bytes": 15197311, "regular_files": 34, "symlinks_not_followed": 6, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-data-pytest-20261106-b", "allocated_bytes": 15302656, "file_bytes": 15197311, "regular_files": 34, "symlinks_not_followed": 6, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-report-io-red", "allocated_bytes": 376832, "file_bytes": 263020, "regular_files": 40, "symlinks_not_followed": 1, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/pt-loss", "allocated_bytes": 126976, "file_bytes": 11190, "regular_files": 36, "symlinks_not_followed": 5, "absent_after": true},
+    {"path": "/data/ycfeng/tmp/opencode-v2-tmp/torchinductor_brainpp", "allocated_bytes": 115609600, "file_bytes": 115604704, "regular_files": 3, "symlinks_not_followed": 0, "absent_after": true}
+  ],
+  "totals": {"allocated_bytes": 154955776, "file_bytes": 151615095, "directories": 11, "regular_files": 1149},
+  "protected_verified_after": [
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-hf-tests-4.log",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-report-io-green",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-plot-9dusubsy",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-qwen-text-export-qwen-p2-hf-4",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-p2-data-pytest-20261106-c",
+    "/data/ycfeng/envs/miles-agent-opd-cpu",
+    "/data/ycfeng/tmp/stepmind-env"
+  ],
+  "protected_hf_log_sha256_before_and_after": "d551674b8f2b182b18b29739453726f8e9508a1fda1923147b9ef292df76a988",
+  "other_protected_scope": "All source/model/tokenizer/dataset assets, task records, credentials, active environments and caches, original v2 plugin backup/regression artifacts, and unrelated directories were untouched.",
+  "old_miles_warmup": {
+    "record": "task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-06_agent_opd_final.md:308-328",
+    "observation": "Historical large business artifacts were already consumed and removed by the completed task. No cloud read or cleanup was attempted here; local old scratch roots are already absent.",
+    "verified_absent_local_paths": ["/data/ycfeng/tmp/agent-opd-20261105", "/data/ycfeng/tmp/agent-opd-learning-20261105", "/data/ycfeng/sota-engine/miles/.pytest_cache"]
+  },
+  "largest_remaining_candidates": [
+    {"path": "/data/ycfeng/tmp/glm53_dsv4", "allocated_bytes": 246397849600, "retained_reason": "Unrelated Frontier/runtime task ownership; active related session/launcher observed. No authority to remove its sources, current assets or retained evidence."},
+    {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020", "allocated_bytes": 53387735040, "retained_reason": "Unrelated task directory; generated/source boundary and durable retention not established in this Miles scope. Requires its owner's focused decision."},
+    {"path": "/data/ycfeng/tmp/codex-implement", "allocated_bytes": 49275850752, "retained_reason": "Independent implementation workspaces; local codex-implement service remains active. Do not treat source/user work as disposable output."},
+    {"path": "/data/ycfeng/tmp/d31_11b_rebuild_20261101_01", "allocated_bytes": 19551031296, "retained_reason": "Unrelated prior experimental results; durable result/checkpoint retention unverified. Reported for an owner decision, not deleted."},
+    {"path": "/data/ycfeng/tmp/verl-agent-opd-downloads-20261106", "allocated_bytes": 9237536768, "retained_reason": "Active uv sync/download dependency cache for another session; size was growing during inspection. Explicitly outside inactive-output cleanup."}
+  ],
+  "expanded_largest3": {
+    "task_id": "QWEN-LOCAL-DISK-CLEANUP",
+    "completed_at_utc": "2026-11-06T15:28:33.608335+00:00",
+    "scope": "User extended inspection/deletion authority to generated expendable runtime artifacts inside glm53_dsv4, w3_review_fixes_20261020 and codex-implement. No entire roots, sources/worktrees, user edits, environments, model assets, datasets, active files or ambiguous evidence were removed. No cloud/SSH/GPU operations.",
+    "filesystem": {
+      "device": "/dev/rbd1",
+      "total_bytes": 1098974756864,
+      "immediately_before": {"used_bytes": 994386825216, "available_bytes": 104587931648, "use_percent": 91},
+      "immediately_after": {"used_bytes": 988803903488, "available_bytes": 110170853376, "use_percent": 90},
+      "observed_available_delta_bytes": 5582921728,
+      "attribution_limit": "Allocated deleted bytes and df change differ; concurrent local cleanup/writes and filesystem accounting were not isolated. Only this phase's explicit deletion counts are attributed here."
+    },
+    "totals": {"allocated_bytes": 5615460352, "file_bytes": 5584360938, "regular_files": 24619, "cache_directories": 14, "duplicate_ledger_files": 7},
+    "process_check": {"processes": 263, "permission_limited_processes": 0, "target_or_run_root_references": 0, "checked": ["cmdline", "cwd", "exe", "fd", "maps"]},
+    "deletion_command": "sudo -n systemd-run --scope -p MemoryMax=30G timeout 60s python3 -; preflight all explicit entries, validate real paths/file types/single-link files and unchanged inode/mtime before each deletion; shutil.rmtree only for the fourteen cache paths below and Path.unlink only for the seven ledger files below.",
+    "cache_provenance": {
+      "classification": "Generated sklearn estimator/prediction caches and lock files, not language-model checkpoints or source assets. Each selected run has a FINISHED receipt plus nonempty request_metrics.csv and system_metrics.json. Each cache contains 879 .pkl files and 879 .file lock files, all regular single-link files; names/sizes match the retained reference. No directory or symlink traversal outside the explicit caches.",
+      "regeneration_record": "/data/ycfeng/Frontier/.worktrees/glm53-dsv4-vllm028/task_memory/task_2026-10-15_glm53_dsv4_vllm028_h800/test_report_2026-11-03_task_cleanup.md:24-28",
+      "copy_and_completion_records": [
+        "/data/ycfeng/Frontier/.worktrees/glm53-dsv4-vllm028/task_memory/task_2026-10-15_glm53_dsv4_vllm028_h800/test_report_2026-10-30_b26_dp_host_run_ahead.md:15-17,35-44",
+        "/data/ycfeng/Frontier/.worktrees/glm53-dsv4-vllm028/task_memory/task_2026-10-15_glm53_dsv4_vllm028_h800/h3o_operator_costs/codex-implement-a92368f9-d691-40c5-baae-e0eaba3f807a/implementation.md:149-177",
+        "/data/ycfeng/Frontier/.worktrees/glm53-dsv4-vllm028/task_memory/task_2026-10-15_glm53_dsv4_vllm028_h800/h3o_operator_costs/codex-implement-6d8aed77-5e60-463c-87d4-b0f7a492b026/implementation.md:252-279",
+        "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/response-1.json"
+      ],
+      "retained_reference": {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/final-base/cache", "regular_files": 1758, "file_bytes": 324536393, "full_file_inventory_sha256_observed_before_deletion": "7ba017e991611a09503a6124c14314e1c46ec2e5eef67eaa6ca94061b5609994", "names_and_sizes_unchanged_after": true},
+      "verification_limit": "Full hashing of all candidate caches exceeded the 60-second inspection budget after verifying the reference and two early caches; no deletion ran during that inspection. The selected fourteen caches were verified by generated file types, copy provenance, current name/size equality, FINISHED receipts, retained outputs and no active use. No claim that all fourteen current cache bodies were individually rehashed. The old stage4 source cache paths were already absent; a complete reference copy remains at the exact path above."
+    },
+    "retained_results_contract": "For each cache entry below, the run root is its parent. That root's receipt.json, metrics/**/request_metrics.csv, metrics/**/system_metrics.json and config.json remain; command.json, forwards.jsonl.gz and collectives.json remain when present. The selected receipt/metric/config/structural result/identity files plus the original Qwen HF log were included in 88 pre/post SHA256 assertions, all unchanged. No run-root deletion occurred.",
+    "deleted_caches": [
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/final-unset/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/final-k19-r3/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/a92368f9-d691-40c5-baae-e0eaba3f807a/b26b/a10-unset/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/a92368f9-d691-40c5-baae-e0eaba3f807a/b26b/a10-k19/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/6d8aed77-5e60-463c-87d4-b0f7a492b026/b29/p2_32_baseline_native_env/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/6d8aed77-5e60-463c-87d4-b0f7a492b026/b29/p2_32_delayed_native_env/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/6d8aed77-5e60-463c-87d4-b0f7a492b026/b29/p2_64_baseline_native_env/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/6d8aed77-5e60-463c-87d4-b0f7a492b026/b29/p2_64_delayed_native_env/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s1_base/cache", "allocated_bytes": 326774784, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s1_candidate/cache", "allocated_bytes": 326766592, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s2_base/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s2_candidate/cache", "allocated_bytes": 326758400, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s3_base/cache", "allocated_bytes": 326758400, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/9de7af1c-59f2-4ff4-a3ca-bfa1bf52e247/s3_candidate/cache", "allocated_bytes": 326754304, "file_bytes": 324536393, "regular_files": 1758, "receipt_status": "FINISHED", "absent_after": true}
+    ],
+    "deleted_ledger_duplicates": [
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/offline-none/metrics/zai_org_glm_5_3/offline_batch/offline_none/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 216219648, "file_bytes": 216219312, "retained_duplicate": "/data/ycfeng/tmp/w3_review_fixes_20261020/final_glm_colocation/offline-none/metrics/zai_org_glm_5_3/offline_batch/offline_none/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "fd909afe0409e255e253ab842a5c12d91c7b66ccec29776aedf27d6cccf56866", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/offline-full_decode_only/metrics/zai_org_glm_5_3/offline_batch/offline_full_decode_only/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 216211456, "file_bytes": 216208438, "retained_duplicate": "/data/ycfeng/tmp/w3_review_fixes_20261020/final_glm_colocation/offline-full_decode_only/metrics/zai_org_glm_5_3/offline_batch/offline_full_decode_only/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "356866d218edcb31578908fe7b10197537e2ecf20fca22b87f94993d973e5995", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/online-piecewise/metrics/zai_org_glm_5_3/online_serving/online_piecewise/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 216227840, "file_bytes": 216227254, "retained_duplicate": "/data/ycfeng/tmp/w3_review_fixes_20261020/final_glm_colocation/online-piecewise/metrics/zai_org_glm_5_3/online_serving/online_piecewise/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "665adc86c4bbf127a5136acb55782c3281c6b77acd158c2dcba49c974b2d0abb", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/handoff-structural-offline/offline/metrics/deepseek_ai_deepseek_v4_flash/offline_batch/dsv4_structural_offline/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 98050048, "file_bytes": 98049108, "retained_duplicate": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/real-final-structural-offline/offline/metrics/deepseek_ai_deepseek_v4_flash/offline_batch/dsv4_structural_offline/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "9aadbc64ac8789dc0bc13d3e5417f53d6ae53dbd1f9674b4141b4c37dfe7bfab", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/final-structural-offline/offline/metrics/deepseek_ai_deepseek_v4_flash/offline_batch/dsv4_structural_offline/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 98050048, "file_bytes": 98049108, "retained_duplicate": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/real-final-structural-offline/offline/metrics/deepseek_ai_deepseek_v4_flash/offline_batch/dsv4_structural_offline/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "9aadbc64ac8789dc0bc13d3e5417f53d6ae53dbd1f9674b4141b4c37dfe7bfab", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/handoff-structural-online/online/metrics/deepseek_ai_deepseek_v4_flash/online_serving/dsv4_structural_online/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 98050048, "file_bytes": 98049108, "retained_duplicate": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/real-final-structural-online/online/metrics/deepseek_ai_deepseek_v4_flash/online_serving/dsv4_structural_online/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "9aadbc64ac8789dc0bc13d3e5417f53d6ae53dbd1f9674b4141b4c37dfe7bfab", "absent_after": true},
+      {"path": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/final-structural-online/online/metrics/deepseek_ai_deepseek_v4_flash/online_serving/dsv4_structural_online/frontier_ep_wave_lane_ledger.jsonl", "allocated_bytes": 98050048, "file_bytes": 98049108, "retained_duplicate": "/data/ycfeng/tmp/codex-implement/7218b11a-e3b0-49e9-a533-3c76428f66c2/b26/real-final-structural-online/online/metrics/deepseek_ai_deepseek_v4_flash/online_serving/dsv4_structural_online/frontier_ep_wave_lane_ledger.jsonl", "sha256_before_and_after": "9aadbc64ac8789dc0bc13d3e5417f53d6ae53dbd1f9674b4141b4c37dfe7bfab", "absent_after": true}
+    ],
+    "retained_nonidentical_candidates": [
+      {"path": "/data/ycfeng/tmp/glm53_dsv4/h200/g2h_runner_04/download", "allocated_bytes_at_inspection": 17848590336, "contents": "Native profiler replay bridge JSON traces, raw JSONL and runner CSVs.", "reason": "Unique original native evidence; current local duplicate/archive retention was not confirmed. Existing 2026-11-03 cleanup report explicitly preserved native traces. Removing it would lose raw profiler re-audit ability; keep unless the task owner confirms an exact retained archive."},
+      {"path": "/data/ycfeng/tmp/glm53_dsv4/h200/g2h_runner_02/download", "allocated_bytes_at_inspection": 17778020352, "contents": "Native profiler replay bridge JSON traces and raw JSONL.", "reason": "Different raw sizes from generation 04, not a proven duplicate. Same preservation requirement."},
+      {"path": "/data/ycfeng/tmp/glm53_dsv4/h200/g2h_runner_01/download", "allocated_bytes_at_inspection": 17772167168, "contents": "Earlier native profiler download.", "reason": "No exact retained duplicate or current archive proof; not deleted."},
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/offline-none/metrics/zai_org_glm_5_3/offline_batch/offline_none/op_traces.jsonl", "allocated_bytes_at_inspection": 1598615552, "contents": "Generated CPU structural trace, synthetic durations.", "reason": "Byte comparison against final_glm_colocation failed. result.json retains FAIL/source-scope mismatch, but raw-row retention elsewhere was not proven; deleting would remove that original re-audit trace."},
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/offline-full_decode_only/metrics/zai_org_glm_5_3/offline_batch/offline_full_decode_only/op_traces.jsonl", "allocated_bytes_at_inspection": 1590829056, "contents": "Generated CPU structural trace.", "reason": "Not byte-identical to final generation; retained pending an explicit raw-evidence retention decision."},
+      {"path": "/data/ycfeng/tmp/w3_review_fixes_20261020/h1v_glm_colocation/online-piecewise/metrics/zai_org_glm_5_3/online_serving/online_piecewise/op_traces.jsonl", "allocated_bytes_at_inspection": 1590976512, "contents": "Generated CPU structural trace.", "reason": "Not byte-identical to final generation; retained pending the same decision."}
+    ],
+    "focused_proposal": "No further deletion now. If additional space is still required, obtain the owning task's decision on the three h1v CPU op_traces files (4780421120 allocated bytes): keep invocation/result/log/config/stage summaries and the final-generation raw traces, but explicitly accept losing the earlier distinct raw rows. Native g2h downloads should instead wait for an exact local/recorded durable-archive retention receipt; do not remove them based on age, similar sizes or promoted CSV summaries alone.",
+    "protected_parent_scope": "Current Qwen HF original log unchanged SHA256 d551674b8f2b182b18b29739453726f8e9508a1fda1923147b9ef292df76a988; report-I/O green, plot evidence, miles-agent-opd-cpu and stepmind-env verified present. All new RPC/eval pytest directories, probe sources, parent runtime work, credentials and original v2 plugin assets are outside the three inspected roots and untouched.",
+    "checkpoint": {"scope_review": "PASS: later user scope controls this incremental phase; old unrelated-directory restriction is superseded only for generated expendable artifacts in the three exact roots.", "mainline": "Return measured deletion receipt to parent and stop further scans; parent continues GPU prerequisites independently.", "D1": "CLEAR", "D2": "CLEAR: failed full-cache hash inspection was stopped and replaced by bounded provenance/type/receipt checks; no deletion followed the timeout.", "D3": "CLEAR", "D4": "CLEAR: no delegation permitted, parent work not duplicated.", "D5": "CLEAR", "D6": "CLEAR: 5.23 GiB actual deletion completed; no further large-trace survey.", "D7": "CLEAR", "document_defects": "No cleanup-scope S1-S6 defect found; initial receipt remains historical and this phase is separately appended.", "next_action": "Validate this appended JSON and hand off only incremental results. Keep ambiguous raw traces and wait for their owner's retention decision if more space is requested."}
+  },
+  "candidate_size_command": "sudo -n timeout 60s du -x -s -B1 followed by the five exact candidate paths above; exit 0. No symlink traversal.",
+  "inspection_limits": "The initial scoped tmp depth-2 du emitted excessive output and permission errors; later inspections reused its saved output and switched to exact directories. No whole-filesystem scan was performed. GB-scale safe deletion cannot be justified from age alone.",
+  "checkpoint_markdown": "## 1. 规划完成情况\n\n**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 0\n\n| 子任务 | 状态 | 简要依据 |\n| --- | --- | --- |\n| 本机限定检查 | PASS | df、实际测试输出与任务记录已核对。 |\n| 已核实输出删除 | PASS | 11 个目录已删除，154955776 allocated bytes。 |\n| 证据交接 | PASS | 本 JSON 保留精确路径、字节和验证边界。 |\n| GB 级额外清理 | BLOCKED | 最大目录属于其他任务，保留依据未核实。 |\n\n## 2. 偏离检测\n\n**结论：** 未偏移，正常推进。\n**检测窗口：** 本次清理开始至今｜**当前前沿：** 交接证据；其他任务候选等待其所有者决定。\n\n| 模式 | 判定 | 依据 |\n| --- | --- | --- |\n| D1 工具打磨 | CLEAR | 检查只服务删除安全性，停止继续扩大扫描。 |\n| D2 细节反复重试 | CLEAR | 未反复修改或重试清理行为。 |\n| D3 支线问题修补 | CLEAR | 清理由用户明确请求。 |\n| D4 可并行任务停滞 | CLEAR | 本子任务禁止再次委派。 |\n| D5 超范围镀金 | CLEAR | 只增加指定 JSON，没有代码或父任务文档修改。 |\n| D6 分析空转 | CLEAR | 已实际删除并核实空间变化。 |\n| D7 路线违背 | CLEAR | 未访问云端，未删除保护项或其他任务目录。 |\n\n**文档检查：** 此清理子任务 S1–S6 未发现明显缺陷；父任务文档仍由父代理维护。\n**归因：** 无。\n\n## 3. 纠正建议\n\n**分支：** A：spec/tickets 合理，无需改动。\n**需停止的偏离行为：** 无。\n**接下去的路线：**\n1. 父代理记录本清理结果，继续 P2；完成标志：保留原始 HF 日志和当前 green/plot 证据。\n2. 若还需 GB 级空间，由对应任务所有者确认具体可删输出；完成标志：所有权、非活动状态与结果保留均有证据。\n\n## 4. 最值得关注的 3 点\n\n1. 本代理仅贡献 147.8 MiB，不能把并行发生的约 48.9 GiB 空间增长归给本清理。\n2. 删除后可用空间 82.3 GiB、使用率 92%；当前 HF 日志、green 测试和 plot 证据均保留。\n3. 最大候选是其他任务目录，不得为满足 GB 目标越权删除。"
+}

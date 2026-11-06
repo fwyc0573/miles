@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Qualify source availability, pinned CPU runtime and the full Qwen population; track native monitor review fixes and authorized cleanup within P2. |
 | 2026-11-06 | Complete P1 under D14; release parallel P2 implementation and prerequisite checks, with runtime assets/resources still required before GPU execution. |
 | 2026-11-06 | Confirm D9's finite training/monitoring budget; resume P1 and independent local prerequisite inspection. |
 | 2026-11-06 | Apply the latest preserve_thinking=True trajectory-prefix default; retain D6 loss scope, D7 budget and D8 numerical acceptance. |
@@ -35,9 +36,11 @@ Status: P1 complete; P2 active under D14's confirmed shared understanding. [Requ
 
 `P0 -> {P1, P2 local read-only prerequisites} -> P2 runtime qualification -> {P3-A, P3-B, P3-C} -> P4`
 
-Local read-only source/image/asset-record investigation advanced alongside P1. D14 now permits implementation. Runtime execution remains gated by each pair's authorized assets and verified runtime/resource prerequisites; this distinction grants no access outside the personal cloud namespace.
+Local read-only source/image/asset-record investigation advanced alongside P1. D14 now permits implementation. Runtime execution remains gated by each pair's authorized assets and verified runtime/resource prerequisites. The narrow read-only source exceptions are owned by requirements; all generated cloud artifacts remain personal.
 
 P2 has shared source/image checks and independent per-asset/per-pair checks. After shared prerequisites are ready, release each pair as soon as its own prerequisites pass; a pair C asset or capacity issue must not block A or B. Inside each pair: identity/input checks -> baseline alignment -> actual updates and weight publication -> final same-version alignment and HF export/reload -> assessment. Common runtime defects may block only the paths they actually affect.
+
+P2 execution slices: source population and model metadata (completed by zero-GPU `exp-1106-233008-986003`) -> {native scoring/eval integration and review fixes, three-pair launcher, original-token numerical report, H800 resource qualification} -> per-pair P3 release. The single-token repair is committed as `315a8724`; text-export CPU validation is complete, while real student reload remains native work. The v2 guard repair resolved the submission blocker. User-requested local cleanup is independently completed with selected evidence retained; it does not gate GPU qualification.
 
 For P2, reuse the existing fixed template and its parameters under D4/D10; no complete-history drop transformation is needed. The named Qwen TITO adapter already uses preservation for append-only sessions, but this task remains fresh single-turn OPD. Pass explicit settings through task preparation so the retained user override is effective. Verify actual prefix/response IDs, selected-policy lengths and masks. D5 research is complete at documentation/source scope; its original separated recommendation is superseded by the user's temporary colocation choice. The current layout and remaining native gates are in [deployment_research.md](deployment_research.md). D14 confirms shared understanding; do not re-ask resolved choices.
 

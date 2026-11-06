@@ -1,0 +1,649 @@
+{
+  "job": "exp-1106-233008-986003",
+  "model_sources": {
+    "Qwen3.5-4B": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "Qwen3.5-27B": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "Qwen3.5-35B-A3B": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+    "Qwen3.5-397B-A17B": "/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B"
+  },
+  "models": {
+    "Qwen3.5-4B": [
+      {
+        "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+        "config_exists": true,
+        "index_exists": true,
+        "architecture": [
+          "Qwen3_5ForConditionalGeneration"
+        ],
+        "model_type": "qwen3_5",
+        "text_model_type": "qwen3_5_text",
+        "max_position_embeddings": 262144,
+        "tensor_count": 738,
+        "metadata_sha256": {
+          "config.json": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+          "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+          "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+          "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+          "model.safetensors.index.json": "cf3f798ee02ba45f9622aa8892a47369ab667d0afbf154ee7c2212de42e6302d"
+        },
+        "shards": [
+          {
+            "name": "model.safetensors-00001-of-00002.safetensors",
+            "size": 5329398688
+          },
+          {
+            "name": "model.safetensors-00002-of-00002.safetensors",
+            "size": 3990429408
+          }
+        ],
+        "all_indexed_shards_exist": true
+      }
+    ],
+    "Qwen3.5-27B": [
+      {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "config_exists": true,
+        "index_exists": true,
+        "architecture": [
+          "Qwen3_5ForConditionalGeneration"
+        ],
+        "model_type": "qwen3_5",
+        "text_model_type": "qwen3_5_text",
+        "max_position_embeddings": 262144,
+        "tensor_count": 1199,
+        "metadata_sha256": {
+          "config.json": "f8d190c5b89c1521220f935d2567a587d6e291ed69066a45a106560b05a2174c",
+          "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+          "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+          "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+          "model.safetensors.index.json": "b3737e9d00bda0e37f0b873629d98bf9b407bef35735b9193c23d9844bcc96a6"
+        },
+        "shards": [
+          {
+            "name": "model.safetensors-00001-of-00011.safetensors",
+            "size": 5263851872
+          },
+          {
+            "name": "model.safetensors-00002-of-00011.safetensors",
+            "size": 5347741440
+          },
+          {
+            "name": "model.safetensors-00003-of-00011.safetensors",
+            "size": 5347741504
+          },
+          {
+            "name": "model.safetensors-00004-of-00011.safetensors",
+            "size": 5347741504
+          },
+          {
+            "name": "model.safetensors-00005-of-00011.safetensors",
+            "size": 5347741504
+          },
+          {
+            "name": "model.safetensors-00006-of-00011.safetensors",
+            "size": 5347741504
+          },
+          {
+            "name": "model.safetensors-00007-of-00011.safetensors",
+            "size": 5347741496
+          },
+          {
+            "name": "model.safetensors-00008-of-00011.safetensors",
+            "size": 5368714128
+          },
+          {
+            "name": "model.safetensors-00009-of-00011.safetensors",
+            "size": 5347745520
+          },
+          {
+            "name": "model.safetensors-00010-of-00011.safetensors",
+            "size": 5347749200
+          },
+          {
+            "name": "model.safetensors-00011-of-00011.safetensors",
+            "size": 2148512760
+          }
+        ],
+        "all_indexed_shards_exist": true
+      }
+    ],
+    "Qwen3.5-35B-A3B": [
+      {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "config_exists": true,
+        "index_exists": true,
+        "architecture": [
+          "Qwen3_5MoeForConditionalGeneration"
+        ],
+        "model_type": "qwen3_5_moe",
+        "text_model_type": "qwen3_5_moe_text",
+        "max_position_embeddings": 262144,
+        "tensor_count": 1811,
+        "metadata_sha256": {
+          "config.json": "5e4d7f74fec2f360eb9cfbfcd6ec0c4c76e684d3a11caaed259d9fd9bfbc7944",
+          "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+          "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+          "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+          "model.safetensors.index.json": "d8d0b7ca4e61ae107e3e87a3ff21136b3ac7c789e64bb24267227ca804e04205"
+        },
+        "shards": [
+          {
+            "name": "model.safetensors-00001-of-00014.safetensors",
+            "size": 5368709816
+          },
+          {
+            "name": "model.safetensors-00002-of-00014.safetensors",
+            "size": 5368709808
+          },
+          {
+            "name": "model.safetensors-00003-of-00014.safetensors",
+            "size": 5368709808
+          },
+          {
+            "name": "model.safetensors-00004-of-00014.safetensors",
+            "size": 5368709816
+          },
+          {
+            "name": "model.safetensors-00005-of-00014.safetensors",
+            "size": 5368709816
+          },
+          {
+            "name": "model.safetensors-00006-of-00014.safetensors",
+            "size": 5368709816
+          },
+          {
+            "name": "model.safetensors-00007-of-00014.safetensors",
+            "size": 5368709808
+          },
+          {
+            "name": "model.safetensors-00008-of-00014.safetensors",
+            "size": 5368709808
+          },
+          {
+            "name": "model.safetensors-00009-of-00014.safetensors",
+            "size": 5255463936
+          },
+          {
+            "name": "model.safetensors-00010-of-00014.safetensors",
+            "size": 5368710456
+          },
+          {
+            "name": "model.safetensors-00011-of-00014.safetensors",
+            "size": 5368710464
+          },
+          {
+            "name": "model.safetensors-00012-of-00014.safetensors",
+            "size": 5368710456
+          },
+          {
+            "name": "model.safetensors-00013-of-00014.safetensors",
+            "size": 5367839544
+          },
+          {
+            "name": "model.safetensors-00014-of-00014.safetensors",
+            "size": 2224764664
+          }
+        ],
+        "all_indexed_shards_exist": true
+      }
+    ],
+    "Qwen3.5-397B-A17B": [
+      {
+        "path": "/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B",
+        "config_exists": true,
+        "index_exists": true,
+        "architecture": [
+          "Qwen3_5MoeForConditionalGeneration"
+        ],
+        "model_type": "qwen3_5_moe",
+        "text_model_type": "qwen3_5_moe_text",
+        "max_position_embeddings": 262144,
+        "tensor_count": 2924,
+        "metadata_sha256": {
+          "config.json": "3ae7fa89c2f7d1354096418ddaf1331e9e0898a8ca11e804fb6dbaa087efb7da",
+          "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+          "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+          "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+          "model.safetensors.index.json": "407d6a184a29469034ad92bcfaa6b72b582f8ad6afcbfad18a38a1c59ed296f8"
+        },
+        "shards": [
+          {
+            "name": "model.safetensors-00001-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00002-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00003-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00004-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00005-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00006-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00007-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00008-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00009-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00010-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00011-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00012-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00013-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00014-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00015-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00016-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00017-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00018-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00019-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00020-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00021-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00022-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00023-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00024-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00025-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00026-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00027-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00028-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00029-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00030-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00031-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00032-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00033-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00034-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00035-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00036-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00037-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00038-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00039-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00040-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00041-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00042-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00043-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00044-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00045-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00046-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00047-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00048-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00049-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00050-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00051-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00052-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00053-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00054-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00055-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00056-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00057-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00058-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00059-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00060-of-00094.safetensors",
+            "size": 8589934736
+          },
+          {
+            "name": "model.safetensors-00061-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00062-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00063-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00064-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00065-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00066-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00067-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00068-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00069-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00070-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00071-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00072-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00073-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00074-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00075-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00076-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00077-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00078-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00079-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00080-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00081-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00082-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00083-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00084-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00085-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00086-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00087-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00088-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00089-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00090-of-00094.safetensors",
+            "size": 8589934864
+          },
+          {
+            "name": "model.safetensors-00091-of-00094.safetensors",
+            "size": 9638517720
+          },
+          {
+            "name": "model.safetensors-00092-of-00094.safetensors",
+            "size": 9658656328
+          },
+          {
+            "name": "model.safetensors-00093-of-00094.safetensors",
+            "size": 9663818112
+          },
+          {
+            "name": "model.safetensors-00094-of-00094.safetensors",
+            "size": 4741119112
+          }
+        ],
+        "all_indexed_shards_exist": true
+      }
+    ]
+  },
+  "sources": [
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json",
+      "expected_size": 352168391,
+      "actual_size": 352168391
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json",
+      "expected_size": 369235910,
+      "actual_size": 369235910
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json",
+      "expected_size": 361892347,
+      "actual_size": 361892347
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json",
+      "expected_size": 350282225,
+      "actual_size": 350282225
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json",
+      "expected_size": 278147323,
+      "actual_size": 278147323
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json",
+      "expected_size": 317335603,
+      "actual_size": 317335603
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json",
+      "expected_size": 319631987,
+      "actual_size": 319631987
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json",
+      "expected_size": 317100901,
+      "actual_size": 317100901
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json",
+      "expected_size": 313332735,
+      "actual_size": 313332735
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json",
+      "expected_size": 314832778,
+      "actual_size": 314832778
+    },
+    {
+      "path": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json",
+      "expected_size": 62522228,
+      "actual_size": 62522228
+    }
+  ],
+  "manifest_sha256": "4776f40e3567ed4a8047931cb56d567a87d648aa234bf52d519874ad78a47c34"
+}

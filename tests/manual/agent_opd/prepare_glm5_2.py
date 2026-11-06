@@ -17,9 +17,11 @@ from examples.agentic_opd.glm_turns import encode_glm_turn, token_hash
 from transformers import AutoTokenizer
 
 
-def _read_conversation(file: dict, row: dict) -> list[dict]:
+def _read_conversation(
+    file: dict, row: dict, *, source_root: Path = Path("/mnt/codesign-exp/ycfeng")
+) -> list[dict]:
     path = Path(file["path"])
-    path.relative_to("/mnt/codesign-exp/ycfeng")
+    path.resolve().relative_to(source_root.resolve())
     if path.stat().st_size != file["size"]:
         raise ValueError(f"The selected glm5.2 source file changed size: {path}")
     with path.open("rb") as stream:
@@ -28,6 +30,29 @@ def _read_conversation(file: dict, row: dict) -> list[dict]:
     if hashlib.sha256(raw).hexdigest() != row["conversation_sha256"]:
         raise ValueError("The selected original glm5.2 conversation bytes changed")
     return json.loads(raw)
+
+
+def _verify_manifest_references(manifest: dict) -> dict:
+    def read_reference(reference):
+        path = Path(reference["path"])
+        raw = path.read_bytes()
+        if hashlib.sha256(raw).hexdigest() != reference["sha256"]:
+            raise ValueError(f"The inherited source selection/exclusion evidence changed: {path}")
+        return json.loads(raw)
+
+    return {
+        "membership": read_reference(manifest["membership"]),
+        "parents": {
+            category: {name: read_reference(reference) for name, reference in parent.items()}
+            for category, parent in manifest["parents"].items()
+        },
+    }
+
+
+def _verify_tokenizer_assets(tokenizer_path: Path, assets: dict) -> None:
+    for name, expected in assets.items():
+        if hashlib.sha256((tokenizer_path / name).read_bytes()).hexdigest() != expected:
+            raise ValueError(f"Pinned GLM tokenizer asset changed: {name}")
 
 
 def _make_row(tokenizer, conversation: list[dict], file: dict, row: dict, category: str) -> tuple[dict, dict]:
@@ -94,13 +119,7 @@ def main():
         parser.error("--turns-per-category must be positive")
     manifest_bytes = args.manifest.read_bytes()
     manifest = json.loads(manifest_bytes)
-    membership = manifest["membership"]
-    if hashlib.sha256(Path(membership["path"]).read_bytes()).hexdigest() != membership["sha256"]:
-        raise ValueError("The inherited fixed175 training exclusion membership changed")
-    for parent in manifest["parents"].values():
-        for reference in parent.values():
-            if hashlib.sha256(Path(reference["path"]).read_bytes()).hexdigest() != reference["sha256"]:
-                raise ValueError("The inherited source selection/exclusion evidence changed")
+    _verify_manifest_references(manifest)
     selected = []
     used_prompts = set()
     for category, bank in manifest["categories"].items():
@@ -127,9 +146,7 @@ def main():
     selected = [selected[category * args.turns_per_category + position]
                 for position in range(args.turns_per_category)
                 for category in range(len(manifest["categories"]))]
-    for name, expected in manifest["tokenizer"]["assets"].items():
-        if hashlib.sha256((args.tokenizer / name).read_bytes()).hexdigest() != expected:
-            raise ValueError(f"Pinned GLM tokenizer asset changed: {name}")
+    _verify_tokenizer_assets(args.tokenizer, manifest["tokenizer"]["assets"])
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, local_files_only=True)
     rows, evidence = [], []
     for category, row in selected:

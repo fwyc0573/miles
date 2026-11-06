@@ -1,0 +1,68 @@
+{
+  "source_revision": "315a872478cdb0b2ba20e3249f4da78f5e964df2",
+  "source_status": [
+    " M tests/manual/agent_opd/plot_training_metrics.py",
+    " M tests/manual/agent_opd/prepare_glm5_2.py",
+    "?? tests/manual/agent_opd/inspect_qwen35_assets.py",
+    "?? tests/manual/agent_opd/prepare_qwen35.py",
+    "?? tests/manual/agent_opd/qwen_export.py"
+  ],
+  "python": "3.12.16",
+  "executable": "/opt/sglang/bin/python3",
+  "versions": {
+    "torch": {
+      "version": "2.14.1+cu130",
+      "path": "/opt/sglang/lib/python3.12/site-packages/torch/__init__.py"
+    },
+    "transformers": {
+      "version": "5.19.0",
+      "path": "/opt/sglang/lib/python3.12/site-packages/transformers/__init__.py"
+    },
+    "ray": {
+      "version": "2.58.1",
+      "path": "/opt/sglang/lib/python3.12/site-packages/ray/__init__.py"
+    },
+    "sglang": {
+      "version": "0.5.24.dev80+g056f871",
+      "path": "/sgl-workspace/sglang/python/sglang/__init__.py"
+    }
+  },
+  "package_versions": {
+    "torch": "2.14.1+cu130",
+    "transformers": "5.19.0",
+    "ray": "2.58.1",
+    "sglang": "0.5.24.dev80+g056f871",
+    "polars": "1.42.1",
+    "safetensors": "0.8.0"
+  },
+  "cuda_build": "13.0",
+  "cuda_available": false,
+  "cuda_checks": null,
+  "node_environment": {
+    "RANK": null,
+    "WORLD_SIZE": null,
+    "MASTER_ADDR": null,
+    "MASTER_PORT": null,
+    "NODE_RANK": null,
+    "NODE_COUNT": null,
+    "PROC_PER_NODE": null,
+    "RLAUNCH_REPLICA": null,
+    "RLAUNCH_REPLICA_TOTAL": null,
+    "RJOB_REPLICA_INDEX": null,
+    "DISTRIBUTED_JOB": null,
+    "PORT_AUTO0": "9374",
+    "PORT_AUTO1": "9243",
+    "KUBEBRAIN_REPLICA": "0",
+    "KUBEBRAIN_REPLICA_TOTAL": "1",
+    "KUBEBRAIN_REPLICA_NAME": "exp-1106-233008-986003-cfcd2084",
+    "KUBEBRAIN_RJOB_NAME": "exp-1106-233008-986003"
+  },
+  "reasoning_probe": [
+    "reasoning",
+    "ordinary body"
+  ],
+  "tool_parser_class": "FunctionCallParser",
+  "imports_passed": true,
+  "gpu_module_imports_verified": false,
+  "gpu_devices": []
+}
