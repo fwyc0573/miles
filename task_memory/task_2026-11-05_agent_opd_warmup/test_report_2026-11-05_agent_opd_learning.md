@@ -1074,3 +1074,41 @@ PASS: independent read-only SSH executed the finalizer's actual original-answer 
 Both actual continuation replicas independently verified Running/restart0,personal creator,codesign,non-preemptible,current local NFS and pinned company image;Q5node0044/UID4314ba21-3d93-4791-996f-86784f1041b8;Q18node0165/UID6d22fe5c-c2ee-4b08-9bf8-1eae181c1a83. Both servers reported exact exp-1105-224939-805330/261105-165007-kj7u/hf/step_19 andweight_version20. Q18worker loggedfourNVIDIAH800devices;Q5GPUlogread remains pending. Running and actual reload do not establish continuation completion.
 
 Disposable finalizer/consumer/observer compile PASS. Exact manifest-derived benchmark membership now48actualjobs,includingtwo continuations;allactualtaskreceipts110. Proposed or dry-run names are excluded. Finalizer requires every actual receipt-bound job terminal; restored-original provenance verifies before scoring and cloud cleanup.
+
+
+## Actual native continuation boundary and terminal-reader RCA
+
+PASS: both real continuation workers reached the verified original failure boundary before new inference. Q5 restored229responses/460messages; exact patch8fb1d8c1ed51b2c474503f8e0f4306cde212827b94ef444fde67d24492288e4a. Its live native latest_half input is230messages/onecompression; unchanged original budget leaves9783.304874235764seconds. Q18 restored151responses/304messages; exact patchf6c0753602e8bbaac7871aff20da6cbdb5c2dedc33b93bbdc549e890d14e5267. Its native input is152messages/onecompression; remaining5517.406862656586seconds. Actual replay differences remained exclusively documented nondeterministic metadata; original observations were restored to model input and git index was restored after patch capture. Native final grades remain pending.
+
+Final-terminal preflight found21exact404errors. Their raw Kubernetes bodies identify kind=pod and original replica names; the current RJob objects remain readable. Direct Pythonclientapi replica reads depend on the live Pod,which the platform reclaimed after termination. Exact parent exp-1105-153807-012700/UID60113a67-cc0a-48bd-a1cd-c82130b59a4b remainsStopped. The existing SDKclient._list_replicas_by_rjob_uids_kapis read both historical native ReplicaUIDs644c9ced-f59d-40c6-804f-30075900e3be/65456866-1b4a-4ca5-ab27-4475dff5b8ca with ownerUIDmatching,andphaseFailed(exit1)/Stopped(waitingContainerCreating,noexit). This verifies terminal state without inventing an exit for a never-started container. The disposable final observer now uses that existing raw history read for exactUID/phase/container evidence; native benchmark/learning exits remain strict and historical auxiliary unknown exits are explicitly represented asNone. Broad actual-receipt preflight remains required before observer restart.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-241310`, UID `b95c90fa-17b8-4429-9f16-b26336399418`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 3. Original invalid attempts retain their recovery provenance; unknown failures remain missing. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-11087",
+    "seed": 1732,
+    "completed_updates": 20,
+    "generation_status": "returned",
+    "error_type": "FileNotFoundError",
+    "grading_status": "invalid",
+    "diagnostic_excerpt": []
+  }
+]
+```
+
+
+## Independent resumed outcome/terminal and source-consumption checks (2026-11-06T10:16:35.971316+08:00)
+
+Command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_live_native_state.py`. Actual read at2026-11-06T10:14:05.600336+08:00:48actualbenchmarkjobs;original80native valid/50resolved;updated76evaluated/50resolved,consisting of75native valid plus1confirmed model timeout. Q5/1732 continuation generation elapsed2471.7286447seconds,returned/seed_verified with nativeunresolved andpipelineexit0;its platformSucceeded. FourjobsremainRunning andrequest16H800inaggregate;GPU utilizationwasnotmeasured. Updatedfullavg@4remainsunavailable.
+
+The actual held-source read-only query extracted directly from `await_benchmark_completion.py` passed against Q5 continuation boundary, original trajectory hash, native full grade and retained source outcomes. Q5 valid source seeds are1729/1730/1731. Q18 source currently has two valid native grades because seed1729 failed initialization; its separate targeted recovery remains part of the same frozen benchmark. The disposable consumer now verifies actual seed membership instead of imposing a literal three-grade count. This prevents a false auxiliary failure without changing grading or creating an answer.
+
+The existing full actual auxiliary-terminal preflight is PASS:62/62terminal,0active,0queryerrors,exactpersonalcreator/codesign/UIDandnativeReplicaownerbindings. HistoricalwaitingcontainersretainNoneexitvalues;allactualsuccessfulbenchmark/learnerexitchecksremainzero. Final observer is alive in tool-session93760/PID2652355;itcreated exactlyone0GPUQ5source-consumptionjobexp-1106-101534-995419. Final resultandcleanupremainpending.
+
+
+Q5 held-source consumption PASS: `exp-1106-101534-995419`, UID `ca9a6a0d-0627-4694-a675-92186dff1660`, platform Succeeded, native Replica `exp-1106-101534-995419-cfcd2084` on `gpu-h800-0237.host.platform.shaipower.com`, container exit 0, restart 0. Independent personal Python state query and actual consumer result agree. Source `exp-1106-022355-241310` retains exactly three native valid seeds (1729, 1730, 1731); continuation seed 1732 is scored only from its separate verified native result. Deleted 29 files / 166691958 bytes and retained 17 minimal files for final provenance checks. Command: the exact local personal `submit.py` manifest `native-context-source-consumption-05-launch.json` invokes `consume_basemind.py native-context-source-consumption-05-jobs.json` in the pinned image. No new inference or grade was generated by consumption.

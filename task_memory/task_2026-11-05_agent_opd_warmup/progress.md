@@ -4444,3 +4444,76 @@ pending: independently verify recovered native grades,release Q10 hold for timel
 completed: actual recovered-grade provenance checks PASS2/2;Q10source consumed30files/126500826bytes while preserving15requiredminimalfiles. Bothcontinuationservers loadedexactupdate20;actualpersonal/NFS/image/containerRunningidentities verified.
 
 in-progress: fiveuniqueupdatedpairs remain;finalobserver restart follows currentimplementationcommit. Currentdisposablevalidatorscompile and48benchmark/110alltaskactualreceiptmembershipPASS. Finalscore/cleanupmustwait80+80,sourceprovenanceandactualterminalstates.
+
+
+completed:72fe633dcommits thenativecontextoverflowadapter,hash-boundmodelfailureaggregation/sevenregressionsandcurrentconclusions. Bothrealcontinuationsreachedverifiedprefix/workspaceboundary andnative460→230/304→152condensationwithoriginalremainingbudgets. Noextraanswerswerereplayed.
+
+in-progress:finalreaderRCAlocated21reclaimednativePods404;currentRJobsandSDKkapisnativeReplicahistoryareavailable. ExactUID/terminalphase/containerhistoryprobePASS,andreaderusestheexistinghistoryAPIwithunknownoldexitsexplicitlypreserved. Fullactualauxiliarypreflightrunsbeforefinalobserverrestart;remainingfiveevaluationscontinue.
+
+
+## Resumed final benchmark frontier (2026-11-06T10:16:35.971316+08:00)
+
+completed: actual personal/local read at10:14HKT found original80native grades/50resolved and updated76evaluated/50resolved (75native grades plus the separately confirmed Q2 timeout). Q5/1732 continuation completed unresolved; four unique pairs remain. The exact auxiliary-terminal preflight contains62terminal jobs,0active and0query errors. Its reader uses existing SDK native Replica history rather than reclaimed live Pods.
+
+completed: the disposable held-source consumer query passed against actual Q5 continuation identity, original trajectory hash and native grade. Replaced the incorrect fixed three-outcome expectation with actual retained native seed membership: Q5 has three native valid source seeds; Q18 currently has two because a separate source seed failed initialization. This is an accounting fix, not an extra result or answer.
+
+in-progress: final observer PID2652355/tool-session93760 is alive and submitted exactly one zero-GPU Q5 source-consumption RJob exp-1106-101534-995419. Existing healthy GPU launchers/consumer remain alive. Only four4H800benchmark jobs are Running at the latest personal platform query; the learner is already completed and no training is resubmitted. Task scratch is56MiB; local free disk94GiB. Final cleanup and push require full80+80and actual receipt-bound terminal checks.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd及原始验收已归档 |
+| 初始2：公司检索与模型资产 | PASS | Lark来源及22个校验文件已归档 |
+| 初始3：glm5.2及completion信号 | PASS | 原始tokens、thinking、正文和tool identity已验证 |
+| 初始4：16H800 warmup | PASS | 两次真实更新与数值测量已归档 |
+| 初始5：阶段清理与同步 | PASS | 初始产物已清理并同步；本阶段仍待结束 |
+| 学习1：固定20题与80turns | PASS | 固定seeds及训练排除已验证 |
+| 学习2：20updates与最终HF实现 | PASS | 唯一learner及实际export通过 |
+| 学习3：native evaluator | PASS | 同一BaseMind/tools/grader与实际重载已验证 |
+| 学习4：20次真实更新、完整export/reload | PASS | exp-1105-224939-805330已完成 |
+| 学习4：original80 | PASS | 80nativegrades，50resolved，avg@4=0.625 |
+| 学习4：updated80 | TODO | 76evaluated；四份原生执行仍在运行 |
+| 学习4：恢复来源与消费 | TODO | Q5续评已完成；准确source消费正在执行 |
+| 学习5：配对评分、最终清理与push | TODO | 等待80+80和所有实际receipt终态 |
+| 补充：Frog/Qwen实际资格验证 | PASS | 两次真实更新、残差测量和清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 09:29HKT里程碑至本次接续｜**当前前沿：** 四份updated结果、已完成原件的消费、最终汇总
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 终态历史读取和source计数直接解除实际最终验收问题 |
+| D2 细节反复重试 | CLEAR | Pod404先核对实际错误对象；SDK历史读取62/62成功；没有重复训练 |
+| D3 支线问题修补 | CLEAR | 全部工作服务学习4/5的既有80结果和清理条件 |
+| D4 可并行任务停滞 | CLEAR | 四项GPU评测、原件消费和最终observer并行 |
+| D5 超范围镀金 | CLEAR | 无新增训练、题库、seeds或第二套完整benchmark |
+| D6 分析空转 | CLEAR | Q5新增真实grade；observer已恢复并实际提交必要消费 |
+| D7 路线违背 | CLEAR | 原件、原预算和模型失败保留；不足80不报完整updated平均 |
+
+**文档检查：** S1–S6均未发现明显缺陷；现有plan拥有恢复与最终清理。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行完成Q1/1732、Q8/1732、Q13/1729、Q18/1731；结束条件为真实native grade或明确原件恢复。
+2. 消费已验证的Q5来源；Q18续评通过后按实际native seed消费其原来源，保留最终hash/UID证据。
+3. 集齐80+80，运行production汇总/10000次question bootstrap，核验所有实际终态，精确清理并正常push/独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 二十次真实训练已结束；当前只完成评测和清理。
+2. Q5真实续评已计入，updated目前76/80；Q18原作业有效计数与Q5不同，已从实际结果推导。
+3. 健康GPU launchers保持存活，HF只有在最终评分与全部实际终态检查通过后才删除。
+
+
+completed: Q5 source consumption exp-1106-101534-995419 / UID ca9a6a0d-0627-4694-a675-92186dff1660 independently verified Succeeded, container exit0 and restart0. Actual consumer retained three original native valid outcomes and required restoration provenance; removed 29 files / 166691958 bytes. Four remaining generators are within their native elapsed budgets at the selected business read. Final observer remains alive.
