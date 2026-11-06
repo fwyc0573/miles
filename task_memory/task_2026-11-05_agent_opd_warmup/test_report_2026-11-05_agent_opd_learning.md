@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify normal benchmark-archive delivery and complete current acceptance status. |
 | 2026-11-06 | Point current status to complete final scores, recovered original answers and independently verified cleanup. |
 | 2026-11-06 | Verify Q1 original-action recovery, diagnose Q13 timeout and consume completed CPU disposable artifacts. |
 | 2026-11-06 | Verify Q18 native patch and consumption, record deadline overrun and retire the completed legacy CPU monitor. |
@@ -28,7 +29,7 @@
 
 # Twenty-update OPD learning test
 
-The twenty-update phase is complete on November 6, 2026. The qualified sixteen-H800 learner completed twenty normal finite optimizer updates, complete decoder HF export and actual update20 reload. Both benchmark cells contain eighty unique evaluated attempts: original has eighty native grades, update20 has seventy-nine native grades and one separately proven model-caused timeout. Both have fifty resolved attempts and avg@4 0.625. Final paired aggregation and exact local/cloud cleanup passed; normal final branch synchronization is the last pending action. [The final report](test_report_2026-11-06_agent_opd_final.md) owns the completed measurements and closure evidence. Entries below preserve preparation, failed attempts and recovery history.
+The twenty-update phase is complete on November 6, 2026. The qualified sixteen-H800 learner completed twenty normal finite optimizer updates, complete decoder HF export and actual update20 reload. Both benchmark cells contain eighty unique evaluated attempts: original has eighty native grades, update20 has seventy-nine native grades and one separately proven model-caused timeout. Both have fifty resolved attempts and avg@4 0.625. Final paired aggregation and exact local/cloud cleanup passed; the complete benchmark archive was normally pushed to personal origin/agent-opd with an independent remote-SHA match. [The final report](test_report_2026-11-06_agent_opd_final.md) owns the completed measurements and closure evidence. Entries below preserve preparation, failed attempts and recovery history.
 
 Acceptance: twenty normal finite optimizer updates, eighty distinct eligible glm5.2 turns, exact post-update20 export/reload, and twenty fixed questions times four seeds with eighty unique evaluated outcomes per model. Native tools/tests determine resolved/unresolved; a separately proven model-caused native timeout contributes a failed attempt while retaining its invalid native receipt. Unknown infrastructure or grader errors remain missing until recovered. This follows the November 6 clarification in requirements.md; no failed generated answer is replaced. Cleanup removes every task transient file after consumption.
 

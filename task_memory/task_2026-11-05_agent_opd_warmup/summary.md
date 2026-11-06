@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify normal benchmark-archive delivery and complete current acceptance status. |
 | 2026-11-06 | Archive complete twenty-update scores and verified disposal while preserving numerical and H200 limits. |
 | 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
 | 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
@@ -13,7 +14,7 @@
 
 # Agentic OPD Warmup
 
-The accepted H800 learning phase has completed twenty normal finite optimizer updates on sixteen H800 GPUs, complete final decoder HF export, actual update20 reload, and both identical twenty-question/four-seed native benchmarks. Original and update20 avg@4 are both 0.625; the paired difference is zero, with a 95% question bootstrap interval of [-0.075, 0.0875]. This proves the measured execution workflow and weight-update/export/reload path; it does not demonstrate capability improvement or numerical equality. Exact local/cloud disposable outputs are deleted, and independent platform inspection finds no active task RJobs. Normal final branch synchronization is the last pending action. [The final report](test_report_2026-11-06_agent_opd_final.md) is authoritative for current scores, recoveries, alignment residuals, terminal identities and cleanup; the following initial warmup and failed-attempt records are historical.
+The accepted H800 learning phase has completed twenty normal finite optimizer updates on sixteen H800 GPUs, complete final decoder HF export, actual update20 reload, and both identical twenty-question/four-seed native benchmarks. Original and update20 avg@4 are both 0.625; the paired difference is zero, with a 95% question bootstrap interval of [-0.075, 0.0875]. This proves the measured execution workflow and weight-update/export/reload path; it does not demonstrate capability improvement or numerical equality. Exact local/cloud disposable outputs are deleted, and independent platform inspection finds no active task RJobs. The complete benchmark archive was normally pushed to personal origin/agent-opd, with an independent remote-SHA match. [The final report](test_report_2026-11-06_agent_opd_final.md) is authoritative for current scores, recoveries, alignment residuals, terminal identities and cleanup; the following initial warmup and failed-attempt records are historical.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 

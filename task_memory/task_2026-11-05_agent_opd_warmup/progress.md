@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Complete the acceptance checkpoint and verify normal personal benchmark-archive delivery. |
 | 2026-11-06 | Verify complete paired scores, independent terminal states and precise local/cloud cleanup. |
 | 2026-11-06 | Verify Q1 original-action recovery, diagnose Q13 timeout and consume completed CPU disposable artifacts. |
 | 2026-11-06 | Verify Q18 native patch and consumption, record deadline overrun and retire the completed legacy CPU monitor. |
@@ -5009,3 +5010,60 @@ in-progress: independent fresh membership/duplicate check finds original80native
 completed (2026-11-06T12:45:23.462085+08:00): independent completion checks pass. Finalizer exp-1106-123237-982894/UID093af55c-721a-4494-9a47-e7d2ae79a78d succeeded with exit0/restart0; exact cloud learning root absent, zero active task RJobs, no duplicate benchmark generation. The observer failed at its SSH absence assertion before local/Git mutations; fresh bounded reads confirmed absence, with initiating metadata cause UNKNOWN. Independent 10000-question bootstrap reproduced [-0.075,0.0875], and finite twenty-update rows/export identity passed. Deleted exactly 735 task scratch files (2281407 bytes) and 5 OPD pytest-cache files (4814 bytes); both local paths absent. The final report records exact methods, limits and closure evidence.
 
 in-progress: normal final Markdown archive and personal origin/agent-opd synchronization. No new GPU job, model generation or code change is required.
+
+
+completed (2026-11-06T12:49:44.581599+08:00): normal benchmark archive commit `e7b5221259f42d0169f3f20f376858debbe9df05` pushed to personal origin/agent-opd. Independent git ls-remote exactly matched local HEAD, and working tree was clean. Updated canonical current statuses to completed and retained all numerical, H200, native recovery and memory-headroom limits. The final report now summarizes both actual model-pair residuals. Closing documentation is committed and normally synchronized next; no further training, evaluation or disposable output is required.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 14｜BLOCKED/FAILED/SKIPPED 0｜TODO 0
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd和个人origin已验证 |
+| 初始2：Lark与模型资产 | PASS | 固定版本22文件完整校验 |
+| 初始3：glm5.2与completion信号 | PASS | 原token、身份及thinking/body/tools均已实测 |
+| 初始4：16H800 warmup | PASS | 两次真实更新、数值观察及终态通过 |
+| 初始5：阶段清理与同步 | PASS | 初始阶段归档和清理完成 |
+| 学习1：固定20题/80turns | PASS | 原membership、seeds和排除边界保持 |
+| 学习2：20updates与HF实现 | PASS | 完整decoder导出和身份通过 |
+| 学习3：native evaluator | PASS | 实际version20 reload、tools和grader通过 |
+| 学习4：20updates/export/reload | PASS | 唯一合格learner及20正常有限更新已验证 |
+| 学习4：original80 | PASS | 80native、50resolved |
+| 学习4：updated80 | PASS | 79native+1确证模型超时、50resolved |
+| 学习4：原件恢复与消费 | PASS | 四份原补丁评分、两份context continuation及provenance通过 |
+| 学习5：完整汇总/清理/push | PASS | 完整分母/bootstrap、限定清理和archive远端SHA匹配 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、独立终态及清理通过 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 12:45HKT checkpoint至2026-11-06T12:49:44.581599+08:00｜**当前前沿：** 已验证成果的最后收尾记录同步
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只提交结论和必要的远端验证，没有新增工具 |
+| D2 细节反复重试 | CLEAR | 正常push与独立SHA读取一次通过 |
+| D3 支线问题修补 | CLEAR | 未触及其他任务、缓存或作业 |
+| D4 可并行任务停滞 | CLEAR | 所有独立验收项均已完成 |
+| D5 超范围镀金 | CLEAR | 未新增训练、题目、seed或代码功能 |
+| D6 分析空转 | CLEAR | 主交付已真实推送，结论已可复查 |
+| D7 路线违背 | CLEAR | 个人branch、H800 steering、固定分母及限定清理保持 |
+
+**文档检查：** S1–S6均未发现明显缺陷；上一checkpoint的S5当前状态已纠正，历史尝试明确保留为历史。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需范围或标准改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 正常同步最后收尾记录并独立核验 → 完成标志：最终HEAD匹配个人远端、工作树清洁、任务目标关闭。
+
+## 4. 最值得关注的 3 点
+
+1. 两个完整80分母的avg@4均为0.625，不能声称能力提升。
+2. 两组同权重同token的student训推残差仍存在；H200训练仍未验证。
+3. 所有本任务GPU作业已终止，测试权重/轨迹/日志/输入和本地cache已消费；共享模型资产保留。

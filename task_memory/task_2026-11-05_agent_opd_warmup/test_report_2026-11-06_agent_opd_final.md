@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record both measured model-pair residuals and independently verified personal branch delivery. |
 | 2026-11-06 | Verify complete scores independently and finish exact task-owned local/cloud cleanup. |
 | 2026-11-06 | Record actual twenty-update training, complete paired benchmarks and cloud cleanup. |
 
@@ -246,6 +247,17 @@ Infrastructure-invalid native generation attempts excluded and recovered separat
 
 Maximum sampled bytes by replica: {'0': 225213022208, '1': 629143793664}; actual cgroup limits: {'0': 629145600000, '1': 629145600000}. Both initial/final OOM counters showed zero growth. Rank1 sampled usage approached its cgroup limit; successful execution does not establish safe memory headroom.
 
+## Bounded FrogNano → Qwen3.5 qualification
+
+Job `exp-1105-191135-503140`, UID `e8d168d0-08a8-4e65-bdc4-96c376dca5c0`, completed two normal optimizer updates on eight H800 GPUs. Teacher/trainer/decode token IDs and policy versions 0/1 matched over 3269 scored completion tokens; all eight policy-loss calls were finite, and 486 published inference tensor checksums changed. The final second optimizer update was not published by the native driver; publication evidence covers the original model and post-first-update model.
+
+| Update | Completion tokens | Trainer/decode mean absolute logprob difference | Maximum |
+| --- | ---: | ---: | ---: |
+| 1 | 1289 | 0.0069650090 | 0.1664958000 |
+| 2 | 1980 | 0.0094554098 | 0.2212731838 |
+
+All eight independent same-student prefill measurements were finite and did not replace native training probabilities. Qwen is dense with hybrid linear/full attention, so MoE R3 is inapplicable. This qualifies the bounded text OPD execution path, not numerical equality or vision training. No second twenty-question benchmark was requested or run. Its exact commands, additional comparisons and completed cleanup are recorded in [the historical learning report](test_report_2026-11-05_agent_opd_learning.md). The final independent personal platform check confirmed this RJob and Replica Succeeded, exit 0 and restart 0.
+
 ## Commands and verification limits
 
 Training entrypoint: tests/manual/agent_opd/rjob_warmup.py with two replicas with eight H800 GPUs each, 20 rollouts, 20 turns/category, a 4096-token completion limit, save-final-hf and tests.manual.agent_opd.alignment.score_glm_teacher. Native training uses scripts/run_glm47_flash_agent_opd.py; native inspection uses inspect_warmup.py. All submissions use local personal Python RJobBackend, i-fengyicheng, codesign, the pinned company image and current-host NFS source.
@@ -277,3 +289,8 @@ Exact local cleanup targets and pre-deletion counts: [{"apparent_bytes": 2281407
 Local cleanup PASS: `sudo -n rm -rf -- /data/ycfeng/tmp/agent-opd-learning-20261105 /data/ycfeng/sota-engine/miles/.pytest_cache` completed successfully; both exact paths are absent. Requested/shared models, original datasets, persistent environments and other tasks remain available. The retained task deliverables are reusable code and Markdown conclusions.
 
 Current Miles core, train.py/train_async.py, GLM recipe/model definitions and examples/agentic_opd match the qualified training source `a202573ea7398eac53f0459a9c93227b5639775a` under scoped git diff. Later native benchmark recovery changes are recorded in the historical learning report. No code changed during this final closure phase; no additional GPU or broad test run was needed.
+
+
+## Personal branch delivery
+
+At 2026-11-06T12:49:44.581599+08:00, `git push origin agent-opd` had normally delivered benchmark archive commit `e7b5221259f42d0169f3f20f376858debbe9df05`. A separate `git ls-remote origin refs/heads/agent-opd` read exactly matched `git rev-parse HEAD`, and `git status --porcelain` was empty. The closing documentation commit records this observed archive delivery; its final SHA is reported after its own normal push and independent check. No force push, history rewrite, external message, model weight or raw benchmark artifact was included.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify normal benchmark-archive delivery and complete current acceptance status. |
 | 2026-11-06 | Record complete eighty-attempt scores and verified disposal; proceed to normal final branch synchronization. |
 | 2026-11-06 | Include newly observed Q1/Q13 native budget recovery under unchanged original-answer restoration and final provenance checks. |
 | 2026-11-06 | Preserve the proven Q2 model timeout separately from native resolved/unresolved grading in fixed-denominator scoring. |
@@ -67,7 +68,7 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 
 Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires twenty actual normal updates and eighty unique evaluated outcomes per model, separately from platform success. Native resolved/unresolved grades and separately proven model-caused timeout failures are counted distinctly, as clarified in requirements.md.
 
-Current phase status: The accepted H800 learning and evaluation checks are complete: twenty normal finite optimizer updates, full decoder HF export, actual update20 reload, and eighty unique evaluated outcomes per model. Original and update20 avg@4 both equal 0.625; the paired 95% question bootstrap interval is [-0.075, 0.0875]. Exact local/cloud disposable cleanup and zero active task RJobs are independently verified. Final normal branch synchronization remains the last step. Numerical equality and H200 training remain unverified. The canonical measurements and closure evidence are in [the final report](test_report_2026-11-06_agent_opd_final.md); earlier preparation and recovery records below are historical.
+Current phase status: The accepted H800 learning and evaluation checks are complete: twenty normal finite optimizer updates, full decoder HF export, actual update20 reload, and eighty unique evaluated outcomes per model. Original and update20 avg@4 both equal 0.625; the paired 95% question bootstrap interval is [-0.075, 0.0875]. Exact local/cloud disposable cleanup and zero active task RJobs are independently verified. The complete benchmark archive was normally pushed to personal origin/agent-opd and independently verified by remote SHA; this closing record preserves that completed delivery. Numerical equality and H200 training remain unverified. The canonical measurements and closure evidence are in [the final report](test_report_2026-11-06_agent_opd_final.md); earlier preparation and recovery records below are historical.
 
 
 ## Historical preparation and recovery (November 5)
