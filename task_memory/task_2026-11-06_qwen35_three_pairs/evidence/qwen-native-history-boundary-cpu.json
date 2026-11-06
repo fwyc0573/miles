@@ -1,0 +1,64 @@
+{
+  "selected_kwargs": {
+    "preserve_thinking": false
+  },
+  "synthetic_cases": [
+    {
+      "case": "tool_result_does_not_reset_query",
+      "historical_reasoning_present": true,
+      "native_equals_fixed_false": true,
+      "generation_start_in_prefix": true,
+      "new_reasoning_absent_from_prefix": true,
+      "tokenize_paths_equal": true,
+      "preserve_true_remains_controllable": true,
+      "prompt_tokens": 86
+    },
+    {
+      "case": "new_real_user_resets_query",
+      "historical_reasoning_present": false,
+      "native_equals_fixed_false": true,
+      "generation_start_in_prefix": true,
+      "new_reasoning_absent_from_prefix": true,
+      "tokenize_paths_equal": true,
+      "preserve_true_remains_controllable": true,
+      "prompt_tokens": 79
+    },
+    {
+      "case": "wrapped_tool_user_is_not_real_query",
+      "historical_reasoning_present": true,
+      "native_equals_fixed_false": true,
+      "generation_start_in_prefix": true,
+      "new_reasoning_absent_from_prefix": true,
+      "tokenize_paths_equal": true,
+      "preserve_true_remains_controllable": true,
+      "prompt_tokens": 84
+    }
+  ],
+  "actual_samples": [
+    {
+      "category": "control_and_thinking",
+      "all_after_user_reasoning_retained": true,
+      "native_equals_fixed_false": true,
+      "reasoning_spans": 83
+    },
+    {
+      "category": "control_only",
+      "all_after_user_reasoning_retained": true,
+      "native_equals_fixed_false": true,
+      "reasoning_spans": 59
+    },
+    {
+      "category": "thinking_only",
+      "all_after_user_reasoning_retained": true,
+      "native_equals_fixed_false": true,
+      "reasoning_spans": 57
+    },
+    {
+      "category": "neither",
+      "all_after_user_reasoning_retained": true,
+      "native_equals_fixed_false": true,
+      "reasoning_spans": 56
+    }
+  ],
+  "scope": "CPU rendering and input-boundary checks only; no GPU generation, actual loss or TIS execution"
+}

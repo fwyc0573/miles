@@ -1,0 +1,50 @@
+{
+  "template": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+  "template_sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9",
+  "kwargs": {
+    "preserve_thinking": true
+  },
+  "actual_samples": [
+    {
+      "category": "control_and_thinking",
+      "nonempty_reasoning_spans": 83,
+      "all_reasoning_retained": true,
+      "equal_to_native_single_user": true
+    },
+    {
+      "category": "control_only",
+      "nonempty_reasoning_spans": 59,
+      "all_reasoning_retained": true,
+      "equal_to_native_single_user": true
+    },
+    {
+      "category": "thinking_only",
+      "nonempty_reasoning_spans": 57,
+      "all_reasoning_retained": true,
+      "equal_to_native_single_user": true
+    },
+    {
+      "category": "neither",
+      "nonempty_reasoning_spans": 56,
+      "all_reasoning_retained": true,
+      "equal_to_native_single_user": true
+    }
+  ],
+  "synthetic_cases": [
+    {
+      "enable_thinking": true,
+      "early_reasoning_retained": true,
+      "late_reasoning_retained": true,
+      "tokenize_paths_equal": true,
+      "prompt_tokens": 65
+    },
+    {
+      "enable_thinking": false,
+      "early_reasoning_retained": true,
+      "late_reasoning_retained": true,
+      "tokenize_paths_equal": true,
+      "prompt_tokens": 67
+    }
+  ],
+  "scope": "CPU rendering only; production preparation not changed; historical token loss not implemented"
+}

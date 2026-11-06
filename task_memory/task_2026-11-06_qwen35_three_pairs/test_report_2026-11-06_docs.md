@@ -2,13 +2,15 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify latest preserve-all default, eight maintained documents, retained rendering evidence and source hashes. |
+| 2026-11-06 | Record D8 acceptance and a reproducible identity audit supporting the proposed training/monitoring budget. |
 | 2026-11-06 | Record D2 document validation and the local dataset-manifest metadata check. |
 | 2026-11-06 | Add static verification for the user's Miles-only correction and the pending R3 decision. |
 | 2026-11-06 | Record static document validation and its runtime limits. |
 
 # Documentation validation
 
-Scope: P0 only. Environment: `/data/ycfeng/sota-engine/miles`, zsh, system Python 3.10.6. No conda environment, GPU process, framework import, cloud access or external publication was used.
+Scope: initial P0 checks and explicitly labeled later documentation/metadata checks. Environment: `/data/ycfeng/sota-engine/miles`, zsh, system Python 3.10.6. No conda environment, GPU process, framework import, cloud access or external publication was used by the checks in this report. Historical decision-state assertions below describe their execution time; requirements owns current decisions.
 
 ## Checks and observations
 
@@ -149,3 +151,68 @@ git diff --check
 ```
 
 Additional read-only observation: Python `json.loads` on the exact local source manifest linked in design.md returned 997,540 file bytes, 11 source-file entries and 256 training entries per source category. Its membership file exists and every listed source path has the personal codesign prefix. This is a local metadata observation; source-byte integrity, current cloud availability, actual Qwen lengths and generated category coverage remain unverified. Existing `prepare_glm5_2.py` checks source bytes and parent exclusions when executed; it was inspected, not run.
+
+## D8 follow-up: source identity audit
+
+The user confirmed the numerical acceptance proposal as D8. The next training-budget proposal remains unaccepted. This audit counts only local manifest identities to support that proposal:
+
+```sh
+python3 - <<'PY'
+from pathlib import Path
+import json
+p=Path('/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/task_memory/task_2026-10-25_swe_behavior_turn_replay/evidence/glm-replay-subsets-20261104.json')
+d=json.loads(p.read_text()); rows=[r for b in d['categories'].values() for r in b['train']]
+print(json.dumps({'entries':len(rows),'distinct_prompt_hashes':len({r['prompt_sha256'] for r in rows}),'distinct_source_turns':len({(r['file'],r['source_item_index'],r['assistant_turn_index']) for r in rows}),'distinct_conversations':len({(r['file'],r['source_item_index']) for r in rows}),'distinct_task_groups':len({r['group_id'] for r in rows})}))
+PY
+```
+
+Exit status: `0`. Observed: `entries=1024`, `distinct_prompt_hashes=1024`, `distinct_source_turns=1024`, `distinct_conversations=311`, `distinct_task_groups=285`. Per-category sets contain 256 distinct prompts and 128 distinct conversations/task groups each. No cloud source bytes, current Qwen length eligibility or group semantics were validated. These counts do not establish 1,024 independent tasks.
+
+Source reading additionally verified the native step outcome/valid-step/weight-version distinction, existing periodic evaluation and fresh sampled-token teacher scoring. The proposed 100 steps, eight training samples and 24 monitoring prefixes are new finite budget choices, not inferred approval or empirical convergence evidence. No new CPU framework tests were needed for these documentation and metadata checks; the preceding pytest collection failure remains open as recorded in the loss-semantics report.
+
+## Latest D4 documentation and retained-evidence verification
+
+Ran the following from `/data/ycfeng/sota-engine/miles` after recording the latest preserve-all default:
+
+```sh
+python3 - <<'PY'
+from pathlib import Path
+import hashlib, json, re, sys
+task = Path("task_memory/task_2026-11-06_qwen35_three_pairs")
+req = (task / "requirements.md").read_text()
+assert "**Decision D4, latest authoritative revision:**" in req
+assert "后续出现真实 user 消息也不会触发剔除" in req
+assert "**Decision D6" in req and "have no direct target loss" in req
+assert all(value in req for value in ("131,072", "8,192", "122,880", "<= 0.03"))
+assert "not yet accepted" in (task / "design.md").read_text()
+files = sorted(task.glob("*.md"))
+links = 0
+for path in files:
+    content = path.read_text()
+    assert content.startswith("## Modification History\n") and content.endswith("\n"), path
+    assert all(line == line.rstrip() for line in content.splitlines()), path
+    for target in re.findall(r"\]\(([^)]+)\)", content):
+        if target.startswith(("http://", "https://", "#")):
+            continue
+        target = re.sub(r":\d+$", "", target.split("#", 1)[0])
+        resolved = Path(target) if target.startswith("/") else path.parent / target
+        assert resolved.exists(), (path, resolved)
+        links += 1
+probe_dir = Path("/data/ycfeng/tmp/qwen35-three-pairs-format-kh3g82mp")
+result = json.loads((task / "evidence/qwen-preserved-history-cpu.json").read_text())
+assert result == json.loads((probe_dir / "preserved-history-results.json").read_text())
+assert result["kwargs"]["preserve_thinking"] is True
+assert len(result["actual_samples"]) == 4 and len(result["synthetic_cases"]) == 2
+assert all(r["all_reasoning_retained"] for r in result["actual_samples"])
+assert all(r["early_reasoning_retained"] and r["late_reasoning_retained"] and r["tokenize_paths_equal"] for r in result["synthetic_cases"])
+assert hashlib.sha256(Path(result["template"]).read_bytes()).hexdigest() == result["template_sha256"]
+assert hashlib.sha256((probe_dir / "verify_preserved_history.py").read_bytes()).hexdigest() == "054abfc159ebcb0a6daceac3b8c8b813b93a548dc05204648b75e52c3af2a732"
+assert 100 * 8 == 800 and 6 * 24 == 144
+print(f"PASS: Python {sys.version.split()[0]}; {len(files)} documents; {links} local links; latest D4/D6/D7/D8; preserved-history evidence and hashes; proposed-budget arithmetic.")
+PY
+git diff --check
+```
+
+Both commands exited `0`. Observed: Python `3.10.6`, eight maintained Markdown documents, 66 valid local links, latest D4/D6/D7/D8 assertions passed, retained/rerun preservation JSON equality and both source hashes passed. Proposed training/monitoring arithmetic passed; the proposal remains unaccepted. This is documentation and CPU evidence consistency, not native training qualification.
+
+The first verification invocation used bare `python` and exited `127` because that executable is absent from the host PATH. Repeating the same read-only check with installed `python3` passed; no environment changes were made. The rendering probe itself used the explicit Python 3.12.13 environment documented in the format report.

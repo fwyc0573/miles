@@ -1,0 +1,226 @@
+{
+  "environment": {
+    "python": "3.12.13",
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "jinja2": "3.1.6"
+  },
+  "source": {
+    "path": "/data/ycfeng/tmp/swe-model-pairs-20261103/source-turns.json",
+    "sha256": "212427f96d8c4b6f164939c3d2e6b7f7676ada8d559c024041623887c6984337",
+    "rows": 4,
+    "scope": "local historical snapshots"
+  },
+  "local_tokenizer_path": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "local_tokenizer_hashes": {
+    "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+    "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+    "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+  },
+  "public_assets": [
+    {
+      "model": "Qwen/Qwen3.5-4B",
+      "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "files": {
+        "chat_template.jinja": {
+          "bytes": 7756,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "tokenizer_config.json": {
+          "bytes": 16710,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "config.json": {
+          "bytes": 3161,
+          "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670"
+        }
+      },
+      "tokenizer_metadata": [
+        {
+          "rfilename": "tokenizer.json",
+          "blobId": "a73a846725794819aa6e1c9e97d8dc9671c2006d",
+          "size": 12807982,
+          "lfs": {
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+            "size": 12807982,
+            "pointerSize": 133
+          }
+        }
+      ]
+    },
+    {
+      "model": "Qwen/Qwen3.5-27B",
+      "revision": "fc05daec18b0a78c049392ed2e771dde82bdf654",
+      "files": {
+        "chat_template.jinja": {
+          "bytes": 7756,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "tokenizer_config.json": {
+          "bytes": 16710,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "config.json": {
+          "bytes": 4134,
+          "sha256": "f8d190c5b89c1521220f935d2567a587d6e291ed69066a45a106560b05a2174c"
+        }
+      },
+      "tokenizer_metadata": [
+        {
+          "rfilename": "tokenizer.json",
+          "blobId": "a73a846725794819aa6e1c9e97d8dc9671c2006d",
+          "size": 12807982,
+          "lfs": {
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+            "size": 12807982,
+            "pointerSize": 133
+          }
+        }
+      ]
+    },
+    {
+      "model": "Qwen/Qwen3.5-35B-A3B",
+      "revision": "59d61f3ce65a6d9863b86d2e96597125219dc754",
+      "files": {
+        "chat_template.jinja": {
+          "bytes": 7756,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "tokenizer_config.json": {
+          "bytes": 16710,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "config.json": {
+          "bytes": 3544,
+          "sha256": "5e4d7f74fec2f360eb9cfbfcd6ec0c4c76e684d3a11caaed259d9fd9bfbc7944"
+        }
+      },
+      "tokenizer_metadata": [
+        {
+          "rfilename": "tokenizer.json",
+          "blobId": "a73a846725794819aa6e1c9e97d8dc9671c2006d",
+          "size": 12807982,
+          "lfs": {
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+            "size": 12807982,
+            "pointerSize": 133
+          }
+        }
+      ]
+    },
+    {
+      "model": "Qwen/Qwen3.5-397B-A17B",
+      "revision": "8472618112abcbd45acbcdc58436aff4233c23f7",
+      "files": {
+        "chat_template.jinja": {
+          "bytes": 7756,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "tokenizer_config.json": {
+          "bytes": 16710,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "config.json": {
+          "bytes": 4177,
+          "sha256": "3ae7fa89c2f7d1354096418ddaf1331e9e0898a8ca11e804fb6dbaa087efb7da"
+        }
+      },
+      "tokenizer_metadata": [
+        {
+          "rfilename": "tokenizer.json",
+          "blobId": "a73a846725794819aa6e1c9e97d8dc9671c2006d",
+          "size": 12807982,
+          "lfs": {
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+            "size": 12807982,
+            "pointerSize": 133
+          }
+        }
+      ]
+    }
+  ],
+  "all_public_template_and_config_bytes_match": true,
+  "local_tokenizer_matches_all_public_lfs_digests": true,
+  "pre_tokenizer_unchanged": true,
+  "actual_samples": [
+    {
+      "category": "control_and_thinking",
+      "history_messages": 242,
+      "real_user_messages": 1,
+      "json_string_arguments": 128,
+      "raw_error": "Can only get item pairs from a mapping.",
+      "normalized_render": "PASS",
+      "source_unchanged": true,
+      "argument_values_preserved": true,
+      "encode_paths_equal": true,
+      "prompt_tokens_thinking": 86669,
+      "prompt_tokens_no_thinking": 86671,
+      "nonempty_history_reasoning": 83,
+      "all_history_reasoning_present": true,
+      "rendered_prompt_sha256": "1893ac86f7d1067399642912096cf28baf26a0fb615fb51e4aec06ac0a9097fa"
+    },
+    {
+      "category": "control_only",
+      "history_messages": 181,
+      "real_user_messages": 1,
+      "json_string_arguments": 90,
+      "raw_error": "Can only get item pairs from a mapping.",
+      "normalized_render": "PASS",
+      "source_unchanged": true,
+      "argument_values_preserved": true,
+      "encode_paths_equal": true,
+      "prompt_tokens_thinking": 97254,
+      "prompt_tokens_no_thinking": 97256,
+      "nonempty_history_reasoning": 59,
+      "all_history_reasoning_present": true,
+      "rendered_prompt_sha256": "a3fc3f723c2d1403634b85e4ff83c305efafef73024223a798e42dbb023e730f"
+    },
+    {
+      "category": "thinking_only",
+      "history_messages": 175,
+      "real_user_messages": 1,
+      "json_string_arguments": 87,
+      "raw_error": "Can only get item pairs from a mapping.",
+      "normalized_render": "PASS",
+      "source_unchanged": true,
+      "argument_values_preserved": true,
+      "encode_paths_equal": true,
+      "prompt_tokens_thinking": 95907,
+      "prompt_tokens_no_thinking": 95909,
+      "nonempty_history_reasoning": 57,
+      "all_history_reasoning_present": true,
+      "rendered_prompt_sha256": "90fc693ae199d6672da26ede578088860413a801092c8274aaca7255281b13a1"
+    },
+    {
+      "category": "neither",
+      "history_messages": 169,
+      "real_user_messages": 1,
+      "json_string_arguments": 84,
+      "raw_error": "Can only get item pairs from a mapping.",
+      "normalized_render": "PASS",
+      "source_unchanged": true,
+      "argument_values_preserved": true,
+      "encode_paths_equal": true,
+      "prompt_tokens_thinking": 93256,
+      "prompt_tokens_no_thinking": 93258,
+      "nonempty_history_reasoning": 56,
+      "all_history_reasoning_present": true,
+      "rendered_prompt_sha256": "bee4f3b3dd0f9463681d4b4c2c006239bb2760b925570fff8b6885b5f43cb30e"
+    }
+  ],
+  "synthetic_multi_user": [
+    {
+      "options": {},
+      "early_reasoning_present": false,
+      "late_reasoning_present": true
+    },
+    {
+      "options": {
+        "clear_thinking": false
+      },
+      "early_reasoning_present": false,
+      "late_reasoning_present": true
+    }
+  ],
+  "scope": "CPU input-format verification only; no whole-corpus, OSS asset, GPU, loss-mask or numerical qualification"
+}
