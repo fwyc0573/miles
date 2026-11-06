@@ -2,12 +2,13 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record accepted R3 non-applicability and inspect the existing GLM-history/fresh-student workload for the next question. |
 | 2026-11-06 | Apply the confirmed Miles-only scope and ground the routing-replay question in Miles consumers. |
 | 2026-11-06 | Record local implementation evidence and proposed acceptance semantics for the interview. |
 
 # Validation design and evidence
 
-This is an interview draft with the execution framework confirmed: current Miles only, per D1 in [requirements](requirements.md). Steptron supplies semantic/acceptance references. The canonical external inventory and consistency analysis remain in the handbook; this file records their implications for this task rather than copying them wholesale.
+This is an interview draft with two confirmed decisions: current Miles only and student R3 non-applicability, per D1/D2 in [requirements](requirements.md). Steptron supplies semantic/acceptance references. The canonical external inventory and consistency analysis remain in the handbook; this file records their implications for this task rather than copying them wholesale.
 
 ## Source boundary
 
@@ -38,7 +39,7 @@ Metadata/file-presence evidence does not prove complete loadability. Before use,
 
 | User term | Semantic requirement | Candidate mapping and boundary |
 | --- | --- | --- |
-| R3 / route replay | Reuse a sampled policy's expert choices during the matching training forward/backward when the student has an MoE router. | All requested students are dense in the inspected definitions. Proposed result: `N/A: no student MoE router`, subject to the interview. A MoE teacher scoring a different model's tokens does not acquire the student's routes. Inspect teacher routing separately if teacher cross-engine comparisons are included. |
+| R3 / route replay | Reuse a sampled policy's expert choices during the matching training forward/backward when the student has an MoE router. | D2 confirms `N/A: dense student has no MoE routing decisions` for all three pairs. Do not enable student routing replay for these dense models. A MoE teacher does not supply routes for the student's training pass. |
 | TIS | Apply the accepted importance correction/mask using correctly defined rollout and training probabilities. | Miles has `--use-tis` and an existing custom MIS function in the inspected recipe. Mode, bounds, token/sequence semantics and normalization remain to be frozen; prior `[0.5, 2]` settings are not automatically accepted. |
 | NCCL direct weight sync | Transfer the updated student through the native NCCL path, load it in the rollout engine and identify the consumed version. | Inspect Miles' actual publisher, transport and engine receipt. A completed collective alone does not prove the engine serves new weights. File polling/reload does not satisfy the requested direct transport. |
 | Enable total token loss | Normalize the loss by the agreed global number of eligible tokens across ranks/microbatches, rather than averaging per-sample means. | Miles `--calculate-per-token-loss` is a candidate, not yet a proven semantic equivalence. Trace numerator, denominator, TIS mask, distributed reduction and gradient accumulation before adopting it. Metrics may use different aggregation. |
@@ -63,10 +64,29 @@ Root-cause order: identity and token alignment -> sampling/probability semantics
 
 For large runs, observer or artifact-validator failures mark evidence unverified and notify the user while healthy native training continues, per workspace policy. Final acceptance can remain incomplete without making an auxiliary validator a training stop mechanism.
 
-## Current interview question: routing replay
+## Routing-replay scope — resolved by D2
 
-Recommend keeping the three requested pairs and recording student R3 as `N/A: dense student has no MoE routing decisions`. For a dense student, do not enable `--use-rollout-routing-replay` merely to satisfy a flag checklist. In the existing OPD workflow the teacher scores student token IDs; a MoE teacher does not turn the student into an MoE model or supply routes for its training pass. Other required features and numerical checks remain required.
+Keep the three requested pairs and record student R3 as `N/A: dense student has no MoE routing decisions`. Do not enable `--use-rollout-routing-replay` for this matrix. In the existing OPD workflow the teacher scores student token IDs. Other required features and numerical checks remain required.
 
 Evidence includes the student model definitions, Megatron's `register_replay_list_moe`, the shared replay consumer, and the distinct dense/MoE Qwen FSDP adapters. FSDP's routing-replay installer explicitly rejects a missing adapter; that observation describes FSDP and is not a claim about the Megatron failure mode. No native run has been attempted.
 
-Before/after: a literal all-pairs replay checklist demands routes that the dense student does not have; the proposed checklist records architectural non-applicability and verifies the student's probabilities, weight updates and loss on the requested model. This preserves the model matrix but does not qualify R3 on an MoE student. Adding/replacing a student to exercise R3 would change the requested matrix; it is not proposed without user redirection. Await the user's interpretation before marking R3 resolved.
+This preserves the requested model matrix but does not qualify R3 on an MoE student. Adding or replacing a student to exercise R3 is outside D2.
+
+## Current interview question: learning data and sampling
+
+**Proposal, not a decision:** use original GLM-5.2 SWE training histories as text/tool context and have each current student freshly generate the selected next assistant turn. Its assigned teacher scores those generated tokens through Miles OPD. Historical target answers are provenance/analysis fields and do not enter the new completion loss. Earlier assistant messages may remain part of the conditioning history. Reusing a prompt does not make its newly generated completion an old trajectory.
+
+Use the same selected source identities across pairs to reduce differences in the input population; render with the actual student tokenizer/template and validate teacher token compatibility. Exact selected identities, lengths and thinking policy still need to be fixed. This scope exercises one newly generated turn per historical prefix; it does not execute a full live tool-use episode or measure task completion capability.
+
+### Existing code and current local evidence
+
+- [Miles GLM preparer](/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/prepare_glm5_2.py) validates pinned source conversation bytes, original token boundaries, tokenizer assets and parent exclusions. `_make_row` writes `history = messages[:-1]` and puts the original target in `original_completion`; the student generates its own continuation.
+- [Qwen input preparation](/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/rjob_qwen_alignment.py:39) already renders those histories with Qwen's tokenizer and normalized tool arguments. The existing [Qwen generator/scorer](/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/qwen_alignment.py) preserves actual student token IDs and checks teacher scoring alignment. Its FrogNano labels and fixed workload are specific to the earlier test and must not silently survive in the new matrix configuration.
+- The local [source manifest](/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/task_memory/task_2026-10-25_swe_behavior_turn_replay/evidence/glm-replay-subsets-20261104.json) exists and is 997,540 bytes. Current metadata inspection found 11 source files and 256 `train` entries in each of `control_and_thinking`, `control_only`, `thinking_only`, and `neither`. These are manifest entry counts, not a current audit of 1,024 distinct usable prompts or successful episodes. Every listed source-file path is under `/mnt/codesign-exp/ycfeng/`; source bytes were not reread in this phase. The membership file exists locally and the manifest records inherited parent benchmark exclusions.
+- The manifest's location in a Steptron task is source provenance only. All preparation, generation, scoring, training and repair for this task remain in current Miles under D1.
+
+### Boundaries not decided by this proposal
+
+The existing preparer chooses the shortest eligible turns first. That selection is appropriate for its original short test but cannot establish this task's short/medium/long input coverage. The Qwen wrapper also derives `enable_thinking` from the old target's `has_thinking`; this is an existing workload choice, not an accepted setting for the new task. Freeze the new population under actual Qwen token lengths and resolve history rendering and thinking control before execution. Source categories describe the historical targets and must not be presented as categories the new student is guaranteed to generate.
+
+Fixed historical completions would require an explicit offline training objective, and complete live agent episodes would require selecting the environment, tool execution and grading workload. Neither is the current proposed numerical/training validation scope. A new source or either objective remains possible only through user redirection; do not build another loader while the existing preparation path covers the proposed source.

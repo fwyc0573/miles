@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record D2 document validation and the local dataset-manifest metadata check. |
 | 2026-11-06 | Add static verification for the user's Miles-only correction and the pending R3 decision. |
 | 2026-11-06 | Record static document validation and its runtime limits. |
 
@@ -111,3 +112,40 @@ git diff --check
 ```
 
 Actual result: PASS; 5 task documents and 15 local links. `git diff --check` emitted no diagnostics. This is documentation/source verification, not a GPU R3 test or acceptance of the proposed R3 exception. The progress self-check was refreshed to the D1 milestone, with the remaining interview as the next action.
+
+## D2 verification iteration
+
+The previous section records the historical D1 checkpoint. The user subsequently accepted the R3 interpretation as D2. Expected current state: D1/D2 confirmed, model matrix unchanged, workload proposal unanswered. Actual result: PASS; 5 task documents and 20 local links; no whitespace diagnostics. The progress self-check now points to workload selection. No GPU or cloud-source verification occurred.
+
+Exact command, using the same Python 3.10.6 environment:
+
+```bash
+python3 - <<'PY'
+from pathlib import Path
+import re
+task = Path('task_memory/task_2026-11-06_qwen35_three_pairs')
+req = (task / 'requirements.md').read_text()
+design = (task / 'design.md').read_text()
+assert '**Decision D1:**' in req and '**Decision D2:**' in req
+assert '**Route replay — resolved:**' in req
+assert 'D2 confirms `N/A: dense student has no MoE routing decisions`' in design
+assert '**Proposal, not a decision:**' in design
+assert 'Await the user\'s interpretation before marking R3 resolved.' not in design
+links = 0
+for path in sorted(task.glob('*.md')):
+    content = path.read_text()
+    assert content.startswith('## Modification History\n') and content.endswith('\n'), path
+    assert all(line == line.rstrip() for line in content.splitlines()), path
+    for target in re.findall(r'\]\(([^)]+)\)', content):
+        if target.startswith(('http://', 'https://', '#')):
+            continue
+        target = re.sub(r':\d+$', '', target)
+        resolved = Path(target) if target.startswith('/') else path.parent / target
+        assert resolved.exists(), (path, resolved)
+        links += 1
+print(f'PASS: D1/D2 confirmed; workload pending; 5 task documents; {links} local links.')
+PY
+git diff --check
+```
+
+Additional read-only observation: Python `json.loads` on the exact local source manifest linked in design.md returned 997,540 file bytes, 11 source-file entries and 256 training entries per source category. Its membership file exists and every listed source path has the personal codesign prefix. This is a local metadata observation; source-byte integrity, current cloud availability, actual Qwen lengths and generated category coverage remain unverified. Existing `prepare_glm5_2.py` checks source bytes and parent exclusions when executed; it was inspected, not run.

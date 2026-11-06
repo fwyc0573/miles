@@ -2,19 +2,20 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record the confirmed R3 interpretation and advance the interview to learning data and sampling. |
 | 2026-11-06 | Fix execution to current Miles and advance the interview to routing-replay applicability. |
 | 2026-11-06 | Establish the documentation milestone and independent pair validation paths. |
 
 # Plan
 
-Status: documentation-first interview. Current Miles is confirmed by D1 in [requirements](requirements.md); remaining runtime decisions are provisional.
+Status: documentation-first interview. Current Miles and dense-student R3 non-applicability are confirmed by D1/D2 in [requirements](requirements.md); remaining runtime decisions are provisional.
 
 ## Steps and completion criteria
 
 | Step | Work | Done condition | Status |
 | --- | --- | --- | --- |
 | P0 | Read repository rules, referenced resource analysis and relevant implementation; create task documents and resolved glossary terms. | Raw request, three pair identities, source-backed findings, unresolved decisions and verification limits are recorded and links validated. | completed |
-| P1 | Record the confirmed Miles choice, then resolve replay applicability, workload, acceptance, storage and resource decisions one at a time. | Actual answers are recorded in requirements; the user confirms shared understanding. No unanswered proposal is treated as a decision. | in-progress |
+| P1 | Preserve confirmed D1/D2, then resolve workload, acceptance, storage and resource decisions one at a time. | Actual answers are recorded in requirements; the user confirms shared understanding. No unanswered proposal is treated as a decision. | in-progress |
 | P2 | Inspect the current Miles implementation, selected image and all required assets; reuse Miles paths and report architecture gaps. | Exact source/image/model identities, tokenizer compatibility, executable paths for required features and an approved feasible resource plan are recorded; gaps identify owners and scope. | pending |
 | P3-A | Pair A: same-version alignment, actual updates, synchronization, curves and HF export/reload. | Every applicable gate in design passes on the accepted workload and budget, or the precise incomplete gate and cause are recorded. | pending |
 | P3-B | Pair B: the same independent validation. | Same criterion, using pair B's own teacher, updates, evidence and HF artifact. | pending |
