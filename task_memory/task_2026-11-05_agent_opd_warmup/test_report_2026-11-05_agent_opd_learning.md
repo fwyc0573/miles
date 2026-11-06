@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify the four remaining native attempts, the live observer and bounded local storage. |
+| 2026-11-06 | Verify remaining native budgets and record the unavailable legacy sandbox status read. |
 | 2026-11-06 | Record original Q5 errors, Q2 consumer terminal success and dynamic72-outcome state. |
 | 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
@@ -1137,3 +1139,28 @@ Follow-up RCA used the existing collect_failure_evidence.py audit-only workflow 
 Commands: personal_exec.sh collect_terminal_phase_audits.py; personal_exec.sh stdin executed the actual AST-extracted identity/terminal_replicas functions. Compile and direct 49-job terminal-reader preflight PASS. Raw collector artifacts stay in the task scratch and are deleted after final scoring.
 
 The local restart preflight found that this host does not expose /proc/PID/task/PID/children. PPID inspection then verified the old observer had no children. Exactly one updated observer is retained: PID 2855278, tool session 14752. The old child-free PID 2652355 was stopped locally; no GPU RJob control call was issued. The updated observer preserves existing native launchers and waits for the four missing outcomes before final scoring, cleanup and normal push.
+
+
+## Remaining native execution and bounded sandbox read (2026-11-06T10:49:28.355679+08:00)
+
+PASS for the current execution identity and budget observation: all four existing RJobs and their exact native Replica owner bindings are Running, with container restart count zero. Q1/1732 native generation elapsed 14223.7228 seconds, Q8/1732 11483.4747 seconds and Q13/1729 13394.9946 seconds, each below the configured 18000-second native budget. Q18/1731 already restored its original prefix and condensed to 152 messages with one native history truncation. Its recorded first-query file mtime implies approximately 4742.6492 continuation seconds elapsed out of the unchanged 5517.4069 seconds remaining at the boundary. That last value is a filesystem timing estimate, not a newly persisted monotonic timer. Existing launchers remain alive. Original80 outcomes and updated76 outcomes are unchanged at this observation; no incomplete updated average is reported.
+
+Commands: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_live_native_state.py`; the same personal helper with Python stdin performs exact `get_namespaced_custom_object(..., _request_timeout=(5,15))` and `_list_replicas_by_rjob_uids_kapis([uid])` reads, plus a read-only SSH query of original generation timestamps and the existing continuation boundary file. Python3.10.6 / brainpp2.8.6. Initial stdin import failed because the scratch module directory was absent from sys.path; the following read then exposed the continuation's missing unix_time field. The corrected observation uses each actual receipt's timestamp source and passed without changing or submitting a worker.
+
+Legacy Q2 diagnostic sandbox `9404ab4d-2bf2-4e32-a060-9b7d6c874eaf`: the existing native GET `/session/events` returned HTTP200 with20 events, including explicit Killing of both the main and sandbox-egress containers at2026-11-05T23:22:50Z (07:22:50HKT). Both supported internal and HTTPS GET `/session/state` now return HTTP503/code=sandbox_crd_unavailable/runtime=sandbox/kubernetes_reason=NotFound; the response says it queried agents.kruise.io/v1alpha1 Sandbox and did not downgrade to Pod. The same error affects the previously closed Q4 probe. A bounded explicit runtime=pod query was ignored; `/openapi.json` returned404. This is an unavailable current status projection, not proof that the original Pod is Running or proof that its final phase was observed. The current sandbox phase remains UNKNOWN. No shared service or cluster configuration was changed, no sandbox was created, and no duplicate model answer or GPU training was submitted.
+
+Authenticated `lark-cli drive +search --as user` and a keyword `docs +fetch` read of the company Agent environment infrastructure study (wiki C6gWwFW2fisxlckrHCTcBvYPnQb, documentFNZAdaW5TopLyXxeNBec9MGnnRg/revision1379) confirm the session-router has its own Kubernetes cluster. A404 from the unrelated RJob control plane would therefore not prove sandbox deletion. No unsupported cross-cluster query is used as absence evidence. Stop further speculative legacy-interface exploration; preserve the actual Killing events and unavailable phase as a verification limit while the four requested benchmark outcomes continue.
+
+
+## Independent resumption check (November 6, 2026, 11:03 HKT)
+
+PASS for actual state inspection. Command: `timeout 60s bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_live_native_state.py`, using the existing Python3.10.6 personal RJob client environment. At11:03:07.550079HKT, the48actual benchmark requests retain original80native grades/50resolved and update20 76evaluated/50resolved, comprising75native grades plus one confirmed model-caused grader timeout. The same four pairs remain missing: Q1/1732, Q8/1732, Q13/1729 and Q18/1731. All four exactRJobs remainRunning; aggregate requests are16H800, with utilization unmeasured. The incomplete update20 average remains unavailable.
+
+Local PPID/process inspection verifies the existing final observerPID2855278 and all four native launchers alive. No replacement observer or training was submitted. Current task scratch contains18,896,875bytes; it is the only top-level agent-opd temporary directory. The host has approximately94GiB free. Shared prerequisites and the update20HF remain needed until final scoring.
+
+Q18 native historicalReplica read binds ownerUID6d22fe5c-c2ee-4b08-9bf8-1eae181c1a83 to exp-1106-092533-163895-cfcd2084,Running/restart0/node0165. Bounded remote read-only log inspection retained31rows in the task scratch and confirmed fourH800devices; it contained no completion or failure marker. Source inspection of the already-running continuation shows native AgentLoopTimeoutError ends inference, extracts the actual final patch and passes it to the unchanged native grader. The worker's completion remains unverified until generation/grading receipts exist. No wall-clock estimate is substituted for terminal evidence.
+
+
+At11:11:01.740740HKT the same four generation receipts remainRunning; all80original and76updated counts are unchanged. Native deadline checks execute before/after synchronous calls, so the filesystem budget estimate does not identify the current call or prove termination. Current outcomes remain missing until actual native grading or necessary original-answer recovery.
+
+A direct CPU read of the unique learner's retained `native/exp-1105-224939-805330/validation.md` independently confirms20optimizer rollouts0–19, allfinite losses/nonzero finitegradients,80unique source turns,22887scored completiontokens and1424changed published inference tensors. Loss range0.05897253285–0.32062291559; gradientnorm5.02026987076–26.53436660767. Generated signals:23thinkingturns,52bodyturns,80toolturns and23submitturns. Weighted trainer/decodeMAE0.0247716116668,max0.9885630607605; structural_checks=passed. These exact measurements establish update/signal evidence; they do not establish numerical equality or benchmark improvement.

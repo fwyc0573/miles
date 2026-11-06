@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Verify the existing four-sample frontier after resumption; stop legacy sandbox-interface exploration. |
+| 2026-11-06 | Resume the four existing benchmark attempts; verify budgets and limit legacy sandbox diagnostics. |
 | 2026-11-06 | Resume exact native failure diagnosis and dynamic benchmark completion. |
 | 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
@@ -4598,3 +4600,126 @@ Independent last read: 2026-11-06T10:38:57.963914+08:00. Original 80/80 native g
 Final observer: PID2855278, tool-session14752; exactly one observer verified. Consumer PID1552798 and followup PID1801910 remain alive. Do not start training or duplicate these benchmarks. New terminal-reader preflight is49jobs/45terminal/4active, with original post-grading failure UID/reason/exit retained across parent Failed→Stopped cleanup. Auxiliary63records are actual receipt-bound sources; the prior62preflight and the later Q5-consumer terminal identity are separately verified.
 
 Next actions: inspect the four existing native outcomes; consume Q18 original source only after its verified continuation (two native valid original source seeds, not three); recover any newly invalid original final patch/prefix without another answer; complete exact80+80production summary and10000question bootstrap; verify all actual terminal identities; precisely delete task cloud/scratch; normally push origin/agent-opd and independently verify SHA. The final observer already owns this route. Tests/source data/models/credentials outside the task scope remain shared prerequisites. Final benchmark, cleanup and final push are still pending.
+
+
+## Resumed actual frontier and verified wait (2026-11-06T10:49:28.355679+08:00)
+
+completed: precise personal/native read confirms original80/80native outcomes and updated76/80evaluated outcomes, with the same four exact Running RJobs, zero container restarts and no duplicate submissions. Native budget observation is recorded in the learning report. The existing final observer PID2855278 and healthy launchers remain alive. The previous goal turn was progress: it completed actual Q5 source consumption and repaired/verified terminal identity accounting. This continuation adds live budget evidence and diagnoses the legacy status projection without changing grading.
+
+in-progress: Q1/1732, Q8/1732, Q13/1729 and Q18/1731 remain the only missing benchmark pairs. Q18 continuation remains inside its original remaining budget; its source consumption is owned by the existing observer. Final80+80aggregation, exact disposal and remote-SHA verification remain pending.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd及原始要求已归档 |
+| 初始2：Lark检索与模型资产 | PASS | 两个固定版本和22个文件已验证 |
+| 初始3：glm5.2与completion信号 | PASS | source/token/thinking/body/tool记录已验证 |
+| 初始4：16H800 warmup | PASS | 真实更新与残差测量完成 |
+| 初始5：阶段清理和同步 | PASS | 初始阶段完成；当前学习阶段另行验收 |
+| 学习1：固定20题与80turns | PASS | 原始排除及采样边界已验证 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner完成 |
+| 学习3：native evaluator | PASS | 同一工具、grader及update20重载 |
+| 学习4：20updates/export/reload | PASS | 实际闭环已归档 |
+| 学习4：original80 | PASS | 80native结果、50resolved |
+| 学习4：updated80 | TODO | 76evaluated；四个原有作业仍运行 |
+| 学习4：恢复来源与消费 | TODO | Q18续评及来源消费仍待完成 |
+| 学习5：配对评分、最终清理与push | TODO | 依赖完整结果及实际终态 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次更新和清理已验证 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D1。
+**检测窗口：** 10:38HKT自检至本次接续｜**当前前沿：** 四份updated评分、Q18来源消费、最终汇总
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | HIT | Q2原生停止事件已取得后继续探索旧状态接口；该接口不阻塞既有评分和精确文件清理 |
+| D2 细节反复重试 | CLEAR | 时间字段修正和503差分均由实际错误缩小原因；未重复GPU执行 |
+| D3 支线问题修补 | CLEAR | 初次sandbox读数属于用户要求的清理核验；后续延伸归D1 |
+| D4 可并行任务停滞 | CLEAR | 四个既有benchmark与observer并行；HF仍被评测使用 |
+| D5 超范围镀金 | CLEAR | 无新增训练、模型组合、题库、seed或持久功能 |
+| D6 分析空转 | CLEAR | 得到实际预算、两容器Killing事件及明确CRD错误；后续探索须停止 |
+| D7 路线违背 | CLEAR | 原件与预算保持；未将未知错误计零或提前清理HF |
+
+**文档检查：** S1–S6均未发现明显缺陷；现有plan拥有结果恢复与文件清理。
+**归因：** D1执行偏离。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：**
+- D1工具打磨：停止探索旧sandbox状态接口；保留已有停止事件和UNKNOWN当前phase，回到四份原生评测结果。
+
+**接下去的路线：**
+1. 并行监督四个唯一missing pairs；结束条件为真实native grades或按原件明确诊断恢复。
+2. Q18续评完成后由既有observer按实际两份有效source grades消费原来源。
+3. 收齐80+80，完成production汇总/10000次question bootstrap、全部receipt终态、精确清理和正常push/独立SHA核验。
+
+**暂缓事项：** session-router旧Pod状态投影不可用 → 已记入learning report的验证限制，不修改共享服务。
+
+## 4. 最值得关注的 3 点
+
+1. 训练已经完成，当前所有GPU执行都属于剩余benchmark。
+2. 四个真实请求均在预算内；Q18时间使用已记录边界，未重置原预算。
+3. 旧状态接口503不是作业终态；不让额外接口诊断延迟完整评分与清理。
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | 已归档；当前agent-opd |
+| 初始2：Lark检索与模型资产 | PASS | 固定版本22files已验证 |
+| 初始3：glm5.2与completion信号 | PASS | token/source/thinking/body/tool记录已验证 |
+| 初始4：16H800 warmup | PASS | 真实更新与数值残差已记录 |
+| 初始5：阶段清理和同步 | PASS | 初始阶段完成；本次学习阶段单独验收 |
+| 学习1：固定20题与80turns | PASS | 原始采样与排除边界已验证 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner实际完成 |
+| 学习3：native evaluator | PASS | 同一工具/grader和真实update20reload |
+| 学习4：20updates/export/reload | PASS | 实际闭环已归档 |
+| 学习4：original80 | PASS | 80native结果，50resolved |
+| 学习4：updated80 | TODO | 11:03HKT为76evaluated，四份仍运行 |
+| 学习4：恢复来源与消费 | TODO | Q18续评及原来源消费仍待完成 |
+| 学习5：配对评分、最终清理与push | TODO | 依赖完整评分与实际终态 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次更新及清理已验证 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次10:49HKT自检至11:03HKT接续核验｜**当前前沿：** 四份update20评分、Q18来源消费、完整汇总
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 停止旧sandbox接口探索；只读实际评分、既有完成路径和资源状态 |
+| D2 细节反复重试 | CLEAR | 没有新修复、重复生成或重提训练 |
+| D3 支线问题修补 | CLEAR | 所有本轮读取服务于剩余评分和精确清理 |
+| D4 可并行任务停滞 | CLEAR | 四个原有任务并行；HF仍被使用，暂不可删 |
+| D5 超范围镀金 | CLEAR | 无新增模型、问题、seed、训练或持久功能 |
+| D6 分析空转 | CLEAR | 得到实际76/80状态与明确未完成边界 |
+| D7 路线违背 | CLEAR | 原件、题库、预算、nativegrader均保持 |
+
+**文档检查：** S1–S6均未发现明显缺陷；较早时间快照由后续实测更新，Q2固定分母处理有明确归档。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 保持既有四个launcher与唯一observer；完成标志为四份真实native结果，或原件诊断与必要恢复。
+2. 并行：Q18通过后消费原来源；既有consumer消费其余已完成结果。
+3. 收齐80+80后完成10000次questionbootstrap、所有实际receipt终态、精确cloud/local清理、正常push与独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 训练已完成，当前16H800请求全部用于四份剩余benchmark。
+2. 真实native结果尚为76/80；没有按部分分母或时钟估计给出最终分数。
+3. 既有observer负责完成与清理；避免重复observer、重复训练或旧接口支线。
