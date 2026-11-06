@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Audit pre-TIS aggregation and clipping semantics against the referenced Steptron criteria; plot archived metrics. |
 | 2026-11-06 | Record both measured model-pair residuals and independently verified personal branch delivery. |
 | 2026-11-06 | Verify complete scores independently and finish exact task-owned local/cloud cleanup. |
 | 2026-11-06 | Record actual twenty-update training, complete paired benchmarks and cloud cleanup. |
@@ -109,6 +110,44 @@ All eighty independent prefill measurements have matching tokens/versions and tr
 | 18 | 0.1259107321 | 8.380839348 | 2e-06 | 0.02979848906 |
 | 19 | 0.1283448052 | 13.78407288 | 2e-06 | 0.03376093879 |
 | 20 | 0.09933344224 | 12.08431244 | 2e-06 | 0.02711876109 |
+
+## Assessment against the referenced consistency document (November 6)
+
+The completed Miles workflow is qualified for the measured H800 test. Full numerical-consistency acceptance under [the referenced Steptron document](/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/task_memory/task_2026-10-25_swe_behavior_turn_replay/opd-train-inference-consistency.md) remains incomplete. That document requires sufficiently close probabilities on the same student, weights and token context; it does not require zero residual. GLM's all-token mean above is within its empirical 0.01–0.03 reference range, and the two Qwen means are smaller. This reference is not a calibrated acceptance threshold for these models. Remaining tail differences and missing qualification coverage prevent a sufficient-consistency claim.
+
+[The native inspector](../../tests/manual/agent_opd/inspect_warmup.py) concatenates the full completion `log_probs - rollout_log_probs` tensors without applying TIS-modified loss masks. GLM's 22887-token weighted mean and maximum therefore include all scored completion tokens, including the seven outside the configured TIS window. The three-way comparisons above also weight by actual token count. In contrast, the native per-update `train_rollout_logprob_abs_diff` in the twenty-row table uses the reducer rebuilt from TIS-adjusted masks in [the policy loss](../../miles/backends/training_utils/loss/hub/losses.py). It is not the inspector's pre-TIS statistic. The inspected code scopes match the qualified training source `a202573ea7398eac53f0459a9c93227b5639775a`.
+
+The recorded evidence covers unchanged completion IDs, initial and updated sampled/publication versions, actual teacher coverage and GLM R3 input-array equality. Independent prefill did not overwrite training probabilities. GLM generation/trainer scoring covers versions 0–19; post-update20 export/reload is verified, but a further same-token numerical comparison using post-update20 weights was not performed. Qwen numerical comparisons cover versions 0/1; the final second update was not published. These are separate limits from the successful optimizer updates.
+
+The full accepted GLM run does not retain global p95/p99 values or tail-token position/length diagnoses. Earlier two-step GLM evidence retains p95/p99, and the bounded Qwen table retains p99, so these metrics were not universally absent. No retained report supplies both requested K3 directions before TIS for the complete tested population. The initial GLM warmup retains a native one-direction `train_rollout_kl` statistic with TIS-adjusted reduction, which does not supply that missing result. The retained records do not demonstrate frozen and separately qualified short, medium and long input populations under that criterion. Raw probability tensors have been consumed under the cleanup decision; missing quantiles, KLs and position diagnoses cannot be reconstructed from scalar means or maxima.
+
+Training sampling is fixed at temperature=1, top_p=1 and top_k=-1 in both recipes; trainer temperature scaling therefore does not change these scoring distributions. The independently observed prefill is a diagnostic path, with same-token and version checks recorded.
+
+## Archived loss and gradient curves
+
+The scalar tables already contained all twenty accepted GLM updates and both Qwen qualification updates. Before this review, no retained chart or TensorBoard event file existed in this task directory. The inspected recipes do not explicitly enable TensorBoard; GLM W&B setup is conditional on `WANDB_API_KEY`, and the consumed runtime evidence does not establish whether an online W&B curve existed. This review generated a new chart from the archived tables with [plot_training_metrics.py](../../tests/manual/agent_opd/plot_training_metrics.py), without loading any raw trajectory, checkpoint or dataset.
+
+[The metric logger](../../miles/backends/training_utils/metrics/log_utils.py) defines `train/grad_norm` as the global gradient L2 norm before clipping. GLM loss is not monotonically decreasing: the first/last values are 0.09179401772/0.09933344224; update10 is the loss peak and update13 the minimum. Gradient peaks occur at update8 and update10; all twenty values are finite. Each update uses different newly sampled turns, so this is a training-batch curve rather than loss on a fixed monitoring set. Neither these curves nor the unchanged avg@4 establish general convergence, a capability gain or sufficient numerical consistency. The Qwen curve has only two points and supports no convergence claim.
+
+Command:
+
+```text
+python3 -B tests/manual/agent_opd/plot_training_metrics.py --glm-report task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-06_agent_opd_final.md --qwen-report task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-05_agent_opd_learning.md --output /data/ycfeng/tmp/agent-opd-training-curves-20261106.png
+```
+
+Host Python 3.10.6, Matplotlib 3.7.1, NumPy 1.24.3. Expected/observed: exactly 20 GLM rows and 2 Qwen rows with contiguous successful-update numbers; finite losses/norms; unsmoothed lines with separate y-axis scales; a 1650×1050 PNG; no remaining renderer cache. PASS by direct table and image checks. The small response figure is local temporary presentation output; Git retains the reusable script and Markdown conclusions. No GPU job or model request was submitted, no raw run data was recovered, and no new compilation or training log was retained.
+
+Direct verification imported the plot module without running its entrypoint and asserted exactly 20 GLM and 2 Qwen update numbers, the recorded GLM first/last loss and peak/minimum update positions, all finite values, PNG integrity/dimensions through PIL.Image.verify(), absence of renderer cache, and continued absence of the consumed learning scratch and pytest cache. All assertions passed; final response figure size 187136 bytes.
+
+Formatting commands used existing Python 3.12.13, Black 24.8.0 and isort 5.13.2, with BLACK_CACHE_DIR set inside a task-owned TemporaryDirectory under /data/ycfeng/tmp:
+
+```text
+/data/ycfeng/tmp/mopd-repair-lint312/bin/python -B -m black --check tests/manual/agent_opd/plot_training_metrics.py
+/data/ycfeng/tmp/mopd-repair-lint312/bin/python -B -m isort --check-only tests/manual/agent_opd/plot_training_metrics.py
+git diff --check
+```
+
+PASS: Black reports one file unchanged; isort and diff whitespace checks exit 0. Earlier optional checks selected an environment without the three formatter modules and then an older lint environment whose Black lacks --no-cache and whose isort does not support the repository's Python 3.10 target. No dependency was installed or upgraded; the existing compatible formatter environment settled the checks. Ruff was unavailable and is not reported as passing. All task-owned renderer/formatter caches were removed. No broad test suite or GPU test was required by this presentation-only script.
 
 ## Environment and exact terminal evidence
 

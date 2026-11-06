@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Review consistency acceptance and render archived loss/gradient curves without new GPU work. |
 | 2026-11-06 | Complete the acceptance checkpoint and verify normal personal benchmark-archive delivery. |
 | 2026-11-06 | Verify complete paired scores, independent terminal states and precise local/cloud cleanup. |
 | 2026-11-06 | Verify Q1 original-action recovery, diagnose Q13 timeout and consume completed CPU disposable artifacts. |
@@ -5067,3 +5068,72 @@ completed (2026-11-06T12:49:44.581599+08:00): normal benchmark archive commit `e
 1. 两个完整80分母的avg@4均为0.625，不能声称能力提升。
 2. 两组同权重同token的student训推残差仍存在；H200训练仍未验证。
 3. 所有本任务GPU作业已终止，测试权重/轨迹/日志/输入和本地cache已消费；共享模型资产保留。
+
+
+## Requested consistency and curve review (2026-11-06T13:27:09.112816+08:00)
+
+completed: read the named Steptron document, current requirements/plan/final and historical evidence, all Miles repository rules, and both configured check-progress skill paths. Existing agent-opd source was clean at ba7587ba. No GPU or cloud operation was performed.
+
+completed: compare exact qualified source scopes with a202573ea7398eac53f0459a9c93227b5639775a. Inspector concatenates all completion token discrepancies before TIS, while the native per-update discrepancy uses TIS-adjusted reduction. GLM's recorded mean lies within the document's empirical range; this is not a model-specific threshold. Full acceptance remains incomplete for the recorded reasons in the final report, including missing pre-TIS two-direction K3, full accepted-run tails/positions/length qualification, and final-update numerical coverage. Nonzero residual alone is not treated as a failed criterion.
+
+completed: tests/manual/agent_opd/plot_training_metrics.py renders the canonical GLM twenty-row and Qwen two-row tables. Exact command/versions, direct row/peak/finite-value/image checks and formatting outcomes are in the final report. PNG is1650×1050,187136bytes at /data/ycfeng/tmp/agent-opd-training-curves-20261106.png; final visual inspection passed. Renderer and formatter caches are removed; the prior learning scratch and pytest cache remain absent. No raw training probability, checkpoint, trajectory, dataset or log was recovered.
+
+in-progress: normal scoped code/conclusion archive and personal origin/agent-opd synchronization under the original authorization. The check-progress correction below stops further optional formatter/environment exploration now that the existing compatible tools have passed. Next action is commit/push and independent remote-SHA verification.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 16｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | 已归档个人agent-opd与仓库规则 |
+| 初始2：Lark与模型资产 | PASS | 固定版本22文件已完整校验 |
+| 初始3：glm5.2与completion信号 | PASS | 原token和thinking/body/tools已有实测 |
+| 初始4：16H800 warmup | PASS | 两次实际更新及终态已归档 |
+| 初始5：阶段清理与同步 | PASS | 初始归档与限定清理完成 |
+| 学习1：固定20题与80turns | PASS | membership、seeds及排除边界已验证 |
+| 学习2：20updates与HF实现 | PASS | 完整decoder导出已验证 |
+| 学习3：native evaluator | PASS | 实际reload、tools与grader已验证 |
+| 学习4：20updates/export/reload | PASS | 唯一合格learner完成20正常更新 |
+| 学习4：original80 | PASS | 完整分母与50resolved已归档 |
+| 学习4：updated80 | PASS | 79native与1确证模型失败已归档 |
+| 学习4：原件恢复与消费 | PASS | 来源、原动作和原patch已核验 |
+| 学习5：配对结果、清理与原归档同步 | PASS | 最终报告及ba7587ba记录既有完成状态 |
+| Frog/Qwen资格验证 | PASS | 两次实际更新、测量及清理已归档 |
+| 本次1：一致性标准与口径评估 | PASS | final report记录足够接近与零误差的区别及缺失证据 |
+| 本次2：已有loss/grad norm作图 | PASS | 20+2原始标量点、PNG及cache检查通过 |
+| 本次3：记录与正常branch同步 | TODO | 记录和代码已可审阅，待正常push与远端SHA核验 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中 D2；格式检查已完成，纠正动作是停止环境探索并立即交付。
+**检测窗口：** 2026-11-06 12:49HKT checkpoint至2026-11-06T13:27:09.112816+08:00｜**当前前沿：** 本次3记录与个人branch同步
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 绘图仅消费用户询问的已有表格；一次标签调整后图已验证 |
+| D2 细节反复重试 | HIT | final report记录了缺模块、旧Black选项及旧isort版本的连续入口尝试；耽误本次3交付，现有兼容环境已通过 |
+| D3 支线问题修补 | CLEAR | 未修复或升级环境，没有新训练或其他任务改动 |
+| D4 可并行任务停滞 | CLEAR | 来源核查、作图、文档与直接验证均已推进；目前只有同步待完成 |
+| D5 超范围镀金 | CLEAR | 没有增加模型、题目、步数、阈值或训练行为 |
+| D6 分析空转 | CLEAR | 本次调查产出明确判断和真实曲线，均有final report证据 |
+| D7 路线违背 | CLEAR | H800范围、既有清理及原始评测结果保持 |
+
+**文档检查：** S1–S6均未发现明显缺陷；本次要求是评估已有证据，不要求恢复已删除原件或重新训练。
+**归因：** D2执行偏离。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改变范围或标准
+
+**需停止的偏离行为：** D2：停止进一步查找或修复formatter环境；已完成兼容工具检查，直接同步并回复。
+
+**接下去的路线：**
+1. 本次3：只暂存已验证脚本和当前任务Markdown，正常commit/push → 完成标志：个人远端SHA匹配HEAD，工作树清洁。
+2. 将实际同步结果写回当前记录并正常同步收尾；不增加GPU工作或缺失指标的推算。
+
+## 4. 最值得关注的 3 点
+
+1. 既有workflow通过与充分数值一致性验收是不同结论；final report已明确剩余证据缺口。
+2. GLM20和Qwen2曲线已经来自真实归档数值；此前消耗的原件无法用于补算双向K3。
+3. 兼容格式检查已经通过，应立即完成同步交付；继续环境检查不再推进本次前沿。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Complete an evidence-only consistency assessment and archived scalar plotting follow-up. |
 | 2026-11-06 | Verify normal benchmark-archive delivery and complete current acceptance status. |
 | 2026-11-06 | Record complete eighty-attempt scores and verified disposal; proceed to normal final branch synchronization. |
 | 2026-11-06 | Include newly observed Q1/Q13 native budget recovery under unchanged original-answer restoration and final provenance checks. |
@@ -154,3 +155,12 @@ Before final consumption,verify every actual receipt-bound task RJob terminal,in
 ## Additional original budget recovery (November 6)
 
 Q1/1732 and Q13/1729 subsequently ended with the same native AgentLoopTimeoutError and missing normal patch/trajectory export. They remain missing outcomes until original-response/action restoration and native grading are verified. Apply the existing restoration and unchanged1200-second checker without new inference. Q1 and Q13 can restore independently while Q8 finishes. Final provenance derives its recovery count from actual validated grade/continuation plans; no pending recovery is counted in advance. Preserve original responses,generation,error trajectories and invalid grading through hash/UID checks,then release source consumption.
+
+
+## November 6 consistency and curve review
+
+1. Compare retained Miles measurements and source mask/version semantics with the referenced Steptron document. Done condition: distinguish measured workflow and numerical agreement, explain empirical ranges, identify missing qualification evidence and avoid invented thresholds or reconstructed KL.
+2. Plot archived twenty GLM and two Qwen loss/gradient points. Done condition: exact archived rows, clipping semantics, finite values, inspected output and renderer-cache cleanup, without new GPU execution or raw-data recovery.
+3. Record the result, perform the check-progress self-check and normally synchronize the existing personal branch. Done condition: concise canonical conclusions, scoped verified code, clean worktree and independently matching remote SHA.
+
+Dependencies: {1,2} -> 3. This follow-up evaluates the completed H800 experiment; it does not reopen training, benchmark generation or the intentionally consumed artifacts. Source/aggregation review and plotting are completed; the final record synchronization follows these verified results.

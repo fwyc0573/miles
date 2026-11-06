@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record the requested assessment against Steptron consistency criteria and archived loss/gradient curves. |
 | 2026-11-06 | Clarify fixed-denominator scoring for a proven model-caused native timeout while preserving the raw grader result. |
 | 2026-11-05 | Record confirmation to continue GLM export/benchmark and real alignment checks for both model pairs. |
 | 2026-11-05 | Record the two-model-pair alignment status question without expanding GPU test scope. |
@@ -81,3 +82,13 @@ ps：及时清理测试产物和大文件，当前不是正式训练任务，在
 ## Execution clarification from observed native failure (November 6, 2026)
 
 The requested avg@4 retains all eighty unique requested attempts per model. A model patch that is proven to cause the configured native grader timeout is a failed model attempt; preserve its original generation and native invalid/timeout receipt and record the causal diagnosis separately. Include that failure in the fixed denominator, report its count apart from native resolved/unresolved grades, and never generate a replacement answer or fabricate test summaries. Unknown infrastructure or grader errors remain missing and must be diagnosed/recovered. This clarifies the earlier executor wording “valid native outcomes”; it does not change the user's question bank, seeds, sampling, number of updates or hardware decision. Q2 evidence is in the learning report.
+
+
+## November 6 evidence-review follow-up
+
+[Original Request]
+根据 /data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/task_memory/task_2026-10-25_swe_behavior_turn_replay/opd-train-inference-consistency.md，你认为当前训推不一致问题是否已经解决？训练过程中loss和grad norm的曲线是否统计绘制？
+
+- Review the completed Miles measurements against the named document. Distinguish sufficient same-policy numerical agreement from exact equality, workflow success, TIS filtering and model capability.
+- Verify the existing aggregation and mask semantics. State missing acceptance evidence without deriving KL or quantiles from mean absolute differences.
+- Render loss/gradient curves from the already archived scalar tables. Preserve the original temporary-data cleanup decision; no new training, model requests, weight recovery or benchmark regeneration is needed for this review.

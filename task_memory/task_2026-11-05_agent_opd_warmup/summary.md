@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record the requested consistency acceptance review and reproducible scalar curves. |
 | 2026-11-06 | Verify normal benchmark-archive delivery and complete current acceptance status. |
 | 2026-11-06 | Archive complete twenty-update scores and verified disposal while preserving numerical and H200 limits. |
 | 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
@@ -79,3 +80,10 @@ Current save qualification `exp-1105-205143-864435` remains Starting without ass
 
 
 At 21:41 HKT, original BaseMind has three valid resolved outcomes out of eighty; updated remains zero. The native seed1730 record includes125 thinking turns,39 body turns and two submit calls. Full paired scores remain unavailable. Temporary final-score/cleanup continuation11266 is prepared and waiting; actual complete training/export/reload and both full cells are its prerequisites. All existing launchers are preserved.
+
+
+## November 6 consistency acceptance and curve review
+
+The subsequent evidence-only review distinguishes sufficient numerical agreement from exact equality. GLM's full-completion weighted mean includes tokens rejected by TIS; the native per-update discrepancy uses TIS-adjusted masks. The empirical mean-error range alone does not complete the named Steptron document's qualification: full pre-TIS two-direction K3, accepted-run global tails with position/length diagnoses, frozen length populations and final-update numerical coverage remain incomplete. Qwen's smaller means and recorded p99 qualify its measured bounded path, not all distributions. The final report owns this assessment and its evidence links.
+
+`tests/manual/agent_opd/plot_training_metrics.py` renders the archived twenty GLM and two Qwen updates loss and pre-clipping gradient norms. Direct row/image verification passed. The response figure is a small local temporary PNG; the script and conclusions are retained without raw trajectories, checkpoints, compilation caches or new training. The prior full benchmark and cleanup results are unchanged.
