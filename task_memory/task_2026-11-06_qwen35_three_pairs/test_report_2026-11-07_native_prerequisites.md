@@ -277,3 +277,17 @@ tests/fast/test_qwen35_pair_worker.py tests/fast/test_qwen35_opd_launcher.py \
 ```
 
 Python3.12.13: regression before fix **1 failed**, after fix **1 passed/0.48s**; complete pair-worker/launcher checks **58 passed (15+43)/8.74s**. Corrected paths are95 bytes for the observed PID and98 for seven-digit PID, within107; job directories remain distinct. `git diff --check` PASS. **CPU repair PASS; actual repaired Ray startup and all original numerical/training/export gates remain unfinished.**
+
+### Repaired-source submissions
+
+Repair and selected failure evidence were committed as `bb297964`. Before submitting, [exact job/replica inspection](evidence/platform-before-ray-root-retry-20261107.json) confirmed old A Failed/Stopped and old B all Stopped. C remained Pending with eight available H800 reported in its queue annotation.
+
+The unchanged runbook proxy/auth initialization and the same long-lived submit command above created:
+
+| Pair | Current job | Actual admitted-object checks | Observed state |
+| --- | --- | --- | --- |
+| A | `exp-1107-030522-873302` | [PASS](evidence/platform-exp-1107-030522-873302.json) | Pending |
+| B | `exp-1107-030522-896828` | [PASS](evidence/platform-exp-1107-030522-896828.json) | Pending |
+| C | `exp-1107-005818-919546` | Original queued launcher retained | Pending at pre-submission observation |
+
+Checks cover personal creator, current local machine's `IP:/data/ycfeng:/data/ycfeng` filestore annotation, exact image digest, role GPU/node/host-network shape, gang-group and absent A/B ConfigMap dependency. The first auxiliary inspection incorrectly searched for Kubernetes `nfs` fields in the RJob CRD and exited on an empty-source assertion; the established `spec.taskSpecs[role].template.metadata.annotations['kubebrain.brainpp.cn/filestore-volume']` inspection above then passed. That inspection error did not stop or modify any workload. Both A/B readbacks report eight remaining H800 for ten requested. Long-lived launchers remain active. Native repaired startup is still **UNVERIFIED**.

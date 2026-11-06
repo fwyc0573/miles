@@ -126,10 +126,11 @@
 59. A `exp-1107-021450-020231` reached actual H800 execution. Its external 27B teacher passed health/model-info and native warmup at 02:46 local; worker receipts verify teacher 2×H800 and student 8×H800, 81,559 MiB/device, driver 570.124.06. Student failed before Ray initialization at 02:47:23: its Unix socket path was 133 bytes against Ray's 107-byte limit. Parent reproduced the exact error with the CPU native validator. `_student_command` passed an already job-scoped directory as `--local-root`, and `_run` appended a second job scope. The pair-worker owner is repairing this two-file boundary with a red/green regression; no numerical/model-capacity acceptance is claimed.
 60. The exact A API/replica object confirms student container exit1 at18:47:28Z, system cleanup at18:47:30Z and RJob Failed at18:47:42Z; the local launcher stop at02:47:45 local followed failure. All eight scoped RCA queries succeeded; selected events/audits and UID/time binding are in `evidence/ray-path-failure-rca-summary-20261107.json`, with originals under its recorded temporary directory. At02:49 B was Running and C Pending. B had already imported the same faulty caller, so parent stopped only B with `rjob_stop.sh` at02:52:39 before its student-launch receipt existed; its launcher confirmed Stopped at02:52:57. C retains its original queue position and will load the fixed mounted source before its future student launch.
 61. Ray-root repair is CPU-verified: `_student_command` now passes `local.parent`, letting the existing child CLI own job isolation. The actual CLI/native-Ray regression was red before repair and green afterward; corrected socket paths are95/98 bytes against107. Complete pair-worker/launcher checks passed58/58 in8.74s, Python3.12.13. Parent inspected the complete two-file diff. The [native prerequisite report](test_report_2026-11-07_native_prerequisites.md) records the exact repro, commands, native receipts, RCA and limits. Next action is verified source commit and A/B resubmission, retaining C rather than recreating its queue entry.
+62. Committed repair/evidence as `bb297964`. Before resubmission, exact API replica reads confirmed old A Failed/Stopped and old B all Stopped; C remained Pending (`evidence/platform-before-ray-root-retry-20261107.json`). New jobs: A `exp-1107-030522-873302`, B `exp-1107-030522-896828`. Both actual admitted objects passed creator, current-machine NFS source, digest image, 8+2 H800 resources, gang-group and empty ConfigMap-reference checks; selected receipts are `evidence/platform-exp-1107-030522-{873302,896828}.json`. Both were Pending with eight H800 remaining at readback; C keeps `exp-1107-005818-919546`. An initial auxiliary read assumed Kubernetes `spec.nfs` and failed locally; the established per-task `filestore-volume` annotation check above corrected the inspection, without affecting any job. All launchers remain long-lived; original numerical/learning/export criteria remain open.
 
 ## Next actions
 
-1. Commit the verified Ray-root fix, then resubmit A/B while preserving C's independent queued launcher. Verify actual Ray/model startup and all three numerical baselines.
+1. Verify actual Ray/model startup of A `exp-1107-030522-873302`, B `exp-1107-030522-896828` and retained C `exp-1107-005818-919546` as resources become available; then evaluate each numerical baseline.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -141,7 +142,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | A 教师实际就绪；student 在 Ray 启动前因路径长度失败。修复进行中，B 已停止，C 保留队列。 |
+| P2 前置核验与实现 | TODO | 既有A教师实际就绪；Ray路径修复bb297964通过58项检查，新A/B已提交并回读，和C一起等待资源。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
 | P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
@@ -150,7 +151,7 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 教师诊断复核关闭至 A 原生启动故障复现｜**当前前沿：** P2 Ray-root 修复和独立基线资格验证
+**检测窗口：** 教师诊断复核关闭至 Ray-root 修复、A/B重新提交｜**当前前沿：** P2 实际启动和独立基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -175,12 +176,12 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：完成 Ray-root 回归修正后恢复 A/B → 完成标志：原生 Ray 和模型启动成功，保留实际路径、设备和模型身份回执。
+1. P2：保留三个launcher并检验修复后的实际启动 → 完成标志：原生 Ray 和模型启动成功，保留实际路径、设备和模型身份回执。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
 1. ConfigMap 修正已通过实际启动：A 的27B教师健康就绪；长前缀评分与学生数值仍未完成。
-2. Student 的133字节Ray socket超过107字节限制；直接故障已CPU复现，尚待修复后的原生启动。
-3. B停止以避免相同已知故障，C保留队列；正式100步训练及HF重载仍未开始。
+2. 133字节Ray路径已修为95字节，58项CPU检查通过；新作业仍需证明原生启动和模型数值。
+3. 新A/B与原C都保留队列；最新回执余8张H800，正式100步训练及HF重载仍未开始。

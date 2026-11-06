@@ -1,0 +1,73 @@
+{
+  "pair": "B",
+  "name": "exp-1107-030522-896828",
+  "observed_at": "2026-11-06T19:09:39.502947+00:00",
+  "phase": "Pending",
+  "creator_fields": {
+    "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+    "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+    "kubebrain.brainpp.cn/creator-type": "user",
+    "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign"
+  },
+  "source_commit": "bb297964",
+  "scheduling": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "stepmind.com/gang-group": "true",
+    "stepmind.com/queue-status": "suspend",
+    "rjob.brainpp.cn/rjob-queue-approved": "",
+    "stepmind.com/queue-elem-ranking": "4",
+    "stepmind.com/queue-name": "codesign-default",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=8."
+  },
+  "tasks": {
+    "student": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "host_network": true,
+      "containers": [
+        {
+          "name": "student",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          },
+          "envFrom": []
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "host_network": false,
+      "containers": [
+        {
+          "name": "teacher",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            },
+            "requests": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            }
+          },
+          "envFrom": []
+        }
+      ]
+    }
+  },
+  "admitted_identity_source_resource_checks": "PASS"
+}
