@@ -45,3 +45,11 @@ A's initial baseline `exp-1107-055408-748211` passes independently. Formal job *
 ## Actual training results
 
 Pending. Admission is verified; real optimizer outcomes, memory, monitoring, export and reload have not yet been measured. Retain original native failures and actual partial progress if the attempt ends early. Do not extend the100-position budget automatically.
+
+At06:43 local, a bounded read of B's actual cloud business log showed the formal run's initial monitoring progressing through18/24 samples with successful generation responses. This confirms business progress, not an optimizer update. Source: `.../first-round/student/B/exp-1107-062459-796906.log`, read through the authorized `/mnt/ws-jfs/ycfeng` mapping.
+
+## C launch and admission
+
+C's full27B/397B initial baseline `exp-1107-044223-241566` independently passes. Formal job **`exp-1107-064200-013666`** was submitted from `2991eb55` with the same command, changing only `--pair C`. [API receipt](evidence/platform-exp-1107-064200-013666-training.json) verifies personal identity, current-host mount, pinned image, one8-GPU student and two8-GPU teacher replicas, inherited gang-start ConfigMap references and teacher RDMA resources. Observed **Pending** at2026-11-06T22:43:55Z, with20 H800 quota remaining against24 requested. The existing launcher remains alive; no duplicate submission is needed.
+
+Cloud run root: `.../first-round/student/C/exp-1107-064200-013666/`; final intended HF destination `hf/step_99`. All three formal attempts now use the approved100-position budget and unchanged qualified topology. Actual successful updates, post-update numerical acceptance, learning conclusions and HF reload are outstanding for each pair.

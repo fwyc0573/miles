@@ -33,7 +33,7 @@
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
 - completed — P2 initial qualification: A/B/C all pass the independent initial same-version numerical gates on24 fixed samples each; data, full models, runtime, tracking, shared-engine scoring and all strata are verified. Earlier missing-version artifacts remain INCOMPLETE. This does not claim optimization capacity or updated/final D8, which remain P3 evidence requirements.
-- in-progress — P3-A/P3-B:100-step formal jobs A `exp-1107-063447-691018` and B `exp-1107-062459-796906` are Running with exact API admission verified. P3-C is ready for its independently authorized100-step attempt. Actual optimizer outcomes and final artifacts remain pending.
+- in-progress — P3-A/P3-B/P3-C:100-step formal jobs A `exp-1107-063447-691018` and B `exp-1107-062459-796906` are Running; C `exp-1107-064200-013666` is Pending with20 H800 remaining against24 requested. Exact API admission passes for all three; launchers stay alive. B's formal initial monitoring is progressing. Actual optimizer outcomes and final artifacts remain pending.
 - pending — P4: runtime acceptance and completion archive.
 
 ## Investigation and rationale
@@ -162,7 +162,7 @@
 
 ## Next actions
 
-1. Submit C's qualified100-step attempt with the frozen training configuration.
+1. Preserve C's existing queued job/launcher and verify actual devices/business startup when admitted.
 2. Inspect A/B's actual optimizer/update evidence and planned monitoring within their existing100-step attempts.
 3. Complete standalone text-HF reload verification against final native inputs/version, then apply it to each final artifact; retain the fixed budget and thresholds.
 
@@ -177,7 +177,7 @@
 | P2 前置核验与实现 | PASS | 三组各24条完整版本样本均通过初始数值门槛。 |
 | P3-A | TODO | 100步作业Running/API核验通过，实际更新待验。 |
 | P3-B | TODO | 100步正式作业Running；API配置通过，实际更新/导出待验证。 |
-| P3-C | TODO | 初始门槛PASS，24卡正式配置dry-run通过。 |
+| P3-C | TODO | 100步正式作业已提交/API通过；剩20卡、需24卡，排队中。 |
 | P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
 
 ## 2. 偏离检测
@@ -215,4 +215,4 @@
 
 1. A/B/C各24条初始监测均通过全部长度层门槛；这不等于更新后验收通过。
 2. 正式100步中的实际首个更新将提供优化证据，不能用只读基线推断容量或成功更新数。
-3. A/B正式作业已Running；C已就绪，按独立资源提交，不等待其他组完成。
+3. A/B正式作业已Running；C已进入独立队列，保持launcher存活并等待调度。
