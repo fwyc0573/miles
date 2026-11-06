@@ -333,3 +333,6 @@ Current Miles core, train.py/train_async.py, GLM recipe/model definitions and ex
 ## Personal branch delivery
 
 At 2026-11-06T12:49:44.581599+08:00, `git push origin agent-opd` had normally delivered benchmark archive commit `e7b5221259f42d0169f3f20f376858debbe9df05`. A separate `git ls-remote origin refs/heads/agent-opd` read exactly matched `git rev-parse HEAD`, and `git status --porcelain` was empty. The closing documentation commit records this observed archive delivery; its final SHA is reported after its own normal push and independent check. No force push, history rewrite, external message, model weight or raw benchmark artifact was included.
+
+
+Evidence-review delivery at 2026-11-06T13:28:48.715927+08:00: normal `git push origin agent-opd` delivered `f2f3cc37d54c8510bf7609c300b0ceba6fae33e7`; independent `git ls-remote origin refs/heads/agent-opd` matched `git rev-parse HEAD`, and `git status --porcelain` was empty. Only the verified manual plot script and current-task Markdown were included. The small local PNG is presentation output; no raw run artifact was published. This closing documentation is normally synchronized next.

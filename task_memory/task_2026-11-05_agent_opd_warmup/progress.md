@@ -5082,7 +5082,7 @@ in-progress: normal scoped code/conclusion archive and personal origin/agent-opd
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 16｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+**汇总：** PASS 17｜BLOCKED/FAILED/SKIPPED 0｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -5102,17 +5102,17 @@ in-progress: normal scoped code/conclusion archive and personal origin/agent-opd
 | Frog/Qwen资格验证 | PASS | 两次实际更新、测量及清理已归档 |
 | 本次1：一致性标准与口径评估 | PASS | final report记录足够接近与零误差的区别及缺失证据 |
 | 本次2：已有loss/grad norm作图 | PASS | 20+2原始标量点、PNG及cache检查通过 |
-| 本次3：记录与正常branch同步 | TODO | 记录和代码已可审阅，待正常push与远端SHA核验 |
+| 本次3：记录与正常branch同步 | PASS | archive f2f3cc37正常push，独立远端SHA匹配且工作树清洁 |
 
 ## 2. 偏离检测
 
-**结论：** 已偏离：命中 D2；格式检查已完成，纠正动作是停止环境探索并立即交付。
-**检测窗口：** 2026-11-06 12:49HKT checkpoint至2026-11-06T13:27:09.112816+08:00｜**当前前沿：** 本次3记录与个人branch同步
+**结论：** 未偏移，正常推进；此前D2纠正已经执行，本窗口直接完成交付。
+**检测窗口：** 上次本轮review checkpoint至2026-11-06T13:28:48.715927+08:00｜**当前前沿：** 完成结果的最后收尾记录同步
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | 绘图仅消费用户询问的已有表格；一次标签调整后图已验证 |
-| D2 细节反复重试 | HIT | final report记录了缺模块、旧Black选项及旧isort版本的连续入口尝试；耽误本次3交付，现有兼容环境已通过 |
+| D2 细节反复重试 | CLEAR | 已停止formatter探索；本窗口只有一次正常commit/push和独立SHA核验 |
 | D3 支线问题修补 | CLEAR | 未修复或升级环境，没有新训练或其他任务改动 |
 | D4 可并行任务停滞 | CLEAR | 来源核查、作图、文档与直接验证均已推进；目前只有同步待完成 |
 | D5 超范围镀金 | CLEAR | 没有增加模型、题目、步数、阈值或训练行为 |
@@ -5120,20 +5120,22 @@ in-progress: normal scoped code/conclusion archive and personal origin/agent-opd
 | D7 路线违背 | CLEAR | H800范围、既有清理及原始评测结果保持 |
 
 **文档检查：** S1–S6均未发现明显缺陷；本次要求是评估已有证据，不要求恢复已删除原件或重新训练。
-**归因：** D2执行偏离。
+**归因：** 无；前一窗口D2执行偏离的纠正已落实。
 
 ## 3. 纠正建议
 
 **分支：** A：spec/plan合理，无需改变范围或标准
 
-**需停止的偏离行为：** D2：停止进一步查找或修复formatter环境；已完成兼容工具检查，直接同步并回复。
+**需停止的偏离行为：** 无；此前formatter探索已经停止。
 
 **接下去的路线：**
-1. 本次3：只暂存已验证脚本和当前任务Markdown，正常commit/push → 完成标志：个人远端SHA匹配HEAD，工作树清洁。
-2. 将实际同步结果写回当前记录并正常同步收尾；不增加GPU工作或缺失指标的推算。
+1. 正常同步本次完成的收尾记录 → 完成标志：最终个人远端SHA匹配HEAD，工作树清洁。
 
 ## 4. 最值得关注的 3 点
 
 1. 既有workflow通过与充分数值一致性验收是不同结论；final report已明确剩余证据缺口。
 2. GLM20和Qwen2曲线已经来自真实归档数值；此前消耗的原件无法用于补算双向K3。
 3. 兼容格式检查已经通过，应立即完成同步交付；继续环境检查不再推进本次前沿。
+
+
+completed (2026-11-06T13:28:48.715927+08:00): archive `f2f3cc37d54c8510bf7609c300b0ceba6fae33e7` normally pushed; independent remote SHA exactly matched HEAD and the worktree was clean. Applied the earlier D2 correction by stopping optional environment checks. All requested assessment/plotting deliverables are complete, with no new GPU or model request. The final metadata closing commit is normally synchronized next.
