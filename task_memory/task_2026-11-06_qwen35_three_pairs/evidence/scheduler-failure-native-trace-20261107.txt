@@ -1,0 +1,94 @@
+Source: /mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-030522-873302.log bytes: 5702926
+2190: [36m(TrainerController pid=7280)[0m            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2191: [36m(TrainerController pid=7280)[0m            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2192: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py", line 78, in wrapper
+2193: [36m(TrainerController pid=7280)[0m     result = func(*args, **kwargs)
+2194: [36m(TrainerController pid=7280)[0m              ^^^^^^^^^^^^^^^^^^^^^
+2195: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/utils/context_utils.py", line 9, in wrapper
+2196: [36m(TrainerController pid=7280)[0m     return fn(*args, **kwargs)
+2197: [36m(TrainerController pid=7280)[0m            ^^^^^^^^^^^^^^^^^^^
+2198: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py", line 244, in init
+2199: [36m(TrainerController pid=7280)[0m     self.model, self.optimizer, self.opt_param_scheduler = build_model_and_optimizer(args, role=role)
+2200: [36m(TrainerController pid=7280)[0m                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2201: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 1015, in build_model_and_optimizer
+2202: [36m(TrainerController pid=7280)[0m     model, optimizer, opt_param_scheduler = setup_model_and_optimizer(args, role)
+2203: [36m(TrainerController pid=7280)[0m                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2204: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 246, in setup_model_and_optimizer
+2205: [36m(TrainerController pid=7280)[0m     opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)
+2206: [36m(TrainerController pid=7280)[0m                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2207: [36m(TrainerController pid=7280)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 118, in get_optimizer_param_scheduler
+2208: [36m(TrainerController pid=7280)[0m     opt_param_scheduler = OptimizerParamScheduler(
+2209: [36m(TrainerController pid=7280)[0m                           ^^^^^^^^^^^^^^^^^^^^^^^^
+2210: [36m(TrainerController pid=7280)[0m   File "/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py", line 169, in __init__
+2211: [36m(TrainerController pid=7280)[0m     assert self.lr_decay_steps > 0
+2212: [36m(TrainerController pid=7280)[0m            ^^^^^^^^^^^^^^^^^^^^^^^
+2213: [36m(TrainerController pid=7280)[0m AssertionError
+2214: [36m(TrainerController pid=7280)[0m [2026-11-06 19:45:48.130 trainer_controller_actor] cell.py:210 - ft op=state phase=start name=_mark_as_errored cell=trainer-engine-actor-00000 from_state=StateAllocatedUninitialized
+2215: [36m(TrainerController pid=7280)[0m [2026-11-06 19:45:48.130 trainer_controller_actor] cell.py:221 - ft op=state phase=end name=_mark_as_errored cell=trainer-engine-actor-00000 to_state=StateAllocatedErrored
+2216: [36m(TrainerController pid=7280)[0m [2026-11-06 19:45:48.130 trainer_controller_actor] cell.py:160 - ft op=confirm_dead phase=start cell=trainer-engine-actor-00000 n_actors=8
+2310:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2311:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2312:   File "/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py", line 78, in wrapper
+2313:     result = func(*args, **kwargs)
+2314:              ^^^^^^^^^^^^^^^^^^^^^
+2315:   File "/data/ycfeng/sota-engine/miles/miles/utils/context_utils.py", line 9, in wrapper
+2316:     return fn(*args, **kwargs)
+2317:            ^^^^^^^^^^^^^^^^^^^
+2318:   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py", line 244, in init
+2319:     self.model, self.optimizer, self.opt_param_scheduler = build_model_and_optimizer(args, role=role)
+2320:                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2321:   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 1015, in build_model_and_optimizer
+2322:     model, optimizer, opt_param_scheduler = setup_model_and_optimizer(args, role)
+2323:                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2324:   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 246, in setup_model_and_optimizer
+2325:     opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)
+2326:                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2327:   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 118, in get_optimizer_param_scheduler
+2328:     opt_param_scheduler = OptimizerParamScheduler(
+2329:                           ^^^^^^^^^^^^^^^^^^^^^^^^
+2330:   File "/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py", line 169, in __init__
+2331:     assert self.lr_decay_steps > 0
+2332:            ^^^^^^^^^^^^^^^^^^^^^^^
+2333: AssertionError
+2344: [36m(MegatronTrainRayActor pid=8006)[0m   class MimoModelConfig:[32m [repeated 7x across cluster][0m
+2345: [36m(MegatronTrainRayActor pid=8006)[0m Traceback (most recent call last):[32m [repeated 8x across cluster][0m
+2346: [36m(MegatronTrainRayActor pid=8006)[0m                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2347: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py", line 78, in wrapper[32m [repeated 8x across cluster][0m
+2348: [36m(MegatronTrainRayActor pid=8006)[0m     result = func(*args, **kwargs)[32m [repeated 8x across cluster][0m
+2349: [36m(MegatronTrainRayActor pid=8006)[0m              ^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2350: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/utils/context_utils.py", line 9, in wrapper[32m [repeated 8x across cluster][0m
+2351: [36m(MegatronTrainRayActor pid=8006)[0m     return fn(*args, **kwargs)[32m [repeated 8x across cluster][0m
+2352: [36m(MegatronTrainRayActor pid=8006)[0m            ^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2353: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py", line 244, in init[32m [repeated 8x across cluster][0m
+2354: [36m(MegatronTrainRayActor pid=8006)[0m     self.model, self.optimizer, self.opt_param_scheduler = build_model_and_optimizer(args, role=role)[32m [repeated 8x across cluster][0m
+2355: [36m(MegatronTrainRayActor pid=8006)[0m                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2356: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 1015, in build_model_and_optimizer[32m [repeated 8x across cluster][0m
+2357: [36m(MegatronTrainRayActor pid=8006)[0m     model, optimizer, opt_param_scheduler = setup_model_and_optimizer(args, role)[32m [repeated 8x across cluster][0m
+2358: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 246, in setup_model_and_optimizer[32m [repeated 8x across cluster][0m
+2359: [36m(MegatronTrainRayActor pid=8006)[0m     opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)[32m [repeated 8x across cluster][0m
+2360: [36m(MegatronTrainRayActor pid=8006)[0m                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2361: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 118, in get_optimizer_param_scheduler[32m [repeated 8x across cluster][0m
+2362: [36m(MegatronTrainRayActor pid=8006)[0m     opt_param_scheduler = OptimizerParamScheduler([32m [repeated 8x across cluster][0m
+2363: [36m(MegatronTrainRayActor pid=8006)[0m                           ^^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2364: [36m(MegatronTrainRayActor pid=8006)[0m   File "/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py", line 169, in __init__[32m [repeated 8x across cluster][0m
+2365: [36m(MegatronTrainRayActor pid=8006)[0m     assert self.lr_decay_steps > 0[32m [repeated 8x across cluster][0m
+2366: [36m(MegatronTrainRayActor pid=8006)[0m            ^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2367: [36m(MegatronTrainRayActor pid=8006)[0m AssertionError[32m [repeated 8x across cluster][0m
+2368: [36m(MegatronTrainRayActor pid=8006)[0m [2026-11-06 19:45:48.122 actor_cell00000_rank00007] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=init phase=end ok=false elapsed_s=12.1[32m [repeated 7x across cluster][0m
+2369: [36m(CommandActor pid=7278)[0m /opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown[32m [repeated 3x across cluster][0m
+2370: [36m(CommandActor pid=7278)[0m   warnings.warn('resource_tracker: There appear to be %d '[32m [repeated 3x across cluster][0m
+2371: 2026-11-06 19:45:55,207	INFO sdk.py:520 -- WebSocket closed for job raysubmit_8pK4XCvQFRPRehzT with close code 1000
+2372: 2026-11-06 19:45:55,212	ERR cli.py:74 -- [31m---------------------------------------[39m
+2373: 2026-11-06 19:45:55,213	ERR cli.py:75 -- [31mJob 'raysubmit_8pK4XCvQFRPRehzT' failed[39m
+2374: 2026-11-06 19:45:55,213	ERR cli.py:76 -- [31m---------------------------------------[39m
+2375: 2026-11-06 19:45:55,213	INFO cli.py:89 -- Status message: Job entrypoint command failed with exit code 1, last available logs (truncated to 20,000 chars):
+2376: [36m(MegatronTrainRayActor pid=8006)[0m   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 118, in get_optimizer_param_scheduler[32m [repeated 8x across cluster][0m
+2377: [36m(MegatronTrainRayActor pid=8006)[0m     opt_param_scheduler = OptimizerParamScheduler([32m [repeated 8x across cluster][0m
+2378: [36m(MegatronTrainRayActor pid=8006)[0m                           ^^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2379: [36m(MegatronTrainRayActor pid=8006)[0m   File "/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py", line 169, in __init__[32m [repeated 8x across cluster][0m
+2380: [36m(MegatronTrainRayActor pid=8006)[0m     assert self.lr_decay_steps > 0[32m [repeated 8x across cluster][0m
+2381: [36m(MegatronTrainRayActor pid=8006)[0m            ^^^^^^^^^^^^^^^^^^^^^^^[32m [repeated 8x across cluster][0m
+2382: [36m(MegatronTrainRayActor pid=8006)[0m AssertionError[32m [repeated 8x across cluster][0m
+2383: [36m(MegatronTrainRayActor pid=8006)[0m [2026-11-06 19:45:48.122 actor_cell00000_rank00007] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=init phase=end ok=false elapsed_s=12.1[32m [repeated 7x across cluster][0m
+2384: [36m(CommandActor pid=7278)[0m /opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 1 leaked shared_memory objects to clean up at shutdown[32m [repeated 3x across cluster][0m
+2385: [36m(CommandActor pid=7278)[0m   warnings.warn('resource_tracker: There appear to be %d '[32m [repeated 3x across cluster][0m

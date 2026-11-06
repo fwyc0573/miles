@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Confirm native Ray repair, diagnose the zero-update scheduler assertion, and assign the existing optimizer-free baseline path for scoped verification. |
 | 2026-11-07 | Record actual 27B teacher readiness, A's reproducible Ray socket-length failure and B's preventive stop; retain C's queue and assign the scoped repair. |
 | 2026-11-07 | Close the teacher diagnostic's full-prefix identity finding after 98 combined checks; retain GPU qualification as the frontier. |
 | 2026-11-07 | Correct the ineffective per-task gang change using observed server admission behavior; preserve C and verify final A/B server dry-run without allocation. |
@@ -127,10 +128,13 @@
 60. The exact A API/replica object confirms student container exit1 at18:47:28Z, system cleanup at18:47:30Z and RJob Failed at18:47:42Z; the local launcher stop at02:47:45 local followed failure. All eight scoped RCA queries succeeded; selected events/audits and UID/time binding are in `evidence/ray-path-failure-rca-summary-20261107.json`, with originals under its recorded temporary directory. At02:49 B was Running and C Pending. B had already imported the same faulty caller, so parent stopped only B with `rjob_stop.sh` at02:52:39 before its student-launch receipt existed; its launcher confirmed Stopped at02:52:57. C retains its original queue position and will load the fixed mounted source before its future student launch.
 61. Ray-root repair is CPU-verified: `_student_command` now passes `local.parent`, letting the existing child CLI own job isolation. The actual CLI/native-Ray regression was red before repair and green afterward; corrected socket paths are95/98 bytes against107. Complete pair-worker/launcher checks passed58/58 in8.74s, Python3.12.13. Parent inspected the complete two-file diff. The [native prerequisite report](test_report_2026-11-07_native_prerequisites.md) records the exact repro, commands, native receipts, RCA and limits. Next action is verified source commit and A/B resubmission, retaining C rather than recreating its queue entry.
 62. Committed repair/evidence as `bb297964`. Before resubmission, exact API replica reads confirmed old A Failed/Stopped and old B all Stopped; C remained Pending (`evidence/platform-before-ray-root-retry-20261107.json`). New jobs: A `exp-1107-030522-873302`, B `exp-1107-030522-896828`. Both actual admitted objects passed creator, current-machine NFS source, digest image, 8+2 H800 resources, gang-group and empty ConfigMap-reference checks; selected receipts are `evidence/platform-exp-1107-030522-{873302,896828}.json`. Both were Pending with eight H800 remaining at readback; C keeps `exp-1107-005818-919546`. An initial auxiliary read assumed Kubernetes `spec.nfs` and failed locally; the established per-task `filestore-volume` annotation check above corrected the inspection, without affecting any job. All launchers remain long-lived; original numerical/learning/export criteria remain open.
+63. A `exp-1107-030522-873302` passed native Ray initialization: one live8-GPU node and actual Megatron actor/model construction. It then failed at19:45:48Z on native scheduler `assert self.lr_decay_steps > 0`, derived from the baseline command's `num_rollout=0`. Retained exact cloud traceback, object/UID/timeline, all eight successful RCA query receipts and sampled memory counters; the [native prerequisite report](test_report_2026-11-07_native_prerequisites.md) owns details. This is not another socket failure or an observed OOM. Read-only SSH cloud inspection is now available as i-fengyicheng. Assigned `QWEN-P2-LAUNCH` to validate/reuse the existing optimizer-free path only for zero-update baselines, with native-branch red/green coverage and no fabricated scheduler duration. Formal100-step settings remain required. B had no student-launch receipt and was stopped via rjob_stop.sh at03:50:30 to prevent the same known initialization failure; its launcher confirmed Stopped03:50:40. C remains in its original independent queue.
+64. Exact pre-retry API checks confirm old A Failed/teacher Stopped and old B both replicas Stopped (`evidence/platform-before-scheduler-retry-20261107.json`). C then left its queue: three actual containers are Running on student gpu-h800-0210 and teacher gpu-h800-0071/0223 (`evidence/platform-c-starting-20261107.json`). Its three native node receipts verify8 H800 each,24 total,81,559MiB/device and driver570.124.06, with correct full27B/397B paths and pinned image. At20:02:16Z both teacher logs reached TP0–15 model construction; head reported `Multi-thread loading shards: 0/94`. This proves allocated devices/distributed startup, not completed weight loading or model readiness. C's original launcher continues while the baseline-only correction is CPU-verified separately.
+65. `QWEN-P2-LAUNCH` completed the scoped zero-update correction: only baseline0 adds native `--debug-disable-optimizer`. Actual launcher/native setup/reference scheduler tests were3 failed/3 passed before repair and6 passed after; full launcher tests58 passed/10.14s, Python3.12.13. Production scoring without an optimizer preserves weights/version and driver baseline performs no training/save. Parent inspected the complete two-file diff; `git diff --check` passed. No core, formal100 optimizer/scheduler settings or GPU shape changed. The [native report](test_report_2026-11-07_native_prerequisites.md) records exact commands and CPU fixture boundaries. Ready to commit and restore A/B; actual HF load/CUDA residency/scoring remain unverified.
 
 ## Next actions
 
-1. Verify actual Ray/model startup of A `exp-1107-030522-873302`, B `exp-1107-030522-896828` and retained C `exp-1107-005818-919546` as resources become available; then evaluate each numerical baseline.
+1. Commit the verified zero-update baseline initialization correction, resume A/B and preserve running C `exp-1107-005818-919546`; evaluate actual per-pair model scoring once ready.
 2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -142,28 +146,28 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 既有A教师实际就绪；Ray路径修复bb297964通过58项检查，新A/B已提交并回读，和C一起等待资源。 |
+| P2 前置核验与实现 | TODO | 零步scheduler修复58项通过，准备恢复A/B；C已分配24张H800，教师正在加载。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
-| P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
+| P3-C | TODO | 正式训练尚未开始，C基线教师加载中。 |
 | P4 汇总交付 | TODO | 等待各组合的运行及导出结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 教师诊断复核关闭至 Ray-root 修复、A/B重新提交｜**当前前沿：** P2 实际启动和独立基线资格验证
+**检测窗口：** Ray-root修复验证至实际Ray启动和scheduler故障定位｜**当前前沿：** P2 零步baseline初始化修复和独立基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 98 项通过后停止扩展；当前回归只针对实际启动故障，清理由用户明确要求。 |
-| D2 细节反复重试 | CLEAR | ConfigMap 修正已通过实际容器/教师启动；新故障的133字节路径已在CPU原样复现，先修调用边界再重提。 |
-| D3 支线问题修补 | CLEAR | Ray 启动直接阻塞 P2；未转向无关平台或模型优化。 |
-| D4 可并行任务停滞 | CLEAR | B 已载入相同故障代码而暂停；C 保留队列。修复与精确 RCA 并行，配额限制有回执。 |
-| D5 超范围镀金 | CLEAR | 复用既有 local-root 参数；未提议新 flag、模型替换或预算扩展。 |
-| D6 分析空转 | CLEAR | 日志与确定性 CPU 复现直接定位双层目录拼接，并形成明确一处调用修正。 |
-| D7 路线违背 | CLEAR | 只停止尚未训练且确定受同一故障影响的 B；C 和已确认科学参数保留。 |
+| D1 工具打磨 | CLEAR | 修复覆盖实际出现的初始化故障，已有reader/绘图未继续扩展。 |
+| D2 细节反复重试 | CLEAR | Ray问题已实际通过；新scheduler异常原样red/green验证，未重复盲跑。 |
+| D3 支线问题修补 | CLEAR | 零步scheduler直接阻塞P2 baseline，未改无关环境/平台。 |
+| D4 可并行任务停滞 | CLEAR | B采用同一已知错误命令而暂停；C已实际启动，代码修复与RCA并行。 |
+| D5 超范围镀金 | CLEAR | 已验证的修正复用已有optimizer禁用机制，不增加参数或扩展预算。 |
+| D6 分析空转 | CLEAR | 实际Ray节点回执和Megatron原始trace把前沿推进到模型初始化。 |
+| D7 路线违背 | CLEAR | 不把零优化baseline当作反向/优化容量验收；正式100步保持D14。 |
 
-**文档检查：** S5：plan.md 的“三组均排队”和本页等待资源的下一步已被实际 A failure/B stop 替代，需同步新事件与修复前提；本次已更新。S1/S2/S3/S4/S6 未发现明显缺陷，启动故障仍由 P2 持有。
+**文档检查：** S5：旧“等待Ray启动”已被实际PASS与新的scheduler失败替代，需更新本页和plan.md；本次已更新。S1/S2/S3/S4/S6未发现明显缺陷，原生启动缺口仍由P2持有。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -171,17 +175,17 @@
 **分支：** B：同步运行状态，不改变 scope 或验收值。
 
 **文档更新（先执行）：**
-1. plan.md P2切片、progress.md 下一步：记录教师就绪、Ray失败、B停止与C保留；归属P2（可直接执行，已执行）。
+1. plan.md P2切片、progress.md 下一步：记录Ray通过、零步scheduler失败、B停止与C保留；归属P2（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：保留三个launcher并检验修复后的实际启动 → 完成标志：原生 Ray 和模型启动成功，保留实际路径、设备和模型身份回执。
+1. P2：验证零步初始化修正并恢复A/B，保留C → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
 2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
-1. ConfigMap 修正已通过实际启动：A 的27B教师健康就绪；长前缀评分与学生数值仍未完成。
-2. 133字节Ray路径已修为95字节，58项CPU检查通过；新作业仍需证明原生启动和模型数值。
-3. 新A/B与原C都保留队列；最新回执余8张H800，正式100步训练及HF重载仍未开始。
+1. Ray修复已在8张H800上通过，任务已推进到Megatron初始化。
+2. 既有optimizer禁用路径修复零步baseline，58项CPU检查通过；尚无有效模型数值。
+3. C三节点共24张H800已实际启动，教师加载中；正式100步和HF重载仍未验证。

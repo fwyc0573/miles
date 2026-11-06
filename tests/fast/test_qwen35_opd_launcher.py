@@ -1,20 +1,37 @@
 """CPU regressions for native Qwen three-pair launch and sampled-token provenance."""
 
 import argparse
+import ast
 import asyncio
 import copy
+import dataclasses
 import hashlib
+import importlib.util
 import json
+import logging
+import math
+import os
 import shlex
 import sys
+from contextlib import nullcontext
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any, Optional, TypedDict
 
 import pytest
+import torch
 from examples.agentic_opd.glm_turns import token_hash
 from examples.agentic_opd.rollout import post_process_rewards
 from examples.infra_features.train_infer_mismatch_helper.mis import MisConfig
 from tests.fast.fixtures.args_fixtures import parser_defaults
+from tests.fast.backends.megatron_utils.score_rpc_fixtures import (
+    ScoreModel,
+    _execute_nodes,
+    make_args as scoring_args,
+    make_raw_data,
+)
+from tests.fast.backends.megatron_utils.test_score_log_probs import scoring
+from tests.fast.test_train import _install_driver_fakes, _make_args as driver_args, _startup_info, train_driver
 from tests.fast.test_qwen35_monitoring import _fault_run, native_fixture, native_run
 from tests.manual.agent_opd import alignment, inspect_qwen35 as inspector
 from tests.manual.agent_opd import qwen_alignment, run_qwen35_opd as launcher
@@ -22,7 +39,16 @@ from tests.manual.agent_opd import qwen_alignment, run_qwen35_opd as launcher
 from miles.utils.args.configs.algo import AlgoConfig
 from miles.utils.args.configs.data import DataConfig
 from miles.utils.args.configs.eval import EvalConfig
-from miles.utils.arguments import get_miles_extra_args_provider
+from miles.utils.arguments import (
+    _resolve_sample_ownership_check,
+    _validate_rematerialize_param_from_master_weight,
+    get_miles_extra_args_provider,
+    validate_eval_train_log_probs,
+)
+from miles.utils.args.runtime import TrainerConfig
+from miles.utils.async_utils import with_disposer
+from miles.ray.rollout.train_data_conversion import ROLLOUT_DATA_VALUE_SPEC
+from miles.utils.lora.utils import is_lora_enabled, is_multi_lora_enabled
 from miles.rollout.base_types import GenerateFnInput
 from miles.rollout.generate_hub import single_turn
 from miles.utils.external_utils.command_utils import ExecuteTrainConfig
@@ -166,6 +192,167 @@ def test_zero_rollouts_uses_native_eval_without_any_save():
     assert flags["--eval-interval"] == ["20"] and "--eval-train-log-probs" in flags
     assert not any(flag.startswith("--save") and "debug" not in flag for flag in flags)
     assert "--custom-megatron-post-save-hook-path" not in flags
+
+
+@pytest.fixture
+def native_model_setup():
+    """Execute native setup/scheduling, replacing only GPU model/optimizer factories.
+
+    MEGATRON_PATH can name a read-only reference checkout when this CPU Python
+    does not have Megatron installed. No imports from that environment are used.
+    """
+    if "MEGATRON_PATH" in os.environ:
+        package = Path(os.environ["MEGATRON_PATH"]) / "megatron"
+    else:
+        spec = importlib.util.find_spec("megatron")
+        if spec is None:
+            pytest.skip("Native scheduler source requires Megatron or read-only MEGATRON_PATH")
+        package = Path(next(iter(spec.submodule_search_locations)))
+    scheduler_path = package / "core/optimizer_param_scheduler.py"
+    namespace = dict(
+        torch=torch, math=math, logging=logging, Any=Any, Optional=Optional, TypedDict=TypedDict,
+        logger=logging.getLogger(__name__), log_single_rank=lambda *args, **kwargs: None,
+    )
+    # The real constructor must enforce lr_decay_steps > 0, not a test imitation.
+    names = {node.name for node in ast.parse(scheduler_path.read_text()).body
+             if isinstance(node, (ast.FunctionDef, ast.ClassDef))}
+    _execute_nodes(scheduler_path, names, namespace)
+    model = [ScoreModel()]
+    optimizers = []
+    def create_optimizer(*, config, **kwargs):
+        optimizer = torch.optim.Adam(model[0].parameters(), lr=config.lr,
+                                     betas=(config.adam_beta1, config.adam_beta2), weight_decay=config.weight_decay)
+        optimizers.append(optimizer)
+        return optimizer
+    namespace.update(
+        TrainerConfig=TrainerConfig, DDP=ScoreModel, MegatronOptimizer=torch.optim.Optimizer,
+        dataclasses=dataclasses,
+        OptimizerConfig=dataclasses.make_dataclass("CpuOptimizerConfig", [
+            ("optimizer", str), ("lr", float), ("adam_beta1", float), ("adam_beta2", float), ("weight_decay", float),
+        ]),
+        ModelType=SimpleNamespace(encoder_or_decoder=object()),
+        is_lora_enabled=is_lora_enabled, is_multi_lora_enabled=is_multi_lora_enabled,
+        get_model_provider_func=lambda args, role: object(), get_model=lambda *args: model,
+        is_first_replica_megatron_main_rank=lambda: False, get_megatron_optimizer=create_optimizer,
+    )
+    _execute_nodes(Path(launcher.U.repo_base_dir) / "miles/backends/megatron_utils/model.py",
+                   {"setup_model_and_optimizer", "get_optimizer_param_scheduler", "_is_muon_optimizer"}, namespace)
+    return SimpleNamespace(setup=namespace["setup_model_and_optimizer"], model=model, optimizers=optimizers)
+
+
+def _setup_args_from_launcher(monkeypatch, pair, num_rollout):
+    argv = shlex.split(launcher._training_args(_args(pair, "--num-rollout", str(num_rollout)), Path("/run")))
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    parser = argparse.ArgumentParser()
+    get_miles_extra_args_provider()(parser)
+    # Project only scheduler/optimizer inputs from actual launcher output. The
+    # full Megatron model parser needs CUDA-only dependencies absent on this host.
+    for name in ("optimizer", "lr-decay-style"):
+        parser.add_argument(f"--{name}")
+    for name in ("lr-warmup-iters", "lr-decay-iters"):
+        parser.add_argument(f"--{name}", type=int)
+    for name in ("weight-decay", "adam-beta1", "adam-beta2"):
+        parser.add_argument(f"--{name}", type=float)
+    parsed, _ = parser.parse_known_args(argv)
+    backend = SimpleNamespace(
+        optimizer=parsed.optimizer, lr=parsed.lr, adam_beta1=parsed.adam_beta1, adam_beta2=parsed.adam_beta2,
+        weight_decay=parsed.weight_decay, global_batch_size=parsed.global_batch_size,
+        train_iters=None, lr_decay_iters=parsed.lr_decay_iters, lr_decay_style=parsed.lr_decay_style,
+        lr_warmup_iters=parsed.lr_warmup_iters, lr_warmup_init=0, lr_warmup_fraction=None,
+        min_lr=0, lr_wsd_decay_iters=None, lr_wsd_decay_style=None,
+        start_weight_decay=parsed.weight_decay, end_weight_decay=parsed.weight_decay,
+        weight_decay_incr_style="constant", use_checkpoint_opt_param_scheduler=True,
+        override_opt_param_scheduler=False, moe_use_upcycling=False, use_gloo_process_groups=False,
+        mutable=nullcontext,
+    )
+    values = parser_defaults() | vars(parsed)
+    trainer = TrainerConfig.model_construct(**(values | {"backend": backend}))
+    return trainer, SimpleNamespace(**(dict(trainer) | values))
+
+
+@pytest.mark.parametrize("pair", ["A", "B", "C"])
+@pytest.mark.parametrize("num_rollout", [0, 100])
+def test_native_setup_for_baseline_or_formal_budget(monkeypatch, native_model_setup, pair, num_rollout):
+    args, validation_args = _setup_args_from_launcher(monkeypatch, pair, num_rollout)
+    _resolve_sample_ownership_check(validation_args)
+    _validate_rematerialize_param_from_master_weight(validation_args)
+    validate_eval_train_log_probs(validation_args)
+    assert validation_args.enable_sample_ownership_checker is False
+    assert validation_args.rematerialize_param_from_master_weight is False
+    arguments_path = Path(launcher.U.repo_base_dir) / "miles/utils/arguments.py"
+    disable_optimizer_loading = next(
+        node for node in ast.walk(ast.parse(arguments_path.read_text()))
+        if isinstance(node, ast.If) and isinstance(node.test, ast.Attribute)
+        and isinstance(node.test.value, ast.Name) and node.test.value.id == "args"
+        and node.test.attr == "debug_disable_optimizer"
+    )
+    exec(compile(ast.Module(body=[disable_optimizer_loading], type_ignores=[]), str(arguments_path), "exec"),
+         {"args": validation_args})
+    before = native_model_setup.model[0].weight.detach().clone()
+    model, optimizer, scheduler = native_model_setup.setup(args)
+    assert model is native_model_setup.model and model[0].lora_attached is False
+    torch.testing.assert_close(model[0].weight, before, rtol=0, atol=0)
+    assert args.num_rollout == num_rollout
+    if num_rollout == 0:
+        assert validation_args.no_load_optim is True and validation_args.no_save_optim is True
+        assert optimizer is scheduler is None
+        assert native_model_setup.optimizers == []
+        assert args.backend.train_iters is None and args.backend.lr_decay_iters is None
+    else:
+        assert optimizer is native_model_setup.optimizers[0]
+        assert scheduler.optimizer is optimizer
+        assert args.backend.train_iters == args.backend.lr_decay_iters == 100
+        assert scheduler.lr_decay_steps == scheduler.wd_incr_steps == 800
+        assert scheduler.max_lr == 2e-6 and scheduler.lr_decay_style == "constant" and scheduler.lr_warmup_steps == 0
+        assert optimizer.param_groups[0]["betas"] == (0.9, 0.98)
+        assert optimizer.param_groups[0]["weight_decay"] == 0 and len(optimizer.state) == 0
+
+
+@pytest.mark.parametrize("pair", ["A", "B", "C"])
+@pytest.mark.parametrize("asleep", [False, True])
+def test_baseline_native_scoring_needs_no_optimizer(monkeypatch, native_model_setup, scoring, pair, asleep):
+    args, _ = _setup_args_from_launcher(monkeypatch, pair, 0)
+    model, optimizer, scheduler = native_model_setup.setup(args)
+    actor = scoring.actor_cls()
+    actor.args = scoring_args(delayed=True, dynamic=True)
+    actor.args.debug_disable_optimizer = args.debug_disable_optimizer
+    actor.args.num_rollout = args.num_rollout
+    actor.role, actor._active_model_tag, actor._cell_index = "actor", "actor", 0
+    actor._asleep, actor._last_rollout_id = asleep, None
+    actor.model, actor.optimizer, actor.opt_param_scheduler = model, optimizer, scheduler
+    actor.output_store_read = None
+    actor._heartbeat = SimpleNamespace(bump=lambda: None)
+    actor._get_actor_weights = lambda **kwargs: dict(model[0].named_parameters())
+    # Memory/process-group SDK boundaries; the production RPC restores residency.
+    actor.wake_up = lambda: setattr(actor, "_asleep", False)
+    actor.sleep = lambda: setattr(actor, "_asleep", True)
+    raw = make_raw_data()
+    before = model[0].weight.detach().clone()
+    version = actor._get_actor_weight_version()
+    ref = actor.score_log_probs(0, scoring.store.put(raw, ROLLOUT_DATA_VALUE_SPEC))
+    batch = scoring.store.values[ref.payload]
+    assert optimizer is scheduler is None and native_model_setup.optimizers == []
+    assert sum(value.numel() for value in batch["log_probs"]) == sum(raw["response_lengths"])
+    assert all(torch.isfinite(value).all() and not value.requires_grad for value in batch["log_probs"])
+    assert batch["metadata"]["weight_version"] == actor._get_actor_weight_version() == version
+    assert batch["metadata"]["use_rollout_sampling_mask"] is False
+    assert actor._asleep is asleep and actor._last_rollout_id is None
+    assert model[0].weight.grad is None
+    torch.testing.assert_close(model[0].weight, before, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("pair", ["A", "B", "C"])
+async def test_baseline_native_driver_evaluates_without_training_or_saving(monkeypatch, pair):
+    _, config = _setup_args_from_launcher(monkeypatch, pair, 0)
+    args = driver_args(**vars(config))
+    args.start_rollout_id = 0
+    events = []
+    components = _install_driver_fakes(monkeypatch, args, events)
+    await with_disposer(train_driver.train, _startup_info(args))
+    assert events.count("eval:0") == 1
+    assert components.actor_model.trained == components.actor_model.saved == []
+    assert not any(event.startswith(("prepare_rollout:", "generate_start:", "actor_export_hf:")) for event in events)
+    assert events.count("update_weights:None") == 1  # Initial publication is not an optimizer update.
 
 
 @pytest.mark.parametrize("teacher", sorted(launcher._READ_ONLY_MODELS))

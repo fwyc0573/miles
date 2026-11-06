@@ -1,0 +1,186 @@
+{
+  "job": "exp-1107-005818-919546",
+  "uid": "7d7c069f-f0a2-47f5-85db-34da52395b1b",
+  "replicas": [
+    {
+      "name": "exp-1107-005818-919546-student-cfcd2084",
+      "uid": "b64ef802-0055-4bdb-9836-df33ba615ada",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:35Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:50Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:50Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:34Z"
+          }
+        ],
+        "hostIP": "10.191.9.44",
+        "podIP": "10.191.9.44",
+        "podIPs": [
+          {
+            "ip": "10.191.9.44"
+          }
+        ],
+        "startTime": "2026-11-06T19:50:35Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-06T19:50:50Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://e517023e623f182eddbaf8f489763eb95731ceaed28c9315049b1c3f5969e773",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Running",
+        "nodeName": "gpu-h800-0210.host.platform.shaipower.com"
+      }
+    },
+    {
+      "name": "exp-1107-005818-919546-teacher-c4ca4238",
+      "uid": "2082926b-4de1-4bdd-b090-f24407e21f7f",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:35Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:54:57Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:54:57Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:35Z"
+          }
+        ],
+        "hostIP": "10.191.9.34",
+        "podIP": "10.191.9.34",
+        "podIPs": [
+          {
+            "ip": "10.191.9.34"
+          }
+        ],
+        "startTime": "2026-11-06T19:50:35Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-06T19:54:56Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://bf8630e92a187592671020e0979f2a2cb2264bd2b53d59e48c594e47e8253419",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Running",
+        "nodeName": "gpu-h800-0223.host.platform.shaipower.com"
+      }
+    },
+    {
+      "name": "exp-1107-005818-919546-teacher-cfcd2084",
+      "uid": "927aa7f0-b0f5-4f6c-9200-8148353b1721",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:35Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:59:14Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:59:14Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T19:50:35Z"
+          }
+        ],
+        "hostIP": "10.191.5.19",
+        "podIP": "10.191.5.19",
+        "podIPs": [
+          {
+            "ip": "10.191.5.19"
+          }
+        ],
+        "startTime": "2026-11-06T19:50:35Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-06T19:59:14Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://ebb22338f34b7e87fb4c013cae39dac8723e8efeafaef64058c566a3896885cb",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Running",
+        "nodeName": "gpu-h800-0071.host.platform.shaipower.com"
+      }
+    }
+  ]
+}

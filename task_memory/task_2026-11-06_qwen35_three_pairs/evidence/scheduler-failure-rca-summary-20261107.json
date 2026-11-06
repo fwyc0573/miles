@@ -1,0 +1,390 @@
+{
+  "job": {
+    "name": "exp-1107-030522-873302",
+    "uid": "5742f4e6-d30b-4f10-8ca0-d7ed63c5f7b4",
+    "creationTimestamp": "2026-11-06T19:05:22Z",
+    "deletionTimestamp": null,
+    "ownerReferences": null
+  },
+  "replica": {
+    "name": "exp-1107-030522-873302-student-cfcd2084",
+    "uid": "00f03bb6-f811-4888-8629-0ff8251f98c2",
+    "creationTimestamp": "2026-11-06T19:36:13Z",
+    "deletionTimestamp": null,
+    "ownerReferences": [
+      {
+        "apiVersion": "rjob.brainpp.cn/v1alpha1",
+        "kind": "RJob",
+        "name": "exp-1107-030522-873302",
+        "uid": "5742f4e6-d30b-4f10-8ca0-d7ed63c5f7b4",
+        "controller": true,
+        "blockOwnerDeletion": true
+      }
+    ]
+  },
+  "raw_directory": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-scheduler-exp-1107-030522-873302",
+  "sources": {
+    "rjob-live-events": {
+      "ok": true,
+      "count": 2,
+      "pagination_complete": true,
+      "selected_records": [
+        {
+          "reason": "SuccessfulDelete",
+          "message": "Deleted pod: exp-1107-030522-873302-teacher-cfcd2084",
+          "type": "Normal"
+        },
+        {
+          "reason": "Close replica",
+          "message": "Close replica/exp-1107-030522-873302-teacher-cfcd2084",
+          "type": "Warning"
+        }
+      ]
+    },
+    "replica-live-events": {
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true,
+      "selected_records": []
+    },
+    "rjob-historical-events": {
+      "ok": true,
+      "count": 5,
+      "pagination_complete": true,
+      "selected_records": [
+        {
+          "reason": "Close replica",
+          "message": "Close replica/exp-1107-030522-873302-teacher-cfcd2084",
+          "lastTimestamp": "2026-11-06T19:46:04Z",
+          "eventTime": null,
+          "involvedObject": {}
+        },
+        {
+          "reason": "SuccessfulDelete",
+          "message": "Deleted pod: exp-1107-030522-873302-teacher-cfcd2084",
+          "lastTimestamp": "2026-11-06T19:46:03Z",
+          "eventTime": null,
+          "involvedObject": {}
+        },
+        {
+          "reason": "Start replica",
+          "message": "Start replica/exp-1107-030522-873302-student-cfcd2084",
+          "lastTimestamp": "2026-11-06T19:36:13Z",
+          "eventTime": null,
+          "involvedObject": {}
+        },
+        {
+          "reason": "Start replica",
+          "message": "Start replica/exp-1107-030522-873302-teacher-cfcd2084",
+          "lastTimestamp": "2026-11-06T19:36:13Z",
+          "eventTime": null,
+          "involvedObject": {}
+        },
+        {
+          "reason": "QueueWaiting",
+          "message": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=8.",
+          "lastTimestamp": "2026-11-06T19:35:28Z",
+          "eventTime": null,
+          "involvedObject": {}
+        }
+      ]
+    },
+    "replica-historical-events": {
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true,
+      "selected_records": []
+    },
+    "rjob-audit": {
+      "ok": true,
+      "count": 18,
+      "pagination_complete": true,
+      "selected_records": [
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:sys.maintain",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:sys.maintain",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994541,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994376,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994363,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994363,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994363,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793994363,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993788,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993788,
+          "result": "failed",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993788,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993788,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993787,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993774,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993774,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993774,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793993773,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793991924,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:queue-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:queue-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "update",
+          "timestamp": 1793991924,
+          "result": "succeeded",
+          "data_present": false
+        },
+        {
+          "subject": {
+            "subject_id": "e7163316ad76ba7266a33f9787afd70a",
+            "subject_type": "user",
+            "subject_name": "i-fengyicheng",
+            "tenant": "shai",
+            "scope": "/shai/",
+            "groups": null
+          },
+          "operation": "create",
+          "timestamp": 1793991923,
+          "result": "succeeded",
+          "data_present": false
+        }
+      ]
+    },
+    "replica-audit": {
+      "ok": true,
+      "count": 1,
+      "pagination_complete": true,
+      "selected_records": [
+        {
+          "subject": {
+            "subject_id": "system:serviceaccount:kubebrain:rjob-controller",
+            "subject_type": "service",
+            "subject_name": "system:serviceaccount:kubebrain:rjob-controller",
+            "tenant": "shai",
+            "scope": "shai-core",
+            "groups": null
+          },
+          "operation": "create",
+          "timestamp": 1793993773,
+          "result": "succeeded",
+          "data_present": false
+        }
+      ]
+    },
+    "existing-deepscan": {
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true,
+      "selected_records": []
+    },
+    "incident-logs": {
+      "ok": true,
+      "count": 1,
+      "pagination_complete": null
+    }
+  }
+}

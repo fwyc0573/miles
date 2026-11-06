@@ -217,6 +217,9 @@ def _training_args(args, run: Path) -> str:
         "--optimizer adam --lr 2e-6 --lr-decay-style constant --lr-warmup-iters 0 --weight-decay 0 "
         "--adam-beta1 0.9 --adam-beta2 0.98"
     )
+    if args.num_rollout == 0:
+        # Native evaluation scores the model without constructing a zero-step LR scheduler.
+        optimizer += " --debug-disable-optimizer"
     if recipe.optimizer_cpu_offload:
         optimizer += " --optimizer-cpu-offload --overlap-cpu-optimizer-d2h-h2d --use-precision-aware-optimizer"
     sglang = (

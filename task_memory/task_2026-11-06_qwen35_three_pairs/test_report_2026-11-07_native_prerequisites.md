@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Confirm repaired Ray startup on eight H800 GPUs and retain the distinct zero-update scheduler initialization failure and its exact RCA. |
 | 2026-11-07 | Verify actual 27B teacher readiness, diagnose the 133-byte Ray socket failure, and validate the one-boundary local-root fix with 58 CPU checks. |
 | 2026-11-07 | Record ineffective per-task correction, identify admission mutation with non-persisting server dry-runs, and validate all-single-node A/B configuration. |
 | 2026-11-07 | Add real job identities, H800 allocation evidence, ConfigMap startup failure and controlled stop receipts. |
@@ -291,3 +292,69 @@ The unchanged runbook proxy/auth initialization and the same long-lived submit c
 | C | `exp-1107-005818-919546` | Original queued launcher retained | Pending at pre-submission observation |
 
 Checks cover personal creator, current local machine's `IP:/data/ycfeng:/data/ycfeng` filestore annotation, exact image digest, role GPU/node/host-network shape, gang-group and absent A/B ConfigMap dependency. The first auxiliary inspection incorrectly searched for Kubernetes `nfs` fields in the RJob CRD and exited on an empty-source assertion; the established `spec.taskSpecs[role].template.metadata.annotations['kubebrain.brainpp.cn/filestore-volume']` inspection above then passed. That inspection error did not stop or modify any workload. Both A/B readbacks report eight remaining H800 for ten requested. Long-lived launchers remain active. Native repaired startup is still **UNVERIFIED**.
+
+## Repaired Ray startup passed; zero-update optimizer initialization failed
+
+Subsequent A `exp-1107-030522-873302` proves the Ray-root repair: [cluster.json](evidence/native-prerequisites/student/A/exp-1107-030522-873302/cluster.json) reports one live node at10.191.9.44 with8 GPUs. Ray session `session_2026-11-06_19-39-46_931208_1123` started successfully and launched the actual Megatron actors. Student model construction reached the optimizer setup path; this does not prove pretrained student weights finished loading or any score/update succeeded.
+
+The [selected original traceback](evidence/scheduler-failure-native-trace-20261107.txt) comes from the completed personal cloud log `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-030522-873302.log` (5,702,926 bytes). Local filesystem cloud access is unavailable; read-only `ssh shai-ycfeng` succeeded on this attempt using its equivalent `/mnt/ws-jfs/ycfeng/...` path. A separate `timeout 12s ssh -o BatchMode=yes -o ConnectTimeout=8 shai-ycfeng 'id -un'` returned `i-fengyicheng`. Only bounded traceback lines were retained locally; the full log remains on personal cloud storage.
+
+```text
+miles/backends/megatron_utils/actor.py:244 init
+  -> model.py:1015 build_model_and_optimizer
+  -> model.py:246 setup_model_and_optimizer
+  -> model.py:118 get_optimizer_param_scheduler
+  -> /root/Megatron-LM/megatron/core/optimizer_param_scheduler.py:169
+assert self.lr_decay_steps > 0
+AssertionError
+```
+
+All eight trainer ranks report this initialization failure at19:45:48Z. The baseline-only command has `num_rollout=0`; the native builder derives `train_iters=0`, then default `lr_decay_iters=0`. The existing `debug_disable_optimizer` path returns the model with no optimizer/scheduler and is being verified for baseline-only execution. This is a launcher-mode contract defect, not evidence of a dependency/import failure. The formal100-update Adam configuration remains the required training path. Zero-update scoring cannot establish backward/optimizer memory capacity.
+
+### Exact termination evidence
+
+[Object binding](evidence/scheduler-failure-rca-objects-20261107.json): RJob UID `5742f4e6-d30b-4f10-8ca0-d7ed63c5f7b4`, student replica UID `00f03bb6-f811-4888-8629-0ff8251f98c2`, node `gpu-h800-0210.host.platform.shaipower.com`, personal creator and pinned image verified. Application failure precedes container exit1 at19:46:01Z, system-stop timestamp19:46:03Z (`Some critical tasks failed.`), RJob Failed19:46:16Z and local launcher cleanup03:46:18 local. The launcher cleanup did not initiate the scheduler assertion.
+
+[Query index](evidence/scheduler-failure-rca-index-20261107.json) and [selected events/audits](evidence/scheduler-failure-rca-summary-20261107.json): all eight queries succeeded; live job/replica event counts2/0, historical5/0, audit18/1, existing DeepScan0, incident log rows1. All returned audit `data` fields were absent. Events show startup and subsequent teacher closure, with no positive preemption/OOM event in returned coverage. The [371-sample cgroup receipt](evidence/native-prerequisites/student/A/exp-1107-030522-873302/memory.json) reports peak sampled usage62,842,441,728 bytes, kernel high-water63,418,052,608 against536,870,912,000 limit, final failcnt0/oom_kill0. Ray's generic worker-exit message lists OOM among possibilities, but the specific observed cause is the Python scheduler assertion. Missing manual-stop actor/reason/request-time remain UNKNOWN; negative sampled evidence is not a complete kernel history.
+
+With the runbook proxy initialized, the collector ran under Python3.10.6/brainpp2.8.6:
+
+```bash
+PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+/data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+exp-1107-030522-873302 --replica exp-1107-030522-873302-student-cfcd2084 \
+--expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+--start 2026-11-06T19:45:30Z --end 2026-11-06T19:46:30Z --timeout 35 \
+--output /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-scheduler-exp-1107-030522-873302
+```
+
+[Concurrent platform observation](evidence/platform-after-native-ray-failure-20261107.json) showed B Starting and C Pending. B had no student-launch/teacher-ready receipt when the shared defect was identified. Parent stopped only B through `rjob_stop.sh --creator i-fengyicheng` at03:50:30 local with the recorded zero-update-scheduler reason; its launcher confirmed Stopped03:50:40. C's original queued launcher is retained. The in-scope correction/regression belongs to `QWEN-P2-LAUNCH`; repaired model scoring remains **UNVERIFIED**.
+
+### Zero-update baseline correction and CPU regression
+
+`QWEN-P2-LAUNCH` reused the existing `--debug-disable-optimizer` flag only when the task launcher selects `num_rollout=0`. Native `setup_model_and_optimizer` then returns model/None/None; native argument validation disables optimizer-state loading/saving. No positive scheduler duration is substituted. Formal100 preserves Adam/constant2e-6/no-warmup/betas0.9,0.98/zero-weight-decay, and native scheduler duration800 samples. Parent inspected the complete two-file diff; no core code or resource/configuration file changed.
+
+The regression drives actual launcher output through the native setup/scheduler functions and a read-only reference Megatron scheduler class. GPU model/optimizer factories are CPU fixtures. A/B/C baseline cases failed on the original assertion before repair; formal100 cases passed. Subsequent tests run the production score RPC with no optimizer and preserve model values, masks, weight version and residency; the production driver performs exactly one initial eval/publication with no train/save/export calls.
+
+| Check | Expected | Actual |
+| --- | --- | --- |
+| Native setup before repair, both budgets and all pairs | Baseline reproduces actual zero-duration assertion | 3 failed / 3 passed,4.42s — expected red |
+| Same test selection after repair | Baseline returns no optimizer/scheduler; formal remains initialized | 6 passed,3.91s |
+| Complete launcher file | Existing43 checks plus15 setup/scoring/driver regressions | 58 passed,10.14s |
+| `git diff --check` | No patch whitespace errors | PASS |
+
+Executed with Python3.12.13 and the existing CPU environment. `MEGATRON_PATH` supplies source only; it does not import packages from the reference environment:
+
+```bash
+MEGATRON_PATH=/data/ycfeng/envs/verl-agent-opd-megatron-sglang/lib/python3.12/site-packages \
+PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q -p no:cacheprovider \
+tests/fast/test_qwen35_opd_launcher.py --tb=short
+```
+
+Red and first Green used the same command with `-k test_native_setup_for_baseline_or_formal_budget`. These checks do not establish actual HF loading, CUDA offload, optimizer capacity or H800 D8 values. Native model scoring is the next verification input; no further unrelated CPU test expansion is required.
+
+### Independent C allocation
+
+[Pre-retry states](evidence/platform-before-scheduler-retry-20261107.json) verify old A Failed/teacher Stopped and old B both Stopped. C proceeded independently. [Exact container states](evidence/platform-c-starting-20261107.json) and its [student](evidence/native-prerequisites/exp-1107-005818-919546/C/student-node.json), [teacher rank0](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-node-0.json), [teacher rank1](evidence/native-prerequisites/exp-1107-005818-919546/C/teacher-node-1.json) receipts verify24 H800 across gpu-h800-0210/0071/0223,8 per node,81,559MiB/device, driver570.124.06 and the pinned image. Both teacher logs reached TP0–15 model construction at20:02:16Z; head began loading94 shards. Full teacher readiness is not yet established. The original local C launcher remains responsible for its lifetime; later student startup reads the repaired mounted launcher.
