@@ -1,0 +1,79 @@
+{
+  "pair": "B",
+  "name": "exp-1107-055408-654957",
+  "observed_at": "2026-11-06T21:55:55.871515+00:00",
+  "creator": "i-fengyicheng",
+  "source_commit": "b8f18e25",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [student,teacher]",
+    "taskStatuses": {
+      "student": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "scheduling": {
+    "rjob.brainpp.cn/rjob-queue-approved": "2026-11-06T21:54:13.919218877Z",
+    "stepmind.com/estimated-resource": "{\"student\":{\"H800\":{\"used\":1}},\"teacher\":{\"H800\":{\"used\":1}}}",
+    "stepmind.com/final-resource": "{\"student\":{\"H800\":{\"used\":1}},\"teacher\":{\"H800\":{\"used\":1}}}",
+    "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+    "stepmind.com/queue-name": "codesign-default"
+  },
+  "tasks": {
+    "student": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "student",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          },
+          "envFrom": null
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "teacher",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            },
+            "requests": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            }
+          },
+          "envFrom": null
+        }
+      ]
+    }
+  },
+  "admitted_identity_source_resource_checks": "PASS"
+}

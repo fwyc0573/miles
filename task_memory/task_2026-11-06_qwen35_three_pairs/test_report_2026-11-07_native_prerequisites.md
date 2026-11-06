@@ -574,3 +574,7 @@ mkdir -p "$TMPDIR"
 ```
 
 The observed warnings remain recorded. Source checks establish launch/runtime compatibility; they do not establish actual hybrid-model KV coverage, the0.03 numerical gate, optimizer capacity or HF reload. Additional suite expansion stops after this PASS; the next action is actual A/B baseline requalification while C continues independently.
+
+### Corrected baseline submissions
+
+Code/evidence commit: `b8f18e25`. The unchanged submitter was invoked from `/data/ycfeng` with the existing personal auth and `STEPMIND_BACKEND=rjob`, passing the absolute `native_probe_config.json` path and `--pair A` / `--pair B`. New jobs are A `exp-1107-055408-748211` and B `exp-1107-055408-654957`. [A admission](evidence/platform-exp-1107-055408-748211-prefill.json) and [B admission](evidence/platform-exp-1107-055408-654957-prefill.json) pass exact creator, image, current-host NFS, one8-GPU student plus one2-GPU teacher, and empty ConfigMap-reference checks. Observed B Running; A Pending with6 H800 quota remaining against10 requested. [C readback](evidence/platform-exp-1107-044223-241566-prefill.json) remains Running with one student and two teacher replicas; its historical queue annotation does not override current Running status. Actual new generation-version receipts and numerical results remain pending; platform admission is not model acceptance.
