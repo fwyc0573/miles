@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Resume exact native failure diagnosis and dynamic benchmark completion. |
 | 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
@@ -4221,3 +4222,225 @@ Implementation: `tests/manual/agent_opd/rjob_benchmark.py` forwards an optional 
 CPU command: `timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_agent_opd_benchmark_archive.py tests/fast/test_agent_opd_export.py --basetemp=/data/ycfeng/tmp/agent-opd-learning-20261105/pytest-registry-20261106a -p no:cacheprovider`. Python3.12.13, pytest9.1.1; actual10passed in1.23seconds, three existing deprecation warnings. `git diff --check` passed. Native configuration validation also produced the exact alias image through the existing Config API.
 
 Q2 first sandbox differential is limited: conda activation was extracted without the native profile initialization; observed Python was the image base interpreter3.11.5. Therefore that artifact does not verify the grader interpreter. The corrected exact eval-script source/activation and expected `/envs/testbed/` interpreter are being checked before any score classification. Planned native baseline control runs only the unchanged checker with an empty prediction patch, same instance/config/deadline; it does not regenerate the answer. Baseline resolved/unresolved test summaries within1200seconds plus a patched-only hang under that interpreter distinguish a model timeout from a generic grader failure.
+
+
+## Unique Q4 recovery and Q2 native baseline control (2026-11-06T07:19:30.923868+08:00)
+
+Q4/seed1732 now has exactly one recovery RJob `exp-1106-071631-149224`, UID `34cca272-9162-4fe1-b00f-a02a38410652`. The personal API verified creator i-fengyicheng, codesign quota, current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`, one replica,4 H800 GPUs,24 CPUs,300000Mi memory and the pinned company image. Phase Pending. Controller tool session94304 and child PID742667 remain alive. Six recovery jobs now cover the eight original initialization-invalid seeds; exact membership remains dynamically derived from launch manifests.
+
+Q2 native baseline control RJob `exp-1106-071629-392989`, UID `1131cc1d-e9e1-430e-b0e2-2374f995a02c`, is Running on node0326. Personal API verifies0 GPU,8 CPU,64000Mi, same image/local NFS/creator/quota; replica UID9356d1a6-afb0-4ee8-a110-a76dd6b9dcab is Running/restart0. Tool session59807 retains its launcher. This control runs the unchanged native checker on the preserved instance/config with an empty prediction; it neither reruns generation nor changes the source grading receipt. Result pending.
+
+Independent Q4 manifest body verification also passed: both registries returned3452 identical bytes,15layers, media typeDocker distribution manifestv2; SHA256 of actual response bytes matches the header digest and recorded expected digest. The alias image is not merely assumed equal from its tag.
+
+Actual receipt-bound read now has46 benchmark requests, original80 and updated61 valid outcomes. The Q2 timeout and Q5 FileNotFoundError remain excluded pending final cause/classification. Healthy generation, six unique recoveries, consumer and final waiter continue. The registry code and prior conclusions are committed as848f998c; final benchmark acceptance and final push remain incomplete.
+
+
+## Resumed native benchmark verification (2026-11-06T07:24:06.405426+08:00)
+
+completed: reread requirements, plan, applicable repository rules, personal StepMind runbook, skill and actual current receipts. Dynamic membership has 46 benchmark requests. Independent personal cloud reads found original 80 unique valid outcomes, 50 resolved, avg@4 0.625; updated 62 unique valid outcomes, 40 resolved. Updated avg@4 is not reported from this incomplete population. Q2/seed1731 and Q5/seed1732 remain grading-invalid and held. No new training or generation was submitted.
+
+in-progress: Q2 empty-prediction native baseline control remains Running on node0326 with restart0; its result file has not appeared. Same-image/interpreter submitted-only regex timeout is verified, but the full-grader cause/classification still awaits this control. Existing six targeted initialization recoveries remain live or queued. The exact personal API observation at 2026-11-06T07:21:42.305749+08:00 recorded 24 Succeeded, 9 Failed, 10 Running and 3 Pending benchmark RJobs; this is platform state, not device utilization. Existing failure terminal identities remain governed by recorded incidents.
+
+Cleanup: consumed healthy shards continue through the existing consumer. Current local scratch is 5668230 bytes; available host space is 100206182400 bytes. Original trajectories/check results and update20 HF remain necessary until diagnosis/scoring. Continue native grading and recovery in parallel; verify Q2 control first, then diagnose Q5 from its original archive. Preserve every generated model failure and the fixed 80-attempt denominator.
+
+
+## Q2 native baseline completed
+
+completed: exact zero-GPU control returned complete native summaries in339.631356seconds and platform/containerSucceeded. Independent original generation/trajectory/grading hashes are unchanged. The scoring decision and baseline limitation are canonical in the learning report.
+
+in-progress: preserve native timeout as a separate proven model failure, qualify fixed-denominator aggregation and consume source evidence after hash binding; healthy generation and the six targeted recoveries continue. Q5 remains held until original diagnostics arrive.
+
+
+## Native continuation checkpoint (2026-11-06T08:31:24.433917+08:00)
+
+completed: read current requirements/plan/rules, applicable skills/runbook, exact original Q5 error trajectories, Q2 consumer terminal state and dynamic46-request benchmark membership. Canonical measurements and hashes are in the learning report. Learner/export/reload remain complete; no new training submitted. Old consumerPID4182314 currently has no launcher children; followupPID1801910 and final waiterPID994966 remain alive. Q5 and newly observed Q10invalid sources remain preserved.
+
+in-progress: diagnose native Q5/Q10 failures without replacement answers; continue five healthy generations/recoveries; replace only the child-free CPU consumer after its actual remote query qualifies. The remote diagnosis reader needed explicit imports/definition before use, discovered and corrected before activating the new observer. Timely terminal consumption and final scoring remain mainline work.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1–5：branch、资产、信号、两步H800warmup、阶段清理和同步 | PASS | 共5项，原始验收已归档 |
+| 学习1–3：固定20题/80turns、20次更新/HF、native evaluator | PASS | 共3项，真实导出/重载通过 |
+| 学习4：original80 | PASS | 80native有效、50resolved、avg@4=0.625 |
+| 学习4：提前归档 | PASS | CPU与真实worker归档验证通过 |
+| 学习4：updated80 | TODO | 72可评估结果，完整分母未达到 |
+| 学习4：失败诊断、恢复与消费 | TODO | Q2因果/消费已通过；Q5/Q10原件待分类，5项generation继续 |
+| 学习5：配对评分、最终清理与同步 | TODO | 依赖完整80+80与全部终态 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次真实更新、测量及阶段清理完成 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次2026-11-06 07:12HKT自检至本次接续｜**当前前沿：** updated结果、原生失败诊断、既有恢复及消费
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 独立失败reader与消费改动直接服务固定分母；远端查询先验证后替换 |
+| D2 细节反复重试 | CLEAR | Q2每次诊断缩小因果；当前不再重评；consumer依实际NameError补齐imports |
+| D3 支线问题修补 | CLEAR | Q5/Q10原件诊断由学习4验收拥有 |
+| D4 可并行任务停滞 | CLEAR | generation、恢复、消费及最终waiter并行；实际5Running |
+| D5 超范围镀金 | CLEAR | 无新训练、题库、模型、sampling或第二benchmark |
+| D6 分析空转 | CLEAR | updated由61升至72；Q2因果与消费完成，Q5原件已取得 |
+| D7 路线违背 | CLEAR | 不替换模型失败，不计未知错误为零，保留活动launchers |
+
+**文档检查：** S1–S6均未发现明显缺陷；最新native错误由既有诊断/恢复步骤拥有，完整结果标准有明确分母。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：监督5项既有generation ‖ 诊断Q5/Q10原始错误 ‖ 子进程结束后的CPUconsumer替换；以原件因果和80唯一updated结果结束。
+2. 使用已验证native状态API核验独立sandbox清理；该观察不阻断健康generation。
+3. 完整80+80后调用既有production summarizer，核验全部终态，精确清理，再正常commit/push和独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 二十次更新、完整HF与真实重载已完成，不再训练。
+2. updated72/80；Q5两项与新Q10invalid必须保留原生成并按实际原因处理。
+3. 只有五个native GPU作业当前Running；其launchers与HF继续保留，已完成原件及时消费。
+
+
+## Native context repair and prefix-restoration RCA (2026-11-06 08:47 HKT)
+
+completed: exact failed diagnostic `exp-1106-084046-630246`, UID `a839768b-85bb-4bcb-8dd3-f8abdb32121d`, is Failed/exit1/restart0 on H800 node0326 with the required personal creator/codesign/current local NFS. Its initiating traceback is `KeyError: condenser` before sandbox creation. The original TOML omits native default fields; the existing registered agent Config supplies `latest_half`, max_history_truncations1, max_turnsNone. CPU exact-config preflight now passes. All six object/event/log/DeepScan categories returned; both all-operation audits timed out12seconds. No observed initiating OOM/preemption; manual-stop actor/reason/requesttime remain UNKNOWN.
+
+completed: native Python3.10.20 replay of the original460-message Q5 rejection now raises ContextWindowExceedError; the unrelated400 and non400-context cases retain ModelError. Existing summary/archive/export fast checks:17passed/1.70seconds.
+
+in-progress: unique zero-GPU replacement uses unchanged native ReplayModel responses and tools; it supplies no new model answer or score. Hypothesis recorded before execution: obtaining defaults through the registered native Config removes the exact pre-sandbox KeyError; a restored229-assistant boundary plus exact response/tool identity and actual workspace evidence qualifies recovery. Unknown or substantive replay differences prevent continuation. Native replay suppresses warning output through its existing report_error=none option; it still records differences for inspection.
+
+Observed original80/80 native valid,50resolved;updated73/80 evaluated,49resolved (72native valid plus1confirmed Q2 model failure). Q18/seed1731 also failed on explicit131408>131072 input overflow; its source is Succeeded/exit0/restart0 and remains unconsumed. Three healthy benchmark jobs continue.
+
+
+## Native recovery continuation (2026-11-06T09:05:20.783204+08:00)
+
+completed: exact personal GET and server-side dryRun=All create passed through TLS-verified PoolManager. Independent GET404 proves the dry-run response was not persisted. The earlier empty-body envoy403 did not recur; its initiating cause remains UNKNOWN. No credential replacement or alternate submission path was used.
+
+completed: replacement prefix diagnostic exp-1106-085541-653360 / UIDa018f377-a72c-442d-998d-69a247c4eda2 failed before agent setup,exit1/restart0,onH800node0202. Initiating evidence is SessionRouter401/decrypt_auth_token/illegal base64. Raw TOML contains an environment placeholder; the diagnostic bypassed the native pipeline's ConfigManager substitution. It now uses pipeline.config and asserts the resolved credential in memory. Exact native CPU substitution and original multi-dialog merge/TaskTrajectory parsing pass. RCA: six object/event/log/DeepScan categories succeeded; both audit queries ReadTimeout12s. Manual-stopactor/reason/requesttime UNKNOWN. This does not affect existing training or benchmark jobs.
+
+in-progress: four unique zero-GPU native restorations use the same personal/local-NFS/codesign/company-image route. Q5context exp-1106-090058-294491;Q18context exp-1106-090058-854311;Q5budget exp-1106-090213-310020;Q10budget exp-1106-090213-295310. Budget restoration merges the original history with the native viewer, removes exactly two synthetic terminal messages,and preserves274/213unique actual model responses. No new inference or score is requested by restoration. Original artifacts remain held. Context continuation waits for actual prefix/workspace verification and will retain the remaining original wall-clock budget.
+
+completed: child-free final observerPID994966 was stopped before adding restoration/continuation jobs. Its disposable implementation and finalizer now require terminal verification of every actual task receipt,including auxiliary/recovery/cleanup workers. An absent receipt and a proposed dry-run name do not count as submitted jobs. Final observer restart awaits review/commit of code changes; all healthy GPU launchers and consumer remain alive.
+
+verification: Python3.12.13/pytest9.1.1 fast summary/archive/export tests17PASSin1.69s;native Python3.10.20 ConfigManager substitution and multi-dialog TaskTrajectory parsing PASS. Current last-read fixed benchmark remains original80/80native valid,50resolved,avg@4=0.625;update20 73/80evaluated,49resolved(72nativegrades plus1confirmed model failure). Three existing generation RJobs continue. Do not train again.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1–5：branch、模型资产、信号、H800warmup、阶段清理和同步 | PASS | 五项原始验收已归档 |
+| 学习1–3：固定题库与输入、20updates/HF、native evaluator | PASS | 三项已验证；不重复训练 |
+| 学习4：original80 | PASS | 80nativegrades、50resolved、avg@4=0.625 |
+| 学习4：提前归档 | PASS | 原生归档和消费已验证 |
+| 学习4：updated80 | TODO | 73evaluated；三个既有生成仍运行 |
+| 学习4：原件恢复、诊断与消费 | TODO | 原生merge和配置修复通过；四个唯一0GPU恢复待工作树证据 |
+| 学习5：配对评分、最终清理与同步 | TODO | 依赖完整结果及所有实际作业终态 |
+| 补充：Frog/Qwen实际资格验证 | PASS | 两次更新、残差测量和清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上次08:31HKT自检至本次接续｜**当前前沿：** updated80、原件恢复与消费、最终终态核验
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 原件重放和清理终态保护只服务七个缺失结果及既有清理标准 |
+| D2 细节反复重试 | CLEAR | 403先用只读dry-run缩小范围；401先取initiatinglogs并验证nativeConfigManager修复 |
+| D3 支线问题修补 | CLEAR | 当前错误和恢复均由学习4拥有 |
+| D4 可并行任务停滞 | CLEAR | 三个GPU生成、四个0GPU恢复及consumer并行 |
+| D5 超范围镀金 | CLEAR | 不增加训练、题目、seed、第二benchmark或新的模型答案 |
+| D6 分析空转 | CLEAR | 得到POST可用、401原因、274/213原件精确merge和真实恢复receipts |
+| D7 路线违背 | CLEAR | 保留原答案和预算；未知错误仍缺失；清理须全部实际作业终态 |
+
+**文档检查：** S1–S6均未发现明显缺陷；新增恢复由现有验收步骤拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：检查Q5/Q18前缀与工作树 ‖ Q5/Q10最终patch恢复 ‖ 既有generation和消费；每项用原件真实结果结束。
+2. 仅从已验证context失败位置继续，扣除原预算；对budget耗尽的原始patch使用nativegrader。
+3. 集齐80+80后用production summarizer计算配对结果，核验所有实际receipts终态，清理并正常push/独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 二十次真实更新与HF重载已完成；当前只完成评测。
+2. 两个预算耗尽样本必须恢复已执行actions的最终patch，不能依据默认空值记零。
+3. 最终清理已增加所有实际恢复和消费作业终态条件，避免HF被提前删除。
+
+
+## Continuation after original-answer restoration (2026-11-06T09:29:24.989689+08:00)
+
+completed: four zero-GPU original-response/action restorations and two native final-patch grades are terminal/Succeeded/exit0. Q5/1729 unresolved;Q10/1729 resolved. Native condenser/budget preflight PASS and summary/archive/export17PASS. Exact values,hash-bound provenance and limits are canonical in the learning report. Independent updated count75/80with50resolved;original80/80with50resolved. No further training.
+
+in-progress: Q5/1732 exp-1106-092533-143723 and Q18/1731 exp-1106-092533-163895 each have one4H800receipt; actual engine/worker verification remains required. Existing Q1/1732,Q8/1732,Q13/1729 continue. The consumer now retains original recovery grades/trajectories and raw native result until final scoring. Finalizer validates exact restoration/grading/continuation provenance and every actual receipt-bound job terminal before any cleanup.
+
+pending: independently verify recovered native grades,release Q10 hold for timely consumption,qualify/restart final observer after current code commit,finish80+80andpairedbootstrap,precisecloud/localcleanup,normalpushandSHAverification.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1–5：branch、资产、信号、H800warmup、阶段清理和同步 | PASS | 五项原始验收已归档 |
+| 学习1–3：固定题库与turns、20updates/HF、native evaluator | PASS | 三项已验证；不重复训练 |
+| 学习4：original80 | PASS | 80native有效、50resolved、avg@4=0.625 |
+| 学习4：提前归档 | PASS | CPU与真实worker归档/消费通过 |
+| 学习4：updated80 | TODO | 75evaluated；三个生成及两个续评推进 |
+| 学习4：原件恢复、诊断与消费 | TODO | 四份恢复与两份原生评分通过；来源核验/消费继续 |
+| 学习5：配对结果、最终清理与同步 | TODO | 依赖完整80+80与所有实际终态 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次更新、残差测量和清理已归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 09:05HKT至当前接续｜**当前前沿：** 剩余评测、恢复来源验证/消费、最终汇总与清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 消费/终态/来源检查直接服务既有最终验收，完成后删除 |
+| D2 细节反复重试 | CLEAR | Preflight按真实API错误修复；相对manifest错误在提交前明确定位 |
+| D3 支线问题修补 | CLEAR | 原答案恢复和context修复均由学习4拥有 |
+| D4 可并行任务停滞 | CLEAR | 三个既有生成、两项续评和CPU来源验证并行 |
+| D5 超范围镀金 | CLEAR | 没有新增训练、模型、题库、seed或第二benchmark |
+| D6 分析空转 | CLEAR | 得到两项原生评分和75/80实测，续评已提交 |
+| D7 路线违背 | CLEAR | 保留原回答和预算，未知错误仍缺失，清理等待全部实际终态 |
+
+**文档检查：** S1–S6均未发现明显缺陷；新增原件验证属于既有验收，不改变用户scope。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 并行：完成五个唯一缺失评测 ‖ 独立恢复来源验证/及时消费；以80唯一updated结果和真实终态结束。
+2. 当前code检查/commit后恢复最终observer；所有实际receipt终态及80+80齐全才进行production汇总。
+3. 计算10000次questionbootstrap，核验原件/恢复来源，精确清理并正常push/独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 二十次真实更新、完整HF、真实重载已完成，当前只补评测。
+2. 两项耗尽预算答案已按原patch评分，未替换答案；两项context续评扣除原预算。
+3. 当前只有75/80updated，不能提前报告完整avg@4或删除HF。
+
+
+completed: actual recovered-grade provenance checks PASS2/2;Q10source consumed30files/126500826bytes while preserving15requiredminimalfiles. Bothcontinuationservers loadedexactupdate20;actualpersonal/NFS/image/containerRunningidentities verified.
+
+in-progress: fiveuniqueupdatedpairs remain;finalobserver restart follows currentimplementationcommit. Currentdisposablevalidatorscompile and48benchmark/110alltaskactualreceiptmembershipPASS. Finalscore/cleanupmustwait80+80,sourceprovenanceandactualterminalstates.

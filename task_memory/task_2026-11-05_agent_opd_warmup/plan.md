@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Preserve the proven Q2 model timeout separately from native resolved/unresolved grading in fixed-denominator scoring. |
 | 2026-11-06 | Archive completed native seed diagnostics before sibling generation ends. |
 | 2026-11-06 | Reference actual native initialization failures instead of a stale fixed count. |
 | 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
@@ -118,12 +119,12 @@ The temporary local observer waits for every complete native four-seed job to be
 
 ## Updated evaluation concurrency after training completion
 
-After complete update20 HF/native inspection and actual first-server reload, use twenty existing followup child slots. The original model has77valid native outcomes through the identical BaseMind pipeline, which qualifies this shared backend. Full grading of the first updated question is a parallel acceptance observation, not a data dependency of the other nineteen questions. The controller reads the exact first server engine receipt and requires its path/version to match native completed-update20 training before submitting. Final acceptance still requires80valid native grader outcomes per model, unchanged questions/seeds and exact terminal identities. With one original remaining, all twenty updated four-GPU jobs plus that original request at most84GPUs, below the recorded96GPU task cap. No existing GPU launcher is stopped or resubmitted.
+After complete update20 HF/native inspection and actual first-server reload, use twenty existing followup child slots. The original model has77valid native outcomes through the identical BaseMind pipeline, which qualifies this shared backend. Full grading of the first updated question is a parallel acceptance observation, not a data dependency of the other nineteen questions. The controller reads the exact first server engine receipt and requires its path/version to match native completed-update20 training before submitting. Final acceptance requires80evaluated unique attempts per model, unchanged questions/seeds and exact terminal identities. Separately proven model-caused native timeouts retain their original invalid grading receipts and contribute one failed outcome; all remaining outcomes require native resolved/unresolved grades. With one original remaining, all twenty updated four-GPU jobs plus that original request at most84GPUs, below the recorded96GPU task cap. No existing GPU launcher is stopped or resubmitted.
 
 
 ## Native initialization recovery (November 6)
 
-Recorded updated attempts with final EnvInitError generation receipts are tracked by their exact source jobs and seeds in the learning report. First retain their exact native error and terminal identities; a bounded fresh same-image BaseMind readiness/tool probe runs in parallel. Recover only stable missing question/seed pairs through the existing --task-index/--seeds mechanism after new availability evidence. Preserve every valid or still-running pair. Partial source jobs and any recovery jobs retain their own UID, exits and outcome provenance. Final aggregation uses the production duplicate/identity checks across all actual roots; adapt disposable consumers to these actual receipts instead of requiring every job to supply four valid outcomes. The result still requires exactly80valid unique attempts per model and no inference/training parameter change.
+Recorded updated attempts with final EnvInitError generation receipts are tracked by their exact source jobs and seeds in the learning report. First retain their exact native error and terminal identities; a bounded fresh same-image BaseMind readiness/tool probe runs in parallel. Recover only stable missing question/seed pairs through the existing --task-index/--seeds mechanism after new availability evidence. Preserve every valid or still-running pair. Partial source jobs and any recovery jobs retain their own UID, exits and outcome provenance. Final aggregation uses the production duplicate/identity checks across all actual roots; adapt disposable consumers to these actual receipts instead of requiring every job to supply four valid outcomes. The result still requires exactly80evaluated unique attempts per model and no inference/training parameter change. Native resolved/unresolved grades and separately proven model-caused timeouts are counted distinctly; unknown infrastructure/grade errors remain missing.
 
 
 ## Closed native seed diagnostics
@@ -133,6 +134,15 @@ Two actual invalid grades require exact native trajectory/check-result diagnosis
 
 ## Current native failure recovery route (November 6)
 
-The unchanged Q2 patch caused two native1200-second timeouts and a reproducible regex performance defect on native URL-test inputs. Diagnose with the actual native image and activated grader interpreter, plus an empty-prediction native grader control. Keep the generated answer and original timeout result. Infrastructure failures remain missing; a proven model-caused failure must not be regenerated into a different answer. Question5 still requires its original artifact diagnosis.
+The unchanged Q2 patch caused two native1200-second timeouts and a reproducible regex performance defect on native URL-test inputs. Diagnose with the actual native image and activated grader interpreter, plus an empty-prediction native grader control. Keep the generated answer and original timeout result. The successful native baseline plus exact-interpreter differential now prove a model-caused Q2 timeout. Record this as a separate hash-bound failure for the fixed eighty-attempt score; never fabricate native resolved/unresolved or test summaries. Infrastructure failures remain missing; a proven model-caused failure must not be regenerated into a different answer. Question5 still requires its original artifact diagnosis.
 
 Q4 generation initialization failed on the original registry. The documented registry alias has the same actual image digest and passed native Ready/shell/independent closure. Forward only the existing native agent environment registry field for the one missing seed; preserve the original grader namespace and every model/question/sampling/resource parameter. Other targeted recoveries continue independently.
+
+
+## Current context and native budget recovery (November 6)
+
+The native SGLang adapter now classifies the recorded HTTP400 input-token overflow as ContextWindowExceedError so the existing latest_half condenser can run. Verify the original Q5/1732 and Q18/1731 prefixes/tools/workspace first, then continue from the failed query with identical model/question/seed/sampling and the original remaining18000-second agent budget. Never rerun the entire prefix to obtain different answers.
+
+Q5/1729 and Q10/1729 exhausted the same native budget; timeout checks also prevented patch extraction. Their default empty meta.patch is not a measured empty working tree. Restore all original actual responses/actions with the native history merger,excluding only the two synthetic terminal messages,and recover the actual final patch without requesting more model answers. Grade that patch using the unchanged native checker; unknown restoration or grader failures remain missing.
+
+Before final consumption,verify every actual receipt-bound task RJob terminal,including restoration,continuation,diagnostic and cleanup workers. Proposed names without receipts are not jobs. The original and updated cells still require eighty unique evaluated outcomes each; all generated model failures remain represented. Only code and Markdown conclusions remain after authorized disposable cleanup.

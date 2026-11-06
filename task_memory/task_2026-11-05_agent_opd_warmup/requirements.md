@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Clarify fixed-denominator scoring for a proven model-caused native timeout while preserving the raw grader result. |
 | 2026-11-05 | Record confirmation to continue GLM export/benchmark and real alignment checks for both model pairs. |
 | 2026-11-05 | Record the two-model-pair alignment status question without expanding GPU test scope. |
 | 2026-11-05 | Record the requested reconciliation of 72 H800 GPUs with this session and actual scheduling states. |
@@ -75,3 +76,8 @@ ps：及时清理测试产物和大文件，当前不是正式训练任务，在
 - Continue the existing GLM save repair, exact twenty-update export and original/updated benchmark objective.
 - Add a bounded real FrogNano/Qwen OPD alignment qualification; student/teacher scoring equality is not the criterion. Do not expand Frog/Qwen to a second twenty-question benchmark.
 - Preserve the existing H800/codesign, personal submission, timely disposable cleanup and personal branch push authorization.
+
+
+## Execution clarification from observed native failure (November 6, 2026)
+
+The requested avg@4 retains all eighty unique requested attempts per model. A model patch that is proven to cause the configured native grader timeout is a failed model attempt; preserve its original generation and native invalid/timeout receipt and record the causal diagnosis separately. Include that failure in the fixed denominator, report its count apart from native resolved/unresolved grades, and never generate a replacement answer or fabricate test summaries. Unknown infrastructure or grader errors remain missing and must be diagnosed/recovered. This clarifies the earlier executor wording “valid native outcomes”; it does not change the user's question bank, seeds, sampling, number of updates or hardware decision. Q2 evidence is in the learning report.

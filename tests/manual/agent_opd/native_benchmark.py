@@ -8,6 +8,7 @@ invalid grader results separate from resolved/unresolved model outcomes.
 import argparse
 import hashlib
 import json
+import re
 import time
 from collections import Counter
 from pathlib import Path
@@ -16,6 +17,25 @@ import toml
 from playground.agenticeval.sweagents_configs import SweAgentACSEvalConfig, SweAgentEvalConfig
 from playground.agenticeval.sweagents_swe import RunCheckPipeline
 from tests.e2e.mopd_step3p6_bounded_replay.swe_formal import outcome
+from swe_agents.core.exceptions import ContextWindowExceedError, ModelError
+from swe_agents.models.step_align import StepAlignModel
+from swe_agents.registry import ComponentRegistry
+
+
+class SGLangModel(StepAlignModel):
+    """Route SGLang input overflows through the native history condenser."""
+
+    def _query_impl(self, dialog, **kwargs):
+        try:
+            return super()._query_impl(dialog, **kwargs)
+        except ModelError as error:
+            match = re.search(
+                r"The input \((\d+) tokens\) is longer than the model's context length \((\d+) tokens\)\.",
+                str(error),
+            )
+            if str(error).startswith("400: ") and match is not None and int(match[1]) > int(match[2]):
+                raise ContextWindowExceedError(str(error)) from error
+            raise
 
 
 def _write(path: Path, value: dict) -> None:
@@ -42,6 +62,7 @@ def main():
     dataset = Path(membership["dataset"])
     if hashlib.sha256(dataset.read_bytes()).hexdigest() != membership["dataset_sha256"]:
         raise ValueError("Frozen benchmark questions changed")
+    ComponentRegistry._aliases["models"]["agent_opd.SGLangModel"] = f"{__name__}.SGLangModel"
     config_type = {"acs": SweAgentACSEvalConfig, "basemind": SweAgentEvalConfig}[args.sandbox_backend]
     config = config_type().to_dict()
     if args.sandbox_registry is not None:
@@ -55,6 +76,7 @@ def main():
     task_ids = [membership["task_ids"][index] for index in indices]
     config["dataset"]["range_str"] = ",".join(map(str, indices))
     config["model"].update(
+        type="agent_opd.SGLangModel",
         model_name=args.model,
         max_context_tokens=131072,
         inference_args={

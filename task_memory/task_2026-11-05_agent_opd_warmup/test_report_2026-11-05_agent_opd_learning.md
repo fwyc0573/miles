@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record original Q5 errors, Q2 consumer terminal success and dynamic72-outcome state. |
 | 2026-11-06 | Preserve every unreviewed native grader-invalid source during automatic consumption. |
 | 2026-11-06 | Record resumed partial scoring, precise consumption and additional invalid grader diagnosis. |
 | 2026-11-06 | Verify native recovery probes and exact three-seed recovery submissions. |
@@ -934,3 +935,142 @@ Implementation: `tests/manual/agent_opd/rjob_benchmark.py` forwards an optional 
 CPU command: `timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_agent_opd_benchmark_archive.py tests/fast/test_agent_opd_export.py --basetemp=/data/ycfeng/tmp/agent-opd-learning-20261105/pytest-registry-20261106a -p no:cacheprovider`. Python3.12.13, pytest9.1.1; actual10passed in1.23seconds, three existing deprecation warnings. `git diff --check` passed. Native configuration validation also produced the exact alias image through the existing Config API.
 
 Q2 first sandbox differential is limited: conda activation was extracted without the native profile initialization; observed Python was the image base interpreter3.11.5. Therefore that artifact does not verify the grader interpreter. The corrected exact eval-script source/activation and expected `/envs/testbed/` interpreter are being checked before any score classification. Planned native baseline control runs only the unchanged checker with an empty prediction patch, same instance/config/deadline; it does not regenerate the answer. Baseline resolved/unresolved test summaries within1200seconds plus a patched-only hang under that interpreter distinguish a model timeout from a generic grader failure.
+
+
+NATIVE_INIT_TARGETED_RECOVERY_STARTED: source exp-1106-022355-341384, UID 0d52c428-29fc-442e-ae79-6ed5e059b199, question index 4, seeds [1732], launcher PID 742667; exact original parameters plus selected seeds only.
+
+
+## Exact Q2 native interpreter differential (2026-11-06T07:17:37.210229+08:00)
+
+PASS: exact source image and base commit, native eval-script profile initialization and `conda activate testbed` selected `/opt/miniconda3/envs/testbed/bin/python`, Python3.5.6/Anaconda/GCC7.5.0. Actual source `django/core/validators.py` SHA256 is `a67fc0a23a7f493cb5713b5686eb789b51cf104a88e5ccc31056478ae89adea4`; native eval-script SHA256 is `a84360a17f383923fba8ef247ced2a14ec7e2f5bd984d447a8592b0783d95005`. Both native test-context URLs (79/261characters) returned under the original regex in0.00003715/0.00003586seconds; the exact submitted replacement alone exceeded5seconds for each. No generation or grading receipt was changed. This demonstrates the regex defect under the actual grader interpreter; full native timeout causation is being checked against the separate empty-prediction grader control.
+
+Session `4cf3ff39-27d4-411e-b009-d9f8244e4bec` reached Ready, actual source checkout succeeded, diagnostic shell exited0, and independent authenticated post-close state returnedHTTP404. Elapsed27.2572seconds. The earlier base-interpreter probe remains explicitly excluded from exact-interpreter claims. Temporary raw source/patch and receipts are consumed after the final score; only hashes, values and conclusions remain in this report.
+
+
+## Unique Q4 recovery and Q2 native baseline control (2026-11-06T07:19:30.923868+08:00)
+
+Q4/seed1732 now has exactly one recovery RJob `exp-1106-071631-149224`, UID `34cca272-9162-4fe1-b00f-a02a38410652`. The personal API verified creator i-fengyicheng, codesign quota, current local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`, one replica,4 H800 GPUs,24 CPUs,300000Mi memory and the pinned company image. Phase Pending. Controller tool session94304 and child PID742667 remain alive. Six recovery jobs now cover the eight original initialization-invalid seeds; exact membership remains dynamically derived from launch manifests.
+
+Q2 native baseline control RJob `exp-1106-071629-392989`, UID `1131cc1d-e9e1-430e-b0e2-2374f995a02c`, is Running on node0326. Personal API verifies0 GPU,8 CPU,64000Mi, same image/local NFS/creator/quota; replica UID9356d1a6-afb0-4ee8-a110-a76dd6b9dcab is Running/restart0. Tool session59807 retains its launcher. This control runs the unchanged native checker on the preserved instance/config with an empty prediction; it neither reruns generation nor changes the source grading receipt. Result pending.
+
+Independent Q4 manifest body verification also passed: both registries returned3452 identical bytes,15layers, media typeDocker distribution manifestv2; SHA256 of actual response bytes matches the header digest and recorded expected digest. The alias image is not merely assumed equal from its tag.
+
+Actual receipt-bound read now has46 benchmark requests, original80 and updated61 valid outcomes. The Q2 timeout and Q5 FileNotFoundError remain excluded pending final cause/classification. Healthy generation, six unique recoveries, consumer and final waiter continue. The registry code and prior conclusions are committed as848f998c; final benchmark acceptance and final push remain incomplete.
+
+
+## Q2 native baseline control and scoring decision (2026-11-06T07:27:00.398791+08:00)
+
+PASS: zero-GPU baseline control exp-1106-071629-392989, UID1131cc1d-e9e1-430e-b0e2-2374f995a02c, creator i-fengyicheng/codesign, current NFS source, completed with platformSucceeded/containerexit0/restart0 on node0326 at2026-11-05T23:22:54Z. Empty prediction native control returned resolved=true in299.928705seconds test execution/339.631356seconds overall. The native target summaries are FAIL_TO_PASS438success/0failure and PASS_TO_PASS1432success/0failure. Allcase map contains12200entries:11255PASSED,880SKIPPED,31ERROR,34FAILED. These are the control's actual outputs, not the model answer's score. Native run log reports2774771bytes of captured output. Original trajectory, generated request and grading receipt independently retained the previously recorded hashes; original grading remains invalid/ValueError and native CheckTimeoutError1200seconds.
+
+Decision: repeated unchanged-patch native1200-second timeout, the successful same-instance native baseline and patched-only regex hangs under the actualPython3.5.6 grader establish a model-caused performance failure. Preserve the generated answer and raw timeout receipt. Add a separate hash-bound confirmed-model-failure diagnosis for fixed-denominator scoring; do not fabricate native resolved/unresolved or test summaries and do not rerun generation. Aggregation and the final report must distinguish native valid grader outcomes from this diagnosed timeout. Unknown infrastructure/grade errors remain missing. This interprets the requested80-attempt average while preserving model failures rather than silently excluding them.
+
+Next implementation uses the existing manual summarizer and disposable consumers only: read the separate confirmed diagnosis, validate original generation/grading identity and hashes, include one explicit failed outcome, retain its evidence and expose its count/provenance. Direct CPU checks will reject missing/unknown/tampered diagnoses and duplicate scored pairs. No model, native grader, dataset, sampling, precision, learning steps or GPU resources change.
+
+Limitation: this native baseline already passes this question's target tests with an empty prediction. Therefore Q2 can detect a regression but does not, by itself, demonstrate learning of a new fix. The full frozen benchmark is kept unchanged.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-341384`, UID `0d52c428-29fc-442e-ae79-6ed5e059b199`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 3. Failed attempts remain missing and never become model failures. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-10914",
+    "seed": 1732,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-10914\": rpc error: code = Unknown desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-10914\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-10914\": unexpected status from HEAD request to https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-10914: 502 Bad Gateway', 'type': 'Warning', 'creationTimestamp': '2026-11-06T06:39:45+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-03dd4321-a88b-4f2e-874a-0605d013ac87', 'uid': '1e61497c-8511-4958-be16-4cb569160f6b', 'apiVersion': 'v1', 'resourceVersion': '17632750074', 'fieldPath': 'spec.containers{session-03dd4321-a88b-4f2e-874a-0605d013ac87}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T22:39:45Z', 'lastTimestamp': '2026-11-05T22:39:45Z', 'sourceKind': 'pod', 'sourceName': 'session-03dd4321-a88b-4f2e-874a-0605d013ac87', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  }
+]
+```
+
+
+NATIVE_INIT_TARGETED_LAUNCHER_TERMINAL: basemind-updated-question-06-recovery-01, exit 0; native receipts and personal terminal identity determine acceptance.
+
+
+## Terminal partial native benchmark job
+
+Exact RJob `exp-1106-022355-368256`, UID `b71bec15-6ad8-43d0-984a-b9ead660316f`, phase Succeeded, container exits [0]; requested seeds [1729, 1730, 1731, 1732], valid outcomes 2. Failed attempts remain missing and never become model failures. Observed selected diagnostics:
+
+```json
+[
+  {
+    "task_id": "django__django-11551",
+    "seed": 1730,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": rpc error: code = Unknown desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": unexpected status from HEAD request to https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-11551: 500 Internal Server Error', 'type': 'Warning', 'creationTimestamp': '2026-11-06T06:24:17+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-b4d55e46-a3f8-4684-a3a2-1751a88563bf', 'uid': '76b1b01b-9aeb-46f3-97db-a351ac519f87', 'apiVersion': 'v1', 'resourceVersion': '17632614656', 'fieldPath': 'spec.containers{session-b4d55e46-a3f8-4684-a3a2-1751a88563bf}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T22:24:17Z', 'lastTimestamp': '2026-11-05T22:24:17Z', 'sourceKind': 'pod', 'sourceName': 'session-b4d55e46-a3f8-4684-a3a2-1751a88563bf', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  },
+  {
+    "task_id": "django__django-11551",
+    "seed": 1732,
+    "completed_updates": 20,
+    "generation_status": "failed",
+    "error_type": "EnvInitError",
+    "grading_status": null,
+    "diagnostic_excerpt": [
+      "    raise SessionRouterCreateError(event)",
+      "          \u2514 <class 'swe_agents.utils.session_router_client.SessionRouterCreateError'>",
+      "Failed to pull image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": rpc error: code = Unknown desc = failed to pull and unpack image \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": failed to resolve reference \"hub.i.basemind.com/swe-bench2512-tags/base:django_1776_django-11551\": unexpected status from HEAD request to https://hub.i.basemind.com/v2/swe-bench2512-tags/base/manifests/django_1776_django-11551: 500 Internal Server Error', 'type': 'Warning', 'creationTimestamp': '2026-11-06T06:22:54+08:00', 'count': 1, 'involvedObject': {'kind': 'Pod', 'namespace': 'session-router', 'name': 'session-7152f65b-103f-49f0-8512-e2b39bd9e6a5', 'uid': 'eec431e7-ce7b-4d54-8be5-4c602468b4e7', 'apiVersion': 'v1', 'resourceVersion': '17632604562', 'fieldPath': 'spec.containers{session-7152f65b-103f-49f0-8512-e2b39bd9e6a5}'}, 'eventTime': None, 'firstTimestamp': '2026-11-05T22:22:54Z', 'lastTimestamp': '2026-11-05T22:22:54Z', 'sourceKind': 'pod', 'sourceName': 'session-7152f65b-103f-49f0-8512-e2b39bd9e6a5', 'cluster': 'basemind'}",
+      "    raise EnvInitError(",
+      "swe_agents.core.exceptions.EnvInitError: Session creation failed after 3 attempts: "
+    ]
+  }
+]
+```
+
+
+NATIVE_INIT_TARGETED_LAUNCHER_TERMINAL: basemind-updated-question-18-recovery-01, exit 0; native receipts and personal terminal identity determine acceptance.
+
+
+NATIVE_INIT_RECOVERY_OBSERVER_TERMINAL {"native_probe_unverified_tasks": [], "scope": "Each stable missing pair receives at most one recovery; final grading is independently required"}
+
+
+## Resumed original failure diagnosis (2026-11-06T08:31:24.433917+08:00)
+
+Independent original-file read: `timeout 60s python3 -B /data/ycfeng/tmp/agent-opd-learning-20261105/read_q5_original.py` over personal read-only SSH, source confined to `/mnt/ws-jfs/ycfeng/miles/agent-opd/learning-20261105/benchmark-basemind/exp-1106-022355-241310`. Source RJob UID `b95c90fa-17b8-4429-9f16-b26336399418`, creator i-fengyicheng/codesign, current-machine NFS, platform Succeeded at 2026-11-05T23:35:54Z; replica H800 node0096, exit0/restart0. These terminal observations do not validate the two failed model attempts.
+
+Q5 seed1729 original error trajectory SHA256 `206ff8eebc2d6c657a6f64336ecb0200060ad4577c12037aadf59dfa977e3b91`, 4071734 bytes, `meta.error_type=AgentLoopTimeoutError`, 18039.9s against the configured18000s deadline, empty meta.patch. Q5 seed1732 original error trajectory SHA256 `96d3fd73954c4e501c68ba440248ae55f7ca9ce294eca44fcea73656cd50eb28`, 1531493 bytes, `meta.error_type=ModelError`, native SGLangHTTP400: actual131422 input tokens exceeds131072 context, empty meta.patch. Neither has a normal trajectory. The adapter's FileNotFoundError is secondary. Classification remains unverified pending original timing/context/edited-file diagnosis; no original answer was regenerated or silently scored zero.
+
+Receipt-bound state at 2026-11-06T08:29:01.303616+08:00:46 benchmark requests, original80 native valid/50resolved, updated72 evaluated outcomes consisting of71 native valid grades and1 separately confirmed Q2 model timeout. Updated full avg@4 remains unavailable. Eight requested pairs are missing: five still-running native generations and three original grader-invalid outcomes (Q5 seeds1729/1732 and newly closed Q10 seed1729). Exact platform counts:32Succeeded/9Failed/5Running; these are phases, not measured GPU utilization. Read command: `bash /data/ycfeng/tmp/agent-opd-learning-20261105/personal_exec.sh /data/ycfeng/tmp/agent-opd-learning-20261105/read_live_native_state.py`.
+
+Q2 zero-GPU diagnosis/consumption job exp-1106-073349-942849, UID1ac1234b-f1b5-4acf-9c7b-d075860ebfef, independently verified creator i-fengyicheng/codesign/current NFS, platformSucceeded at2026-11-05T23:38:27Z; node0432, exit0/restart0. Business result PASS:3 native valid plus1 confirmed failure; original receipts unchanged;39raw files/168830153bytes consumed. Its separate baseline sandbox closure remains unverified afterHTTP503; verify the native client's actual API route before another state read.
+
+
+## Restored native grades and continuation preflight (2026-11-06T09:29:24.989689+08:00)
+
+PASS: four zero-GPU original-response/action restorations independently reported Succeeded, exit0 and restart0 with personal creator i-fengyicheng, codesign and current NFS100.96.128.195:/data/ycfeng:/data/ycfeng. Q5/1732 restored229responses/460messages; Q18/1731 restored151responses/304messages. Their five/two observed tool-output differences are only directory metadata, object addresses or dictionary display order. Q5/1729 restored274responses with17metadata/timing/order differences; Q10/1729 restored213responses with93differences,including91object addresses. No substantive tool-output difference or new inference was observed. Original live workspaces no longer exist; bytewise filesystem parity is not asserted.
+
+Original-action native grading PASS: Q5/1729 RJob exp-1106-091510-737134 / UIDbc236936-c238-489a-87a9-53c27475b213 returned unresolved with44allcase entries in35.0612099seconds; Q10/1729 exp-1106-091510-765719 / UID89445833-ffed-445e-82a2-0b47b27eb456 returned resolved with31allcase entries in34.9687401seconds. Both platform/containerSucceeded,exit0/restart0. These workers restored the actual final patch and graded it without requesting another model answer. Original generation/trajectory bytes are unchanged; original invalid grading bytes are retained separately and as previous_grading. Final checks must compare native result,source/restore/gradingUIDs and original hashes before deletion.
+
+Native CPU preflight PASS on the existing Python3.10.20 SWE environment: exact Q5 original460messages condense once to230messages;229original responses and original trajectory remain unchanged,remaining native budget9783.304874235764seconds. A substantive tool-output change is rejected. Exact command script: /data/ycfeng/tmp/agent-opd-learning-20261105/preflight_context_continuation.py with the native Python and PYTHONPATH from rjob_benchmark. Fixture construction errors were corrected before this PASS. The seventeen summary/archive/export CPU checks also PASS in1.91seconds under Python3.12.13/pytest9.1.1; existing three deprecation warnings.
+
+Two context continuations were submitted once: Q5/1732 exp-1106-092533-143723 and Q18/1731 exp-1106-092533-163895,each4H800/codesign,unchanged benchmark server/model/sampling and original prefix. Q5 remaining budget9783.304874235764seconds; Q18 remaining5517.406862656586seconds. Per-tool elapsed timings were not persisted in the originals; continuation tool counters measure unchanged replay actions,while original wall-clock budget is retained exactly. Initial local invocation with relative manifest paths failed the submitter's absolute-parent assertion before any API submission; no receipt existed. Corrected absolute paths produced the only two receipts.
+
+Independent state at2026-11-06T09:25:13.498729+08:00: original80native valid/50resolved/avg@4=0.625; update20 75evaluated/50resolved comprising74native valid plus1separately confirmed model-caused Q2 timeout. Five unique pairs remain. No incomplete update20 avg@4 is reported,and no new training was submitted.
+
+
+## Recovery identity and timely native consumption
+
+PASS: independent read-only SSH executed the finalizer's actual original-answer provenance checks against both Q5/1729 and Q10/1729. Original generation/grading/trajectory hashes, restoration hashes and source/restoration/grading UIDs matched; native full check results matched the published recovered status and44/31allcase summaries. No new inference. Q10 source was then consumed through the existing zero-GPU consumer: 30files/126500826bytes removed,15minimal files retained until scoring,including original recovery trajectory/grade and raw native result. Shared assets are unaffected.
+
+Both actual continuation replicas independently verified Running/restart0,personal creator,codesign,non-preemptible,current local NFS and pinned company image;Q5node0044/UID4314ba21-3d93-4791-996f-86784f1041b8;Q18node0165/UID6d22fe5c-c2ee-4b08-9bf8-1eae181c1a83. Both servers reported exact exp-1105-224939-805330/261105-165007-kj7u/hf/step_19 andweight_version20. Q18worker loggedfourNVIDIAH800devices;Q5GPUlogread remains pending. Running and actual reload do not establish continuation completion.
+
+Disposable finalizer/consumer/observer compile PASS. Exact manifest-derived benchmark membership now48actualjobs,includingtwo continuations;allactualtaskreceipts110. Proposed or dry-run names are excluded. Finalizer requires every actual receipt-bound job terminal; restored-original provenance verifies before scoring and cloud cleanup.
