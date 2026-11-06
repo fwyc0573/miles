@@ -102,6 +102,8 @@ bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh --creator 
 
 The wrapper verified both creators and codesign quota before stopping them. Both native launchers subsequently printed `QWEN35_PAIR_FINISHED ... stopped`; exit 0 is not classified as successful qualification. Audit records are retained in `/data/ycfeng/tmp/rjob-stop-audit.log`. C was not stopped. No optimizer update, completed monitoring population, learning metric or HF export is claimed from these attempts.
 
+A's retained [student finally receipt](evidence/native-prerequisites/exp-1107-005818-695093/A/student-finished.json) reports `status=failed`, `returncode=null`, `error_type=SystemExit`, `reason=143`. This is retained alongside the controlled-stop evidence; it is not a successful native training result.
+
 **Result:** startup qualification FAIL for A; B deliberately held before the same startup path; C unfinished. Repair the established launch cause, verify the resolved SDK payload and actual container startup, then resume affected qualification. Preserve the approved finite formal-run budget.
 
 ## First configuration correction: local serialization passed, admission failed
