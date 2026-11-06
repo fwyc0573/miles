@@ -33,7 +33,7 @@
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
 - in-progress — P2: frozen population, integration and89 pinned checks are verified. B corrected baseline `exp-1107-055408-654957` has complete consumed KV/decode versions and passes initial D8 overall and in all three strata. A's corrected baseline is Running; C's full397B teacher is ready and its student has launched. Earlier missing-version artifacts remain INCOMPLETE. Optimization and post-update numerical evidence are still open.
-- in-progress — P3-B preparation: the100-step configuration changes only budget/output destinations from the qualified baseline, and its resource dry-run passes. Actual updates/export have not yet occurred. P3-A/P3-C await independent initial numerical results.
+- in-progress — P3-B: formal100-step job `exp-1107-062459-796906` is Running, with exact API admission verified. Actual optimizer outcomes/export remain pending. P3-A/P3-C await independent initial numerical results.
 - pending — P4: runtime acceptance and completion archive.
 
 ## Investigation and rationale
@@ -156,24 +156,26 @@
 79. Committed the tracking flag, fixture correction, original incomplete baselines and selected raw validation logs as `b8f18e25`. Raw logs retain their original whitespace; code/docs/JSON pass the staged whitespace check. Resubmitted from the exact local NFS source `/data/ycfeng`: A `exp-1107-055408-748211`, B `exp-1107-055408-654957`. API readback verifies creator, pinned image, current-host mounts, each pair's8+2 GPU shape and absent ConfigMap refs. B is Running; A is Pending with reported H800 remainder6 against its10-GPU request. C `exp-1107-044223-241566` remains Running with three active replicas. Its retained old queue annotation is not current phase evidence. All three local launchers remain responsible for their running/queued jobs; new native numerical results are pending. Exact readbacks: `evidence/platform-<job>-prefill.json`.
 80. B's corrected student completed with exit0, and platform stop reason is `All critical tasks are finished.` The0-GPU analysis `exp-1107-061257-663034` succeeded. Initial baseline **PASS**:24 fixed samples,5294 original valid tokens, complete version0 prefix/decode coverage, decode/trainer mean0.0105699547 and prefill/trainer mean0.0103551410. All three strata pass0.03, with no missing/nonfinite tokens or identity/version issue. TIS retains100%, but all acceptance values are pre-TIS. Full-run/publication verdict stays INCOMPLETE because no updated checkpoints exist. Exact tails/K3/teacher diagnostics and commands are in the native report and `evidence/baseline-inspection-B-exp-1107-055408-654957.json`.
 81. C's full397B TP16 teacher now passes health and exact model identity; `teacher-ready.json` and `student-launch.json` exist. Business logs reach06:09:40 local. Platform stdout contains only older optional p2p-ping output and is not the live model log. A is now Running. Prepared `training_config.json`: compared with baseline JSON, exactly `num_rollout=100`, cloud `first-round` output root and local `evidence/first-round` differ. B submitter dry-run verifies10 H800 and the existing local mount/runtime. Its first actual optimizer update belongs to the approved100-position attempt; baseline0 did not establish backward or optimizer capacity and no extra optimization budget is added.
+82. Committed B qualification and first-round configuration as `4792c0e3`. Submitted B's formal100-step job `exp-1107-062459-796906`; API readback is Running and verifies personal identity, exact host mount/image,8+2 H800, training_config.json in both task commands and no ConfigMap refs. The local launcher stays alive. Actual optimizer, updated monitoring and final HF evidence remain pending; details are maintained in `test_report_2026-11-07_training.md`. A baseline also completed with student exit0 and platform `All critical tasks are finished.` Its0-GPU numerical inspection is running independently; C's student baseline continues with the new tracking flag.
+83. A initial numerical baseline **PASS** after0-GPU inspection `exp-1107-062836-417826`:24 fixed samples,4144 original valid tokens, complete version0 input/decode provenance. Decode/trainer mean0.0116478858; prefill/trainer mean0.0119241213; all strata pass0.03 with no missing/nonfinite tokens. TIS retention100%. Whole-run/publication remains INCOMPLETE until updated/final evidence exists. A's unchanged100-step configuration dry-run passes. Proceed independently to its formal attempt; B remains Running and C continues its initial baseline.
 
 ## Next actions
 
-1. Submit B's authorized100-step attempt after the training configuration readback; use its real first update to establish optimization evidence within that same budget.
+1. Inspect B's real optimizer/update evidence and planned monitoring within the existing100-step attempt.
 2. Inspect A/C baseline artifacts as their existing launchers progress; require actual complete generation-prefill versions and the unchanged numerical gate.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 2｜BLOCKED 3｜TODO 2
+**汇总：** PASS 2｜BLOCKED 2｜TODO 3
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
 | P2 前置核验与实现 | TODO | B初始数值通过；A/C独立基线仍在运行。 |
-| P3-A | BLOCKED | 等待新基线同版本数值结果。 |
-| P3-B | TODO | 基线门槛通过，100步配置与资源dry-run已核对。 |
+| P3-A | TODO | 初始门槛PASS，100步配置dry-run通过，准备正式执行。 |
+| P3-B | TODO | 100步正式作业Running；API配置通过，实际更新/导出待验证。 |
 | P3-C | BLOCKED | 完整397B教师已就绪，等待student基线数值结果。 |
 | P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
 

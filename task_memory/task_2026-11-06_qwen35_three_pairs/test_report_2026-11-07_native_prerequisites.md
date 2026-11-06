@@ -620,3 +620,24 @@ C's [ready receipt](evidence/native-prerequisites/exp-1107-044223-241566/C/teach
 `training_config.json` differs from the verified baseline JSON in exactly three fields: `num_rollout=100`, personal cloud output root `.../first-round`, and local rendezvous/evidence root `evidence/first-round`. Model identities, frozen population, GPU shapes, pinned image and resource settings are identical. The first ready pair is B; A/C still require their own numerical baseline evidence. The89-check pinned suite already covers the0/100 native launch contracts. Submission dry-run evidence and subsequent actual platform admission will be recorded separately.
 
 [Config/dry-run receipt](evidence/b-training-config-check.json): exact three-key comparison PASS; `submit_qwen35.py --config <task>/training_config.json --pair B --dry-run` exited0 from `/data/ycfeng`, declaring100 positions,10 H800, the correct source/image and both single-node gang flagsFalse. Independent read-only readiness check `QWEN-P3-B-READY` found no code/config blocker. Parent confirmed the formal path excludes `--debug-disable-optimizer`; final save is `hf/step_99`, with baseline plus20/40/60/80/100 monitoring. Successful update counters and final publisher version are **not** equated to planned positions. Existing recipe CPU optimizer offload isFalse for4B andTrue for27B; no optimizer-memory configuration is changed by this launch. C's actual native launch also confirms the prefill tracking flag and source `0317bb58`.
+
+### A corrected initial baseline — PASS
+
+Student `exp-1107-055408-748211-student-cfcd2084` exited0; [platform receipt](evidence/platform-a-prefill-completed-20261107.json) confirms `All critical tasks are finished.` The0-GPU pinned analysis `exp-1107-062836-417826` succeeded using the same reader command/environment as B above, replacing pair/job with `A/exp-1107-055408-748211` in run, readiness and report paths. Its full cloud report is `.../native-prerequisites/student/A/exp-1107-055408-748211/baseline-inspection.json`.
+
+[Selected report](evidence/baseline-inspection-A-exp-1107-055408-748211.json) and [native versions](evidence/native-version-receipt-A-exp-1107-055408-748211.json):24 fixed samples,8 per stratum,4144 original valid completion tokens, complete prefix/decode version0 and no missing/nonfinite tokens or identity/version issues. Expected pre-TIS mean<=0.03 for all eight comparisons:
+
+| Comparison | Population | Valid tokens | Mean absolute difference | p95 | p99 | Maximum | Result |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |
+| Decode vs trainer | Overall | 4144 | 0.01164789 | 0.07431595 | 0.12012287 | 0.24377966 | PASS |
+| Decode vs trainer | Short | 583 | 0.01146909 | 0.06782505 | 0.11772342 | 0.21037328 | PASS |
+| Decode vs trainer | Medium | 2032 | 0.00972422 | 0.06669347 | 0.11773034 | 0.23896098 | PASS |
+| Decode vs trainer | Long | 1529 | 0.01427256 | 0.08412118 | 0.12341742 | 0.24377966 | PASS |
+| Prefill vs trainer | Overall | 4144 | 0.01192412 | 0.08047529 | 0.12203944 | 0.36039615 | PASS |
+| Prefill vs trainer | Short | 583 | 0.01334293 | 0.09633328 | 0.12168886 | 0.18583846 | PASS |
+| Prefill vs trainer | Medium | 2032 | 0.01026096 | 0.07280627 | 0.11960398 | 0.36039615 | PASS |
+| Prefill vs trainer | Long | 1529 | 0.01359343 | 0.08105359 | 0.12306704 | 0.24506187 | PASS |
+
+TIS retention is4144/4144 (100%), separate from acceptance. Overall `r*d-r+1` / `r-1-d` means are0.0004250543 /0.0004268913 for decode and0.0004645935 /0.0004653941 for prefill, under student-decode sampling. Teacher diagnostic mean absolute difference is0.26660944; its K3 means are0.19362471 /0.15517800. Complete per-stratum values/positions remain in JSON. Only the initial component passes; whole-run/publication remains INCOMPLETE pending training.
+
+A uses the same qualified4B student recipe and shared100-step configuration with its independently qualified27B teacher. [A dry-run](evidence/a-training-config-check.json) exits0 from `/data/ycfeng`, declares100 positions and8+2 H800 with both gang flagsFalse. No code or numerical threshold changes precede formal submission.

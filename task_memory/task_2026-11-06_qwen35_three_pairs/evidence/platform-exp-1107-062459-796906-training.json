@@ -1,0 +1,77 @@
+{
+  "name": "exp-1107-062459-796906",
+  "pair": "B",
+  "source_commit": "4792c0e3",
+  "config": "task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json",
+  "planned_updates": 100,
+  "observed_at": "2026-11-06T22:27:27.571435+00:00",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [student,teacher]",
+    "taskStatuses": {
+      "student": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "queue_reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 2 GPU/replica x 1 replicas = 2 GPU (H800). Queue remaining: H800=5.",
+  "tasks": {
+    "student": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "student",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          },
+          "envFrom": null,
+          "training_config_in_command": true
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "teacher",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            },
+            "requests": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            }
+          },
+          "envFrom": null,
+          "training_config_in_command": true
+        }
+      ]
+    }
+  },
+  "checks": "PASS"
+}
