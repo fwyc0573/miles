@@ -1,0 +1,15 @@
+{
+  "observed_at": "2026-11-06T18:14:31.085107+00:00",
+  "job": "exp-1107-005818-919546",
+  "phase": "Pending",
+  "scheduling": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "quotagroup.brainpp.cn/quotagroup": "codesign",
+    "stepmind.com/queue-status": "suspend",
+    "rjob.brainpp.cn/rjob-queue-approved": "",
+    "stepmind.com/queue-elem-ranking": "1",
+    "stepmind.com/queue-name": "codesign-default",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=8."
+  },
+  "purpose": "Capacity inspection before submitting server-verified A/B configuration 5e9f5551"
+}

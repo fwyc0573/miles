@@ -116,10 +116,12 @@
 51. Diagnosed the task-owned startup dependency using native SDK serialization, A's actual pod environment and the Feishu ConfigMap troubleshooting/multi-task documents. A/B single-node teachers already receive their three required `KUBEBRAIN_*` identity variables directly; their application-layer rendezvous needs no distributed ConfigMap. Made `gang_start` explicit per resource: false only for A/B teachers, true for students and the two-node C teacher. Native SDK serialization passed all six task contracts, including empty A/B teacher `envFrom`, retained C maps, unchanged GPUs/replicas/network modes and the pair gang-group label. The deeper platform network-data reason for the absent map is not established: its documented diagnostic hostname does not resolve here. This is one scoped configuration correction awaiting actual startup validation, not a platform-controller repair.
 52. Committed that first correction as `f9966cdf`, then submitted A `exp-1107-015013-220777` and B `exp-1107-015014-617751`. API readback disproved its effect: both teacher references were reintroduced. Stopped both while Pending at 01:57 using `rjob_stop.sh`; no new GPUs or optimizer steps were consumed. Full local submission-chain capture preserved the empty reference, narrowing the issue to the server boundary. A server-side `dry_run=All` then proved root gang-start=true injects the map into every task; setting both single-node roles false preserves empty refs. GET404 confirmed no dry-run job persisted.
 53. Updated A/B student flags to false as well; C remains unchanged. Final A/B server dry-runs preserve empty refs, the pair gang-group label, local NFS and all GPU/replica/network settings. This verifies admission, not actual worker execution. Recorded the rule and source links in the existing StepMind handbook. QWEN-P2-TEACHER-DIAGNOSTIC is independently implementing the offline raw-response/teacher-identity reader in its two owned files; runtime producers remain unchanged.
+54. Committed the admission fix as `5e9f5551`; submitted A `exp-1107-021450-020231` and B `exp-1107-021450-039035` at 02:14 local. Actual API readback now passes for both: no ConfigMap refs in either task, correct personal creator/image/local NFS/resources, retained pair gang-group. Both are Pending; scheduler reports eight remaining H800, below their ten-GPU request. C `exp-1107-005818-919546` remains Pending with its original launcher and 24-GPU request. Selected exact readbacks are retained under `evidence/platform-<job>.json`.
+55. Completed D9 plotting support by replacing the old fixed two-model CLI with repeated labeled reports and retaining signed original loss points. Direct one-report/three-report checks produced two/six panels and verified all original x/y values stay visible. Python 3.10.6/Matplotlib 3.7.1 passed; selected synthetic PNGs are not learning results. See [plot verification](test_report_2026-11-07_training_plot.md). No native producer was changed.
 
 ## Next actions
 
-1. Commit the server-verified all-single-node A/B gang configuration and resubmit affected baselines; preserve C's independent queued launcher. Verify the admitted object, actual container startup and model outputs separately.
+1. Preserve the three queued launchers and inspect actual container/model execution once resources are allocated. Admitted A/B objects are verified; native execution and all three numerical baselines remain unfinished.
 2. Complete per-pair baseline qualification and connect the existing raw teacher scoring evidence to the learning diagnostic with actual teacher identity binding before each formal run.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
@@ -131,7 +133,7 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 239 项 CPU 检查通过；服务端 dry-run 已定位并验证 gang 配置，实际容器/模型执行仍待完成。 |
+| P2 前置核验与实现 | TODO | 已提交的 A/B 对象回读通过，C 保留；三组均受配额排队，容器/模型执行待完成。 |
 | P3-A | TODO | 正式 100 步训练尚未开始，等待 A 原生前提。 |
 | P3-B | TODO | 正式训练尚未开始，等待 B 原生前提。 |
 | P3-C | TODO | 正式训练尚未开始，C 基线保留排队。 |
@@ -166,7 +168,7 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：提交已验 gang 配置并验证 A/B 实际启动 → 完成标志：教师进入原生进程、设备及模型身份有实际回执。
+1. P2：等待资源分配并验证三组实际启动 → 完成标志：教师进入原生进程、设备及模型身份有实际回执。
 2. 并行：A/B 受影响基线 ‖ C 独立队列；原始教师评分绑定 → 完成标志：原生数值/终态和学习监测输入均可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 

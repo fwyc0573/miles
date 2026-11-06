@@ -5,8 +5,8 @@ Matplotlib and uses an isolated temporary cache that is removed on completion.
 
 Example:
     python3 -B tests/manual/agent_opd/plot_training_metrics.py \
-        --glm-report task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-06_agent_opd_final.md \
-        --qwen-report task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-05_agent_opd_learning.md \
+        --report GLM-4.7-Flash=task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-06_agent_opd_final.md \
+        --report Qwen3.5-4B=task_memory/task_2026-11-05_agent_opd_warmup/test_report_2026-11-05_agent_opd_learning.md \
         --output /data/ycfeng/tmp/agent-opd-training-curves-20261106.png
 """
 
@@ -37,16 +37,19 @@ def read_training_metrics(report: Path) -> tuple[list[int], list[float], list[fl
     return updates, losses, norms
 
 
+def _named_report(value: str) -> tuple[str, Path]:
+    name, separator, path = value.partition("=")
+    if not separator or not name or not path:
+        raise argparse.ArgumentTypeError("Expected LABEL=REPORT_PATH")
+    return name, Path(path)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--glm-report", type=Path, required=True)
-    parser.add_argument("--qwen-report", type=Path, required=True)
+    parser.add_argument("--report", type=_named_report, action="append", required=True, metavar="LABEL=PATH")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
-    runs = (
-        ("GLM-4.7-Flash", args.glm_report),
-        ("Qwen3.5-4B", args.qwen_report),
-    )
+    runs = args.report
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="opd-plot-cache-", dir=args.output.parent) as cache:
         os.environ["MPLCONFIGDIR"] = cache
@@ -57,8 +60,8 @@ def main() -> None:
         import matplotlib.pyplot as plt
         from matplotlib.ticker import MaxNLocator
 
-        fig, axes = plt.subplots(2, 2, figsize=(11, 7), layout="constrained")
-        fig.suptitle("Recorded H800 OPD warmup metrics", fontsize=16)
+        fig, axes = plt.subplots(len(runs), 2, figsize=(11, 3.5 * len(runs)), layout="constrained", squeeze=False)
+        fig.suptitle("Recorded OPD training metrics", fontsize=16)
         for row, (name, report) in enumerate(runs):
             updates, losses, norms = read_training_metrics(report)
             for column, (values, metric, color) in enumerate(
@@ -71,7 +74,7 @@ def main() -> None:
                 ax.set_ylabel(metric)
                 ax.xaxis.set_major_locator(MaxNLocator(integer=True, nbins=10))
                 ax.set_xlim(updates[0] - 0.25, updates[-1] + 0.25)
-                ax.set_ylim(bottom=0, top=max(values) * 1.24)
+                ax.margins(y=0.2)
                 ax.grid(alpha=0.25)
                 peak = max(range(len(values)), key=values.__getitem__)
                 ax.annotate(
@@ -89,7 +92,7 @@ def main() -> None:
             )
         fig.supxlabel(
             "Unsmoothed recorded points; each panel has its own y-axis scale. "
-            "Different sampled turns at each update; LR = 2e-6.",
+            "Different sampled turns at each update.",
             fontsize=9,
         )
         fig.savefig(args.output, dpi=150)

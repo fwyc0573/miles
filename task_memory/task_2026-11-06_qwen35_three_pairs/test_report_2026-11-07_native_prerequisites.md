@@ -197,3 +197,9 @@ client.api.get_namespaced_custom_object(
 ```
 
 No native worker environment, training implementation or controller was patched. The verified admission behavior, source links and runtime limitation were added to `/data/ycfeng/stepfun-env-handbook/stepmind-python-rjob.md`; that handbook directory has no Git repository and was not initialized. **Admission contract PASS; actual container/model execution still INCOMPLETE.** C's existing launcher is preserved. The latest recorded scheduler capacity before these corrections was zero H800; see [capacity receipt](evidence/codesign-capacity-before-configmap-retry-20261107.json).
+
+## Admitted corrected jobs — PASS at submission scope
+
+Configuration commit `5e9f5551` was submitted at 02:14 local through the same long-lived Python RJobBackend commands. A is `exp-1107-021450-020231`; B is `exp-1107-021450-039035`. Actual stored API objects now PASS all identity/source/resource checks: `i-fengyicheng`, pinned digest, expected NFS and network modes, per-task GPU/replica counts, no root gang-start annotation, **empty envFrom on both tasks**, and retained `stepmind.com/gang-group=true`. Receipts: [A](evidence/platform-exp-1107-021450-020231.json), [B](evidence/platform-exp-1107-021450-039035.json).
+
+Both are Pending at the readback. The scheduler explicitly reports eight remaining H800 against ten requested per A/B pair. C remains Pending with 24 requested GPUs, as recorded immediately before submission in [the capacity observation](evidence/codesign-capacity-before-admission-fixed-launch-20261107.json). All three launchers remain long-lived; this is not worker-startup, numerical, training or export acceptance.
