@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Record complete eighty-attempt scores and verified disposal; proceed to normal final branch synchronization. |
+| 2026-11-06 | Include newly observed Q1/Q13 native budget recovery under unchanged original-answer restoration and final provenance checks. |
 | 2026-11-06 | Preserve the proven Q2 model timeout separately from native resolved/unresolved grading in fixed-denominator scoring. |
 | 2026-11-06 | Archive completed native seed diagnostics before sibling generation ends. |
 | 2026-11-06 | Reference actual native initialization failures instead of a stale fixed count. |
@@ -63,9 +65,9 @@ Do not expand the training size, change model/data inputs or retain warmup data.
 4. Submit the 16H800 learning test locally through personal Python RJobBackend; verify every normal finite update, version/R3/token alignment and actual final export. Run both80-attempt benchmark cells and report paired scores plus per-question bootstrap interval. Lack of improvement is reported honestly.
 5. Delete all task temporary local/cloud outputs, verify absence and no task GPU allocation, retain concise conclusions, commit and push branch with remote SHA check.
 
-Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires actual20 updates and actual80 valid outcomes per model, separately from platform success.
+Dependencies: 1 -> 2; {1,3} -> benchmark; {2,3} -> 4; 4 -> 5. Native evaluator preparation(3) can progress while the learning workload(4) runs. Every consumed output may be removed before final cleanup. Acceptance requires twenty actual normal updates and eighty unique evaluated outcomes per model, separately from platform success. Native resolved/unresolved grades and separately proven model-caused timeout failures are counted distinctly, as clarified in requirements.md.
 
-Current phase status: Native twenty-update training, complete final HF export and actual update20 reload are verified. The original eighty-attempt benchmark is complete. The updated eighty-attempt benchmark, final paired aggregation, disposable cleanup and final branch synchronization remain required. The timestamped measured state is maintained in [the learning report](test_report_2026-11-05_agent_opd_learning.md); [progress.md](progress.md) records exact job and queue observations.
+Current phase status: The accepted H800 learning and evaluation checks are complete: twenty normal finite optimizer updates, full decoder HF export, actual update20 reload, and eighty unique evaluated outcomes per model. Original and update20 avg@4 both equal 0.625; the paired 95% question bootstrap interval is [-0.075, 0.0875]. Exact local/cloud disposable cleanup and zero active task RJobs are independently verified. Final normal branch synchronization remains the last step. Numerical equality and H200 training remain unverified. The canonical measurements and closure evidence are in [the final report](test_report_2026-11-06_agent_opd_final.md); earlier preparation and recovery records below are historical.
 
 
 ## Historical preparation and recovery (November 5)
@@ -146,3 +148,8 @@ The native SGLang adapter now classifies the recorded HTTP400 input-token overfl
 Q5/1729 and Q10/1729 exhausted the same native budget; timeout checks also prevented patch extraction. Their default empty meta.patch is not a measured empty working tree. Restore all original actual responses/actions with the native history merger,excluding only the two synthetic terminal messages,and recover the actual final patch without requesting more model answers. Grade that patch using the unchanged native checker; unknown restoration or grader failures remain missing.
 
 Before final consumption,verify every actual receipt-bound task RJob terminal,including restoration,continuation,diagnostic and cleanup workers. Proposed names without receipts are not jobs. The original and updated cells still require eighty unique evaluated outcomes each; all generated model failures remain represented. Only code and Markdown conclusions remain after authorized disposable cleanup.
+
+
+## Additional original budget recovery (November 6)
+
+Q1/1732 and Q13/1729 subsequently ended with the same native AgentLoopTimeoutError and missing normal patch/trajectory export. They remain missing outcomes until original-response/action restoration and native grading are verified. Apply the existing restoration and unchanged1200-second checker without new inference. Q1 and Q13 can restore independently while Q8 finishes. Final provenance derives its recovery count from actual validated grade/continuation plans; no pending recovery is counted in advance. Preserve original responses,generation,error trajectories and invalid grading through hash/UID checks,then release source consumption.

@@ -2,7 +2,9 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-06 | Verify Q18 captured patch/native failure, consume its source and record synchronous deadline overrun. |
+| 2026-11-06 | Verify complete paired scores, independent terminal states and precise local/cloud cleanup. |
+| 2026-11-06 | Verify Q1 original-action recovery, diagnose Q13 timeout and consume completed CPU disposable artifacts. |
+| 2026-11-06 | Verify Q18 native patch and consumption, record deadline overrun and retire the completed legacy CPU monitor. |
 | 2026-11-06 | Verify the existing four-sample frontier after resumption; stop legacy sandbox-interface exploration. |
 | 2026-11-06 | Resume the four existing benchmark attempts; verify budgets and limit legacy sandbox diagnostics. |
 | 2026-11-06 | Resume exact native failure diagnosis and dynamic benchmark completion. |
@@ -4816,19 +4818,19 @@ New verification limit: Q18 preserved the configured remaining budget,but its sy
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 11:13HKT同步自检至11:39HKT实际Q18评分/消费核验｜**当前前沿：** 三份updated评分、结果消费、最终汇总清理
+**检测窗口：** 11:13HKT同步自检至11:56HKT实际Q18消费及旧CPU监控清理｜**当前前沿：** 三份updated评分、结果消费、最终汇总清理
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 既有hold保留Q18至实际patch/grade核验；核验后立即释放，无新增恢复执行 |
-| D2 细节反复重试 | CLEAR | Q18出现真实结果后检验原假设；确认patch有效后停止诊断，无重复生成 |
+| D1 工具打磨 | CLEAR | Q18核验后释放hold；40份原提交终态、无子进程后关闭已完成CPU监控，防止最终清理竞争 |
+| D2 细节反复重试 | CLEAR | Q18实际patch通过后停止诊断；proc路径预检失败未发送信号，ps核验无子进程后停止CPU监控 |
 | D3 支线问题修补 | CLEAR | 所有读取直接服务于剩余评分和正确消费 |
 | D4 可并行任务停滞 | CLEAR | Q1/Q8/Q13生成并行；Q18消费和最终报告准备独立推进 |
 | D5 超范围镀金 | CLEAR | 没有新增训练/题目/seed/模型组合或持久功能 |
-| D6 分析空转 | CLEAR | updated从76升至77；实际patch/grade通过且Q18原件已消费，不再追加恢复 |
+| D6 分析空转 | CLEAR | updated升至77；Q18原件消费完成，旧CPU监控退出，未追加生成或新工具路径 |
 | D7 路线违背 | CLEAR | 保留原预算配置/原响应；记录同步调用超时限制，不宣称严格wall-clock等价 |
 
-**文档检查：** S1–S6均未发现明显缺陷；原配置预算与实际耗时区分已补入学习报告和finalizer输出。
+**文档检查：** S1–S6均未发现明显缺陷；预算耗时限制已记录；最新记录明确旧CPU监控已退出，历史存活快照保留日期。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -4850,3 +4852,160 @@ New verification limit: Q18 preserved the configured remaining budget,but its sy
 
 
 Latest independent read at2026-11-06T11:39:38.537901+08:00 confirmsQ18continuation and originalsource consumed; exactlythreebenchmarkroots remain unconsumed,each with its one missing pair. Original80native/50resolved;updated77evaluated/50resolved. The uniqueobserver14752 remainsalive;no new training or benchmark copy was submitted. Final paired scoring/cleanup/push remains required.
+
+
+## Completed CPU followup monitor cleanup (November 6, 2026, 11:56:25 HKT)
+
+completed: inspected the exact legacy followup condition and verified all forty regular question jobs terminal with no host child processes. Stopped only the completed CPU monitor, PID 1801910, after verifying its command path and start ticks. No GPU job or healthy launcher was stopped. The legacy native-only completion condition cannot include the separately confirmed model timeout; the canonical consumer and final observer already own full fixed-denominator acceptance. Retiring the completed monitor prevents obsolete writes during final scratch deletion.
+
+The first preflight stopped before any mutation on an unavailable proc children file. The standard `ps --ppid` read and exact process stop then passed.
+
+in-progress: preserve the three existing native generations, canonical consumer and final observer. The full paired summary, terminal receipt verification, precise cleanup and final push remain pending.
+
+
+## Original-answer restoration continuation (2026-11-06T12:10:51.513687+08:00)
+
+completed: resumed requirements/plan, actual artifacts and existing launchers. Original80/80 remains complete; updated77/80 remains evaluated. Q1 restoration exp-1106-120357-454083 is Running,UID744b4331-8f6b-4a88-83f8-9ab4d2dd9d55,personal i-fengyicheng/codesign,current NFS100.96.128.195:/data/ycfeng:/data/ycfeng,restart0. Its output is not yet present. No training was submitted.
+
+in-progress: Q13/1729 source exp-1106-043046-214233 completed native generation in18093.650132097304seconds,seed verified,platform/ReplicaSucceeded,exit0/restart0,UID5aefab13-a352-46a1-8b04-4f7132016492. Grading remains invalid/FileNotFoundError. Its4,012,708byte original trajectory confirms AgentLoopTimeoutError,empty serialization meta.patch,two dialogs. SHA256401c496fa4c4ba4715cee6ca923cfb2514fe8ef4a43e48cd6c3915aaf99e203e. The source is held from consumption.
+
+Preflight hypothesis: the original native budget expired before normal patch/trajectory extraction. The unchanged native history merger must reconstruct unique original model responses and actions after removing exactly two synthetic terminal messages; existing zero-GPU restoration then recovers the actual final patch without inference. Reject substantive replay output differences. Only after verification use the unchanged1200-second native checker. Q8/1732 remains the only original generation Running. Q1 and Q13 restoration may proceed independently. Full80+80,paired bootstrap,precise cleanup and final push remain pending.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 12｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd与要求保留 |
+| 初始2：Lark与模型资产 | PASS | 已验证22files |
+| 初始3：glm5.2与completion信号 | PASS | 原身份/token和各信号已验证 |
+| 初始4：16H800 warmup | PASS | 实际更新与数值残差已记录 |
+| 初始5：阶段清理与同步 | PASS | 初始阶段已完成 |
+| 学习1：固定20题/80turns | PASS | 原采样和排除边界保持 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner实际完成 |
+| 学习3：native evaluator | PASS | 同一tools/grader和实际reload |
+| 学习4：20updates/export/reload | PASS | 真实闭环已验证 |
+| 学习4：original80 | PASS | 80native/50resolved |
+| 学习4：updated80 | TODO | 79evaluated/50resolved；只剩Q8/1732生成 |
+| 学习4：原件恢复与消费 | PASS | 六份恢复/续评均已评分并验证provenance；Q1/Q13来源消费及终态通过 |
+| 学习5：完整汇总/清理/push | TODO | 仍需完整评分与全部receipt终态 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次实际更新及清理已完成 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 12:18HKT恢复自检至2026-11-06T12:32:51.629464+08:00｜**当前前沿：** 唯一Q8原生评测,完整汇总与最终清理
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只解除实际缺失原件和finalizer固定计数障碍，无新工具推广 |
+| D2 细节反复重试 | CLEAR | Q13原生错误及merger预检验证明确假设；唯一0GPU恢复 |
+| D3 支线问题修补 | CLEAR | 所有动作直接服务剩余三份评分 |
+| D4 可并行任务停滞 | CLEAR | Q1/Q13恢复和Q8生成并行 |
+| D5 超范围镀金 | CLEAR | 无训练,新问题,seed,模型或持久功能扩张 |
+| D6 分析空转 | CLEAR | Q1/Q13均已恢复实际补丁并验证差异,原checker已各提交一次 |
+| D7 路线违背 | CLEAR | 原响应/动作/预算保持；不以空meta.patch计失败 |
+
+**文档检查：** S1–S6均未发现明显缺陷；plan新增Q1/Q13实测恢复记录,未改变范围或标准。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 监督唯一Q8原生评测：真实native结果，若有新invalid则按其原件诊断，保持所有固定输入。
+2. 已完成Q1/Q13恢复和来源消费；对剩余Q8完成结果由现有consumer消费。
+3. 收齐80+80并验证全部实际receipt终态后,唯一observer完成10000次questionbootstrap,精确清理和正常push/独立SHA核验。
+
+## 4. 最值得关注的 3 点
+
+1. 训练已经完成；现在只有Q8请求4H800,六份恢复和续评已完成。
+2. updated已79/80,只有Q8/1732缺失；不发布部分分母平均。
+3. 不再生成Q1/Q13答案；原动作恢复和真实最终补丁评分仍是验收条件。
+
+
+completed: Q1 original-action restoration qualified162responses/326messages,zero new inference,three differences exclusively object repr addresses; actual final patch38851bytes/SHA256de7c9b48fd16065a5b805225b8e1f58987ab911a65c9484c3e3b32e30cda4fe1. Restoration platform/ReplicaSucceeded,exit0/restart0. Existing1200-second native checker submitted once via q1-restored-grade-launch-a.json; source hold remains until full native result/provenance verification. Q13 zero-GPU restoration exp-1106-121136-264516/UID835d8bd9-2974-4bba-9e83-8d7cc5c849be verifiedRunning,current personal NFS,restart0.
+
+completed: consumed 16918575bytes of completed CPU fixture/cache/raw diagnostic copies at the exact task scratch names. None are required by current restoration/grading/consumer/finalizer scripts; their verified metrics remain in task Markdown and necessary native original artifacts remain on the task cloud until scoring. No persistent environment/shared data was removed.
+
+
+completed: Q13 native grading/provenance checks pass after the delayed SSH publication became visible without any rewrite or new probe job. Native resultunresolved14allcases,originalgen/trajectory/invalidgradebytes preserved. The initial strict expectation of an old visible status failed before mutation; no extra diagnostic RJob was created. Existing consumer path is prepared for exact source consumption under the hold. Q1 native receipt completed; its canonical remote grade still awaits consistent visibility. Q8 remains the only4H800 generation.
+
+
+completed: Q1 source/native grader exact personal UIDs,zero exits and all original hash checks passed. Its raw patch only adds7diagnostic testfiles; exact native filter returns empty prediction,explaining patch_is_None=true. Native resultunresolved74allcases,FAIL_TO_PASS0/4,PASS_TO_PASS68/68; no grader/input behavior changed. Q13 sourceconsumer succeeded andremoved37812555bytes; its holdreleased. Q1 sourceconsumer is unique and pending native completion; Q8 remains the onlymissinggeneration. Finalizer compile PASS with actual native patch flags preserved in restored-grade provenance.
+
+
+completed (2026-11-06T12:32:51.629464+08:00): Q1 source consumption exp-1106-122646-530939/UID9e192ee4-be9f-4d6f-9b2f-38b0d66067fe verifiedplatform/ReplicaSucceeded,exit0/restart0,personal local NFS. Preserved exact native seeds1731/1732 and originalrecoveryevidence;16files/49011359bytes removed,11minimal files retaineduntilscore. Q1 holdreleased after terminal/consumption/provenance checks. No duplicate consumer was started.
+
+in-progress: independent fresh membership/duplicate check finds original80native/50resolved;update20 79evaluated/78native+1confirmed modeltimeout/50resolved. The sole missing pair is django__django-11551/1732,Q8. Keep its current launcher,canonicalconsumer1552798 andfinalobserver2855278. Complete80+80,10000questionbootstrap,allactualreceiptterminalchecks,precisecloud/localcleanup and finalpush remain pending. All recovery preflights stopped once their actual outcomes verified; no new training or inference was submitted for budget-exhausted answers.
+
+
+## 1. 规划完成情况
+
+**汇总：** PASS 13｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | agent-opd和个人origin已核对 |
+| 初始2：Lark与模型资产 | PASS | 固定版本22文件校验完成 |
+| 初始3：glm5.2与completion信号 | PASS | 原token、身份和三类信号已验证 |
+| 初始4：16H800 warmup | PASS | 两次真实更新和平台终态通过 |
+| 初始5：阶段清理与同步 | PASS | 初始归档已同步 |
+| 学习1：固定20题/80turns | PASS | 相同题目、seeds及排除边界保持 |
+| 学习2：20updates与HF实现 | PASS | 完整decoder导出通过 |
+| 学习3：native evaluator | PASS | 实际reload、tools和grader通过 |
+| 学习4：20updates/export/reload | PASS | 唯一合格learner及实际版本20已验证 |
+| 学习4：original80 | PASS | 80native、50resolved |
+| 学习4：updated80 | PASS | 79native+1确证模型超时、50resolved |
+| 学习4：原件恢复与消费 | PASS | 四份原补丁评分、两份context continuation均已核验 |
+| 学习5：完整汇总/清理/push | TODO | bootstrap和精确清理完成；最终Git归档尚未执行 |
+| 补充：Frog/Qwen资格验证 | PASS | 两次真实更新、终态与清理完成 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 2026-11-06T12:32:51+08:00至2026-11-06T12:45:23.462085+08:00｜**当前前沿：** 最终文档状态更新和个人branch同步
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 没有新harness或训练；只完成评分、清理与终态核验 |
+| D2 细节反复重试 | CLEAR | 原observer缺失检查失败后，独立限定读取确认实际目录已缺失；未重复删除或评测 |
+| D3 支线问题修补 | CLEAR | 只删除本任务scratch及已记录OPD检查的cache |
+| D4 可并行任务停滞 | CLEAR | bootstrap、平台及云端检查独立推进 |
+| D5 超范围镀金 | CLEAR | 未新增模型、题目、seed、训练或代码功能 |
+| D6 分析空转 | CLEAR | 全部分母、终态和清理已变为实测完成；只剩同步 |
+| D7 路线违背 | CLEAR | H800 steering、原件评分、确证超时单独计数及限定清理均保持 |
+
+**文档检查：** S5：plan.md的Current phase status、summary.md开头及learning report开头仍描述评测未完成，与最终报告80+80和已消费状态冲突。S1–S4、S6均未发现明显缺陷。
+**归因：** 无执行偏离；S5是需要更新的记录状态。
+
+## 3. 纠正建议
+
+**分支：** B：spec/plan存在过期状态，先更新文档再继续
+
+**文档更新（先执行）：**
+1. plan.md：更新Current phase status为已完成评分与清理、待正常Git同步（可直接执行）。
+2. summary.md：以最终报告为当前结果来源，保留初始warmup和失败尝试的历史（可直接执行）。
+3. learning report：开头指向最终完整结果，按已有requirement澄清79native+1确证模型失败的固定分母（可直接执行）。
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 更新当前状态、重读requirements并检查差异 → 完成标志：只包含任务Markdown，当前状态与实测一致。
+2. 正常commit和push个人agent-opd → 完成标志：独立git ls-remote匹配HEAD，工作树清洁。
+
+## 4. 最值得关注的 3 点
+
+1. 完整avg@4为0.625→0.625；95% question bootstrap区间[-0.075,0.0875]，不能声称能力提升。
+2. 最终清理workerSucceeded/exit0/restart0；本任务活跃RJob为0，精确云端与本地scratch均缺失。
+3. 两组数值残差仍存在，H200训练仍未验证；这些边界必须保留到最终同步。
+
+
+completed (2026-11-06T12:45:23.462085+08:00): independent completion checks pass. Finalizer exp-1106-123237-982894/UID093af55c-721a-4494-9a47-e7d2ae79a78d succeeded with exit0/restart0; exact cloud learning root absent, zero active task RJobs, no duplicate benchmark generation. The observer failed at its SSH absence assertion before local/Git mutations; fresh bounded reads confirmed absence, with initiating metadata cause UNKNOWN. Independent 10000-question bootstrap reproduced [-0.075,0.0875], and finite twenty-update rows/export identity passed. Deleted exactly 735 task scratch files (2281407 bytes) and 5 OPD pytest-cache files (4814 bytes); both local paths absent. The final report records exact methods, limits and closure evidence.
+
+in-progress: normal final Markdown archive and personal origin/agent-opd synchronization. No new GPU job, model generation or code change is required.

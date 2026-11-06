@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-06 | Archive complete twenty-update scores and verified disposal while preserving numerical and H200 limits. |
 | 2026-11-06 | Separate current acceptance state from historical preparation and recovery. |
 | 2026-11-06 | Verify complete twenty-update HF, native terminal success and actual updated-model reload. |
 | 2026-11-06 | Reconcile queued learning and active evaluation; reference timestamped progress. |
@@ -12,7 +13,7 @@
 
 # Agentic OPD Warmup
 
-The additional twenty-update phase has completed twenty normal finite optimizer updates on sixteen H800 GPUs, the complete final HF export, native inspection and actual update20 reload. The paired native benchmark is still running. Final scoring, disposable cleanup and final branch synchronization remain incomplete. The timestamped measured state is maintained in [the learning report](test_report_2026-11-05_agent_opd_learning.md); [progress.md](progress.md) records queue and cleanup evidence.
+The accepted H800 learning phase has completed twenty normal finite optimizer updates on sixteen H800 GPUs, complete final decoder HF export, actual update20 reload, and both identical twenty-question/four-seed native benchmarks. Original and update20 avg@4 are both 0.625; the paired difference is zero, with a 95% question bootstrap interval of [-0.075, 0.0875]. This proves the measured execution workflow and weight-update/export/reload path; it does not demonstrate capability improvement or numerical equality. Exact local/cloud disposable outputs are deleted, and independent platform inspection finds no active task RJobs. Normal final branch synchronization is the last pending action. [The final report](test_report_2026-11-06_agent_opd_final.md) is authoritative for current scores, recoveries, alignment residuals, terminal identities and cleanup; the following initial warmup and failed-attempt records are historical.
 
 The real GLM-4.7-Flash-Coder → GLM-4.7-Flash OPD warmup completed two successful optimizer updates on 16 H800 GPUs on November 5, 2026, following the user's temporary hardware change. Native inspection exited 0. Both containers exited 0 with no restarts, and the platform reported Succeeded. H200 training is not qualified by this result.
 
@@ -36,7 +37,7 @@ Authenticated Lark search returned no visible FrogNano result and three contextu
 
 The shared GLM weights and original Steptron glm5.2 dataset remain unchanged.
 
-## Actual training and alignment
+## Initial two-update training and alignment
 
 Four original glm5.2 turns from the referenced ticket07 task were used in each rollout. Prompt counts and hashes matched the source: 40380, 28408, 33616 and 10366 tokens. Original submit/thinking/body/editor/bash representations were verified. Eight newly sampled turns produced 2779 scored completion tokens; seven completed normally and one was explicitly truncated at 1024 tokens. The truncated turn retained its reasoning/body and was teacher-scored and consumed without token changes.
 
@@ -47,7 +48,7 @@ All eight trainer-rank outcomes were `normal` in each update. Both gradient norm
 | 0 | 0.1218385722 | 8.0741624832 | 0.0228575670 | 0.0228575673 | 0.1842243075 | 0.5691769123 | 0 / 1137 = 0% |
 | 1 | 0.1338641484 | 5.3127408028 | 0.0247820460 | 0.0253208224 | 0.1820047647 | 0.8846728802 | 1 / 1642 = 0.0609013% |
 
-The native statistic uses the reducer rebuilt from TIS-adjusted masks; the inspector includes all sampled tokens. Small numerical differences remain. No token, routing or policy-version mismatch was found in these eight turns; exact bitwise parity and convergence are not asserted. The current driver does not publish the final optimizer update, so publication verification covers versions 0 and 1 only. Native generated tools were bash/editor; original submit serialization has separate source/CPU evidence. The initial two-update warmup did not qualify live multi-turn tool execution or H200 training. Native tool execution has since been observed in the ongoing benchmark; H200 training remains unqualified.
+The native statistic uses the reducer rebuilt from TIS-adjusted masks; the inspector includes all sampled tokens. Small numerical differences remain. No token, routing or policy-version mismatch was found in these eight turns; exact bitwise parity and convergence are not asserted. The current driver does not publish the final optimizer update, so publication verification covers versions 0 and 1 only. Native generated tools were bash/editor; original submit serialization has separate source/CPU evidence. The initial two-update warmup did not qualify live multi-turn tool execution or H200 training. Native tool execution has since been observed in the completed benchmark; H200 training remains unqualified.
 
 ## Environment and regression evidence
 
@@ -57,7 +58,7 @@ Both engines reported ready, TP4/base0/BF16/FA3/deterministic/routed-expert enab
 
 Relevant CPU evidence includes 413 passed GPU-visibility/platform checks with 23 existing skips, 17 passed Ray-backend checks, and 115 passed reward/OPD/conversion checks. Two existing local Ray/GCS object-store fixture startup errors remain documented. Existing broader launcher-suite baseline failures are also recorded; they were not represented as passing or repaired outside scope.
 
-## Cleanup and synchronization
+## Initial warmup cleanup and synchronization
 
 The native workers removed their own compilation, Ray, kernel and temporary caches before successful exit. All consumed local raw logs, copied manifest/configuration, samples/dumps/receipts and the 173 MiB temporary SGLang source were removed. Only code and Markdown conclusions remain in the task directory. Requested model assets, shared datasets, credentials and persistent Python environments were preserved.
 

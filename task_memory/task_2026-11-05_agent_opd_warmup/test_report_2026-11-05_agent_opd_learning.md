@@ -2,7 +2,9 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-06 | Verify Q18 captured patch/native failure, consume its source and record synchronous deadline overrun. |
+| 2026-11-06 | Point current status to complete final scores, recovered original answers and independently verified cleanup. |
+| 2026-11-06 | Verify Q1 original-action recovery, diagnose Q13 timeout and consume completed CPU disposable artifacts. |
+| 2026-11-06 | Verify Q18 native patch and consumption, record deadline overrun and retire the completed legacy CPU monitor. |
 | 2026-11-06 | Verify the four remaining native attempts, the live observer and bounded local storage. |
 | 2026-11-06 | Verify remaining native budgets and record the unavailable legacy sandbox status read. |
 | 2026-11-06 | Record original Q5 errors, Q2 consumer terminal success and dynamic72-outcome state. |
@@ -26,9 +28,9 @@
 
 # Twenty-update OPD learning test
 
-As of 2026-11-06 03:52:40 HKT, the unique sixteen-H800 learner has completed twenty normal finite updates, complete final HF/native inspection and actual update20 reload with platform/container success. Original:80valid/80expected,50resolved,avg@4=0.62500000; all original raw outputs were consumed. Updated:9/80valid; three generation initialization failures remain missing, separately from grader-invalid0. All twenty original and twenty updated question jobs were created once. The disposable consumer/finalizer has passed partial-source/subset-recovery accounting checks. Complete updated grading, paired scoring, final cleanup and synchronization remain incomplete.
+The twenty-update phase is complete on November 6, 2026. The qualified sixteen-H800 learner completed twenty normal finite optimizer updates, complete decoder HF export and actual update20 reload. Both benchmark cells contain eighty unique evaluated attempts: original has eighty native grades, update20 has seventy-nine native grades and one separately proven model-caused timeout. Both have fifty resolved attempts and avg@4 0.625. Final paired aggregation and exact local/cloud cleanup passed; normal final branch synchronization is the last pending action. [The final report](test_report_2026-11-06_agent_opd_final.md) owns the completed measurements and closure evidence. Entries below preserve preparation, failed attempts and recovery history.
 
-Expected:20normal finite optimizer updates,80distinct glm5.2 turns, exact post-update20 export,20fixed questions×4 seeds with80valid native grader outcomes for both original and updated student. Tool execution and tests determine resolved/unresolved; infra/invalid outcomes remain missing. Cleanup removes all transient files after consumption.
+Acceptance: twenty normal finite optimizer updates, eighty distinct eligible glm5.2 turns, exact post-update20 export/reload, and twenty fixed questions times four seeds with eighty unique evaluated outcomes per model. Native tools/tests determine resolved/unresolved; a separately proven model-caused native timeout contributes a failed attempt while retaining its invalid native receipt. Unknown infrastructure or grader errors remain missing until recovered. This follows the November 6 clarification in requirements.md; no failed generated answer is replaced. Cleanup removes every task transient file after consumption.
 
 Initial evidence: qualified two-update branch38ff410a0a8a3ca5fec8b3ce5a6ad8e3325200e7, current clean workingtree,109GiB local free. Relevant current source contracts: train.py final-save ordering and skipped final publication; miles/backends/megatron_utils/hf_export.py complete-marker export; referenced Ticket06 fixed50 manifest and native RunCheckPipeline.
 
@@ -1213,3 +1215,70 @@ Exact RJob `exp-1106-022355-200090`, UID `11a921d2-c0a5-4248-8e45-df23938ad74a`,
 
 
 Q18 source consumption verified at2026-11-06T11:37:12.150314+08:00: exact0GPU job `exp-1106-113011-154322` returnedSucceeded; source result binds UID11a921d2-c0a5-4248-8e45-df23938ad74a and retains exactlynative seeds1730/1732,2valid outcomes. Removed23raw files/85923067bytes;12minimal evidence files retained until final scoring. The uniqueobserver resumed without duplicate source submission. Last active native log snapshot at11:35:44HKT showsfresh model requests for Q1/1732,Q8/1732,Q13/1729 and continuing decode6.50/7.40/8.24token/s respectively. Each exactpersonal replica isRunning/restart0 and requests4H800. Native logs were read through the established SSH Replica log exception; only metadata and batch metrics were saved to task scratch. A3-job12GPUrequest is not a utilization measurement. Local task scratch measured56MiB with timeout60sdu-sh;host free disk about94GiB.
+
+
+## Legacy completed followup monitor retired (November 6, 2026, 11:56:25 HKT)
+
+PASS: CPU process PID 1801910 ran the exact task script `launch_basemind_followups.py`. Its completion condition counts native grades only. It cannot reach eighty updated native grades when the requested population includes one separately confirmed model timeout. Leaving it active after cloud and scratch deletion would produce obsolete reads and writes and could race the recursive local cleanup.
+
+All forty regular question receipts exist and bind to distinct terminal personal RJobs in the independent 11:53:45 HKT snapshot. The process had no children. Its command path and process start ticks were verified twice before SIGTERM; process exit was verified. No GPU job or healthy launcher was stopped. Consumer PID 1552798, final observer PID 2855278 and the three active benchmark launchers remain. The canonical final observer counts the full requested population, including separately confirmed model failures.
+
+The first stop preflight exited before sending any signal because `/proc/1801910/task/1801910/children` was unavailable. The standard command `ps --ppid 1801910 -o pid=` then verified that there were no children, and the exact CPU process stop passed. This was a host inspection path error, not a GPU worker failure.
+
+CPU finalization preflight: `timeout 60s python3 -B -` checked the unique replacement markers in summary.md and plan.md, compiled the existing final observer and finalizer without executing destructive code, and scanned all seven maintained task Markdown files against known credential values in memory. All checks passed. No credential value was printed or written. These checks verify preparation only; complete native scoring and final cleanup remain pending.
+
+
+NATIVE_INIT_TARGETED_LAUNCHER_TERMINAL: basemind-updated-question-01-recovery-01, exit 0; native receipts and personal terminal identity determine acceptance.
+
+
+## Q1 original timeout diagnosis and restoration (2026-11-06T12:03:53.451583+08:00)
+
+Q1/seed1732 source exp-1106-043046-217297 is personal i-fengyicheng/codesign, UID a661e88e-9776-4825-9e90-86507b4ba394, current-host NFS source 100.96.128.195:/data/ycfeng:/data/ycfeng, native H800 node0165, platform/Replica Succeeded, container exit0/restart0 at03:58:10Z. Generation returned with verified seed after18338.505774764344seconds; grade remains invalid/FileNotFoundError. The exact error trajectory confirms AgentLoopTimeoutError and an empty error-serialization patch; no normal trajectory exists for seed1732. SHA256 26ceee0f1437ba6750779943571cfce0e5b2b39ec04fa06b00ffe65538b7940d.
+
+Pre-test hypothesis confirmed: native budget exhaustion prevented normal trajectory capture, producing the missing-path grading error. Existing native TrajectoryViewer.merge_dialogs in the pinned Python3.10.20 environment reconstructs326messages/162unique original model responses, removing only the two synthetic final messages. Source hash and original command/identity checks passed; the existing restore_native_actions.py and grade_restored_patch.py compile unchanged. A unique0GPU restoration now replays only those original responses/actions and captures the final patch through native autosubmission. It must verify restored responses/actions and every substantive tool difference before native grading. No new model query, answer or GPU generation is permitted.
+
+
+NATIVE_INIT_TARGETED_LAUNCHER_TERMINAL: basemind-updated-question-13-recovery-01, exit 0; native receipts and personal terminal identity determine acceptance.
+
+
+NATIVE_INIT_RECOVERY_OBSERVER_TERMINAL {"native_probe_unverified_tasks": [], "scope": "Each stable missing pair receives at most one recovery; final grading is independently required"}
+
+
+## Q13 original budget recovery preflight (November 6, 2026)
+
+PASS for original-history preparation: source exp-1106-043046-214233/UID5aefab13-a352-46a1-8b04-4f7132016492 completed platform/ReplicaSucceeded,exit0/restart0,current personal NFS100.96.128.195:/data/ycfeng:/data/ycfeng. Seed1729 generation returned in18093.650132097304seconds; native grade is invalid/FileNotFoundError. The exact4,012,708byte error trajectory records AgentLoopTimeoutError; its empty serialization patch is not a working-tree measurement.
+
+Exact path: diagnostics/step20/seed-1729/error_trajectories/django__django-14034-1793938065.309526.json under benchmark-basemind/exp-1106-043046-214233. SHA256401c496fa4c4ba4715cee6ca923cfb2514fe8ef4a43e48cd6c3915aaf99e203e. Bounded read-only SSH streamed the original into memory; no local trajectory file was written. Unchanged native TrajectoryViewer.merge_dialogs under the mounted Python3.10.20 reconstructed424messages/211unique original model responses after removing exactly two synthetic terminal messages. Response-ID SHA256ff5b3b526351bc7ff56d695b7a8bc1ac75f29f3b638b0761f649627a40cfd334.
+
+Execution plan/script: /data/ycfeng/tmp/agent-opd-learning-20261105/q13-action-restoration-plan.json and unchanged restore_native_actions.py. The unique local0GPU launcher reuses personal_exec.sh/submit.py with the existing consumer credentials only in memory. No new inference or training is requested. Actual restored tool differences/patch and native grader remain pending. The disposable finalizer now derives recovery counts from actual plans,rejects duplicate source/seed pairs,and reports only verified provenance; in-memory compile PASS.
+
+
+Q1 original-action restoration PASS: exp-1106-120357-454083/UID744b4331-8f6b-4a88-83f8-9ab4d2dd9d55,nativeReplicaSucceeded,exit0/restart0. Exactly162originalresponses/326messages,zero replay warnings and zero live inference. Differences at message15/17/19 are exclusively `object at 0x...` addresses; original/restored outputs are equal after replacing only that inspected object-address expression. No other field differs. Actual patch38851bytes/SHA256de7c9b48fd16065a5b805225b8e1f58987ab911a65c9484c3e3b32e30cda4fe1; restoration JSON SHA256803d27841a3809c278f60863f64e3a37700a1e96e3305a7fbf9090a0294c70ee. Qualification is source/seed/UID-bound. `q1-restored-grade-plan.json` uses unchanged grade_restored_patch.py and1200-second native checker; actual native result remains pending.
+
+
+Q13 original-action restoration PASS: exp-1106-121136-264516/UID835d8bd9-2974-4bba-9e83-8d7cc5c849be,platform/ReplicaSucceeded,exit0/restart0. Original211responses/424messages,response-ID hash matches preflight,zero replay warnings and no inference. Thirteen differences at33/103/107/115/151/159/165/205/215/231/233/241/263 are exclusively unittest elapsed-time strings; complete outputs match after replacing only each inspected `Ran N tests in Xs` duration. No other field differs. Actual patch14444bytes/SHA2560dd39f0ad6fb953a3c74551e9178b4e2118307783ebd2ed75d8cba5e5e0fa887; restoration JSON SHA25667f1dad3f4418ddfb83507ad8f7ff3d71ca0fcda6c34dcd9a783ed1fd7997d02. Qualification is source/seed/UID-bound. `q13-restored-grade-plan.json` and unchanged grade_restored_patch.py request the original1200-second checker; actual grade remains pending.
+
+
+## Native grading promotion visibility (2026-11-06T12:23:06.864564+08:00)
+
+Observation: initial SSH reads showed the original Q13 invalid grade/hash/mtime while its new native grader result and preserved original_grading file were visible. The next exact SSH status/job comparison was already green; the outer preflight's expectation that the mismatch would persist raised AssertionError before any mutation or submission. No fresh-mount probe was submitted. Full Q13 source/generation/trajectory/previous-grade/restoration/native-result parity now passes. Observed delayed visibility after atomic grade replacement is consistent with a cached mount view; cache attribution and TTL are not independently established. No grade was rewritten or native test rerun.
+
+Q13 result: original final patchapplied; nativeunresolved,14allcases,FAIL_TO_PASS0/1,PASS_TO_PASS12/12,35.04865235602483seconds. Original generationSHA256ca6050634ba70bf5246e81b97ac7600e7b0eeea75219a3106bd09dc2f011cee4 and original gradingSHA25630a4a7cc207e303e234b1ab116b3ede97c71489437241510f43990b33fdf1f75 remain unchanged. Native resultSHA256a711130790da19a9df10e9541ae3e14739912a1d559f1c35129e197a2ce724ba. Q13 source consumption uses existing consume_basemind.py while its hold prevents concurrent consumption; remove hold only after the marker and retained original recovery evidence are verified. Q1 canonical SSH publication remains pending despite its local completed native receipt; Q8 generation continues.
+
+
+## Q1 effective native patch and complete grading provenance
+
+PASS: Q1 native grading exp-1106-121351-842732/UID971dbb91-49b4-49f6-baae-1f1dc3fe2be7 completed platform/ReplicaSucceeded,exit0/restart0. Canonical grade subsequently became visible and full hash/provenance checks passed without rewriting it. Nativeunresolved,74allcases,FAIL_TO_PASS0/4,PASS_TO_PASS68/68,109.58757388591766seconds. Original generationSHA25678c04f6398bd4e1620668cc3bcec7e9963672191f1f7fec687f936f6f6b42703; original invalid gradingSHA25693df211b728194cf8b9a13203c6a8ef5c38c7d2345f1c3344ea3c1f9650631bd; native resultSHA2569c6453d01de9a926540bbdaf3acee9d496fc9e43f94ae9af8b0f2f22cef7f5df. All original generation/trajectory/grade and restoration hashes remain unchanged.
+
+The native patch_is_None=true flag was investigated before consumption. The raw38851-byte patch only adds seven diagnostic test files; no source implementation file is changed. Existing CHECK_SUBPROCESS_CODE calls filter_test_files_for_session_router before scoring. Exact unchanged native filter execution under Python3.10.20 returns an empty effective prediction,SHA256e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855. The flag therefore reflects the effective prediction,not lost raw patch input. Native grading marks patch_successfully_applied=true when test output is found; that flag alone does not prove a nonempty source patch. This model outcome remains nativeunresolved and is never regenerated. Final provenance now retains native patch flags for restored grades,with this qualification stated explicitly.
+
+Q13 source consumption exp-1106-122327-509219/UIDa7f8dbb2-6609-4a72-80a7-7a8c44cbb889 completed platform/ReplicaSucceeded,exit0/restart0. Exactlyone validnative requested seed remains;10files/37812555bytes removed and9minimal original recovery/outcome files preserved for final scoring. Source hold released only after native result/provenance/consumption/terminal checks. Q1 exact source consumer submitted once; no model inference or native grading was repeated.
+
+
+NATIVE_INIT_TARGETED_LAUNCHER_TERMINAL: basemind-updated-question-08-recovery-01, exit 0; native receipts and personal terminal identity determine acceptance.
+
+
+NATIVE_INIT_RECOVERY_OBSERVER_TERMINAL {"native_probe_unverified_tasks": ["django__django-10914"], "scope": "Each stable missing pair receives at most one recovery; final grading is independently required"}
+
+
+Q1 source consumption PASS: exp-1106-122646-530939/UID9e192ee4-be9f-4d6f-9b2f-38b0d66067fe,platform/ReplicaSucceeded,exit0/restart0,exact personal NFS. Retained two genuine native seeds1731/1732; removed16files/49011359bytes and retained11minimal files. Sourceholdreleased. Fresh independent membership/duplicate checks: original80native/50resolved;updated79evaluated/78native+1confirmed modeltimeout/50resolved. Solemissingpair Q8/django__django-11551/1732. All original-answer restorations and context continuations have verified native outcomes/provenance; finalscore and completecleanup remain pending.
