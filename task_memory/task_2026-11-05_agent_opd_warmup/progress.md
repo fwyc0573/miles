@@ -4517,3 +4517,84 @@ in-progress: final observer PID2652355/tool-session93760 is alive and submitted 
 
 
 completed: Q5 source consumption exp-1106-101534-995419 / UID ca9a6a0d-0627-4694-a675-92186dff1660 independently verified Succeeded, container exit0 and restart0. Actual consumer retained three original native valid outcomes and required restoration provenance; removed 29 files / 166691958 bytes. Four remaining generators are within their native elapsed budgets at the selected business read. Final observer remains alive.
+
+
+## Verified terminal accounting and final observer resumption (2026-11-06T10:38:18.915817+08:00)
+
+completed: the current 49-job training/benchmark identity preflight passes with 45 terminal and four active records. Seven old post-grading failures retain their original native exit 1 while their parent phase is now Stopped/RJobFailed. The known failure ledger preserves initial/current observations, and the final reader validates actual UID/reason/exits rather than requiring an immutable parent phase. Exact results and fourteen timed-out audit queries are recorded in the learning report; initiating stop fields remain UNKNOWN.
+
+completed: the final observer is uniquely alive as PID2855278/tool-session14752 after a PPID-verified, child-free local restart. The /proc children-file preflight failed on this host and was replaced by the actual process-parent check. The short-lived second observer was reconciled before any additional source-consumption submission; no GPU RJob stop or duplicate training was issued.
+
+in-progress: original80 native results are complete; updated76 evaluated results still leave four live native generations. Q5 source consumption is complete. Q18 source consumption waits for its continuation grade and uses actual retained native seed membership. Final paired score, all disposable cleanup and final personal branch synchronization remain pending. Do not submit training again.
+
+## 1. 规划完成情况
+
+**汇总：** PASS 11｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 初始1：branch与仓库要求 | PASS | 已归档 |
+| 初始2：公司检索与资产 | PASS | 固定版本文件完整校验 |
+| 初始3：glm5.2与completion信号 | PASS | 原始token与signal验证 |
+| 初始4：16H800 warmup | PASS | 两次真实更新及数值记录 |
+| 初始5：阶段清理和同步 | PASS | 初始阶段已结束 |
+| 学习1：固定题库与turns | PASS | 输入与排除边界验证 |
+| 学习2：20updates与HF实现 | PASS | 唯一learner完成export |
+| 学习3：native evaluator | PASS | 同一native工具与grader |
+| 学习4：20updates/export/reload | PASS | 真实闭环已验证 |
+| 学习4：original80 | PASS | 完整80次评分 |
+| 学习4：updated80 | TODO | 四份真实执行仍在运行 |
+| 学习4：恢复原件与消费 | TODO | Q5完成；Q18待续评结果 |
+| 学习5：配对汇总、最终清理和push | TODO | 待完整结果与全部终态 |
+| 补充：Frog/Qwen真实资格验证 | PASS | 两次更新及清理归档 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 10:14HKT自检至当前终态验证｜**当前前沿：** 四份updated评分、Q18来源消费、最终汇总
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 49条实际记录验证移除了会阻碍最终清理的历史phase比较 |
+| D2 细节反复重试 | CLEAR | 根据同UID/原exit证据纠正条件；审计超时保留UNKNOWN且未反复重试 |
+| D3 支线问题修补 | CLEAR | 原件消费和终态条件属于学习4/5 |
+| D4 可并行任务停滞 | CLEAR | 四份生成与CPU来源/终态检查并行 |
+| D5 超范围镀金 | CLEAR | 无新增训练、题目、seed或第二个完整benchmark |
+| D6 分析空转 | CLEAR | 完成Q5消费与真实49-job验证，唯一observer继续等待结果 |
+| D7 路线违背 | CLEAR | 保留原件、原预算和原native失败，不以unknown错误代替评分 |
+
+**文档检查：** S1–S6均未发现明显缺陷；恢复与终态验证由现有plan拥有。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/plan合理，无需改动
+
+**需停止的偏离行为：** 无
+
+**接下去的路线：**
+1. 保持唯一observer和四个既有生成，完成四份实际native评分；异常时保留原件诊断。
+2. Q18通过后消费其原来源，并用完整80+80结果完成production汇总与10000次question bootstrap。
+3. 核验全部实际receipt终态，精确清理本任务cloud/scratch，正常push并独立核验remote SHA。
+
+## 4. 最值得关注的 3 点
+
+1. 所有训练已经完成，下一步只等待四份benchmark原生结果。
+2. 历史RJob phase会变化；现已按相同失败UID、原因和exit验证，原始失败证据完整保留。
+3. 最终observer已恢复为唯一进程；完整评分后才允许删除HF和结束branch同步。
+
+
+## Latest continuation state
+
+Independent last read: 2026-11-06T10:38:57.963914+08:00. Original 80/80 native grades, 50 resolved, avg@4 0.625. Update20 76/80 evaluated, 50 resolved; 75 native grades plus one separately confirmed Q2 model timeout. No complete updated average is reported. All four remaining jobs are Running.
+
+| Remaining task index / seed | RJob | UID |
+| --- | --- | --- |
+| 1 / 1732 | exp-1106-043046-217297 | a661e88e-9776-4825-9e90-86507b4ba394 |
+| 8 / 1732 | exp-1106-065634-390466 | f7a6ce20-5e6e-4428-8c34-422a3bf2f310 |
+| 13 / 1729 | exp-1106-043046-214233 | 5aefab13-a352-46a1-8b04-4f7132016492 |
+| 18 / 1731 | exp-1106-092533-163895 | 6d22fe5c-c2ee-4b08-9bf8-1eae181c1a83 |
+
+Final observer: PID2855278, tool-session14752; exactly one observer verified. Consumer PID1552798 and followup PID1801910 remain alive. Do not start training or duplicate these benchmarks. New terminal-reader preflight is49jobs/45terminal/4active, with original post-grading failure UID/reason/exit retained across parent Failed→Stopped cleanup. Auxiliary63records are actual receipt-bound sources; the prior62preflight and the later Q5-consumer terminal identity are separately verified.
+
+Next actions: inspect the four existing native outcomes; consume Q18 original source only after its verified continuation (two native valid original source seeds, not three); recover any newly invalid original final patch/prefix without another answer; complete exact80+80production summary and10000question bootstrap; verify all actual terminal identities; precisely delete task cloud/scratch; normally push origin/agent-opd and independently verify SHA. The final observer already owns this route. Tests/source data/models/credentials outside the task scope remain shared prerequisites. Final benchmark, cleanup and final push are still pending.
