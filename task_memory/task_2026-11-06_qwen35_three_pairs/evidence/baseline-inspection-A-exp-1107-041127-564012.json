@@ -1,0 +1,1730 @@
+{
+  "schema_version": 1,
+  "task_id": "QWEN-P2-NUMERIC-REPORT",
+  "verdict": "INCOMPLETE",
+  "threshold": 0.03,
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012",
+  "population_report": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json",
+  "dataset": "monitor",
+  "required_checkpoint_positions": [
+    0,
+    19,
+    39,
+    59,
+    79,
+    99
+  ],
+  "issues": [],
+  "learning_conclusion": "No convergence or capability-improvement claim; teacher/student values are sampled-token diagnostics",
+  "verification_scope": "Offline native-artifact inspection; no platform calls or training control",
+  "monitoring_uids": [
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:221:162",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:279:258",
+    "f9be77c6019ac52038c47cc70f847e1666633f2fb4c1aaad3c2584e0f7e7f518:265:240",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:306:158",
+    "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4:499:208",
+    "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662:12:238",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:119:163",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:129:213",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:424:168",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:447:238",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:3:180",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:45:170",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:27:132",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:99:66",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:99:68",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:118:244",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:163:72",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:163:74",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:448:33",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:448:35",
+    "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:476:146",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:30:18",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:30:20",
+    "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:36:166"
+  ],
+  "teacher_contract": {
+    "status": "established",
+    "issues": [],
+    "teacher_ready": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites/exp-1107-041127-564012/A/teacher-ready.json",
+    "probability_definition": {
+      "definition": "full_vocabulary_log_softmax",
+      "basis": "source_and_launch_contract_derived",
+      "sample_recorded": false,
+      "source_commit": "056f871a7ee8b4573832049011f0fdf52589cfd8",
+      "source_url": "https://raw.githubusercontent.com/sgl-project/sglang/056f871a7ee8b4573832049011f0fdf52589cfd8/python/sglang/srt/layers/logprob_processor.py",
+      "producer": "qwen_alignment.score_teacher -> on_policy_distillation._score_payload",
+      "explanation": "The task-pinned deterministic SGLang input-logprob processor applies log_softmax to raw logits; temperature=0 selects decoding and does not scale input logprobs.",
+      "request_shape_from_source": {
+        "sampling_params": {
+          "temperature": 0,
+          "max_new_tokens": 0,
+          "skip_special_tokens": false
+        },
+        "return_logprob": true,
+        "logprob_start_len": 0
+      },
+      "input_ids_from_source": "Exact sample.tokens, without re-tokenization; the request itself is not recorded"
+    },
+    "evidence_limits": [
+      "Request fields and probability semantics are source/launch-contract-derived, not sample-recorded receipts.",
+      "Teacher identity is startup model_info plus the frozen-teacher launch contract; no per-response model revision or consumed teacher weight version is recorded."
+    ],
+    "student_launch": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites/exp-1107-041127-564012/A/student-launch.json",
+    "endpoint": "http://100.98.76.149:30000/generate",
+    "expected_model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "startup_model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "job": "exp-1107-041127-564012",
+    "pair": "A",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+  },
+  "weight_publication": {
+    "verdict": "INCOMPLETE",
+    "issues": [
+      {
+        "code": "native_publication_coverage_incomplete",
+        "detail": "Need each planned native publication through the final position, not a version inferred from that position"
+      }
+    ],
+    "events_directory": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/events",
+    "baseline_weight_version": 0,
+    "final_published_weight_version": 0,
+    "successful_optimizer_updates": null,
+    "skipped_optimizer_updates": null,
+    "updated_monitoring_positions": [],
+    "publications": [],
+    "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"
+  },
+  "checkpoint_verdict_counts": {
+    "INCOMPLETE": 6
+  },
+  "baseline": {
+    "rollout_id": 0,
+    "verdict": "INCOMPLETE",
+    "issues": [],
+    "raw_artifacts": {
+      "samples": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/rollout_data/eval_0.pt",
+      "scores": [
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/train_data/eval_monitor_0_0.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/train_data/eval_monitor_0_2.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/train_data/eval_monitor_0_4.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012/train_data/eval_monitor_0_6.pt"
+      ]
+    },
+    "consumed_weight_versions": [],
+    "samples": [
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:221:162",
+        "stratum": "long",
+        "sample_index": 21,
+        "response_tokens": 305,
+        "expected_valid_tokens": 305,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:279:258",
+        "stratum": "long",
+        "sample_index": 19,
+        "response_tokens": 172,
+        "expected_valid_tokens": 172,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "f9be77c6019ac52038c47cc70f847e1666633f2fb4c1aaad3c2584e0f7e7f518:265:240",
+        "stratum": "long",
+        "sample_index": 17,
+        "response_tokens": 55,
+        "expected_valid_tokens": 55,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:306:158",
+        "stratum": "medium",
+        "sample_index": 11,
+        "response_tokens": 875,
+        "expected_valid_tokens": 875,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4:499:208",
+        "stratum": "long",
+        "sample_index": 22,
+        "response_tokens": 52,
+        "expected_valid_tokens": 52,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662:12:238",
+        "stratum": "long",
+        "sample_index": 16,
+        "response_tokens": 44,
+        "expected_valid_tokens": 44,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:119:163",
+        "stratum": "medium",
+        "sample_index": 13,
+        "response_tokens": 564,
+        "expected_valid_tokens": 564,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:129:213",
+        "stratum": "long",
+        "sample_index": 18,
+        "response_tokens": 288,
+        "expected_valid_tokens": 288,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:424:168",
+        "stratum": "medium",
+        "sample_index": 15,
+        "response_tokens": 626,
+        "expected_valid_tokens": 626,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:447:238",
+        "stratum": "medium",
+        "sample_index": 12,
+        "response_tokens": 54,
+        "expected_valid_tokens": 54,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:3:180",
+        "stratum": "long",
+        "sample_index": 20,
+        "response_tokens": 153,
+        "expected_valid_tokens": 153,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:45:170",
+        "stratum": "medium",
+        "sample_index": 8,
+        "response_tokens": 118,
+        "expected_valid_tokens": 118,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:27:132",
+        "stratum": "medium",
+        "sample_index": 14,
+        "response_tokens": 72,
+        "expected_valid_tokens": 72,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:99:66",
+        "stratum": "short",
+        "sample_index": 1,
+        "response_tokens": 99,
+        "expected_valid_tokens": 99,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:99:68",
+        "stratum": "short",
+        "sample_index": 4,
+        "response_tokens": 114,
+        "expected_valid_tokens": 114,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:118:244",
+        "stratum": "long",
+        "sample_index": 23,
+        "response_tokens": 460,
+        "expected_valid_tokens": 460,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:163:72",
+        "stratum": "short",
+        "sample_index": 5,
+        "response_tokens": 33,
+        "expected_valid_tokens": 33,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:163:74",
+        "stratum": "short",
+        "sample_index": 0,
+        "response_tokens": 63,
+        "expected_valid_tokens": 63,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:448:33",
+        "stratum": "short",
+        "sample_index": 2,
+        "response_tokens": 74,
+        "expected_valid_tokens": 74,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:448:35",
+        "stratum": "short",
+        "sample_index": 6,
+        "response_tokens": 60,
+        "expected_valid_tokens": 60,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:476:146",
+        "stratum": "medium",
+        "sample_index": 9,
+        "response_tokens": 62,
+        "expected_valid_tokens": 62,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:30:18",
+        "stratum": "short",
+        "sample_index": 7,
+        "response_tokens": 91,
+        "expected_valid_tokens": 91,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:30:20",
+        "stratum": "short",
+        "sample_index": 3,
+        "response_tokens": 49,
+        "expected_valid_tokens": 49,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:36:166",
+        "stratum": "medium",
+        "sample_index": 10,
+        "response_tokens": 94,
+        "expected_valid_tokens": 94,
+        "zero_target": false,
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "comparisons": {
+          "teacher_student": {
+            "verdict": "INCOMPLETE",
+            "issues": [
+              {
+                "code": "generation_prefill_version_missing",
+                "detail": "Consumed KV/prefix versions are absent or incomplete"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "decode": {
+      "verdict": "INCOMPLETE",
+      "overall": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "decode"
+          }
+        ],
+        "expected_valid_tokens": 4577,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 4577,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 24,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "short": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "decode"
+          }
+        ],
+        "expected_valid_tokens": 583,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 583,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "medium": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "decode"
+          }
+        ],
+        "expected_valid_tokens": 2465,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 2465,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "long": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "decode"
+          }
+        ],
+        "expected_valid_tokens": 1529,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 1529,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      }
+    },
+    "prefill": {
+      "verdict": "INCOMPLETE",
+      "overall": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "prefill"
+          }
+        ],
+        "expected_valid_tokens": 4577,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 4577,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 24,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "short": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "prefill"
+          }
+        ],
+        "expected_valid_tokens": 583,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 583,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "medium": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "prefill"
+          }
+        ],
+        "expected_valid_tokens": 2465,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 2465,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      },
+      "long": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "comparison_missing",
+            "detail": "prefill"
+          }
+        ],
+        "expected_valid_tokens": 1529,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 1529,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "train_logprob - inference_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": 0,
+        "nonfinite_unclamped_k3": 0,
+        "nonfinite_logprob_differences": 0,
+        "nonfinite_masked_positions": 0,
+        "missing_valid_tokens": 0,
+        "missing_masked_positions": 0
+      }
+    },
+    "tis": {
+      "bounds_inclusive": [
+        0.5,
+        2.0
+      ],
+      "original_valid_tokens": 4577,
+      "measurable_tokens": 0,
+      "retained_tokens": 0,
+      "retained_fraction_of_measurable": null,
+      "acceptance_uses_pre_tis_population": true
+    },
+    "teacher_student_sampled_divergence": {
+      "verdict": "INCOMPLETE",
+      "overall": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "expected_valid_tokens": 4577,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 4577,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "teacher_logprob - student_decode_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 24,
+        "nonfinite_valid_tokens": null,
+        "nonfinite_unclamped_k3": null,
+        "nonfinite_logprob_differences": null,
+        "nonfinite_masked_positions": null,
+        "missing_valid_tokens": null,
+        "missing_masked_positions": null
+      },
+      "short": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "expected_valid_tokens": 583,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 583,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "teacher_logprob - student_decode_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": null,
+        "nonfinite_unclamped_k3": null,
+        "nonfinite_logprob_differences": null,
+        "nonfinite_masked_positions": null,
+        "missing_valid_tokens": null,
+        "missing_masked_positions": null
+      },
+      "medium": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "expected_valid_tokens": 2465,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 2465,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "teacher_logprob - student_decode_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": null,
+        "nonfinite_unclamped_k3": null,
+        "nonfinite_logprob_differences": null,
+        "nonfinite_masked_positions": null,
+        "missing_valid_tokens": null,
+        "missing_masked_positions": null
+      },
+      "long": {
+        "verdict": "INCOMPLETE",
+        "issues": [
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          },
+          {
+            "code": "generation_prefill_version_missing",
+            "detail": "Consumed KV/prefix versions are absent or incomplete"
+          }
+        ],
+        "expected_valid_tokens": 1529,
+        "compared_finite_tokens": 0,
+        "missing_or_nonfinite_tokens": 1529,
+        "zero_target_samples": 0,
+        "abs_mean": null,
+        "abs_p95": null,
+        "abs_p99": null,
+        "abs_max": null,
+        "worst_tokens": [],
+        "k3_r_d_minus_r_plus_1": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "k3_r_minus_1_minus_d": {
+          "mean": null,
+          "nonfinite_tokens": 0
+        },
+        "sampling_distribution": "student_decode",
+        "delta_definition": "teacher_logprob - student_decode_logprob",
+        "unknown_denominator_samples": 0,
+        "sample_count": 8,
+        "nonfinite_valid_tokens": null,
+        "nonfinite_unclamped_k3": null,
+        "nonfinite_logprob_differences": null,
+        "nonfinite_masked_positions": null,
+        "missing_valid_tokens": null,
+        "missing_masked_positions": null
+      }
+    }
+  }
+}

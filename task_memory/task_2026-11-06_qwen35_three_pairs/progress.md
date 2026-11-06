@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Verify successful A/B native baseline execution, retain the missing-prefill-version INCOMPLETE verdict, and assign the omitted engine tracking flag to P2; C is independently running. |
 | 2026-11-07 | Record C readiness failure, exact loading/timeline evidence, per-pair wait correction and 85 passing integrated CPU checks; keep independent A/B queues. |
 | 2026-11-07 | Confirm native Ray repair, diagnose the zero-update scheduler assertion, and assign the existing optimizer-free baseline path for scoped verification. |
 | 2026-11-07 | Record actual 27B teacher readiness, A's reproducible Ray socket-length failure and B's preventive stop; retain C's queue and assign the scoped repair. |
@@ -30,7 +31,7 @@
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
-- in-progress — P2: data/export/source evidence committed as `ede719c1`, native integration as `ec127a1a`; 924 training + 24 monitoring prefixes are frozen with 8/8/8 coverage and complete-group isolation. Required CPU checks pass 142 + 83 + 14 cases. All three baseline RJobs were submitted. A's student verified eight actual H800 devices, but its teacher cannot start because the task ConfigMap is absent. A and the identically configured queued B were explicitly stopped for diagnosis; C retains its queued launcher. No native model numerical or training-capacity acceptance is established.
+- in-progress — P2: the frozen 924 training/24 monitoring population and native integration are implemented. Old A/B students completed baseline generation and trainer scoring with exit0, but their reports remain INCOMPLETE because prefill/KV tracking was disabled. The tracking flag is now enabled and89 affected checks pass in the pinned image; actual qualification must be repeated. C `exp-1107-044223-241566` is Running with24 verified H800 devices; its teacher continues loading. No optimizer-capacity or formal numerical acceptance is established.
 - pending — P3-A / P3-B / P3-C: no formal 100-update run or final model export has occurred. The separate P2 prerequisite submissions are recorded below.
 - pending — P4: runtime acceptance and completion archive.
 
@@ -143,10 +144,19 @@
 
 71. The bounded startup-test cleanup is complete: `completed_startup_cpu_20261107` in the existing cleanup receipt records a 10,186,752-byte scoped allocation reduction (9.71 MiB), including a 4,096-byte allocation reduction in retained entries. The pytest cache was removed; basetemps retain all log trees. All 52 protected log hashes, three RCA directories, 80 existing native entries and three local launchers were preserved. Reported available space remains about 221.58 GiB, 79% used. Parent verified that removing only the final `iterations` entry reproduces the committed receipt exactly; all earlier fields and history are unchanged. This cleanup is finished and does not gate the running/queued baselines.
 
+72. A `exp-1107-041127-564012` and B `exp-1107-041127-467864` completed native student execution with returncode0. Platform student replicas are Succeeded/exit0; both job stop annotations state `All critical tasks are finished.` Their teachers were stopped after the critical student task completed. Each run saved24 original eval Samples and four authoritative trainer-score shards, ranks0/2/4/6. This verifies the repaired startup and actual read-only scoring lifecycle, not D8 or optimization capacity.
+73. Ran the unchanged numerical reader in the pinned image using0 GPUs. First inspection `exp-1107-050514-712686` wrote A's cloud report, then failed in the parent-authored summary command because an embedded newline became an unterminated string literal. Exact replica logs identified the error; no GPU workload was affected. Corrected and locally compiled the command before retry. `exp-1107-051134-893502` succeeded, retaining both baseline summaries and selected native version metadata locally while original Samples/scores remain in personal cloud storage. A has4,577 and B5,095 original valid completion tokens. Both baseline reports are INCOMPLETE: all24 calls have decode version0 but empty `prefill_spans`; same-token rescoring and trainer metadata separately report version0. Missing KV provenance is not inferred from those versions. No numerical PASS/FAIL or learning claim is made.
+74. Read-only source investigation `QWEN-P2-PREFILL-VERSION` identified the omitted existing `--sglang-enable-prefill-weight-versions` flag. Miles preserves an empty prefill list when engine tracking is disabled; the pinned image exposes this flag with defaultFalse. The source owner is adding it to the shared student launcher and its existing contract regression. The local CPU SGLang0.5.23 lacks this flag, so final parser/launcher checks must use the actual pinned image rather than weaken the test. Existing A/B receipts remain unchanged and INCOMPLETE; qualified baselines require new generation with tracking enabled.
+75. C's exact API readback is Running with one student and two teacher replicas. New node receipts verify8 H800 each on student gpu-h800-0024 and teachers gpu-h800-0104/0223, correct full27B/397B paths,24 GPUs total. Its existing teacher allocation remains active; no auxiliary verdict stopped it. Student startup is still pending teacher readiness.
+76. The existing student prefill-version flag is implemented for all pairs/budgets. The command-utils regression is6 failed before/6 passed after; no reader or raw receipt changed. Pinned0-GPU test job `exp-1107-052651-078467` could not collect the launcher module: SGLang dumper imports Megatron/TransformerEngine, which requires unavailable `libcuda.so.1` in a no-GPU container. Retained the exact error; this did not test the new flag. Submitted the same complete affected suite as a1-H800 driver-enabled probe, `exp-1107-053007-872859`, with no model training. API admission verifies personal creator, exact local NFS, pinned image,1 GPU and no ConfigMap refs; it is Starting. The first auxiliary read compared the native string GPU quantity with integer1; parsing the documented resource quantity corrected that inspection without changing the job. Code commit and A/B resubmission await the required pinned-runtime result. C remains independent.
+77. The1-H800 check completed **82 passed/6 failed in9.43s**. The native parser accepted the new tracking flag. Three formal scheduler cases fail because the test fixture extracts functions/classes but drops `_OPT_PARAM_SCHEDULER_OVERRIDE_KEYS`, a native module-level binding. Three async driver cases fail because the parent command disabled pytest plugin autoload. Assigned the fixture-only correction to its existing owner; the next invocation restores normal plugin loading and the existing submitter's `cuda_compat_dir` environment. The omitted compatibility path also explains this test invocation's CUDA-driver-version warning; actual pair submissions already set that path. A separate optional pinned-source extraction command was denied by the local tool's `/root/...` path check before any job was created; no bypass or plugin change was attempted. Existing logs and the fixture source establish the missing-binding defect. No reader threshold or native training behavior is changed.
+
+78. Corrected the scheduler fixture to preserve native imports, module bindings and definitions in source order, retaining only its established logging boundary. Local regression:1 failed before,7 passed after. Final pinned job `exp-1107-054826-830845` **Succeeded with89 passed,60 warnings in11.52s, no skips**, using0 GPUs. It restored normal pytest plugins and exactly the pair submitter's CUDA compatibility-library path. The prior collection failure did not require GPU allocation once the actual environment was used. Native parser, scheduler and asynchronous driver checks now pass. Parent reviewed both changed files and86 local document links; stop further suite expansion and resume actual A/B baselines.
+
 ## Next actions
 
-1. Inspect actual readiness/scoring as running A `exp-1107-041127-564012`, B `exp-1107-041127-467864` and queued C `exp-1107-044223-241566` progress.
-2. Evaluate each actual baseline with the offline reader and matching teacher-ready/student-launch receipts; obtain native numerical and teacher-diagnostic evidence before each formal run.
+1. Commit the verified prefill-version correction and repeat A/B baseline qualification with new native artifacts.
+2. Continue C's independent teacher startup, then inspect its actual baseline using complete input, probability and consumed-version receipts. Preserve original artifacts and the D8 threshold.
 3. Release A/B/C independently as their prerequisites pass, then run the fixed 100-step budget, final text-HF reload and per-pair assessment.
 
 ## 1. 规划完成情况
@@ -157,28 +167,28 @@
 | --- | --- | --- |
 | P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
 | P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | TODO | 6461e6e2 的 85 项检查和新 C 回读通过；A/B 各 10 张 H800 已实际运行，C 排队。 |
-| P3-A | BLOCKED | A 原生基线尚未通过，当前模型启动中。 |
-| P3-B | BLOCKED | B 原生基线尚未通过，当前模型启动中。 |
-| P3-C | BLOCKED | C 原生基线启动超时，修复待实际重跑。 |
+| P2 前置核验与实现 | TODO | A/B 原生执行完成；版本跟踪开关缺失阻止数值资格，C 正在运行。 |
+| P3-A | BLOCKED | 24 条原生结果缺少 prefill/KV 版本回执，D8 为 INCOMPLETE。 |
+| P3-B | BLOCKED | 同一启动开关缺失；已有原始结果和独立报告。 |
+| P3-C | BLOCKED | 新作业的24张 H800 已核验，等待教师就绪及完整基线资格。 |
 | P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 零步 scheduler 修复提交至 C 启动超时修复验证｜**当前前沿：** P2 C 原生恢复与各组独立基线资格验证
+**检测窗口：** A/B 原生报告完成至固定镜像89项验证通过｜**当前前沿：** P2 各组独立原生基线资格验证
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 检查实际超时和提交边界，最终 85 项通过后停止扩测。 |
-| D2 细节反复重试 | CLEAR | C 首次加载有连续进度；按明确的期限不足假设修复，尚未重复重提。 |
-| D3 支线问题修补 | CLEAR | C 启动等待直接阻塞 P2，归属 plan.md:47。 |
-| D4 可并行任务停滞 | CLEAR | A/B 保留队列；C 代码修复与平台 RCA 并行，未用 C 的故障阻塞其他组。 |
-| D5 超范围镀金 | CLEAR | 仅把已有等待值放入 pair 配置，不扩展模型、GPU、训练预算或 readiness 条件。 |
-| D6 分析空转 | CLEAR | 原始加载进度和退出时间已转成配置、回归和重提决策。 |
-| D7 路线违背 | CLEAR | 原生基线与优化容量仍分别验收，D8/D9/D14 未变。 |
+| D1 工具打磨 | CLEAR | 检查对应 P2 启动合同；89项通过后停止扩测，恢复真实基线。 |
+| D2 细节反复重试 | CLEAR | 修正前分别明确库路径、模块绑定和async插件原因；结果逐项排除阻塞，最终检查通过。 |
+| D3 支线问题修补 | CLEAR | 缺失的 consumed-version 证据直接阻塞 P2/D8。 |
+| D4 可并行任务停滞 | CLEAR | A/B 报告与版本追踪分析并行，C 的24卡教师继续加载。 |
+| D5 超范围镀金 | CLEAR | 复用已有 launch 参数，不增加配置机制或改动 reader 门槛。 |
+| D6 分析空转 | CLEAR | 两份实际报告已产生，并据此指定最小启动修复。 |
+| D7 路线违背 | CLEAR | 执行成功不替代同版本验收，不补造缺失的 KV 版本。 |
 
-**文档检查：** S5：plan.md:47 和本页原先写 C 正在加载，现已失败；本次同步状态及 P2 修复归属。S1/S2/S3/S4/S6 未发现明显缺陷。
+**文档检查：** S5：Current state/Next actions 与 test report 仍写启动开关和 pinned 检查待完成；89项结果已明确，本次同步为等待实际重跑。S1/S2/S3/S4/S6 未发现明显缺陷。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -186,17 +196,17 @@
 **分支：** B：同步运行状态，不改变 scope 或验收值。
 
 **文档更新（先执行）：**
-1. plan.md P2 切片、progress.md 下一步：记录 C 失败、按组等待期限及恢复路径，A/B 保持独立（可直接执行，已执行）。
+1. plan.md P2 切片、progress.md Current state/下一步及 native report：记录开关和89项检查完成，旧 A/B 仍 INCOMPLETE，实际重跑是当前前沿（可直接执行，已执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P2：检验正在运行的 A/B 和新 C 的实际初始化与评分 → 完成标志：真实模型加载、同版本评分与输入/版本证据可用。
-2. 并行：A 基线 ‖ B 基线 ‖ C 基线 → 完成标志：原生数值、终态及实际教师监测输入均可复核。
+1. P2：验证已存在的 prefill 版本开关及实际引擎 producer → 完成标志：新原始样本完整记录 prefix/decode 版本，D8 同版本检查可执行。
+2. 并行：修复后的 A/B 基线 ‖ C 教师加载 → 完成标志：各组原生数值、终态及教师监测输入可复核。
 3. P3-A ‖ P3-B ‖ P3-C：各自前提满足即释放 → 完成标志：按 D8/D9 记录实际训练和最终 HF 重载，不等待其他 pair 的无关阻塞。
 
 ## 4. 最值得关注的 3 点
 
-1. C 的 student 等待超时先发生，之后平台才停止仍在加载的教师。
-2. 按组等待与提交集成修复通过 85 项 CPU 检查；9,000 秒是有测量依据的估算，完整加载仍待验证。
-3. A/B 已独立运行，C 重提后排队；三组正式 100 步和 HF 重载尚未验证。
+1. A/B 的 Stopped 来自关键 student 任务成功完成，并非这次模型执行失败。
+2. 两组原始样本缺少 KV 版本证据，不能据 decode 版本补齐或宣称数值通过。
+3. C 已有24张 H800 运行；三组100步训练、优化容量和最终 HF 重载仍待验证。

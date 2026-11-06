@@ -1,0 +1,8 @@
+{
+  "status": "native_execution_succeeded",
+  "pair": "A",
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/A/exp-1107-041127-564012",
+  "actual_updates": "See native events; not inferred from schedule",
+  "final_hf": null,
+  "qualification": "Unverified until native alignment, updates, export and reload evidence is inspected"
+}

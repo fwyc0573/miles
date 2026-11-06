@@ -229,6 +229,7 @@ def _training_args(args, run: Path) -> str:
         f"--sglang-chunked-prefill-size {args.sglang_chunked_prefill_size} "
         f"--sglang-router-request-timeout-secs {args.sglang_router_request_timeout_secs} "
         "--sglang-disable-cuda-graph --sglang-enable-deterministic-inference --sglang-attention-backend fa3 "
+        "--sglang-enable-prefill-weight-versions "
         "--sglang-linear-attn-prefill-backend triton --sglang-dtype bfloat16"
     )
     verification = shlex.join([

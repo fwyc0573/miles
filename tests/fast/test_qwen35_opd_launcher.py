@@ -89,8 +89,9 @@ def _flags(argv):
 
 
 @pytest.mark.parametrize("pair,tp,layers,offload", [("A", 2, 32, False), ("B", 2, 32, False), ("C", 4, 64, True)])
-def test_native_command_utils_composes_full_student_and_external_teacher(monkeypatch, pair, tp, layers, offload):
-    args = _args(pair)
+@pytest.mark.parametrize("num_rollout", [0, 100])
+def test_native_command_utils_composes_full_student_and_external_teacher(monkeypatch, pair, tp, layers, offload, num_rollout):
+    args = _args(pair, "--num-rollout", str(num_rollout))
     run = args.output_root / pair / "test"
     train_args = launcher._training_args(args, run)
     commands, submissions = [], []
@@ -113,25 +114,29 @@ def test_native_command_utils_composes_full_student_and_external_teacher(monkeyp
     expected = {
         "--num-layers": str(layers), "--tensor-model-parallel-size": str(tp),
         "--context-parallel-size": "1", "--hf-checkpoint": str(args.student), "--ref-load": str(args.student),
-        "--rm-url": args.teacher_url, "--num-rollout": "100", "--rollout-batch-size": "8",
+        "--rm-url": args.teacher_url, "--num-rollout": str(num_rollout), "--rollout-batch-size": "8",
         "--n-samples-per-prompt": "1", "--global-batch-size": "8", "--max-tokens-per-gpu": "131072",
         "--rollout-max-context-len": "131072", "--rollout-max-response-len": "8192",
         "--sglang-context-length": "131072", "--eval-max-context-len": "131072", "--eval-max-response-len": "8192",
         "--rollout-temperature": "1", "--eval-temperature": "1", "--rollout-top-p": "1", "--eval-top-p": "1",
         "--rollout-top-k": "-1", "--eval-top-k": "-1", "--rollout-seed": "42", "--seed": "42",
-        "--eval-interval": "20", "--n-samples-per-eval-prompt": "1", "--save-interval": "100",
-        "--custom-megatron-post-save-hook-path": "tests.manual.agent_opd.qwen_export.post_save",
-        "--save-hf": str(run / "hf" / "step_{rollout_id}"),
+        "--eval-interval": "20", "--n-samples-per-eval-prompt": "1",
         "--optimizer": "adam", "--lr": "2e-6", "--lr-decay-style": "constant", "--lr-warmup-iters": "0",
         "--weight-decay": "0", "--adam-beta1": "0.9", "--adam-beta2": "0.98",
         "--opd-log-prob-top-k": "0", "--opd-kl-coef": "1", "--tis-level": "token", "--tis-mode": "mask",
         "--tis-lower-bound": "0.5", "--tis-upper-bound": "2", "--eps-clip": "0.2", "--eps-clip-high": "0.28",
         "--entropy-coef": "0", "--num-gpus-per-node": "8", "--actor-num-gpus-per-node": "8",
     }
+    if num_rollout:
+        expected.update({
+            "--save-interval": "100",
+            "--custom-megatron-post-save-hook-path": "tests.manual.agent_opd.qwen_export.post_save",
+            "--save-hf": str(run / "hf" / "step_{rollout_id}"),
+        })
     for flag, value in expected.items():
         assert flags[flag] == [value]
     assert flags["--eval-prompt-data"] == ["monitor", str(args.population_dir / "monitor.jsonl")]
-    for flag in ("--rollout-shuffle", "--eval-train-log-probs", "--colocate", "--offload-train", "--offload-rollout", "--use-tis", "--calculate-per-token-loss"):
+    for flag in ("--rollout-shuffle", "--eval-train-log-probs", "--colocate", "--offload-train", "--offload-rollout", "--use-tis", "--calculate-per-token-loss", "--sglang-enable-prefill-weight-versions"):
         assert flags[flag] == []
     for flag in ("--sglang-config", "--rollout-num-gpus", "--save", "--load", "--apply-chat-template", "--eval-hf-dir", "--eval-num-gpus", "--use-rollout-routing-replay", "--use-rs", "--tis-batch-normalize", "--normalize-advantages"):
         assert flag not in flags
@@ -194,6 +199,45 @@ def test_zero_rollouts_uses_native_eval_without_any_save():
     assert "--custom-megatron-post-save-hook-path" not in flags
 
 
+def _execute_scheduler_module(path, namespace):
+    # Keep imports, assignments and definitions in native source order. Only
+    # the existing Megatron logging SDK boundary is supplied by the fixture.
+    nodes = [node for node in ast.parse(path.read_text()).body
+             if not (isinstance(node, ast.ImportFrom) and node.module == "megatron.core.utils")]
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), str(path), "exec"), namespace)
+
+
+def test_scheduler_module_preserves_native_bindings_and_source_order(tmp_path):
+    source = tmp_path / "optimizer_param_scheduler.py"
+    source.write_text('''
+import logging as native_logging
+from typing import TypedDict
+from megatron.core.utils import log_single_rank
+
+class ParamGroupOverride(TypedDict):
+    max_lr: float
+
+_OPT_PARAM_SCHEDULER_OVERRIDE_KEYS: tuple[str, ...] = tuple(ParamGroupOverride.__annotations__)
+_SCHEDULER_KEYS = _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS
+_MODULE_NAME = native_logging.getLogger(__name__).name
+
+class OptimizerParamScheduler:
+    def __init__(self):
+        self.keys = _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS
+        self.alias = _SCHEDULER_KEYS
+        self.module_name = _MODULE_NAME
+        log_single_rank(self.keys)
+''')
+    logged = []
+    namespace = {"__name__": __name__, "TypedDict": TypedDict, "log_single_rank": logged.append}
+    _execute_scheduler_module(source, namespace)
+    scheduler = namespace["OptimizerParamScheduler"]()
+    assert scheduler.keys == tuple(namespace["ParamGroupOverride"].__annotations__) == ("max_lr",)
+    assert scheduler.alias is scheduler.keys
+    assert scheduler.module_name == __name__
+    assert logged == [scheduler.keys]
+
+
 @pytest.fixture
 def native_model_setup():
     """Execute native setup/scheduling, replacing only GPU model/optimizer factories.
@@ -210,13 +254,12 @@ def native_model_setup():
         package = Path(next(iter(spec.submodule_search_locations)))
     scheduler_path = package / "core/optimizer_param_scheduler.py"
     namespace = dict(
+        __name__=__name__,
         torch=torch, math=math, logging=logging, Any=Any, Optional=Optional, TypedDict=TypedDict,
         logger=logging.getLogger(__name__), log_single_rank=lambda *args, **kwargs: None,
     )
     # The real constructor must enforce lr_decay_steps > 0, not a test imitation.
-    names = {node.name for node in ast.parse(scheduler_path.read_text()).body
-             if isinstance(node, (ast.FunctionDef, ast.ClassDef))}
-    _execute_nodes(scheduler_path, names, namespace)
+    _execute_scheduler_module(scheduler_path, namespace)
     model = [ScoreModel()]
     optimizers = []
     def create_optimizer(*, config, **kwargs):

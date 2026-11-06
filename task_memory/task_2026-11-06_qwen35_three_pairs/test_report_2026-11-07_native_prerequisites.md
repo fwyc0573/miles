@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record successful A/B native baseline execution and original numerical evidence; missing engine prefill-version tracking leaves both baselines INCOMPLETE. |
 | 2026-11-07 | Record C readiness timeout, continuous loading progress, exact cleanup chronology and per-pair startup wait verification. |
 | 2026-11-07 | Confirm repaired Ray startup on eight H800 GPUs and retain the distinct zero-update scheduler initialization failure and its exact RCA. |
 | 2026-11-07 | Verify actual 27B teacher readiness, diagnose the 133-byte Ray socket failure, and validate the one-boundary local-root fix with 58 CPU checks. |
@@ -464,3 +465,112 @@ Correction `6461e6e2` was committed before resubmitting C from `/data/ycfeng`, w
 ### Completed startup-validation temporary cleanup
 
 The [cleanup receipt](evidence/cleanup-20261106.json), iteration `completed_startup_cpu_20261107`, records exact commands, physical allocation arithmetic and verification. Net scoped reduction was 10,186,752 bytes (9.71 MiB); the original 10,182,656-byte allocation of removed entries plus a 4,096-byte reduction in retained entries explains the total. All 52 protected log hashes, three RCA directories, 80 native evidence entries and three local launchers were preserved. The two basetemps retain log trees; the completed pytest cache was removed. Observed free space is about 221.58 GiB, 79% used. Parent compared JSON against `git show HEAD:<receipt>` after removing only the appended final iteration: exact equality PASS. No native workload or model artifact was modified, and the bounded cleanup has stopped.
+
+## Completed A/B baseline execution; consumed-version qualification incomplete
+
+| Check | A | B |
+| --- | --- | --- |
+| Native job | `exp-1107-041127-564012` | `exp-1107-041127-467864` |
+| Student worker receipt | `native_execution_succeeded`, returncode0 | `native_execution_succeeded`, returncode0 |
+| Platform | student Succeeded/exit0; job Stopped | student Succeeded/exit0; job Stopped |
+| Stop reason | `All critical tasks are finished.` | `All critical tasks are finished.` |
+| Original monitoring Samples | 24 | 24 |
+| Authoritative trainer score ranks | 0,2,4,6 (TP0/PP-last, DP4, CP1) | 0,2,4,6 (TP0/PP-last, DP4, CP1) |
+| Original valid completion tokens | 4,577 | 5,095 |
+| Decode / trainer version | 0 / 0 | 0 / 0 |
+| Consumed generation prefill/KV spans | empty for all24 Samples | empty for all24 Samples |
+| Baseline D8 | **INCOMPLETE** | **INCOMPLETE** |
+
+Selected platform objects: [A](evidence/platform-a-completed-20261107.json), [B and new C](evidence/platform-b-completed-c-resumed-20261107.json). Worker completion receipts are under `evidence/native-prerequisites/<job>/<pair>/student-finished.json`. A's eight successful RCA queries and original object/timeline are retained at `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-stopped-exp-1107-041127-564012/`. Student completion preceded cleanup of the noncritical teacher. Startup `/freeze_gc` connection-refused messages preceded successful startup and do not explain terminal status; no change was made for those resolved startup messages.
+
+Original cloud roots are `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/{A,B}/<job>/`. Each contains `rollout_data/eval_0.pt`, four `train_data/eval_monitor_0_<rank>.pt`, native events and `baseline-inspection.json`. Large original artifacts were not copied to local storage. Selected complete baseline summaries and version-only metadata are [A report](evidence/baseline-inspection-A-exp-1107-041127-564012.json), [B report](evidence/baseline-inspection-B-exp-1107-041127-467864.json), [A version receipt](evidence/native-version-receipt-A-exp-1107-041127-564012.json), and [B version receipt](evidence/native-version-receipt-B-exp-1107-041127-467864.json).
+
+### Exact reader execution and auxiliary failure
+
+The reader ran in the pinned digest image, Python3.12.16/Torch2.14.1+cu130/SGLang0.5.24.dev80+g056f871, through personal local `RJobBackend` with8 CPUs,64GiB RAM and **0 GPUs**. Local NFS `/data/ycfeng` and the personal codesign volume were mounted. Command form, executed once per pair with the listed job IDs:
+
+```bash
+cd /data/ycfeng/sota-engine/miles
+export PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1
+export TMPDIR="/var/tmp/qwen-inspect-$KUBEBRAIN_RJOB_NAME"
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 \
+  --run-dir "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/$pair/$job" \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --teacher-ready "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-prerequisites/$job/$pair/teacher-ready.json" \
+  --report "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/native-prerequisites/student/$pair/$job/baseline-inspection.json"
+```
+
+First job `exp-1107-050514-712686` completed A's reader but its parent-authored `python -c` summary command contained an unescaped newline and failed with `SyntaxError: unterminated string literal`. This was a command-construction error after report generation, not a reader or model failure. Exact redacted replica output is `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-inspection-failure-log.json`; its eight-query RCA directory is `qwen-rca-inspection-exp-1107-050514-712686` under the same temporary root. Replaced the escaped-string write with `json.dump`, compiled the exact summary code before submission, and retained worker output with `tee`. Corrected job `exp-1107-051134-893502` **Succeeded**; log: `evidence/baseline-evidence-exp-1107-051134-893502.log`. It reused A's completed report, ran B's reader, and extracted version-only receipts from both original torch dumps. No GPU allocation or healthy C execution was affected.
+
+### Current numerical blocker and bounded next validation
+
+The reader's exact issue is `generation_prefill_version_missing`. Sample0 in both runs records `prompt_tokens=29891`, decode span `[29891,29954)` with version0, and `prefill_spans=[]`. Trainer metadata and independent student rescoring report version0, but neither proves which weights produced cached generation-prefix state. Report means/percentiles remain null because that mandatory comparison precondition is absent; null is not zero and is not a threshold miss. Full-run publication/update coverage is separately incomplete as expected for zero-update probes.
+
+Read-only investigation `QWEN-P2-PREFILL-VERSION` traced the absence to the launch omitting existing `--sglang-enable-prefill-weight-versions`: `run_qwen35_opd.py:225-233`; engine argument registration/defaults in `miles/backends/sglang_utils/arguments.py`; `miles/utils/types.py:140-150` preserves absent engine metadata as an empty list. `miles/utils/weight_version.py:42-53` already enforces the producer contract when tracking is enabled. A same-image retained ServerArgs receipt exposes `enable_prefill_weight_versions=False`; this capability exists in the pinned runtime. The local CPU SGLang0.5.23 does not recognize it, so final affected parser checks must use the pinned image, with no compatibility fallback or relaxed assertion. Implementation is assigned to the existing launcher slice; actual complete hybrid-attention/long-prefix spans remain to be verified after enabling the flag. Existing raw A/B artifacts remain immutable and INCOMPLETE.
+
+Meanwhile C `exp-1107-044223-241566` is Running. Its three native node receipts verify24 H800 devices on student gpu-h800-0024 and teachers gpu-h800-0104/0223 with the correct full model paths. Teacher loading continues; this is not student readiness, numerical acceptance or optimization-capacity evidence.
+
+### Existing tracking flag: implementation and local red/green
+
+The shared student launch now explicitly enables `--sglang-enable-prefill-weight-versions` for both baseline0 and formal100. The existing command-utils contract test was parameterized over both budgets and all three pairs; it now requires that flag. No reader condition, raw metadata, optimizer setting or dependency was changed.
+
+Exact red/green command, Python3.12.13 with local SGLang0.5.23:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+  /data/ycfeng/envs/miles-agent-opd-cpu/bin/python3 -m pytest -p no:cacheprovider \
+  tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher \
+  -q --no-header --tb=short
+```
+
+Before the one-flag fix: **6 failed**, all missing the required flag. After: **6 passed**. The owner additionally reports4 existing WeightVersions parse/serialization checks and1 existing native-request-to-reader check passed. The unchanged local native-parser test fails on the newly enabled option because installed SGLang0.5.23 lacks this runtime capability; that test was not skipped, weakened or changed. Parent inspected the exact two-file diff and `git diff --check` passed. Final complete affected verification is assigned to the pinned image, not the incompatible local dependency. C still has no `teacher-ready.json` or `student-launch.json`; its future student subprocess will import the shared launcher after teacher readiness.
+
+### Pinned test environment: driver prerequisite
+
+Probe `exp-1107-052651-078467` used the pinned image with0 GPUs. Observed versions: Python3.12.16, pytest9.2.0, Torch2.14.1+cu130, SGLang0.5.24.dev80+g056f871. Collection stopped before launcher tests: `examples.agentic_opd.rollout -> miles.utils.dumper_utils -> sglang.srt.debug_utils.dumper -> megatron.core -> transformer_engine.common` raised `OSError: libcuda.so.1: cannot open shared object file`. Log: `evidence/prefill-version-checks-exp-1107-052651-078467.log`. Outcome: **BLOCKED at test collection**, not a flag-regression result. No source fallback, dependency replacement or skipped assertion was introduced.
+
+The same suite was submitted as `exp-1107-053007-872859` with1 H800 to provide the native driver libraries; no model training is requested. [API admission](evidence/platform-prefill-native-checks-20261107.json) verifies personal creator, current-host NFS, exact pinned image, GPU quantity1 and empty ConfigMap refs. Resources are `cpu=8, gpu=1, mem_gb=64` (admitted `64000Mi` memory), one replica. The long-lived local launcher owns normal completion/release. Actual test result is pending.
+
+```bash
+cd /data/ycfeng/sota-engine/miles
+export PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1 MEGATRON_PATH=/root/Megatron-LM
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1
+export TMPDIR="/var/tmp/qwen-version-$KUBEBRAIN_RJOB_NAME"
+mkdir -p "$TMPDIR"
+nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader
+/opt/sglang/bin/python3 -B -m pytest -p no:cacheprovider \
+  tests/fast/test_qwen35_pair_worker.py tests/fast/test_qwen35_opd_launcher.py \
+  -q --basetemp="$TMPDIR/pytest" --tb=short
+```
+
+Worker output is retained with `tee` at `evidence/prefill-native-checks-<job>.log`. Complete real prefix-version coverage still requires subsequent native model execution even if the suite passes.
+
+The1-H800 probe subsequently finished with **82 passed,6 failed,62 warnings in9.43s**, not an overall PASS. Its retained log verifies NVIDIA H800,81,559MiB, driver570.124.06 and the pinned Python/package versions. The native SGLang argument parser and all six launch contracts pass. Failures are:
+
+- Three `test_native_setup_for_baseline_or_formal_budget[100-*]`: `native_model_setup` executes native function/class definitions but omits module assignments, producing `NameError: _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS is not defined` in the newer scheduler constructor. The real module defines that binding; this is an isolated test-loader defect. Assigned its correction without copying constants, changing native math or replacing dependencies.
+- Three `test_baseline_native_driver_evaluates_without_training_or_saving[*]`: async tests cannot run because the parent set `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`. Remove that invocation-only override, retaining the real async tests.
+
+The probe also omitted the normal submitter's `LD_LIBRARY_PATH` setup and reported a CUDA13/host-driver warning. `submit_qwen35._worker_command` already exports `native_probe_config.json`'s `cuda_compat_dir=/usr/local/cuda-13.0/compat`; the next test invocation will reuse that exact configuration. Actual pair jobs were not launched with this deficient probe environment. The test worker has ended and no formal training was attempted. An optional native-source capture command was rejected by local path inspection before submission (`EACCES` on the container's `/root/Megatron-LM/...` path); no extraction job exists and no source was claimed captured.
+
+### Final corrected pinned suite — PASS
+
+Job `exp-1107-054826-830845` **Succeeded** with **89 passed,60 warnings in11.52s**, no skipped tests. Log: `evidence/prefill-runtime-suite-exp-1107-054826-830845.log`. Runtime is Python3.12.16, pytest9.2.0, Torch2.14.1+cu130, SGLang0.5.24.dev80+g056f871, pytest-asyncio1.4.1.post1. This job used0 GPUs,8 CPUs and `mem_gb=64`; `cuda_available=False` is expected for the CPU-only fixtures. Native imports work with the existing image compatibility libraries, correcting the earlier inference that a GPU allocation was necessary for these tests.
+
+Scheduler loading now executes native imports, bindings and definitions in their original order; only the existing Megatron logging boundary is supplied by the test. Its minimal native-binding regression reproduced the same NameError before the fix; that regression plus all six baseline0/formal100 setup cases passed locally (**7 passed/4.20s**). Parent reviewed the changes and kept the original parser contract intact. The final pinned run verifies the complete89-test combination, including the actual new engine option and async driver cases.
+
+Exact final worker command:
+
+```bash
+cd /data/ycfeng/sota-engine/miles
+export PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONDONTWRITEBYTECODE=1 MEGATRON_PATH=/root/Megatron-LM
+export LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 CUDA_VISIBLE_DEVICES=""
+unset PYTEST_DISABLE_PLUGIN_AUTOLOAD
+export TMPDIR="/var/tmp/qwen-version-$KUBEBRAIN_RJOB_NAME"
+mkdir -p "$TMPDIR"
+/opt/sglang/bin/python3 -B -m pytest -p no:cacheprovider \
+  tests/fast/test_qwen35_pair_worker.py tests/fast/test_qwen35_opd_launcher.py \
+  -q --basetemp="$TMPDIR/pytest" --tb=short
+```
+
+The observed warnings remain recorded. Source checks establish launch/runtime compatibility; they do not establish actual hybrid-model KV coverage, the0.03 numerical gate, optimizer capacity or HF reload. Additional suite expansion stops after this PASS; the next action is actual A/B baseline requalification while C continues independently.

@@ -1,0 +1,120 @@
+{
+  "observed_at": "2026-11-06T21:08:33.401014+00:00",
+  "records": [
+    {
+      "pair": "B",
+      "name": "exp-1107-041127-467864",
+      "uid": "34c67372-0a65-414d-a87b-f974844c4e5b",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-06T21:00:59Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop_fields": {
+        "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+      },
+      "stopTimestamp": "2026-11-06T21:00:46Z",
+      "replica": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T20:42:07Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T21:00:45Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T21:00:45Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-06T20:42:07Z"
+          }
+        ],
+        "hostIP": "10.191.9.34",
+        "podIP": "10.191.9.34",
+        "podIPs": [
+          {
+            "ip": "10.191.9.34"
+          }
+        ],
+        "startTime": "2026-11-06T20:42:07Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-06T20:42:09Z",
+                "finishedAt": "2026-11-06T21:00:44Z",
+                "containerID": "containerd://5ba072f2868bf9dca9c869d636404acb71a575c78b1236a5daff56ef75066f21"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://5ba072f2868bf9dca9c869d636404acb71a575c78b1236a5daff56ef75066f21",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Succeeded",
+        "nodeName": "gpu-h800-0223.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-06T21:00:46Z"
+      }
+    },
+    {
+      "pair": "C",
+      "name": "exp-1107-044223-241566",
+      "uid": "d7de1e3d-769a-4b56-9190-e5bd3f772c65",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 2,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop_fields": {},
+      "stopTimestamp": null
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+NVIDIA H800, 81559 MiB, 570.124.06
+/opt/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:228: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12080). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /__w/pytorch/pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+  return torch._C._cuda_getDeviceCount() > 0
+PINNED_RUNTIME 3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ] 9.2.0 2.14.1+cu130 0.5.24.dev80+g056f871
+============================= test session starts ==============================
+platform linux -- Python 3.12.16, pytest-9.2.0, pluggy-1.7.0
+rootdir: /data/ycfeng/sota-engine/miles
+configfile: pyproject.toml
+collected 88 items
+
+tests/fast/test_qwen35_pair_worker.py ...........................        [ 30%]
+tests/fast/test_qwen35_opd_launcher.py .............FFF......FFF........ [ 68%]
+............................                                             [100%]
+
+=================================== FAILURES ===================================
+____________ test_native_setup_for_baseline_or_formal_budget[100-A] ____________
+tests/fast/test_qwen35_opd_launcher.py:297: in test_native_setup_for_baseline_or_formal_budget
+    model, optimizer, scheduler = native_model_setup.setup(args)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:246: in setup_model_and_optimizer
+    opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:118: in get_optimizer_param_scheduler
+    opt_param_scheduler = OptimizerParamScheduler(
+/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py:151: in __init__
+    for key in _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   NameError: name '_OPT_PARAM_SCHEDULER_OVERRIDE_KEYS' is not defined
+----------------------------- Captured stderr call -----------------------------
+[2026-11-06 21:37:56.296 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.301 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.305 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+------------------------------ Captured log call -------------------------------
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+____________ test_native_setup_for_baseline_or_formal_budget[100-B] ____________
+tests/fast/test_qwen35_opd_launcher.py:297: in test_native_setup_for_baseline_or_formal_budget
+    model, optimizer, scheduler = native_model_setup.setup(args)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:246: in setup_model_and_optimizer
+    opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:118: in get_optimizer_param_scheduler
+    opt_param_scheduler = OptimizerParamScheduler(
+/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py:151: in __init__
+    for key in _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   NameError: name '_OPT_PARAM_SCHEDULER_OVERRIDE_KEYS' is not defined
+----------------------------- Captured stderr call -----------------------------
+[2026-11-06 21:37:56.434 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.439 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.443 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+------------------------------ Captured log call -------------------------------
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+____________ test_native_setup_for_baseline_or_formal_budget[100-C] ____________
+tests/fast/test_qwen35_opd_launcher.py:297: in test_native_setup_for_baseline_or_formal_budget
+    model, optimizer, scheduler = native_model_setup.setup(args)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:246: in setup_model_and_optimizer
+    opt_param_scheduler = get_optimizer_param_scheduler(args, optimizer)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/megatron_utils/model.py:118: in get_optimizer_param_scheduler
+    opt_param_scheduler = OptimizerParamScheduler(
+/root/Megatron-LM/megatron/core/optimizer_param_scheduler.py:151: in __init__
+    for key in _OPT_PARAM_SCHEDULER_OVERRIDE_KEYS
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   NameError: name '_OPT_PARAM_SCHEDULER_OVERRIDE_KEYS' is not defined
+----------------------------- Captured stderr call -----------------------------
+[2026-11-06 21:37:56.547 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.552 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+[2026-11-06 21:37:56.557 launcher] argparse_actions.py:29 - [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+------------------------------ Captured log call -------------------------------
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+WARNING  sglang.srt.arg_groups.argparse_actions:argparse_actions.py:29 [1;33m'--sglang-disable-cuda-graph' is deprecated and will be removed in a future release. Use '--cuda-graph-backend-{decode,prefill}=disabled' instead.[0m
+_____ test_baseline_native_driver_evaluates_without_training_or_saving[A] ______
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+_____ test_baseline_native_driver_evaluates_without_training_or_saving[B] ______
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+_____ test_baseline_native_driver_evaluates_without_training_or_saving[C] ______
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+=============================== warnings summary ===============================
+../../../../opt/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:228
+  /opt/sglang/lib/python3.12/site-packages/torch/cuda/__init__.py:228: UserWarning: CUDA initialization: The NVIDIA driver on your system is too old (found version 12080). Please update your GPU driver by downloading and installing a new version from the URL: http://www.nvidia.com/Download/index.aspx Alternatively, go to: https://pytorch.org to install a PyTorch version that has been compiled with your version of the CUDA driver. (Triggered internally at /__w/pytorch/pytorch/c10/cuda/CUDAFunctions.cpp:119.)
+    return torch._C._cuda_getDeviceCount() > 0
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3459
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/blockscaled_contiguous_gather_grouped_gemm_act_fusion.py:3459: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2386
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/blackwell/moe_w4a16_kernel.py:2386: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:29: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:31: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/utils.py:34: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:968: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    a_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/fused_moe/cute_dsl/hopper/contiguous_grouped_gemm_finalize_fusion.py:970: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    b_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:427: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    epi_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_blackwell.py:2391: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/cute_dsl/low_latency_blockscaled_gemm.py:102: DeprecationWarning: cutlass.utils.smem_allocator.get_smem_capacity_in_bytes is deprecated; use cutlass.memory.get_smem_capacity_in_bytes instead. It will be removed in a future release.
+    _SMEM_CAPACITY_BYTES = cutlass.utils.get_smem_capacity_in_bytes("sm_100")
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gemm/kernels/grouped_gemm_masked_rubin.py:218: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    c_layout: utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_chunked.py:95: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/delta_rule_dsl/collective_store_tma.py:6: DeprecationWarning: cutlass.utils.tensormap_manager.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils.tensormap_manager import TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+../../../../opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55
+  /opt/sglang/lib/python3.12/site-packages/flashinfer/gdn_kernels/blackwell/gated_delta_net_cp_prefill.py:55: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../../sgl-workspace/sglang/python/sglang/srt/layers/quantization/awq/awq.py:53
+  /sgl-workspace/sglang/python/sglang/srt/layers/quantization/awq/awq.py:53: UserWarning: Only CUDA, HIP and XPU support AWQ currently.
+    warnings.warn(f"Only CUDA, HIP and XPU support AWQ currently.")
+
+../../../../sgl-workspace/sglang/python/sglang/srt/layers/quantization/gguf.py:76
+  /sgl-workspace/sglang/python/sglang/srt/layers/quantization/gguf.py:76: UserWarning: Only CUDA, MUSA and NPU support GGUF quantization currently.
+    warnings.warn(f"Only CUDA, MUSA and NPU support GGUF quantization currently.")
+
+../../../../opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1636
+  /opt/sglang/lib/python3.12/site-packages/_pytest/config/__init__.py:1636: PytestConfigWarning: Unknown config option: asyncio_mode
+  
+    self._warn_or_fail_if_strict(f"Unknown config option: {key}\n")
+
+miles/utils/external_utils/command_utils/common.py:140: 2 warnings
+tests/fast/test_qwen35_pair_worker.py: 6 warnings
+tests/fast/test_qwen35_opd_launcher.py: 2 warnings
+  /data/ycfeng/sota-engine/miles/miles/utils/external_utils/command_utils/common.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    value = datetime.datetime.utcnow().strftime("%y%m%d-%H%M%S") + f"-{suffix}"
+
+../../../../opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1491
+  /opt/sglang/lib/python3.12/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+../../../../opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:15
+../../../../opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:15
+  /opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:15: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum, block_copy
+
+../../../../opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:562
+  /opt/sglang/lib/python3.12/site-packages/quack/copy_utils.py:562: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    layout_c: cutlass.utils.LayoutEnum,
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd.py:20
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd.py:20: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:14
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:14
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:14: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:18
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:18: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+../../../../opt/sglang/lib/python3.12/site-packages/quack/sm90_utils.py:11
+../../../../opt/sglang/lib/python3.12/site-packages/quack/sm90_utils.py:11
+  /opt/sglang/lib/python3.12/site-packages/quack/sm90_utils.py:11: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:25
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:25
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm90.py:25: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm100.py:31
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm100.py:31: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm100.py:39
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm100.py:39
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm100.py:39: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm120.py:10
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_fwd_sm120.py:10: DeprecationWarning: Arch from arch.py is deprecated. Use Arch from enums.py instead.
+    from cutlass.base_dsl.arch import Arch
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:13
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:13
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:13: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:20
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:20
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm90.py:20: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum, TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_sm100.py:13: DeprecationWarning: cutlass.utils.TensorMapUpdateMode is deprecated; use cutlass.tensor_utils.TensorMapUpdateMode instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum, TensorMapManager, TensorMapUpdateMode
+
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_postprocess.py:16
+../../../../opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_postprocess.py:16
+  /opt/sglang/lib/python3.12/site-packages/flash_attn/cute/flash_bwd_postprocess.py:16: DeprecationWarning: cutlass.utils.LayoutEnum is deprecated; use cutlass.tensor_utils.LayoutEnum instead. It will be removed in a future release.
+    from cutlass.utils import LayoutEnum
+
+../../../../opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103
+  /opt/sglang/lib/python3.12/site-packages/transformer_engine/__init__.py:103: RuntimeWarning: Detected a Jax installation but could not find the shared object file for the Transformer Engine Jax extension library. If this is not intentional, please reinstall Transformer Engine with `pip install transformer_engine[jax]` or build from source with `NVTE_FRAMEWORK=jax`.
+    warnings.warn(
+
+../../../../root/Megatron-LM/megatron/core/tensor_parallel/random.py:83
+  /root/Megatron-LM/megatron/core/tensor_parallel/random.py:83: DeprecationWarning: Using deprecated internal API from Transformer Engine. transformer_engine.pytorch.fp8 will be removed in a future release.
+    from transformer_engine.pytorch.fp8 import FP8GlobalStateManager, fp8_autocast
+
+../../../../root/Megatron-LM/megatron/core/extensions/transformer_engine.py:3514
+  /root/Megatron-LM/megatron/core/extensions/transformer_engine.py:3514: DeprecationWarning: transformer_engine.pytorch.float8_tensor is deprecated and will be removed in a future release. Float8Tensor should be imported directly through `from transformer_engine.pytorch import Float8Tensor`
+    from transformer_engine.pytorch.float8_tensor import Float8Tensor
+
+../../../../root/Megatron-LM/megatron/core/inference/contexts/__init__.py:9
+  /root/Megatron-LM/megatron/core/inference/contexts/__init__.py:9: DeprecationWarning: The following imports from `dynamic_context.py` will be removed in this file in `megatron-core` 0.14. The imports here result in a cyclic import issue that causes rotary embeddings to import from Apex rather than Transformer Engine.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================== slowest durations ===============================
+0.57s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-C]
+0.46s call     tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides3-INCOMPLETE]
+0.46s call     tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides1-INCOMPLETE]
+0.46s call     tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides0-PASS]
+0.46s call     tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides4-INCOMPLETE]
+0.46s call     tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides2-INCOMPLETE]
+0.42s setup    tests/fast/test_qwen35_opd_launcher.py::test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides0-PASS]
+0.12s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-A]
+0.07s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-B]
+0.07s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-C]
+0.07s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-C]
+0.07s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-A]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_native_parser_accepts_sglang_and_custom_mis_flags
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-B]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-A]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-C]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-B]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-C]
+0.06s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-A]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-B]
+0.06s call     tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-A]
+0.03s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-B]
+0.03s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[False-C]
+0.03s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-A]
+0.03s setup    tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_scoring_needs_no_optimizer[True-B]
+0.03s call     tests/fast/test_qwen35_pair_worker.py::test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate[timeout-9686]
+0.03s call     tests/fast/test_qwen35_pair_worker.py::test_real_cpu_child_failure_is_recorded_and_auxiliary_tail_failure_is_soft
+0.03s call     tests/fast/test_qwen35_pair_worker.py::test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate[ready-8113]
+0.02s call     tests/fast/test_qwen35_pair_worker.py::test_pair_startup_budget_waits_for_verified_teacher_before_student[C-9001-9000]
+0.02s call     tests/fast/test_qwen35_pair_worker.py::test_pair_startup_budget_waits_for_verified_teacher_before_student[C-8112-9000]
+0.02s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[0-A-2-32-False]
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-A]
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-B]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_false_defaults_and_baseline_eval_are_verified_not_guessed
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-C]
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[0-C]
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-A]
+0.01s setup    tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-B]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[100-B-2-32-False]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[0-C-4-64-True]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[100-A-2-32-False]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[100-C-4-64-True]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_native_command_utils_composes_full_student_and_external_teacher[0-B-2-32-False]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_exact_approved_model_sources_are_accepted_without_reads[teacher0]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_required_capacity_inputs_have_no_inherited_token_default
+0.01s call     tests/fast/test_qwen35_pair_worker.py::test_pair_startup_budget_waits_for_verified_teacher_before_student[A-1799-1800]
+0.01s call     tests/fast/test_qwen35_pair_worker.py::test_pair_startup_budget_waits_for_verified_teacher_before_student[B-1799-1800]
+0.01s call     tests/fast/test_qwen35_opd_launcher.py::test_zero_rollouts_uses_native_eval_without_any_save
+
+(216 durations < 0.005s hidden.  Use -vv to show these durations.)
+=========================== short test summary info ============================
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-A]
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-B]
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_native_setup_for_baseline_or_formal_budget[100-C]
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_driver_evaluates_without_training_or_saving[A]
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_driver_evaluates_without_training_or_saving[B]
+FAILED tests/fast/test_qwen35_opd_launcher.py::test_baseline_native_driver_evaluates_without_training_or_saving[C]
+================== 6 failed, 82 passed, 62 warnings in 9.43s ===================
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
