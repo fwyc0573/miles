@@ -9,7 +9,7 @@
 
 **任务：** `QWEN-P3-H200-MANIFEST`。本报告记录准备、启动修正、正式提交和平台/部分实际设备证据；不代表模型训练与最终产物合格。
 
-**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 3。设备身份变更的本机与固定镜像检查已通过；固定镜像整套90 PASS/3 FAIL，另有3个旧baseline测试fixture待修，正式提交继续。
+**后续完成记录：** 两组均Running，实际各8+2H200及teacher readiness通过；fixture-only修复后，固定镜像`exp-1107-175209-311197`为93PASS/12.06s，平台Succeeded。原90PASS/3FAIL保留为历史记录。完整训练/最终HF仍待验收；当前主任务状态见[qwen-p3-native-checkpoint.md](qwen-p3-native-checkpoint.md)。
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -241,12 +241,12 @@ B `evidence/first-round/exp-1107-173758-806531/B/student-node.json` independentl
 **接下去的路线：**
 1. 已完成设备guard修正与相关本机/固定镜像检查、两份正式提交和平台配置核验；保留原始测试失败与reader局限记录。
 2. 并行：P3-A ‖ P3-B；保持既有launchers，核验完整角色启动、baseline、restore、first update、后续scoring capacity、D8、sample/update accounting和final HF reload。C既有H800 job继续独立。
-3. 单独修复旧baseline toy-actor fixture并复验其失败用例；不改变生产恢复逻辑，不控制健康正式作业。
+3. 旧baseline toy-actor fixture已修复且固定镜像93PASS，见[fixture报告](test_report_2026-11-07_baseline_actor_fixture.md)；该工作已关闭。
 
 已观察B student的8H200实际设备，完整角色ready、numerical acceptance、OOM缓解成效、successful-update count与final HF仍未完成。`capacity_gpus=32`是本session/task预算上限，不是当前空闲配额或模型容量保证。
 
 ## 4. 最值得关注的 3 点
 
 1. A/B正式作业已并行提交并通过平台配置核验，Starting，共20张不可抢占H200，两个launcher存活。
-2. B student实际8H200已确认；设备/CLI检查通过。补充固定镜像90 PASS/3旧fixture FAIL，后者独立修复。
+2. A/B实际共20H200及teacher ready已确认；设备/CLI与fixture修复后的固定镜像93项全部通过。
 3. 完整模型baseline、恢复、100位置及最终D8/HF仍须实际验收；原数学设定与D17/D15/D16预算保持。

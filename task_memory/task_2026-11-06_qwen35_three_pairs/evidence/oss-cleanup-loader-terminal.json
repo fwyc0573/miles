@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-11-07T10:00:10.771682+00:00",
+  "jobs": {
+    "exp-1107-083839-053284": {
+      "phase": "Failed",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [default]",
+        "taskStatuses": {
+          "default": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T00:40:08Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-native-text-loader/f3c81"
+    },
+    "exp-1107-093036-947852": {
+      "phase": "Failed",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [default]",
+        "taskStatuses": {
+          "default": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T01:32:23Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-native-text-loader/9549f"
+    },
+    "exp-1107-175209-311197": {
+      "phase": "Succeeded",
+      "status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "default": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T09:59:16Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-h200-launch-contracts/a0b96"
+    }
+  }
+}

@@ -1,0 +1,2822 @@
+{
+  "task_id": "QWEN-P3-OSS-CLEANUP",
+  "state": "completed_logical_cleanup_physical_reclamation_unverified",
+  "authorized_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs",
+  "ssh_root": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs",
+  "protected_jobs": [
+    "exp-1107-173758-712234",
+    "exp-1107-173758-806531",
+    "exp-1107-150849-814926"
+  ],
+  "protected_population": "population-exp-1106-233008-986003",
+  "accepted_loader_copy": "text-loader-probe/exp-1107-100927-934443/model",
+  "initial_inventory": {
+    "timestamp_utc": "2026-11-07T09:56:22Z",
+    "complete": true,
+    "elapsed_s": 36.44050558609888,
+    "entries_seen": 1114,
+    "directories": {
+      ".": {
+        "logical_bytes": 27844513085,
+        "allocated_bytes": 27844697600,
+        "files": 952
+      },
+      "first-round": {
+        "logical_bytes": 995682977,
+        "allocated_bytes": 995799040,
+        "files": 648
+      },
+      "first-round/student": {
+        "logical_bytes": 994842747,
+        "allocated_bytes": 994957312,
+        "files": 638
+      },
+      "first-round/student/A": {
+        "logical_bytes": 369291472,
+        "allocated_bytes": 369334272,
+        "files": 197
+      },
+      "first-round/student/A/exp-1107-063447-691018": {
+        "logical_bytes": 158771500,
+        "allocated_bytes": 158793216,
+        "files": 127
+      },
+      "first-round/student/A/exp-1107-063447-691018/dashboard_columns": {
+        "logical_bytes": 1508957,
+        "allocated_bytes": 1509888,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-063447-691018/events": {
+        "logical_bytes": 4262430,
+        "allocated_bytes": 4268032,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-063447-691018/failure-diagnostics": {
+        "logical_bytes": 8519640,
+        "allocated_bytes": 8529408,
+        "files": 93
+      },
+      "first-round/student/A/exp-1107-063447-691018/failure-diagnostics/rank-0": {
+        "logical_bytes": 8519640,
+        "allocated_bytes": 8529408,
+        "files": 93
+      },
+      "first-round/student/A/exp-1107-063447-691018/policy_loss_debug": {
+        "logical_bytes": 1063300,
+        "allocated_bytes": 1064960,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/rollout_data": {
+        "logical_bytes": 70190640,
+        "allocated_bytes": 70191104,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-063447-691018/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-063447-691018/train_data": {
+        "logical_bytes": 10809812,
+        "allocated_bytes": 10810880,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/trajectory": {
+        "logical_bytes": 22418342,
+        "allocated_bytes": 22418944,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-085640-136853": {
+        "logical_bytes": 116471318,
+        "allocated_bytes": 116477952,
+        "files": 27
+      },
+      "first-round/student/A/exp-1107-085640-136853/dashboard_columns": {
+        "logical_bytes": 951078,
+        "allocated_bytes": 951296,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-085640-136853/events": {
+        "logical_bytes": 4261528,
+        "allocated_bytes": 4265472,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-085640-136853/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-085640-136853/rollout_data": {
+        "logical_bytes": 45818855,
+        "allocated_bytes": 45818880,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-085640-136853/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-085640-136853/train_data": {
+        "logical_bytes": 10810644,
+        "allocated_bytes": 10811392,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-085640-136853/trajectory": {
+        "logical_bytes": 14630834,
+        "allocated_bytes": 14630912,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-150849-708403": {
+        "logical_bytes": 41867683,
+        "allocated_bytes": 41874432,
+        "files": 19
+      },
+      "first-round/student/A/exp-1107-150849-708403/events": {
+        "logical_bytes": 1869304,
+        "allocated_bytes": 1874432,
+        "files": 12
+      },
+      "first-round/student/A/exp-1107-150849-708403/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-150849-708403/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-173758-712234": {
+        "logical_bytes": 42757422,
+        "allocated_bytes": 42764288,
+        "files": 20
+      },
+      "first-round/student/A/exp-1107-173758-712234/events": {
+        "logical_bytes": 2759043,
+        "allocated_bytes": 2764288,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-173758-712234/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-173758-712234/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B": {
+        "logical_bytes": 447350720,
+        "allocated_bytes": 447403520,
+        "files": 310
+      },
+      "first-round/student/B/exp-1107-062459-796906": {
+        "logical_bytes": 158012076,
+        "allocated_bytes": 158031360,
+        "files": 127
+      },
+      "first-round/student/B/exp-1107-062459-796906/dashboard_columns": {
+        "logical_bytes": 1510739,
+        "allocated_bytes": 1511424,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-062459-796906/events": {
+        "logical_bytes": 4263914,
+        "allocated_bytes": 4268032,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-062459-796906/failure-diagnostics": {
+        "logical_bytes": 7725235,
+        "allocated_bytes": 7734272,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-062459-796906/failure-diagnostics/rank-0": {
+        "logical_bytes": 7725235,
+        "allocated_bytes": 7734272,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-062459-796906/policy_loss_debug": {
+        "logical_bytes": 1063300,
+        "allocated_bytes": 1064960,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/rollout_data": {
+        "logical_bytes": 70212592,
+        "allocated_bytes": 70213120,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-062459-796906/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-062459-796906/train_data": {
+        "logical_bytes": 10816724,
+        "allocated_bytes": 10818048,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/trajectory": {
+        "logical_bytes": 22421193,
+        "allocated_bytes": 22421504,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-085640-141571": {
+        "logical_bytes": 43639654,
+        "allocated_bytes": 43644928,
+        "files": 20
+      },
+      "first-round/student/B/exp-1107-085640-141571/events": {
+        "logical_bytes": 3641275,
+        "allocated_bytes": 3644928,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-085640-141571/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-085640-141571/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314": {
+        "logical_bytes": 189230021,
+        "allocated_bytes": 189252608,
+        "files": 139
+      },
+      "first-round/student/B/exp-1107-150849-818314/dashboard_columns": {
+        "logical_bytes": 1955755,
+        "allocated_bytes": 1956864,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/events": {
+        "logical_bytes": 5006033,
+        "allocated_bytes": 5009408,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-150849-818314/failure-diagnostics": {
+        "logical_bytes": 7099489,
+        "allocated_bytes": 7108096,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-150849-818314/failure-diagnostics/rank-0": {
+        "logical_bytes": 7099489,
+        "allocated_bytes": 7108096,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-150849-818314/policy_loss_debug": {
+        "logical_bytes": 148585,
+        "allocated_bytes": 152576,
+        "files": 9
+      },
+      "first-round/student/B/exp-1107-150849-818314/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-150849-818314/rollout_data": {
+        "logical_bytes": 90590521,
+        "allocated_bytes": 90591232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/train_data": {
+        "logical_bytes": 15741860,
+        "allocated_bytes": 15744000,
+        "files": 8
+      },
+      "first-round/student/B/exp-1107-150849-818314/trajectory": {
+        "logical_bytes": 28689399,
+        "allocated_bytes": 28690432,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-173758-806531": {
+        "logical_bytes": 42577882,
+        "allocated_bytes": 42582528,
+        "files": 20
+      },
+      "first-round/student/B/exp-1107-173758-806531/events": {
+        "logical_bytes": 2579503,
+        "allocated_bytes": 2582528,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-173758-806531/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-173758-806531/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/C": {
+        "logical_bytes": 178200555,
+        "allocated_bytes": 178219520,
+        "files": 131
+      },
+      "first-round/student/C/exp-1107-064200-013666": {
+        "logical_bytes": 171056542,
+        "allocated_bytes": 171075072,
+        "files": 130
+      },
+      "first-round/student/C/exp-1107-064200-013666/dashboard_columns": {
+        "logical_bytes": 1519538,
+        "allocated_bytes": 1520128,
+        "files": 2
+      },
+      "first-round/student/C/exp-1107-064200-013666/events": {
+        "logical_bytes": 4725564,
+        "allocated_bytes": 4728320,
+        "files": 13
+      },
+      "first-round/student/C/exp-1107-064200-013666/failure-diagnostics": {
+        "logical_bytes": 11092375,
+        "allocated_bytes": 11100160,
+        "files": 91
+      },
+      "first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0": {
+        "logical_bytes": 11092375,
+        "allocated_bytes": 11100160,
+        "files": 91
+      },
+      "first-round/student/C/exp-1107-064200-013666/policy_loss_debug": {
+        "logical_bytes": 2126600,
+        "allocated_bytes": 2129920,
+        "files": 8
+      },
+      "first-round/student/C/exp-1107-064200-013666/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/C/exp-1107-064200-013666/rollout_data": {
+        "logical_bytes": 70339760,
+        "allocated_bytes": 70340608,
+        "files": 2
+      },
+      "first-round/student/C/exp-1107-064200-013666/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/C/exp-1107-064200-013666/train_data": {
+        "logical_bytes": 18007530,
+        "allocated_bytes": 18008576,
+        "files": 4
+      },
+      "first-round/student/C/exp-1107-064200-013666/trajectory": {
+        "logical_bytes": 22439730,
+        "allocated_bytes": 22439936,
+        "files": 2
+      },
+      "first-round/teacher": {
+        "logical_bytes": 840230,
+        "allocated_bytes": 841728,
+        "files": 10
+      },
+      "first-round/teacher/A": {
+        "logical_bytes": 290772,
+        "allocated_bytes": 291328,
+        "files": 4
+      },
+      "first-round/teacher/A/exp-1107-063447-691018": {
+        "logical_bytes": 106935,
+        "allocated_bytes": 107008,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-085640-136853": {
+        "logical_bytes": 103569,
+        "allocated_bytes": 103936,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-150849-708403": {
+        "logical_bytes": 40365,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-173758-712234": {
+        "logical_bytes": 39903,
+        "allocated_bytes": 39936,
+        "files": 1
+      },
+      "first-round/teacher/B": {
+        "logical_bytes": 317196,
+        "allocated_bytes": 317952,
+        "files": 4
+      },
+      "first-round/teacher/B/exp-1107-062459-796906": {
+        "logical_bytes": 107005,
+        "allocated_bytes": 107008,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-085640-141571": {
+        "logical_bytes": 41102,
+        "allocated_bytes": 41472,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-150849-818314": {
+        "logical_bytes": 129168,
+        "allocated_bytes": 129536,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-173758-806531": {
+        "logical_bytes": 39921,
+        "allocated_bytes": 39936,
+        "files": 1
+      },
+      "first-round/teacher/C": {
+        "logical_bytes": 232262,
+        "allocated_bytes": 232448,
+        "files": 2
+      },
+      "first-round/teacher/C/exp-1107-064200-013666": {
+        "logical_bytes": 232262,
+        "allocated_bytes": 232448,
+        "files": 2
+      },
+      "native-prerequisites": {
+        "logical_bytes": 674632440,
+        "allocated_bytes": 674692608,
+        "files": 271
+      },
+      "native-prerequisites/student": {
+        "logical_bytes": 673902482,
+        "allocated_bytes": 673959424,
+        "files": 259
+      },
+      "native-prerequisites/student/A": {
+        "logical_bytes": 301187305,
+        "allocated_bytes": 301220352,
+        "files": 174
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics/rank-0": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302": {
+        "logical_bytes": 47442754,
+        "allocated_bytes": 47458304,
+        "files": 113
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/events": {
+        "logical_bytes": 2665178,
+        "allocated_bytes": 2670080,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics": {
+        "logical_bytes": 4779197,
+        "allocated_bytes": 4788224,
+        "files": 93
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics/rank-0": {
+        "logical_bytes": 4779197,
+        "allocated_bytes": 4788224,
+        "files": 93
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012": {
+        "logical_bytes": 116917397,
+        "allocated_bytes": 116925440,
+        "files": 28
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/dashboard_columns": {
+        "logical_bytes": 952029,
+        "allocated_bytes": 952320,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/events": {
+        "logical_bytes": 4253828,
+        "allocated_bytes": 4257792,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/rollout_data": {
+        "logical_bytes": 45830567,
+        "allocated_bytes": 45830656,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/train_data": {
+        "logical_bytes": 10814612,
+        "allocated_bytes": 10816000,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/trajectory": {
+        "logical_bytes": 14632490,
+        "allocated_bytes": 14632960,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211": {
+        "logical_bytes": 117263951,
+        "allocated_bytes": 117272064,
+        "files": 28
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/dashboard_columns": {
+        "logical_bytes": 950262,
+        "allocated_bytes": 950272,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/events": {
+        "logical_bytes": 4253939,
+        "allocated_bytes": 4258816,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/rollout_data": {
+        "logical_bytes": 45809447,
+        "allocated_bytes": 45809664,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/train_data": {
+        "logical_bytes": 10807700,
+        "allocated_bytes": 10808832,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/trajectory": {
+        "logical_bytes": 14629639,
+        "allocated_bytes": 14629888,
+        "files": 1
+      },
+      "native-prerequisites/student/B": {
+        "logical_bytes": 247926015,
+        "allocated_bytes": 247943680,
+        "files": 58
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864": {
+        "logical_bytes": 116959245,
+        "allocated_bytes": 116967936,
+        "files": 28
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/dashboard_columns": {
+        "logical_bytes": 954505,
+        "allocated_bytes": 954880,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/events": {
+        "logical_bytes": 4253663,
+        "allocated_bytes": 4257792,
+        "files": 13
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/rollout_data": {
+        "logical_bytes": 45857831,
+        "allocated_bytes": 45858304,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/train_data": {
+        "logical_bytes": 10822804,
+        "allocated_bytes": 10824192,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/trajectory": {
+        "logical_bytes": 14636562,
+        "allocated_bytes": 14637056,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957": {
+        "logical_bytes": 117356668,
+        "allocated_bytes": 117365248,
+        "files": 28
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/dashboard_columns": {
+        "logical_bytes": 955511,
+        "allocated_bytes": 955904,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/events": {
+        "logical_bytes": 4253975,
+        "allocated_bytes": 4258816,
+        "files": 13
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/rollout_data": {
+        "logical_bytes": 45869671,
+        "allocated_bytes": 45870080,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/train_data": {
+        "logical_bytes": 10825940,
+        "allocated_bytes": 10826752,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/trajectory": {
+        "logical_bytes": 14638455,
+        "allocated_bytes": 14638592,
+        "files": 1
+      },
+      "native-prerequisites/student/C": {
+        "logical_bytes": 124789162,
+        "allocated_bytes": 124795392,
+        "files": 27
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566": {
+        "logical_bytes": 117610455,
+        "allocated_bytes": 117616640,
+        "files": 26
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/dashboard_columns": {
+        "logical_bytes": 958147,
+        "allocated_bytes": 958464,
+        "files": 1
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/events": {
+        "logical_bytes": 4439323,
+        "allocated_bytes": 4442112,
+        "files": 13
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/rollout_data": {
+        "logical_bytes": 45917863,
+        "allocated_bytes": 45918208,
+        "files": 1
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/train_data": {
+        "logical_bytes": 10837730,
+        "allocated_bytes": 10838528,
+        "files": 2
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/trajectory": {
+        "logical_bytes": 14644526,
+        "allocated_bytes": 14644736,
+        "files": 1
+      },
+      "native-prerequisites/teacher": {
+        "logical_bytes": 729958,
+        "allocated_bytes": 733184,
+        "files": 12
+      },
+      "native-prerequisites/teacher/A": {
+        "logical_bytes": 251734,
+        "allocated_bytes": 252928,
+        "files": 4
+      },
+      "native-prerequisites/teacher/A/exp-1107-021450-020231": {
+        "logical_bytes": 40123,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-030522-873302": {
+        "logical_bytes": 40021,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-041127-564012": {
+        "logical_bytes": 86111,
+        "allocated_bytes": 86528,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-055408-748211": {
+        "logical_bytes": 85479,
+        "allocated_bytes": 85504,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B": {
+        "logical_bytes": 234532,
+        "allocated_bytes": 235520,
+        "files": 4
+      },
+      "native-prerequisites/teacher/B/exp-1107-021450-039035": {
+        "logical_bytes": 36048,
+        "allocated_bytes": 36352,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-030522-896828": {
+        "logical_bytes": 25407,
+        "allocated_bytes": 25600,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-041127-467864": {
+        "logical_bytes": 86663,
+        "allocated_bytes": 87040,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-055408-654957": {
+        "logical_bytes": 86414,
+        "allocated_bytes": 86528,
+        "files": 1
+      },
+      "native-prerequisites/teacher/C": {
+        "logical_bytes": 243692,
+        "allocated_bytes": 244736,
+        "files": 4
+      },
+      "native-prerequisites/teacher/C/exp-1107-005818-919546": {
+        "logical_bytes": 65008,
+        "allocated_bytes": 65536,
+        "files": 2
+      },
+      "native-prerequisites/teacher/C/exp-1107-044223-241566": {
+        "logical_bytes": 178684,
+        "allocated_bytes": 179200,
+        "files": 2
+      },
+      "population-exp-1106-233008-986003": {
+        "logical_bytes": 870623781,
+        "allocated_bytes": 870624256,
+        "files": 3
+      },
+      "text-loader-probe": {
+        "logical_bytes": 25303573887,
+        "allocated_bytes": 25303581696,
+        "files": 30
+      },
+      "text-loader-probe/exp-1107-083839-053284": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-083839-053284/model": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-093036-947852": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-093036-947852/model": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-100927-934443": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-100927-934443/model": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      }
+    },
+    "skipped": [],
+    "errors": [],
+    "filesystem": {
+      "total_bytes": 197912092999680,
+      "available_bytes": 721514201088
+    }
+  },
+  "retained_local_evidence": [
+    {
+      "path": "evidence/text-loader-probe-exp-1107-083839-053284.json",
+      "size_bytes": 736561,
+      "sha256": "e69a446e03db9f731a6a1d7068e42a0accba19e9e470c7351254bf90b13f2101"
+    },
+    {
+      "path": "evidence/text-loader-probe-exp-1107-083839-053284.log",
+      "size_bytes": 490,
+      "sha256": "78f42e3a3c2dd8ad6bdeacb9511ae6a367dbddc7e6be5fd58ebabd36a4132ad8"
+    },
+    {
+      "path": "evidence/text-loader-probe-exp-1107-093036-947852.json",
+      "size_bytes": 790349,
+      "sha256": "c21211028e124219fad93e5eb99a01d3191a71642580b81191f63ff9c9795c94"
+    },
+    {
+      "path": "evidence/text-loader-probe-exp-1107-093036-947852.log",
+      "size_bytes": 27112,
+      "sha256": "749ead514800b9f219aa83744c07a051ae483bc7cf489898925463e79d2765a1"
+    },
+    {
+      "path": "evidence/text-loader-probe-exp-1107-100927-934443.json",
+      "size_bytes": 1117309,
+      "sha256": "f60e01f3558a7a19aeacdce48629a290b1f2ab6c47bb92e65394b5622edac2c0"
+    },
+    {
+      "path": "evidence/text-loader-probe-exp-1107-100927-934443.log",
+      "size_bytes": 42185,
+      "sha256": "8e9531e9fd45a9c04eeba65709c7ff64cb9bd7c65e9515b7209c6f85140bab5e"
+    }
+  ],
+  "candidate_files": [
+    {
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+      "logical_bytes": 5187839368,
+      "allocated_bytes": 5187839488,
+      "inode": 20934684,
+      "nlink": 1,
+      "mtime_ns": 1794011993389035790,
+      "terminal_status": "Failed"
+    },
+    {
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+      "logical_bytes": 3223719528,
+      "allocated_bytes": 3223719936,
+      "inode": 20934686,
+      "nlink": 1,
+      "mtime_ns": 1794011997237768584,
+      "terminal_status": "Failed"
+    },
+    {
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+      "logical_bytes": 5187839368,
+      "allocated_bytes": 5187839488,
+      "inode": 20934702,
+      "nlink": 1,
+      "mtime_ns": 1794015080842906442,
+      "terminal_status": "Failed"
+    },
+    {
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+      "logical_bytes": 3223719528,
+      "allocated_bytes": 3223719936,
+      "inode": 20934704,
+      "nlink": 1,
+      "mtime_ns": 1794015084625785927,
+      "terminal_status": "Failed"
+    }
+  ],
+  "candidate_totals": {
+    "logical_bytes": 16823117792,
+    "allocated_bytes": 16823118848
+  },
+  "retained_equal_small_metadata_sha256": {
+    "config.json": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f",
+    "model.safetensors.index.json": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3",
+    "qwen_text_export.json": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa",
+    "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+    "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+  },
+  "deleted_files": [
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+        "logical_bytes": 5187839368,
+        "allocated_bytes": 5187839488,
+        "inode": 20934684,
+        "nlink": 1,
+        "mtime_ns": 1794011993389035790
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+        "logical_bytes": 3223719528,
+        "allocated_bytes": 3223719936,
+        "inode": 20934686,
+        "nlink": 1,
+        "mtime_ns": 1794011997237768584
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+        "logical_bytes": 5187839368,
+        "allocated_bytes": 5187839488,
+        "inode": 20934702,
+        "nlink": 1,
+        "mtime_ns": 1794015080842906442
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+        "logical_bytes": 3223719528,
+        "allocated_bytes": 3223719936,
+        "inode": 20934704,
+        "nlink": 1,
+        "mtime_ns": 1794015084625785927
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:47Z"
+    }
+  ],
+  "physical_reclamation": {
+    "verdict": "UNVERIFIED",
+    "logical_namespace_removal_verified": true,
+    "filesystem_available_before_unlink": 3507023147008,
+    "filesystem_available_after_unlink": 3507210420224,
+    "filesystem_available_post_inventory": 3612632961024,
+    "limitation": "statvfs is shared-volume capacity through virtiofs. Concurrent writes/deletes, delayed accounting, and possible backing trash retention prevent attributing exact physical/quota reclaimed bytes. No shared trash was inspected or modified."
+  },
+  "terminal_status_receipt": {
+    "path": "evidence/oss-cleanup-loader-terminal.json",
+    "sha256": "7ff7a5f1e2e6a80aa98782749bdc73e7b684ea3efc5b2560381edd720252d773",
+    "checked_at": "2026-11-07T10:00:10.771682+00:00",
+    "jobs": {
+      "exp-1107-083839-053284": {
+        "phase": "Failed",
+        "status": {
+          "phase": "Failed",
+          "reason": "RJobFailed",
+          "message": "Tasks with failed status: [default]",
+          "taskStatuses": {
+            "default": {
+              "failed": 1,
+              "taskStage": "stepmind-task-stage-1"
+            }
+          },
+          "finishTime": "2026-11-07T00:40:08Z",
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "creator": "i-fengyicheng",
+        "display_name": "by-qwen35-native-text-loader/f3c81"
+      },
+      "exp-1107-093036-947852": {
+        "phase": "Failed",
+        "status": {
+          "phase": "Failed",
+          "reason": "RJobFailed",
+          "message": "Tasks with failed status: [default]",
+          "taskStatuses": {
+            "default": {
+              "failed": 1,
+              "taskStage": "stepmind-task-stage-1"
+            }
+          },
+          "finishTime": "2026-11-07T01:32:23Z",
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "creator": "i-fengyicheng",
+        "display_name": "by-qwen35-native-text-loader/9549f"
+      }
+    }
+  },
+  "deletion_execution": {
+    "command": [
+      "timeout",
+      "60s",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=10",
+      "shai-ycfeng",
+      "sudo -n timeout 60s python3 -"
+    ],
+    "stdin_python": "\nimport hashlib, json, os, resource, stat, time\nresource.setrlimit(resource.RLIMIT_AS, (30 * 1024**3, 30 * 1024**3))\npayload = json.loads('{\"root\": \"/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs\", \"candidates\": [{\"path\": \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors\", \"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20934684, \"nlink\": 1, \"mtime_ns\": 1794011993389035790, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors\", \"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20934686, \"nlink\": 1, \"mtime_ns\": 1794011997237768584, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors\", \"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20934702, \"nlink\": 1, \"mtime_ns\": 1794015080842906442, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors\", \"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20934704, \"nlink\": 1, \"mtime_ns\": 1794015084625785927, \"terminal_status\": \"Failed\"}], \"small_metadata\": {\"config.json\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\", \"model.safetensors.index.json\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\", \"qwen_text_export.json\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\", \"tokenizer_config.json\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\", \"chat_template.jinja\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"protected_jobs\": [\"exp-1107-173758-712234\", \"exp-1107-173758-806531\", \"exp-1107-150849-814926\"]}')\nroot = payload['root']\nif os.path.realpath(root) != root or not stat.S_ISDIR(os.lstat(root).st_mode):\n    raise RuntimeError('Authorized root boundary mismatch')\nroot_device = os.lstat(root).st_dev\ndef signature(path):\n    if os.path.realpath(path) != path:\n        raise RuntimeError('Symlink path refused: ' + path)\n    s = os.lstat(path)\n    if s.st_dev != root_device or not stat.S_ISREG(s.st_mode):\n        raise RuntimeError('Unexpected file/device: ' + path)\n    d = {'logical_bytes': s.st_size, 'allocated_bytes': s.st_blocks*512, 'inode': s.st_ino, 'nlink': s.st_nlink, 'mtime_ns': s.st_mtime_ns}\n    if s.st_size < 1024*1024:\n        with open(path, 'rb') as f:\n            d['sha256'] = hashlib.sha256(f.read()).hexdigest()\n    return d\ndef filesystem():\n    s = os.statvfs(root)\n    return {'timestamp_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()), 'total_bytes':s.f_blocks*s.f_frsize,'available_bytes':s.f_bavail*s.f_frsize,'free_bytes':s.f_bfree*s.f_frsize}\ndef emit(event):\n    print(json.dumps(event), flush=True)\nprotected = {}\nfor relative in ['population-exp-1106-233008-986003', 'text-loader-probe/exp-1107-100927-934443/model', 'text-loader-probe/exp-1107-083839-053284/model', 'text-loader-probe/exp-1107-093036-947852/model']:\n    directory = root + '/' + relative\n    if os.path.realpath(directory) != directory:\n        raise RuntimeError('Protected directory boundary mismatch')\n    with os.scandir(directory) as entries:\n        for e in entries:\n            if e.path in [root+'/'+c['path'] for c in payload['candidates']]:\n                continue\n            key = os.path.relpath(e.path, root)\n            protected[key] = signature(e.path)\n            if relative.startswith('text-loader-probe/') and e.name in payload['small_metadata']:\n                if protected[key]['sha256'] != payload['small_metadata'][e.name]:\n                    raise RuntimeError('Retained metadata mismatch: '+key)\nactive = {}\nfor pair,job in zip(['A','B','C'],payload['protected_jobs']):\n    for role in ('student','teacher'):\n        path = root+'/first-round/'+role+'/'+pair+'/'+job\n        exists = os.path.exists(path)\n        active[os.path.relpath(path,root)] = {'exists_before':exists,'inode_before':os.lstat(path).st_ino if exists else None}\nverified = []\nfor c in payload['candidates']:\n    if c['path'].split('/')[1] in payload['protected_jobs']:\n        raise RuntimeError('Protected job appears in candidate list')\n    path = root+'/'+c['path']\n    actual = signature(path)\n    for key in ('logical_bytes','allocated_bytes','inode','nlink','mtime_ns'):\n        if actual[key] != c[key]:\n            raise RuntimeError('Candidate identity changed: '+path+' '+key)\n    verified.append({'path':c['path'],**actual})\nemit({'phase':'pre_delete','filesystem':filesystem(),'verified_candidates':verified,'protected_file_signatures':protected,'active_directories':active})\nfor c in verified:\n    path = root+'/'+c['path']\n    actual = signature(path)\n    if actual != {k:v for k,v in c.items() if k!='path'}:\n        raise RuntimeError('Candidate changed immediately before unlink: '+path)\n    os.unlink(path)\n    absent = not os.path.lexists(path)\n    emit({'phase':'deleted','path':c['path'],'operation':'os.unlink','pre_delete':c,'absent_after':absent,'timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())})\n    if not absent:\n        raise RuntimeError('Unlink did not remove target: '+path)\nprotected_after = {p:signature(root+'/'+p) for p in protected}\nif protected_after != protected:\n    raise RuntimeError('Protected immutable data changed')\nfor relative,row in active.items():\n    path = root+'/'+relative\n    row['exists_after'] = os.path.exists(path)\n    row['inode_after'] = os.lstat(path).st_ino if row['exists_after'] else None\n    if row['exists_before'] and (not row['exists_after'] or row['inode_before']!=row['inode_after']):\n        raise RuntimeError('Protected active directory changed identity: '+relative)\nemit({'phase':'verified','protected_file_count':len(protected),'protected_immutable_signatures_equal':True,'active_directories':active,'filesystem':filesystem(),'trash_inspected_or_modified':False})\n",
+    "source_sha256": "310853f0a9725ae3dd2a11a025a76930d45b251d37a3bf5b3465c3d95365536e",
+    "local_timeout_seconds": 65,
+    "returncode": 0,
+    "stderr": "",
+    "raw_log": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-oss-delete-sudo-20261107.jsonl"
+  },
+  "deletion_receipts": [
+    {
+      "phase": "pre_delete",
+      "filesystem": {
+        "timestamp_utc": "2026-11-07T10:01:46Z",
+        "total_bytes": 197912092999680,
+        "available_bytes": 3507023147008,
+        "free_bytes": 3507023147008
+      },
+      "verified_candidates": [
+        {
+          "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+          "logical_bytes": 5187839368,
+          "allocated_bytes": 5187839488,
+          "inode": 20934684,
+          "nlink": 1,
+          "mtime_ns": 1794011993389035790
+        },
+        {
+          "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+          "logical_bytes": 3223719528,
+          "allocated_bytes": 3223719936,
+          "inode": 20934686,
+          "nlink": 1,
+          "mtime_ns": 1794011997237768584
+        },
+        {
+          "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+          "logical_bytes": 5187839368,
+          "allocated_bytes": 5187839488,
+          "inode": 20934702,
+          "nlink": 1,
+          "mtime_ns": 1794015080842906442
+        },
+        {
+          "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+          "logical_bytes": 3223719528,
+          "allocated_bytes": 3223719936,
+          "inode": 20934704,
+          "nlink": 1,
+          "mtime_ns": 1794015084625785927
+        }
+      ],
+      "protected_file_signatures": {
+        "population-exp-1106-233008-986003/monitor.jsonl": {
+          "logical_bytes": 14712167,
+          "allocated_bytes": 14712320,
+          "inode": 20884485,
+          "nlink": 1,
+          "mtime_ns": 1793979618444485298
+        },
+        "population-exp-1106-233008-986003/population.json": {
+          "logical_bytes": 775163,
+          "allocated_bytes": 775168,
+          "inode": 20884486,
+          "nlink": 1,
+          "mtime_ns": 1793979618465615222,
+          "sha256": "221c7fde9852d8b874d7342073bb054062dae2b4499d705183af651bf6c87e91"
+        },
+        "population-exp-1106-233008-986003/train.jsonl": {
+          "logical_bytes": 855136451,
+          "allocated_bytes": 855136768,
+          "inode": 20884484,
+          "nlink": 1,
+          "mtime_ns": 1793979618333999440
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/chat_template.jinja": {
+          "logical_bytes": 7756,
+          "allocated_bytes": 8192,
+          "inode": 20971526,
+          "nlink": 1,
+          "mtime_ns": 1794017479189542634,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/config.json": {
+          "logical_bytes": 1938,
+          "allocated_bytes": 2048,
+          "inode": 20971527,
+          "nlink": 1,
+          "mtime_ns": 1794017509725894394,
+          "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/merges.txt": {
+          "logical_bytes": 3353259,
+          "allocated_bytes": 3353600,
+          "inode": 20971528,
+          "nlink": 1,
+          "mtime_ns": 1794017479224255118
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors": {
+          "logical_bytes": 5187839368,
+          "allocated_bytes": 5187839488,
+          "inode": 20971537,
+          "nlink": 1,
+          "mtime_ns": 1794017504028435341
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors": {
+          "logical_bytes": 3223719528,
+          "allocated_bytes": 3223719936,
+          "inode": 20971539,
+          "nlink": 1,
+          "mtime_ns": 1794017508820913132
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json": {
+          "logical_bytes": 40678,
+          "allocated_bytes": 40960,
+          "inode": 20971531,
+          "nlink": 1,
+          "mtime_ns": 1794017509715780728,
+          "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/qwen_text_export.json": {
+          "logical_bytes": 14651,
+          "allocated_bytes": 14848,
+          "inode": 20971535,
+          "nlink": 1,
+          "mtime_ns": 1794017509738646685,
+          "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/tokenizer.json": {
+          "logical_bytes": 12807982,
+          "allocated_bytes": 12808192,
+          "inode": 20971532,
+          "nlink": 1,
+          "mtime_ns": 1794017495164205391
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/tokenizer_config.json": {
+          "logical_bytes": 16710,
+          "allocated_bytes": 16896,
+          "inode": 20971533,
+          "nlink": 1,
+          "mtime_ns": 1794017495178444785,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/vocab.json": {
+          "logical_bytes": 6722759,
+          "allocated_bytes": 6723072,
+          "inode": 20971534,
+          "nlink": 1,
+          "mtime_ns": 1794017495202715285
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/chat_template.jinja": {
+          "logical_bytes": 7756,
+          "allocated_bytes": 8192,
+          "inode": 20934673,
+          "nlink": 1,
+          "mtime_ns": 1794011970553144083,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/config.json": {
+          "logical_bytes": 1938,
+          "allocated_bytes": 2048,
+          "inode": 20934674,
+          "nlink": 1,
+          "mtime_ns": 1794011997777906398,
+          "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/merges.txt": {
+          "logical_bytes": 3353259,
+          "allocated_bytes": 3353600,
+          "inode": 20934675,
+          "nlink": 1,
+          "mtime_ns": 1794011970574886550
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/model.safetensors.index.json": {
+          "logical_bytes": 40678,
+          "allocated_bytes": 40960,
+          "inode": 20934678,
+          "nlink": 1,
+          "mtime_ns": 1794011997765963053,
+          "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/qwen_text_export.json": {
+          "logical_bytes": 14651,
+          "allocated_bytes": 14848,
+          "inode": 20934682,
+          "nlink": 1,
+          "mtime_ns": 1794011997792095690,
+          "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/tokenizer.json": {
+          "logical_bytes": 12807982,
+          "allocated_bytes": 12808192,
+          "inode": 20934679,
+          "nlink": 1,
+          "mtime_ns": 1794011985109571719
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/tokenizer_config.json": {
+          "logical_bytes": 16710,
+          "allocated_bytes": 16896,
+          "inode": 20934680,
+          "nlink": 1,
+          "mtime_ns": 1794011985130146993,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/vocab.json": {
+          "logical_bytes": 6722759,
+          "allocated_bytes": 6723072,
+          "inode": 20934681,
+          "nlink": 1,
+          "mtime_ns": 1794011985149183244
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/chat_template.jinja": {
+          "logical_bytes": 7756,
+          "allocated_bytes": 8192,
+          "inode": 20934691,
+          "nlink": 1,
+          "mtime_ns": 1794015061891034090,
+          "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/config.json": {
+          "logical_bytes": 1938,
+          "allocated_bytes": 2048,
+          "inode": 20934692,
+          "nlink": 1,
+          "mtime_ns": 1794015085055276469,
+          "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/merges.txt": {
+          "logical_bytes": 3353259,
+          "allocated_bytes": 3353600,
+          "inode": 20934693,
+          "nlink": 1,
+          "mtime_ns": 1794015061909338599
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/model.safetensors.index.json": {
+          "logical_bytes": 40678,
+          "allocated_bytes": 40960,
+          "inode": 20934696,
+          "nlink": 1,
+          "mtime_ns": 1794015085044472510,
+          "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/qwen_text_export.json": {
+          "logical_bytes": 14651,
+          "allocated_bytes": 14848,
+          "inode": 20934700,
+          "nlink": 1,
+          "mtime_ns": 1794015085072991279,
+          "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/tokenizer.json": {
+          "logical_bytes": 12807982,
+          "allocated_bytes": 12808192,
+          "inode": 20934697,
+          "nlink": 1,
+          "mtime_ns": 1794015073225966584
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/tokenizer_config.json": {
+          "logical_bytes": 16710,
+          "allocated_bytes": 16896,
+          "inode": 20934698,
+          "nlink": 1,
+          "mtime_ns": 1794015073239042712,
+          "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/vocab.json": {
+          "logical_bytes": 6722759,
+          "allocated_bytes": 6723072,
+          "inode": 20934699,
+          "nlink": 1,
+          "mtime_ns": 1794015073250896686
+        }
+      },
+      "active_directories": {
+        "first-round/student/A/exp-1107-173758-712234": {
+          "exists_before": true,
+          "inode_before": 21059587
+        },
+        "first-round/teacher/A/exp-1107-173758-712234": {
+          "exists_before": true,
+          "inode_before": 20756493
+        },
+        "first-round/student/B/exp-1107-173758-806531": {
+          "exists_before": true,
+          "inode_before": 20776043
+        },
+        "first-round/teacher/B/exp-1107-173758-806531": {
+          "exists_before": true,
+          "inode_before": 20756495
+        },
+        "first-round/student/C/exp-1107-150849-814926": {
+          "exists_before": false,
+          "inode_before": null
+        },
+        "first-round/teacher/C/exp-1107-150849-814926": {
+          "exists_before": false,
+          "inode_before": null
+        }
+      }
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+        "logical_bytes": 5187839368,
+        "allocated_bytes": 5187839488,
+        "inode": 20934684,
+        "nlink": 1,
+        "mtime_ns": 1794011993389035790
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+        "logical_bytes": 3223719528,
+        "allocated_bytes": 3223719936,
+        "inode": 20934686,
+        "nlink": 1,
+        "mtime_ns": 1794011997237768584
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+        "logical_bytes": 5187839368,
+        "allocated_bytes": 5187839488,
+        "inode": 20934702,
+        "nlink": 1,
+        "mtime_ns": 1794015080842906442
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:46Z"
+    },
+    {
+      "phase": "deleted",
+      "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+      "operation": "os.unlink",
+      "pre_delete": {
+        "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+        "logical_bytes": 3223719528,
+        "allocated_bytes": 3223719936,
+        "inode": 20934704,
+        "nlink": 1,
+        "mtime_ns": 1794015084625785927
+      },
+      "absent_after": true,
+      "timestamp_utc": "2026-11-07T10:01:47Z"
+    },
+    {
+      "phase": "verified",
+      "protected_file_count": 29,
+      "protected_immutable_signatures_equal": true,
+      "active_directories": {
+        "first-round/student/A/exp-1107-173758-712234": {
+          "exists_before": true,
+          "inode_before": 21059587,
+          "exists_after": true,
+          "inode_after": 21059587
+        },
+        "first-round/teacher/A/exp-1107-173758-712234": {
+          "exists_before": true,
+          "inode_before": 20756493,
+          "exists_after": true,
+          "inode_after": 20756493
+        },
+        "first-round/student/B/exp-1107-173758-806531": {
+          "exists_before": true,
+          "inode_before": 20776043,
+          "exists_after": true,
+          "inode_after": 20776043
+        },
+        "first-round/teacher/B/exp-1107-173758-806531": {
+          "exists_before": true,
+          "inode_before": 20756495,
+          "exists_after": true,
+          "inode_after": 20756495
+        },
+        "first-round/student/C/exp-1107-150849-814926": {
+          "exists_before": false,
+          "inode_before": null,
+          "exists_after": false,
+          "inode_after": null
+        },
+        "first-round/teacher/C/exp-1107-150849-814926": {
+          "exists_before": false,
+          "inode_before": null,
+          "exists_after": false,
+          "inode_after": null
+        }
+      },
+      "filesystem": {
+        "timestamp_utc": "2026-11-07T10:01:50Z",
+        "total_bytes": 197912092999680,
+        "available_bytes": 3507210420224,
+        "free_bytes": 3507210420224
+      },
+      "trash_inspected_or_modified": false
+    }
+  ],
+  "deletion_attempts": [
+    {
+      "execution": {
+        "command": [
+          "timeout",
+          "60s",
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=10",
+          "shai-ycfeng",
+          "timeout 60s python3 -"
+        ],
+        "stdin_python": "\nimport hashlib, json, os, resource, stat, time\nresource.setrlimit(resource.RLIMIT_AS, (30 * 1024**3, 30 * 1024**3))\npayload = json.loads('{\"root\": \"/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs\", \"candidates\": [{\"path\": \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors\", \"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20934684, \"nlink\": 1, \"mtime_ns\": 1794011993389035790, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors\", \"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20934686, \"nlink\": 1, \"mtime_ns\": 1794011997237768584, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors\", \"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20934702, \"nlink\": 1, \"mtime_ns\": 1794015080842906442, \"terminal_status\": \"Failed\"}, {\"path\": \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors\", \"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20934704, \"nlink\": 1, \"mtime_ns\": 1794015084625785927, \"terminal_status\": \"Failed\"}], \"small_metadata\": {\"config.json\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\", \"model.safetensors.index.json\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\", \"qwen_text_export.json\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\", \"tokenizer_config.json\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\", \"chat_template.jinja\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"protected_jobs\": [\"exp-1107-173758-712234\", \"exp-1107-173758-806531\", \"exp-1107-150849-814926\"]}')\nroot = payload['root']\nif os.path.realpath(root) != root or not stat.S_ISDIR(os.lstat(root).st_mode):\n    raise RuntimeError('Authorized root boundary mismatch')\nroot_device = os.lstat(root).st_dev\ndef signature(path):\n    if os.path.realpath(path) != path:\n        raise RuntimeError('Symlink path refused: ' + path)\n    s = os.lstat(path)\n    if s.st_dev != root_device or not stat.S_ISREG(s.st_mode):\n        raise RuntimeError('Unexpected file/device: ' + path)\n    d = {'logical_bytes': s.st_size, 'allocated_bytes': s.st_blocks*512, 'inode': s.st_ino, 'nlink': s.st_nlink, 'mtime_ns': s.st_mtime_ns}\n    if s.st_size < 1024*1024:\n        with open(path, 'rb') as f:\n            d['sha256'] = hashlib.sha256(f.read()).hexdigest()\n    return d\ndef filesystem():\n    s = os.statvfs(root)\n    return {'timestamp_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()), 'total_bytes':s.f_blocks*s.f_frsize,'available_bytes':s.f_bavail*s.f_frsize,'free_bytes':s.f_bfree*s.f_frsize}\ndef emit(event):\n    print(json.dumps(event), flush=True)\nprotected = {}\nfor relative in ['population-exp-1106-233008-986003', 'text-loader-probe/exp-1107-100927-934443/model', 'text-loader-probe/exp-1107-083839-053284/model', 'text-loader-probe/exp-1107-093036-947852/model']:\n    directory = root + '/' + relative\n    if os.path.realpath(directory) != directory:\n        raise RuntimeError('Protected directory boundary mismatch')\n    with os.scandir(directory) as entries:\n        for e in entries:\n            if e.path in [root+'/'+c['path'] for c in payload['candidates']]:\n                continue\n            key = os.path.relpath(e.path, root)\n            protected[key] = signature(e.path)\n            if relative.startswith('text-loader-probe/') and e.name in payload['small_metadata']:\n                if protected[key]['sha256'] != payload['small_metadata'][e.name]:\n                    raise RuntimeError('Retained metadata mismatch: '+key)\nactive = {}\nfor pair,job in zip(['A','B','C'],payload['protected_jobs']):\n    for role in ('student','teacher'):\n        path = root+'/first-round/'+role+'/'+pair+'/'+job\n        exists = os.path.exists(path)\n        active[os.path.relpath(path,root)] = {'exists_before':exists,'inode_before':os.lstat(path).st_ino if exists else None}\nverified = []\nfor c in payload['candidates']:\n    if c['path'].split('/')[1] in payload['protected_jobs']:\n        raise RuntimeError('Protected job appears in candidate list')\n    path = root+'/'+c['path']\n    actual = signature(path)\n    for key in ('logical_bytes','allocated_bytes','inode','nlink','mtime_ns'):\n        if actual[key] != c[key]:\n            raise RuntimeError('Candidate identity changed: '+path+' '+key)\n    verified.append({'path':c['path'],**actual})\nemit({'phase':'pre_delete','filesystem':filesystem(),'verified_candidates':verified,'protected_file_signatures':protected,'active_directories':active})\nfor c in verified:\n    path = root+'/'+c['path']\n    actual = signature(path)\n    if actual != {k:v for k,v in c.items() if k!='path'}:\n        raise RuntimeError('Candidate changed immediately before unlink: '+path)\n    os.unlink(path)\n    absent = not os.path.lexists(path)\n    emit({'phase':'deleted','path':c['path'],'operation':'os.unlink','pre_delete':c,'absent_after':absent,'timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())})\n    if not absent:\n        raise RuntimeError('Unlink did not remove target: '+path)\nprotected_after = {p:signature(root+'/'+p) for p in protected}\nif protected_after != protected:\n    raise RuntimeError('Protected immutable data changed')\nfor relative,row in active.items():\n    path = root+'/'+relative\n    row['exists_after'] = os.path.exists(path)\n    row['inode_after'] = os.lstat(path).st_ino if row['exists_after'] else None\n    if row['exists_before'] and (not row['exists_after'] or row['inode_before']!=row['inode_after']):\n        raise RuntimeError('Protected active directory changed identity: '+relative)\nemit({'phase':'verified','protected_file_count':len(protected),'protected_immutable_signatures_equal':True,'active_directories':active,'filesystem':filesystem(),'trash_inspected_or_modified':False})\n",
+        "source_sha256": "310853f0a9725ae3dd2a11a025a76930d45b251d37a3bf5b3465c3d95365536e",
+        "local_timeout_seconds": 65,
+        "returncode": 1,
+        "stderr": "Traceback (most recent call last):\n  File \"<stdin>\", line 61, in <module>\nPermissionError: [Errno 13] Permission denied: '/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors'\n",
+        "raw_log": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-oss-delete-20261107.jsonl"
+      },
+      "receipts": [
+        {
+          "phase": "pre_delete",
+          "filesystem": {
+            "timestamp_utc": "2026-11-07T10:01:10Z",
+            "total_bytes": 197912092999680,
+            "available_bytes": 3415388946432,
+            "free_bytes": 3415388946432
+          },
+          "verified_candidates": [
+            {
+              "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors",
+              "logical_bytes": 5187839368,
+              "allocated_bytes": 5187839488,
+              "inode": 20934684,
+              "nlink": 1,
+              "mtime_ns": 1794011993389035790
+            },
+            {
+              "path": "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors",
+              "logical_bytes": 3223719528,
+              "allocated_bytes": 3223719936,
+              "inode": 20934686,
+              "nlink": 1,
+              "mtime_ns": 1794011997237768584
+            },
+            {
+              "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors",
+              "logical_bytes": 5187839368,
+              "allocated_bytes": 5187839488,
+              "inode": 20934702,
+              "nlink": 1,
+              "mtime_ns": 1794015080842906442
+            },
+            {
+              "path": "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors",
+              "logical_bytes": 3223719528,
+              "allocated_bytes": 3223719936,
+              "inode": 20934704,
+              "nlink": 1,
+              "mtime_ns": 1794015084625785927
+            }
+          ],
+          "protected_file_signatures": {
+            "population-exp-1106-233008-986003/monitor.jsonl": {
+              "logical_bytes": 14712167,
+              "allocated_bytes": 14712320,
+              "inode": 20884485,
+              "nlink": 1,
+              "mtime_ns": 1793979618444485298
+            },
+            "population-exp-1106-233008-986003/population.json": {
+              "logical_bytes": 775163,
+              "allocated_bytes": 775168,
+              "inode": 20884486,
+              "nlink": 1,
+              "mtime_ns": 1793979618465615222,
+              "sha256": "221c7fde9852d8b874d7342073bb054062dae2b4499d705183af651bf6c87e91"
+            },
+            "population-exp-1106-233008-986003/train.jsonl": {
+              "logical_bytes": 855136451,
+              "allocated_bytes": 855136768,
+              "inode": 20884484,
+              "nlink": 1,
+              "mtime_ns": 1793979618333999440
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/chat_template.jinja": {
+              "logical_bytes": 7756,
+              "allocated_bytes": 8192,
+              "inode": 20971526,
+              "nlink": 1,
+              "mtime_ns": 1794017479189542634,
+              "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/config.json": {
+              "logical_bytes": 1938,
+              "allocated_bytes": 2048,
+              "inode": 20971527,
+              "nlink": 1,
+              "mtime_ns": 1794017509725894394,
+              "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/merges.txt": {
+              "logical_bytes": 3353259,
+              "allocated_bytes": 3353600,
+              "inode": 20971528,
+              "nlink": 1,
+              "mtime_ns": 1794017479224255118
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors": {
+              "logical_bytes": 5187839368,
+              "allocated_bytes": 5187839488,
+              "inode": 20971537,
+              "nlink": 1,
+              "mtime_ns": 1794017504028435341
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors": {
+              "logical_bytes": 3223719528,
+              "allocated_bytes": 3223719936,
+              "inode": 20971539,
+              "nlink": 1,
+              "mtime_ns": 1794017508820913132
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json": {
+              "logical_bytes": 40678,
+              "allocated_bytes": 40960,
+              "inode": 20971531,
+              "nlink": 1,
+              "mtime_ns": 1794017509715780728,
+              "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/qwen_text_export.json": {
+              "logical_bytes": 14651,
+              "allocated_bytes": 14848,
+              "inode": 20971535,
+              "nlink": 1,
+              "mtime_ns": 1794017509738646685,
+              "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/tokenizer.json": {
+              "logical_bytes": 12807982,
+              "allocated_bytes": 12808192,
+              "inode": 20971532,
+              "nlink": 1,
+              "mtime_ns": 1794017495164205391
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/tokenizer_config.json": {
+              "logical_bytes": 16710,
+              "allocated_bytes": 16896,
+              "inode": 20971533,
+              "nlink": 1,
+              "mtime_ns": 1794017495178444785,
+              "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+            },
+            "text-loader-probe/exp-1107-100927-934443/model/vocab.json": {
+              "logical_bytes": 6722759,
+              "allocated_bytes": 6723072,
+              "inode": 20971534,
+              "nlink": 1,
+              "mtime_ns": 1794017495202715285
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/chat_template.jinja": {
+              "logical_bytes": 7756,
+              "allocated_bytes": 8192,
+              "inode": 20934673,
+              "nlink": 1,
+              "mtime_ns": 1794011970553144083,
+              "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/config.json": {
+              "logical_bytes": 1938,
+              "allocated_bytes": 2048,
+              "inode": 20934674,
+              "nlink": 1,
+              "mtime_ns": 1794011997777906398,
+              "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/merges.txt": {
+              "logical_bytes": 3353259,
+              "allocated_bytes": 3353600,
+              "inode": 20934675,
+              "nlink": 1,
+              "mtime_ns": 1794011970574886550
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/model.safetensors.index.json": {
+              "logical_bytes": 40678,
+              "allocated_bytes": 40960,
+              "inode": 20934678,
+              "nlink": 1,
+              "mtime_ns": 1794011997765963053,
+              "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/qwen_text_export.json": {
+              "logical_bytes": 14651,
+              "allocated_bytes": 14848,
+              "inode": 20934682,
+              "nlink": 1,
+              "mtime_ns": 1794011997792095690,
+              "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/tokenizer.json": {
+              "logical_bytes": 12807982,
+              "allocated_bytes": 12808192,
+              "inode": 20934679,
+              "nlink": 1,
+              "mtime_ns": 1794011985109571719
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/tokenizer_config.json": {
+              "logical_bytes": 16710,
+              "allocated_bytes": 16896,
+              "inode": 20934680,
+              "nlink": 1,
+              "mtime_ns": 1794011985130146993,
+              "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+            },
+            "text-loader-probe/exp-1107-083839-053284/model/vocab.json": {
+              "logical_bytes": 6722759,
+              "allocated_bytes": 6723072,
+              "inode": 20934681,
+              "nlink": 1,
+              "mtime_ns": 1794011985149183244
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/chat_template.jinja": {
+              "logical_bytes": 7756,
+              "allocated_bytes": 8192,
+              "inode": 20934691,
+              "nlink": 1,
+              "mtime_ns": 1794015061891034090,
+              "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/config.json": {
+              "logical_bytes": 1938,
+              "allocated_bytes": 2048,
+              "inode": 20934692,
+              "nlink": 1,
+              "mtime_ns": 1794015085055276469,
+              "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/merges.txt": {
+              "logical_bytes": 3353259,
+              "allocated_bytes": 3353600,
+              "inode": 20934693,
+              "nlink": 1,
+              "mtime_ns": 1794015061909338599
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/model.safetensors.index.json": {
+              "logical_bytes": 40678,
+              "allocated_bytes": 40960,
+              "inode": 20934696,
+              "nlink": 1,
+              "mtime_ns": 1794015085044472510,
+              "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/qwen_text_export.json": {
+              "logical_bytes": 14651,
+              "allocated_bytes": 14848,
+              "inode": 20934700,
+              "nlink": 1,
+              "mtime_ns": 1794015085072991279,
+              "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/tokenizer.json": {
+              "logical_bytes": 12807982,
+              "allocated_bytes": 12808192,
+              "inode": 20934697,
+              "nlink": 1,
+              "mtime_ns": 1794015073225966584
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/tokenizer_config.json": {
+              "logical_bytes": 16710,
+              "allocated_bytes": 16896,
+              "inode": 20934698,
+              "nlink": 1,
+              "mtime_ns": 1794015073239042712,
+              "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+            },
+            "text-loader-probe/exp-1107-093036-947852/model/vocab.json": {
+              "logical_bytes": 6722759,
+              "allocated_bytes": 6723072,
+              "inode": 20934699,
+              "nlink": 1,
+              "mtime_ns": 1794015073250896686
+            }
+          },
+          "active_directories": {
+            "first-round/student/A/exp-1107-173758-712234": {
+              "exists_before": true,
+              "inode_before": 21059587
+            },
+            "first-round/teacher/A/exp-1107-173758-712234": {
+              "exists_before": true,
+              "inode_before": 20756493
+            },
+            "first-round/student/B/exp-1107-173758-806531": {
+              "exists_before": true,
+              "inode_before": 20776043
+            },
+            "first-round/teacher/B/exp-1107-173758-806531": {
+              "exists_before": true,
+              "inode_before": 20756495
+            },
+            "first-round/student/C/exp-1107-150849-814926": {
+              "exists_before": false,
+              "inode_before": null
+            },
+            "first-round/teacher/C/exp-1107-150849-814926": {
+              "exists_before": false,
+              "inode_before": null
+            }
+          }
+        }
+      ],
+      "result": "PermissionError before first unlink; zero files removed"
+    }
+  ],
+  "permission_diagnosis": {
+    "remote_euid": 10250,
+    "remote_egid": 10250,
+    "target_parent_uid": 0,
+    "target_parent_gid": 0,
+    "target_parent_mode": "drwxr-xr-x",
+    "target_parent_write_execute_access": false,
+    "repair": "Use sudo -n for the unchanged exact four authorized os.unlink operations; do not chmod/chown directories"
+  },
+  "post_inventory_execution": {
+    "command": [
+      "timeout",
+      "60s",
+      "ssh",
+      "-o",
+      "BatchMode=yes",
+      "-o",
+      "ConnectTimeout=10",
+      "shai-ycfeng",
+      "timeout 60s python3 -"
+    ],
+    "stdin_python": "\nimport collections,hashlib,json,os,resource,stat,time\nresource.setrlimit(resource.RLIMIT_AS,(30*1024**3,30*1024**3))\npayload=json.loads('{\"root\": \"/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs\", \"protected\": {\"population-exp-1106-233008-986003/monitor.jsonl\": {\"logical_bytes\": 14712167, \"allocated_bytes\": 14712320, \"inode\": 20884485, \"nlink\": 1, \"mtime_ns\": 1793979618444485298}, \"population-exp-1106-233008-986003/population.json\": {\"logical_bytes\": 775163, \"allocated_bytes\": 775168, \"inode\": 20884486, \"nlink\": 1, \"mtime_ns\": 1793979618465615222, \"sha256\": \"221c7fde9852d8b874d7342073bb054062dae2b4499d705183af651bf6c87e91\"}, \"population-exp-1106-233008-986003/train.jsonl\": {\"logical_bytes\": 855136451, \"allocated_bytes\": 855136768, \"inode\": 20884484, \"nlink\": 1, \"mtime_ns\": 1793979618333999440}, \"text-loader-probe/exp-1107-100927-934443/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20971526, \"nlink\": 1, \"mtime_ns\": 1794017479189542634, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-100927-934443/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20971527, \"nlink\": 1, \"mtime_ns\": 1794017509725894394, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-100927-934443/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20971528, \"nlink\": 1, \"mtime_ns\": 1794017479224255118}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors\": {\"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20971537, \"nlink\": 1, \"mtime_ns\": 1794017504028435341}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors\": {\"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20971539, \"nlink\": 1, \"mtime_ns\": 1794017508820913132}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20971531, \"nlink\": 1, \"mtime_ns\": 1794017509715780728, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-100927-934443/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20971535, \"nlink\": 1, \"mtime_ns\": 1794017509738646685, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-100927-934443/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20971532, \"nlink\": 1, \"mtime_ns\": 1794017495164205391}, \"text-loader-probe/exp-1107-100927-934443/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20971533, \"nlink\": 1, \"mtime_ns\": 1794017495178444785, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-100927-934443/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20971534, \"nlink\": 1, \"mtime_ns\": 1794017495202715285}, \"text-loader-probe/exp-1107-083839-053284/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20934673, \"nlink\": 1, \"mtime_ns\": 1794011970553144083, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-083839-053284/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20934674, \"nlink\": 1, \"mtime_ns\": 1794011997777906398, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-083839-053284/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20934675, \"nlink\": 1, \"mtime_ns\": 1794011970574886550}, \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20934678, \"nlink\": 1, \"mtime_ns\": 1794011997765963053, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-083839-053284/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20934682, \"nlink\": 1, \"mtime_ns\": 1794011997792095690, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-083839-053284/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20934679, \"nlink\": 1, \"mtime_ns\": 1794011985109571719}, \"text-loader-probe/exp-1107-083839-053284/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20934680, \"nlink\": 1, \"mtime_ns\": 1794011985130146993, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-083839-053284/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20934681, \"nlink\": 1, \"mtime_ns\": 1794011985149183244}, \"text-loader-probe/exp-1107-093036-947852/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20934691, \"nlink\": 1, \"mtime_ns\": 1794015061891034090, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-093036-947852/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20934692, \"nlink\": 1, \"mtime_ns\": 1794015085055276469, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-093036-947852/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20934693, \"nlink\": 1, \"mtime_ns\": 1794015061909338599}, \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20934696, \"nlink\": 1, \"mtime_ns\": 1794015085044472510, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-093036-947852/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20934700, \"nlink\": 1, \"mtime_ns\": 1794015085072991279, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-093036-947852/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20934697, \"nlink\": 1, \"mtime_ns\": 1794015073225966584}, \"text-loader-probe/exp-1107-093036-947852/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20934698, \"nlink\": 1, \"mtime_ns\": 1794015073239042712, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-093036-947852/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20934699, \"nlink\": 1, \"mtime_ns\": 1794015073250896686}}, \"deleted_paths\": [\"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors\", \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors\", \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors\", \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors\"]}')\nroot=payload['root']\nt0=time.monotonic()\ns=os.lstat(root)\nif not stat.S_ISDIR(s.st_mode) or os.path.realpath(root)!=root:raise RuntimeError('Root boundary mismatch')\ndev=s.st_dev\nby_dir=collections.defaultdict(lambda:{'logical_bytes':0,'allocated_bytes':0,'files':0})\ncount=0\ncomplete=True\nskipped=[]\nerrors=[]\ndef walk(path):\n    global count,complete\n    try:\n        with os.scandir(path) as entries:\n            for e in entries:\n                if count>=100000 or time.monotonic()-t0>55:\n                    complete=False\n                    return\n                count+=1\n                try:\n                    st=e.stat(follow_symlinks=False)\n                    relative=os.path.relpath(e.path,root)\n                    if stat.S_ISLNK(st.st_mode):skipped.append({'path':relative,'reason':'symlink not followed'})\n                    elif st.st_dev!=dev:skipped.append({'path':relative,'reason':'device boundary'})\n                    elif stat.S_ISDIR(st.st_mode):walk(e.path)\n                    elif stat.S_ISREG(st.st_mode):\n                        parts=relative.split('/')\n                        for depth in range(min(len(parts),7)):\n                            directory='/'.join(parts[:depth]) or '.'\n                            by_dir[directory]['logical_bytes']+=st.st_size\n                            by_dir[directory]['allocated_bytes']+=st.st_blocks*512\n                            by_dir[directory]['files']+=1\n                except OSError as ex:errors.append({'path':e.path,'error':str(ex)})\n    except OSError as ex:errors.append({'path':path,'error':str(ex)})\nwalk(root)\nprotected_equal=True\nfor relative,expected in payload['protected'].items():\n    path=root+'/'+relative\n    if os.path.realpath(path)!=path:raise RuntimeError('Protected symlink changed')\n    st=os.lstat(path)\n    actual={'logical_bytes':st.st_size,'allocated_bytes':st.st_blocks*512,'inode':st.st_ino,'nlink':st.st_nlink,'mtime_ns':st.st_mtime_ns}\n    if st.st_size<1024*1024:\n        with open(path,'rb') as f:actual['sha256']=hashlib.sha256(f.read()).hexdigest()\n    if actual!=expected:protected_equal=False\nabsent={relative:not os.path.lexists(root+'/'+relative) for relative in payload['deleted_paths']}\nv=os.statvfs(root)\nprint(json.dumps({'timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'root':root,'complete':complete,'elapsed_s':time.monotonic()-t0,'entries_seen':count,'directories':dict(sorted(by_dir.items())),'skipped':skipped,'errors':errors,'deleted_files_absent':absent,'protected_file_count':len(payload['protected']),'protected_immutable_signatures_equal':protected_equal,'filesystem':{'total_bytes':v.f_blocks*v.f_frsize,'available_bytes':v.f_bavail*v.f_frsize,'free_bytes':v.f_bfree*v.f_frsize}},indent=2))\n",
+    "source_sha256": "2d2697db9d12b13e9fe960254c122a655c94ccffafc17a26822e0321d05a2c03",
+    "local_timeout_seconds": 65,
+    "returncode": 0,
+    "stderr": "",
+    "raw_log": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-oss-post-inventory-20261107.json"
+  },
+  "post_inventory": {
+    "timestamp_utc": "2026-11-07T10:03:23Z",
+    "root": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs",
+    "complete": true,
+    "elapsed_s": 55.495193323120475,
+    "entries_seen": 1138,
+    "directories": {
+      ".": {
+        "logical_bytes": 11226739944,
+        "allocated_bytes": 11226927616,
+        "files": 968
+      },
+      "first-round": {
+        "logical_bytes": 1201027628,
+        "allocated_bytes": 1201147904,
+        "files": 668
+      },
+      "first-round/student": {
+        "logical_bytes": 1200058001,
+        "allocated_bytes": 1200176640,
+        "files": 658
+      },
+      "first-round/student/A": {
+        "logical_bytes": 471853669,
+        "allocated_bytes": 471897600,
+        "files": 207
+      },
+      "first-round/student/A/exp-1107-063447-691018": {
+        "logical_bytes": 158771500,
+        "allocated_bytes": 158793216,
+        "files": 127
+      },
+      "first-round/student/A/exp-1107-063447-691018/dashboard_columns": {
+        "logical_bytes": 1508957,
+        "allocated_bytes": 1509888,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-063447-691018/events": {
+        "logical_bytes": 4262430,
+        "allocated_bytes": 4268032,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-063447-691018/failure-diagnostics": {
+        "logical_bytes": 8519640,
+        "allocated_bytes": 8529408,
+        "files": 93
+      },
+      "first-round/student/A/exp-1107-063447-691018/failure-diagnostics/rank-0": {
+        "logical_bytes": 8519640,
+        "allocated_bytes": 8529408,
+        "files": 93
+      },
+      "first-round/student/A/exp-1107-063447-691018/policy_loss_debug": {
+        "logical_bytes": 1063300,
+        "allocated_bytes": 1064960,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/rollout_data": {
+        "logical_bytes": 70190640,
+        "allocated_bytes": 70191104,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-063447-691018/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-063447-691018/train_data": {
+        "logical_bytes": 10809812,
+        "allocated_bytes": 10810880,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-063447-691018/trajectory": {
+        "logical_bytes": 22418342,
+        "allocated_bytes": 22418944,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-085640-136853": {
+        "logical_bytes": 116471318,
+        "allocated_bytes": 116477952,
+        "files": 27
+      },
+      "first-round/student/A/exp-1107-085640-136853/dashboard_columns": {
+        "logical_bytes": 951078,
+        "allocated_bytes": 951296,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-085640-136853/events": {
+        "logical_bytes": 4261528,
+        "allocated_bytes": 4265472,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-085640-136853/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-085640-136853/rollout_data": {
+        "logical_bytes": 45818855,
+        "allocated_bytes": 45818880,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-085640-136853/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-085640-136853/train_data": {
+        "logical_bytes": 10810644,
+        "allocated_bytes": 10811392,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-085640-136853/trajectory": {
+        "logical_bytes": 14630834,
+        "allocated_bytes": 14630912,
+        "files": 1
+      },
+      "first-round/student/A/exp-1107-150849-708403": {
+        "logical_bytes": 41867683,
+        "allocated_bytes": 41874432,
+        "files": 19
+      },
+      "first-round/student/A/exp-1107-150849-708403/events": {
+        "logical_bytes": 1869304,
+        "allocated_bytes": 1874432,
+        "files": 12
+      },
+      "first-round/student/A/exp-1107-150849-708403/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-150849-708403/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-173758-712234": {
+        "logical_bytes": 143646875,
+        "allocated_bytes": 143654912,
+        "files": 30
+      },
+      "first-round/student/A/exp-1107-173758-712234/dashboard_columns": {
+        "logical_bytes": 1411091,
+        "allocated_bytes": 1411584,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-173758-712234/events": {
+        "logical_bytes": 4625663,
+        "allocated_bytes": 4629504,
+        "files": 13
+      },
+      "first-round/student/A/exp-1107-173758-712234/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-173758-712234/rollout_data": {
+        "logical_bytes": 65975088,
+        "allocated_bytes": 65975296,
+        "files": 2
+      },
+      "first-round/student/A/exp-1107-173758-712234/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/A/exp-1107-173758-712234/train_data": {
+        "logical_bytes": 10815892,
+        "allocated_bytes": 10817024,
+        "files": 4
+      },
+      "first-round/student/A/exp-1107-173758-712234/trajectory": {
+        "logical_bytes": 20820762,
+        "allocated_bytes": 20821504,
+        "files": 2
+      },
+      "first-round/student/B": {
+        "logical_bytes": 550003777,
+        "allocated_bytes": 550059520,
+        "files": 320
+      },
+      "first-round/student/B/exp-1107-062459-796906": {
+        "logical_bytes": 158012076,
+        "allocated_bytes": 158031360,
+        "files": 127
+      },
+      "first-round/student/B/exp-1107-062459-796906/dashboard_columns": {
+        "logical_bytes": 1510739,
+        "allocated_bytes": 1511424,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-062459-796906/events": {
+        "logical_bytes": 4263914,
+        "allocated_bytes": 4268032,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-062459-796906/failure-diagnostics": {
+        "logical_bytes": 7725235,
+        "allocated_bytes": 7734272,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-062459-796906/failure-diagnostics/rank-0": {
+        "logical_bytes": 7725235,
+        "allocated_bytes": 7734272,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-062459-796906/policy_loss_debug": {
+        "logical_bytes": 1063300,
+        "allocated_bytes": 1064960,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/rollout_data": {
+        "logical_bytes": 70212592,
+        "allocated_bytes": 70213120,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-062459-796906/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-062459-796906/train_data": {
+        "logical_bytes": 10816724,
+        "allocated_bytes": 10818048,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-062459-796906/trajectory": {
+        "logical_bytes": 22421193,
+        "allocated_bytes": 22421504,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-085640-141571": {
+        "logical_bytes": 43639654,
+        "allocated_bytes": 43644928,
+        "files": 20
+      },
+      "first-round/student/B/exp-1107-085640-141571/events": {
+        "logical_bytes": 3641275,
+        "allocated_bytes": 3644928,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-085640-141571/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-085640-141571/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314": {
+        "logical_bytes": 189230021,
+        "allocated_bytes": 189252608,
+        "files": 139
+      },
+      "first-round/student/B/exp-1107-150849-818314/dashboard_columns": {
+        "logical_bytes": 1955755,
+        "allocated_bytes": 1956864,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/events": {
+        "logical_bytes": 5006033,
+        "allocated_bytes": 5009408,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-150849-818314/failure-diagnostics": {
+        "logical_bytes": 7099489,
+        "allocated_bytes": 7108096,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-150849-818314/failure-diagnostics/rank-0": {
+        "logical_bytes": 7099489,
+        "allocated_bytes": 7108096,
+        "files": 93
+      },
+      "first-round/student/B/exp-1107-150849-818314/policy_loss_debug": {
+        "logical_bytes": 148585,
+        "allocated_bytes": 152576,
+        "files": 9
+      },
+      "first-round/student/B/exp-1107-150849-818314/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-150849-818314/rollout_data": {
+        "logical_bytes": 90590521,
+        "allocated_bytes": 90591232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-150849-818314/train_data": {
+        "logical_bytes": 15741860,
+        "allocated_bytes": 15744000,
+        "files": 8
+      },
+      "first-round/student/B/exp-1107-150849-818314/trajectory": {
+        "logical_bytes": 28689399,
+        "allocated_bytes": 28690432,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-173758-806531": {
+        "logical_bytes": 143671852,
+        "allocated_bytes": 143679488,
+        "files": 30
+      },
+      "first-round/student/B/exp-1107-173758-806531/dashboard_columns": {
+        "logical_bytes": 1411605,
+        "allocated_bytes": 1412096,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-173758-806531/events": {
+        "logical_bytes": 4638178,
+        "allocated_bytes": 4641280,
+        "files": 13
+      },
+      "first-round/student/B/exp-1107-173758-806531/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-173758-806531/rollout_data": {
+        "logical_bytes": 65983344,
+        "allocated_bytes": 65984000,
+        "files": 2
+      },
+      "first-round/student/B/exp-1107-173758-806531/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/B/exp-1107-173758-806531/train_data": {
+        "logical_bytes": 10818580,
+        "allocated_bytes": 10819584,
+        "files": 4
+      },
+      "first-round/student/B/exp-1107-173758-806531/trajectory": {
+        "logical_bytes": 20821766,
+        "allocated_bytes": 20822528,
+        "files": 2
+      },
+      "first-round/student/C": {
+        "logical_bytes": 178200555,
+        "allocated_bytes": 178219520,
+        "files": 131
+      },
+      "first-round/student/C/exp-1107-064200-013666": {
+        "logical_bytes": 171056542,
+        "allocated_bytes": 171075072,
+        "files": 130
+      },
+      "first-round/student/C/exp-1107-064200-013666/dashboard_columns": {
+        "logical_bytes": 1519538,
+        "allocated_bytes": 1520128,
+        "files": 2
+      },
+      "first-round/student/C/exp-1107-064200-013666/events": {
+        "logical_bytes": 4725564,
+        "allocated_bytes": 4728320,
+        "files": 13
+      },
+      "first-round/student/C/exp-1107-064200-013666/failure-diagnostics": {
+        "logical_bytes": 11092375,
+        "allocated_bytes": 11100160,
+        "files": 91
+      },
+      "first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0": {
+        "logical_bytes": 11092375,
+        "allocated_bytes": 11100160,
+        "files": 91
+      },
+      "first-round/student/C/exp-1107-064200-013666/policy_loss_debug": {
+        "logical_bytes": 2126600,
+        "allocated_bytes": 2129920,
+        "files": 8
+      },
+      "first-round/student/C/exp-1107-064200-013666/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "first-round/student/C/exp-1107-064200-013666/rollout_data": {
+        "logical_bytes": 70339760,
+        "allocated_bytes": 70340608,
+        "files": 2
+      },
+      "first-round/student/C/exp-1107-064200-013666/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "first-round/student/C/exp-1107-064200-013666/train_data": {
+        "logical_bytes": 18007530,
+        "allocated_bytes": 18008576,
+        "files": 4
+      },
+      "first-round/student/C/exp-1107-064200-013666/trajectory": {
+        "logical_bytes": 22439730,
+        "allocated_bytes": 22439936,
+        "files": 2
+      },
+      "first-round/teacher": {
+        "logical_bytes": 969627,
+        "allocated_bytes": 971264,
+        "files": 10
+      },
+      "first-round/teacher/A": {
+        "logical_bytes": 355650,
+        "allocated_bytes": 356352,
+        "files": 4
+      },
+      "first-round/teacher/A/exp-1107-063447-691018": {
+        "logical_bytes": 106935,
+        "allocated_bytes": 107008,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-085640-136853": {
+        "logical_bytes": 103569,
+        "allocated_bytes": 103936,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-150849-708403": {
+        "logical_bytes": 40365,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "first-round/teacher/A/exp-1107-173758-712234": {
+        "logical_bytes": 104781,
+        "allocated_bytes": 104960,
+        "files": 1
+      },
+      "first-round/teacher/B": {
+        "logical_bytes": 381715,
+        "allocated_bytes": 382464,
+        "files": 4
+      },
+      "first-round/teacher/B/exp-1107-062459-796906": {
+        "logical_bytes": 107005,
+        "allocated_bytes": 107008,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-085640-141571": {
+        "logical_bytes": 41102,
+        "allocated_bytes": 41472,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-150849-818314": {
+        "logical_bytes": 129168,
+        "allocated_bytes": 129536,
+        "files": 1
+      },
+      "first-round/teacher/B/exp-1107-173758-806531": {
+        "logical_bytes": 104440,
+        "allocated_bytes": 104448,
+        "files": 1
+      },
+      "first-round/teacher/C": {
+        "logical_bytes": 232262,
+        "allocated_bytes": 232448,
+        "files": 2
+      },
+      "first-round/teacher/C/exp-1107-064200-013666": {
+        "logical_bytes": 232262,
+        "allocated_bytes": 232448,
+        "files": 2
+      },
+      "native-prerequisites": {
+        "logical_bytes": 674632440,
+        "allocated_bytes": 674692608,
+        "files": 271
+      },
+      "native-prerequisites/student": {
+        "logical_bytes": 673902482,
+        "allocated_bytes": 673959424,
+        "files": 259
+      },
+      "native-prerequisites/student/A": {
+        "logical_bytes": 301187305,
+        "allocated_bytes": 301220352,
+        "files": 174
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics/rank-0": {
+        "logical_bytes": 3354,
+        "allocated_bytes": 3584,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302": {
+        "logical_bytes": 47442754,
+        "allocated_bytes": 47458304,
+        "files": 113
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/events": {
+        "logical_bytes": 2665178,
+        "allocated_bytes": 2670080,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics": {
+        "logical_bytes": 4779197,
+        "allocated_bytes": 4788224,
+        "files": 93
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics/rank-0": {
+        "logical_bytes": 4779197,
+        "allocated_bytes": 4788224,
+        "files": 93
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-030522-873302/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012": {
+        "logical_bytes": 116917397,
+        "allocated_bytes": 116925440,
+        "files": 28
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/dashboard_columns": {
+        "logical_bytes": 952029,
+        "allocated_bytes": 952320,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/events": {
+        "logical_bytes": 4253828,
+        "allocated_bytes": 4257792,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/rollout_data": {
+        "logical_bytes": 45830567,
+        "allocated_bytes": 45830656,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/train_data": {
+        "logical_bytes": 10814612,
+        "allocated_bytes": 10816000,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-041127-564012/trajectory": {
+        "logical_bytes": 14632490,
+        "allocated_bytes": 14632960,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211": {
+        "logical_bytes": 117263951,
+        "allocated_bytes": 117272064,
+        "files": 28
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/dashboard_columns": {
+        "logical_bytes": 950262,
+        "allocated_bytes": 950272,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/events": {
+        "logical_bytes": 4253939,
+        "allocated_bytes": 4258816,
+        "files": 13
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/rollout_data": {
+        "logical_bytes": 45809447,
+        "allocated_bytes": 45809664,
+        "files": 1
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/train_data": {
+        "logical_bytes": 10807700,
+        "allocated_bytes": 10808832,
+        "files": 4
+      },
+      "native-prerequisites/student/A/exp-1107-055408-748211/trajectory": {
+        "logical_bytes": 14629639,
+        "allocated_bytes": 14629888,
+        "files": 1
+      },
+      "native-prerequisites/student/B": {
+        "logical_bytes": 247926015,
+        "allocated_bytes": 247943680,
+        "files": 58
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864": {
+        "logical_bytes": 116959245,
+        "allocated_bytes": 116967936,
+        "files": 28
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/dashboard_columns": {
+        "logical_bytes": 954505,
+        "allocated_bytes": 954880,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/events": {
+        "logical_bytes": 4253663,
+        "allocated_bytes": 4257792,
+        "files": 13
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/rollout_data": {
+        "logical_bytes": 45857831,
+        "allocated_bytes": 45858304,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/train_data": {
+        "logical_bytes": 10822804,
+        "allocated_bytes": 10824192,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-041127-467864/trajectory": {
+        "logical_bytes": 14636562,
+        "allocated_bytes": 14637056,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957": {
+        "logical_bytes": 117356668,
+        "allocated_bytes": 117365248,
+        "files": 28
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/dashboard_columns": {
+        "logical_bytes": 955511,
+        "allocated_bytes": 955904,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/events": {
+        "logical_bytes": 4253975,
+        "allocated_bytes": 4258816,
+        "files": 13
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/rollout_data": {
+        "logical_bytes": 45869671,
+        "allocated_bytes": 45870080,
+        "files": 1
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/train_data": {
+        "logical_bytes": 10825940,
+        "allocated_bytes": 10826752,
+        "files": 4
+      },
+      "native-prerequisites/student/B/exp-1107-055408-654957/trajectory": {
+        "logical_bytes": 14638455,
+        "allocated_bytes": 14638592,
+        "files": 1
+      },
+      "native-prerequisites/student/C": {
+        "logical_bytes": 124789162,
+        "allocated_bytes": 124795392,
+        "files": 27
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566": {
+        "logical_bytes": 117610455,
+        "allocated_bytes": 117616640,
+        "files": 26
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/dashboard_columns": {
+        "logical_bytes": 958147,
+        "allocated_bytes": 958464,
+        "files": 1
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/events": {
+        "logical_bytes": 4439323,
+        "allocated_bytes": 4442112,
+        "files": 13
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/processor": {
+        "logical_bytes": 19999820,
+        "allocated_bytes": 20000768,
+        "files": 4
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/rollout_data": {
+        "logical_bytes": 45917863,
+        "allocated_bytes": 45918208,
+        "files": 1
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/tokenizer": {
+        "logical_bytes": 19998559,
+        "allocated_bytes": 19999232,
+        "files": 3
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/train_data": {
+        "logical_bytes": 10837730,
+        "allocated_bytes": 10838528,
+        "files": 2
+      },
+      "native-prerequisites/student/C/exp-1107-044223-241566/trajectory": {
+        "logical_bytes": 14644526,
+        "allocated_bytes": 14644736,
+        "files": 1
+      },
+      "native-prerequisites/teacher": {
+        "logical_bytes": 729958,
+        "allocated_bytes": 733184,
+        "files": 12
+      },
+      "native-prerequisites/teacher/A": {
+        "logical_bytes": 251734,
+        "allocated_bytes": 252928,
+        "files": 4
+      },
+      "native-prerequisites/teacher/A/exp-1107-021450-020231": {
+        "logical_bytes": 40123,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-030522-873302": {
+        "logical_bytes": 40021,
+        "allocated_bytes": 40448,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-041127-564012": {
+        "logical_bytes": 86111,
+        "allocated_bytes": 86528,
+        "files": 1
+      },
+      "native-prerequisites/teacher/A/exp-1107-055408-748211": {
+        "logical_bytes": 85479,
+        "allocated_bytes": 85504,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B": {
+        "logical_bytes": 234532,
+        "allocated_bytes": 235520,
+        "files": 4
+      },
+      "native-prerequisites/teacher/B/exp-1107-021450-039035": {
+        "logical_bytes": 36048,
+        "allocated_bytes": 36352,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-030522-896828": {
+        "logical_bytes": 25407,
+        "allocated_bytes": 25600,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-041127-467864": {
+        "logical_bytes": 86663,
+        "allocated_bytes": 87040,
+        "files": 1
+      },
+      "native-prerequisites/teacher/B/exp-1107-055408-654957": {
+        "logical_bytes": 86414,
+        "allocated_bytes": 86528,
+        "files": 1
+      },
+      "native-prerequisites/teacher/C": {
+        "logical_bytes": 243692,
+        "allocated_bytes": 244736,
+        "files": 4
+      },
+      "native-prerequisites/teacher/C/exp-1107-005818-919546": {
+        "logical_bytes": 65008,
+        "allocated_bytes": 65536,
+        "files": 2
+      },
+      "native-prerequisites/teacher/C/exp-1107-044223-241566": {
+        "logical_bytes": 178684,
+        "allocated_bytes": 179200,
+        "files": 2
+      },
+      "population-exp-1106-233008-986003": {
+        "logical_bytes": 870623781,
+        "allocated_bytes": 870624256,
+        "files": 3
+      },
+      "text-loader-probe": {
+        "logical_bytes": 8480456095,
+        "allocated_bytes": 8480462848,
+        "files": 26
+      },
+      "text-loader-probe/exp-1107-083839-053284": {
+        "logical_bytes": 22965733,
+        "allocated_bytes": 22967808,
+        "files": 8
+      },
+      "text-loader-probe/exp-1107-083839-053284/model": {
+        "logical_bytes": 22965733,
+        "allocated_bytes": 22967808,
+        "files": 8
+      },
+      "text-loader-probe/exp-1107-093036-947852": {
+        "logical_bytes": 22965733,
+        "allocated_bytes": 22967808,
+        "files": 8
+      },
+      "text-loader-probe/exp-1107-093036-947852/model": {
+        "logical_bytes": 22965733,
+        "allocated_bytes": 22967808,
+        "files": 8
+      },
+      "text-loader-probe/exp-1107-100927-934443": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "text-loader-probe/exp-1107-100927-934443/model": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      }
+    },
+    "skipped": [],
+    "errors": [],
+    "deleted_files_absent": {
+      "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors": true,
+      "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors": true,
+      "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors": true,
+      "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors": true
+    },
+    "protected_file_count": 29,
+    "protected_immutable_signatures_equal": true,
+    "filesystem": {
+      "total_bytes": 197912092999680,
+      "available_bytes": 3612632961024,
+      "free_bytes": 3612632961024
+    }
+  },
+  "retained_directory_size_comparisons": {
+    "native-prerequisites": {
+      "before": {
+        "logical_bytes": 674632440,
+        "allocated_bytes": 674692608,
+        "files": 271
+      },
+      "after": {
+        "logical_bytes": 674632440,
+        "allocated_bytes": 674692608,
+        "files": 271
+      },
+      "equal": true
+    },
+    "population-exp-1106-233008-986003": {
+      "before": {
+        "logical_bytes": 870623781,
+        "allocated_bytes": 870624256,
+        "files": 3
+      },
+      "after": {
+        "logical_bytes": 870623781,
+        "allocated_bytes": 870624256,
+        "files": 3
+      },
+      "equal": true
+    },
+    "text-loader-probe/exp-1107-100927-934443/model": {
+      "before": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "after": {
+        "logical_bytes": 8434524629,
+        "allocated_bytes": 8434527232,
+        "files": 10
+      },
+      "equal": true
+    },
+    "first-round/student/A/exp-1107-063447-691018": {
+      "before": {
+        "logical_bytes": 158771500,
+        "allocated_bytes": 158793216,
+        "files": 127
+      },
+      "after": {
+        "logical_bytes": 158771500,
+        "allocated_bytes": 158793216,
+        "files": 127
+      },
+      "equal": true
+    },
+    "first-round/student/A/exp-1107-085640-136853": {
+      "before": {
+        "logical_bytes": 116471318,
+        "allocated_bytes": 116477952,
+        "files": 27
+      },
+      "after": {
+        "logical_bytes": 116471318,
+        "allocated_bytes": 116477952,
+        "files": 27
+      },
+      "equal": true
+    },
+    "first-round/student/A/exp-1107-150849-708403": {
+      "before": {
+        "logical_bytes": 41867683,
+        "allocated_bytes": 41874432,
+        "files": 19
+      },
+      "after": {
+        "logical_bytes": 41867683,
+        "allocated_bytes": 41874432,
+        "files": 19
+      },
+      "equal": true
+    },
+    "first-round/student/B/exp-1107-062459-796906": {
+      "before": {
+        "logical_bytes": 158012076,
+        "allocated_bytes": 158031360,
+        "files": 127
+      },
+      "after": {
+        "logical_bytes": 158012076,
+        "allocated_bytes": 158031360,
+        "files": 127
+      },
+      "equal": true
+    },
+    "first-round/student/B/exp-1107-085640-141571": {
+      "before": {
+        "logical_bytes": 43639654,
+        "allocated_bytes": 43644928,
+        "files": 20
+      },
+      "after": {
+        "logical_bytes": 43639654,
+        "allocated_bytes": 43644928,
+        "files": 20
+      },
+      "equal": true
+    },
+    "first-round/student/B/exp-1107-150849-818314": {
+      "before": {
+        "logical_bytes": 189230021,
+        "allocated_bytes": 189252608,
+        "files": 139
+      },
+      "after": {
+        "logical_bytes": 189230021,
+        "allocated_bytes": 189252608,
+        "files": 139
+      },
+      "equal": true
+    },
+    "first-round/student/C/exp-1107-064200-013666": {
+      "before": {
+        "logical_bytes": 171056542,
+        "allocated_bytes": 171075072,
+        "files": 130
+      },
+      "after": {
+        "logical_bytes": 171056542,
+        "allocated_bytes": 171075072,
+        "files": 130
+      },
+      "equal": true
+    }
+  },
+  "local_evidence_sha256_recheck": "PASS: all six retained reports/logs unchanged",
+  "totals": {
+    "files_unlinked": 4,
+    "logical_bytes_unlinked": 16823117792,
+    "reported_allocated_bytes_unlinked": 16823118848,
+    "initial_task_logical_bytes": 27844513085,
+    "remaining_task_logical_bytes": 11226739944,
+    "remaining_task_allocated_bytes": 11226927616,
+    "observed_task_logical_reduction": 16617773141
+  }
+}

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record D19: delegate prompt cleanup of obsolete current-task codesign OSS artifacts with measured space reclamation. |
 | 2026-11-07 | Record D18: move pairs A/B to H200 with a session/task ceiling of32 concurrent non-preemptible H200 GPUs; retain C on H800 and all existing workload budgets. |
 | 2026-11-07 | Record D17: after B publishes one update then fails with output-projection GPU OOM, approve one fresh100-step B restart after capacity repair. |
 | 2026-11-07 | Record D16: raise only C student's effective host-memory limit to1500GiB, preserving normal parameter backups and the approved fresh100-step budget. |
@@ -267,6 +268,14 @@ The selected option preserves the existing parameter backup and optimizer config
 > 由于h800的调度资源限制问题，将task中3个comb中的前2个combs（不含397b的）提交到 h200集群上测试验证，允许本session/task提交 32卡内的不可抢占 rjobs
 
 **Decision D18:** Run pairs A/B on H200, using the handbook's H200/step_main pairing and no more than32 concurrent non-preemptible H200 GPUs for this session/task, including auxiliary allocations. Keep each pair's existing8-GPU student and2-GPU teacher topology, for20 H200 GPUs across both formal jobs. `training_config_h200.json` is the frozen A/B launch manifest derived from the existing H800 configuration; its hardware tag, charged group and capacity ceiling change, and it excludes C. C retains its existing H800/codesign submission and D15/D16 allocation. A retains100 planned positions; B uses the already-approved D17 fresh100. Preserve the selected model identities, population, optimizer, TP, numerical criteria, context, monitoring and HF-only output. This hardware change supersedes the original all-H800 requirement for A/B; it does not certify H200 capacity or authorize extra optimizer probes, further restarts, preemptible work or numerical relaxation. Verify actual H200 runtime and D8 in the submitted runs. The output-lifetime investigation remains independent evidence; its optional diagnostic work does not block this explicitly selected hardware migration.
+
+## Current-task OSS cleanup — authorized
+
+[Original Request]
+
+> ps：及时分派子agent清理在当前task生成的保存在codesign oss上的运行产物，磁盘空间快要达到上限。
+
+**Decision D19:** Delegate timely cleanup of obsolete generated cloud artifacts belonging to this task. Restrict deletion to the task's personal codesign output tree, `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs` (the authorized SSH mount maps it to `/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs`). Verify job ownership and terminal status, preserve active A/B/C paths, frozen inputs/model assets and minimum irreplaceable acceptance/RCA evidence, then remove obsolete regenerable large files. Record exact targets, sizes, retained evidence and measured remaining usage; distinguish logical deletion from physical quota reclamation. This authorizes scoped destructive cleanup, not unrelated task/model deletion or a blanket purge of shared `.trash`. Continue healthy formal jobs concurrently.
 
 ## Execution support authorizations
 

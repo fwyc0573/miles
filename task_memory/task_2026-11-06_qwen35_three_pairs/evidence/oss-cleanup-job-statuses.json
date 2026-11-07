@@ -1,0 +1,219 @@
+{
+  "checked_at": "2026-11-07T09:55:49.260227+00:00",
+  "protected_jobs": [
+    "exp-1107-173758-712234",
+    "exp-1107-173758-806531",
+    "exp-1107-150849-814926"
+  ],
+  "jobs": {
+    "exp-1107-062459-796906": {
+      "phase": "Stopped",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1
+          },
+          "teacher": {
+            "stopped": 1
+          }
+        },
+        "finishTime": "2026-11-06T22:58:31Z"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-b-training/783f1"
+    },
+    "exp-1107-063447-691018": {
+      "phase": "Stopped",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1
+          },
+          "teacher": {
+            "stopped": 1
+          }
+        },
+        "finishTime": "2026-11-06T23:06:55Z"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-a-training/54489"
+    },
+    "exp-1107-064200-013666": {
+      "phase": "Failed",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 2,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T01:12:59Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-c-training/fe5a8"
+    },
+    "exp-1107-085640-136853": {
+      "phase": "Stopped",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T01:28:26Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-a-training/7764b"
+    },
+    "exp-1107-085640-141571": {
+      "phase": "Stopped",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T01:28:19Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-b-training/cbf11"
+    },
+    "exp-1107-150849-708403": {
+      "phase": "Stopped",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T08:23:56Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-a-training/415c5"
+    },
+    "exp-1107-150849-814926": {
+      "phase": "Pending",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-c-training/292cf"
+    },
+    "exp-1107-150849-818314": {
+      "phase": "Failed",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T08:15:18Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-b-training/cb3b6"
+    },
+    "exp-1107-173758-712234": {
+      "phase": "Running",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [teacher,student]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-a-training/b3b10"
+    },
+    "exp-1107-173758-806531": {
+      "phase": "Running",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "creator": "i-fengyicheng",
+      "display_name": "by-qwen35-b-training/b60b9"
+    }
+  }
+}

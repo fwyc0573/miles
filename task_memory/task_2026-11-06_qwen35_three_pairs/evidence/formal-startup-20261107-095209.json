@@ -1,0 +1,149 @@
+{
+  "observed_at": "2026-11-07T09:52:09.326669+00:00",
+  "jobs": {
+    "A": {
+      "job": "exp-1107-173758-712234",
+      "phase": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [teacher,student]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue": {
+        "rjob.brainpp.cn/rjob-queue-approved": "2026-11-07T09:38:11.91417915Z",
+        "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+        "stepmind.com/queue-elem-ranking": "2",
+        "stepmind.com/queue-name": "step-main-default"
+      },
+      "stop": {},
+      "role_devices": {
+        "student": {
+          "job": "exp-1107-173758-712234",
+          "pair": "A",
+          "role": "student",
+          "rank": 0,
+          "nodes": 1,
+          "hostname": "gpu-h200-1192.lgcm.sh.istep.fun",
+          "ip": "10.204.1.56",
+          "gpu_devices": [
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06"
+          ],
+          "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+        }
+      },
+      "teacher_ready_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-712234/A/teacher-ready.json"
+    },
+    "B": {
+      "job": "exp-1107-173758-806531",
+      "phase": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue": {
+        "rjob.brainpp.cn/rjob-queue-approved": "2026-11-07T09:38:04.34110881Z",
+        "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+        "stepmind.com/queue-name": "step-main-default"
+      },
+      "stop": {},
+      "role_devices": {
+        "student": {
+          "job": "exp-1107-173758-806531",
+          "pair": "B",
+          "role": "student",
+          "rank": 0,
+          "nodes": 1,
+          "hostname": "gpu-h200-0107.lgcm.sh.istep.fun",
+          "ip": "10.204.14.5",
+          "gpu_devices": [
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06",
+            "NVIDIA H200, 143771 MiB, 570.124.06"
+          ],
+          "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+        }
+      },
+      "teacher_ready_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-806531/B/teacher-ready.json"
+    },
+    "C": {
+      "job": "exp-1107-150849-814926",
+      "phase": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue": {
+        "rjob.brainpp.cn/rjob-queue-approved": "",
+        "stepmind.com/queue-elem-ranking": "2",
+        "stepmind.com/queue-name": "codesign-default",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=14."
+      },
+      "stop": {},
+      "role_devices": {}
+    }
+  },
+  "launchers": [
+    {
+      "pid": 1049054,
+      "pair": "B",
+      "config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json",
+      "cwd": "/data/ycfeng"
+    },
+    {
+      "pid": 1049059,
+      "pair": "A",
+      "config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json",
+      "cwd": "/data/ycfeng"
+    },
+    {
+      "pid": 3578129,
+      "pair": "C",
+      "config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json",
+      "cwd": "/data/ycfeng"
+    }
+  ]
+}
