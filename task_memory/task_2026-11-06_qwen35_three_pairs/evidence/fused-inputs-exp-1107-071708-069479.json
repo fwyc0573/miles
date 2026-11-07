@@ -1,0 +1,474 @@
+{
+  "python": "3.12.16",
+  "torch": "2.14.1+cu130",
+  "transformers": "5.19.0",
+  "cuda_devices": [
+    "NVIDIA H800",
+    "NVIDIA H800"
+  ],
+  "gpu_evidence": "NVIDIA H800, GPU-6b799573-390c-de0b-01b5-d71a8676f0a5, 81559 MiB\nNVIDIA H800, GPU-5c09fccf-4a5f-ec7a-9d2a-527deb7224c9, 81559 MiB\n",
+  "retained_batches": {
+    "A": {
+      "path": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-063447-691018/rollout_data/0.pt",
+      "rollout_id": 0,
+      "count": 8,
+      "samples": [
+        {
+          "index": 0,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:132:190",
+          "total_length": 96330,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 88138,
+                  "abs_end": 96330
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 88138
+                }
+              ],
+              "output_start": 88138,
+              "prompt_tokens": 88138
+            }
+          ],
+          "teacher_input_logprob_count": 96330
+        },
+        {
+          "index": 1,
+          "source_uid": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662:421:208",
+          "total_length": 97154,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 88962,
+                  "abs_end": 97154
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 88962
+                }
+              ],
+              "output_start": 88962,
+              "prompt_tokens": 88962
+            }
+          ],
+          "teacher_input_logprob_count": 97154
+        },
+        {
+          "index": 2,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:48:212",
+          "total_length": 74497,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 66305,
+                  "abs_end": 74497
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 66305
+                }
+              ],
+              "output_start": 66305,
+              "prompt_tokens": 66305
+            }
+          ],
+          "teacher_input_logprob_count": 74497
+        },
+        {
+          "index": 3,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:25:166",
+          "total_length": 67202,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 59010,
+                  "abs_end": 67202
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 59010
+                }
+              ],
+              "output_start": 59010,
+              "prompt_tokens": 59010
+            }
+          ],
+          "teacher_input_logprob_count": 67202
+        },
+        {
+          "index": 4,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:420:120",
+          "total_length": 69721,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 61529,
+                  "abs_end": 69721
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 61529
+                }
+              ],
+              "output_start": 61529,
+              "prompt_tokens": 61529
+            }
+          ],
+          "teacher_input_logprob_count": 69721
+        },
+        {
+          "index": 5,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:343:100",
+          "total_length": 71306,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 63114,
+                  "abs_end": 71306
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 63114
+                }
+              ],
+              "output_start": 63114,
+              "prompt_tokens": 63114
+            }
+          ],
+          "teacher_input_logprob_count": 71306
+        },
+        {
+          "index": 6,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:6:206",
+          "total_length": 93862,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 85670,
+                  "abs_end": 93862
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 85670
+                }
+              ],
+              "output_start": 85670,
+              "prompt_tokens": 85670
+            }
+          ],
+          "teacher_input_logprob_count": 93862
+        },
+        {
+          "index": 7,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:18:184",
+          "total_length": 92706,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 84514,
+                  "abs_end": 92706
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 84514
+                }
+              ],
+              "output_start": 84514,
+              "prompt_tokens": 84514
+            }
+          ],
+          "teacher_input_logprob_count": 92706
+        }
+      ]
+    },
+    "B": {
+      "path": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/rollout_data/0.pt",
+      "rollout_id": 0,
+      "count": 8,
+      "samples": [
+        {
+          "index": 0,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:132:190",
+          "total_length": 96330,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 88138,
+                  "abs_end": 96330
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 88138
+                }
+              ],
+              "output_start": 88138,
+              "prompt_tokens": 88138
+            }
+          ],
+          "teacher_input_logprob_count": 96330
+        },
+        {
+          "index": 1,
+          "source_uid": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662:421:208",
+          "total_length": 97154,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 88962,
+                  "abs_end": 97154
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 88962
+                }
+              ],
+              "output_start": 88962,
+              "prompt_tokens": 88962
+            }
+          ],
+          "teacher_input_logprob_count": 97154
+        },
+        {
+          "index": 2,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:48:212",
+          "total_length": 74497,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 66305,
+                  "abs_end": 74497
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 66305
+                }
+              ],
+              "output_start": 66305,
+              "prompt_tokens": 66305
+            }
+          ],
+          "teacher_input_logprob_count": 74497
+        },
+        {
+          "index": 3,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:25:166",
+          "total_length": 67202,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 59010,
+                  "abs_end": 67202
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 59010
+                }
+              ],
+              "output_start": 59010,
+              "prompt_tokens": 59010
+            }
+          ],
+          "teacher_input_logprob_count": 67202
+        },
+        {
+          "index": 4,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:420:120",
+          "total_length": 69721,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 61529,
+                  "abs_end": 69721
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 61529
+                }
+              ],
+              "output_start": 61529,
+              "prompt_tokens": 61529
+            }
+          ],
+          "teacher_input_logprob_count": 69721
+        },
+        {
+          "index": 5,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:343:100",
+          "total_length": 71306,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 63114,
+                  "abs_end": 71306
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 63114
+                }
+              ],
+              "output_start": 63114,
+              "prompt_tokens": 63114
+            }
+          ],
+          "teacher_input_logprob_count": 71306
+        },
+        {
+          "index": 6,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:6:206",
+          "total_length": 93862,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 85670,
+                  "abs_end": 93862
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 85670
+                }
+              ],
+              "output_start": 85670,
+              "prompt_tokens": 85670
+            }
+          ],
+          "teacher_input_logprob_count": 93862
+        },
+        {
+          "index": 7,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:18:184",
+          "total_length": 92706,
+          "response_length": 8192,
+          "loss_mask": null,
+          "weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 84514,
+                  "abs_end": 92706
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 84514
+                }
+              ],
+              "output_start": 84514,
+              "prompt_tokens": 84514
+            }
+          ],
+          "teacher_input_logprob_count": 92706
+        }
+      ]
+    }
+  }
+}

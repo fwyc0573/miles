@@ -202,7 +202,7 @@ def _training_args(args, run: Path) -> str:
         "--pipeline-model-parallel-size 1 --context-parallel-size 1 --expert-model-parallel-size 1 "
         "--expert-tensor-parallel-size 1 --recompute-granularity full --recompute-method uniform --recompute-num-layers 1 "
         f"--use-dynamic-batch-size --max-tokens-per-gpu {args.max_tokens_per_gpu} --seq-length {CONTEXT_TOKENS} "
-        "--linear-attention-backend fla --linear-attention-input-norm te"
+        "--linear-attention-backend fla --linear-attention-input-norm te --log-probs-backend fused"
     )
     # MisConfig owns the false defaults for use_rs and tis_batch_normalize.
     # Its native parser only exposes enabling flags; neither is passed here.

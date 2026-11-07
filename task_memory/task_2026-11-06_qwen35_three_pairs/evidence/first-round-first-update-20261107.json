@@ -1,0 +1,295 @@
+{
+  "A": {
+    "run_dir": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-063447-691018",
+    "log_path": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-063447-691018.log",
+    "log_exists": true,
+    "log_bytes": 1667303,
+    "stage_lines": [
+      {
+        "line": 2214,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 22:46:52.844 actor_cell00000_rank00000] timer.py:33 - Timer train_wait start"
+      }
+    ],
+    "updates": [
+      {
+        "timestamp": "2026-11-06T22:47:52.084686Z",
+        "source": {
+          "component": "trainer_controller",
+          "trainer_id": "actor",
+          "model_id": null
+        },
+        "type": "weight_update_result",
+        "debug_weight_update_id": "a051a103f0564e3d92278f75f4c1b7b3",
+        "debug_trainer_load_state_timestamp": 1794004826.6945753,
+        "rollout_id": null,
+        "candidate_version": 0,
+        "published_version": 0,
+        "snapshot_cell_id_to_hashes": {
+          "inference-engine-all-0-0-00000": "pseudo-hash-1",
+          "inference-engine-all-0-0-00001": "pseudo-hash-1",
+          "inference-engine-all-0-0-00002": "pseudo-hash-1",
+          "inference-engine-all-0-0-00003": "pseudo-hash-1"
+        },
+        "updated_cell_ids": [
+          "inference-engine-all-0-0-00000",
+          "inference-engine-all-0-0-00001",
+          "inference-engine-all-0-0-00002",
+          "inference-engine-all-0-0-00003"
+        ],
+        "failed_cell_ids": []
+      }
+    ],
+    "steps": [],
+    "rollout_files": [
+      "eval_0.pt"
+    ]
+  },
+  "B": {
+    "run_dir": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906",
+    "log_path": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906.log",
+    "log_exists": true,
+    "log_bytes": 6652130,
+    "stage_lines": [
+      {
+        "line": 3315,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step("
+      },
+      {
+        "line": 3329,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.73 GiB. GPU 5 has a total capacity of 79.19 GiB of which 13.17 GiB is free. Including non-PyTorch memory, this process has 64.39 GiB memory in use. Process 10103 has 1.59 GiB memory in use. Of the allocated memory 43.76 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.18 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+      },
+      {
+        "line": 3344,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7980)\u001b[0m [2026-11-06 22:57:50.627 actor_cell00000_rank00000] timer.py:44 - Timer train end (elapsed: 20.1s)"
+      },
+      {
+        "line": 3345,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7980)\u001b[0m [2026-11-06 22:57:50.627 actor_cell00000_rank00000] timer.py:33 - Timer train_wait start"
+      },
+      {
+        "line": 3418,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8038)\u001b[0m [rank7]:[W1106 22:57:50.033501366 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 6 while trying to allocate 24157093888 bytes (free: 14090502144, total: 85029158912).\u001b[32m [repeated 13x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3445,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m     train_step_outcome = train(\u001b[32m [repeated 12x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3448,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step(\u001b[32m [repeated 12x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3461,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.49 GiB. GPU 0 has a total capacity of 79.19 GiB of which 12.81 GiB is free. Including non-PyTorch memory, this process has 64.75 GiB memory in use. Process 10096 has 1.60 GiB memory in use. Of the allocated memory 43.48 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.82 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)\u001b[32m [repeated 12x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3564,
+        "text": "    train_step_outcome = train("
+      },
+      {
+        "line": 3567,
+        "text": "    loss_dict, grad_norm, train_step_outcome = train_one_step("
+      },
+      {
+        "line": 3581,
+        "text": "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.49 GiB. GPU 0 has a total capacity of 79.19 GiB of which 12.81 GiB is free. Including non-PyTorch memory, this process has 64.75 GiB memory in use. Process 10096 has 1.60 GiB memory in use. Of the allocated memory 43.48 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.82 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+      },
+      {
+        "line": 3608,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8038)\u001b[0m [torch_memory_saver.cpp] TorchMemorySaver::malloc return OOM since memory_margin_bytes=1073741824 allocation_size=24157093888 free_bytes=14090502144\u001b[32m [repeated 13x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3616,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m     train_step_outcome = train("
+      },
+      {
+        "line": 3619,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step("
+      },
+      {
+        "line": 3632,
+        "text": "\u001b[36m(TrainerController pid=7310)\u001b[0m torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.49 GiB. GPU 0 has a total capacity of 79.19 GiB of which 12.81 GiB is free. Including non-PyTorch memory, this process has 64.75 GiB memory in use. Process 10096 has 1.60 GiB memory in use. Of the allocated memory 43.48 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.82 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+      }
+    ],
+    "first_oom_excerpt": [
+      {
+        "line": 3299,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7988)\u001b[0m /data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor)."
+      },
+      {
+        "line": 3300,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7988)\u001b[0m   torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),"
+      },
+      {
+        "line": 3301,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m [2026-11-06 22:57:44.541 actor_cell00000_rank00005] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=_compute_log_prob phase=end ok=true elapsed_s=13.9\u001b[32m [repeated 2x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3302,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7980)\u001b[0m [torch_memory_saver.cpp] TorchMemorySaver::malloc return OOM since memory_margin_bytes=1073741824 allocation_size=23077060608 free_bytes=13375373312"
+      },
+      {
+        "line": 3303,
+        "text": "\u001b[36m(CommandActor pid=7309)\u001b[0m [2026-11-06 22:57:27] INFO:     10.191.4.32:60342 - \"GET /flush_cache HTTP/1.1\" 200 OK\u001b[32m [repeated 3x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3304,
+        "text": "\u001b[36m(CommandActor pid=7309)\u001b[0m [2026-11-06 22:57:28] INFO:     10.191.4.32:60342 - \"POST /release_memory_occupation HTTP/1.1\" 200 OK\u001b[32m [repeated 3x across cluster]\u001b[0m"
+      },
+      {
+        "line": 3305,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=7980)\u001b[0m [rank0]:[W1106 22:57:50.554974250 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 23077060608 bytes (free: 13375373312, total: 85029158912)."
+      },
+      {
+        "line": 3306,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m [2026-11-06 22:57:50.626 actor_cell00000_rank00005] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=_train_actor phase=end ok=false elapsed_s=20.0"
+      },
+      {
+        "line": 3307,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m Traceback (most recent call last):"
+      },
+      {
+        "line": 3308,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper"
+      },
+      {
+        "line": 3309,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     result = func(*args, **kwargs)"
+      },
+      {
+        "line": 3310,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m              ^^^^^^^^^^^^^^^^^^^^^"
+      },
+      {
+        "line": 3311,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 970, in _train_actor"
+      },
+      {
+        "line": 3312,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     train_step_outcome = train("
+      },
+      {
+        "line": 3313,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m                          ^^^^^^"
+      },
+      {
+        "line": 3314,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 833, in train"
+      },
+      {
+        "line": 3315,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step("
+      },
+      {
+        "line": 3316,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m                                                ^^^^^^^^^^^^^^^"
+      },
+      {
+        "line": 3317,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 605, in train_one_step"
+      },
+      {
+        "line": 3318,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     losses_reduced = run_forward_backward_pass("
+      },
+      {
+        "line": 3319,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m                      ^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      },
+      {
+        "line": 3320,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 564, in run_forward_backward_pass"
+      },
+      {
+        "line": 3321,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     return forward_backward_func("
+      },
+      {
+        "line": 3322,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m            ^^^^^^^^^^^^^^^^^^^^^^"
+      },
+      {
+        "line": 3323,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 780, in forward_backward_no_pipelining"
+      },
+      {
+        "line": 3324,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     backward_step(input_tensor, output_tensor, output_tensor_grad, config)"
+      },
+      {
+        "line": 3325,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 574, in backward_step"
+      },
+      {
+        "line": 3326,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     custom_backward(output_tensor[0], output_tensor_grad[0])"
+      },
+      {
+        "line": 3327,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 220, in custom_backward"
+      },
+      {
+        "line": 3328,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m     Variable._execution_engine.run_backward("
+      },
+      {
+        "line": 3329,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8034)\u001b[0m torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.73 GiB. GPU 5 has a total capacity of 79.19 GiB of which 13.17 GiB is free. Including non-PyTorch memory, this process has 64.39 GiB memory in use. Process 10103 has 1.59 GiB memory in use. Of the allocated memory 43.76 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.18 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+      },
+      {
+        "line": 3330,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8036)\u001b[0m     custom_backward(output_tensor[0], output_tensor_grad[0])"
+      },
+      {
+        "line": 3331,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8038)\u001b[0m     custom_backward(output_tensor[0], output_tensor_grad[0])"
+      },
+      {
+        "line": 3332,
+        "text": "\u001b[36m(MegatronTrainRayActor pid=8038)\u001b[0m [2026-11-06 22:57:50.627 actor_cell00000_rank00007] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=train phase=end ok=false elapsed_s=21.9"
+      }
+    ],
+    "updates": [
+      {
+        "timestamp": "2026-11-06T22:41:10.423511Z",
+        "source": {
+          "component": "trainer_controller",
+          "trainer_id": "actor",
+          "model_id": null
+        },
+        "type": "weight_update_result",
+        "debug_weight_update_id": "23ddbdc70bcc42adb39e8419c65c50ef",
+        "debug_trainer_load_state_timestamp": 1794004529.189513,
+        "rollout_id": null,
+        "candidate_version": 0,
+        "published_version": 0,
+        "snapshot_cell_id_to_hashes": {
+          "inference-engine-all-0-0-00000": "pseudo-hash-1",
+          "inference-engine-all-0-0-00001": "pseudo-hash-1",
+          "inference-engine-all-0-0-00002": "pseudo-hash-1",
+          "inference-engine-all-0-0-00003": "pseudo-hash-1"
+        },
+        "updated_cell_ids": [
+          "inference-engine-all-0-0-00000",
+          "inference-engine-all-0-0-00001",
+          "inference-engine-all-0-0-00002",
+          "inference-engine-all-0-0-00003"
+        ],
+        "failed_cell_ids": []
+      }
+    ],
+    "steps": [],
+    "rollout_files": [
+      "0.pt",
+      "eval_0.pt"
+    ]
+  },
+  "C": {
+    "run_dir": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-064200-013666",
+    "log_path": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-064200-013666.log",
+    "log_exists": false,
+    "updates": [],
+    "steps": [],
+    "rollout_files": []
+  }
+}

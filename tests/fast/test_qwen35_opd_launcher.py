@@ -39,6 +39,7 @@ from tests.manual.agent_opd import qwen_alignment, run_qwen35_opd as launcher
 from miles.utils.args.configs.algo import AlgoConfig
 from miles.utils.args.configs.data import DataConfig
 from miles.utils.args.configs.eval import EvalConfig
+from miles.utils.args.configs.train import TrainConfig
 from miles.utils.arguments import (
     _resolve_sample_ownership_check,
     _validate_rematerialize_param_from_master_weight,
@@ -126,6 +127,7 @@ def test_native_command_utils_composes_full_student_and_external_teacher(monkeyp
         "--opd-log-prob-top-k": "0", "--opd-kl-coef": "1", "--tis-level": "token", "--tis-mode": "mask",
         "--tis-lower-bound": "0.5", "--tis-upper-bound": "2", "--eps-clip": "0.2", "--eps-clip-high": "0.28",
         "--entropy-coef": "0", "--num-gpus-per-node": "8", "--actor-num-gpus-per-node": "8",
+        "--log-probs-backend": "fused",
     }
     if num_rollout:
         expected.update({
@@ -155,7 +157,7 @@ def test_required_capacity_inputs_have_no_inherited_token_default():
 
 def test_native_false_defaults_and_baseline_eval_are_verified_not_guessed():
     parser = argparse.ArgumentParser()
-    for cls in (MisConfig, AlgoConfig, DataConfig, EvalConfig):
+    for cls in (MisConfig, AlgoConfig, DataConfig, EvalConfig, TrainConfig):
         cls.add_arguments(parser)
     flags = _flags(shlex.split(launcher._training_args(_args(), Path("/run"))))
     known_options = parser._option_string_actions
@@ -166,6 +168,7 @@ def test_native_false_defaults_and_baseline_eval_are_verified_not_guessed():
     assert parsed.use_rollout_logprobs is False and parsed.normalize_advantages is False
     assert parsed.skip_eval_before_train is False and parsed.apply_chat_template is False
     assert parsed.eval_train_log_probs is True
+    assert parsed.log_probs_backend == "fused" and parsed.recompute_loss_function is False
 
 
 def test_native_parser_accepts_sglang_and_custom_mis_flags(monkeypatch):

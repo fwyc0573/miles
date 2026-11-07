@@ -1,0 +1,1088 @@
+{
+  "task_id": "QWEN-P3-LOSS-MEMORY-PROBE",
+  "numerical_status": "PASS",
+  "ranks": [
+    {
+      "task_id": "QWEN-P3-LOSS-MEMORY-PROBE",
+      "python": "3.12.16",
+      "executable": "/opt/sglang/bin/python3",
+      "torch": "2.14.1+cu130",
+      "cuda_build": "13.0",
+      "argv": [
+        "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_qwen35_loss_memory.py",
+        "--rollout-data",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/rollout_data/0.pt",
+        "--sample-index",
+        "7",
+        "--launch-receipt",
+        "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-062459-796906/launch.json",
+        "--padded-vocab-size",
+        "248320",
+        "--data-pad-size-multiplier",
+        "128",
+        "--gradient-chunk-rows",
+        "64",
+        "--trace-allocations",
+        "--report",
+        "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/loss-memory-exp-1107-074344-969435.json"
+      ],
+      "rollout_data": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/rollout_data/0.pt",
+      "launch_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-062459-796906/launch.json",
+      "launch_source_commit": "4792c0e3921e603d26341fcb41056d89efb94917",
+      "resolved_args": {
+        "tensor_model_parallel_size": 2,
+        "context_parallel_size": 1,
+        "vocab_size": 248320,
+        "rollout_temperature": 1.0,
+        "seed": 42,
+        "qkv_format": "thd",
+        "allgather_cp": false,
+        "true_on_policy_mode": false,
+        "recompute_loss_function": false,
+        "log_probs_chunk_size": -1,
+        "log_probs_backend": "torch",
+        "loss_type": "policy_loss",
+        "entropy_coef": 0.0,
+        "observe_training_entropy": false,
+        "data_pad_size_multiplier": 128
+      },
+      "native_default_provenance": {
+        "qkv_format": "TrainConfig.qkv_format native default",
+        "allgather_cp": "TrainConfig.allgather_cp native default",
+        "true_on_policy_mode": "TrainConfig.true_on_policy_mode native default",
+        "recompute_loss_function": "TrainConfig.recompute_loss_function native default",
+        "log_probs_chunk_size": "TrainConfig.log_probs_chunk_size native default",
+        "log_probs_backend": "TrainConfig.log_probs_backend native default",
+        "loss_type": "AlgoConfig.loss_type native default",
+        "entropy_coef": "launch argv",
+        "observe_training_entropy": "AlgoConfig.observe_training_entropy native default"
+      },
+      "padded_vocab_size": 248320,
+      "tolerances": {
+        "logprob": {
+          "rtol": 1e-05,
+          "atol": 2e-05
+        },
+        "gradient": {
+          "rtol": 0.02,
+          "atol": 0.005
+        },
+        "source": [
+          "tests/fast-gpu/test_fused_log_probs_in_losses.py:33-36,146-148",
+          "tests/fast-gpu/test_fused_log_probs.py:305,309"
+        ]
+      },
+      "scope": "CUDA-only TP2/CP1/thd loss-seam diagnostic; never loads a model or an optimizer.\n\nRun in the pinned worker image from the repository root with torchrun --standalone\n--nproc-per-node=2 --module tests.manual.agent_opd.probe_qwen35_loss_memory.\nSupply --rollout-data, --sample-index, --launch-receipt, --padded-vocab-size,\n--data-pad-size-multiplier, --gradient-chunk-rows, and --report. The two geometry\nvalues not present in launch.json must come from the native resolved configuration.\n--geometry-only runs native packing on CPU, without CUDA or distributed startup.\n\nThe objective is the negative SUM of retained, masked response log-probs, not the\nformal OPD/TIS objective. Logits are reproducible standard-normal BF16 shards, not\nreal model outputs. autograd.grad measures the gradient at the model-output seam:\nno artificial leaf .grad buffer, model backward, optimizer, or update is measured.\nThe torch input is released before fused; only its BF16 gradient remains on GPU.\nNo full gradient is copied to CPU. An OOM reference gives numerical INCOMPLETE\n(exit 2), never PASS; other failed checks give exit 1. GPU exit 0 requires both ranks.\n",
+      "backends": [
+        {
+          "backend": "torch",
+          "status": "completed",
+          "retained_reference_gradient_bytes": 0,
+          "memory": {
+            "before_input": {
+              "allocated_bytes": 1890816,
+              "reserved_bytes": 4194304,
+              "peak_allocated_bytes": 1890816,
+              "peak_reserved_bytes": 4194304,
+              "inactive_split_bytes": 2303488,
+              "peak_inactive_split_bytes": 2303488,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 83692158976,
+              "device_total_bytes": 85029158912
+            },
+            "after_input": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60615098368,
+              "device_total_bytes": 85029158912
+            },
+            "before_forward": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60615098368,
+              "device_total_bytes": 85029158912
+            },
+            "after_forward": {
+              "allocated_bytes": 27146353664,
+              "reserved_bytes": 27149729792,
+              "peak_allocated_bytes": 27146484224,
+              "peak_reserved_bytes": 27149729792,
+              "inactive_split_bytes": 3376128,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 56544526336,
+              "device_total_bytes": 85029158912
+            },
+            "before_backward": {
+              "allocated_bytes": 27146353664,
+              "reserved_bytes": 27149729792,
+              "peak_allocated_bytes": 27146353664,
+              "peak_reserved_bytes": 27149729792,
+              "inactive_split_bytes": 3376128,
+              "peak_inactive_split_bytes": 3376128,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 56544526336,
+              "device_total_bytes": 85029158912
+            },
+            "after_backward": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 73249325056,
+              "peak_allocated_bytes": 69229567488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 4019757568,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 10444931072,
+              "device_total_bytes": 85029158912
+            },
+            "after_validation": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 73249325056,
+              "peak_allocated_bytes": 46280831488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 2035017728,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 10442833920,
+              "device_total_bytes": 85029158912
+            },
+            "after_release_and_empty_cache": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 46280831488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 2035017728,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60610904064,
+              "device_total_bytes": 85029158912
+            }
+          },
+          "large_allocation_operators": [
+            {
+              "operator": "aten._to_copy.default",
+              "inputs": [
+                {
+                  "shape": [
+                    8192,
+                    124160
+                  ],
+                  "dtype": "torch.bfloat16",
+                  "device": "cuda:0"
+                }
+              ],
+              "kwargs": {
+                "dtype": "torch.float32"
+              },
+              "outputs": {
+                "shape": [
+                  8192,
+                  124160
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:0"
+              },
+              "allocated_delta_bytes": 4068474880
+            },
+            {
+              "operator": "aten._to_copy.default",
+              "inputs": [
+                {
+                  "shape": [
+                    8192,
+                    124160
+                  ],
+                  "dtype": "torch.float32",
+                  "device": "cuda:0"
+                }
+              ],
+              "kwargs": {
+                "dtype": "torch.bfloat16",
+                "layout": "torch.strided",
+                "device": "cuda:0"
+              },
+              "outputs": {
+                "shape": [
+                  8192,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:0"
+              },
+              "allocated_delta_bytes": 2034237440
+            },
+            {
+              "operator": "aten.zeros.default",
+              "inputs": [
+                [
+                  84513,
+                  124160
+                ]
+              ],
+              "kwargs": {
+                "dtype": "torch.bfloat16",
+                "layout": "torch.strided",
+                "device": "cuda:0"
+              },
+              "outputs": {
+                "shape": [
+                  84513,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:0"
+              },
+              "allocated_delta_bytes": 20986268160
+            },
+            {
+              "operator": "aten.cat.default",
+              "inputs": [
+                [
+                  {
+                    "shape": [
+                      84513,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:0"
+                  },
+                  {
+                    "shape": [
+                      8192,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:0"
+                  },
+                  {
+                    "shape": [
+                      223,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:0"
+                  }
+                ]
+              ],
+              "kwargs": {},
+              "outputs": {
+                "shape": [
+                  92928,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:0"
+              },
+              "allocated_delta_bytes": 23075880960
+            }
+          ],
+          "input_storage_bytes": 23075880960,
+          "allocation_trace": {
+            "enabled": true,
+            "threshold_bytes": 2034237440,
+            "coverage": "Eager ATen allocation deltas/inputs; not Triton/NCCL internals; no tensor references retained"
+          },
+          "leaf_grad_allocated": false,
+          "gradient_aliases_logits": false,
+          "gradient_shape": [
+            1,
+            92928,
+            124160
+          ],
+          "gradient_dtype": "torch.bfloat16",
+          "gradient_matches_input_geometry": true,
+          "loss": 105696.40625,
+          "logprobs_finite": true,
+          "response_logprob_count": 8192,
+          "logprob_parity": null,
+          "gradient_checks": {
+            "elements": 11537940480,
+            "nonfinite": 0,
+            "max_abs": 1.0,
+            "squared_norm": 4071.044838522572,
+            "unscored_nonzero": 0,
+            "unscored_row_ranges": [
+              [
+                0,
+                84513
+              ],
+              [
+                92705,
+                92928
+              ]
+            ],
+            "prefix_gradient_definition": "Unscored prefix logits rows are zero; the last prefix row predicts the first response token and is scored. Terminal/padding rows must also be zero.",
+            "prefix_gradient_zero": true,
+            "finite": true,
+            "full_gradient_parity": null
+          },
+          "peak_allocated_bytes": 69229567488,
+          "peak_allocated_excluding_retained_reference_bytes": 69229567488,
+          "measurement": "Synthetic BF16 model-output leaf -> native logprob seam -> autograd.grad; validation excluded from backend peak"
+        },
+        {
+          "backend": "fused",
+          "status": "completed",
+          "retained_reference_gradient_bytes": 23075880960,
+          "memory": {
+            "before_input": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60610904064,
+              "device_total_bytes": 85029158912
+            },
+            "after_input": {
+              "allocated_bytes": 46153652736,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153652736,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4662784,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "before_forward": {
+              "allocated_bytes": 46153652736,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153652736,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4662784,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_forward": {
+              "allocated_bytes": 46153948160,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46154152448,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4367360,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "before_backward": {
+              "allocated_bytes": 46153948160,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153948160,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4367360,
+              "peak_inactive_split_bytes": 4367360,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_backward": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46154075136,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 4629504,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_validation": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 46397390848,
+              "peak_allocated_bytes": 46320562688,
+              "peak_reserved_bytes": 46397390848,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 67445760,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37294768128,
+              "device_total_bytes": 85029158912
+            },
+            "after_release_and_empty_cache": {
+              "allocated_bytes": 1890816,
+              "reserved_bytes": 4194304,
+              "peak_allocated_bytes": 46320562688,
+              "peak_reserved_bytes": 46397390848,
+              "inactive_split_bytes": 2303488,
+              "peak_inactive_split_bytes": 67445760,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 83687964672,
+              "device_total_bytes": 85029158912
+            }
+          },
+          "large_allocation_operators": [],
+          "input_storage_bytes": 23075880960,
+          "allocation_trace": {
+            "enabled": true,
+            "threshold_bytes": 2034237440,
+            "coverage": "Eager ATen allocation deltas/inputs; not Triton/NCCL internals; no tensor references retained"
+          },
+          "leaf_grad_allocated": false,
+          "gradient_aliases_logits": true,
+          "gradient_shape": [
+            1,
+            92928,
+            124160
+          ],
+          "gradient_dtype": "torch.bfloat16",
+          "gradient_matches_input_geometry": true,
+          "loss": 105696.40625,
+          "logprobs_finite": true,
+          "response_logprob_count": 8192,
+          "logprob_parity": {
+            "elements": 8192,
+            "mismatches": 0,
+            "nonfinite": 0,
+            "max_abs_error": 9.5367431640625e-07,
+            "sum_abs_error": 0.0002899169921875
+          },
+          "gradient_checks": {
+            "elements": 11537940480,
+            "nonfinite": 0,
+            "max_abs": 1.0,
+            "squared_norm": 4071.0448385281234,
+            "unscored_nonzero": 0,
+            "unscored_row_ranges": [
+              [
+                0,
+                84513
+              ],
+              [
+                92705,
+                92928
+              ]
+            ],
+            "prefix_gradient_definition": "Unscored prefix logits rows are zero; the last prefix row predicts the first response token and is scored. Terminal/padding rows must also be zero.",
+            "prefix_gradient_zero": true,
+            "finite": true,
+            "full_gradient_parity": {
+              "elements": 11537940480,
+              "mismatches": 0,
+              "nonfinite": 0,
+              "max_abs_error": 9.5367431640625e-07,
+              "sum_abs_error": 0.0014967729803174734,
+              "passed": true
+            }
+          },
+          "peak_allocated_bytes": 46154152448,
+          "peak_allocated_excluding_retained_reference_bytes": 23078271488,
+          "measurement": "Synthetic BF16 model-output leaf -> native logprob seam -> autograd.grad; validation excluded from backend peak"
+        }
+      ],
+      "rank": 0,
+      "gpu": "NVIDIA H800",
+      "gpu_total_bytes": 85029158912,
+      "allocator_config": null,
+      "allocator_backend": "native",
+      "ld_preload": null,
+      "logits_seed": 42,
+      "gradient_chunk_rows": 64,
+      "sample": {
+        "rollout_id": 0,
+        "sample_index": 7,
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:18:184",
+        "total_length": 92706,
+        "response_length": 8192,
+        "mask_nonzero": 8192,
+        "padded_tokens": 92928,
+        "cu_seqlens_host": [
+          0,
+          92706,
+          92928
+        ],
+        "response_row_ranges": [
+          [
+            84513,
+            92705
+          ]
+        ]
+      },
+      "shape": [
+        1,
+        92928,
+        124160
+      ],
+      "dtype": "torch.bfloat16",
+      "numerical_status": "PASS",
+      "memory_comparison": {
+        "torch_peak_allocated_excluding_reference_bytes": 69229567488,
+        "fused_peak_allocated_excluding_reference_bytes": 23078271488,
+        "reduction_bytes": 46151296000,
+        "reduction_fraction": 0.6666414030103496,
+        "both_backends_completed": true,
+        "caveat": "Subtracts only live BF16 reference-gradient bytes from allocated peaks; raw reserved/fragmentation remain recorded. An OOM peak is not a completed torch requirement."
+      }
+    },
+    {
+      "task_id": "QWEN-P3-LOSS-MEMORY-PROBE",
+      "python": "3.12.16",
+      "executable": "/opt/sglang/bin/python3",
+      "torch": "2.14.1+cu130",
+      "cuda_build": "13.0",
+      "argv": [
+        "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_qwen35_loss_memory.py",
+        "--rollout-data",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/rollout_data/0.pt",
+        "--sample-index",
+        "7",
+        "--launch-receipt",
+        "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-062459-796906/launch.json",
+        "--padded-vocab-size",
+        "248320",
+        "--data-pad-size-multiplier",
+        "128",
+        "--gradient-chunk-rows",
+        "64",
+        "--trace-allocations",
+        "--report",
+        "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/loss-memory-exp-1107-074344-969435.json"
+      ],
+      "rollout_data": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-062459-796906/rollout_data/0.pt",
+      "launch_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-062459-796906/launch.json",
+      "launch_source_commit": "4792c0e3921e603d26341fcb41056d89efb94917",
+      "resolved_args": {
+        "tensor_model_parallel_size": 2,
+        "context_parallel_size": 1,
+        "vocab_size": 248320,
+        "rollout_temperature": 1.0,
+        "seed": 42,
+        "qkv_format": "thd",
+        "allgather_cp": false,
+        "true_on_policy_mode": false,
+        "recompute_loss_function": false,
+        "log_probs_chunk_size": -1,
+        "log_probs_backend": "torch",
+        "loss_type": "policy_loss",
+        "entropy_coef": 0.0,
+        "observe_training_entropy": false,
+        "data_pad_size_multiplier": 128
+      },
+      "native_default_provenance": {
+        "qkv_format": "TrainConfig.qkv_format native default",
+        "allgather_cp": "TrainConfig.allgather_cp native default",
+        "true_on_policy_mode": "TrainConfig.true_on_policy_mode native default",
+        "recompute_loss_function": "TrainConfig.recompute_loss_function native default",
+        "log_probs_chunk_size": "TrainConfig.log_probs_chunk_size native default",
+        "log_probs_backend": "TrainConfig.log_probs_backend native default",
+        "loss_type": "AlgoConfig.loss_type native default",
+        "entropy_coef": "launch argv",
+        "observe_training_entropy": "AlgoConfig.observe_training_entropy native default"
+      },
+      "padded_vocab_size": 248320,
+      "tolerances": {
+        "logprob": {
+          "rtol": 1e-05,
+          "atol": 2e-05
+        },
+        "gradient": {
+          "rtol": 0.02,
+          "atol": 0.005
+        },
+        "source": [
+          "tests/fast-gpu/test_fused_log_probs_in_losses.py:33-36,146-148",
+          "tests/fast-gpu/test_fused_log_probs.py:305,309"
+        ]
+      },
+      "scope": "CUDA-only TP2/CP1/thd loss-seam diagnostic; never loads a model or an optimizer.\n\nRun in the pinned worker image from the repository root with torchrun --standalone\n--nproc-per-node=2 --module tests.manual.agent_opd.probe_qwen35_loss_memory.\nSupply --rollout-data, --sample-index, --launch-receipt, --padded-vocab-size,\n--data-pad-size-multiplier, --gradient-chunk-rows, and --report. The two geometry\nvalues not present in launch.json must come from the native resolved configuration.\n--geometry-only runs native packing on CPU, without CUDA or distributed startup.\n\nThe objective is the negative SUM of retained, masked response log-probs, not the\nformal OPD/TIS objective. Logits are reproducible standard-normal BF16 shards, not\nreal model outputs. autograd.grad measures the gradient at the model-output seam:\nno artificial leaf .grad buffer, model backward, optimizer, or update is measured.\nThe torch input is released before fused; only its BF16 gradient remains on GPU.\nNo full gradient is copied to CPU. An OOM reference gives numerical INCOMPLETE\n(exit 2), never PASS; other failed checks give exit 1. GPU exit 0 requires both ranks.\n",
+      "backends": [
+        {
+          "backend": "torch",
+          "status": "completed",
+          "retained_reference_gradient_bytes": 0,
+          "memory": {
+            "before_input": {
+              "allocated_bytes": 1890816,
+              "reserved_bytes": 4194304,
+              "peak_allocated_bytes": 1890816,
+              "peak_reserved_bytes": 4194304,
+              "inactive_split_bytes": 2303488,
+              "peak_inactive_split_bytes": 2303488,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 83692158976,
+              "device_total_bytes": 85029158912
+            },
+            "after_input": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60615098368,
+              "device_total_bytes": 85029158912
+            },
+            "before_forward": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60615098368,
+              "device_total_bytes": 85029158912
+            },
+            "after_forward": {
+              "allocated_bytes": 27146353664,
+              "reserved_bytes": 27149729792,
+              "peak_allocated_bytes": 27146484224,
+              "peak_reserved_bytes": 27149729792,
+              "inactive_split_bytes": 3376128,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 56544526336,
+              "device_total_bytes": 85029158912
+            },
+            "before_backward": {
+              "allocated_bytes": 27146353664,
+              "reserved_bytes": 27149729792,
+              "peak_allocated_bytes": 27146353664,
+              "peak_reserved_bytes": 27149729792,
+              "inactive_split_bytes": 3376128,
+              "peak_inactive_split_bytes": 3376128,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 56544526336,
+              "device_total_bytes": 85029158912
+            },
+            "after_backward": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 73249325056,
+              "peak_allocated_bytes": 69229567488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 4019757568,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 10444931072,
+              "device_total_bytes": 85029158912
+            },
+            "after_validation": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 73249325056,
+              "peak_allocated_bytes": 46280831488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 2035017728,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 10442833920,
+              "device_total_bytes": 85029158912
+            },
+            "after_release_and_empty_cache": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 46280831488,
+              "peak_reserved_bytes": 73249325056,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 2035017728,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60610904064,
+              "device_total_bytes": 85029158912
+            }
+          },
+          "large_allocation_operators": [
+            {
+              "operator": "aten._to_copy.default",
+              "inputs": [
+                {
+                  "shape": [
+                    8192,
+                    124160
+                  ],
+                  "dtype": "torch.bfloat16",
+                  "device": "cuda:1"
+                }
+              ],
+              "kwargs": {
+                "dtype": "torch.float32"
+              },
+              "outputs": {
+                "shape": [
+                  8192,
+                  124160
+                ],
+                "dtype": "torch.float32",
+                "device": "cuda:1"
+              },
+              "allocated_delta_bytes": 4068474880
+            },
+            {
+              "operator": "aten._to_copy.default",
+              "inputs": [
+                {
+                  "shape": [
+                    8192,
+                    124160
+                  ],
+                  "dtype": "torch.float32",
+                  "device": "cuda:1"
+                }
+              ],
+              "kwargs": {
+                "dtype": "torch.bfloat16",
+                "layout": "torch.strided",
+                "device": "cuda:1"
+              },
+              "outputs": {
+                "shape": [
+                  8192,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:1"
+              },
+              "allocated_delta_bytes": 2034237440
+            },
+            {
+              "operator": "aten.zeros.default",
+              "inputs": [
+                [
+                  84513,
+                  124160
+                ]
+              ],
+              "kwargs": {
+                "dtype": "torch.bfloat16",
+                "layout": "torch.strided",
+                "device": "cuda:1"
+              },
+              "outputs": {
+                "shape": [
+                  84513,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:1"
+              },
+              "allocated_delta_bytes": 20986268160
+            },
+            {
+              "operator": "aten.cat.default",
+              "inputs": [
+                [
+                  {
+                    "shape": [
+                      84513,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:1"
+                  },
+                  {
+                    "shape": [
+                      8192,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:1"
+                  },
+                  {
+                    "shape": [
+                      223,
+                      124160
+                    ],
+                    "dtype": "torch.bfloat16",
+                    "device": "cuda:1"
+                  }
+                ]
+              ],
+              "kwargs": {},
+              "outputs": {
+                "shape": [
+                  92928,
+                  124160
+                ],
+                "dtype": "torch.bfloat16",
+                "device": "cuda:1"
+              },
+              "allocated_delta_bytes": 23075880960
+            }
+          ],
+          "input_storage_bytes": 23075880960,
+          "allocation_trace": {
+            "enabled": true,
+            "threshold_bytes": 2034237440,
+            "coverage": "Eager ATen allocation deltas/inputs; not Triton/NCCL internals; no tensor references retained"
+          },
+          "leaf_grad_allocated": false,
+          "gradient_aliases_logits": false,
+          "gradient_shape": [
+            1,
+            92928,
+            124160
+          ],
+          "gradient_dtype": "torch.bfloat16",
+          "gradient_matches_input_geometry": true,
+          "loss": 105696.40625,
+          "logprobs_finite": true,
+          "response_logprob_count": 8192,
+          "logprob_parity": null,
+          "gradient_checks": {
+            "elements": 11537940480,
+            "nonfinite": 0,
+            "max_abs": 1.0,
+            "squared_norm": 4121.044835843248,
+            "unscored_nonzero": 0,
+            "unscored_row_ranges": [
+              [
+                0,
+                84513
+              ],
+              [
+                92705,
+                92928
+              ]
+            ],
+            "prefix_gradient_definition": "Unscored prefix logits rows are zero; the last prefix row predicts the first response token and is scored. Terminal/padding rows must also be zero.",
+            "prefix_gradient_zero": true,
+            "finite": true,
+            "full_gradient_parity": null
+          },
+          "peak_allocated_bytes": 69229567488,
+          "peak_allocated_excluding_retained_reference_bytes": 69229567488,
+          "measurement": "Synthetic BF16 model-output leaf -> native logprob seam -> autograd.grad; validation excluded from backend peak"
+        },
+        {
+          "backend": "fused",
+          "status": "completed",
+          "retained_reference_gradient_bytes": 23075880960,
+          "memory": {
+            "before_input": {
+              "allocated_bytes": 23077771776,
+              "reserved_bytes": 23081254912,
+              "peak_allocated_bytes": 23077771776,
+              "peak_reserved_bytes": 23081254912,
+              "inactive_split_bytes": 3483136,
+              "peak_inactive_split_bytes": 3483136,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 60610904064,
+              "device_total_bytes": 85029158912
+            },
+            "after_input": {
+              "allocated_bytes": 46153652736,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153652736,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4662784,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "before_forward": {
+              "allocated_bytes": 46153652736,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153652736,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4662784,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_forward": {
+              "allocated_bytes": 46153948160,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46154152448,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4367360,
+              "peak_inactive_split_bytes": 4662784,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "before_backward": {
+              "allocated_bytes": 46153948160,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46153948160,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4367360,
+              "peak_inactive_split_bytes": 4367360,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_backward": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 46158315520,
+              "peak_allocated_bytes": 46154075136,
+              "peak_reserved_bytes": 46158315520,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 4629504,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37533843456,
+              "device_total_bytes": 85029158912
+            },
+            "after_validation": {
+              "allocated_bytes": 46153686016,
+              "reserved_bytes": 46397390848,
+              "peak_allocated_bytes": 46320562688,
+              "peak_reserved_bytes": 46397390848,
+              "inactive_split_bytes": 4629504,
+              "peak_inactive_split_bytes": 67445760,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 37294768128,
+              "device_total_bytes": 85029158912
+            },
+            "after_release_and_empty_cache": {
+              "allocated_bytes": 1890816,
+              "reserved_bytes": 4194304,
+              "peak_allocated_bytes": 46320562688,
+              "peak_reserved_bytes": 46397390848,
+              "inactive_split_bytes": 2303488,
+              "peak_inactive_split_bytes": 67445760,
+              "allocation_retries": 0,
+              "allocator_ooms": 0,
+              "device_free_bytes": 83687964672,
+              "device_total_bytes": 85029158912
+            }
+          },
+          "large_allocation_operators": [],
+          "input_storage_bytes": 23075880960,
+          "allocation_trace": {
+            "enabled": true,
+            "threshold_bytes": 2034237440,
+            "coverage": "Eager ATen allocation deltas/inputs; not Triton/NCCL internals; no tensor references retained"
+          },
+          "leaf_grad_allocated": false,
+          "gradient_aliases_logits": true,
+          "gradient_shape": [
+            1,
+            92928,
+            124160
+          ],
+          "gradient_dtype": "torch.bfloat16",
+          "gradient_matches_input_geometry": true,
+          "loss": 105696.40625,
+          "logprobs_finite": true,
+          "response_logprob_count": 8192,
+          "logprob_parity": {
+            "elements": 8192,
+            "mismatches": 0,
+            "nonfinite": 0,
+            "max_abs_error": 9.5367431640625e-07,
+            "sum_abs_error": 0.0002899169921875
+          },
+          "gradient_checks": {
+            "elements": 11537940480,
+            "nonfinite": 0,
+            "max_abs": 1.0,
+            "squared_norm": 4121.0448358484555,
+            "unscored_nonzero": 0,
+            "unscored_row_ranges": [
+              [
+                0,
+                84513
+              ],
+              [
+                92705,
+                92928
+              ]
+            ],
+            "prefix_gradient_definition": "Unscored prefix logits rows are zero; the last prefix row predicts the first response token and is scored. Terminal/padding rows must also be zero.",
+            "prefix_gradient_zero": true,
+            "finite": true,
+            "full_gradient_parity": {
+              "elements": 11537940480,
+              "mismatches": 0,
+              "nonfinite": 0,
+              "max_abs_error": 9.5367431640625e-07,
+              "sum_abs_error": 0.0014994393568485975,
+              "passed": true
+            }
+          },
+          "peak_allocated_bytes": 46154152448,
+          "peak_allocated_excluding_retained_reference_bytes": 23078271488,
+          "measurement": "Synthetic BF16 model-output leaf -> native logprob seam -> autograd.grad; validation excluded from backend peak"
+        }
+      ],
+      "rank": 1,
+      "gpu": "NVIDIA H800",
+      "gpu_total_bytes": 85029158912,
+      "allocator_config": null,
+      "allocator_backend": "native",
+      "ld_preload": null,
+      "logits_seed": 43,
+      "gradient_chunk_rows": 64,
+      "sample": {
+        "rollout_id": 0,
+        "sample_index": 7,
+        "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:18:184",
+        "total_length": 92706,
+        "response_length": 8192,
+        "mask_nonzero": 8192,
+        "padded_tokens": 92928,
+        "cu_seqlens_host": [
+          0,
+          92706,
+          92928
+        ],
+        "response_row_ranges": [
+          [
+            84513,
+            92705
+          ]
+        ]
+      },
+      "shape": [
+        1,
+        92928,
+        124160
+      ],
+      "dtype": "torch.bfloat16",
+      "numerical_status": "PASS",
+      "memory_comparison": {
+        "torch_peak_allocated_excluding_reference_bytes": 69229567488,
+        "fused_peak_allocated_excluding_reference_bytes": 23078271488,
+        "reduction_bytes": 46151296000,
+        "reduction_fraction": 0.6666414030103496,
+        "both_backends_completed": true,
+        "caveat": "Subtracts only live BF16 reference-gradient bytes from allocated peaks; raw reserved/fragmentation remain recorded. An OOM peak is not a completed torch requirement."
+      }
+    }
+  ]
+}

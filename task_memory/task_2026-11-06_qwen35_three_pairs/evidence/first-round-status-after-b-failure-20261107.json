@@ -1,0 +1,74 @@
+[
+  {
+    "pair": "A",
+    "name": "exp-1107-063447-691018",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Failed",
+      "reason": "RJobFailed",
+      "message": "Tasks with failed status: [student]",
+      "taskStatuses": {
+        "student": {
+          "failed": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-06T23:06:55Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "stop_annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+    }
+  },
+  {
+    "pair": "B",
+    "name": "exp-1107-062459-796906",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Failed",
+      "reason": "RJobFailed",
+      "message": "Tasks with failed status: [student]",
+      "taskStatuses": {
+        "student": {
+          "failed": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-06T22:58:31Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "stop_annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+    }
+  },
+  {
+    "pair": "C",
+    "name": "exp-1107-064200-013666",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Running",
+      "reason": "RJobRunning",
+      "message": "Tasks is running: [teacher,student]",
+      "taskStatuses": {
+        "student": {
+          "active": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "active": 2,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "stop_annotations": {}
+  }
+]

@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Verify equal-geometry loss memory/parity on H800, correct the diagnostic's TP setup and enable the existing fused launcher path; retain full-model acceptance as pending. |
+| 2026-11-07 | Record A/B first-backward failures, 64 pinned fused checks, C Running, and the native SGLang reload/content-identity correction. |
 | 2026-11-07 | Accept B's initial native numerical gate, verify full C teacher readiness and prepare the approved100-step B attempt. |
 | 2026-11-07 | Verify successful A/B native baseline execution, retain the missing-prefill-version INCOMPLETE verdict, and assign the omitted engine tracking flag to P2; C is independently running. |
 | 2026-11-07 | Record C readiness failure, exact loading/timeline evidence, per-pair wait correction and 85 passing integrated CPU checks; keep independent A/B queues. |
@@ -33,7 +35,7 @@
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
 - completed — P2 initial qualification: A/B/C all pass the independent initial same-version numerical gates on24 fixed samples each; data, full models, runtime, tracking, shared-engine scoring and all strata are verified. Earlier missing-version artifacts remain INCOMPLETE. This does not claim optimization capacity or updated/final D8, which remain P3 evidence requirements.
-- in-progress — P3-A/P3-B/P3-C:100-step formal jobs A `exp-1107-063447-691018` and B `exp-1107-062459-796906` are Running; C `exp-1107-064200-013666` is Pending with20 H800 remaining against24 requested. Exact API admission passes for all three; launchers stay alive. B's formal initial monitoring is progressing. Actual optimizer outcomes and final artifacts remain pending.
+- in-progress — P3: A `exp-1107-063447-691018` and B `exp-1107-062459-796906` failed in their first backward; both have zero completed updates and only published version0. Their raw first batches are retained. C `exp-1107-064200-013666` is Running independently. Native fused checks and equal-geometry loss-stage memory/parity now pass on2 H800; the launcher enables the existing fused path and its final pinned contract check is running. Updated/final D8 and final artifacts remain pending.
 - pending — P4: runtime acceptance and completion archive.
 
 ## Investigation and rationale
@@ -160,59 +162,19 @@
 83. A initial numerical baseline **PASS** after0-GPU inspection `exp-1107-062836-417826`:24 fixed samples,4144 original valid tokens, complete version0 input/decode provenance. Decode/trainer mean0.0116478858; prefill/trainer mean0.0119241213; all strata pass0.03 with no missing/nonfinite tokens. TIS retention100%. Whole-run/publication remains INCOMPLETE until updated/final evidence exists. A's unchanged100-step configuration dry-run passes. Proceed independently to its formal attempt; B remains Running and C continues its initial baseline.
 84. A formal job `exp-1107-063447-691018` submitted from `b9cd2442`, with Running/API admission verified. C baseline exits0 with normal critical-task completion, and0-GPU inspection `exp-1107-063622-906464` yields initial **PASS**:24 samples,6264 original valid tokens, complete version0; decode/trainer mean0.0072846829 and prefill/trainer mean0.0069904472, all strata<=0.03. Its unchanged100-step config dry-run preserves8+16 H800, two-node RDMA/gang and the existing27B CPU-optimizer-offload recipe. All P2 initial qualifications are now complete; actual optimization, updated/final D8 and HF reload remain P3 requirements. The scoped standalone HF reload implementation is delegated independently; it does not change active training or packaging.
 
+85. Both formal A/B attempts failed on the first backward. Business logs show PyTorch/TorchMemorySaver allocation failure before platform critical-task cleanup. Published events remain version0; neither run has a completed train-step event. The retained8 training samples have identical lengths across A/B and each generated8192 response tokens. Runtime versus allocator observations are kept separate: the matched A allocation is23077060608 bytes (21.4922 GiB), not the21.73 GiB reported by another worker. No full-model repair is claimed from the allocator's aggregate reserved-memory count. See the [training report](test_report_2026-11-07_training.md).
+86. Read-only source analysis identified the native response split backward's full-sequence vocabulary gradient and the existing fused in-place alternative. Pinned2-H800 job `exp-1107-071708-069479` succeeded:64 existing GPU cases pass in118.16s, including TP, loss/gradient parity and vocabulary-buffer memory coverage. It also recorded actual retained batch geometry, Python3.12.16, torch2.14.1+cu130 and Transformers5.19.0. Next is a scoped equal-geometry loss-only comparison, with no optimizer update or regenerated completion; formal configuration has not yet changed.
+87. The initial Transformers-based HF checker passed38 delegated CPU tests but is not accepted. The pinned image confirms FP32 `A_log` is rounded to BF16 on default load; a separate review found missing HF-byte-to-final-publication identity. Source investigation and an actual native checksum receipt support replacing this loader with pinned SGLang text reload and complete eligible decoder checksum equality. The original0-GPU probe first failed JSON set serialization; its corrected probe recorded the dtype defect, then CPU forward tests hit installed CUDA-only convolution. These auxiliary failures did not control training. The [HF report](test_report_2026-11-07_hf_reload.md) owns exact evidence and the replacement implementation remains in progress.
+88. Equal-geometry job `exp-1107-074344-969435` passed on2 H800: native torch loss peak69,229,567,488 bytes versus fused23,078,271,488, with11,537,940,480 gradient elements per rank compared and maximum absolute difference9.5367431640625e-7. Native ATen tracing identifies the prefix-zero/full-cat allocations. The preceding diagnostic failed its TP initialization before loss execution; a two-process CPU Gloo check then verified the corrected setup before the successful GPU rerun. The common launcher now selects existing `--log-probs-backend fused`; seven command/default contracts were red before and green after. Full-model capacity remains unverified. Exact commands, limits and original failure are in the training report.
+89. Fixed-image0-GPU job `exp-1107-075006-580618` gives148 passed/4 failed: all89 worker/launcher and40 replacement HF contracts pass; the four failures are unchanged CPU-forward cases selecting installed CUDA-only convolution. These known incompatible cases were unnecessarily included and will not be repeated for this change. Native text registry resolution succeeds directly without Transformers fallback. The HF phase reviewer closes the final-content-binding P1 at implementation scope, with actual final artifacts still absent. The [current checkpoint](qwen-p3-native-checkpoint.md) records D1 and the correction to advance native execution rather than expand tests.
+90. Before formal resubmission, `QWEN-P3-RUN-PREFLIGHT` is inspecting existing sample identity/status/timeout/failure/count boundaries under the unchanged8-completion/100-position contract. This read-only check reuses native lifecycle paths; no new failure policy has been adopted. The existing C launcher remains active. Verified code may be committed independently; A/B resubmission awaits this preparation check.
+
 ## Next actions
 
-1. Preserve C's existing queued job/launcher and verify actual devices/business startup when admitted.
-2. Inspect A/B's actual optimizer/update evidence and planned monitoring within their existing100-step attempts.
-3. Complete standalone text-HF reload verification against final native inputs/version, then apply it to each final artifact; retain the fixed budget and thresholds.
+1. Commit verified fused/reload changes, finish the existing lifecycle preflight, then resubmit A/B and verify actual first-step gradients/publication within the approved budget.
+2. Preserve C's existing Running job/launcher and inspect its actual business milestones independently.
+3. Qualify actual native SGLang text loading, then run final decoder checksum/inference checks on the final artifacts. Preserve the100-position workload and report failed attempts separately.
 
-## 1. 规划完成情况
+## Phase checkpoint
 
-**汇总：** PASS 3｜BLOCKED 1｜TODO 3
-
-| 子任务 | 状态 | 简要依据 |
-| --- | --- | --- |
-| P0 文档落地 | PASS | 初始任务文档及静态检查已完成。 |
-| P1 设计访谈 | PASS | D9–D14 已得到实际答复；用户确认共享理解并推进执行。 |
-| P2 前置核验与实现 | PASS | 三组各24条完整版本样本均通过初始数值门槛。 |
-| P3-A | TODO | 100步作业Running/API核验通过，实际更新待验。 |
-| P3-B | TODO | 100步正式作业Running；API配置通过，实际更新/导出待验证。 |
-| P3-C | TODO | 100步正式作业已提交/API通过；剩20卡、需24卡，排队中。 |
-| P4 汇总交付 | BLOCKED | 尚无三组训练及导出结果。 |
-
-## 2. 偏离检测
-
-**结论：** 未偏移，正常推进。
-**检测窗口：** B初始数值通过至三组独立初始资格全部通过｜**当前前沿：** 三组100步正式执行与最终HF重载准备
-
-| 模式 | 判定 | 依据 |
-| --- | --- | --- |
-| D1 工具打磨 | CLEAR | 89项通过后未扩测，实际基线产出并复用原reader验收。 |
-| D2 细节反复重试 | CLEAR | 三组各自一次新原始数据分析均通过初始门槛，未改阈值。 |
-| D3 支线问题修补 | CLEAR | 未因平台旧p2p警告改环境；核对实际SGLang业务日志。 |
-| D4 可并行任务停滞 | CLEAR | A/B已释放正式作业，C资格随到随处理；HF重载实现并行。 |
-| D5 超范围镀金 | CLEAR | 复用已有 launch 参数，不增加配置机制或改动 reader 门槛。 |
-| D6 分析空转 | CLEAR | 三组初始PASS，A/B正式作业已Running。 |
-| D7 路线违背 | CLEAR | 执行成功不替代同版本验收，不补造缺失的 KV 版本。 |
-
-**文档检查：** S5：进度表尚未反映A/C初始PASS与A/B正式Running，本次同步。S1/S2/S3/S4/S6未发现明显缺陷。
-**归因：** 无。
-
-## 3. 纠正建议
-
-**分支：** B：同步运行状态，不改变 scope 或验收值。
-
-**文档更新（先执行）：**
-1. progress.md、plan.md、native/training report：更新三组初始PASS和独立正式执行状态，保留优化与更新后数值未验边界（可直接执行，已执行）。
-
-**需停止的偏离行为：** 无。
-
-**接下去的路线：**
-1. P3-A ‖ P3-B ‖ P3-C：固定100步尝试 → 完成标志：成功/跳过更新、更新后数值、最终HF保存与重载都有原生证据。
-2. HF重载实现：复用原输入/版本与loader合同 → 完成标志：真实权重加载、dtype/value核对和文本推理验证，不保存第二份原始HF包。
-
-## 4. 最值得关注的 3 点
-
-1. A/B/C各24条初始监测均通过全部长度层门槛；这不等于更新后验收通过。
-2. 正式100步中的实际首个更新将提供优化证据，不能用只读基线推断容量或成功更新数。
-3. A/B正式作业已Running；C已进入独立队列，保持launcher存活并等待调度。
+The maintained P3 checkpoint is [qwen-p3-native-checkpoint.md](qwen-p3-native-checkpoint.md). Actual validation evidence remains in the training/HF reports; task acceptance is not inferred from checkpoint status.

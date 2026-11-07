@@ -1,0 +1,318 @@
+{
+  "run_dir": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-063447-691018",
+  "log_path": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-063447-691018.log",
+  "log_bytes": 7221142,
+  "oom_count": 8,
+  "excerpt": [
+    {
+      "line": 3205,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8113)\u001b[0m   return func(*args, **kwargs)"
+    },
+    {
+      "line": 3206,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8113)\u001b[0m /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead."
+    },
+    {
+      "line": 3207,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8113)\u001b[0m   return func(*args, **kwargs)"
+    },
+    {
+      "line": 3208,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [torch_memory_saver.cpp] TorchMemorySaver::malloc return OOM since memory_margin_bytes=1073741824 allocation_size=23077060608 free_bytes=13373276160"
+    },
+    {
+      "line": 3209,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [torch_memory_saver.cpp] TorchMemorySaver::malloc return OOM since memory_margin_bytes=1073741824 allocation_size=23077060608 free_bytes=13754957824"
+    },
+    {
+      "line": 3210,
+      "text": "\u001b[36m(CommandActor pid=7377)\u001b[0m [2026-11-06 23:05:52] INFO:     10.191.6.22:34694 - \"GET /health HTTP/1.1\" 200 OK\u001b[32m [repeated 3x across cluster]\u001b[0m"
+    },
+    {
+      "line": 3211,
+      "text": "\u001b[36m(CommandActor pid=7377)\u001b[0m [2026-11-06 23:05:55] INFO:     10.191.6.22:53758 - \"GET /flush_cache HTTP/1.1\" 200 OK\u001b[32m [repeated 3x across cluster]\u001b[0m"
+    },
+    {
+      "line": 3212,
+      "text": "\u001b[36m(CommandActor pid=7377)\u001b[0m [2026-11-06 23:05:55] INFO:     10.191.6.22:53758 - \"POST /release_memory_occupation HTTP/1.1\" 200 OK\u001b[32m [repeated 3x across cluster]\u001b[0m"
+    },
+    {
+      "line": 3213,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m /data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor)."
+    },
+    {
+      "line": 3214,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),"
+    },
+    {
+      "line": 3215,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [rank0]:[W1106 23:06:20.737899041 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 23077060608 bytes (free: 13373276160, total: 85029158912)."
+    },
+    {
+      "line": 3216,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [rank0]:[W1106 23:06:20.750252766 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 23077060608 bytes (free: 13754957824, total: 85029158912)."
+    },
+    {
+      "line": 3217,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 23:06:20.036 actor_cell00000_rank00000] timer.py:44 - Timer actor_train end (elapsed: 4.6s)"
+    },
+    {
+      "line": 3218,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 23:06:20.036 actor_cell00000_rank00000] timer.py:44 - Timer train end (elapsed: 22.3s)"
+    },
+    {
+      "line": 3219,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 23:06:20.036 actor_cell00000_rank00000] timer.py:33 - Timer train_wait start"
+    },
+    {
+      "line": 3220,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 23:06:20.036 actor_cell00000_rank00000] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=_train_actor phase=end ok=false elapsed_s=22.3"
+    },
+    {
+      "line": 3221,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m Traceback (most recent call last):"
+    },
+    {
+      "line": 3222,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper"
+    },
+    {
+      "line": 3223,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     result = func(*args, **kwargs)"
+    },
+    {
+      "line": 3224,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m              ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3225,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 970, in _train_actor"
+    },
+    {
+      "line": 3226,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     train_step_outcome = train("
+    },
+    {
+      "line": 3227,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                          ^^^^^^"
+    },
+    {
+      "line": 3228,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 833, in train"
+    },
+    {
+      "line": 3229,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step("
+    },
+    {
+      "line": 3230,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                                                ^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3231,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 605, in train_one_step"
+    },
+    {
+      "line": 3232,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     losses_reduced = run_forward_backward_pass("
+    },
+    {
+      "line": 3233,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                      ^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3234,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 564, in run_forward_backward_pass"
+    },
+    {
+      "line": 3235,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     return forward_backward_func("
+    },
+    {
+      "line": 3236,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m            ^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3237,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 780, in forward_backward_no_pipelining"
+    },
+    {
+      "line": 3238,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     backward_step(input_tensor, output_tensor, output_tensor_grad, config)"
+    },
+    {
+      "line": 3239,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 574, in backward_step"
+    },
+    {
+      "line": 3240,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     custom_backward(output_tensor[0], output_tensor_grad[0])"
+    },
+    {
+      "line": 3241,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 220, in custom_backward"
+    },
+    {
+      "line": 3242,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     Variable._execution_engine.run_backward("
+    },
+    {
+      "line": 3243,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 21.49 GiB. GPU 0 has a total capacity of 79.19 GiB of which 12.81 GiB is free. Including non-PyTorch memory, this process has 64.75 GiB memory in use. Process 10326 has 1.60 GiB memory in use. Of the allocated memory 43.48 GiB is allocated by PyTorch, with 5.82 MiB allocated in private pools (e.g., CUDA Graphs), and 19.82 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)"
+    },
+    {
+      "line": 3244,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m [2026-11-06 23:06:20.037 actor_cell00000_rank00000] structured_log.py:33 - actor cls=MegatronTrainRayActor fn=train phase=end ok=false elapsed_s=24.3"
+    },
+    {
+      "line": 3245,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m Traceback (most recent call last):"
+    },
+    {
+      "line": 3246,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper"
+    },
+    {
+      "line": 3247,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     result = func(*args, **kwargs)"
+    },
+    {
+      "line": 3248,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m              ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3249,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/utils/audit_utils/event_logger/logger.py\", line 130, in wrapper"
+    },
+    {
+      "line": 3250,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     return method(*args, **kwargs)"
+    },
+    {
+      "line": 3251,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m            ^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3252,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 799, in train"
+    },
+    {
+      "line": 3253,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     result = self._train_actor("
+    },
+    {
+      "line": 3254,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m              ^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3255,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/opt/sglang/lib/python3.12/site-packages/ray/util/tracing/tracing_helper.py\", line 487, in _resume_span"
+    },
+    {
+      "line": 3256,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     return method(self, *_args, **_kwargs)"
+    },
+    {
+      "line": 3257,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3258,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper"
+    },
+    {
+      "line": 3259,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     result = func(*args, **kwargs)"
+    },
+    {
+      "line": 3260,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m              ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3261,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 970, in _train_actor"
+    },
+    {
+      "line": 3262,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     train_step_outcome = train("
+    },
+    {
+      "line": 3263,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                          ^^^^^^"
+    },
+    {
+      "line": 3264,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 833, in train"
+    },
+    {
+      "line": 3265,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     loss_dict, grad_norm, train_step_outcome = train_one_step("
+    },
+    {
+      "line": 3266,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                                                ^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3267,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 605, in train_one_step"
+    },
+    {
+      "line": 3268,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     losses_reduced = run_forward_backward_pass("
+    },
+    {
+      "line": 3269,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m                      ^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3270,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py\", line 564, in run_forward_backward_pass"
+    },
+    {
+      "line": 3271,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m     return forward_backward_func("
+    },
+    {
+      "line": 3272,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m            ^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 3273,
+      "text": "\u001b[36m(MegatronTrainRayActor pid=8111)\u001b[0m   File \"/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py\", line 780, in forward_backward_no_pipelining"
+    }
+  ],
+  "updates": [
+    {
+      "timestamp": "2026-11-06T22:47:52.084686Z",
+      "source": {
+        "component": "trainer_controller",
+        "trainer_id": "actor",
+        "model_id": null
+      },
+      "type": "weight_update_result",
+      "debug_weight_update_id": "a051a103f0564e3d92278f75f4c1b7b3",
+      "debug_trainer_load_state_timestamp": 1794004826.6945753,
+      "rollout_id": null,
+      "candidate_version": 0,
+      "published_version": 0,
+      "snapshot_cell_id_to_hashes": {
+        "inference-engine-all-0-0-00000": "pseudo-hash-1",
+        "inference-engine-all-0-0-00001": "pseudo-hash-1",
+        "inference-engine-all-0-0-00002": "pseudo-hash-1",
+        "inference-engine-all-0-0-00003": "pseudo-hash-1"
+      },
+      "updated_cell_ids": [
+        "inference-engine-all-0-0-00000",
+        "inference-engine-all-0-0-00001",
+        "inference-engine-all-0-0-00002",
+        "inference-engine-all-0-0-00003"
+      ],
+      "failed_cell_ids": []
+    }
+  ],
+  "steps": [],
+  "rollout_files": [
+    "0.pt",
+    "eval_0.pt"
+  ]
+}
