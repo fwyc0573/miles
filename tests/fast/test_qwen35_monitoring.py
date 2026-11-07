@@ -110,7 +110,8 @@ def _write_checkpoint(root, samples, rollout_id, mutate=None, *, weight_version=
                 "qkv_format": "thd", "rollout_data": batch}, root / "train_data" / f"eval_monitor_{rollout_id}_0.pt")
 
 
-def _write_native_events(root, *, skipped=(2, 19, 99), unchanged_engine_weights=False, positions=(None, *range(100))):
+def _write_native_events(root, *, skipped=(2, 19, 99), unchanged_engine_weights=False,
+                         positions=(None, *range(100)), restores_after=()):
     """Use the actual typed native writer, fields and process filenames.
 
     Producers: train/group.py _log_step_end_event/update_weights and
@@ -123,14 +124,12 @@ def _write_native_events(root, *, skipped=(2, 19, 99), unchanged_engine_weights=
     controller = EventLogger(log_dir=root / "events", source=controller_source, file_name=f"{controller_source.to_name()}.jsonl")
     main = EventLogger(log_dir=root / "events", source=main_source, file_name=f"{main_source.to_name()}.jsonl")
     version, versions = 17, {None: 17}
-    for position in positions:
-        if position is not None:
-            controller.log(TrainGroupStepEndEvent,
-                           {"rollout_id": position, "attempt": 0, "role": "actor", "cell_outcomes": {0: ["normal"]},
-                            "cell_incarnations": {"actor-cell-0": "trainer-incarnation"}}, print_log=False)
-            version += int(position not in skipped)
-            versions[position] = version
-        update_id = f"{0 if position is None else position + 1:032x}"
+    publication_number = 0
+
+    def publish(position):
+        nonlocal publication_number
+        update_id = f"{publication_number:032x}"
+        publication_number += 1
         controller.log(WeightUpdateResultEvent,
                        {"debug_weight_update_id": update_id, "debug_trainer_load_state_timestamp": 1234567.25,
                         "rollout_id": position, "candidate_version": version, "published_version": version,
@@ -142,6 +141,17 @@ def _write_native_events(root, *, skipped=(2, 19, 99), unchanged_engine_weights=
                   "engine_snapshots": [{"cell_id": "rollout-cell-0", "workers_hash": "engine-incarnation",
                                         "tensor_checksums": {"rank0/model.layers.0.weight": f"model-{17 if unchanged_engine_weights else version}"}}]},
                  print_log=False)
+
+    for position in positions:
+        if position is not None:
+            controller.log(TrainGroupStepEndEvent,
+                           {"rollout_id": position, "attempt": 0, "role": "actor", "cell_outcomes": {0: ["normal"]},
+                            "cell_incarnations": {"actor-cell-0": "trainer-incarnation"}}, print_log=False)
+            version += int(position not in skipped)
+            versions[position] = version
+        publish(position)
+        for _ in range(restores_after.count(position)):
+            publish(None)
     return versions
 
 
@@ -272,6 +282,65 @@ def test_missing_native_events_never_use_monitor_versions_as_update_proof(tmp_pa
     assert publication["verdict"] == "INCOMPLETE"
     assert publication["successful_optimizer_updates"] is None
     assert publication["issues"][0]["code"] == "native_update_receipts_missing"
+
+
+def test_same_version_restores_do_not_count_as_planned_updates(tmp_path):
+    versions = _write_native_events(tmp_path, restores_after=(None, None, 19, 39, 59, 79, 99))
+    checkpoints = [{"rollout_id": position, "consumed_weight_versions": [str(versions[None if position == 0 else position])]} for position in (0, 19, 39, 59, 79, 99)]
+    report = inspector._publication_checks(tmp_path, checkpoints)
+    assert report["verdict"] == "PASS", report["issues"]
+    assert report["successful_optimizer_updates"] == 97
+    assert report["skipped_optimizer_updates"] == 3
+    assert len(report["publications"]) == 100
+    assert len(report["restorations"]) == 7
+    assert report["publications"][-1]["rollout_id"] == 99
+    assert report["publications"][-1]["optimizer_counter_delta"] == 0
+    assert report["final_planned_publication_id"] != report["restorations"][-1]["debug_weight_update_id"]
+    assert report["final_published_weight_version"] == versions[99]
+
+
+@pytest.mark.parametrize("fault", ["version", "final_restore_version", "epoch", "publisher", "checksum_model", "snapshot",
+                                  "tensor", "duplicate_id", "checksum_order", "receipt_order", "planned_version", "missing_planned"])
+def test_malformed_restoration_provenance_cannot_pass(tmp_path, fault):
+    versions = _write_native_events(tmp_path, restores_after=(None, 19, 99))
+    controller_path = tmp_path / "events" / "trainer_controller_actor.jsonl"
+    main_path = tmp_path / "events" / "main.jsonl"
+    publisher = [json.loads(line) for line in controller_path.read_text().splitlines()]
+    hashes = [json.loads(line) for line in main_path.read_text().splitlines()]
+    restores = [event for event in publisher if event["type"] == "weight_update_result" and event["rollout_id"] is None]
+    restore = restores[-1] if fault == "final_restore_version" else restores[1]
+    checksum = next(event for event in hashes if event["debug_weight_update_id"] == restore["debug_weight_update_id"])
+    if fault in {"version", "final_restore_version"}:
+        restore["candidate_version"] = restore["published_version"] = checksum["weight_version"] = restore["published_version"] + 1
+    elif fault == "epoch":
+        restore["debug_trainer_load_state_timestamp"] = checksum["debug_trainer_load_state_timestamp"] = 9876.0
+    elif fault == "publisher":
+        restore["source"]["model_id"] = "another-policy"
+    elif fault == "checksum_model":
+        checksum["trainer_model_id"] = "another-policy"
+    elif fault == "snapshot":
+        checksum["engine_snapshots"][0]["workers_hash"] = "another-incarnation"
+    elif fault == "tensor":
+        checksum["engine_snapshots"][0]["tensor_checksums"]["rank0/model.layers.0.weight"] = "restored-different-bytes"
+    elif fault == "duplicate_id":
+        restore["debug_weight_update_id"] = checksum["debug_weight_update_id"] = restores[0]["debug_weight_update_id"]
+    elif fault == "checksum_order":
+        checksum["timestamp"] = restores[0]["timestamp"]
+    elif fault == "receipt_order":
+        restore["timestamp"] = restores[0]["timestamp"]
+    elif fault == "planned_version":
+        planned = next(event for event in publisher if event["type"] == "weight_update_result" and event["rollout_id"] == 0)
+        planned["candidate_version"] = planned["published_version"] = versions[None] + 2
+        next(event for event in hashes if event["debug_weight_update_id"] == planned["debug_weight_update_id"])["weight_version"] = planned["published_version"]
+    elif fault == "missing_planned":
+        planned = next(event for event in publisher if event["type"] == "weight_update_result" and event["rollout_id"] == 2)
+        planned["rollout_id"] = None
+        next(event for event in hashes if event["debug_weight_update_id"] == planned["debug_weight_update_id"])["rollout_id"] = -1
+    controller_path.write_text("\n".join(json.dumps(event) for event in publisher) + "\n")
+    main_path.write_text("\n".join(json.dumps(event) for event in hashes) + "\n")
+    checkpoints = [{"rollout_id": position, "consumed_weight_versions": [str(versions[None if position == 0 else position])]} for position in (0, 19, 39, 59, 79, 99)]
+    report = inspector._publication_checks(tmp_path, checkpoints)
+    assert report["verdict"] == "INCOMPLETE" and report["issues"]
 
 
 @pytest.mark.parametrize("corrupt", [False, True])

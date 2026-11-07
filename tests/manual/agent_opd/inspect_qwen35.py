@@ -612,6 +612,92 @@ def _checkpoint(run_dir, population, frozen, rollout_id, dataset, threshold, tea
     return checkpoint, records
 
 
+def _publication_receipts(events):
+    """Classify the unnamed actor's complete native receipt chain.
+
+    train.py's initial sync and eval weight restoration both call update_weights
+    without a rollout ID. placement_group.py stamps both checksums as -1; only
+    the publication ID, counter, ordered train receipts and full snapshots
+    distinguish them. This classifier does not require a completed training run.
+    """
+    _require(events, "native_update_receipts_missing", "No native update/publication events")
+    publications = sorted((event for event in events if isinstance(event, WeightUpdateResultEvent)
+                           and isinstance(event.source, TrainerControllerProcessIdentity)
+                           and event.source.trainer_id == "actor" and event.source.model_id is None),
+                          key=lambda event: event.timestamp)
+    _require(publications, "native_publication_receipts_missing", "No unnamed actor publisher receipts")
+    baseline = publications[0]
+    source = baseline.source
+    _require(baseline.rollout_id is None, "baseline_publication_missing_or_duplicate",
+             "The first actor receipt must be the out-of-loop initial publication")
+    _require(all(event.source == source for event in publications), "publisher_identity_mismatch", "Publisher identity changed")
+    _require(all(event.debug_trainer_load_state_timestamp == baseline.debug_trainer_load_state_timestamp for event in publications),
+             "trainer_load_epoch_changed", "Counter deltas cannot cross a trainer reload")
+    ids = {event.debug_weight_update_id for event in publications}
+    _require(len(ids) == len(publications) and all(ids), "duplicate_publication_receipt", "Publication IDs are empty or repeat")
+    _require(all(event.published_version is not None and event.published_version >= 0
+                 and event.published_version == event.candidate_version and not event.failed_cell_ids
+                 and event.updated_cell_ids and len(event.updated_cell_ids) == len(set(event.updated_cell_ids))
+                 and set(event.updated_cell_ids) == set(event.snapshot_cell_id_to_hashes) for event in publications),
+             "publication_failed_or_partial", "Actor candidate was not fully published to its snapshot")
+    records = [event for event in events if isinstance(event, (
+        InferenceEngineWeightChecksumEvent, InferenceEngineChecksumCollectionFailedEvent,
+    )) and (event.trainer_model_id is None or event.debug_weight_update_id in ids)]
+    _require({event.debug_weight_update_id for event in records} == ids,
+             "native_publication_checksum_incomplete", "Checksum/publication IDs do not form one complete chain")
+    coverage = inference_engine_weight_checksum_coverage.check([*publications, *records], include_latest=True)
+    _require(not coverage, "native_publication_checksum_incomplete", "; ".join(issue.description for issue in coverage))
+    _require(not inference_engine_weight_checksum_consistency.check(records),
+             "native_engine_checksum_mismatch", "Engines of a publication have different full model tensors")
+    checksums = {event.debug_weight_update_id: event for event in records}
+    steps = sorted((event for event in events if isinstance(event, TrainGroupStepEndEvent)
+                    and event.role == "actor" and event.source == source), key=lambda event: event.timestamp)
+    planned, restorations, deltas = [], [], {}
+    previous = None
+    for index, event in enumerate(publications):
+        checksum = checksums[event.debug_weight_update_id]
+        _require(checksum.rollout_id == (-1 if event.rollout_id is None else event.rollout_id)
+                 and checksum.source == checksums[baseline.debug_weight_update_id].source
+                 and checksum.source.component == "main" and event.timestamp < checksum.timestamp,
+                 "native_publication_checksum_origin_mismatch", "Checksum role/position/time does not match its publisher")
+        _require(all(snapshot.tensor_checksums for snapshot in checksum.engine_snapshots),
+                 "native_publication_checksum_empty", "Full eligible tensor dictionaries are required")
+        if index + 1 < len(publications):
+            _require(checksum.timestamp < publications[index + 1].timestamp,
+                     "native_publication_order_ambiguous", "A subsequent publication precedes this checksum observation")
+        if previous is None:
+            _require(not any(step.timestamp <= checksum.timestamp for step in steps),
+                     "baseline_publication_after_train_attempt", "Initial checksum is not a pre-training observation")
+        else:
+            pending = [step for step in steps if previous.timestamp < step.timestamp <= checksum.timestamp]
+            delta = event.published_version - previous.weight_version
+            if event.rollout_id is None:
+                _require(delta == 0, "restoration_version_mismatch", "Out-of-loop restoration must preserve the published counter")
+                _require(not pending, "restoration_has_unpublished_train_attempt", "A restore cannot stand in for an optimizer publication")
+                restorations.append(event)
+            else:
+                _require(event.rollout_id == len(planned), "native_publication_coverage_incomplete",
+                         "Planned rollout receipts must occur exactly once in native order")
+                _require(pending and all(step.rollout_id == event.rollout_id and step.timestamp < event.timestamp for step in pending)
+                         and len({step.attempt for step in pending}) == len(pending)
+                         and [step.attempt for step in pending] == sorted(step.attempt for step in pending)
+                         and pending[-1].cell_outcomes and all(
+                             isinstance(outcomes, list) and outcomes and all(outcome == "normal" for outcome in outcomes)
+                             for outcomes in pending[-1].cell_outcomes.values()),
+                         "native_train_attempt_unsettled", "Planned publication lacks its settled, ordered actor attempt")
+                _require(delta in (0, 1), "native_update_counter_invalid", "D9's one-step batch advances the counter by zero or one")
+                planned.append(event)
+                deltas[event.debug_weight_update_id] = delta
+            if delta == 0:
+                _require(checksum.engine_snapshots[0].tensor_checksums == previous.engine_snapshots[0].tensor_checksums,
+                         "same_version_engine_checksum_mismatch", "Repeated native version has different full eligible tensor bytes")
+        previous = checksum
+    _require(not any(step.timestamp > previous.timestamp for step in steps),
+             "native_train_attempt_unpublished", "Actor completion after the last receipt has no planned publication")
+    return {"baseline": baseline, "planned": planned, "restorations": restorations,
+            "checksums": checksums, "deltas": deltas}
+
+
 def _publication_checks(run_dir, checkpoints):
     """Bind raw forwards to native publisher receipts, never to schedule-derived versions.
 
@@ -625,7 +711,8 @@ def _publication_checks(run_dir, checkpoints):
     result = {"verdict": "INCOMPLETE", "issues": [], "events_directory": str(directory),
               "baseline_weight_version": None, "final_published_weight_version": None,
               "successful_optimizer_updates": None, "skipped_optimizer_updates": None,
-              "updated_monitoring_positions": [], "publications": [],
+               "updated_monitoring_positions": [], "publications": [], "restorations": [],
+               "baseline_publication_id": None, "final_planned_publication_id": None,
               "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"}
     try:
         events = EventReader(directory, strict=True, event_types=(
@@ -636,68 +723,27 @@ def _publication_checks(run_dir, checkpoints):
         result["issues"].append({"code": "native_event_artifacts_corrupt", "detail": str(error)})
         return result
     try:
-        _require(events, "native_update_receipts_missing", "No native update/publication events")
-        publications = sorted((event for event in events if isinstance(event, WeightUpdateResultEvent)
-                               and isinstance(event.source, TrainerControllerProcessIdentity)
-                               and event.source.trainer_id == "actor" and event.source.model_id is None),
-                              key=lambda event: event.timestamp)
-        _require(publications, "native_publication_receipts_missing", "No unnamed actor publisher receipts")
-        source = publications[0].source
-        _require(all(event.source == source for event in publications), "publisher_identity_mismatch", "Publisher identity changed")
-        startup = [event for event in publications if event.rollout_id is None]
-        _require(len(startup) == 1 and publications[0] is startup[0], "baseline_publication_missing_or_duplicate",
-                 "Fresh baseline requires one native out-of-loop startup publication")
-        baseline = startup[0]
-        _require(baseline.published_version is not None, "baseline_publication_missing", "Initial actor weights were not published")
+        receipts = _publication_receipts(events)
+        baseline, publications, checksums = receipts["baseline"], receipts["planned"], receipts["checksums"]
         result["baseline_weight_version"] = baseline.published_version
-        final = publications[-1]
-        result["final_published_weight_version"] = final.published_version
-        _require(all(event.debug_trainer_load_state_timestamp == baseline.debug_trainer_load_state_timestamp for event in publications),
-                 "trainer_load_epoch_changed", "Counter deltas cannot qualify updates across a trainer reload")
-        _require(len({event.debug_weight_update_id for event in publications}) == len(publications),
-                 "duplicate_publication_receipt", "Native publication IDs repeat")
-        _require(all(event.published_version == event.candidate_version and event.updated_cell_ids and not event.failed_cell_ids
-                     for event in publications), "publication_failed_or_partial", "Actor candidate was not fully published")
-        positions = [event.rollout_id for event in publications[1:]]
+        result["baseline_publication_id"] = baseline.debug_weight_update_id
+        result["final_published_weight_version"] = publications[-1].published_version if publications else baseline.published_version
+        result["restorations"] = [{"rollout_id": None, "published_version": event.published_version,
+                                   "debug_weight_update_id": event.debug_weight_update_id} for event in receipts["restorations"]]
+        positions = [event.rollout_id for event in publications]
         expected_positions = list(range(checkpoints[-1]["rollout_id"] + 1))
         _require(positions == expected_positions, "native_publication_coverage_incomplete",
                  "Need each planned native publication through the final position, not a version inferred from that position")
-        steps = [event for event in events if isinstance(event, TrainGroupStepEndEvent)
-                 and event.role == "actor" and event.source == source]
-        by_position = defaultdict(list)
-        for event in steps:
-            by_position[event.rollout_id].append(event)
-        _require(set(by_position) == set(expected_positions), "native_train_attempt_coverage_incomplete",
-                 "Native actor group completion receipts do not cover the planned attempts")
-        previous = baseline.published_version
-        for event in publications[1:]:
-            step = max(by_position[event.rollout_id], key=lambda event: event.timestamp)
-            _require(step.timestamp < event.timestamp and step.cell_outcomes and all(
-                isinstance(outcomes, list) and outcomes and all(outcome == "normal" for outcome in outcomes)
-                for outcomes in step.cell_outcomes.values()), "native_train_attempt_unsettled",
-                f"No completed actor group attempt before publication {event.debug_weight_update_id}")
-            delta = event.published_version - previous
-            _require(delta in (0, 1), "native_update_counter_invalid",
-                     "D9's one-optimizer-step batch must advance the native counter by zero or one")
+        result["final_planned_publication_id"] = publications[-1].debug_weight_update_id
+        for event in publications:
+            delta = receipts["deltas"][event.debug_weight_update_id]
             result["publications"].append({"rollout_id": event.rollout_id, "candidate_version": event.candidate_version,
                                            "published_version": event.published_version, "optimizer_counter_delta": delta,
                                            "debug_weight_update_id": event.debug_weight_update_id})
-            previous = event.published_version
         result["successful_optimizer_updates"] = sum(row["optimizer_counter_delta"] for row in result["publications"])
         result["skipped_optimizer_updates"] = len(expected_positions) - result["successful_optimizer_updates"]
         _require(result["successful_optimizer_updates"] > 0, "successful_updated_version_missing",
                  "NORMAL attempts or repeated baseline publications do not prove any successful optimizer update")
-        selected_events = [event for event in events if (
-            isinstance(event, (WeightUpdateResultEvent, TrainGroupStepEndEvent)) and event.source == source
-            or isinstance(event, (InferenceEngineWeightChecksumEvent, InferenceEngineChecksumCollectionFailedEvent))
-            and event.trainer_model_id is None
-        )]
-        coverage = inference_engine_weight_checksum_coverage.check(selected_events, include_latest=True)
-        _require(not coverage, "native_publication_checksum_incomplete", "; ".join(issue.description for issue in coverage))
-        _require(not inference_engine_weight_checksum_consistency.check(selected_events),
-                 "native_engine_checksum_mismatch", "Engines of a publication have different model tensors")
-        checksums = {event.debug_weight_update_id: event for event in selected_events
-                     if isinstance(event, InferenceEngineWeightChecksumEvent)}
         baseline_hashes = checksums[baseline.debug_weight_update_id].engine_snapshots[0].tensor_checksums
         by_publication_position = {event.rollout_id: event for event in publications}
         for checkpoint in checkpoints:

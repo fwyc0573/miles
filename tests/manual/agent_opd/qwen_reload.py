@@ -11,7 +11,8 @@ decoder checksums must equal the final native publisher's checksums, including
 derived buffers. Numerical proximity alone cannot establish final identity.
 Original final monitoring inputs/masks use the existing 0.03 summary. Scores
 are native input-token prefill logprobs, not original decode observations.
-Run in a dedicated interpreter: native Engine.shutdown reaps its child tree.
+Run in a dedicated interpreter: native Engine.shutdown terminates its child tree.
+Only already-terminal owned children are reaped by this validator afterwards.
 No checkpoint, package report, optimizer or training state is written.
 """
 
@@ -21,6 +22,7 @@ import json
 import math
 import platform
 import re
+import shlex
 from collections import Counter
 from contextlib import contextmanager
 from pathlib import Path
@@ -130,6 +132,63 @@ def _server_config(info):
     return {name: record[name] for name in _record_field_names(ServerArgs) if name in record}
 
 
+def _recorded_server_args(info):
+    from miles.backends.sglang_utils.server_args_utils import parse_server_args_argv
+
+    command = info.get("launch_command")
+    native._require(isinstance(command, str) and bool(command.strip()),
+                    "native_launch_command_missing", "Need the selected engine's recorded native CLI")
+    try:
+        argv = shlex.split(command)
+    except ValueError as error:
+        raise native.EvidenceError("native_launch_command_invalid", "Recorded native CLI is malformed") from error
+    native._require(not any("<redacted>" in token or "redacted-sha256:" in token for token in argv),
+                    "native_launch_command_redacted", "Redacted native CLI cannot reproduce the selected engine")
+    try:
+        declared = parse_server_args_argv(argv)
+    except (SystemExit, ValueError, AssertionError) as error:
+        raise native.EvidenceError("native_launch_command_invalid", "Native parser rejected the recorded CLI") from error
+    observed = _server_config(info)
+    for name in ("model_path", "tp_size", "random_seed", "device", "trust_remote_code", "host", "port"):
+        native._require(name in observed and getattr(declared, name) == observed[name],
+                        "native_launch_command_mismatch", f"Recorded CLI disagrees with the selected engine: {name}")
+    return declared
+
+
+def _cross_cell_configs_match(environments):
+    # InferenceEngineSpec.launch_command offsets random_seed by engine/cell/worker
+    # index. This cross-cell allowance does not apply to fresh-engine reproduction.
+    configs = [_server_config(item.server_info) for item in environments]
+    excluded = _ALLOCATION_FIELDS | {"random_seed"}
+    reference = {key: value for key, value in configs[0].items() if key not in excluded}
+    return all(isinstance(config.get("random_seed"), int)
+               and {key: value for key, value in config.items() if key not in excluded} == reference
+               and item.server_info["version"] == environments[0].server_info["version"]
+                for config, item in zip(configs, environments, strict=True))
+
+
+def _retained_config_comparison(reference_info, actual_info):
+    original, actual = _server_config(reference_info), _server_config(actual_info)
+    declared = _recorded_server_args(reference_info)
+    excluded = set(_ALLOCATION_FIELDS)
+    mismatches, derived = [], {}
+    if declared.served_model_name is None:
+        # Native serving_hook resolves only an omitted name to model_path.
+        # An explicit name is retained exactly, even when it looks like a path.
+        excluded.add("served_model_name")
+        for role, record in (("reference", original), ("reload", actual)):
+            if record.get("served_model_name") != record["model_path"]:
+                mismatches.append({"field": "served_model_name", "role": role,
+                                   "expected": record["model_path"], "actual": record.get("served_model_name")})
+        derived["served_model_name"] = {"source": "Native omitted-name default: model_path",
+                                        "reference": original.get("served_model_name"), "reload": actual.get("served_model_name")}
+    for name, value in original.items():
+        if name not in excluded and (name not in actual or actual[name] != value):
+            mismatches.append({"field": name, "reference": value, "reload": actual.get(name), "present": name in actual})
+    return {"verdict": "FAIL" if mismatches else "PASS", "mismatches": mismatches, "derived_deployment_fields": derived,
+            "coverage": "Every retained native ServerArgs field; explicit names, seed, memory limits and kernel/probability settings retained"}
+
+
 def _final_origin(run_dir, publication, launch, tp, source):
     native._require(publication["verdict"] == "PASS", "final_publication_unverified", str(publication["issues"]))
     final = publication["publications"][-1]
@@ -150,8 +209,7 @@ def _final_origin(run_dir, publication, launch, tp, source):
         native._require(bool(records), "final_engine_environment_missing", snapshot.cell_id)
         environments.append(max(records, key=lambda item: item.timestamp))
     original = _server_config(environments[0].server_info)
-    native._require(all({key: value for key, value in _server_config(item.server_info).items() if key not in _ALLOCATION_FIELDS}
-                        == {key: value for key, value in original.items() if key not in _ALLOCATION_FIELDS} for item in environments),
+    native._require(_cross_cell_configs_match(environments),
                     "final_engine_config_disagreement", "Publisher engine configurations disagree")
     native._require(Path(original["model_path"]).resolve() == source and original["tp_size"] == tp,
                     "final_engine_launch_mismatch", "Actual source/TP disagrees with launch")
@@ -173,7 +231,8 @@ def _final_origin(run_dir, publication, launch, tp, source):
             name = action.dest.removeprefix("sglang_")
             native._require(name in original and original[name] == getattr(parsed, action.dest),
                             "launch_engine_flag_mismatch", name)
-    return event, original, environments[0].server_info["version"]
+    _recorded_server_args(environments[0].server_info)
+    return event, original, environments[0].server_info
 
 
 def _decoder_checksums(checksums, config, tp, *, reference):
@@ -249,17 +308,66 @@ def _native_types():
     return Engine, ServerArgs, CheckWeightsReqInput, get_model_architecture, _NON_PERSISTENT_BUFFER_PATTERNS, _record_field_names(ServerArgs), get_free_port
 
 
+def _reap_terminal_children(children, mp_children):
+    import os
+    import psutil
+    from multiprocessing import resource_tracker
+
+    handles = {child.pid: child for child in mp_children}
+    tracker = resource_tracker._resource_tracker
+    rows, live, issues = [], [], []
+    for child in {child.pid: child for child in children}.values():
+        row = {"pid": child.pid, "reaped": False}
+        rows.append(row)
+        try:
+            if not child.is_running():
+                row["status"] = "terminated"
+                continue
+            row["status"] = child.status()
+            if row["status"] not in (psutil.STATUS_ZOMBIE, psutil.STATUS_DEAD):
+                live.append(child.pid)
+                continue
+            if child.ppid() == os.getpid():
+                if child.pid == tracker._pid:
+                    # The stdlib owner must consume its own wait status and FD;
+                    # a generic wait leaves __del__ with a stale tracker PID.
+                    row["owner"] = "multiprocessing.resource_tracker"
+                    tracker._stop()
+                elif child.pid in handles:
+                    handles[child.pid].join(timeout=0)
+                    row["exit_code"] = handles[child.pid].exitcode
+                else:
+                    row["exit_code"] = child.wait(timeout=0)
+                row["reaped"] = True
+        except psutil.NoSuchProcess:
+            row["status"] = "terminated"
+        except Exception as error:
+            issues.append({"pid": child.pid, **native._issue(error)})
+    return {"verdict": "INCOMPLETE" if live or issues else "PASS", "children": rows, "issues": issues,
+            "observed_owned_child_pids": [row["pid"] for row in rows], "remaining_owned_child_pids": sorted(live),
+            "method": "Native Engine.shutdown; stdlib owner stop/join or wait only already-terminal owned children; no additional signals"}
+
+
 @contextmanager
-def _fresh_engine(original, export, device, base_gpu_id):
+def _fresh_engine(original, export, device, base_gpu_id, *, reference_info, cleanup):
+    import multiprocessing
+    import psutil
+
     Engine, ServerArgs, request_type, architecture, excluded, fields, free_port = _native_types()
-    config = {name: original[name] for name in fields if name in original}
-    # Only fresh allocation/address identities change. Model and weight-affecting
-    # settings remain the recorded native settings, including dtype and TP.
-    config.update(model_path=str(export), tokenizer_path=str(export), device=device, base_gpu_id=base_gpu_id,
+    native._require(_server_config(reference_info) == original and device == original["device"],
+                    "reload_reference_config_mismatch", "Need the selected engine's original observations and device")
+    declared = _recorded_server_args(reference_info)
+    # Miles' producer roundtrips the complete input through this native parser.
+    # Resolved/redacted server_info stays an observation, never executable input.
+    config = {name: getattr(declared, name) for name in fields}
+    config.update(model_path=str(export), tokenizer_path=str(export), base_gpu_id=base_gpu_id,
                   host="127.0.0.1", port=free_port(), node_rank=0, nnodes=1, dist_init_addr=None, nccl_port=None)
     for name in ("gated_launch_port", "engine_info_bootstrap_port", "disaggregation_bootstrap_port"):
         if name in config:
             config[name] = None
+    parent = psutil.Process()
+    native._require(not parent.children(recursive=True), "native_interpreter_not_isolated",
+                    "Native shutdown controls its interpreter's child tree; use a dedicated interpreter with no existing children")
     engine = Engine.__new__(Engine)
     # Native shutdown supports partial startup through tokenizer_manager=None.
     engine.tokenizer_manager = None
@@ -270,9 +378,22 @@ def _fresh_engine(original, export, device, base_gpu_id):
                         "native_text_loader_unsupported", f"{selected.__module__}.{selected.__name__}/{resolved_arch}")
         yield engine, request_type, {"model_class": f"{selected.__module__}.{selected.__name__}",
                                     "resolved_architecture": resolved_arch, "position_buffer_exclusions": list(excluded),
+                                    "constructor_input_source": "Selected EngineEnvReportEvent.launch_command via native CLI parser",
                                     "model_dtype": str(engine.tokenizer_manager.model_config.dtype)}
     finally:
-        engine.shutdown()
+        children = parent.children(recursive=True)
+        handles = multiprocessing.active_children()
+        try:
+            engine.shutdown()
+        except Exception as error:
+            cleanup.update(verdict="INCOMPLETE", issues=[native._issue(error)])
+            raise
+        finally:
+            result = _reap_terminal_children([*children, *parent.children(recursive=True)], handles)
+            if cleanup.get("issues"):
+                result["issues"].extend(cleanup["issues"])
+                result["verdict"] = "INCOMPLETE"
+            cleanup.update(result)
 
 
 def _native_checksums(engine, request_type):
@@ -387,21 +508,22 @@ def verify(*, export, source, run_dir, population_report, launch_receipt, runtim
         report.update(samples=rows, weight_publication=publication, raw_artifacts=artifacts)
         report["issues"].extend(issues)
         report["probabilities"] = native._comparison_summary(rows, {}, _COMPARISON, _THRESHOLD, issues)
-        final, original, version = _final_origin(run_dir, publication, launch, tp, source)
+        final, original, reference_info = _final_origin(run_dir, publication, launch, tp, source)
+        version = reference_info["version"]
         decoder, excluded = _decoder_checksums(final.engine_snapshots[0].tensor_checksums, config, tp, reference=True)
         report["final_origin"] = {"checksum_event": final.model_dump(mode="json"), "tp_size": tp,
                                   "excluded_vision_mtp_keys": excluded, "eligible_decoder_tensor_count": len(decoder)}
-        with _fresh_engine(original, export, device, base_gpu_id) as (engine, request_type, resolved):
+        report["cleanup"] = {"verdict": "INCOMPLETE", "issues": []}
+        with _fresh_engine(original, export, device, base_gpu_id, reference_info=reference_info, cleanup=report["cleanup"]) as (engine, request_type, resolved):
             info, model_info = engine.get_server_info(), engine.get_model_info()
             actual = _server_config(info)
             native._require(info["version"] == version, "native_runtime_version_mismatch", f"{info['version']} versus {version}")
             native._require(Path(actual["model_path"]).resolve() == export and Path(model_info["model_path"]).resolve() == export
                             and actual["tp_size"] == tp and actual["device"] == device,
                             "reload_startup_mismatch", "Native engine resolved a different model, TP or device")
-            # Startup records must confirm every retained weight-affecting setting.
-            native._require(all(name in actual and actual[name] == value for name, value in original.items()
-                                if name not in _ALLOCATION_FIELDS),
-                            "reload_native_config_mismatch", "Native settings changed from the publisher engine")
+            report["startup_settings"] = _retained_config_comparison(reference_info, info)
+            native._require(report["startup_settings"]["verdict"] == "PASS",
+                            "reload_native_config_mismatch", f"Native settings changed: {report['startup_settings']['mismatches']}")
             native._require(model_info["weight_version"] is not None, "fresh_engine_version_missing", "Need an actual fresh-engine receipt")
             fresh_version = str(model_info["weight_version"])
             report["runtime"] = {"backend": "sglang", "python": platform.python_version(), "torch": torch.__version__,
@@ -439,9 +561,8 @@ def verify(*, export, source, run_dir, population_report, launch_receipt, runtim
             except Exception as error:
                 report["generation"] = {"verdict": "INCOMPLETE", "issues": [native._issue(error)]}
             report["post_inference_checksums"] = _checksum_comparison(_native_checksums(engine, request_type), decoder, config, tp)
-        report["cleanup"] = {"verdict": "PASS", "scope": "Only this standalone validator's fresh native Engine child tree"}
         report["verdict"] = native._verdict([publication["verdict"], report["checksums"]["verdict"], report["post_inference_checksums"]["verdict"],
-                                             report["probabilities"]["verdict"], report["generation"]["verdict"]])
+                                             report["probabilities"]["verdict"], report["generation"]["verdict"], report["cleanup"]["verdict"]])
         report["reload_verified"] = report["verdict"] == "PASS"
     except Exception as error:
         report["issues"].append(native._issue(error))
