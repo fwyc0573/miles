@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record D18: move pairs A/B to H200 with a session/task ceiling of32 concurrent non-preemptible H200 GPUs; retain C on H800 and all existing workload budgets. |
 | 2026-11-07 | Record D17: after B publishes one update then fails with output-projection GPU OOM, approve one fresh100-step B restart after capacity repair. |
 | 2026-11-07 | Record D16: raise only C student's effective host-memory limit to1500GiB, preserving normal parameter backups and the approved fresh100-step budget. |
 | 2026-11-07 | Record D15: restart C from initial weights for a complete 100-step run after repairs; retain the discarded failed step in historical accounting. |
@@ -259,6 +260,14 @@ The selected option preserves the existing parameter backup and optimizer config
 
 **Decision D17:** After resolving the observed capacity issue, restart B from its original student weights for one complete100-step formal run with the existing monitoring, optimizer and final-export criteria. Retain the previous run's one actual optimizer update and version1 publication as discarded historical work; it is not one of the new run's100 positions. Historical B updates total101 if every new update succeeds. This specific exception does not authorize further automatic restarts, extra optimizer probes or parameter sweeps. A retains its existing100-step budget; C retains D15/D16. The budget decision does not select a memory implementation or certify capacity.
 
+## A/B H200 execution — confirmed
+
+[Original Request]
+
+> 由于h800的调度资源限制问题，将task中3个comb中的前2个combs（不含397b的）提交到 h200集群上测试验证，允许本session/task提交 32卡内的不可抢占 rjobs
+
+**Decision D18:** Run pairs A/B on H200, using the handbook's H200/step_main pairing and no more than32 concurrent non-preemptible H200 GPUs for this session/task, including auxiliary allocations. Keep each pair's existing8-GPU student and2-GPU teacher topology, for20 H200 GPUs across both formal jobs. `training_config_h200.json` is the frozen A/B launch manifest derived from the existing H800 configuration; its hardware tag, charged group and capacity ceiling change, and it excludes C. C retains its existing H800/codesign submission and D15/D16 allocation. A retains100 planned positions; B uses the already-approved D17 fresh100. Preserve the selected model identities, population, optimizer, TP, numerical criteria, context, monitoring and HF-only output. This hardware change supersedes the original all-H800 requirement for A/B; it does not certify H200 capacity or authorize extra optimizer probes, further restarts, preemptible work or numerical relaxation. Verify actual H200 runtime and D8 in the submitted runs. The output-lifetime investigation remains independent evidence; its optional diagnostic work does not block this explicitly selected hardware migration.
+
 ## Execution support authorizations
 
 [Original Request] After the false-positive v2 tool guard was diagnosed and its local repair was requested:
@@ -286,7 +295,7 @@ These are narrow exceptions to the former personal-only read restriction. All cl
 | ID | Requirement |
 | --- | --- |
 | R1 | Create the task and documents before implementation or GPU execution; interview one decision at a time. |
-| R2 | Validate all three full model pairs independently and advance their ready work concurrently on H800. Smaller model is student, larger model is frozen teacher. |
+| R2 | Validate all three full model pairs independently and advance their ready work concurrently: A/B on H200 under D18, C on H800. Smaller model is student, larger model is frozen teacher. |
 | R3 | Make student training/inference consistency diagnosis and root-cause repair the central objective; apply D8's accepted numerical rule. |
 | R4 | Student route replay is not applicable under D2. Enable and verify TIS, actual native student weight synchronization and global total-token loss normalization. Current D5 colocation uses CUDA IPC; original NCCL-direct qualification is deferred and must not be reported as passed. |
 | R5 | Measure and plot training loss and gradient norm, assess learning behavior, and save a usable student HF checkpoint to personal codesign storage without additional native model or optimizer checkpoints. |
@@ -310,7 +319,7 @@ No Base, quantized, reduced-layer or different model substitution is approved. A
 - The current Miles workspace (`agent-opd`) is the confirmed implementation target under D1. The original request's Steptron wording supplies semantic references; the earlier canceled Steptron investigation and initial branch inspection supply no implementation authority for this task.
 - D14 closes the shared-understanding gate and authorizes in-scope implementation/prerequisite checks. GPU execution still needs the specified assets/runtime/resource prerequisites. At the D14 decision, no RJobs have been submitted by this task.
 - Preserve unrelated `.serena/` and `task_memory/task_2026-11-06_qwen_model_inventory/` work. No README edit, external publication, unrelated deletion or broad refactor is authorized. The exact old Git index-lock cleanup is separately approved above. Cloud operations remain within the personal namespace and approved run scope.
-- Future runs follow the workspace GPU/storage rules: personal StepMind Python submission, H800/codesign, local source mounts, live quota check, personal cloud writes and only the explicit model-read exceptions above. The stated 128 GPUs are a ceiling to check, not observed free capacity. Auxiliary validators remain non-blocking for runs using 32 or more GPUs.
+- Future runs follow the workspace GPU/storage rules: personal StepMind Python submission, A/B H200/step_main under D18 and C H800/codesign, local source mounts, live quota check, personal cloud writes and only the explicit model-read exceptions above. The H200 session/task ceiling is32 concurrent non-preemptible GPUs; the stated H800128 GPUs are cluster capacity, not observed free capacity. Auxiliary validators remain non-blocking for runs using32 or more GPUs.
 
 ## Decisions to resolve in order
 

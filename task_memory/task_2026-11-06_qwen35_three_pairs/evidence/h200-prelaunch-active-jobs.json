@@ -1,0 +1,8 @@
+{
+  "checked_at": "2026-11-07T09:14:20.531351+00:00",
+  "selector": "quotagroup.brainpp.cn/quotagroup=step_main,kubebrain.brainpp.cn/creator=i-fengyicheng",
+  "active_personal_step_main_jobs": [],
+  "requested_new_h200_nonpreemptible": 20,
+  "task_h200_limit": 32,
+  "limitation": "Active personal job requests, not a free-device or scheduler-admission guarantee."
+}

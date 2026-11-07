@@ -6,7 +6,7 @@ Run with that image's /opt/sglang/bin/python3 and its existing CUDA environment:
         --config /data/ycfeng/task/pair.json --pair A --role teacher
 Use the same config/pair with --role student on the critical student task.
 Teacher replicas use native SGLang distributed initialization, not student Ray.
-This CUDA/H800-only worker never installs packages or controls platform jobs.
+This CUDA-only worker never installs packages or controls platform jobs.
 """
 
 import argparse
@@ -23,7 +23,7 @@ import requests
 from scripts.run_glm47_flash_agent_opd import _training_env
 from tests.manual.agent_opd.prepare_qwen35 import CONTEXT_TOKENS
 from tests.manual.agent_opd.rjob_warmup import _wait_file, _worker_environment, _write_json
-from tests.manual.agent_opd.run_qwen35_opd import _PAIRS, _PERSONAL_ROOT, _READ_ONLY_MODELS, _record_receipt
+from tests.manual.agent_opd.run_qwen35_opd import _PAIRS, _PERSONAL_ROOT, _READ_ONLY_MODELS, _gpu_devices, _record_receipt
 
 from miles.utils.external_utils import command_utils as U
 
@@ -93,11 +93,7 @@ def _allocation(rank: int, role: str, config: dict, pair: str) -> dict:
     nodes = model["nodes"] if role == "teacher" else 1
     if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
         raise ValueError(f"Platform replica rank/count differs from the {role} allocation")
-    rows = subprocess.check_output(
-        ["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], text=True
-    ).splitlines()
-    if len(rows) != model["gpus_per_node"] or any("H800" not in row.split(",")[0] for row in rows):
-        raise ValueError(f"{role} allocation does not match its requested H800 GPU count: {rows}")
+    rows = _gpu_devices(config["gpu_tag"], model["gpus_per_node"])
     return {
         "job": os.environ["KUBEBRAIN_RJOB_NAME"], "pair": pair, "role": role, "rank": rank,
         "nodes": nodes, "hostname": socket.gethostname(), "ip": os.environ["MILES_NODE_EXTERNAL_IP"],
@@ -129,6 +125,7 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
         "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
         "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
         "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+        "--gpu-type", config["gpu_tag"],
         "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
         "--tensor-model-parallel-size", str(student["tp_size"]),
         "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),

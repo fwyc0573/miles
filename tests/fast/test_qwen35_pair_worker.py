@@ -40,12 +40,14 @@ def config(tmp_path, monkeypatch):
         "population_dir": str(personal / "population"), "run_root": str(personal / "runs"),
         "shared_dir": str(tmp_path / "records"), "num_rollout": 0, "context_tokens": 131072,
         "startup_timeout": 1800, "request_timeout": 3600, "teacher_port": 30000,
-        "teacher_dist_port": 29501, "pairs": pairs,
+        "teacher_dist_port": 29501, "pairs": pairs, "gpu_tag": "H800",
     }
 
 
 @pytest.mark.parametrize("pair", ["A", "B", "C"])
-def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
+@pytest.mark.parametrize("gpu_tag", ["H800", "H200"])
+def test_selected_pair_scope_and_native_commands(config, tmp_path, pair, gpu_tag):
+    config["gpu_tag"] = gpu_tag
     path = tmp_path / "config.json"
     selected = config["pairs"][pair]
     config["pairs"] = {pair: selected, "unselected": {"path": "/outside/never-inspected"}}
@@ -75,12 +77,14 @@ def test_selected_pair_scope_and_native_commands(config, tmp_path, pair):
             "--teacher-url": "http://10.0.0.7:30000/generate", "--population-dir": config["population_dir"],
             "--output-root": str(Path(config["run_root"]) / "student"),
             "--shared-dir": str(Path(config["shared_dir"]) / "student"), "--local-root": str(tmp_path),
-            "--gpus-per-node": "8", "--student-engine-gpus": str(selected["student"]["engine_gpus"]),
+            "--gpu-type": gpu_tag, "--gpus-per-node": "8", "--student-engine-gpus": str(selected["student"]["engine_gpus"]),
             "--tensor-model-parallel-size": str(selected["student"]["tp_size"]), "--max-tokens-per-gpu": "131072",
             "--sglang-mem-fraction-static": "0.7", "--sglang-max-running-requests": "1",
             "--sglang-chunked-prefill-size": "8192", "--sglang-router-request-timeout-secs": "3600",
             "--startup-timeout": str(budget), "--num-rollout": str(rollouts),
         }
+        from tests.manual.agent_opd import run_qwen35_opd as student_cli
+        assert student_cli._parser().parse_args(argv[4:]).gpu_type == gpu_tag
     selected["teacher"]["path"] = str(Path(selected["teacher"]["path"]).parent)
     path.write_text(json.dumps(config))
     with pytest.raises(ValueError, match="exactly approved"):
@@ -357,16 +361,18 @@ def test_graceful_shutdown_targets_child_session_only(monkeypatch):
     assert signals == [(314, signal.SIGTERM), ("wait", 60)]
 
 
-def test_h800_allocation_is_checked_against_selected_role(config, monkeypatch):
+@pytest.mark.parametrize("gpu_tag,wrong_gpu", [("H800", "H200"), ("H200", "H800")])
+def test_allocation_is_checked_against_selected_hardware_and_role(config, monkeypatch, gpu_tag, wrong_gpu):
+    config["gpu_tag"] = gpu_tag
     monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "1")
     monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
     monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "10.0.0.7")
-    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "H800, 81559 MiB, fixture\n" * 2)
+    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: f"NVIDIA {gpu_tag}, fixture-memory, fixture-driver\n" * 2)
     assert len(worker._allocation(0, "teacher", config, "A")["gpu_devices"]) == 2
-    with pytest.raises(ValueError, match="requested H800 GPU count"):
+    with pytest.raises(ValueError, match=f"requested {gpu_tag} GPU count"):
         worker._allocation(0, "student", config, "A")
-    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "H200, 141000 MiB, fixture\n" * 2)
-    with pytest.raises(ValueError, match="requested H800 GPU count"):
+    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: f"NVIDIA {wrong_gpu}, fixture-memory, fixture-driver\n" * 2)
+    with pytest.raises(ValueError, match=f"requested {gpu_tag} GPU count"):
         worker._allocation(0, "teacher", config, "A")
 
 

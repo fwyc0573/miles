@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-11-07T09:31:54.436898+00:00",
+  "jobs": [
+    {
+      "job": "exp-1107-172750-953553",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Starting",
+        "reason": "RJobStarting",
+        "message": "Tasks is starting: [default]",
+        "taskStatuses": {
+          "default": {
+            "pending": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue": {
+        "rjob.brainpp.cn/rjob-queue-approved": "2026-11-07T09:27:59.704286536Z",
+        "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+        "stepmind.com/queue-name": "step-main-default"
+      },
+      "mounts": {
+        "default": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      }
+    },
+    {
+      "job": "exp-1107-150849-814926",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue": {
+        "rjob.brainpp.cn/rjob-queue-approved": "",
+        "stepmind.com/queue-elem-ranking": "2",
+        "stepmind.com/queue-name": "codesign-default",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=14."
+      },
+      "mounts": {
+        "student": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+        "teacher": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      }
+    }
+  ]
+}

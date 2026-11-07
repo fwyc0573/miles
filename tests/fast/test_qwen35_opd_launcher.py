@@ -66,7 +66,7 @@ def _args(pair="A", *extra):
         "--teacher-url", "http://teacher:30000/generate",
         "--population-dir", "/mnt/codesign-exp/ycfeng/qwen35/population",
         "--output-root", "/mnt/codesign-exp/ycfeng/qwen35/runs", "--shared-dir", "/data/ycfeng/qwen35/records",
-        "--gpus-per-node", "8", "--student-engine-gpus", "4" if pair == "C" else "2",
+        "--gpu-type", "H800", "--gpus-per-node", "8", "--student-engine-gpus", "4" if pair == "C" else "2",
         "--max-tokens-per-gpu", "131072", "--sglang-mem-fraction-static", "0.5",
         "--sglang-max-running-requests", "8", "--sglang-chunked-prefill-size", "8192",
         "--sglang-router-request-timeout-secs", "3600", *extra,

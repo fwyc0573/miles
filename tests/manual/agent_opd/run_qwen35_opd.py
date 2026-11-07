@@ -1,16 +1,16 @@
-"""Run one full Qwen3.5 pair with colocated student training/rollout on H800.
+"""Run one full Qwen3.5 pair with colocated student training/rollout on qualified GPUs.
 
 The frozen teacher must already serve a separate allocation's native /generate
 endpoint. Prepare the population once with prepare_qwen35 and reuse that directory
 for A (4B -> 27B), B (4B -> 35B-A3B), and C (27B -> 397B-A17B).
-The parent launcher owns model identity, image and H800 resource qualification.
+The parent launcher owns model identity, image and GPU resource qualification.
 This worker reuses rjob_warmup's Ray lifecycle and native command_utils submission.
 
 Args:
     --pair / --student / --teacher / --teacher-url: Full pair identities and assets.
     --population-dir: Frozen train.jsonl, monitor.jsonl and passed population.json.
     --output-root / --shared-dir: Personal cloud artifacts and mounted local records.
-    --gpus-per-node / --student-engine-gpus: Explicit one-node student allocation.
+    --gpu-type / --gpus-per-node / --student-engine-gpus: Explicit student allocation.
     --max-tokens-per-gpu: Required dynamic microbatch token budget; no H200 default.
     --sglang-mem-fraction-static / --sglang-max-running-requests /
     --sglang-chunked-prefill-size / --sglang-router-request-timeout-secs:
@@ -23,7 +23,7 @@ Example (shell variables denote parent-qualified inputs, not capacity defaults):
     python -B -m tests.manual.agent_opd.run_qwen35_opd --pair A \
         --student "$STUDENT" --teacher "$TEACHER" --teacher-url "$TEACHER_URL" \
         --population-dir "$POPULATION" --output-root "$OUTPUT" --shared-dir "$RECORDS" \
-        --gpus-per-node "$GPUS" --student-engine-gpus "$ENGINE_GPUS" \
+        --gpu-type "$GPU_TYPE" --gpus-per-node "$GPUS" --student-engine-gpus "$ENGINE_GPUS" \
         --max-tokens-per-gpu "$TOKEN_BUDGET" --sglang-mem-fraction-static "$MEM_FRACTION" \
         --sglang-max-running-requests "$REQUESTS" --sglang-chunked-prefill-size "$CHUNK" \
         --sglang-router-request-timeout-secs "$REQUEST_TIMEOUT"
@@ -82,6 +82,7 @@ def _parser() -> argparse.ArgumentParser:
     for name in ("student", "teacher", "population-dir", "output-root", "shared-dir"):
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--teacher-url", required=True, help="Full native teacher /generate URL")
+    parser.add_argument("--gpu-type", required=True, help="Expected GPU model from the parent allocation")
     parser.add_argument("--gpus-per-node", type=int, required=True)
     parser.add_argument("--student-engine-gpus", type=int, required=True)
     parser.add_argument("--tensor-model-parallel-size", type=int, help="Defaults to the dense student recipe's TP")
@@ -282,6 +283,15 @@ def _launch_receipt(args, run: Path, training_args: str) -> dict:
     }
 
 
+def _gpu_devices(gpu_type: str, count: int) -> list[str]:
+    rows = subprocess.check_output(
+        ["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], text=True
+    ).splitlines()
+    if len(rows) != count or any(gpu_type not in row.split(",")[0] for row in rows):
+        raise ValueError(f"Allocation does not match the requested {gpu_type} GPU count: {rows}")
+    return rows
+
+
 def _record_receipt(path: Path, value: dict) -> None:
     try:
         _write_json(path, value)
@@ -306,11 +316,7 @@ def _run(args) -> None:
     try:
         population = _check_population(args)
         _check_tokenizers(args.student, args.teacher)
-        gpu_rows = subprocess.check_output(
-            ["nvidia-smi", "--query-gpu=name,memory.total,driver_version", "--format=csv,noheader"], text=True
-        ).splitlines()
-        if len(gpu_rows) != args.gpus_per_node or any("H800" not in row.split(",")[0] for row in gpu_rows):
-            raise ValueError(f"Student allocation does not match the requested H800 GPU count: {gpu_rows}")
+        gpu_rows = _gpu_devices(args.gpu_type, args.gpus_per_node)
         train_args = _training_args(args, cloud)
         config = U.ExecuteTrainConfig(num_nodes=1, output_dir=str(cloud), run_id=job)
         env = _runtime_env(config)

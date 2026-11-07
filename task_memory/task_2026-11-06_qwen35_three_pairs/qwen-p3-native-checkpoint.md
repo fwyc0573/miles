@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Apply D18 H200 frontier after device-identity regression checks; stop optional memory diagnostics from becoming a formal-launch dependency. |
 | 2026-11-07 | Actual B preload restoration/baseline/first publication pass; record later projection OOM, A0-update stop, D17 and independent C scheduling. |
 | 2026-11-07 | Corrected H800 diagnostic completes two cycles and all exits successfully; formal jobs are submitted and queued, so stop diagnostic work and await actual formal evidence. |
 | 2026-11-07 | Separate probe cleanup from formal execution after real CUDA restoration measurements; correct S1 while preserving the failed diagnostic artifact and actual formal acceptance requirements. |
@@ -17,55 +18,55 @@
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 4｜TODO 0
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 2
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | P0 | PASS | 任务记录与来源齐备。 |
-| P1 | PASS | D1–D17 已确认；B/C分别获得一次新100步授权，C student1500GiB。 |
+| P1 | PASS | D1–D18 已确认；A/B改H20020卡，限制32卡内不可抢占；C保留H800。 |
 | P2 | PASS | 三组初始 D8 均通过。 |
-| P3-A | BLOCKED | 同一4B TP2/GPU-optimizer容量路径，训练开始前停止，实际0更新。 |
-| P3-B | FAILED | 新基线和恢复通过，发布1次真实更新；下一轮输出投影GPU OOM。 |
+| P3-A | TODO | H200 manifest与设备/CLI回归通过，准备提交100位置；历史0更新。 |
+| P3-B | TODO | 同一H200准备完成，使用D17 fresh100；旧H800失败与1更新保留。 |
 | P3-C | BLOCKED | 既有D15/D16作业仍待调度；没有新增B容量依赖。 |
 | P4 | BLOCKED | 依赖三组最终验收，当前均未完成。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次CUDA完整退出检查点至B首步通过、后续OOM及D17确认｜**当前前沿：** P3-A/B显存原因与最小修正；并行等待P3-C调度。
+**检测窗口：** B首步/OOM检查点至D18及设备身份修正｜**当前前沿：** 并行提交P3-A/B H200；P3-C保留原有H800队列。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 已关闭小型探针；使用原有inspector和原始事件完成正式验收取证，没有扩展工具。 |
-| D2 细节反复重试 | CLEAR | 新失败发生于下一轮输出投影；未盲目重投，先记录三条可区分的容量假设。 |
-| D3 支线问题修补 | CLEAR | 新OOM直接阻塞P3-A/B的100步；其余已通过工具没有再修。 |
-| D4 可并行任务停滞 | CLEAR | 原三组同时提交；有明确配额限制，C保持独立，两个源代码核查并行且不重叠。 |
-| D5 超范围镀金 | CLEAR | 尚未改变优化器/上下文；B的新100步获得D17明确授权。 |
-| D6 分析空转 | CLEAR | 新增原始证据明确了baseline PASS、同版本恢复、1次更新、后续OOM和A0更新。 |
-| D7 路线违背 | CLEAR | A暂停依据实际同配置容量失败；B重新开始前先取得预算授权，无额外optimizer探针。 |
+| D1 工具打磨 | CLEAR | D18后停止可选CUDA诊断扩展；设备guard是实际启动阻塞，相关检查通过后转提交。补充pinned复跑不串行阻挡队列。 |
+| D2 细节反复重试 | CLEAR | namespace取证错误按实际模块修正；硬编码guard RED→修正通过，没有轮换allocator参数试错。 |
+| D3 支线问题修补 | CLEAR | 旧H800存储问题转future.md；当前仅修H200启动真正经过的设备检查。 |
+| D4 可并行任务停滞 | CLEAR | A/B共享guard准备并将同时提交；C持续排队且平台仅余14H800，需求24。 |
+| D5 超范围镀金 | CLEAR | 只把现有gpu_tag传到两处检查；没有优化器、TP、上下文或数值设置扩展。 |
+| D6 分析空转 | CLEAR | manifest/原生dry-run已通过，相关CPU回归通过；前沿由H800诊断转为D18提交。 |
+| D7 路线违背 | CLEAR | H200由新D18明确授权；额外optimizer probe和自动追加restart仍未发生。 |
 
-**文档检查：** S5：`plan.md`步骤表/最新前沿及`progress.md`next actions仍写A/B0更新、三组排队、正式preload未观察，与新原始事件及D17冲突。S1/S2/S3/S4/S6未发现新的明显缺陷。
+**文档检查：** S1：旧“先完成H800容量修复再提交”边与D18已选硬件路线不符；S5：旧全H800状态/检查点须同步D18。requirements、plan、progress已更新；本检查点同步修正。S2/S3/S4/S6未发现新缺陷。
 **归因：** 无。
 
 ## 3. 纠正建议
 
-**分支：** B：更新实际状态和已批准预算，再继续容量诊断及独立C运行。
+**分支：** B：同步D18与真实依赖后直接执行获准提交。
 
 **文档更新（先执行）：**
-1. `requirements.md`记录D17；`plan.md`、`progress.md`更新B1/A0、容量阻塞和独立C状态（用户预算确认已取得，其余可直接执行，已应用）。
-2. `test_report_2026-11-07_training.md`保留正式baseline/完整checksum/更新及原始OOM证据，限制结论范围（可直接执行，已应用）。
+1. `requirements.md`记录D18；`plan.md`、`progress.md`记录A/B H20020卡与32卡上限，C继续独立（用户已确认，已应用）。
+2. 本检查点与H200报告区分准备PASS、补充pinned pending和实际runtime未验证；移除非必要串行边（可直接执行，已应用）。
 
 **需停止的偏离行为：无**
 
 **接下去的路线：**
-1. P3-A/B：区分评分存储生命周期、optimizer常驻和形状/分配器因素 → 完成标志：真实调用路径的原因与最小修正得到验证，满足上下文/优化器/预算约束后恢复获准运行。
+1. P3-A/B并行：提交H200正式作业并保持launcher → 完成标志：实际平台身份、挂载、8+2 H200、baseline/恢复/更新及最终产物逐项验收。
 2. 并行：P3-C既有提交继续等待调度 → 完成标志：实际GPU/cgroup、新baseline、恢复和首步内存均取得证据。
 3. 各组按批准预算推进更新后/最终D8和HF → 完成标志：完整100位置及最终产物分别验收，随后P4。
 
-**暂缓事项：** 可选rematerialization的失败恢复修复与kernel-only探针记入[future.md](future.md)，引用各自唯一报告；当前C沿正常backup路径。
+**暂缓事项：** 可选rematerialization、kernel-only探针与Megatron输出寿命修复均在[future.md](future.md)；当前C保留正常backup路径。
 
 ## 4. 最值得关注的 3 点
 
-1. B真实preload/4B基线和同版本恢复通过，4cells×1416个checksum零差异，已有1次真实发布更新。
-2. B随后输出投影19.12GiB申请失败；A0更新暂停，D17批准B修复后重新100步，原因尚待区分。
-3. C仍受调度资源约束；各组更新后/最终D8及HF均未完成，不能把阶段PASS当作任务验收。
+1. A/B的D18配置与硬件检查准备完成，20张不可抢占H200小于32卡上限；下一步立即并行提交。
+2. 80项本机检查通过；1项已知旧SGLang parser差异等待补充pinned复跑，不代表新设备guard失败。
+3. C仍受14卡可用配额约束；所有新的正式基线、更新后/最终D8与HF验收须等待实际运行。
