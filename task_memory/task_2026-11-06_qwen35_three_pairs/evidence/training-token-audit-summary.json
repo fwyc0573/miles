@@ -1,0 +1,3459 @@
+{
+  "verdict": "PASS",
+  "scope": "Actual per-step target-count and retained native input audit; no new training",
+  "raw_report": "task_memory/task_2026-11-06_qwen35_three_pairs/evidence/training-token-audit-exp-1108-002213-053180.json",
+  "lossless_archive": "task_memory/task_2026-11-06_qwen35_three_pairs/evidence/training-token-audit-exp-1108-002213-053180.json.gz",
+  "environment": {
+    "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+    "torch": "2.14.1+cu130"
+  },
+  "step_rows": 200,
+  "runs": [
+    {
+      "pair": "A",
+      "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234",
+      "verdict": "PASS",
+      "native_publication_counters": {
+        "baseline_version": 0,
+        "successful_updates": 100,
+        "skipped_updates": 0,
+        "final_version": 100,
+        "restoration_publications": 6
+      },
+      "totals": {
+        "original_eligible_targets": 237618,
+        "completions": 800,
+        "min_targets": 593,
+        "max_targets": 5079,
+        "fully_masked_samples": 0,
+        "nonfinite_eligible_tensor_entries": 0,
+        "steps": 100
+      },
+      "steps": [
+        {
+          "rollout_id": 0,
+          "update_position": 1,
+          "original_eligible_target_tokens": 3196,
+          "native_count_loss_tokens": 3196,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f67f2d7d85454084bb76a7706f7e448c",
+          "published_weight_version": 1,
+          "dp_original_targets": [
+            747,
+            673,
+            1068,
+            708
+          ]
+        },
+        {
+          "rollout_id": 1,
+          "update_position": 2,
+          "original_eligible_target_tokens": 2836,
+          "native_count_loss_tokens": 2836,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ee61b5ef2da3455bb2d1954851c50df1",
+          "published_weight_version": 2,
+          "dp_original_targets": [
+            574,
+            736,
+            468,
+            1058
+          ]
+        },
+        {
+          "rollout_id": 2,
+          "update_position": 3,
+          "original_eligible_target_tokens": 2647,
+          "native_count_loss_tokens": 2647,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7823b9cbe15d4dff904fb05c3631e129",
+          "published_weight_version": 3,
+          "dp_original_targets": [
+            755,
+            845,
+            609,
+            438
+          ]
+        },
+        {
+          "rollout_id": 3,
+          "update_position": 4,
+          "original_eligible_target_tokens": 1796,
+          "native_count_loss_tokens": 1796,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "15acf40b8c1d49fc9a6882d6399cc552",
+          "published_weight_version": 4,
+          "dp_original_targets": [
+            187,
+            339,
+            657,
+            613
+          ]
+        },
+        {
+          "rollout_id": 4,
+          "update_position": 5,
+          "original_eligible_target_tokens": 2346,
+          "native_count_loss_tokens": 2346,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7cbea0dd79434144946e144281ce5b26",
+          "published_weight_version": 5,
+          "dp_original_targets": [
+            343,
+            757,
+            681,
+            565
+          ]
+        },
+        {
+          "rollout_id": 5,
+          "update_position": 6,
+          "original_eligible_target_tokens": 3355,
+          "native_count_loss_tokens": 3355,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "657feda2c79b49c0b2275f39c7295400",
+          "published_weight_version": 6,
+          "dp_original_targets": [
+            190,
+            757,
+            1336,
+            1072
+          ]
+        },
+        {
+          "rollout_id": 6,
+          "update_position": 7,
+          "original_eligible_target_tokens": 593,
+          "native_count_loss_tokens": 593,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "9ff8d3a6d943460badf2226c8488fd87",
+          "published_weight_version": 7,
+          "dp_original_targets": [
+            111,
+            163,
+            153,
+            166
+          ]
+        },
+        {
+          "rollout_id": 7,
+          "update_position": 8,
+          "original_eligible_target_tokens": 3158,
+          "native_count_loss_tokens": 3158,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "56e34b5ee8f840c29e9e1c9e15d8dcf0",
+          "published_weight_version": 8,
+          "dp_original_targets": [
+            1006,
+            624,
+            357,
+            1171
+          ]
+        },
+        {
+          "rollout_id": 8,
+          "update_position": 9,
+          "original_eligible_target_tokens": 2883,
+          "native_count_loss_tokens": 2883,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1f83c55e6c9f4972904c26ad7fe703ba",
+          "published_weight_version": 9,
+          "dp_original_targets": [
+            1142,
+            576,
+            630,
+            535
+          ]
+        },
+        {
+          "rollout_id": 9,
+          "update_position": 10,
+          "original_eligible_target_tokens": 2121,
+          "native_count_loss_tokens": 2121,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ffdd497511b84e1db017763843a5d2ef",
+          "published_weight_version": 10,
+          "dp_original_targets": [
+            875,
+            371,
+            135,
+            740
+          ]
+        },
+        {
+          "rollout_id": 10,
+          "update_position": 11,
+          "original_eligible_target_tokens": 2119,
+          "native_count_loss_tokens": 2119,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "814cdedee33248e4822123022d88c0ca",
+          "published_weight_version": 11,
+          "dp_original_targets": [
+            707,
+            252,
+            460,
+            700
+          ]
+        },
+        {
+          "rollout_id": 11,
+          "update_position": 12,
+          "original_eligible_target_tokens": 5079,
+          "native_count_loss_tokens": 5079,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "dbcebfeb976d425f9c0ab11bb711ae4c",
+          "published_weight_version": 12,
+          "dp_original_targets": [
+            1103,
+            2295,
+            745,
+            936
+          ]
+        },
+        {
+          "rollout_id": 12,
+          "update_position": 13,
+          "original_eligible_target_tokens": 2328,
+          "native_count_loss_tokens": 2328,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "45252d372af348a7b54776868de1d541",
+          "published_weight_version": 13,
+          "dp_original_targets": [
+            379,
+            491,
+            1008,
+            450
+          ]
+        },
+        {
+          "rollout_id": 13,
+          "update_position": 14,
+          "original_eligible_target_tokens": 2059,
+          "native_count_loss_tokens": 2059,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f4adcf8145414fe085c0bed8cfdae4f1",
+          "published_weight_version": 14,
+          "dp_original_targets": [
+            474,
+            313,
+            393,
+            879
+          ]
+        },
+        {
+          "rollout_id": 14,
+          "update_position": 15,
+          "original_eligible_target_tokens": 2244,
+          "native_count_loss_tokens": 2244,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b1d981855ba046d182448edd2f7f2dc9",
+          "published_weight_version": 15,
+          "dp_original_targets": [
+            630,
+            783,
+            396,
+            435
+          ]
+        },
+        {
+          "rollout_id": 15,
+          "update_position": 16,
+          "original_eligible_target_tokens": 2247,
+          "native_count_loss_tokens": 2247,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1204c46ac60a45d2b582229307ecfda9",
+          "published_weight_version": 16,
+          "dp_original_targets": [
+            956,
+            470,
+            631,
+            190
+          ]
+        },
+        {
+          "rollout_id": 16,
+          "update_position": 17,
+          "original_eligible_target_tokens": 1760,
+          "native_count_loss_tokens": 1760,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1a8b71b748e548688a3e56d220879c57",
+          "published_weight_version": 17,
+          "dp_original_targets": [
+            554,
+            827,
+            258,
+            121
+          ]
+        },
+        {
+          "rollout_id": 17,
+          "update_position": 18,
+          "original_eligible_target_tokens": 1531,
+          "native_count_loss_tokens": 1531,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5fd289aa7bf94cd2a4aafaa7011a1172",
+          "published_weight_version": 18,
+          "dp_original_targets": [
+            659,
+            193,
+            309,
+            370
+          ]
+        },
+        {
+          "rollout_id": 18,
+          "update_position": 19,
+          "original_eligible_target_tokens": 3052,
+          "native_count_loss_tokens": 3052,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "af593ee833424077b7c109a6b65e3473",
+          "published_weight_version": 19,
+          "dp_original_targets": [
+            347,
+            267,
+            575,
+            1863
+          ]
+        },
+        {
+          "rollout_id": 19,
+          "update_position": 20,
+          "original_eligible_target_tokens": 2103,
+          "native_count_loss_tokens": 2103,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7b19b1aa32af42d8991862f3c4f88d68",
+          "published_weight_version": 20,
+          "dp_original_targets": [
+            361,
+            241,
+            586,
+            915
+          ]
+        },
+        {
+          "rollout_id": 20,
+          "update_position": 21,
+          "original_eligible_target_tokens": 2854,
+          "native_count_loss_tokens": 2854,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c2902b40a26f4e2f88ea932255bd4001",
+          "published_weight_version": 21,
+          "dp_original_targets": [
+            716,
+            1441,
+            228,
+            469
+          ]
+        },
+        {
+          "rollout_id": 21,
+          "update_position": 22,
+          "original_eligible_target_tokens": 1654,
+          "native_count_loss_tokens": 1654,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a4081f4196d54d9bbd4a76cb61d9c24e",
+          "published_weight_version": 22,
+          "dp_original_targets": [
+            756,
+            470,
+            189,
+            239
+          ]
+        },
+        {
+          "rollout_id": 22,
+          "update_position": 23,
+          "original_eligible_target_tokens": 1544,
+          "native_count_loss_tokens": 1544,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1e72c706c202433fa7a4054e358cc5ef",
+          "published_weight_version": 23,
+          "dp_original_targets": [
+            143,
+            306,
+            168,
+            927
+          ]
+        },
+        {
+          "rollout_id": 23,
+          "update_position": 24,
+          "original_eligible_target_tokens": 1702,
+          "native_count_loss_tokens": 1702,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b0ab81151cae4ae883d8dc831dd506f2",
+          "published_weight_version": 24,
+          "dp_original_targets": [
+            164,
+            471,
+            319,
+            748
+          ]
+        },
+        {
+          "rollout_id": 24,
+          "update_position": 25,
+          "original_eligible_target_tokens": 1019,
+          "native_count_loss_tokens": 1019,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3896c41e0be34c7dad22eb408d6e04c4",
+          "published_weight_version": 25,
+          "dp_original_targets": [
+            119,
+            129,
+            239,
+            532
+          ]
+        },
+        {
+          "rollout_id": 25,
+          "update_position": 26,
+          "original_eligible_target_tokens": 2783,
+          "native_count_loss_tokens": 2783,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a6854a3ec2994e56a9b74c22468d6502",
+          "published_weight_version": 26,
+          "dp_original_targets": [
+            303,
+            483,
+            1360,
+            637
+          ]
+        },
+        {
+          "rollout_id": 26,
+          "update_position": 27,
+          "original_eligible_target_tokens": 1808,
+          "native_count_loss_tokens": 1808,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "8a988ef8f02e439ca60f94077707d8cd",
+          "published_weight_version": 27,
+          "dp_original_targets": [
+            965,
+            148,
+            380,
+            315
+          ]
+        },
+        {
+          "rollout_id": 27,
+          "update_position": 28,
+          "original_eligible_target_tokens": 2643,
+          "native_count_loss_tokens": 2643,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5a63915ff9d14e0abf5ad763115222e9",
+          "published_weight_version": 28,
+          "dp_original_targets": [
+            426,
+            913,
+            152,
+            1152
+          ]
+        },
+        {
+          "rollout_id": 28,
+          "update_position": 29,
+          "original_eligible_target_tokens": 3027,
+          "native_count_loss_tokens": 3027,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3a597ce99ddb41c4a78c7b649f1d2da7",
+          "published_weight_version": 29,
+          "dp_original_targets": [
+            842,
+            1217,
+            629,
+            339
+          ]
+        },
+        {
+          "rollout_id": 29,
+          "update_position": 30,
+          "original_eligible_target_tokens": 2385,
+          "native_count_loss_tokens": 2385,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "516db3801e854334a06c14486995714f",
+          "published_weight_version": 30,
+          "dp_original_targets": [
+            656,
+            240,
+            603,
+            886
+          ]
+        },
+        {
+          "rollout_id": 30,
+          "update_position": 31,
+          "original_eligible_target_tokens": 2438,
+          "native_count_loss_tokens": 2438,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b455a2ceb08f481f83bddd4cb1869fec",
+          "published_weight_version": 31,
+          "dp_original_targets": [
+            1085,
+            1112,
+            133,
+            108
+          ]
+        },
+        {
+          "rollout_id": 31,
+          "update_position": 32,
+          "original_eligible_target_tokens": 4184,
+          "native_count_loss_tokens": 4184,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0fe0fa8ed8934fecb440b7808cd3fbc0",
+          "published_weight_version": 32,
+          "dp_original_targets": [
+            540,
+            1484,
+            1231,
+            929
+          ]
+        },
+        {
+          "rollout_id": 32,
+          "update_position": 33,
+          "original_eligible_target_tokens": 1850,
+          "native_count_loss_tokens": 1850,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "60c06e12e2e04d28b9fb6096bb3c63df",
+          "published_weight_version": 33,
+          "dp_original_targets": [
+            266,
+            523,
+            857,
+            204
+          ]
+        },
+        {
+          "rollout_id": 33,
+          "update_position": 34,
+          "original_eligible_target_tokens": 2916,
+          "native_count_loss_tokens": 2916,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "25070f8f87f740b1b5198f072a908cde",
+          "published_weight_version": 34,
+          "dp_original_targets": [
+            1007,
+            1214,
+            533,
+            162
+          ]
+        },
+        {
+          "rollout_id": 34,
+          "update_position": 35,
+          "original_eligible_target_tokens": 1982,
+          "native_count_loss_tokens": 1982,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "bc63165a6b384a39b7783ef52e8aaffe",
+          "published_weight_version": 35,
+          "dp_original_targets": [
+            1006,
+            157,
+            645,
+            174
+          ]
+        },
+        {
+          "rollout_id": 35,
+          "update_position": 36,
+          "original_eligible_target_tokens": 1492,
+          "native_count_loss_tokens": 1492,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1f511b5ad6f9425293a25ef7c2148ebf",
+          "published_weight_version": 36,
+          "dp_original_targets": [
+            632,
+            575,
+            155,
+            130
+          ]
+        },
+        {
+          "rollout_id": 36,
+          "update_position": 37,
+          "original_eligible_target_tokens": 1286,
+          "native_count_loss_tokens": 1286,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5930e8b284d14c46a5a86f080911a9fe",
+          "published_weight_version": 37,
+          "dp_original_targets": [
+            273,
+            347,
+            281,
+            385
+          ]
+        },
+        {
+          "rollout_id": 37,
+          "update_position": 38,
+          "original_eligible_target_tokens": 2166,
+          "native_count_loss_tokens": 2166,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1a7c57a7e94a495ea90ab93ba5506b39",
+          "published_weight_version": 38,
+          "dp_original_targets": [
+            529,
+            258,
+            1044,
+            335
+          ]
+        },
+        {
+          "rollout_id": 38,
+          "update_position": 39,
+          "original_eligible_target_tokens": 1593,
+          "native_count_loss_tokens": 1593,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "53663f4c762b4fc4b4d8b8ae3872ecb0",
+          "published_weight_version": 39,
+          "dp_original_targets": [
+            277,
+            166,
+            211,
+            939
+          ]
+        },
+        {
+          "rollout_id": 39,
+          "update_position": 40,
+          "original_eligible_target_tokens": 1179,
+          "native_count_loss_tokens": 1179,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "50541dbdb6204a39bdaf79494d3d4423",
+          "published_weight_version": 40,
+          "dp_original_targets": [
+            145,
+            565,
+            190,
+            279
+          ]
+        },
+        {
+          "rollout_id": 40,
+          "update_position": 41,
+          "original_eligible_target_tokens": 3776,
+          "native_count_loss_tokens": 3776,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0791948f51c04f3cab8beb00ec892b66",
+          "published_weight_version": 41,
+          "dp_original_targets": [
+            1758,
+            1129,
+            605,
+            284
+          ]
+        },
+        {
+          "rollout_id": 41,
+          "update_position": 42,
+          "original_eligible_target_tokens": 2707,
+          "native_count_loss_tokens": 2707,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "2fb25035b18546f4958abd5112ff8dae",
+          "published_weight_version": 42,
+          "dp_original_targets": [
+            206,
+            988,
+            709,
+            804
+          ]
+        },
+        {
+          "rollout_id": 42,
+          "update_position": 43,
+          "original_eligible_target_tokens": 1931,
+          "native_count_loss_tokens": 1931,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c7a1c06d499b426587ceac2402e35dfa",
+          "published_weight_version": 43,
+          "dp_original_targets": [
+            634,
+            700,
+            304,
+            293
+          ]
+        },
+        {
+          "rollout_id": 43,
+          "update_position": 44,
+          "original_eligible_target_tokens": 2293,
+          "native_count_loss_tokens": 2293,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1c0f577d88944c1bbf0bfbd823a9d588",
+          "published_weight_version": 44,
+          "dp_original_targets": [
+            719,
+            323,
+            489,
+            762
+          ]
+        },
+        {
+          "rollout_id": 44,
+          "update_position": 45,
+          "original_eligible_target_tokens": 2743,
+          "native_count_loss_tokens": 2743,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c7847f7ae8c14f42b772384519b3cec7",
+          "published_weight_version": 45,
+          "dp_original_targets": [
+            285,
+            649,
+            651,
+            1158
+          ]
+        },
+        {
+          "rollout_id": 45,
+          "update_position": 46,
+          "original_eligible_target_tokens": 2545,
+          "native_count_loss_tokens": 2545,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "cd14832a5b4049da8d3c33c1027dff11",
+          "published_weight_version": 46,
+          "dp_original_targets": [
+            259,
+            970,
+            617,
+            699
+          ]
+        },
+        {
+          "rollout_id": 46,
+          "update_position": 47,
+          "original_eligible_target_tokens": 2210,
+          "native_count_loss_tokens": 2210,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a88567372e5e4be78bdfdbcdd6cf2167",
+          "published_weight_version": 47,
+          "dp_original_targets": [
+            652,
+            759,
+            191,
+            608
+          ]
+        },
+        {
+          "rollout_id": 47,
+          "update_position": 48,
+          "original_eligible_target_tokens": 3414,
+          "native_count_loss_tokens": 3414,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "706853bab27a4bb99fa4d423cf5a9e0c",
+          "published_weight_version": 48,
+          "dp_original_targets": [
+            646,
+            1765,
+            798,
+            205
+          ]
+        },
+        {
+          "rollout_id": 48,
+          "update_position": 49,
+          "original_eligible_target_tokens": 2427,
+          "native_count_loss_tokens": 2427,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7a61127c3a944446b30ad2a663ed7588",
+          "published_weight_version": 49,
+          "dp_original_targets": [
+            140,
+            1055,
+            181,
+            1051
+          ]
+        },
+        {
+          "rollout_id": 49,
+          "update_position": 50,
+          "original_eligible_target_tokens": 2735,
+          "native_count_loss_tokens": 2735,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "45301adf11c34ba6940d8e2105950510",
+          "published_weight_version": 50,
+          "dp_original_targets": [
+            997,
+            258,
+            488,
+            992
+          ]
+        },
+        {
+          "rollout_id": 50,
+          "update_position": 51,
+          "original_eligible_target_tokens": 1264,
+          "native_count_loss_tokens": 1264,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "208d462784aa4b82aefec177fd521f27",
+          "published_weight_version": 51,
+          "dp_original_targets": [
+            234,
+            222,
+            619,
+            189
+          ]
+        },
+        {
+          "rollout_id": 51,
+          "update_position": 52,
+          "original_eligible_target_tokens": 2983,
+          "native_count_loss_tokens": 2983,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "e330cf18bfda41a995ad9b1502fe1938",
+          "published_weight_version": 52,
+          "dp_original_targets": [
+            1507,
+            639,
+            623,
+            214
+          ]
+        },
+        {
+          "rollout_id": 52,
+          "update_position": 53,
+          "original_eligible_target_tokens": 2459,
+          "native_count_loss_tokens": 2459,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "82c60a4f997f4991be028204e9ae45be",
+          "published_weight_version": 53,
+          "dp_original_targets": [
+            754,
+            730,
+            838,
+            137
+          ]
+        },
+        {
+          "rollout_id": 53,
+          "update_position": 54,
+          "original_eligible_target_tokens": 1877,
+          "native_count_loss_tokens": 1877,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4b530b3083884dda8a7bb62ad801c15c",
+          "published_weight_version": 54,
+          "dp_original_targets": [
+            349,
+            193,
+            599,
+            736
+          ]
+        },
+        {
+          "rollout_id": 54,
+          "update_position": 55,
+          "original_eligible_target_tokens": 2841,
+          "native_count_loss_tokens": 2841,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b5304e5dee2b41269e196d71562a635a",
+          "published_weight_version": 55,
+          "dp_original_targets": [
+            762,
+            374,
+            745,
+            960
+          ]
+        },
+        {
+          "rollout_id": 55,
+          "update_position": 56,
+          "original_eligible_target_tokens": 2965,
+          "native_count_loss_tokens": 2965,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "35a7778f01df4120aafe905e27f208bf",
+          "published_weight_version": 56,
+          "dp_original_targets": [
+            651,
+            651,
+            680,
+            983
+          ]
+        },
+        {
+          "rollout_id": 56,
+          "update_position": 57,
+          "original_eligible_target_tokens": 2066,
+          "native_count_loss_tokens": 2066,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a7b35594185340a491776ecc53cc1c3a",
+          "published_weight_version": 57,
+          "dp_original_targets": [
+            502,
+            577,
+            468,
+            519
+          ]
+        },
+        {
+          "rollout_id": 57,
+          "update_position": 58,
+          "original_eligible_target_tokens": 3097,
+          "native_count_loss_tokens": 3097,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d80d5b7f62444129b1b69ff174bd7fb3",
+          "published_weight_version": 58,
+          "dp_original_targets": [
+            1158,
+            1020,
+            519,
+            400
+          ]
+        },
+        {
+          "rollout_id": 58,
+          "update_position": 59,
+          "original_eligible_target_tokens": 1756,
+          "native_count_loss_tokens": 1756,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4a260ff5e4774e1b98a0a186d716d964",
+          "published_weight_version": 59,
+          "dp_original_targets": [
+            447,
+            337,
+            363,
+            609
+          ]
+        },
+        {
+          "rollout_id": 59,
+          "update_position": 60,
+          "original_eligible_target_tokens": 3020,
+          "native_count_loss_tokens": 3020,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5f12c405e949469498d29f380b080933",
+          "published_weight_version": 60,
+          "dp_original_targets": [
+            649,
+            966,
+            1024,
+            381
+          ]
+        },
+        {
+          "rollout_id": 60,
+          "update_position": 61,
+          "original_eligible_target_tokens": 3456,
+          "native_count_loss_tokens": 3456,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6881c1fb0c644fc0ab91279a37c0e4f7",
+          "published_weight_version": 61,
+          "dp_original_targets": [
+            665,
+            1147,
+            632,
+            1012
+          ]
+        },
+        {
+          "rollout_id": 61,
+          "update_position": 62,
+          "original_eligible_target_tokens": 1976,
+          "native_count_loss_tokens": 1976,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7daf92b4ced24985ad857d438d3e99c4",
+          "published_weight_version": 62,
+          "dp_original_targets": [
+            1246,
+            246,
+            243,
+            241
+          ]
+        },
+        {
+          "rollout_id": 62,
+          "update_position": 63,
+          "original_eligible_target_tokens": 2979,
+          "native_count_loss_tokens": 2979,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c4e0364c6c3b4ccf99d7fa36858b2ffa",
+          "published_weight_version": 63,
+          "dp_original_targets": [
+            727,
+            1423,
+            652,
+            177
+          ]
+        },
+        {
+          "rollout_id": 63,
+          "update_position": 64,
+          "original_eligible_target_tokens": 2192,
+          "native_count_loss_tokens": 2192,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f1c0e7b0129b440ab06fcf2789e01ad0",
+          "published_weight_version": 64,
+          "dp_original_targets": [
+            266,
+            1294,
+            539,
+            93
+          ]
+        },
+        {
+          "rollout_id": 64,
+          "update_position": 65,
+          "original_eligible_target_tokens": 2114,
+          "native_count_loss_tokens": 2114,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3966d382dfca45ea9a39dd0d9f46b6b3",
+          "published_weight_version": 65,
+          "dp_original_targets": [
+            640,
+            849,
+            525,
+            100
+          ]
+        },
+        {
+          "rollout_id": 65,
+          "update_position": 66,
+          "original_eligible_target_tokens": 876,
+          "native_count_loss_tokens": 876,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5c4084fcbc21434eb866ce568470165f",
+          "published_weight_version": 66,
+          "dp_original_targets": [
+            142,
+            228,
+            146,
+            360
+          ]
+        },
+        {
+          "rollout_id": 66,
+          "update_position": 67,
+          "original_eligible_target_tokens": 1527,
+          "native_count_loss_tokens": 1527,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "15203e673d7945569459e4fad24ef3d7",
+          "published_weight_version": 67,
+          "dp_original_targets": [
+            173,
+            146,
+            1063,
+            145
+          ]
+        },
+        {
+          "rollout_id": 67,
+          "update_position": 68,
+          "original_eligible_target_tokens": 1994,
+          "native_count_loss_tokens": 1994,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ac19c17ba5c2498cab15e6fa6d6ed40c",
+          "published_weight_version": 68,
+          "dp_original_targets": [
+            543,
+            451,
+            601,
+            399
+          ]
+        },
+        {
+          "rollout_id": 68,
+          "update_position": 69,
+          "original_eligible_target_tokens": 1829,
+          "native_count_loss_tokens": 1829,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6e9a312989d94dd591cb9a6925ec3ad4",
+          "published_weight_version": 69,
+          "dp_original_targets": [
+            527,
+            157,
+            448,
+            697
+          ]
+        },
+        {
+          "rollout_id": 69,
+          "update_position": 70,
+          "original_eligible_target_tokens": 1012,
+          "native_count_loss_tokens": 1012,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c605073e16ed432ca8aa294cd92f9788",
+          "published_weight_version": 70,
+          "dp_original_targets": [
+            221,
+            415,
+            187,
+            189
+          ]
+        },
+        {
+          "rollout_id": 70,
+          "update_position": 71,
+          "original_eligible_target_tokens": 2312,
+          "native_count_loss_tokens": 2312,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "22b1db580dc74a56a9f7f3a74c24b90a",
+          "published_weight_version": 71,
+          "dp_original_targets": [
+            1087,
+            609,
+            167,
+            449
+          ]
+        },
+        {
+          "rollout_id": 71,
+          "update_position": 72,
+          "original_eligible_target_tokens": 1536,
+          "native_count_loss_tokens": 1536,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7e1d92f0747946b6b0031f0eb8b66c57",
+          "published_weight_version": 72,
+          "dp_original_targets": [
+            251,
+            363,
+            213,
+            709
+          ]
+        },
+        {
+          "rollout_id": 72,
+          "update_position": 73,
+          "original_eligible_target_tokens": 925,
+          "native_count_loss_tokens": 925,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c35092edb08149f4be9f6eca6c6d1569",
+          "published_weight_version": 73,
+          "dp_original_targets": [
+            131,
+            180,
+            185,
+            429
+          ]
+        },
+        {
+          "rollout_id": 73,
+          "update_position": 74,
+          "original_eligible_target_tokens": 2813,
+          "native_count_loss_tokens": 2813,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d811fbea25ad4913b53084fde619cbc3",
+          "published_weight_version": 74,
+          "dp_original_targets": [
+            344,
+            1540,
+            237,
+            692
+          ]
+        },
+        {
+          "rollout_id": 74,
+          "update_position": 75,
+          "original_eligible_target_tokens": 2109,
+          "native_count_loss_tokens": 2109,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5c014ce170264b648a26dd66a2c9d203",
+          "published_weight_version": 75,
+          "dp_original_targets": [
+            331,
+            845,
+            753,
+            180
+          ]
+        },
+        {
+          "rollout_id": 75,
+          "update_position": 76,
+          "original_eligible_target_tokens": 1525,
+          "native_count_loss_tokens": 1525,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "cd3acf0346a8447b9ee379f85cfb89d4",
+          "published_weight_version": 76,
+          "dp_original_targets": [
+            169,
+            188,
+            734,
+            434
+          ]
+        },
+        {
+          "rollout_id": 76,
+          "update_position": 77,
+          "original_eligible_target_tokens": 3982,
+          "native_count_loss_tokens": 3982,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "9993ea51dd1140da805d31b9416032da",
+          "published_weight_version": 77,
+          "dp_original_targets": [
+            182,
+            696,
+            765,
+            2339
+          ]
+        },
+        {
+          "rollout_id": 77,
+          "update_position": 78,
+          "original_eligible_target_tokens": 2322,
+          "native_count_loss_tokens": 2322,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3bd5afa2881a46ff913c3433b5a75a93",
+          "published_weight_version": 78,
+          "dp_original_targets": [
+            1278,
+            267,
+            419,
+            358
+          ]
+        },
+        {
+          "rollout_id": 78,
+          "update_position": 79,
+          "original_eligible_target_tokens": 2755,
+          "native_count_loss_tokens": 2755,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "bd3152f184f84b11bfd9cc4489b61a47",
+          "published_weight_version": 79,
+          "dp_original_targets": [
+            810,
+            168,
+            607,
+            1170
+          ]
+        },
+        {
+          "rollout_id": 79,
+          "update_position": 80,
+          "original_eligible_target_tokens": 3102,
+          "native_count_loss_tokens": 3102,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f109da223aeb4e97aad79bdc5e9c10b5",
+          "published_weight_version": 80,
+          "dp_original_targets": [
+            1054,
+            1145,
+            712,
+            191
+          ]
+        },
+        {
+          "rollout_id": 80,
+          "update_position": 81,
+          "original_eligible_target_tokens": 2284,
+          "native_count_loss_tokens": 2284,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3b2983f34de14e3c9be83c9489996ac3",
+          "published_weight_version": 81,
+          "dp_original_targets": [
+            275,
+            775,
+            276,
+            958
+          ]
+        },
+        {
+          "rollout_id": 81,
+          "update_position": 82,
+          "original_eligible_target_tokens": 2562,
+          "native_count_loss_tokens": 2562,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "41ed845e08054b48bf78c23f4bd78182",
+          "published_weight_version": 82,
+          "dp_original_targets": [
+            313,
+            227,
+            1764,
+            258
+          ]
+        },
+        {
+          "rollout_id": 82,
+          "update_position": 83,
+          "original_eligible_target_tokens": 2682,
+          "native_count_loss_tokens": 2682,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a6a79792a1624524b6fb4aa88fefb389",
+          "published_weight_version": 83,
+          "dp_original_targets": [
+            1201,
+            557,
+            248,
+            676
+          ]
+        },
+        {
+          "rollout_id": 83,
+          "update_position": 84,
+          "original_eligible_target_tokens": 2232,
+          "native_count_loss_tokens": 2232,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5c5e06e44370431f98f46818afedb841",
+          "published_weight_version": 84,
+          "dp_original_targets": [
+            176,
+            769,
+            266,
+            1021
+          ]
+        },
+        {
+          "rollout_id": 84,
+          "update_position": 85,
+          "original_eligible_target_tokens": 2285,
+          "native_count_loss_tokens": 2285,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "661782121edf44fb8921dfb12a621f13",
+          "published_weight_version": 85,
+          "dp_original_targets": [
+            658,
+            206,
+            689,
+            732
+          ]
+        },
+        {
+          "rollout_id": 85,
+          "update_position": 86,
+          "original_eligible_target_tokens": 2402,
+          "native_count_loss_tokens": 2402,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "626eaeeaddb44f188b87dc57624c7597",
+          "published_weight_version": 86,
+          "dp_original_targets": [
+            995,
+            966,
+            184,
+            257
+          ]
+        },
+        {
+          "rollout_id": 86,
+          "update_position": 87,
+          "original_eligible_target_tokens": 2334,
+          "native_count_loss_tokens": 2334,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a4fb36ced280454193f4a9b02597bb85",
+          "published_weight_version": 87,
+          "dp_original_targets": [
+            793,
+            542,
+            535,
+            464
+          ]
+        },
+        {
+          "rollout_id": 87,
+          "update_position": 88,
+          "original_eligible_target_tokens": 3149,
+          "native_count_loss_tokens": 3149,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "033bca77993d42d69c421abe857e1fbc",
+          "published_weight_version": 88,
+          "dp_original_targets": [
+            970,
+            509,
+            637,
+            1033
+          ]
+        },
+        {
+          "rollout_id": 88,
+          "update_position": 89,
+          "original_eligible_target_tokens": 2267,
+          "native_count_loss_tokens": 2267,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "8b56ed66ff7a4137a355a23e982f8e60",
+          "published_weight_version": 89,
+          "dp_original_targets": [
+            848,
+            157,
+            552,
+            710
+          ]
+        },
+        {
+          "rollout_id": 89,
+          "update_position": 90,
+          "original_eligible_target_tokens": 2861,
+          "native_count_loss_tokens": 2861,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c1ec3909496f480cba095731d54c0884",
+          "published_weight_version": 90,
+          "dp_original_targets": [
+            447,
+            931,
+            756,
+            727
+          ]
+        },
+        {
+          "rollout_id": 90,
+          "update_position": 91,
+          "original_eligible_target_tokens": 3384,
+          "native_count_loss_tokens": 3384,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6a28b8e6a6224b7f806fe2271e4784d6",
+          "published_weight_version": 91,
+          "dp_original_targets": [
+            936,
+            1250,
+            1011,
+            187
+          ]
+        },
+        {
+          "rollout_id": 91,
+          "update_position": 92,
+          "original_eligible_target_tokens": 2641,
+          "native_count_loss_tokens": 2641,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0ac980fe3d5b459990295a16955ddfbf",
+          "published_weight_version": 92,
+          "dp_original_targets": [
+            346,
+            1306,
+            288,
+            701
+          ]
+        },
+        {
+          "rollout_id": 92,
+          "update_position": 93,
+          "original_eligible_target_tokens": 3058,
+          "native_count_loss_tokens": 3058,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5a98f2d6a6eb4872b1d1e5e19385e586",
+          "published_weight_version": 93,
+          "dp_original_targets": [
+            1094,
+            413,
+            355,
+            1196
+          ]
+        },
+        {
+          "rollout_id": 93,
+          "update_position": 94,
+          "original_eligible_target_tokens": 2974,
+          "native_count_loss_tokens": 2974,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "45c04e4962ed43f8b7849a6694ead445",
+          "published_weight_version": 94,
+          "dp_original_targets": [
+            407,
+            1032,
+            718,
+            817
+          ]
+        },
+        {
+          "rollout_id": 94,
+          "update_position": 95,
+          "original_eligible_target_tokens": 2785,
+          "native_count_loss_tokens": 2785,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "69da1a4eb6e84561889c3ed6e132ba41",
+          "published_weight_version": 95,
+          "dp_original_targets": [
+            518,
+            1243,
+            901,
+            123
+          ]
+        },
+        {
+          "rollout_id": 95,
+          "update_position": 96,
+          "original_eligible_target_tokens": 2002,
+          "native_count_loss_tokens": 2002,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4ee7f1c6387442eb8c8fb79dca4ba013",
+          "published_weight_version": 96,
+          "dp_original_targets": [
+            118,
+            638,
+            389,
+            857
+          ]
+        },
+        {
+          "rollout_id": 96,
+          "update_position": 97,
+          "original_eligible_target_tokens": 2628,
+          "native_count_loss_tokens": 2628,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "605241a64b8c4d7696147719da3d7ce4",
+          "published_weight_version": 97,
+          "dp_original_targets": [
+            127,
+            1305,
+            905,
+            291
+          ]
+        },
+        {
+          "rollout_id": 97,
+          "update_position": 98,
+          "original_eligible_target_tokens": 1404,
+          "native_count_loss_tokens": 1404,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f013b7e80f584e03ae57ffbc3d777ea8",
+          "published_weight_version": 98,
+          "dp_original_targets": [
+            151,
+            100,
+            236,
+            917
+          ]
+        },
+        {
+          "rollout_id": 98,
+          "update_position": 99,
+          "original_eligible_target_tokens": 1747,
+          "native_count_loss_tokens": 1747,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b297e1864ea44b0994a733dd39bc4eee",
+          "published_weight_version": 99,
+          "dp_original_targets": [
+            1129,
+            256,
+            214,
+            148
+          ]
+        },
+        {
+          "rollout_id": 99,
+          "update_position": 100,
+          "original_eligible_target_tokens": 3534,
+          "native_count_loss_tokens": 3534,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "defc4f8a67da479bb282ddb735b99bbe",
+          "published_weight_version": 100,
+          "dp_original_targets": [
+            1174,
+            656,
+            787,
+            917
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "B",
+      "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531",
+      "verdict": "PASS",
+      "native_publication_counters": {
+        "baseline_version": 0,
+        "successful_updates": 100,
+        "skipped_updates": 0,
+        "final_version": 100,
+        "restoration_publications": 6
+      },
+      "totals": {
+        "original_eligible_targets": 201819,
+        "completions": 800,
+        "min_targets": 715,
+        "max_targets": 3703,
+        "fully_masked_samples": 0,
+        "nonfinite_eligible_tensor_entries": 0,
+        "steps": 100
+      },
+      "steps": [
+        {
+          "rollout_id": 0,
+          "update_position": 1,
+          "original_eligible_target_tokens": 3196,
+          "native_count_loss_tokens": 3196,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7ac6a831f0f544faa585fef87d59a1e6",
+          "published_weight_version": 1,
+          "dp_original_targets": [
+            747,
+            673,
+            1068,
+            708
+          ]
+        },
+        {
+          "rollout_id": 1,
+          "update_position": 2,
+          "original_eligible_target_tokens": 3387,
+          "native_count_loss_tokens": 3387,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0b9528ec0af546f2af0d1652eb2e889c",
+          "published_weight_version": 2,
+          "dp_original_targets": [
+            733,
+            1347,
+            180,
+            1127
+          ]
+        },
+        {
+          "rollout_id": 2,
+          "update_position": 3,
+          "original_eligible_target_tokens": 2472,
+          "native_count_loss_tokens": 2472,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d6df50c9de2d4b9a9c678a08215bb1de",
+          "published_weight_version": 3,
+          "dp_original_targets": [
+            825,
+            606,
+            557,
+            484
+          ]
+        },
+        {
+          "rollout_id": 3,
+          "update_position": 4,
+          "original_eligible_target_tokens": 2915,
+          "native_count_loss_tokens": 2915,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b893ee26cbdb43e4b1c16038d53c0480",
+          "published_weight_version": 4,
+          "dp_original_targets": [
+            146,
+            339,
+            802,
+            1628
+          ]
+        },
+        {
+          "rollout_id": 4,
+          "update_position": 5,
+          "original_eligible_target_tokens": 2439,
+          "native_count_loss_tokens": 2439,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "09b9b3a066b74d31b6bccb1cf00e50a9",
+          "published_weight_version": 5,
+          "dp_original_targets": [
+            346,
+            801,
+            628,
+            664
+          ]
+        },
+        {
+          "rollout_id": 5,
+          "update_position": 6,
+          "original_eligible_target_tokens": 2963,
+          "native_count_loss_tokens": 2963,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ab6dccf279ff4d3ea9a49d6888019b55",
+          "published_weight_version": 6,
+          "dp_original_targets": [
+            209,
+            99,
+            1187,
+            1468
+          ]
+        },
+        {
+          "rollout_id": 6,
+          "update_position": 7,
+          "original_eligible_target_tokens": 777,
+          "native_count_loss_tokens": 777,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1675eb4ed3874171ae28df4a350f6a52",
+          "published_weight_version": 7,
+          "dp_original_targets": [
+            186,
+            251,
+            157,
+            183
+          ]
+        },
+        {
+          "rollout_id": 7,
+          "update_position": 8,
+          "original_eligible_target_tokens": 2410,
+          "native_count_loss_tokens": 2410,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c2a999bc9e7a47508907e9c5ccf27df4",
+          "published_weight_version": 8,
+          "dp_original_targets": [
+            648,
+            151,
+            405,
+            1206
+          ]
+        },
+        {
+          "rollout_id": 8,
+          "update_position": 9,
+          "original_eligible_target_tokens": 2475,
+          "native_count_loss_tokens": 2475,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5326baa5576044e187eabe7e93f28566",
+          "published_weight_version": 9,
+          "dp_original_targets": [
+            920,
+            431,
+            621,
+            503
+          ]
+        },
+        {
+          "rollout_id": 9,
+          "update_position": 10,
+          "original_eligible_target_tokens": 1431,
+          "native_count_loss_tokens": 1431,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "e5e45e2db5fe432d882d3de61933980b",
+          "published_weight_version": 10,
+          "dp_original_targets": [
+            246,
+            357,
+            141,
+            687
+          ]
+        },
+        {
+          "rollout_id": 10,
+          "update_position": 11,
+          "original_eligible_target_tokens": 1540,
+          "native_count_loss_tokens": 1540,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3eb1513cfc5f448bb5da4b1d6f59d3cd",
+          "published_weight_version": 11,
+          "dp_original_targets": [
+            248,
+            281,
+            363,
+            648
+          ]
+        },
+        {
+          "rollout_id": 11,
+          "update_position": 12,
+          "original_eligible_target_tokens": 2439,
+          "native_count_loss_tokens": 2439,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1df89f281fc54600b9f3e04b973456a9",
+          "published_weight_version": 12,
+          "dp_original_targets": [
+            1157,
+            237,
+            804,
+            241
+          ]
+        },
+        {
+          "rollout_id": 12,
+          "update_position": 13,
+          "original_eligible_target_tokens": 1501,
+          "native_count_loss_tokens": 1501,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6834cf84430349e3b46cba4f4e71f7aa",
+          "published_weight_version": 13,
+          "dp_original_targets": [
+            326,
+            151,
+            471,
+            553
+          ]
+        },
+        {
+          "rollout_id": 13,
+          "update_position": 14,
+          "original_eligible_target_tokens": 1631,
+          "native_count_loss_tokens": 1631,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4547a32f982d4b0984b4727feed79da6",
+          "published_weight_version": 14,
+          "dp_original_targets": [
+            470,
+            277,
+            373,
+            511
+          ]
+        },
+        {
+          "rollout_id": 14,
+          "update_position": 15,
+          "original_eligible_target_tokens": 1990,
+          "native_count_loss_tokens": 1990,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "75b2d45444684814b093819904af75ee",
+          "published_weight_version": 15,
+          "dp_original_targets": [
+            760,
+            616,
+            285,
+            329
+          ]
+        },
+        {
+          "rollout_id": 15,
+          "update_position": 16,
+          "original_eligible_target_tokens": 1223,
+          "native_count_loss_tokens": 1223,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "046d79d174f847ae8fc5859c43049f66",
+          "published_weight_version": 16,
+          "dp_original_targets": [
+            231,
+            154,
+            461,
+            377
+          ]
+        },
+        {
+          "rollout_id": 16,
+          "update_position": 17,
+          "original_eligible_target_tokens": 2306,
+          "native_count_loss_tokens": 2306,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d7f2619a6a924bf8985a2c7329ff34f7",
+          "published_weight_version": 17,
+          "dp_original_targets": [
+            1190,
+            704,
+            291,
+            121
+          ]
+        },
+        {
+          "rollout_id": 17,
+          "update_position": 18,
+          "original_eligible_target_tokens": 3207,
+          "native_count_loss_tokens": 3207,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "cdbcdfa5e55346a5b87f757cefd26d6c",
+          "published_weight_version": 18,
+          "dp_original_targets": [
+            1084,
+            887,
+            300,
+            936
+          ]
+        },
+        {
+          "rollout_id": 18,
+          "update_position": 19,
+          "original_eligible_target_tokens": 1417,
+          "native_count_loss_tokens": 1417,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "8319ae329e0145c298704bf345805c27",
+          "published_weight_version": 19,
+          "dp_original_targets": [
+            311,
+            261,
+            212,
+            633
+          ]
+        },
+        {
+          "rollout_id": 19,
+          "update_position": 20,
+          "original_eligible_target_tokens": 993,
+          "native_count_loss_tokens": 993,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "433771547cb34b34a7b97cb7f3c288d4",
+          "published_weight_version": 20,
+          "dp_original_targets": [
+            192,
+            186,
+            132,
+            483
+          ]
+        },
+        {
+          "rollout_id": 20,
+          "update_position": 21,
+          "original_eligible_target_tokens": 1316,
+          "native_count_loss_tokens": 1316,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "05a8b82fab2743319429514177cfbf40",
+          "published_weight_version": 21,
+          "dp_original_targets": [
+            206,
+            503,
+            171,
+            436
+          ]
+        },
+        {
+          "rollout_id": 21,
+          "update_position": 22,
+          "original_eligible_target_tokens": 2871,
+          "native_count_loss_tokens": 2871,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ad575e40c3774f4ebfbb4f12988db548",
+          "published_weight_version": 22,
+          "dp_original_targets": [
+            977,
+            360,
+            766,
+            768
+          ]
+        },
+        {
+          "rollout_id": 22,
+          "update_position": 23,
+          "original_eligible_target_tokens": 1226,
+          "native_count_loss_tokens": 1226,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4fb3e44d689b4b9cb005d964b5b5f300",
+          "published_weight_version": 23,
+          "dp_original_targets": [
+            289,
+            350,
+            176,
+            411
+          ]
+        },
+        {
+          "rollout_id": 23,
+          "update_position": 24,
+          "original_eligible_target_tokens": 2738,
+          "native_count_loss_tokens": 2738,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3d1322bb30a6423f85120fed2f2a1747",
+          "published_weight_version": 24,
+          "dp_original_targets": [
+            172,
+            552,
+            616,
+            1398
+          ]
+        },
+        {
+          "rollout_id": 24,
+          "update_position": 25,
+          "original_eligible_target_tokens": 715,
+          "native_count_loss_tokens": 715,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "637adf0c2bbf4596bdca88879e5d44d9",
+          "published_weight_version": 25,
+          "dp_original_targets": [
+            177,
+            125,
+            190,
+            223
+          ]
+        },
+        {
+          "rollout_id": 25,
+          "update_position": 26,
+          "original_eligible_target_tokens": 1872,
+          "native_count_loss_tokens": 1872,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "e892d2ad46d84ec8809e79838c42b9c3",
+          "published_weight_version": 26,
+          "dp_original_targets": [
+            211,
+            419,
+            600,
+            642
+          ]
+        },
+        {
+          "rollout_id": 26,
+          "update_position": 27,
+          "original_eligible_target_tokens": 1773,
+          "native_count_loss_tokens": 1773,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7a08d05c4b6342a5bf3e0621a0deb79d",
+          "published_weight_version": 27,
+          "dp_original_targets": [
+            171,
+            571,
+            692,
+            339
+          ]
+        },
+        {
+          "rollout_id": 27,
+          "update_position": 28,
+          "original_eligible_target_tokens": 2686,
+          "native_count_loss_tokens": 2686,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b66709ff18fd4ba5bd7ea833aebc6d18",
+          "published_weight_version": 28,
+          "dp_original_targets": [
+            153,
+            1311,
+            247,
+            975
+          ]
+        },
+        {
+          "rollout_id": 28,
+          "update_position": 29,
+          "original_eligible_target_tokens": 3093,
+          "native_count_loss_tokens": 3093,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4f86880861b44d58b3ae1503f784bfb6",
+          "published_weight_version": 29,
+          "dp_original_targets": [
+            896,
+            694,
+            1121,
+            382
+          ]
+        },
+        {
+          "rollout_id": 29,
+          "update_position": 30,
+          "original_eligible_target_tokens": 2132,
+          "native_count_loss_tokens": 2132,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "439772077af34304a5ad506e4d083a8f",
+          "published_weight_version": 30,
+          "dp_original_targets": [
+            616,
+            225,
+            521,
+            770
+          ]
+        },
+        {
+          "rollout_id": 30,
+          "update_position": 31,
+          "original_eligible_target_tokens": 1399,
+          "native_count_loss_tokens": 1399,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7cf165cf699d41daadb0bbc6c71157af",
+          "published_weight_version": 31,
+          "dp_original_targets": [
+            293,
+            897,
+            140,
+            69
+          ]
+        },
+        {
+          "rollout_id": 31,
+          "update_position": 32,
+          "original_eligible_target_tokens": 2215,
+          "native_count_loss_tokens": 2215,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "8cb3bcf1a63943e19e4c09bdc9f2eabd",
+          "published_weight_version": 32,
+          "dp_original_targets": [
+            237,
+            851,
+            615,
+            512
+          ]
+        },
+        {
+          "rollout_id": 32,
+          "update_position": 33,
+          "original_eligible_target_tokens": 1752,
+          "native_count_loss_tokens": 1752,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "02c114666f0e4ec582496856197fb2ab",
+          "published_weight_version": 33,
+          "dp_original_targets": [
+            179,
+            657,
+            835,
+            81
+          ]
+        },
+        {
+          "rollout_id": 33,
+          "update_position": 34,
+          "original_eligible_target_tokens": 2850,
+          "native_count_loss_tokens": 2850,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "af2e9a2b91fe4fd981adda191acffce3",
+          "published_weight_version": 34,
+          "dp_original_targets": [
+            738,
+            777,
+            718,
+            617
+          ]
+        },
+        {
+          "rollout_id": 34,
+          "update_position": 35,
+          "original_eligible_target_tokens": 2880,
+          "native_count_loss_tokens": 2880,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ab2ce1e1348e4b38a96081f171552552",
+          "published_weight_version": 35,
+          "dp_original_targets": [
+            1189,
+            156,
+            1389,
+            146
+          ]
+        },
+        {
+          "rollout_id": 35,
+          "update_position": 36,
+          "original_eligible_target_tokens": 1325,
+          "native_count_loss_tokens": 1325,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d8cce723528d4a5cbc09ccd182a62b04",
+          "published_weight_version": 36,
+          "dp_original_targets": [
+            575,
+            554,
+            88,
+            108
+          ]
+        },
+        {
+          "rollout_id": 36,
+          "update_position": 37,
+          "original_eligible_target_tokens": 790,
+          "native_count_loss_tokens": 790,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4a14901201db45a2b8a7db57952c39f7",
+          "published_weight_version": 37,
+          "dp_original_targets": [
+            187,
+            329,
+            126,
+            148
+          ]
+        },
+        {
+          "rollout_id": 37,
+          "update_position": 38,
+          "original_eligible_target_tokens": 2160,
+          "native_count_loss_tokens": 2160,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0de83a4c19fb4441b5bbf7c20d35246f",
+          "published_weight_version": 38,
+          "dp_original_targets": [
+            562,
+            248,
+            621,
+            729
+          ]
+        },
+        {
+          "rollout_id": 38,
+          "update_position": 39,
+          "original_eligible_target_tokens": 1516,
+          "native_count_loss_tokens": 1516,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "37a7b3810e7a4f608d6537a05b78158a",
+          "published_weight_version": 39,
+          "dp_original_targets": [
+            277,
+            185,
+            626,
+            428
+          ]
+        },
+        {
+          "rollout_id": 39,
+          "update_position": 40,
+          "original_eligible_target_tokens": 1997,
+          "native_count_loss_tokens": 1997,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7c4e988e942e4f45be042a4859725b53",
+          "published_weight_version": 40,
+          "dp_original_targets": [
+            214,
+            969,
+            158,
+            656
+          ]
+        },
+        {
+          "rollout_id": 40,
+          "update_position": 41,
+          "original_eligible_target_tokens": 2855,
+          "native_count_loss_tokens": 2855,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f21c7b180c5e41d49454caaac3a8dbf0",
+          "published_weight_version": 41,
+          "dp_original_targets": [
+            1150,
+            637,
+            703,
+            365
+          ]
+        },
+        {
+          "rollout_id": 41,
+          "update_position": 42,
+          "original_eligible_target_tokens": 2111,
+          "native_count_loss_tokens": 2111,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "078d56f450de41689aebe2afd3923c1e",
+          "published_weight_version": 42,
+          "dp_original_targets": [
+            221,
+            584,
+            1023,
+            283
+          ]
+        },
+        {
+          "rollout_id": 42,
+          "update_position": 43,
+          "original_eligible_target_tokens": 969,
+          "native_count_loss_tokens": 969,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4d6b44fbbccb4560bccbf8085f251f60",
+          "published_weight_version": 43,
+          "dp_original_targets": [
+            351,
+            207,
+            119,
+            292
+          ]
+        },
+        {
+          "rollout_id": 43,
+          "update_position": 44,
+          "original_eligible_target_tokens": 2031,
+          "native_count_loss_tokens": 2031,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "0d45bd6fe5e046b2bdcaf170983212f7",
+          "published_weight_version": 44,
+          "dp_original_targets": [
+            873,
+            303,
+            642,
+            213
+          ]
+        },
+        {
+          "rollout_id": 44,
+          "update_position": 45,
+          "original_eligible_target_tokens": 1828,
+          "native_count_loss_tokens": 1828,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "263df68f011a494684627d05a4b9d22e",
+          "published_weight_version": 45,
+          "dp_original_targets": [
+            570,
+            410,
+            167,
+            681
+          ]
+        },
+        {
+          "rollout_id": 45,
+          "update_position": 46,
+          "original_eligible_target_tokens": 1459,
+          "native_count_loss_tokens": 1459,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "1a91d7b62ecc4a9493a78c1a7d509803",
+          "published_weight_version": 46,
+          "dp_original_targets": [
+            174,
+            464,
+            456,
+            365
+          ]
+        },
+        {
+          "rollout_id": 46,
+          "update_position": 47,
+          "original_eligible_target_tokens": 3703,
+          "native_count_loss_tokens": 3703,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "fe57e27d574246179303ac879cd7667c",
+          "published_weight_version": 47,
+          "dp_original_targets": [
+            604,
+            692,
+            909,
+            1498
+          ]
+        },
+        {
+          "rollout_id": 47,
+          "update_position": 48,
+          "original_eligible_target_tokens": 1155,
+          "native_count_loss_tokens": 1155,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "cf2ae2d478694825aaf16c6ebcdfb3e5",
+          "published_weight_version": 48,
+          "dp_original_targets": [
+            539,
+            267,
+            137,
+            212
+          ]
+        },
+        {
+          "rollout_id": 48,
+          "update_position": 49,
+          "original_eligible_target_tokens": 1300,
+          "native_count_loss_tokens": 1300,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "adbaa582f3314af6ab9b6599870358d2",
+          "published_weight_version": 49,
+          "dp_original_targets": [
+            169,
+            151,
+            108,
+            872
+          ]
+        },
+        {
+          "rollout_id": 49,
+          "update_position": 50,
+          "original_eligible_target_tokens": 1998,
+          "native_count_loss_tokens": 1998,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "bc3ed97ca5a642bca75ad6501c06dbe6",
+          "published_weight_version": 50,
+          "dp_original_targets": [
+            932,
+            126,
+            595,
+            345
+          ]
+        },
+        {
+          "rollout_id": 50,
+          "update_position": 51,
+          "original_eligible_target_tokens": 1081,
+          "native_count_loss_tokens": 1081,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "ae648ec85af44d0c9747f345b9ea5a6a",
+          "published_weight_version": 51,
+          "dp_original_targets": [
+            219,
+            138,
+            600,
+            124
+          ]
+        },
+        {
+          "rollout_id": 51,
+          "update_position": 52,
+          "original_eligible_target_tokens": 1628,
+          "native_count_loss_tokens": 1628,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6ba135af0e2f4e8790aadf640f8889a2",
+          "published_weight_version": 52,
+          "dp_original_targets": [
+            754,
+            143,
+            572,
+            159
+          ]
+        },
+        {
+          "rollout_id": 52,
+          "update_position": 53,
+          "original_eligible_target_tokens": 1338,
+          "native_count_loss_tokens": 1338,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "613d6faa80f64197b3131c8006343a13",
+          "published_weight_version": 53,
+          "dp_original_targets": [
+            232,
+            522,
+            467,
+            117
+          ]
+        },
+        {
+          "rollout_id": 53,
+          "update_position": 54,
+          "original_eligible_target_tokens": 1609,
+          "native_count_loss_tokens": 1609,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "e15b8ca1579c44918da4429d3bb53896",
+          "published_weight_version": 54,
+          "dp_original_targets": [
+            107,
+            158,
+            148,
+            1196
+          ]
+        },
+        {
+          "rollout_id": 54,
+          "update_position": 55,
+          "original_eligible_target_tokens": 1583,
+          "native_count_loss_tokens": 1583,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "48dedee310cd4682bd5815b4ceff9216",
+          "published_weight_version": 55,
+          "dp_original_targets": [
+            283,
+            386,
+            283,
+            631
+          ]
+        },
+        {
+          "rollout_id": 55,
+          "update_position": 56,
+          "original_eligible_target_tokens": 1801,
+          "native_count_loss_tokens": 1801,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "102cf3d3c3fa4c978d030a54b0f77084",
+          "published_weight_version": 56,
+          "dp_original_targets": [
+            196,
+            352,
+            626,
+            627
+          ]
+        },
+        {
+          "rollout_id": 56,
+          "update_position": 57,
+          "original_eligible_target_tokens": 1756,
+          "native_count_loss_tokens": 1756,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3e02f0e7c7ad4fcc80ae42c1b3c64ad8",
+          "published_weight_version": 57,
+          "dp_original_targets": [
+            346,
+            520,
+            529,
+            361
+          ]
+        },
+        {
+          "rollout_id": 57,
+          "update_position": 58,
+          "original_eligible_target_tokens": 2135,
+          "native_count_loss_tokens": 2135,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "44b96471018b47bc96f192f778280f70",
+          "published_weight_version": 58,
+          "dp_original_targets": [
+            846,
+            875,
+            254,
+            160
+          ]
+        },
+        {
+          "rollout_id": 58,
+          "update_position": 59,
+          "original_eligible_target_tokens": 1861,
+          "native_count_loss_tokens": 1861,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b58138464f3141dc88b6d63dd30a6ae0",
+          "published_weight_version": 59,
+          "dp_original_targets": [
+            780,
+            297,
+            220,
+            564
+          ]
+        },
+        {
+          "rollout_id": 59,
+          "update_position": 60,
+          "original_eligible_target_tokens": 2455,
+          "native_count_loss_tokens": 2455,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c6be7ba9237d4455a35f1e65beb75781",
+          "published_weight_version": 60,
+          "dp_original_targets": [
+            1027,
+            104,
+            1077,
+            247
+          ]
+        },
+        {
+          "rollout_id": 60,
+          "update_position": 61,
+          "original_eligible_target_tokens": 2271,
+          "native_count_loss_tokens": 2271,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4478b3d72e8e444e9d2a01b0ebc5b872",
+          "published_weight_version": 61,
+          "dp_original_targets": [
+            169,
+            1380,
+            290,
+            432
+          ]
+        },
+        {
+          "rollout_id": 61,
+          "update_position": 62,
+          "original_eligible_target_tokens": 2150,
+          "native_count_loss_tokens": 2150,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "89f022cab8aa49108633ddacf896578e",
+          "published_weight_version": 62,
+          "dp_original_targets": [
+            1059,
+            226,
+            231,
+            634
+          ]
+        },
+        {
+          "rollout_id": 62,
+          "update_position": 63,
+          "original_eligible_target_tokens": 2269,
+          "native_count_loss_tokens": 2269,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "045182449c73451c82d9b84d8e4dbca2",
+          "published_weight_version": 63,
+          "dp_original_targets": [
+            625,
+            1031,
+            391,
+            222
+          ]
+        },
+        {
+          "rollout_id": 63,
+          "update_position": 64,
+          "original_eligible_target_tokens": 2207,
+          "native_count_loss_tokens": 2207,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "697f88e15bf345008565984a50ad2d3e",
+          "published_weight_version": 64,
+          "dp_original_targets": [
+            517,
+            1117,
+            438,
+            135
+          ]
+        },
+        {
+          "rollout_id": 64,
+          "update_position": 65,
+          "original_eligible_target_tokens": 1208,
+          "native_count_loss_tokens": 1208,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "7be03d99fab24d16b9bd23cdbf810ba6",
+          "published_weight_version": 65,
+          "dp_original_targets": [
+            565,
+            374,
+            148,
+            121
+          ]
+        },
+        {
+          "rollout_id": 65,
+          "update_position": 66,
+          "original_eligible_target_tokens": 2149,
+          "native_count_loss_tokens": 2149,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5cabc1a6d71c4751a861fd8c0440b7b4",
+          "published_weight_version": 66,
+          "dp_original_targets": [
+            1519,
+            219,
+            152,
+            259
+          ]
+        },
+        {
+          "rollout_id": 66,
+          "update_position": 67,
+          "original_eligible_target_tokens": 1570,
+          "native_count_loss_tokens": 1570,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "526badf6644749239b7d5adcf2f34e0d",
+          "published_weight_version": 67,
+          "dp_original_targets": [
+            168,
+            172,
+            1112,
+            118
+          ]
+        },
+        {
+          "rollout_id": 67,
+          "update_position": 68,
+          "original_eligible_target_tokens": 1708,
+          "native_count_loss_tokens": 1708,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d01d85047a334bcfae34210de3133136",
+          "published_weight_version": 68,
+          "dp_original_targets": [
+            213,
+            740,
+            642,
+            113
+          ]
+        },
+        {
+          "rollout_id": 68,
+          "update_position": 69,
+          "original_eligible_target_tokens": 3581,
+          "native_count_loss_tokens": 3581,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4ce356e3e8f542cebde853e731f1179e",
+          "published_weight_version": 69,
+          "dp_original_targets": [
+            811,
+            153,
+            1695,
+            922
+          ]
+        },
+        {
+          "rollout_id": 69,
+          "update_position": 70,
+          "original_eligible_target_tokens": 1684,
+          "native_count_loss_tokens": 1684,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "42c96dbeee1b4337b146aff82c246e05",
+          "published_weight_version": 70,
+          "dp_original_targets": [
+            541,
+            721,
+            216,
+            206
+          ]
+        },
+        {
+          "rollout_id": 70,
+          "update_position": 71,
+          "original_eligible_target_tokens": 949,
+          "native_count_loss_tokens": 949,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5402014810ce49668afaca94b94792d8",
+          "published_weight_version": 71,
+          "dp_original_targets": [
+            313,
+            196,
+            204,
+            236
+          ]
+        },
+        {
+          "rollout_id": 71,
+          "update_position": 72,
+          "original_eligible_target_tokens": 2027,
+          "native_count_loss_tokens": 2027,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "9335359b21b947ae9576a7a0cb54fb37",
+          "published_weight_version": 72,
+          "dp_original_targets": [
+            745,
+            119,
+            577,
+            586
+          ]
+        },
+        {
+          "rollout_id": 72,
+          "update_position": 73,
+          "original_eligible_target_tokens": 1175,
+          "native_count_loss_tokens": 1175,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "670d230c8ebf4b2e9bb92bc5fb81448b",
+          "published_weight_version": 73,
+          "dp_original_targets": [
+            210,
+            638,
+            122,
+            205
+          ]
+        },
+        {
+          "rollout_id": 73,
+          "update_position": 74,
+          "original_eligible_target_tokens": 1474,
+          "native_count_loss_tokens": 1474,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "90c9f831e9ba47e7b3d6979ad48edee3",
+          "published_weight_version": 74,
+          "dp_original_targets": [
+            300,
+            309,
+            229,
+            636
+          ]
+        },
+        {
+          "rollout_id": 74,
+          "update_position": 75,
+          "original_eligible_target_tokens": 2698,
+          "native_count_loss_tokens": 2698,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6e41171e0d494c6a87a9e94e2ba3228c",
+          "published_weight_version": 75,
+          "dp_original_targets": [
+            427,
+            1214,
+            841,
+            216
+          ]
+        },
+        {
+          "rollout_id": 75,
+          "update_position": 76,
+          "original_eligible_target_tokens": 1301,
+          "native_count_loss_tokens": 1301,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "a6b0a79456174cbaa16d38bbb61c1e23",
+          "published_weight_version": 76,
+          "dp_original_targets": [
+            151,
+            246,
+            578,
+            326
+          ]
+        },
+        {
+          "rollout_id": 76,
+          "update_position": 77,
+          "original_eligible_target_tokens": 3230,
+          "native_count_loss_tokens": 3230,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "fff3432de4a54bea8810c8017def6eb9",
+          "published_weight_version": 77,
+          "dp_original_targets": [
+            590,
+            707,
+            677,
+            1256
+          ]
+        },
+        {
+          "rollout_id": 77,
+          "update_position": 78,
+          "original_eligible_target_tokens": 1795,
+          "native_count_loss_tokens": 1795,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "f4978a09f0c34adeae02ff0a91ef7f9b",
+          "published_weight_version": 78,
+          "dp_original_targets": [
+            804,
+            529,
+            150,
+            312
+          ]
+        },
+        {
+          "rollout_id": 78,
+          "update_position": 79,
+          "original_eligible_target_tokens": 1923,
+          "native_count_loss_tokens": 1923,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "e7120787e3a64b27bd3e20f661af8730",
+          "published_weight_version": 79,
+          "dp_original_targets": [
+            732,
+            262,
+            271,
+            658
+          ]
+        },
+        {
+          "rollout_id": 79,
+          "update_position": 80,
+          "original_eligible_target_tokens": 2054,
+          "native_count_loss_tokens": 2054,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "4cae921fe8ce4be8bc90211466679398",
+          "published_weight_version": 80,
+          "dp_original_targets": [
+            495,
+            581,
+            630,
+            348
+          ]
+        },
+        {
+          "rollout_id": 80,
+          "update_position": 81,
+          "original_eligible_target_tokens": 1941,
+          "native_count_loss_tokens": 1941,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "aba059367faf48b09068c34282ebcbf6",
+          "published_weight_version": 81,
+          "dp_original_targets": [
+            221,
+            530,
+            280,
+            910
+          ]
+        },
+        {
+          "rollout_id": 81,
+          "update_position": 82,
+          "original_eligible_target_tokens": 1761,
+          "native_count_loss_tokens": 1761,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "6f7aa00cd573468fa9fa44066dacf9e4",
+          "published_weight_version": 82,
+          "dp_original_targets": [
+            266,
+            129,
+            1213,
+            153
+          ]
+        },
+        {
+          "rollout_id": 82,
+          "update_position": 83,
+          "original_eligible_target_tokens": 2556,
+          "native_count_loss_tokens": 2556,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d01f9da52dc1420780c64cb08f8512ff",
+          "published_weight_version": 83,
+          "dp_original_targets": [
+            784,
+            678,
+            321,
+            773
+          ]
+        },
+        {
+          "rollout_id": 83,
+          "update_position": 84,
+          "original_eligible_target_tokens": 2371,
+          "native_count_loss_tokens": 2371,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "16a395621b9b48cb8b75d5704e70157a",
+          "published_weight_version": 84,
+          "dp_original_targets": [
+            222,
+            1005,
+            637,
+            507
+          ]
+        },
+        {
+          "rollout_id": 84,
+          "update_position": 85,
+          "original_eligible_target_tokens": 2133,
+          "native_count_loss_tokens": 2133,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "91ba558237144f209062e0976dff31a0",
+          "published_weight_version": 85,
+          "dp_original_targets": [
+            561,
+            536,
+            243,
+            793
+          ]
+        },
+        {
+          "rollout_id": 85,
+          "update_position": 86,
+          "original_eligible_target_tokens": 2107,
+          "native_count_loss_tokens": 2107,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "78f6be00098548faa8c5e1300c7662e3",
+          "published_weight_version": 86,
+          "dp_original_targets": [
+            634,
+            1102,
+            207,
+            164
+          ]
+        },
+        {
+          "rollout_id": 86,
+          "update_position": 87,
+          "original_eligible_target_tokens": 2109,
+          "native_count_loss_tokens": 2109,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "3915b02c341345deb9ccddb4197649ec",
+          "published_weight_version": 87,
+          "dp_original_targets": [
+            221,
+            529,
+            542,
+            817
+          ]
+        },
+        {
+          "rollout_id": 87,
+          "update_position": 88,
+          "original_eligible_target_tokens": 3235,
+          "native_count_loss_tokens": 3235,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "d2d029092bef4f479ff2ecc0e70294e6",
+          "published_weight_version": 88,
+          "dp_original_targets": [
+            892,
+            561,
+            646,
+            1136
+          ]
+        },
+        {
+          "rollout_id": 88,
+          "update_position": 89,
+          "original_eligible_target_tokens": 2266,
+          "native_count_loss_tokens": 2266,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "195d3d3cb7c74bc791f76fd33318960c",
+          "published_weight_version": 89,
+          "dp_original_targets": [
+            686,
+            157,
+            242,
+            1181
+          ]
+        },
+        {
+          "rollout_id": 89,
+          "update_position": 90,
+          "original_eligible_target_tokens": 2758,
+          "native_count_loss_tokens": 2758,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "b3a48b7d53764c419a04dd1e0eca690c",
+          "published_weight_version": 90,
+          "dp_original_targets": [
+            262,
+            1074,
+            728,
+            694
+          ]
+        },
+        {
+          "rollout_id": 90,
+          "update_position": 91,
+          "original_eligible_target_tokens": 3399,
+          "native_count_loss_tokens": 3399,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "c65e022a0b654dc386880f7ddb8c1026",
+          "published_weight_version": 91,
+          "dp_original_targets": [
+            1206,
+            1030,
+            861,
+            302
+          ]
+        },
+        {
+          "rollout_id": 91,
+          "update_position": 92,
+          "original_eligible_target_tokens": 2386,
+          "native_count_loss_tokens": 2386,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5ca7ae0356454ced97552718de73e1eb",
+          "published_weight_version": 92,
+          "dp_original_targets": [
+            575,
+            1344,
+            267,
+            200
+          ]
+        },
+        {
+          "rollout_id": 92,
+          "update_position": 93,
+          "original_eligible_target_tokens": 2324,
+          "native_count_loss_tokens": 2324,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "13987d75dcd249ddaef3f6d882a8d416",
+          "published_weight_version": 93,
+          "dp_original_targets": [
+            622,
+            416,
+            310,
+            976
+          ]
+        },
+        {
+          "rollout_id": 93,
+          "update_position": 94,
+          "original_eligible_target_tokens": 1770,
+          "native_count_loss_tokens": 1770,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "00621351f9b24e8990b8fe6b45c87329",
+          "published_weight_version": 94,
+          "dp_original_targets": [
+            168,
+            580,
+            459,
+            563
+          ]
+        },
+        {
+          "rollout_id": 94,
+          "update_position": 95,
+          "original_eligible_target_tokens": 2703,
+          "native_count_loss_tokens": 2703,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "57c5b47f91e740a886c5fbe00a880b30",
+          "published_weight_version": 95,
+          "dp_original_targets": [
+            854,
+            569,
+            1166,
+            114
+          ]
+        },
+        {
+          "rollout_id": 95,
+          "update_position": 96,
+          "original_eligible_target_tokens": 1513,
+          "native_count_loss_tokens": 1513,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "aa2d013825894ab281ba422ca5f79f36",
+          "published_weight_version": 96,
+          "dp_original_targets": [
+            160,
+            202,
+            196,
+            955
+          ]
+        },
+        {
+          "rollout_id": 96,
+          "update_position": 97,
+          "original_eligible_target_tokens": 1130,
+          "native_count_loss_tokens": 1130,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "247169a69e634c7c8cda647eed89da63",
+          "published_weight_version": 97,
+          "dp_original_targets": [
+            158,
+            581,
+            235,
+            156
+          ]
+        },
+        {
+          "rollout_id": 97,
+          "update_position": 98,
+          "original_eligible_target_tokens": 1713,
+          "native_count_loss_tokens": 1713,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "13e16c1ba2cb4ad79955a705decccc23",
+          "published_weight_version": 98,
+          "dp_original_targets": [
+            167,
+            111,
+            234,
+            1201
+          ]
+        },
+        {
+          "rollout_id": 98,
+          "update_position": 99,
+          "original_eligible_target_tokens": 1315,
+          "native_count_loss_tokens": 1315,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "042b4188965c445b8e2e922ce6e30ef0",
+          "published_weight_version": 99,
+          "dp_original_targets": [
+            329,
+            198,
+            622,
+            166
+          ]
+        },
+        {
+          "rollout_id": 99,
+          "update_position": 100,
+          "original_eligible_target_tokens": 2232,
+          "native_count_loss_tokens": 2232,
+          "completion_count": 8,
+          "fully_masked_samples": 0,
+          "nonfinite_eligible_tensor_entries": 0,
+          "publication_id": "5e435db3dcea4202936415c1ec844597",
+          "published_weight_version": 100,
+          "dp_original_targets": [
+            892,
+            670,
+            434,
+            236
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3105 @@
+{
+  "task_id": "QWEN-REVIEW-NATIVE-DENOMINATOR",
+  "status": "INCOMPLETE",
+  "replay_status": "PASS",
+  "python": "3.12.16",
+  "torch": "2.14.1+cu130",
+  "executable": "/opt/sglang/bin/python3",
+  "argv": [
+    "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_qwen35_token_normalization.py",
+    "--pinned-source",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937",
+    "--source-receipt",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/normalization-source-exp-1107-235600-946937.json",
+    "--launch-receipt",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/A/exp-1107-173758-712234/launch.json",
+    "--native-stdout",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/A-exp-1107-173758-712234-complete.log",
+    "--report",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-token-normalization-exp-1108-001008-300177.json"
+  ],
+  "launch_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/A/exp-1107-173758-712234/launch.json",
+  "launch_pair": "A",
+  "launch_source_commit": "e3d626553bf1887c73c0423fb0f4905a1064cd13",
+  "native_stdout": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/A-exp-1107-173758-712234-complete.log",
+  "resolved_flags": {
+    "tensor_model_parallel_size": {
+      "value": "2",
+      "line": 1815
+    },
+    "data_parallel_size": {
+      "value": "4",
+      "line": 259
+    },
+    "context_parallel_size": {
+      "value": "1",
+      "line": 206
+    },
+    "pipeline_model_parallel_size": {
+      "value": "1",
+      "line": 981
+    },
+    "calculate_per_token_loss": {
+      "value": "True",
+      "line": 143
+    },
+    "ddp_average_in_collective": {
+      "value": "False",
+      "line": 268
+    },
+    "use_distributed_optimizer": {
+      "value": "True",
+      "line": 1893
+    },
+    "num_distributed_optimizer_instances": {
+      "value": "1",
+      "line": 897
+    },
+    "overlap_grad_reduce": {
+      "value": "False",
+      "line": 955
+    },
+    "accumulate_allreduce_grads_in_fp32": {
+      "value": "True",
+      "line": 80
+    },
+    "grad_reduce_in_bf16": {
+      "value": "False",
+      "line": 503
+    },
+    "bf16": {
+      "value": "True",
+      "line": 133
+    },
+    "fp16": {
+      "value": "False",
+      "line": 469
+    },
+    "loss_scale": {
+      "value": "None",
+      "line": 684
+    },
+    "optimizer_cpu_offload": {
+      "value": "False",
+      "line": 943
+    },
+    "use_tis": {
+      "value": "True",
+      "line": 1939
+    },
+    "tis_level": {
+      "value": "token",
+      "line": 1834
+    },
+    "tis_mode": {
+      "value": "mask",
+      "line": 1836
+    },
+    "tis_lower_bound": {
+      "value": "0.5",
+      "line": 1835
+    },
+    "tis_upper_bound": {
+      "value": "2.0",
+      "line": 1837
+    },
+    "use_rs": {
+      "value": "False",
+      "line": 1933
+    },
+    "tis_batch_normalize": {
+      "value": "False",
+      "line": 1831
+    },
+    "true_on_policy_mode": {
+      "value": "False",
+      "line": 1875
+    },
+    "use_rollout_logprobs": {
+      "value": "False",
+      "line": 1928
+    },
+    "ddp_reduce_scatter_with_fp32_accumulation": {
+      "value": "False",
+      "line": 273
+    },
+    "overlap_param_gather": {
+      "value": "False",
+      "line": 959
+    },
+    "use_megatron_fsdp": {
+      "value": "False",
+      "line": 1911
+    },
+    "use_precision_aware_optimizer": {
+      "value": "False",
+      "line": 1922
+    },
+    "sequence_parallel": {
+      "value": "True",
+      "line": 1242
+    },
+    "qk_layernorm": {
+      "value": "True",
+      "line": 1004
+    }
+  },
+  "source_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/normalization-source-exp-1107-235600-946937.json",
+  "pinned_versions": {
+    "torch": "2.14.1+cu130",
+    "megatron-core": "0.19.0+eb547f33e",
+    "torch-memory-saver": "0.0.10"
+  },
+  "ranks": [
+    {
+      "rank": 0,
+      "dp_rank": 0,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 3,
+            "survivor_tokens": 2,
+            "loss_numerator": 0.4
+          },
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 9,
+          "pre_reduce_gradient": [
+            9.600000381469727,
+            5.800000190734863,
+            4.5333333015441895,
+            3.9000000953674316
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 3,
+            "survivor_tokens": 2,
+            "loss_numerator": 0.4
+          },
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 6,
+          "pre_reduce_gradient": [
+            9.600000381469727,
+            5.800000190734863,
+            4.5333333015441895,
+            3.9000000953674316
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 1,
+      "dp_rank": 0,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 3,
+            "survivor_tokens": 2,
+            "loss_numerator": 0.4
+          },
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 9,
+          "pre_reduce_gradient": [
+            9.600000381469727,
+            5.800000190734863,
+            4.5333333015441895,
+            3.9000000953674316
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 3,
+            "survivor_tokens": 2,
+            "loss_numerator": 0.4
+          },
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 6,
+          "pre_reduce_gradient": [
+            9.600000381469727,
+            5.800000190734863,
+            4.5333333015441895,
+            3.9000000953674316
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 2,
+      "dp_rank": 1,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 4,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.5
+          },
+          {
+            "original_tokens": 8,
+            "survivor_tokens": 6,
+            "loss_numerator": 5.45
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 12,
+          "pre_reduce_gradient": [
+            49.79999923706055,
+            31.600000381469727,
+            25.53333282470703,
+            22.5
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 4,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.5
+          },
+          {
+            "original_tokens": 8,
+            "survivor_tokens": 6,
+            "loss_numerator": 5.45
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 10,
+          "pre_reduce_gradient": [
+            49.79999923706055,
+            31.600000381469727,
+            25.53333282470703,
+            22.5
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 3,
+      "dp_rank": 1,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 4,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.5
+          },
+          {
+            "original_tokens": 8,
+            "survivor_tokens": 6,
+            "loss_numerator": 5.45
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 12,
+          "pre_reduce_gradient": [
+            49.79999923706055,
+            31.600000381469727,
+            25.53333282470703,
+            22.5
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 4,
+            "survivor_tokens": 4,
+            "loss_numerator": 2.5
+          },
+          {
+            "original_tokens": 8,
+            "survivor_tokens": 6,
+            "loss_numerator": 5.45
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 10,
+          "pre_reduce_gradient": [
+            49.79999923706055,
+            31.600000381469727,
+            25.53333282470703,
+            22.5
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 4,
+      "dp_rank": 2,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 5,
+            "survivor_tokens": 3,
+            "loss_numerator": 2.8
+          },
+          {
+            "original_tokens": 10,
+            "survivor_tokens": 6,
+            "loss_numerator": 8.299999999999999
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 15,
+          "pre_reduce_gradient": [
+            83.19999694824219,
+            56.849998474121094,
+            48.06666564941406,
+            43.67499923706055
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 5,
+            "survivor_tokens": 3,
+            "loss_numerator": 2.8
+          },
+          {
+            "original_tokens": 10,
+            "survivor_tokens": 6,
+            "loss_numerator": 8.299999999999999
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 9,
+          "pre_reduce_gradient": [
+            83.19999694824219,
+            56.849998474121094,
+            48.06666564941406,
+            43.67499923706055
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 5,
+      "dp_rank": 2,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 5,
+            "survivor_tokens": 3,
+            "loss_numerator": 2.8
+          },
+          {
+            "original_tokens": 10,
+            "survivor_tokens": 6,
+            "loss_numerator": 8.299999999999999
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 15,
+          "pre_reduce_gradient": [
+            83.19999694824219,
+            56.849998474121094,
+            48.06666564941406,
+            43.67499923706055
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 5,
+            "survivor_tokens": 3,
+            "loss_numerator": 2.8
+          },
+          {
+            "original_tokens": 10,
+            "survivor_tokens": 6,
+            "loss_numerator": 8.299999999999999
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 9,
+          "pre_reduce_gradient": [
+            83.19999694824219,
+            56.849998474121094,
+            48.06666564941406,
+            43.67499923706055
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 6,
+      "dp_rank": 3,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 4.4
+          },
+          {
+            "original_tokens": 12,
+            "survivor_tokens": 0,
+            "loss_numerator": 0.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 18,
+          "pre_reduce_gradient": [
+            27.399999618530273,
+            20.30000114440918,
+            17.933334350585938,
+            16.75
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 4.4
+          },
+          {
+            "original_tokens": 12,
+            "survivor_tokens": 0,
+            "loss_numerator": 0.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 4,
+          "pre_reduce_gradient": [
+            27.399999618530273,
+            20.30000114440918,
+            17.933334350585938,
+            16.75
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    },
+    {
+      "rank": 7,
+      "dp_rank": 3,
+      "original_tokens": 54,
+      "survivor_tokens": 29,
+      "global_numerator": 25.849999999999998,
+      "reference_mean": 0.4787037037037037,
+      "wrong_survivor_mean": 0.8913793103448275,
+      "correct": {
+        "microbatches": [
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 4.4
+          },
+          {
+            "original_tokens": 12,
+            "survivor_tokens": 0,
+            "loss_numerator": 0.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 18,
+          "pre_reduce_gradient": [
+            27.399999618530273,
+            20.30000114440918,
+            17.933334350585938,
+            16.75
+          ],
+          "global_original_or_control_count": 54,
+          "scaling_factor": 0.018518518656492233
+        },
+        "actual_gradient": [
+          3.1481480598449707,
+          2.1212964057922363,
+          1.7790123224258423,
+          1.60787034034729
+        ],
+        "expected_gradient": [
+          3.1481481481481475,
+          2.1212962962962965,
+          1.7790123456790123,
+          1.60787037037037
+        ],
+        "max_abs_error": 1.0949593987064077e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "wrong_survivor_negative_control": {
+        "microbatches": [
+          {
+            "original_tokens": 6,
+            "survivor_tokens": 4,
+            "loss_numerator": 4.4
+          },
+          {
+            "original_tokens": 12,
+            "survivor_tokens": 0,
+            "loss_numerator": 0.0
+          }
+        ],
+        "finalization": {
+          "local_original_or_control_count": 4,
+          "pre_reduce_gradient": [
+            27.399999618530273,
+            20.30000114440918,
+            17.933334350585938,
+            16.75
+          ],
+          "global_original_or_control_count": 29,
+          "scaling_factor": 0.03448275849223137
+        },
+        "actual_gradient": [
+          5.862069129943848,
+          3.950000047683716,
+          3.312643527984619,
+          2.9939653873443604
+        ],
+        "expected_gradient": [
+          5.86206896551724,
+          3.9499999999999997,
+          3.3126436781609194,
+          2.993965517241379
+        ],
+        "max_abs_error": 1.6442660744075965e-07,
+        "native_ddp_config": {
+          "average_in_collective": false,
+          "use_distributed_optimizer": true,
+          "grad_reduce_in_fp32": true,
+          "overlap_grad_reduce": false,
+          "reduce_scatter_with_fp32_accumulation": false
+        },
+        "bucket_gradient_scaling_factor": 1.0,
+        "loss_scaling_factor": 1.0
+      },
+      "negative_control_gradient_distance": 2.713921070098877,
+      "collectives": [
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        },
+        {
+          "kind": "reduce_scatter_tensor",
+          "op": "RedOpType.SUM",
+          "size": 4,
+          "async_op": false,
+          "dtype": "torch.float32"
+        }
+      ],
+      "native_source_functions": [
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_attr_wrapped_model",
+          "start": 648,
+          "end": 673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_type",
+          "start": 676,
+          "end": 678,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_model_config",
+          "start": 689,
+          "end": 691,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+          "function": "get_pg_size",
+          "start": 603,
+          "end": 614,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+          "class": "DistributedDataParallelConfig",
+          "start": 12,
+          "end": 311,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+          "function": "get_megatron_ddp_config",
+          "start": 2385,
+          "end": 2425,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucket",
+          "start": 103,
+          "end": 170,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "class": "_ParamAndGradBucketGroup",
+          "start": 220,
+          "end": 935,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "shard_buffer",
+          "start": 80,
+          "end": 89,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "partition_buckets",
+          "start": 1803,
+          "end": 2041,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+          "function": "_ParamAndGradBuffer.scale_gradients",
+          "start": 1669,
+          "end": 1673,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+          "class": "DistributedDataParallel",
+          "start": 22,
+          "end": 660,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_main_grad_attr",
+          "start": 34,
+          "end": 37,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_unshard_if_dtensor",
+          "start": 40,
+          "end": 57,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_reshard_if_dtensor",
+          "start": 60,
+          "end": 86,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_conditional_embedding_grads",
+          "start": 89,
+          "end": 129,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_shared_word_embedding_weight",
+          "start": 132,
+          "end": 148,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_get_position_embedding_weight",
+          "start": 151,
+          "end": 161,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_word_embedding_grads",
+          "start": 164,
+          "end": 201,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_embedding_grad",
+          "start": 204,
+          "end": 259,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_position_embedding_grads",
+          "start": 262,
+          "end": 275,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_router_grads",
+          "start": 278,
+          "end": 313,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "reset_model_temporary_tensors",
+          "start": 316,
+          "end": 332,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_update_router_expert_bias",
+          "start": 335,
+          "end": 373,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "_allreduce_non_tensor_model_parallel_grads",
+          "start": 376,
+          "end": 456,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+          "function": "finalize_model_grads",
+          "start": 466,
+          "end": 583,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "custom_backward",
+          "start": 199,
+          "end": 228,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step_calc_loss",
+          "start": 290,
+          "end": 396,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_step",
+          "start": 399,
+          "end": 531,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "backward_step",
+          "start": 534,
+          "end": 594,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "check_first_val_step",
+          "start": 666,
+          "end": 671,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+          "function": "forward_backward_no_pipelining",
+          "start": 674,
+          "end": 840,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MegatronOptimizer.scale_loss",
+          "start": 538,
+          "end": 540,
+          "body_rewritten": false
+        },
+        {
+          "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+          "function": "MixedPrecisionOptimizer.get_loss_scale",
+          "start": 782,
+          "end": 785,
+          "body_rewritten": false
+        }
+      ],
+      "seams": [
+        "Synthetic four-parameter selected-logprob model; full model/vocabulary kernels excluded.",
+        "CPU one-bucket allocation/layout and process-group wiring; native DDP constructor and gradient post-hooks execute.",
+        "Native bucket reduce-scatter executes real synchronous torch Gloo reduce_scatter_tensor; NCCL coalescing is a null batching context.",
+        "CPU token-count allocation replaces the native CUDA allocation; current_stream sentinel has no CUDA events to wait for.",
+        "No MTP/MoE/graph capture; import/logger/finite-gradient-check seams do not replace normalization math.",
+        "Native optimizer get_loss_scale/scale_loss execute on a state-only unity-scale seam; no optimizer constructor or step."
+      ]
+    }
+  ],
+  "pinned_torch_runtime": true,
+  "limits": [
+    "Synthetic model and selected log-probabilities; no full-model or CUDA/NCCL replay.",
+    "Historical A/B gradient buffers and optimizer consumption were not retained; runtime replay does not retroactively observe them.",
+    "No gradient clipping, optimizer construction, optimizer step, weight update or new training."
+  ]
+}

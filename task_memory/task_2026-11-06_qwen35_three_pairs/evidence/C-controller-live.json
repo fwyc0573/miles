@@ -1,0 +1,10 @@
+{
+  "observed_at": "2026-11-07T15:56:29.055402+00:00",
+  "name": "exp-1107-150849-814926",
+  "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+  "pid": 851709,
+  "command": "/data/ycfeng/tmp/stepmind-env/bin/python -u -B - ",
+  "cwd": "/data/ycfeng/sota-engine/miles",
+  "state": "State:\tS (sleeping)",
+  "submitted": false
+}

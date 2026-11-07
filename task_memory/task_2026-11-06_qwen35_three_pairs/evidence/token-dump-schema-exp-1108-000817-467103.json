@@ -1,0 +1,645 @@
+{
+  "rjob": "exp-1108-000817-467103",
+  "files": [
+    {
+      "source": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/0_0.pt",
+      "local": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-token-schema-exp-1108-000817-467103/train_data/0_0.pt",
+      "size": 1239572,
+      "schema": {
+        "rollout_id": {
+          "type": "int"
+        },
+        "rank": {
+          "type": "int"
+        },
+        "rollout_data": {
+          "tokens": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                85079
+              ],
+              "dtype": "torch.int64"
+            }
+          },
+          "response_lengths": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "int"
+            }
+          },
+          "rewards": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "float"
+            }
+          },
+          "truncated": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "int"
+            }
+          },
+          "loss_masks": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.int32"
+            }
+          },
+          "sample_indices": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "int"
+            }
+          },
+          "rollout_ids": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "int"
+            }
+          },
+          "rollout_mask_sums": {
+            "type": "tensor",
+            "shape": [
+              2
+            ],
+            "dtype": "torch.float32"
+          },
+          "rollout_log_probs": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "teacher_log_probs": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "weight_versions": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "list",
+              "length": 1,
+              "first": {
+                "type": "dict",
+                "keys": [
+                  "spans",
+                  "prefill_spans",
+                  "output_start",
+                  "prompt_tokens"
+                ]
+              }
+            }
+          },
+          "raw_reward": {
+            "type": "list",
+            "length": 8,
+            "first": {
+              "type": "float"
+            }
+          },
+          "total_lengths": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "int"
+            }
+          },
+          "num_microbatches": {
+            "type": "list",
+            "length": 1,
+            "first": {
+              "type": "int"
+            }
+          },
+          "micro_batch_indices": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "list",
+              "length": 1,
+              "first": {
+                "type": "int"
+              }
+            }
+          },
+          "num_rollouts": {
+            "type": "list",
+            "length": 1,
+            "first": {
+              "type": "int"
+            }
+          },
+          "log_probs": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "opd_reverse_kl": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "advantages": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "returns": {
+            "type": "list",
+            "length": 2,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          }
+        },
+        "cp_rank": {
+          "type": "int"
+        },
+        "cp_size": {
+          "type": "int"
+        },
+        "qkv_format": {
+          "type": "str"
+        }
+      }
+    },
+    {
+      "source": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/policy_loss_debug/rank_0_call_0.pt",
+      "local": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-token-schema-exp-1108-000817-467103/policy_loss_debug/rank_0_call_0.pt",
+      "size": 21601,
+      "schema": {
+        "rank": {
+          "type": "int"
+        },
+        "call": {
+          "type": "int"
+        },
+        "samples": {
+          "type": "list",
+          "length": 1,
+          "first": {
+            "index": {
+              "type": "int"
+            },
+            "total_length": {
+              "type": "int"
+            },
+            "response_length": {
+              "type": "int"
+            },
+            "train_log_probs": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            },
+            "old_log_probs": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            },
+            "advantages": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            },
+            "local_loss_mask": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            },
+            "rollout_log_probs": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            },
+            "train_rollout_abs_diff": {
+              "type": "tensor",
+              "shape": [
+                565
+              ],
+              "dtype": "torch.float32"
+            }
+          }
+        },
+        "ppo_kl": {
+          "type": "tensor",
+          "shape": [
+            565
+          ],
+          "dtype": "torch.float32"
+        },
+        "pg_loss": {
+          "type": "tensor",
+          "shape": [
+            565
+          ],
+          "dtype": "torch.float32"
+        },
+        "finite": {
+          "ppo_kl": {
+            "type": "bool"
+          },
+          "pg_loss": {
+            "type": "bool"
+          },
+          "train_log_probs": {
+            "type": "bool"
+          },
+          "old_log_probs": {
+            "type": "bool"
+          },
+          "advantages": {
+            "type": "bool"
+          }
+        }
+      }
+    },
+    {
+      "source": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/rollout_data/0.pt",
+      "local": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-token-schema-exp-1108-000817-467103/rollout_data/0.pt",
+      "size": 20138313,
+      "schema": {
+        "rollout_id": {
+          "type": "int"
+        },
+        "metadata": {},
+        "samples": {
+          "type": "list",
+          "length": 8,
+          "first": {
+            "group_index": {
+              "type": "int"
+            },
+            "index": {
+              "type": "int"
+            },
+            "lineage": {
+              "type": "dict",
+              "keys": [
+                "source_sample_index",
+                "output_index",
+                "output_count"
+              ]
+            },
+            "rollout_id": {
+              "type": "NoneType"
+            },
+            "prompt": {
+              "type": "str"
+            },
+            "tokens": {
+              "type": "list",
+              "length": 88295,
+              "first": {
+                "type": "int"
+              }
+            },
+            "multimodal_inputs": {
+              "type": "NoneType"
+            },
+            "multimodal_train_inputs": {
+              "type": "NoneType"
+            },
+            "response": {
+              "type": "str"
+            },
+            "response_length": {
+              "type": "int"
+            },
+            "label": {
+              "type": "NoneType"
+            },
+            "reward": {
+              "type": "dict",
+              "keys": [
+                "reward",
+                "teacher_response"
+              ]
+            },
+            "loss_mask": {
+              "type": "NoneType"
+            },
+            "weight_versions": {
+              "type": "list",
+              "length": 1,
+              "first": {
+                "type": "dict",
+                "keys": [
+                  "spans",
+                  "prefill_spans",
+                  "output_start",
+                  "prompt_tokens"
+                ]
+              }
+            },
+            "rollout_log_probs": {
+              "type": "list",
+              "length": 157,
+              "first": {
+                "type": "float"
+              }
+            },
+            "rollout_topk_token_ids": {
+              "type": "NoneType"
+            },
+            "rollout_topk_log_probs": {
+              "type": "NoneType"
+            },
+            "rollout_sampling_mask": {
+              "type": "NoneType"
+            },
+            "rollout_routed_experts": {
+              "type": "NoneType"
+            },
+            "rollout_indexer_topk": {
+              "type": "NoneType"
+            },
+            "rollout_store_plan": {
+              "type": "NoneType"
+            },
+            "remove_sample": {
+              "type": "bool"
+            },
+            "teacher_log_probs": {
+              "type": "NoneType"
+            },
+            "opd_reverse_kl": {
+              "type": "NoneType"
+            },
+            "status": {
+              "type": "str"
+            },
+            "metadata": {
+              "type": "dict",
+              "keys": [
+                "source",
+                "history",
+                "tools",
+                "original_completion",
+                "thinking_enabled",
+                "chat_template_kwargs",
+                "probability_definition",
+                "completion",
+                "teacher_scoring",
+                "student_rescoring"
+              ]
+            },
+            "generate_function_path": {
+              "type": "NoneType"
+            },
+            "max_response_len": {
+              "type": "NoneType"
+            },
+            "agent_function_path": {
+              "type": "NoneType"
+            },
+            "max_seq_len": {
+              "type": "NoneType"
+            },
+            "train_metadata": {
+              "type": "dict",
+              "keys": [
+                "source_uid",
+                "source_group_id",
+                "source_category",
+                "prompt_token_count",
+                "prompt_sha256",
+                "completion_token_count",
+                "completion_sha256",
+                "sample_index",
+                "sample_group_index"
+              ]
+            },
+            "reward_spec": {
+              "type": "NoneType"
+            },
+            "routing_key": {
+              "type": "NoneType"
+            },
+            "trainer_model_id": {
+              "type": "NoneType"
+            },
+            "kv_cache_namespace": {
+              "type": "NoneType"
+            },
+            "non_generation_time": {
+              "type": "float"
+            },
+            "spec_info": {
+              "type": "dict",
+              "keys": [
+                "spec_num_correct_drafts",
+                "spec_num_proposed_drafts",
+                "spec_verify_ct",
+                "completion_tokens"
+              ]
+            },
+            "prefix_cache_info": {
+              "type": "dict",
+              "keys": [
+                "cached_tokens",
+                "total_prompt_tokens"
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "source": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/eval_monitor_0_0.pt",
+      "local": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-token-schema-exp-1108-000817-467103/train_data/eval_monitor_0_0.pt",
+      "size": 2707589,
+      "schema": {
+        "rollout_id": {
+          "type": "str"
+        },
+        "rank": {
+          "type": "int"
+        },
+        "rollout_data": {
+          "log_probs": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                99
+              ],
+              "dtype": "torch.float32"
+            }
+          },
+          "tokens": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                26299
+              ],
+              "dtype": "torch.int64"
+            }
+          },
+          "loss_masks": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "tensor",
+              "shape": [
+                99
+              ],
+              "dtype": "torch.int32"
+            }
+          },
+          "sample_indices": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "int"
+            }
+          },
+          "total_lengths": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "int"
+            }
+          },
+          "response_lengths": {
+            "type": "list",
+            "length": 6,
+            "first": {
+              "type": "int"
+            }
+          },
+          "metadata": {
+            "rollout_id": {
+              "type": "int"
+            },
+            "weight_version": {
+              "type": "int"
+            },
+            "cell_index": {
+              "type": "int"
+            },
+            "rank": {
+              "type": "int"
+            },
+            "dp_rank": {
+              "type": "int"
+            },
+            "dp_size": {
+              "type": "int"
+            },
+            "tp_rank": {
+              "type": "int"
+            },
+            "tp_size": {
+              "type": "int"
+            },
+            "cp_rank": {
+              "type": "int"
+            },
+            "cp_size": {
+              "type": "int"
+            },
+            "pp_rank": {
+              "type": "int"
+            },
+            "pp_size": {
+              "type": "int"
+            },
+            "qkv_format": {
+              "type": "str"
+            },
+            "allgather_cp": {
+              "type": "bool"
+            },
+            "response_layout": {
+              "type": "str"
+            },
+            "rollout_temperature": {
+              "type": "float"
+            },
+            "log_probs_backend": {
+              "type": "str"
+            },
+            "true_on_policy_mode": {
+              "type": "bool"
+            },
+            "use_rollout_sampling_mask": {
+              "type": "bool"
+            }
+          }
+        },
+        "cp_rank": {
+          "type": "int"
+        },
+        "cp_size": {
+          "type": "int"
+        },
+        "qkv_format": {
+          "type": "str"
+        }
+      }
+    }
+  ],
+  "first_step_traceback": "Traceback (most recent call last):\n  File \"<string>\", line 16, in <module>\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/audit_qwen35_training_tokens.py\", line 337, in _step\n    shards = _training_shards(run, step, ranks, samples)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/audit_qwen35_training_tokens.py\", line 220, in _training_shards\n    _require(all(len(batch[field]) == len(indices) for field in fields), \"train_row_coverage\", str(path))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/audit_qwen35_training_tokens.py\", line 220, in <genexpr>\n    _require(all(len(batch[field]) == len(indices) for field in fields), \"train_row_coverage\", str(path))\n                     ~~~~~^^^^^^^\nKeyError: 'metadata'\n"
+}

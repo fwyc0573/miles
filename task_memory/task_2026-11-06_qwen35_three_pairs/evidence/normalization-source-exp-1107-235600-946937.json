@@ -1,0 +1,77 @@
+{
+  "rjob": "exp-1107-235600-946937",
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "versions": {
+    "torch": "2.14.1+cu130",
+    "megatron-core": "0.19.0+eb547f33e",
+    "torch-memory-saver": "0.0.10"
+  },
+  "files": [
+    {
+      "source": "/root/Megatron-LM/megatron/core/distributed/finalize_model_grads.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+      "size": 24698
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/distributed/distributed_data_parallel.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+      "size": 31946
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/distributed/param_and_grad_buffer.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/param_and_grad_buffer.py",
+      "size": 100964
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/distributed/distributed_data_parallel_config.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel_config.py",
+      "size": 15648
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/optimizer/distrib_optimizer.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/distrib_optimizer.py",
+      "size": 162173
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/optimizer/optimizer.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+      "size": 98225
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/optimizer/__init__.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/__init__.py",
+      "size": 55948
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/pipeline_parallel/schedules.py",
+      "size": 116374
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/process_groups_config.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/process_groups_config.py",
+      "size": 30726
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/core/utils.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/utils.py",
+      "size": 116666
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/training/initialize.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/initialize.py",
+      "size": 22704
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/training/arguments.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/arguments.py",
+      "size": 224660
+    },
+    {
+      "source": "/root/Megatron-LM/megatron/training/training.py",
+      "retained": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/training/training.py",
+      "size": 234435
+    }
+  ],
+  "scope": "Pinned source acquisition only; no numerical or native training acceptance"
+}

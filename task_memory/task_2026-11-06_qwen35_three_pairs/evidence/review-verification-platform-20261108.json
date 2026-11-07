@@ -1,0 +1,141 @@
+{
+  "observed_at": "2026-11-07T16:23:48.898307+00:00",
+  "jobs": [
+    {
+      "observed_at": "2026-11-07T16:23:48.898307+00:00",
+      "name": "exp-1108-001008-300177",
+      "uid": "fd199c06-a3d7-48a8-a825-2dccb7031003",
+      "creator": "i-fengyicheng",
+      "charged_group": "step_main",
+      "preemptible": "no",
+      "status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "default": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T16:11:00Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue_reason": null,
+      "stop": {},
+      "stop_timestamp": null,
+      "tasks": {
+        "default": {
+          "gpu_tags": [
+            "H200"
+          ],
+          "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "default",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "16",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "16",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "observed_at": "2026-11-07T16:23:48.898307+00:00",
+      "name": "exp-1107-150849-814926",
+      "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+      "creator": "i-fengyicheng",
+      "charged_group": "codesign",
+      "preemptible": "no",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "queue_reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=8.",
+      "stop": {},
+      "stop_timestamp": null,
+      "tasks": {
+        "student": {
+          "gpu_tags": [
+            "H800"
+          ],
+          "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "student",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "64",
+                  "memory": "1500Gi",
+                  "nvidia.com/gpu": "8"
+                },
+                "requests": {
+                  "cpu": "64",
+                  "memory": "1500Gi",
+                  "nvidia.com/gpu": "8"
+                }
+              }
+            }
+          ]
+        },
+        "teacher": {
+          "gpu_tags": [
+            "H800"
+          ],
+          "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "teacher",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "64",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "64",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "controller": {
+        "pid": 851709,
+        "exists": true,
+        "command": "/data/ycfeng/tmp/stepmind-env/bin/python -u -B - ",
+        "cwd": "/data/ycfeng/sota-engine/miles",
+        "state": "State:\tS (sleeping)"
+      }
+    }
+  ]
+}

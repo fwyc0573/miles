@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record requested full-task review and repair, pinned to5c2e4463...69f3cda5; existing run budgets remain unchanged. |
 | 2026-11-07 | Record D19: delegate prompt cleanup of obsolete current-task codesign OSS artifacts with measured space reclamation. |
 | 2026-11-07 | Record D18: move pairs A/B to H200 with a session/task ceiling of32 concurrent non-preemptible H200 GPUs; retain C on H800 and all existing workload budgets. |
 | 2026-11-07 | Record D17: after B publishes one update then fails with output-projection GPU OOM, approve one fresh100-step B restart after capacity repair. |
@@ -276,6 +277,18 @@ The selected option preserves the existing parameter backup and optimizer config
 > ps：及时分派子agent清理在当前task生成的保存在codesign oss上的运行产物，磁盘空间快要达到上限。
 
 **Decision D19:** Delegate timely cleanup of obsolete generated cloud artifacts belonging to this task. Restrict deletion to the task's personal codesign output tree, `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs` (the authorized SSH mount maps it to `/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs`). Verify job ownership and terminal status, preserve active A/B/C paths, frozen inputs/model assets and minimum irreplaceable acceptance/RCA evidence, then remove obsolete regenerable large files. Record exact targets, sizes, retained evidence and measured remaining usage; distinguish logical deletion from physical quota reclamation. This authorizes scoped destructive cleanup, not unrelated task/model deletion or a blanket purge of shared `.trash`. Continue healthy formal jobs concurrently.
+
+## Post-acceptance review and repair — requested
+
+[Original Request]
+
+> 进入一轮review，修复错误和遗漏
+
+[Original Request] The user selected the full-task review scope rather than only the latest acceptance commit:
+
+> 本 task 全量 (Recommended)
+
+Review all task implementation and acceptance changes from `5c2e44635298675167c7c55e067dcb294f9e9fa9` to `69f3cda52dd7ea59202f560fedc6cbcfe1679ad9`. Fix evidence-backed errors and omissions, preserving unrelated work and original runtime receipts. This requests ordinary in-scope corrections and verification; it does not change D9/D15/D17 optimizer budgets, enable deferred memory features, authorize external publication or restart formal training.
 
 ## Execution support authorizations
 

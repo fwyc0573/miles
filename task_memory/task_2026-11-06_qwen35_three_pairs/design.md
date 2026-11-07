@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Clarify historical inspection boundaries and current execution-status ownership; retain the original training-denominator/target-count criteria. |
 | 2026-11-07 | Select native SGLang text reload and final decoder content binding after the observed Transformers dtype loss and review finding. |
 | 2026-11-06 | Record authorized source exceptions, measured population isolation, native read-only monitoring seam and remaining GPU qualification. |
 | 2026-11-06 | Record the verified singleton-response dimension repair and retain native numerical qualification as pending. |
@@ -21,6 +22,8 @@
 # Validation design and evidence
 
 This validation design follows confirmed decisions in [requirements](requirements.md), including D9's finite budget, D10's enabled fresh thinking, D11's selection rule, D12's TIS settings, D13's text-only export and D14's execution baseline. Existing template settings retain user control over history rendering. Steptron supplies semantic/acceptance references. The canonical external inventory and consistency analysis remain in the handbook; this file records their implications for this task rather than copying them wholesale.
+
+Execution status is owned by [plan](plan.md) and [summary](summary.md). The source-inspection findings and their then-unverified runtime boundaries below are historical design evidence, not current claims that no native runs or final HF artifacts exist. Acceptance requirements remain normative; [review records](review_final_pairs.md) track findings and their verified closure without changing those requirements.
 
 ## Source boundary
 

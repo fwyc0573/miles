@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-11-07T15:51:50.043935+00:00",
+  "name": "exp-1107-150849-814926",
+  "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+  "pid": 851709,
+  "mode": "existing_native_controller_wait",
+  "submitted": false,
+  "platform_mutations": false,
+  "original_launcher_pid": 3578129,
+  "original_launcher_present": false,
+  "original_launcher_exit_cause": "UNKNOWN",
+  "status_on_attach": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "student": {
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  }
+}

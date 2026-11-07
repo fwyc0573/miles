@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-11-07T16:27:44.494964+00:00",
+  "name": "exp-1108-002213-053180",
+  "uid": "7628a9a7-3f55-4c67-9b31-39ab39c5d2f0",
+  "creator": "i-fengyicheng",
+  "charged_group": "step_main",
+  "preemptible": "no",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "default": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-07T16:25:24Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_timestamp": null,
+  "stop": {},
+  "tasks": {
+    "default": {
+      "gpu_tags": [
+        "H200"
+      ],
+      "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "default",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "8",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "64000Mi",
+              "nvidia.com/gpu": "0",
+              "rdma/mlnx_shared": "8"
+            },
+            "requests": {
+              "cpu": "8",
+              "memory": "64000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

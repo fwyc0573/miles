@@ -1,0 +1,49 @@
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+WARNING:root:deep_ep is not installed, some functionalities may be limited.
+[rank0]:W1107 16:10:40.107000 64 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank2]:W1107 16:10:42.078000 66 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank1]:W1107 16:10:42.145000 65 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank3]:W1107 16:10:42.190000 67 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank5]:W1107 16:10:42.231000 69 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank7]:W1107 16:10:42.314000 71 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank6]:W1107 16:10:42.358000 70 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+[rank4]:W1107 16:10:42.397000 68 torch/utils/cpp_extension.py:183] [0/0_1] No CUDA runtime is found, using CUDA_HOME='/usr/local/cuda'
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+/data/ycfeng/sota-engine/miles/miles/backends/training_utils/loss/objective.py:240: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
+/opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead.
+  return func(*args, **kwargs)
+QWEN35_NATIVE_TOKEN_NORMALIZATION INCOMPLETE /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/native-token-normalization-exp-1108-001008-300177.json

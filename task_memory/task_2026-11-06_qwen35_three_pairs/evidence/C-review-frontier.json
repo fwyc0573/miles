@@ -1,0 +1,25 @@
+{
+  "observed_at": "2026-11-07T15:43:54.810982+00:00",
+  "name": "exp-1107-150849-814926",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "student": {
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "queue_reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=0.",
+  "replicas": {},
+  "launcher": {
+    "pid": 3578129,
+    "exists": false
+  }
+}

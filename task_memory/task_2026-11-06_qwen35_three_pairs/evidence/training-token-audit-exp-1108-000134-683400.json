@@ -1,0 +1,3856 @@
+{
+  "schema_version": 1,
+  "task_id": "QWEN-REVIEW-TOKEN-AUDIT",
+  "verdict": "INCOMPLETE",
+  "environment": {
+    "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+    "torch": "2.14.1+cu130"
+  },
+  "limits": [
+    "Offline read-only collection; no platform calls, model execution or optimizer steps.",
+    "Counts are derived through native mask/count owners, not recorded finalizer all-reduce scalars.",
+    "Prefix masks are native-function reconstructions, not dumped packed masks.",
+    "Policy debug has no identities: ambiguous exact tensor bindings remain INCOMPLETE.",
+    "ppo_kl and pg_loss are already sanitized by the native producer; raw score/advantage coverage is separate.",
+    "Post-TIS modified masks are not dumped; retained counts are unavailable, not zero."
+  ],
+  "runs": [
+    {
+      "pair": "A",
+      "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234",
+      "launch_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/A/exp-1107-173758-712234/launch.json",
+      "verdict": "INCOMPLETE",
+      "issues": [
+        {
+          "code": "unconsumed_debug_calls",
+          "detail": "{0: 200, 2: 200, 4: 200, 6: 200}"
+        }
+      ],
+      "steps": [
+        {
+          "rollout_id": 0,
+          "update_position": 1,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "0",
+          "published_weight_version": 1,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f67f2d7d85454084bb76a7706f7e448c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 1,
+          "update_position": 2,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "1",
+          "published_weight_version": 2,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ee61b5ef2da3455bb2d1954851c50df1",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 2,
+          "update_position": 3,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "2",
+          "published_weight_version": 3,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7823b9cbe15d4dff904fb05c3631e129",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 3,
+          "update_position": 4,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "3",
+          "published_weight_version": 4,
+          "optimizer_counter_delta": 1,
+          "publication_id": "15acf40b8c1d49fc9a6882d6399cc552",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 4,
+          "update_position": 5,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "4",
+          "published_weight_version": 5,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7cbea0dd79434144946e144281ce5b26",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 5,
+          "update_position": 6,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "5",
+          "published_weight_version": 6,
+          "optimizer_counter_delta": 1,
+          "publication_id": "657feda2c79b49c0b2275f39c7295400",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 6,
+          "update_position": 7,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "6",
+          "published_weight_version": 7,
+          "optimizer_counter_delta": 1,
+          "publication_id": "9ff8d3a6d943460badf2226c8488fd87",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 7,
+          "update_position": 8,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "7",
+          "published_weight_version": 8,
+          "optimizer_counter_delta": 1,
+          "publication_id": "56e34b5ee8f840c29e9e1c9e15d8dcf0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 8,
+          "update_position": 9,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "8",
+          "published_weight_version": 9,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1f83c55e6c9f4972904c26ad7fe703ba",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 9,
+          "update_position": 10,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "9",
+          "published_weight_version": 10,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ffdd497511b84e1db017763843a5d2ef",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 10,
+          "update_position": 11,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "10",
+          "published_weight_version": 11,
+          "optimizer_counter_delta": 1,
+          "publication_id": "814cdedee33248e4822123022d88c0ca",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 11,
+          "update_position": 12,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "11",
+          "published_weight_version": 12,
+          "optimizer_counter_delta": 1,
+          "publication_id": "dbcebfeb976d425f9c0ab11bb711ae4c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 12,
+          "update_position": 13,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "12",
+          "published_weight_version": 13,
+          "optimizer_counter_delta": 1,
+          "publication_id": "45252d372af348a7b54776868de1d541",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 13,
+          "update_position": 14,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "13",
+          "published_weight_version": 14,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f4adcf8145414fe085c0bed8cfdae4f1",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 14,
+          "update_position": 15,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "14",
+          "published_weight_version": 15,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b1d981855ba046d182448edd2f7f2dc9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 15,
+          "update_position": 16,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "15",
+          "published_weight_version": 16,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1204c46ac60a45d2b582229307ecfda9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 16,
+          "update_position": 17,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "16",
+          "published_weight_version": 17,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1a8b71b748e548688a3e56d220879c57",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 17,
+          "update_position": 18,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "17",
+          "published_weight_version": 18,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5fd289aa7bf94cd2a4aafaa7011a1172",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 18,
+          "update_position": 19,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "18",
+          "published_weight_version": 19,
+          "optimizer_counter_delta": 1,
+          "publication_id": "af593ee833424077b7c109a6b65e3473",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 19,
+          "update_position": 20,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "19",
+          "published_weight_version": 20,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7b19b1aa32af42d8991862f3c4f88d68",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 20,
+          "update_position": 21,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "20",
+          "published_weight_version": 21,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c2902b40a26f4e2f88ea932255bd4001",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 21,
+          "update_position": 22,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "21",
+          "published_weight_version": 22,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a4081f4196d54d9bbd4a76cb61d9c24e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 22,
+          "update_position": 23,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "22",
+          "published_weight_version": 23,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1e72c706c202433fa7a4054e358cc5ef",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 23,
+          "update_position": 24,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "23",
+          "published_weight_version": 24,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b0ab81151cae4ae883d8dc831dd506f2",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 24,
+          "update_position": 25,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "24",
+          "published_weight_version": 25,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3896c41e0be34c7dad22eb408d6e04c4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 25,
+          "update_position": 26,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "25",
+          "published_weight_version": 26,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a6854a3ec2994e56a9b74c22468d6502",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 26,
+          "update_position": 27,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "26",
+          "published_weight_version": 27,
+          "optimizer_counter_delta": 1,
+          "publication_id": "8a988ef8f02e439ca60f94077707d8cd",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 27,
+          "update_position": 28,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "27",
+          "published_weight_version": 28,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5a63915ff9d14e0abf5ad763115222e9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 28,
+          "update_position": 29,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "28",
+          "published_weight_version": 29,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3a597ce99ddb41c4a78c7b649f1d2da7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 29,
+          "update_position": 30,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "29",
+          "published_weight_version": 30,
+          "optimizer_counter_delta": 1,
+          "publication_id": "516db3801e854334a06c14486995714f",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 30,
+          "update_position": 31,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "30",
+          "published_weight_version": 31,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b455a2ceb08f481f83bddd4cb1869fec",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 31,
+          "update_position": 32,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "31",
+          "published_weight_version": 32,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0fe0fa8ed8934fecb440b7808cd3fbc0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 32,
+          "update_position": 33,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "32",
+          "published_weight_version": 33,
+          "optimizer_counter_delta": 1,
+          "publication_id": "60c06e12e2e04d28b9fb6096bb3c63df",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 33,
+          "update_position": 34,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "33",
+          "published_weight_version": 34,
+          "optimizer_counter_delta": 1,
+          "publication_id": "25070f8f87f740b1b5198f072a908cde",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 34,
+          "update_position": 35,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "34",
+          "published_weight_version": 35,
+          "optimizer_counter_delta": 1,
+          "publication_id": "bc63165a6b384a39b7783ef52e8aaffe",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 35,
+          "update_position": 36,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "35",
+          "published_weight_version": 36,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1f511b5ad6f9425293a25ef7c2148ebf",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 36,
+          "update_position": 37,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "36",
+          "published_weight_version": 37,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5930e8b284d14c46a5a86f080911a9fe",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 37,
+          "update_position": 38,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "37",
+          "published_weight_version": 38,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1a7c57a7e94a495ea90ab93ba5506b39",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 38,
+          "update_position": 39,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "38",
+          "published_weight_version": 39,
+          "optimizer_counter_delta": 1,
+          "publication_id": "53663f4c762b4fc4b4d8b8ae3872ecb0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 39,
+          "update_position": 40,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "39",
+          "published_weight_version": 40,
+          "optimizer_counter_delta": 1,
+          "publication_id": "50541dbdb6204a39bdaf79494d3d4423",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 40,
+          "update_position": 41,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "40",
+          "published_weight_version": 41,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0791948f51c04f3cab8beb00ec892b66",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 41,
+          "update_position": 42,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "41",
+          "published_weight_version": 42,
+          "optimizer_counter_delta": 1,
+          "publication_id": "2fb25035b18546f4958abd5112ff8dae",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 42,
+          "update_position": 43,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "42",
+          "published_weight_version": 43,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c7a1c06d499b426587ceac2402e35dfa",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 43,
+          "update_position": 44,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "43",
+          "published_weight_version": 44,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1c0f577d88944c1bbf0bfbd823a9d588",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 44,
+          "update_position": 45,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "44",
+          "published_weight_version": 45,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c7847f7ae8c14f42b772384519b3cec7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 45,
+          "update_position": 46,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "45",
+          "published_weight_version": 46,
+          "optimizer_counter_delta": 1,
+          "publication_id": "cd14832a5b4049da8d3c33c1027dff11",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 46,
+          "update_position": 47,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "46",
+          "published_weight_version": 47,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a88567372e5e4be78bdfdbcdd6cf2167",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 47,
+          "update_position": 48,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "47",
+          "published_weight_version": 48,
+          "optimizer_counter_delta": 1,
+          "publication_id": "706853bab27a4bb99fa4d423cf5a9e0c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 48,
+          "update_position": 49,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "48",
+          "published_weight_version": 49,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7a61127c3a944446b30ad2a663ed7588",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 49,
+          "update_position": 50,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "49",
+          "published_weight_version": 50,
+          "optimizer_counter_delta": 1,
+          "publication_id": "45301adf11c34ba6940d8e2105950510",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 50,
+          "update_position": 51,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "50",
+          "published_weight_version": 51,
+          "optimizer_counter_delta": 1,
+          "publication_id": "208d462784aa4b82aefec177fd521f27",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 51,
+          "update_position": 52,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "51",
+          "published_weight_version": 52,
+          "optimizer_counter_delta": 1,
+          "publication_id": "e330cf18bfda41a995ad9b1502fe1938",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 52,
+          "update_position": 53,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "52",
+          "published_weight_version": 53,
+          "optimizer_counter_delta": 1,
+          "publication_id": "82c60a4f997f4991be028204e9ae45be",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 53,
+          "update_position": 54,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "53",
+          "published_weight_version": 54,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4b530b3083884dda8a7bb62ad801c15c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 54,
+          "update_position": 55,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "54",
+          "published_weight_version": 55,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b5304e5dee2b41269e196d71562a635a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 55,
+          "update_position": 56,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "55",
+          "published_weight_version": 56,
+          "optimizer_counter_delta": 1,
+          "publication_id": "35a7778f01df4120aafe905e27f208bf",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 56,
+          "update_position": 57,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "56",
+          "published_weight_version": 57,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a7b35594185340a491776ecc53cc1c3a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 57,
+          "update_position": 58,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "57",
+          "published_weight_version": 58,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d80d5b7f62444129b1b69ff174bd7fb3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 58,
+          "update_position": 59,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "58",
+          "published_weight_version": 59,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4a260ff5e4774e1b98a0a186d716d964",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 59,
+          "update_position": 60,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "59",
+          "published_weight_version": 60,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5f12c405e949469498d29f380b080933",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 60,
+          "update_position": 61,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "60",
+          "published_weight_version": 61,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6881c1fb0c644fc0ab91279a37c0e4f7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 61,
+          "update_position": 62,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "61",
+          "published_weight_version": 62,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7daf92b4ced24985ad857d438d3e99c4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 62,
+          "update_position": 63,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "62",
+          "published_weight_version": 63,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c4e0364c6c3b4ccf99d7fa36858b2ffa",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 63,
+          "update_position": 64,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "63",
+          "published_weight_version": 64,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f1c0e7b0129b440ab06fcf2789e01ad0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 64,
+          "update_position": 65,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "64",
+          "published_weight_version": 65,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3966d382dfca45ea9a39dd0d9f46b6b3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 65,
+          "update_position": 66,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "65",
+          "published_weight_version": 66,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5c4084fcbc21434eb866ce568470165f",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 66,
+          "update_position": 67,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "66",
+          "published_weight_version": 67,
+          "optimizer_counter_delta": 1,
+          "publication_id": "15203e673d7945569459e4fad24ef3d7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 67,
+          "update_position": 68,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "67",
+          "published_weight_version": 68,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ac19c17ba5c2498cab15e6fa6d6ed40c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 68,
+          "update_position": 69,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "68",
+          "published_weight_version": 69,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6e9a312989d94dd591cb9a6925ec3ad4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 69,
+          "update_position": 70,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "69",
+          "published_weight_version": 70,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c605073e16ed432ca8aa294cd92f9788",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 70,
+          "update_position": 71,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "70",
+          "published_weight_version": 71,
+          "optimizer_counter_delta": 1,
+          "publication_id": "22b1db580dc74a56a9f7f3a74c24b90a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 71,
+          "update_position": 72,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "71",
+          "published_weight_version": 72,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7e1d92f0747946b6b0031f0eb8b66c57",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 72,
+          "update_position": 73,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "72",
+          "published_weight_version": 73,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c35092edb08149f4be9f6eca6c6d1569",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 73,
+          "update_position": 74,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "73",
+          "published_weight_version": 74,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d811fbea25ad4913b53084fde619cbc3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 74,
+          "update_position": 75,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "74",
+          "published_weight_version": 75,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5c014ce170264b648a26dd66a2c9d203",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 75,
+          "update_position": 76,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "75",
+          "published_weight_version": 76,
+          "optimizer_counter_delta": 1,
+          "publication_id": "cd3acf0346a8447b9ee379f85cfb89d4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 76,
+          "update_position": 77,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "76",
+          "published_weight_version": 77,
+          "optimizer_counter_delta": 1,
+          "publication_id": "9993ea51dd1140da805d31b9416032da",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 77,
+          "update_position": 78,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "77",
+          "published_weight_version": 78,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3bd5afa2881a46ff913c3433b5a75a93",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 78,
+          "update_position": 79,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "78",
+          "published_weight_version": 79,
+          "optimizer_counter_delta": 1,
+          "publication_id": "bd3152f184f84b11bfd9cc4489b61a47",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 79,
+          "update_position": 80,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "79",
+          "published_weight_version": 80,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f109da223aeb4e97aad79bdc5e9c10b5",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 80,
+          "update_position": 81,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "80",
+          "published_weight_version": 81,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3b2983f34de14e3c9be83c9489996ac3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 81,
+          "update_position": 82,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "81",
+          "published_weight_version": 82,
+          "optimizer_counter_delta": 1,
+          "publication_id": "41ed845e08054b48bf78c23f4bd78182",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 82,
+          "update_position": 83,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "82",
+          "published_weight_version": 83,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a6a79792a1624524b6fb4aa88fefb389",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 83,
+          "update_position": 84,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "83",
+          "published_weight_version": 84,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5c5e06e44370431f98f46818afedb841",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 84,
+          "update_position": 85,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "84",
+          "published_weight_version": 85,
+          "optimizer_counter_delta": 1,
+          "publication_id": "661782121edf44fb8921dfb12a621f13",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 85,
+          "update_position": 86,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "85",
+          "published_weight_version": 86,
+          "optimizer_counter_delta": 1,
+          "publication_id": "626eaeeaddb44f188b87dc57624c7597",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 86,
+          "update_position": 87,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "86",
+          "published_weight_version": 87,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a4fb36ced280454193f4a9b02597bb85",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 87,
+          "update_position": 88,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "87",
+          "published_weight_version": 88,
+          "optimizer_counter_delta": 1,
+          "publication_id": "033bca77993d42d69c421abe857e1fbc",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 88,
+          "update_position": 89,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "88",
+          "published_weight_version": 89,
+          "optimizer_counter_delta": 1,
+          "publication_id": "8b56ed66ff7a4137a355a23e982f8e60",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 89,
+          "update_position": 90,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "89",
+          "published_weight_version": 90,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c1ec3909496f480cba095731d54c0884",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 90,
+          "update_position": 91,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "90",
+          "published_weight_version": 91,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6a28b8e6a6224b7f806fe2271e4784d6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 91,
+          "update_position": 92,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "91",
+          "published_weight_version": 92,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0ac980fe3d5b459990295a16955ddfbf",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 92,
+          "update_position": 93,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "92",
+          "published_weight_version": 93,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5a98f2d6a6eb4872b1d1e5e19385e586",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 93,
+          "update_position": 94,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "93",
+          "published_weight_version": 94,
+          "optimizer_counter_delta": 1,
+          "publication_id": "45c04e4962ed43f8b7849a6694ead445",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 94,
+          "update_position": 95,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "94",
+          "published_weight_version": 95,
+          "optimizer_counter_delta": 1,
+          "publication_id": "69da1a4eb6e84561889c3ed6e132ba41",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 95,
+          "update_position": 96,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "95",
+          "published_weight_version": 96,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4ee7f1c6387442eb8c8fb79dca4ba013",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 96,
+          "update_position": 97,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "96",
+          "published_weight_version": 97,
+          "optimizer_counter_delta": 1,
+          "publication_id": "605241a64b8c4d7696147719da3d7ce4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 97,
+          "update_position": 98,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "97",
+          "published_weight_version": 98,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f013b7e80f584e03ae57ffbc3d777ea8",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 98,
+          "update_position": 99,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "98",
+          "published_weight_version": 99,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b297e1864ea44b0994a733dd39bc4eee",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 99,
+          "update_position": 100,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "99",
+          "published_weight_version": 100,
+          "optimizer_counter_delta": 1,
+          "publication_id": "defc4f8a67da479bb282ddb735b99bbe",
+          "attempt": 0
+        }
+      ],
+      "launch_contract": {
+        "steps": 100,
+        "batch": 8,
+        "tp_size": 2,
+        "cp_size": 1,
+        "pp_size": 1,
+        "dp_size": 4,
+        "source_commit": "e3d626553bf1887c73c0423fb0f4905a1064cd13",
+        "training_argv": [
+          "--hf-checkpoint",
+          "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "--ref-load",
+          "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "--megatron-to-hf-mode",
+          "raw",
+          "--save-hf",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/hf/step_{rollout_id}",
+          "--save-interval",
+          "100",
+          "--custom-megatron-post-save-hook-path",
+          "tests.manual.agent_opd.qwen_export.post_save",
+          "--prompt-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+          "--input-key",
+          "prompt",
+          "--metadata-key",
+          "metadata",
+          "--custom-generate-function-path",
+          "tests.manual.agent_opd.qwen_alignment.generate",
+          "--custom-rm-path",
+          "tests.manual.agent_opd.qwen_alignment.score_teacher",
+          "--rm-url",
+          "http://100.109.128.115:30000/generate",
+          "--reward-key",
+          "reward",
+          "--custom-reward-post-process-path",
+          "examples.agentic_opd.rollout.post_process_rewards",
+          "--num-rollout",
+          "100",
+          "--rollout-batch-size",
+          "8",
+          "--n-samples-per-prompt",
+          "1",
+          "--global-batch-size",
+          "8",
+          "--rollout-shuffle",
+          "--rollout-seed",
+          "42",
+          "--seed",
+          "42",
+          "--rollout-max-response-len",
+          "8192",
+          "--rollout-max-context-len",
+          "131072",
+          "--rollout-temperature",
+          "1",
+          "--rollout-top-p",
+          "1",
+          "--rollout-top-k",
+          "-1",
+          "--balance-data",
+          "--eval-interval",
+          "20",
+          "--eval-prompt-data",
+          "monitor",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/monitor.jsonl",
+          "--n-samples-per-eval-prompt",
+          "1",
+          "--eval-temperature",
+          "1",
+          "--eval-top-p",
+          "1",
+          "--eval-top-k",
+          "-1",
+          "--eval-max-response-len",
+          "8192",
+          "--eval-max-context-len",
+          "131072",
+          "--eval-train-log-probs",
+          "--tensor-model-parallel-size",
+          "2",
+          "--sequence-parallel",
+          "--pipeline-model-parallel-size",
+          "1",
+          "--context-parallel-size",
+          "1",
+          "--expert-model-parallel-size",
+          "1",
+          "--expert-tensor-parallel-size",
+          "1",
+          "--recompute-granularity",
+          "full",
+          "--recompute-method",
+          "uniform",
+          "--recompute-num-layers",
+          "1",
+          "--use-dynamic-batch-size",
+          "--max-tokens-per-gpu",
+          "131072",
+          "--seq-length",
+          "131072",
+          "--linear-attention-backend",
+          "fla",
+          "--linear-attention-input-norm",
+          "te",
+          "--log-probs-backend",
+          "fused",
+          "--use-opd",
+          "--opd-type",
+          "sglang",
+          "--opd-log-prob-top-k",
+          "0",
+          "--opd-kl-coef",
+          "1",
+          "--advantage-estimator",
+          "grpo",
+          "--calculate-per-token-loss",
+          "--get-mismatch-metrics",
+          "--use-tis",
+          "--custom-tis-function-path",
+          "examples.infra_features.train_infer_mismatch_helper.mis.compute_mis_weights_with_cp",
+          "--tis-level",
+          "token",
+          "--tis-mode",
+          "mask",
+          "--tis-lower-bound",
+          "0.5",
+          "--tis-upper-bound",
+          "2",
+          "--eps-clip",
+          "0.2",
+          "--eps-clip-high",
+          "0.28",
+          "--entropy-coef",
+          "0",
+          "--optimizer",
+          "adam",
+          "--lr",
+          "2e-6",
+          "--lr-decay-style",
+          "constant",
+          "--lr-warmup-iters",
+          "0",
+          "--weight-decay",
+          "0",
+          "--adam-beta1",
+          "0.9",
+          "--adam-beta2",
+          "0.98",
+          "--rollout-num-gpus-per-engine",
+          "2",
+          "--sglang-context-length",
+          "131072",
+          "--sglang-mem-fraction-static",
+          "0.7",
+          "--sglang-max-running-requests",
+          "1",
+          "--sglang-chunked-prefill-size",
+          "8192",
+          "--sglang-router-request-timeout-secs",
+          "3600",
+          "--sglang-disable-cuda-graph",
+          "--sglang-enable-deterministic-inference",
+          "--sglang-attention-backend",
+          "fa3",
+          "--sglang-enable-prefill-weight-versions",
+          "--sglang-linear-attn-prefill-backend",
+          "triton",
+          "--sglang-dtype",
+          "bfloat16",
+          "--dump-details",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234",
+          "--save-debug-rollout-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/rollout_data/{rollout_id}.pt",
+          "--save-debug-train-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/{rollout_id}_{rank}.pt",
+          "--save-debug-event-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/events",
+          "--check-weight-update-equal",
+          "--check-weight-update-skip-list",
+          "visual",
+          "--log-inference-engine-weight-checksums",
+          "--colocate",
+          "--offload-train",
+          "--offload-rollout",
+          "--actor-num-nodes",
+          "1",
+          "--actor-num-gpus-per-node",
+          "8",
+          "--num-gpus-per-node",
+          "8",
+          "--attention-dropout",
+          "0",
+          "--hidden-dropout",
+          "0",
+          "--accumulate-allreduce-grads-in-fp32",
+          "--attention-softmax-in-fp32",
+          "--attention-backend",
+          "flash"
+        ]
+      },
+      "rank_metadata_artifacts": [
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/eval_monitor_0_0.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/eval_monitor_0_2.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/eval_monitor_0_4.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/train_data/eval_monitor_0_6.pt"
+      ],
+      "rank_metadata": [
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 0,
+          "dp_rank": 0,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 2,
+          "dp_rank": 1,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 4,
+          "dp_rank": 2,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 6,
+          "dp_rank": 3,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        }
+      ],
+      "native_publication_counters": {
+        "baseline_version": 0,
+        "successful_updates": 100,
+        "skipped_updates": 0,
+        "final_version": 100,
+        "restoration_publications": 6
+      },
+      "step_verdict_counts": {
+        "INCOMPLETE": 100
+      }
+    },
+    {
+      "pair": "B",
+      "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531",
+      "launch_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-173758-806531/launch.json",
+      "verdict": "INCOMPLETE",
+      "issues": [
+        {
+          "code": "unconsumed_debug_calls",
+          "detail": "{0: 200, 2: 200, 4: 200, 6: 200}"
+        }
+      ],
+      "steps": [
+        {
+          "rollout_id": 0,
+          "update_position": 1,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "0",
+          "published_weight_version": 1,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7ac6a831f0f544faa585fef87d59a1e6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 1,
+          "update_position": 2,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "1",
+          "published_weight_version": 2,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0b9528ec0af546f2af0d1652eb2e889c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 2,
+          "update_position": 3,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "2",
+          "published_weight_version": 3,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d6df50c9de2d4b9a9c678a08215bb1de",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 3,
+          "update_position": 4,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "3",
+          "published_weight_version": 4,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b893ee26cbdb43e4b1c16038d53c0480",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 4,
+          "update_position": 5,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "4",
+          "published_weight_version": 5,
+          "optimizer_counter_delta": 1,
+          "publication_id": "09b9b3a066b74d31b6bccb1cf00e50a9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 5,
+          "update_position": 6,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "5",
+          "published_weight_version": 6,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ab6dccf279ff4d3ea9a49d6888019b55",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 6,
+          "update_position": 7,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "6",
+          "published_weight_version": 7,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1675eb4ed3874171ae28df4a350f6a52",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 7,
+          "update_position": 8,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "7",
+          "published_weight_version": 8,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c2a999bc9e7a47508907e9c5ccf27df4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 8,
+          "update_position": 9,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "8",
+          "published_weight_version": 9,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5326baa5576044e187eabe7e93f28566",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 9,
+          "update_position": 10,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "9",
+          "published_weight_version": 10,
+          "optimizer_counter_delta": 1,
+          "publication_id": "e5e45e2db5fe432d882d3de61933980b",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 10,
+          "update_position": 11,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "10",
+          "published_weight_version": 11,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3eb1513cfc5f448bb5da4b1d6f59d3cd",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 11,
+          "update_position": 12,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "11",
+          "published_weight_version": 12,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1df89f281fc54600b9f3e04b973456a9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 12,
+          "update_position": 13,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "12",
+          "published_weight_version": 13,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6834cf84430349e3b46cba4f4e71f7aa",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 13,
+          "update_position": 14,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "13",
+          "published_weight_version": 14,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4547a32f982d4b0984b4727feed79da6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 14,
+          "update_position": 15,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "14",
+          "published_weight_version": 15,
+          "optimizer_counter_delta": 1,
+          "publication_id": "75b2d45444684814b093819904af75ee",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 15,
+          "update_position": 16,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "15",
+          "published_weight_version": 16,
+          "optimizer_counter_delta": 1,
+          "publication_id": "046d79d174f847ae8fc5859c43049f66",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 16,
+          "update_position": 17,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "16",
+          "published_weight_version": 17,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d7f2619a6a924bf8985a2c7329ff34f7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 17,
+          "update_position": 18,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "17",
+          "published_weight_version": 18,
+          "optimizer_counter_delta": 1,
+          "publication_id": "cdbcdfa5e55346a5b87f757cefd26d6c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 18,
+          "update_position": 19,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "18",
+          "published_weight_version": 19,
+          "optimizer_counter_delta": 1,
+          "publication_id": "8319ae329e0145c298704bf345805c27",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 19,
+          "update_position": 20,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "19",
+          "published_weight_version": 20,
+          "optimizer_counter_delta": 1,
+          "publication_id": "433771547cb34b34a7b97cb7f3c288d4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 20,
+          "update_position": 21,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "20",
+          "published_weight_version": 21,
+          "optimizer_counter_delta": 1,
+          "publication_id": "05a8b82fab2743319429514177cfbf40",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 21,
+          "update_position": 22,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "21",
+          "published_weight_version": 22,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ad575e40c3774f4ebfbb4f12988db548",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 22,
+          "update_position": 23,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "22",
+          "published_weight_version": 23,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4fb3e44d689b4b9cb005d964b5b5f300",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 23,
+          "update_position": 24,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "23",
+          "published_weight_version": 24,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3d1322bb30a6423f85120fed2f2a1747",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 24,
+          "update_position": 25,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "24",
+          "published_weight_version": 25,
+          "optimizer_counter_delta": 1,
+          "publication_id": "637adf0c2bbf4596bdca88879e5d44d9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 25,
+          "update_position": 26,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "25",
+          "published_weight_version": 26,
+          "optimizer_counter_delta": 1,
+          "publication_id": "e892d2ad46d84ec8809e79838c42b9c3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 26,
+          "update_position": 27,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "26",
+          "published_weight_version": 27,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7a08d05c4b6342a5bf3e0621a0deb79d",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 27,
+          "update_position": 28,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "27",
+          "published_weight_version": 28,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b66709ff18fd4ba5bd7ea833aebc6d18",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 28,
+          "update_position": 29,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "28",
+          "published_weight_version": 29,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4f86880861b44d58b3ae1503f784bfb6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 29,
+          "update_position": 30,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "29",
+          "published_weight_version": 30,
+          "optimizer_counter_delta": 1,
+          "publication_id": "439772077af34304a5ad506e4d083a8f",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 30,
+          "update_position": 31,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "30",
+          "published_weight_version": 31,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7cf165cf699d41daadb0bbc6c71157af",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 31,
+          "update_position": 32,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "31",
+          "published_weight_version": 32,
+          "optimizer_counter_delta": 1,
+          "publication_id": "8cb3bcf1a63943e19e4c09bdc9f2eabd",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 32,
+          "update_position": 33,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "32",
+          "published_weight_version": 33,
+          "optimizer_counter_delta": 1,
+          "publication_id": "02c114666f0e4ec582496856197fb2ab",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 33,
+          "update_position": 34,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "33",
+          "published_weight_version": 34,
+          "optimizer_counter_delta": 1,
+          "publication_id": "af2e9a2b91fe4fd981adda191acffce3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 34,
+          "update_position": 35,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "34",
+          "published_weight_version": 35,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ab2ce1e1348e4b38a96081f171552552",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 35,
+          "update_position": 36,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "35",
+          "published_weight_version": 36,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d8cce723528d4a5cbc09ccd182a62b04",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 36,
+          "update_position": 37,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "36",
+          "published_weight_version": 37,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4a14901201db45a2b8a7db57952c39f7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 37,
+          "update_position": 38,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "37",
+          "published_weight_version": 38,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0de83a4c19fb4441b5bbf7c20d35246f",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 38,
+          "update_position": 39,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "38",
+          "published_weight_version": 39,
+          "optimizer_counter_delta": 1,
+          "publication_id": "37a7b3810e7a4f608d6537a05b78158a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 39,
+          "update_position": 40,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "39",
+          "published_weight_version": 40,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7c4e988e942e4f45be042a4859725b53",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 40,
+          "update_position": 41,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "40",
+          "published_weight_version": 41,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f21c7b180c5e41d49454caaac3a8dbf0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 41,
+          "update_position": 42,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "41",
+          "published_weight_version": 42,
+          "optimizer_counter_delta": 1,
+          "publication_id": "078d56f450de41689aebe2afd3923c1e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 42,
+          "update_position": 43,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "42",
+          "published_weight_version": 43,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4d6b44fbbccb4560bccbf8085f251f60",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 43,
+          "update_position": 44,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "43",
+          "published_weight_version": 44,
+          "optimizer_counter_delta": 1,
+          "publication_id": "0d45bd6fe5e046b2bdcaf170983212f7",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 44,
+          "update_position": 45,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "44",
+          "published_weight_version": 45,
+          "optimizer_counter_delta": 1,
+          "publication_id": "263df68f011a494684627d05a4b9d22e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 45,
+          "update_position": 46,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "45",
+          "published_weight_version": 46,
+          "optimizer_counter_delta": 1,
+          "publication_id": "1a91d7b62ecc4a9493a78c1a7d509803",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 46,
+          "update_position": 47,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "46",
+          "published_weight_version": 47,
+          "optimizer_counter_delta": 1,
+          "publication_id": "fe57e27d574246179303ac879cd7667c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 47,
+          "update_position": 48,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "47",
+          "published_weight_version": 48,
+          "optimizer_counter_delta": 1,
+          "publication_id": "cf2ae2d478694825aaf16c6ebcdfb3e5",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 48,
+          "update_position": 49,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "48",
+          "published_weight_version": 49,
+          "optimizer_counter_delta": 1,
+          "publication_id": "adbaa582f3314af6ab9b6599870358d2",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 49,
+          "update_position": 50,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "49",
+          "published_weight_version": 50,
+          "optimizer_counter_delta": 1,
+          "publication_id": "bc3ed97ca5a642bca75ad6501c06dbe6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 50,
+          "update_position": 51,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "50",
+          "published_weight_version": 51,
+          "optimizer_counter_delta": 1,
+          "publication_id": "ae648ec85af44d0c9747f345b9ea5a6a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 51,
+          "update_position": 52,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "51",
+          "published_weight_version": 52,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6ba135af0e2f4e8790aadf640f8889a2",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 52,
+          "update_position": 53,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "52",
+          "published_weight_version": 53,
+          "optimizer_counter_delta": 1,
+          "publication_id": "613d6faa80f64197b3131c8006343a13",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 53,
+          "update_position": 54,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "53",
+          "published_weight_version": 54,
+          "optimizer_counter_delta": 1,
+          "publication_id": "e15b8ca1579c44918da4429d3bb53896",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 54,
+          "update_position": 55,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "54",
+          "published_weight_version": 55,
+          "optimizer_counter_delta": 1,
+          "publication_id": "48dedee310cd4682bd5815b4ceff9216",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 55,
+          "update_position": 56,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "55",
+          "published_weight_version": 56,
+          "optimizer_counter_delta": 1,
+          "publication_id": "102cf3d3c3fa4c978d030a54b0f77084",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 56,
+          "update_position": 57,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "56",
+          "published_weight_version": 57,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3e02f0e7c7ad4fcc80ae42c1b3c64ad8",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 57,
+          "update_position": 58,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "57",
+          "published_weight_version": 58,
+          "optimizer_counter_delta": 1,
+          "publication_id": "44b96471018b47bc96f192f778280f70",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 58,
+          "update_position": 59,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "58",
+          "published_weight_version": 59,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b58138464f3141dc88b6d63dd30a6ae0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 59,
+          "update_position": 60,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "59",
+          "published_weight_version": 60,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c6be7ba9237d4455a35f1e65beb75781",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 60,
+          "update_position": 61,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "60",
+          "published_weight_version": 61,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4478b3d72e8e444e9d2a01b0ebc5b872",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 61,
+          "update_position": 62,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "61",
+          "published_weight_version": 62,
+          "optimizer_counter_delta": 1,
+          "publication_id": "89f022cab8aa49108633ddacf896578e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 62,
+          "update_position": 63,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "62",
+          "published_weight_version": 63,
+          "optimizer_counter_delta": 1,
+          "publication_id": "045182449c73451c82d9b84d8e4dbca2",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 63,
+          "update_position": 64,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "63",
+          "published_weight_version": 64,
+          "optimizer_counter_delta": 1,
+          "publication_id": "697f88e15bf345008565984a50ad2d3e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 64,
+          "update_position": 65,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "64",
+          "published_weight_version": 65,
+          "optimizer_counter_delta": 1,
+          "publication_id": "7be03d99fab24d16b9bd23cdbf810ba6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 65,
+          "update_position": 66,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "65",
+          "published_weight_version": 66,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5cabc1a6d71c4751a861fd8c0440b7b4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 66,
+          "update_position": 67,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "66",
+          "published_weight_version": 67,
+          "optimizer_counter_delta": 1,
+          "publication_id": "526badf6644749239b7d5adcf2f34e0d",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 67,
+          "update_position": 68,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "67",
+          "published_weight_version": 68,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d01d85047a334bcfae34210de3133136",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 68,
+          "update_position": 69,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "68",
+          "published_weight_version": 69,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4ce356e3e8f542cebde853e731f1179e",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 69,
+          "update_position": 70,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "69",
+          "published_weight_version": 70,
+          "optimizer_counter_delta": 1,
+          "publication_id": "42c96dbeee1b4337b146aff82c246e05",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 70,
+          "update_position": 71,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "70",
+          "published_weight_version": 71,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5402014810ce49668afaca94b94792d8",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 71,
+          "update_position": 72,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "71",
+          "published_weight_version": 72,
+          "optimizer_counter_delta": 1,
+          "publication_id": "9335359b21b947ae9576a7a0cb54fb37",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 72,
+          "update_position": 73,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "72",
+          "published_weight_version": 73,
+          "optimizer_counter_delta": 1,
+          "publication_id": "670d230c8ebf4b2e9bb92bc5fb81448b",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 73,
+          "update_position": 74,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "73",
+          "published_weight_version": 74,
+          "optimizer_counter_delta": 1,
+          "publication_id": "90c9f831e9ba47e7b3d6979ad48edee3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 74,
+          "update_position": 75,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "74",
+          "published_weight_version": 75,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6e41171e0d494c6a87a9e94e2ba3228c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 75,
+          "update_position": 76,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "75",
+          "published_weight_version": 76,
+          "optimizer_counter_delta": 1,
+          "publication_id": "a6b0a79456174cbaa16d38bbb61c1e23",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 76,
+          "update_position": 77,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "76",
+          "published_weight_version": 77,
+          "optimizer_counter_delta": 1,
+          "publication_id": "fff3432de4a54bea8810c8017def6eb9",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 77,
+          "update_position": 78,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "77",
+          "published_weight_version": 78,
+          "optimizer_counter_delta": 1,
+          "publication_id": "f4978a09f0c34adeae02ff0a91ef7f9b",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 78,
+          "update_position": 79,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "78",
+          "published_weight_version": 79,
+          "optimizer_counter_delta": 1,
+          "publication_id": "e7120787e3a64b27bd3e20f661af8730",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 79,
+          "update_position": 80,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "79",
+          "published_weight_version": 80,
+          "optimizer_counter_delta": 1,
+          "publication_id": "4cae921fe8ce4be8bc90211466679398",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 80,
+          "update_position": 81,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "80",
+          "published_weight_version": 81,
+          "optimizer_counter_delta": 1,
+          "publication_id": "aba059367faf48b09068c34282ebcbf6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 81,
+          "update_position": 82,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "81",
+          "published_weight_version": 82,
+          "optimizer_counter_delta": 1,
+          "publication_id": "6f7aa00cd573468fa9fa44066dacf9e4",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 82,
+          "update_position": 83,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "82",
+          "published_weight_version": 83,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d01f9da52dc1420780c64cb08f8512ff",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 83,
+          "update_position": 84,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "83",
+          "published_weight_version": 84,
+          "optimizer_counter_delta": 1,
+          "publication_id": "16a395621b9b48cb8b75d5704e70157a",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 84,
+          "update_position": 85,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "84",
+          "published_weight_version": 85,
+          "optimizer_counter_delta": 1,
+          "publication_id": "91ba558237144f209062e0976dff31a0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 85,
+          "update_position": 86,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "85",
+          "published_weight_version": 86,
+          "optimizer_counter_delta": 1,
+          "publication_id": "78f6be00098548faa8c5e1300c7662e3",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 86,
+          "update_position": 87,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "86",
+          "published_weight_version": 87,
+          "optimizer_counter_delta": 1,
+          "publication_id": "3915b02c341345deb9ccddb4197649ec",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 87,
+          "update_position": 88,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "87",
+          "published_weight_version": 88,
+          "optimizer_counter_delta": 1,
+          "publication_id": "d2d029092bef4f479ff2ecc0e70294e6",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 88,
+          "update_position": 89,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "88",
+          "published_weight_version": 89,
+          "optimizer_counter_delta": 1,
+          "publication_id": "195d3d3cb7c74bc791f76fd33318960c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 89,
+          "update_position": 90,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "89",
+          "published_weight_version": 90,
+          "optimizer_counter_delta": 1,
+          "publication_id": "b3a48b7d53764c419a04dd1e0eca690c",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 90,
+          "update_position": 91,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "90",
+          "published_weight_version": 91,
+          "optimizer_counter_delta": 1,
+          "publication_id": "c65e022a0b654dc386880f7ddb8c1026",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 91,
+          "update_position": 92,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "91",
+          "published_weight_version": 92,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5ca7ae0356454ced97552718de73e1eb",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 92,
+          "update_position": 93,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "92",
+          "published_weight_version": 93,
+          "optimizer_counter_delta": 1,
+          "publication_id": "13987d75dcd249ddaef3f6d882a8d416",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 93,
+          "update_position": 94,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "93",
+          "published_weight_version": 94,
+          "optimizer_counter_delta": 1,
+          "publication_id": "00621351f9b24e8990b8fe6b45c87329",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 94,
+          "update_position": 95,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "94",
+          "published_weight_version": 95,
+          "optimizer_counter_delta": 1,
+          "publication_id": "57c5b47f91e740a886c5fbe00a880b30",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 95,
+          "update_position": 96,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "95",
+          "published_weight_version": 96,
+          "optimizer_counter_delta": 1,
+          "publication_id": "aa2d013825894ab281ba422ca5f79f36",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 96,
+          "update_position": 97,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "96",
+          "published_weight_version": 97,
+          "optimizer_counter_delta": 1,
+          "publication_id": "247169a69e634c7c8cda647eed89da63",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 97,
+          "update_position": 98,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "97",
+          "published_weight_version": 98,
+          "optimizer_counter_delta": 1,
+          "publication_id": "13e16c1ba2cb4ad79955a705decccc23",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 98,
+          "update_position": 99,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "98",
+          "published_weight_version": 99,
+          "optimizer_counter_delta": 1,
+          "publication_id": "042b4188965c445b8e2e922ce6e30ef0",
+          "attempt": 0
+        },
+        {
+          "rollout_id": 99,
+          "update_position": 100,
+          "verdict": "INCOMPLETE",
+          "issues": [
+            {
+              "code": "corrupt_schema",
+              "detail": "'metadata'"
+            }
+          ],
+          "consumed_weight_version": "99",
+          "published_weight_version": 100,
+          "optimizer_counter_delta": 1,
+          "publication_id": "5e435db3dcea4202936415c1ec844597",
+          "attempt": 0
+        }
+      ],
+      "launch_contract": {
+        "steps": 100,
+        "batch": 8,
+        "tp_size": 2,
+        "cp_size": 1,
+        "pp_size": 1,
+        "dp_size": 4,
+        "source_commit": "e3d626553bf1887c73c0423fb0f4905a1064cd13",
+        "training_argv": [
+          "--hf-checkpoint",
+          "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "--ref-load",
+          "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "--megatron-to-hf-mode",
+          "raw",
+          "--save-hf",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_{rollout_id}",
+          "--save-interval",
+          "100",
+          "--custom-megatron-post-save-hook-path",
+          "tests.manual.agent_opd.qwen_export.post_save",
+          "--prompt-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+          "--input-key",
+          "prompt",
+          "--metadata-key",
+          "metadata",
+          "--custom-generate-function-path",
+          "tests.manual.agent_opd.qwen_alignment.generate",
+          "--custom-rm-path",
+          "tests.manual.agent_opd.qwen_alignment.score_teacher",
+          "--rm-url",
+          "http://100.109.128.114:30000/generate",
+          "--reward-key",
+          "reward",
+          "--custom-reward-post-process-path",
+          "examples.agentic_opd.rollout.post_process_rewards",
+          "--num-rollout",
+          "100",
+          "--rollout-batch-size",
+          "8",
+          "--n-samples-per-prompt",
+          "1",
+          "--global-batch-size",
+          "8",
+          "--rollout-shuffle",
+          "--rollout-seed",
+          "42",
+          "--seed",
+          "42",
+          "--rollout-max-response-len",
+          "8192",
+          "--rollout-max-context-len",
+          "131072",
+          "--rollout-temperature",
+          "1",
+          "--rollout-top-p",
+          "1",
+          "--rollout-top-k",
+          "-1",
+          "--balance-data",
+          "--eval-interval",
+          "20",
+          "--eval-prompt-data",
+          "monitor",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/monitor.jsonl",
+          "--n-samples-per-eval-prompt",
+          "1",
+          "--eval-temperature",
+          "1",
+          "--eval-top-p",
+          "1",
+          "--eval-top-k",
+          "-1",
+          "--eval-max-response-len",
+          "8192",
+          "--eval-max-context-len",
+          "131072",
+          "--eval-train-log-probs",
+          "--tensor-model-parallel-size",
+          "2",
+          "--sequence-parallel",
+          "--pipeline-model-parallel-size",
+          "1",
+          "--context-parallel-size",
+          "1",
+          "--expert-model-parallel-size",
+          "1",
+          "--expert-tensor-parallel-size",
+          "1",
+          "--recompute-granularity",
+          "full",
+          "--recompute-method",
+          "uniform",
+          "--recompute-num-layers",
+          "1",
+          "--use-dynamic-batch-size",
+          "--max-tokens-per-gpu",
+          "131072",
+          "--seq-length",
+          "131072",
+          "--linear-attention-backend",
+          "fla",
+          "--linear-attention-input-norm",
+          "te",
+          "--log-probs-backend",
+          "fused",
+          "--use-opd",
+          "--opd-type",
+          "sglang",
+          "--opd-log-prob-top-k",
+          "0",
+          "--opd-kl-coef",
+          "1",
+          "--advantage-estimator",
+          "grpo",
+          "--calculate-per-token-loss",
+          "--get-mismatch-metrics",
+          "--use-tis",
+          "--custom-tis-function-path",
+          "examples.infra_features.train_infer_mismatch_helper.mis.compute_mis_weights_with_cp",
+          "--tis-level",
+          "token",
+          "--tis-mode",
+          "mask",
+          "--tis-lower-bound",
+          "0.5",
+          "--tis-upper-bound",
+          "2",
+          "--eps-clip",
+          "0.2",
+          "--eps-clip-high",
+          "0.28",
+          "--entropy-coef",
+          "0",
+          "--optimizer",
+          "adam",
+          "--lr",
+          "2e-6",
+          "--lr-decay-style",
+          "constant",
+          "--lr-warmup-iters",
+          "0",
+          "--weight-decay",
+          "0",
+          "--adam-beta1",
+          "0.9",
+          "--adam-beta2",
+          "0.98",
+          "--rollout-num-gpus-per-engine",
+          "2",
+          "--sglang-context-length",
+          "131072",
+          "--sglang-mem-fraction-static",
+          "0.7",
+          "--sglang-max-running-requests",
+          "1",
+          "--sglang-chunked-prefill-size",
+          "8192",
+          "--sglang-router-request-timeout-secs",
+          "3600",
+          "--sglang-disable-cuda-graph",
+          "--sglang-enable-deterministic-inference",
+          "--sglang-attention-backend",
+          "fa3",
+          "--sglang-enable-prefill-weight-versions",
+          "--sglang-linear-attn-prefill-backend",
+          "triton",
+          "--sglang-dtype",
+          "bfloat16",
+          "--dump-details",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531",
+          "--save-debug-rollout-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/rollout_data/{rollout_id}.pt",
+          "--save-debug-train-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/train_data/{rollout_id}_{rank}.pt",
+          "--save-debug-event-data",
+          "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/events",
+          "--check-weight-update-equal",
+          "--check-weight-update-skip-list",
+          "visual",
+          "--log-inference-engine-weight-checksums",
+          "--colocate",
+          "--offload-train",
+          "--offload-rollout",
+          "--actor-num-nodes",
+          "1",
+          "--actor-num-gpus-per-node",
+          "8",
+          "--num-gpus-per-node",
+          "8",
+          "--attention-dropout",
+          "0",
+          "--hidden-dropout",
+          "0",
+          "--accumulate-allreduce-grads-in-fp32",
+          "--attention-softmax-in-fp32",
+          "--attention-backend",
+          "flash"
+        ]
+      },
+      "rank_metadata_artifacts": [
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/train_data/eval_monitor_0_0.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/train_data/eval_monitor_0_2.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/train_data/eval_monitor_0_4.pt",
+        "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/train_data/eval_monitor_0_6.pt"
+      ],
+      "rank_metadata": [
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 0,
+          "dp_rank": 0,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 2,
+          "dp_rank": 1,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 4,
+          "dp_rank": 2,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        },
+        {
+          "rollout_id": 0,
+          "weight_version": 0,
+          "cell_index": 0,
+          "rank": 6,
+          "dp_rank": 3,
+          "dp_size": 4,
+          "tp_rank": 0,
+          "tp_size": 2,
+          "cp_rank": 0,
+          "cp_size": 1,
+          "pp_rank": 0,
+          "pp_size": 1,
+          "qkv_format": "thd",
+          "allgather_cp": false,
+          "response_layout": "response",
+          "rollout_temperature": 1.0,
+          "log_probs_backend": "fused",
+          "true_on_policy_mode": false,
+          "use_rollout_sampling_mask": false
+        }
+      ],
+      "native_publication_counters": {
+        "baseline_version": 0,
+        "successful_updates": 100,
+        "skipped_updates": 0,
+        "final_version": 100,
+        "restoration_publications": 6
+      },
+      "step_verdict_counts": {
+        "INCOMPLETE": 100
+      }
+    }
+  ],
+  "issues": [],
+  "population_report": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json",
+  "step_rows": 200
+}

@@ -1,0 +1,262 @@
+{
+  "verdict": "PASS",
+  "scope": "Native stdout scaling/config evidence only; no model or optimizer execution",
+  "required_flag_count": 30,
+  "all_required_flags_match": true,
+  "runs": {
+    "A": {
+      "job": "exp-1107-173758-712234",
+      "stdout": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/A-exp-1107-173758-712234-complete.log",
+      "cloud_stdout": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234.log",
+      "flags": {
+        "tensor_model_parallel_size": {
+          "value": "2",
+          "line": 1815
+        },
+        "data_parallel_size": {
+          "value": "4",
+          "line": 259
+        },
+        "context_parallel_size": {
+          "value": "1",
+          "line": 206
+        },
+        "pipeline_model_parallel_size": {
+          "value": "1",
+          "line": 981
+        },
+        "calculate_per_token_loss": {
+          "value": "True",
+          "line": 143
+        },
+        "ddp_average_in_collective": {
+          "value": "False",
+          "line": 268
+        },
+        "use_distributed_optimizer": {
+          "value": "True",
+          "line": 1893
+        },
+        "num_distributed_optimizer_instances": {
+          "value": "1",
+          "line": 897
+        },
+        "overlap_grad_reduce": {
+          "value": "False",
+          "line": 955
+        },
+        "accumulate_allreduce_grads_in_fp32": {
+          "value": "True",
+          "line": 80
+        },
+        "grad_reduce_in_bf16": {
+          "value": "False",
+          "line": 503
+        },
+        "bf16": {
+          "value": "True",
+          "line": 133
+        },
+        "fp16": {
+          "value": "False",
+          "line": 469
+        },
+        "loss_scale": {
+          "value": "None",
+          "line": 684
+        },
+        "optimizer_cpu_offload": {
+          "value": "False",
+          "line": 943
+        },
+        "use_tis": {
+          "value": "True",
+          "line": 1939
+        },
+        "tis_level": {
+          "value": "token",
+          "line": 1834
+        },
+        "tis_mode": {
+          "value": "mask",
+          "line": 1836
+        },
+        "tis_lower_bound": {
+          "value": "0.5",
+          "line": 1835
+        },
+        "tis_upper_bound": {
+          "value": "2.0",
+          "line": 1837
+        },
+        "use_rs": {
+          "value": "False",
+          "line": 1933
+        },
+        "tis_batch_normalize": {
+          "value": "False",
+          "line": 1831
+        },
+        "true_on_policy_mode": {
+          "value": "False",
+          "line": 1875
+        },
+        "use_rollout_logprobs": {
+          "value": "False",
+          "line": 1928
+        },
+        "ddp_reduce_scatter_with_fp32_accumulation": {
+          "value": "False",
+          "line": 273
+        },
+        "overlap_param_gather": {
+          "value": "False",
+          "line": 959
+        },
+        "use_megatron_fsdp": {
+          "value": "False",
+          "line": 1911
+        },
+        "use_precision_aware_optimizer": {
+          "value": "False",
+          "line": 1922
+        },
+        "sequence_parallel": {
+          "value": "True",
+          "line": 1242
+        },
+        "qk_layernorm": {
+          "value": "True",
+          "line": 1004
+        }
+      }
+    },
+    "B": {
+      "job": "exp-1107-173758-806531",
+      "stdout": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/B-exp-1107-173758-806531-complete.log",
+      "cloud_stdout": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531.log",
+      "flags": {
+        "tensor_model_parallel_size": {
+          "value": "2",
+          "line": 1815
+        },
+        "data_parallel_size": {
+          "value": "4",
+          "line": 259
+        },
+        "context_parallel_size": {
+          "value": "1",
+          "line": 206
+        },
+        "pipeline_model_parallel_size": {
+          "value": "1",
+          "line": 981
+        },
+        "calculate_per_token_loss": {
+          "value": "True",
+          "line": 143
+        },
+        "ddp_average_in_collective": {
+          "value": "False",
+          "line": 268
+        },
+        "use_distributed_optimizer": {
+          "value": "True",
+          "line": 1893
+        },
+        "num_distributed_optimizer_instances": {
+          "value": "1",
+          "line": 897
+        },
+        "overlap_grad_reduce": {
+          "value": "False",
+          "line": 955
+        },
+        "accumulate_allreduce_grads_in_fp32": {
+          "value": "True",
+          "line": 80
+        },
+        "grad_reduce_in_bf16": {
+          "value": "False",
+          "line": 503
+        },
+        "bf16": {
+          "value": "True",
+          "line": 133
+        },
+        "fp16": {
+          "value": "False",
+          "line": 469
+        },
+        "loss_scale": {
+          "value": "None",
+          "line": 684
+        },
+        "optimizer_cpu_offload": {
+          "value": "False",
+          "line": 943
+        },
+        "use_tis": {
+          "value": "True",
+          "line": 1939
+        },
+        "tis_level": {
+          "value": "token",
+          "line": 1834
+        },
+        "tis_mode": {
+          "value": "mask",
+          "line": 1836
+        },
+        "tis_lower_bound": {
+          "value": "0.5",
+          "line": 1835
+        },
+        "tis_upper_bound": {
+          "value": "2.0",
+          "line": 1837
+        },
+        "use_rs": {
+          "value": "False",
+          "line": 1933
+        },
+        "tis_batch_normalize": {
+          "value": "False",
+          "line": 1831
+        },
+        "true_on_policy_mode": {
+          "value": "False",
+          "line": 1875
+        },
+        "use_rollout_logprobs": {
+          "value": "False",
+          "line": 1928
+        },
+        "ddp_reduce_scatter_with_fp32_accumulation": {
+          "value": "False",
+          "line": 273
+        },
+        "overlap_param_gather": {
+          "value": "False",
+          "line": 959
+        },
+        "use_megatron_fsdp": {
+          "value": "False",
+          "line": 1911
+        },
+        "use_precision_aware_optimizer": {
+          "value": "False",
+          "line": 1922
+        },
+        "sequence_parallel": {
+          "value": "True",
+          "line": 1242
+        },
+        "qk_layernorm": {
+          "value": "True",
+          "line": 1004
+        }
+      }
+    }
+  }
+}

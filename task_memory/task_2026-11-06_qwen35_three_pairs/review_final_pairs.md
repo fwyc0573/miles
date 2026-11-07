@@ -2,10 +2,39 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Close the full-task Spec P2 using actual 200-step counts and pinned native normalization; correct the follow-up stale-report Nit and confirm C monitoring. |
+| 2026-11-07 | Add user-selected full-task Standards/Spec review; reopen one original training-evidence subgate and record parent archival/monitoring corrections. |
 | 2026-11-07 | Record independent A final review: no actionable findings, with numerical/training/inference scope limits preserved. |
 | 2026-11-07 | Record B final phase review, two P2 delivery/evidence gaps, remediation and targeted closure. |
 
 # Final pair acceptance reviews
+
+## Full task — user-requested review at69f3cda5
+
+Fixed comparison: `git diff 5c2e44635298675167c7c55e067dcb294f9e9fa9...69f3cda52dd7ea59202f560fedc6cbcfe1679ad9`,44 commits and42 source/test/repository-document files. Original specification is requirements/plan/design. This broader review supersedes the blanket A/B completion statement below, while retaining the earlier reviews' verified numerical, update, HF and two closed delivery findings.
+
+### Standards
+
+Native reviewer `ses_e4954d0c7ffe7Ogcy2zKCRRkSk` / `QWEN-FULL-REVIEW-STANDARDS` inspects all42 diff files and applicable repository rules:0 correctness findings,0 Nits, no actionable judgement smell. Static review only, with existing reported tests; no runtime execution or independent large-JSON audit. No speculative refactor is requested.
+
+### Spec
+
+Native reviewer `ses_e49547f14ffe8iDT1zTLSqozZC` / `QWEN-FULL-REVIEW-SPEC` identifies **P2, INCOMPLETE**: D12 explicitly requires native original-token global-denominator verification, and design requires per-step target token counts. The actual loss-memory probe exercises a SUM and does not establish final distributed scaling; the completion archive acknowledges missing step counts/replay. This is missing verification, not an established arithmetic defect. Parent reopens only this subgate and delegates independent existing-dump target counting and native reduction verification. Exact post-TIS survivor counts are not added as a new acceptance condition. No confirmed implementation bug or scope creep is found.
+
+### Parent archival and operational findings
+
+- Current plan contradicts actual final A/B artifacts and post-training storage inventory by retaining obsolete no-final-HF/10.456GiB statements. Corrected to authoritative report links while historical receipts remain unchanged.
+- At15:43:54Z C is stillPending, but original launcher PID3578129 is absent and no matching local submitter is found on the same hostname/NFS source. The original shell output is no longer present, so its exit cause remains UNKNOWN. Restore monitoring of the existing job with native `RJobWorkers.wait`; no duplicate submission or platform mutation. Verify the new monitor receipt and process before closing this operational finding.
+
+### Verified follow-up and closure — 2026-11-08
+
+- **Standards follow-up:** same reviewer inspects both new manual probes and their reports. No correctness defect or actionable judgement smell; one Nit under `.agents/rules/single-source-of-truth.md` identifies a stale pinned-runtime-pending statement. Parent updates the native-normalization report with the exact PASS receipt and independent terminal/config evidence, preserving historical CUDA limits. The Nit is closed by direct document/receipt comparison. This report edit occurred concurrently with review, explaining the earlier snapshot.
+- **Spec follow-up:** same Spec reviewer first independently inspects the native source/call-body seams, actual A/B flags and eight-rank pinned result. D12 semantics PASS: final post-reduce/scaling gradients use54 original targets rather than29 survivors, with1.095e-7 max error and a2.714 wrong-denominator distance. Historical CUDA buffer replay is not an original acceptance condition.
+- **Actual target audit:** `exp-1108-002213-053180` gives200 PASS rows/1600 completions, A237618/B201819 original targets, complete0–99 positions and every-step native/original/DP/CP equality. No fully originally masked samples or eligible nonfinite entries. The reviewer independently recomputes the full receipt's per-step fields and checks source guards for duplicate/missing identities, DP ownership, microbatches and debug consumption. **Original Spec P2: CLOSED for A/B; no remaining actionable finding.** The review does not claim to reload every cloud tensor independently.
+- **Parent archive verification:** lossless gzip round-trips byte-for-byte to the full final JSON; the compact JSON/table retains all200 step counts and DP subtotals. Original INCOMPLETE/failed receipts remain unchanged. Formatting/lint checks pass for the two new probes. Their logic is unchanged by formatting.
+- **C monitoring:** the16:23:48Z exact personal API read confirms the same queued UID and live reattached PID851709; original-launcher exit cause remains UNKNOWN. Queue availability is8H800 against24 requested. No job is duplicated.
+
+Canonical repair commands and receipt paths: `test_report_2026-11-08_review_fixes.md`, `test_report_2026-11-07_training_token_audit.md` and `test_report_2026-11-07_native_token_normalization.md`. This closes P3-review and A/B's reopened evidence subgate. C/P4 remain incomplete, as do explicitly deferred NCCL-direct and optional memory work.
 
 ## B — QWEN-P3-B-FINAL-REVIEW
 
