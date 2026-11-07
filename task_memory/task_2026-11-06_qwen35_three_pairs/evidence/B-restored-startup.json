@@ -1,0 +1,28 @@
+{
+  "observed_at": "2026-11-07T08:57:21.012469+00:00",
+  "job": "exp-1107-150849-818314",
+  "pair": "B",
+  "source_commit": "ca4ed904974480717d43e842511fb52702b705f9",
+  "checks": "PASS",
+  "student_h800_count": 8,
+  "teacher_h800_count": 2,
+  "teacher_health_and_model_identity": "ready",
+  "flags": {
+    "--num-rollout": "100",
+    "--rollout-batch-size": "8",
+    "--n-samples-per-prompt": "1",
+    "--global-batch-size": "8",
+    "--log-probs-backend": "fused",
+    "--eval-interval": "20",
+    "--save-interval": "100",
+    "--tensor-model-parallel-size": "2",
+    "--sglang-router-request-timeout-secs": "3600"
+  },
+  "rematerialization": false,
+  "optimizer_disabled": false,
+  "tracked_code_changes": [],
+  "untracked_manual_probe_not_invoked_by_training_argv": [
+    "tests/manual/agent_opd/probe_qwen35_uniform_scores.py"
+  ],
+  "scope": "Retrospective startup/allocation/argv evidence; numeric and optimizer evidence are in separate native reports."
+}

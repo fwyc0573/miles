@@ -1,0 +1,263 @@
+{
+  "scope": "Read-only retained native sample geometry, no model or optimizer execution",
+  "reader_python": "3.12.3",
+  "reader_torch": "2.5.1+cu124",
+  "rollouts": {
+    "0": {
+      "dump_fields": [
+        "rollout_id",
+        "metadata",
+        "samples"
+      ],
+      "samples": [
+        {
+          "index": 0,
+          "total_tokens": 88295,
+          "response_tokens": 157,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:132:190",
+          "status": "completed"
+        },
+        {
+          "index": 1,
+          "total_tokens": 89434,
+          "response_tokens": 472,
+          "source_uid": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662:421:208",
+          "status": "completed"
+        },
+        {
+          "index": 2,
+          "total_tokens": 66487,
+          "response_tokens": 182,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:48:212",
+          "status": "completed"
+        },
+        {
+          "index": 3,
+          "total_tokens": 59246,
+          "response_tokens": 236,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:25:166",
+          "status": "completed"
+        },
+        {
+          "index": 4,
+          "total_tokens": 62045,
+          "response_tokens": 516,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:420:120",
+          "status": "completed"
+        },
+        {
+          "index": 5,
+          "total_tokens": 64004,
+          "response_tokens": 890,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:343:100",
+          "status": "completed"
+        },
+        {
+          "index": 6,
+          "total_tokens": 85848,
+          "response_tokens": 178,
+          "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:6:206",
+          "status": "completed"
+        },
+        {
+          "index": 7,
+          "total_tokens": 85079,
+          "response_tokens": 565,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:18:184",
+          "status": "completed"
+        }
+      ]
+    },
+    "1": {
+      "dump_fields": [
+        "rollout_id",
+        "metadata",
+        "samples"
+      ],
+      "samples": [
+        {
+          "index": 8,
+          "total_tokens": 78449,
+          "response_tokens": 481,
+          "source_uid": "d5b933155df1f412f83734f53c420032c275c8fbe44b3f5c9fe6c6619fd3646c:309:198",
+          "status": "completed"
+        },
+        {
+          "index": 9,
+          "total_tokens": 54440,
+          "response_tokens": 800,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:70:158",
+          "status": "completed"
+        },
+        {
+          "index": 10,
+          "total_tokens": 121140,
+          "response_tokens": 464,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:152:200",
+          "status": "completed"
+        },
+        {
+          "index": 11,
+          "total_tokens": 107439,
+          "response_tokens": 82,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:80:222",
+          "status": "completed"
+        },
+        {
+          "index": 12,
+          "total_tokens": 95878,
+          "response_tokens": 490,
+          "source_uid": "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4:292:242",
+          "status": "completed"
+        },
+        {
+          "index": 13,
+          "total_tokens": 85309,
+          "response_tokens": 564,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:260:248",
+          "status": "completed"
+        },
+        {
+          "index": 14,
+          "total_tokens": 95127,
+          "response_tokens": 480,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:393:215",
+          "status": "completed"
+        },
+        {
+          "index": 15,
+          "total_tokens": 82534,
+          "response_tokens": 89,
+          "source_uid": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb:30:262",
+          "status": "completed"
+        }
+      ]
+    }
+  },
+  "train_slices": [
+    {
+      "file": "0_0.pt",
+      "rank": 0,
+      "sample_indices": [
+        7,
+        2
+      ],
+      "total_lengths": [
+        85079,
+        66487
+      ],
+      "response_lengths": [
+        565,
+        182
+      ],
+      "tokens_lengths": [
+        85079,
+        66487
+      ],
+      "num_microbatches": [
+        2
+      ],
+      "micro_batch_indices": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "file": "0_2.pt",
+      "rank": 2,
+      "sample_indices": [
+        0,
+        4
+      ],
+      "total_lengths": [
+        88295,
+        62045
+      ],
+      "response_lengths": [
+        157,
+        516
+      ],
+      "tokens_lengths": [
+        88295,
+        62045
+      ],
+      "num_microbatches": [
+        2
+      ],
+      "micro_batch_indices": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "file": "0_4.pt",
+      "rank": 4,
+      "sample_indices": [
+        6,
+        5
+      ],
+      "total_lengths": [
+        85848,
+        64004
+      ],
+      "response_lengths": [
+        178,
+        890
+      ],
+      "tokens_lengths": [
+        85848,
+        64004
+      ],
+      "num_microbatches": [
+        2
+      ],
+      "micro_batch_indices": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "file": "0_6.pt",
+      "rank": 6,
+      "sample_indices": [
+        1,
+        3
+      ],
+      "total_lengths": [
+        89434,
+        59246
+      ],
+      "response_lengths": [
+        472,
+        236
+      ],
+      "tokens_lengths": [
+        89434,
+        59246
+      ],
+      "num_microbatches": [
+        2
+      ],
+      "micro_batch_indices": [
+        [
+          0
+        ],
+        [
+          1
+        ]
+      ]
+    }
+  ]
+}

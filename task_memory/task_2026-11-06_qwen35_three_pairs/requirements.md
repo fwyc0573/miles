@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record D17: after B publishes one update then fails with output-projection GPU OOM, approve one fresh100-step B restart after capacity repair. |
 | 2026-11-07 | Record D16: raise only C student's effective host-memory limit to1500GiB, preserving normal parameter backups and the approved fresh100-step budget. |
 | 2026-11-07 | Record D15: restart C from initial weights for a complete 100-step run after repairs; retain the discarded failed step in historical accounting. |
 | 2026-11-06 | Record authorized v2 guard repair, local runtime-artifact cleanup, and the workspace's explicit read-only model-source exceptions. |
@@ -249,6 +250,14 @@ For analogous routine Git issues, verify the state and handle stale locks/task-s
 The selected option preserves the existing parameter backup and optimizer configuration, uses the same GPUs and requests an additional750GiB of host memory; scheduling may take longer.
 
 **Decision D16:** Set `training_config.json`'s `pairs.C.student.memory_gb_per_node` from768 to1536. The verified StepMind conversion is1000Mi per configured unit, yielding1,536,000Mi =1500GiB. Change no other role's resources, GPU count, model, optimizer, parameter-backup mode or D15 budget. Keep `rematerialize_param_from_master_weight=False`; its separate recovery repair is not selected for this run. Node allocatable memory is capacity, not current availability, and the old OOM-censored measurement does not prove the new limit sufficient. Shared restoration qualification and actual C first-update memory measurement remain required. This approval does not authorize another restart or additional optimizer probes.
+
+## B restart budget — confirmed
+
+[Original Request] B's repaired run completed one optimizer update and published version1, then failed in the next rollout's scoring forward with CUDA OOM. No final HF artifact had been saved, so that state cannot be resumed. A was stopped before training, with zero updates. Asked to choose a fresh100-step B run, a new99-step run from initial weights with revised acceptance, or deferral, the user selected:
+
+> 重新跑100步 (Recommended)
+
+**Decision D17:** After resolving the observed capacity issue, restart B from its original student weights for one complete100-step formal run with the existing monitoring, optimizer and final-export criteria. Retain the previous run's one actual optimizer update and version1 publication as discarded historical work; it is not one of the new run's100 positions. Historical B updates total101 if every new update succeeds. This specific exception does not authorize further automatic restarts, extra optimizer probes or parameter sweeps. A retains its existing100-step budget; C retains D15/D16. The budget decision does not select a memory implementation or certify capacity.
 
 ## Execution support authorizations
 

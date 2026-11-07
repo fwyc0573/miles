@@ -1,0 +1,65 @@
+{
+  "observed_at": "2026-11-07T08:51:31.868123+00:00",
+  "jobs": {
+    "A": {
+      "name": "exp-1107-150849-708403",
+      "uid": "01561e91-962d-4741-961a-9b4ecce96aee",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T08:23:56Z",
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "B": {
+      "name": "exp-1107-150849-818314",
+      "uid": "e3b32aa5-b749-41e5-aeee-9e77f7e7bf72",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T08:15:18Z",
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "C": {
+      "name": "exp-1107-150849-814926",
+      "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    }
+  }
+}

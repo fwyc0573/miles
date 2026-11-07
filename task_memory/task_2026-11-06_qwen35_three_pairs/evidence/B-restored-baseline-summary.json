@@ -1,0 +1,95 @@
+{
+  "overall": "INCOMPLETE",
+  "baseline_verdict": "PASS",
+  "baseline_versions": [
+    "0"
+  ],
+  "metrics": {
+    "decode": {
+      "overall": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 5230,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.010410223700056861,
+        "sample_count": 24
+      },
+      "short": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 583,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.01118094718173426,
+        "sample_count": 8
+      },
+      "medium": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 3118,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.008372108608037785,
+        "sample_count": 8
+      },
+      "long": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 1529,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.01427255925734761,
+        "sample_count": 8
+      }
+    },
+    "prefill": {
+      "overall": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 5230,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.010425440819193454,
+        "sample_count": 24
+      },
+      "short": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 583,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.013342928339345859,
+        "sample_count": 8
+      },
+      "medium": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 3118,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.008326414784514166,
+        "sample_count": 8
+      },
+      "long": {
+        "verdict": "PASS",
+        "expected_valid_tokens": 1529,
+        "missing_or_nonfinite_tokens": 0,
+        "abs_mean": 0.013593438171633717,
+        "sample_count": 8
+      }
+    }
+  },
+  "publication": {
+    "verdict": "INCOMPLETE",
+    "issues": [
+      {
+        "code": "native_publication_coverage_incomplete",
+        "detail": "Need each planned native publication through the final position, not a version inferred from that position"
+      }
+    ],
+    "events_directory": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-150849-818314/events",
+    "baseline_weight_version": 0,
+    "final_published_weight_version": 1,
+    "successful_optimizer_updates": null,
+    "skipped_optimizer_updates": null,
+    "updated_monitoring_positions": [],
+    "publications": [],
+    "restorations": [
+      {
+        "rollout_id": null,
+        "published_version": 0,
+        "debug_weight_update_id": "444bd141ff0a4a50b7e469b5417fe719"
+      }
+    ],
+    "baseline_publication_id": "195e0ef5783b4af0b20e2354d3eada45",
+    "final_planned_publication_id": null,
+    "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"
+  }
+}

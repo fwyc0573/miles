@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record actual restored B baseline/preload/full-checksum/first-update evidence, second-rollout projection OOM, A's zero-update stop and D17. |
 | 2026-11-07 | Record three independently submitted restored formal runs and verify admitted resource requests, source/image and personal identity; full runtime acceptance remains pending. |
 | 2026-11-07 | Link confirmed C restart budget and memory allocation after preserving the original update/OOM evidence. |
 | 2026-11-07 | Record raw post-eval uniform-policy corruption, actual C step0, host-memory OOM evidence and controlled A/B stops. |
@@ -208,7 +209,7 @@ Seven reads succeed; no existing DeepScan is returned. RJob all-operation audit 
 
 At the pre-stop event check A has baseline publication0 and no completed train step; B has neither publication nor completed train step. At09:28:07 local, the required personal `rjob_stop.sh` stops exact jobs `exp-1107-085640-136853` and `exp-1107-085640-141571`, with reason recorded in `/data/ycfeng/tmp/rjob-stop-audit.log`: confirmed native post-eval uniform-policy corruption, A reproduction, zero completed A/B updates. Both launchers then reportStopped. This action follows direct workload corruption evidence, not an automatic auxiliary D8 verdict. C's consumed optimizer step and absent post-step published state must be accounted for before any fresh100-step restart decision; no budget reset is inferred.
 
-The subsequent explicit restart decision is now recorded as D15 in [requirements](requirements.md), with the original update retained as discarded historical work. D16 selects the larger student memory allocation using the normal backup path; the exact rendered request, source-backed alternatives and remaining capacity checks are owned by [the C host-memory report](test_report_2026-11-07_C_host_memory.md). Shared runtime restoration qualification remains open.
+The subsequent explicit restart decision is recorded as D15 in [requirements](requirements.md), with the original update retained as discarded historical work. D16 selects the larger student memory allocation using the normal backup path; the exact rendered request, source-backed alternatives and remaining capacity checks are owned by [the C host-memory report](test_report_2026-11-07_C_host_memory.md). Shared restoration was still unqualified at this historical point; the later B result below supplies actual repaired preload/full-model evidence.
 
 ## Restored formal runs submitted at15:08 local
 
@@ -225,3 +226,66 @@ The unchanged submission command above was run independently with `--pair A`, `-
 All three retain100 planned positions and8 valid training completions per position. C is the single D15-authorized fresh100-step restart; its old failed update remains discarded historical work. [Dry-run resource receipt](evidence/restored-formal-resources.json) passes; [capacity observation](evidence/restored-formal-capacity.json) records122 Starting/Running requested GPUs against the stated128 capacity before submission, which is not a measured free-device count. The platform owns scheduling and no duplicate is submitted because of queuing.
 
 The independent1H800 diagnostic rerun `exp-1107-150925-737118` uses the pinned cleanup fix and was observedStarting in the same API inspection. Its outcome does not replace initial/restored formal receipts, first actual optimizer evidence, C's worker cgroup/peak measurement, updated/final D8 or final HF qualification. Auxiliary validation remains a soft observer of healthy training.
+
+## Restored B: actual baseline and first update pass, next scoring forward OOM
+
+### Execution and numerical checks
+
+B `exp-1107-150849-818314` uses the pinned image above,8 student H800 and2 teacher H800, student TP2/DP4, fused log probabilities, the original131072 context budget, and100 planned positions. [Startup check](evidence/B-restored-startup.json) records executed source `ca4ed904974480717d43e842511fb52702b705f9`, no tracked code modifications and the separately listed uninvoked manual probe. Native actor environment reports record `LD_PRELOAD=/opt/sglang/lib/python3.12/site-packages/torch_memory_saver_hook_mode_preload_cu13.abi3.so`, `TMS_INIT_ENABLE=1` and CPU backup enabled for all8 unique actor ranks. Multiple environment reports per rank are expected and are preserved.
+
+Read-only pinned0-GPU inspection `exp-1107-161155-640804` succeeds with Python3.12.16 using the existing inspector:
+
+```bash
+CUDA_VISIBLE_DEVICES="" /opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-150849-818314 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-150849-818314/B/teacher-ready.json \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/baseline-inspection-B-exp-1107-150849-818314.json
+```
+
+Expected: baseline version0,24 samples, every original valid token present/finite, overall and each populated length stratum mean absolute difference<=0.03. Actual:5230 valid tokens, no missing/nonfinite tokens; all PASS. [Full inspector result](evidence/baseline-inspection-B-exp-1107-150849-818314.json), [compact summary](evidence/B-restored-baseline-summary.json).
+
+| Stratum | Tokens | Decode mean absolute difference | Prefill mean absolute difference | Result |
+| --- | ---: | ---: | ---: | --- |
+| Overall |5230 |0.010410223700056861 |0.010425440819193454 |PASS |
+| Short |583 |0.01118094718173426 |0.013342928339345859 |PASS |
+| Medium |3118 |0.008372108608037785 |0.008326414784514166 |PASS |
+| Long |1529 |0.01427255925734761 |0.013593438171633717 |PASS |
+
+The native initial publication `195e0ef5783b4af0b20e2354d3eada45` and post-eval restore `444bd141ff0a4a50b7e469b5417fe719` both publish version0 with the same trainer epoch and no failed cells. Complete checksum dictionaries match all1416 tensors on each of4 cells, including the previously unobserved same-run vision entries. The restore consumes no optimizer position. At08:12:55.802922Z, rollout0 completes with8/8 NORMAL outcomes; at08:13:10.557444Z, planned publication `eff8fb82604445e390ea78c1bf8f1d1c` advances0→1 on all4 cells. Each updated cell changes486 tensor checksums. The normal outcomes plus actual counter increment establish **one successful update**, not merely one attempted iteration.
+
+[Retained native events/checksums](evidence/restored-ab-runtime-receipts.json), [checked runtime summary](evidence/restored-ab-runtime-summary.json), and [native metrics](evidence/B-restored-native-metrics.json) preserve this evidence. Rollout0 has8 completions, mean response399.5 tokens, no truncation, all decode/prefill versions0. First update loss is0.06751072660405585, grad norm8.026847839355469, LR2e-6; both low/high TIS-mask fractions are0. The subsequent8 completions use version1 consistently, mean431.25 tokens and no truncation. These observations close the concrete post-eval uniform-policy symptom for this B cycle. They do not establish learning improvement, updated/final D8, sustained capacity,100-step completion or final HF acceptance; the inspector overall remains INCOMPLETE.
+
+### Native failure and bounded diagnosis
+
+At08:14:39Z the next `_compute_log_prob` forward fails in `GPT._postprocess -> ParallelLinearCrossEntropy.forward -> LinearWithGradAccumulationAndAsyncCommunication.forward -> torch.matmul(total_input, weight.t())`. It requests19.12GiB with18.30GiB free on GPU5 (79.19GiB total). PyTorch reports41.75GiB allocated and15.95GiB reserved-but-unallocated; the process uses59.26GiB and the other process1.59GiB. This is the output projection before the fused scoring/loss operation, distinct from the historical torch-backward allocation failure. Reserved bytes alone do not prove fragmentation.
+
+Native memory observations show allocated14.41–14.42GiB after baseline scoring, about19.09GiB after the first optimizer step, and varied reserved footprints25.8–36.06GiB at the next wake. Investigate retained scoring storage, optimizer state and packing/allocator behavior separately. No behavior change is justified solely by these byte differences.
+
+[Retained sample geometry](evidence/B-restored-sample-shapes.json) is read with remote Python3.12.3/torch2.5.1 on CPU, without loading a model or executing an optimizer. Rollout0 totals range59246–89434 tokens; every DP slice has two single-sample microbatches. Rollout1 totals range54440–121140, including82534 tokens at sample15. All16 samples are completed. The ordinary training dumps and eval-observer dumps have different metadata fields; the reader records native ordinary-training rank/length/microbatch fields after direct schema inspection. These are geometry observations, not proof of the OOM allocation's lifetime.
+
+[Platform termination receipt](evidence/B-restored-platform-termination.json): RJob UID `e3b32aa5-b749-41e5-aeee-9e77f7e7bf72`, student replica UID `bcb511f3-ca3e-4ebf-9559-baa223f627a4`, node `gpu-h800-0105.host.platform.shaipower.com`: student terminates08:15:03Z with exit1/Error, critical-task cleanup starts08:15:05Z, job finishes08:15:18Z. Launcher cleanup follows at08:15:20Z. This is not a container `OOMKilled` record. All8 collector queries succeed:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+  /data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+  exp-1107-150849-818314 --replica exp-1107-150849-818314-student-cfcd2084 \
+  --expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+  --start 2026-11-07T08:12:00Z --end 2026-11-07T08:16:00Z --timeout 40 \
+  --output /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-B-exp-1107-150849-818314
+```
+
+The dashboard log endpoint returnsHTTP502; raw cloud log/event reads therefore use the permitted read-only `ssh -o BatchMode=yes -o ConnectTimeout=10 shai-ycfeng 'python3 -B -'` route, confined to `/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/{A,B}`. Full raw business logs remain in the cloud; selected memory/error lines and publication evidence are retained locally above.
+
+### A stop and revised B budget
+
+A uses the same4B TP2/GPU-optimizer capacity path and was still initializing. The exact controlled stop command is:
+
+```bash
+bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh \
+  --creator i-fengyicheng \
+  --reason "Pause A before further updates: same Qwen4B TP2 GPU-optimizer configuration as B, which hit native output-projection CUDA OOM after publishing version1; diagnose capacity before consuming remaining budget" \
+  exp-1107-150849-708403
+```
+
+It stops at16:23:33 local; the launcher reportsStopped16:23:57. Native A files contain environment reports only, without a training or publication event:0 actual updates. Both A/B HF directories are absent. B's published state therefore cannot be resumed. D17 explicitly approves one fresh100-step B run after repair, retaining its prior1 update in historical accounting; A retains its original100 budget. C's existing D15/D16 submission is independent and its runtime observations remain pending.

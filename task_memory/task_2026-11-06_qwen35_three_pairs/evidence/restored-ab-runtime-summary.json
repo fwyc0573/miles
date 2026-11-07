@@ -1,0 +1,43 @@
+{
+  "scope": "Observed partial run only; final D8/100-step/HF acceptance remains INCOMPLETE",
+  "B_actual_successful_updates": 1,
+  "B_initial_and_restored_version": 0,
+  "B_published_updated_version": 1,
+  "A_observed_updates": 0,
+  "A_native_training_not_started": true,
+  "full_checksum_comparisons": [
+    {
+      "cell": "inference-engine-all-0-0-00000",
+      "tensors": 1416,
+      "restore_mismatches": 0,
+      "updated_changed_tensors": 486
+    },
+    {
+      "cell": "inference-engine-all-0-0-00001",
+      "tensors": 1416,
+      "restore_mismatches": 0,
+      "updated_changed_tensors": 486
+    },
+    {
+      "cell": "inference-engine-all-0-0-00002",
+      "tensors": 1416,
+      "restore_mismatches": 0,
+      "updated_changed_tensors": 486
+    },
+    {
+      "cell": "inference-engine-all-0-0-00003",
+      "tensors": 1416,
+      "restore_mismatches": 0,
+      "updated_changed_tensors": 486
+    }
+  ],
+  "B_preload_actor_count": 8,
+  "B_actor_environment_reports": 32,
+  "B_hf_exists": false,
+  "A_hf_exists": false,
+  "publication_ids": [
+    "195e0ef5783b4af0b20e2354d3eada45",
+    "444bd141ff0a4a50b7e469b5417fe719",
+    "eff8fb82604445e390ea78c1bf8f1d1c"
+  ]
+}

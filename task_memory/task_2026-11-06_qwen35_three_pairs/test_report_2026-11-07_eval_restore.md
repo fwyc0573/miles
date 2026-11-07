@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Parent observes repaired full4B/preload B baseline and same-version restoration, then one published update; later scoring-projection OOM is tracked separately. |
 | 2026-11-07 | Parent validates corrected cleanup on H800: two native CUDA IPC cycles PASS, both workers and container exit0, whole-interpreter log checked; retain formal model/preload limits. |
 | 2026-11-07 | QWEN-P3-TMS-CLEANUP-ABI: use the extracted pinned backend-preserving context and owned pool collection; reproduce the exact missing-argument error and retain lifecycle/error regressions. |
 | 2026-11-07 | Parent verifies the exact pinned device-module caller and replaces the obsolete CPU no-op stub with the real torch CPU module; retain explicit-device behavior and pending runtime verdict. |
@@ -82,7 +83,9 @@ export TMPDIR="/var/tmp/qwen-restore-$KUBEBRAIN_RJOB_NAME"
   --report "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/eval-restore-$KUBEBRAIN_RJOB_NAME.json"
 ```
 
-This closes the diagnostic cleanup/real-IPC loop. Its declared single-rank synthetic model, local control transport, torch hook and pre-optimizer stopping point remain limits. Actual formal preload, distributed complete models, optimizer capacity, D8 and final HF acceptance remain owned by the already-submitted formal runs. No more diagnostic expansion or repeat is required without a new failure.
+This closes the diagnostic cleanup/real-IPC loop. Its declared single-rank synthetic model, local control transport, torch hook and pre-optimizer stopping point remain limits. No more diagnostic expansion or repeat is required without a new failure.
+
+Subsequent actual B run `exp-1107-150849-818314` uses the preload hook on all8 actor ranks and the complete4B model. Its24-sample fused baseline passes D8; the same-version restore reproduces all1416 native tensor checksums on each of4 engine cells. One real optimizer update then publishes version1 successfully. This supplies the previously missing healthy formal preload/restoration observation for that B cycle. The next rollout fails in output-projection allocation before its update; sustained capacity, updated/final D8 and final HF remain incomplete. The [training report](test_report_2026-11-07_training.md#restored-b-actual-baseline-and-first-update-pass-next-scoring-forward-oom) owns exact numerical, version, memory and budget evidence. This observation neither changes the tiny probe's scope nor reopens its completed cleanup work.
 
 ## Historical pre-fix source evidence
 
