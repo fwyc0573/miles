@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record actual H200 baseline and native receipt-chain validation through version3 for both pairs. |
 | 2026-11-07 | Parent wires the manifest GPU identity through both worker checks; record CPU red/green limits and pending pinned qualification. |
 | 2026-11-07 | QWEN-P3-H200-MANIFEST: freeze A/B-only H200 manifest, verify exact structural/native dry-run deltas, reuse pinned lifecycle evidence, and report existing H800 device-name blockers. |
 
@@ -218,6 +219,26 @@ Both exact API receipts pass creator=i-fengyicheng, group=step_main, preemptible
 
 B `evidence/first-round/exp-1107-173758-806531/B/student-node.json` independently observes8 NVIDIA H200,143771MiB per GPU, driver570.124.06. Full-role startup, model initialization, baseline, restored publication, sustained optimizer updates and final HF qualification remain pending. C retains its existing H800/codesign submission.
 
+### Actual H200 baseline and early updates — 18:10 local
+
+Pinned read-only inspection job `exp-1107-180926-519400` succeeds at10:10:18Z, using the frozen H200 image, Python3.12.16,8 CPU/0 GPU/64 resource-memory units and personal `step_main` submission. It mounts the configured sources, sets `CUDA_VISIBLE_DEVICES=''`, offline HF, the existing compatibility-library path and `TMPDIR=/var/tmp/qwen-h200-inspect-$KUBEBRAIN_RJOB_NAME`. It performs no model update. Exact inspection commands from the repository root:
+
+```bash
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234 --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-712234/A/teacher-ready.json --report task_memory/task_2026-11-06_qwen35_three_pairs/evidence/baseline-inspection-A-exp-1107-173758-712234-h200.json
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531 --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-806531/B/teacher-ready.json --report task_memory/task_2026-11-06_qwen35_three_pairs/evidence/baseline-inspection-B-exp-1107-173758-806531-h200.json
+```
+
+Expected baseline:24 fixed monitoring samples, all valid completion tokens compared before TIS filtering, each overall/short/medium/long mean absolute discrepancy below0.03 and actual consumed version0. Observed:
+
+| Pair | Samples / valid tokens | Decode mean | Prefill mean | Maximum length-stratum mean | Baseline |
+| --- | --- | --- | --- | --- | --- |
+| A | 24 /4662 | 0.011471066667908833 | 0.011310938052281283 | 0.014305888896232912 | PASS |
+| B | 24 /4828 | 0.010980762013903156 | 0.010792975183433775 | 0.01427255925734761 | PASS |
+
+Both consume version0 and have no baseline issues. Each has a complete observed native chain through published version3, with one same-version0 restoration. `_publication_receipts` validates publisher/load epoch, ordered settled attempts, complete snapshot/checksum coverage, cross-cell consistency, zero-or-one update deltas, and full same-version checksum equality before `_publication_checks` reaches its required100-position coverage check (`inspect_qwen35.py:615–743`). Thus the observed0→3 delta establishes three successful optimizer updates per pair; this is not inferred from NORMAL outcomes alone. Initial publication IDs are A=`3dc326c2f951431d92c7ee9db5fd9e48`, B=`f0253e5270964c8d9395a0cde97be34e`; restoration IDs are A=`48a9802e172740e1ab596b12f9cdc52a`, B=`33378be0ac2e410a90a2b256c6ffed7a`.
+
+The final100-position publication verdict and overall run verdict correctly remainINCOMPLETE. Final successful/skipped totals remain null, with publication issue `native_publication_coverage_incomplete`; future monitoring positions19/39/59/79/99 have not been produced in this snapshot. Early success is not worst-case capacity or final HF qualification. The compact projection is [h200-baseline-20261107-summary.json](evidence/h200-baseline-20261107-summary.json); full reports are the exact output paths above, and raw inspection logs are `evidence/h200-baseline-{A,B}-exp-1107-180926-519400.log`. No acceptance rule or original artifact was changed.
+
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。**检测窗口：** 本次 scoped manifest 子任务开始至上述验证完成｜**当前前沿：** P3-A/B 最小 hardware guard 修正和并行正式提交，P3-C 独立保留。
@@ -240,13 +261,13 @@ B `evidence/first-round/exp-1107-173758-806531/B/student-node.json` independentl
 
 **接下去的路线：**
 1. 已完成设备guard修正与相关本机/固定镜像检查、两份正式提交和平台配置核验；保留原始测试失败与reader局限记录。
-2. 并行：P3-A ‖ P3-B；保持既有launchers，核验完整角色启动、baseline、restore、first update、后续scoring capacity、D8、sample/update accounting和final HF reload。C既有H800 job继续独立。
+2. 并行：P3-A ‖ P3-B；完整角色启动、baseline、restore和版本3已验证，保持既有launchers并核验后续scoring capacity、更新后D8、sample/update accounting和final HF reload。C既有H800 job继续独立。
 3. 旧baseline toy-actor fixture已修复且固定镜像93PASS，见[fixture报告](test_report_2026-11-07_baseline_actor_fixture.md)；该工作已关闭。
 
-已观察B student的8H200实际设备，完整角色ready、numerical acceptance、OOM缓解成效、successful-update count与final HF仍未完成。`capacity_gpus=32`是本session/task预算上限，不是当前空闲配额或模型容量保证。
+已观察两组完整8+2H200设备、teacher ready、baseline PASS及各三次成功更新；剩余100位置、更新后数值、最坏负载容量与final HF仍未完成。`capacity_gpus=32`是本session/task预算上限，不是当前空闲配额或模型容量保证。
 
 ## 4. 最值得关注的 3 点
 
-1. A/B正式作业已并行提交并通过平台配置核验，Starting，共20张不可抢占H200，两个launcher存活。
+1. A/B正式作业已运行，共20张不可抢占H200；各自baseline和原生版本3发布通过。
 2. A/B实际共20H200及teacher ready已确认；设备/CLI与fixture修复后的固定镜像93项全部通过。
-3. 完整模型baseline、恢复、100位置及最终D8/HF仍须实际验收；原数学设定与D17/D15/D16预算保持。
+3. 更新后监测、100位置及最终D8/HF继续实际验收；原数学设定与D17/D15/D16预算保持。

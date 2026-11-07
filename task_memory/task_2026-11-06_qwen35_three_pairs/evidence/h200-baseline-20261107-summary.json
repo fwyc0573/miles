@@ -1,0 +1,236 @@
+{
+  "A": {
+    "overall": "INCOMPLETE",
+    "baseline": {
+      "verdict": "PASS",
+      "issues": [],
+      "consumed_weight_versions": [
+        "0"
+      ],
+      "samples": 24,
+      "decode": {
+        "overall": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 4662,
+          "compared_finite_tokens": 4662,
+          "abs_mean": 0.011471066667908833,
+          "abs_p95": 0.07432124614715575,
+          "abs_p99": 0.12051342964172372,
+          "abs_max": 0.24377965927124023,
+          "sample_count": 24
+        },
+        "short": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 583,
+          "compared_finite_tokens": 583,
+          "abs_mean": 0.01199309516754823,
+          "abs_p95": 0.07560066580772393,
+          "abs_p99": 0.11819613933563221,
+          "abs_max": 0.21037328243255615,
+          "sample_count": 8
+        },
+        "medium": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 2550,
+          "compared_finite_tokens": 2550,
+          "abs_mean": 0.00965193498069421,
+          "abs_p95": 0.06632694005966186,
+          "abs_p99": 0.11846790552139261,
+          "abs_max": 0.23896098136901855,
+          "sample_count": 8
+        },
+        "long": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 1529,
+          "compared_finite_tokens": 1529,
+          "abs_mean": 0.014305888896232912,
+          "abs_p95": 0.08490521907806386,
+          "abs_p99": 0.12341745376586914,
+          "abs_max": 0.24377965927124023,
+          "sample_count": 8
+        }
+      },
+      "prefill": {
+        "overall": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 4662,
+          "compared_finite_tokens": 4662,
+          "abs_mean": 0.011310938052281283,
+          "abs_p95": 0.07599456906318665,
+          "abs_p99": 0.12019996643066419,
+          "abs_max": 0.360396146774292,
+          "sample_count": 24
+        },
+        "short": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 583,
+          "compared_finite_tokens": 583,
+          "abs_mean": 0.013342928339345859,
+          "abs_p95": 0.09633316993713377,
+          "abs_p99": 0.12168885707855209,
+          "abs_max": 0.1858384609222412,
+          "sample_count": 8
+        },
+        "medium": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 2550,
+          "compared_finite_tokens": 2550,
+          "abs_mean": 0.009477764319007355,
+          "abs_p95": 0.06569891870021802,
+          "abs_p99": 0.11813018798828122,
+          "abs_max": 0.360396146774292,
+          "sample_count": 8
+        },
+        "long": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 1529,
+          "compared_finite_tokens": 1529,
+          "abs_mean": 0.013593438171633717,
+          "abs_p95": 0.08105373382568354,
+          "abs_p99": 0.12306720733642579,
+          "abs_max": 0.24506187438964844,
+          "sample_count": 8
+        }
+      }
+    },
+    "publication_summary": {
+      "verdict": "INCOMPLETE",
+      "events_directory": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/events",
+      "baseline_weight_version": 0,
+      "final_published_weight_version": 3,
+      "successful_optimizer_updates": null,
+      "skipped_optimizer_updates": null,
+      "baseline_publication_id": "3dc326c2f951431d92c7ee9db5fd9e48",
+      "final_planned_publication_id": null,
+      "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"
+    },
+    "publication_issue_codes": {
+      "native_publication_coverage_incomplete": 1
+    },
+    "publications": [],
+    "restorations": [
+      {
+        "rollout_id": null,
+        "published_version": 0,
+        "debug_weight_update_id": "48a9802e172740e1ab596b12f9cdc52a"
+      }
+    ]
+  },
+  "B": {
+    "overall": "INCOMPLETE",
+    "baseline": {
+      "verdict": "PASS",
+      "issues": [],
+      "consumed_weight_versions": [
+        "0"
+      ],
+      "samples": 24,
+      "decode": {
+        "overall": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 4828,
+          "compared_finite_tokens": 4828,
+          "abs_mean": 0.010980762013903156,
+          "abs_p95": 0.07211517095565795,
+          "abs_p99": 0.12052983760833727,
+          "abs_max": 0.3529687523841858,
+          "sample_count": 24
+        },
+        "short": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 635,
+          "compared_finite_tokens": 635,
+          "abs_mean": 0.012289111851811018,
+          "abs_p95": 0.08253524303436278,
+          "abs_p99": 0.11873697280883784,
+          "abs_max": 0.18688201904296875,
+          "sample_count": 8
+        },
+        "medium": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 2664,
+          "compared_finite_tokens": 2664,
+          "abs_mean": 0.008779575778055536,
+          "abs_p95": 0.060449171066284176,
+          "abs_p99": 0.11781455755233763,
+          "abs_max": 0.3529687523841858,
+          "sample_count": 8
+        },
+        "long": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 1529,
+          "compared_finite_tokens": 1529,
+          "abs_mean": 0.01427255925734761,
+          "abs_p95": 0.08412117958068846,
+          "abs_p99": 0.12341745376586914,
+          "abs_max": 0.24377965927124023,
+          "sample_count": 8
+        }
+      },
+      "prefill": {
+        "overall": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 4828,
+          "compared_finite_tokens": 4828,
+          "abs_mean": 0.010792975183433775,
+          "abs_p95": 0.07352402806282043,
+          "abs_p99": 0.11939800977706905,
+          "abs_max": 0.2995694875717163,
+          "sample_count": 24
+        },
+        "short": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 635,
+          "compared_finite_tokens": 635,
+          "abs_mean": 0.013822090885929169,
+          "abs_p95": 0.09682407379150385,
+          "abs_p99": 0.12069022655487056,
+          "abs_max": 0.1858384609222412,
+          "sample_count": 8
+        },
+        "medium": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 2664,
+          "compared_finite_tokens": 2664,
+          "abs_mean": 0.008463622187922407,
+          "abs_p95": 0.06107975840568536,
+          "abs_p99": 0.1151959204673767,
+          "abs_max": 0.2995694875717163,
+          "sample_count": 8
+        },
+        "long": {
+          "verdict": "PASS",
+          "expected_valid_tokens": 1529,
+          "compared_finite_tokens": 1529,
+          "abs_mean": 0.013593438171633717,
+          "abs_p95": 0.08105373382568354,
+          "abs_p99": 0.12306720733642579,
+          "abs_max": 0.24506187438964844,
+          "sample_count": 8
+        }
+      }
+    },
+    "publication_summary": {
+      "verdict": "INCOMPLETE",
+      "events_directory": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/events",
+      "baseline_weight_version": 0,
+      "final_published_weight_version": 3,
+      "successful_optimizer_updates": null,
+      "skipped_optimizer_updates": null,
+      "baseline_publication_id": "f0253e5270964c8d9395a0cde97be34e",
+      "final_planned_publication_id": null,
+      "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"
+    },
+    "publication_issue_codes": {
+      "native_publication_coverage_incomplete": 1
+    },
+    "publications": [],
+    "restorations": [
+      {
+        "rollout_id": null,
+        "published_version": 0,
+        "debug_weight_update_id": "33378be0ac2e410a90a2b256c6ffed7a"
+      }
+    ]
+  }
+}

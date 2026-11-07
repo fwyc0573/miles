@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Both H200 baselines and observed publication chains through version3 pass; move the frontier to updated monitoring/final acceptance and keep cleanup closed. |
 | 2026-11-07 | Confirm all20H200 devices/teachers, close pinned93-case fixture repair, and add concurrent D19 OSS cleanup; stop local collection retries. |
 | 2026-11-07 | Apply D18 H200 frontier after device-identity regression checks; stop optional memory diagnostics from becoming a formal-launch dependency. |
 | 2026-11-07 | Actual B preload restoration/baseline/first publication pass; record later projection OOM, A0-update stop, D17 and independent C scheduling. |
@@ -26,42 +27,42 @@
 | P0 | PASS | 任务记录与来源齐备。 |
 | P1 | PASS | D1–D19已确认；A/B20H200与32卡上限、C原H800、当前task OSS清理范围明确。 |
 | P2 | PASS | 三组初始 D8 均通过。 |
-| P3-A | TODO | H200 exp-1107-173758-712234 Running，8+2实测/teacher ready；baseline及更新待验收。 |
-| P3-B | TODO | H200 exp-1107-173758-806531 Running，8+2实测/teacher ready；D17 fresh100。 |
+| P3-A | TODO | H200 baseline PASS，4662有效token；完整已观测发布链到version3，100位置/HF待完成。 |
+| P3-B | TODO | H200 baseline PASS，4828有效token；完整已观测发布链到version3，D17 fresh100待完成。 |
 | P3-C | BLOCKED | 既有D15/D16作业仍待调度；没有新增B容量依赖。 |
 | P3-storage | PASS | 四个旧shard已移除15.668GiB，task剩10.456GiB；保护校验通过，物理quota限制明确。 |
 | P4 | BLOCKED | 依赖三组最终验收，当前均未完成。 |
 
 ## 2. 偏离检测
 
-**结论：** 已偏离：命中D2；已停止本机collection重试，固定镜像复验通过。
-**检测窗口：** D18设备身份检查点至93PASS与D19清理完成｜**当前前沿：** P3-A/B实际运行；P3-C保留原队列。
+**结论：** 未偏移，正常推进。
+**检测窗口：** 上一运行/清理检查点至H200 baseline与版本3验证｜**当前前沿：** P3-A/B更新后监测和最终验收；P3-C保留原队列。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | fixture独立修复，仅补原生状态；93PASS后停止验证扩展。 |
-| D2 细节反复重试 | HIT | fixture owner两次本机collection超时后仍重试，未产生functional结果；其报告已承认并停止，父会话转固定镜像通过。 |
+| D1 工具打磨 | CLEAR | 93PASS及清理完成后停止扩展；只复用原生inspector验证当前运行。 |
+| D2 细节反复重试 | CLEAR | 旧本机collection重试已停止；一次固定镜像inspection完成，派生摘要的position选择错误核对实际key后修正。 |
 | D3 支线问题修补 | CLEAR | OSS清理由用户D19明确请求；未修本机环境或扩展可选CUDA探针。 |
 | D4 可并行任务停滞 | CLEAR | A/B已同时Running；fixture和cleanup并行，C有明确14<24配额阻塞。 |
-| D5 超范围镀金 | CLEAR | 无模型/优化器/数值改动；只处理fixture与当前task清理。 |
-| D6 分析空转 | CLEAR | 实际20H200与teacher就绪验证、93PASS和四文件清理目标均产生具体结果。 |
+| D5 超范围镀金 | CLEAR | 无模型/优化器/数值改动；新证据直接对应D8和实际更新。 |
+| D6 分析空转 | CLEAR | inspection产生两份baseline PASS及完整已观测版本链；源码读取只核对最终INCOMPLETE的含义。 |
 | D7 路线违背 | CLEAR | D18/D19授权范围明确；未新增optimizer probe或重启。 |
 
-**文档检查：** S5：旧checkpoint仍Starting/fixture待修，与Running和93PASS矛盾；补入用户新D19的storage工作和依赖。requirements/plan/progress及本文件已同步。S1/S2/S3/S4/S6未发现新缺陷。
-**归因：** D2执行偏离；不是正式运行的阻塞，纠正已落实。
+**文档检查：** S5：`plan.md`旧前沿仍等待baseline/首步，且写cleanup正在进行；与新baseline/version3及清理完成矛盾，已同步plan/progress/report和本文件。S1/S2/S3/S4/S6未发现新缺陷。
+**归因：** 无。
 
 ## 3. 纠正建议
 
-**分支：** B：同步实际运行/93PASS与D19，然后继续并行执行。
+**分支：** B：同步已验证的baseline/版本3，继续并行执行。
 
 **文档更新（先执行）：**
-1. `requirements.md`记录D19；`plan.md`/`progress.md`增设P3-storage并保留并行运行（用户已确认，已应用）。
-2. 本检查点记录A/B Running、93PASS和旧本机失败的界限；验收仍待实际baseline/更新/HF（可直接执行，已应用）。
+1. `plan.md`/`progress.md`和H200 report：记录baseline/恢复/前三次成功更新，将前沿推进到更新后监测，保持100位置与HF的INCOMPLETE（可直接执行，已应用）。
+2. 本检查点：保持P3-A/B为TODO和P3-storage为PASS；不把早期运行成功当作全任务通过（可直接执行，已应用）。
 
-**需停止的偏离行为：** D2停止本机pytest collection/环境重试；使用已完成的固定镜像93PASS，回到运行验证与清理。
+**需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. P3-A/B并行：保持两个H200正式launcher并核验运行 → 完成标志：完整8+2 H200、baseline/恢复/更新及最终产物逐项验收；平台身份/挂载/请求已PASS。
+1. P3-A/B并行：保持两个H200正式launcher，检查position19更新后监测并继续预算 → 完成标志：后续D8、完整100位置和最终HF逐项验收；baseline/恢复/版本3已验证。
 2. 并行：P3-C既有提交继续等待调度 → 完成标志：实际GPU/cgroup、新baseline、恢复和首步内存均取得证据。
 3. 各组按批准预算推进更新后/最终D8和HF → 完成标志：完整100位置及最终产物分别验收，随后P4。
 4. P3-storage已达到完成条件：保留精确清单/字节数、保护校验及物理quota限制，停止额外扫描/删除。
@@ -71,5 +72,5 @@
 ## 4. 最值得关注的 3 点
 
 1. D19清理完成：删除15.668GiB，当前task剩10.456GiB；底层物理quota是否等量回收仍未验证。
-2. A/B共20H200已Running，teacher就绪；baseline、实际更新及HF尚未验收，C仍有14<24配额阻塞。
-3. fixture修复已固定镜像93PASS；停止本机collection重试，不把辅助维护变成训练依赖。
+2. A/B baseline及原生版本3已验证；最终报告仍INCOMPLETE，下一观测点是position19，C仍有最后记录的14<24配额阻塞。
+3. 继续各组100位置与最终HF；93PASS fixture和清理已关闭，可选诊断不成为训练依赖。
