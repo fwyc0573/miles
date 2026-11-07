@@ -1,0 +1,39 @@
+{
+  "task_id": "QWEN-TOKENIZER-T2-LARK",
+  "retrieved_date": "2026-11-08",
+  "command": "/data/ycfeng/stepcode-codex-home/bin/lark-cli sheets +csv-get --spreadsheet-token NQ4ts2yJhhCwuHtocRQcMPNGn4g --sheet-id Vwb0Wk --as user --format json",
+  "ok": false,
+  "error": {
+    "type": "authorization",
+    "subtype": "missing_scope",
+    "message": "missing required scope(s): sheets:spreadsheet:read",
+    "missing_scopes": ["sheets:spreadsheet:read"],
+    "identity": "user"
+  },
+  "same_error_in_initial_parallel_batch": [
+    {"spreadsheet_token": "NQ4ts2yJhhCwuHtocRQcMPNGn4g", "sheet_id": "Vwb0Wk", "section": "SWE turn-level"},
+    {"spreadsheet_token": "NQ4ts2yJhhCwuHtocRQcMPNGn4g", "sheet_id": "tXTroK", "section": "SWE trajectory-level"},
+    {"spreadsheet_token": "NQ4ts2yJhhCwuHtocRQcMPNGn4g", "sheet_id": "LxhOX0", "section": "SWE rollout length"},
+    {"spreadsheet_token": "NQ4ts2yJhhCwuHtocRQcMPNGn4g", "sheet_id": "kWfFrM", "section": "TB turn-level"},
+    {"spreadsheet_token": "Ie89sycSvhUeXTtsusMcxtNdnCd", "sheet_id": "qRyjF0", "section": "Step3p7 MOPD domains"},
+    {"spreadsheet_token": "Ie89sycSvhUeXTtsusMcxtNdnCd", "sheet_id": "vNPKn4", "section": "Step3p7 MOPD shared settings"},
+    {"spreadsheet_token": "Ie89sycSvhUeXTtsusMcxtNdnCd", "sheet_id": "hLul0N", "section": "Step3p7 MOPD diff settings"}
+  ],
+  "single_auth_diagnostic": {
+    "command": "/data/ycfeng/stepcode-codex-home/bin/lark-cli auth status --json --verify",
+    "identity": "user",
+    "verified": true,
+    "user_status": "ready",
+    "user_token_status": "valid",
+    "missing_scope_confirmed": "sheets:spreadsheet:read",
+    "auth_or_config_changed": false
+  },
+  "other_fetch_failure": {
+    "source": "https://wvixbzgc0u7.feishu.cn/wiki/GmVewaoYDi3fIVk5JiEcIkUXnDg",
+    "ok": false,
+    "code": 3380002,
+    "message": "Document not found for token 'GmVewaoYDi3fIVk5JiEcIkUXnDg'. Verify the document_id exists and has not been deleted.",
+    "log_id": "20261108011732CB816B82215FEEF895ED",
+    "follow_up": "One drive search for OPD Log; first 20 results did not resolve the cited same-title resource; no repeated fetch."
+  }
+}

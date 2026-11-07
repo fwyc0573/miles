@@ -1,0 +1,90 @@
+{
+  "observed_at": "2026-11-07T17:36:18.647922+00:00",
+  "scope": "Local currently retained Steptron runtime assets versus byte-verified Miles original assets; no cloud reads, no model loads, no historical full-runtime replay",
+  "python": "3.12.13",
+  "versions": {
+    "transformers": "5.19.0",
+    "tokenizers": "0.23.2"
+  },
+  "source": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "steptron_runtime": "/data/ycfeng/steptron/.worktrees/qwen35-opd-h200/.runtime/tokenizer",
+  "configured_vocab_count": 248077,
+  "token_to_id_equal": true,
+  "model_equal_except_merges_serialization": true,
+  "ordered_merge_pairs_equal": true,
+  "added_token_config_equal": true,
+  "other_pipeline_components_equal": [
+    "normalizer",
+    "pre_tokenizer",
+    "post_processor",
+    "decoder",
+    "truncation",
+    "padding"
+  ],
+  "sample_encodings": [
+    {
+      "text": "Hello, world!",
+      "count": 4,
+      "equal": true
+    },
+    {
+      "text": "中文与 English 混合，推理过程。",
+      "count": 9,
+      "equal": true
+    },
+    {
+      "text": "def f(x):\n    return x ** 2\n",
+      "count": 12,
+      "equal": true
+    },
+    {
+      "text": " x  y\t\n\n  z",
+      "count": 6,
+      "equal": true
+    },
+    {
+      "text": "<|im_start|>assistant\n<think>reasoning</think>answer<|im_end|>",
+      "count": 9,
+      "equal": true
+    },
+    {
+      "text": "<tool_call>{\"name\":\"bash\",\"arguments\":{\"command\":\"ls\"}}</tool_call>",
+      "count": 13,
+      "equal": true
+    },
+    {
+      "text": "<tool_calls>bash</tool_calls>",
+      "count": 9,
+      "equal": true
+    },
+    {
+      "text": "<|audio|><|audio_future3|><|speaker_id_0|>",
+      "count": 18,
+      "equal": true
+    },
+    {
+      "text": "á é 👩‍💻 ０１２３",
+      "count": 13,
+      "equal": true
+    },
+    {
+      "text": "x\\n{\"result\":true}\r\n",
+      "count": 8,
+      "equal": true
+    }
+  ],
+  "sha256": {
+    "miles_source": {
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+    },
+    "steptron_runtime": {
+      "tokenizer.json": "87a7830d63fcf43bf241c3c5242e96e62dd3fdc29224ca26fed8ea333db72de4",
+      "tokenizer_config.json": "e3ca3754699d8dfb963a85d64d419645291594796197bb170870f208953e4241",
+      "chat_template.jinja": "60a59924f97602acd5e6db8813f2983183773372cbde638954a24fe228c7b89f"
+    }
+  },
+  "template_policy": "Distinct template assets; Steptron preserves historical thinking by default. Token-ID equality does not mean equivalent prompt serialization.",
+  "status": "PASS"
+}

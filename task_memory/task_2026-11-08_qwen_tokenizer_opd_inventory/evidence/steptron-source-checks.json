@@ -1,0 +1,88 @@
+{
+  "observed_at": "2026-11-07T17:37:10.335330+00:00",
+  "fixed_commit": "b48739f615e9a933003859f7a948398320774af5",
+  "scope": "Local fixed-commit receipts only; cloud inventory not repeated and no live-job query",
+  "source_paths": {
+    "default_data_manifest": "b48739f615e9a933003859f7a948398320774af5:task_memory/task_2026-11-06_qwen35_opd_h200/evidence/default_data_manifest.json",
+    "default_data_inventory": "b48739f615e9a933003859f7a948398320774af5:task_memory/task_2026-11-06_qwen35_opd_h200/evidence/default_data_inventory.json",
+    "formal_scalars_20261108_0107": "b48739f615e9a933003859f7a948398320774af5:task_memory/task_2026-11-06_qwen35_opd_h200/evidence/formal_scalars_20261108_0107.json",
+    "formal_sample_audit_20261108_0113": "b48739f615e9a933003859f7a948398320774af5:task_memory/task_2026-11-06_qwen35_opd_h200/evidence/formal_sample_audit_20261108_0113.json"
+  },
+  "group_weights_file_counts": [
+    [
+      1.0,
+      16
+    ],
+    [
+      1.0,
+      12
+    ],
+    [
+      0.5,
+      5
+    ],
+    [
+      0.15,
+      13
+    ],
+    [
+      0.15,
+      4
+    ],
+    [
+      0.05,
+      1
+    ],
+    [
+      0.15,
+      2
+    ],
+    [
+      0.1,
+      1
+    ],
+    [
+      0.1,
+      1
+    ]
+  ],
+  "raw_json_files": 55,
+  "recorded_rows": 482359,
+  "manifest_inventory_path_binding": "PASS",
+  "runs": [
+    {
+      "run": "c1-opd-30step-1107n",
+      "observed_hkt": "2026-11-08T01:06:51.350580+08:00",
+      "recorded_optimizer_step_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "sample_audit_iterations": 7,
+      "samples_per_iteration": 256,
+      "distinct_sample_ids": 1792
+    },
+    {
+      "run": "c2-opd-30step-1107n",
+      "observed_hkt": "2026-11-08T01:06:51.614354+08:00",
+      "recorded_optimizer_step_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "sample_audit_iterations": 8,
+      "samples_per_iteration": 256,
+      "distinct_sample_ids": 2048
+    }
+  ],
+  "status": "PASS"
+}

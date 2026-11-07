@@ -1,0 +1,40 @@
+{
+  "task_id": "QWEN-TOKENIZER-T2-LARK",
+  "retrieved_date": "2026-11-08",
+  "cli": "/data/ycfeng/stepcode-codex-home/bin/lark-cli",
+  "identity": "user",
+  "search_queries": 28,
+  "search_calls": 31,
+  "search_successes": 31,
+  "qwen_mopd_pages": [{"page": 1, "count": 20, "has_more": true}, {"page": 2, "count": 14, "has_more": false}],
+  "fetch_success_calls": 16,
+  "distinct_successful_documents": 15,
+  "fetch_failed_calls": 1,
+  "documents": [
+    {"name": "explore-mopd", "source_token": "IAvRwliqDikShjkrDZac5lGtncc", "document_id": "AQT5d97i2ofKirxePLvc2Zcsn8x", "revision_id": 2737, "ok": true, "lines": 604, "created": "2026-09-09T13:43:27+08:00", "updated": "2026-11-06T17:31:32+08:00"},
+    {"name": "ROADMAP", "source_token": "NJfJw6yihiSJRrkg19xcCtTEn6I", "document_id": "C0jtdoIhpo6g0uxhNg3cMztbnRg", "revision_id": 3725, "ok": true, "lines": 186, "created": "2026-11-04T15:59:20+08:00", "updated": "2026-11-08T00:02:46+08:00"},
+    {"name": "AGENTIC OPD", "source_token": "Kuldwh97Pic6yhkV1Sgchs90nZf", "document_id": "PmYddZiyyoLw1Nxvzg2cQGm6nfh", "revision_id": 246, "ok": true, "lines": 161, "created": "2026-10-25T17:06:19+08:00", "updated": "2026-11-03T15:40:34+08:00"},
+    {"name": "Rethinking Supervision in On-Policy Distillation", "source_token": "ISo7dsuDooLLtUxOQvBcmOVxn0g", "document_id": "ISo7dsuDooLLtUxOQvBcmOVxn0g", "revision_id": 763, "ok": true, "lines": 353, "created": "2026-09-16T23:57:10+08:00", "updated": "2026-09-17T16:25:01+08:00"},
+    {"name": "20260917周报", "source_token": "LNkww8FdEibhfyk0dqlc13gVnwf", "document_id": "Yio2d0qpxoRpwax3nzFcbKoSnje", "revision_id": 680, "ok": true, "lines": 124, "created": "2026-09-17T16:23:17+08:00", "updated": "2026-09-20T11:36:06+08:00"},
+    {"name": "[ToolUse] Qwen Template Update", "source_token": "TBqWw6I34ipJ09ke4njcO8shnhg", "document_id": "SLBVdJK7sotfKfxUEOucrcqVn1c", "revision_id": 1107, "ok": true, "lines": 133, "created": null, "updated": null},
+    {"name": "Qwen3接入", "source_token": "GHDpw16ShiwIWpk3pCCchTcEnuc", "document_id": "QAmudCVGVo04glxRfHtcZMIBnLd", "revision_id": 668, "ok": true, "lines": 125, "created": "2025-07-14T15:15:59+08:00", "updated": "2025-09-12T15:26:33+08:00"},
+    {"name": "SWE-Agents实验记录 0401-0601", "source_token": "HhgMwCZfQimPLgkucRCcULurnzf", "document_id": "HeWUdXE4moRI40xIpoKczCS3n0c", "revision_id": 34137, "ok": true, "lines": 3942, "created": "2026-03-31T16:18:11+08:00", "updated": "2026-09-04T16:34:01+08:00"},
+    {"name": "SWE-Agents实验记录 0602-0801", "source_token": "RAI9wdUUJiSlpCk9O14ca2G7nLf", "document_id": "GpOudO1mdoDqFhxH5oOcRU4cnSh", "revision_id": 29107, "ok": true, "lines": 3419, "created": "2026-06-02T12:16:46+08:00", "updated": "2026-10-06T14:38:12+08:00"},
+    {"name": "SWE-Agents实验记录 0802-1103", "source_token": "GgeMwy94Di8io9k3MbQc1siynCf", "document_id": "Ah8Sd9bjio1gjaxdVNKcWvTSn9d", "revision_id": 27957, "ok": true, "lines": 3531, "created": "2026-08-03T14:58:45+08:00", "updated": "2026-11-08T00:35:18+08:00"},
+    {"name": "Reasoner 实验管理 2026 0101-0328", "source_token": "Yv7BwbduhiWQnbktAaocqf04njd", "document_id": "CbhjdrBJAo7OqbxS4WUcZks0nUf", "revision_id": 18553, "ok": true, "lines": 4527, "created": "2026-01-23T09:23:24+08:00", "updated": "2026-06-26T17:50:07+08:00"},
+    {"name": "Reasoner 实验管理 2026 0601-1010", "source_token": "DGu5wGExbiKKQukfoagccVPKnVe", "document_id": "LYxXdnI8Do2vKdxL0rAc7S6VnGb", "revision_id": 51112, "ok": true, "lines": 16122, "created": "2026-06-08T19:31:52+08:00", "updated": "2026-11-05T20:57:26+08:00"},
+    {"name": "【交付清单】step5 MOPD 性能版", "source_token": "Lzuvw9DcSiydhtkl8BNcZBnInsf", "document_id": "V1D0db9znovvEBxMdYoc1VYqn2r", "revision_id": 1129, "ok": true, "lines": 102, "created": "2026-10-27T13:47:49+08:00", "updated": "2026-11-07T21:21:26+08:00", "read_calls": 2},
+    {"name": "E0 & E1", "source_token": "TcXCwoRdMiyqm5kbIuGcrSIMn1d", "document_id": "EvGSd7AtwoGJePxN9DAcYSXMncg", "revision_id": 84, "ok": true, "lines": 104, "created": "2026-11-07T23:48:08+08:00", "updated": "2026-11-08T00:27:03+08:00"},
+    {"name": "Post-training算法基建需求实验记录 2026", "source_token": "FCWPwHZuoiZ2nnkffMhc7joGn8g", "document_id": "KzLsdTcrFobGPXxCtYNcfA8Yn1f", "revision_id": 16773, "ok": true, "lines": 3461, "created": "2026-03-17T16:27:16+08:00", "updated": "2026-07-27T13:00:52+08:00"}
+  ],
+  "image_read": {
+    "token": "ZmFqbA0aaoT2Hrx0eZsc6HhwnGf",
+    "ok": true,
+    "content_type": "image/png",
+    "size_bytes": 570013,
+    "opened_and_inspected": true,
+    "temporary_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-lark-t2-20261108/roadmap-datasets.png"
+  },
+  "raw_temporary_directory": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-lark-t2-20261108",
+  "complete_private_documents_retained_in_task_directory": false
+}

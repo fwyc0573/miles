@@ -1,0 +1,129 @@
+{
+  "observed_at": "2026-11-07T17:16:37.135067+00:00",
+  "repo_commit": "35edf7f5dd9809292029c7e494645745843a11d8",
+  "scope": "Local recheck of retained actual-cloud receipts and local byte-identical tokenizer assets; no new cloud scan",
+  "asset_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/assets-exp-1106-233008-986003.json",
+  "asset_job": "exp-1106-233008-986003",
+  "pairs": {
+    "A": {
+      "student": "Qwen3.5-4B",
+      "teacher": "Qwen3.5-27B"
+    },
+    "B": {
+      "student": "Qwen3.5-4B",
+      "teacher": "Qwen3.5-35B-A3B"
+    },
+    "C": {
+      "student": "Qwen3.5-27B",
+      "teacher": "Qwen3.5-397B-A17B"
+    }
+  },
+  "models": [
+    {
+      "model": "Qwen3.5-4B",
+      "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "matches_all_three_assets": true
+    },
+    {
+      "model": "Qwen3.5-27B",
+      "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "matches_all_three_assets": true
+    },
+    {
+      "model": "Qwen3.5-35B-A3B",
+      "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+      "matches_all_three_assets": true
+    },
+    {
+      "model": "Qwen3.5-397B-A17B",
+      "path": "/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B",
+      "matches_all_three_assets": true
+    }
+  ],
+  "common_asset_sha256": {
+    "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+    "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+  },
+  "local_byte_comparison_root": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "base_vocab_count": 248044,
+  "tokenizer_json_added_count": 26,
+  "tokenizer_config_added_count": 33,
+  "configured_vocab_size": 248077,
+  "manifest_comparison": {
+    "H800": {
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json",
+      "checked_pairs": ["A", "B", "C"],
+      "model_source_paths_match": true
+    },
+    "H200": {
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json",
+      "checked_pairs": ["A", "B"],
+      "model_source_paths_match": true
+    }
+  },
+  "hf_model_config_check": {
+    "model": "Qwen3.5-4B",
+    "path": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B/config.json",
+    "field": "text_config.vocab_size",
+    "value": 248320,
+    "sha256": "ddc63e1c717afa86c865bb5e01313d89d72bb53b97ad4a8a03ba8510c0621670",
+    "matches_4b_original_asset_receipt": true,
+    "scope": "Only the local 4B config content was inspected; other model config vocab values were not re-read."
+  },
+  "special_token_ids": {
+    "<|endoftext|>": 248044,
+    "<|im_start|>": 248045,
+    "<|im_end|>": 248046,
+    "<think>": 248068,
+    "</think>": 248069
+  },
+  "tokenizer_class_label": "Qwen2Tokenizer",
+  "effective_template": {
+    "path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+    "sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9",
+    "kwargs": {
+      "preserve_thinking": true,
+      "enable_thinking": true
+    }
+  },
+  "datasets": {
+    "train": {
+      "path": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+      "sha256": "1c0742224d0a4ca3c3ce5c07fd6108fe7a83ee0d2871fcdc31545d0c97118f21",
+      "rows": 924
+    },
+    "monitor": {
+      "path": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/monitor.jsonl",
+      "sha256": "09d8876bd90d4eac3b989b98812c08c005d8e2a1b782718d33acf970ac996dc6",
+      "rows": 24
+    }
+  },
+  "launches": {
+    "A": {
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/A/exp-1107-173758-712234/launch.json",
+      "job": "exp-1107-173758-712234",
+      "prompt_data": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+      "frozen_dataset_match": true,
+      "apply_chat_template_flag": false,
+      "scope": "accepted H200 run"
+    },
+    "B": {
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-173758-806531/launch.json",
+      "job": "exp-1107-173758-806531",
+      "prompt_data": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+      "frozen_dataset_match": true,
+      "apply_chat_template_flag": false,
+      "scope": "accepted H200 run"
+    },
+    "C": {
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/C/exp-1107-064200-013666/launch.json",
+      "job": "exp-1107-064200-013666",
+      "prompt_data": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/train.jsonl",
+      "frozen_dataset_match": true,
+      "apply_chat_template_flag": false,
+      "scope": "historical failed attempt, not proof of fresh queued run"
+    }
+  },
+  "status": "PASS"
+}
