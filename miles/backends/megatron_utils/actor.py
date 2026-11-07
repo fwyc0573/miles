@@ -552,10 +552,10 @@ class MegatronTrainRayActor(TrainRayActor):
             self._grad_buffer_paused = False
         else:
             torch_memory_saver.resume(tag=None)
+        self._asleep = False
 
         clear_memory()
         reload_process_groups()
-        self._asleep = False
         print_memory("after wake_up model")
 
     @property
@@ -663,6 +663,7 @@ class MegatronTrainRayActor(TrainRayActor):
             with self._log_prob_scoring_state():
                 if self.args.offload_train and was_asleep:
                     self.wake_up()
+                    self._switch_model("actor")
                 rollout_data, store_get_result = get_rollout_data(
                     args=self.args,
                     rollout_data_ref=rollout_data_ref,
@@ -1203,7 +1204,8 @@ class MegatronTrainRayActor(TrainRayActor):
             if self.args.ci_test and not is_lora_enabled(self.args):
                 self.weight_updater.verify_engine_version(updated_engines, weight_version=weight_version)
 
-            if info.receiver_pool == "rollout" and self.args.keep_old_actor:
+            # Initialization and same-version restoration publish no new rollout.
+            if info.receiver_pool == "rollout" and self.args.keep_old_actor and rollout_id is not None:
                 if self.args.update_weights_interval == 1:
                     logger.info("updating model queue: rollout_actor -> old_actor, actor -> rollout_actor")
                     # Queue-style update: rollout_actor params -> old_actor, actor params -> rollout_actor

@@ -11,7 +11,9 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from tests.fast.backends.megatron_utils.score_rpc_fixtures import (
     ScoreStore,
+    eval_publication,
     install_cpu_runtime,
+    install_unbacked_remap,
     load_score_actor,
     make_actor,
     make_args,
@@ -24,6 +26,8 @@ from miles.backends.training_utils.data.context_parallel import assemble_log_pro
 from miles.backends.training_utils.metrics.train_dump import save_debug_train_data_for_rank
 from miles.ray.rollout.train_data_conversion import ROLLOUT_DATA_VALUE_SPEC, split_train_data_by_dp
 from miles.utils.object_store import _MooncakeStoreObjectRef
+from miles.utils.data import RolloutDataPack
+from miles.utils.retry_utils import NonRetryableError
 from miles.utils.replay_base import BaseReplayManager
 from miles.utils.workers.rpc.common.metadata import collect_rpc_method_specs
 
@@ -129,6 +133,158 @@ def test_native_scoring_is_read_only_and_retains_original_response_population(sc
             torch.testing.assert_close(actor.optimizer.state_dict()["state"][key][field], value, rtol=0, atol=0)
     assert [module.training for module in actor.model[0].modules()] == modes_before
     assert actor.model[0].config.timers is timers_before
+
+
+def test_scoring_restores_nonbacked_parameter_bytes_before_forward_and_preserves_adam(scoring):
+    actor = make_actor(scoring.actor_cls, make_args())
+    raw = make_raw_data()
+    refs = _data_refs(scoring.store, actor.args, raw, scoring.parallel)
+    expected = _expected(actor, raw)
+    parameters = {name: tensor.detach().clone() for name, tensor in actor.model[0].named_parameters()}
+    saver, master = install_unbacked_remap(actor, scoring.namespace)
+    master_before = master.detach().clone()
+    optimizer_before = copy.deepcopy(actor.optimizer.state_dict())
+    observations = []
+    native_compute = actor._compute_log_prob
+
+    def compute(*args, **kwargs):
+        observations.append(actor.model[0].weight.detach().clone())
+        return native_compute(*args, **kwargs)
+
+    actor._compute_log_prob = compute
+    ref = actor.score_log_probs(9, refs)
+    batch = scoring.store.values[ref.payload]
+
+    assert saver.remaps == 1 and actor._asleep
+    torch.testing.assert_close(observations[0], parameters["weight"], rtol=0, atol=0)
+    for index, scores in zip(batch["sample_indices"], batch["log_probs"], strict=True):
+        torch.testing.assert_close(scores, expected[index], rtol=0, atol=0)
+    assert torch.unique(torch.cat(batch["log_probs"])).numel() > 1
+    _assert_input_receipts(batch, raw)
+    assert batch["metadata"]["weight_version"] == actor._get_actor_weight_version() == 7
+    assert actor._last_rollout_id == 2 and actor.opt_param_scheduler.num_steps == 19
+    torch.testing.assert_close(master, master_before, rtol=0, atol=0)
+    for index, state in optimizer_before["state"].items():
+        for field, value in state.items():
+            torch.testing.assert_close(actor.optimizer.state_dict()["state"][index][field], value, rtol=0, atol=0)
+    for name, tensor in actor.model[0].named_parameters():
+        torch.testing.assert_close(tensor, parameters[name], rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("interval", [1, 2])
+def test_same_version_restore_does_not_rotate_or_overwrite_paused_actor_snapshots(scoring, interval):
+    actor = make_actor(scoring.actor_cls, make_args())
+    actor.args.keep_old_actor = True
+    actor.args.update_weights_interval = interval
+    weight = actor.model[0].weight
+    with torch.no_grad():
+        weight.fill_(1)
+    actor.weights_backuper.backup("old_actor")
+    with torch.no_grad():
+        weight.fill_(2)
+    actor.weights_backuper.backup("rollout_actor")
+    actor._switch_model("actor")
+    before = copy.deepcopy({tag: actor.weights_backuper.get(tag) for tag in actor.weights_backuper.backup_tags})
+    saver, master = install_unbacked_remap(actor, scoring.namespace)
+    # Simulate an allocator's no-backup remap without restoring live actor bytes.
+    saver.resume()
+    actor._asleep = False
+    actor.sleep()
+    assert torch.count_nonzero(weight) == 0
+    versions = []
+    actor.weight_updater = SimpleNamespace(
+        conn_status=SimpleNamespace(needs_reconnect=lambda snapshot: False),
+        update_weights=lambda *, weight_version: versions.append(weight_version),
+        protocol=SimpleNamespace(cell_updaters_of_cell_id={}),
+    )
+    info = SimpleNamespace(
+        rollout_engines=[], engine_cell_ids=[], snapshot_cell_id_to_hashes={}, receiver_pool="rollout"
+    )
+    master_before = master.detach().clone()
+    output = actor._update_receiver_weights(info, "same-version-restore", rollout_id=None)
+    assert versions == [7] and output.weight_version == 7
+    assert actor._asleep and actor._get_actor_weight_version() == 7
+    assert actor.opt_param_scheduler.num_steps == 19 and actor._last_rollout_id == 2
+    torch.testing.assert_close(master, master_before, rtol=0, atol=0)
+    for tag, tensors in before.items():
+        for name, value in tensors.items():
+            torch.testing.assert_close(actor.weights_backuper.get(tag)[name], value, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("fault", ["once", "persistent", "unavailable"])
+async def test_eval_pg_reload_failure_restores_residency_or_native_publication_fails(scoring, fault, caplog):
+    import train
+
+    with eval_publication(scoring, fault) as publication:
+        actor = publication.actor
+        raw = make_raw_data()
+        refs = _data_refs(scoring.store, actor.args, raw, scoring.parallel)
+        expected = _expected(actor, raw)
+        parameters = {name: value.detach().clone() for name, value in actor.model[0].named_parameters()}
+        backup = copy.deepcopy(actor.weights_backuper.get("actor"))
+        master = publication.master.detach().clone()
+        optimizer = copy.deepcopy(actor.optimizer.state_dict())
+        pack = RolloutDataPack(data_ref=refs)
+
+        if fault == "once":
+            await train._score_eval_train_data(
+                actor.args, publication.controller, publication.inference, 19, {"monitor": pack},
+                rollout_executor=publication.executor,
+            )
+            assert actor._asleep and publication.saver.snapshots is not None
+            assert publication.pg.group is None and publication.cell.is_alive
+            assert publication.saver.remaps == 1
+            assert publication.events == [
+                ("offload", ["cuda_graph", "kv_cache", "weights"]), "reload_pg",
+                ("onload", ["weights"]), "start_update", "reload_pg", "send_bucket",
+                ("finalize", 7), "destroy_pg", "end_update", ("consumed_version", 7),
+                ("onload", ["cuda_graph", "kv_cache"]), "prepare_eval",
+            ]
+            torch.testing.assert_close(publication.engine_weights, parameters["weight"], rtol=0, atol=0)
+            assert "Evaluation train logprobs unverified: scoring/dump failed" in caplog.text
+
+            # Ordinary training's native wake/actor restore/forward sequence.
+            # The CPU remapper rejects resume without an intervening pause.
+            actor.wake_up()
+            actor._switch_model("actor")
+            next_refs = _data_refs(scoring.store, actor.args, raw, scoring.parallel)
+            rollout_data, guard = scoring.namespace["get_rollout_data"](
+                args=actor.args, rollout_data_ref=next_refs, output_store_read=None,
+                train_parallel_config=scoring.parallel.train_parallel_config(supports_precomputed_schedule=False),
+            )
+            with guard:
+                iterator, counts = scoring.namespace["get_data_iterator"](actor.args, actor.model, rollout_data)
+                scores = actor._compute_log_prob(iterator, counts, 20, "score_")["score_log_probs"]
+            for index, values in zip(rollout_data["sample_indices"], scores, strict=True):
+                torch.testing.assert_close(values, expected[index], rtol=0, atol=0)
+            assert torch.unique(torch.cat(scores)).numel() > 1
+            assert publication.saver.remaps == 2 and not actor._asleep
+            assert publication.pg.group is not None and publication.pg.group.active
+            for name, value in actor.model[0].named_parameters():
+                torch.testing.assert_close(value, parameters[name], rtol=0, atol=0)
+        else:
+            with pytest.raises(NonRetryableError):
+                await train._score_eval_train_data(
+                    actor.args, publication.controller, publication.inference, 19, {"monitor": pack},
+                    rollout_executor=publication.executor,
+                )
+            assert not publication.cell.is_alive
+            assert publication.events[-2:] == ["cell_killed", "abort_update"]
+            assert "end_update" not in publication.events and "prepare_eval" not in publication.events
+            assert not any(isinstance(event, tuple) and event[0] == "consumed_version" for event in publication.events)
+            assert publication.pg.group is None
+            if fault == "unavailable":
+                assert actor._asleep and publication.saver.snapshots is not None
+
+        assert scoring.store.removed == [ref.payload for ref in pack.data_refs]
+        assert actor._get_actor_weight_version() == 7
+        assert actor._last_rollout_id == 2 and actor.opt_param_scheduler.num_steps == 19
+        torch.testing.assert_close(publication.master, master, rtol=0, atol=0)
+        for index, state in optimizer["state"].items():
+            for field, value in state.items():
+                torch.testing.assert_close(actor.optimizer.state_dict()["state"][index][field], value, rtol=0, atol=0)
+        for name, value in backup.items():
+            torch.testing.assert_close(actor.weights_backuper.get("actor")[name], value, rtol=0, atol=0)
 
 
 @pytest.mark.parametrize("failure", ["load", "forward", "store"])

@@ -16,6 +16,7 @@ from tests.fast.fixtures.driver_fakes import (
 
 from miles.backends.megatron_utils.megatron_config import MegatronConfig, MegatronTrainerConfig
 from miles.backends.training_utils.types import TrainStepOutcome, TrainStepOutput
+from miles.ray.train_actor import WeightUpdateOutput
 from miles.ray import placement_group, wiring
 from miles.utils import object_store
 from miles.utils.data import RolloutDataPack
@@ -454,6 +455,96 @@ class TestOutputStoreRelease:
 
 
 class TestEvalTrainLogProbs:
+    @pytest.mark.parametrize("level", ["weight", "kv_cache,weight", "kv_cache", ""])
+    async def test_released_weights_are_restored_by_the_native_same_version_publication_before_kv(
+        self, monkeypatch, tmp_path, level
+    ):
+        events = []
+        args = _make_args(
+            offload_rollout=bool(level), offload_rollout_level=level,
+            log_inference_engine_weight_checksums=False,
+            save_debug_train_data=str(tmp_path / "{rollout_id}_{rank}.pt"), qkv_format="thd",
+        )
+        store = FakeObjectStore()
+        monkeypatch.setattr(object_store, "_INSTANCE", store)
+        monkeypatch.setattr(train_driver, "update_weights", placement_group.update_weights)
+        source = torch.tensor([[0.0, 2.0], [3.0, -1.0]])
+        engine = source.clone()
+        original_scores = torch.log_softmax(source, dim=-1)
+        info = SimpleNamespace(snapshot_cell_id_to_hashes={"cell0": "workers0"})
+        executor = SimpleNamespace(version=7)
+
+        async def offload(*, tags):
+            events.append(("offload", list(tags)))
+            if train_driver.GPU_MEMORY_TYPE_WEIGHTS in tags:
+                engine.zero_()
+
+        async def onload(*, tags):
+            events.append(("onload", list(tags)))
+            if train_driver.GPU_MEMORY_TYPE_WEIGHTS not in tags:
+                torch.testing.assert_close(engine, source, rtol=0, atol=0)
+
+        async def start_update_weights(*, model_id):
+            assert model_id is None
+            events.append(("start_update", None))
+            return info
+
+        async def actor_update(*, info: Any, rollout_id):
+            assert info.snapshot_cell_id_to_hashes == {"cell0": "workers0"} and rollout_id is None
+            events.append(("actor_publish", 7))
+            engine.copy_(source)
+            return WeightUpdateOutput(weight_version=7, failed_cell_ids=())
+
+        async def end_update_weights(**kwargs):
+            assert kwargs == dict(
+                snapshot_cell_id_to_hashes={"cell0": "workers0"}, failed_cell_ids=(),
+                checksum_model_id=None, collect_checksums=False,
+            )
+            events.append(("end_update", None))
+            return []
+
+        async def set_weight_version(version, *, trainer_model_id):
+            assert trainer_model_id is None and version == executor.version == 7
+            events.append(("consumed_version", version))
+
+        async def prepare_eval():
+            events.append(("prepare_eval", None))
+            torch.testing.assert_close(engine, source, rtol=0, atol=0)
+
+        async def score(*_args):
+            events.append(("score", None))
+            return [store.put(dict(metadata=dict(rank=0, cp_rank=0, cp_size=1), log_probs=[torch.tensor([-1.0])]))]
+
+        executor.set_weight_version = set_weight_version
+        controller = SimpleNamespace(
+            offload=offload, onload=onload, start_update_weights=start_update_weights,
+            end_update_weights=end_update_weights, prepare_eval=prepare_eval,
+        )
+        pack = RolloutDataPack(data_ref=store.put({"tokens": [[1, 2]]}))
+        await train_driver._score_eval_train_data(
+            args, SimpleNamespace(score_log_probs=score, update_weights=actor_update), controller, 19, {"monitor": pack},
+            rollout_executor=executor,
+        )
+        torch.testing.assert_close(engine, source, rtol=0, atol=0)
+        torch.testing.assert_close(torch.log_softmax(engine, dim=-1), original_scores, rtol=0, atol=0)
+        assert torch.unique(original_scores).numel() > 1 and executor.version == 7
+        names = [name for name, _ in events]
+        if "weight" in level:
+            assert names == [
+                "offload", "score", "onload", "start_update", "actor_publish", "end_update",
+                "consumed_version", "onload", "prepare_eval",
+            ]
+            assert events[2][1] == [train_driver.GPU_MEMORY_TYPE_WEIGHTS]
+            assert events[-2][1] == [
+                train_driver.GPU_MEMORY_TYPE_CUDA_GRAPH,
+                *([train_driver.GPU_MEMORY_TYPE_KV_CACHE] if "kv_cache" in level else []),
+            ]
+        elif level:
+            assert names == ["offload", "score", "onload", "prepare_eval"]
+        else:
+            assert names == ["score"]
+        assert store._values == {}
+
     @pytest.mark.parametrize("restore_failure", [None, "onload", "prepare_eval"])
     async def test_preparation_failure_is_soft_only_after_successful_restoration(
         self, monkeypatch, caplog, restore_failure
@@ -497,15 +588,22 @@ class TestEvalTrainLogProbs:
         inference.prepare_eval = prepare_eval
         actor = SimpleNamespace(score_log_probs=score)
 
+        async def publish(*_args):
+            events.append("publish")
+
+        monkeypatch.setattr(train_driver, "update_weights", publish)
+
         if restore_failure is None:
-            await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
-            assert events == ["offload", "onload", "prepare_eval", "unverified"]
+            await train_driver._score_eval_train_data(args, actor, inference, 19, packs, rollout_executor=None)
+            assert events == ["offload", "onload", "publish", "onload", "prepare_eval", "unverified"]
             assert "unverified: preparation failed" in caplog.text
             assert "monitor preparation failed" in caplog.text
         else:
             with pytest.raises(OSError, match=f"{restore_failure} restoration failed"):
-                await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
-            assert events == ["offload", "onload"] + (["prepare_eval"] if restore_failure == "prepare_eval" else [])
+                await train_driver._score_eval_train_data(args, actor, inference, 19, packs, rollout_executor=None)
+            assert events == ["offload", "onload"] + (
+                ["publish", "onload", "prepare_eval"] if restore_failure == "prepare_eval" else []
+            )
             assert "unverified" not in caplog.text
         assert store._values == {}
 
@@ -648,6 +746,12 @@ class TestEvalTrainLogProbs:
         async def prepare():
             events.append("prepare_eval")
 
+        async def publish(*_args):
+            assert actor.sleeping
+            events.append("publish")
+
+        monkeypatch.setattr(train_driver, "update_weights", publish)
+
         async def score(rollout_id, pack):
             assert rollout_id == 19 and pack.data_ref is input_ref
             assert not inference.resident
@@ -683,11 +787,13 @@ class TestEvalTrainLogProbs:
 
         if failure in {"cancel", "preparation_cancel"}:
             with pytest.raises(asyncio.CancelledError):
-                await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+                await train_driver._score_eval_train_data(args, actor, inference, 19, packs, rollout_executor=None)
         else:
-            await train_driver._score_eval_train_data(args, actor, inference, 19, packs)
+            await train_driver._score_eval_train_data(args, actor, inference, 19, packs, rollout_executor=None)
         assert actor.sleeping and inference.resident
         assert events == ["offload"] + ([] if failure == "preparation_cancel" else ["score"]) + [
+            "onload",
+            "publish",
             "onload",
             "prepare_eval",
         ]
@@ -713,7 +819,9 @@ class TestEvalTrainLogProbs:
                 raise ValueError("bad observation")
             return [store.put(dict(metadata=dict(rank=0, cp_rank=0, cp_size=1), log_probs=[-1.0]))]
 
-        await train_driver._score_eval_train_data(args, SimpleNamespace(score_log_probs=score), None, 19, packs)
+        await train_driver._score_eval_train_data(
+            args, SimpleNamespace(score_log_probs=score), None, 19, packs, rollout_executor=None
+        )
         assert (tmp_path / "eval_good_19_0.pt").exists()
         assert store._values == {}
         assert "unverified: scoring/dump failed" in caplog.text

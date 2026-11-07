@@ -40,11 +40,13 @@ def _rollout_offload_tags(args) -> list[str]:
 
 
 async def _score_eval_train_data(
-    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack]
+    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack], *, rollout_executor
 ) -> None:
     # Cancelling a driver wait does not stop its remote controller or workers.
     # Keep the scoring transaction, including residency restoration, alive.
-    pending = asyncio.create_task(_score_eval_datasets(args, actor_model, inference_controller, rollout_id, packs))
+    pending = asyncio.create_task(
+        _score_eval_datasets(args, actor_model, inference_controller, rollout_id, packs, rollout_executor=rollout_executor)
+    )
     cancellation: asyncio.CancelledError | None = None
     while not pending.done():
         try:
@@ -58,7 +60,7 @@ async def _score_eval_train_data(
 
 
 async def _score_eval_datasets(
-    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack]
+    args, actor_model, inference_controller, rollout_id: int, packs: dict[str, RolloutDataPack], *, rollout_executor
 ) -> None:
     refs = [ref for pack in packs.values() for ref in pack.data_refs]
     offload_tags = _rollout_offload_tags(args) if args.offload_rollout else []
@@ -101,7 +103,11 @@ async def _score_eval_datasets(
                     logger.exception("Evaluation train logprobs unverified: reference cleanup failed")
         finally:
             if offload_started:
-                await inference_controller.onload(tags=offload_tags)
+                if GPU_MEMORY_TYPE_WEIGHTS in offload_tags:
+                    # Unbacked weight storage must be republished before KV/graph resume.
+                    await inference_controller.onload(tags=[GPU_MEMORY_TYPE_WEIGHTS])
+                    await update_weights(args, actor_model, rollout_executor, inference_controller)
+                await inference_controller.onload(tags=[tag for tag in offload_tags if tag != GPU_MEMORY_TYPE_WEIGHTS])
                 await inference_controller.prepare_eval()
     for dataset, error in observer_errors:
         context = (
@@ -167,7 +173,9 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
         await inference_controller.onload_kv()
 
     async def score_eval_train_data(rollout_id, packs):
-        await _score_eval_train_data(args, actor_model, inference_controller, rollout_id, packs)
+        await _score_eval_train_data(
+            args, actor_model, inference_controller, rollout_id, packs, rollout_executor=rollout_executor
+        )
 
     eval_dispatcher = EvalDispatcher(
         args,
