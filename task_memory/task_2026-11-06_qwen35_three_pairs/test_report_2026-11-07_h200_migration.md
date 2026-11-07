@@ -7,7 +7,7 @@
 
 ## 1. 规划完成情况
 
-**任务：** `QWEN-P3-H200-MANIFEST`。本报告仅验证准备工作，不代表实际 H200 runtime 合格。父会话负责 personal platform inspection、最小启动修正、提交和实际运行验收。
+**任务：** `QWEN-P3-H200-MANIFEST`。本报告记录准备、启动修正、正式提交和平台/部分实际设备证据；不代表模型训练与最终产物合格。
 
 **汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 3。设备身份变更的本机与固定镜像检查已通过；固定镜像整套90 PASS/3 FAIL，另有3个旧baseline测试fixture待修，正式提交继续。
 
@@ -16,8 +16,8 @@
 | P0 | PASS | 已记录要求、规则和设计；本次重新读取所有 `.agents/rules/**/*.md`。 |
 | P1 | PASS | [requirements.md](requirements.md) D18 明确 A/B H200、32 卡内不可抢占和原有预算。 |
 | P2 initial qualification | PASS | 既有 population、pinned runtime 和 baseline evidence；不替代 H200 runtime。 |
-| P3-A | TODO | H200 manifest/dry-run与设备/CLI检查PASS；待正式提交和实际运行。 |
-| P3-B | TODO | 同一准备路径；D17 fresh100 已批准，旧一次 update 保留为 discarded historical work。 |
+| P3-A | TODO | H200已提交并获准入，平台配置PASS，Starting；实际模型验收待完成。 |
+| P3-B | TODO | H200已提交并获准入，平台配置PASS，student8H200实测；D17 fresh100。 |
 | P3-C | BLOCKED | 最新计划记为 H800 scheduling 阻塞；本次未检查或改变其 job/config。 |
 | P4 | TODO | 实际 updated/final D8、100-position accounting 和 HF artifact 尚未完成。 |
 
@@ -197,6 +197,27 @@ At09:31:54Z the supplementary pinned job `exp-1107-172750-953553` isStarting, wi
 
 Final supplementary result: **90 passed/3 failed,14.38s**, jobFailed. The changed hardware/CLI checks and native parser pass in the exact image. All failures are `test_baseline_native_scoring_needs_no_optimizer[True-{A,B,C}]`: the manually assembled toy actor bypasses native initialization, lacks `with_ref`, and now reaches `_switch_model` through the previously repaired scoring restore. Native `_init_common` sets both role flags (`miles/ray/train_actor.py:204–205`); Megatron init calls it (`actor.py:164`). The actual repaired B baseline already passed that production route. This is separate fixture maintenance, not evidence of a missing formal runtime field; no production fallback is added. Raw evidence: `evidence/h200-launch-contracts-exp-1107-172750-953553.log:8–160,335`. The original failed result stays retained while the fixture owner corrects the test independently.
 
+### Formal H200 submission and admission
+
+Commit `e3d62655`; parent submits concurrently from `/data/ycfeng` after the handbook personal-auth initialization, keeping both native launchers alive:
+
+```bash
+export STEPMIND_BACKEND=rjob PYTHONPATH=/data/ycfeng/steptron PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json --pair A
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json --pair B
+```
+
+These are separate live launcher processes, not serial shell commands. At09:44:19Z:
+
+| Pair | Job | Platform | Launcher |
+| --- | --- | --- | --- |
+| A | exp-1107-173758-712234 | Starting | PID1049059 alive |
+| B | exp-1107-173758-806531 | Starting; student active | PID1049054 alive |
+
+Both exact API receipts pass creator=i-fengyicheng, group=step_main, preemptible=no label, role tagsH200,8+2 GPU requests/limits, pinned image, H200 manifest command and local NFS source. Task total20, ceiling32, no active auxiliary H200 GPUs. See [qualified receipt](evidence/h200-formal-platform-qualified.json). The first auxiliary reader incorrectly looked in Pod affinity instead of `taskSpecs.<role>.positiveTags`; its partial receipt is retained. A subsequent count incorrectly assumed all personal jobs belonged to this task; unrelated personal jobs had appeared since prelaunch, so the accepted session/task scope is now applied using this task's actual submission IDs. No external job is controlled.
+
+B `evidence/first-round/exp-1107-173758-806531/B/student-node.json` independently observes8 NVIDIA H200,143771MiB per GPU, driver570.124.06. Full-role startup, model initialization, baseline, restored publication, sustained optimizer updates and final HF qualification remain pending. C retains its existing H800/codesign submission.
+
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。**检测窗口：** 本次 scoped manifest 子任务开始至上述验证完成｜**当前前沿：** P3-A/B 最小 hardware guard 修正和并行正式提交，P3-C 独立保留。
@@ -218,14 +239,14 @@ Final supplementary result: **90 passed/3 failed,14.38s**, jobFailed. The change
 **分支：** A：spec/plan 合理，无需改动。**需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 父会话以配置拥有的硬件选择修正上述两处 guard，并完成针对这些改动的必要验证；保留 GPU 数量与错误硬件拒绝。完成标志：H200 正确设备不再被 H800-only guard 拒绝，原 C/H800 行为不变。
-2. 并行：P3-A ‖ P3-B；使用本 manifest，由 `/data/ycfeng` 的 long-lived personal launchers 提交正式100-position runs。完成提交前核对配额、creator、image、source mounts 和32卡 session/task ceiling；不等待独立 output-retention investigation。
-3. 实际运行内验证 H200 identity/driver/memory、baseline、restore、first update、后续 scoring capacity、D8、sample/update accounting 和 final HF reload。C 现有 H800 job/launcher 继续独立推进。
+1. 已完成设备guard修正与相关本机/固定镜像检查、两份正式提交和平台配置核验；保留原始测试失败与reader局限记录。
+2. 并行：P3-A ‖ P3-B；保持既有launchers，核验完整角色启动、baseline、restore、first update、后续scoring capacity、D8、sample/update accounting和final HF reload。C既有H800 job继续独立。
+3. 单独修复旧baseline toy-actor fixture并复验其失败用例；不改变生产恢复逻辑，不控制健康正式作业。
 
-未完成的是实际 H200 runtime，不是 manifest：没有 H200 allocation/readiness、numerical acceptance、OOM 修复成效、successful-update count 或 final HF artifact 的本次测量。`capacity_gpus=32` 是预算上限，不是当前空闲配额或容量保证。
+已观察B student的8H200实际设备，完整角色ready、numerical acceptance、OOM缓解成效、successful-update count与final HF仍未完成。`capacity_gpus=32`是本session/task预算上限，不是当前空闲配额或模型容量保证。
 
 ## 4. 最值得关注的 3 点
 
-1. Manifest preparation **PASS**：仅三处 scalar 修改并排除 C；A/B 原生 dry-run 均10卡、合计20卡、不可抢占、100 positions、`submitted=false`。
-2. 正式启动前必须修正两个 literal-H800 guards；这是确定的源码阻塞，不是 H200 kernel 或 GPU memory 的实测失败。
-3. 复用既有76-case lifecycle/launcher PASS 和 restoration evidence；修正最小启动阻塞后优先并行正式提交，保持原数学设定、D17/D15/D16 预算和真实 runtime 验收边界。
+1. A/B正式作业已并行提交并通过平台配置核验，Starting，共20张不可抢占H200，两个launcher存活。
+2. B student实际8H200已确认；设备/CLI检查通过。补充固定镜像90 PASS/3旧fixture FAIL，后者独立修复。
+3. 完整模型baseline、恢复、100位置及最终D8/HF仍须实际验收；原数学设定与D17/D15/D16预算保持。

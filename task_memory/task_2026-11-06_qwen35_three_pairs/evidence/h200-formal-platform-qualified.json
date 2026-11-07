@@ -1,0 +1,174 @@
+{
+  "checked_at": "2026-11-07T09:44:19.516934+00:00",
+  "source_commit": "e3d62655",
+  "jobs": {
+    "A": {
+      "job": "exp-1107-173758-712234",
+      "creator": "i-fengyicheng",
+      "group": "step_main",
+      "preemptible": "no",
+      "status": {
+        "phase": "Starting",
+        "reason": "RJobStarting",
+        "message": "Tasks is starting: [student,teacher]",
+        "taskStatuses": {
+          "student": {
+            "pending": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "pending": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "student": {
+          "replicas": 1,
+          "positiveTags": [
+            "H200"
+          ],
+          "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "64",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8"
+                },
+                "requests": {
+                  "cpu": "64",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8"
+                }
+              }
+            }
+          ]
+        },
+        "teacher": {
+          "replicas": 1,
+          "positiveTags": [
+            "H200"
+          ],
+          "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "16",
+                  "memory": "125Gi",
+                  "nvidia.com/gpu": "2"
+                },
+                "requests": {
+                  "cpu": "16",
+                  "memory": "125Gi",
+                  "nvidia.com/gpu": "2"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "configuration_checks": "PASS"
+    },
+    "B": {
+      "job": "exp-1107-173758-806531",
+      "creator": "i-fengyicheng",
+      "group": "step_main",
+      "preemptible": "no",
+      "status": {
+        "phase": "Starting",
+        "reason": "RJobStarting",
+        "message": "Tasks is starting: [teacher]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "pending": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "student": {
+          "replicas": 1,
+          "positiveTags": [
+            "H200"
+          ],
+          "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "64",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8"
+                },
+                "requests": {
+                  "cpu": "64",
+                  "memory": "500Gi",
+                  "nvidia.com/gpu": "8"
+                }
+              }
+            }
+          ]
+        },
+        "teacher": {
+          "replicas": 1,
+          "positiveTags": [
+            "H200"
+          ],
+          "local_source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "16",
+                  "memory": "125Gi",
+                  "nvidia.com/gpu": "2"
+                },
+                "requests": {
+                  "cpu": "16",
+                  "memory": "125Gi",
+                  "nvidia.com/gpu": "2"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "configuration_checks": "PASS"
+    }
+  },
+  "session_task_nonpreemptible_h200_gpus": 20,
+  "active_auxiliary_h200_gpus": 0,
+  "task_ceiling": 32,
+  "launchers": [
+    {
+      "pid": 1049054,
+      "pair": "B",
+      "created_at": 1794044274.89,
+      "cwd": "/data/ycfeng"
+    },
+    {
+      "pid": 1049059,
+      "pair": "A",
+      "created_at": 1794044274.92,
+      "cwd": "/data/ycfeng"
+    }
+  ],
+  "reader_corrections": [
+    "GPU selector is taskSpecs.<role>.positiveTags, not empty Pod affinity.",
+    "D18 is a session/task cap. Other personal jobs appeared after prelaunch; they are not this task submissions and are not included or controlled."
+  ],
+  "original_partial_receipt": "h200-formal-admission.json"
+}
