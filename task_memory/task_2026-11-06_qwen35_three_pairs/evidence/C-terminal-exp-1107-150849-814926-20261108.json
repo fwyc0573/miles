@@ -1,0 +1,411 @@
+{
+  "observed_at": "2026-11-07T20:21:22.869111+00:00",
+  "job": {
+    "metadata": {
+      "name": "exp-1107-150849-814926",
+      "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+      "creationTimestamp": "2026-11-07T07:08:49Z",
+      "ownerReferences": null,
+      "labels": {
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+        "kubebrain.brainpp.cn/creator-type": "user",
+        "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign",
+        "rjob.brainpp.cn/group-share": "read",
+        "rjob.brainpp.cn/rjob-name": "exp-1107-150849-814926",
+        "rjob.brainpp.cn/rjob-version": "v2"
+      },
+      "annotations": {
+        "kubebrain.brainpp.cn/gang-start": "true",
+        "kubebrain.brainpp.cn/showname": "by-qwen35-c-training/292cf",
+        "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed.",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=0."
+      }
+    },
+    "status": {
+      "phase": "Failed",
+      "reason": "RJobFailed",
+      "message": "Tasks with failed status: [student]",
+      "taskStatuses": {
+        "student": {
+          "failed": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 2,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-07T20:19:57Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "stop_spec": {
+      "stopTimestamp": "2026-11-07T20:19:46Z"
+    }
+  },
+  "tasks": {
+    "student": {
+      "replicas": 1,
+      "positiveTags": [
+        "H800"
+      ],
+      "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "student",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "memory": "1500Gi",
+              "nvidia.com/gpu": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "1500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          }
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 2,
+      "positiveTags": [
+        "H800"
+      ],
+      "source": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "teacher",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8",
+              "rdma/mlnx_shared": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "replicas": [
+    {
+      "role": "student",
+      "metadata": {
+        "name": "exp-1107-150849-814926-student-cfcd2084",
+        "uid": "02a001f9-453f-4052-8741-7b9066d6d49d",
+        "creationTimestamp": "2026-11-07T19:32:17Z",
+        "ownerReferences": [
+          {
+            "apiVersion": "rjob.brainpp.cn/v1alpha1",
+            "kind": "RJob",
+            "name": "exp-1107-150849-814926",
+            "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "labels": {
+          "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+          "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+          "kubebrain.brainpp.cn/creator-type": "user",
+          "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+          "quotagroup.brainpp.cn/preemptible": "no",
+          "quotagroup.brainpp.cn/quotagroup": "codesign",
+          "rjob.brainpp.cn/generated-task-index": "1",
+          "rjob.brainpp.cn/is-critical-task": "yes",
+          "rjob.brainpp.cn/managed-by": "replica",
+          "rjob.brainpp.cn/rjob-name": "exp-1107-150849-814926",
+          "rjob.brainpp.cn/rjob-task-id": "exp-1107-150849-814926-student",
+          "rjob.brainpp.cn/rjob-task-type": "student",
+          "rjob.brainpp.cn/rjob-uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+          "rjob.brainpp.cn/task-fail-policy": "any"
+        },
+        "annotations": {
+          "kubebrain.brainpp.cn/showname": "by-qwen35-c-training/292cf"
+        }
+      },
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T20:19:45Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T20:19:45Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          }
+        ],
+        "hostIP": "10.191.1.54",
+        "podIP": "10.191.1.54",
+        "podIPs": [
+          {
+            "ip": "10.191.1.54"
+          }
+        ],
+        "startTime": "2026-11-07T19:33:09Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 1,
+                "reason": "Error",
+                "message": "user command: exit status 1",
+                "startedAt": "2026-11-07T19:39:08Z",
+                "finishedAt": "2026-11-07T20:19:44Z",
+                "containerID": "containerd://21be40ad27979a3ae7d6a957dcb56786b6f17df2ee49667cf0043bf62a57dcf7"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://21be40ad27979a3ae7d6a957dcb56786b6f17df2ee49667cf0043bf62a57dcf7",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Failed",
+        "nodeName": "gpu-h800-0467.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-07T20:19:46Z"
+      },
+      "nodeName": null,
+      "log": {
+        "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/exp-1107-150849-814926-student-cfcd2084-terminal-20261108.log.json",
+        "bytes": 11939,
+        "status_code": 200
+      }
+    },
+    {
+      "role": "teacher",
+      "metadata": {
+        "name": "exp-1107-150849-814926-teacher-cfcd2084",
+        "uid": "390e3d09-2f26-4c29-86f4-a62cbb4dc68c",
+        "creationTimestamp": "2026-11-07T19:32:17Z",
+        "ownerReferences": [
+          {
+            "apiVersion": "rjob.brainpp.cn/v1alpha1",
+            "kind": "RJob",
+            "name": "exp-1107-150849-814926",
+            "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "labels": {
+          "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+          "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+          "kubebrain.brainpp.cn/creator-type": "user",
+          "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+          "quotagroup.brainpp.cn/preemptible": "no",
+          "quotagroup.brainpp.cn/quotagroup": "codesign",
+          "rjob.brainpp.cn/generated-task-index": "0",
+          "rjob.brainpp.cn/managed-by": "replica",
+          "rjob.brainpp.cn/rjob-name": "exp-1107-150849-814926",
+          "rjob.brainpp.cn/rjob-task-id": "exp-1107-150849-814926-teacher",
+          "rjob.brainpp.cn/rjob-task-type": "teacher",
+          "rjob.brainpp.cn/rjob-uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+          "rjob.brainpp.cn/task-fail-policy": "any"
+        },
+        "annotations": {
+          "kubebrain.brainpp.cn/showname": "by-qwen35-c-training/292cf",
+          "kubebrain.brainpp.cn/stopped-by": "system:serviceaccount:kubebrain:rjob-controller"
+        }
+      },
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:37:31Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:37:31Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          }
+        ],
+        "hostIP": "10.191.8.42",
+        "podIP": "10.191.8.42",
+        "podIPs": [
+          {
+            "ip": "10.191.8.42"
+          }
+        ],
+        "startTime": "2026-11-07T19:33:09Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-07T19:37:30Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://30fcf2c136c89a585555e2eb772bc032fd04632d1381b3073971c9d91c7e633d",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h800-0158.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-07T20:19:56Z"
+      },
+      "nodeName": null,
+      "log": {
+        "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/exp-1107-150849-814926-teacher-cfcd2084-terminal-20261108.log.json",
+        "bytes": 19801,
+        "status_code": 200
+      }
+    },
+    {
+      "role": "teacher",
+      "metadata": {
+        "name": "exp-1107-150849-814926-teacher-c4ca4238",
+        "uid": "ce889155-7b59-408c-8cba-a7352e6fcf60",
+        "creationTimestamp": "2026-11-07T19:32:17Z",
+        "ownerReferences": [
+          {
+            "apiVersion": "rjob.brainpp.cn/v1alpha1",
+            "kind": "RJob",
+            "name": "exp-1107-150849-814926",
+            "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ],
+        "labels": {
+          "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+          "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+          "kubebrain.brainpp.cn/creator-type": "user",
+          "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+          "quotagroup.brainpp.cn/preemptible": "no",
+          "quotagroup.brainpp.cn/quotagroup": "codesign",
+          "rjob.brainpp.cn/generated-task-index": "0",
+          "rjob.brainpp.cn/managed-by": "replica",
+          "rjob.brainpp.cn/rjob-name": "exp-1107-150849-814926",
+          "rjob.brainpp.cn/rjob-task-id": "exp-1107-150849-814926-teacher",
+          "rjob.brainpp.cn/rjob-task-type": "teacher",
+          "rjob.brainpp.cn/rjob-uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+          "rjob.brainpp.cn/task-fail-policy": "any"
+        },
+        "annotations": {
+          "kubebrain.brainpp.cn/showname": "by-qwen35-c-training/292cf",
+          "kubebrain.brainpp.cn/stopped-by": "system:serviceaccount:kubebrain:rjob-controller"
+        }
+      },
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:37:10Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:37:10Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-07T19:33:09Z"
+          }
+        ],
+        "hostIP": "10.191.5.43",
+        "podIP": "10.191.5.43",
+        "podIPs": [
+          {
+            "ip": "10.191.5.43"
+          }
+        ],
+        "startTime": "2026-11-07T19:33:09Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-07T19:37:10Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://9030aa9f2541bcc2a47f094f1499ff69b1cba09381db6551e7207aaa08de8880",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h800-0085.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-07T20:19:55Z"
+      },
+      "nodeName": null,
+      "log": {
+        "path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/exp-1107-150849-814926-teacher-c4ca4238-terminal-20261108.log.json",
+        "bytes": 19801,
+        "status_code": 200
+      }
+    }
+  ]
+}

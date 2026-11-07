@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record C's actual first-train CUDA OOM, zero new updates, and passing baseline/restoration; replace obsolete queued status. |
 | 2026-11-08 | Close reviewed A/B training-evidence omissions with exact per-step counts and pinned native scaling; retain C/P4 and explicit historical CUDA limits. |
 | 2026-11-07 | Full-task review reopens training-denominator/target-count evidence while retaining verified D8, updates and HF results; correct launcher liveness scope. |
 | 2026-11-07 | Archive completed A/B H200 qualification; retain C and the three-pair aggregate as unfinished. |
@@ -10,13 +11,13 @@
 
 ## Status and scope
 
-**A/B qualification and the requested full-task review repairs are complete.** The review's original-token denominator and per-step target-count omission is now verified and independently closed. **C remains queued on H800; the three-pair task is unfinished.** Implementation and runtime qualification are in Miles. Dense-student routing replay is N/A under D2; the measured colocated transport is native CUDA IPC. Original NCCL-direct qualification remains deferred under D5 and is not claimed by these results.
+**A/B qualification and the requested full-task review repairs are complete.** The review's original-token denominator and per-step target-count omission is now verified and independently closed. **C failed with CUDA OOM in its first train call; the three-pair task is unfinished.** Implementation and runtime qualification are in Miles. Dense-student routing replay is N/A under D2; the measured colocated transport is native CUDA IPC. Original NCCL-direct qualification remains deferred under D5 and is not claimed by these results.
 
 | Pair | Student / frozen teacher | Accepted formal run | Successful / skipped updates | Numerical monitoring | Final text-HF |
 | --- | --- | --- | --- | --- | --- |
 | A | Qwen3.5-4B / Qwen3.5-27B | `exp-1107-173758-712234` | 100 / 0 | All six checkpoints PASS | PASS, reload`exp-1107-213721-009840` |
 | B | Qwen3.5-4B / Qwen3.5-35B-A3B | `exp-1107-173758-806531` | 100 / 0 | All six checkpoints PASS | PASS, reload`exp-1107-211800-115424` |
-| C | Qwen3.5-27B / Qwen3.5-397B-A17B | `exp-1107-150849-814926` | New run not started | Pending | Pending |
+| C | Qwen3.5-27B / Qwen3.5-397B-A17B | `exp-1107-150849-814926` (failed attempt) | 0 completed in this attempt | Baseline PASS; later points absent | Absent |
 
 A uses its original100-update budget. B uses the explicit D17 fresh100 authorization; one earlier discarded successful update remains in history, giving101 historical B updates. Restorations do not count as optimizer updates. A/B training RJobs finishStopped because the critical student succeeded and the noncritical teacher was then stopped; business receipts and native counter/publication chains independently establish successful completion.
 
@@ -57,7 +58,7 @@ Local paths, relative to this task directory:
 
 ## Remaining and deferred work
 
-1. C remainsPending: [latest platform/controller receipt](evidence/review-verification-platform-20261108.json), observed16:23:48Z, verifies8H800 quota available against24 requested and a live reattached native controller. The same job is preserved; the original launcher's exit cause is UNKNOWN. D15 permits the new100-step run and D16 sets the student limit to1500GiB, confirmed in the platform request/limit. Actual allocation, memory peak, restored scoring,100 updates, curves and final HF all remain unverified for C.
+1. C's D15/D16 attempt reached its real24-sample baseline and same-version restoration, both PASS, then failed during the first training forward output projection:14.15GiB requested versus10.06GiB GPU memory free. Student host-memory request/limit were1500GiB. This attempt adds0 successful optimizer updates; the historical discarded update remains. No final HF exists. The [C failure report](test_report_2026-11-08_C_failure.md) owns terminal evidence, baseline6308-token errors0.00715310/0.00705534, and the capacity/restart decision. No automatic restart or C H200 migration is authorized. The original launcher's earlier disappearance remains unexplained.
 2. P4 cannot close before C. This review adds no optimizer updates; no additional optimizer probe, budget extension or automatic restart is authorized. Historical CUDA gradient buffers, exact per-step post-TIS survivors and measured post-clipping norms remain outside the retained evidence.
 3. Scoped OSS cleanup removed15.668GiB of obsolete failed-probe shards. Post-training inventory confirms33.66GiB retained, both accepted final packages intact and no newly eligible obsolete files; this follow-up deletes0 bytes. Physical quota reclamation remains independently unverified; accepted final artifacts and irreplaceable evidence are protected. See `test_report_2026-11-07_oss_cleanup.md` and its unchanged original deletion records plus appended post-training inventory.
 4. Optional pinned Megatron forward-only output-retention work and parameter-rematerialization recovery remain deferred in `future.md`; neither is represented as repaired by H200 capacity. NCCL-direct remains deferred under the current colocation decision.

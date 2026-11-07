@@ -1,0 +1,66 @@
+{
+  "task_id": "QWEN-P3-C-GPU-OOM-CAUSE",
+  "date": "2026-11-08",
+  "artifact": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/C-exp-1107-150849-814926-rollout0.pt",
+  "artifact_bytes": 20165513,
+  "artifact_origin": "Parent-supplied exact copy of C rollout_data/0.pt; this subtask made no cloud or platform calls.",
+  "environment": {"python": "3.12.13", "torch": "2.11.0+cu130", "pythonpath": "/data/ycfeng/sota-engine/miles", "PYTHONNOUSERSITE": "1", "OMP_NUM_THREADS": "1", "map_location": "cpu"},
+  "source_head": "9fb14ae2dc55da8ac7af9f4d9a99c5f891f089ce",
+  "observed": {
+    "root_rollout_id": 0,
+    "root_metadata": {},
+    "saved_schedule": false,
+    "train_metadata_fields": ["source_uid", "source_group_id", "source_category", "prompt_token_count", "prompt_sha256", "completion_token_count", "completion_sha256", "sample_index", "sample_group_index"],
+    "samples": [
+      {"index": 0, "prompt_tokens": 88138, "response_tokens": 106, "full_tokens": 88244},
+      {"index": 1, "prompt_tokens": 88962, "response_tokens": 608, "full_tokens": 89570},
+      {"index": 2, "prompt_tokens": 66305, "response_tokens": 409, "full_tokens": 66714},
+      {"index": 3, "prompt_tokens": 59010, "response_tokens": 1000, "full_tokens": 60010},
+      {"index": 4, "prompt_tokens": 61529, "response_tokens": 534, "full_tokens": 62063},
+      {"index": 5, "prompt_tokens": 63114, "response_tokens": 363, "full_tokens": 63477},
+      {"index": 6, "prompt_tokens": 85670, "response_tokens": 38, "full_tokens": 85708},
+      {"index": 7, "prompt_tokens": 84514, "response_tokens": 620, "full_tokens": 85134}
+    ],
+    "sample_rollout_ids": [null, null, null, null, null, null, null, null],
+    "lineage": "Every sample i has source_sample_index=i, output_index=0, output_count=1.",
+    "remove_sample": [false, false, false, false, false, false, false, false],
+    "multimodal_train_inputs": [null, null, null, null, null, null, null, null],
+    "loss_mask": [null, null, null, null, null, null, null, null],
+    "weight_versions": "All saved prefill/output spans report version 0.",
+    "global_full_tokens": 600920,
+    "native_schedule_log": {"path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/C-exp-1107-150849-814926-complete.log", "line": 3777, "num_samples": 8, "num_rollouts": [8], "num_microbatches": [3]}
+  },
+  "replay_inputs": {
+    "source": "miles/utils/dp_schedule.py:56-185",
+    "rollout_indices": [0, 1, 2, 3, 4, 5, 6, 7],
+    "rollout_indices_source": "miles/ray/rollout/train_data_conversion.py:121 uses sample.index when sample.rollout_id is None.",
+    "dp_size": 2, "cp_size": 1, "tp_size": 4, "vpp_size": null,
+    "microbatch_group_size_per_vp_stage": null,
+    "independent_dp": false, "supports_precomputed_schedule": true,
+    "global_batch_size": 8, "balance_data": true, "balance_by_flops": false,
+    "allow_partial_train_step": false, "max_tokens_per_gpu": 131072, "micro_batch_size": 1,
+    "qkv_format": "thd", "allgather_cp": false, "data_pad_size_multiplier": 128,
+    "padding_prediction": "ceil(full_tokens / (TP4 * multiplier128)) * 512; CP1 returns each full sequence unchanged. This is a source prediction, not a CUDA shape capture."
+  },
+  "replay": {
+    "dynamic": {
+      "schedule": {"partitions": [[0, 7, 2, 5], [1, 6, 4, 3]], "micro_batch_indices": [[[0], [1], [2, 3]], [[0], [1], [2, 3]]], "num_microbatches": [3], "num_rollouts": [8]},
+      "microbatches_by_dp_rank": [
+        [{"sample_indices": [0], "full_tokens": 88244, "thd_padded_tokens_source_prediction": 88576}, {"sample_indices": [7], "full_tokens": 85134, "thd_padded_tokens_source_prediction": 85504}, {"sample_indices": [2, 5], "full_tokens": 130191, "thd_padded_tokens_source_prediction": 130560}],
+        [{"sample_indices": [1], "full_tokens": 89570, "thd_padded_tokens_source_prediction": 89600}, {"sample_indices": [6], "full_tokens": 85708, "thd_padded_tokens_source_prediction": 86016}, {"sample_indices": [4, 3], "full_tokens": 122073, "thd_padded_tokens_source_prediction": 122368}]
+      ],
+      "max_padded_tokens": 130560
+    },
+    "fixed_singleton": {
+      "schedule": {"partitions": [[0, 2, 3, 6], [1, 4, 5, 7]], "micro_batch_indices": [[[0], [1], [2], [3]], [[0], [1], [2], [3]]], "num_microbatches": [4], "num_rollouts": [8]},
+      "microbatches_by_dp_rank": [
+        [{"sample_indices": [0], "full_tokens": 88244, "thd_padded_tokens_source_prediction": 88576}, {"sample_indices": [2], "full_tokens": 66714, "thd_padded_tokens_source_prediction": 67072}, {"sample_indices": [3], "full_tokens": 60010, "thd_padded_tokens_source_prediction": 60416}, {"sample_indices": [6], "full_tokens": 85708, "thd_padded_tokens_source_prediction": 86016}],
+        [{"sample_indices": [1], "full_tokens": 89570, "thd_padded_tokens_source_prediction": 89600}, {"sample_indices": [4], "full_tokens": 62063, "thd_padded_tokens_source_prediction": 62464}, {"sample_indices": [5], "full_tokens": 63477, "thd_padded_tokens_source_prediction": 63488}, {"sample_indices": [7], "full_tokens": 85134, "thd_padded_tokens_source_prediction": 85504}]
+      ],
+      "max_padded_tokens": 89600
+    }
+  },
+  "comparison": {"max_padded_tokens_reduction": 0.3137254901960784, "original_last_microbatches_contain_multiple_samples_in_replay": true, "global_rollouts_preserved": 8, "global_full_tokens_preserved": 600920, "context_cap_unchanged": 131072},
+  "verification": {"cpu_artifact_and_schedule_replay": "PASS", "captured_failing_cuda_shape": false, "gpu_capacity": "UNVERIFIED", "recompute_grouping_2": "NOT_EXECUTED"},
+  "limits": ["The dump does not save the actual consumed per-rank schedule; source replay reproduces native counts but does not independently capture GPU/rank ownership or tensor dtype/shape.", "Fixed singleton reduces this batch's packing, not the full 131072-token single-sample envelope or a guarantee across the entire population and 100 updates.", "No allocation snapshot identifies the 59.05 GiB live-storage holders. No new launch, optimizer probe, production change or budget authorization is implied."]
+}

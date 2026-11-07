@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Close C failure-review P2 by updating the top-level Current state and explicitly preserving the earlier P3 snapshot as historical. |
+| 2026-11-08 | Diagnose scheduled C's first-train CUDA OOM; verify its actual baseline/restoration and zero new updates, then hold for capacity/restart selection. |
 | 2026-11-08 | Finish full-task review repairs: pinned native normalization, all 200 target-count rows, scoped lint and independent Spec closure. |
 | 2026-11-08 | Continue full-task repair: pinned native reduction replay passes, actual token collector exposes a schema assumption, and C monitoring is restored. |
 | 2026-11-07 | Open full-task review at the user's selected base; preserve existing uncommitted investigations and native receipts. |
@@ -47,6 +49,16 @@
 # Progress
 
 ## Current state
+
+- completed — P0/P1/P2: requirements and initial qualification are recorded; [requirements](requirements.md) owns the current D1–D19 decisions.
+- completed — P3-A/P3-B/P3-review: both H200 pairs have100 successful updates, six D8 checkpoints, actual curves, final HF qualification and reviewed original-token normalization/target counts. See [summary](summary.md).
+- failed; awaiting capacity/restart decision — P3-C: `exp-1107-150849-814926` terminated with CUDA OOM in the first training forward. This attempt adds0 successful optimizer updates. Its24-sample baseline and version0 restoration pass; no final HF exists. The old discarded C update remains in history. See [failure report](test_report_2026-11-08_C_failure.md).
+- completed — P3-storage: the [OSS cleanup report](test_report_2026-11-07_oss_cleanup.md) owns prior deletions and protected artifacts; physical quota recovery remains unverified.
+- pending — P4: C still requires its own completed runtime qualification. No automatic C restart, budget extension or C H200 migration is authorized.
+
+## Historical snapshot — early P3 on 2026-11-07, superseded
+
+The following original status block is retained as history. It is not an active-job list or the current execution frontier.
 
 - completed — P0: task documents created after reading all ten Markdown files under `.agents/rules/`, the supplied skill and both invoked skills, the handbook analyses, current model/OPD/export code and the earlier warmup records. Static validation passed for the initial five documents, thirteen local links and three pair identities. The milestone self-check is recorded below; the dated test report contains the command and limits.
 - completed — P1: D1–D14 are recorded. On resume, the user confirmed the finite budget, fresh thinking, length-balanced group-isolated monitoring, token-mask TIS, text-only HF output and fixed execution baseline, then explicitly authorized implementation/prerequisite validation. Requirements owns all values and raw replies.
@@ -307,10 +319,19 @@
 183. [completed] Both new manual probes pass pinned Ruff0.14.7, isort5.13.2, Black24.3.0 and autoflake2.0.2. Native formatting changes only layout and contiguous import ordering; complete normalized AST equivalence verified. Exact commands and the local ensurepip limitation are recorded in `test_report_2026-11-08_review_fixes.md`.
 184. [in-progress] C remains the same Pending job at16:23:48Z with8H800 available against24 requested. Reattached controllerPID851709 is alive with expected cwd/interpreter; request/limit remains1500GiB student memory. `evidence/review-verification-platform-20261108.json` replaces stale current-status references. Original launcher exit cause staysUNKNOWN; no duplicate submission or optimizer update is introduced by review.
 
+## C terminal failure diagnosis
+
+185. [completed] The reattached C controller reports Failed. Personal native API read verifies the same job UID, student exit1 at20:19:44Z and job Failed at20:19:57Z on November7; the platform subsequently stops both noncritical teachers. Student8H800 and teacher2×8H800 allocation retain the pinned image/local source; student request/limit are1500GiB. The old queue annotation is stale and is not treated as the cause.
+186. [completed] Full original stdout identifies `torch.matmul(total_input, weight.t())` in the training output head:14.15GiB requested,10.06GiB free,59.05GiB PyTorch allocated,6.75GiB reserved-unused. The sole rollout0/attempt0 train call fails inside forward/backward before optimizer.step; it adds0 successful updates. Native initial/restoration publications remainversion0, and no final HF or completed TRAIN dump exists. The old discarded C update remains in history. Parent records the exact trace and complete13-file native event-type counts; source/capacity analysis is delegated as `QWEN-P3-C-GPU-OOM-CAUSE` (`ses_e4851f1afffeU4hwAwrdU2wjKb`) with no platform or code-edit authority.
+187. [completed] Pinned0GPU read-only inspector`exp-1108-042419-168036` succeeds: actual baseline24 samples/6308 original valid tokens, decode0.0071531005 and prefill0.0070553368, all three strata PASS and no missing/nonfinite comparisons. Native initial/restoration provenance and same-version checks pass; the only publication issue is incomplete planned coverage. The full-run verdict and final update-total fields remain INCOMPLETE/null. Parent independently recomputes weighted means and verifies the retained receipts. Six RCA queries succeed; two20-second audit queries time out, retained as incomplete audit coverage. A one-off local extraction command initially hits Python3.10's f-string/backslash SyntaxError before execution; moving the regex outside the f-string makes the same extraction checks pass. No runtime code changes.
+188. [completed] Replace queued-state plan/summary references with the [terminal C failure report](test_report_2026-11-08_C_failure.md). Independent failure review supports the cause, budget and baseline/restoration claims; its soleP2 finds an even earlier stale Current state at the top of progress.md. Parent replaces that current block and retains the original verbatim as an explicitly historical snapshot. C requires a capacity and explicit restart decision under D15/D16; D18 covers only A/B H200. No replacement training job, extra optimizer probe or configuration change has been performed.
+189. [completed] Actual rollout0 CPU load and unchanged scheduling-code replay verify8 full samples/600920 tokens. The dump has no saved consumed schedule; replay predicts final two-sample microbatches of130560/122368 padded tokens and matches the logged3 microbatches/rank. Existing fixed-singleton replay retains all inputs/global batch8, uses4 microbatches/rank and predicts max89600 tokens (31.37% lower). This is a proposed reduction for the first batch, not CUDA shape capture or a100-step capacity guarantee. Exact command/environment and evidence are in the capacity report and `evidence/C-first-batch-geometry.json`.
+190. [completed] Targeted parent verification closes the failure-review Current-state P2: the old status block is byte-preserved beneath the historical heading, and the current block references the failed job. All14 selected JSONs parse, all6 document histories/local links pass, the staged set contains exactly21 scoped task files, and `git diff --cached --check` passes. Failure diagnosis/archival work is complete; C execution remains blocked on an explicit capacity/restart decision.
+
 ## Next actions
 
-1. Keep monitoring the same C D15/D16 job through its reattached native controller; inspect actual GPU/cgroup, baseline, restoration, first update and host-memory peak once scheduled. Original launcher exit cause remainsUNKNOWN.
-2. Finish C's approved100-update/D8/curve/HF evidence and independent review, then P4's three-pair archive. No automatic further restart or budget extension is authorized.
+1. Obtain the explicit C capacity/restart decision using the completed failure and CPU-geometry reports. The old C job is terminal; its controller has exited. The original launcher's earlier exit cause remainsUNKNOWN.
+2. Resume C's100-update/D8/curve/HF work only after the required configuration/restart authorization, then finish independent review and P4. No automatic further restart or budget extension is authorized.
 3. Preserve completed A/B qualification and D19 cleanup/retention records. Optional rematerialization and external output-retention work remain deferred; do not repeat settled validation or storage scans.
 
 ## Phase checkpoint

@@ -1,0 +1,109 @@
+3777: (RolloutExecutor pid=7282) [2026-11-07 20:16:35.424 rollout_executor] train_data_conversion.py:448 - Rollout-side DP schedule: num_samples=8, num_rollouts=[8], num_microbatches=[3]
+3795: (TrainerController pid=7289) [2026-11-07 20:16:36.163 trainer_controller_actor] group.py:204 - ft op=train phase=start rollout=0 attempt=0
+3913: (TrainerController pid=7289) [2026-11-07 20:19:13.366 trainer_controller_actor] cell.py:280 - ft op=execute phase=fail cell=trainer-engine-actor-00000 fn=train elapsed_s=157.2
+3914: (TrainerController pid=7289) Traceback (most recent call last):
+3915: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/ray/train/cell.py", line 258, in _execute_raw
+3916: (TrainerController pid=7289)     result = await self._cancellabel_tasks.gather(
+3917: (TrainerController pid=7289)              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3918: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/utils/async_utils.py", line 194, in gather
+3919: (TrainerController pid=7289)     return await asyncio.wait_for(asyncio.gather(*tasks), timeout=timeout)
+3920: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3921: (TrainerController pid=7289)   File "/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+3922: (TrainerController pid=7289)     return await fut
+3923: (TrainerController pid=7289)            ^^^^^^^^^
+3924: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/utils/workers/ray_worker_handle.py", line 29, in call
+3925: (TrainerController pid=7289)     return await getattr(self._actor_handle, name).remote(
+3926: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3927: (TrainerController pid=7289) ray.exceptions.RayTaskError(OutOfMemoryError): ray::MegatronTrainRayActor.train() (pid=7836, ip=10.191.1.54, actor_id=f7bf2540cbc49b3593b5ed8603000000, repr=<miles.backends.megatron_utils.actor.MegatronTrainRayActor object at 0x7ef13557b0e0>)
+3928: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3929: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3930: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py", line 78, in wrapper
+3931: (TrainerController pid=7289)     result = func(*args, **kwargs)
+3932: (TrainerController pid=7289)              ^^^^^^^^^^^^^^^^^^^^^
+3933: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/utils/audit_utils/event_logger/logger.py", line 130, in wrapper
+3934: (TrainerController pid=7289)     return method(*args, **kwargs)
+3935: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^
+3936: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py", line 800, in train
+3937: (TrainerController pid=7289)     result = self._train_actor(
+3938: (TrainerController pid=7289)              ^^^^^^^^^^^^^^^^^^
+3939: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3940: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py", line 78, in wrapper
+3941: (TrainerController pid=7289)     result = func(*args, **kwargs)
+3942: (TrainerController pid=7289)              ^^^^^^^^^^^^^^^^^^^^^
+3943: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py", line 971, in _train_actor
+3944: (TrainerController pid=7289)     train_step_outcome = train(
+3945: (TrainerController pid=7289)                          ^^^^^^
+3946: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 833, in train
+3947: (TrainerController pid=7289)     loss_dict, grad_norm, train_step_outcome = train_one_step(
+3948: (TrainerController pid=7289)                                                ^^^^^^^^^^^^^^^
+3949: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 605, in train_one_step
+3950: (TrainerController pid=7289)     losses_reduced = run_forward_backward_pass(
+3951: (TrainerController pid=7289)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+3952: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 564, in run_forward_backward_pass
+3953: (TrainerController pid=7289)     return forward_backward_func(
+3954: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^
+3955: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py", line 790, in forward_backward_no_pipelining
+3956: (TrainerController pid=7289)     output_tensor, num_tokens = forward_step(
+3957: (TrainerController pid=7289)                                 ^^^^^^^^^^^^^
+3958: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py", line 511, in forward_step
+3959: (TrainerController pid=7289)     output_tensor, loss_func = forward_step_func(data_iterator, model)
+3960: (TrainerController pid=7289)                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3961: (TrainerController pid=7289)   File "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py", line 545, in forward_step
+3962: (TrainerController pid=7289)     output_tensor = model(
+3963: (TrainerController pid=7289)                     ^^^^^^
+3964: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+3965: (TrainerController pid=7289)     return self._call_impl(*args, **kwargs)
+3966: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3967: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+3968: (TrainerController pid=7289)     return forward_call(*args, **kwargs)
+3969: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3970: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/distributed/data_parallel_base.py", line 22, in forward
+3971: (TrainerController pid=7289)     return self.module(*inputs, **kwargs)
+3972: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3973: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+3974: (TrainerController pid=7289)     return self._call_impl(*args, **kwargs)
+3975: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3976: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+3977: (TrainerController pid=7289)     return forward_call(*args, **kwargs)
+3978: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3979: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/transformer/module.py", line 958, in forward
+3980: (TrainerController pid=7289)     outputs = self.module(*inputs, **kwargs)
+3981: (TrainerController pid=7289)               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3982: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+3983: (TrainerController pid=7289)     return self._call_impl(*args, **kwargs)
+3984: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3985: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+3986: (TrainerController pid=7289)     return forward_call(*args, **kwargs)
+3987: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3988: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/models/gpt/gpt_model.py", line 643, in forward
+3989: (TrainerController pid=7289)     return self._postprocess(
+3990: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^
+3991: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/models/gpt/gpt_model.py", line 840, in _postprocess
+3992: (TrainerController pid=7289)     logits, _ = self.output_layer(
+3993: (TrainerController pid=7289)                 ^^^^^^^^^^^^^^^^^^
+3994: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+3995: (TrainerController pid=7289)     return self._call_impl(*args, **kwargs)
+3996: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3997: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+3998: (TrainerController pid=7289)     return forward_call(*args, **kwargs)
+3999: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4000: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/transformer/linear_cross_entropy.py", line 41, in forward
+4001: (TrainerController pid=7289)     return super().forward(input_, weight, runtime_gather_output)
+4002: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4003: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/tensor_parallel/layers.py", line 1071, in forward
+4004: (TrainerController pid=7289)     output_parallel = self._forward_impl(
+4005: (TrainerController pid=7289)                       ^^^^^^^^^^^^^^^^^^^
+4006: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/tensor_parallel/layers.py", line 1001, in _forward_impl
+4007: (TrainerController pid=7289)     return linear_with_grad_accumulation_and_async_allreduce(input, weight, *args, **kwargs)
+4008: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4009: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/tensor_parallel/layers.py", line 777, in linear_with_grad_accumulation_and_async_allreduce
+4010: (TrainerController pid=7289)     return LinearWithGradAccumulationAndAsyncCommunication.apply(*args)
+4011: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4012: (TrainerController pid=7289)   File "/opt/sglang/lib/python3.12/site-packages/torch/amp/autocast_mode.py", line 481, in decorate_fwd
+4013: (TrainerController pid=7289)     return fwd(*args, **kwargs)  # pyrefly: ignore [not-callable]
+4014: (TrainerController pid=7289)            ^^^^^^^^^^^^^^^^^^^^
+4015: (TrainerController pid=7289)   File "/root/Megatron-LM/megatron/core/tensor_parallel/layers.py", line 514, in forward
+4016: (TrainerController pid=7289)     output = torch.matmul(total_input, weight.t())
+4017: (TrainerController pid=7289)              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4018: (TrainerController pid=7289) torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 14.15 GiB. GPU 2 has a total capacity of 79.19 GiB of which 10.06 GiB is free. Including non-PyTorch memory, this process has 67.36 GiB memory in use. Process 9925 has 1.72 GiB memory in use. Of the allocated memory 59.05 GiB is allocated by PyTorch, with 3.98 MiB allocated in private pools (e.g., CUDA Graphs), and 6.75 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+4019: (TrainerController pid=7289) [2026-11-07 20:19:13.370 trainer_controller_actor] cell.py:210 - ft op=state phase=start name=_mark_as_errored cell=trainer-engine-actor-00000 from_state=StateAllocatedAlive

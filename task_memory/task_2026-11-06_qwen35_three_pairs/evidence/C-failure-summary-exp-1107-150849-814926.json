@@ -1,0 +1,267 @@
+{
+  "run": "exp-1107-150849-814926",
+  "inspection_job": "exp-1108-042419-168036",
+  "formal_verdict": "INCOMPLETE",
+  "baseline": {
+    "verdict": "PASS",
+    "samples": 24,
+    "comparisons": {
+      "decode": {
+        "overall": {
+          "sample_count": 24,
+          "expected_valid_tokens": 6308,
+          "compared_finite_tokens": 6308,
+          "abs_mean": 0.007153100504403866,
+          "abs_p95": 0.05172007679939267,
+          "abs_p99": 0.11095383167266848,
+          "abs_max": 0.3577723503112793
+        },
+        "short": {
+          "sample_count": 8,
+          "expected_valid_tokens": 845,
+          "compared_finite_tokens": 845,
+          "abs_mean": 0.005820152952813727,
+          "abs_p95": 0.03887143135070791,
+          "abs_p99": 0.11102253913879394,
+          "abs_max": 0.3577723503112793
+        },
+        "medium": {
+          "sample_count": 8,
+          "expected_valid_tokens": 3614,
+          "compared_finite_tokens": 3614,
+          "abs_mean": 0.006373150275944109,
+          "abs_p95": 0.04796903133392332,
+          "abs_p99": 0.10885432958602892,
+          "abs_max": 0.22327065467834473
+        },
+        "long": {
+          "sample_count": 8,
+          "expected_valid_tokens": 1849,
+          "compared_finite_tokens": 1849,
+          "abs_mean": 0.009286729929361807,
+          "abs_p95": 0.07037997245788571,
+          "abs_p99": 0.11490408897399897,
+          "abs_max": 0.24423503875732422
+        }
+      },
+      "prefill": {
+        "overall": {
+          "sample_count": 24,
+          "expected_valid_tokens": 6308,
+          "compared_finite_tokens": 6308,
+          "abs_mean": 0.007055336848981543,
+          "abs_p95": 0.051344564557075464,
+          "abs_p99": 0.11133488178253183,
+          "abs_max": 0.4947357177734375
+        },
+        "short": {
+          "sample_count": 8,
+          "expected_valid_tokens": 845,
+          "compared_finite_tokens": 845,
+          "abs_mean": 0.005846274902037282,
+          "abs_p95": 0.03985319733619687,
+          "abs_p99": 0.0960181903839111,
+          "abs_max": 0.4947357177734375
+        },
+        "medium": {
+          "sample_count": 8,
+          "expected_valid_tokens": 3614,
+          "compared_finite_tokens": 3614,
+          "abs_mean": 0.006224168531073651,
+          "abs_p95": 0.043613705039024335,
+          "abs_p99": 0.10994308710098251,
+          "abs_max": 0.22137928009033203
+        },
+        "long": {
+          "sample_count": 8,
+          "expected_valid_tokens": 1849,
+          "compared_finite_tokens": 1849,
+          "abs_mean": 0.009232459426638126,
+          "abs_p95": 0.06670341491699205,
+          "abs_p99": 0.11630147933959961,
+          "abs_max": 0.19011163711547852
+        }
+      }
+    },
+    "tis": {
+      "bounds_inclusive": [
+        0.5,
+        2.0
+      ],
+      "original_valid_tokens": 6308,
+      "measurable_tokens": 6308,
+      "retained_tokens": 6308,
+      "retained_fraction_of_measurable": 1.0,
+      "acceptance_uses_pre_tis_population": true
+    }
+  },
+  "weight_publication": {
+    "verdict": "INCOMPLETE",
+    "issues": [
+      {
+        "code": "native_publication_coverage_incomplete",
+        "detail": "Need each planned native publication through the final position, not a version inferred from that position"
+      }
+    ],
+    "events_directory": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-150849-814926/events",
+    "baseline_weight_version": 0,
+    "final_published_weight_version": 0,
+    "successful_optimizer_updates": null,
+    "skipped_optimizer_updates": null,
+    "updated_monitoring_positions": [],
+    "publications": [],
+    "restorations": [
+      {
+        "rollout_id": null,
+        "published_version": 0,
+        "debug_weight_update_id": "ba6c226b15f94b82b63778bca5c725ab"
+      }
+    ],
+    "baseline_publication_id": "09af4cbf8f0c472f8c51135a89c28de0",
+    "final_planned_publication_id": null,
+    "update_count_evidence": "Megatron model-companion counter increments only after successful optimizer.step(); NORMAL is attempt completion only"
+  },
+  "step_0_optimizer_updates": 0,
+  "update_count_basis": "The only train attempt is rollout=0/attempt=0 and fails inside model.py:605 forward/backward before optimizer.step at678; native publication remains version0. This is failure-stage/source/receipt accounting, not the inspector final-100-step totals (which remain null).",
+  "hf_exists": false,
+  "rca_index": {
+    "python": "3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0]",
+    "brainpp": "2.8.6",
+    "namespace": "shai-core",
+    "cluster_entry": "https://platform.shaipower.com",
+    "creator": "i-fengyicheng",
+    "log_window": {
+      "start": "2026-11-07T20:17:00+00:00",
+      "end": "2026-11-07T20:20:30+00:00"
+    },
+    "log_limit": 3000,
+    "sources": [
+      {
+        "query": "rjob-historical-events",
+        "ok": true
+      },
+      {
+        "query": "replica-historical-events",
+        "ok": true
+      },
+      {
+        "query": "rjob-live-events",
+        "ok": true
+      },
+      {
+        "query": "replica-live-events",
+        "ok": true
+      },
+      {
+        "query": "incident-logs",
+        "ok": true
+      },
+      {
+        "query": "rjob-audit",
+        "ok": false
+      },
+      {
+        "query": "replica-audit",
+        "ok": false
+      },
+      {
+        "query": "existing-deepscan",
+        "ok": true
+      }
+    ],
+    "limitations": [
+      "Empty or failed queries do not establish absence of an incident.",
+      "A full log-limit response may be truncated; narrow the time window.",
+      "DeepScan findings are returned text, not original Kubernetes Event objects.",
+      "RJob finishTime is not an audited stop-request timestamp.",
+      "Stopped phase alone does not identify the actor or the initiating cause.",
+      "All-operation audit rows may lack changed fields or an initiating reason.",
+      "A controller update after SIGTERM is not an initiating stop request.",
+      "Audit data is arbitrary; inspect workload-specific secrets before archiving."
+    ]
+  },
+  "hardware_receipts": [
+    {
+      "job": "exp-1107-150849-814926",
+      "pair": "C",
+      "role": "student",
+      "rank": 0,
+      "nodes": 1,
+      "hostname": "gpu-h800-0467.host.platform.shaipower.com",
+      "ip": "10.191.1.54",
+      "gpu_devices": [
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ],
+      "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+    },
+    {
+      "job": "exp-1107-150849-814926",
+      "pair": "C",
+      "role": "teacher",
+      "rank": 0,
+      "nodes": 2,
+      "hostname": "gpu-h800-0158.host.platform.shaipower.com",
+      "ip": "10.191.8.42",
+      "gpu_devices": [
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ],
+      "model_path": "/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+    },
+    {
+      "job": "exp-1107-150849-814926",
+      "pair": "C",
+      "role": "teacher",
+      "rank": 1,
+      "nodes": 2,
+      "hostname": "gpu-h800-0085.host.platform.shaipower.com",
+      "ip": "10.191.5.43",
+      "gpu_devices": [
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ],
+      "model_path": "/mnt/codesign-exp/pj_dflash_edge_i-pengyajuan/models/Qwen3.5-397B-A17B",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+    }
+  ],
+  "host_memory": {
+    "initial_counters": {
+      "/sys/fs/cgroup/memory/memory.usage_in_bytes": "1219698688",
+      "/sys/fs/cgroup/memory/memory.max_usage_in_bytes": "1219698688",
+      "/sys/fs/cgroup/memory/memory.limit_in_bytes": "1610612736000",
+      "/sys/fs/cgroup/memory/memory.failcnt": "0",
+      "/sys/fs/cgroup/memory/memory.oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    "final_counters": {
+      "/sys/fs/cgroup/memory/memory.usage_in_bytes": "7138357248",
+      "/sys/fs/cgroup/memory/memory.max_usage_in_bytes": "438841257984",
+      "/sys/fs/cgroup/memory/memory.limit_in_bytes": "1610612736000",
+      "/sys/fs/cgroup/memory/memory.failcnt": "0",
+      "/sys/fs/cgroup/memory/memory.oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    "max_sampled_usage_bytes": 438839623680,
+    "observed_peak_gib": 408.7027702331543,
+    "limit_gib": 1500.0
+  }
+}
