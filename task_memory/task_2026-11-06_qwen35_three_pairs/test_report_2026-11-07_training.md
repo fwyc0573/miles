@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Link confirmed C restart budget and memory allocation after preserving the original update/OOM evidence. |
+| 2026-11-07 | Record raw post-eval uniform-policy corruption, actual C step0, host-memory OOM evidence and controlled A/B stops. |
 | 2026-11-07 | Close attempt-accounting/client-deadline preparation with pinned76-case evidence and phase review. |
 | 2026-11-07 | Preserve failed runtime-suite RCA and record native refill evidence plus the pending identity/deadline preparation gaps. |
 | 2026-11-07 | Measure exact retained-input loss geometry on2 H800, close diagnostic initialization failure and record fused-launcher red/green. |
@@ -157,3 +159,52 @@ Fused changes only loss/scoring kernels, not these lifecycle paths. Fixed monito
 `QWEN-P3-RUN-PREFLIGHT` locally verified actual TCP close on cancelling httpx0.28.1/httpcore1.0.9 under Python3.12.13: request observed at0.138s, cancellation and peer EOF at1.111s. Source at the exact pinned commit [056f871](https://github.com/sgl-project/sglang/tree/056f871a7ee8b4573832049011f0fdf52589cfd8) shows non-streaming forwarding arms `AbortOnDrop` (`sgl-router/src/proxy/mod.rs:276–335`); dropping sends a bounded `/abort_request` for the router-minted rid (`proxy/abort.rs:16–47`). This workload supplies no rid, so the exception for caller-owned ids/fan-out does not apply (`server/routes/chat/preparation.rs:572–579`). The engine handles early abort through `abort_before_dispatch` (`tokenizer_manager.py:2454–2490`). The native router test covers handler drop, not an end-to-end TCP→GPU observation. Abort delivery remains best-effort if the router exits or its abort POST fails.
 
 The selected correction is implemented and verified. Local14 lifecycle tests plus29 existing focused cases pass; pinned `exp-1107-084523-486765` runs the complete launcher and lifecycle modules with76 passing tests. Phase reviewer `QWEN-P3-RESUME-PREP` found no actionable code defect; its P3 stale-status documentation finding is resolved here and in progress/plan. This establishes preparation, not native full-model capacity,100-step completion or final result acceptance. End-to-end router disconnect-to-engine abort remains source-backed; pinned httpx0.28.1/httpcore1.0.9 match the locally verified cancellation libraries.
+
+## Confirmed probability corruption after evaluation
+
+Pinned0-GPU inspection `exp-1107-090605-345795` runs the existing `inspect_qwen35` CLI on `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-064200-013666`, with the frozen population report and that exact job's teacher-ready receipt. It writes `fused-baseline-inspection.json` in the run directory and the selected local [baseline receipt](evidence/fused-baseline-C-exp-1107-064200-013666.json). Expected D8 mean<=0.03; actual decode mean12.079090581084612 across7169 valid tokens: **FAIL**. Versions and required scores are present; missing-score arithmetic does not explain it.
+
+Independent pinned0-GPU `exp-1107-092209-060993` directly loads native `rollout_data/*.pt` and `train_data/*.pt` with `torch.load(map_location="cpu", weights_only=False)`, without importing inspector arithmetic. It concatenates the original saved `rollout_log_probs`, `metadata.student_rescoring.response_logprobs`, and `rollout_data.log_probs` vectors and reports count/min/max/mean/std/unique counts. [Raw evidence](evidence/raw-score-evidence-exp-1107-092209-060993.json) and [job log](evidence/raw-score-evidence-exp-1107-092209-060993.log) retain the outputs.
+
+| Boundary | Observed result | Interpretation |
+| --- | --- | --- |
+| C original baseline decode / prefill |7169 each, nonuniform, means-0.3438427470 /-0.3441828373 | Original inference was not uniform. |
+| C baseline trainer |7169 values all-12.422473907470703, std0 | Actual native scorer corruption; float32(-ln248320). |
+| C post-eval rollout0 decode / prefill |65536 each, all the same uniform value | Actual generation is affected, independently of the reader. |
+| C post-eval completions |8×8192 tokens,8045–8078 distinct IDs each | The native workload consumed these corrupted-policy completions. |
+| C ordinary training forward |Nonuniform, combined mean about-13.3506 | Ordinary training and eval scoring restore paths differ. |
+| A new baseline trainer |4331 values all the same uniform value underTP2 | Not a TP4-only symptom. |
+| B at inspection |No saved score artifact yet | No B numerical claim. |
+
+The restore loop and its limits are owned by [the restore report](test_report_2026-11-07_eval_restore.md); the unchanged-input kernel comparison is owned by [the arithmetic probe report](test_report_2026-11-07_uniform_scores_probe.md). Neither CPU injection nor a kernel-only result establishes real full-model restoration.
+
+Historical formal attempts before the fused change independently show the same symptom: B4712 andA4279 trainer tokens are uniformly-ln248320 and their native metadata explicitly records backend`torch`. The [historical receipt](evidence/historical-torch-scores-and-C-flags.json) preserves exact executed SSH argv/source and reader environment. Thus the symptom predates fused. The same read verifies C's actual offload/backing flags; these are runtime evidence, rather than assumptions based on launch options.
+
+## C first update and host-memory OOM
+
+Native `train_group_step_end` at2026-11-07T01:11:11.107070Z records rollout0, attempt0 and all8 ranks NORMAL. Native rank0 metrics report loss0.03943031281232834, grad_norm2.9772250652313232, LR2e-6. The next actor.sleep fails with lost Ray workers; the latest published version remains0. This is **one completed optimizer step and eight consumed completions**, not a published or numerically qualified update. No convergence claim is supported.
+
+Exact bound objects: RJob UID `1f440b3e-d419-43ca-bf29-0d38ee777e4b`; student Replica UID `511fe1ec-eb6f-475b-9a57-dea7fff8ba60`; node `gpu-h800-0223.host.platform.shaipower.com`. Container status explicitly says `OOMKilled`, exit1, finished01:12:45Z. Critical-task cleanup starts01:12:47Z; final job finish01:12:59Z precedes launcher cleanup01:13:01Z. Thus launcher stop is subsequent cleanup.
+
+The retained [cgroup receipt](evidence/first-round/student/C/exp-1107-064200-013666/memory.json) has4346 samples: sampled max805304623104 bytes; kernel max805305688064 bytes; limit805306368000 bytes (750GiB); oom_kill changes0→1. `memory.failcnt` remains0, so retain that counter rather than inventing an allocation count. Together with the container reason, this confirms host/container-memory OOM; it does not identify the individual allocation or prove that the earlier probability defect caused the OOM.
+
+Read-only inspection of retained `failure-diagnostics/rank-0/memory.jsonl` and selected Ray logs is archived in [C-host-memory-window.json](evidence/C-host-memory-window.json), including exact inspection argv/source. Usage is378.1497GiB near01:07:24Z,372.7468GiB near01:08:02Z, and728.5112GiB at01:11:09.63Z; it then reaches the cgroup limit during sleep. Ray reports its0.95 memory threshold exceeded but later says no worker was selected to kill. This distinguishes Ray pressure observations from the explicit cgroup kill counter. Earlier00:21 GPU allocator OOM warnings precede the completed baseline/training and are not substituted for the terminal host-memory cause. The existing HF directory is absent, consistent with final-only save before the failed publication; no recoverable post-step artifact is established.
+
+Collector command, through the documented personal Python/proxy environment:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+  /data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+  exp-1107-064200-013666 --replica exp-1107-064200-013666-student-cfcd2084 \
+  --expected-creator i-fengyicheng --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+  --start 2026-11-07T01:10:30Z --end 2026-11-07T01:13:30Z --timeout 30 \
+  --output /data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-sleep-exp-1107-064200-013666
+```
+
+Seven reads succeed; no existing DeepScan is returned. RJob all-operation audit fails with `Audit response contains a different resource name.` Those rows are not accepted as this job's evidence. A bounded existing-session Sherlock read also fails; detailed kernel victim/allocation remains UNKNOWN. No arbitrary memory scaling or optimizer change is accepted from these observations.
+
+## A/B controlled stop and remaining budget
+
+At the pre-stop event check A has baseline publication0 and no completed train step; B has neither publication nor completed train step. At09:28:07 local, the required personal `rjob_stop.sh` stops exact jobs `exp-1107-085640-136853` and `exp-1107-085640-141571`, with reason recorded in `/data/ycfeng/tmp/rjob-stop-audit.log`: confirmed native post-eval uniform-policy corruption, A reproduction, zero completed A/B updates. Both launchers then reportStopped. This action follows direct workload corruption evidence, not an automatic auxiliary D8 verdict. C's consumed optimizer step and absent post-step published state must be accounted for before any fresh100-step restart decision; no budget reset is inferred.
+
+The subsequent explicit restart decision is now recorded as D15 in [requirements](requirements.md), with the original update retained as discarded historical work. D16 selects the larger student memory allocation using the normal backup path; the exact rendered request, source-backed alternatives and remaining capacity checks are owned by [the C host-memory report](test_report_2026-11-07_C_host_memory.md). Shared runtime restoration qualification remains open.

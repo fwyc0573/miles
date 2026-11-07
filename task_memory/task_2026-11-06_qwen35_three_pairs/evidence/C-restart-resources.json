@@ -1,0 +1,67 @@
+{
+  "scope": "D16 local resource rendering; no platform submission",
+  "verdict": "PASS",
+  "command": [
+    "/usr/bin/python3",
+    "/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/submit_qwen35.py",
+    "--config",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json",
+    "--pair",
+    "C",
+    "--dry-run"
+  ],
+  "only_config_change": "pairs.C.student.memory_gb_per_node:768->1536",
+  "expected_student_memory_mi": 1536000,
+  "expected_student_memory_gib": 1500,
+  "actual_platform_allocation_verified": false,
+  "rendered": {
+    "pair": "C",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "tasks": {
+      "student": {
+        "cpu": 64,
+        "gpu": 8,
+        "mem_gb": 1536,
+        "replica": 1,
+        "host_network": true,
+        "gang_start": true,
+        "envs": {
+          "QWEN35_ROLE": "student"
+        },
+        "custom_resources": [],
+        "is_critical": true
+      },
+      "teacher": {
+        "cpu": 64,
+        "gpu": 8,
+        "mem_gb": 512,
+        "replica": 2,
+        "host_network": true,
+        "gang_start": true,
+        "envs": {
+          "QWEN35_ROLE": "teacher",
+          "DISTRIBUTED_JOB": "true"
+        },
+        "custom_resources": [
+          "mellanox.com/mlnx_rdma:1",
+          "rdma/mlnx_shared:8"
+        ],
+        "is_critical": false
+      }
+    },
+    "requested_gpus": 24,
+    "charged_group": "codesign",
+    "positive_tags": [
+      "H800"
+    ],
+    "mounts": [
+      "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+      "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
+    ],
+    "preemptible": false,
+    "local_mount": "/data/ycfeng",
+    "worker_command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec /opt/sglang/bin/python3 -u -B /data/ycfeng/sota-engine/miles/tests/manual/agent_opd/qwen35_pair_worker.py --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config.json --pair C --role \"$QWEN35_ROLE\"'",
+    "num_rollout": 100,
+    "submitted": false
+  }
+}

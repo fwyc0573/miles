@@ -1,0 +1,39 @@
+{
+  "replica": "exp-1107-064200-013666-student-cfcd2084",
+  "scope": "Read-only historical student node capacity, not available codesign quota",
+  "status": "OBSERVED",
+  "nodes": [
+    "gpu-h800-0223.host.platform.shaipower.com"
+  ],
+  "capacity": [
+    {
+      "node": "gpu-h800-0223.host.platform.shaipower.com",
+      "capacity": {
+        "brainpp.cn/auto-port": "1k",
+        "cpu": "224",
+        "ephemeral-storage": "3748906852Ki",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "mellanox.com/mlnx_rdma": "128",
+        "memory": "2111066096Ki",
+        "nvidia.com/gpu": "8",
+        "nvidia.com/spot-gpu": "0",
+        "pods": "600",
+        "rdma/mlnx_shared": "1k"
+      },
+      "allocatable": {
+        "brainpp.cn/auto-port": "1k",
+        "cpu": "218",
+        "ephemeral-storage": "3738421092Ki",
+        "hugepages-1Gi": "0",
+        "hugepages-2Mi": "0",
+        "mellanox.com/mlnx_rdma": "128",
+        "memory": "1994674160Ki",
+        "nvidia.com/gpu": "8",
+        "nvidia.com/spot-gpu": "0",
+        "pods": "600",
+        "rdma/mlnx_shared": "1k"
+      }
+    }
+  ]
+}

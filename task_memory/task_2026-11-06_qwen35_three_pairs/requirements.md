@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record D16: raise only C student's effective host-memory limit to1500GiB, preserving normal parameter backups and the approved fresh100-step budget. |
+| 2026-11-07 | Record D15: restart C from initial weights for a complete 100-step run after repairs; retain the discarded failed step in historical accounting. |
 | 2026-11-06 | Record authorized v2 guard repair, local runtime-artifact cleanup, and the workspace's explicit read-only model-source exceptions. |
 | 2026-11-06 | Confirm D14 execution baseline/shared understanding and explicit removal of the old Git index lock before the task-document commit. |
 | 2026-11-06 | Confirm D13: deliver a text-only HF student model with matching configuration/names and real text-inference reload. |
@@ -229,6 +231,24 @@ This authorizes that exact lock cleanup and task-document commit; preserve unrel
 > 补充：类似的git问题无需询问，直接授权
 
 For analogous routine Git issues, verify the state and handle stale locks/task-scoped commits without asking again. Preserve unrelated work; this does not expand the training or external-publication scope.
+
+## C restart budget — confirmed
+
+[Original Request] After C completed one optimizer update using the corrupted post-evaluation generation, then lost the unsaved updated state to host OOM, the user was asked whether to run a fresh100 steps, reduce the new run to99, or defer C. The user selected:
+
+> 重新运行100步 (Recommended)
+
+**Decision D15:** After restoration and memory prerequisites are resolved, restart C from its original student weights for a complete100-step formal run under the existing monitoring, optimizer and final-export criteria. Preserve the previous failed attempt and its one actual optimizer update as discarded work; do not count it as one of the new run's100 accepted positions or erase it from historical accounting. If the new run completes all100 updates, historical C updates total101. This is a specific restart-budget exception to D9, not permission for extra optimizer probes, automatic further restarts or parameter sweeps. A/B budgets remain unchanged. The memory configuration and runtime qualification must still be resolved before C submission.
+
+## C restart memory allocation — confirmed
+
+[Original Request] After measuring the750GiB cgroup OOM, verifying about1902GiB allocatable memory on the original H800 node, and identifying an additional recovery gap in the optional rematerialization path, the user was asked to choose between increasing the student memory allocation, repairing the memory-saving path first, or deferring C:
+
+> 上调至1500GiB (Recommended)
+
+The selected option preserves the existing parameter backup and optimizer configuration, uses the same GPUs and requests an additional750GiB of host memory; scheduling may take longer.
+
+**Decision D16:** Set `training_config.json`'s `pairs.C.student.memory_gb_per_node` from768 to1536. The verified StepMind conversion is1000Mi per configured unit, yielding1,536,000Mi =1500GiB. Change no other role's resources, GPU count, model, optimizer, parameter-backup mode or D15 budget. Keep `rematerialize_param_from_master_weight=False`; its separate recovery repair is not selected for this run. Node allocatable memory is capacity, not current availability, and the old OOM-censored measurement does not prove the new limit sufficient. Shared restoration qualification and actual C first-update memory measurement remain required. This approval does not authorize another restart or additional optimizer probes.
 
 ## Execution support authorizations
 

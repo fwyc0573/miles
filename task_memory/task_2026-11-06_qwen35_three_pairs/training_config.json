@@ -91,7 +91,7 @@
         "nodes": 1,
         "gpus_per_node": 8,
         "cpu_per_node": 64,
-        "memory_gb_per_node": 768,
+        "memory_gb_per_node": 1536,
         "host_network": true,
         "gang_start": true,
         "tp_size": 4,

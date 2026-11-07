@@ -1,0 +1,2303 @@
+{
+  "source": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0/memory.jsonl",
+  "samples": 4346,
+  "training_sleep_window": [
+    {
+      "unix_time": 1794013620.5340097,
+      "utc": "2026-11-07T01:07:00.534010+00:00",
+      "bytes": 417004281856,
+      "GiB": 388.3655014038086,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013621.5343804,
+      "utc": "2026-11-07T01:07:01.534380+00:00",
+      "bytes": 416999661568,
+      "GiB": 388.36119842529297,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013622.534741,
+      "utc": "2026-11-07T01:07:02.534741+00:00",
+      "bytes": 416999563264,
+      "GiB": 388.3611068725586,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013623.5350878,
+      "utc": "2026-11-07T01:07:03.535088+00:00",
+      "bytes": 416999821312,
+      "GiB": 388.3613471984863,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013624.535448,
+      "utc": "2026-11-07T01:07:04.535448+00:00",
+      "bytes": 416999854080,
+      "GiB": 388.36137771606445,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013625.5357792,
+      "utc": "2026-11-07T01:07:05.535779+00:00",
+      "bytes": 417000206336,
+      "GiB": 388.3617057800293,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013626.536164,
+      "utc": "2026-11-07T01:07:06.536164+00:00",
+      "bytes": 416998916096,
+      "GiB": 388.3605041503906,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013627.536516,
+      "utc": "2026-11-07T01:07:07.536516+00:00",
+      "bytes": 417000062976,
+      "GiB": 388.361572265625,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013628.536851,
+      "utc": "2026-11-07T01:07:08.536851+00:00",
+      "bytes": 416998907904,
+      "GiB": 388.3604965209961,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013629.537212,
+      "utc": "2026-11-07T01:07:09.537212+00:00",
+      "bytes": 417001861120,
+      "GiB": 388.3632469177246,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013630.537569,
+      "utc": "2026-11-07T01:07:10.537569+00:00",
+      "bytes": 417003376640,
+      "GiB": 388.3646583557129,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013631.537933,
+      "utc": "2026-11-07T01:07:11.537933+00:00",
+      "bytes": 417015705600,
+      "GiB": 388.3761405944824,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013632.5382893,
+      "utc": "2026-11-07T01:07:12.538289+00:00",
+      "bytes": 417013813248,
+      "GiB": 388.3743782043457,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013633.5386515,
+      "utc": "2026-11-07T01:07:13.538651+00:00",
+      "bytes": 417015611392,
+      "GiB": 388.3760528564453,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013634.5390024,
+      "utc": "2026-11-07T01:07:14.539002+00:00",
+      "bytes": 417013325824,
+      "GiB": 388.3739242553711,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013635.5393784,
+      "utc": "2026-11-07T01:07:15.539378+00:00",
+      "bytes": 417016082432,
+      "GiB": 388.37649154663086,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013636.5397224,
+      "utc": "2026-11-07T01:07:16.539722+00:00",
+      "bytes": 417013739520,
+      "GiB": 388.3743095397949,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013637.5400805,
+      "utc": "2026-11-07T01:07:17.540081+00:00",
+      "bytes": 417015562240,
+      "GiB": 388.3760070800781,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013638.5404232,
+      "utc": "2026-11-07T01:07:18.540423+00:00",
+      "bytes": 417042313216,
+      "GiB": 388.4009208679199,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013639.5407794,
+      "utc": "2026-11-07T01:07:19.540779+00:00",
+      "bytes": 417087606784,
+      "GiB": 388.4431037902832,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013640.5411353,
+      "utc": "2026-11-07T01:07:20.541135+00:00",
+      "bytes": 417125527552,
+      "GiB": 388.47842025756836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013641.5414982,
+      "utc": "2026-11-07T01:07:21.541498+00:00",
+      "bytes": 417132847104,
+      "GiB": 388.48523712158203,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013642.5418565,
+      "utc": "2026-11-07T01:07:22.541857+00:00",
+      "bytes": 417137532928,
+      "GiB": 388.4896011352539,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013643.542207,
+      "utc": "2026-11-07T01:07:23.542207+00:00",
+      "bytes": 406035103744,
+      "GiB": 378.149658203125,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013644.542549,
+      "utc": "2026-11-07T01:07:24.542549+00:00",
+      "bytes": 399905574912,
+      "GiB": 372.44108963012695,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013645.5428877,
+      "utc": "2026-11-07T01:07:25.542888+00:00",
+      "bytes": 400206815232,
+      "GiB": 372.72164154052734,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013646.5432334,
+      "utc": "2026-11-07T01:07:26.543233+00:00",
+      "bytes": 400208257024,
+      "GiB": 372.72298431396484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013647.5435965,
+      "utc": "2026-11-07T01:07:27.543597+00:00",
+      "bytes": 400208580608,
+      "GiB": 372.7232856750488,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013648.5439777,
+      "utc": "2026-11-07T01:07:28.543978+00:00",
+      "bytes": 400210714624,
+      "GiB": 372.7252731323242,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013649.5443423,
+      "utc": "2026-11-07T01:07:29.544342+00:00",
+      "bytes": 400210984960,
+      "GiB": 372.72552490234375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013650.5447025,
+      "utc": "2026-11-07T01:07:30.544703+00:00",
+      "bytes": 400212131840,
+      "GiB": 372.7265930175781,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013651.5450432,
+      "utc": "2026-11-07T01:07:31.545043+00:00",
+      "bytes": 400212123648,
+      "GiB": 372.7265853881836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013652.5453777,
+      "utc": "2026-11-07T01:07:32.545378+00:00",
+      "bytes": 400212856832,
+      "GiB": 372.72726821899414,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013653.5457458,
+      "utc": "2026-11-07T01:07:33.545746+00:00",
+      "bytes": 400224264192,
+      "GiB": 372.7378921508789,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013654.5460896,
+      "utc": "2026-11-07T01:07:34.546090+00:00",
+      "bytes": 400215810048,
+      "GiB": 372.73001861572266,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013655.546433,
+      "utc": "2026-11-07T01:07:35.546433+00:00",
+      "bytes": 400307482624,
+      "GiB": 372.8153953552246,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013656.5467749,
+      "utc": "2026-11-07T01:07:36.546775+00:00",
+      "bytes": 400239181824,
+      "GiB": 372.7517852783203,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013657.5471416,
+      "utc": "2026-11-07T01:07:37.547142+00:00",
+      "bytes": 400221487104,
+      "GiB": 372.7353057861328,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013658.5475261,
+      "utc": "2026-11-07T01:07:38.547526+00:00",
+      "bytes": 400222244864,
+      "GiB": 372.73601150512695,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013659.5478766,
+      "utc": "2026-11-07T01:07:39.547877+00:00",
+      "bytes": 400223440896,
+      "GiB": 372.7371253967285,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013660.5482152,
+      "utc": "2026-11-07T01:07:40.548215+00:00",
+      "bytes": 400256405504,
+      "GiB": 372.76782608032227,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013661.548572,
+      "utc": "2026-11-07T01:07:41.548572+00:00",
+      "bytes": 400352477184,
+      "GiB": 372.8572998046875,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013662.5489397,
+      "utc": "2026-11-07T01:07:42.548940+00:00",
+      "bytes": 400225824768,
+      "GiB": 372.7393455505371,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013663.5492828,
+      "utc": "2026-11-07T01:07:43.549283+00:00",
+      "bytes": 400227463168,
+      "GiB": 372.74087142944336,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013664.549633,
+      "utc": "2026-11-07T01:07:44.549633+00:00",
+      "bytes": 400228040704,
+      "GiB": 372.7414093017578,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013665.5499783,
+      "utc": "2026-11-07T01:07:45.549978+00:00",
+      "bytes": 400229023744,
+      "GiB": 372.74232482910156,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013666.5503235,
+      "utc": "2026-11-07T01:07:46.550323+00:00",
+      "bytes": 400230182912,
+      "GiB": 372.74340438842773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013667.5506783,
+      "utc": "2026-11-07T01:07:47.550678+00:00",
+      "bytes": 400245489664,
+      "GiB": 372.7576599121094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013668.5510292,
+      "utc": "2026-11-07T01:07:48.551029+00:00",
+      "bytes": 400233398272,
+      "GiB": 372.74639892578125,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013669.5513792,
+      "utc": "2026-11-07T01:07:49.551379+00:00",
+      "bytes": 400233955328,
+      "GiB": 372.7469177246094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013670.551737,
+      "utc": "2026-11-07T01:07:50.551737+00:00",
+      "bytes": 400266649600,
+      "GiB": 372.7773666381836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013671.5520947,
+      "utc": "2026-11-07T01:07:51.552095+00:00",
+      "bytes": 400244146176,
+      "GiB": 372.75640869140625,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013672.552443,
+      "utc": "2026-11-07T01:07:52.552443+00:00",
+      "bytes": 400266665984,
+      "GiB": 372.77738189697266,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013673.5527964,
+      "utc": "2026-11-07T01:07:53.552796+00:00",
+      "bytes": 400251707392,
+      "GiB": 372.7634506225586,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013674.553158,
+      "utc": "2026-11-07T01:07:54.553158+00:00",
+      "bytes": 400238030848,
+      "GiB": 372.7507133483887,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013675.5535064,
+      "utc": "2026-11-07T01:07:55.553506+00:00",
+      "bytes": 400258027520,
+      "GiB": 372.76933670043945,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013676.5538437,
+      "utc": "2026-11-07T01:07:56.553844+00:00",
+      "bytes": 400239349760,
+      "GiB": 372.7519416809082,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013677.5541995,
+      "utc": "2026-11-07T01:07:57.554199+00:00",
+      "bytes": 400326942720,
+      "GiB": 372.8335189819336,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013678.5547721,
+      "utc": "2026-11-07T01:07:58.554772+00:00",
+      "bytes": 400255565824,
+      "GiB": 372.7670440673828,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013679.5550845,
+      "utc": "2026-11-07T01:07:59.555084+00:00",
+      "bytes": 400242372608,
+      "GiB": 372.75475692749023,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013680.5554602,
+      "utc": "2026-11-07T01:08:00.555460+00:00",
+      "bytes": 400242126848,
+      "GiB": 372.7545280456543,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013681.5558062,
+      "utc": "2026-11-07T01:08:01.555806+00:00",
+      "bytes": 400233865216,
+      "GiB": 372.74683380126953,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013682.5561776,
+      "utc": "2026-11-07T01:08:02.556178+00:00",
+      "bytes": 400249536512,
+      "GiB": 372.7614288330078,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013683.556584,
+      "utc": "2026-11-07T01:08:03.556584+00:00",
+      "bytes": 401561403392,
+      "GiB": 373.9832000732422,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013684.556974,
+      "utc": "2026-11-07T01:08:04.556974+00:00",
+      "bytes": 401553850368,
+      "GiB": 373.9761657714844,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013685.5573437,
+      "utc": "2026-11-07T01:08:05.557344+00:00",
+      "bytes": 401554083840,
+      "GiB": 373.9763832092285,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013686.5577023,
+      "utc": "2026-11-07T01:08:06.557702+00:00",
+      "bytes": 401558888448,
+      "GiB": 373.9808578491211,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013687.558059,
+      "utc": "2026-11-07T01:08:07.558059+00:00",
+      "bytes": 401557082112,
+      "GiB": 373.97917556762695,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013688.5584188,
+      "utc": "2026-11-07T01:08:08.558419+00:00",
+      "bytes": 401648881664,
+      "GiB": 374.06467056274414,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013689.5587692,
+      "utc": "2026-11-07T01:08:09.558769+00:00",
+      "bytes": 402212798464,
+      "GiB": 374.58985900878906,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013690.559116,
+      "utc": "2026-11-07T01:08:10.559116+00:00",
+      "bytes": 402917396480,
+      "GiB": 375.24606704711914,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013691.559482,
+      "utc": "2026-11-07T01:08:11.559482+00:00",
+      "bytes": 403602591744,
+      "GiB": 375.88420486450195,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013692.5598202,
+      "utc": "2026-11-07T01:08:12.559820+00:00",
+      "bytes": 403870367744,
+      "GiB": 376.1335906982422,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013693.5602005,
+      "utc": "2026-11-07T01:08:13.560200+00:00",
+      "bytes": 403990323200,
+      "GiB": 376.2453079223633,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013694.5605812,
+      "utc": "2026-11-07T01:08:14.560581+00:00",
+      "bytes": 404093681664,
+      "GiB": 376.34156799316406,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013695.5609639,
+      "utc": "2026-11-07T01:08:15.560964+00:00",
+      "bytes": 404066492416,
+      "GiB": 376.31624603271484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013696.5613692,
+      "utc": "2026-11-07T01:08:16.561369+00:00",
+      "bytes": 404062806016,
+      "GiB": 376.3128128051758,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013697.561721,
+      "utc": "2026-11-07T01:08:17.561721+00:00",
+      "bytes": 405467172864,
+      "GiB": 377.62073135375977,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013698.5620887,
+      "utc": "2026-11-07T01:08:18.562089+00:00",
+      "bytes": 406161625088,
+      "GiB": 378.2674903869629,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013699.5624604,
+      "utc": "2026-11-07T01:08:19.562460+00:00",
+      "bytes": 406207913984,
+      "GiB": 378.3106002807617,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013700.5628219,
+      "utc": "2026-11-07T01:08:20.562822+00:00",
+      "bytes": 406209171456,
+      "GiB": 378.31177139282227,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013701.5632305,
+      "utc": "2026-11-07T01:08:21.563231+00:00",
+      "bytes": 406208290816,
+      "GiB": 378.31095123291016,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013702.5636241,
+      "utc": "2026-11-07T01:08:22.563624+00:00",
+      "bytes": 406207574016,
+      "GiB": 378.3102836608887,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013703.5639904,
+      "utc": "2026-11-07T01:08:23.563990+00:00",
+      "bytes": 406207832064,
+      "GiB": 378.3105239868164,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013704.5643458,
+      "utc": "2026-11-07T01:08:24.564346+00:00",
+      "bytes": 406208032768,
+      "GiB": 378.3107109069824,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013705.5647097,
+      "utc": "2026-11-07T01:08:25.564710+00:00",
+      "bytes": 406606671872,
+      "GiB": 378.6819725036621,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013706.5650864,
+      "utc": "2026-11-07T01:08:26.565086+00:00",
+      "bytes": 409037611008,
+      "GiB": 380.94596099853516,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013707.5654585,
+      "utc": "2026-11-07T01:08:27.565459+00:00",
+      "bytes": 407224938496,
+      "GiB": 379.2577781677246,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013708.5658224,
+      "utc": "2026-11-07T01:08:28.565822+00:00",
+      "bytes": 406584311808,
+      "GiB": 378.66114807128906,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013709.5661867,
+      "utc": "2026-11-07T01:08:29.566187+00:00",
+      "bytes": 406544982016,
+      "GiB": 378.62451934814453,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013710.566547,
+      "utc": "2026-11-07T01:08:30.566547+00:00",
+      "bytes": 406220185600,
+      "GiB": 378.32202911376953,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013711.56691,
+      "utc": "2026-11-07T01:08:31.566910+00:00",
+      "bytes": 407355674624,
+      "GiB": 379.3795356750488,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013712.5672727,
+      "utc": "2026-11-07T01:08:32.567273+00:00",
+      "bytes": 407088992256,
+      "GiB": 379.1311683654785,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013713.567642,
+      "utc": "2026-11-07T01:08:33.567642+00:00",
+      "bytes": 406227902464,
+      "GiB": 378.32921600341797,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013714.5680013,
+      "utc": "2026-11-07T01:08:34.568001+00:00",
+      "bytes": 406498758656,
+      "GiB": 378.58147048950195,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013715.568352,
+      "utc": "2026-11-07T01:08:35.568352+00:00",
+      "bytes": 406495600640,
+      "GiB": 378.57852935791016,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013716.568706,
+      "utc": "2026-11-07T01:08:36.568706+00:00",
+      "bytes": 406498496512,
+      "GiB": 378.58122634887695,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013717.569081,
+      "utc": "2026-11-07T01:08:37.569081+00:00",
+      "bytes": 406499549184,
+      "GiB": 378.5822067260742,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013718.5695076,
+      "utc": "2026-11-07T01:08:38.569508+00:00",
+      "bytes": 406499713024,
+      "GiB": 378.58235931396484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013719.5698419,
+      "utc": "2026-11-07T01:08:39.569842+00:00",
+      "bytes": 407479111680,
+      "GiB": 379.4944953918457,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013720.5701916,
+      "utc": "2026-11-07T01:08:40.570192+00:00",
+      "bytes": 408268976128,
+      "GiB": 380.2301139831543,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013721.5705564,
+      "utc": "2026-11-07T01:08:41.570556+00:00",
+      "bytes": 406990004224,
+      "GiB": 379.03897857666016,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013722.5709288,
+      "utc": "2026-11-07T01:08:42.570929+00:00",
+      "bytes": 406685736960,
+      "GiB": 378.75560760498047,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013723.571294,
+      "utc": "2026-11-07T01:08:43.571294+00:00",
+      "bytes": 406541250560,
+      "GiB": 378.62104415893555,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013724.5716622,
+      "utc": "2026-11-07T01:08:44.571662+00:00",
+      "bytes": 406542323712,
+      "GiB": 378.62204360961914,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013725.5720174,
+      "utc": "2026-11-07T01:08:45.572017+00:00",
+      "bytes": 407271407616,
+      "GiB": 379.3010559082031,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013726.5723786,
+      "utc": "2026-11-07T01:08:46.572379+00:00",
+      "bytes": 407622029312,
+      "GiB": 379.6275978088379,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013727.5727344,
+      "utc": "2026-11-07T01:08:47.572734+00:00",
+      "bytes": 407775973376,
+      "GiB": 379.77096939086914,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013728.573094,
+      "utc": "2026-11-07T01:08:48.573094+00:00",
+      "bytes": 408108400640,
+      "GiB": 380.08056640625,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013729.5734665,
+      "utc": "2026-11-07T01:08:49.573467+00:00",
+      "bytes": 408165376000,
+      "GiB": 380.13362884521484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013730.573876,
+      "utc": "2026-11-07T01:08:50.573876+00:00",
+      "bytes": 408276533248,
+      "GiB": 380.2371520996094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013731.5742762,
+      "utc": "2026-11-07T01:08:51.574276+00:00",
+      "bytes": 408465584128,
+      "GiB": 380.4132194519043,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013732.5746434,
+      "utc": "2026-11-07T01:08:52.574643+00:00",
+      "bytes": 408792580096,
+      "GiB": 380.71775817871094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013733.5750053,
+      "utc": "2026-11-07T01:08:53.575005+00:00",
+      "bytes": 409379254272,
+      "GiB": 381.2641410827637,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013734.5753698,
+      "utc": "2026-11-07T01:08:54.575370+00:00",
+      "bytes": 409742381056,
+      "GiB": 381.6023292541504,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013735.57573,
+      "utc": "2026-11-07T01:08:55.575730+00:00",
+      "bytes": 409738145792,
+      "GiB": 381.59838485717773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013736.5760999,
+      "utc": "2026-11-07T01:08:56.576100+00:00",
+      "bytes": 409737940992,
+      "GiB": 381.59819412231445,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013737.5764608,
+      "utc": "2026-11-07T01:08:57.576461+00:00",
+      "bytes": 409738096640,
+      "GiB": 381.59833908081055,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013738.5768123,
+      "utc": "2026-11-07T01:08:58.576812+00:00",
+      "bytes": 409738444800,
+      "GiB": 381.5986633300781,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013739.5771751,
+      "utc": "2026-11-07T01:08:59.577175+00:00",
+      "bytes": 409738534912,
+      "GiB": 381.59874725341797,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013740.5775244,
+      "utc": "2026-11-07T01:09:00.577524+00:00",
+      "bytes": 409738211328,
+      "GiB": 381.598445892334,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013741.5779095,
+      "utc": "2026-11-07T01:09:01.577909+00:00",
+      "bytes": 409734631424,
+      "GiB": 381.5951118469238,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013742.5782802,
+      "utc": "2026-11-07T01:09:02.578280+00:00",
+      "bytes": 409735458816,
+      "GiB": 381.5958824157715,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013743.5786276,
+      "utc": "2026-11-07T01:09:03.578628+00:00",
+      "bytes": 409735249920,
+      "GiB": 381.59568786621094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013744.5790105,
+      "utc": "2026-11-07T01:09:04.579010+00:00",
+      "bytes": 409736249344,
+      "GiB": 381.59661865234375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013745.5793839,
+      "utc": "2026-11-07T01:09:05.579384+00:00",
+      "bytes": 409736331264,
+      "GiB": 381.59669494628906,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013746.5797484,
+      "utc": "2026-11-07T01:09:06.579748+00:00",
+      "bytes": 409732730880,
+      "GiB": 381.5933418273926,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013747.580117,
+      "utc": "2026-11-07T01:09:07.580117+00:00",
+      "bytes": 410577252352,
+      "GiB": 382.3798637390137,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013748.5805628,
+      "utc": "2026-11-07T01:09:08.580563+00:00",
+      "bytes": 412049580032,
+      "GiB": 383.7510757446289,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013749.5809617,
+      "utc": "2026-11-07T01:09:09.580962+00:00",
+      "bytes": 411100770304,
+      "GiB": 382.86742782592773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013750.5813475,
+      "utc": "2026-11-07T01:09:10.581347+00:00",
+      "bytes": 410785325056,
+      "GiB": 382.57364654541016,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013751.5817184,
+      "utc": "2026-11-07T01:09:11.581718+00:00",
+      "bytes": 410564517888,
+      "GiB": 382.36800384521484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013752.5821733,
+      "utc": "2026-11-07T01:09:12.582173+00:00",
+      "bytes": 410233053184,
+      "GiB": 382.0593032836914,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013753.5825686,
+      "utc": "2026-11-07T01:09:13.582569+00:00",
+      "bytes": 410145124352,
+      "GiB": 381.97741317749023,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013754.5829413,
+      "utc": "2026-11-07T01:09:14.582941+00:00",
+      "bytes": 410129539072,
+      "GiB": 381.96289825439453,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013755.5833006,
+      "utc": "2026-11-07T01:09:15.583301+00:00",
+      "bytes": 410465718272,
+      "GiB": 382.2759895324707,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013756.5836568,
+      "utc": "2026-11-07T01:09:16.583657+00:00",
+      "bytes": 409992814592,
+      "GiB": 381.83556365966797,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013757.5840306,
+      "utc": "2026-11-07T01:09:17.584031+00:00",
+      "bytes": 409978433536,
+      "GiB": 381.82217025756836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013758.5844047,
+      "utc": "2026-11-07T01:09:18.584405+00:00",
+      "bytes": 410378907648,
+      "GiB": 382.19514083862305,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013759.5847504,
+      "utc": "2026-11-07T01:09:19.584750+00:00",
+      "bytes": 409965539328,
+      "GiB": 381.8101615905762,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013760.58511,
+      "utc": "2026-11-07T01:09:20.585110+00:00",
+      "bytes": 412087447552,
+      "GiB": 383.7863426208496,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013761.5854774,
+      "utc": "2026-11-07T01:09:21.585477+00:00",
+      "bytes": 412087144448,
+      "GiB": 383.78606033325195,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013762.5858195,
+      "utc": "2026-11-07T01:09:22.585819+00:00",
+      "bytes": 412086935552,
+      "GiB": 383.7858657836914,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013763.586166,
+      "utc": "2026-11-07T01:09:23.586166+00:00",
+      "bytes": 412087504896,
+      "GiB": 383.7863960266113,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013764.58652,
+      "utc": "2026-11-07T01:09:24.586520+00:00",
+      "bytes": 412087341056,
+      "GiB": 383.7862434387207,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013765.5868683,
+      "utc": "2026-11-07T01:09:25.586868+00:00",
+      "bytes": 412088299520,
+      "GiB": 383.78713607788086,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013766.5872352,
+      "utc": "2026-11-07T01:09:26.587235+00:00",
+      "bytes": 412088172544,
+      "GiB": 383.7870178222656,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013767.5875924,
+      "utc": "2026-11-07T01:09:27.587592+00:00",
+      "bytes": 412088082432,
+      "GiB": 383.7869338989258,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013768.587951,
+      "utc": "2026-11-07T01:09:28.587951+00:00",
+      "bytes": 412088041472,
+      "GiB": 383.7868957519531,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013769.5883036,
+      "utc": "2026-11-07T01:09:29.588304+00:00",
+      "bytes": 412088614912,
+      "GiB": 383.7874298095703,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013770.5886502,
+      "utc": "2026-11-07T01:09:30.588650+00:00",
+      "bytes": 412089155584,
+      "GiB": 383.7879333496094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013771.5890224,
+      "utc": "2026-11-07T01:09:31.589022+00:00",
+      "bytes": 412088229888,
+      "GiB": 383.78707122802734,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013772.5893815,
+      "utc": "2026-11-07T01:09:32.589381+00:00",
+      "bytes": 412088217600,
+      "GiB": 383.78705978393555,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013773.5897863,
+      "utc": "2026-11-07T01:09:33.589786+00:00",
+      "bytes": 412088066048,
+      "GiB": 383.7869186401367,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013774.5901566,
+      "utc": "2026-11-07T01:09:34.590157+00:00",
+      "bytes": 412088672256,
+      "GiB": 383.78748321533203,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013775.5905123,
+      "utc": "2026-11-07T01:09:35.590512+00:00",
+      "bytes": 412089217024,
+      "GiB": 383.78799057006836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013776.5908673,
+      "utc": "2026-11-07T01:09:36.590867+00:00",
+      "bytes": 412091961344,
+      "GiB": 383.7905464172363,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013777.5912051,
+      "utc": "2026-11-07T01:09:37.591205+00:00",
+      "bytes": 412092010496,
+      "GiB": 383.7905921936035,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013778.591564,
+      "utc": "2026-11-07T01:09:38.591564+00:00",
+      "bytes": 412092657664,
+      "GiB": 383.7911949157715,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013779.5919194,
+      "utc": "2026-11-07T01:09:39.591919+00:00",
+      "bytes": 412092510208,
+      "GiB": 383.7910575866699,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013780.5923057,
+      "utc": "2026-11-07T01:09:40.592306+00:00",
+      "bytes": 412093071360,
+      "GiB": 383.7915802001953,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013781.5926757,
+      "utc": "2026-11-07T01:09:41.592676+00:00",
+      "bytes": 412091695104,
+      "GiB": 383.79029846191406,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013782.5930889,
+      "utc": "2026-11-07T01:09:42.593089+00:00",
+      "bytes": 412091588608,
+      "GiB": 383.79019927978516,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013783.5935025,
+      "utc": "2026-11-07T01:09:43.593503+00:00",
+      "bytes": 412158615552,
+      "GiB": 383.85262298583984,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013784.5939307,
+      "utc": "2026-11-07T01:09:44.593931+00:00",
+      "bytes": 412437250048,
+      "GiB": 384.11212158203125,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013785.5943067,
+      "utc": "2026-11-07T01:09:45.594307+00:00",
+      "bytes": 412437094400,
+      "GiB": 384.11197662353516,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013786.5947304,
+      "utc": "2026-11-07T01:09:46.594730+00:00",
+      "bytes": 412437303296,
+      "GiB": 384.1121711730957,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013787.5951443,
+      "utc": "2026-11-07T01:09:47.595144+00:00",
+      "bytes": 412436762624,
+      "GiB": 384.11166763305664,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013788.5955446,
+      "utc": "2026-11-07T01:09:48.595545+00:00",
+      "bytes": 412435771392,
+      "GiB": 384.11074447631836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013789.5959973,
+      "utc": "2026-11-07T01:09:49.595997+00:00",
+      "bytes": 412435902464,
+      "GiB": 384.11086654663086,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013790.5963821,
+      "utc": "2026-11-07T01:09:50.596382+00:00",
+      "bytes": 412435619840,
+      "GiB": 384.11060333251953,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013791.5967886,
+      "utc": "2026-11-07T01:09:51.596789+00:00",
+      "bytes": 412435640320,
+      "GiB": 384.11062240600586,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013792.5971868,
+      "utc": "2026-11-07T01:09:52.597187+00:00",
+      "bytes": 412436164608,
+      "GiB": 384.11111068725586,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013793.597576,
+      "utc": "2026-11-07T01:09:53.597576+00:00",
+      "bytes": 412436062208,
+      "GiB": 384.1110153198242,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013794.597979,
+      "utc": "2026-11-07T01:09:54.597979+00:00",
+      "bytes": 412436336640,
+      "GiB": 384.111270904541,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013795.5983295,
+      "utc": "2026-11-07T01:09:55.598330+00:00",
+      "bytes": 412435959808,
+      "GiB": 384.1109199523926,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013796.5987287,
+      "utc": "2026-11-07T01:09:56.598729+00:00",
+      "bytes": 412435623936,
+      "GiB": 384.1106071472168,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013797.5991468,
+      "utc": "2026-11-07T01:09:57.599147+00:00",
+      "bytes": 412435529728,
+      "GiB": 384.1105194091797,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013798.5995636,
+      "utc": "2026-11-07T01:09:58.599564+00:00",
+      "bytes": 412435607552,
+      "GiB": 384.11059188842773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013799.5999784,
+      "utc": "2026-11-07T01:09:59.599978+00:00",
+      "bytes": 412435931136,
+      "GiB": 384.1108932495117,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013800.6004047,
+      "utc": "2026-11-07T01:10:00.600405+00:00",
+      "bytes": 412436000768,
+      "GiB": 384.11095809936523,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013801.6007514,
+      "utc": "2026-11-07T01:10:01.600751+00:00",
+      "bytes": 412434763776,
+      "GiB": 384.109806060791,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013802.6011884,
+      "utc": "2026-11-07T01:10:02.601188+00:00",
+      "bytes": 412433727488,
+      "GiB": 384.1088409423828,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013803.6015635,
+      "utc": "2026-11-07T01:10:03.601563+00:00",
+      "bytes": 412432265216,
+      "GiB": 384.107479095459,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013804.6019254,
+      "utc": "2026-11-07T01:10:04.601925+00:00",
+      "bytes": 412435185664,
+      "GiB": 384.1101989746094,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013805.602296,
+      "utc": "2026-11-07T01:10:05.602296+00:00",
+      "bytes": 412434595840,
+      "GiB": 384.1096496582031,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013806.6026902,
+      "utc": "2026-11-07T01:10:06.602690+00:00",
+      "bytes": 412436107264,
+      "GiB": 384.11105728149414,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013807.603084,
+      "utc": "2026-11-07T01:10:07.603084+00:00",
+      "bytes": 412440330240,
+      "GiB": 384.114990234375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013808.6034577,
+      "utc": "2026-11-07T01:10:08.603458+00:00",
+      "bytes": 412730691584,
+      "GiB": 384.3854103088379,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013809.6038244,
+      "utc": "2026-11-07T01:10:09.603824+00:00",
+      "bytes": 412439810048,
+      "GiB": 384.11450576782227,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013810.6042314,
+      "utc": "2026-11-07T01:10:10.604231+00:00",
+      "bytes": 412436926464,
+      "GiB": 384.11182022094727,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013811.604644,
+      "utc": "2026-11-07T01:10:11.604644+00:00",
+      "bytes": 412432105472,
+      "GiB": 384.1073303222656,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013812.6050785,
+      "utc": "2026-11-07T01:10:12.605078+00:00",
+      "bytes": 412433362944,
+      "GiB": 384.1085014343262,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013813.6055107,
+      "utc": "2026-11-07T01:10:13.605511+00:00",
+      "bytes": 412434608128,
+      "GiB": 384.1096611022949,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013814.6059346,
+      "utc": "2026-11-07T01:10:14.605935+00:00",
+      "bytes": 412436652032,
+      "GiB": 384.11156463623047,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013815.6063585,
+      "utc": "2026-11-07T01:10:15.606359+00:00",
+      "bytes": 412435492864,
+      "GiB": 384.1104850769043,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013816.606722,
+      "utc": "2026-11-07T01:10:16.606722+00:00",
+      "bytes": 412435886080,
+      "GiB": 384.1108512878418,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013817.6071038,
+      "utc": "2026-11-07T01:10:17.607104+00:00",
+      "bytes": 412434997248,
+      "GiB": 384.11002349853516,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013818.6074991,
+      "utc": "2026-11-07T01:10:18.607499+00:00",
+      "bytes": 412434677760,
+      "GiB": 384.10972595214844,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013819.6079068,
+      "utc": "2026-11-07T01:10:19.607907+00:00",
+      "bytes": 412437237760,
+      "GiB": 384.11211013793945,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013820.6083045,
+      "utc": "2026-11-07T01:10:20.608305+00:00",
+      "bytes": 412437671936,
+      "GiB": 384.1125144958496,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013821.6087103,
+      "utc": "2026-11-07T01:10:21.608710+00:00",
+      "bytes": 412437557248,
+      "GiB": 384.1124076843262,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013822.609094,
+      "utc": "2026-11-07T01:10:22.609094+00:00",
+      "bytes": 412504240128,
+      "GiB": 384.17451095581055,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013823.6094656,
+      "utc": "2026-11-07T01:10:23.609466+00:00",
+      "bytes": 412569849856,
+      "GiB": 384.2356147766113,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013824.6098073,
+      "utc": "2026-11-07T01:10:24.609807+00:00",
+      "bytes": 412477173760,
+      "GiB": 384.1493034362793,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013825.6101565,
+      "utc": "2026-11-07T01:10:25.610157+00:00",
+      "bytes": 412465852416,
+      "GiB": 384.1387596130371,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013826.610497,
+      "utc": "2026-11-07T01:10:26.610497+00:00",
+      "bytes": 412518486016,
+      "GiB": 384.1877784729004,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013827.6108832,
+      "utc": "2026-11-07T01:10:27.610883+00:00",
+      "bytes": 412443222016,
+      "GiB": 384.11768341064453,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013828.6113064,
+      "utc": "2026-11-07T01:10:28.611306+00:00",
+      "bytes": 412444430336,
+      "GiB": 384.1188087463379,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013829.6117191,
+      "utc": "2026-11-07T01:10:29.611719+00:00",
+      "bytes": 412445216768,
+      "GiB": 384.1195411682129,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013830.6120842,
+      "utc": "2026-11-07T01:10:30.612084+00:00",
+      "bytes": 412445687808,
+      "GiB": 384.11997985839844,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013831.6124408,
+      "utc": "2026-11-07T01:10:31.612441+00:00",
+      "bytes": 412445265920,
+      "GiB": 384.1195869445801,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013832.612799,
+      "utc": "2026-11-07T01:10:32.612799+00:00",
+      "bytes": 412444524544,
+      "GiB": 384.118896484375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013833.6132104,
+      "utc": "2026-11-07T01:10:33.613210+00:00",
+      "bytes": 412445044736,
+      "GiB": 384.11938095092773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013834.613573,
+      "utc": "2026-11-07T01:10:34.613573+00:00",
+      "bytes": 412445487104,
+      "GiB": 384.1197929382324,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013835.6139767,
+      "utc": "2026-11-07T01:10:35.613977+00:00",
+      "bytes": 412445630464,
+      "GiB": 384.1199264526367,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013836.6143618,
+      "utc": "2026-11-07T01:10:36.614362+00:00",
+      "bytes": 412444491776,
+      "GiB": 384.1188659667969,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013837.6147306,
+      "utc": "2026-11-07T01:10:37.614731+00:00",
+      "bytes": 412444209152,
+      "GiB": 384.11860275268555,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013838.6151352,
+      "utc": "2026-11-07T01:10:38.615135+00:00",
+      "bytes": 412444569600,
+      "GiB": 384.1189384460449,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013839.615512,
+      "utc": "2026-11-07T01:10:39.615512+00:00",
+      "bytes": 412444352512,
+      "GiB": 384.11873626708984,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013840.6159298,
+      "utc": "2026-11-07T01:10:40.615930+00:00",
+      "bytes": 412486664192,
+      "GiB": 384.15814208984375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013841.616308,
+      "utc": "2026-11-07T01:10:41.616308+00:00",
+      "bytes": 416924479488,
+      "GiB": 388.2911796569824,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013842.6166694,
+      "utc": "2026-11-07T01:10:42.616669+00:00",
+      "bytes": 435326132224,
+      "GiB": 405.4290542602539,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013843.6170912,
+      "utc": "2026-11-07T01:10:43.617091+00:00",
+      "bytes": 455315546112,
+      "GiB": 424.04564666748047,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013844.6175306,
+      "utc": "2026-11-07T01:10:44.617531+00:00",
+      "bytes": 476063322112,
+      "GiB": 443.3685188293457,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013845.6179175,
+      "utc": "2026-11-07T01:10:45.617918+00:00",
+      "bytes": 496986783744,
+      "GiB": 462.8550109863281,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013846.61831,
+      "utc": "2026-11-07T01:10:46.618310+00:00",
+      "bytes": 517743325184,
+      "GiB": 482.1860466003418,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013847.6187487,
+      "utc": "2026-11-07T01:10:47.618749+00:00",
+      "bytes": 539302404096,
+      "GiB": 502.2645034790039,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013848.6191835,
+      "utc": "2026-11-07T01:10:48.619184+00:00",
+      "bytes": 560809455616,
+      "GiB": 522.294506072998,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013849.6195462,
+      "utc": "2026-11-07T01:10:49.619546+00:00",
+      "bytes": 577565855744,
+      "GiB": 537.9001197814941,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013850.619955,
+      "utc": "2026-11-07T01:10:50.619955+00:00",
+      "bytes": 588733661184,
+      "GiB": 548.3009490966797,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013851.6203494,
+      "utc": "2026-11-07T01:10:51.620349+00:00",
+      "bytes": 598085316608,
+      "GiB": 557.0103569030762,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013852.620745,
+      "utc": "2026-11-07T01:10:52.620745+00:00",
+      "bytes": 608602529792,
+      "GiB": 566.8052749633789,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013853.6211483,
+      "utc": "2026-11-07T01:10:53.621148+00:00",
+      "bytes": 619635642368,
+      "GiB": 577.0806617736816,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013854.6215675,
+      "utc": "2026-11-07T01:10:54.621567+00:00",
+      "bytes": 630860865536,
+      "GiB": 587.5349655151367,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013855.6219354,
+      "utc": "2026-11-07T01:10:55.621935+00:00",
+      "bytes": 642028761088,
+      "GiB": 597.9358787536621,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013856.6223335,
+      "utc": "2026-11-07T01:10:56.622334+00:00",
+      "bytes": 653142196224,
+      "GiB": 608.2860717773438,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013857.6227562,
+      "utc": "2026-11-07T01:10:57.622756+00:00",
+      "bytes": 664277643264,
+      "GiB": 618.6567649841309,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013858.6231802,
+      "utc": "2026-11-07T01:10:58.623180+00:00",
+      "bytes": 675416596480,
+      "GiB": 629.0307235717773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013859.6236115,
+      "utc": "2026-11-07T01:10:59.623611+00:00",
+      "bytes": 686531510272,
+      "GiB": 639.3822937011719,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013860.623992,
+      "utc": "2026-11-07T01:11:00.623992+00:00",
+      "bytes": 697357664256,
+      "GiB": 649.4649353027344,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013861.6244266,
+      "utc": "2026-11-07T01:11:01.624427+00:00",
+      "bytes": 707952934912,
+      "GiB": 659.3325500488281,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013862.6248543,
+      "utc": "2026-11-07T01:11:02.624854+00:00",
+      "bytes": 718054756352,
+      "GiB": 668.7406044006348,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013863.6252854,
+      "utc": "2026-11-07T01:11:03.625285+00:00",
+      "bytes": 723499393024,
+      "GiB": 673.8113174438477,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013864.625699,
+      "utc": "2026-11-07T01:11:04.625699+00:00",
+      "bytes": 734190260224,
+      "GiB": 683.7679634094238,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013865.6260982,
+      "utc": "2026-11-07T01:11:05.626098+00:00",
+      "bytes": 744777285632,
+      "GiB": 693.6278991699219,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013866.6264799,
+      "utc": "2026-11-07T01:11:06.626480+00:00",
+      "bytes": 754959405056,
+      "GiB": 703.1107368469238,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013867.6268823,
+      "utc": "2026-11-07T01:11:07.626882+00:00",
+      "bytes": 765347348480,
+      "GiB": 712.7852630615234,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013868.62729,
+      "utc": "2026-11-07T01:11:08.627290+00:00",
+      "bytes": 774069809152,
+      "GiB": 720.9086875915527,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013869.6276672,
+      "utc": "2026-11-07T01:11:09.627667+00:00",
+      "bytes": 782232928256,
+      "GiB": 728.5111846923828,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013870.628067,
+      "utc": "2026-11-07T01:11:10.628067+00:00",
+      "bytes": 782483107840,
+      "GiB": 728.7441825866699,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013871.628498,
+      "utc": "2026-11-07T01:11:11.628498+00:00",
+      "bytes": 782533160960,
+      "GiB": 728.7907981872559,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013872.6288555,
+      "utc": "2026-11-07T01:11:12.628855+00:00",
+      "bytes": 781718278144,
+      "GiB": 728.0318794250488,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013873.6293323,
+      "utc": "2026-11-07T01:11:13.629332+00:00",
+      "bytes": 793985966080,
+      "GiB": 739.4570541381836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013874.6308422,
+      "utc": "2026-11-07T01:11:14.630842+00:00",
+      "bytes": 805303394304,
+      "GiB": 749.9972305297852,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013875.6312046,
+      "utc": "2026-11-07T01:11:15.631205+00:00",
+      "bytes": 805304414208,
+      "GiB": 749.9981803894043,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013876.631571,
+      "utc": "2026-11-07T01:11:16.631571+00:00",
+      "bytes": 805303627776,
+      "GiB": 749.9974479675293,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013877.632014,
+      "utc": "2026-11-07T01:11:17.632014+00:00",
+      "bytes": 805304180736,
+      "GiB": 749.9979629516602,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013878.6324663,
+      "utc": "2026-11-07T01:11:18.632466+00:00",
+      "bytes": 805304545280,
+      "GiB": 749.9983024597168,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013879.6330247,
+      "utc": "2026-11-07T01:11:19.633025+00:00",
+      "bytes": 805304492032,
+      "GiB": 749.9982528686523,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013880.634251,
+      "utc": "2026-11-07T01:11:20.634251+00:00",
+      "bytes": 805303504896,
+      "GiB": 749.9973335266113,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013881.6346784,
+      "utc": "2026-11-07T01:11:21.634678+00:00",
+      "bytes": 805304623104,
+      "GiB": 749.9983749389648,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013882.6351197,
+      "utc": "2026-11-07T01:11:22.635120+00:00",
+      "bytes": 805304496128,
+      "GiB": 749.9982566833496,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013883.6355877,
+      "utc": "2026-11-07T01:11:23.635588+00:00",
+      "bytes": 805304471552,
+      "GiB": 749.998233795166,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013884.6360052,
+      "utc": "2026-11-07T01:11:24.636005+00:00",
+      "bytes": 805304455168,
+      "GiB": 749.998218536377,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013885.6467266,
+      "utc": "2026-11-07T01:11:25.646727+00:00",
+      "bytes": 805304541184,
+      "GiB": 749.9982986450195,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "unix_time": 1794013886.7280867,
+      "utc": "2026-11-07T01:11:26.728087+00:00",
+      "bytes": 804968402944,
+      "GiB": 749.685245513916,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013887.7285402,
+      "utc": "2026-11-07T01:11:27.728540+00:00",
+      "bytes": 789052674048,
+      "GiB": 734.8625679016113,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013888.7290137,
+      "utc": "2026-11-07T01:11:28.729014+00:00",
+      "bytes": 780392075264,
+      "GiB": 726.7967567443848,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013889.729482,
+      "utc": "2026-11-07T01:11:29.729482+00:00",
+      "bytes": 795141656576,
+      "GiB": 740.533374786377,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013890.7298665,
+      "utc": "2026-11-07T01:11:30.729867+00:00",
+      "bytes": 788158332928,
+      "GiB": 734.0296478271484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013891.7302952,
+      "utc": "2026-11-07T01:11:31.730295+00:00",
+      "bytes": 746140831744,
+      "GiB": 694.8978004455566,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013892.7307122,
+      "utc": "2026-11-07T01:11:32.730712+00:00",
+      "bytes": 659019395072,
+      "GiB": 613.7596397399902,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013893.7311537,
+      "utc": "2026-11-07T01:11:33.731154+00:00",
+      "bytes": 556717027328,
+      "GiB": 518.4831352233887,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013894.731609,
+      "utc": "2026-11-07T01:11:34.731609+00:00",
+      "bytes": 474946195456,
+      "GiB": 442.3281135559082,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013895.7319946,
+      "utc": "2026-11-07T01:11:35.731995+00:00",
+      "bytes": 443670212608,
+      "GiB": 413.2000846862793,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013896.7323651,
+      "utc": "2026-11-07T01:11:36.732365+00:00",
+      "bytes": 433521807360,
+      "GiB": 403.7486457824707,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013897.7327957,
+      "utc": "2026-11-07T01:11:37.732796+00:00",
+      "bytes": 430993928192,
+      "GiB": 401.3943748474121,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013898.733239,
+      "utc": "2026-11-07T01:11:38.733239+00:00",
+      "bytes": 426639278080,
+      "GiB": 397.3387908935547,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013899.7336195,
+      "utc": "2026-11-07T01:11:39.733619+00:00",
+      "bytes": 419270774784,
+      "GiB": 390.4763374328613,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013900.7340405,
+      "utc": "2026-11-07T01:11:40.734040+00:00",
+      "bytes": 407535091712,
+      "GiB": 379.546630859375,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013901.7344213,
+      "utc": "2026-11-07T01:11:41.734421+00:00",
+      "bytes": 398617874432,
+      "GiB": 371.24182510375977,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013902.7347994,
+      "utc": "2026-11-07T01:11:42.734799+00:00",
+      "bytes": 389974585344,
+      "GiB": 363.19213485717773,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013903.7351747,
+      "utc": "2026-11-07T01:11:43.735175+00:00",
+      "bytes": 381092360192,
+      "GiB": 354.91991806030273,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013904.7355497,
+      "utc": "2026-11-07T01:11:44.735550+00:00",
+      "bytes": 372539383808,
+      "GiB": 346.95433807373047,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013905.7359157,
+      "utc": "2026-11-07T01:11:45.735916+00:00",
+      "bytes": 366011174912,
+      "GiB": 340.8744697570801,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013906.7362897,
+      "utc": "2026-11-07T01:11:46.736290+00:00",
+      "bytes": 356755603456,
+      "GiB": 332.2545471191406,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013907.7366664,
+      "utc": "2026-11-07T01:11:47.736666+00:00",
+      "bytes": 347654946816,
+      "GiB": 323.7789001464844,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013908.7370393,
+      "utc": "2026-11-07T01:11:48.737039+00:00",
+      "bytes": 338737831936,
+      "GiB": 315.4741897583008,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013909.737423,
+      "utc": "2026-11-07T01:11:49.737423+00:00",
+      "bytes": 329888313344,
+      "GiB": 307.2324333190918,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013910.737826,
+      "utc": "2026-11-07T01:11:50.737826+00:00",
+      "bytes": 321274310656,
+      "GiB": 299.210018157959,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013911.738216,
+      "utc": "2026-11-07T01:11:51.738216+00:00",
+      "bytes": 314186833920,
+      "GiB": 292.60929107666016,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013912.7386332,
+      "utc": "2026-11-07T01:11:52.738633+00:00",
+      "bytes": 306476769280,
+      "GiB": 285.4287338256836,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013913.739,
+      "utc": "2026-11-07T01:11:53.739000+00:00",
+      "bytes": 298228072448,
+      "GiB": 277.7465362548828,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013914.7393744,
+      "utc": "2026-11-07T01:11:54.739374+00:00",
+      "bytes": 290293587968,
+      "GiB": 270.35697174072266,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013915.7397468,
+      "utc": "2026-11-07T01:11:55.739747+00:00",
+      "bytes": 282562629632,
+      "GiB": 263.15695571899414,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013916.7401385,
+      "utc": "2026-11-07T01:11:56.740139+00:00",
+      "bytes": 274208436224,
+      "GiB": 255.37650680541992,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013917.7405162,
+      "utc": "2026-11-07T01:11:57.740516+00:00",
+      "bytes": 266491703296,
+      "GiB": 248.18973922729492,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013918.7409368,
+      "utc": "2026-11-07T01:11:58.740937+00:00",
+      "bytes": 260374732800,
+      "GiB": 242.49286651611328,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    },
+    {
+      "unix_time": 1794013919.7413127,
+      "utc": "2026-11-07T01:11:59.741313+00:00",
+      "bytes": 254359814144,
+      "GiB": 236.8910369873047,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    }
+  ],
+  "phase_points": [
+    {
+      "requested_utc": "2026-11-07T00:12:53+00:00",
+      "unix_time": 1794010373.2705665,
+      "utc": "2026-11-07T00:12:53.270566+00:00",
+      "bytes": 493093740544,
+      "GiB": 459.22933197021484,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "requested_utc": "2026-11-07T00:30:00+00:00",
+      "unix_time": 1794011399.6467226,
+      "utc": "2026-11-07T00:29:59.646723+00:00",
+      "bytes": 416897339392,
+      "GiB": 388.2659034729004,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "requested_utc": "2026-11-07T01:07:24+00:00",
+      "unix_time": 1794013643.542207,
+      "utc": "2026-11-07T01:07:23.542207+00:00",
+      "bytes": 406035103744,
+      "GiB": 378.149658203125,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "requested_utc": "2026-11-07T01:08:02+00:00",
+      "unix_time": 1794013681.5558062,
+      "utc": "2026-11-07T01:08:01.555806+00:00",
+      "bytes": 400233865216,
+      "GiB": 372.74683380126953,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "requested_utc": "2026-11-07T01:11:10+00:00",
+      "unix_time": 1794013869.6276672,
+      "utc": "2026-11-07T01:11:09.627667+00:00",
+      "bytes": 782232928256,
+      "GiB": 728.5111846923828,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+    },
+    {
+      "requested_utc": "2026-11-07T01:11:29+00:00",
+      "unix_time": 1794013888.7290137,
+      "utc": "2026-11-07T01:11:28.729014+00:00",
+      "bytes": 780392075264,
+      "GiB": 726.7967567443848,
+      "oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 1"
+    }
+  ],
+  "ray_memory_records": [
+    {
+      "file": "raylet.out",
+      "line_number": 17899,
+      "text": "[2026-11-07 01:11:17,394 I 1861 1927] (raylet) threshold_memory_monitor.cc:122: Node memory usage above threshold, used: 765277888512, threshold_bytes: 765041049600, total bytes: 805306368000, threshold fraction: 0.950000"
+    },
+    {
+      "file": "raylet.out",
+      "line_number": 17922,
+      "text": "[2026-11-07 01:11:22,641 I 1861 1927] (raylet) threshold_memory_monitor.cc:122: Node memory usage above threshold, used: 794705096704, threshold_bytes: 765041049600, total bytes: 805306368000, threshold fraction: 0.950000"
+    },
+    {
+      "file": "raylet.out",
+      "line_number": 17923,
+      "text": "[2026-11-07 01:11:27,756 I 1861 1927] (raylet) threshold_memory_monitor.cc:122: Node memory usage above threshold, used: 788376584192, threshold_bytes: 765041049600, total bytes: 805306368000, threshold fraction: 0.950000"
+    },
+    {
+      "file": "raylet.out",
+      "line_number": 17956,
+      "text": "[2026-11-07 01:12:23,721 W 1861 1861] (raylet) worker_killing_policy_by_time.cc:102: Can't find memory usage in process memory snapshot for PID: 7907. The process may have already been killed or died."
+    },
+    {
+      "file": "raylet.out",
+      "line_number": 17957,
+      "text": "[2026-11-07 01:12:23,722 W 1861 1861] (raylet) worker_killing_policy_by_time.cc:65: Worker killer did not select any workers to kill even though memory usage is high. Other Ray processes (e.g. driver, raylet, dashboard agent, runtime environment agent, GCS server, API server, etc.) or other non-ray processes may be occupying most of the memory."
+    },
+    {
+      "file": "worker-0b77a62752323cf0d0e89c286e17ee4bed7d9b6a301df7fdca4216db-03000000-7901.err",
+      "line_number": 157,
+      "text": "[rank0]:[W1107 00:21:16.955949644 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 3 while trying to allocate 13860077568 bytes (free: 8983937024, total: 85029158912)."
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 1,
+      "text": "'balance_abs_threshold': 64, 'balance_rel_threshold': 1.5, 'bucket_adjust_interval_secs': 5, 'eviction_interval_secs': 60, 'max_tree_size': 67108864, 'max_idle_secs': 14400, 'assignment_mode': 'random', 'max_payload_size': 536870912, 'dp_aware': False, 'enable_igw': False, 'allow_requests_without_routing_key': False, 'mini_lb': False, 'test_external_dp_routing': False, 'pd_disaggregation': False, 'prefill': None, 'decode': None, 'worker_startup_timeout_secs': 1800, 'worker_startup_check_interval': 30, 'log_dir': None, 'log_level': 'info', 'json_log': False, 'service_discovery': False, 'selector': {}, 'service_discovery_port': 80, 'service_discovery_namespace': None, 'prefill_selector': {}, 'decode_selector': {}, 'prometheus_port': 29000, 'prometheus_host': '0.0.0.0', 'prometheus_duration_buckets': None, 'request_id_headers': None, 'request_timeout_secs': 1800, 'shutdown_grace_period_secs': 180, 'cors_allowed_origins': [], 'max_concurrent_requests': -1, 'queue_size': 100, 'queue_timeout_secs': 60, 'rate_limit_tokens_per_second': None, 'retry_max_retries': 5, 'retry_initial_backoff_ms': 50, 'retry_max_backoff_ms': 30000, 'retry_backoff_multiplier': 1.5, 'retry_jitter_factor': 0.2, 'disable_retries': False, 'cb_failure_threshold': 10, 'cb_success_threshold': 3, 'cb_timeout_duration_secs': 60, 'cb_window_duration_secs': 120, 'disable_circuit_breaker': False, 'health_failure_thresho"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 2,
+      "text": "[2026-11-07 01:12:23.826 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 3,
+      "text": "[2026-11-07 01:12:23.835 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 4,
+      "text": "[2026-11-07 01:12:23.847 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 5,
+      "text": "[2026-11-07 01:12:23.857 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 6,
+      "text": "[2026-11-07 01:12:23.870 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 7,
+      "text": "[2026-11-07 01:12:23.881 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 8,
+      "text": "[2026-11-07 01:12:23.891 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_ServeActorRayCommManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=TrainerSpec(args=TrainerConfig(sglang_server_concurrency=512, sglang=SglangConfig(models=[ModelConfig(name='default', model_path=None, server_groups=[ServerGroupConfig(worker_type=<WorkerType.REGULAR: 'regular'>, num_gpus_per_engine=4, overrides={'model_path': '/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model'}, needs_offload=True)], update_weights=True)], base_args={'tokenizer_path': None, 'tokenizer_mode': 'auto', 'tokenizer_backend': 'huggingface', 'tokenizer_worker_num': 1, 'detokenizer_worker_num': 1, 'skip_tokenizer_init': False, 'load_format': 'auto', 'model_loader_extra_config': '{}', 'context_length': 131072, 'is_embedding': False, 'enable_multimodal': None, 'revision': None, 'model_impl': 'auto', 'model_config_parser': 'auto', 'json_model_override_args': '{}', 'dtype': 'bfloat16', 'quantization': None, 'quantization_param_path': None, 'kv_cache_dtype': 'auto', 'enable_fp32_lm_head': False, 'modelopt_quant': None, 'modelopt_checkpoint_restore_path': None, 'modelopt_checkpoint_save_path': None, 'modelopt_export_path': None,"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 9,
+      "text": "[2026-11-07 01:12:23.960 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_CommandActorManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=RouterSpec(args=AllConfig(tinker_lora_groups=None, tinker_server_host='0.0.0.0', tinker_server_port=10613, tinker_base_model=None, tinker_checkpoint_root=None, inference_runtime_mut_state=InferenceRuntimeMutState(engine_count=0, gpu_count=0, eval_engine_count=0), load=None, requested_load=None, raw_megatron=MegatronConfig(trainers=[MegatronTrainerConfig(trainer_id='actor', model_id=None, role='actor', actor_index=0, overrides={})], base_args={'tensor_model_parallel_size': 4, 'pipeline_model_parallel_comm_backend': None, 'pipeline_model_parallel_size': 1, 'sequence_parallel': True, 'context_parallel_size': 1, 'hierarchical_context_parallel_sizes': None, 'max_seqlen_per_dp_cp_rank': None, 'dynamic_context_parallel': False, 'min_dynamic_context_parallel_size': 1, 'hybrid_context_parallel': False, 'sequence_packing_scheduler': None, 'pad_packed_seq_alignment': None, 'thd_tail_padding_policy': None, 'expert_model_parallel_size': 1, 'expert_tensor_parallel_size': 1, 'perform_initialization': True, 'use_cpu_initialization': None, 'fp16': False, 'bf16': True"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 10,
+      "text": "[2026-11-07 01:12:28.966 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_CommandActorManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=1, spec=InferenceEngineSpec(args=AllConfig(tinker_lora_groups=None, tinker_server_host='0.0.0.0', tinker_server_port=10613, tinker_base_model=None, tinker_checkpoint_root=None, inference_runtime_mut_state=InferenceRuntimeMutState(engine_count=0, gpu_count=0, eval_engine_count=0), load=None, requested_load=None, raw_megatron=MegatronConfig(trainers=[MegatronTrainerConfig(trainer_id='actor', model_id=None, role='actor', actor_index=0, overrides={})], base_args={'tensor_model_parallel_size': 4, 'pipeline_model_parallel_comm_backend': None, 'pipeline_model_parallel_size': 1, 'sequence_parallel': True, 'context_parallel_size': 1, 'hierarchical_context_parallel_sizes': None, 'max_seqlen_per_dp_cp_rank': None, 'dynamic_context_parallel': False, 'min_dynamic_context_parallel_size': 1, 'hybrid_context_parallel': False, 'sequence_packing_scheduler': None, 'pad_packed_seq_alignment': None, 'thd_tail_padding_policy': None, 'expert_model_parallel_size': 1, 'expert_tensor_parallel_size': 1, 'perform_initialization': True, 'use_cpu_initialization': None, 'fp16': False, 'bf"
+    },
+    {
+      "file": "worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+      "line_number": 11,
+      "text": "[2026-11-07 01:12:28.980 worker_manager] ray_worker_manager.py:426 - Killed actor at self=_CommandActorManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, parent=_CellManager(manager=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f266244d6d0>, cell_index=0, spec=InferenceEngineSpec(args=AllConfig(tinker_lora_groups=None, tinker_server_host='0.0.0.0', tinker_server_port=10613, tinker_base_model=None, tinker_checkpoint_root=None, inference_runtime_mut_state=InferenceRuntimeMutState(engine_count=0, gpu_count=0, eval_engine_count=0), load=None, requested_load=None, raw_megatron=MegatronConfig(trainers=[MegatronTrainerConfig(trainer_id='actor', model_id=None, role='actor', actor_index=0, overrides={})], base_args={'tensor_model_parallel_size': 4, 'pipeline_model_parallel_comm_backend': None, 'pipeline_model_parallel_size': 1, 'sequence_parallel': True, 'context_parallel_size': 1, 'hierarchical_context_parallel_sizes': None, 'max_seqlen_per_dp_cp_rank': None, 'dynamic_context_parallel': False, 'min_dynamic_context_parallel_size': 1, 'hybrid_context_parallel': False, 'sequence_packing_scheduler': None, 'pad_packed_seq_alignment': None, 'thd_tail_padding_policy': None, 'expert_model_parallel_size': 1, 'expert_tensor_parallel_size': 1, 'perform_initialization': True, 'use_cpu_initialization': None, 'fp16': False, 'bf"
+    },
+    {
+      "file": "worker-29c1c0ee8e441c75a034b890ebcff73ef3df94a15e1911110b077084-03000000-7899.err",
+      "line_number": 95,
+      "text": "[rank1]:[W1107 00:21:16.955928323 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 2 while trying to allocate 13860077568 bytes (free: 8967159808, total: 85029158912)."
+    },
+    {
+      "file": "worker-364d83ec297295c9e565f099b5841949876440156913eb5659742fd8-03000000-7905.err",
+      "line_number": 97,
+      "text": "[rank4]:[W1107 00:21:14.538199821 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 4 while trying to allocate 14495514624 bytes (free: 8547729408, total: 85029158912)."
+    },
+    {
+      "file": "worker-3af746167dcb5582d63e3d8d89f6e504288bd83df62af781dcd118ac-03000000-7900.err",
+      "line_number": 95,
+      "text": "[rank3]:[W1107 00:21:16.955925401 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 1 while trying to allocate 13860077568 bytes (free: 8967159808, total: 85029158912)."
+    },
+    {
+      "file": "worker-41659a2a493b371c09106b52821fde64908e779c2b4c39c257bdf681-03000000-7350.err",
+      "line_number": 1694,
+      "text": "Process 9508 did not exit within 5.0s after SIGTERM; escalating to SIGKILL"
+    },
+    {
+      "file": "worker-69cffb175ad5f98ba490ce551d3681a325720a6c3f54538d8dfeca2d-03000000-7902.err",
+      "line_number": 95,
+      "text": "[rank2]:[W1107 00:21:16.955931872 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 0 while trying to allocate 13860077568 bytes (free: 8967159808, total: 85029158912)."
+    },
+    {
+      "file": "worker-b9de5213ca002d9e6740082b4b7b720feba374b5d976468b207ecc34-03000000-7907.err",
+      "line_number": 97,
+      "text": "[rank7]:[W1107 00:21:14.538194908 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 6 while trying to allocate 14495514624 bytes (free: 8631615488, total: 85029158912)."
+    },
+    {
+      "file": "worker-ba8f2047bf781d33d1514dca008c59143b6d32cb6ae6eab679cc47c1-03000000-7345.err",
+      "line_number": 16,
+      "text": "Eval monitor:   0%|          | 0/24 [00:00<?, ?it/s][2026-11-07 00:18:51.129 rollout_executor] inference_rollout_eval.py:121 - eval_rollout_single_dataset example data: ['<|im_start|>system\\n# Tools\\n\\nYou have access to the following functions:\\n\\n<tools>\\n{\"type\": \"function\", \"function\": {\"name\": \"bash\", \"description\": \"runs the given command directly in bash\", \"parameters\": {\"type\": \"object\", \"properties\": {\"command\": {\"type\": \"string\", \"description\": \"The bash command to execute.\"}}, \"required\": [\"command\"]}, \"strict\": false}}\\n{\"type\": \"function\", \"function\": {\"name\": \"str_replace_editor\", \"description\": \"Custom editing tool for viewing, creating and editing files * State is persistent across command calls and discussions with the user * If `path` is a file, `view` displays the result of applying `cat -n`. If `path` is a directory, `view` lists non-hidden files and directories up to 2 levels deep * The `create` command cannot be used if the specified `path` already exists as a file * If a `command` generates a long output, it will be truncated and marked with `<response clipped>` * The `undo_edit` command will revert the last edit made to the file at `path`\\\\nNotes for using the `str_replace` command: * The `old_str` parameter should match EXACTLY one or more consecutive lines from the original file. Be mindful of whitespaces! * If the `old_str` parameter is not unique in"
+    },
+    {
+      "file": "worker-bf440f89975fea9d3b8a4455de2f3e65e825dc962b16c53de3fc2e34-03000000-7904.err",
+      "line_number": 97,
+      "text": "[rank5]:[W1107 00:21:14.538191534 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 5 while trying to allocate 14495514624 bytes (free: 8547729408, total: 85029158912)."
+    },
+    {
+      "file": "worker-d12dc71b212131f5c16816cf803e49084ad56458dc4c5240b4857d1b-03000000-7906.err",
+      "line_number": 97,
+      "text": "[rank6]:[W1107 00:21:14.538212216 CUDACachingAllocator.cpp:3934] memory allocation failed with OOM on device 7 while trying to allocate 14495514624 bytes (free: 8547729408, total: 85029158912)."
+    },
+    {
+      "file": "worker-d56a3caecc791e5b0f017a86af5cdba58939fc4d74f6c5460fc35731-03000000-7349.err",
+      "line_number": 1686,
+      "text": "Process 9516 did not exit within 5.0s after SIGTERM; escalating to SIGKILL"
+    }
+  ],
+  "inspection_command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=10",
+    "shai-ycfeng",
+    "python3 -"
+  ],
+  "inspection_source": "from pathlib import Path\nimport json,datetime,re\nbase=Path('/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0')\np=base/'memory.jsonl';samples=[json.loads(x) for x in p.open()]\nrows=[]\nfor s in samples:\n t=s['unix_time'];c=s['counters'];used=int(c['/sys/fs/cgroup/memory/memory.usage_in_bytes']);oom=c['/sys/fs/cgroup/memory/memory.oom_control']\n rows.append({'unix_time':t,'utc':datetime.datetime.fromtimestamp(t,datetime.timezone.utc).isoformat(),'bytes':used,'GiB':used/2**30,'oom_control':oom})\nstart=datetime.datetime.fromisoformat('2026-11-07T01:07:00+00:00').timestamp();end=datetime.datetime.fromisoformat('2026-11-07T01:12:00+00:00').timestamp()\nwindow=[r for r in rows if start<=r['unix_time']<=end]\nreport={'source':str(p),'samples':len(rows),'training_sleep_window':window,'phase_points':[],'ray_memory_records':[]}\nfor stamp in ['2026-11-07T00:12:53+00:00','2026-11-07T00:30:00+00:00','2026-11-07T01:07:24+00:00','2026-11-07T01:08:02+00:00','2026-11-07T01:11:10+00:00','2026-11-07T01:11:29+00:00']:\n t=datetime.datetime.fromisoformat(stamp).timestamp();r=min(rows,key=lambda r:abs(r['unix_time']-t));report['phase_points'].append({'requested_utc':stamp,**r})\npattern=re.compile(r'out of memory|oom|OutOfMemory|killed due|memory pressure|memory usage|memory monitor|SIGKILL',re.I)\nfor p in base.glob('*'):\n if p.name=='memory.jsonl' or not p.is_file():continue\n for i,line in enumerate(p.open(errors='replace'),1):\n  if pattern.search(line):report['ray_memory_records'].append({'file':p.name,'line_number':i,'text':line[:1400].strip()})\nprint(json.dumps(report))\n"
+}
