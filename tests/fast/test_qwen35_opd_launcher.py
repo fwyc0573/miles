@@ -55,6 +55,7 @@ from miles.rollout.generate_hub import single_turn
 from miles.utils.external_utils.command_utils import ExecuteTrainConfig
 from miles.utils.external_utils.command_utils.base_backend import BaseCommandBackend
 from miles.utils.external_utils.command_utils.ray_backend import backend as ray_backend
+from miles.utils.tensor_backper import TensorBackuper
 from miles.utils.types import Sample
 
 
@@ -364,8 +365,11 @@ def test_baseline_native_scoring_needs_no_optimizer(monkeypatch, native_model_se
     actor.args.debug_disable_optimizer = args.debug_disable_optimizer
     actor.args.num_rollout = args.num_rollout
     actor.role, actor._active_model_tag, actor._cell_index = "actor", "actor", 0
+    actor.with_ref = actor.with_opd_teacher = False
     actor._asleep, actor._last_rollout_id = asleep, None
     actor.model, actor.optimizer, actor.opt_param_scheduler = model, optimizer, scheduler
+    actor.weights_backuper = TensorBackuper.create(source_getter=model[0].named_parameters)
+    actor.weights_backuper.backup("actor")
     actor.output_store_read = None
     actor._heartbeat = SimpleNamespace(bump=lambda: None)
     actor._get_actor_weights = lambda **kwargs: dict(model[0].named_parameters())
