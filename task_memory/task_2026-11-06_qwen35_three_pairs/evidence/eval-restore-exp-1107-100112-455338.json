@@ -1,0 +1,83 @@
+{
+  "task_id": "QWEN-P3-EVAL-RESTORE",
+  "mode": "cuda",
+  "verdict": "ERROR",
+  "actor_score": [
+    {
+      "weight_equal_at_forward": false,
+      "max_weight_error_at_forward": 1.015625,
+      "uniform_score_max_error": 0.0,
+      "baseline_score_max_error": 1.3888945579528809,
+      "baseline_native_scores": [
+        -3.099461555480957,
+        -1.474294900894165,
+        -3.155857563018799,
+        -1.912514328956604,
+        -3.0191173553466797,
+        -1.2840144634246826,
+        -2.158055305480957,
+        -3.155857563018799,
+        -3.4683361053466797,
+        -2.8480610847473145
+      ],
+      "native_scores": [
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799,
+        -2.079441547393799
+      ],
+      "restored_original_sleep_state": true,
+      "weight_version": 7
+    }
+  ],
+  "interpretation": "real TMS synthetic lifecycle",
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "executable": "/opt/sglang/bin/python3",
+  "limits": [
+    "synthetic model and Adam masters, not Megatron DDP/optimizer construction",
+    "single rank per component, not TP4/DP2",
+    "native process-group destroy/reload and Ray transport are not exercised",
+    "native SGLang scheduler memory methods, not HTTP server or CUDA graph capture",
+    "CUDA mode uses supported TMS torch hook, not the formal worker preload hook",
+    "native training control stops after logprob forward before advantages/backward/update"
+  ],
+  "sg_wake": {
+    "weight_equal_after_native_resume": false,
+    "score_max_error_after_native_resume": 1.081430196762085,
+    "baseline_scores": [
+      -3.017507791519165,
+      -2.045822858810425,
+      -1.9142911434173584,
+      -3.1001977920532227,
+      -1.4731491804122925,
+      -3.160871744155884
+    ],
+    "uniform_score_max_error": 0.0,
+    "scores": [
+      -2.079441547393799,
+      -2.079441547393799,
+      -2.079441547393799,
+      -2.079441547393799,
+      -2.079441547393799,
+      -2.079441547393799
+    ],
+    "static_state_equal": true,
+    "source": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py"
+  },
+  "actor_native_restore_control": {
+    "weight_equal_after_native_switch": true,
+    "score_max_error_after_native_switch": 0.0,
+    "optimizer_state_equal": true,
+    "master_equal": true,
+    "callsite": "MegatronTrainRayActor._train_actor:918-935",
+    "stopped_before_optimizer_step": true
+  },
+  "cleanup_error": "Traceback (most recent call last):\n  File \"/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-restore-pre-fix-kuns6vae/tests/manual/agent_opd/probe_eval_restore.py\", line 485, in main\n    raise RuntimeError(\"\\n\".join(cleanup_errors))\nRuntimeError: Probe worker did not exit successfully: exitcode=1\nProbe worker did not exit successfully: exitcode=1\n",
+  "elapsed_seconds": 20.414998434018344
+}

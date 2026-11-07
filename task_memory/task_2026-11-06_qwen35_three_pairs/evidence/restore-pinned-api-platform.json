@@ -1,0 +1,143 @@
+{
+  "inspected_at": "2026-11-07T05:59:18.749812+00:00",
+  "scope": "Exact-job identity, image, local NFS source and requested GPU verification; no runtime capacity or CUDA qualification",
+  "local_workspace_ip": "100.96.128.195",
+  "jobs": [
+    {
+      "name": "exp-1107-135028-993396",
+      "uid": "d4e17cc9-e6a7-4309-a073-d8e08b81d7fa",
+      "creator": "i-fengyicheng",
+      "quota_group": "codesign",
+      "phase": "Pending",
+      "tasks": [
+        {
+          "name": "default",
+          "replicas": 1,
+          "local_source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "default",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "8",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "1",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "8",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "1"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-134716-167829",
+      "uid": "a93a63d5-df46-4510-9df2-1d10cc5660d1",
+      "creator": "i-fengyicheng",
+      "quota_group": "codesign",
+      "phase": "Succeeded",
+      "tasks": [
+        {
+          "name": "default",
+          "replicas": 1,
+          "local_source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "default",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "8",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "8",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-133708-233964",
+      "uid": "77525ffe-f25b-4751-99f5-62548059c8ae",
+      "creator": "i-fengyicheng",
+      "quota_group": "codesign",
+      "phase": "Failed",
+      "tasks": [
+        {
+          "name": "default",
+          "replicas": 1,
+          "local_source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "default",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "8",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "8",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-131627-198417",
+      "uid": "f7c8199f-4d15-45d0-aaa6-801f8963f937",
+      "creator": "i-fengyicheng",
+      "quota_group": "codesign",
+      "phase": "Failed",
+      "tasks": [
+        {
+          "name": "default",
+          "replicas": 1,
+          "local_source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "default",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "resources": {
+                "limits": {
+                  "cpu": "8",
+                  "mellanox.com/mlnx_rdma": "1",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0",
+                  "rdma/mlnx_shared": "8"
+                },
+                "requests": {
+                  "cpu": "8",
+                  "memory": "64000Mi",
+                  "nvidia.com/gpu": "0"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

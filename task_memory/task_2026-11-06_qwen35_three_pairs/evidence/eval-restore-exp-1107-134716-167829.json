@@ -1,0 +1,440 @@
+{
+  "task_id": "QWEN-P3-EVAL-RESTORE",
+  "mode": "cpu",
+  "verdict": "PASS",
+  "actor_score": [
+    {
+      "weight_equal_at_forward": true,
+      "max_weight_error_at_forward": 0.0,
+      "uniform_score_max_error": 1.3939499855041504,
+      "baseline_score_max_error": 0.0,
+      "baseline_native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "restored_original_sleep_state": true,
+      "weight_version": 7
+    },
+    {
+      "weight_equal_at_forward": true,
+      "max_weight_error_at_forward": 0.0,
+      "uniform_score_max_error": 1.3939499855041504,
+      "baseline_score_max_error": 0.0,
+      "baseline_native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "restored_original_sleep_state": true,
+      "weight_version": 7
+    }
+  ],
+  "cycles": [
+    {
+      "cycle": 0,
+      "actor_score": {
+        "weight_equal_at_forward": true,
+        "max_weight_error_at_forward": 0.0,
+        "uniform_score_max_error": 1.3939499855041504,
+        "baseline_score_max_error": 0.0,
+        "baseline_native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "restored_original_sleep_state": true,
+        "weight_version": 7
+      },
+      "sg_wake": {
+        "weight_equal_after_native_resume": true,
+        "score_max_error_after_native_resume": 0.0,
+        "baseline_scores": [
+          -3.016360282897949,
+          -2.0464210510253906,
+          -1.9136565923690796,
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161
+        ],
+        "uniform_score_max_error": 1.0826728343963623,
+        "scores": [
+          -3.016360282897949,
+          -2.0464210510253906,
+          -1.9136565923690796,
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161
+        ],
+        "static_state_equal": true,
+        "weight_version": "7",
+        "session_closed": true,
+        "engine_resumed": true,
+        "offload_tags": [],
+        "engine_events": [
+          "pause_generation",
+          "flush_cache",
+          "begin_weight_update",
+          "update_weights_from_tensor",
+          "end_weight_update",
+          "update_weight_version",
+          "continue_generation",
+          "model_info"
+        ],
+        "native_transfers": [
+          {
+            "device": "cpu",
+            "is_cuda": false,
+            "receiver_pid": 52,
+            "bucket_bytes": 128,
+            "native_receiver": "BaseTpWorker.deserialize_own_rank -> WeightUpdater._update_weights_from_flattened_bucket",
+            "native_load_weights_completed": true,
+            "sender_pid": 51
+          }
+        ],
+        "source": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py"
+      },
+      "actor_native_restore_control": {
+        "weight_equal_after_native_switch": true,
+        "score_max_error_after_native_switch": 0.0,
+        "optimizer_state_equal": true,
+        "master_equal": true,
+        "optimizer_steps": 0.0,
+        "weight_version": 7,
+        "callsite": "MegatronTrainRayActor._train_actor",
+        "stopped_before_optimizer_step": true,
+        "final_actor_asleep": true
+      }
+    },
+    {
+      "cycle": 1,
+      "actor_score": {
+        "weight_equal_at_forward": true,
+        "max_weight_error_at_forward": 0.0,
+        "uniform_score_max_error": 1.3939499855041504,
+        "baseline_score_max_error": 0.0,
+        "baseline_native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "restored_original_sleep_state": true,
+        "weight_version": 7
+      },
+      "sg_wake": {
+        "weight_equal_after_native_resume": true,
+        "score_max_error_after_native_resume": 0.0,
+        "baseline_scores": [
+          -3.016360282897949,
+          -2.0464210510253906,
+          -1.9136565923690796,
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161
+        ],
+        "uniform_score_max_error": 1.0826728343963623,
+        "scores": [
+          -3.016360282897949,
+          -2.0464210510253906,
+          -1.9136565923690796,
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161
+        ],
+        "static_state_equal": true,
+        "weight_version": "7",
+        "session_closed": true,
+        "engine_resumed": true,
+        "offload_tags": [],
+        "engine_events": [
+          "pause_generation",
+          "flush_cache",
+          "begin_weight_update",
+          "update_weights_from_tensor",
+          "end_weight_update",
+          "update_weight_version",
+          "continue_generation",
+          "model_info",
+          "pause_generation",
+          "flush_cache",
+          "begin_weight_update",
+          "update_weights_from_tensor",
+          "end_weight_update",
+          "update_weight_version",
+          "continue_generation",
+          "model_info"
+        ],
+        "native_transfers": [
+          {
+            "device": "cpu",
+            "is_cuda": false,
+            "receiver_pid": 52,
+            "bucket_bytes": 128,
+            "native_receiver": "BaseTpWorker.deserialize_own_rank -> WeightUpdater._update_weights_from_flattened_bucket",
+            "native_load_weights_completed": true,
+            "sender_pid": 51
+          },
+          {
+            "device": "cpu",
+            "is_cuda": false,
+            "receiver_pid": 52,
+            "bucket_bytes": 128,
+            "native_receiver": "BaseTpWorker.deserialize_own_rank -> WeightUpdater._update_weights_from_flattened_bucket",
+            "native_load_weights_completed": true,
+            "sender_pid": 51
+          }
+        ],
+        "source": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py"
+      },
+      "actor_native_restore_control": {
+        "weight_equal_after_native_switch": true,
+        "score_max_error_after_native_switch": 0.0,
+        "optimizer_state_equal": true,
+        "master_equal": true,
+        "optimizer_steps": 0.0,
+        "weight_version": 7,
+        "callsite": "MegatronTrainRayActor._train_actor",
+        "stopped_before_optimizer_step": true,
+        "final_actor_asleep": true
+      }
+    }
+  ],
+  "transactions": [
+    {
+      "events": [
+        "start",
+        "publish",
+        "end",
+        "rollout_set_version"
+      ],
+      "receiver_pool": "rollout",
+      "weight_version": 7
+    },
+    {
+      "events": [
+        "start",
+        "publish",
+        "end",
+        "rollout_set_version"
+      ],
+      "receiver_pool": "rollout",
+      "weight_version": 7
+    }
+  ],
+  "workers": [
+    {
+      "ready": true,
+      "pid": 51,
+      "torch": "2.14.1+cu130",
+      "evidence": {
+        "actor_baseline": {
+          "native_scores": [
+            -3.101123809814453,
+            -1.4730218648910522,
+            -3.162114381790161,
+            -1.9136565923690796,
+            -3.016360282897949,
+            -1.281772494316101,
+            -2.159717559814453,
+            -3.162114381790161,
+            -3.473391532897949,
+            -2.849203586578369
+          ]
+        }
+      }
+    },
+    {
+      "ready": true,
+      "pid": 52,
+      "torch": "2.14.1+cu130",
+      "evidence": {
+        "sg_baseline": {
+          "scores": [
+            -3.016360282897949,
+            -2.0464210510253906,
+            -1.9136565923690796,
+            -3.101123809814453,
+            -1.4730218648910522,
+            -3.162114381790161
+          ]
+        }
+      }
+    }
+  ],
+  "worker_exits": [
+    {
+      "pid": 52,
+      "exitcode": 0
+    },
+    {
+      "pid": 51,
+      "exitcode": 0
+    }
+  ],
+  "interpretation": "CPU-injected orchestration only; not CUDA IPC qualification",
+  "cuda_ipc_qualified": false,
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "executable": "/opt/sglang/bin/python3",
+  "limits": [
+    "synthetic model and Adam masters, not Megatron DDP/optimizer construction",
+    "single rank per component, not TP4/DP2",
+    "native process-group destroy/reload and Ray transport are not exercised",
+    "local control RPC shim, not Ray/HTTP server or CUDA graph capture",
+    "tiny load_weights destination and iterator, not Qwen/Megatron-to-HF conversion",
+    "CUDA mode uses supported TMS torch hook, not the formal worker preload hook",
+    "native training control stops after logprob forward before advantages/backward/update"
+  ],
+  "sg_wake": {
+    "weight_equal_after_native_resume": true,
+    "score_max_error_after_native_resume": 0.0,
+    "baseline_scores": [
+      -3.016360282897949,
+      -2.0464210510253906,
+      -1.9136565923690796,
+      -3.101123809814453,
+      -1.4730218648910522,
+      -3.162114381790161
+    ],
+    "uniform_score_max_error": 1.0826728343963623,
+    "scores": [
+      -3.016360282897949,
+      -2.0464210510253906,
+      -1.9136565923690796,
+      -3.101123809814453,
+      -1.4730218648910522,
+      -3.162114381790161
+    ],
+    "static_state_equal": true,
+    "weight_version": "7",
+    "session_closed": true,
+    "engine_resumed": true,
+    "offload_tags": [],
+    "engine_events": [
+      "pause_generation",
+      "flush_cache",
+      "begin_weight_update",
+      "update_weights_from_tensor",
+      "end_weight_update",
+      "update_weight_version",
+      "continue_generation",
+      "model_info",
+      "pause_generation",
+      "flush_cache",
+      "begin_weight_update",
+      "update_weights_from_tensor",
+      "end_weight_update",
+      "update_weight_version",
+      "continue_generation",
+      "model_info"
+    ],
+    "native_transfers": [
+      {
+        "device": "cpu",
+        "is_cuda": false,
+        "receiver_pid": 52,
+        "bucket_bytes": 128,
+        "native_receiver": "BaseTpWorker.deserialize_own_rank -> WeightUpdater._update_weights_from_flattened_bucket",
+        "native_load_weights_completed": true,
+        "sender_pid": 51
+      },
+      {
+        "device": "cpu",
+        "is_cuda": false,
+        "receiver_pid": 52,
+        "bucket_bytes": 128,
+        "native_receiver": "BaseTpWorker.deserialize_own_rank -> WeightUpdater._update_weights_from_flattened_bucket",
+        "native_load_weights_completed": true,
+        "sender_pid": 51
+      }
+    ],
+    "source": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py"
+  },
+  "actor_native_restore_control": {
+    "weight_equal_after_native_switch": true,
+    "score_max_error_after_native_switch": 0.0,
+    "optimizer_state_equal": true,
+    "master_equal": true,
+    "optimizer_steps": 0.0,
+    "weight_version": 7,
+    "callsite": "MegatronTrainRayActor._train_actor",
+    "stopped_before_optimizer_step": true,
+    "final_actor_asleep": true
+  },
+  "elapsed_seconds": 43.59895383194089
+}

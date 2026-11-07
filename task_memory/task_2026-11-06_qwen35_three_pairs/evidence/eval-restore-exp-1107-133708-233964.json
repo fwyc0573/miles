@@ -1,0 +1,157 @@
+{
+  "task_id": "QWEN-P3-EVAL-RESTORE",
+  "mode": "cpu",
+  "verdict": "ERROR",
+  "actor_score": [
+    {
+      "weight_equal_at_forward": true,
+      "max_weight_error_at_forward": 0.0,
+      "uniform_score_max_error": 1.3939499855041504,
+      "baseline_score_max_error": 0.0,
+      "baseline_native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "native_scores": [
+        -3.101123809814453,
+        -1.4730218648910522,
+        -3.162114381790161,
+        -1.9136565923690796,
+        -3.016360282897949,
+        -1.281772494316101,
+        -2.159717559814453,
+        -3.162114381790161,
+        -3.473391532897949,
+        -2.849203586578369
+      ],
+      "restored_original_sleep_state": true,
+      "weight_version": 7
+    }
+  ],
+  "cycles": [],
+  "transactions": [
+    {
+      "events": [
+        "start",
+        "abort"
+      ],
+      "receiver_pool": "rollout"
+    }
+  ],
+  "workers": [
+    {
+      "ready": true,
+      "pid": 49,
+      "torch": "2.14.1+cu130",
+      "evidence": {
+        "actor_baseline": {
+          "native_scores": [
+            -3.101123809814453,
+            -1.4730218648910522,
+            -3.162114381790161,
+            -1.9136565923690796,
+            -3.016360282897949,
+            -1.281772494316101,
+            -2.159717559814453,
+            -3.162114381790161,
+            -3.473391532897949,
+            -2.849203586578369
+          ]
+        }
+      }
+    },
+    {
+      "ready": true,
+      "pid": 50,
+      "torch": "2.14.1+cu130",
+      "evidence": {
+        "sg_baseline": {
+          "scores": [
+            -3.016360282897949,
+            -2.0464210510253906,
+            -1.9136565923690796,
+            -3.101123809814453,
+            -1.4730218648910522,
+            -3.162114381790161
+          ]
+        }
+      }
+    }
+  ],
+  "worker_exits": [],
+  "interpretation": "CPU-injected orchestration only; not CUDA IPC qualification",
+  "cuda_ipc_qualified": false,
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "executable": "/opt/sglang/bin/python3",
+  "limits": [
+    "synthetic model and Adam masters, not Megatron DDP/optimizer construction",
+    "single rank per component, not TP4/DP2",
+    "native process-group destroy/reload and Ray transport are not exercised",
+    "local control RPC shim, not Ray/HTTP server or CUDA graph capture",
+    "tiny load_weights destination and iterator, not Qwen/Megatron-to-HF conversion",
+    "CUDA mode uses supported TMS torch hook, not the formal worker preload hook",
+    "native training control stops after logprob forward before advantages/backward/update"
+  ],
+  "error": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 924, in main\n    asyncio.run(_driver(workers[0][1], workers[1][1], result))\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py\", line 195, in run\n    return runner.run(main)\n           ^^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/asyncio/base_events.py\", line 691, in run_until_complete\n    return future.result()\n           ^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 867, in _driver\n    await namespace[\"_score_eval_train_data\"](\n  File \"/data/ycfeng/sota-engine/miles/train.py\", line 53, in _score_eval_train_data\n    await asyncio.shield(pending)\n  File \"/data/ycfeng/sota-engine/miles/train.py\", line 109, in _score_eval_datasets\n    await update_weights(args, actor_model, rollout_executor, inference_controller)\n  File \"/data/ycfeng/sota-engine/miles/miles/ray/placement_group.py\", line 333, in update_weights\n    output: WeightUpdateOutput = await actor_model.update_weights(info=info, rollout_id=rollout_id)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 819, in publish\n    output = _rpc(actor_connection, \"publish\", info)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 777, in _rpc\n    raise _WorkerError(method, response[\"error\"], response[\"evidence\"])\n_WorkerError: Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 757, in _worker\n    result = handlers[method](*args)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 488, in publish\n    output = actor.update_weights(info, \"tiny-same-version\", rollout_id=None)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper\n    result = func(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/timer.py\", line 90, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 1155, in update_weights\n    return self._update_receiver_weights(info, debug_weight_update_id, rollout_id)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 1193, in _update_receiver_weights\n    self.weight_updater.update_weights(weight_version=weight_version)\n  File \"/opt/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 124, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/updater.py\", line 179, in update_weights\n    protocol.send_bucket(bucket)\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/protocols/cuda_ipc.py\", line 180, in send_bucket\n    check_weight_sync_results(async_utils.wait_futures(futures or []), is_lora=False)\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/async_utils.py\", line 93, in wait_futures\n    raise errors[0]\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/async_utils.py\", line 86, in wait_futures\n    results.append(future.result())\n                   ^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 456, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/protocols/cuda_ipc.py\", line 258, in _update_weights_from_tensor_gated\n    return await api_client.update_weights_from_tensor(**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/sglang_utils/sglang_api_client.py\", line 152, in update_weights_from_tensor\n    return await self._make_request(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 453, in _make_request\n    return _rpc(peer, \"api\", endpoint, payload or {}, os.getpid())\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 777, in _rpc\n    raise _WorkerError(method, response[\"error\"], response[\"evidence\"])\n__mp_main__._WorkerError: Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 757, in _worker\n    result = handlers[method](*args)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 695, in api\n    output = native_method(req_type(**payload))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py\", line 355, in update_weights_from_tensor\n    success, message = runner.weight_updater.update_weights_from_tensor(\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/weight_updater.py\", line 387, in update_weights_from_tensor\n    device_module = torch.get_device_module(self.device)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: _sglang.<locals>.<lambda>() takes 0 positional arguments but 1 was given\n\n\n",
+  "worker_error": {
+    "method": "publish",
+    "evidence": {
+      "actor_baseline": {
+        "native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ]
+      },
+      "score": {
+        "weight_equal_at_forward": true,
+        "max_weight_error_at_forward": 0.0,
+        "uniform_score_max_error": 1.3939499855041504,
+        "baseline_score_max_error": 0.0,
+        "baseline_native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "native_scores": [
+          -3.101123809814453,
+          -1.4730218648910522,
+          -3.162114381790161,
+          -1.9136565923690796,
+          -3.016360282897949,
+          -1.281772494316101,
+          -2.159717559814453,
+          -3.162114381790161,
+          -3.473391532897949,
+          -2.849203586578369
+        ],
+        "restored_original_sleep_state": true,
+        "weight_version": 7
+      }
+    },
+    "error": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 757, in _worker\n    result = handlers[method](*args)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 488, in publish\n    output = actor.update_weights(info, \"tiny-same-version\", rollout_id=None)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/tracking_utils/structured_log.py\", line 78, in wrapper\n    result = func(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/timer.py\", line 90, in wrapper\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 1155, in update_weights\n    return self._update_receiver_weights(info, debug_weight_update_id, rollout_id)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py\", line 1193, in _update_receiver_weights\n    self.weight_updater.update_weights(weight_version=weight_version)\n  File \"/opt/sglang/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 124, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/updater.py\", line 179, in update_weights\n    protocol.send_bucket(bucket)\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/protocols/cuda_ipc.py\", line 180, in send_bucket\n    check_weight_sync_results(async_utils.wait_futures(futures or []), is_lora=False)\n                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/async_utils.py\", line 93, in wait_futures\n    raise errors[0]\n  File \"/data/ycfeng/sota-engine/miles/miles/utils/async_utils.py\", line 86, in wait_futures\n    results.append(future.result())\n                   ^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 456, in result\n    return self.__get_result()\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result\n    raise self._exception\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/protocols/cuda_ipc.py\", line 258, in _update_weights_from_tensor_gated\n    return await api_client.update_weights_from_tensor(**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/miles/backends/sglang_utils/sglang_api_client.py\", line 152, in update_weights_from_tensor\n    return await self._make_request(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 453, in _make_request\n    return _rpc(peer, \"api\", endpoint, payload or {}, os.getpid())\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 777, in _rpc\n    raise _WorkerError(method, response[\"error\"], response[\"evidence\"])\n__mp_main__._WorkerError: Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 757, in _worker\n    result = handlers[method](*args)\n             ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data/ycfeng/sota-engine/miles/tests/manual/agent_opd/probe_eval_restore.py\", line 695, in api\n    output = native_method(req_type(**payload))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py\", line 355, in update_weights_from_tensor\n    success, message = runner.weight_updater.update_weights_from_tensor(\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/weight_updater.py\", line 387, in update_weights_from_tensor\n    device_module = torch.get_device_module(self.device)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nTypeError: _sglang.<locals>.<lambda>() takes 0 positional arguments but 1 was given\n\n"
+  },
+  "elapsed_seconds": 40.65261677466333
+}
