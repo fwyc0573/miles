@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Resume at14:45 local: confirm the existing CUDA probe is still queued and its Python launcher remains alive; preserve the pending formal-runtime prerequisite. |
 | 2026-11-07 | Record A/C raw uniform-score corruption, A/B stops, C's first optimizer step and host-memory OOM; update the active repair frontier. |
 | 2026-11-07 | Record76 passing pinned preparation cases, phase review closure and independent text-loader findings. |
 | 2026-11-07 | Record verified commits, C's actual fused launch and the two before-run lifecycle gaps blocking A/B resubmission. |
@@ -213,9 +214,13 @@
 122. Formal preflight reuses the76 pinned sample-boundary/launcher tests and their existing success, timeout, failure and later-success evidence. Reinspection confirms per-attempt start/end identity/timing/status/error records, the3600s native retry-chain bound, independent teacher/observer bounds, native refill-eight and systemic failure semantics; C's resource-only edit does not change these paths. Actual attempted/success/timeout/failed/skipped/consumed accounting remains required after each formal run.
 123. Focused read-only initialization audit confirms the genuine initial publication follows cell release-all → resume-weights → native publication/checksum, matching the later restore provenance. Two retained independent initial dictionaries match across all1416 entries/cell. No new receipt-consumer defect is established; same-run restored dictionaries remain a formal runtime check. No exclusions or extra probe features are added.
 
+124. Commit `de08040b` records the approved C memory allocation and evidence; `ec7e3a66` records the pinned-CPU-qualified native restoration diagnostic and retained failures, explicitly without CUDA qualification. Self-check after these verified steps leaves only actual CUDA restoration pending before formal release. The1H800 launcher remains alive in the queue; no unrelated work is staged.
+
+125. On the user's continuation request, exact personal API inspection at06:45:18Z (14:45 local) still reports `exp-1107-135028-993396` Pending, reason `RJob is queuing`, with no stop annotation. The native Python launcher remains live at PID2673306, started05:50:24Z, matching this submission. The initial shell-only liveness query missed the launcher because the final Python command replaced the shell; direct process inspection resolved that query error. [Retained status and liveness evidence](evidence/restore-native-ipc-status.json). No GPU execution result exists yet, no duplicate is submitted, and formal runs remain gated on actual restored-runtime verification.
+
 ## Next actions
 
-1. Await the admitted1H800 native same-version publication probe; establish actual CUDA IPC, initial/final bytes, unchanged synthetic optimizer/master/counters and clean exits before formal release. Exact pinned CPU qualification passes but is not CUDA evidence. The lifecycle-error boundary is already resolved and pinned-verified; retain its existing soft/fatal semantics.
+1. Await scheduling of the queued1H800 native same-version publication probe; establish actual CUDA IPC, initial/final bytes, unchanged synthetic optimizer/master/counters and clean exits before formal release. Exact pinned CPU qualification passes but is not CUDA evidence. The lifecycle-error boundary is already resolved and pinned-verified; retain its existing soft/fatal semantics.
 2. After shared restoration qualification, resume A/B independently and C with D16's memory request under the D15 fresh100-step budget. Measure fresh initial/updated D8, actual updates and actual C host memory.
 3. Tracker cleanup, reader bindings and fake-engine isolation are committed and pinned-verified; final24-sample checksum/inference checks await final artifacts. Optional rematerialization repair is deferred.
 

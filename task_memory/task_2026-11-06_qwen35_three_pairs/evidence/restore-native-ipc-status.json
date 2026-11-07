@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-11-07T06:45:18.567141+00:00",
+  "name": "exp-1107-135028-993396",
+  "creator": "i-fengyicheng",
+  "phase": "Pending",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "default": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {},
+  "launcher_liveness": {
+    "pid": 2673306,
+    "ppid": 68295,
+    "observed_status": "running",
+    "started_at": "2026-11-07T05:50:24.440000+00:00",
+    "cwd": "/data/ycfeng",
+    "interpreter": "/data/ycfeng/tmp/stepmind-env/bin/python",
+    "identity_basis": "Unique live personal RJob stdin launcher matching this submission's interpreter, cwd and start time. The shell was replaced by its final Python command."
+  }
+}

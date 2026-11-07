@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Recheck the stalled frontier on continuation: exact14:45 platform status is Queued and the owning Python launcher remains alive; no new execution or scope change. |
+| 2026-11-07 | Exact pinned CPU cycles now pass; record committed D16/probe implementation and the sole remaining queued CUDA restoration prerequisite. |
 | 2026-11-07 | Check D16's rendered memory allocation and pinned API failures; close reader/isolation work and keep actual CUDA restoration as the remaining shared prerequisite. |
 | 2026-11-07 | Apply D15 and pinned tracker closure; close source/CPU publication P1 and retain actual IPC, test isolation and C memory qualification as the frontier. |
 | 2026-11-07 | Recheck after actual TMS causal evidence, 67 core CPU checks and native HF content qualification; keep full-exit cleanup and restoration contracts open. |
@@ -27,14 +29,14 @@
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次恢复发布检查点至D16配置验证｜**当前前沿：** exact pinned CPU两周期后验证实际TMS/IPC；C已选内存方案，待平台分配和正式首步实测。
+**检测窗口：** 上次恢复发布检查点至14:45继续执行核查｜**当前前沿：** 1H800实际TMS/IPC仍在平台队列，Python launcher存活；C已选内存方案，待平台分配和正式首步实测。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | HF隔离89项pinned检查通过后已停止扩展；小型事务资格仍是大模型恢复前的便宜检查。 |
-| D2 细节反复重试 | CLEAR | 两次pinned CPU失败依次定位启动地址metadata和旧device stub；每次先记录具体原因及期望，未盲目重跑GPU。完整pinned方法已检查，新的CPU验证针对已定位签名错误。 |
+| D2 细节反复重试 | CLEAR | 两次pinned CPU失败依次定位启动地址metadata和旧device stub；逐次记录原因/期望，最终exp-1107-134716-167829两周期PASS，状态已推进至实际CUDA排队。 |
 | D3 支线问题修补 | CLEAR | 概率恢复直接阻塞R3；C内存阻塞实际运行；HF资格属于D13。 |
-| D4 可并行任务停滞 | CLEAR | C容量查询、方案裁决及配置验证独立推进；已观察codesign运行请求128卡，已知失败探针在获得GPU前停止。 |
+| D4 可并行任务停滞 | CLEAR | C的独立准备已完成；14:45精确平台回执仍为Pending/queuing，当前共享前置条件受调度限制。launcher存活，无重复提交或绕过运行验证。 |
 | D5 超范围镀金 | CLEAR | 未扩预算、未改参数目标、未引入新训练方案。 |
 | D6 分析空转 | CLEAR | reader和owner修复已提交；C作出D16决策并通过配置验证，未继续实现未选的省内存路径。 |
 | D7 路线违背 | CLEAR | 直接原始数据证明运行异常后停止；没有按辅助评分自动终止健康训练，没有新增Qwen optimizer probe。 |
@@ -49,8 +51,8 @@
 **需停止的偏离行为：无**
 
 **接下去的路线：**
-1. 共享恢复：exact pinned CPU两周期通过后，以1GPU验证实际TMS/IPC、参数/分数精确恢复、主状态不变、同版本发布和正常退出；不新增optimizer更新。
-2. 并行：提交已验证D16配置；准备三组既有正式入口。共享资格通过后并行排队，核对C实际memory limit和first-update主机峰值。
+1. 共享恢复：等待exp-1107-135028-993396调度，核验实际TMS/IPC、参数/分数精确恢复、主状态不变、同版本发布和正常退出；不新增optimizer更新，不因配额满重复提交。
+2. D16配置已提交de08040b，CPU资格探针已提交ec7e3a66；正式preflight复用76项pinned证据。共享CUDA资格通过后并行排队三组，核对C实际memory limit和first-update主机峰值。
 3. 每组按获准预算核验实际更新、发布、更新后/最终D8及HF，完成后进入P4。已通过的reader、tracker和隔离套件不重复扩大。
 
 **暂缓事项：** 可选rematerialization的失败恢复修复与kernel-only探针记入[future.md](future.md)，引用各自唯一报告；当前C沿正常backup路径。
