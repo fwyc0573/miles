@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record three independently submitted restored formal runs and verify admitted resource requests, source/image and personal identity; full runtime acceptance remains pending. |
 | 2026-11-07 | Link confirmed C restart budget and memory allocation after preserving the original update/OOM evidence. |
 | 2026-11-07 | Record raw post-eval uniform-policy corruption, actual C step0, host-memory OOM evidence and controlled A/B stops. |
 | 2026-11-07 | Close attempt-accounting/client-deadline preparation with pinned76-case evidence and phase review. |
@@ -208,3 +209,19 @@ Seven reads succeed; no existing DeepScan is returned. RJob all-operation audit 
 At the pre-stop event check A has baseline publication0 and no completed train step; B has neither publication nor completed train step. At09:28:07 local, the required personal `rjob_stop.sh` stops exact jobs `exp-1107-085640-136853` and `exp-1107-085640-141571`, with reason recorded in `/data/ycfeng/tmp/rjob-stop-audit.log`: confirmed native post-eval uniform-policy corruption, A reproduction, zero completed A/B updates. Both launchers then reportStopped. This action follows direct workload corruption evidence, not an automatic auxiliary D8 verdict. C's consumed optimizer step and absent post-step published state must be accounted for before any fresh100-step restart decision; no budget reset is inferred.
 
 The subsequent explicit restart decision is now recorded as D15 in [requirements](requirements.md), with the original update retained as discarded historical work. D16 selects the larger student memory allocation using the normal backup path; the exact rendered request, source-backed alternatives and remaining capacity checks are owned by [the C host-memory report](test_report_2026-11-07_C_host_memory.md). Shared runtime restoration qualification remains open.
+
+## Restored formal runs submitted at15:08 local
+
+Source/config commit `db60066c`. Production restoration and receipt-consumer CPU checks remain valid; the real H800 diagnostic measured two complete native CUDA IPC transactions with exact restored bytes/scores and unchanged synthetic master/Adam/version. Its probe-only private-pool cleanup then failed, so the original artifact remains ERROR. Focused call-site inspection confirms that cleanup is unreachable in formal training. The updated plan separates this diagnostic exit repair from actual preload/full-model qualification, which is still a formal-run acceptance requirement. The [restoration report](test_report_2026-11-07_eval_restore.md) owns the detailed evidence and diagnostic limitations.
+
+The unchanged submission command above was run independently with `--pair A`, `--pair B` and `--pair C`, all from `/data/ycfeng` through personal Python RJobBackend. All three launchers remain alive. [Exact API receipt](evidence/platform-restored-formal-admission.json) verifies creator `i-fengyicheng`, pinned image digest, current local NFS source, intended config/pair, replicas and CPU/GPU/memory requests and limits:
+
+| Pair | RJob | Requested GPUs | Student memory limit | Initial platform state |
+| --- | --- | --- | --- | --- |
+| A | `exp-1107-150849-708403` |8+2 |500GiB |Pending |
+| B | `exp-1107-150849-818314` |8+2 |500GiB |Pending |
+| C | `exp-1107-150849-814926` |8+16 |1500GiB |Pending |
+
+All three retain100 planned positions and8 valid training completions per position. C is the single D15-authorized fresh100-step restart; its old failed update remains discarded historical work. [Dry-run resource receipt](evidence/restored-formal-resources.json) passes; [capacity observation](evidence/restored-formal-capacity.json) records122 Starting/Running requested GPUs against the stated128 capacity before submission, which is not a measured free-device count. The platform owns scheduling and no duplicate is submitted because of queuing.
+
+The independent1H800 diagnostic rerun `exp-1107-150925-737118` uses the pinned cleanup fix and was observedStarting in the same API inspection. Its outcome does not replace initial/restored formal receipts, first actual optimizer evidence, C's worker cgroup/peak measurement, updated/final D8 or final HF qualification. Auxiliary validation remains a soft observer of healthy training.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Parent validates corrected cleanup on H800: two native CUDA IPC cycles PASS, both workers and container exit0, whole-interpreter log checked; retain formal model/preload limits. |
 | 2026-11-07 | QWEN-P3-TMS-CLEANUP-ABI: use the extracted pinned backend-preserving context and owned pool collection; reproduce the exact missing-argument error and retain lifecycle/error regressions. |
 | 2026-11-07 | Parent verifies the exact pinned device-module caller and replaces the obsolete CPU no-op stub with the real torch CPU module; retain explicit-device behavior and pending runtime verdict. |
 | 2026-11-07 | Supply factual startup address/size metadata on the tiny runner's existing owner and add a negative control executing the pinned native published-storage assertion. |
@@ -64,7 +65,24 @@ export TMPDIR="/var/tmp/qwen-api-$KUBEBRAIN_RJOB_NAME"
   --report "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/eval-restore-$KUBEBRAIN_RJOB_NAME.json"
 ```
 
-Actual CUDA job `exp-1107-135028-993396` is submitted with1H800 and remains Pending on the exact admission read. [Platform receipt](evidence/restore-pinned-api-platform.json) verifies the personal creator, pinned image and current local NFS source. The prior failed CPU jobs are retained separately. An initial inspection filtered annotation names for the word `mount` and therefore missed the native NFS field; source inspection of `steptron/utils/stepmind.py:907–917` corrected the reader to the exact `kubebrain.brainpp.cn/filestore-volume` field. This inspection error did not change any workload or allocation.
+Actual CUDA job `exp-1107-135028-993396` was initially observed Pending. Its later result preserves two correct measured cycles followed by the cleanup ERROR detailed below. [Platform receipt](evidence/restore-pinned-api-platform.json) verifies the personal creator, pinned image and current local NFS source; [terminal evidence](evidence/eval-restore-exp-1107-135028-993396-platform.json) binds the failing replica to its exact owner and subsequent cleanup timeline. The prior failed CPU jobs are retained separately. An initial inspection filtered annotation names for the word `mount` and therefore missed the native NFS field; source inspection of `steptron/utils/stepmind.py:907–917` corrected the reader to the exact `kubebrain.brainpp.cn/filestore-volume` field. This inspection error did not change any workload or allocation.
+
+## Parent corrected H800 result: PASS
+
+`exp-1107-150925-737118`, source fix `db60066c`, completes in46.153878s of probe time on NVIDIA H800 (`GPU-7c78318e-a37c-3c82-284b-a27dc9f6d556`,81559MiB), Python3.12.16, torch2.14.1+cu130. [Raw report](evidence/eval-restore-exp-1107-150925-737118.json) records PASS and `cuda_ipc_qualified=true` for this synthetic torch-hook test. Expected and observed: two complete native publication/IPC cycles between distinct processes, exact parameter/score recovery at all measured boundaries, nonuniform scores, unchanged synthetic master/Adam, version7, zero optimizer steps, workers120/121 both exit0. [Platform status](evidence/restored-runtime-status.json) independently binds the exact replica to the job and confirms Succeeded/container exit0.
+
+The complete retained log was inspected for ignored exceptions, TMS interesting-region errors, producer/IPC teardown warnings and cleanup exceptions: none remain. Its two `_TrainingForwardObserved` traces are the intentional native training controls stopping before optimizer execution, not unexpected failures. The old ERROR artifacts remain unchanged. Exact worker invocation from repo cwd, retaining the RJob-assigned GPU visibility:
+
+```bash
+export PYTHONPATH=/data/ycfeng/sota-engine/miles PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 MEGATRON_PATH=/root/Megatron-LM
+export LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+export TMPDIR="/var/tmp/qwen-restore-$KUBEBRAIN_RJOB_NAME"
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.probe_eval_restore --mode cuda --gpu-id 0 \
+  --report "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/eval-restore-$KUBEBRAIN_RJOB_NAME.json"
+```
+
+This closes the diagnostic cleanup/real-IPC loop. Its declared single-rank synthetic model, local control transport, torch hook and pre-optimizer stopping point remain limits. Actual formal preload, distributed complete models, optimizer capacity, D8 and final HF acceptance remain owned by the already-submitted formal runs. No more diagnostic expansion or repeat is required without a new failure.
 
 ## Historical pre-fix source evidence
 

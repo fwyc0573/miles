@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Close synthetic CUDA restoration/exit verification with a real H800 PASS; formal jobs remain queued with validated platform configuration. |
 | 2026-11-07 | Record two successful measured CUDA restoration cycles followed by probe-only cleanup failure; correct the execution dependency and release formal resume while retaining the ERROR artifact. |
 | 2026-11-07 | Resume at14:45 local: confirm the existing CUDA probe is still queued and its Python launcher remains alive; preserve the pending formal-runtime prerequisite. |
 | 2026-11-07 | Record A/C raw uniform-score corruption, A/B stops, C's first optimizer step and host-memory OOM; update the active repair frontier. |
@@ -223,10 +224,16 @@
 127. Focused `QWEN-P3-CLEANUP-SCOPE` inspection establishes that `_close_allocations` and direct private-pool disposal occur only in the probe, while formal training uses the preload hook and public native APIs. The synthetic torch-hook probe cannot establish full formal qualification even after cleanup. Correct the plan's overbroad dependency: preserve the probe ERROR, repair its cleanup independently, and use the already-approved formal initial/restored handoff and first update to observe preload/full-model behavior. No criterion, model, optimizer, sample budget or resource approval changes.
 128. Exact pinned TMS sources are obtained by successful0GPU job `exp-1107-145644-055357`. The scoped diagnostic owner now fixes the caller and adds an actual-signature CPU regression; parent retains formal scheduling and runtime acceptance. Existing76-case before-run preparation remains applicable.
 
+129. Commit `db60066c` fixes the pinned cleanup caller/pool dictionary with actual-source CPU red→green and preserves the original CUDA ERROR artifact. Submit independent formal runs A=`exp-1107-150849-708403`, B=`exp-1107-150849-818314`, C=`exp-1107-150849-814926` using the unchanged approved entry/config. Exact API inspection verifies all3 Pending, personal identity, pinned image, local source, expected resources and command; C student requests/limits1500GiB. All launchers stay alive.
+130. Independently submit the corrected1H800 diagnostic `exp-1107-150925-737118`; initial exact API inspection showsStarting with correct identity/image/local source/resources. Actual CUDA exits remain pending. The failed predecessor's replica exits1 at06:51:43Z on gpu-h800-0209; job-level critical-task cleanup is later at06:52:13Z and launcher cleanup later still, consistent with the retained probe TypeError. No manual stop actor/reason is returned.
+
+131. `exp-1107-150925-737118` succeeds: actual H800,46.153878s, two complete native CUDA IPC transactions, all boundary byte/score errors0, version7, synthetic master/Adam unchanged, zero optimizer steps, workers120/121 exit0. Full log shows only the two intentional pre-optimizer control traces and no remaining cleanup/ignored-exception/IPC-lifetime warnings. Exact platform/owner check independently confirms Succeeded and container exit0. Diagnostic cleanup is closed; retain its synthetic torch-hook limits and all old ERROR artifacts.
+132. At the diagnostic's completion, exact inspection of the existing A/B/C jobs still reports Pending. Their admission identity/image/local-source/resources already pass, including C1500GiB. No formal model/runtime result is inferred from queuing or from the small diagnostic. The next work is formal execution and its actual retained evidence; stop further diagnostic expansion.
+
 ## Next actions
 
-1. Submit A/B and C through the existing formal entry, preserving each independent budget and C's D15/D16 decisions. Verify admitted creator/image/local mounts/resources, then fresh baseline/restored receipts, actual updates and C host memory. Actual preload/full-model evidence remains pending until observed.
-2. Independently close the diagnostic's pinned cleanup ABI defect and full-exit verification; retain its original failed receipt and distinguish it from the measured restoration results. Do not add more diagnostic features or optimizer probes.
+1. Await the existing formal jobs' scheduling, preserving each independent budget and C's D15/D16 decisions. Platform identity/source/resource checks pass; next inspect actual worker GPU/cgroup evidence, fresh baseline/restored receipts, actual updates and C host memory. Actual preload/full-model evidence remains pending until observed.
+2. On each formal run, reconcile attempted/failed/skipped/consumed samples and planned/successful/skipped updates; inspect updated/final D8 and the final HF package/reload against the unchanged requirements. The diagnostic needs no further work unless new evidence fails.
 3. Tracker cleanup, reader bindings and fake-engine isolation are committed and pinned-verified; final24-sample checksum/inference checks await final artifacts. Optional rematerialization repair is deferred.
 
 ## Phase checkpoint

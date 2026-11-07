@@ -1,0 +1,99 @@
+{
+  "observed_at": "2026-11-07T07:23:42.503747+00:00",
+  "jobs": {
+    "A": {
+      "name": "exp-1107-150849-708403",
+      "uid": "01561e91-962d-4741-961a-9b4ecce96aee",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "B": {
+      "name": "exp-1107-150849-818314",
+      "uid": "e3b32aa5-b749-41e5-aeee-9e77f7e7bf72",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "C": {
+      "name": "exp-1107-150849-814926",
+      "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "diagnostic": {
+      "name": "exp-1107-150925-737118",
+      "uid": "300c55be-d0bc-4a23-9169-e79276f80fb0",
+      "creator": "i-fengyicheng",
+      "status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "default": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T07:19:40Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replica": {
+        "uid": "dbfe7502-aa88-41b2-b035-b1f568f1c334",
+        "node": "gpu-h800-0399.host.platform.shaipower.com",
+        "status": "Succeeded",
+        "containers": [
+          {
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-07T07:18:46Z",
+                "finishedAt": "2026-11-07T07:19:37Z",
+                "containerID": "containerd://9695e4e1db84b24bca4ed88c0fc805146c278093aa2fa79372dd0bc7ba905602"
+              }
+            },
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+          }
+        ]
+      }
+    }
+  }
+}
