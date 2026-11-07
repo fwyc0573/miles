@@ -2,26 +2,28 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Close preparation blockers after76 pinned checks and phase review; advance A/B submission while native text-loader reconstruction proceeds independently. |
+| 2026-11-07 | Recheck after verified commits and lifecycle preflight; retain independent C/native-loader progress while A/B preparation is blocked. |
 | 2026-11-07 | Check the P3 memory/reload milestone and stop repetition of known incompatible CPU-forward tests. |
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 2
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 3
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | P0 | PASS | 任务记录与来源齐备。 |
 | P1 | PASS | D1–D14 已确认。 |
 | P2 | PASS | 三组初始 D8 均通过。 |
-| P3-A | FAILED | 首次 backward OOM，成功更新0；fused 修复验证完成，待重提。 |
-| P3-B | FAILED | 同上；已保留真实首批输入。 |
-| P3-C | TODO | 原作业 Running，更新/最终结果待验。 |
-| P4 | TODO | 三组最终验收尚未完成。 |
+| P3-A | TODO | fused与样本边界准备已通过固定镜像检查；现在重提，真实更新/数值待验。 |
+| P3-B | TODO | 同上；首次失败和首批数据完整保留。 |
+| P3-C | TODO | 独立运行；实际argv为fused/100步，已发布baseline0，更新/最终结果待验。 |
+| P4 | BLOCKED | 依赖三组最终验收，当前均未完成。 |
 
 ## 2. 偏离检测
 
 **结论：** 已偏离：命中 D1。
-**检测窗口：** 三组初始 D8 完成后至当前 loss-stage 验证｜**当前前沿：** P3-A/B 实际更新、P3-C 运行、共享 HF 重载。
+**检测窗口：** 三组初始 D8 完成后至76项固定镜像检查及准备阶段复核｜**当前前沿：** P3-A/B恢复并核验实际更新、P3-C运行、共享HF重载。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -44,7 +46,7 @@
 - D1：停止在固定镜像 CPU 上重复不兼容的旧 forward 测试；使用已通过的129项修改相关检查，推进真实更新与原生 GPU 重载。
 
 **接下去的路线：**
-1. P3-A/B：提交 verified fused 改动，完成既有样本生命周期复核后重提；实际首步梯度与新发布版本才证明优化可执行。
+1. P3-A/B：准备检查已通过，立即重提；实际首步梯度与新发布版本才证明优化可执行。
 2. 并行：P3-C 继续原作业；HF 原生 loader 的真实 GPU 资格验证继续，最终 checksum 必须绑定最终产物。
 3. 各组按原100计划步验收更新后/最终 D8、HF、loss/梯度和失败计数，再进入 P4。
 
