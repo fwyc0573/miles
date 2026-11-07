@@ -1,0 +1,129 @@
+{
+  "checked_at": "2026-11-07T13:03:36.590488+00:00",
+  "jobs": {
+    "A": {
+      "name": "exp-1107-173758-712234",
+      "uid": "8a15c7b6-38e8-467f-86cb-3c3018817f14",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "group": "step_main",
+      "annotations": {
+        "rjob.brainpp.cn/rjob-queue-approved": "2026-11-07T09:38:11.91417915Z",
+        "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+        "stepmind.com/queue-elem-ranking": "2",
+        "stepmind.com/queue-name": "step-main-default"
+      },
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [teacher,student]",
+        "taskStatuses": {
+          "student": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop_spec": {},
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-173758-712234-student-cfcd2084",
+            "ip": "10.204.1.56",
+            "phase": "Running"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-173758-712234-teacher-cfcd2084",
+            "ip": "100.109.128.115",
+            "phase": "Running"
+          }
+        ]
+      }
+    },
+    "B": {
+      "name": "exp-1107-173758-806531",
+      "uid": "1942e338-e64b-47b1-bec9-d23fcb963df7",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "group": "step_main",
+      "annotations": {
+        "rjob.brainpp.cn/rjob-queue-approved": "2026-11-07T09:38:04.34110881Z",
+        "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished.",
+        "stepmind.com/queue-approved-stage": "stepmind-task-stage-1",
+        "stepmind.com/queue-name": "step-main-default"
+      },
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T13:02:12Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop_spec": {
+        "stopTimestamp": "2026-11-07T13:02:04Z"
+      },
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-173758-806531-student-cfcd2084",
+            "ip": "10.204.14.5",
+            "phase": "Succeeded"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-173758-806531-teacher-cfcd2084",
+            "ip": "100.109.128.114",
+            "phase": "Stopped"
+          }
+        ]
+      }
+    },
+    "C": {
+      "name": "exp-1107-150849-814926",
+      "uid": "bc1ea9ed-316c-40b0-8763-a65f63c4ba06",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "group": "codesign",
+      "annotations": {
+        "rjob.brainpp.cn/rjob-queue-approved": "",
+        "stepmind.com/queue-elem-ranking": "2",
+        "stepmind.com/queue-name": "codesign-default",
+        "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=0."
+      },
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop_spec": {},
+      "replicas": {}
+    }
+  }
+}

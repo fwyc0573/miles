@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record A's normal100-update completion, six D8 checkpoints and independent final-HF PASS; retain per-pair actual training-curve evidence. |
+| 2026-11-07 | Qualify B's H200100-success/0-skip run and six numerical checkpoints; resolve normal Stopped semantics and retain final HF reload as pending. |
 | 2026-11-07 | Record actual restored B baseline/preload/full-checksum/first-update evidence, second-rollout projection OOM, A's zero-update stop and D17. |
 | 2026-11-07 | Record three independently submitted restored formal runs and verify admitted resource requests, source/image and personal identity; full runtime acceptance remains pending. |
 | 2026-11-07 | Link confirmed C restart budget and memory allocation after preserving the original update/OOM evidence. |
@@ -289,3 +291,87 @@ bash /data/ycfeng/steptron/playground/users/ycfeng/tools/rjob_stop.sh \
 ```
 
 It stops at16:23:33 local; the launcher reportsStopped16:23:57. Native A files contain environment reports only, without a training or publication event:0 actual updates. Both A/B HF directories are absent. B's published state therefore cannot be resumed. D17 explicitly approves one fresh100-step B run after repair, retaining its prior1 update in historical accounting; A retains its original100 budget. C's existing D15/D16 submission is independent and its runtime observations remain pending.
+
+## B H200: completed100-update run and numerical qualification
+
+### Expected and observed terminal state
+
+The D18 run `exp-1107-173758-806531` completes normally. At13:03:36Z the personal Python API reports studentSucceeded, teacherStopped and overallStopped, with `rjob.brainpp.cn/system-stop-reason = "All critical tasks are finished."`. Platform stopTimestamp is13:02:04Z and finishTime13:02:12Z; the launcher observesStopped at13:02:14Z and performs later cleanup. Only student is critical (`submit_qwen35.py:31`), so this final phase is consistent with normal completion. No manual-stop actor/reason or new training failure is inferred.
+
+Native local receipts independently show `student-finished.json` status`native_execution_succeeded`, returncode0, `training.json` success and final HF path, and teacher status`student_finished`. A failed run also writes a student-finished marker, so existence alone is not accepted. Evidence: [platform readback](evidence/formal-stop-observation-20261107-2102.json), worker receipt root `evidence/first-round/exp-1107-173758-806531/B/`, native CLI root `evidence/first-round/student/B/exp-1107-173758-806531/`. Source-contract inspection: QWEN-P3-STOP-CONTRACT, session`ses_e49e4f53fffeITkYDRcSumu8BM`; its approximate HF-size statement is superseded by the exact inventory below.
+
+### Actual native-artifact inspection
+
+Job`exp-1107-210510-770180` uses the frozen H200 manifest/image and Python3.12.16; resources8CPU/0GPU/64 memory units, non-preemptible step_main, local `/data/ycfeng` mount and configured cloud sources. It sets `PYTHONPATH=/data/ycfeng/sota-engine/miles`, offline HF, `CUDA_VISIBLE_DEVICES=''`, compatibility `LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat`, and `TMPDIR=/var/tmp/qwen-h200-inspect-$KUBEBRAIN_RJOB_NAME`. Exact B command from repository cwd:
+
+```bash
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-806531/B/teacher-ready.json \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/completion-inspection-B-exp-1107-173758-806531-2102.json
+```
+
+The same job subsequently inspects A with its own job/pair paths, without controlling the still-running trainer. It succeeds at13:06:21Z. Raw logs are `evidence/h200-completion-{A,B}-exp-1107-210510-770180.log`; the compact projection is [h200-completion-2102-summary.json](evidence/h200-completion-2102-summary.json).
+
+Expected:100 planned native publications, no counter inflation by restoration, explicit successful/skipped accounting, unchanged0.03 mean threshold over every original valid completion token, and24 fixed samples in every checkpoint. Actual B **PASS**:100 successful updates/0 skipped,100 planned publications, six same-version restores at0/20/40/60/80/100, final consumed version100. The final planned publication ID is`5e435db3dcea4202936415c1ec844597`, distinct from the final restore. Historical B accounting is1 discarded update +100 new successful updates =101; no extra optimizer probe or unapproved retry occurred.
+
+| Monitoring position | Consumed version | Valid/finite tokens | Decode mean absolute error | Prefill mean absolute error | Maximum short/medium/long mean | Result |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0 | 0 | 4828 | 0.0109807620 | 0.0107929752 | 0.0142725593 | PASS |
+| 19 | 20 | 4185 | 0.0090852844 | 0.0097732861 | 0.0100793772 | PASS |
+| 39 | 40 | 4793 | 0.0067096814 | 0.0067248978 | 0.0075451914 | PASS |
+| 59 | 60 | 3986 | 0.0076085943 | 0.0072989234 | 0.0080817886 | PASS |
+| 79 | 80 | 4675 | 0.0070756593 | 0.0070495514 | 0.0080004480 | PASS |
+| 99 | 100 | 4261 | 0.0068720590 | 0.0068017697 | 0.0080130595 | PASS |
+
+The parent verifies all6x24 samples and48 mode/stratum numerical and denominator checks against the native report:PASS. These are trainer/inference consistency measurements, not proof of capability improvement or convergence. [The six-point monitoring report](test_report_2026-11-07_B_monitoring.md) records teacher/student diagnostics and TIS retention separately. A's concurrent snapshot has version89 and its first five monitoring checkpointsPASS; final99 is still absent. C remainsPending with0 H800 quota available against24 requested.
+
+### Final package and evidence limits
+
+B's final text package is `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_99`. It contains `.complete`,16 safetensor shards, the index, compatible-config/text-export markers and tokenizer assets. Total enumerated size is8,434,495,085 bytes. The separate native text-HF requirement subsequently passes in actual2H200 job`exp-1107-211800-115424`:822 exact decoder checksums before/after24 inputs, real generation and complete interpreter exit. See [final HF qualification](test_report_2026-11-07_hf_reload.md); package existence alone was not accepted as reload proof.
+
+[Post-run inventory and attempt coverage](evidence/B-completion-artifacts-and-attempts.json) records no explicit failed attempt in retained stdout. There are942 generation starts/ends and943/941 teacher-scoring starts/ends, with unmatched identities and no parser errors. Stdout transport coverage is therefore incomplete; these counts are not used to assert that every attempt succeeded or to replace authoritative publication/fixed-monitor evidence. Raw19.5MB stdout stays in the task-owned cloud path. The teacher-status receipt's shutdown return codes are null; platform terminal state establishes that its allocation has stopped, but no process exit code is invented.
+
+## A H200: completed100-update run and numerical qualification
+
+A`exp-1107-173758-712234` ends normally: studentSucceeded/teacherStopped, system reasonAll critical tasks finished, platform finish13:32:08Z and launcherStopped13:32:10Z. [Terminal formal receipt](evidence/formal-a-completion-20261107-2132.json). Native `student-finished.json` has statusnative_execution_succeeded/returncode0; `training.json` independently reports success and the correct final path (it does not have a returncode field). Earlier aborted A attempts consumed0 updates; this run completes its original100-step budget.
+
+Pinned0GPU inspector`exp-1107-213414-864507`,8CPU/64 memory units, same image/local mount/offline CPU environment as the B inspection, succeeds13:34:53Z. Runtime log is`evidence/h200-completion-A-exp-1107-213414-864507.log`. Exact command:
+
+```bash
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.inspect_qwen35 \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --teacher-ready /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/exp-1107-173758-712234/A/teacher-ready.json \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/completion-inspection-A-exp-1107-173758-712234-2132.json
+```
+
+[Final native receipt](evidence/completion-inspection-A-exp-1107-173758-712234-2132.json) proves100 successful updates/0 skipped, six same-version restorations and final planned ID`defc4f8a67da479bb282ddb735b99bbe`, version100. [Compact projection](evidence/A-completion-2132-summary.json).
+
+| Monitoring position | Consumed version | Valid/finite tokens | Decode mean absolute error | Prefill mean absolute error | Result |
+| --- | --- | --- | --- | --- | --- |
+| 0 | 0 | 4662 | 0.0114710667 | 0.0113109381 | PASS |
+| 19 | 20 | 5449 | 0.0073472033 | 0.0078427299 | PASS |
+| 39 | 40 | 4396 | 0.0087181880 | 0.0087395961 | PASS |
+| 59 | 60 | 5503 | 0.0083771997 | 0.0084295636 | PASS |
+| 79 | 80 | 5820 | 0.0074644816 | 0.0076532457 | PASS |
+| 99 | 100 | 5197 | 0.0086628771 | 0.0084664004 | PASS |
+
+Parent checks all6x24 samples and all48 mode/stratum gates: each unchanged0.03 mean threshold passes with original valid-token denominator equal to finite comparisons. The own final text-HF job`exp-1107-213721-009840` also passes all24 inputs,822 decoder checksums before/after, actual generation and complete platform/interpreter exit; see [HF report](test_report_2026-11-07_hf_reload.md).
+
+Actual per-step A analysis is [A training curves](test_report_2026-11-07_A_training_curves.md); B's is [training plotting report](test_report_2026-11-07_training_plot.md). Both retain all100 native-counter-bound points and early1–20/late81–100 comparisons. Mean loss changes A0.090480→0.091233, B0.095032→0.094511; these small, noisy changes on fresh sampled completions do not establish convergence or capability improvement.
+
+The parent renders an additional combined four-panel view using the unchanged plotter, with the already-verified individual scalar tables:
+
+```bash
+env PYTHONDONTWRITEBYTECODE=1 MPLBACKEND=Agg \
+  MPLCONFIGDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen35-plot-cache \
+  TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+  python3 -B -m tests.manual.agent_opd.plot_training_metrics \
+  --report 'A: 4B student / 27B teacher=task_memory/task_2026-11-06_qwen35_three_pairs/evidence/A-training-steps.md' \
+  --report 'B: 4B student / 35B-A3B teacher=task_memory/task_2026-11-06_qwen35_three_pairs/evidence/B-training-steps.md' \
+  --output task_memory/task_2026-11-06_qwen35_three_pairs/evidence/AB-training-curves.png
+```
+
+Python3.10.6/Matplotlib3.7.1, exit0, both inputs report100 updates; output300294 bytes. [Combined actual training curves](evidence/AB-training-curves.png). No extra optimizer execution or parameter change was performed. C remains independently queued on H800; these results do not qualify its27B student or397B teacher combination.

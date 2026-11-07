@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-11-07T13:31:19.037140+00:00",
+  "name": "exp-1107-211800-115424",
+  "uid": "1b7287d4-066e-476d-bdbf-1c2f345c99f9",
+  "creator": "i-fengyicheng",
+  "group": "step_main",
+  "preemptible": "no",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "default": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-07T13:21:28Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_timestamp": null,
+  "system_stop_reason": null,
+  "replicas": {
+    "default": [
+      {
+        "name": "exp-1107-211800-115424-cfcd2084",
+        "ip": "10.204.2.21",
+        "phase": "Succeeded"
+      }
+    ]
+  }
+}

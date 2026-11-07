@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-11-07T13:33:50.169467+00:00",
+  "jobs": {
+    "A": {
+      "name": "exp-1107-173758-712234",
+      "creator": "i-fengyicheng",
+      "group": "step_main",
+      "status": {
+        "phase": "Stopped",
+        "reason": "RJobStopped",
+        "message": "RJob stopped",
+        "taskStatuses": {
+          "student": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-07T13:32:08Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "system_stop_reason": "All critical tasks are finished.",
+      "queue_reason": null,
+      "replicas": {
+        "student": [
+          {
+            "name": "exp-1107-173758-712234-student-cfcd2084",
+            "ip": "10.204.1.56",
+            "phase": "Succeeded"
+          }
+        ],
+        "teacher": [
+          {
+            "name": "exp-1107-173758-712234-teacher-cfcd2084",
+            "ip": "100.109.128.115",
+            "phase": "Stopped"
+          }
+        ]
+      }
+    },
+    "C": {
+      "name": "exp-1107-150849-814926",
+      "creator": "i-fengyicheng",
+      "group": "codesign",
+      "status": {
+        "phase": "Pending",
+        "reason": "RJob is queuing",
+        "message": "RJob is queuing",
+        "taskStatuses": {
+          "student": {
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "system_stop_reason": null,
+      "queue_reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 1 replicas = 8 GPU (H800), task \"teacher\" 8 GPU/replica x 2 replicas = 16 GPU (H800). Queue remaining: H800=0.",
+      "replicas": {}
+    }
+  }
+}

@@ -2818,5 +2818,3219 @@
     "remaining_task_logical_bytes": 11226739944,
     "remaining_task_allocated_bytes": 11226927616,
     "observed_task_logical_reduction": 16617773141
-  }
+  },
+  "post_training_inventory": [
+    {
+      "timestamp_utc": "2026-11-07T13:54:21Z",
+      "elapsed_s": 7.281868719961494,
+      "python_version": "3.12.3 (main, Mar 23 2026, 19:04:32) [GCC 13.3.0]",
+      "ssh_euid": 10250,
+      "root": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs",
+      "root_entries": [
+        {
+          "name": "first-round",
+          "kind": "directory",
+          "logical_bytes": 4096
+        },
+        {
+          "name": "native-prerequisites",
+          "kind": "directory",
+          "logical_bytes": 4096
+        },
+        {
+          "name": "population-exp-1106-233008-986003",
+          "kind": "directory",
+          "logical_bytes": 4096
+        },
+        {
+          "name": "text-loader-probe",
+          "kind": "directory",
+          "logical_bytes": 4096
+        }
+      ],
+      "scopes": [
+        {
+          "scope": "first-round/student/A",
+          "complete": true,
+          "entries_seen": 1798,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 6.856140768155456,
+          "directories": {
+            "first-round": {
+              "logical_bytes": 12932013119,
+              "allocated_bytes": 12932598272,
+              "files": 1764
+            },
+            "first-round/student": {
+              "logical_bytes": 12932013119,
+              "allocated_bytes": 12932598272,
+              "files": 1764
+            },
+            "first-round/student/A": {
+              "logical_bytes": 12932013119,
+              "allocated_bytes": 12932598272,
+              "files": 1764
+            },
+            "first-round/student/A/exp-1107-063447-691018": {
+              "logical_bytes": 158771500,
+              "allocated_bytes": 158793216,
+              "files": 127
+            },
+            "first-round/student/A/exp-1107-063447-691018/dashboard_columns": {
+              "logical_bytes": 1508957,
+              "allocated_bytes": 1509888,
+              "files": 2
+            },
+            "first-round/student/A/exp-1107-063447-691018/events": {
+              "logical_bytes": 4262430,
+              "allocated_bytes": 4268032,
+              "files": 13
+            },
+            "first-round/student/A/exp-1107-063447-691018/failure-diagnostics": {
+              "logical_bytes": 8519640,
+              "allocated_bytes": 8529408,
+              "files": 93
+            },
+            "first-round/student/A/exp-1107-063447-691018/failure-diagnostics/rank-0": {
+              "logical_bytes": 8519640,
+              "allocated_bytes": 8529408,
+              "files": 93
+            },
+            "first-round/student/A/exp-1107-063447-691018/policy_loss_debug": {
+              "logical_bytes": 1063300,
+              "allocated_bytes": 1064960,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-063447-691018/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-063447-691018/rollout_data": {
+              "logical_bytes": 70190640,
+              "allocated_bytes": 70191104,
+              "files": 2
+            },
+            "first-round/student/A/exp-1107-063447-691018/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/A/exp-1107-063447-691018/train_data": {
+              "logical_bytes": 10809812,
+              "allocated_bytes": 10810880,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-063447-691018/trajectory": {
+              "logical_bytes": 22418342,
+              "allocated_bytes": 22418944,
+              "files": 2
+            },
+            "first-round/student/A/exp-1107-085640-136853": {
+              "logical_bytes": 116471318,
+              "allocated_bytes": 116477952,
+              "files": 27
+            },
+            "first-round/student/A/exp-1107-085640-136853/dashboard_columns": {
+              "logical_bytes": 951078,
+              "allocated_bytes": 951296,
+              "files": 1
+            },
+            "first-round/student/A/exp-1107-085640-136853/events": {
+              "logical_bytes": 4261528,
+              "allocated_bytes": 4265472,
+              "files": 13
+            },
+            "first-round/student/A/exp-1107-085640-136853/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-085640-136853/rollout_data": {
+              "logical_bytes": 45818855,
+              "allocated_bytes": 45818880,
+              "files": 1
+            },
+            "first-round/student/A/exp-1107-085640-136853/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/A/exp-1107-085640-136853/train_data": {
+              "logical_bytes": 10810644,
+              "allocated_bytes": 10811392,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-085640-136853/trajectory": {
+              "logical_bytes": 14630834,
+              "allocated_bytes": 14630912,
+              "files": 1
+            },
+            "first-round/student/A/exp-1107-150849-708403": {
+              "logical_bytes": 41867683,
+              "allocated_bytes": 41874432,
+              "files": 19
+            },
+            "first-round/student/A/exp-1107-150849-708403/events": {
+              "logical_bytes": 1869304,
+              "allocated_bytes": 1874432,
+              "files": 12
+            },
+            "first-round/student/A/exp-1107-150849-708403/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-150849-708403/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/A/exp-1107-173758-712234": {
+              "logical_bytes": 12585624807,
+              "allocated_bytes": 12586173952,
+              "files": 1587
+            },
+            "first-round/student/A/exp-1107-173758-712234/dashboard_columns": {
+              "logical_bytes": 55188334,
+              "allocated_bytes": 55217664,
+              "files": 106
+            },
+            "first-round/student/A/exp-1107-173758-712234/events": {
+              "logical_bytes": 46773625,
+              "allocated_bytes": 46778368,
+              "files": 13
+            },
+            "first-round/student/A/exp-1107-173758-712234/hf": {
+              "logical_bytes": 8434495085,
+              "allocated_bytes": 8434500096,
+              "files": 25
+            },
+            "first-round/student/A/exp-1107-173758-712234/hf/step_99": {
+              "logical_bytes": 8434495085,
+              "allocated_bytes": 8434500096,
+              "files": 25
+            },
+            "first-round/student/A/exp-1107-173758-712234/policy_loss_debug": {
+              "logical_bytes": 10372176,
+              "allocated_bytes": 10717184,
+              "files": 800
+            },
+            "first-round/student/A/exp-1107-173758-712234/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/A/exp-1107-173758-712234/rollout_data": {
+              "logical_bytes": 2565334888,
+              "allocated_bytes": 2565363712,
+              "files": 106
+            },
+            "first-round/student/A/exp-1107-173758-712234/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/A/exp-1107-173758-712234/train_data": {
+              "logical_bytes": 610721136,
+              "allocated_bytes": 610830848,
+              "files": 424
+            },
+            "first-round/student/A/exp-1107-173758-712234/trajectory": {
+              "logical_bytes": 822741184,
+              "allocated_bytes": 822766080,
+              "files": 106
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 1271398544,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00016.safetensors",
+              "allocated_bytes": 1271398912
+            },
+            {
+              "logical_bytes": 535192016,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00010.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535192000,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00006.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535191984,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00014.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535191984,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00002.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 530348288,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00011.safetensors",
+              "allocated_bytes": 530348544
+            },
+            {
+              "logical_bytes": 524712000,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00008.safetensors",
+              "allocated_bytes": 524712448
+            },
+            {
+              "logical_bytes": 524712000,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00004.safetensors",
+              "allocated_bytes": 524712448
+            },
+            {
+              "logical_bytes": 499283880,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00007.safetensors",
+              "allocated_bytes": 499283968
+            },
+            {
+              "logical_bytes": 499283880,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00003.safetensors",
+              "allocated_bytes": 499283968
+            },
+            {
+              "logical_bytes": 482768824,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00012.safetensors",
+              "allocated_bytes": 482768896
+            },
+            {
+              "logical_bytes": 451709080,
+              "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99/model-00001.safetensors",
+              "allocated_bytes": 451709440
+            }
+          ]
+        },
+        {
+          "scope": "first-round/student/B",
+          "complete": true,
+          "entries_seen": 1914,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 7.102972817141563,
+          "directories": {
+            "first-round": {
+              "logical_bytes": 13004411860,
+              "allocated_bytes": 13005010432,
+              "files": 1877
+            },
+            "first-round/student": {
+              "logical_bytes": 13004411860,
+              "allocated_bytes": 13005010432,
+              "files": 1877
+            },
+            "first-round/student/B": {
+              "logical_bytes": 13004411860,
+              "allocated_bytes": 13005010432,
+              "files": 1877
+            },
+            "first-round/student/B/exp-1107-062459-796906": {
+              "logical_bytes": 158012076,
+              "allocated_bytes": 158031360,
+              "files": 127
+            },
+            "first-round/student/B/exp-1107-062459-796906/dashboard_columns": {
+              "logical_bytes": 1510739,
+              "allocated_bytes": 1511424,
+              "files": 2
+            },
+            "first-round/student/B/exp-1107-062459-796906/events": {
+              "logical_bytes": 4263914,
+              "allocated_bytes": 4268032,
+              "files": 13
+            },
+            "first-round/student/B/exp-1107-062459-796906/failure-diagnostics": {
+              "logical_bytes": 7725235,
+              "allocated_bytes": 7734272,
+              "files": 93
+            },
+            "first-round/student/B/exp-1107-062459-796906/failure-diagnostics/rank-0": {
+              "logical_bytes": 7725235,
+              "allocated_bytes": 7734272,
+              "files": 93
+            },
+            "first-round/student/B/exp-1107-062459-796906/policy_loss_debug": {
+              "logical_bytes": 1063300,
+              "allocated_bytes": 1064960,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-062459-796906/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-062459-796906/rollout_data": {
+              "logical_bytes": 70212592,
+              "allocated_bytes": 70213120,
+              "files": 2
+            },
+            "first-round/student/B/exp-1107-062459-796906/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-062459-796906/train_data": {
+              "logical_bytes": 10816724,
+              "allocated_bytes": 10818048,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-062459-796906/trajectory": {
+              "logical_bytes": 22421193,
+              "allocated_bytes": 22421504,
+              "files": 2
+            },
+            "first-round/student/B/exp-1107-085640-141571": {
+              "logical_bytes": 43639654,
+              "allocated_bytes": 43644928,
+              "files": 20
+            },
+            "first-round/student/B/exp-1107-085640-141571/events": {
+              "logical_bytes": 3641275,
+              "allocated_bytes": 3644928,
+              "files": 13
+            },
+            "first-round/student/B/exp-1107-085640-141571/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-085640-141571/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-150849-818314": {
+              "logical_bytes": 189230021,
+              "allocated_bytes": 189252608,
+              "files": 139
+            },
+            "first-round/student/B/exp-1107-150849-818314/dashboard_columns": {
+              "logical_bytes": 1955755,
+              "allocated_bytes": 1956864,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-150849-818314/events": {
+              "logical_bytes": 5006033,
+              "allocated_bytes": 5009408,
+              "files": 13
+            },
+            "first-round/student/B/exp-1107-150849-818314/failure-diagnostics": {
+              "logical_bytes": 7099489,
+              "allocated_bytes": 7108096,
+              "files": 93
+            },
+            "first-round/student/B/exp-1107-150849-818314/failure-diagnostics/rank-0": {
+              "logical_bytes": 7099489,
+              "allocated_bytes": 7108096,
+              "files": 93
+            },
+            "first-round/student/B/exp-1107-150849-818314/policy_loss_debug": {
+              "logical_bytes": 148585,
+              "allocated_bytes": 152576,
+              "files": 9
+            },
+            "first-round/student/B/exp-1107-150849-818314/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-150849-818314/rollout_data": {
+              "logical_bytes": 90590521,
+              "allocated_bytes": 90591232,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-150849-818314/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-150849-818314/train_data": {
+              "logical_bytes": 15741860,
+              "allocated_bytes": 15744000,
+              "files": 8
+            },
+            "first-round/student/B/exp-1107-150849-818314/trajectory": {
+              "logical_bytes": 28689399,
+              "allocated_bytes": 28690432,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-173758-806531": {
+              "logical_bytes": 12580355374,
+              "allocated_bytes": 12580905984,
+              "files": 1587
+            },
+            "first-round/student/B/exp-1107-173758-806531/dashboard_columns": {
+              "logical_bytes": 55015797,
+              "allocated_bytes": 55042560,
+              "files": 106
+            },
+            "first-round/student/B/exp-1107-173758-806531/events": {
+              "logical_bytes": 46700290,
+              "allocated_bytes": 46704640,
+              "files": 13
+            },
+            "first-round/student/B/exp-1107-173758-806531/hf": {
+              "logical_bytes": 8434495085,
+              "allocated_bytes": 8434500096,
+              "files": 25
+            },
+            "first-round/student/B/exp-1107-173758-806531/hf/step_99": {
+              "logical_bytes": 8434495085,
+              "allocated_bytes": 8434500096,
+              "files": 25
+            },
+            "first-round/student/B/exp-1107-173758-806531/policy_loss_debug": {
+              "logical_bytes": 9213904,
+              "allocated_bytes": 9561600,
+              "files": 800
+            },
+            "first-round/student/B/exp-1107-173758-806531/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/B/exp-1107-173758-806531/rollout_data": {
+              "logical_bytes": 2563169064,
+              "allocated_bytes": 2563197952,
+              "files": 106
+            },
+            "first-round/student/B/exp-1107-173758-806531/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/B/exp-1107-173758-806531/train_data": {
+              "logical_bytes": 609361648,
+              "allocated_bytes": 609469952,
+              "files": 424
+            },
+            "first-round/student/B/exp-1107-173758-806531/trajectory": {
+              "logical_bytes": 822401207,
+              "allocated_bytes": 822429184,
+              "files": 106
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 1271398544,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00016.safetensors",
+              "allocated_bytes": 1271398912
+            },
+            {
+              "logical_bytes": 535192016,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00010.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535192000,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00006.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535191984,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00014.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 535191984,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00002.safetensors",
+              "allocated_bytes": 535192064
+            },
+            {
+              "logical_bytes": 530348288,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00011.safetensors",
+              "allocated_bytes": 530348544
+            },
+            {
+              "logical_bytes": 524712000,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00008.safetensors",
+              "allocated_bytes": 524712448
+            },
+            {
+              "logical_bytes": 524712000,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00004.safetensors",
+              "allocated_bytes": 524712448
+            },
+            {
+              "logical_bytes": 499283880,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00007.safetensors",
+              "allocated_bytes": 499283968
+            },
+            {
+              "logical_bytes": 499283880,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00003.safetensors",
+              "allocated_bytes": 499283968
+            },
+            {
+              "logical_bytes": 482768824,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00012.safetensors",
+              "allocated_bytes": 482768896
+            },
+            {
+              "logical_bytes": 451709080,
+              "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99/model-00001.safetensors",
+              "allocated_bytes": 451709440
+            }
+          ]
+        },
+        {
+          "scope": "first-round/student/C",
+          "complete": true,
+          "entries_seen": 142,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 1.7883647880516946,
+          "directories": {
+            "first-round": {
+              "logical_bytes": 178200555,
+              "allocated_bytes": 178219520,
+              "files": 131
+            },
+            "first-round/student": {
+              "logical_bytes": 178200555,
+              "allocated_bytes": 178219520,
+              "files": 131
+            },
+            "first-round/student/C": {
+              "logical_bytes": 178200555,
+              "allocated_bytes": 178219520,
+              "files": 131
+            },
+            "first-round/student/C/exp-1107-064200-013666": {
+              "logical_bytes": 171056542,
+              "allocated_bytes": 171075072,
+              "files": 130
+            },
+            "first-round/student/C/exp-1107-064200-013666/dashboard_columns": {
+              "logical_bytes": 1519538,
+              "allocated_bytes": 1520128,
+              "files": 2
+            },
+            "first-round/student/C/exp-1107-064200-013666/events": {
+              "logical_bytes": 4725564,
+              "allocated_bytes": 4728320,
+              "files": 13
+            },
+            "first-round/student/C/exp-1107-064200-013666/failure-diagnostics": {
+              "logical_bytes": 11092375,
+              "allocated_bytes": 11100160,
+              "files": 91
+            },
+            "first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0": {
+              "logical_bytes": 11092375,
+              "allocated_bytes": 11100160,
+              "files": 91
+            },
+            "first-round/student/C/exp-1107-064200-013666/policy_loss_debug": {
+              "logical_bytes": 2126600,
+              "allocated_bytes": 2129920,
+              "files": 8
+            },
+            "first-round/student/C/exp-1107-064200-013666/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "first-round/student/C/exp-1107-064200-013666/rollout_data": {
+              "logical_bytes": 70339760,
+              "allocated_bytes": 70340608,
+              "files": 2
+            },
+            "first-round/student/C/exp-1107-064200-013666/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "first-round/student/C/exp-1107-064200-013666/train_data": {
+              "logical_bytes": 18007530,
+              "allocated_bytes": 18008576,
+              "files": 4
+            },
+            "first-round/student/C/exp-1107-064200-013666/trajectory": {
+              "logical_bytes": 22439730,
+              "allocated_bytes": 22439936,
+              "files": 2
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 45965351,
+              "path": "first-round/student/C/exp-1107-064200-013666/rollout_data/eval_0.pt",
+              "allocated_bytes": 45965824
+            },
+            {
+              "logical_bytes": 24374409,
+              "path": "first-round/student/C/exp-1107-064200-013666/rollout_data/0.pt",
+              "allocated_bytes": 24374784
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "first-round/student/C/exp-1107-064200-013666/tokenizer/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "first-round/student/C/exp-1107-064200-013666/processor/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 14651890,
+              "path": "first-round/student/C/exp-1107-064200-013666/trajectory/eval_0.jsonl",
+              "allocated_bytes": 14651904
+            },
+            {
+              "logical_bytes": 7787840,
+              "path": "first-round/student/C/exp-1107-064200-013666/trajectory/0.jsonl",
+              "allocated_bytes": 7788032
+            },
+            {
+              "logical_bytes": 7144013,
+              "path": "first-round/student/C/exp-1107-064200-013666.log",
+              "allocated_bytes": 7144448
+            },
+            {
+              "logical_bytes": 5429425,
+              "path": "first-round/student/C/exp-1107-064200-013666/train_data/eval_monitor_0_0.pt",
+              "allocated_bytes": 5429760
+            },
+            {
+              "logical_bytes": 5422577,
+              "path": "first-round/student/C/exp-1107-064200-013666/train_data/eval_monitor_0_4.pt",
+              "allocated_bytes": 5422592
+            },
+            {
+              "logical_bytes": 4194304,
+              "path": "first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0/worker-247239595ba6ba60854fcaaa6b46a35dabf949e7d34314af4326f6c2-03000000-6984.err",
+              "allocated_bytes": 4194304
+            },
+            {
+              "logical_bytes": 3579172,
+              "path": "first-round/student/C/exp-1107-064200-013666/train_data/0_0.pt",
+              "allocated_bytes": 3579392
+            },
+            {
+              "logical_bytes": 3576356,
+              "path": "first-round/student/C/exp-1107-064200-013666/train_data/0_4.pt",
+              "allocated_bytes": 3576832
+            }
+          ]
+        },
+        {
+          "scope": "first-round/teacher",
+          "complete": true,
+          "entries_seen": 22,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 0.4146859191823751,
+          "directories": {
+            "first-round": {
+              "logical_bytes": 5720891,
+              "allocated_bytes": 5723136,
+              "files": 10
+            },
+            "first-round/teacher": {
+              "logical_bytes": 5720891,
+              "allocated_bytes": 5723136,
+              "files": 10
+            },
+            "first-round/teacher/A": {
+              "logical_bytes": 2735191,
+              "allocated_bytes": 2736128,
+              "files": 4
+            },
+            "first-round/teacher/A/exp-1107-063447-691018": {
+              "logical_bytes": 106935,
+              "allocated_bytes": 107008,
+              "files": 1
+            },
+            "first-round/teacher/A/exp-1107-085640-136853": {
+              "logical_bytes": 103569,
+              "allocated_bytes": 103936,
+              "files": 1
+            },
+            "first-round/teacher/A/exp-1107-150849-708403": {
+              "logical_bytes": 40365,
+              "allocated_bytes": 40448,
+              "files": 1
+            },
+            "first-round/teacher/A/exp-1107-173758-712234": {
+              "logical_bytes": 2484322,
+              "allocated_bytes": 2484736,
+              "files": 1
+            },
+            "first-round/teacher/B": {
+              "logical_bytes": 2753438,
+              "allocated_bytes": 2754560,
+              "files": 4
+            },
+            "first-round/teacher/B/exp-1107-062459-796906": {
+              "logical_bytes": 107005,
+              "allocated_bytes": 107008,
+              "files": 1
+            },
+            "first-round/teacher/B/exp-1107-085640-141571": {
+              "logical_bytes": 41102,
+              "allocated_bytes": 41472,
+              "files": 1
+            },
+            "first-round/teacher/B/exp-1107-150849-818314": {
+              "logical_bytes": 129168,
+              "allocated_bytes": 129536,
+              "files": 1
+            },
+            "first-round/teacher/B/exp-1107-173758-806531": {
+              "logical_bytes": 2476163,
+              "allocated_bytes": 2476544,
+              "files": 1
+            },
+            "first-round/teacher/C": {
+              "logical_bytes": 232262,
+              "allocated_bytes": 232448,
+              "files": 2
+            },
+            "first-round/teacher/C/exp-1107-064200-013666": {
+              "logical_bytes": 232262,
+              "allocated_bytes": 232448,
+              "files": 2
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 2484322,
+              "path": "first-round/teacher/A/exp-1107-173758-712234/rank-0.log",
+              "allocated_bytes": 2484736
+            },
+            {
+              "logical_bytes": 2476163,
+              "path": "first-round/teacher/B/exp-1107-173758-806531/rank-0.log",
+              "allocated_bytes": 2476544
+            },
+            {
+              "logical_bytes": 141303,
+              "path": "first-round/teacher/C/exp-1107-064200-013666/rank-0.log",
+              "allocated_bytes": 141312
+            },
+            {
+              "logical_bytes": 129168,
+              "path": "first-round/teacher/B/exp-1107-150849-818314/rank-0.log",
+              "allocated_bytes": 129536
+            },
+            {
+              "logical_bytes": 107005,
+              "path": "first-round/teacher/B/exp-1107-062459-796906/rank-0.log",
+              "allocated_bytes": 107008
+            },
+            {
+              "logical_bytes": 106935,
+              "path": "first-round/teacher/A/exp-1107-063447-691018/rank-0.log",
+              "allocated_bytes": 107008
+            },
+            {
+              "logical_bytes": 103569,
+              "path": "first-round/teacher/A/exp-1107-085640-136853/rank-0.log",
+              "allocated_bytes": 103936
+            },
+            {
+              "logical_bytes": 90959,
+              "path": "first-round/teacher/C/exp-1107-064200-013666/rank-1.log",
+              "allocated_bytes": 91136
+            },
+            {
+              "logical_bytes": 41102,
+              "path": "first-round/teacher/B/exp-1107-085640-141571/rank-0.log",
+              "allocated_bytes": 41472
+            },
+            {
+              "logical_bytes": 40365,
+              "path": "first-round/teacher/A/exp-1107-150849-708403/rank-0.log",
+              "allocated_bytes": 40448
+            }
+          ]
+        },
+        {
+          "scope": "native-prerequisites",
+          "complete": true,
+          "entries_seen": 338,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 3.5015658671036363,
+          "directories": {
+            "native-prerequisites": {
+              "logical_bytes": 674632440,
+              "allocated_bytes": 674692608,
+              "files": 271
+            },
+            "native-prerequisites/student": {
+              "logical_bytes": 673902482,
+              "allocated_bytes": 673959424,
+              "files": 259
+            },
+            "native-prerequisites/student/A": {
+              "logical_bytes": 301187305,
+              "allocated_bytes": 301220352,
+              "files": 174
+            },
+            "native-prerequisites/student/A/exp-1107-021450-020231": {
+              "logical_bytes": 3354,
+              "allocated_bytes": 3584,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics": {
+              "logical_bytes": 3354,
+              "allocated_bytes": 3584,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics/rank-0": {
+              "logical_bytes": 3354,
+              "allocated_bytes": 3584,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302": {
+              "logical_bytes": 47442754,
+              "allocated_bytes": 47458304,
+              "files": 113
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302/events": {
+              "logical_bytes": 2665178,
+              "allocated_bytes": 2670080,
+              "files": 13
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics": {
+              "logical_bytes": 4779197,
+              "allocated_bytes": 4788224,
+              "files": 93
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics/rank-0": {
+              "logical_bytes": 4779197,
+              "allocated_bytes": 4788224,
+              "files": 93
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/A/exp-1107-030522-873302/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012": {
+              "logical_bytes": 116917397,
+              "allocated_bytes": 116925440,
+              "files": 28
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/dashboard_columns": {
+              "logical_bytes": 952029,
+              "allocated_bytes": 952320,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/events": {
+              "logical_bytes": 4253828,
+              "allocated_bytes": 4257792,
+              "files": 13
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/rollout_data": {
+              "logical_bytes": 45830567,
+              "allocated_bytes": 45830656,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/train_data": {
+              "logical_bytes": 10814612,
+              "allocated_bytes": 10816000,
+              "files": 4
+            },
+            "native-prerequisites/student/A/exp-1107-041127-564012/trajectory": {
+              "logical_bytes": 14632490,
+              "allocated_bytes": 14632960,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211": {
+              "logical_bytes": 117263951,
+              "allocated_bytes": 117272064,
+              "files": 28
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/dashboard_columns": {
+              "logical_bytes": 950262,
+              "allocated_bytes": 950272,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/events": {
+              "logical_bytes": 4253939,
+              "allocated_bytes": 4258816,
+              "files": 13
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/rollout_data": {
+              "logical_bytes": 45809447,
+              "allocated_bytes": 45809664,
+              "files": 1
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/train_data": {
+              "logical_bytes": 10807700,
+              "allocated_bytes": 10808832,
+              "files": 4
+            },
+            "native-prerequisites/student/A/exp-1107-055408-748211/trajectory": {
+              "logical_bytes": 14629639,
+              "allocated_bytes": 14629888,
+              "files": 1
+            },
+            "native-prerequisites/student/B": {
+              "logical_bytes": 247926015,
+              "allocated_bytes": 247943680,
+              "files": 58
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864": {
+              "logical_bytes": 116959245,
+              "allocated_bytes": 116967936,
+              "files": 28
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/dashboard_columns": {
+              "logical_bytes": 954505,
+              "allocated_bytes": 954880,
+              "files": 1
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/events": {
+              "logical_bytes": 4253663,
+              "allocated_bytes": 4257792,
+              "files": 13
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/rollout_data": {
+              "logical_bytes": 45857831,
+              "allocated_bytes": 45858304,
+              "files": 1
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/train_data": {
+              "logical_bytes": 10822804,
+              "allocated_bytes": 10824192,
+              "files": 4
+            },
+            "native-prerequisites/student/B/exp-1107-041127-467864/trajectory": {
+              "logical_bytes": 14636562,
+              "allocated_bytes": 14637056,
+              "files": 1
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957": {
+              "logical_bytes": 117356668,
+              "allocated_bytes": 117365248,
+              "files": 28
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/dashboard_columns": {
+              "logical_bytes": 955511,
+              "allocated_bytes": 955904,
+              "files": 1
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/events": {
+              "logical_bytes": 4253975,
+              "allocated_bytes": 4258816,
+              "files": 13
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/rollout_data": {
+              "logical_bytes": 45869671,
+              "allocated_bytes": 45870080,
+              "files": 1
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/train_data": {
+              "logical_bytes": 10825940,
+              "allocated_bytes": 10826752,
+              "files": 4
+            },
+            "native-prerequisites/student/B/exp-1107-055408-654957/trajectory": {
+              "logical_bytes": 14638455,
+              "allocated_bytes": 14638592,
+              "files": 1
+            },
+            "native-prerequisites/student/C": {
+              "logical_bytes": 124789162,
+              "allocated_bytes": 124795392,
+              "files": 27
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566": {
+              "logical_bytes": 117610455,
+              "allocated_bytes": 117616640,
+              "files": 26
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/dashboard_columns": {
+              "logical_bytes": 958147,
+              "allocated_bytes": 958464,
+              "files": 1
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/events": {
+              "logical_bytes": 4439323,
+              "allocated_bytes": 4442112,
+              "files": 13
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/processor": {
+              "logical_bytes": 19999820,
+              "allocated_bytes": 20000768,
+              "files": 4
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/rollout_data": {
+              "logical_bytes": 45917863,
+              "allocated_bytes": 45918208,
+              "files": 1
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/tokenizer": {
+              "logical_bytes": 19998559,
+              "allocated_bytes": 19999232,
+              "files": 3
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/train_data": {
+              "logical_bytes": 10837730,
+              "allocated_bytes": 10838528,
+              "files": 2
+            },
+            "native-prerequisites/student/C/exp-1107-044223-241566/trajectory": {
+              "logical_bytes": 14644526,
+              "allocated_bytes": 14644736,
+              "files": 1
+            },
+            "native-prerequisites/teacher": {
+              "logical_bytes": 729958,
+              "allocated_bytes": 733184,
+              "files": 12
+            },
+            "native-prerequisites/teacher/A": {
+              "logical_bytes": 251734,
+              "allocated_bytes": 252928,
+              "files": 4
+            },
+            "native-prerequisites/teacher/A/exp-1107-021450-020231": {
+              "logical_bytes": 40123,
+              "allocated_bytes": 40448,
+              "files": 1
+            },
+            "native-prerequisites/teacher/A/exp-1107-030522-873302": {
+              "logical_bytes": 40021,
+              "allocated_bytes": 40448,
+              "files": 1
+            },
+            "native-prerequisites/teacher/A/exp-1107-041127-564012": {
+              "logical_bytes": 86111,
+              "allocated_bytes": 86528,
+              "files": 1
+            },
+            "native-prerequisites/teacher/A/exp-1107-055408-748211": {
+              "logical_bytes": 85479,
+              "allocated_bytes": 85504,
+              "files": 1
+            },
+            "native-prerequisites/teacher/B": {
+              "logical_bytes": 234532,
+              "allocated_bytes": 235520,
+              "files": 4
+            },
+            "native-prerequisites/teacher/B/exp-1107-021450-039035": {
+              "logical_bytes": 36048,
+              "allocated_bytes": 36352,
+              "files": 1
+            },
+            "native-prerequisites/teacher/B/exp-1107-030522-896828": {
+              "logical_bytes": 25407,
+              "allocated_bytes": 25600,
+              "files": 1
+            },
+            "native-prerequisites/teacher/B/exp-1107-041127-467864": {
+              "logical_bytes": 86663,
+              "allocated_bytes": 87040,
+              "files": 1
+            },
+            "native-prerequisites/teacher/B/exp-1107-055408-654957": {
+              "logical_bytes": 86414,
+              "allocated_bytes": 86528,
+              "files": 1
+            },
+            "native-prerequisites/teacher/C": {
+              "logical_bytes": 243692,
+              "allocated_bytes": 244736,
+              "files": 4
+            },
+            "native-prerequisites/teacher/C/exp-1107-005818-919546": {
+              "logical_bytes": 65008,
+              "allocated_bytes": 65536,
+              "files": 2
+            },
+            "native-prerequisites/teacher/C/exp-1107-044223-241566": {
+              "logical_bytes": 178684,
+              "allocated_bytes": 179200,
+              "files": 2
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 45917863,
+              "path": "native-prerequisites/student/C/exp-1107-044223-241566/rollout_data/eval_0.pt",
+              "allocated_bytes": 45918208
+            },
+            {
+              "logical_bytes": 45869671,
+              "path": "native-prerequisites/student/B/exp-1107-055408-654957/rollout_data/eval_0.pt",
+              "allocated_bytes": 45870080
+            },
+            {
+              "logical_bytes": 45857831,
+              "path": "native-prerequisites/student/B/exp-1107-041127-467864/rollout_data/eval_0.pt",
+              "allocated_bytes": 45858304
+            },
+            {
+              "logical_bytes": 45830567,
+              "path": "native-prerequisites/student/A/exp-1107-041127-564012/rollout_data/eval_0.pt",
+              "allocated_bytes": 45830656
+            },
+            {
+              "logical_bytes": 45809447,
+              "path": "native-prerequisites/student/A/exp-1107-055408-748211/rollout_data/eval_0.pt",
+              "allocated_bytes": 45809664
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/C/exp-1107-044223-241566/tokenizer/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/C/exp-1107-044223-241566/processor/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/B/exp-1107-055408-654957/tokenizer/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/B/exp-1107-055408-654957/processor/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/B/exp-1107-041127-467864/tokenizer/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/B/exp-1107-041127-467864/processor/tokenizer.json",
+              "allocated_bytes": 19989504
+            },
+            {
+              "logical_bytes": 19989339,
+              "path": "native-prerequisites/student/A/exp-1107-055408-748211/tokenizer/tokenizer.json",
+              "allocated_bytes": 19989504
+            }
+          ]
+        },
+        {
+          "scope": "population-exp-1106-233008-986003",
+          "complete": true,
+          "entries_seen": 3,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 0.03602375998161733,
+          "directories": {
+            "population-exp-1106-233008-986003": {
+              "logical_bytes": 870623781,
+              "allocated_bytes": 870624256,
+              "files": 3
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 855136451,
+              "path": "population-exp-1106-233008-986003/train.jsonl",
+              "allocated_bytes": 855136768
+            },
+            {
+              "logical_bytes": 14712167,
+              "path": "population-exp-1106-233008-986003/monitor.jsonl",
+              "allocated_bytes": 14712320
+            },
+            {
+              "logical_bytes": 775163,
+              "path": "population-exp-1106-233008-986003/population.json",
+              "allocated_bytes": 775168
+            }
+          ]
+        },
+        {
+          "scope": "text-loader-probe",
+          "complete": true,
+          "entries_seen": 32,
+          "skipped": [],
+          "errors": [],
+          "elapsed_s": 0.14435207401402295,
+          "directories": {
+            "text-loader-probe": {
+              "logical_bytes": 8480456095,
+              "allocated_bytes": 8480462848,
+              "files": 26
+            },
+            "text-loader-probe/exp-1107-083839-053284": {
+              "logical_bytes": 22965733,
+              "allocated_bytes": 22967808,
+              "files": 8
+            },
+            "text-loader-probe/exp-1107-083839-053284/model": {
+              "logical_bytes": 22965733,
+              "allocated_bytes": 22967808,
+              "files": 8
+            },
+            "text-loader-probe/exp-1107-093036-947852": {
+              "logical_bytes": 22965733,
+              "allocated_bytes": 22967808,
+              "files": 8
+            },
+            "text-loader-probe/exp-1107-093036-947852/model": {
+              "logical_bytes": 22965733,
+              "allocated_bytes": 22967808,
+              "files": 8
+            },
+            "text-loader-probe/exp-1107-100927-934443": {
+              "logical_bytes": 8434524629,
+              "allocated_bytes": 8434527232,
+              "files": 10
+            },
+            "text-loader-probe/exp-1107-100927-934443/model": {
+              "logical_bytes": 8434524629,
+              "allocated_bytes": 8434527232,
+              "files": 10
+            }
+          },
+          "largest_files": [
+            {
+              "logical_bytes": 5187839368,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors",
+              "allocated_bytes": 5187839488
+            },
+            {
+              "logical_bytes": 3223719528,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors",
+              "allocated_bytes": 3223719936
+            },
+            {
+              "logical_bytes": 12807982,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/tokenizer.json",
+              "allocated_bytes": 12808192
+            },
+            {
+              "logical_bytes": 12807982,
+              "path": "text-loader-probe/exp-1107-093036-947852/model/tokenizer.json",
+              "allocated_bytes": 12808192
+            },
+            {
+              "logical_bytes": 12807982,
+              "path": "text-loader-probe/exp-1107-083839-053284/model/tokenizer.json",
+              "allocated_bytes": 12808192
+            },
+            {
+              "logical_bytes": 6722759,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/vocab.json",
+              "allocated_bytes": 6723072
+            },
+            {
+              "logical_bytes": 6722759,
+              "path": "text-loader-probe/exp-1107-093036-947852/model/vocab.json",
+              "allocated_bytes": 6723072
+            },
+            {
+              "logical_bytes": 6722759,
+              "path": "text-loader-probe/exp-1107-083839-053284/model/vocab.json",
+              "allocated_bytes": 6723072
+            },
+            {
+              "logical_bytes": 3353259,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/merges.txt",
+              "allocated_bytes": 3353600
+            },
+            {
+              "logical_bytes": 3353259,
+              "path": "text-loader-probe/exp-1107-093036-947852/model/merges.txt",
+              "allocated_bytes": 3353600
+            },
+            {
+              "logical_bytes": 3353259,
+              "path": "text-loader-probe/exp-1107-083839-053284/model/merges.txt",
+              "allocated_bytes": 3353600
+            },
+            {
+              "logical_bytes": 40678,
+              "path": "text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json",
+              "allocated_bytes": 40960
+            }
+          ]
+        }
+      ],
+      "accepted_final_packages": {
+        "A": {
+          "path": "first-round/student/A/exp-1107-173758-712234/hf/step_99",
+          "files": [
+            {
+              "name": ".complete",
+              "logical_bytes": 0,
+              "allocated_bytes": 0,
+              "inode": 21064250,
+              "mtime_ns": 1794058108358850221,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "chat_template.jinja",
+              "logical_bytes": 7756,
+              "allocated_bytes": 8192,
+              "inode": 21064241,
+              "mtime_ns": 1793809596966163061,
+              "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+            },
+            {
+              "name": "config.json",
+              "logical_bytes": 1938,
+              "allocated_bytes": 2048,
+              "inode": 21064242,
+              "mtime_ns": 1794058123332285630,
+              "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+            },
+            {
+              "name": "merges.txt",
+              "logical_bytes": 3353259,
+              "allocated_bytes": 3353600,
+              "inode": 21064243,
+              "mtime_ns": 1793809597173070072
+            },
+            {
+              "name": "model-00001.safetensors",
+              "logical_bytes": 451709080,
+              "allocated_bytes": 451709440,
+              "inode": 21064253,
+              "mtime_ns": 1794058109749178103
+            },
+            {
+              "name": "model-00002.safetensors",
+              "logical_bytes": 535191984,
+              "allocated_bytes": 535192064,
+              "inode": 21064255,
+              "mtime_ns": 1794058110414402685
+            },
+            {
+              "name": "model-00003.safetensors",
+              "logical_bytes": 499283880,
+              "allocated_bytes": 499283968,
+              "inode": 21064257,
+              "mtime_ns": 1794058111256995588
+            },
+            {
+              "name": "model-00004.safetensors",
+              "logical_bytes": 524712000,
+              "allocated_bytes": 524712448,
+              "inode": 21064259,
+              "mtime_ns": 1794058111989283086
+            },
+            {
+              "name": "model-00005.safetensors",
+              "logical_bytes": 451698656,
+              "allocated_bytes": 451698688,
+              "inode": 21064261,
+              "mtime_ns": 1794058112638416067
+            },
+            {
+              "name": "model-00006.safetensors",
+              "logical_bytes": 535192000,
+              "allocated_bytes": 535192064,
+              "inode": 21064263,
+              "mtime_ns": 1794058112851443729
+            },
+            {
+              "name": "model-00007.safetensors",
+              "logical_bytes": 499283880,
+              "allocated_bytes": 499283968,
+              "inode": 21064265,
+              "mtime_ns": 1794058114005013275
+            },
+            {
+              "name": "model-00008.safetensors",
+              "logical_bytes": 524712000,
+              "allocated_bytes": 524712448,
+              "inode": 21064267,
+              "mtime_ns": 1794058115332935402
+            },
+            {
+              "name": "model-00009.safetensors",
+              "logical_bytes": 451698656,
+              "allocated_bytes": 451698688,
+              "inode": 21064269,
+              "mtime_ns": 1794058116167666793
+            },
+            {
+              "name": "model-00010.safetensors",
+              "logical_bytes": 535192016,
+              "allocated_bytes": 535192064,
+              "inode": 21064271,
+              "mtime_ns": 1794058116878824087
+            },
+            {
+              "name": "model-00011.safetensors",
+              "logical_bytes": 530348288,
+              "allocated_bytes": 530348544,
+              "inode": 21064273,
+              "mtime_ns": 1794058117526197635
+            },
+            {
+              "name": "model-00012.safetensors",
+              "logical_bytes": 482768824,
+              "allocated_bytes": 482768896,
+              "inode": 21064275,
+              "mtime_ns": 1794058118205700338
+            },
+            {
+              "name": "model-00013.safetensors",
+              "logical_bytes": 451698632,
+              "allocated_bytes": 451698688,
+              "inode": 21064277,
+              "mtime_ns": 1794058119050888615
+            },
+            {
+              "name": "model-00014.safetensors",
+              "logical_bytes": 535191984,
+              "allocated_bytes": 535192064,
+              "inode": 21064279,
+              "mtime_ns": 1794058120071998918
+            },
+            {
+              "name": "model-00015.safetensors",
+              "logical_bytes": 131472008,
+              "allocated_bytes": 131472384,
+              "inode": 21064281,
+              "mtime_ns": 1794058120990941592
+            },
+            {
+              "name": "model-00016.safetensors",
+              "logical_bytes": 1271398544,
+              "allocated_bytes": 1271398912,
+              "inode": 21064283,
+              "mtime_ns": 1794058122719504887
+            },
+            {
+              "name": "model.safetensors.index.json",
+              "logical_bytes": 31732,
+              "allocated_bytes": 31744,
+              "inode": 21064249,
+              "mtime_ns": 1794058123259643343,
+              "sha256": "297eba126307c2b5ffb19259486055eda8de948ee84dc1ec48e49ef8549c8329"
+            },
+            {
+              "name": "qwen_text_export.json",
+              "logical_bytes": 517,
+              "allocated_bytes": 1024,
+              "inode": 21064251,
+              "mtime_ns": 1794058123466927302,
+              "sha256": "b8eba0b76d33d297fbe3c444d08bfef6b80b32e4f0e3ee73300b00a4cd3a385f"
+            },
+            {
+              "name": "tokenizer.json",
+              "logical_bytes": 12807982,
+              "allocated_bytes": 12808192,
+              "inode": 21064245,
+              "mtime_ns": 1793809645080207517
+            },
+            {
+              "name": "tokenizer_config.json",
+              "logical_bytes": 16710,
+              "allocated_bytes": 16896,
+              "inode": 21064246,
+              "mtime_ns": 1793809645301497829,
+              "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+            },
+            {
+              "name": "vocab.json",
+              "logical_bytes": 6722759,
+              "allocated_bytes": 6723072,
+              "inode": 21064248,
+              "mtime_ns": 1793809645693126638
+            }
+          ],
+          "logical_bytes": 8434495085,
+          "complete_marker_present": true,
+          "indexed_shards": [
+            "model-00001.safetensors",
+            "model-00002.safetensors",
+            "model-00003.safetensors",
+            "model-00004.safetensors",
+            "model-00005.safetensors",
+            "model-00006.safetensors",
+            "model-00007.safetensors",
+            "model-00008.safetensors",
+            "model-00009.safetensors",
+            "model-00010.safetensors",
+            "model-00011.safetensors",
+            "model-00012.safetensors",
+            "model-00013.safetensors",
+            "model-00014.safetensors",
+            "model-00015.safetensors",
+            "model-00016.safetensors"
+          ],
+          "all_indexed_shards_present_nonempty": true,
+          "safetensors_files": [
+            "model-00001.safetensors",
+            "model-00002.safetensors",
+            "model-00003.safetensors",
+            "model-00004.safetensors",
+            "model-00005.safetensors",
+            "model-00006.safetensors",
+            "model-00007.safetensors",
+            "model-00008.safetensors",
+            "model-00009.safetensors",
+            "model-00010.safetensors",
+            "model-00011.safetensors",
+            "model-00012.safetensors",
+            "model-00013.safetensors",
+            "model-00014.safetensors",
+            "model-00015.safetensors",
+            "model-00016.safetensors"
+          ],
+          "config_present": true,
+          "index_present": true,
+          "acceptance_provenance": "Parent supplied terminal completion and accepted final native reload; this follow-up verifies retained package presence/metadata only, not new reload inference."
+        },
+        "B": {
+          "path": "first-round/student/B/exp-1107-173758-806531/hf/step_99",
+          "files": [
+            {
+              "name": ".complete",
+              "logical_bytes": 0,
+              "allocated_bytes": 0,
+              "inode": 21063330,
+              "mtime_ns": 1794056347547058702,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            {
+              "name": "chat_template.jinja",
+              "logical_bytes": 7756,
+              "allocated_bytes": 8192,
+              "inode": 21063321,
+              "mtime_ns": 1793809596966163061,
+              "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+            },
+            {
+              "name": "config.json",
+              "logical_bytes": 1938,
+              "allocated_bytes": 2048,
+              "inode": 21063322,
+              "mtime_ns": 1794056363155519443,
+              "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+            },
+            {
+              "name": "merges.txt",
+              "logical_bytes": 3353259,
+              "allocated_bytes": 3353600,
+              "inode": 21063323,
+              "mtime_ns": 1793809597173070072
+            },
+            {
+              "name": "model-00001.safetensors",
+              "logical_bytes": 451709080,
+              "allocated_bytes": 451709440,
+              "inode": 21063333,
+              "mtime_ns": 1794056349522786946
+            },
+            {
+              "name": "model-00002.safetensors",
+              "logical_bytes": 535191984,
+              "allocated_bytes": 535192064,
+              "inode": 21063335,
+              "mtime_ns": 1794056350248698164
+            },
+            {
+              "name": "model-00003.safetensors",
+              "logical_bytes": 499283880,
+              "allocated_bytes": 499283968,
+              "inode": 21063337,
+              "mtime_ns": 1794056350885338064
+            },
+            {
+              "name": "model-00004.safetensors",
+              "logical_bytes": 524712000,
+              "allocated_bytes": 524712448,
+              "inode": 21063339,
+              "mtime_ns": 1794056351942830364
+            },
+            {
+              "name": "model-00005.safetensors",
+              "logical_bytes": 451698656,
+              "allocated_bytes": 451698688,
+              "inode": 21063341,
+              "mtime_ns": 1794056352565381471
+            },
+            {
+              "name": "model-00006.safetensors",
+              "logical_bytes": 535192000,
+              "allocated_bytes": 535192064,
+              "inode": 21063343,
+              "mtime_ns": 1794056353001726723
+            },
+            {
+              "name": "model-00007.safetensors",
+              "logical_bytes": 499283880,
+              "allocated_bytes": 499283968,
+              "inode": 21063345,
+              "mtime_ns": 1794056354060010690
+            },
+            {
+              "name": "model-00008.safetensors",
+              "logical_bytes": 524712000,
+              "allocated_bytes": 524712448,
+              "inode": 21063347,
+              "mtime_ns": 1794056355038873514
+            },
+            {
+              "name": "model-00009.safetensors",
+              "logical_bytes": 451698656,
+              "allocated_bytes": 451698688,
+              "inode": 21063349,
+              "mtime_ns": 1794056355645019180
+            },
+            {
+              "name": "model-00010.safetensors",
+              "logical_bytes": 535192016,
+              "allocated_bytes": 535192064,
+              "inode": 21063351,
+              "mtime_ns": 1794056356448174899
+            },
+            {
+              "name": "model-00011.safetensors",
+              "logical_bytes": 530348288,
+              "allocated_bytes": 530348544,
+              "inode": 21063353,
+              "mtime_ns": 1794056357701400328
+            },
+            {
+              "name": "model-00012.safetensors",
+              "logical_bytes": 482768824,
+              "allocated_bytes": 482768896,
+              "inode": 21063355,
+              "mtime_ns": 1794056358549523234
+            },
+            {
+              "name": "model-00013.safetensors",
+              "logical_bytes": 451698632,
+              "allocated_bytes": 451698688,
+              "inode": 21063357,
+              "mtime_ns": 1794056359197153764
+            },
+            {
+              "name": "model-00014.safetensors",
+              "logical_bytes": 535191984,
+              "allocated_bytes": 535192064,
+              "inode": 21063359,
+              "mtime_ns": 1794056360267240019
+            },
+            {
+              "name": "model-00015.safetensors",
+              "logical_bytes": 131472008,
+              "allocated_bytes": 131472384,
+              "inode": 21063361,
+              "mtime_ns": 1794056361208282444
+            },
+            {
+              "name": "model-00016.safetensors",
+              "logical_bytes": 1271398544,
+              "allocated_bytes": 1271398912,
+              "inode": 21063363,
+              "mtime_ns": 1794056362606387235
+            },
+            {
+              "name": "model.safetensors.index.json",
+              "logical_bytes": 31732,
+              "allocated_bytes": 31744,
+              "inode": 21063329,
+              "mtime_ns": 1794056363126033561,
+              "sha256": "297eba126307c2b5ffb19259486055eda8de948ee84dc1ec48e49ef8549c8329"
+            },
+            {
+              "name": "qwen_text_export.json",
+              "logical_bytes": 517,
+              "allocated_bytes": 1024,
+              "inode": 21063331,
+              "mtime_ns": 1794056363240444212,
+              "sha256": "b8eba0b76d33d297fbe3c444d08bfef6b80b32e4f0e3ee73300b00a4cd3a385f"
+            },
+            {
+              "name": "tokenizer.json",
+              "logical_bytes": 12807982,
+              "allocated_bytes": 12808192,
+              "inode": 21063325,
+              "mtime_ns": 1793809645080207517
+            },
+            {
+              "name": "tokenizer_config.json",
+              "logical_bytes": 16710,
+              "allocated_bytes": 16896,
+              "inode": 21063326,
+              "mtime_ns": 1793809645301497829,
+              "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+            },
+            {
+              "name": "vocab.json",
+              "logical_bytes": 6722759,
+              "allocated_bytes": 6723072,
+              "inode": 21063328,
+              "mtime_ns": 1793809645693126638
+            }
+          ],
+          "logical_bytes": 8434495085,
+          "complete_marker_present": true,
+          "indexed_shards": [
+            "model-00001.safetensors",
+            "model-00002.safetensors",
+            "model-00003.safetensors",
+            "model-00004.safetensors",
+            "model-00005.safetensors",
+            "model-00006.safetensors",
+            "model-00007.safetensors",
+            "model-00008.safetensors",
+            "model-00009.safetensors",
+            "model-00010.safetensors",
+            "model-00011.safetensors",
+            "model-00012.safetensors",
+            "model-00013.safetensors",
+            "model-00014.safetensors",
+            "model-00015.safetensors",
+            "model-00016.safetensors"
+          ],
+          "all_indexed_shards_present_nonempty": true,
+          "safetensors_files": [
+            "model-00001.safetensors",
+            "model-00002.safetensors",
+            "model-00003.safetensors",
+            "model-00004.safetensors",
+            "model-00005.safetensors",
+            "model-00006.safetensors",
+            "model-00007.safetensors",
+            "model-00008.safetensors",
+            "model-00009.safetensors",
+            "model-00010.safetensors",
+            "model-00011.safetensors",
+            "model-00012.safetensors",
+            "model-00013.safetensors",
+            "model-00014.safetensors",
+            "model-00015.safetensors",
+            "model-00016.safetensors"
+          ],
+          "config_present": true,
+          "index_present": true,
+          "acceptance_provenance": "Parent supplied terminal completion and accepted final native reload; this follow-up verifies retained package presence/metadata only, not new reload inference."
+        }
+      },
+      "protected_file_checks": {
+        "population-exp-1106-233008-986003/monitor.jsonl": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 14712167,
+            "allocated_bytes": 14712320,
+            "inode": 20884485,
+            "nlink": 1,
+            "mtime_ns": 1793979618444485298
+          }
+        },
+        "population-exp-1106-233008-986003/population.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 775163,
+            "allocated_bytes": 775168,
+            "inode": 20884486,
+            "nlink": 1,
+            "mtime_ns": 1793979618465615222,
+            "sha256": "221c7fde9852d8b874d7342073bb054062dae2b4499d705183af651bf6c87e91"
+          }
+        },
+        "population-exp-1106-233008-986003/train.jsonl": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 855136451,
+            "allocated_bytes": 855136768,
+            "inode": 20884484,
+            "nlink": 1,
+            "mtime_ns": 1793979618333999440
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/chat_template.jinja": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 7756,
+            "allocated_bytes": 8192,
+            "inode": 20971526,
+            "nlink": 1,
+            "mtime_ns": 1794017479189542634,
+            "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 1938,
+            "allocated_bytes": 2048,
+            "inode": 20971527,
+            "nlink": 1,
+            "mtime_ns": 1794017509725894394,
+            "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/merges.txt": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 3353259,
+            "allocated_bytes": 3353600,
+            "inode": 20971528,
+            "nlink": 1,
+            "mtime_ns": 1794017479224255118
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 5187839368,
+            "allocated_bytes": 5187839488,
+            "inode": 20971537,
+            "nlink": 1,
+            "mtime_ns": 1794017504028435341
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 3223719528,
+            "allocated_bytes": 3223719936,
+            "inode": 20971539,
+            "nlink": 1,
+            "mtime_ns": 1794017508820913132
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 40678,
+            "allocated_bytes": 40960,
+            "inode": 20971531,
+            "nlink": 1,
+            "mtime_ns": 1794017509715780728,
+            "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/qwen_text_export.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 14651,
+            "allocated_bytes": 14848,
+            "inode": 20971535,
+            "nlink": 1,
+            "mtime_ns": 1794017509738646685,
+            "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/tokenizer.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 12807982,
+            "allocated_bytes": 12808192,
+            "inode": 20971532,
+            "nlink": 1,
+            "mtime_ns": 1794017495164205391
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/tokenizer_config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 16710,
+            "allocated_bytes": 16896,
+            "inode": 20971533,
+            "nlink": 1,
+            "mtime_ns": 1794017495178444785,
+            "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+          }
+        },
+        "text-loader-probe/exp-1107-100927-934443/model/vocab.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 6722759,
+            "allocated_bytes": 6723072,
+            "inode": 20971534,
+            "nlink": 1,
+            "mtime_ns": 1794017495202715285
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/chat_template.jinja": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 7756,
+            "allocated_bytes": 8192,
+            "inode": 20934673,
+            "nlink": 1,
+            "mtime_ns": 1794011970553144083,
+            "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 1938,
+            "allocated_bytes": 2048,
+            "inode": 20934674,
+            "nlink": 1,
+            "mtime_ns": 1794011997777906398,
+            "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/merges.txt": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 3353259,
+            "allocated_bytes": 3353600,
+            "inode": 20934675,
+            "nlink": 1,
+            "mtime_ns": 1794011970574886550
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/model.safetensors.index.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 40678,
+            "allocated_bytes": 40960,
+            "inode": 20934678,
+            "nlink": 1,
+            "mtime_ns": 1794011997765963053,
+            "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/qwen_text_export.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 14651,
+            "allocated_bytes": 14848,
+            "inode": 20934682,
+            "nlink": 1,
+            "mtime_ns": 1794011997792095690,
+            "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/tokenizer.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 12807982,
+            "allocated_bytes": 12808192,
+            "inode": 20934679,
+            "nlink": 1,
+            "mtime_ns": 1794011985109571719
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/tokenizer_config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 16710,
+            "allocated_bytes": 16896,
+            "inode": 20934680,
+            "nlink": 1,
+            "mtime_ns": 1794011985130146993,
+            "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+          }
+        },
+        "text-loader-probe/exp-1107-083839-053284/model/vocab.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 6722759,
+            "allocated_bytes": 6723072,
+            "inode": 20934681,
+            "nlink": 1,
+            "mtime_ns": 1794011985149183244
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/chat_template.jinja": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 7756,
+            "allocated_bytes": 8192,
+            "inode": 20934691,
+            "nlink": 1,
+            "mtime_ns": 1794015061891034090,
+            "sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 1938,
+            "allocated_bytes": 2048,
+            "inode": 20934692,
+            "nlink": 1,
+            "mtime_ns": 1794015085055276469,
+            "sha256": "0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f"
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/merges.txt": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 3353259,
+            "allocated_bytes": 3353600,
+            "inode": 20934693,
+            "nlink": 1,
+            "mtime_ns": 1794015061909338599
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/model.safetensors.index.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 40678,
+            "allocated_bytes": 40960,
+            "inode": 20934696,
+            "nlink": 1,
+            "mtime_ns": 1794015085044472510,
+            "sha256": "15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3"
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/qwen_text_export.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 14651,
+            "allocated_bytes": 14848,
+            "inode": 20934700,
+            "nlink": 1,
+            "mtime_ns": 1794015085072991279,
+            "sha256": "f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa"
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/tokenizer.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 12807982,
+            "allocated_bytes": 12808192,
+            "inode": 20934697,
+            "nlink": 1,
+            "mtime_ns": 1794015073225966584
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/tokenizer_config.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 16710,
+            "allocated_bytes": 16896,
+            "inode": 20934698,
+            "nlink": 1,
+            "mtime_ns": 1794015073239042712,
+            "sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8"
+          }
+        },
+        "text-loader-probe/exp-1107-093036-947852/model/vocab.json": {
+          "matches_original_signature": true,
+          "current": {
+            "logical_bytes": 6722759,
+            "allocated_bytes": 6723072,
+            "inode": 20934699,
+            "nlink": 1,
+            "mtime_ns": 1794015073250896686
+          }
+        }
+      },
+      "queued_c_cloud_path_presence": {
+        "student": false,
+        "teacher": false
+      },
+      "original_deleted_files_still_absent": {
+        "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors": true,
+        "text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors": true,
+        "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors": true,
+        "text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors": true
+      },
+      "filesystem": {
+        "total_bytes": 197912092999680,
+        "available_bytes": 12130138939392
+      },
+      "new_deleted_bytes": 0,
+      "new_deleted_files": [],
+      "trash_inspected_or_modified": false,
+      "execution": {
+        "command": [
+          "timeout",
+          "60s",
+          "ssh",
+          "-o",
+          "BatchMode=yes",
+          "-o",
+          "ConnectTimeout=10",
+          "shai-ycfeng",
+          "timeout 60s python3 -"
+        ],
+        "stdin_python": "\nimport collections,concurrent.futures,hashlib,heapq,json,os,resource,stat,sys,time\nresource.setrlimit(resource.RLIMIT_AS,(30*1024**3,30*1024**3))\npayload=json.loads('{\"root\": \"/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs\", \"protected\": {\"population-exp-1106-233008-986003/monitor.jsonl\": {\"logical_bytes\": 14712167, \"allocated_bytes\": 14712320, \"inode\": 20884485, \"nlink\": 1, \"mtime_ns\": 1793979618444485298}, \"population-exp-1106-233008-986003/population.json\": {\"logical_bytes\": 775163, \"allocated_bytes\": 775168, \"inode\": 20884486, \"nlink\": 1, \"mtime_ns\": 1793979618465615222, \"sha256\": \"221c7fde9852d8b874d7342073bb054062dae2b4499d705183af651bf6c87e91\"}, \"population-exp-1106-233008-986003/train.jsonl\": {\"logical_bytes\": 855136451, \"allocated_bytes\": 855136768, \"inode\": 20884484, \"nlink\": 1, \"mtime_ns\": 1793979618333999440}, \"text-loader-probe/exp-1107-100927-934443/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20971526, \"nlink\": 1, \"mtime_ns\": 1794017479189542634, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-100927-934443/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20971527, \"nlink\": 1, \"mtime_ns\": 1794017509725894394, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-100927-934443/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20971528, \"nlink\": 1, \"mtime_ns\": 1794017479224255118}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00001-of-00002.safetensors\": {\"logical_bytes\": 5187839368, \"allocated_bytes\": 5187839488, \"inode\": 20971537, \"nlink\": 1, \"mtime_ns\": 1794017504028435341}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors-00002-of-00002.safetensors\": {\"logical_bytes\": 3223719528, \"allocated_bytes\": 3223719936, \"inode\": 20971539, \"nlink\": 1, \"mtime_ns\": 1794017508820913132}, \"text-loader-probe/exp-1107-100927-934443/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20971531, \"nlink\": 1, \"mtime_ns\": 1794017509715780728, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-100927-934443/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20971535, \"nlink\": 1, \"mtime_ns\": 1794017509738646685, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-100927-934443/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20971532, \"nlink\": 1, \"mtime_ns\": 1794017495164205391}, \"text-loader-probe/exp-1107-100927-934443/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20971533, \"nlink\": 1, \"mtime_ns\": 1794017495178444785, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-100927-934443/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20971534, \"nlink\": 1, \"mtime_ns\": 1794017495202715285}, \"text-loader-probe/exp-1107-083839-053284/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20934673, \"nlink\": 1, \"mtime_ns\": 1794011970553144083, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-083839-053284/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20934674, \"nlink\": 1, \"mtime_ns\": 1794011997777906398, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-083839-053284/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20934675, \"nlink\": 1, \"mtime_ns\": 1794011970574886550}, \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20934678, \"nlink\": 1, \"mtime_ns\": 1794011997765963053, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-083839-053284/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20934682, \"nlink\": 1, \"mtime_ns\": 1794011997792095690, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-083839-053284/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20934679, \"nlink\": 1, \"mtime_ns\": 1794011985109571719}, \"text-loader-probe/exp-1107-083839-053284/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20934680, \"nlink\": 1, \"mtime_ns\": 1794011985130146993, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-083839-053284/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20934681, \"nlink\": 1, \"mtime_ns\": 1794011985149183244}, \"text-loader-probe/exp-1107-093036-947852/model/chat_template.jinja\": {\"logical_bytes\": 7756, \"allocated_bytes\": 8192, \"inode\": 20934691, \"nlink\": 1, \"mtime_ns\": 1794015061891034090, \"sha256\": \"a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715\"}, \"text-loader-probe/exp-1107-093036-947852/model/config.json\": {\"logical_bytes\": 1938, \"allocated_bytes\": 2048, \"inode\": 20934692, \"nlink\": 1, \"mtime_ns\": 1794015085055276469, \"sha256\": \"0bc1a4d2e210651a8de49c2a68331e9e46f267ff7d1546ccaf0f4eeac1f2aa6f\"}, \"text-loader-probe/exp-1107-093036-947852/model/merges.txt\": {\"logical_bytes\": 3353259, \"allocated_bytes\": 3353600, \"inode\": 20934693, \"nlink\": 1, \"mtime_ns\": 1794015061909338599}, \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors.index.json\": {\"logical_bytes\": 40678, \"allocated_bytes\": 40960, \"inode\": 20934696, \"nlink\": 1, \"mtime_ns\": 1794015085044472510, \"sha256\": \"15ae98569440c66313d6c73b3795f711395d79d51d5fd3fc4554237af71a08f3\"}, \"text-loader-probe/exp-1107-093036-947852/model/qwen_text_export.json\": {\"logical_bytes\": 14651, \"allocated_bytes\": 14848, \"inode\": 20934700, \"nlink\": 1, \"mtime_ns\": 1794015085072991279, \"sha256\": \"f6b3d60d84bcda63969bbfb8847e8dc0e3ad7917c9b57bcab8e31c0e8ae78efa\"}, \"text-loader-probe/exp-1107-093036-947852/model/tokenizer.json\": {\"logical_bytes\": 12807982, \"allocated_bytes\": 12808192, \"inode\": 20934697, \"nlink\": 1, \"mtime_ns\": 1794015073225966584}, \"text-loader-probe/exp-1107-093036-947852/model/tokenizer_config.json\": {\"logical_bytes\": 16710, \"allocated_bytes\": 16896, \"inode\": 20934698, \"nlink\": 1, \"mtime_ns\": 1794015073239042712, \"sha256\": \"316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8\"}, \"text-loader-probe/exp-1107-093036-947852/model/vocab.json\": {\"logical_bytes\": 6722759, \"allocated_bytes\": 6723072, \"inode\": 20934699, \"nlink\": 1, \"mtime_ns\": 1794015073250896686}}, \"old_deleted\": [\"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00001-of-00002.safetensors\", \"text-loader-probe/exp-1107-083839-053284/model/model.safetensors-00002-of-00002.safetensors\", \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00001-of-00002.safetensors\", \"text-loader-probe/exp-1107-093036-947852/model/model.safetensors-00002-of-00002.safetensors\"], \"accepted_jobs\": {\"A\": \"exp-1107-173758-712234\", \"B\": \"exp-1107-173758-806531\"}, \"queued_c\": \"exp-1107-150849-814926\"}')\nroot=payload['root']\nroot_stat=os.lstat(root)\nif os.path.realpath(root)!=root or not stat.S_ISDIR(root_stat.st_mode):raise RuntimeError('Root boundary mismatch')\ndev=root_stat.st_dev\nscopes=['first-round/student/A','first-round/student/B','first-round/student/C','first-round/teacher','native-prerequisites','population-exp-1106-233008-986003','text-loader-probe']\nt0=time.monotonic()\ndef inventory(relative):\n    path=root+'/'+relative\n    started=time.monotonic()\n    dirs=collections.defaultdict(lambda:{'logical_bytes':0,'allocated_bytes':0,'files':0})\n    large=[]\n    result={'scope':relative,'complete':True,'entries_seen':0,'skipped':[],'errors':[]}\n    def walk(directory):\n        if os.path.realpath(directory)!=directory:raise RuntimeError('Scope symlink refused')\n        try:\n            with os.scandir(directory) as entries:\n                for e in entries:\n                    if result['entries_seen']>=100000 or time.monotonic()-started>52:\n                        result['complete']=False\n                        return\n                    result['entries_seen']+=1\n                    try:\n                        s=e.stat(follow_symlinks=False)\n                        p=os.path.relpath(e.path,root)\n                        if stat.S_ISLNK(s.st_mode):result['skipped'].append({'path':p,'reason':'symlink not followed'})\n                        elif s.st_dev!=dev:result['skipped'].append({'path':p,'reason':'device boundary'})\n                        elif stat.S_ISDIR(s.st_mode):walk(e.path)\n                        elif stat.S_ISREG(s.st_mode):\n                            parts=p.split('/')\n                            for depth in range(1,min(len(parts),9)):\n                                parent='/'.join(parts[:depth])\n                                dirs[parent]['logical_bytes']+=s.st_size\n                                dirs[parent]['allocated_bytes']+=s.st_blocks*512\n                                dirs[parent]['files']+=1\n                            item=(s.st_size,p,s.st_blocks*512)\n                            if len(large)<12:heapq.heappush(large,item)\n                            elif item>large[0]:heapq.heapreplace(large,item)\n                    except OSError as ex:result['errors'].append({'path':e.path,'error':str(ex)})\n        except OSError as ex:result['errors'].append({'path':directory,'error':str(ex)})\n    if os.path.exists(path):walk(path)\n    else:result['errors'].append({'path':path,'error':'Selected scope missing'})\n    result['elapsed_s']=time.monotonic()-started\n    result['directories']=dict(sorted(dirs.items()))\n    result['largest_files']=[{'logical_bytes':s,'path':p,'allocated_bytes':a} for s,p,a in sorted(large,reverse=True)]\n    return result\nwith concurrent.futures.ThreadPoolExecutor(max_workers=7) as pool:\n    scans=list(pool.map(inventory,scopes))\nroot_entries=[]\nwith os.scandir(root) as entries:\n    for e in entries:\n        s=e.stat(follow_symlinks=False)\n        root_entries.append({'name':e.name,'kind':'directory' if stat.S_ISDIR(s.st_mode) else 'symlink' if stat.S_ISLNK(s.st_mode) else 'file','logical_bytes':s.st_size})\npackages={}\nfor pair,job in payload['accepted_jobs'].items():\n    relative='first-round/student/'+pair+'/'+job+'/hf/step_99'\n    directory=root+'/'+relative\n    if os.path.realpath(directory)!=directory:raise RuntimeError('Accepted HF symlink refused')\n    files=[]\n    with os.scandir(directory) as entries:\n        for e in entries:\n            s=e.stat(follow_symlinks=False)\n            if not stat.S_ISREG(s.st_mode) or s.st_dev!=dev:raise RuntimeError('Unexpected accepted package entry '+e.path)\n            row={'name':e.name,'logical_bytes':s.st_size,'allocated_bytes':s.st_blocks*512,'inode':s.st_ino,'mtime_ns':s.st_mtime_ns}\n            if s.st_size<1024*1024:\n                with open(e.path,'rb') as f:row['sha256']=hashlib.sha256(f.read()).hexdigest()\n            files.append(row)\n    index_path=directory+'/model.safetensors.index.json'\n    if os.path.getsize(index_path)>1024*1024:raise RuntimeError('HF index larger than scoped read limit')\n    with open(index_path) as f:index=json.load(f)\n    indexed_shards=sorted(set(index['weight_map'].values()))\n    known={f['name']:f for f in files}\n    packages[pair]={'path':relative,'files':sorted(files,key=lambda x:x['name']),'logical_bytes':sum(f['logical_bytes'] for f in files),'complete_marker_present':'.complete' in known,'indexed_shards':indexed_shards,'all_indexed_shards_present_nonempty':all('/' not in shard and shard in known and known[shard]['logical_bytes']>0 for shard in indexed_shards),'safetensors_files':[f['name'] for f in files if f['name'].endswith('.safetensors')],'config_present':'config.json' in known,'index_present':True,'acceptance_provenance':'Parent supplied terminal completion and accepted final native reload; this follow-up verifies retained package presence/metadata only, not new reload inference.'}\nprotected_checks={}\nfor relative,expected in payload['protected'].items():\n    path=root+'/'+relative\n    if os.path.realpath(path)!=path:raise RuntimeError('Protected file symlink refused')\n    s=os.lstat(path)\n    actual={'logical_bytes':s.st_size,'allocated_bytes':s.st_blocks*512,'inode':s.st_ino,'nlink':s.st_nlink,'mtime_ns':s.st_mtime_ns}\n    if s.st_size<1024*1024:\n        with open(path,'rb') as f:actual['sha256']=hashlib.sha256(f.read()).hexdigest()\n    protected_checks[relative]={'matches_original_signature':actual==expected,'current':actual}\nc_presence={role:os.path.exists(root+'/first-round/'+role+'/C/'+payload['queued_c']) for role in ('student','teacher')}\nv=os.statvfs(root)\nprint(json.dumps({'timestamp_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),'elapsed_s':time.monotonic()-t0,'python_version':sys.version,'ssh_euid':os.geteuid(),'root':root,'root_entries':root_entries,'scopes':scans,'accepted_final_packages':packages,'protected_file_checks':protected_checks,'queued_c_cloud_path_presence':c_presence,'original_deleted_files_still_absent':{p:not os.path.lexists(root+'/'+p) for p in payload['old_deleted']},'filesystem':{'total_bytes':v.f_blocks*v.f_frsize,'available_bytes':v.f_bavail*v.f_frsize},'new_deleted_bytes':0,'new_deleted_files':[],'trash_inspected_or_modified':False},indent=2))\n",
+        "source_sha256": "a2736a768b9984795b1d6280c2e3905c46ba35579f440e65e5c2f7eb571e0c46",
+        "local_timeout_seconds": 65,
+        "returncode": 0,
+        "stderr": ""
+      },
+      "original_manifest_canonical_sha256": "9dcadab5126b4fb6622080f742ca093e9f5f38a85dd728c6a036335a6b92d5c6",
+      "merged_directories": {
+        "first-round": {
+          "logical_bytes": 26120346425,
+          "allocated_bytes": 26121551360,
+          "files": 3782
+        },
+        "first-round/student": {
+          "logical_bytes": 26114625534,
+          "allocated_bytes": 26115828224,
+          "files": 3772
+        },
+        "first-round/student/A": {
+          "logical_bytes": 12932013119,
+          "allocated_bytes": 12932598272,
+          "files": 1764
+        },
+        "first-round/student/A/exp-1107-063447-691018": {
+          "logical_bytes": 158771500,
+          "allocated_bytes": 158793216,
+          "files": 127
+        },
+        "first-round/student/A/exp-1107-063447-691018/dashboard_columns": {
+          "logical_bytes": 1508957,
+          "allocated_bytes": 1509888,
+          "files": 2
+        },
+        "first-round/student/A/exp-1107-063447-691018/events": {
+          "logical_bytes": 4262430,
+          "allocated_bytes": 4268032,
+          "files": 13
+        },
+        "first-round/student/A/exp-1107-063447-691018/failure-diagnostics": {
+          "logical_bytes": 8519640,
+          "allocated_bytes": 8529408,
+          "files": 93
+        },
+        "first-round/student/A/exp-1107-063447-691018/failure-diagnostics/rank-0": {
+          "logical_bytes": 8519640,
+          "allocated_bytes": 8529408,
+          "files": 93
+        },
+        "first-round/student/A/exp-1107-063447-691018/policy_loss_debug": {
+          "logical_bytes": 1063300,
+          "allocated_bytes": 1064960,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-063447-691018/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-063447-691018/rollout_data": {
+          "logical_bytes": 70190640,
+          "allocated_bytes": 70191104,
+          "files": 2
+        },
+        "first-round/student/A/exp-1107-063447-691018/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/A/exp-1107-063447-691018/train_data": {
+          "logical_bytes": 10809812,
+          "allocated_bytes": 10810880,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-063447-691018/trajectory": {
+          "logical_bytes": 22418342,
+          "allocated_bytes": 22418944,
+          "files": 2
+        },
+        "first-round/student/A/exp-1107-085640-136853": {
+          "logical_bytes": 116471318,
+          "allocated_bytes": 116477952,
+          "files": 27
+        },
+        "first-round/student/A/exp-1107-085640-136853/dashboard_columns": {
+          "logical_bytes": 951078,
+          "allocated_bytes": 951296,
+          "files": 1
+        },
+        "first-round/student/A/exp-1107-085640-136853/events": {
+          "logical_bytes": 4261528,
+          "allocated_bytes": 4265472,
+          "files": 13
+        },
+        "first-round/student/A/exp-1107-085640-136853/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-085640-136853/rollout_data": {
+          "logical_bytes": 45818855,
+          "allocated_bytes": 45818880,
+          "files": 1
+        },
+        "first-round/student/A/exp-1107-085640-136853/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/A/exp-1107-085640-136853/train_data": {
+          "logical_bytes": 10810644,
+          "allocated_bytes": 10811392,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-085640-136853/trajectory": {
+          "logical_bytes": 14630834,
+          "allocated_bytes": 14630912,
+          "files": 1
+        },
+        "first-round/student/A/exp-1107-150849-708403": {
+          "logical_bytes": 41867683,
+          "allocated_bytes": 41874432,
+          "files": 19
+        },
+        "first-round/student/A/exp-1107-150849-708403/events": {
+          "logical_bytes": 1869304,
+          "allocated_bytes": 1874432,
+          "files": 12
+        },
+        "first-round/student/A/exp-1107-150849-708403/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-150849-708403/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/A/exp-1107-173758-712234": {
+          "logical_bytes": 12585624807,
+          "allocated_bytes": 12586173952,
+          "files": 1587
+        },
+        "first-round/student/A/exp-1107-173758-712234/dashboard_columns": {
+          "logical_bytes": 55188334,
+          "allocated_bytes": 55217664,
+          "files": 106
+        },
+        "first-round/student/A/exp-1107-173758-712234/events": {
+          "logical_bytes": 46773625,
+          "allocated_bytes": 46778368,
+          "files": 13
+        },
+        "first-round/student/A/exp-1107-173758-712234/hf": {
+          "logical_bytes": 8434495085,
+          "allocated_bytes": 8434500096,
+          "files": 25
+        },
+        "first-round/student/A/exp-1107-173758-712234/hf/step_99": {
+          "logical_bytes": 8434495085,
+          "allocated_bytes": 8434500096,
+          "files": 25
+        },
+        "first-round/student/A/exp-1107-173758-712234/policy_loss_debug": {
+          "logical_bytes": 10372176,
+          "allocated_bytes": 10717184,
+          "files": 800
+        },
+        "first-round/student/A/exp-1107-173758-712234/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/A/exp-1107-173758-712234/rollout_data": {
+          "logical_bytes": 2565334888,
+          "allocated_bytes": 2565363712,
+          "files": 106
+        },
+        "first-round/student/A/exp-1107-173758-712234/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/A/exp-1107-173758-712234/train_data": {
+          "logical_bytes": 610721136,
+          "allocated_bytes": 610830848,
+          "files": 424
+        },
+        "first-round/student/A/exp-1107-173758-712234/trajectory": {
+          "logical_bytes": 822741184,
+          "allocated_bytes": 822766080,
+          "files": 106
+        },
+        "first-round/student/B": {
+          "logical_bytes": 13004411860,
+          "allocated_bytes": 13005010432,
+          "files": 1877
+        },
+        "first-round/student/B/exp-1107-062459-796906": {
+          "logical_bytes": 158012076,
+          "allocated_bytes": 158031360,
+          "files": 127
+        },
+        "first-round/student/B/exp-1107-062459-796906/dashboard_columns": {
+          "logical_bytes": 1510739,
+          "allocated_bytes": 1511424,
+          "files": 2
+        },
+        "first-round/student/B/exp-1107-062459-796906/events": {
+          "logical_bytes": 4263914,
+          "allocated_bytes": 4268032,
+          "files": 13
+        },
+        "first-round/student/B/exp-1107-062459-796906/failure-diagnostics": {
+          "logical_bytes": 7725235,
+          "allocated_bytes": 7734272,
+          "files": 93
+        },
+        "first-round/student/B/exp-1107-062459-796906/failure-diagnostics/rank-0": {
+          "logical_bytes": 7725235,
+          "allocated_bytes": 7734272,
+          "files": 93
+        },
+        "first-round/student/B/exp-1107-062459-796906/policy_loss_debug": {
+          "logical_bytes": 1063300,
+          "allocated_bytes": 1064960,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-062459-796906/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-062459-796906/rollout_data": {
+          "logical_bytes": 70212592,
+          "allocated_bytes": 70213120,
+          "files": 2
+        },
+        "first-round/student/B/exp-1107-062459-796906/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-062459-796906/train_data": {
+          "logical_bytes": 10816724,
+          "allocated_bytes": 10818048,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-062459-796906/trajectory": {
+          "logical_bytes": 22421193,
+          "allocated_bytes": 22421504,
+          "files": 2
+        },
+        "first-round/student/B/exp-1107-085640-141571": {
+          "logical_bytes": 43639654,
+          "allocated_bytes": 43644928,
+          "files": 20
+        },
+        "first-round/student/B/exp-1107-085640-141571/events": {
+          "logical_bytes": 3641275,
+          "allocated_bytes": 3644928,
+          "files": 13
+        },
+        "first-round/student/B/exp-1107-085640-141571/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-085640-141571/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-150849-818314": {
+          "logical_bytes": 189230021,
+          "allocated_bytes": 189252608,
+          "files": 139
+        },
+        "first-round/student/B/exp-1107-150849-818314/dashboard_columns": {
+          "logical_bytes": 1955755,
+          "allocated_bytes": 1956864,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-150849-818314/events": {
+          "logical_bytes": 5006033,
+          "allocated_bytes": 5009408,
+          "files": 13
+        },
+        "first-round/student/B/exp-1107-150849-818314/failure-diagnostics": {
+          "logical_bytes": 7099489,
+          "allocated_bytes": 7108096,
+          "files": 93
+        },
+        "first-round/student/B/exp-1107-150849-818314/failure-diagnostics/rank-0": {
+          "logical_bytes": 7099489,
+          "allocated_bytes": 7108096,
+          "files": 93
+        },
+        "first-round/student/B/exp-1107-150849-818314/policy_loss_debug": {
+          "logical_bytes": 148585,
+          "allocated_bytes": 152576,
+          "files": 9
+        },
+        "first-round/student/B/exp-1107-150849-818314/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-150849-818314/rollout_data": {
+          "logical_bytes": 90590521,
+          "allocated_bytes": 90591232,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-150849-818314/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-150849-818314/train_data": {
+          "logical_bytes": 15741860,
+          "allocated_bytes": 15744000,
+          "files": 8
+        },
+        "first-round/student/B/exp-1107-150849-818314/trajectory": {
+          "logical_bytes": 28689399,
+          "allocated_bytes": 28690432,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-173758-806531": {
+          "logical_bytes": 12580355374,
+          "allocated_bytes": 12580905984,
+          "files": 1587
+        },
+        "first-round/student/B/exp-1107-173758-806531/dashboard_columns": {
+          "logical_bytes": 55015797,
+          "allocated_bytes": 55042560,
+          "files": 106
+        },
+        "first-round/student/B/exp-1107-173758-806531/events": {
+          "logical_bytes": 46700290,
+          "allocated_bytes": 46704640,
+          "files": 13
+        },
+        "first-round/student/B/exp-1107-173758-806531/hf": {
+          "logical_bytes": 8434495085,
+          "allocated_bytes": 8434500096,
+          "files": 25
+        },
+        "first-round/student/B/exp-1107-173758-806531/hf/step_99": {
+          "logical_bytes": 8434495085,
+          "allocated_bytes": 8434500096,
+          "files": 25
+        },
+        "first-round/student/B/exp-1107-173758-806531/policy_loss_debug": {
+          "logical_bytes": 9213904,
+          "allocated_bytes": 9561600,
+          "files": 800
+        },
+        "first-round/student/B/exp-1107-173758-806531/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/B/exp-1107-173758-806531/rollout_data": {
+          "logical_bytes": 2563169064,
+          "allocated_bytes": 2563197952,
+          "files": 106
+        },
+        "first-round/student/B/exp-1107-173758-806531/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/B/exp-1107-173758-806531/train_data": {
+          "logical_bytes": 609361648,
+          "allocated_bytes": 609469952,
+          "files": 424
+        },
+        "first-round/student/B/exp-1107-173758-806531/trajectory": {
+          "logical_bytes": 822401207,
+          "allocated_bytes": 822429184,
+          "files": 106
+        },
+        "first-round/student/C": {
+          "logical_bytes": 178200555,
+          "allocated_bytes": 178219520,
+          "files": 131
+        },
+        "first-round/student/C/exp-1107-064200-013666": {
+          "logical_bytes": 171056542,
+          "allocated_bytes": 171075072,
+          "files": 130
+        },
+        "first-round/student/C/exp-1107-064200-013666/dashboard_columns": {
+          "logical_bytes": 1519538,
+          "allocated_bytes": 1520128,
+          "files": 2
+        },
+        "first-round/student/C/exp-1107-064200-013666/events": {
+          "logical_bytes": 4725564,
+          "allocated_bytes": 4728320,
+          "files": 13
+        },
+        "first-round/student/C/exp-1107-064200-013666/failure-diagnostics": {
+          "logical_bytes": 11092375,
+          "allocated_bytes": 11100160,
+          "files": 91
+        },
+        "first-round/student/C/exp-1107-064200-013666/failure-diagnostics/rank-0": {
+          "logical_bytes": 11092375,
+          "allocated_bytes": 11100160,
+          "files": 91
+        },
+        "first-round/student/C/exp-1107-064200-013666/policy_loss_debug": {
+          "logical_bytes": 2126600,
+          "allocated_bytes": 2129920,
+          "files": 8
+        },
+        "first-round/student/C/exp-1107-064200-013666/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "first-round/student/C/exp-1107-064200-013666/rollout_data": {
+          "logical_bytes": 70339760,
+          "allocated_bytes": 70340608,
+          "files": 2
+        },
+        "first-round/student/C/exp-1107-064200-013666/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "first-round/student/C/exp-1107-064200-013666/train_data": {
+          "logical_bytes": 18007530,
+          "allocated_bytes": 18008576,
+          "files": 4
+        },
+        "first-round/student/C/exp-1107-064200-013666/trajectory": {
+          "logical_bytes": 22439730,
+          "allocated_bytes": 22439936,
+          "files": 2
+        },
+        "first-round/teacher": {
+          "logical_bytes": 5720891,
+          "allocated_bytes": 5723136,
+          "files": 10
+        },
+        "first-round/teacher/A": {
+          "logical_bytes": 2735191,
+          "allocated_bytes": 2736128,
+          "files": 4
+        },
+        "first-round/teacher/A/exp-1107-063447-691018": {
+          "logical_bytes": 106935,
+          "allocated_bytes": 107008,
+          "files": 1
+        },
+        "first-round/teacher/A/exp-1107-085640-136853": {
+          "logical_bytes": 103569,
+          "allocated_bytes": 103936,
+          "files": 1
+        },
+        "first-round/teacher/A/exp-1107-150849-708403": {
+          "logical_bytes": 40365,
+          "allocated_bytes": 40448,
+          "files": 1
+        },
+        "first-round/teacher/A/exp-1107-173758-712234": {
+          "logical_bytes": 2484322,
+          "allocated_bytes": 2484736,
+          "files": 1
+        },
+        "first-round/teacher/B": {
+          "logical_bytes": 2753438,
+          "allocated_bytes": 2754560,
+          "files": 4
+        },
+        "first-round/teacher/B/exp-1107-062459-796906": {
+          "logical_bytes": 107005,
+          "allocated_bytes": 107008,
+          "files": 1
+        },
+        "first-round/teacher/B/exp-1107-085640-141571": {
+          "logical_bytes": 41102,
+          "allocated_bytes": 41472,
+          "files": 1
+        },
+        "first-round/teacher/B/exp-1107-150849-818314": {
+          "logical_bytes": 129168,
+          "allocated_bytes": 129536,
+          "files": 1
+        },
+        "first-round/teacher/B/exp-1107-173758-806531": {
+          "logical_bytes": 2476163,
+          "allocated_bytes": 2476544,
+          "files": 1
+        },
+        "first-round/teacher/C": {
+          "logical_bytes": 232262,
+          "allocated_bytes": 232448,
+          "files": 2
+        },
+        "first-round/teacher/C/exp-1107-064200-013666": {
+          "logical_bytes": 232262,
+          "allocated_bytes": 232448,
+          "files": 2
+        },
+        "native-prerequisites": {
+          "logical_bytes": 674632440,
+          "allocated_bytes": 674692608,
+          "files": 271
+        },
+        "native-prerequisites/student": {
+          "logical_bytes": 673902482,
+          "allocated_bytes": 673959424,
+          "files": 259
+        },
+        "native-prerequisites/student/A": {
+          "logical_bytes": 301187305,
+          "allocated_bytes": 301220352,
+          "files": 174
+        },
+        "native-prerequisites/student/A/exp-1107-021450-020231": {
+          "logical_bytes": 3354,
+          "allocated_bytes": 3584,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics": {
+          "logical_bytes": 3354,
+          "allocated_bytes": 3584,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-021450-020231/failure-diagnostics/rank-0": {
+          "logical_bytes": 3354,
+          "allocated_bytes": 3584,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302": {
+          "logical_bytes": 47442754,
+          "allocated_bytes": 47458304,
+          "files": 113
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302/events": {
+          "logical_bytes": 2665178,
+          "allocated_bytes": 2670080,
+          "files": 13
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics": {
+          "logical_bytes": 4779197,
+          "allocated_bytes": 4788224,
+          "files": 93
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302/failure-diagnostics/rank-0": {
+          "logical_bytes": 4779197,
+          "allocated_bytes": 4788224,
+          "files": 93
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/A/exp-1107-030522-873302/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012": {
+          "logical_bytes": 116917397,
+          "allocated_bytes": 116925440,
+          "files": 28
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/dashboard_columns": {
+          "logical_bytes": 952029,
+          "allocated_bytes": 952320,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/events": {
+          "logical_bytes": 4253828,
+          "allocated_bytes": 4257792,
+          "files": 13
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/rollout_data": {
+          "logical_bytes": 45830567,
+          "allocated_bytes": 45830656,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/train_data": {
+          "logical_bytes": 10814612,
+          "allocated_bytes": 10816000,
+          "files": 4
+        },
+        "native-prerequisites/student/A/exp-1107-041127-564012/trajectory": {
+          "logical_bytes": 14632490,
+          "allocated_bytes": 14632960,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211": {
+          "logical_bytes": 117263951,
+          "allocated_bytes": 117272064,
+          "files": 28
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/dashboard_columns": {
+          "logical_bytes": 950262,
+          "allocated_bytes": 950272,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/events": {
+          "logical_bytes": 4253939,
+          "allocated_bytes": 4258816,
+          "files": 13
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/rollout_data": {
+          "logical_bytes": 45809447,
+          "allocated_bytes": 45809664,
+          "files": 1
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/train_data": {
+          "logical_bytes": 10807700,
+          "allocated_bytes": 10808832,
+          "files": 4
+        },
+        "native-prerequisites/student/A/exp-1107-055408-748211/trajectory": {
+          "logical_bytes": 14629639,
+          "allocated_bytes": 14629888,
+          "files": 1
+        },
+        "native-prerequisites/student/B": {
+          "logical_bytes": 247926015,
+          "allocated_bytes": 247943680,
+          "files": 58
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864": {
+          "logical_bytes": 116959245,
+          "allocated_bytes": 116967936,
+          "files": 28
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/dashboard_columns": {
+          "logical_bytes": 954505,
+          "allocated_bytes": 954880,
+          "files": 1
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/events": {
+          "logical_bytes": 4253663,
+          "allocated_bytes": 4257792,
+          "files": 13
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/rollout_data": {
+          "logical_bytes": 45857831,
+          "allocated_bytes": 45858304,
+          "files": 1
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/train_data": {
+          "logical_bytes": 10822804,
+          "allocated_bytes": 10824192,
+          "files": 4
+        },
+        "native-prerequisites/student/B/exp-1107-041127-467864/trajectory": {
+          "logical_bytes": 14636562,
+          "allocated_bytes": 14637056,
+          "files": 1
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957": {
+          "logical_bytes": 117356668,
+          "allocated_bytes": 117365248,
+          "files": 28
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/dashboard_columns": {
+          "logical_bytes": 955511,
+          "allocated_bytes": 955904,
+          "files": 1
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/events": {
+          "logical_bytes": 4253975,
+          "allocated_bytes": 4258816,
+          "files": 13
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/rollout_data": {
+          "logical_bytes": 45869671,
+          "allocated_bytes": 45870080,
+          "files": 1
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/train_data": {
+          "logical_bytes": 10825940,
+          "allocated_bytes": 10826752,
+          "files": 4
+        },
+        "native-prerequisites/student/B/exp-1107-055408-654957/trajectory": {
+          "logical_bytes": 14638455,
+          "allocated_bytes": 14638592,
+          "files": 1
+        },
+        "native-prerequisites/student/C": {
+          "logical_bytes": 124789162,
+          "allocated_bytes": 124795392,
+          "files": 27
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566": {
+          "logical_bytes": 117610455,
+          "allocated_bytes": 117616640,
+          "files": 26
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/dashboard_columns": {
+          "logical_bytes": 958147,
+          "allocated_bytes": 958464,
+          "files": 1
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/events": {
+          "logical_bytes": 4439323,
+          "allocated_bytes": 4442112,
+          "files": 13
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/processor": {
+          "logical_bytes": 19999820,
+          "allocated_bytes": 20000768,
+          "files": 4
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/rollout_data": {
+          "logical_bytes": 45917863,
+          "allocated_bytes": 45918208,
+          "files": 1
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/tokenizer": {
+          "logical_bytes": 19998559,
+          "allocated_bytes": 19999232,
+          "files": 3
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/train_data": {
+          "logical_bytes": 10837730,
+          "allocated_bytes": 10838528,
+          "files": 2
+        },
+        "native-prerequisites/student/C/exp-1107-044223-241566/trajectory": {
+          "logical_bytes": 14644526,
+          "allocated_bytes": 14644736,
+          "files": 1
+        },
+        "native-prerequisites/teacher": {
+          "logical_bytes": 729958,
+          "allocated_bytes": 733184,
+          "files": 12
+        },
+        "native-prerequisites/teacher/A": {
+          "logical_bytes": 251734,
+          "allocated_bytes": 252928,
+          "files": 4
+        },
+        "native-prerequisites/teacher/A/exp-1107-021450-020231": {
+          "logical_bytes": 40123,
+          "allocated_bytes": 40448,
+          "files": 1
+        },
+        "native-prerequisites/teacher/A/exp-1107-030522-873302": {
+          "logical_bytes": 40021,
+          "allocated_bytes": 40448,
+          "files": 1
+        },
+        "native-prerequisites/teacher/A/exp-1107-041127-564012": {
+          "logical_bytes": 86111,
+          "allocated_bytes": 86528,
+          "files": 1
+        },
+        "native-prerequisites/teacher/A/exp-1107-055408-748211": {
+          "logical_bytes": 85479,
+          "allocated_bytes": 85504,
+          "files": 1
+        },
+        "native-prerequisites/teacher/B": {
+          "logical_bytes": 234532,
+          "allocated_bytes": 235520,
+          "files": 4
+        },
+        "native-prerequisites/teacher/B/exp-1107-021450-039035": {
+          "logical_bytes": 36048,
+          "allocated_bytes": 36352,
+          "files": 1
+        },
+        "native-prerequisites/teacher/B/exp-1107-030522-896828": {
+          "logical_bytes": 25407,
+          "allocated_bytes": 25600,
+          "files": 1
+        },
+        "native-prerequisites/teacher/B/exp-1107-041127-467864": {
+          "logical_bytes": 86663,
+          "allocated_bytes": 87040,
+          "files": 1
+        },
+        "native-prerequisites/teacher/B/exp-1107-055408-654957": {
+          "logical_bytes": 86414,
+          "allocated_bytes": 86528,
+          "files": 1
+        },
+        "native-prerequisites/teacher/C": {
+          "logical_bytes": 243692,
+          "allocated_bytes": 244736,
+          "files": 4
+        },
+        "native-prerequisites/teacher/C/exp-1107-005818-919546": {
+          "logical_bytes": 65008,
+          "allocated_bytes": 65536,
+          "files": 2
+        },
+        "native-prerequisites/teacher/C/exp-1107-044223-241566": {
+          "logical_bytes": 178684,
+          "allocated_bytes": 179200,
+          "files": 2
+        },
+        "population-exp-1106-233008-986003": {
+          "logical_bytes": 870623781,
+          "allocated_bytes": 870624256,
+          "files": 3
+        },
+        "text-loader-probe": {
+          "logical_bytes": 8480456095,
+          "allocated_bytes": 8480462848,
+          "files": 26
+        },
+        "text-loader-probe/exp-1107-083839-053284": {
+          "logical_bytes": 22965733,
+          "allocated_bytes": 22967808,
+          "files": 8
+        },
+        "text-loader-probe/exp-1107-083839-053284/model": {
+          "logical_bytes": 22965733,
+          "allocated_bytes": 22967808,
+          "files": 8
+        },
+        "text-loader-probe/exp-1107-093036-947852": {
+          "logical_bytes": 22965733,
+          "allocated_bytes": 22967808,
+          "files": 8
+        },
+        "text-loader-probe/exp-1107-093036-947852/model": {
+          "logical_bytes": 22965733,
+          "allocated_bytes": 22967808,
+          "files": 8
+        },
+        "text-loader-probe/exp-1107-100927-934443": {
+          "logical_bytes": 8434524629,
+          "allocated_bytes": 8434527232,
+          "files": 10
+        },
+        "text-loader-probe/exp-1107-100927-934443/model": {
+          "logical_bytes": 8434524629,
+          "allocated_bytes": 8434527232,
+          "files": 10
+        }
+      },
+      "current_task_usage": {
+        "logical_bytes": 36146058741,
+        "allocated_bytes": 36147331072,
+        "files": 4082
+      },
+      "retained_directory_size_comparisons": {
+        "native-prerequisites": {
+          "previous": {
+            "logical_bytes": 674632440,
+            "allocated_bytes": 674692608,
+            "files": 271
+          },
+          "current": {
+            "logical_bytes": 674632440,
+            "allocated_bytes": 674692608,
+            "files": 271
+          },
+          "equal": true
+        },
+        "population-exp-1106-233008-986003": {
+          "previous": {
+            "logical_bytes": 870623781,
+            "allocated_bytes": 870624256,
+            "files": 3
+          },
+          "current": {
+            "logical_bytes": 870623781,
+            "allocated_bytes": 870624256,
+            "files": 3
+          },
+          "equal": true
+        },
+        "text-loader-probe/exp-1107-100927-934443/model": {
+          "previous": {
+            "logical_bytes": 8434524629,
+            "allocated_bytes": 8434527232,
+            "files": 10
+          },
+          "current": {
+            "logical_bytes": 8434524629,
+            "allocated_bytes": 8434527232,
+            "files": 10
+          },
+          "equal": true
+        },
+        "first-round/student/A/exp-1107-063447-691018": {
+          "previous": {
+            "logical_bytes": 158771500,
+            "allocated_bytes": 158793216,
+            "files": 127
+          },
+          "current": {
+            "logical_bytes": 158771500,
+            "allocated_bytes": 158793216,
+            "files": 127
+          },
+          "equal": true
+        },
+        "first-round/student/A/exp-1107-085640-136853": {
+          "previous": {
+            "logical_bytes": 116471318,
+            "allocated_bytes": 116477952,
+            "files": 27
+          },
+          "current": {
+            "logical_bytes": 116471318,
+            "allocated_bytes": 116477952,
+            "files": 27
+          },
+          "equal": true
+        },
+        "first-round/student/A/exp-1107-150849-708403": {
+          "previous": {
+            "logical_bytes": 41867683,
+            "allocated_bytes": 41874432,
+            "files": 19
+          },
+          "current": {
+            "logical_bytes": 41867683,
+            "allocated_bytes": 41874432,
+            "files": 19
+          },
+          "equal": true
+        },
+        "first-round/student/B/exp-1107-062459-796906": {
+          "previous": {
+            "logical_bytes": 158012076,
+            "allocated_bytes": 158031360,
+            "files": 127
+          },
+          "current": {
+            "logical_bytes": 158012076,
+            "allocated_bytes": 158031360,
+            "files": 127
+          },
+          "equal": true
+        },
+        "first-round/student/B/exp-1107-085640-141571": {
+          "previous": {
+            "logical_bytes": 43639654,
+            "allocated_bytes": 43644928,
+            "files": 20
+          },
+          "current": {
+            "logical_bytes": 43639654,
+            "allocated_bytes": 43644928,
+            "files": 20
+          },
+          "equal": true
+        },
+        "first-round/student/B/exp-1107-150849-818314": {
+          "previous": {
+            "logical_bytes": 189230021,
+            "allocated_bytes": 189252608,
+            "files": 139
+          },
+          "current": {
+            "logical_bytes": 189230021,
+            "allocated_bytes": 189252608,
+            "files": 139
+          },
+          "equal": true
+        },
+        "first-round/student/C/exp-1107-064200-013666": {
+          "previous": {
+            "logical_bytes": 171056542,
+            "allocated_bytes": 171075072,
+            "files": 130
+          },
+          "current": {
+            "logical_bytes": 171056542,
+            "allocated_bytes": 171075072,
+            "files": 130
+          },
+          "equal": true
+        }
+      },
+      "new_job_directories": [],
+      "new_loader_copy_directories": [],
+      "retained_local_evidence_recheck": "PASS: all six original report/log hashes unchanged",
+      "eligible_new_obsolete_failed_run_paths": [],
+      "eligibility_rationale": "No new run identity or loader copy under the selected roots. Ten previously retained baseline/RCA/publication/frozen/accepted-loader directory totals are unchanged; protected accepted A/B run growth is not obsolete failed-run output. No additional path received parent deletion confirmation.",
+      "physical_quota_reclamation": "UNVERIFIED: read-only follow-up; zero new files deleted; shared virtiofs statvfs capacity is not attributable task physical/quota reclamation, and no shared trash was accessed."
+    }
+  ]
 }

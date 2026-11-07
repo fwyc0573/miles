@@ -2,6 +2,9 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Accept A's independent final text-HF on2H200; all24 inputs,822 before/after decoder checksums, generation and archived platform terminal success PASS. |
+| 2026-11-07 | Add independent filtered platform terminal receipt after phase review; original Running allocation snapshot remains intact. |
+| 2026-11-07 | Accept B's final100-update text-HF artifact on2H200: exact822 decoder checksums before/after all24 inputs, real generation and complete interpreter exit PASS. |
 | 2026-11-07 | Close the ResourceTracker P2 with two real-interpreter checks on pinned Python3.12.16; preserve the original post-PASS error and pending final artifacts. |
 | 2026-11-07 | Record phase-review P2 after native PASS, repair terminal ResourceTracker through its stdlib owner, and verify isolated interpreter exit with five focused CPU cases. |
 | 2026-11-07 | Qualify the native text loader on two H800 GPUs: 822 decoder entries equal before/after inference, real scoring/generation/cleanup PASS, and 82 pinned contract tests PASS. Final trained artifacts remain pending. |
@@ -14,7 +17,7 @@
 
 ## Scope and current verdict
 
-D13/R5 require the final updated text decoder, compatible configuration/tokenizer and actual text inference. Final-artifact verdict: **INCOMPLETE**, because no final100-step artifact is available. The baseline4B text-loader qualification is now **PASS** on the actual pinned2-H800 runtime, as recorded below. This standalone validator has no training control path.
+D13/R5 require the final updated text decoder, compatible configuration/tokenizer and actual text inference. **A and B final-artifact verdicts: PASS**, each qualified by its own actual2-H200 run below. C remains independently pending. The earlier baseline4B2-H800 loader qualification remains a separate scope. This standalone validator has no training control path.
 
 ## Initial implementation and local verification
 
@@ -177,3 +180,101 @@ Only `qwen_reload.py`, `test_qwen_reload.py` and this report changed. No GPU/pla
 The focused check completed in0-GPU job `exp-1107-103428-476945`: **2 passed in29.14s**, using the unchanged pinned image and Python3.12.16. Command: `CUDA_VISIBLE_DEVICES="" /opt/sglang/bin/python3 -B -m pytest -p no:cacheprovider -o addopts='' tests/fast/test_qwen_reload.py::test_resource_tracker_owner_and_whole_interpreter_exit -q`. The [complete log](evidence/restore-exit-contracts-exp-1107-103428-476945.log) ends after the passing summary and a known SWIG deprecation warning; it contains no ignored exception or ResourceTracker error. Both owner-state and whole-interpreter stderr assertions pass. P2 is closed for this measured cleanup defect. The earlier GPU report remains unmodified, including its prematurely written PASS; its independent content/numerical observations remain valid.
 
 The stage-b CPU estimate is now60s, accounting for the measured32.73s preexisting file and22.03s added lifecycle slice; this is an estimate, not a new whole-file timing. Same-version restoration receipt handling is recorded separately in [publication restore](test_report_2026-11-07_publication_restore.md). Final artifacts and their complete24-input runtime acceptance remain pending.
+
+## B final trained artifact: actual2-H200 qualification
+
+The pending-final statements in the historical sections above are superseded for B only. Training run`exp-1107-173758-806531` has100 successful updates/0 skipped, six fixed-monitor checkpointsPASS and a complete text export at:
+
+```text
+/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_99
+```
+
+The parent reads the settled cloud packaging receipt before submission: status`packaged`, rollout99, architecture`Qwen3_5ForCausalLM`, model type`qwen3_5_text`,32 layers,426 tensors,402BF16/24F32, all24 `linear_attn.A_log` tensorsFP32, tied head omitted. This is the actual updated Megatron export, not a copy of initial source weights. Total package inventory is8,434,495,085 bytes; no native model/optimizer checkpoint is delivered. Its packaging-time `reload_verified:false` is unchanged; final acceptance is recorded by the independent validator receipt.
+
+### Command, allocation and completion
+
+RJob`exp-1107-211800-115424`, local personal RJobBackend submission from `/data/ycfeng`, creator`i-fengyicheng`, non-preemptible`step_main`. Resources16CPU/2H200/128 memory units =125Gi actual request/limit, one replica. Exact image is the frozen Miles digest`165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805`; exact source annotation is`100.96.128.195:/data/ycfeng:/data/ycfeng`. Actual worker reports two H200 GPUs, each143771MiB, UUIDs`GPU-538f5427-1087-adfd-3e1c-d41d51c81a96` and`GPU-ac38ca43-d81b-646e-fc09-59c19c096ea0`. [Platform verification](evidence/final-hf-reload-B-platform.json), [selected actual-device output](evidence/final-hf-reload-B-hardware.json). Conservative concurrent budget bound was20 formal +2 auxiliary =22≤32; B had already completed, so only A's10 formal GPUs remained allocated.
+
+Environment: Python3.12.16, Torch2.14.1+cu130, native SGLang0.5.24.dev80+g056f871, `CUDA_VISIBLE_DEVICES=0,1`, offline HF/Transformers, `TOKENIZERS_PARALLELISM=false`, `PYTHONNOUSERSITE=1`, `PYTHONDONTWRITEBYTECODE=1`, repository PYTHONPATH, compatibility library directory from the frozen config. Temporary/cache variables use worker-local `/var/tmp/qwen-final-hf-$KUBEBRAIN_RJOB_NAME/{tmp,torch-extensions,inductor,triton,flashinfer,cache,cuda}`. A dedicated interpreter executes:
+
+```bash
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.qwen_reload \
+  --export /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_99 \
+  --source /mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --launch-receipt /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/B/exp-1107-173758-806531/launch.json \
+  --runtime-config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json \
+  --device cuda --base-gpu-id 0 \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/final-hf-reload-B-exp-1107-173758-806531-exp-1107-211800-115424.json
+```
+
+The job starts21:18:00 local and succeeds21:21:29, with `QWEN35_HF_RELOAD PASS`. [Full JSON](evidence/final-hf-reload-B-exp-1107-173758-806531-exp-1107-211800-115424.json), [complete interpreter log](evidence/final-hf-reload-B-exp-1107-211800-115424.log). The independent [terminal platform receipt](evidence/final-hf-reload-B-platform-terminal.json), captured13:31:19Z, confirms phase`Succeeded`, default task/replica`Succeeded`, finishTime13:21:28Z and no stopTimestamp. The earlier allocation receipt intentionally remains the Running snapshot. Raw platform stdout is retained locally at`/data/ycfeng/tmp/opencode-v2-tmp/opencode/final-hf-reload-B-platform-startup.log`; selected hardware evidence is above.
+
+### Expected versus measured result
+
+| Gate | Passing condition | Observed |
+| --- | --- | --- |
+| Package | Complete, compatible text config/tokenizer/schema, correct tensor dtypes | PASS;426 tensors,402BF16/24F32; exact tokenizer assets |
+| Publication | Complete native chain; bind planned rollout99 rather than final restore | PASS; ID`5e435db3dcea4202936415c1ec844597`, weight version100, checksum event12:59:36.666519Z |
+| Runtime | Retained native CLI settings, selected seed, image/backend/TP2 identity | PASS; constructor uses native launch-command parser; no agent kernel/dtype override |
+| Full decoder content | Complete eligible checksum coverage, no missing/unexpected/mismatched keys | PASS before and after inference;822 entries, including`gemma_weight`; all equal to final publisher and to each other |
+| Original monitoring inputs | All24 frozen identities, original token IDs/masks, no truncation | PASS;8 per stratum; longest prefix97216 tokens, longest actual scored input97242 tokens |
+| Actual generation | Nonempty text from a recorded prefix | PASS; shortest11428-token prefix generates token9764, text`Let`, greedy1-token request |
+| Cleanup / whole exit | Native shutdown, no live owned children, clean interpreter and job exit | PASS; four terminal children reaped, tracker through stdlib owner, zero remaining; jobSucceeded |
+
+| Reload-prefill vs trainer | Samples | Original valid = finite compared tokens | Mean absolute error | Maximum absolute error | Result |
+| --- | --- | --- | --- | --- | --- |
+| Overall | 24 | 4261 | 0.006801769714556925 | 0.23408102989196777 | PASS |
+| Short | 8 | 958 | 0.00749998723768857 | 0.2218489646911621 | PASS |
+| Medium | 8 | 2122 | 0.005984146751672069 | 0.23408102989196777 | PASS |
+| Long | 8 | 1181 | 0.00770448228024833 | 0.20743465423583984 | PASS |
+
+All means are below unchanged0.03, all original valid tokens compare finitely, and no sample issues/zero targets are reported. Fresh engine-local version`default` is accepted only after native engine-space byte equality to the training publisher's version100; it is not treated as an equal integer version. The parent checks the complete log for`Traceback`, ignored exceptions,`ChildProcessError`, ResourceTracker destructor failures and CUDA OOM: none. The normal native atexit `kill_process_tree` line after the PASS marker is not an error. The platform confirms the complete command succeeded, rather than accepting the in-process PASS marker alone.
+
+**Final B result:** `verdict=PASS`, `reload_verified=true`. This closes B's D13/R5 final artifact requirement; it does not qualify A/C artifacts or assert capability improvement. No production code, dtype policy, numerical threshold, sample population or training state was changed for this acceptance run.
+
+## A final trained artifact: independent2-H200 qualification
+
+A's own run`exp-1107-173758-712234` completes100 successful updates/0 skipped and six24-sample D8 checkpointsPASS. [Final native inspection](evidence/completion-inspection-A-exp-1107-173758-712234-2132.json), [actual package inventory](evidence/A-final-package-inventory.json). It exports426 text tensors,402BF16/24F32 including24 FP32 A_log parameters; the compatible tokenizer/config and16 shards total8,434,495,085 bytes. The accepted path is:
+
+```text
+/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/hf/step_99
+```
+
+### Exact execution and platform evidence
+
+Job`exp-1107-213721-009840`,21:37:21–21:45:49 local. Same frozen image, Python3.12.16/Torch2.14.1+cu130/native SGLang0.5.24.dev80+g056f871, runtime/cache environment and isolated-interpreter procedure as B. Personal non-preemptible step_main,16CPU/2H200/125Gi actual memory, one replica; source`100.96.128.195:/data/ycfeng:/data/ycfeng`. Both formal pairs and the B reload had terminated, leaving2 authorized auxiliary H200 GPUs within32.
+
+[Allocation/source receipt](evidence/final-hf-reload-A-platform.json), [actual hardware](evidence/final-hf-reload-A-hardware.json), [terminal receipt](evidence/final-hf-reload-A-platform-terminal.json). Two actual H200s report143771MiB each. Terminal API capture13:46:45Z independently verifies job/default replicaSucceeded, finishTime13:45:48Z and no stopTimestamp; the earlier Starting allocation snapshot remains intact.
+
+```bash
+/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.qwen_reload \
+  --export /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/hf/step_99 \
+  --source /mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a \
+  --run-dir /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234 \
+  --population-report /mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/population-exp-1106-233008-986003/population.json \
+  --launch-receipt /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/first-round/student/A/exp-1107-173758-712234/launch.json \
+  --runtime-config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/training_config_h200.json \
+  --device cuda --base-gpu-id 0 \
+  --report /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-06_qwen35_three_pairs/evidence/final-hf-reload-A-exp-1107-173758-712234-exp-1107-213721-009840.json
+```
+
+[Full final-HF receipt](evidence/final-hf-reload-A-exp-1107-173758-712234-exp-1107-213721-009840.json), [whole interpreter log](evidence/final-hf-reload-A-exp-1107-213721-009840.log), [compact summary](evidence/A-final-hf-summary.json).
+
+### Actual results against the same gates
+
+Final content binds A's planned rollout99/version100, ID`defc4f8a67da479bb282ddb735b99bbe`. All822 eligible decoder entries, including`gemma_weight`, match the final native publisher both before and after inference, with no missing/unexpected/mismatched entry; before/after dictionaries are also exactly equal. The fresh engine-local version is`default`, accepted through content proof rather than integer-version equivalence. All retained native startup settings match.
+
+All24 original inputs are scored,8 per stratum, without truncation; longest prefix97216 tokens and longest actual scored input97242 tokens. The shortest11428-token recorded prefix produces token9764 (`Let`) in the real greedy1-token generation check.
+
+| Reload-prefill vs trainer | Samples | Original valid = finite compared tokens | Mean absolute error | Maximum absolute error | Result |
+| --- | --- | --- | --- | --- | --- |
+| Overall | 24 | 5197 | 0.008466400399530068 | 0.23520278930664062 | PASS |
+| Short | 8 | 1149 | 0.008681786002916728 | 0.19861578941345215 | PASS |
+| Medium | 8 | 2329 | 0.007467452059872305 | 0.23520278930664062 | PASS |
+| Long | 8 | 1719 | 0.009675866731567099 | 0.18605446815490723 | PASS |
+
+All original valid tokens compare finitely and all means remain below0.03; zero sample/report issues. Native shutdown reaps four terminal owned children, including the ResourceTracker via its stdlib owner; zero remain. The complete log has no traceback, ignored exception, ResourceTracker destructor error or CUDA OOM. The parent checks these conditions and the separate platform terminal receipt:PASS.
+
+**Final A result:** `verdict=PASS`, `reload_verified=true`. This independently closes A's D13/R5 final text-HF criterion. C remains unqualified. Actual training behavior and its limits are in [A training curves](test_report_2026-11-07_A_training_curves.md); numerical/inference success does not itself prove learning improvement.

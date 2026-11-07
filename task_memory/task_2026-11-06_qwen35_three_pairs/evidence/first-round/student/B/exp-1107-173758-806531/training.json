@@ -1,0 +1,8 @@
+{
+  "status": "native_execution_succeeded",
+  "pair": "B",
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531",
+  "actual_updates": "See native events; not inferred from schedule",
+  "final_hf": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_99",
+  "qualification": "Unverified until native alignment, updates, export and reload evidence is inspected"
+}

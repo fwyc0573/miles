@@ -5,6 +5,7 @@
 | 2026-11-07 | Record the bounded authorized-root inventory and protected evidence; prepare exact obsolete loader-weight cleanup pending primary terminal-status receipts. |
 | 2026-11-07 | Complete the storage-scope checkpoint; pause only deletion awaiting two loader terminal receipts, with no cloud bytes removed yet. |
 | 2026-11-07 | Execute four identity-rechecked obsolete shard unlinks after exact Failed receipts; preserve all evidence, verify 15.668 GiB logical removal and 10.456 GiB remaining usage, and document physical-quota limits. |
+| 2026-11-07 | Append read-only post-training inventory after A/B accepted final exports:33.664 GiB retained, both final packages protected, no newly eligible failed-run large artifact and zero additional deletion. |
 
 # QWEN-P3-OSS-CLEANUP
 
@@ -19,6 +20,8 @@ The user explicitly authorized removal of obsolete task-generated codesign artif
 - Preserve all initial acceptance, failed-run numerical/RCA, publication, and successful baseline-loader evidence. Do not inspect or modify other cloud roots, original model assets, or shared trash.
 
 **PASS — four exact obsolete shard files were unlinked**, removing **16,823,117,792 logical bytes (15.668 GiB)** from the visible task namespace. Their reported allocated sizes sum to16,823,118,848 bytes; that is not a physical-quota reclamation claim. Remaining task usage is **11,226,739,944 logical bytes (10.456 GiB)**.
+
+The preceding usage is the original10:03Z post-delete snapshot. The later read-only [post-training inventory](#post-training-inventory--2026-11-07-135421z) is appended below; original deletion history and metrics are unchanged.
 
 D19 in [requirements.md](requirements.md) owns the explicit destructive authorization. The primary's [loader terminal receipt](evidence/oss-cleanup-loader-terminal.json) verifies both `exp-1107-083839-053284` and `exp-1107-093036-947852` are **Failed**, creator `i-fengyicheng`, with the expected native-text-loader display names. Only their two safetensors shards each were removed. All configuration, tokenizer, shard index, and export reports remain in cloud; original probe reports/logs remain locally. The accepted `text-loader-probe/exp-1107-100927-934443/model` remains complete. No further cleanup is pending.
 
@@ -161,3 +164,89 @@ Local verification passed: before/after inventory arithmetic, four identity-rech
 1. 四个旧 loader shard 已实际 unlink16,823,117,792 logical bytes，约15.668 GiB；task 剩余10.456 GiB。
 2. 所有当前 A/B/C、frozen population、初始 acceptance/RCA/publication 和 accepted loader 保持保护；没有必要删除它们。
 3. Shared virtiofs/statvfs 不能证明等量物理 quota 已回收；shared trash 未访问，且不在本 cleanup 范围。
+
+## Post-training inventory — 2026-11-07 13:54:21Z
+
+**PASS — read-only follow-up;33.664 GiB currently retained, no new eligible failed-run large artifact, zero newly deleted bytes.** The parent confirms A/B have normal terminal completion and accepted final `hf/step_99` packages; both distinct packages must remain. C `exp-1107-150849-814926` remains queued. Parent-provided completion/acceptance is provenance, not a platform query or new numerical qualification performed by this storage subtask.
+
+The existing manifest has a new append-only `post_training_inventory` entry. All pre-existing fields, including the original four-path deletion, snapshots, totals, permission failure, execution source and physical-quota limitation, are preserved. The entry records a canonical SHA256 of the original manifest, exact new inspection command/source, package file metadata and current sizes.
+
+| Retained path, relative to the authorized task root | Logical bytes | Reported allocated bytes | Files |
+| --- | ---: | ---: | ---: |
+| Entire task | 36,146,058,741 | 36,147,331,072 | 4,082 |
+| `first-round` | 26,120,346,425 | 26,121,551,360 | 3,782 |
+| `first-round/student/A/exp-1107-173758-712234` | 12,585,624,807 | 12,586,173,952 | 1,587 |
+| `first-round/student/B/exp-1107-173758-806531` | 12,580,355,374 | 12,580,905,984 | 1,587 |
+| `native-prerequisites` | 674,632,440 | 674,692,608 | 271 |
+| `population-exp-1106-233008-986003` | 870,623,781 | 870,624,256 | 3 |
+| `text-loader-probe` | 8,480,456,095 | 8,480,462,848 | 26 |
+
+The final packages below are **included in**, not additional to, their respective accepted-run totals:
+
+- **A:** `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/hf/step_99` —8,434,495,085 bytes (7.855 GiB),25 files, `.complete`, configuration and index present, all16 indexed safetensors shards present and nonempty.
+- **B:** `/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531/hf/step_99` —8,434,495,085 bytes (7.855 GiB),25 files, `.complete`, configuration and index present, all16 indexed safetensors shards present and nonempty.
+
+Equal package sizes do not establish equal weight contents and are **not** grounds to deduplicate the two accepted artifacts. Both packages and all accepted-run raw rollout, trajectory, train-data, loss-debug, dashboard and publication/event evidence remain protected.
+
+### Inspection method and observed retention
+
+The one SSH read-only command was unchanged from earlier inspection:
+
+```text
+timeout 60s ssh -o BatchMode=yes -o ConnectTimeout=10 shai-ycfeng 'timeout 60s python3 -'
+```
+
+The remote Python3.12.3 process had euid10250, used a30-GiB address-space ceiling, and completed in **7.282 seconds**. It scanned only seven explicitly selected scopes under the exact authorized root: `first-round/student/{A,B,C}`, `first-round/teacher`, `native-prerequisites`, frozen population, and `text-loader-probe`. Separate streaming scans ran concurrently with52-second internal limits and100,000-entry caps each. No symlink/device boundary was followed; no inspection error or incomplete scope occurred. The authorized root's four immediate children exactly match the inventoried roots. No shared-volume/global scan, sudo, tensor loading, cloud copying or deletion occurred.
+
+- All **35 selected historical/current student and teacher run identities** are unchanged; there is no new loader-copy directory.
+- All **29 original protected file signatures**, all **10 retained baseline/RCA/publication/population/accepted-loader directory size/count comparisons**, and all **six local report/log SHA256 values** pass unchanged.
+- The original **four deleted obsolete shards remain absent**. Existing metadata-only remnants are retained; there is no regenerated failed-copy weight artifact.
+- Queued C has no student/teacher cloud directory yet, as in the original snapshot. All existing C historical evidence is retained; no C path was created or removed.
+- Current usage grew24,919,318,797 bytes from the original post-delete snapshot, from protected accepted A/B outputs rather than a new failed-run identity. Those outputs are not cleanup candidates.
+- **New eligible paths: none. New deleted files: none. New deleted bytes:0.** No further deletion is proposed or performed without parent terminal/protection confirmation.
+
+### Limits
+
+This verifies file presence, index/shard coverage, directory sizes and retained metadata signatures, **not** another HF content-hash/inference acceptance run. Large tensor contents were not read or hashed. A/B's accepted native reload evidence remains owned by the primary and [HF report](test_report_2026-11-07_hf_reload.md).
+
+The read-only `statvfs` observation reported12,130,138,939,392 available bytes on the shared virtiofs-backed volume. It is not task-specific physical/quota evidence. Original physical quota reclamation remains **UNVERIFIED**, and zero additional deletion occurred. No shared trash was listed or modified. This follow-up is complete and non-blocking for A/B review and C scheduling.
+
+### 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED0｜TODO0
+
+| Follow-up subtask | Status | Evidence |
+| --- | --- | --- |
+| Narrow read-only current-usage inventory | PASS | Seven complete selected scopes,33.664 GiB retained. |
+| Accepted packages/protected evidence and new-obsolete eligibility | PASS | Both separate final packages intact; unchanged historical identities/evidence; no new eligible artifact. |
+| Append report/manifest without changing original deletion | PASS | Append-only inventory, original metrics preserved, zero new deletion and quota limits explicit. |
+
+### 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** post-training follow-up分派至本次检查完成｜**当前前沿：** storage follow-up已完成；A/B review与C scheduling由primary独立推进
+
+| Pattern | Verdict | Evidence |
+| --- | --- | --- |
+| D1 Tooling polish | CLEAR | One bounded read-only inspection; no cleanup framework or additional tests. |
+| D2 Retry loop | CLEAR | Inspection passed once without retries. |
+| D3 Side quest | CLEAR | Only the explicitly requested follow-up scopes/files. |
+| D4 Stalled frontier | CLEAR | Non-blocking storage follow-up; no formal-run dependency added. |
+| D5 Gold-plating | CLEAR | Append only to the two assigned artifacts. |
+| D6 Analysis sprawl | CLEAR | No eligible new artifact found; stop after recording current usage. |
+| D7 Off-route | CLEAR | No deletion/platform/GPU/auth/delegation/shared-trash operations. |
+
+**文档检查：** delegated follow-up范围内S1–S6无明显缺陷；原有metrics是保留的历史snapshot，不用当前usage覆盖。
+**归因：** 无。
+
+### 3. 纠正建议
+
+**分支：** A：scope合理，无需改变。
+**需停止的偏离行为：** 无。
+**接下去的路线：** 返回current usage、两份final保留检查、none eligible和quota limits；停止本follow-up，不阻塞A/B review或C scheduling。
+
+### 4. 最值得关注的 3 点
+
+1. 当前保留33.664 GiB；A/B各自accepted `hf/step_99`均完整保留。
+2. 无新增明确可删除的failed-run大文件，本轮删除0 bytes。
+3. 原四路径15.668 GiB logical deletion/history完整保留；physical quota仍未验证，shared trash未访问。

@@ -1,0 +1,251 @@
+{
+  "B": {
+    "verdict": "PASS",
+    "issues": [],
+    "publication": {
+      "verdict": "PASS",
+      "issues": [],
+      "baseline_weight_version": 0,
+      "final_published_weight_version": 100,
+      "successful_optimizer_updates": 100,
+      "skipped_optimizer_updates": 0,
+      "final_planned_publication_id": "5e435db3dcea4202936415c1ec844597"
+    },
+    "restoration_count": 6,
+    "checkpoints": [
+      {
+        "rollout_id": 0,
+        "verdict": "PASS",
+        "versions": [
+          "0"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4828,
+          "compared_finite_tokens": 4828,
+          "abs_mean": 0.010980762013903156
+        },
+        "prefill": {
+          "abs_mean": 0.010792975183433775
+        },
+        "max_stratum_mean": 0.01427255925734761
+      },
+      {
+        "rollout_id": 19,
+        "verdict": "PASS",
+        "versions": [
+          "20"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4185,
+          "compared_finite_tokens": 4185,
+          "abs_mean": 0.009085284448408306
+        },
+        "prefill": {
+          "abs_mean": 0.0097732860643002
+        },
+        "max_stratum_mean": 0.010079377205937379
+      },
+      {
+        "rollout_id": 39,
+        "verdict": "PASS",
+        "versions": [
+          "40"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4793,
+          "compared_finite_tokens": 4793,
+          "abs_mean": 0.0067096814457907284
+        },
+        "prefill": {
+          "abs_mean": 0.006724897753039102
+        },
+        "max_stratum_mean": 0.007545191350842171
+      },
+      {
+        "rollout_id": 59,
+        "verdict": "PASS",
+        "versions": [
+          "60"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 3986,
+          "compared_finite_tokens": 3986,
+          "abs_mean": 0.0076085943247846816
+        },
+        "prefill": {
+          "abs_mean": 0.007298923383042904
+        },
+        "max_stratum_mean": 0.008081788649517745
+      },
+      {
+        "rollout_id": 79,
+        "verdict": "PASS",
+        "versions": [
+          "80"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4675,
+          "compared_finite_tokens": 4675,
+          "abs_mean": 0.007075659292710667
+        },
+        "prefill": {
+          "abs_mean": 0.0070495513988058055
+        },
+        "max_stratum_mean": 0.00800044795880009
+      },
+      {
+        "rollout_id": 99,
+        "verdict": "PASS",
+        "versions": [
+          "100"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4261,
+          "compared_finite_tokens": 4261,
+          "abs_mean": 0.006872059026683884
+        },
+        "prefill": {
+          "abs_mean": 0.006801769714556925
+        },
+        "max_stratum_mean": 0.008013059482502092
+      }
+    ]
+  },
+  "A": {
+    "verdict": "INCOMPLETE",
+    "issues": [],
+    "publication": {
+      "verdict": "INCOMPLETE",
+      "issues": [
+        {
+          "code": "native_publication_coverage_incomplete",
+          "detail": "Need each planned native publication through the final position, not a version inferred from that position"
+        }
+      ],
+      "baseline_weight_version": 0,
+      "final_published_weight_version": 89,
+      "successful_optimizer_updates": null,
+      "skipped_optimizer_updates": null,
+      "final_planned_publication_id": null
+    },
+    "restoration_count": 5,
+    "checkpoints": [
+      {
+        "rollout_id": 0,
+        "verdict": "PASS",
+        "versions": [
+          "0"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4662,
+          "compared_finite_tokens": 4662,
+          "abs_mean": 0.011471066667908833
+        },
+        "prefill": {
+          "abs_mean": 0.011310938052281283
+        },
+        "max_stratum_mean": 0.014305888896232912
+      },
+      {
+        "rollout_id": 19,
+        "verdict": "PASS",
+        "versions": [
+          "20"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 5449,
+          "compared_finite_tokens": 5449,
+          "abs_mean": 0.007347203298057733
+        },
+        "prefill": {
+          "abs_mean": 0.007842729918326513
+        },
+        "max_stratum_mean": 0.008502264272480149
+      },
+      {
+        "rollout_id": 39,
+        "verdict": "PASS",
+        "versions": [
+          "40"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 4396,
+          "compared_finite_tokens": 4396,
+          "abs_mean": 0.008718188033569529
+        },
+        "prefill": {
+          "abs_mean": 0.008739596118136687
+        },
+        "max_stratum_mean": 0.0114329106596967
+      },
+      {
+        "rollout_id": 59,
+        "verdict": "PASS",
+        "versions": [
+          "60"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 5503,
+          "compared_finite_tokens": 5503,
+          "abs_mean": 0.00837719965800276
+        },
+        "prefill": {
+          "abs_mean": 0.008429563631277424
+        },
+        "max_stratum_mean": 0.009100087097212698
+      },
+      {
+        "rollout_id": 79,
+        "verdict": "PASS",
+        "versions": [
+          "80"
+        ],
+        "issues": [],
+        "decode": {
+          "expected_valid_tokens": 5820,
+          "compared_finite_tokens": 5820,
+          "abs_mean": 0.007464481601174125
+        },
+        "prefill": {
+          "abs_mean": 0.007653245650206146
+        },
+        "max_stratum_mean": 0.011344797791428777
+      },
+      {
+        "rollout_id": 99,
+        "verdict": "INCOMPLETE",
+        "versions": [],
+        "issues": [
+          {
+            "code": "score_artifacts_missing",
+            "detail": "eval_monitor_99"
+          },
+          {
+            "path": "/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/rollout_data/eval_99.pt",
+            "code": "corrupt_schema",
+            "detail": "[Errno 2] No such file or directory: '/mnt/codesign-exp/ycfeng/miles-qwen35-three-pairs/first-round/student/A/exp-1107-173758-712234/rollout_data/eval_99.pt'"
+          }
+        ],
+        "decode": {
+          "expected_valid_tokens": null,
+          "compared_finite_tokens": 0,
+          "abs_mean": null
+        },
+        "prefill": {
+          "abs_mean": null
+        },
+        "max_stratum_mean": null
+      }
+    ]
+  }
+}

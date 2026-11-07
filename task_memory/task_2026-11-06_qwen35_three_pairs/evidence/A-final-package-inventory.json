@@ -1,0 +1,124 @@
+{
+  "complete_marker": true,
+  "text_export": {
+    "status": "packaged",
+    "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "architecture": "Qwen3_5ForCausalLM",
+    "model_type": "qwen3_5_text",
+    "num_hidden_layers": 32,
+    "tie_word_embeddings": true,
+    "dtype": "torch.bfloat16",
+    "tensor_dtypes": {
+      "BF16": 402,
+      "F32": 24
+    },
+    "saved_tensor_count": 426,
+    "total_size": 8411504128,
+    "excluded_tensors": [],
+    "omitted_tied_head": true,
+    "reload_verified": false,
+    "rollout_id": 99
+  },
+  "files": [
+    {
+      "name": ".complete",
+      "bytes": 0
+    },
+    {
+      "name": "chat_template.jinja",
+      "bytes": 7756
+    },
+    {
+      "name": "config.json",
+      "bytes": 1938
+    },
+    {
+      "name": "merges.txt",
+      "bytes": 3353259
+    },
+    {
+      "name": "model-00001.safetensors",
+      "bytes": 451709080
+    },
+    {
+      "name": "model-00002.safetensors",
+      "bytes": 535191984
+    },
+    {
+      "name": "model-00003.safetensors",
+      "bytes": 499283880
+    },
+    {
+      "name": "model-00004.safetensors",
+      "bytes": 524712000
+    },
+    {
+      "name": "model-00005.safetensors",
+      "bytes": 451698656
+    },
+    {
+      "name": "model-00006.safetensors",
+      "bytes": 535192000
+    },
+    {
+      "name": "model-00007.safetensors",
+      "bytes": 499283880
+    },
+    {
+      "name": "model-00008.safetensors",
+      "bytes": 524712000
+    },
+    {
+      "name": "model-00009.safetensors",
+      "bytes": 451698656
+    },
+    {
+      "name": "model-00010.safetensors",
+      "bytes": 535192016
+    },
+    {
+      "name": "model-00011.safetensors",
+      "bytes": 530348288
+    },
+    {
+      "name": "model-00012.safetensors",
+      "bytes": 482768824
+    },
+    {
+      "name": "model-00013.safetensors",
+      "bytes": 451698632
+    },
+    {
+      "name": "model-00014.safetensors",
+      "bytes": 535191984
+    },
+    {
+      "name": "model-00015.safetensors",
+      "bytes": 131472008
+    },
+    {
+      "name": "model-00016.safetensors",
+      "bytes": 1271398544
+    },
+    {
+      "name": "model.safetensors.index.json",
+      "bytes": 31732
+    },
+    {
+      "name": "qwen_text_export.json",
+      "bytes": 517
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 12807982
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 16710
+    },
+    {
+      "name": "vocab.json",
+      "bytes": 6722759
+    }
+  ]
+}

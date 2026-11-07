@@ -1,0 +1,9 @@
+{
+  "job": "exp-1107-213721-009840",
+  "source_stdout": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/final-hf-reload-A-platform.log",
+  "command": "nvidia-smi --query-gpu=name,uuid,memory.total --format=csv,noheader",
+  "devices": [
+    "NVIDIA H200, GPU-cc82d71b-e98f-5ff7-dd69-0692f66913ee, 143771 MiB",
+    "NVIDIA H200, GPU-ad8615b0-1d9c-717c-6132-4e5fb403b8d7, 143771 MiB"
+  ]
+}

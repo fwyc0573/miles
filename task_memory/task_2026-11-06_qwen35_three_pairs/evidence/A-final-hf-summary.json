@@ -1,0 +1,94 @@
+{
+  "verdict": "PASS",
+  "reload_verified": true,
+  "final_planned_publication_id": "defc4f8a67da479bb282ddb735b99bbe",
+  "metrics": {
+    "overall": {
+      "verdict": "PASS",
+      "sample_count": 24,
+      "expected_valid_tokens": 5197,
+      "compared_finite_tokens": 5197,
+      "abs_mean": 0.008466400399530068,
+      "abs_max": 0.23520278930664062
+    },
+    "short": {
+      "verdict": "PASS",
+      "sample_count": 8,
+      "expected_valid_tokens": 1149,
+      "compared_finite_tokens": 1149,
+      "abs_mean": 0.008681786002916728,
+      "abs_max": 0.19861578941345215
+    },
+    "medium": {
+      "verdict": "PASS",
+      "sample_count": 8,
+      "expected_valid_tokens": 2329,
+      "compared_finite_tokens": 2329,
+      "abs_mean": 0.007467452059872305,
+      "abs_max": 0.23520278930664062
+    },
+    "long": {
+      "verdict": "PASS",
+      "sample_count": 8,
+      "expected_valid_tokens": 1719,
+      "compared_finite_tokens": 1719,
+      "abs_mean": 0.009675866731567099,
+      "abs_max": 0.18605446815490723
+    }
+  },
+  "max_prompt_tokens": 97216,
+  "max_input_tokens": 97242,
+  "generation": {
+    "verdict": "PASS",
+    "source_uid": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d:30:18",
+    "prompt_sha256": "d36b632752c153d1b66d083dc9928695dbfd9092b58b8bc69f8f4f70a1167e99",
+    "prompt_token_count": 11428,
+    "max_new_tokens": 1,
+    "temperature": 0,
+    "output_token_ids": [
+      9764
+    ],
+    "output_text": "Let",
+    "fresh_engine_weight_version": "default",
+    "acceptance": "Actual text generation only; no equality requirement against temperature-1 sampled completions"
+  },
+  "cleanup": {
+    "verdict": "PASS",
+    "issues": [],
+    "children": [
+      {
+        "pid": 217,
+        "reaped": true,
+        "status": "zombie",
+        "owner": "multiprocessing.resource_tracker"
+      },
+      {
+        "pid": 218,
+        "reaped": true,
+        "status": "zombie",
+        "exit_code": null
+      },
+      {
+        "pid": 260,
+        "reaped": true,
+        "status": "zombie",
+        "exit_code": null
+      },
+      {
+        "pid": 303,
+        "reaped": true,
+        "status": "zombie",
+        "exit_code": null
+      }
+    ],
+    "observed_owned_child_pids": [
+      217,
+      218,
+      260,
+      303
+    ],
+    "remaining_owned_child_pids": [],
+    "method": "Native Engine.shutdown; stdlib owner stop/join or wait only already-terminal owned children; no additional signals"
+  },
+  "exit_errors": []
+}

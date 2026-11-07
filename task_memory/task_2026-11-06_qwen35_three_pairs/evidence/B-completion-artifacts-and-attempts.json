@@ -1,0 +1,175 @@
+{
+  "job": "exp-1107-173758-806531",
+  "observed_at": "2026-11-07T13:07:47.334124+00:00",
+  "log_path": "/mnt/ws-jfs/ycfeng/miles-qwen35-three-pairs/first-round/student/B/exp-1107-173758-806531.log",
+  "log_bytes": 19500919,
+  "attempt_counts": [
+    {
+      "stage": "generate",
+      "event": "start",
+      "status": "started",
+      "count": 942
+    },
+    {
+      "stage": "generate",
+      "event": "end",
+      "status": "succeeded",
+      "count": 942
+    },
+    {
+      "stage": "score_teacher",
+      "event": "start",
+      "status": "started",
+      "count": 943
+    },
+    {
+      "stage": "score_teacher",
+      "event": "end",
+      "status": "succeeded",
+      "count": 941
+    }
+  ],
+  "duplicate_log_records": 0,
+  "parse_errors": [],
+  "unmatched_starts": [
+    [
+      "6df70d544d1941db84f11d5645941f64",
+      "generate"
+    ],
+    [
+      "99bafad7d1f04595b7a2e5b0d35bca1b",
+      "score_teacher"
+    ],
+    [
+      "abd5c6ad0e634762abf1e792b398e48d",
+      "score_teacher"
+    ],
+    [
+      "caacc9e793684ee68a78020e409e6503",
+      "score_teacher"
+    ],
+    [
+      "dbe5cba1ccd841d7963afbbf7d9cbc1d",
+      "generate"
+    ]
+  ],
+  "unmatched_ends": [
+    [
+      "58ef7141b1e24600bab3942ee396125e",
+      "generate"
+    ],
+    [
+      "65620ef5afde45199e7253309155faa3",
+      "score_teacher"
+    ],
+    [
+      "7075ee1ad6944a859a910c657b868502",
+      "generate"
+    ]
+  ],
+  "failed_attempts": [],
+  "evidence_limit": "stdout transport may omit records; counts alone do not establish complete native sample coverage",
+  "hf_complete_marker": true,
+  "hf_files": [
+    {
+      "name": ".complete",
+      "bytes": 0
+    },
+    {
+      "name": "chat_template.jinja",
+      "bytes": 7756
+    },
+    {
+      "name": "config.json",
+      "bytes": 1938
+    },
+    {
+      "name": "merges.txt",
+      "bytes": 3353259
+    },
+    {
+      "name": "model-00001.safetensors",
+      "bytes": 451709080
+    },
+    {
+      "name": "model-00002.safetensors",
+      "bytes": 535191984
+    },
+    {
+      "name": "model-00003.safetensors",
+      "bytes": 499283880
+    },
+    {
+      "name": "model-00004.safetensors",
+      "bytes": 524712000
+    },
+    {
+      "name": "model-00005.safetensors",
+      "bytes": 451698656
+    },
+    {
+      "name": "model-00006.safetensors",
+      "bytes": 535192000
+    },
+    {
+      "name": "model-00007.safetensors",
+      "bytes": 499283880
+    },
+    {
+      "name": "model-00008.safetensors",
+      "bytes": 524712000
+    },
+    {
+      "name": "model-00009.safetensors",
+      "bytes": 451698656
+    },
+    {
+      "name": "model-00010.safetensors",
+      "bytes": 535192016
+    },
+    {
+      "name": "model-00011.safetensors",
+      "bytes": 530348288
+    },
+    {
+      "name": "model-00012.safetensors",
+      "bytes": 482768824
+    },
+    {
+      "name": "model-00013.safetensors",
+      "bytes": 451698632
+    },
+    {
+      "name": "model-00014.safetensors",
+      "bytes": 535191984
+    },
+    {
+      "name": "model-00015.safetensors",
+      "bytes": 131472008
+    },
+    {
+      "name": "model-00016.safetensors",
+      "bytes": 1271398544
+    },
+    {
+      "name": "model.safetensors.index.json",
+      "bytes": 31732
+    },
+    {
+      "name": "qwen_text_export.json",
+      "bytes": 517
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 12807982
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 16710
+    },
+    {
+      "name": "vocab.json",
+      "bytes": 6722759
+    }
+  ]
+}

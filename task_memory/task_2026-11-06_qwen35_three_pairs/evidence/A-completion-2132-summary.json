@@ -1,0 +1,65 @@
+{
+  "verdict": "PASS",
+  "successful_updates": 100,
+  "skipped_updates": 0,
+  "final_planned_publication_id": "defc4f8a67da479bb282ddb735b99bbe",
+  "checkpoint_verdict_counts": {
+    "PASS": 6
+  },
+  "checkpoints": [
+    {
+      "rollout_id": 0,
+      "consumed_versions": [
+        "0"
+      ],
+      "tokens": 4662,
+      "decode_mean": 0.011471066667908833,
+      "prefill_mean": 0.011310938052281283
+    },
+    {
+      "rollout_id": 19,
+      "consumed_versions": [
+        "20"
+      ],
+      "tokens": 5449,
+      "decode_mean": 0.007347203298057733,
+      "prefill_mean": 0.007842729918326513
+    },
+    {
+      "rollout_id": 39,
+      "consumed_versions": [
+        "40"
+      ],
+      "tokens": 4396,
+      "decode_mean": 0.008718188033569529,
+      "prefill_mean": 0.008739596118136687
+    },
+    {
+      "rollout_id": 59,
+      "consumed_versions": [
+        "60"
+      ],
+      "tokens": 5503,
+      "decode_mean": 0.00837719965800276,
+      "prefill_mean": 0.008429563631277424
+    },
+    {
+      "rollout_id": 79,
+      "consumed_versions": [
+        "80"
+      ],
+      "tokens": 5820,
+      "decode_mean": 0.007464481601174125,
+      "prefill_mean": 0.007653245650206146
+    },
+    {
+      "rollout_id": 99,
+      "consumed_versions": [
+        "100"
+      ],
+      "tokens": 5197,
+      "decode_mean": 0.008662877087695212,
+      "prefill_mean": 0.008466400399530068
+    }
+  ]
+}
