@@ -113,17 +113,16 @@ def _close_allocations(torch, saver, handlers, mode):
         return
     # TMS has no public pool disposal API. Its torch allocator requires an
     # interesting region for frees as well as allocations. The worker owns
-    # this instance's pool and must release it before interpreter teardown.
-    with impl._with_region_config(tag="default", enable_cpu_backup=False):
+    # this instance's pools and must release them before interpreter teardown.
+    # None preserves the currently selected native CPU-backup backend.
+    with impl._with_region_config(tag="default", enable_cpu_backup=False, cpu_backup_backend=None):
         release_runtime = handlers.pop("release_runtime", None)
         if release_runtime is not None:
             release_runtime()
         handlers.clear()
         gc.collect()
         torch.cuda.synchronize()
-        pool = impl._primary_mem_pool
-        impl._primary_mem_pool = None
-        del pool
+        impl._mem_pools.clear()
         torch.cuda.empty_cache()
         gc.collect()
 
@@ -178,20 +177,87 @@ def _allocate(torch, saver, mode, tag, backup, factory):
         return factory()
 
 
+def test_pinned_tms_cleanup_preserves_cpu_backup_backend():
+    """Exercise the extracted pinned signature/config, including failing frees."""
+    import inspect
+    import pytest
+
+    source = Path(os.environ["TMS_PYTHON_PACKAGE"])
+    binary_cls = _native_methods(source / "binary_wrapper.py", "BinaryWrapper", {"set_config"}, {})
+    impl_cls = _native_methods(
+        source / "entrypoint.py", "_TorchMemorySaverImpl", {"_with_region_config"},
+        {"contextmanager": contextmanager},
+    )
+    signature = inspect.signature(impl_cls._with_region_config)
+    assert signature.parameters["cpu_backup_backend"].default is inspect.Parameter.empty
+    assert not any(item.kind is inspect.Parameter.VAR_KEYWORD for item in signature.parameters.values())
+
+    for backend in ("mmap", "pinned"):
+        for fail_free in (False, True):
+            state = SimpleNamespace(tag=b"before_cleanup", interesting=False, backup=True,
+                                    backend=backend.encode(), disk=False)
+            original = vars(state).copy()
+            cdll = SimpleNamespace(
+                tms_get_current_tag=lambda: state.tag,
+                tms_get_interesting_region=lambda: state.interesting,
+                tms_get_enable_cpu_backup=lambda: state.backup,
+                tms_get_cpu_backup_backend=lambda: state.backend,
+                tms_get_enable_disk_backup=lambda: state.disk,
+                tms_set_current_tag=lambda value: setattr(state, "tag", value),
+                tms_set_interesting_region=lambda value: setattr(state, "interesting", value),
+                tms_set_enable_cpu_backup=lambda value: setattr(state, "backup", value),
+                tms_set_cpu_backup_backend=lambda value: setattr(state, "backend", value),
+                tms_set_enable_disk_backup=lambda value: setattr(state, "disk", value),
+            )
+            frees = []
+
+            class Pool:
+                def __del__(self):
+                    frees.append((state.interesting, state.backend))
+
+            impl = impl_cls()
+            impl._binary_wrapper = binary_cls()
+            impl._binary_wrapper.cdll = cdll
+            impl._mem_pools = {"weights": Pool(), "default": Pool()}
+
+            def empty_cache():
+                assert state.interesting and not state.backup and not state.disk
+                assert state.backend == original["backend"] and not impl._mem_pools
+                if fail_free:
+                    raise RuntimeError("injected pinned pool-free failure")
+
+            torch = SimpleNamespace(cuda=SimpleNamespace(synchronize=lambda: None, empty_cache=empty_cache))
+            saver, handlers = SimpleNamespace(_impl=impl), {"model": object()}
+            if fail_free:
+                with pytest.raises(RuntimeError, match="injected pinned pool-free failure"):
+                    _close_allocations(torch, saver, handlers, "cuda")
+            else:
+                _close_allocations(torch, saver, handlers, "cuda")
+            assert frees == [(True, original["backend"])] * 2
+            assert vars(state) == original and not handlers and not impl._mem_pools
+
+
 def test_native_tms_cleanup_lifecycle():
     """Check native owner/config methods with strict CPU allocation-state spies."""
     import torch
     import pytest
+    from collections import defaultdict
 
     tms_source = Path(os.environ["TMS_PYTHON_PACKAGE"])
     events = []
-    flags = SimpleNamespace(interesting=False, backup=True, pool=None)
+    flags = SimpleNamespace(interesting=False, backup=True, pool=None,
+                            tag=b"before_cleanup", backend=b"mmap", disk=False)
     cdll = SimpleNamespace(
+        tms_get_current_tag=lambda: flags.tag,
         tms_get_interesting_region=lambda: flags.interesting,
         tms_get_enable_cpu_backup=lambda: flags.backup,
-        tms_set_current_tag=lambda value: None,
+        tms_get_cpu_backup_backend=lambda: flags.backend,
+        tms_get_enable_disk_backup=lambda: flags.disk,
+        tms_set_current_tag=lambda value: setattr(flags, "tag", value),
         tms_set_interesting_region=lambda value: setattr(flags, "interesting", value),
         tms_set_enable_cpu_backup=lambda value: setattr(flags, "backup", value),
+        tms_set_cpu_backup_backend=lambda value: setattr(flags, "backend", value),
+        tms_set_enable_disk_backup=lambda value: setattr(flags, "disk", value),
     )
 
     class Pool:
@@ -210,12 +276,12 @@ def test_native_tms_cleanup_lifecycle():
             flags.pool = previous
 
     fake_torch = SimpleNamespace(cuda=SimpleNamespace(
-        MemPool=Pool, use_mem_pool=use_pool, synchronize=lambda: None,
+        MemPool=Pool, use_mem_pool=use_pool, synchronize=lambda: None, current_device=lambda: 0,
     ), distributed=SimpleNamespace(barrier=lambda *args: None))
     binary_cls = _native_methods(tms_source / "binary_wrapper.py", "BinaryWrapper", {"set_config"}, {})
     impl_cls = _native_methods(
         tms_source / "entrypoint.py", "_TorchMemorySaverImpl",
-        {"_with_region_config", "disable", "region"},
+        {"_with_region_config", "disable", "region", "_current_device"},
         {"contextmanager": contextmanager, "torch": fake_torch, "_TAG_DEFAULT": "default"},
     )
 
@@ -225,9 +291,15 @@ def test_native_tms_cleanup_lifecycle():
             self.resume_calls = []
             self._impl = impl_cls()
             self._impl._hook_mode = "torch"
+            self._impl._is_xpu = False
+            self._impl._device_module = fake_torch.cuda
             self._impl._binary_wrapper = binary_cls()
             self._impl._binary_wrapper.cdll = cdll
-            self._impl._primary_mem_pool = Pool("tms")
+            self._impl._mem_pools = defaultdict(lambda: Pool("tms"))
+
+        def track(self, tensor, tag, backup):
+            self._impl._mem_pools[(tag, backup, False, flags.backend.decode() if backup else "", 0)]
+            return super().track(tensor, tag, backup)
 
         def resume(self, tag=None):
             self.resume_calls.append(tag)
@@ -250,7 +322,7 @@ def test_native_tms_cleanup_lifecycle():
 
         fake_torch.cuda.empty_cache = free
         if paused:
-            with saver._impl._with_region_config(tag="default", enable_cpu_backup=False):
+            with saver._impl._with_region_config(tag="default", enable_cpu_backup=False, cpu_backup_backend=None):
                 with pytest.raises(AssertionError, match="paused allocation"):
                     free()
         if side == "actor":
@@ -291,7 +363,7 @@ def test_native_tms_cleanup_lifecycle():
 
     # Execute the installed torch-mode region/disable implementation, not a no-op.
     saver = StrictSaver()
-    with saver._impl.region(tag="default", enable_cpu_backup=True):
+    with saver._impl.region(tag="default", enable_cpu_backup=True, enable_disk_backup=False, cpu_backup_backend=None):
         primary = flags.pool
         assert flags.interesting and primary.allocator == "tms"
         with saver._impl.disable():

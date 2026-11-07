@@ -1,0 +1,7 @@
+{
+  "checked_at": "2026-11-07T07:04:08.942558+00:00",
+  "configured_capacity": 128,
+  "nonpreemptible_starting_running_requested_gpus": 122,
+  "new_formal_requested_gpus": 44,
+  "limitation": "Active requests, not measured free devices. Native scheduler controls admission; queue existing approved jobs once."
+}

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Record two successful measured CUDA restoration cycles followed by probe-only cleanup failure; correct the execution dependency and release formal resume while retaining the ERROR artifact. |
 | 2026-11-07 | Resume at14:45 local: confirm the existing CUDA probe is still queued and its Python launcher remains alive; preserve the pending formal-runtime prerequisite. |
 | 2026-11-07 | Record A/C raw uniform-score corruption, A/B stops, C's first optimizer step and host-memory OOM; update the active repair frontier. |
 | 2026-11-07 | Record76 passing pinned preparation cases, phase review closure and independent text-loader findings. |
@@ -218,10 +219,14 @@
 
 125. On the user's continuation request, exact personal API inspection at06:45:18Z (14:45 local) still reports `exp-1107-135028-993396` Pending, reason `RJob is queuing`, with no stop annotation. The native Python launcher remains live at PID2673306, started05:50:24Z, matching this submission. The initial shell-only liveness query missed the launcher because the final Python command replaced the shell; direct process inspection resolved that query error. [Retained status and liveness evidence](evidence/restore-native-ipc-status.json). No GPU execution result exists yet, no duplicate is submitted, and formal runs remain gated on actual restored-runtime verification.
 
+126. `exp-1107-135028-993396` runs on a real H800 and finishes both actor/SG cycles, full native publication transactions and distinct-process CUDA bucket transfers. All measured boundary parameter/score errors are0; version7 and synthetic master/Adam/counters remain unchanged, with no optimizer step. Both workers subsequently exit1 at probe-only cleanup because pinned `_with_region_config` requires `cpu_backup_backend`; the original report remains ERROR and `cuda_ipc_qualified=false`. Personal failure collection completes all8 queries; raw evidence is under `/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-rca-native-ipc-exp-1107-135028-993396`.
+127. Focused `QWEN-P3-CLEANUP-SCOPE` inspection establishes that `_close_allocations` and direct private-pool disposal occur only in the probe, while formal training uses the preload hook and public native APIs. The synthetic torch-hook probe cannot establish full formal qualification even after cleanup. Correct the plan's overbroad dependency: preserve the probe ERROR, repair its cleanup independently, and use the already-approved formal initial/restored handoff and first update to observe preload/full-model behavior. No criterion, model, optimizer, sample budget or resource approval changes.
+128. Exact pinned TMS sources are obtained by successful0GPU job `exp-1107-145644-055357`. The scoped diagnostic owner now fixes the caller and adds an actual-signature CPU regression; parent retains formal scheduling and runtime acceptance. Existing76-case before-run preparation remains applicable.
+
 ## Next actions
 
-1. Await scheduling of the queued1H800 native same-version publication probe; establish actual CUDA IPC, initial/final bytes, unchanged synthetic optimizer/master/counters and clean exits before formal release. Exact pinned CPU qualification passes but is not CUDA evidence. The lifecycle-error boundary is already resolved and pinned-verified; retain its existing soft/fatal semantics.
-2. After shared restoration qualification, resume A/B independently and C with D16's memory request under the D15 fresh100-step budget. Measure fresh initial/updated D8, actual updates and actual C host memory.
+1. Submit A/B and C through the existing formal entry, preserving each independent budget and C's D15/D16 decisions. Verify admitted creator/image/local mounts/resources, then fresh baseline/restored receipts, actual updates and C host memory. Actual preload/full-model evidence remains pending until observed.
+2. Independently close the diagnostic's pinned cleanup ABI defect and full-exit verification; retain its original failed receipt and distinguish it from the measured restoration results. Do not add more diagnostic features or optimizer probes.
 3. Tracker cleanup, reader bindings and fake-engine isolation are committed and pinned-verified; final24-sample checksum/inference checks await final artifacts. Optional rematerialization repair is deferred.
 
 ## Phase checkpoint

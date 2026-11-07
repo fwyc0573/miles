@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | QWEN-P3-TMS-CLEANUP-ABI: use the extracted pinned backend-preserving context and owned pool collection; reproduce the exact missing-argument error and retain lifecycle/error regressions. |
 | 2026-11-07 | Parent verifies the exact pinned device-module caller and replaces the obsolete CPU no-op stub with the real torch CPU module; retain explicit-device behavior and pending runtime verdict. |
 | 2026-11-07 | Supply factual startup address/size metadata on the tiny runner's existing owner and add a negative control executing the pinned native published-storage assertion. |
 | 2026-11-07 | Replace unconditional cleanup resume with native actor/SG lifecycle owners; reproduce active-resume failure with a strict CPU regression and inspect pinned torch-hook disable/free semantics. |
@@ -801,3 +802,82 @@ D1–D7 CLEAR：仅修具体 ABI 缺口，没有扩大 fake runner 或替换 tra
 1. metadata 是实际启动地址快照，不是 None skip，也没有 load 后重算。
 2. clone 地址移动触发的是 pinned 原 assert；native sender/receiver 未改。
 3. 本地 0.5.23 通过不等于 pinned runtime 通过，父任务 preflight 仍必需。
+
+## QWEN-P3-TMS-CLEANUP-ABI
+
+[Original Request] Fix only this manual probe's cleanup caller against the exact pinned TMS source extracted by successful 0-GPU `exp-1107-145644-055357`; preserve its selected native CPU-backup backend, interesting-region/pool-free semantics and hard cleanup ERROR. Add a CPU red/green regression using the real extracted context/signature, preserve prior lifecycle checks, do not modify production/IPC/runner or the original ERROR receipt, and do not claim full CUDA qualification.
+
+### Observed real-CUDA result, unchanged
+
+Read-only inspection of [exp-1107-135028-993396 JSON](evidence/eval-restore-exp-1107-135028-993396.json) confirms **both complete same-version native CUDA IPC cycles**: model bytes match, scorer/SG/control score errors are **0**, master/Adam state is unchanged, optimizer steps remain **0**, version stays **7**, and sender **120** / receiver **121** transfer native **128-byte CUDA buckets**. Both workers subsequently exit **1**. The [raw log](evidence/eval-restore-exp-1107-135028-993396.log):35–65 records the exact cleanup failure:
+
+```text
+TypeError: _TorchMemorySaverImpl._with_region_config() missing 1 required positional argument: 'cpu_backup_backend'
+```
+
+The original **`verdict=ERROR`**, `cleanup_error` and **`cuda_ipc_qualified=false`** remain unchanged. Behavioral success does not turn that receipt into a successful teardown or qualify formal full-model/preload execution.
+
+### Source-based correction
+
+Authoritative [source manifest](evidence/tms-cleanup-source-exp-1107-145644-055357.json): TMS **0.0.10**, Python **3.12.16**, extracted directory:
+`/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-tms-exp-1107-145644-055357`.
+
+- Extracted `entrypoint.py:263–302` requires `cpu_backup_backend`; lines **274–276** define `None` as preserving the native current selection. Extracted `binary_wrapper.py:18–32` does not call the backend setter when its argument is `None`. Cleanup now passes **`cpu_backup_backend=None` explicitly**, not a guessed `'pinned'`/`'mmap'` value or a compatibility default.
+- The same pinned source owns **`_mem_pools`** at `entrypoint.py:188–190`, keyed by tag/backup/backend/device at **215–236**. It does not own the obsolete `_primary_mem_pool`. Cleanup now clears **the worker's actual `_mem_pools` collection** inside the interesting region before `torch.cuda.empty_cache()`. This avoids the next source-visible ABI failure; no old-version fallback, signature introspection shim or new registry is added.
+- Native actor/SG prepare-close ownership, synchronization, reference collection, default-allocator disable semantics and hard cleanup failures remain. Production train/actor code, published-address owner, native sender/receiver/loader and IPC are untouched. Historical report sections are preserved.
+
+### Exact CPU red/green loop
+
+New persistent regression:
+`tests/manual/agent_opd/probe_eval_restore.py::test_pinned_tms_cleanup_preserves_cpu_backup_backend`.
+
+It executes the **actual extracted pinned `_with_region_config` and `BinaryWrapper.set_config` methods**. It asserts that `cpu_backup_backend` is required and the signature has no generic `**kwargs`. For both supported current selections (`mmap`, `pinned`), it checks unchanged backend/returned configuration, two owned pool releases while interesting=true, and propagation of an injected pool-free RuntimeError. The spies do not load native CUDA or imply physical free qualification.
+
+The identical command ran before and after the caller correction:
+
+```bash
+TMS_PYTHON_PACKAGE=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-tms-exp-1107-145644-055357 \
+PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python3 -B -m pytest -p no:cacheprovider -q \
+tests/manual/agent_opd/probe_eval_restore.py::test_pinned_tms_cleanup_preserves_cpu_backup_backend
+```
+
+| Check | Actual | Result |
+| --- | --- | --- |
+| Original cleanup caller with actual pinned context | **1 failed, 0.41 s, exit 1** at line117, exact missing `cpu_backup_backend` TypeError | RED |
+| Backend-preserving pinned caller and pool owner | **1 passed, 1.94 s, exit 0**; both backend choices and injected free failures covered | GREEN |
+
+Existing lifecycle tests retain their original ACTIVE SG, PAUSED actor/SG, paused-free rejection and native disable assertions. Their setup now uses this **same extracted pinned pool/config/region API**, including its device-bound pool collection, rather than pretending that local old TMS is pinned proof. The unchanged published-storage negative control also remains:
+
+```bash
+TMS_PYTHON_PACKAGE=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-tms-exp-1107-145644-055357 \
+SGLANG_PINNED_WEIGHT_UPDATER_SOURCE=/data/ycfeng/tmp/opencode-v2-tmp/opencode/sglang-056f871a7ee8b4573832049011f0fdf52589cfd8-weight_updater.py \
+PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode \
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python3 -B -m pytest -p no:cacheprovider -q \
+tests/manual/agent_opd/probe_eval_restore.py::test_native_tms_cleanup_lifecycle \
+tests/manual/agent_opd/probe_eval_restore.py::test_pinned_published_storage_rejects_address_movement
+```
+
+**2 passed, 5.71 s, exit 0.** Local Python **3.12.13**, torch **2.11.0+cu130**, pytest **9.1.1**; existing optional-kernel/deprecation warnings only. AST/syntax/whitespace checks pass: the cleanup contains no raw resume, obsolete pool field or exception suppression, and explicitly supplies `None` to the required backend argument. Read-only checks re-confirm the original CUDA receipt remains ERROR with two separately successful behavioral cycles.
+
+**Runtime limit:** the corrected cleanup has not run on CUDA here. Native physical pool/cache destruction and clean worker exit remain parent-owned verification. No GPU/platform/SSH/cloud/dependency/Git/delegation operation was performed, no earlier evidence was overwritten, and no full CUDA qualification is claimed. Formal continuation dependencies remain the parent's decision; this probe repair does not add a formal gate.
+
+### Cleanup-ABI checkpoint
+
+#### 1. 规划完成情况
+
+PASS：实际 pinned source、同一错误的 RED/GREEN、backend/pool caller 修复及现有 lifecycle regression。TODO：父任务实际 CUDA cleanup/退出验证。
+
+#### 2. 偏离检测
+
+D1–D7 CLEAR：只推进用户指定的 probe cleanup ABI；不重跑已通过的 CUDA behavior、不扩大 runner、不修改 formal failure semantics。S1–S6 未发现本 slice 的明显缺陷，历史和当前资格分开记录。
+
+#### 3. 纠正建议
+
+分支 A：保持范围，停止额外 CPU harness 工作；将修复交给父任务审阅和其授权 CUDA 验证。正式 full-model/preload 验证按当前 parent plan 独立推进，不因 probe teardown 人为增加依赖。
+
+#### 4. 最值得关注的 3 点
+
+1. 显式 None 使用 pinned source 定义的保留语义；没有猜测 backend 或旧版本 shim。
+2. pinned pool owner 是 `_mem_pools`，必须在 interesting region 内释放。
+3. 两次 CUDA behavioral success 与原始 cleanup ERROR 同时保留；修正后 teardown 仍未实测。
