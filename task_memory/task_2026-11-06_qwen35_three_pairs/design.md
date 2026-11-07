@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-07 | Select native SGLang text reload and final decoder content binding after the observed Transformers dtype loss and review finding. |
 | 2026-11-06 | Record authorized source exceptions, measured population isolation, native read-only monitoring seam and remaining GPU qualification. |
 | 2026-11-06 | Record the verified singleton-response dimension repair and retain native numerical qualification as pending. |
 | 2026-11-06 | Apply confirmed D9 training/monitoring counts; keep unconfirmed population details distinct. |
@@ -185,6 +186,8 @@ Student generation, teacher scoring and student training must consume the same f
 Inspection on resume followed [actor.export_hf](/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/actor.py:968), [SnapshotPublisher.write_model](/data/ycfeng/sota-engine/miles/miles/backends/training_utils/weight_update/snapshot_publisher.py:61), the native [GPTModel construction](/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model_provider.py:354), and [Qwen name conversion](/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/megatron_to_hf/qwen3_5.py:40). The raw exporter writes the actor's converted tensors and copies source metadata. Its existing [frozen tower extension](/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/update_weight/hf_weight_iterator.py:152) is restricted to the Inkling multimodal provider; it does not establish complete Qwen multimodal export.
 
 The user selected text-only HF delivery instead of repairing full-original-model packaging. Reuse the current exporter and existing post-save hook where applicable, but make the emitted architecture/configuration and tensor names match the actual text-only loader. Keep a precise expected tensor set and omit untrained visual/MTP components only under that declared contract. Verify tied embeddings, complete decoder layers, final weight identity, metadata and a real text-inference reload. Actual text-loader support is a P2 prerequisite; no successful Qwen HF reload or general Qwen architecture failure is claimed from source inspection. Full-VLM reconstruction is not authorized by the rejected recommendation.
+
+Implementation selection after native investigation: use the pinned SGLang text-model loader for final reload. Its FP32 `A_log` parameters and native full-tensor checksums reuse the training inference engine's mechanisms. A fresh engine's own version is distinct from the training publication version; content equality, matching TP/configuration and the existing publication chain establish the connection. Compare every eligible decoder parameter/buffer checksum, including derived decoder buffers when the native checker includes them. Exclude the explicit vision/MTP scope, not arbitrary mismatches. Directory names, package-local rollout markers and a small logprob residual alone do not establish final weight identity. The [reload report](test_report_2026-11-07_hf_reload.md) owns observed results and remaining runtime verification.
 
 ## Current deployment — D5
 

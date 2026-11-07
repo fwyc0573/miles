@@ -1,0 +1,19 @@
+{
+  "python": "3.12.16",
+  "transformers": "5.19.0",
+  "torch": "2.14.1+cu130",
+  "parameter": "model.layers.0.linear_attn.A_log",
+  "saved_dtype": "torch.float32",
+  "loaded_dtype": "torch.bfloat16",
+  "saved_values": [
+    0.12345679104328156,
+    0.12345679104328156
+  ],
+  "loaded_values": [
+    0.12353515625,
+    0.12353515625
+  ],
+  "exact_dtype_and_values": false,
+  "keep_in_fp32_modules": [],
+  "keep_in_fp32_modules_strict": []
+}
