@@ -19,6 +19,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from scripts.run_qwen3_dense import ScriptArgs as DenseArgs
+from tests.manual.agent_opd import megatron_scoring_lifetime
 from tests.manual.agent_opd import qwen35_pair_worker as paired
 from tests.manual.agent_opd import run_qwen35_opd as native
 from tests.manual.agent_opd.submit_swe_opd import _validate_paths
@@ -30,6 +31,9 @@ from miles.utils.external_utils.model_args_utils import shell_safe_model_args
 def _config(path: Path, pair: str, protocol: str) -> dict:
     config = json.loads(path.read_text())
     _validate_paths(config, path.resolve())
+    training = config.get("training", {})
+    if "release_scoring_output" in training and type(training["release_scoring_output"]) is not bool:
+        raise ValueError("release_scoring_output must be a JSON boolean")
     allocation = config["pairs"][pair]
     config["startup_timeout"] = allocation["startup_timeout"]
     config["protocol"] = protocol
@@ -119,6 +123,16 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
         "num_gpus_per_node": student["gpus_per_node"], "attention_dropout": 0, "hidden_dropout": 0,
         "accumulate_allreduce_grads_in_fp32": True, "attention_softmax_in_fp32": True, "attention_backend": "flash",
     }
+    if "release_scoring_output" in train:
+        arguments.update(
+            custom_megatron_before_log_prob_hook_path=(
+                "tests.manual.agent_opd.megatron_scoring_lifetime_observer.before_log_prob"
+            ),
+            scoring_lifetime_dir=str(run / "megatron_scoring_lifetime" / "observations"),
+            scoring_lifetime_source_sha256=megatron_scoring_lifetime.expected_source_sha256(
+                train["release_scoring_output"]
+            ),
+        )
     arguments.update(config["tis"])
     overlap = arguments.keys() & config["checkpoint"]["hook_args"].keys()
     if overlap:
@@ -134,6 +148,13 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
 
 def _prepare_training(args, run: Path) -> tuple[str, dict]:
     config = args.swe_config
+    scoring_source = None
+    if "release_scoring_output" in config["training"]:
+        # Patch the student dependency before the native worker starts Ray or submits its driver.
+        scoring_source = megatron_scoring_lifetime.prepare_source(
+            Path(args.megatron_path), image=config["image"], release=config["training"]["release_scoring_output"],
+            archive_dir=run / "megatron_scoring_lifetime" / "source",
+        )
     train_args = _training_args(config, args.pair, args.teacher_url, run, os.environ["KUBEBRAIN_RJOB_NAME"])
     recipe = DenseArgs(model_name=native._PAIRS[args.pair][0]).recipe
     git = ["git", "-c", f"safe.directory={U.repo_base_dir}", "-C", str(U.repo_base_dir)]
@@ -147,6 +168,8 @@ def _prepare_training(args, run: Path) -> tuple[str, dict]:
         "resolved_experiment": config, "final_hf": None,
         "update_accounting": "Native successful optimizer acknowledgements; checkpoint mapping is recorded at export.",
     }
+    if scoring_source is not None:
+        receipt["megatron_scoring_lifetime"] = scoring_source
     return train_args, receipt
 
 

@@ -75,6 +75,12 @@ This explicitly identifies the target direction as reverse KL, student to teache
 
 Decision: only original eligible **completion** tokens enter the numerator and denominator; all prompt/prefix and padding positions are excluded. Each update recomputes the current student's log-probabilities for that same stored completion, then compares the corresponding frozen teacher values before TIS. No importance weighting or extra current-policy sampling is introduced. The original D2 reduction remains the implemented statistic and the estimator-choice question is withdrawn. Replay results describe this fixed-completion sampled statistic, not an exact all-output current-policy KL expectation. The explicit formula and reporting contract remain owned by spec S4.
 
+### Capacity repair authorization
+
+**[Original Request / Follow-up Decision] 2026-11-08:** Asked whether to approve a minimal source patch to pinned Megatron that releases the previous scoring microbatch's completed logits before the next forward, with a same256-trajectory GPU before/after comparison, the user selected “批准源码修复（推荐）”.
+
+Approved scope: move the existing PP1 schedule output-reference release outside its training-only branch, record the pinned dependency and source patch, and verify the unchanged workload on GPU before adopting the patch for formal runs. Existing parallelism, context/candidate budgets and training mathematics remain fixed for this comparison. The alternative TP4 route was not selected. This approval covers the controlled dependency source edit; it is not a native capacity PASS or permission for an unrelated allocator workaround.
+
 ### D3 — [Original Request / Follow-up Answer] 2026-11-08: research-based optimizer selection
 
 Question offered the previously qualified Qwen Adam settings versus the reference Steptron Muon settings.
