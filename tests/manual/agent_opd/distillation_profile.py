@@ -3,8 +3,8 @@
 Turn observations live column-wise in append-only arrays. Each source conversation keeps its
 per-update entries with pointers to its RKL-best and latest entry, and a t_id -> latest
 observation lookup, so queries read stored values and never recompute history. Every successful
-update appends one line to updates.jsonl and one to observations.jsonl; the latter is enough to
-rebuild the profile offline.
+update appends one line to updates.jsonl and one to observations.jsonl; together they hold the
+configuration and observations needed to rebuild the profile offline.
 
 RKL is also reported against a baseline measured at the start: the run's first baseline_updates
 successful updates, and a conversation's first baseline_turns turn observations. The remaining gap
@@ -140,13 +140,14 @@ class UpdateObservations:
 
 
 class _Conversation:
-    __slots__ = ("group_id", "alive", "updates", "rkl", "nll", "rows", "best", "cells",
+    __slots__ = ("group_id", "alive", "updates", "update_indices", "rkl", "nll", "rows", "best", "cells",
                  "baseline_turns", "baseline_sum", "baseline_count", "baseline")
 
     def __init__(self, group_id: str, baseline_turns: int):
         self.group_id = group_id
         self.alive = True
         self.updates: list[int] = []
+        self.update_indices: dict[int, int] = {}
         self.rkl: list[float] = []
         self.nll: list[float] = []
         self.rows: list[range] = []
@@ -160,6 +161,7 @@ class _Conversation:
     def add(self, update_id: int, nll: float, rows: range, turn_rkl: Sequence[float]) -> None:
         """Append this update's entry; turn_rkl holds the conversation's per-turn RKL there, in t_id order."""
         rkl = sum(turn_rkl) / len(turn_rkl)
+        self.update_indices[update_id] = len(self.updates)
         self.updates.append(update_id)
         self.rkl.append(rkl)
         self.nll.append(nll)
@@ -356,6 +358,19 @@ class DistillationProfile:
         return SourceConversation(c_id, conversation.group_id, conversation.alive,
                                   conversation.entry(-1), conversation.entry(conversation.best),
                                   conversation.baseline, self._baseline)
+
+    def conversation_entry(self, c_id: int, update_id: int) -> ConversationEntry:
+        """Stored entry at this successful update; KeyError if the conversation did not appear there."""
+        conversation = self._conversations[c_id]
+        return conversation.entry(conversation.update_indices[update_id])
+
+    def conversation_remaining_gap(self, c_id: int, update_id: int) -> float | None:
+        """That entry's RKL over its conversation baseline, including entries inside the baseline window."""
+        return _ratio(self.conversation_entry(c_id, update_id).rkl, self._conversations[c_id].baseline)
+
+    def conversation_run_relative_gap(self, c_id: int, update_id: int) -> float | None:
+        """That entry's RKL over the run baseline, including entries inside the baseline window."""
+        return _ratio(self.conversation_entry(c_id, update_id).rkl, self._baseline)
 
     def conversation_trend(self, c_id: int, k: int) -> float | None:
         """Remaining gap at the latest entry at least k updates back, minus the one at the latest entry."""

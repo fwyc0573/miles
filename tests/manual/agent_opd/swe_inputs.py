@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 # Dotted names are fixed by the pinned modules' own imports; load order follows them.
 BASE_LOADER = "playground.baseline_new.mopd.online_turn_loader"
 TURN_DATA = "playground.users.cj.opd.s4_swe_turn_data_1001"
+_PINNED_MODULES: dict[str, tuple[ModuleType, str]] = {}
 
 
 class SWEInputConfig(BaseConfig):
@@ -68,7 +69,11 @@ def load_pinned_modules(steptron_root: Path, pins: dict[str, str]) -> dict[str, 
         actual = hashlib.sha256(content).hexdigest()
         if actual != expected_sha256:
             raise ValueError(f"Pinned Steptron module SHA256 mismatch for {path}: expected {expected_sha256}, got {actual}")
-        if name not in sys.modules:
+        if name in sys.modules:
+            verified = _PINNED_MODULES.get(name)
+            if verified is None or verified[0] is not sys.modules[name] or verified[1] != actual:
+                raise ValueError(f"Cached Steptron module has no matching verified SHA256: {name}")
+        else:
             spec = importlib.util.spec_from_file_location(name, path)
             module = importlib.util.module_from_spec(spec)
             sys.modules[name] = module
@@ -78,6 +83,7 @@ def load_pinned_modules(steptron_root: Path, pins: dict[str, str]) -> dict[str, 
             except BaseException:
                 del sys.modules[name]
                 raise
+            _PINNED_MODULES[name] = (module, actual)
         modules[name] = sys.modules[name]
     return modules
 

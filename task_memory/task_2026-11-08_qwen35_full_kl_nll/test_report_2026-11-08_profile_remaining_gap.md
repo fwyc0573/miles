@@ -2,13 +2,14 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Retain baseline mutation script with a shared fresh-sandbox runner; record the current 10-test control and 8 detected mutants separately from historical timing and results. |
 | 2026-11-08 | Record the remaining-gap checks: fast test, injected bugs, re-measured 200 × 256 timing. |
 
 # Test report — ticket 03, remaining gap and run-relative gap (D28–D32)
 
-Scope: the module criterion added to [ticket 03](tickets/03-distillation-profile.md) for D28–D32 — the run baseline and the per-conversation baseline, the two remaining gaps, the run-relative gap, and the trend and recovery gap restated in baseline units ([spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31)). The earlier criteria were verified in [the module report](test_report_2026-11-08_distillation_profile_module.md); its checks were re-run here unchanged. Integration into `SweReplay.on_train_result` still waits for ticket 02.
+Historical scope (2026-11-08): the module criterion added to [ticket 03](tickets/03-distillation-profile.md) for D28–D32 — the run baseline and the per-conversation baseline, the two remaining gaps, the run-relative gap, and the trend and recovery gap restated in baseline units ([spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31)). The earlier criteria were verified in [the module report](test_report_2026-11-08_distillation_profile_module.md); its checks were re-run unchanged at that time. The separate current section below covers script retention and mutation execution only, not training integration or new timing.
 
-## Environment
+## Historical environment (2026-11-08)
 
 - Worktree `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`; code under test is uncommitted on top of `e30a07df`:
   - `tests/manual/agent_opd/distillation_profile.py` (the module);
@@ -17,7 +18,7 @@ Scope: the module criterion added to [ticket 03](tickets/03-distillation-profile
 - Python 3.12.13 at `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, pytest 9.1.1. No GPU. All commands run from the worktree root.
 - No formatter is installed in this environment (`ruff`, `black` and `pre-commit` are absent). The three files were checked against the 119-character black line length in `pyproject.toml` (`/data/ycfeng/tmp/agent-opd-image/r262.py`): no line exceeds it.
 
-## Commands
+## Historical commands (2026-11-08)
 
 ```bash
 # 1. Fast test
@@ -46,7 +47,7 @@ timeout 600s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m tests.manual.ag
 
 Evidence: [profile-timing-remaining-gap.json](evidence/profile-timing-remaining-gap.json), [profile-timing-remaining-gap-mean-length.json](evidence/profile-timing-remaining-gap-mean-length.json). The earlier files `profile-timing.json` and `profile-timing-mean-length.json` keep the pre-baseline numbers the module report quotes. The profile files written by runs 3 and 4 stay in their temporary roots under `distillation_profile/`.
 
-## Results
+## Historical results (2026-11-08)
 
 The shared hand-computed sequence runs with a 2-update run baseline and a 2-turn conversation baseline, so every baseline state appears in one sequence. Run baseline `b = (0.75 + 0.4375) / 2 = 0.59375`.
 
@@ -75,7 +76,7 @@ The shared hand-computed sequence runs with a 2-update run baseline and a 2-turn
 
 The first mutation run left `conversation_baseline_takes_every_turn` alive: no conversation in the data offered more turns in one update than its baseline still needed. `test_baseline_stops_at_its_turn_count` was added for that case, which rejections make reachable in a real run, and the mutant then failed.
 
-## Timing and memory
+## Historical timing and memory (2026-11-08)
 
 Same synthetic order as the module report: 32 open conversations taken 8 turns at a time in round robin, tokens per turn uniform in 1–4,000, random sums, `group_id` of the real form `file_sha256:index`. Per-update time includes building the observations, the JSONL writes and `summary()`; the query time is `conversation_states(10)` over all conversations seen so far, measured after every update. Pre-baseline columns are the module report's numbers on the same seed and settings.
 
@@ -97,9 +98,58 @@ Expectation and observation:
 - Memory is unchanged; `updates.jsonl` grows about 40% (190 B more per line) from the new fields, 134 kB over 200 updates.
 - Sanity check on the synthetic data: its per-turn values are random with a fixed distribution, so no trend exists; the remaining gap at update 200 is 0.956 and 0.990, near 1 as expected, and no conversation has a baseline that is not positive, since the synthetic sums are all positive.
 
-## Limits
+## Historical limits (2026-11-08)
 
 - Synthetic data: no length rejection, no timeout gaps, no real record, and all sums positive. The not-positive baseline and the baseline that fills mid-update are covered only by the hand-computed tests.
 - Timing is single-process wall time on a shared CPU host and varies between runs; the 19.34 ms maximum of one query is one outlier in 200, most likely array growth or garbage collection. The values show the order of magnitude, not a budget.
 - The two default lengths (10 updates, 8 turns) are config values (D32); the tests use 1 or 2 for hand-computable values, and the timing runs use the defaults. Whether the defaults suit the real data depends on the training-turn distribution, which the source audit has not yet produced.
 - No formal cell has run, so no real RKL has been divided by a real baseline yet.
+
+## Retained script and current mutation execution (2026-11-09)
+
+Retained entrypoint: `tests/manual/agent_opd/inject_profile_bugs_baselines.py`; shared runner: `tests/manual/agent_opd/inject_profile_bugs.py`. The original `/data/ycfeng/tmp/agent-opd-image/inject_profile_bugs_baselines.py` remains untouched. All original replacement texts are preserved. The source repository is derived from the retained runner's location; the runner creates a fresh `tempfile.mkdtemp` sandbox outside that repository, copies the module and fast test there, and never mutates repository code. A replacement must match exactly once; otherwise it is `STALE`. Only pytest exit 1 counts as detecting a mutant, so collection/import failures do not produce a false PASS.
+
+Exact executed invocation, from the repository root, Python 3.12.13 and pytest 9.1.1 in the same CPU environment:
+
+```bash
+timeout 600s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.inject_profile_bugs_baselines \
+  --temporary-root /data/ycfeng/tmp/agent-opd-image
+```
+
+Pytest invocation for each sandbox copy uses the executing Python with `-B -m pytest -q -p no:cacheprovider --rootdir <copy> --basetemp <copy>/pytest-tmp tests/fast/test_distillation_profile.py`; its working directory and `PYTHONPATH` are that copy. The runner retains each `pytest.log` and `results.json` at `/data/ycfeng/tmp/agent-opd-image/profile-baseline-mutations-1hog9gz6/`.
+
+| Current check | Expected | Actual | Result |
+| --- | --- | --- | --- |
+| Unpatched control | pytest exit 0 | 10 passed in 0.25 s | PASS |
+| All eight retained mutants | Every replacement matches once; pytest exit 1 for each | Eight detected; no stale replacement; failed-test counts 1, 3, 1, 1, 3, 1, 1, 2 in script order | PASS |
+| Script verdict | Exit 0 only when control and all mutants satisfy expectations | `status: PASS`, exit 0 | PASS |
+
+This run exercises the current source snapshot, including the concurrently added historical-query test, but makes no claim to own or review that implementation. The 2026-11-08 9-test result and timing measurements above remain historical; neither timing run, memory measurement, formal training, nor the integration workflow was re-executed here.
+
+Additional executed retention checks (same Python, repository-root working directory):
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
+import ast
+from pathlib import Path
+from tests.manual.agent_opd.inject_profile_bugs import REPO_ROOT, run_mutations
+
+for name in ('inject_profile_bugs.py', 'inject_profile_bugs_baselines.py'):
+    def mutations(path):
+        tree = ast.parse(path.read_text())
+        return next(ast.literal_eval(node.value) for node in tree.body if isinstance(node, ast.Assign)
+                    and any(isinstance(target, ast.Name) and target.id == 'MUTATIONS' for target in node.targets))
+    assert mutations(REPO_ROOT / 'tests/manual/agent_opd' / name) == mutations(Path('/data/ycfeng/tmp/agent-opd-image') / name)
+try:
+    run_mutations({'unpatched': None}, REPO_ROOT, 'must-not-write-')
+except ValueError as error:
+    assert str(error) == 'Mutation sandboxes must be outside the repository'
+else:
+    raise AssertionError('Repository sandbox was not rejected')
+for name in ('make_and_check_swe1003_synthetic.py', 'inject_profile_bugs.py', 'inject_profile_bugs_baselines.py'):
+    ast.parse((REPO_ROOT / 'tests/manual/agent_opd' / name).read_text())
+print('PASS: retained mutation dictionaries equal originals; repository sandbox rejected; three scripts parse')
+PY
+```
+
+Observed: exit 0 and the printed PASS line. This verifies both retained mutation dictionaries equal the originals, repository sandbox rejection occurs before creating files, and all three retained scripts parse. A scoped `git diff --check` over the three scripts and three updated reports also exited 0 with no whitespace errors; no commit was made.

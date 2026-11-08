@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Repair fork inheritance, audit identity and statistical interpretation; distinguish CPU readiness from runtime acceptance; align soft gates and B admission; refresh the blocked upstream gate from retained evidence. |
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
 | 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
 | 2026-11-08 | Rewrite S2 for the interleaved turn order (D18); update `alive`, the table and trend notes, S5, S8 (D19) and S9. |
@@ -17,7 +18,7 @@
 
 ## S0. 复用与改动范围
 
-复用 task：[`task_2026-11-08_qwen35_swe_full_r256`](../task_2026-11-08_qwen35_swe_full_r256/spec.md)（以下称"复用 spec"；本 worktree 中的副本与 `agent-opd` 上的冻结版本相同）。
+复用 task：`task_2026-11-08_qwen35_swe_full_r256`。以下"复用 spec"指分支创建点 `20d0b3f4f24719afbb191fde5cb488e26367ed6c` 的 `task_memory/task_2026-11-08_qwen35_swe_full_r256/spec.md`；可用 `git show 20d0b3f4:task_memory/task_2026-11-08_qwen35_swe_full_r256/spec.md` 读取。此处的[本地副本](../task_2026-11-08_qwen35_swe_full_r256/spec.md)供导航，不是浮动的 `agent-opd` HEAD 契约。当前 `agent-opd` 已有其 D11 数据替换等修订，与 fork 时的内容不相同；这些修订和其复制数据、评测或资源决定不自动成为本 task 的决定。
 
 **原样继承**（以复用 spec 为准）：
 
@@ -39,6 +40,11 @@
 - 已提交的输入适配器 `tests/manual/agent_opd/swe_inputs.py` 及其检查脚本 `check_swe_inputs.py`（复用 Ticket01，本 task 的 ticket 01 已扩展为 interleaved 顺序，并按 S2 改为可选 turn source）。
 - 已提交的源数据审计脚本 `tests/manual/agent_opd/audit_swe1003_sources.py`（`721090cc`），生成 S2 的源文件 manifest 和审计数字。
 - 复用 Ticket02 的训练代码（`swe_replay.py`、`swe_training.py`、`swe_tis.py` 和启动脚本），已在 `agent-opd` 上提交。按 D1、D22，它的 256-turn 显存问题完整修好、通过自己的 native smoke 后，合并进 `agent-opd-image` 再使用；不重复它已做过的验证。
+
+**当前复用 gate（2026-11-09，`agent-opd` = `f33546f4`，另读本地保留证据）**：复用 [Ticket02](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/tickets/02-replay-training-and-metrics.md) **NOT ACCEPTED**，D1/D22 未解除，不合并，也不开始本 task 的任何 ticket 02 工作或 03 接入。
+- 历史 GLM-5.2 green patch 完成每 rank 的 31 个初次 scoring microbatch，并进入 backward，但被外部 `release_quota` 停止；没有 optimizer ACK、backward 完成或下一次 scoring 的证据，GPU observer 安装失败，显存峰值和 lifetime 仍未验证。它不是完整 capacity PASS，也不验收替换后的 DeepSWE 数据。证据：[capacity-lifetime-gpu-partial.json](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/capacity-lifetime-gpu-partial.json)。
+- 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
+- 解锁需要复用 Ticket02 按其自身验收获得接受，包括当前来源的代表性 256-turn native capacity、实际 successful optimizer ACK 和后续 fresh scoring 等未完成项目；提交了修复、短 smoke 或 acquisition 改善不能代替。合并时记录实际 commit 和通过的证据，科学契约仍以 fork 与本 task D1–D32 为准。
 
 ## S1. 目标与实验矩阵
 
@@ -86,8 +92,9 @@
 6. **审计（ticket 01）**：在 CPU RJob 中读一遍原文件，报告：
    - 每个文件的 conversation、assistant、training turn、视觉 conversation 数，以及每个 conversation 的 training turn 数分布；
    - Qwen 渲染后的 prompt 长度和超长 turn；
-   - 同一 SWE 任务的多条 conversation 在文件顺序中是否相邻；
-   - 32 × 8 和 1 × 8 两种配置下 200 个 update 的模拟：每个 conversation 跨的 update 数、trend 有定义的 conversation 数、每个 update 覆盖的 conversation 数和任务数。
+   - 源数据若有可核验的 SWE instance、repository、commit identity，报告其来源、覆盖率和相邻性；缺失或无法核验时明确写 null / unverified，不阻塞其余审计，也不推断出这些 identity。
+   - 首条 user 内容的 sha256 前 16 个 hex 只作为 exact-text proxy，另报 proxy 覆盖率、无 proxy 数、相邻重复和每个窗口的 distinct proxy 数。旧产物若用 `task_key`、`distinct_tasks`、`tasks_per_update` 表示这类 hash 分组，只能按 proxy 解读；当前产物的 native identity 未验证时保留 null。相同 hash 不证明是同一 SWE instance / repository，null 也不是一个任务。
+   - 32 × 8 和 1 × 8 两种配置下 200 个 update 的模拟：每个 conversation 跨的 update 数、每个 update 覆盖的 conversation 数和已知 proxy 数。模拟只包含其实际建模的长度过滤和顺序，不包含真实 rollout / teacher 失败、TIS 或 optimizer skip；它的 span coverage 不等于 trend coverage。审计没有 RKL observation，不能判定正 baseline 或实际 trend；后两者留待正式 cell 的 runtime evidence，不把模拟值当作实测。
 
    结果写入 ticket 01 的测试报告，并更新下文"取数顺序"第 6 条的估算。
 
@@ -114,16 +121,17 @@
    - `remaining_turns`：取出该 turn 后，它所属 conversation 还剩几个 training turn 未取。由各 source 公开的 `active_remaining_turns` 得到。
    - `source_assistant_turn_ordinal`、`context_masked_assistant_count` 和 native 的 `target_policy`（数据源第 3 条）；data source 的 identity 另记 turn source 名称、视觉排除名单的 sha256 和源文件 manifest 的 sha256。
    - data source 另外报告每次取数（一个 bank）中取完最后一个 turn 的 conversation，包括最后一个 turn 因超长被拒绝的情况。这个报告供 `alive` 使用（S4）。
-5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，取到的序列相同。
+5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，源取数序列相同；生成结果和最终有效 bank membership 不保证相同，按各 cell 的实际 receipt 记录。
 6. **估算（待审计）**：
-   - 一个有 n 个 training turn 的 conversation 跨约 ceil(n / 8) 个 update。默认 k = 10 时，跨度不少于 11 个 update、即 training turn 数不少于 81 的 conversation 才有 trend 值。
+   - 理想情况下（每个 update 恰好接收该 conversation 的一个完整 8-turn block，无 rejection / 失败 / skip），有 n 个 training turn 的 conversation 跨约 ceil(n / 8) 个 update，training turn 数不少于 81 对应约 11 个 update。这是 D26 的估算阈值，不是实际 trend 的必要或充分条件。
+   - 实际 trend 需要固定且为正的 conversation baseline，以及 latest update `u_c` 之前存在一个 update `≤ u_c − k` 的条目（S4）。bank membership 会变化，跨度 11 不等于必须出现 11 次；少于 81 个 turn 也可能满足参考距离，多于 81 个 turn 也可能因缺失或截断的运行没有 trend。以实际 observation 和 successful update ID 判定。
    - 每个 update 约 32 个 conversation，每个约 8 个 turn。200 个 update 取约 51,200 个 turn；覆盖的 conversation 数约为 51,200 除以每个 conversation 的平均 training turn 数。
-   - SWE-1003 数据的 training turn 数分布、覆盖的 conversation 数和 trend 有定义的比例，由审计给出。若每个 conversation 的 training turn 数中位数明显低于 81，带着数字和保持 M × block = 256 的方案回来找用户（D26）。
+   - SWE-1003 数据的 training turn 数分布和模拟覆盖由审计给出，实际 trend 有定义的比例由 profile runtime evidence 给出。若每个 conversation 的 training turn 数中位数明显低于 81，带着数字和保持 M × block = 256 的方案回来找用户（D26）。
 7. **已知后果**：
-   - 起始阶段 32 个 conversation 同时从 turn 1 开始，前若干 update 的 prompt 偏短；大约 10–20 个 update 后，各 conversation 的进度错开，prompt 长度分布趋于稳定。所以第一个 update 的耗时偏低，吞吐要看前约 20 个 update 的各阶段耗时（S8）。
+   - 起始阶段 32 个 conversation 同时从 turn 1 开始，预计前若干 update 的 prompt 较短；进度错开后长度分布可能改变，但是否在 10–20 个 update 后稳定由实际长度和阶段耗时检验。第一个 update 不能代表长期吞吐，前约 20 个 update 的耗时仍按 S8 报告。
    - 同一 block 内的连续 turn 共享前缀，prefix cache 大部分仍然有效；block 的第一个 turn 能否命中上一个 update 留下的缓存，取决于缓存是否被换出。
-   - 若同一 SWE 任务的多条 conversation 在文件中相邻（source manifest 模块注明保留原有的行重复），同时打开的 32 个 conversation 可能来自少数几个任务；审计报告每个 update 覆盖的任务数。
-   - 数据与复用 task 不同，两者的 RKL 曲线不能对比。
+   - source manifest 模块注明保留原有的行重复；相邻 conversation 可能重复问题文本。审计先报告 exact-text proxy 的集中程度；只有 native identity 被核验的部分才报告 SWE instance / repository 覆盖，不能把 proxy 数当作真实任务数。
+   - 本 task 数据与 fork 时复用 spec 的 GLM-5.2 数据不同，不能直接比较其 RKL 曲线。当前 `agent-opd` 的 D11 虽也改为 DeepSWE，本 task 的 interleaved 顺序和实际 turn / token membership 仍须分别记录，来源名称相同也不自动建立受控比较。
 
 ## S3. 逐 turn 测量（D4、D5、D14）
 
@@ -149,7 +157,7 @@ NLL_i = nll_sum_i / tokens_i
   - 这些行随现有的 optimizer-step record 送到 rollout 进程。
 - **宏观值**：`RKL(u) = Σ rkl_sum / Σ tokens`，`NLL(u) = Σ nll_sum / Σ tokens`，按 token 加权（D6）。
   - record 中已有的 `kl_before_tis` 改为由同一组和推出，保证只有一个来源；新增 `nll_before_tis`。
-  - 一致性检查：`Σ tokens` 必须等于 native 训练 mask 统计的 `original_tokens`，行数必须等于 `actual_turns`。不一致时把该 update 标记为未验证，训练继续（S7）。
+  - 一致性检查：`Σ tokens` 必须等于 native 训练 mask 统计的 `original_tokens`，行数必须等于 `actual_turns`，uid 与实际训练 bank 一一对应。不一致时记录原因，使 profile 从该 update 起未验证并停止追加 / 推导，健康训练继续（S7）；不能悄悄把不一致的行用于已验证的 profile。
 - **Estimator 标签**：
   - 由 native 配置 `opd_log_prob_top_k`、`opd_top_k_strategy`（`miles/utils/args/configs/on_policy_distillation.py:42–60`）在一处推出，写入 record 和 profile。
   - 取代复用代码中写死的标签字符串。以后加入 top-k 或 full vocab 时，只改 native estimator 和这一处推导。
@@ -185,7 +193,7 @@ NLL_i = nll_sum_i / tokens_i
 - conversation 的最佳条目可以直接映射到表中的对应 observation。
 
 **Baseline 与 remaining gap**（D28、D31）：
-- 两个长度由 profile 配置给出：宏观 baseline 的 update 数 B，conversation baseline 的 turn 数 N。默认 B = 10、N = 8（D32，可改）：N = 8 等于一个 block，使 conversation baseline 正好是它的第一个条目；依据见 [D32](requirements.md#round-10--follow-up-answer-2026-11-08)。
+- 两个长度由 profile 配置给出：宏观 baseline 的 update 数 B，conversation baseline 的 turn 数 N。默认 B = 10、N = 8（D32，可改）。N = 8 与一个完整成功 block 的 8 个 observation 数量一致；仅当首个条目恰好就是该完整 block 时，baseline 才等于首个条目。首个条目少于 8 个 observation 时要继续累计，多于 8 个时只取最早 8 个；超长、失败和 bank 边界错位均会打破首个条目等于 block 的条件。D32 的历史理由见 [requirements](requirements.md#round-10--follow-up-answer-2026-11-08)，这里定义实际执行条件。
 - 宏观 baseline `b`：前 B 个 successful update 的宏观 RKL 的算术平均。第 B 个 update 完成后固定。
 - conversation baseline `b_c`：该 conversation 最早的 N 个 Turn observation（取数顺序保证 `t_id` 递增）的 RKL 等权平均，与 D6 的等权一致。超长、超时的 turn 没有 observation，不计入。第 N 个 observation 到达后固定；若某个 update 提供的 turn 多于还缺的个数，只取前面几个，其余只作为被测值。
 - 三个比值，都只对 RKL 定义，NLL 只在对应 update 上读取（D13）：
@@ -202,7 +210,7 @@ NLL_i = nll_sum_i / tokens_i
 **RKL trend**（D9、D29）：窗口 k 是查询参数；日志使用配置的默认值 10。正值表示 RKL 下降（变好）。
 - 宏观：`G(U−k) − G(U)`，U 为最新的 update。`U ≤ k` 或宏观 baseline 未固定时不计算。
 - conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为 `G_c(参考) − G_c(u_c)`。没有参考条目或 conversation baseline 未固定时不计算。
-- 同一条曲线的 baseline 固定，所以 trend 就是两个 update 的 RKL 之差除以 baseline：比较的仍是两个 update，换成 baseline 的单位后，不同 conversation、两个 cell 之间可以直接比较。
+- 同一条曲线的 baseline 固定，所以 trend 就是两个 update 的 RKL 之差除以 baseline，没有增加新测量信息。无量纲数值可以并列展示，但不同 conversation / cell 的分母、teacher、起始 student、有效 token 和 turn 组成不同；归一化本身不建立受控比较，也不证明相同数值对应相同学习进步。
 - 注意：full 模式下每个 turn 只训练一次，所以 conversation trend 比较的是同一 conversation 的不同 turn（本顺序下相隔约 8k 个 turn），结果会混入 turn 位置本身带来的差异。
 
 **Recovery gap**（D30）：
@@ -211,9 +219,10 @@ NLL_i = nll_sum_i / tokens_i
 - 与 remaining gap 共用 baseline，恒 ≥ 0；baseline 未固定或 ≤ 0 时不计算。
 
 **解读限制**：
-- 开头 32 个 conversation 同时从 turn 1 开始（S2 取数顺序第 7 条），所以宏观 baseline 只覆盖这些 conversation 的前约 8B 个 turn，之后的 update 混合了各种位置的 turn。conversation baseline 来自它的前 N 个 turn，之后的条目来自更靠后的 turn。full 模式下无法把训练带来的变化和 turn 位置本身的差异分开。
+- 在理想的完整 block 排程下，宏观 baseline 约覆盖最先打开的 32 个 conversation 的前 8B 个 turn；实际还受短 conversation 替换、长度拒绝和有效 membership 影响。conversation baseline 来自最早 N 个成功 observation，不保证是源 turn 1..N。之后的条目来自更靠后的 turn。full 模式下这些曲线不能把训练带来的变化与 turn 位置 / 样本组成差异分开。
 - 越晚开始训练的 conversation，baseline 是在训练得越久的 student 上测得的；conversation remaining gap 描述的是它自己跨度内的变化，run-relative gap 才与整个 run 的开头比较。
-- student 比 teacher 小，RKL 不会降到 0。remaining gap 是相对开始时还剩的比例，其中一部分可能无法降低。
+- student 参数更少不在数学上保证可达到的 RKL 严格大于 0；是否能在实际分布上匹配 teacher 取决于表达能力、数据和优化，不能仅由模型大小判断。remaining gap 是相对 baseline 的 RKL 比值，不是可优化空间的比例；例如 0.6 不表示还有 60% 可降低。
+- run-relative gap 在同一 run 内共用分母，但每个 conversation 的测量时点和 turn 组成仍不同；跨 teacher、模型或 run 时连分母也不同，不能把这个属性单独作为受控的能力比较。
 
 **二维表**：
 - 行是 `t_id`（从小到大），列是 `c_id`（从左到右即首次训练的先后），每格是该 `(c_id, t_id)` 的最新 Turn observation；更早的 presentation 保留在历史中（D7）。
@@ -243,22 +252,23 @@ NLL_i = nll_sum_i / tokens_i
 
 ## S6. 持久化与日志（D15）
 
-目录：`<cell evidence dir>/distillation_profile/`。每个 successful update 向两个文件各追加一行：
+目录：`<cell evidence dir>/distillation_profile/`。profile 保持已验证且可更新时，每个 successful update 向两个文件各追加一行；错误后的部分写入和停止更新按 S7 标记，不能声称完整：
 
 - `updates.jsonl`：`update_id`、estimator 标签、B 和 N、宏观 RKL/NLL 及其和、tokens、turns、conversation 数、RKL-best `(update, RKL, NLL)`、宏观 baseline 和 remaining gap、默认 k 下的 RKL trend、recovery gap，以及五个计数：已出现的 conversation 数、baseline 已固定且为正的 conversation 数、baseline ≤ 0 的 conversation 数、默认 k 下 trend 有定义的 conversation 数、alive 的 conversation 数。未定义的值写为 null。
 - `observations.jsonl`：`update_id`，该 update 的全部 observation 行（`uid, c_id, t_id, replay_num, rkl_sum, nll_sum, tokens`），本次新出现的 conversation（`c_id, group_id`），以及本次 alive 发生变化的 conversation。
 
 补充说明：
-- 这两个文件足以离线重建整个 profile。运行时只以内存中的 profile 为准，不回读文件。
+- 完整且成对一致的两个文件足以离线重建 profile。写入失败时可能只有一个文件含该 update，或内存已部分改变；仅核验错误之前的完整成对前缀，不用部分记录补造缺失值。运行时只以内存中的 profile 为准，不回读文件。
 - 训练侧已有的 `updates.jsonl` 新增 `nll_before_tis` 和 estimator 标签。逐 turn 行不重复写入训练侧文件。
 - 复用配置没有启用 wandb/tensorboard，所以"现有 metrics 日志"指的就是上述 JSONL 证据。
 
 ## S7. 容错（D16）
 
-- profile 的更新和写文件是 soft gate：
-  - 出错时写日志，记下第一次出错的 update，并把 profile 标记为未验证。
-  - 之后 profile 停止更新，避免基于不一致的状态继续推导；训练照常进行。
-- S3 的一致性检查失败时，只把对应 update 标记为未验证，训练继续。
+- profile 的一致性检查、更新和写文件都是 soft gate：
+  - 出错时写日志，记下第一次出错的 update 和原因，并把 profile 从该 update 起标记为未验证。
+  - 之后 profile 停止更新和派生新值，避免基于部分或不一致状态继续推导；训练照常进行。部分写入保留为失败证据，不标作完整 profile。
+  - S3 的 token / 行数 / uid 一致性失败遵守同一规则，不只给该行打标签后继续计算已验证的 profile。
+  - 最终报告分别写 native training 的实际进度、完整且核验过的 profile 前缀、未验证起点及缺失范围。辅助错误不终止 healthy native training，也不单独阻止 B 启动；它会使完整 profile 的验收未通过，不能用训练 exit 0 隐藏。
 - native 训练、通信和 I/O 的故障处理不变，D6、D7 的停止规则不变。
 - profile 不参与任何训练控制。
 
@@ -267,8 +277,8 @@ NLL_i = nll_sum_i / tokens_i
 - **D17**：本 task 自己的非抢占 H200 额度为 32 卡，只计本 task 已提交、未终止的作业，与其他 task 无关。超过 32 卡的部分可以用可抢占 RJob 提交（`ResourceConfig.preemptible=True`，按 RJob runbook 的可抢占提交一节）。
 - **初始布局**：沿用复用 task 的每 cell 布局（复用 spec S7 中 8 student + 2 teacher 的估计，尚未验证），两个 cell 约 20 GPU，在 32 卡以内。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
-- **启动顺序**（D16）：先启动 A，检查它第一个 update 的 profile 和各阶段耗时，通过后再启动 B。
-- **吞吐判断**：第一个 update 的 prompt 偏短（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
+- **启动顺序**（D16）：先启动 A；在它实际完成第一个 successful native optimizer update 后，完成 profile、identity 和各阶段耗时检查并记录结果，再启动 B。profile 辅助检查失败时报告 unverified，健康训练继续，不能单凭该 verdict 阻止 B；A 尚未完成真实 successful update、native 失败或资源准入不满足时仍不能启动 B。
+- **吞吐判断**：第一个 update 的 prompt 长度不一定代表后续分布（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
 - **D19**：第一个 update 若因 rollout 或 teacher 打分太慢违反 D6，按 D6 结束该 attempt，然后增加 GPU，作为新 attempt 重启，不再另行询问；本 task 的非抢占总数保持在 32 以内。两个 cell 同时放不下时改为先后运行，不把正式 cell 的角色放到可抢占作业上（被抢占会结束该 attempt，本 task 没有 checkpoint 可恢复，D10）。D6 的截止时间和最低条数不变。
 - 第一个之后的 update 若因吞吐违反 D6，按 D6 结束该 attempt 并报告；D19 不覆盖这种情况，是否重启由用户决定。
 
@@ -278,9 +288,9 @@ NLL_i = nll_sum_i / tokens_i
 | --- | --- |
 | 文档 | 每条原始需求都能对应到本 spec 的章节或 ticket；链接、计数、依赖图（DAG）正确 |
 | 输入（[01](tickets/01-interleaved-turn-order.md)） | 源数据审计（S2 数据源第 6 条，CPU RJob）；在原位源文件上用 `loss_masked` 检查：M = 1 时与单个 native `MaskAwareSWETurnSource` 的序列完全相同，渲染前的消息与 native 规范化结果相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同；`all_assistants` 在本地 GLM 副本上的已有检查仍通过 |
-| 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | CPU：长短不一的样本、CP 切分时，逐 turn 和相加等于原有标量；GPU：在 A 的第一个 update 上检查一致性 |
+| 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | D1/D22 合并后完成代码和 CPU 检查才是 implementation-ready，可供 03 接入与 04 启动；GPU 验收在 A 第一个实际 successful update 检查逐 turn sums、bank uid 和 native 计数，未通过时保持该验收未完成，不把辅助 verdict 变成 native stop / B blocker |
 | Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；baseline 未固定、baseline ≤ 0、trend 参考条目落在 baseline 窗口内、remaining gap 与 run-relative gap 的手算值；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
-| 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | 200 个实际 successful update；profile 文件各 200 行；observation 数等于实际训练的 turn 数；每个 update 都通过一致性检查；采集耗时；RJob 终态 |
+| 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | native training 与 profile 分开判定：training 需 200 个实际 successful update、native counter 和终态；完整 profile 需两个文件各 200 个成对一致的 update、observation 数等于实际训练 turn 数、每个 update 的 S3 一致性通过及离线重建成功。S7 错误允许 training 继续完成，但 profile 标 INCOMPLETE / UNVERIFIED，不能验收为完整交付 |
 | 报告（[06](tickets/06-profile-report.md)） | 用保留的证据重新计算 |
 
 最终报告按 cell 给出：
@@ -288,5 +298,7 @@ NLL_i = nll_sum_i / tokens_i
 - RKL-best update、默认 k 下的 RKL trend 和 recovery gap；
 - 训练结束时 profile 的统计：出现过的 conversation 数、alive 数、baseline 为正和 ≤ 0 的 conversation 数、trend 有定义的 conversation 数，以及 conversation remaining gap、run-relative gap、trend、recovery gap 的分位数；
 - 准确的产物路径和观察到的局限。
+
+02 的 CPU implementation-ready 与 GPU accepted 是两个检查点：04 不等待只能由自己提供的 GPU 证据，05 不等待 04 的 200-update 完成。A 的真实首次 successful update 和检查已完成即可进入 B 的资源准入。运行时证据必须关联 attempt、successful update、bank uid / membership、逐 turn 和与 native 计数、profile 两个文件及一致性结果；只有计划、配置或日志分析 PASS 不算执行验收。profile 出错后仍可归档失败 / 不完整报告，但不得给缺失区间填值或宣称两个 cell 的完整 profile 已通过。
 
 不做 benchmark，也不做因果结论。

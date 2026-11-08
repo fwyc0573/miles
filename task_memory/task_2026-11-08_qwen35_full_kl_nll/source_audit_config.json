@@ -1,0 +1,36 @@
+{
+  "repo": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+  "local_mount": "/data/ycfeng",
+  "worker_python": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "charged_group": "codesign",
+  "cpu": 8,
+  "gpu": 0,
+  "mem_gb": 32,
+  "mounts": [
+    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+    "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
+  ],
+  "steptron_root": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9",
+  "module_sha256": {
+    "playground.baseline_new.mopd.online_turn_loader": "0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f",
+    "playground.users.cj.opd.s4_swe_source_manifest_1001": "0a46156646a098161151b4ba311a1811e1c61c5e8ab950f3a3617ecf7e67df16",
+    "playground.users.cj.opd.s4_swe_turn_data_1001": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "playground.users.cj.opd.s4_swe_visual_audit_1001": "5838a812996890f003199b7575788962360ef27810a7c29c4df466b64d0ebc1e"
+  },
+  "source_root": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913",
+  "tokenizer": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "chat_template": "miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+  "chat_template_kwargs": {"preserve_thinking": true, "enable_thinking": true},
+  "rollout_max_context_len": 131072,
+  "simulate": ["32x8", "1x8"],
+  "updates": 200,
+  "turns_per_update": 256,
+  "trend_window": 10,
+  "active_conversations": 32,
+  "block_turns": 8,
+  "order_draws": 2048,
+  "parity_draws": 512,
+  "temporary_root": "/data/ycfeng/tmp/agent-opd-image/source-audit-20261109",
+  "output_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/source-audit-20261109"
+}

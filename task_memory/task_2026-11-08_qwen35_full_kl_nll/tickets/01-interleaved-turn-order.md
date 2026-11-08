@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the primary's running in-place CPU audit/parity job without claiming acceptance; separate exact-text proxy coverage from native SWE identity and ideal trend estimates. |
 | 2026-11-08 | Draft the indexed turn order ticket. |
 | 2026-11-08 | Rewrite for the interleaved turn order (D18). |
 | 2026-11-08 | Rename the file from `01-indexed-turn-order.md`; documentation frozen. |
@@ -15,7 +16,7 @@
 
 **Blocked by:** 文档冻结；D23–D27 已写入 spec。
 
-**Status:** in-progress — SWE-1003 items 1–4 done locally; the source audit and the checks on the files in place (items 5–6) wait for a CPU RJob
+**Status:** in-progress — SWE-1003 items 1–4 have local evidence; the primary's progress record reports CPU RJob `exp-1109-031258-820360` Running for in-place audit/parity, with no completed source result yet; items 5–6 pending, NOT ACCEPTED
 
 ### 已完成：interleaved 顺序（GLM 固定副本，turn source 为 `OnlineTrajectoryTurnSource`）
 
@@ -31,5 +32,5 @@
 - [x] 渲染与 identity：工具定义取首条消息的 `tools`，没有时取 `tool_schemas`；`reasoning_effort` 不传入。每个 sample 的 source identity 新增 `source_assistant_turn_ordinal`、`context_masked_assistant_count` 和 `target_policy`。
 - [x] 本地合成文件集检查 `loss_masked`：被 mask 的 assistant 留在前缀中且不是 turn；`t_id` 从 1 连续编号；视觉 conversation 和没有 training turn 的 conversation 被跳过；`remaining_turns` 只计 training turn；最后一个 training turn 超长时仍出现在取完报告中；`tool_schemas` 与 `tools` 渲染结果相同。
 - [x] `all_assistants` 改用 f4522d45 的 base loader 后，`check_swe_inputs.py` 在本地 GLM 固定副本上的检查全部通过，序列和计数与上面已完成部分的证据相同。
-- [ ] 源数据审计（spec S2 数据源第 6 条）：`audit_swe1003_sources.py` 在 CPU RJob 中原位读取 8 个文件并输出 PASS；审计 JSON 和源文件 manifest 放入 `evidence/`，数字写入测试报告并更新 spec S2 取数顺序第 6 条的估算；若每个 conversation 的 training turn 数中位数明显低于 81，带着数字回来找用户（D26）；若有首条消息的 `preserve_thinking` 不为 true，报告。
+- [ ] 源数据审计（spec S2 数据源第 6 条）：`audit_swe1003_sources.py` 在 CPU RJob 中原位读取 8 个文件，不复制输入（D25）；验收实际 JSON 内容、源文件身份和 source manifest，不能只看 exit / PASS 字样。产物放入 `evidence/`，数字写入测试报告并更新 spec S2 的估算。native SWE instance / repository / commit identity 可缺失或未验证，须写 null / unverified；首条 user 内容的短 hash 只报 exact-text proxy 覆盖率、缺失与集中程度，不能把脚本 `task*` 字段当作已核验任务身份，也不能把 null 算作一个任务。模拟的 span coverage 与实际 baseline / trend coverage 分开；81 只作 D26 理想排程的反馈阈值，不是 trend 必要条件。中位数明显低于 81 时带着数字回来找用户；首条消息的 `preserve_thinking` 不为 true 时报告。
 - [ ] 原位真实数据检查（CPU RJob，`loss_masked`）：M = 1 时前 512 次取数的 uid 序列与单个 native `MaskAwareSWETurnSource`（相同排除名单）直接发出的序列完全相同，且这些 turn 渲染前的消息与 native `tokenize_swe_prefix` 的规范化结果（`s4_swe_turn_data_1001.py:60–67`）相同；M = 32、block = 8 时前 2,048 次取数满足上面相同的顺序性质；两个独立实例序列相同；记录构造和取数耗时。

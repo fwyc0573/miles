@@ -1,0 +1,37 @@
+{
+  "job": "exp-1109-031258-820360",
+  "queried_at": "2026-11-08T19:14:27.818727+00:00",
+  "creator": "i-fengyicheng",
+  "phase": "Running",
+  "preemptible": "no",
+  "tasks": {
+    "audit": {
+      "replicas": 1,
+      "local_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "resources": [
+        {
+          "limits": {
+            "cpu": "8",
+            "memory": "32000Mi",
+            "nvidia.com/gpu": "0"
+          },
+          "requests": {
+            "cpu": "8",
+            "memory": "32000Mi",
+            "nvidia.com/gpu": "0"
+          }
+        }
+      ],
+      "images": [
+        "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+      ]
+    }
+  },
+  "replicas": [
+    {
+      "name": "exp-1109-031258-820360-cfcd2084",
+      "phase": "Running",
+      "node_name": null
+    }
+  ]
+}

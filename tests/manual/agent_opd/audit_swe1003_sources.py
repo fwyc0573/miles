@@ -54,7 +54,7 @@ class SourceConversation:
     assistants: int
     eligible: int
     visual: bool
-    task_key: str | None
+    prompt_key: str | None
     longest_prompt_tokens: int | None = None
     first_overlength_ordinal: int | None = None
 
@@ -81,8 +81,8 @@ def short_value(value) -> str:
     return f"<{type(value).__name__}>"
 
 
-def task_key(messages: list) -> str | None:
-    """Same SWE instance <=> same first user message."""
+def prompt_key(messages: list) -> str | None:
+    """Group exact first-user text without claiming a SWE instance identity."""
     for message in messages:
         if isinstance(message, dict) and message.get("role", message.get("from")) in USER_ROLES:
             content = message.get("content", message.get("value"))
@@ -140,7 +140,7 @@ def scan_sources(modules: dict, files: list[Path], meter: PromptMeter) -> tuple[
         conversation = SourceConversation(
             file_index=record.file_idx, source_item_index=record.source_item_index, messages=len(messages),
             assistants=sum(native.message_role(message) == "assistant" for message in messages),
-            eligible=len(eligible), visual=any(visual_messages), task_key=task_key(messages),
+            eligible=len(eligible), visual=any(visual_messages), prompt_key=prompt_key(messages),
         )
         first_message_keys.update(messages[0].keys())
         for name in ("reasoning_effort", "preserve_thinking"):
@@ -173,23 +173,31 @@ def scan_sources(modules: dict, files: list[Path], meter: PromptMeter) -> tuple[
     return conversations, schema
 
 
-def task_adjacency(trainable: list[SourceConversation], window: int) -> dict:
-    keys = [conversation.task_key for conversation in trainable]
-    per_task = Counter(keys)
-    runs = [1]
-    for previous, current in zip(keys, keys[1:]):
-        if current == previous:
-            runs[-1] += 1
+def prompt_adjacency(trainable: list[SourceConversation], window: int) -> dict:
+    keys = [conversation.prompt_key for conversation in trainable]
+    per_prompt = Counter(key for key in keys if key is not None)
+    runs = []
+    run = 0
+    previous = None
+    for current in keys:
+        if current is not None and current == previous:
+            run += 1
         else:
-            runs.append(1)
-    windows = [len(set(keys[start:start + window])) for start in range(max(1, len(keys) - window + 1))]
+            if run:
+                runs.append(run)
+            run = int(current is not None)
+        previous = current
+    if run:
+        runs.append(run)
+    windows = [len({key for key in keys[start:start + window] if key is not None})
+               for start in range(max(1, len(keys) - window + 1))]
     return {
         "key": "sha256 of the first user message, 16 hex",
-        "conversations_without_key": per_task.get(None, 0),
-        "distinct_tasks": len(per_task),
-        "conversations_per_task": distribution(per_task.values()),
-        "same_task_runs_in_file_order": distribution(runs),
-        f"distinct_tasks_in_{window}_consecutive_conversations": distribution(windows),
+        "conversations_without_key": keys.count(None),
+        "distinct_prompt_groups": len(per_prompt),
+        "conversations_per_prompt_group": distribution(per_prompt.values()),
+        "same_prompt_runs_in_file_order": distribution(runs),
+        f"distinct_prompt_groups_in_{window}_consecutive_conversations": distribution(windows),
     }
 
 
@@ -240,7 +248,10 @@ def simulate(modules: dict, files: list[Path], exclusions: list[list[int]], conv
         "update_span": distribution(spans),
         f"conversations_with_span_at_least_{trend_window + 1}": sum(span > trend_window for span in spans),
         "conversations_per_update": distribution(len(keys) for keys in per_update_conversations),
-        "tasks_per_update": distribution(len({by_key[key].task_key for key in keys}) for keys in per_update_conversations),
+        "tasks_per_update": None,
+        "prompt_groups_per_update": distribution(
+            len({by_key[key].prompt_key for key in keys if by_key[key].prompt_key is not None})
+            for keys in per_update_conversations),
         "mean_draw_ms": (time.monotonic() - started) * 1000 / draws,
     }
 
@@ -328,7 +339,9 @@ def main() -> None:
             "masked_assistants_per_conversation": distribution(c.assistants - c.eligible for c in trainable),
             "longest_prompt_tokens": distribution(c.longest_prompt_tokens for c in trainable),
         },
-        "task_adjacency": task_adjacency(trainable, window),
+        "task_identity": {"status": "UNVERIFIED", "distinct_tasks": None,
+                          "reason": "No validated SWE instance/repository identity mapping; first-user text is only a proxy"},
+        "prompt_adjacency": prompt_adjacency(trainable, window),
         "schema": schema,
         "simulations": simulations,
         "eligible_turns_per_conversation": [[c.eligible for c in conversations if c.file_index == index]

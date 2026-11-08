@@ -2,13 +2,14 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Retain original pre-baseline mutations in a fresh-sandbox runner; record current control, two detected mutants and one stale replacement without changing historical results. |
 | 2026-11-08 | Record the ticket 03 module checks: fast test, injected bugs, synthetic 200 × 256 timing and memory. |
 
 # Test report — ticket 03, Distillation profile module
 
-Scope: the module part of [ticket 03](tickets/03-distillation-profile.md) (criteria 1–4 and 6). The integration into `SweReplay.on_train_result` (criterion 5) waits for ticket 02 and is not tested here.
+Historical scope (2026-11-08): the module part of [ticket 03](tickets/03-distillation-profile.md) (criteria 1–4 and 6). The integration into `SweReplay.on_train_result` (criterion 5) was not tested here. The separate 2026-11-09 section records retained-script execution only and does not replace the historical module or timing evidence.
 
-## Environment
+## Historical environment (2026-11-08)
 
 - Worktree `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`; code under test is uncommitted on top of `f31c4bc5`:
   - `tests/manual/agent_opd/distillation_profile.py` (the module);
@@ -17,7 +18,7 @@ Scope: the module part of [ticket 03](tickets/03-distillation-profile.md) (crite
 - Python 3.12.13 at `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, pytest 9.1.1. No GPU. All commands run from the worktree root.
 - No formatter is installed in this environment (`ruff`, `black` and `pre-commit` are absent). New lines were checked with `awk 'length > 119'` against the black line length in `pyproject.toml`; no new line exceeds it.
 
-## Commands
+## Historical commands (2026-11-08)
 
 ```bash
 # 1. Fast test
@@ -45,7 +46,7 @@ timeout 600s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m tests.manual.ag
 
 Evidence: [profile-timing.json](evidence/profile-timing.json), [profile-timing-mean-length.json](evidence/profile-timing-mean-length.json). The profile files written by runs 3 and 4 stay in their temporary roots under `distillation_profile/`.
 
-## Results by acceptance criterion
+## Historical results by acceptance criterion (2026-11-08)
 
 | # | Check | Expected | Actual | Result |
 | --- | --- | --- | --- | --- |
@@ -67,7 +68,7 @@ Evidence: [profile-timing.json](evidence/profile-timing.json), [profile-timing-m
 | — | Injected bugs are caught | the unpatched copy passes; each bug fails at least one test | unpatched: 6 passed; `<` → `<=` in the conversation best (tie moves best): 1 failed; token-weighted conversation mean: 1 failed; macro trend reference off by one: 1 failed; script verdict PASS | PASS |
 | 6 | Synthetic 200 × 256 run (two length settings below) | status PASS: no unverified update, rebuilt summary equals the live one; 51,200 observations | both runs PASS, 200 updates, 51,200 observations | PASS |
 
-## Timing and memory
+## Historical timing and memory (2026-11-08)
 
 Synthetic order: 32 open conversations taken 8 turns at a time in round robin (no length rejection), tokens per turn uniform in 1–4,000, random sums. `group_id` strings have the real form `file_sha256:index`. Each per-update time includes building the observations, the JSONL writes and `summary()`; the query time is `conversation_states(10)` over all conversations seen so far, measured after every update.
 
@@ -85,9 +86,32 @@ Expectation: the profile is cheap next to one update. No formal cell has run yet
 
 Memory breakdown of the 19–464 profile (one-off `sys.getsizeof` count, `/data/ycfeng/tmp/agent-opd-image/memory_breakdown.py`): numeric columns 2.00 MB, `uid` strings 5.48 MB (mean 71 characters) plus their list 0.42 MB, `(c_id, t_id)` lookup dicts 1.95 MB; the remaining about 3 MB are per-conversation entry lists, Python ints held by the lookups and lists, and `group_id` strings. Spec S5 estimated about 2 MB from the numeric columns alone; it is corrected to the measured total in the same change.
 
-## Limits
+## Historical limits (2026-11-08)
 
 - Synthetic data: no length rejection, no timeout gaps and no real record. The join with a real optimizer-step record, the per-bank finished report from ticket 01 and the estimator label from ticket 02 are tested in the integration part of ticket 03.
 - Timing is single-process wall time on a shared CPU host and varies between runs; the values show the order of magnitude, not a budget.
 - Writes go to local disk under `/data/ycfeng/tmp`. In the formal cells the profile directory sits in the cell evidence directory; its write time there is not measured here.
 - A write failure between the two files leaves them with different line counts; rebuild then raises an error instead of rebuilding a partial profile. This is the expected behavior for an unverified profile and was not separately injected.
+
+## Retained script and current mutation execution (2026-11-09)
+
+Retained script: `tests/manual/agent_opd/inject_profile_bugs.py`, adapted from `/data/ycfeng/tmp/agent-opd-image/inject_profile_bugs.py`, which remains untouched. The original three replacement texts are preserved; the implementation and test are copied from the repository-relative source into a fresh temporary sandbox. The baseline script reuses this runner rather than duplicating its sandbox execution logic; its current result is in [the remaining-gap report](test_report_2026-11-08_profile_remaining_gap.md#retained-script-and-current-mutation-execution-2026-11-09).
+
+Exact executed invocation, from the repository root, Python 3.12.13 and pytest 9.1.1 in the same CPU environment:
+
+```bash
+timeout 300s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.inject_profile_bugs \
+  --temporary-root /data/ycfeng/tmp/agent-opd-image
+```
+
+Each executed copy uses the current Python with `-B -m pytest -q -p no:cacheprovider --rootdir <copy> --basetemp <copy>/pytest-tmp tests/fast/test_distillation_profile.py`, with the working directory and `PYTHONPATH` set to that copy. Logs and `results.json` are retained at `/data/ycfeng/tmp/agent-opd-image/profile-mutations-xvd4k2wp/`.
+
+| Current check | Expected | Actual | Result |
+| --- | --- | --- | --- |
+| Unpatched control | pytest exit 0 | 10 passed in 0.24 s | PASS |
+| `tie_moves_best` | Exactly one replacement; pytest exit 1 | 1 failed, 9 passed in 0.28 s | PASS |
+| `trend_off_by_one` | Exactly one replacement; pytest exit 1 | 1 failed, 9 passed in 0.30 s | PASS |
+| Original pre-baseline `token_weighted_conversation_mean` | Exact historical text must exist to execute the mutation | 0 replacement matches; `STALE`; pytest not run for this mutant | NOT VERIFIED |
+| Complete historical mutation set on current source | All mutants executable and detected | `status: FAIL`, exit 1 because one replacement is stale, not because the control fails | INCOMPLETE |
+
+The stale replacement names the pre-baseline implementation's `rkl = sum(...)` expression, which no longer exists after the baseline code switched to `turn_rkl`. It is retained for provenance rather than silently rewritten or counted as detected. The current baseline mutation script contains the applicable token-weighted-mean mutation and detected it, as reported separately. No repository module was overwritten. No new timing, memory, formal-training, or integration result is claimed by this retention task.

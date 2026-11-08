@@ -2,13 +2,14 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Retain the synthetic fixture/check, add exact command reproduction and pure prompt-group regressions, and identify historical results and the missing historical audit invocation. |
 | 2026-11-08 | Local checks of the ticket 01 revision: selectable turn source, `loss_masked` fixture, GLM copies with `all_assistants`, synthetic SWE-1003 files with `loss_masked`. |
 
 # Test report — ticket 01 revision for the SWE-1003 data (local part)
 
-Scope: the ticket 01 criteria that can be checked without the 8 SWE-1003 files ([ticket 01](tickets/01-interleaved-turn-order.md), items 1–4 of "待完成"). The source audit and the checks on the files in place need a CPU RJob that mounts posttrain; they have not run (see "Not run").
+Historical scope (2026-11-08): the ticket 01 criteria that can be checked without the 8 SWE-1003 files ([ticket 01](tickets/01-interleaved-turn-order.md), items 1–4 of "待完成"). The source audit and the checks on the files in place had not run at that time. The separate 2026-11-09 section records only this artifact-retention task's executed checks; it does not report the primary session's worker audit.
 
-## Code under test
+## Historical code under test (2026-11-08)
 
 - `tests/manual/agent_opd/swe_inputs.py`:
   - `SWEInputConfig` replaces `swe_native_loader_path` / `swe_native_loader_sha256` with `swe_steptron_root`, `swe_module_sha256` (dotted module name → SHA256) and `swe_turn_source`.
@@ -22,14 +23,14 @@ Scope: the ticket 01 criteria that can be checked without the 8 SWE-1003 files (
   - The population checks follow the turn source: the parity oracle is the same native class with the same exclusions; the order check counts training turns through `eligible_assistant_positions` and the exclusion list; the parity check compares the adapter's normalized history and tools with the native reference for every draw (GLM recipe converter, or `tokenize_swe_prefix` through a recording tokenizer stub).
   - New `_loss_masked_fixture_check` runs in every invocation.
 
-## Environment
+## Historical environment (2026-11-08)
 
 - Worktree `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, base commit `735a3a95` plus the uncommitted changes above.
 - `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`: Python 3.12.13, transformers 5.19.0. CPU only.
 - Pinned Steptron modules from `/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9` (commit `f4522d45`): base loader `0c11561f…efaa740f`, turn data `8850287f…7603980`.
 - Tokenizer `/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B`, template `miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja`.
 
-## Commands
+## Historical commands (2026-11-08)
 
 `PINS` is `{"playground.baseline_new.mopd.online_turn_loader": "0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f", "playground.users.cj.opd.s4_swe_turn_data_1001": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980"}`; `T=/data/ycfeng/tmp/agent-opd-image`.
 
@@ -50,7 +51,7 @@ Scope: the ticket 01 criteria that can be checked without the 8 SWE-1003 files (
      --model-source-receipt task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/model-sources-exp-1108-144027-369537.json
    ```
 
-2. Synthetic SWE-1003-shaped files, `loss_masked`. The 8 files come from `$T/make_and_check_swe1003_synthetic.py make` (written for the audit's synthetic check). The audit was re-run first on them with the refactored imports (the command in [progress](progress.md#round-89-swe-1003-0913-data), output root `$T/swe1003-synthetic-out2`), and its manifest is the input here:
+2. Synthetic SWE-1003-shaped files, `loss_masked`. The 8 files came from `$T/make_and_check_swe1003_synthetic.py make` (written for the audit's synthetic check). The historical record says the audit was re-run with the refactored imports into `$T/swe1003-synthetic-out2`, whose manifest was used below. The full historical audit invocation is **not recorded** in [progress](progress.md#round-89-swe-1003-0913-data); this report previously linked there as though it were. The retained command printer below now supplies an exact current invocation, without claiming it reconstructs or re-executes the missing historical command:
 
    ```bash
    timeout 900s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m tests.manual.agent_opd.check_swe_inputs \
@@ -66,7 +67,7 @@ Scope: the ticket 01 criteria that can be checked without the 8 SWE-1003 files (
 
    The order check uses 12 draws at 2 × 2; the parity check's 30 draws cross one epoch boundary, so each skipped conversation is counted twice there.
 
-## Results
+## Historical results (2026-11-08)
 
 | Check | Expected | Actual | Result |
 | --- | --- | --- | --- |
@@ -94,12 +95,54 @@ Evidence:
 
 The earlier `evidence/input-*.json` files stay unchanged as the record of the [earlier report](test_report_2026-11-08_interleaved_turn_order.md).
 
-## Observations and inferences
+## Historical observations and inferences (2026-11-08)
 
 - Observed: with the f4522d45 base loader, the GLM sequences, counts and real-prefix prompts are identical to the 0710 loader's evidence. This is consistent with the spec's statement that the three classes are byte-identical in both loaders.
 - Observed: the two native normalizations differ on inputs that the checked data do not contain. The GLM recipe drops `value` when `content` exists and raises on a missing `content`; `tokenize_swe_prefix` keeps the message as is. Each turn source therefore carries its own function, and each is compared with its native reference.
 - Inference: the synthetic set checks the logic of `loss_masked`, not the real data distribution. Real lengths, skip counts and the D26 numbers come only from the audit.
 
-## Not run
+## Historical checks not run (2026-11-08)
 
 - The source audit on the 8 files in place (ticket 01 item 5) and the `loss_masked` checks on them (item 6: 512 parity draws with native normalization, 2,048 draws at 32 × 8, two instances, timings). Both need a CPU RJob that mounts posttrain read-only, and the submission route is still open.
+
+## Retained scripts and current checks (2026-11-09)
+
+Retained script: `tests/manual/agent_opd/make_and_check_swe1003_synthetic.py`, adapted from the original temporary script above, which remains untouched. Its `make` command reads the native source-manifest module and SHA256 from [source_audit_config.json](source_audit_config.json), using the existing pinned-module loader. `audit-command` reuses the existing submitter's command builder and the same config; it only prints a command and never launches the audit. No second native-pin configuration is introduced.
+
+The current fixture intentionally changes the second `Fix task A` conversation's `meta.instance_id` from `A` to `A-other`. It retains 10 conversations and the original turn counts, but now has 10 distinct metadata values rather than the historical 9. Equal first-user text is a **prompt group**, not verified task identity. The output checker requires `task_identity.status = UNVERIFIED`, `task_identity.distinct_tasks = null`, and every simulation's `tasks_per_update = null`; prompt coverage is checked through `prompt_adjacency` and `prompt_groups_per_update`.
+
+Commands actually executed from the repository root, using Python 3.12.13 at `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python` (CPU only):
+
+```bash
+timeout 120s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.make_and_check_swe1003_synthetic prompt-adjacency
+
+timeout 120s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.make_and_check_swe1003_synthetic make \
+  /data/ycfeng/tmp/agent-opd-image/retained-synthetic-20261109/source \
+  --config task_memory/task_2026-11-08_qwen35_full_kl_nll/source_audit_config.json
+
+timeout 120s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.make_and_check_swe1003_synthetic audit-command \
+  /data/ycfeng/tmp/agent-opd-image/retained-synthetic-20261109/source \
+  /data/ycfeng/tmp/agent-opd-image/retained-synthetic-20261109/output \
+  --config task_memory/task_2026-11-08_qwen35_full_kl_nll/source_audit_config.json
+```
+
+| Current check | Expected | Observed | Result |
+| --- | --- | --- | --- |
+| Different instance metadata, identical first-user text | Same prompt key, no task-count claim | Equal non-null keys; `distinct_tasks` absent from pure adjacency result | PASS |
+| Two conversations with no first user | Neither is a shared prompt group or a same-prompt run | Both keys null; `conversations_without_key = 2`; only the three known-key conversations form one prompt group | PASS |
+| Missing keys break adjacency and do not count in windows | Known-key run lengths 2 and 1; 2-conversation window distinct counts 1, 1, 0, 1 | Exact distributions matched; longest known-key run 2, window mean 0.75 | PASS |
+| Fixture generation | 8 files, using the configured native manifest pin; fresh target directory | `status: PASS`, 8 files at the source path above | PASS |
+| Audit command reproduction | Print full argv with configured pins, 1 × 2 and 2 × 2 simulations, 2 updates × 3 accepted turns, context 2000 | Full command printed; no audit launched | PASS (command generation only) |
+
+The three invocations emitted the existing `deep_ep is not installed` import warning and exited 0. The fixture refuses an already-existing target directory instead of overwriting files.
+
+After the primary session executes the printed audit command, the exact retained output-check invocation is:
+
+```bash
+timeout 120s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.make_and_check_swe1003_synthetic check \
+  /data/ycfeng/tmp/agent-opd-image/retained-synthetic-20261109/output
+```
+
+**Not executed in this artifact-retention task:** the printed audit command, the retained output checker against new audit outputs, any input-parity workflow, or any worker/RJob. Therefore the unknown-task-identity output assertions are retained but not newly verified end to end here. Pure adjacency and fixture generation do not establish native SWE identity, real source distributions, token lengths, or worker acceptance.
+
+**Primary follow-up on 2026-11-09:** the same retained fixture was subsequently audited using `_commands(config)[0]` from `submit_swe1003_audit.py`, with the exact derived config retained at `/data/ycfeng/tmp/agent-opd-image/retained-synthetic-20261109/executed-config.json`. Output root was `.../retained-synthetic-20261109/audit` (not the printed example's `output`), raw log `.../retained-synthetic-20261109/audit.log`. The `check` invocation above with that `audit` path exited 0: `status=PASS`, `failures=[]`, expected 10 distinct metadata identities but 7 prompt groups, unverified/null task counts, expected visual and overlength exclusions. This completes the updated synthetic audit assertions; the real-source RJob remains separately tracked in the [current report](test_report_2026-11-09_review_execution.md).

@@ -11,6 +11,7 @@ import logging
 
 import pytest
 
+from tests.manual.agent_opd import distillation_profile
 from tests.manual.agent_opd.distillation_profile import (
     OBSERVATIONS_FILE, UPDATES_FILE, ConversationEntry, ConversationStates, DistillationProfile, SourceConversation,
     TurnObservation, TurnSums, UpdateRow,
@@ -125,6 +126,50 @@ def test_hand_computed_profile():
     assert profile.unverified_from is None
 
 
+def test_historical_conversation_entry_and_gaps(tmp_path):
+    profile = DistillationProfile(estimator="sampled_token", trend_window=2, baseline_updates=5, baseline_turns=4,
+                                  directory=tmp_path / "distillation_profile")
+    updates = [
+        [("s:1", "s", 1, 2.0, 4.0, 2)],
+        [("other:1", "other", 1, 6.0, 7.0, 1)],
+        [("s:2", "s", 2, 8.0, 12.0, 4)],
+        [("s:3", "s", 3, 1.0, 2.0, 2)],
+        [("s:4", "s", 4, 8.0, 4.0, 2)],
+        [("s:5", "s", 5, 1.0, 4.0, 4)],
+    ]
+    for update_id, turns in enumerate(updates[:4], 1):
+        profile.record_update(update_id, _sums(turns), _bank(turns), [])
+
+    # Update 3 is neither latest nor best, and is this conversation's second entry, not its third.
+    historical = ConversationEntry(3, 2.0, 3.0, range(2, 3))
+    assert profile.conversation(0).latest.update_id == profile.conversation(0).best.update_id == 4
+    assert profile.conversation_entry(0, 3) == historical
+    assert profile.conversation_remaining_gap(0, 3) is None
+    assert profile.conversation_run_relative_gap(0, 3) is None
+    # The conversation never appeared in update 2; an exact lookup must not select a neighboring entry.
+    for query in (profile.conversation_entry, profile.conversation_remaining_gap, profile.conversation_run_relative_gap):
+        with pytest.raises(KeyError) as missing:
+            query(0, 2)
+        assert missing.value.args == (2,)
+
+    for update_id, turns in enumerate(updates[4:], 5):
+        profile.record_update(update_id, _sums(turns), _bank(turns), [])
+        # Both baselines complete at update 5 and stay fixed through the next update.
+        assert profile.conversation(0).baseline == 1.875  # (1.0 + 2.0 + 0.5 + 4.0) / 4
+        assert profile.baseline == 2.7  # (1.0 + 6.0 + 2.0 + 0.5 + 4.0) / 5
+        assert profile.conversation_entry(0, 3) == historical
+        assert profile.conversation_remaining_gap(0, 3) == 2.0 / 1.875
+        assert profile.conversation_run_relative_gap(0, 3) == 2.0 / 2.7
+        assert [profile.observation(row) for row in historical.rows] == [
+            TurnObservation(3, 0, 2, 0, True, 8.0, 12.0, 4, "s:2")]
+
+    rebuilt = DistillationProfile.rebuild(profile.directory)
+    assert rebuilt.conversation_entry(0, 3) == historical
+    assert rebuilt.conversation_remaining_gap(0, 3) == 2.0 / 1.875
+    assert rebuilt.conversation_run_relative_gap(0, 3) == 2.0 / 2.7
+    assert profile.unverified_from is None
+
+
 def test_files_rebuild_the_profile(tmp_path):
     directory = tmp_path / "distillation_profile"
     profile = _profile(directory)
@@ -147,6 +192,13 @@ def test_files_rebuild_the_profile(tmp_path):
     assert [rebuilt.update(u) for u in range(1, 5)] == [profile.update(u) for u in range(1, 5)]
     assert rebuilt.best_update() == profile.best_update()
     assert [rebuilt.conversation(c) for c in range(4)] == [profile.conversation(c) for c in range(4)]
+    for c_id, update_ids in enumerate(((1, 2, 3), (1, 2), (2, 3, 4), (4,))):
+        for update_id in update_ids:
+            assert rebuilt.conversation_entry(c_id, update_id) == profile.conversation_entry(c_id, update_id)
+            assert (rebuilt.conversation_remaining_gap(c_id, update_id)
+                    == profile.conversation_remaining_gap(c_id, update_id))
+            assert (rebuilt.conversation_run_relative_gap(c_id, update_id)
+                    == profile.conversation_run_relative_gap(c_id, update_id))
     for k in range(1, 5):
         assert rebuilt.conversation_states(k) == profile.conversation_states(k)
     assert [rebuilt.observation(r) for r in range(10)] == [profile.observation(r) for r in range(10)]
@@ -167,6 +219,34 @@ def test_write_error_marks_unverified(tmp_path, caplog):
     assert profile.unverified_from == 1
     assert profile.latest_update == 1  # the failed write does not stop the caller; later updates are ignored
     assert "unverified from update 1" in caplog.text
+
+
+def test_partial_write_preserves_evidence_and_stops_later_updates(tmp_path, monkeypatch, caplog):
+    directory = tmp_path / "distillation_profile"
+    profile = _profile(directory)
+    _record(profile, 1)
+    append = distillation_profile._append
+
+    def fail_update_summary(path, row):
+        if path.name == UPDATES_FILE and row["update_id"] == 2:
+            raise OSError("injected summary write failure")
+        append(path, row)
+
+    monkeypatch.setattr(distillation_profile, "_append", fail_update_summary)
+    with caplog.at_level(logging.ERROR):
+        _record(profile, 2)
+        before = {name: (directory / name).read_bytes() for name in (UPDATES_FILE, OBSERVATIONS_FILE)}
+        _record(profile, 3)
+    assert profile.unverified_from == 2
+    assert profile.latest_update == 2
+    assert "injected summary write failure" in caplog.text
+    assert {name: (directory / name).read_bytes() for name in before} == before
+    summaries = [json.loads(line) for line in before[UPDATES_FILE].splitlines()]
+    observations = [json.loads(line) for line in before[OBSERVATIONS_FILE].splitlines()]
+    assert [row["update_id"] for row in summaries] == [1]
+    assert [row["update_id"] for row in observations] == [1, 2]
+    with pytest.raises(ValueError, match="1 update lines and 2 observation lines"):
+        DistillationProfile.rebuild(directory)
 
 
 @pytest.mark.parametrize("fault", ["missing_row", "duplicate_row", "attempt_id"])
@@ -201,6 +281,8 @@ def test_nonpositive_baseline_leaves_its_values_undefined():
     # The run baseline still places this conversation, but its own baseline cannot divide anything.
     assert (negative.remaining_gap, negative.recovery_gap) == (None, None)
     assert negative.run_relative_gap == -1.0
+    assert profile.conversation_remaining_gap(1, 1) is None
+    assert profile.conversation_run_relative_gap(1, 1) == -1.0
     summary = profile.summary()
     assert (summary["conversations_with_baseline"], summary["conversations_with_nonpositive_baseline"]) == (1, 1)
 

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the branch-base review and authorization to repair the draft and resume execution, subject to D1/D22. |
 | 2026-11-08 | Open the documentation task; record the original request verbatim before the interview. |
 | 2026-11-08 | Record round-1 decisions and the loader-order concern with its verified answer. |
 | 2026-11-08 | Record round-2 decisions D12–D16 and the round-3 questions put with the draft documents. |
@@ -49,7 +50,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **DOCS_LANDING / AWAITING FREEZE**. No implementation or GPU action is authorized by this phase.
+- Current phase: **IMPLEMENTATION / REVIEW_REPAIRS**. Round 5 froze the documentation and authorized the independent implementation slices; the 2026-11-09 request authorizes review repairs and continued execution. D1/D22 still gate the upstream merge and training integration.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -240,3 +241,17 @@ Questions put, with recommendations (not decisions until answered):
   - N (conversation baseline; user proposed 2). Recommended: N = 8, one block, so the baseline is the conversation's whole first entry. Reason: the baseline divides every later value of that conversation, so its noise becomes a fixed error in all of them. In the earlier same-pair runs, per-update RKL varied about 20% with roughly 2,000 generated tokens (a few turns) per update (`task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`); for single turns that suggests about 50% variation (inference), so a 2-turn mean would vary about 35–40% and an 8-turn mean about 20%. The first turns of an SWE trajectory are also the most formulaic (reading the issue, listing the repository). Either value gives every conversation a baseline in its first update.
   - B (macro baseline; user proposed 5). Recommended: B = 10. Reasons: in the same earlier runs, RKL showed no visible drop over 100 updates (last-20 / first-20 mean 1.007 for A and 0.993 for B), so a longer window adds little training progress to the baseline; updates 1–5 contain only turns 1–40 of the first 32 conversations, while 10 updates cover turns 1–80, about one whole median-length conversation (median pending the audit); the trend already needs U > k = 10, so B = 10 delays only the macro remaining gap (from update 5 to 10), not the trend.
   - Inference to note: if RKL moves as little here as in those runs (different data and about 100 times more tokens per update), the remaining gap will stay near 1 and the trend near 0, mostly showing noise and turn position.
+
+## Review and execution — [Original Request / Follow-up Answer] 2026-11-09
+
+User wrote:
+
+> 当前已经初步完成的 草稿版本的 docs（spec+tickets）的落地，请你review并修复完善。以下是尚未处理部分，一同解决。完成后开始执行阶段：
+> 1. ticket 01 第 5、6 项：需要挂载 posttrain 的 CPU RJob，提交动作因安全分类器拦截未执行，按你的指示 deferred。
+> 2. ticket 02 和 03 的接入：等 agent-opd 分支的 256-turn 显存问题修完并合并（D1、D22）
+
+Asked for the review baseline, the user selected **“分支创建点 (Recommended)”**: review all changes from `20d0b3f4f24719afbb191fde5cb488e26367ed6c`, including the documents and existing implementation. The review pins its initial HEAD to `0e94c522`.
+
+This resumes the already approved in-place CPU audit and parity checks under D25; no input copy is authorized. Current execution uses the prescribed personal Python RJobBackend path and its actual tool permissions. Historical non-submission remains recorded as such. The request does not waive D1/D22 or change the experiment, baseline defaults, resource limits, or first-update acceptance.
+
+Review correction to the explanatory D32 rationale: N=8 equals the first conversation entry only when that entry contains exactly the first eight successful observations. Short blocks, overlength rejection, timeout, and bank boundaries can produce fewer or more observations. The approved definition remains the mean of the earliest N observations; the historical recommendation above is not an additional equality requirement.
