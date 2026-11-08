@@ -1,5 +1,6 @@
 """Real local process handoff to a CPU receipt stub; never native GPU/scorer PASS."""
 
+import errno
 import os
 import subprocess
 import sys
@@ -553,6 +554,125 @@ def test_real_file_drift_rejects_observer_without_failing_healthy_training(input
     assert read_json(inputs.config_path)["phase"] == "cpu-fixture-changed-after-submission"
     assert "Training integration configuration changed after submission" in caplog.text
     assert read_json(inputs.root / "trainer.terminal.json")["native_execution_succeeded"] is True
+
+
+def test_local_submitter_creates_dispatch_base_before_worker_notifications(inputs, monkeypatch):
+    release = threading.Event()
+    release.set()
+    _, workers = _local_training(inputs, monkeypatch, release)
+    backend = sys.modules["steptron.utils.stepmind_control"].RJobBackend()
+    base = Path(inputs.evaluation["dispatch"]["directory"])
+    config_before, evaluation_before = inputs.config_path.read_bytes(), inputs.configuration.read_bytes()
+    prepared, starts, waits, notifications = [], [], [], []
+    start, wait = submit_swe_opd.start_dispatch, workers.wait
+
+    def submit(resource, **kwargs):
+        prepared.append(base.is_dir())
+        notifications.append(_ready(inputs, job="previous-worker-job"))
+        return backend.submit(resource, **kwargs)
+
+    def observe(*args):
+        observer = start(*args)
+        starts.append(observer)
+        return observer
+
+    def wait_once():
+        waits.append(True)
+        return wait()
+
+    monkeypatch.setattr(
+        sys.modules["steptron.utils.stepmind_control"], "RJobBackend", lambda: SimpleNamespace(submit=submit)
+    )
+    monkeypatch.setattr(submit_swe_opd, "start_dispatch", observe)
+    workers.wait = wait_once
+    assert submit_swe_opd.main() == 0
+    assert prepared == [True], "The local submitter must create the base before worker publication can create it"
+    assert len(starts) == 1 and starts[0] is not None and waits == [True]
+    assert starts[0].training_finished.is_set() and not starts[0].thread.is_alive()
+    directory = base / inputs.job
+    for path in (base, directory, directory / "identity.lock", directory / "watcher.lock"):
+        assert path.stat().st_uid == os.getuid() and path.stat().st_gid == os.getgid()
+    assert inputs.config_path.read_bytes() == config_before and inputs.configuration.read_bytes() == evaluation_before
+    assert read_json(directory / "integration.json") == inputs.config
+    assert read_json(directory / "evaluation.json") == inputs.evaluation
+    assert set(read_json(notifications[0])) == {"point_id", "job_id", "checkpoint_dir", "configuration"}
+    assert read_json(inputs.root / "trainer.terminal.json")["native_execution_succeeded"] is True
+
+
+def test_dispatch_preparation_permission_failure_does_not_block_training(inputs, monkeypatch, caplog):
+    release = threading.Event()
+    release.set()
+    _, workers = _local_training(inputs, monkeypatch, release)
+    base = Path(inputs.evaluation["dispatch"]["directory"])
+    mkdir, waits = Path.mkdir, []
+
+    def denied(path, *args, **kwargs):
+        if path == base:
+            raise PermissionError(errno.EACCES, os.strerror(errno.EACCES), str(path))
+        return mkdir(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "mkdir", denied)
+    workers.wait = lambda: waits.append(True)
+    assert submit_swe_opd.main() == 0
+    assert len(workers.resources) == 1 and waits == [True] and not inputs.calls
+    assert "dispatch directory could not be prepared" in caplog.text
+    assert "PermissionError" in caplog.text
+    assert read_json(inputs.root / "trainer.terminal.json")["native_execution_succeeded"] is True
+
+
+def test_no_evaluation_keeps_dispatch_preparation_a_noop(inputs, monkeypatch, caplog):
+    release = threading.Event()
+    release.set()
+    _local_training(inputs, monkeypatch, release)
+    inputs.config["checkpoint"]["hook_args"].pop("swe_evaluation_configuration")
+    write_json(inputs.config_path, inputs.config)
+    before, reads = inputs.config_path.read_bytes(), []
+    read = watch.read_json
+
+    def record(path):
+        reads.append(path)
+        return read(path)
+
+    monkeypatch.setattr(watch, "read_json", record)
+    assert submit_swe_opd.main() == 0 and not reads and not inputs.calls
+    assert not Path(inputs.evaluation["dispatch"]["directory"]).exists()
+    assert inputs.config_path.read_bytes() == before
+    assert not caplog.records
+
+
+@pytest.mark.parametrize("fault", ["outside", "mount", "poll", "worker"])
+def test_dispatch_preparation_reuses_local_validation_without_creating_paths(inputs, monkeypatch, caplog, fault):
+    if fault == "outside":
+        inputs.evaluation["dispatch"]["directory"] = str(inputs.root.parent / "outside-current-mount")
+    elif fault == "mount":
+        inputs.evaluation["dispatch"]["local_mount"] = str(inputs.root.parent)
+    elif fault == "poll":
+        inputs.evaluation["dispatch"]["poll_seconds"] = 0
+    else:
+        monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "cpu-worker-context")
+    write_json(inputs.configuration, inputs.evaluation)
+    before = inputs.configuration.read_bytes()
+    watch.prepare_dispatch(inputs.config_path, inputs.config)
+    assert not Path(inputs.evaluation["dispatch"]["directory"]).exists()
+    assert inputs.configuration.read_bytes() == before
+    assert "dispatch directory could not be prepared" in caplog.text
+    assert "ValueError" in caplog.text
+
+
+@pytest.mark.parametrize("mode", ["dry-run", "denied"])
+def test_dispatch_preparation_does_not_run_without_native_submission(inputs, monkeypatch, mode):
+    release = threading.Event()
+    release.set()
+    _, workers = _local_training(inputs, monkeypatch, release)
+    if mode == "dry-run":
+        monkeypatch.setattr(sys, "argv", [*sys.argv, "--dry-run"])
+    else:
+        monkeypatch.setattr(submit_swe_opd, "policy_admission_snapshot", lambda *args, **kwargs: {"admitted": False})
+    waits = []
+    workers.wait = lambda: waits.append(True)
+    assert submit_swe_opd.main() == (0 if mode == "dry-run" else 2)
+    assert not workers.resources and not waits
+    assert not Path(inputs.evaluation["dispatch"]["directory"]).exists()
 
 
 def test_observer_start_failure_does_not_fail_healthy_local_training(inputs, monkeypatch):

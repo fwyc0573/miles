@@ -19,7 +19,7 @@ from pathlib import Path
 
 from tests.manual.agent_opd.rjob_budget import policy_admission_snapshot
 from tests.manual.agent_opd.submit_qwen35 import _task_specs, _worker_command
-from tests.manual.agent_opd.watch_swe_evaluations import finish_dispatch, start_dispatch
+from tests.manual.agent_opd.watch_swe_evaluations import finish_dispatch, prepare_dispatch, start_dispatch
 
 
 def _validate_paths(config: dict, config_path: Path) -> None:
@@ -99,6 +99,7 @@ def main() -> int:
             receipt.write("\n")
             print("SWE_ADMISSION_WAIT", json.dumps(snapshot), flush=True)
             return 2
+        prepare_dispatch(path, config)
         os.environ["EXP_ID"] = f"qwen35-swe-{args.pair.lower()}-{args.protocol}-{config['phase']}"
         mount = f"{socket.gethostbyname(socket.gethostname())}:{Path.cwd()}:{config['local_mount']}"
         # Native resource iteration appends mounts; it must not mutate the frozen input.

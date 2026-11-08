@@ -1,7 +1,8 @@
 """Dispatch trainer-enqueued SWE points from the local mounted workspace only.
 
-The local training submitter starts one observer after obtaining the actual job
-name. Its native workers.wait() return or failure signals drain; admitted evaluation
+The local training submitter prepares the dispatch base before native submission
+and starts one observer after obtaining the actual job name. Its native
+workers.wait() return or failure signals drain; admitted evaluation
 submitter subprocesses remain alive until they exit. Standalone observation uses
 the same dispatcher and an actual training terminal receipt:
 
@@ -343,6 +344,24 @@ class EvaluationWatcher:
 class _LocalObserver:
     thread: threading.Thread
     training_finished: threading.Event
+
+
+def prepare_dispatch(config_path, config):
+    """Create the base locally before a worker can create it; failures are soft gates."""
+    try:
+        configuration = config["checkpoint"]["hook_args"].get("swe_evaluation_configuration")
+        if configuration is None:
+            return
+        if "KUBEBRAIN_RJOB_NAME" in os.environ:
+            raise ValueError("Evaluation dispatch must run locally, never on an RJob worker")
+        evaluation = read_json(configuration)
+        mount, directory, _ = validate_dispatch(configuration, evaluation)
+        if Path(config["local_mount"]).resolve() != mount or Path.cwd().resolve() != mount:
+            raise ValueError("Evaluation observer must run from the integration local_mount")
+        _local_path(config_path, mount)
+        directory.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        logger.exception("SWE evaluation dispatch directory could not be prepared; training continues")
 
 
 def start_dispatch(config_path, config, job_id):
