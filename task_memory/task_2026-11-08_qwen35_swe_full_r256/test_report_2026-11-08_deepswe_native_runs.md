@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Verify actual worker devices, native updates and baseline readers; record the dispatch snapshot failure as an unresolved isolation gate. |
 | 2026-11-08 | Record three local native submissions, exact platform resource readback and pending runtime criteria. |
 
 # DeepSWE native training and asynchronous qualification
@@ -53,4 +54,22 @@ Before the async launch, the existing `_worker_environment(config)` verifies pri
 4. Per-rank approved Megatron schedule identity and repaired lifetime/allocator observations. The user-approved identical-bank before/after comparison must retain its controlled-input identity; if further captured replay is required, use only a newly sealed DeepSWE bank through the existing seam,never the historical GLM bank. Historical failed-allocation snapshots are not peak measurements. Observer failures are soft and mark evidence unverified,never terminate healthy training.
 5. Async HF2 evaluator rejection leaves its queue/HF intact and does not prevent update3/HF3. HF3 separately admits2 GPUs, reloads actual weights, executes the fixed native attempt and cleans all readers. Qualification ledgers remain400-slot/null and their HF weights are retained.
 
-No runtime values, optimizer/HF outcomes or native SWE scores have been observed by this initial admission report. Formal04–07 remain gated on02/03 acceptance; original baseline08 continues independently.
+## First business observation
+
+The six `student-node.json` / `teacher-node-0.json` files under the two shared evidence roots confirm8/2 actual NVIDIA H200 devices per case, the pinned image and the declared student/teacher source paths. The initial diagnostic incorrectly expected an old `cuda` field and failed with KeyError; inspecting the actual `gpu_devices` schema and validating all six receipts passed without modifying any workload.
+
+The read-only snapshot `evidence/deepswe-native-business-snapshot-20261108.json`, observed at14:23:53UTC, scopes SSH reads to the three declared personal cloud run directories and the formal `evaluations/points/original4b` directory. It records:
+
+- Both256-turn cases: real generation and teacher-stage files exist; no successful update or capacity verdict yet.
+- Eight-turn A/r256: native successful-update receipts1/2, eight repaired GPU observer files and a newly created `hf/step_1` directory. A directory alone is not a completed/publication-identity check. The second visit has a fresh current-student score and different retained-token count, but independent tensor validation is pending.
+- Baseline: the formal point and all six readers are RUNNING (four native children, evaluator and server); server identity file exists. First start1794146471.7061195 and absolute deadline1794405671.7061195 establish72h. No summary was available; no formal score is inferred.
+
+The async observer failed before watcher construction with `Training integration configuration changed after submission`; native training remained healthy. CPU reproduction showed the file digest unchanged and an in-memory `mounts` change during submission. Therefore HF2 rejection/HF3 evaluator isolation is UNVERIFIED, not PASS. The cause-specific fix and persistent regression are being prepared in `test_report_2026-11-08_dispatch_snapshot.md`; no training cancellation or evaluator retry occurred.
+
+After the eight-turn native launcher completed, primary downloaded12 selected native tensors, five training JSONLs and eight observation JSONLs (6,457,928 /22,006,630 /39,310 bytes) to `/data/ycfeng/tmp/qwen35-swe-deepswe-native-audit/exp-1108-221044-294843`. The existing independent auditor owns the mathematical verdict; neither exit0 nor dump presence is substituted for it. Raw snapshot and download commands are retained in the session trace; cloud paths map `/mnt/codesign-exp/ycfeng` to `/mnt/ws-jfs/ycfeng` on `shai-ycfeng`.
+
+The first independent audit verified RKL/TIS but could not reconstruct native PPO without `policy_loss_debug`; this was a missing download, not an observed training failure. Primary then fetched12 existing native policy-loss files (400212 bytes), and copied `training/updates.jsonl` byte-for-byte to the auditor's expected root path. No producer/core/auditor code changed. The same bounded auditor is rerunning; its in-place report owns the final numerical verdict.
+
+CPU snapshot repair is now verified: the SDK first mutates the borrowed list during resource iteration, while the JSON file stays unchanged. A fresh mounts list at the ResourceConfig boundary solves the alias without weakening true-drift rejection. Forty persistent dispatch tests and three real-resource cases pass. The original profile is unchanged, and the existing qualification entrypoint will be explicitly rerun with a new training receipt; the old job's preserved HF2/HF3 are not silently resubmitted.
+
+Formal04–07 remain gated on02/03 acceptance; original baseline08 continues independently.

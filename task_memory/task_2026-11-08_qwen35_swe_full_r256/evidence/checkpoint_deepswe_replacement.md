@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Check actual worker/native/baseline progress and correct stale02/03 input statuses; isolate the dispatch snapshot repair. |
 | 2026-11-08 | Verify32 task GPU commitments after three new-data admissions; keep runtime and optional review independent. |
 | 2026-11-08 | Reaccept01 after actual formal-profile recheck; route directly to parallel02/03 new-data GPU acceptance. |
 | 2026-11-08 | Accept native source/factory delivery and four-cell smoke wiring; capacity and asynchronous dry-runs pass while formal-profile parsing finishes. |
@@ -17,50 +18,50 @@
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | 01 输入 | PASS | 全源visual/普通factory与四组formal配置通过；200/256/50合同及CPU/GPU验证边界明确。 |
-| 02 训练与度量 | TODO | 新数据两个256容量作业已准入；实际CUDA、scoring、optimizer及dump待验收。 |
-| 03 HF/评测 | TODO | 新数据异步qualification训练作业已准入；实际HF2失败/HF3评分隔离待验收。 |
+| 02 训练与度量 | TODO | 三组worker实际8+2 H200已核对；八turn运行有成功更新和12份dump待独立审计，256容量仍进行中。 |
+| 03 HF/评测 | TODO | observer在构造watcher前失败；健康训练继续，CPU复现mounts变化，HF2/HF3隔离未验收。 |
 | 04 A/full | BLOCKED | 等待02/03及新源验收。 |
 | 05 A/r256 | BLOCKED | 等待02/03及新源验收。 |
 | 06 B/full | BLOCKED | 等待02/03及新源验收。 |
 | 07 B/r256 | BLOCKED | 等待02/03及新源验收。 |
-| 08 原始学生基线 | TODO | 专属条件已验收；exp-1108-215214-032806以2张H200准入，400结果尚未完成。 |
+| 08 原始学生基线 | TODO | 实际server/evaluator和四个native child RUNNING；原72h时钟已开始，400结果尚未完成。 |
 | 09 比较归档 | BLOCKED | 无正式cell或完整benchmark结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上一native输入checkpoint至01正式profile重验完成｜**当前前沿：** 02/03并行新数据GPU验收；08实际运行。
+**检测窗口：** 01重验/三组新数据准入checkpoint至今｜**当前前沿：** 02容量与独立tensor审计、03 snapshot原因修复及原生隔离、08完整评测。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 来源复制直接服务01；已有核验程序承担parity/overlap，未新增采样框架。 |
-| D2 细节反复重试 | CLEAR | 容量red/green检验已记录的引用生命周期假设；green为外部停止，未盲目重复。 |
-| D3 支线问题修补 | CLEAR | 数据切换由用户明确要求；容量和异步隔离均有ticket归属。 |
-| D4 可并行任务停滞 | CLEAR | 08保持Running；02两个容量和03异步训练均已准入，optional源代码review独立进行。 |
-| D5 超范围镀金 | CLEAR | 01重新打开来自D11，非无要求重做；数学与评测源码证据保留。 |
-| D6 分析空转 | CLEAR | 已落实需求/spec/tickets更新，且8源16,559,540,463字节完成实际校验。 |
-| D7 路线违背 | CLEAR | 未启动旧数据正式cell；旧输入配置和结果保留实际来源。 |
+| D1 工具打磨 | CLEAR | 7.49/7.52s CPU复现直接服务03真实启动边界；既有tensor审计程序服务02，无新harness。 |
+| D2 细节反复重试 | CLEAR | 只复现同一错误后记录三个可证伪假设；尚无改变参数的GPU重试。 |
+| D3 支线问题修补 | CLEAR | mounts snapshot错误阻止03的HF2/HF3验证，已有03集成criteria归属。 |
+| D4 可并行任务停滞 | CLEAR | 02容量/审计、03原因验证、08四个native child均独立推进；未取消健康训练。 |
+| D5 超范围镀金 | CLEAR | 只修真实SDK可变对象边界；未增加重试、协议选项或改变科学参数。 |
+| D6 分析空转 | CLEAR | 实际GPU/node、原生更新和reader时钟已有新证据，修复已分配并保留独立运行。 |
+| D7 路线违背 | CLEAR | 输入已验收后才进入新数据GPU运行；04–07仍未启动，旧GLM结果未当新数据容量证明。 |
 
-**文档检查：** S5：progress pending行曾把02容量/D11输入/03异步集成误列为04–08统一前置条件，与08第14行的能力限定冲突；独立readiness审查定位后已修正。S1–S4/S6未发现明显缺陷，保留原依赖边。
-**归因：** 无执行偏离；S5进度条件扩大已修正。
+**文档检查：** S5：02第17行、03第16行仍称D11重新打开01，与已提交2a14093c及plan的01完成状态矛盾；已直接改为输入前置完成、运行验收仍进行中。S1–S4/S6无新缺陷；既有08能力限定继续有效。
+**归因：** 无执行偏离；S5状态滞后已修正。
 
 ## 3. 纠正建议
 
-**分支：** A：已落实前次文档纠正；当前spec/tickets合理，无需新决策。
+**分支：** B：tickets存在状态滞后，先更新记录，不改变scope或验收条件。
 
-**前次文档纠正（已执行）：**
-1. progress pending行：仅04–07等待完整02/03；08按既有能力限定执行（可直接执行，已落实）。
-2. plan/08/review：记录限定验收，03仍in-progress；保留原始模型保护、400分母与原72h规则（可直接执行，已落实）。
+**文档更新（先执行，已完成）：**
+1. tickets02/03状态行：01输入已重验通过，保留两票in-progress及实际运行门槛（可直接执行）。
+2. progress和native test report：记录worker、更新、reader时钟和observer失败；初始32卡不是后续实时用卡值（可直接执行）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 已完成01：200/256/50正式profile四cell解析和真实输入绑定 → 同一已验证输入契约可被实际运行消费。
-2. 并行：08保持本机launcher运行并记录真实400账本；02/03使用已通过的容量与异步配置执行GPU验收。
-3. 01通过后执行新源native负载与异步隔离；达到02/03验收后启动正式cell，08无需等待它们。
+1. 03：CPU验证首个mounts变化点并最小修复，不放宽文件漂移检查 → 完成标志：原生HF2失败/HF3独立评测且健康更新继续。
+2. 并行02：复用既有审计检查12份实际dump，验收两个256负载及同bank引用生命周期对照 → 完成标志：02所有native容量/数值条件通过。
+3. 并行08：继续真实400账本/reader/截止时间验证；04–07只在02/03通过后进入正式训练。
 
 ## 4. 最值得关注的 3 点
 
-1. 共享baseline已准入2张H200，但尚无正式结果；与单题qualification严格分开。
-2. 完整native receipt和普通factory已核验并提交2e676474；formal解析由parent重验通过后01整票标done，不将CPU结论扩大为GPU容量PASS。
-3. 基线和三个新native作业共承诺32张不可抢占H200；GPU业务结果尚无PASS，02/03未验收、正式04–07未启动。
+1. SDK提交期间的mounts对象变化让observer未启动，不能把训练正常退出称为HF2/HF3隔离通过。
+2. 256容量仍运行；八turn新数据已有实际tensor和GPU观察记录，但其独立审计不能替代256容量。
+3. baseline实际四个native child运行且72h时钟固定；无需等02/03，也没有可报告的完整score。

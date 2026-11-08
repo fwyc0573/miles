@@ -1,0 +1,436 @@
+{
+  "observed_at": 1794147833.6539183,
+  "training": [
+    {
+      "job": "exp-1108-221043-570148",
+      "run_exists": true,
+      "local_cloud_run": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-smoke/r256/student/A/exp-1108-221043-570148",
+      "training_files": [
+        "bank_0.jsonl",
+        "teacher_stages.jsonl"
+      ],
+      "train_data_files": [],
+      "logs": [
+        {
+          "path": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-smoke/r256/student/A/exp-1108-221043-570148.log",
+          "bytes": 910883,
+          "selected_tail": [
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"e65af6f8185e46f781aa52a39ebcd7c3\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:61\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 86, \"sample_group_index\": 86, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147648.757711, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147738.888619, \"elapsed_secs\": 90.130925343954, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 73598, \"abs_end\": 73662}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 73598}], \"output_start\": 73598, \"prompt_tokens\": 73598}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"b6a9bc6e2f90464d80371619ce5912b5\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:8\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 2, \"sample_group_index\": 2, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147632.5393665, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147739.4752185, \"elapsed_secs\": 106.93586592399515, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 12808, \"abs_end\": 12917}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 12808}], \"output_start\": 12808, \"prompt_tokens\": 12808}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"86083584ec7b40188fecceac4f8a0280\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:14\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 4, \"sample_group_index\": 4, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147632.609303, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147747.1554701, \"elapsed_secs\": 114.54618150601164, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 19501, \"abs_end\": 19708}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 19501}], \"output_start\": 19501, \"prompt_tokens\": 19501}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"c674dde48ba3446c9a190312adac01d9\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:16\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 5, \"sample_group_index\": 5, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147632.6627817, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147751.9087768, \"elapsed_secs\": 119.24600721907336, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 20792, \"abs_end\": 20920}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 20792}], \"output_start\": 20792, \"prompt_tokens\": 20792}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"dc7161944cb14d3bb08872c5b781830f\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:47\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 79, \"sample_group_index\": 79, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147647.5343018, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147752.7149203, \"elapsed_secs\": 105.1806351019768, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 60014, \"abs_end\": 60220}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 60014}], \"output_start\": 60014, \"prompt_tokens\": 60014}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"9e382a041d2b4f559a34bd6ff038b323\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:102\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 46, \"sample_group_index\": 46, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147641.7612314, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147757.3130665, \"elapsed_secs\": 115.55185664002784, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 117879, \"abs_end\": 118214}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 117879}], \"output_start\": 117879, \"prompt_tokens\": 117879}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"b4fafd8752234c85b10bd102e5393632\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:2\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 59, \"sample_group_index\": 59, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.245925, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147759.6879253, \"elapsed_secs\": 113.44201861310285, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 2896, \"abs_end\": 3097}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 2896}], \"output_start\": 2896, \"prompt_tokens\": 2896}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"050bde89487e4cfeb79781f60fe2e76e\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:50\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 20, \"sample_group_index\": 20, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147635.0585275, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147763.3510091, \"elapsed_secs\": 128.2924986348953, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 78856, \"abs_end\": 79012}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 78856}], \"output_start\": 78856, \"prompt_tokens\": 78856}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"185ebec85f6b42a49624e0b1ea51ac0d\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:110\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 50, \"sample_group_index\": 50, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147643.132748, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147766.6322517, \"elapsed_secs\": 123.49952430394478, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 124900, \"abs_end\": 125206}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 124900}], \"output_start\": 124900, \"prompt_tokens\": 124900}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"7b8d45ae185642fcbb52710074a67726\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2:48\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2\", \"sample_index\": 168, \"sample_group_index\": 168, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147669.231165, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147767.3709517, \"elapsed_secs\": 98.13980570004787, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 69413, \"abs_end\": 69495}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 69413}], \"output_start\": 69413, \"prompt_tokens\": 69413}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"5860cc5a81404d9a896073247bfd283a\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:18\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 6, \"sample_group_index\": 6, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147632.7180376, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147774.1454523, \"elapsed_secs\": 141.42742913309485, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 21771, \"abs_end\": 22061}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 21771}], \"output_start\": 21771, \"prompt_tokens\": 21771}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"b27009a1898840ef8b3b6cc9b9648664\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:20\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 7, \"sample_group_index\": 7, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147632.7759655, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147779.382026, \"elapsed_secs\": 146.6060769140022, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 35290, \"abs_end\": 35424}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 35290}], \"output_start\": 35290, \"prompt_tokens\": 35290}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"7f564bb987e142a49eab6a488c1bec79\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2:61\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2\", \"sample_index\": 174, \"sample_group_index\": 174, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147670.6086938, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147781.152719, \"elapsed_secs\": 110.54404237901326, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 74469, \"abs_end\": 75585}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 74469}], \"output_start\": 74469, \"prompt_tokens\": 74469}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"b71447dab40b455892af5aa114a7e5d2\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:52\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 21, \"sample_group_index\": 21, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147635.2738097, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147782.7820382, \"elapsed_secs\": 147.50824144203216, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 79308, \"abs_end\": 79377}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 79308}], \"output_start\": 79308, \"prompt_tokens\": 79308}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"90bcabff283346858bfeab3cbfa9a82a\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:108\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 49, \"sample_group_index\": 49, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147642.8064947, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147785.5555692, \"elapsed_secs\": 142.7490912739886, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 123401, \"abs_end\": 123688}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 123401}], \"output_start\": 123401, \"prompt_tokens\": 123401}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"3119adbd716b427eac3eea3cd21bbd15\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:5\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 60, \"sample_group_index\": 60, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.2566328, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147785.755818, \"elapsed_secs\": 139.49919978692196, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 5764, \"abs_end\": 5841}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 5764}], \"output_start\": 5764, \"prompt_tokens\": 5764}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"d84d38c0210e479899a792d91937c60b\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:7\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 61, \"sample_group_index\": 61, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.2839944, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147787.9055073, \"elapsed_secs\": 141.62152828706894, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 8291, \"abs_end\": 8346}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 8291}], \"output_start\": 8291, \"prompt_tokens\": 8291}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"106d99fc924a47818a8aa84134ec7b17\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:10\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 62, \"sample_group_index\": 62, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.308677, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147796.5018516, \"elapsed_secs\": 150.1931891789427, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 9087, \"abs_end\": 9168}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 9087}], \"output_start\": 9087, \"prompt_tokens\": 9087}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"352624ace8d44a69888abe1162f08efc\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:12\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 63, \"sample_group_index\": 63, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.3345566, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147802.7199929, \"elapsed_secs\": 156.38544950890355, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 10682, \"abs_end\": 10741}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 10682}], \"output_start\": 10682, \"prompt_tokens\": 10682}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"a744f214e68544c385509545d5e80911\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2:109\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2\", \"sample_index\": 198, \"sample_group_index\": 198, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147677.4564672, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147803.4867833, \"elapsed_secs\": 126.03033052699175, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 104242, \"abs_end\": 104791}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 104242}], \"output_start\": 104242, \"prompt_tokens\": 104242}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"6be70c3886ab4a5fb637b58b4df3f3a3\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:14\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 64, \"sample_group_index\": 64, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.36467, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147806.8967752, \"elapsed_secs\": 160.53211872302927, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 11855, \"abs_end\": 11913}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 11855}], \"output_start\": 11855, \"prompt_tokens\": 11855}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"c281ffd359244bae95a8477bfa58abc5\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:18\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 65, \"sample_group_index\": 65, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.3975549, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147809.1088352, \"elapsed_secs\": 162.71129945397843, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 18519, \"abs_end\": 18575}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 18519}], \"output_start\": 18519, \"prompt_tokens\": 18519}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"bb7393a71fe945fa8e3bdb62b0e5a241\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:64\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 27, \"sample_group_index\": 27, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147636.614675, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147812.273288, \"elapsed_secs\": 175.65863051998895, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 86628, \"abs_end\": 87737}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 86628}], \"output_start\": 86628, \"prompt_tokens\": 86628}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"76202cbeb3544798ae6e07bbd73ccfcc\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1:20\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:1\", \"sample_index\": 66, \"sample_group_index\": 66, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147646.4486132, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147817.2912858, \"elapsed_secs\": 170.84268897294533, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 19219, \"abs_end\": 19331}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 19219}], \"output_start\": 19219, \"prompt_tokens\": 19219}]}",
+            "\u001b[36m(RolloutExecutor pid=7249)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"de01c8f5e22c48f3bd5427abd2143a02\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0:106\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:0\", \"sample_index\": 48, \"sample_group_index\": 48, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147642.479041, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147821.01074, \"elapsed_secs\": 178.53171983594075, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 122398, \"abs_end\": 123304}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 122398}], \"output_start\": 122398, \"prompt_tokens\": 122398}]}"
+          ]
+        }
+      ],
+      "hf_directories": [],
+      "scoring_observation_files": []
+    },
+    {
+      "job": "exp-1108-221042-909448",
+      "run_exists": true,
+      "local_cloud_run": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-smoke/full/student/B/exp-1108-221042-909448",
+      "training_files": [
+        "bank_0.jsonl",
+        "teacher_stages.jsonl"
+      ],
+      "train_data_files": [],
+      "logs": [
+        {
+          "path": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-smoke/full/student/B/exp-1108-221042-909448.log",
+          "bytes": 867178,
+          "selected_tail": [
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"108635c9e1464d239313c373e07890e3\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:39\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 236, \"sample_group_index\": 236, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147789.8560126, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"8bf4b5d3b70d4b8a843986065e11a2aa\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:41\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 237, \"sample_group_index\": 237, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147789.9735153, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"afb2c62dba144df09d7a75da070e9635\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:43\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 238, \"sample_group_index\": 238, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.0909996, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"741aff31547a4d45a306049a52465b8b\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:46\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 239, \"sample_group_index\": 239, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.2132099, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"f3f9291e76f642fc9d7ecbc67910b013\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:49\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 240, \"sample_group_index\": 240, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.3418357, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"a801b7009f6d4c22a86bc492f415c944\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:51\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 241, \"sample_group_index\": 241, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.4921582, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"a09aa8efded342c8bf27cf694590fb54\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:53\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 242, \"sample_group_index\": 242, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.6482484, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"47d39c7b4c1b4b23bea81ee23149ac9c\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:55\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 243, \"sample_group_index\": 243, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.8210285, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"66b70c4027bb4c6faec0f3f5be24aefe\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:57\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 244, \"sample_group_index\": 244, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147790.9926894, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"41fbd7e44e6245cd857564703545995c\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:60\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 245, \"sample_group_index\": 245, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147791.2121673, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"966e526fe2514187bbbbf9ba70bc3f90\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:63\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 246, \"sample_group_index\": 246, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147791.4366102, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"16e105b9ba8a4eabbbc79728975dee56\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:65\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 247, \"sample_group_index\": 247, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147791.6604338, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"11eda6c84ce849d7b12c07aa17d5056c\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:67\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 248, \"sample_group_index\": 248, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147791.8932536, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"d2738133a9184be88a32a7521eaf1013\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:69\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 249, \"sample_group_index\": 249, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147792.1276658, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"09507efb8dde4e6d81b5188cbf11b001\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:72\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 250, \"sample_group_index\": 250, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147792.373995, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m  {\"attempt_id\": \"49b620348c314b75a6d563a348e4bfec\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:74\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 251, \"sample_group_index\": 251, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147792.6207855, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"51dd9eae911a4e70917952489b1a00d9\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:76\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 252, \"sample_group_index\": 252, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147792.873035, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"d6dec74dd2684eafb248541ff53dfd42\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:78\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 253, \"sample_group_index\": 253, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147793.129913, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"fbd9ad9ead8f4b01a9f5598d894c6740\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:80\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 254, \"sample_group_index\": 254, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147793.3868108, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"5d7478c75c564dd3b1e9191d1370ec5a\", \"stage\": \"generate\", \"event\": \"start\", \"status\": \"started\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:82\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 255, \"sample_group_index\": 255, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147793.6349976, \"sample_status\": \"pending\", \"error_type\": null}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"36b4ba10353b4341bc14249bec14de3d\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2:8\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2\", \"sample_index\": 151, \"sample_group_index\": 151, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147769.046898, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147813.2015734, \"elapsed_secs\": 44.154693100601435, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 10147, \"abs_end\": 10210}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 10147}], \"output_start\": 10147, \"prompt_tokens\": 10147}]}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m  {\"attempt_id\": \"a4df5c735513430e8e267203b26b1090\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2:73\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:2\", \"sample_index\": 180, \"sample_group_index\": 180, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147774.112579, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147814.5751464, \"elapsed_secs\": 40.46258718520403, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 84247, \"abs_end\": 84342}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 84247}], \"output_start\": 84247, \"prompt_tokens\": 84247}]}",
+            "\u001b[36m(RolloutExecutor pid=7147)\u001b[0m QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"08ce1044526843b0a47cc839bd5d4bff\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:11\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 227, \"sample_group_index\": 227, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794147789.1998606, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794147824.9432456, \"elapsed_secs\": 35.74340024590492, \"weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 9938, \"abs_end\": 10059}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 9938}], \"output_start\": 9938, \"prompt_tokens\": 9938}]}"
+          ]
+        }
+      ],
+      "hf_directories": [],
+      "scoring_observation_files": []
+    },
+    {
+      "job": "exp-1108-221044-294843",
+      "run_exists": true,
+      "local_cloud_run": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/integration/r256/student/A/exp-1108-221044-294843",
+      "training_files": [
+        "bank_0.jsonl",
+        "bank_1.jsonl",
+        "optimizer_attempts.jsonl",
+        "teacher_stages.jsonl",
+        "updates.jsonl"
+      ],
+      "train_data_files": [
+        "0_0.pt",
+        "0_2.pt",
+        "0_4.pt",
+        "0_6.pt",
+        "1_0.pt",
+        "1_2.pt",
+        "1_4.pt",
+        "1_6.pt"
+      ],
+      "logs": [
+        {
+          "path": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/integration/r256/student/A/exp-1108-221044-294843.log",
+          "bytes": 579930,
+          "selected_tail": [
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:22:46.777 actor_cell00000_rank00000] log_utils.py:575 - step 0: {'train/loss': 0.08012348651480856, 'train/pg_loss': 0.08012348651480856, 'train/entropy_loss': 0.0, 'train/pg_clipfrac': 0.0, 'train/ppo_kl': 0.0, 'train/ess_ratio': 1.0, 'train/train_rollout_logprob_abs_diff': 0.009614658436738746, 'train/train_rollout_kl': 0.00039465597552977685, 'train/ois': 1.0, 'train/swe_tis_retained': 0.7153780798640612, 'train/opd_reverse_kl': 0.08012348651480856, 'train/grad_norm': 10.638933181762695, 'train/lr-pg_0': 2e-06, 'train/lr-pg_1': 2e-06, 'rollout/step': 0, 'train/step': 0}",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:22:46.777 actor_cell00000_rank00000] model.py:932 - step 0: {'train/loss': 0.08012348651480856, 'train/pg_loss': 0.08012348651480856, 'train/entropy_loss': 0.0, 'train/pg_clipfrac': 0.0, 'train/ppo_kl': 0.0, 'train/ess_ratio': 1.0, 'train/train_rollout_logprob_abs_diff': 0.009614658436738746, 'train/train_rollout_kl': 0.00039465597552977685, 'train/ois': 1.0, 'train/swe_tis_retained': 0.7153780798640612, 'train/opd_reverse_kl': 0.08012348651480856, 'train/grad_norm': 10.638933181762695, 'train/lr-pg_0': 2e-06, 'train/lr-pg_1': 2e-06, 'rollout/step': 0, 'train/step': 0}",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:46.961 trainer_controller_actor] logger.py:85 - audit op=event event=TrainGroupStepEndEvent type=train_group_step_end rollout_id=0 attempt=0 role=actor cell_outcomes=\"{\\\"0\\\":[\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\"]}\" cell_incarnations=\"{\\\"trainer-engine-actor-00000\\\":\\\"pseudo-hash-1\\\"}\"",
+            "\u001b[36m(MegatronTrainRayActor pid=7852)\u001b[0m /root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)\u001b[32m [repeated 7x across cluster]\u001b[0m",
+            "\u001b[36m(MegatronTrainRayActor pid=7861)\u001b[0m [2026-11-08 14:22:46.696 actor_cell00000_rank00005] model.py:714 - train op=train_step rollout=0 step=0 attempt=0 outcome=NORMAL valid_step=true\u001b[32m [repeated 7x across cluster]\u001b[0m",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:22:56.200 actor_cell00000_rank00000] log_utils.py:456 - [CPU memory] after_offload_train: 81.98 GB (rollout_id=0, step=0)",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:56.385 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout=0",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:57.515 trainer_controller_actor] logger.py:85 - audit op=event event=WeightUpdateResultEvent type=weight_update_result debug_weight_update_id=514aac05f97b4315af3164e0511e570c debug_trainer_load_state_timestamp=1794147390.263266 rollout_id=0 candidate_version=1 published_version=1 snapshot_cell_id_to_hashes=\"{\\\"inference-engine-all-0-0-00000\\\":\\\"pseudo-hash-1\\\",\\\"inference-engine-all-0-0-00001\\\":\\\"pseudo-hash-1\\\",\\\"inference-engine-all-0-0-00002\\\":\\\"pseudo-hash-1\\\",\\\"inference-engine-all-0-0-00003\\\":\\\"pseudo-hash-1\\\"}\" updated_cell_ids=inference-engine-all-0-0-00000,inference-engine-all-0-0-00001,inference-engine-all-0-0-00002,inference-engine-all-0-0-00003 failed_cell_ids=",
+            "[2026-11-08 14:22:57.619 main] logger.py:85 - audit op=event event=InferenceEngineWeightChecksumEvent rollout_id=0 trainer_model_id= weight_version=1 debug_trainer_load_state_timestamp=1794147390.263266 debug_weight_update_id=514aac05f97b4315af3164e0511e570c type=inference_engine_weight_checksum engine_snapshots=\"<list len=4>\"",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.729 rollout_executor] rollout_data_conversion.py:29 - Collected 8 samples from rollout to train with dynamic global batch size",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.729 rollout_executor] rollout_data_conversion.py:45 - Final collected 8 samples from rollout to train",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.729 rollout_executor] debug_data.py:124 - Save debug rollout data to /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/integration/r256/student/A/exp-1108-221044-294843/rollout_data/1.pt",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.732 rollout_executor] debug_data.py:96 - Save trajectory dump to /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/integration/r256/student/A/exp-1108-221044-294843/trajectory/1.jsonl",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.906 rollout_executor] metrics.py:99 - perf 1: {'rollout/num_training_samples': 8, 'rollout/episode_raw_reward': 0.0, 'rollout/episode_response_length/mean': 147.125, 'rollout/episode_response_length/median': 131.0, 'rollout/episode_response_length/max': 278, 'rollout/episode_response_length/min': 60, 'rollout/episode_total_response_length/mean': 147.125, 'rollout/response_len/mean': 147.125, 'rollout/response_len/median': 131.0, 'rollout/response_len/max': 278, 'rollout/response_len/min': 60, 'rollout/zero_std/count_0.0': 8, 'rollout/zero_std/all_zero_percentage': 1.0, 'rollout/zero_std/all_one_percentage': 0.0, 'rollout/zero_std/percentage': 1.0, 'rollout/prefix_cache_hit_rate': 0.6419458686061762, 'rollout/avg_cached_tokens_per_sample': 10768.0, 'rollout/repetition_frac': 0.0, 'rollout/truncated_ratio': 0.0, 'rollout/weight_version/mean': 0.0, 'rollout/weight_version/median': 0.0, 'rollout/weight_version/max': 0, 'rollout/weight_version/min': 0, 'rollout/weight_version/mixed_version_ratio': 0.0, 'rollout/weight_version/prefill_mean': 0.0, 'rollout/weight_version/prefill_median': 0.0, 'rollout/weight_version/prefill_max': 0, 'rollout/weight_version/prefill_min': 0, 'rollout/weight_version/prefill_mixed_version_ratio': 0.0, 'rollout/weight_version/prefill_stale_token_ratio': 0.0, 'rollout/weight_version/prefill_lag_max': 0, 'perf/rollout_time': 0.20254230499267578, 'perf/tokens_per_gpu_per_sec': 726.391456862902, 'perf/longest_sample_tokens_per_sec': 1372.55276131104, 'perf/effective_tokens_per_gpu_per_sec': 726.391456862902, 'perf/longest_effective_sample_tokens_per_sec': 1372.55276131104}",
+            "\u001b[36m(RolloutExecutor pid=7173)\u001b[0m [2026-11-08 14:22:57.992 rollout_executor] train_data_conversion.py:448 - Rollout-side DP schedule: num_samples=8, num_rollouts=[8], num_microbatches=[1]",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:58.677 trainer_controller_actor] group.py:204 - ft op=train phase=start rollout=1 attempt=0",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:58.677 trainer_controller_actor] group.py:689 - ft op=refresh phase=start rollout=1 alive=0 healing= all_states=\"(0, 'StateAllocatedAlive')\" quorum=0",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:22:58.678 trainer_controller_actor] group.py:712 - ft op=refresh phase=decision rollout=1 needs_reconfigure=false reason=alive_config_unchanged,no_healing quorum=0",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:23:04.997 actor_cell00000_rank00000] log_utils.py:125 - rollout 1: {'rollout/response_lengths': 147.125, 'rollout/rewards': 0.0, 'rollout/truncated': 0.0, 'rollout/rollout_log_probs': -0.5745445946231484, 'rollout/teacher_log_probs': -0.6881019519641995, 'rollout/raw_reward': 0.0, 'rollout/total_lengths': 16921.125, 'rollout/log_probs': -0.5937888026237488, 'rollout/opd_reverse_kl': 0.09431314776884392, 'rollout/advantages': -0.09431314776884392, 'rollout/returns': 0.0}",
+            "\u001b[36m(MegatronTrainRayActor pid=7851)\u001b[0m [2026-11-08 14:23:08.594 actor_cell00000_rank00006] model.py:714 - train op=train_step rollout=1 step=0 attempt=0 outcome=NORMAL valid_step=true",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m SWE_NATIVE_UPDATE {\"cell\": \"A/r256\", \"attempt\": \"exp-1108-221044-294843\", \"attempted_rollout_id\": 1, \"run_kind\": \"smoke\", \"protocol\": \"r256\", \"bank\": 0, \"bank_visit\": 2, \"teacher_identity\": \"/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model\", \"generation_weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 21771, \"abs_end\": 22049}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 21771}], \"output_start\": 21771, \"prompt_tokens\": 21771}], \"current_weight_version\": 1, \"kl_estimator\": \"sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens\", \"kl_direction\": \"student_minus_teacher\", \"kl_before_tis_numerator\": 121.64948724197478, \"kl_before_tis_denominator\": 1177, \"kl_before_tis\": 0.10335555415630823, \"original_tokens\": 1177, \"surviving_tokens\": 266, \"tis_retention\": 0.2259983007646559, \"nonfinite_tokens\": 0.0, \"token_rejected_tokens\": 16.0, \"answer_rejected_tokens\": 910.0, \"diagnostics_verified\": true, \"unverified_diagnostics\": [], \"mask_evidence_verified\": true, \"retained_weight\": 1, \"effective_weight_sum\": 266, \"loss\": 0.02491965897526899, \"lr\": [2e-06, 2e-06], \"timestamp\": 1794147788.393655, \"successful_updates\": 2, \"actual_turns\": 8, \"expected_bank_turns\": 8, \"expected_bank_tokens\": 1177, \"bank_membership_verified\": true, \"update_successful\": true, \"native_attempted_count\": 2, \"native_skipped_count\": 0}",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:23:08.671 actor_cell00000_rank00000] log_utils.py:575 - step 1: {'train/loss': 0.02491965897526899, 'train/pg_loss': 0.02491965897526899, 'train/entropy_loss': 0.0, 'train/pg_clipfrac': 0.0, 'train/ppo_kl': 0.0, 'train/ess_ratio': 1.0, 'train/train_rollout_logprob_abs_diff': 0.005606129094515196, 'train/train_rollout_kl': 0.0004366487897647673, 'train/ois': 1.0, 'train/swe_tis_retained': 0.2259983007646559, 'train/opd_reverse_kl': 0.02491965897526899, 'train/grad_norm': 10.744863510131836, 'train/lr-pg_0': 2e-06, 'train/lr-pg_1': 2e-06, 'rollout/step': 1, 'train/step': 1}",
+            "\u001b[36m(MegatronTrainRayActor pid=7856)\u001b[0m [2026-11-08 14:23:08.671 actor_cell00000_rank00000] model.py:932 - step 1: {'train/loss': 0.02491965897526899, 'train/pg_loss': 0.02491965897526899, 'train/entropy_loss': 0.0, 'train/pg_clipfrac': 0.0, 'train/ppo_kl': 0.0, 'train/ess_ratio': 1.0, 'train/train_rollout_logprob_abs_diff': 0.005606129094515196, 'train/train_rollout_kl': 0.0004366487897647673, 'train/ois': 1.0, 'train/swe_tis_retained': 0.2259983007646559, 'train/opd_reverse_kl': 0.02491965897526899, 'train/grad_norm': 10.744863510131836, 'train/lr-pg_0': 2e-06, 'train/lr-pg_1': 2e-06, 'rollout/step': 1, 'train/step': 1}",
+            "\u001b[36m(TrainerController pid=7183)\u001b[0m [2026-11-08 14:23:08.842 trainer_controller_actor] logger.py:85 - audit op=event event=TrainGroupStepEndEvent type=train_group_step_end rollout_id=1 attempt=0 role=actor cell_outcomes=\"{\\\"0\\\":[\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\",\\\"normal\\\"]}\" cell_incarnations=\"{\\\"trainer-engine-actor-00000\\\":\\\"pseudo-hash-1\\\"}\"",
+            "\u001b[36m(MegatronTrainRayActor pid=7861)\u001b[0m [2026-11-08 14:23:08.594 actor_cell00000_rank00005] model.py:714 - train op=train_step rollout=1 step=0 attempt=0 outcome=NORMAL valid_step=true\u001b[32m [repeated 7x across cluster]\u001b[0m"
+          ]
+        }
+      ],
+      "hf_directories": [
+        "step_1"
+      ],
+      "scoring_observation_files": [
+        "rank_0.jsonl",
+        "rank_1.jsonl",
+        "rank_2.jsonl",
+        "rank_3.jsonl",
+        "rank_4.jsonl",
+        "rank_5.jsonl",
+        "rank_6.jsonl",
+        "rank_7.jsonl"
+      ],
+      "training/updates.jsonl": [
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1108-221044-294843",
+          "attempted_rollout_id": 0,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 1,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 21771,
+                  "abs_end": 22049
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 21771
+                }
+              ],
+              "output_start": 21771,
+              "prompt_tokens": 21771
+            }
+          ],
+          "current_weight_version": 0,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 144.7875225869921,
+          "kl_before_tis_denominator": 1177,
+          "kl_before_tis": 0.12301403788189644,
+          "original_tokens": 1177,
+          "surviving_tokens": 842,
+          "tis_retention": 0.7153780798640612,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 0.0,
+          "answer_rejected_tokens": 335.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 842,
+          "loss": 0.08012348170389841,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794147766.489193,
+          "successful_updates": 1,
+          "actual_turns": 8,
+          "expected_bank_turns": 8,
+          "expected_bank_tokens": 1177,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 1,
+          "native_skipped_count": 0,
+          "update": 1
+        },
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1108-221044-294843",
+          "attempted_rollout_id": 1,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 2,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 21771,
+                  "abs_end": 22049
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 21771
+                }
+              ],
+              "output_start": 21771,
+              "prompt_tokens": 21771
+            }
+          ],
+          "current_weight_version": 1,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 121.64948724197478,
+          "kl_before_tis_denominator": 1177,
+          "kl_before_tis": 0.10335555415630823,
+          "original_tokens": 1177,
+          "surviving_tokens": 266,
+          "tis_retention": 0.2259983007646559,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 16.0,
+          "answer_rejected_tokens": 910.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 266,
+          "loss": 0.02491965897526899,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794147788.393655,
+          "successful_updates": 2,
+          "actual_turns": 8,
+          "expected_bank_turns": 8,
+          "expected_bank_tokens": 1177,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 2,
+          "native_skipped_count": 0,
+          "update": 2
+        }
+      ],
+      "training/optimizer_attempts.jsonl": [
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1108-221044-294843",
+          "attempted_rollout_id": 0,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 1,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 21771,
+                  "abs_end": 22049
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 21771
+                }
+              ],
+              "output_start": 21771,
+              "prompt_tokens": 21771
+            }
+          ],
+          "current_weight_version": 0,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 144.7875225869921,
+          "kl_before_tis_denominator": 1177,
+          "kl_before_tis": 0.12301403788189644,
+          "original_tokens": 1177,
+          "surviving_tokens": 842,
+          "tis_retention": 0.7153780798640612,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 0.0,
+          "answer_rejected_tokens": 335.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 842,
+          "loss": 0.08012348170389841,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794147766.489193,
+          "successful_updates": 1,
+          "actual_turns": 8,
+          "expected_bank_turns": 8,
+          "expected_bank_tokens": 1177,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 1,
+          "native_skipped_count": 0
+        },
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1108-221044-294843",
+          "attempted_rollout_id": 1,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 2,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 21771,
+                  "abs_end": 22049
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 21771
+                }
+              ],
+              "output_start": 21771,
+              "prompt_tokens": 21771
+            }
+          ],
+          "current_weight_version": 1,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 121.64948724197478,
+          "kl_before_tis_denominator": 1177,
+          "kl_before_tis": 0.10335555415630823,
+          "original_tokens": 1177,
+          "surviving_tokens": 266,
+          "tis_retention": 0.2259983007646559,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 16.0,
+          "answer_rejected_tokens": 910.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 266,
+          "loss": 0.02491965897526899,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794147788.393655,
+          "successful_updates": 2,
+          "actual_turns": 8,
+          "expected_bank_turns": 8,
+          "expected_bank_tokens": 1177,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 2,
+          "native_skipped_count": 0
+        }
+      ]
+    }
+  ],
+  "baseline": {
+    "point_exists": true,
+    "state.json": {
+      "status": "RUNNING",
+      "first_started_at": 1794146471.7061195,
+      "deadline_at": 1794405671.7061195,
+      "completed_attempts": null,
+      "missing_attempts": null,
+      "avg_at_4": null,
+      "accounting": null
+    },
+    "reader_statuses": {
+      "evaluator-b34e8e0a5ae94a08a381b547b219fc8e": "RUNNING",
+      "native-child-1054-39e26142517648f284047aeaf0f68911": "RUNNING",
+      "native-child-1056-ac8a4fadfd4c4a139d8837adafc05ae7": "RUNNING",
+      "native-child-1058-b5601f905a144c52b5928f5008ebf704": "RUNNING",
+      "native-child-1060-faa5d8d49e524c20b06ebb58ecc7307a": "RUNNING",
+      "server-f9eebe96d450460b8e06e86ccaf074c4": "RUNNING"
+    },
+    "server_identity_files": [
+      "workers/server-f9eebe96d450460b8e06e86ccaf074c4/server.json"
+    ]
+  }
+}

@@ -101,9 +101,10 @@ def main() -> int:
             return 2
         os.environ["EXP_ID"] = f"qwen35-swe-{args.pair.lower()}-{args.protocol}-{config['phase']}"
         mount = f"{socket.gethostbyname(socket.gethostname())}:{Path.cwd()}:{config['local_mount']}"
+        # Native resource iteration appends mounts; it must not mutate the frozen input.
         resource = ResourceConfig(
             image=config["image"], positive_tags=[config["gpu_tag"]], extra_requirements=[],
-            mounts=config["mounts"], envs={"PYTHONPATH": config["local_mount"]},
+            mounts=list(config["mounts"]), envs={"PYTHONPATH": config["local_mount"]},
             annotations={"kubebrain.brainpp.cn/filestore-volume": mount,
                          policy["task_annotation"]: policy["task_id"]}, pull_code=False,
             command="{COMMAND}", task_specs=tasks, preemptible=snapshot["preemptible"],

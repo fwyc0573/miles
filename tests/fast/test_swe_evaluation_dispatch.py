@@ -16,6 +16,7 @@ from tests.manual.agent_opd.swe_evaluation import read_json, write_json
 
 REAL_POPEN = subprocess.Popen
 ROOT = Path(__file__).resolve().parents[2]
+NATIVE_PUBLIC_MOUNT = "juicefs+s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant"
 
 STUB = """
 import argparse, json, os, sys, time
@@ -417,8 +418,22 @@ def _local_training(inputs, monkeypatch, release):
         ),
     )
     workers = SimpleNamespace(
-        rjob=SimpleNamespace(meta=SimpleNamespace(name=inputs.job)), wait=lambda: release.wait(5)
+        rjob=SimpleNamespace(meta=SimpleNamespace(name=inputs.job)), wait=lambda: release.wait(5), resources=[]
     )
+
+    class ResourceConfig(SimpleNamespace):
+        def __iter__(self):
+            # Replay the native ResourceConfig iterator's list mutation, without platform dependencies.
+            if NATIVE_PUBLIC_MOUNT not in self.mounts:
+                self.mounts.append(NATIVE_PUBLIC_MOUNT)
+            for task in self.task_specs:
+                yield task, self
+
+    def submit(resource, **kwargs):
+        list(iter(resource))
+        workers.resources.append(resource)
+        return workers
+
     for name in (
         "steptron",
         "steptron.exp",
@@ -428,11 +443,9 @@ def _local_training(inputs, monkeypatch, release):
         "steptron.utils.stepmind_control",
     ):
         monkeypatch.setitem(sys.modules, name, ModuleType(name))
-    sys.modules["steptron.exp.base_exp"].ResourceConfig = SimpleNamespace
+    sys.modules["steptron.exp.base_exp"].ResourceConfig = ResourceConfig
     sys.modules["steptron.utils.stepmind"].get_rjob_client = lambda: client
-    sys.modules["steptron.utils.stepmind_control"].RJobBackend = lambda: SimpleNamespace(
-        submit=lambda *args, **kwargs: workers
-    )
+    sys.modules["steptron.utils.stepmind_control"].RJobBackend = lambda: SimpleNamespace(submit=submit)
     monkeypatch.setattr(
         sys,
         "argv",
@@ -469,6 +482,77 @@ def test_actual_local_training_entrypoint_dispatches_before_wait_and_drains_afte
         release.set()
         thread.join(5)
     assert result == [0] and len(inputs.calls) == 1 and not thread.is_alive()
+
+
+@pytest.mark.parametrize("mounts", [[], [NATIVE_PUBLIC_MOUNT]])
+def test_training_resource_owns_mounts_without_changing_dispatch_config(inputs, monkeypatch, mounts):
+    release = threading.Event()
+    release.set()
+    _, workers = _local_training(inputs, monkeypatch, release)
+    inputs.config["mounts"] = mounts
+    write_json(inputs.config_path, inputs.config)
+    before = inputs.config_path.read_bytes()
+    starts, waits = [], []
+    start, wait = submit_swe_opd.start_dispatch, workers.wait
+
+    def observe(path, config, job):
+        observer = start(path, config, job)
+        starts.append((config, observer))
+        return observer
+
+    def wait_once():
+        waits.append(True)
+        return wait()
+
+    monkeypatch.setattr(submit_swe_opd, "start_dispatch", observe)
+    workers.wait = wait_once
+    assert submit_swe_opd.main() == 0
+    assert len(starts) == len(waits) == len(workers.resources) == 1
+    config, observer = starts[0]
+    resource = workers.resources[0]
+    assert observer is not None and observer.training_finished.is_set() and not observer.thread.is_alive()
+    assert resource.mounts is not config["mounts"]
+    assert resource.mounts == [NATIVE_PUBLIC_MOUNT] and config["mounts"] == mounts
+    assert all(resource.mounts[index] is mount for index, mount in enumerate(config["mounts"]))
+    assert inputs.config_path.read_bytes() == before
+    assert read_json(inputs.config_path) == config
+    assert read_json(inputs.root / "trainer.terminal.json")["native_execution_succeeded"] is True
+
+
+def test_real_file_drift_rejects_observer_without_failing_healthy_training(inputs, monkeypatch, caplog):
+    release = threading.Event()
+    release.set()
+    _, workers = _local_training(inputs, monkeypatch, release)
+    backend = sys.modules["steptron.utils.stepmind_control"].RJobBackend()
+    starts, waits = [], []
+    start, wait = submit_swe_opd.start_dispatch, workers.wait
+
+    def submit(resource, **kwargs):
+        result = backend.submit(resource, **kwargs)
+        config = read_json(inputs.config_path)
+        config["phase"] = "cpu-fixture-changed-after-submission"
+        write_json(inputs.config_path, config)
+        return result
+
+    def observe(*args):
+        observer = start(*args)
+        starts.append(observer)
+        return observer
+
+    def wait_once():
+        waits.append(True)
+        return wait()
+
+    monkeypatch.setattr(
+        sys.modules["steptron.utils.stepmind_control"], "RJobBackend", lambda: SimpleNamespace(submit=submit)
+    )
+    monkeypatch.setattr(submit_swe_opd, "start_dispatch", observe)
+    workers.wait = wait_once
+    assert submit_swe_opd.main() == 0
+    assert starts == [None] and waits == [True] and not inputs.calls
+    assert read_json(inputs.config_path)["phase"] == "cpu-fixture-changed-after-submission"
+    assert "Training integration configuration changed after submission" in caplog.text
+    assert read_json(inputs.root / "trainer.terminal.json")["native_execution_succeeded"] is True
 
 
 def test_observer_start_failure_does_not_fail_healthy_local_training(inputs, monkeypatch):
