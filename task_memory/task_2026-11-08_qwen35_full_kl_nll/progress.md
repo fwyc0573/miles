@@ -5,6 +5,7 @@
 | 2026-11-08 | Record the worktree setup and the source investigation that shapes interview round 1. |
 | 2026-11-08 | Answer the round-1 loader-order concern with source evidence; correct Finding 8. |
 | 2026-11-08 | Record round 2 (D12–D16), the drafted spec, plan and six tickets, the Q41 manifest check and the document checks. |
+| 2026-11-08 | Record the round-3 answer and the second loader verification (Finding 12); spec S2 and tickets 01/04/05 wait for Q20. |
 
 # Progress
 
@@ -35,6 +36,13 @@
 
 11. **Q41 manifest facts (for ticket 01).** `fresh-smoke-20261104a.json` in the Steptron behavior-turn-replay task evidence records `status=smoke_prefix_ready`, seed 1234, 11 files, population count 446,569 over 4,992 conversations, rows `(file_index, source_item_index, assistant_position)` hashed as little-endian row-major int64: population sha256 `fdcf79d2…bd547e`, permutation sha256 `8a5f64ce…1baf1aa`. The hash algorithm is in `tests/e2e/mopd_turn_replay/freeze_glm_fresh_order.py:143–157`. Spec S2 item 6 now cites both.
 
+12. **Second loader verification (round-3 question: does the native indexed order keep ascending turns and take about 8 turns per conversation at a time?).** Source: `/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/`.
+    - Indexed path (`online_turn_streaming=False`, recipe `playground/users/wyx/MOPD/step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:636–667`): `LazySWETurnSplitDataset._build_index` (`:429–450`) appends every assistant turn of every conversation to one flat `turn_index` list; `MultiEpochSampler(len(dataset))` (`third_party/datahub/src/datahub/text/samplers/multi_epoch_sampler.py:41–47`) draws `torch.randperm(size, seed=base_seed + epoch)` over that list. Turn order within a conversation is not kept and there is no 8-turn grouping.
+    - Streaming path (default `online_turn_streaming=True`, `online_trajectory_block_turns=8`, recipe `:589–634`): `OnlineTrajectoryTurnSource.__next__` (`step3p6_mopd_online_turn_loader_0710.py:463–492`) emits the active conversation's assistant turns in ascending order and loads the next conversation only after the last turn. `TurnBalancedTrajectoryBlockMixer.__next__` (`:687–706`) picks a source, emits up to 8 turns from it and then picks a source again; the source keeps the same active conversation, so the next block from that source continues it. The 8-turn block therefore alternates between sources (domains), not between conversations of one source.
+    - With SWE as the only source (this task), the mixer always picks the same source and a conversation's turns are fully consecutive. In the 5-domain production run, a SWE conversation is taken 8 turns at a time with other domains' blocks in between. The behavior-turn-replay task recorded the same reading (`task_2026-10-25_swe_behavior_turn_replay/progress.md:3269`).
+    - A search of all 58 Steptron worktrees' `playground/users` and `tests/e2e` for sampler, mixer and turn-source classes found no loader that keeps several conversations of one source active at once.
+    - Conversation lengths (999-conversation sample, `task_2026-10-23_swe_turn_replay/swe-dataset-format.md:61`): assistant turns min 19, median 81, P90 144, max 464, mean 90.69. With 8 turns per conversation per update, a conversation spans ceil(n/8) updates: min 3, median 11, P90 18, max 58.
+
 ## Interview and document iterations
 
 - Round 2 answer recorded as D12–D16 in `requirements.md` (indexed order, KL-only best, trainer-side per-turn sums, column-wise profile with its own JSONL, soft gate and no separate smoke).
@@ -45,11 +53,14 @@
   - The profile module lives in `tests/manual/agent_opd/` next to its only user, `SweReplay`.
 - Round 3 questions Q17–Q19 recorded in `requirements.md` with recommendations.
 
+- Round 3 answer: random order rejected (D12 withdrawn); D17 GPU budget recorded and applied to spec S0/S8; spec S2 marked as waiting for Q20.
+
 ## in-progress
 
-- Waiting for the user's answers to Q17–Q19 and the freeze confirmation.
+- Waiting for the user's answers to Q20 (rollout order) and revised Q18.
 
 ## pending
 
-1. Apply the Q17–Q19 answers to `spec.md` S4/S8 and rerun the document checks.
-2. After the freeze: start 01 and the 03 module; 02 waits for the reused Ticket02 and the merge (D1).
+1. Rewrite spec S2 (and S4 `alive`, the S1/S2 estimates), tickets 01/04/05 and the glossary's order term from the Q20 answer; rerun the document checks.
+2. User freeze confirmation.
+3. After the freeze: start 01 and the 03 module; 02 waits for the reused Ticket02 and the merge (D1).

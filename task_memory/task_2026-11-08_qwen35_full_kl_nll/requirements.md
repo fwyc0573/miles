@@ -5,6 +5,7 @@
 | 2026-11-08 | Open the documentation task; record the original request verbatim before the interview. |
 | 2026-11-08 | Record round-1 decisions and the loader-order concern with its verified answer. |
 | 2026-11-08 | Record round-2 decisions D12–D16 and the round-3 questions put with the draft documents. |
+| 2026-11-08 | Record the round-3 answer: random order rejected (D12 withdrawn), GPU budget D17; put Q20 and revised Q18. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -84,3 +85,19 @@ Recommendations below are not decisions until the user answers.
 - **Q17 `alive` under the indexed order.** Recommendation: keep the D7 rule read against the whole frozen order — a conversation becomes not alive once every one of its assistant positions has been drawn (trained, rejected as over-length or failed). In this task almost every conversation stays alive, because about 11.5% of positions are drawn.
 - **Q18 relaunch after a throughput failure.** Recommendation: if the first update of a cell fails the reused D6 rule (fewer than 231 valid turns within 1800 s) because rollout or teacher scoring is too slow, end that attempt as D6 requires, then relaunch as a new attempt with more teacher or rollout GPUs within D11, without asking again; report the measured stage times. D6's deadline and minimum stay unchanged.
 - **Q19 GPU priority with other tasks.** Recommendation: first come, first served within the D11 aggregate of 56; no job of another task is stopped to make room; each submission checks the live personal aggregate first.
+
+### Round 3 — [Follow-up Answer] 2026-11-08
+
+User wrote: **“我不认同随机顺序。你需要确认的是 steptron使用 native index的取样方案，是否是按照turn从小到大的取法的（例如，对于一个conversation，turn id 2未被用于训练的情况下，turn id 3不会被取用）。我印象中steptron的index方案会优先取用turn id较小的（按顺序取用）并且一次性在conversation取的turns分布较为平均（例如一个conversation一次性取8个turn）该问题直接关系到 q17,q18; q19，本session task拥有独立的 32卡内的 非抢占rjobs提交权利，超过的则可以通过可抢占提交”**
+
+- **D12 withdrawn.** The random (indexed) order is rejected. The rollout order is reopened as Q20 below.
+- **D17 GPU budget (Q19 answer; replaces D11).** This task has its own budget of at most 32 non-preemptible H200 GPUs, counted over this task's submitted, nonterminal jobs only and independent of other tasks. GPUs beyond 32 may be submitted as preemptible RJobs (`ResourceConfig.preemptible=True`, following the RJob runbook's preemptible-submission section).
+- Verified answer to the order question (progress.md Finding 12): the native indexed order does not keep turn order — a conversation's turn 3 can be drawn before its turn 2 — and has no 8-turn grouping. Ascending order and 8-turn blocks both belong to the streaming default, where the 8-turn block is the unit of switching between data sources (domains), each source holding one active conversation. With SWE as the only source, the blocks join back to back and one conversation's turns are consecutive.
+
+### Round 4 — questions put 2026-11-08
+
+Recommendations below are not decisions until the user answers.
+
+- **Q20 rollout turn order.** Options: (A) the Steptron streaming default as already implemented by the committed adapter — ascending order, one conversation at a time, about three conversations per update, a conversation spans one or two updates; (B) a new order in this task's adapter with 32 active conversations taking 8 consecutive turns each per round of 256 draws, ascending within each conversation, the next conversation in file order replacing a finished one — a median conversation of 81 turns spans about 11 updates. Recommendation: B with 32 conversations × 8 turns as config fields, because the per-conversation best, trend and recovery values need history spread over many updates, and blocks of 8 consecutive turns keep most of the prefix-cache reuse.
+- **Q17** is settled by D7 under either A or B: with ascending order, a conversation stops being alive after the update that trains its last drawn turn.
+- **Q18 (revised for D17).** If a cell's first update fails the reused D6 rule because rollout or teacher scoring is too slow, end that attempt as D6 requires and relaunch it as a new attempt with more GPUs, keeping this task's non-preemptible total at most 32, without asking again. If both cells cannot fit in 32, run them one after the other instead of putting formal-cell roles on preemptible jobs, because a preemption ends the attempt and this task keeps no checkpoint to resume from (D10). D6's deadline and minimum stay unchanged.

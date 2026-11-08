@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
+| 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
 
 # Spec — Qwen3.5 full 模式 KL/NLL 与 Distillation profile
 
@@ -21,7 +22,7 @@
 | full 定义：200 个 successful optimizer update，每个 update 256 个候选 slot，update u 使用 bank u−1，跳过的 update 不计数、不换 bank | S2 |
 | 优化参数、D4 两层 binary TIS、实际 loss、D2 的 KL 定义（TIS 前，原始 target tokens，更新前的当前 student） | S4 |
 | D6 采集规则（1800 s 内至少 231/256）、D7 零 survivor 停止、故障隔离 | S5 |
-| D9 GPU 规则；本 task 的 D11 沿用它 | S7 |
+| GPU 提交方式（StepMind Python `RJobBackend`、H200）；额度改由本 task 的 D17 规定 | S7 |
 | train seed 1234、rollout base seed 1729 | S3 第 5 条 |
 
 **不继承**：r256 cell、HF 导出（D10）、benchmark 与基线、权重删除流程、四 cell 对比。
@@ -47,6 +48,8 @@
 - 不保存 HF，不做评测（D10）。
 
 ## S2. Rollout 取数顺序（D12）
+
+> **状态：已撤回。** 用户否决了随机顺序（requirements Round 3），本节待 Q20 回答后重写；以下内容仅保留到重写为止，不作为实现依据。
 
 采用 native indexed turn order，取代复用 Ticket01 的 streaming 顺序。
 
@@ -187,13 +190,12 @@ NLL_i = nll_sum_i / tokens_i
 - native 训练、通信和 I/O 的故障处理不变，D6、D7 的停止规则不变。
 - profile 不参与任何训练控制。
 
-## S8. GPU 与执行（D11、Q18、Q19）
+## S8. GPU 与执行（D16、D17、Q18）
 
-- **D11**：本人全部已提交、未终止的非抢占 H200 作业，合计不超过 56 GPU，包括其他 task。提交前先核对实时的个人作业清单。
-- **初始布局**：沿用复用 task 的每 cell 布局（复用 spec S7 中 8 student + 2 teacher 的估计，尚未验证），两个 cell 约 20 GPU。
+- **D17**：本 task 自己的非抢占 H200 额度为 32 卡，只计本 task 已提交、未终止的作业，与其他 task 无关。超过 32 卡的部分可以用可抢占 RJob 提交（`ResourceConfig.preemptible=True`，按 RJob runbook 的可抢占提交一节）。
+- **初始布局**：沿用复用 task 的每 cell 布局（复用 spec S7 中 8 student + 2 teacher 的估计，尚未验证），两个 cell 约 20 GPU，在 32 卡以内。
 - **启动顺序**（D16）：先启动 A，检查它第一个 update 的 profile 和各阶段耗时，通过后再启动 B。
-- **Q18（待答）**：第一个 update 若因吞吐不足违反 D6，按 D6 结束该 attempt。推荐：之后在 D11 范围内增加 teacher 或 rollout GPU，作为新 attempt 重启，不再另行询问；D6 的截止时间和最低条数不变。
-- **Q19（待答）**：推荐在 D11 总额内先到先得，不为本 task 停止其他 task 的作业。
+- **Q18（待答）**：第一个 update 若因吞吐不足违反 D6，按 D6 结束该 attempt。推荐：之后增加 GPU，作为新 attempt 重启，不再另行询问，本 task 的非抢占总数保持在 32 以内；两个 cell 同时放不下时改为先后运行，而不是把正式 cell 的角色放到可抢占作业上（被抢占会结束该 attempt，本 task 没有 checkpoint 可恢复，D10）。D6 的截止时间和最低条数不变。
 
 ## S9. 验证与交付
 
