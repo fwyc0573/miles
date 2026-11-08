@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Diagnose normal critical-task completion reported as Stopped; verify three real smoke business outputs and prepare 256-turn capacity profile. |
 | 2026-11-08 | Record the typed-view repair and targeted native GPU recheck; distinguish the completed CPU bridge from native acceptance. |
 | 2026-11-08 | Record launch/admission checks, the CPU SGLang mismatch and the pending pinned-image rerun. |
 
@@ -157,3 +158,31 @@ PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp \
 All use the active task-local GPU policy, exact task annotation and local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. The launchers are kept alive with the native backend wait. Raw launcher logs: `/data/ycfeng/tmp/qwen35-swe-{A,B}-{full,r256}-smoke-20261108.log`. The initial platform verification for the parser and two replay jobs is `evidence/native-config-and-smoke-platform-20261108.json`: parser Succeeded, A/r256 Pending, B/r256 Starting at the recorded observation. Initial states do not prove training success.
 
 Expected business outputs: three actual native successful acknowledgements, expected bank visits and transition, current-student rescoring, exact KL/TIS numerators and denominators, nonzero actual retained masks or an accurately recorded D7 stop, HF-only publication with native successful index/version. Inspect actual outputs before PASS; independent raw-evidence recomputation and native HF/SWE execution remain required by Tickets 02/03.
+
+## Normal platform cleanup misclassified by the submitter — fixed
+
+The A/r256 local command returned1, but the real student container exited0 at09:42:54Z after the native Ray job succeeded and all three optimizer acknowledgements plus two HFs were durable. Exact RJob UID `68bec707-06be-4c82-95e5-fe7f8beab2dc` has system reason `All critical tasks are finished.`, stopTimestamp09:42:58Z, student.succeeded=1 and teacher.stopped=1. The platform deleted the noncritical teacher at09:43:00Z. Local launcher cleanup happened later at09:43:03Z. This is the documented critical-role lifecycle, not evidence of preemption or a failed optimizer step.
+
+`submit_swe_opd.py` had classified every non-`succeeded` top-level status as failure. It now also recognizes the observed `Stopped`/exact system-reason case, but only when every declared critical replica succeeded. It still rejects missing reason, real failed/stopped critical roles and partial critical completion. An observational terminal receipt retains platform status separately from native execution outcome; its I/O cannot change the finished workload's exit result. No training, teacher, timeout or scientific setting was changed by this fix.
+
+Verification:
+
+```bash
+env TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_launcher.py tests/fast/test_rjob_budget.py -q
+```
+
+**26 PASS,3.01s** (Python3.12.13/pytest9.1.1). Actual fresh personal-API objects for A/r256,B/r256,B/full each satisfy the corrected classifier; retained in `evidence/initial-smoke-terminal-classification.json`. A/r256 exact-object and historical-event evidence is `evidence/smoke-A-r256-terminal-*.json`. RJob/replica all-operation audit queries each timed out at20s; this is recorded as missing audit coverage, not empty audit history or an invented initiating actor. The explicit system reason and successful student state establish the completion classification without inferring it from SIGTERM.
+
+## Initial observed business results
+
+`evidence/initial-smoke-business.json` was read from the exact personal cloud outputs after completion. Each of A/r256,B/r256,B/full contains three successful updates, no failed-batch record and native skipped count0. Each has `hf/step_1` and `hf/step_2`, 426 indexed text tensors, `SMOKE_PACKAGED` publications, native successful indexes2/3 and weight versions2/3. `reload_verified` remains false; actual reload/SWE acceptance is still required.
+
+| Cell | Original tokens, updates1–3 | TIS survivors, updates1–3 | Bank/visit sequence |
+| --- | --- | --- | --- |
+| A/r256 | 668,668,1813 | 603,132,1038 | 0/1,0/2,1/1 |
+| B/r256 | 666,666,1427 | 591,75,1298 | 0/1,0/2,1/1 |
+| B/full | 668,1697,2236 | 603,1551,1875 | 0/1,1/1,2/1 |
+
+The second replay visit retains19.76% and11.26% respectively; these are smoke observations, not forecasts of the50-visit experiment. A/r256 native `train_data`, `policy_loss_debug` and update rows are staged temporarily at `/data/ycfeng/tmp/qwen35-swe-native-audit/exp-1108-172407-535512/` for independent recomputation. This table alone is not numerical acceptance.
+
+The generated `capacity_smoke_config.json` retains the integration profile's scientific settings and changes only phase/output namespaces plus the explicit smoke budget: two successful updates,256 candidate slots,two replay visits,save interval2. Planned probes are A/r256 and B/full, exercising both teacher sizes at representative batch capacity after the short native paths completed. Formal budgets remain unchanged.

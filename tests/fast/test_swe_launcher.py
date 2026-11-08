@@ -7,7 +7,7 @@ import sys
 import pytest
 
 from tests.manual.agent_opd import run_swe_opd
-from tests.manual.agent_opd.submit_swe_opd import _validate_paths
+from tests.manual.agent_opd.submit_swe_opd import _job_succeeded, _validate_paths
 
 
 def _config(tmp_path):
@@ -54,3 +54,32 @@ def test_cli_preserves_child_failure_status(tmp_path, monkeypatch, role, expecte
 
     monkeypatch.setattr(run_swe_opd.paired, "_run_teacher", teacher)
     assert run_swe_opd.main() == expected
+
+
+@pytest.mark.parametrize(
+    "phase,reason,student,expected",
+    [
+        ("Succeeded", None, {"succeeded": 1}, True),
+        ("Stopped", "All critical tasks are finished.", {"succeeded": 1}, True),
+        ("Stopped", "All critical tasks are finished.", {"failed": 1}, False),
+        ("Stopped", "All critical tasks are finished.", {"running": 1}, False),
+        ("Stopped", "Some critical tasks failed.", {"failed": 1}, False),
+        ("Stopped", None, {"succeeded": 1}, False),
+        ("Failed", "All critical tasks are finished.", {"succeeded": 1}, False),
+    ],
+)
+def test_platform_critical_completion_is_not_a_training_failure(phase, reason, student, expected):
+    job = {
+        "metadata": {"annotations": {"rjob.brainpp.cn/system-stop-reason": reason}},
+        "status": {"phase": phase, "taskStatuses": {"student": student, "teacher": {"stopped": 1}}},
+    }
+    tasks = {"student": {"is_critical": True, "replica": 1}, "teacher": {"is_critical": False, "replica": 1}}
+    assert _job_succeeded(job, tasks) is expected
+
+
+def test_partial_critical_replica_completion_remains_failed():
+    job = {
+        "metadata": {"annotations": {"rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."}},
+        "status": {"phase": "Stopped", "taskStatuses": {"student": {"succeeded": 1, "stopped": 1}}},
+    }
+    assert not _job_succeeded(job, {"student": {"is_critical": True, "replica": 2}})

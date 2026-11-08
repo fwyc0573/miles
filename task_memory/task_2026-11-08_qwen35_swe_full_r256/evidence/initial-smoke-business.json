@@ -1,0 +1,2090 @@
+[
+  {
+    "pair": "A",
+    "protocol": "r256",
+    "job": "exp-1108-172407-535512",
+    "cloud_run": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/A/exp-1108-172407-535512",
+    "updates": [
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 62.20545252558421,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.09312193491853923,
+        "original_tokens": 668,
+        "surviving_tokens": 603,
+        "tis_retention": 0.9026946107784432,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 65.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 603,
+        "loss": 0.09154772687101079,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130747.1653655,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0,
+        "update": 1
+      },
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 2,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 29.156633393696772,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.04364765478098319,
+        "original_tokens": 668,
+        "surviving_tokens": 132,
+        "tis_retention": 0.19760479041916168,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 18.0,
+        "answer_rejected_tokens": 535.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 132,
+        "loss": -0.0018305689274907826,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130764.5672297,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0,
+        "update": 2
+      },
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 42931,
+                "abs_end": 42989
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 42931
+              }
+            ],
+            "output_start": 42931,
+            "prompt_tokens": 42931
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 167.20409280191302,
+        "kl_before_tis_denominator": 1813,
+        "kl_before_tis": 0.09222509255483344,
+        "original_tokens": 1813,
+        "surviving_tokens": 1038,
+        "tis_retention": 0.5725317153888583,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 775.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1038,
+        "loss": 0.038205965802739224,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130927.098623,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1813,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0,
+        "update": 3
+      }
+    ],
+    "optimizer_attempts": [
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 62.20545252558421,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.09312193491853923,
+        "original_tokens": 668,
+        "surviving_tokens": 603,
+        "tis_retention": 0.9026946107784432,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 65.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 603,
+        "loss": 0.09154772687101079,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130747.1653655,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 2,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 29.156633393696772,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.04364765478098319,
+        "original_tokens": 668,
+        "surviving_tokens": 132,
+        "tis_retention": 0.19760479041916168,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 18.0,
+        "answer_rejected_tokens": 535.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 132,
+        "loss": -0.0018305689274907826,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130764.5672297,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "A/r256",
+        "attempt": "exp-1108-172407-535512",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 42931,
+                "abs_end": 42989
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 42931
+              }
+            ],
+            "output_start": 42931,
+            "prompt_tokens": 42931
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 167.20409280191302,
+        "kl_before_tis_denominator": 1813,
+        "kl_before_tis": 0.09222509255483344,
+        "original_tokens": 1813,
+        "surviving_tokens": 1038,
+        "tis_retention": 0.5725317153888583,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 775.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1038,
+        "loss": 0.038205965802739224,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130927.098623,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1813,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0
+      }
+    ],
+    "failed_batches": [],
+    "checkpoints": [
+      {
+        "directory": "step_1",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 1,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 2,
+            "native_skipped_count": 0,
+            "successful_updates": 2
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 1,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 2,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 2
+        },
+        "publication": {
+          "attempt": "exp-1108-172407-535512",
+          "cell": "A/r256",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/A/exp-1108-172407-535512/hf/step_1",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 1,
+            "native_counters": {
+              "native_attempted_count": 2,
+              "native_skipped_count": 0,
+              "successful_updates": 2
+            },
+            "rollout_id": 1,
+            "successful_update": 2,
+            "weight_version": 2
+          },
+          "observed_at": 1794130793.7462418,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      },
+      {
+        "directory": "step_2",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 2,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 3,
+            "native_skipped_count": 0,
+            "successful_updates": 3
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 2,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 3,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 3
+        },
+        "publication": {
+          "attempt": "exp-1108-172407-535512",
+          "cell": "A/r256",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/A/exp-1108-172407-535512/hf/step_2",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 2,
+            "native_counters": {
+              "native_attempted_count": 3,
+              "native_skipped_count": 0,
+              "successful_updates": 3
+            },
+            "rollout_id": 2,
+            "successful_update": 3,
+            "weight_version": 3
+          },
+          "observed_at": 1794130956.0672097,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      }
+    ]
+  },
+  {
+    "pair": "B",
+    "protocol": "r256",
+    "job": "exp-1108-172408-392372",
+    "cloud_run": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/B/exp-1108-172408-392372",
+    "updates": [
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 68.33819761164139,
+        "kl_before_tis_denominator": 666,
+        "kl_before_tis": 0.10260990632378587,
+        "original_tokens": 666,
+        "surviving_tokens": 591,
+        "tis_retention": 0.8873873873873874,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 75.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 591,
+        "loss": 0.10108809079135861,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130774.4298127,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 666,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0,
+        "update": 1
+      },
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 2,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 32.529607205226654,
+        "kl_before_tis_denominator": 666,
+        "kl_before_tis": 0.04884325406190188,
+        "original_tokens": 666,
+        "surviving_tokens": 75,
+        "tis_retention": 0.11261261261261261,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 12.0,
+        "answer_rejected_tokens": 591.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 75,
+        "loss": 0.0012386129783080505,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130791.1803615,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 666,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0,
+        "update": 2
+      },
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 42931,
+                "abs_end": 42989
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 42931
+              }
+            ],
+            "output_start": 42931,
+            "prompt_tokens": 42931
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 183.22629659151366,
+        "kl_before_tis_denominator": 1427,
+        "kl_before_tis": 0.12839964722600816,
+        "original_tokens": 1427,
+        "surviving_tokens": 1298,
+        "tis_retention": 0.9096005606166784,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 129.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1298,
+        "loss": 0.12195597851117675,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130932.5267591,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1427,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0,
+        "update": 3
+      }
+    ],
+    "optimizer_attempts": [
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 68.33819761164139,
+        "kl_before_tis_denominator": 666,
+        "kl_before_tis": 0.10260990632378587,
+        "original_tokens": 666,
+        "surviving_tokens": 591,
+        "tis_retention": 0.8873873873873874,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 75.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 591,
+        "loss": 0.10108809079135861,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130774.4298127,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 666,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 0,
+        "bank_visit": 2,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 32.529607205226654,
+        "kl_before_tis_denominator": 666,
+        "kl_before_tis": 0.04884325406190188,
+        "original_tokens": 666,
+        "surviving_tokens": 75,
+        "tis_retention": 0.11261261261261261,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 12.0,
+        "answer_rejected_tokens": 591.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 75,
+        "loss": 0.0012386129783080505,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130791.1803615,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 666,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "B/r256",
+        "attempt": "exp-1108-172408-392372",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "r256",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 42931,
+                "abs_end": 42989
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 42931
+              }
+            ],
+            "output_start": 42931,
+            "prompt_tokens": 42931
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 183.22629659151366,
+        "kl_before_tis_denominator": 1427,
+        "kl_before_tis": 0.12839964722600816,
+        "original_tokens": 1427,
+        "surviving_tokens": 1298,
+        "tis_retention": 0.9096005606166784,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 129.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1298,
+        "loss": 0.12195597851117675,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130932.5267591,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1427,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0
+      }
+    ],
+    "failed_batches": [],
+    "checkpoints": [
+      {
+        "directory": "step_1",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 1,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 2,
+            "native_skipped_count": 0,
+            "successful_updates": 2
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 1,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 2,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 2
+        },
+        "publication": {
+          "attempt": "exp-1108-172408-392372",
+          "cell": "B/r256",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/B/exp-1108-172408-392372/hf/step_1",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 1,
+            "native_counters": {
+              "native_attempted_count": 2,
+              "native_skipped_count": 0,
+              "successful_updates": 2
+            },
+            "rollout_id": 1,
+            "successful_update": 2,
+            "weight_version": 2
+          },
+          "observed_at": 1794130822.9680452,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      },
+      {
+        "directory": "step_2",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 2,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 3,
+            "native_skipped_count": 0,
+            "successful_updates": 3
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 2,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 3,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 3
+        },
+        "publication": {
+          "attempt": "exp-1108-172408-392372",
+          "cell": "B/r256",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/r256/student/B/exp-1108-172408-392372/hf/step_2",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 2,
+            "native_counters": {
+              "native_attempted_count": 3,
+              "native_skipped_count": 0,
+              "successful_updates": 3
+            },
+            "rollout_id": 2,
+            "successful_update": 3,
+            "weight_version": 3
+          },
+          "observed_at": 1794130962.906662,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      }
+    ]
+  },
+  {
+    "pair": "B",
+    "protocol": "full",
+    "job": "exp-1108-172446-701416",
+    "cloud_run": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/full/student/B/exp-1108-172446-701416",
+    "updates": [
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 67.51649582611128,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.10107259854208275,
+        "original_tokens": 668,
+        "surviving_tokens": 603,
+        "tis_retention": 0.9026946107784432,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 65.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 603,
+        "loss": 0.08049905549980209,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130685.6179647,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0,
+        "update": 1
+      },
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "1",
+                "abs_start": 42719,
+                "abs_end": 43144
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "1",
+                "abs_start": 0,
+                "abs_end": 42719
+              }
+            ],
+            "output_start": 42719,
+            "prompt_tokens": 42719
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 196.8680440520855,
+        "kl_before_tis_denominator": 1697,
+        "kl_before_tis": 0.11600945436186536,
+        "original_tokens": 1697,
+        "surviving_tokens": 1551,
+        "tis_retention": 0.9139658220388922,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 146.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1551,
+        "loss": 0.09767110135601631,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130806.666341,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1697,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0,
+        "update": 2
+      },
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 2,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 58387,
+                "abs_end": 58781
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 58387
+              }
+            ],
+            "output_start": 58387,
+            "prompt_tokens": 58387
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 279.8607587589063,
+        "kl_before_tis_denominator": 2236,
+        "kl_before_tis": 0.12516134112652338,
+        "original_tokens": 2236,
+        "surviving_tokens": 1875,
+        "tis_retention": 0.8385509838998211,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 361.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1875,
+        "loss": 0.10736092770462173,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130967.8288364,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 2236,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0,
+        "update": 3
+      }
+    ],
+    "optimizer_attempts": [
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 0,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 0,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "0",
+                "abs_start": 16460,
+                "abs_end": 16525
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "0",
+                "abs_start": 0,
+                "abs_end": 16460
+              }
+            ],
+            "output_start": 16460,
+            "prompt_tokens": 16460
+          }
+        ],
+        "current_weight_version": 0,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 67.51649582611128,
+        "kl_before_tis_denominator": 668,
+        "kl_before_tis": 0.10107259854208275,
+        "original_tokens": 668,
+        "surviving_tokens": 603,
+        "tis_retention": 0.9026946107784432,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 65.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 603,
+        "loss": 0.08049905549980209,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130685.6179647,
+        "successful_updates": 1,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 668,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 1,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 1,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 1,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "1",
+                "abs_start": 42719,
+                "abs_end": 43144
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "1",
+                "abs_start": 0,
+                "abs_end": 42719
+              }
+            ],
+            "output_start": 42719,
+            "prompt_tokens": 42719
+          }
+        ],
+        "current_weight_version": 1,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 196.8680440520855,
+        "kl_before_tis_denominator": 1697,
+        "kl_before_tis": 0.11600945436186536,
+        "original_tokens": 1697,
+        "surviving_tokens": 1551,
+        "tis_retention": 0.9139658220388922,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 146.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1551,
+        "loss": 0.09767110135601631,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130806.666341,
+        "successful_updates": 2,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 1697,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 2,
+        "native_skipped_count": 0
+      },
+      {
+        "cell": "B/full",
+        "attempt": "exp-1108-172446-701416",
+        "attempted_rollout_id": 2,
+        "run_kind": "smoke",
+        "protocol": "full",
+        "bank": 2,
+        "bank_visit": 1,
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "generation_weight_versions": [
+          {
+            "spans": [
+              {
+                "version": "2",
+                "abs_start": 58387,
+                "abs_end": 58781
+              }
+            ],
+            "prefill_spans": [
+              {
+                "version": "2",
+                "abs_start": 0,
+                "abs_end": 58387
+              }
+            ],
+            "output_start": 58387,
+            "prompt_tokens": 58387
+          }
+        ],
+        "current_weight_version": 2,
+        "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+        "kl_direction": "student_minus_teacher",
+        "kl_before_tis_numerator": 279.8607587589063,
+        "kl_before_tis_denominator": 2236,
+        "kl_before_tis": 0.12516134112652338,
+        "original_tokens": 2236,
+        "surviving_tokens": 1875,
+        "tis_retention": 0.8385509838998211,
+        "nonfinite_tokens": 0.0,
+        "token_rejected_tokens": 0.0,
+        "answer_rejected_tokens": 361.0,
+        "diagnostics_verified": true,
+        "unverified_diagnostics": [],
+        "mask_evidence_verified": true,
+        "retained_weight": 1,
+        "effective_weight_sum": 1875,
+        "loss": 0.10736092770462173,
+        "lr": [
+          2e-06,
+          2e-06
+        ],
+        "timestamp": 1794130967.8288364,
+        "successful_updates": 3,
+        "actual_turns": 8,
+        "expected_bank_turns": 8,
+        "expected_bank_tokens": 2236,
+        "bank_membership_verified": true,
+        "update_successful": true,
+        "native_attempted_count": 3,
+        "native_skipped_count": 0
+      }
+    ],
+    "failed_batches": [],
+    "checkpoints": [
+      {
+        "directory": "step_1",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 1,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 2,
+            "native_skipped_count": 0,
+            "successful_updates": 2
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 1,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 2,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 2
+        },
+        "publication": {
+          "attempt": "exp-1108-172446-701416",
+          "cell": "B/full",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/full/student/B/exp-1108-172446-701416/hf/step_1",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 1,
+            "native_counters": {
+              "native_attempted_count": 2,
+              "native_skipped_count": 0,
+              "successful_updates": 2
+            },
+            "rollout_id": 1,
+            "successful_update": 2,
+            "weight_version": 2
+          },
+          "observed_at": 1794130837.17161,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      },
+      {
+        "directory": "step_2",
+        "files": [
+          {
+            "path": ".complete",
+            "bytes": 2
+          },
+          {
+            "path": "chat_template.jinja",
+            "bytes": 7756
+          },
+          {
+            "path": "config.json",
+            "bytes": 1938
+          },
+          {
+            "path": "merges.txt",
+            "bytes": 3353259
+          },
+          {
+            "path": "model-00001.safetensors",
+            "bytes": 451709080
+          },
+          {
+            "path": "model-00002.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00003.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00004.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00005.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00006.safetensors",
+            "bytes": 535192000
+          },
+          {
+            "path": "model-00007.safetensors",
+            "bytes": 499283880
+          },
+          {
+            "path": "model-00008.safetensors",
+            "bytes": 524712000
+          },
+          {
+            "path": "model-00009.safetensors",
+            "bytes": 451698656
+          },
+          {
+            "path": "model-00010.safetensors",
+            "bytes": 535192016
+          },
+          {
+            "path": "model-00011.safetensors",
+            "bytes": 530348288
+          },
+          {
+            "path": "model-00012.safetensors",
+            "bytes": 482768824
+          },
+          {
+            "path": "model-00013.safetensors",
+            "bytes": 451698632
+          },
+          {
+            "path": "model-00014.safetensors",
+            "bytes": 535191984
+          },
+          {
+            "path": "model-00015.safetensors",
+            "bytes": 131472008
+          },
+          {
+            "path": "model-00016.safetensors",
+            "bytes": 1271398544
+          },
+          {
+            "path": "model.safetensors.index.json",
+            "bytes": 31732
+          },
+          {
+            "path": "qwen_text_export.json",
+            "bytes": 733
+          },
+          {
+            "path": "tokenizer.json",
+            "bytes": 12807982
+          },
+          {
+            "path": "tokenizer_config.json",
+            "bytes": 16710
+          },
+          {
+            "path": "vocab.json",
+            "bytes": 6722759
+          }
+        ],
+        "export": {
+          "architecture": "Qwen3_5ForCausalLM",
+          "checkpoint_index": 2,
+          "dtype": "torch.bfloat16",
+          "excluded_tensors": [],
+          "model_type": "qwen3_5_text",
+          "native_counters": {
+            "native_attempted_count": 3,
+            "native_skipped_count": 0,
+            "successful_updates": 3
+          },
+          "num_hidden_layers": 32,
+          "omitted_tied_head": true,
+          "reload_verified": false,
+          "rollout_id": 2,
+          "run_kind": "smoke",
+          "saved_tensor_count": 426,
+          "source": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+          "status": "packaged",
+          "successful_update": 3,
+          "tensor_dtypes": {
+            "BF16": 402,
+            "F32": 24
+          },
+          "tie_word_embeddings": true,
+          "total_size": 8411504128,
+          "weight_version": 3
+        },
+        "publication": {
+          "attempt": "exp-1108-172446-701416",
+          "cell": "B/full",
+          "checkpoint_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/integration/full/student/B/exp-1108-172446-701416/hf/step_2",
+          "formal_evaluation": false,
+          "native_update": {
+            "checkpoint_index": 2,
+            "native_counters": {
+              "native_attempted_count": 3,
+              "native_skipped_count": 0,
+              "successful_updates": 3
+            },
+            "rollout_id": 2,
+            "successful_update": 3,
+            "weight_version": 3
+          },
+          "observed_at": 1794130995.1558309,
+          "run_kind": "smoke",
+          "status": "SMOKE_PACKAGED"
+        },
+        "index": {
+          "total_size": 8411504128
+        },
+        "tensor_count": 426
+      }
+    ]
+  }
+]

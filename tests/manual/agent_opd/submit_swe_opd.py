@@ -35,6 +35,20 @@ def _validate_paths(config: dict, config_path: Path) -> None:
         raise ValueError("worker_local_root must be local temporary storage, not a cloud path")
 
 
+def _job_succeeded(job: dict, tasks: dict) -> bool:
+    status = job["status"]
+    if status["phase"] == "Succeeded":
+        return True
+    reason = job["metadata"].get("annotations", {}).get("rjob.brainpp.cn/system-stop-reason")
+    if status["phase"] != "Stopped" or reason != "All critical tasks are finished.":
+        return False
+    # The platform stops noncritical serving roles after the student completes.
+    return all(
+        status["taskStatuses"].get(name, {}).get("succeeded", 0) == task["replica"]
+        for name, task in tasks.items() if task["is_critical"]
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, required=True)
@@ -73,8 +87,9 @@ def main() -> int:
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     with args.receipt.open("x") as receipt, lock_path.open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
+        client = get_rjob_client()
         snapshot = policy_admission_snapshot(
-            get_rjob_client(), creator=config["creator"], gpu_tag=config["gpu_tag"],
+            client, creator=config["creator"], gpu_tag=config["gpu_tag"],
             requested_gpus=requested, policy=policy, timeout=config["api_timeout_seconds"],
         )
         snapshot.update(config=str(path), pair=args.pair, protocol=args.protocol, submitted=False)
@@ -102,9 +117,24 @@ def main() -> int:
         fcntl.flock(lock, fcntl.LOCK_UN)
     print("SWE_PAIR_SUBMITTED", workers.rjob.meta.name, flush=True)
     workers.wait()
-    status = workers.poll()
-    print("SWE_PAIR_FINISHED", workers.rjob.meta.name, status, flush=True)
-    return int(status != "succeeded")
+    job = client.api.get_namespaced_custom_object(
+        group=client.group, version=client.version, namespace=client.namespace,
+        plural=client.plural, name=workers.rjob.meta.name, _request_timeout=config["api_timeout_seconds"],
+    )
+    succeeded = _job_succeeded(job, tasks)
+    terminal = {
+        "job": job["metadata"]["name"], "uid": job["metadata"]["uid"], "status": job["status"],
+        "system_stop_reason": job["metadata"].get("annotations", {}).get("rjob.brainpp.cn/system-stop-reason"),
+        "native_execution_succeeded": succeeded,
+    }
+    try:
+        with args.receipt.with_suffix(".terminal.json").open("x") as output:
+            json.dump(terminal, output, indent=2)
+            output.write("\n")
+    except OSError as error:
+        print("SWE_TERMINAL_RECEIPT_UNVERIFIED", type(error).__name__, str(error), flush=True)
+    print("SWE_PAIR_FINISHED", json.dumps(terminal), flush=True)
+    return int(not succeeded)
 
 
 if __name__ == "__main__":
