@@ -1,8 +1,11 @@
-"""Consume the pinned Steptron DEFAULT SWE turn stream through Miles DataSource.
+"""Consume the pinned Steptron SWE turn stream through Miles DataSource.
 
-The external loader owns file/conversation/turn ordering and epoch wrapping.
-Only native role normalization and Qwen-specific rendering happen here; no
-conversation pool, shuffle, deduplication or target-message training is added.
+The external loader owns file/conversation/turn ordering and epoch wrapping:
+swe_active_conversations native turn sources share one cursor, so conversations
+open in file order, and the native block mixer takes swe_block_turns consecutive
+turns from one open conversation at a time. One open conversation reproduces the
+native streaming order. Only native role normalization and Qwen-specific rendering
+happen here; no shuffle, deduplication or target-message training is added.
 """
 
 import copy
@@ -30,6 +33,8 @@ class SWEInputConfig(BaseConfig):
     swe_source_manifest: A[str, Arg()]
     swe_native_loader_path: A[str, Arg()]
     swe_native_loader_sha256: A[str, Arg()]
+    swe_active_conversations: A[int, Arg()] = 1
+    swe_block_turns: A[int, Arg()] = 8
 
 
 def file_sha256(path: Path) -> str:
@@ -146,7 +151,10 @@ class NativeSWEDataSource(DataSource):
     Args use the existing Miles fields hf_checkpoint, chat_template_path,
     apply_chat_template_kwargs, rollout_max_context_len and n_samples_per_prompt. The custom
     data_source_path config adds swe_source_root, swe_source_manifest,
-    swe_native_loader_path and swe_native_loader_sha256. Paths are caller-owned.
+    swe_native_loader_path, swe_native_loader_sha256, swe_active_conversations and
+    swe_block_turns. Paths are caller-owned. Each get_samples call fills one bank;
+    afterwards finished_conversations names the group_ids whose last turn it drew,
+    including a last turn rejected for length.
     """
 
     config_class = SWEInputConfig
@@ -168,10 +176,19 @@ class NativeSWEDataSource(DataSource):
         self.population = population if population is not None else load_source_population(
             Path(args.swe_source_root), Path(args.swe_source_manifest)
         )
-        self.native = native.OnlineTrajectoryTurnSource(
+        self.sources = [native.OnlineTrajectoryTurnSource(
             self.population.filelist, domain="reasoning", source_group="swe",
             source_load_path=None, source_load_safetensors=None,
+        ) for _ in range(args.swe_active_conversations)]
+        # Construction only stats the files, so replacing the cursors opens nothing.
+        self.cursor = self.sources[0].cursor
+        for source in self.sources:
+            source.cursor = self.cursor
+        self.mixer = native.TurnBalancedTrajectoryBlockMixer(
+            self.sources, [1.0] * len(self.sources), trajectory_block_turns=args.swe_block_turns,
         )
+        self.draws = 0
+        self.finished_conversations: tuple[str, ...] = ()
         self._files = {entry["local_path"]: entry for entry in self.population.files}
         self.tokenizer = tokenizer if tokenizer is not None else load_tokenizer(
             args.hf_checkpoint, chat_template_path=args.chat_template_path, local_files_only=True,
@@ -195,6 +212,7 @@ class NativeSWEDataSource(DataSource):
             "rollout_max_context_len": self.context_tokens,
             "rollout_max_response_len": args.rollout_max_response_len,
             "n_samples_per_prompt": 1,
+            "active_conversations": len(self.sources), "block_turns": args.swe_block_turns,
             "domain": "reasoning", "source_group": "swe", "reward_fn_type": "noop",
             "source_load_path": None, "source_load_safetensors": None,
             "shuffle": False, "deduplicate": False, "epoch_wrap": True,
@@ -205,19 +223,31 @@ class NativeSWEDataSource(DataSource):
         }
         logger.info("NATIVE_SWE_INPUT_IDENTITY %s", json.dumps(self.identity))
 
+    def draw(self) -> tuple[int, dict, int]:
+        """Take the next native turn: (draw index, item, turns of its conversation still undrawn)."""
+        emitted = list(self.mixer.emitted_turns)
+        item = next(self.mixer)
+        source = next(s for s, before, after in zip(self.sources, emitted, self.mixer.emitted_turns) if after != before)
+        self.draws += 1
+        return self.draws - 1, item, source.active_remaining_turns
+
     def get_samples(self, num_samples: int) -> list[list[Sample]]:
         if num_samples < 0:
             raise ValueError("num_samples must be non-negative")
         samples = []
+        finished = []
         while len(samples) < num_samples:
-            item = next(self.native)
+            draw_index, item, remaining_turns = self.draw()
             messages = native_chat_messages(item["conversation"])
             history = messages[:-1]
             tools = history[0].get("tools") if history else None
             prompt, prompt_ids = render_qwen_history(self.tokenizer, history, tools, self.template_kwargs)
             source = native_source_identity(item, self._files[item["conversation"][-1]["ground_truth"]["data_path"]],
-                                            self.native.cursor.epoch)
-            source.update(prompt_token_count=len(prompt_ids), prompt_sha256=token_hash(prompt_ids))
+                                            self.cursor.epoch)
+            source.update(draw_index=draw_index, remaining_turns=remaining_turns,
+                          prompt_token_count=len(prompt_ids), prompt_sha256=token_hash(prompt_ids))
+            if remaining_turns == 0:
+                finished.append(source["group_id"])
             if len(prompt_ids) >= self.context_tokens:
                 self.skipped_overlength += 1
                 logger.info("NATIVE_SWE_INPUT_REJECT %s", json.dumps({
@@ -235,6 +265,7 @@ class NativeSWEDataSource(DataSource):
             )
             self.sample_index += 1
             samples.append([sample])
+        self.finished_conversations = tuple(finished)
         return samples
 
     def save(self, directory: Path) -> None:
@@ -242,7 +273,7 @@ class NativeSWEDataSource(DataSource):
         directory.mkdir(parents=True, exist_ok=True)
         (directory / "native_swe_inputs.json").write_text(json.dumps({
             "identity": self.identity, "accepted_turns": self.sample_index,
-            "emitted_turns": self.native.emitted_turns, "skipped_overlength": self.skipped_overlength,
+            "emitted_turns": self.draws, "skipped_overlength": self.skipped_overlength,
             "resume_supported": False,
         }, indent=2) + "\n")
 
@@ -250,4 +281,4 @@ class NativeSWEDataSource(DataSource):
         raise NotImplementedError("Native SWE training restore is unsupported; HF-only exports cannot restore cursor/replay/optimizer state")
 
     def close(self) -> None:
-        self.native.close()
+        self.mixer.close()

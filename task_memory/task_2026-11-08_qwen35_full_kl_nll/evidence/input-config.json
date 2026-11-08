@@ -1,0 +1,144 @@
+{
+  "native_loader_path": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/playground/users/wyx/MOPD/step3p6_mopd_online_turn_loader_0710.py",
+  "native_loader_sha256": "ffd9bb314c2ad5be44c52e2bd11684b51204aaa82b63e298d557b9834becacc8",
+  "source_manifest_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/COPY_COMPLETE.json",
+  "source_manifest_sha256": "bb0db1091760e2a52f0c3c8f0fb9f54eaa2346073bccb4ca00f3df4779ec23c5",
+  "files": [
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0000.json",
+      "sha256": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb",
+      "bytes": 352168391,
+      "conversations": 500,
+      "assistant_turns": 46619,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json",
+      "copied_bytes": 352168391,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0001.json",
+      "sha256": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d",
+      "bytes": 369235910,
+      "conversations": 500,
+      "assistant_turns": 48399,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json",
+      "copied_bytes": 369235910,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0002.json",
+      "sha256": "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4",
+      "bytes": 361892347,
+      "conversations": 500,
+      "assistant_turns": 45993,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json",
+      "copied_bytes": 361892347,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0003.json",
+      "sha256": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662",
+      "bytes": 350282225,
+      "conversations": 500,
+      "assistant_turns": 46715,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json",
+      "copied_bytes": 350282225,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0004.json",
+      "sha256": "f9be77c6019ac52038c47cc70f847e1666633f2fb4c1aaad3c2584e0f7e7f518",
+      "bytes": 278147323,
+      "conversations": 392,
+      "assistant_turns": 35308,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json",
+      "copied_bytes": 278147323,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0000.json",
+      "sha256": "d5b933155df1f412f83734f53c420032c275c8fbe44b3f5c9fe6c6619fd3646c",
+      "bytes": 317335603,
+      "conversations": 500,
+      "assistant_turns": 43069,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json",
+      "copied_bytes": 317335603,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0001.json",
+      "sha256": "fd39d460ee87dbb0a10274ae0cfa52fb650c017a1d0ac1b876828698a1a3cfbd",
+      "bytes": 319631987,
+      "conversations": 500,
+      "assistant_turns": 43355,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json",
+      "copied_bytes": 319631987,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0002.json",
+      "sha256": "e1045ba26039633bfaf33ee7cf83f835dfb081d61bd97cdef3c481ca276d074e",
+      "bytes": 317100901,
+      "conversations": 500,
+      "assistant_turns": 43400,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json",
+      "copied_bytes": 317100901,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0003.json",
+      "sha256": "6c1b02bf08dcabb4fe6f991e5aa09493f69dd6e90e8f20bb1a1d9850e213b002",
+      "bytes": 313332735,
+      "conversations": 500,
+      "assistant_turns": 42302,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json",
+      "copied_bytes": 313332735,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0004.json",
+      "sha256": "82961f98acffecb9fb487f245e8fcc356c272c07e7c743289a789e6ea0104cab",
+      "bytes": 314832778,
+      "conversations": 500,
+      "assistant_turns": 43101,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json",
+      "copied_bytes": 314832778,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0005.json",
+      "sha256": "ed75390fb50fc55a36148aa6b09c2cae876e0a564556d58b873626939674b289",
+      "bytes": 62522228,
+      "conversations": 100,
+      "assistant_turns": 8308,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json",
+      "copied_bytes": 62522228,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json"
+    }
+  ],
+  "hf_checkpoint": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+  "tokenizer_config_json_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+  "chat_template_path": "miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+  "chat_template_sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9",
+  "chat_template_kwargs": {
+    "preserve_thinking": true,
+    "enable_thinking": true
+  },
+  "rollout_max_context_len": 131072,
+  "rollout_max_response_len": 131072,
+  "n_samples_per_prompt": 1,
+  "active_conversations": 32,
+  "block_turns": 8,
+  "domain": "reasoning",
+  "source_group": "swe",
+  "reward_fn_type": "noop",
+  "source_load_path": null,
+  "source_load_safetensors": null,
+  "shuffle": false,
+  "deduplicate": false,
+  "epoch_wrap": true,
+  "length_reject": "prompt_token_count >= rollout_max_context_len",
+  "generation_budget": "rollout_max_context_len - prompt_token_count",
+  "tools_rendering_difference": "Step caller omits system.tools; Qwen passes system.tools explicitly",
+  "resume_supported": false
+}

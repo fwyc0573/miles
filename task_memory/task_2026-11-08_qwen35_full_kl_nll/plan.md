@@ -5,6 +5,7 @@
 | 2026-11-08 | Draft the six-ticket dependency graph and verification strategy; awaiting Q17–Q19 and freeze. |
 | 2026-11-08 | Update ticket 01 and the verification strategy for D18; awaiting freeze. |
 | 2026-11-08 | Record the freeze; rename the ticket 01 link; move the frontier to 01 and the 03 module. |
+| 2026-11-08 | Ticket 01 done; frontier is the 03 module. |
 
 # Plan
 
@@ -50,4 +51,4 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-01 and the 03 module are in progress. 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged.
+01 is done ([test report](test_report_2026-11-08_interleaved_turn_order.md)). The 03 module is in progress. 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged.
