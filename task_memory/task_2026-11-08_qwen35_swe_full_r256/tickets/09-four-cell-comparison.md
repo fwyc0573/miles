@@ -2,15 +2,16 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Renumber from 08 to 09 so ticket numbers follow dependency order; the baseline is now 08. |
 | 2026-11-08 | Draft the final evidence-based comparison slice. |
 
-# 08: 汇总四个实验的效果与训练成本
+# 09: 汇总四个实验的效果与训练成本
 
 **What to build:** 从四个正式cell的实际证据生成full/r256对比表、逐步KL/TIS曲线与完成归档，让读者能复算效果和成本。
 
-**Blocked by:** 04 — A/full；05 — A/r256；06 — B/full；07 — B/r256；09 — 共同原始学生基线。
+**Blocked by:** 04 — A/full；05 — A/r256；06 — B/full；07 — B/r256；08 — 共同原始学生基线。
 
-**Status:** blocked — waiting for 04–07 and 09; comparison not started
+**Status:** blocked — waiting for 04–08; comparison not started
 
 - [ ] 重新读取requirements和最终spec，核对所有cell、checkpoints、updates与benchmark ledger完整性。
 - [ ] 按教师分别比较四个checkpoint的avg@4、KL与TIS；指标方向、分母和训练/评测样本来源明确。

@@ -2,9 +2,10 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-08 | Add the explicitly approved shared original-student baseline underD8. |
+| 2026-11-08 | Renumber from 09 to 08 so ticket numbers follow dependency order; the final comparison is now 09. |
+| 2026-11-08 | Add the explicitly approved shared original-student baseline under D8. |
 
-# 09: 完成四cell共同原始学生基线
+# 08: 完成四cell共同原始学生基线
 
 **What to build:** 使用原始Qwen3.5-4B完成与16个训练checkpoint相同的SWE100题×4评测，为full/r256结果提供一个共同起点。
 

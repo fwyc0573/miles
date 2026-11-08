@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Renumber the baseline (08) and comparison (09) tickets into dependency order after the post-freeze standards review; restore word spacing. |
 | 2026-11-08 | Freeze the nine-ticket dependency graph after user confirmation. |
 | 2026-11-08 | Propose shared, independently verifiable prerequisites and four parallel formal-cell tickets. |
 
@@ -26,21 +27,21 @@ Primary agent owns interview, shared-understanding confirmation, coordination an
 | [05](tickets/05-a-r256.md) | Accepted A/r256 formal cell | 02, 03 |
 | [06](tickets/06-b-full.md) | Accepted B/full formal cell | 02, 03 |
 | [07](tickets/07-b-r256.md) | Accepted B/r256 formal cell | 02, 03 |
-| [09](tickets/09-original-student-baseline.md) | Shared original4B SWE baseline added by D8 | 01, 03 |
-| [08](tickets/08-four-cell-comparison.md) | Auditable four-cell comparison and final archive | 04, 05, 06, 07, 09 |
+| [08](tickets/08-original-student-baseline.md) | Shared original 4B SWE baseline added by D8 | 01, 03 |
+| [09](tickets/09-four-cell-comparison.md) | Auditable four-cell comparison and final archive | 04, 05, 06, 07, 08 |
 
 Dependency graph:
 
 ```text
 documentation freeze -> 01 -> {02, 03}
 {02, 03} -> {04, 05, 06, 07}
-{01, 03} -> 09
-{04, 05, 06, 07, 09} -> 08
+{01, 03} -> 08
+{04, 05, 06, 07, 08} -> 09
 ```
 
-02 and03 share identity/configuration contracts from01, with separate implementation ownership. Native integrated training-to-export verification is required before the formal frontier. The four formal tickets have no artificial serial edge; actual simultaneous admission remains constrained by the resource contract. Each ticket owns its checkpoint evaluations, which overlap subsequent training updates when resources permit.
+02 and 03 share identity/configuration contracts from 01, with separate implementation ownership. Native integrated training-to-export verification is required before the formal frontier. The four formal tickets have no artificial serial edge; actual simultaneous admission remains constrained by the resource contract. Each ticket owns its checkpoint evaluations, which overlap subsequent training updates when resources permit.
 
-09 was added after the initial decomposition by explicitD8 approval; its ID does not define execution order. Baseline scoring and formal training are independent after their stated prerequisites, so final baseline completion is not a blocker of04–07. Follow graph edges rather than numeric order.
+08 was added by explicit D8 approval after the initial decomposition and renumbered after the post-freeze standards review, so ticket numbers now follow dependency order. Baseline scoring and formal training are independent after their stated prerequisites, so final baseline completion is not a blocker of 04–07.
 
 ## Verification strategy
 
@@ -53,4 +54,4 @@ documentation freeze -> 01 -> {02, 03}
 
 ## Current frontier
 
-Documentation landing is complete. The subsequent implementation frontier is01; after01,02and03 may proceed in parallel. Actual runtime results remain absent, and later tickets wait for their recorded prerequisites.
+Documentation landing is complete. The subsequent implementation frontier is 01; after 01, 02 and 03 may proceed in parallel. Actual runtime results remain absent, and later tickets wait for their recorded prerequisites.
