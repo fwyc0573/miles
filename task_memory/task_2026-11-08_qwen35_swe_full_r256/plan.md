@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Clarify08's existing capability-specific prerequisites after independent readiness review; retain the full01/03 gates for04–07. |
 | 2026-11-08 | Reopen Ticket01 for D11's replacement dataset while continuing independent training/evaluation implementation checks. |
 | 2026-11-08 | Accept Ticket01 and move the integration/acceptance frontier to parallel Tickets02 and03. |
 | 2026-11-08 | Start authorized execution and distinguish independent development from prerequisite-dependent runtime acceptance. |
@@ -47,6 +48,8 @@ documentation freeze -> 01 -> {02, 03}
 The edges above gate integration and acceptance. Independent 02 algorithm/replay development and 03 evaluation-lifecycle development can proceed while 01 finishes input parity and identity verification; neither may consume unverified inputs in a formal run or claim completion before 01 passes. This uses the user's parallel-execution approval without changing any experiment or acceptance criterion.
 
 08 was added by explicit D8 approval after the initial decomposition and renumbered after the post-freeze standards review, so ticket numbers now follow dependency order. Baseline scoring and formal training are independent after their stated prerequisites, so final baseline completion is not a blocker of 04–07.
+
+Ticket08's edges refer to its stated capability slices:01 original-model/task identities and03 native SWE evaluation capability. Independent readiness review verified these slices from real original4B/HF3 agent/grader results, reader exit, failure recovery and cloud lifecycle evidence. D11's training-input activation and03's remaining training-to-asynchronous-evaluation isolation do not block08; they still gate04–07. The full01/03 tickets are not relabeled complete by this limited readiness decision.
 
 ## Verification strategy
 

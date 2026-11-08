@@ -1,0 +1,39 @@
+{
+  "source_pins": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/evaluation-source-pins.json",
+  "integration_config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_integration_config.json",
+  "root": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations",
+  "owned_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/formal",
+  "protected_sources": [
+    "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+  ],
+  "reference_root": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1",
+  "native_python": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/.venv/br-native-swe-py310-1008am/environment/bin/python",
+  "python_paths": [
+    "/data/ycfeng/steptron/third_party/step_align",
+    "/data/ycfeng/steptron/third_party/harbor/src"
+  ],
+  "dataset_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json",
+  "manifest_sha256": "b3a0d001a746119f0434d05b5e22e74ce5d5fcf9486958a183ee5e24329ea129",
+  "url": "http://127.0.0.1:30000",
+  "server_reader_id": "formal-swe-owned-server",
+  "baseline_weight_version": 0,
+  "kill_grace_seconds": 120,
+  "server_request_timeout": 5,
+  "server_cleanup_grace_seconds": 600,
+  "server_identity": {
+    "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "weight_version": 0,
+    "sglang_version": "0.5.24.dev80+g056f871",
+    "tool_call_parser": "qwen3_coder",
+    "reasoning_parser": "qwen3",
+    "context_length": 131072,
+    "preserve_thinking": true,
+    "enable_thinking": true,
+    "chat_template_sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9"
+  },
+  "dispatch": {
+    "local_mount": "/data/ycfeng",
+    "directory": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-formal-evaluation-dispatch",
+    "poll_seconds": 1.0
+  }
+}

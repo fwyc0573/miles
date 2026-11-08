@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record independent Ticket08 baseline-specific readiness and correct its overbroad progress blocker without accepting all of03. |
 | 2026-11-08 | Record parent-launch, T02 and T03 phase findings, remediation ownership and native-verification limits. |
 | 2026-11-08 | Record the post-freeze two-axis review of commit `f2f86fea` and its remediation; renumber the baseline/comparison rows. |
 | 2026-11-08 | Refresh the final D1–D10 checkpoint, nine-ticket graph and closure of both follow-up review findings. |
@@ -123,3 +124,11 @@ Reviewer `ses_e45eb6f97ffeKvjf34jqPxjGk5` inspected all four new Python modules/
 | T3-5 / P2 | Repeated worker cancellation can interrupt native child reaping. | T03-REMEDIATION: cancel once and await protected cleanup; verify four slow-TERM workers. |
 
 Remediation session: `ses_e45df2e96ffeu2r2c5xjvsDOn8`. Existing28 fixture passes do not establish native ACS/model/grader, cloud durability or reader-platform termination; T03 is not accepted.
+
+### Ticket08 baseline-specific readiness
+
+Reviewer `ses_e44a21e69ffewws62CNDQ7RzIu` inspected the current requirements/spec/plan,03/08 tickets, qualification/source/reader receipts, formal-accounting report, cloud lifecycle JUnit, five evaluator/submission modules and `evaluation_deepswe_formal_{inputs,config}.json`. It returned GO for starting08 only; no tests, resource operations or writes were performed by the reviewer.
+
+OneP2 documentation finding: progress incorrectly grouped02 capacity, D11 training inputs and03 asynchronous training integration as04–08 prerequisites. Ticket08 explicitly depends only on01's original-model/task identities and03's native SWE evaluation capability. Corrected the progress line and documented these scoped edges;03 stays in-progress and04–07 retain their full prerequisites.
+
+Readiness evidence: real original4B recovery/HF3 native agent/grader outcomes, stable task/seed/version/artifact references, exited readers,215+8 accounting checks and8 cloud lifecycle fixtures. The new formal profile keeps the qualified runtime/server/contract and fixed100 IDs unchanged, enables no qualification subset and protects the original source. Its actual launcher dry-run passed. This is not a400-result score, a throughput guarantee or final08 acceptance. Submission still requires fresh policy admission; formal failure/timing accounting must be inspected in real output.

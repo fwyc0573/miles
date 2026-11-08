@@ -1,0 +1,17 @@
+{
+  "status": "CONFIGURATION_PASS",
+  "python": "3.10.6",
+  "task_count": 100,
+  "planned_attempts": 400,
+  "runtime_server_contract_tasks_identical_to_qualified_formal_config": true,
+  "changed_fields": [
+    "dispatch",
+    "owned_root",
+    "parser_validation",
+    "root"
+  ],
+  "qualification_subset": false,
+  "original_source_protected": true,
+  "formal_run_submitted": false,
+  "new_configuration": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evaluation_deepswe_formal_config.json"
+}

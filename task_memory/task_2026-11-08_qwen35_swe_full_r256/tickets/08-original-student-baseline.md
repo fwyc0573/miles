@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Accept the baseline-specific model/task/evaluator prerequisites after independent readiness review; retain the dependency edges and pending400-result acceptance. |
 | 2026-11-08 | Distinguish still-qualified model/benchmark identities from D11's reopened training-input criteria. |
 | 2026-11-08 | Clear the completed input prerequisite; retain native evaluation as the remaining blocker. |
 | 2026-11-08 | Renumber from 09 to 08 so ticket numbers follow dependency order; the final comparison is now 09. |
@@ -13,7 +14,7 @@
 
 **Blocked by:** 01 — 原始模型与题集身份；03 — 原生SWE评测能力。
 
-**Status:** blocked — 01's original-model and benchmark identities remain qualified under D11; waiting for 03 acceptance; formal baseline not started
+**Status:** in-progress — baseline-specific prerequisites verified: 01 original-model/task identities and 03 native SWE evaluation capability. Formal configuration/dry-run are ready; submission and400-result acceptance remain pending. The03 training-to-asynchronous-evaluation criteria remain in-progress and still gate04–07.
 
 - [ ] 使用四cell共同的原始4B源权重，任务IDs、seeds、模板、精度和native grader与训练checkpoint评测一致。
 - [ ] 完成400个逻辑attempt；每个完成结果即时保存，基础设施缺失按同一协议恢复且不缩分母。
