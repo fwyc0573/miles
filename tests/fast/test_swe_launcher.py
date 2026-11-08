@@ -1,8 +1,11 @@
 """Boundary and subprocess-status regressions for the SWE paired entrypoint."""
 
+import argparse
 import json
+import shlex
 import subprocess
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -83,3 +86,28 @@ def test_partial_critical_replica_completion_remains_failed():
         "status": {"phase": "Stopped", "taskStatuses": {"student": {"succeeded": 1, "stopped": 1}}},
     }
     assert not _job_succeeded(job, {"student": {"is_critical": True, "replica": 2}})
+
+
+@pytest.mark.parametrize("masked", [False, True])
+def test_native_input_policy_reaches_registered_source_config(tmp_path, monkeypatch, masked):
+    from miles.utils.args import custom_function
+    from miles.utils.args.runtime import AllConfig
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "integration_config.json").read_text())
+    config["protocol"] = "r256"
+    receipt = str(tmp_path / "native visual receipt.json")
+    if masked:
+        config["inputs"].update(skip_masked_assistant_turns=True, visual_filter_receipt=receipt)
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "input-policy"))
+    parser = argparse.ArgumentParser(add_help=False)
+    AllConfig.add_arguments(parser)
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    custom_function.add_user_provided_function_arguments(parser, config_class=AllConfig)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert not any(value.startswith("--swe-") for value in unknown)
+    custom_function.resolve_custom_function_configs(parsed, config_class=AllConfig)
+    source = parsed.data_source_path.config
+    assert source.swe_skip_masked_assistant_turns is masked
+    assert source.swe_visual_filter_receipt == (receipt if masked else None)
+    assert source.swe_source_manifest == config["inputs"]["source_manifest"]

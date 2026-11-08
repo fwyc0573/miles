@@ -1,0 +1,53 @@
+{
+  "task_id": "T01-DEEPSWE-ACTIVATION",
+  "exit_code": 0,
+  "elapsed_s": 75.35898140165955,
+  "max_child_peak_rss_kib": 1289480,
+  "rlimit_as_soft_hard_bytes": [
+    32212254720,
+    32212254720
+  ],
+  "time_limit_seconds": 180,
+  "argv": [
+    "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+    "-B",
+    "-m",
+    "tests.manual.agent_opd.check_swe_inputs",
+    "--source-root",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+    "--source-manifest",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "--native-loader",
+    "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "--native-loader-sha256",
+    "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "--native-recipe",
+    "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/baseline_new/mopd/turn_5teachers_data.py",
+    "--tokenizer",
+    "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+    "--chat-template",
+    "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+    "--rollout-max-context-len",
+    "131072",
+    "--turn-ordinals",
+    "1,2,8,32,64,last",
+    "--file-last-prefixes",
+    "1,4,6",
+    "--skip-masked-assistant-turns",
+    "--evidence-prefix",
+    "deepswe-input",
+    "--temporary-root",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-parity-20261108",
+    "--output-root",
+    "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence",
+    "--model-source-receipt",
+    "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/model-sources-exp-1108-144027-369537.json",
+    "--visual-filter-receipt",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+  ],
+  "previous_attempt": {
+    "time_limit_seconds": 60,
+    "exit_code": 124,
+    "note": "full source typed construction stream-hashes the verified population a second time; no check acceptance was emitted"
+  }
+}

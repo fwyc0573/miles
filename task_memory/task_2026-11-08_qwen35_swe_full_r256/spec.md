@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Resolve D11's source-specific native eligibility: retain masked history, select loss-bearing assistant targets and require the original visual exclusion policy. |
 | 2026-11-08 | Apply D11's eight-source SWE-1003/0913 DeepSWE replacement and reopen source-dependent acceptance. |
 | 2026-11-08 | Fix the RKL direction and completion-only scope: rescore the same completion with current student each update; preserve the original D2 reduction. |
 | 2026-11-08 | Apply the explicit D9 temporary independent allocation and post-expiry continuation amendment. |
@@ -21,7 +22,7 @@
 | Qwen既有配置 | Miles `tests/manual/agent_opd/run_qwen35_opd.py:175–245` | 原始HF初始化，Adam、constant2e-6、warmup0、TP2/DP4、GBS8、128K context、8192 response、token-mask TIS[0.5,2]；本次256目标与replay不是已验证行为。 |
 | 当前训练来源（D11） | `/data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md` 第1节及其JSON清单 | SWE-1003／0913 SFT的8个DeepSWE resolved、garble-filtered、datapipe处理源；选择与待核验项见S3。 |
 | 历史GLM-5.2来源（已被D11替换） | Steptron `playground/users/wyx/MOPD/step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:59–71` | 11个GLM-5.2源用于已完成的工程smoke；其统计与容量证据保留原来源，不作为新数据验收。 |
-| Native turn/default ordering | Steptron `playground/users/wyx/MOPD/step3p6_mopd_online_turn_loader_0710.py:218–236,407–425,463–518`；上述recipe`:527–577,589–627` | 全assistant-turn前缀、完整历史、角色规范化、在线顺序读取并epoch回绕；未做replay实验的task去重/随机pool。SWE-only只有一类source。 |
+| D11 native eligibility/default ordering | `/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py:106–129,180–306,353–408` | 原生mask/visual规则见S3；完整历史、有序stream与epoch回绕继承原生基类，不引入task去重或随机pool。 |
 | 旧replay的定制 | Steptron `playground/users/ycfeng/MOPD/bounded_replay_inputs.py:187–300,377–395` | task组划分/去重/shuffle与不回绕的QueryStream属于定制，不是默认loader。 |
 | Replay预算参考 | Steptron `playground/users/ycfeng/MOPD/bounded_replay_protocol.py:22–36,122–129` | 当前旧r256为8次连续复用，d50是相位偏移；本次50次连续复用/200updates是显式新预算。当前参考LR2e-6、warmup0、train seed1234、rollout seed1729、eval100题。 |
 | KL计算与聚合 | Miles `miles/backends/training_utils/loss/hub/opd.py:88–94`；`hub/losses.py:266–278,400–403` | 原始OPD逐token值为student_logp−teacher_logp；现有logged `opd_reverse_kl`经过TIS修改后的mask聚合、分母仍为原始token数。它不是未经筛选的全部原始token均值。 |
@@ -74,7 +75,7 @@
 ## S3. 输入、加载与比较控制
 
 1. **D11当前来源：** 使用`/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/`下指定的8个JSON，按交付清单顺序选择：`/data/ycfeng/steptron/.worktrees/yc-mopd-learning-dynamics-s4-branch/task_memory/task_2026-11-08_mopd_agentic_dataset_lookup/dataset_paths.json`中的`swe_1003_reused_by_20261021_step3p7_student.swe`。该清单为4个`deepswe_32_swa_rl`、3个`deepswe_8_test_swa_rl`和1个`deepswe_8_test_swa_rl_1066`；保留文件名中的`ds0p5`选择，不使用目录glob扩大来源。逐文件冻结实际字节数、SHA256、顺序和副本身份；旧GLM-5.2清单不再是当前正式输入。
-   默认加载仍展开每段对话全部assistant turns、保留完整历史，按文件及对话turn顺序消费，无shuffle，文件用尽后允许epoch回绕。核对该交付的实际Steptron默认loader、schema与过滤行为，再以真实样本验证Miles适配；来源标签不能替代消息/thinking/tool字段检查。新数据的实际可读性、数量及Qwen重编码长度待执行核验。
+   复用该来源的原生SWE1003 `MaskAwareSWETurnSource`：仅把标量整数`loss_mask=1`的assistant位置作为生成目标，`loss_mask=0`的assistant仍完整保留在后续历史中。先按原生visual审计的逐文件source-item索引排除整段含visual payload的轨迹；过滤receipt必须绑定全部实际源文件、size/mtime和原生policy，不以空排除列表代替全源核验。随后按文件、对话及eligible turn顺序消费，无shuffle，文件用尽后允许epoch回绕。eligible ordinal与全部assistant ordinal分别记录。来源身份、实际schema与代表性Qwen对照见[test_report_2026-11-08_deepswe_inputs.md](test_report_2026-11-08_deepswe_inputs.md)，全源数量/重叠见[test_report_2026-11-08_deepswe_source_audit.md](test_report_2026-11-08_deepswe_source_audit.md)；原始数量不能替代visual/长度过滤后的membership。
 2. 通过同一真实样本的Steptron与Miles逐阶段对照，证明任务/对话/turn identity、消息内容与轮次选择一致。Qwen沿用已有`miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja`，`preserve_thinking=true`、`enable_thinking=true`；输入训练与评测全过程保留消息和工具语义。默认loader一致不能用token vocabulary一致替代，也不能强行采用Step tokenizer或Step专用parser。
 3. 复用已有loader/预处理接口；实现差异必须有逐阶段证据。旧Qwen的924训练/24监测输入，以及此前GLM-5.2的11源统计、overlap和parity结果，都不能替代D11新源验收。
 4. 旧replay的prompt去重、task组shuffle、train/probe划分、256固定监测输入与全程唯一prompt约束属于其定制逻辑，不是默认loader。本任务不自动继承这些数据重写；“51,200个full生成slot”不要求51,200条唯一prefix，也不因旧924条数据而减少本任务预算。已知benchmark重叠若在源调查中发现，记录事实后再提出具体处理决定。

@@ -1,0 +1,45 @@
+{
+  "status": "PASS_ACTIVE_FOUR_CELL_INPUT_WIRING",
+  "configuration": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_integration_config.json",
+  "configuration_sha256": "62add9c465ee5a5a6b049c7d7d95959e31e1113a6832b887ac4009510bd73bd5",
+  "visual_filter_receipt_sha256": "fcc3bdd9bcbda5ef5ac27e0246e9db9cba9493f48dfb90fb29d3eedbe158ab35",
+  "cells": [
+    {
+      "pair": "A",
+      "protocol": "full",
+      "source_contract_matches": true,
+      "rollout_context_tokens": 131072,
+      "swe_custom_flags_resolved": true
+    },
+    {
+      "pair": "A",
+      "protocol": "r256",
+      "source_contract_matches": true,
+      "rollout_context_tokens": 131072,
+      "swe_custom_flags_resolved": true
+    },
+    {
+      "pair": "B",
+      "protocol": "full",
+      "source_contract_matches": true,
+      "rollout_context_tokens": 131072,
+      "swe_custom_flags_resolved": true
+    },
+    {
+      "pair": "B",
+      "protocol": "r256",
+      "source_contract_matches": true,
+      "rollout_context_tokens": 131072,
+      "swe_custom_flags_resolved": true
+    }
+  ],
+  "factory_input_contract": {
+    "swe_source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+    "swe_source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "swe_native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "swe_native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "swe_skip_masked_assistant_turns": true,
+    "swe_visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+  },
+  "gpu_input_consumption": "PENDING_TICKET02"
+}

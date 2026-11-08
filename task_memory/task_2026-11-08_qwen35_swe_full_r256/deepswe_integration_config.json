@@ -27,8 +27,10 @@
   "inputs": {
     "source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
     "source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
-    "native_loader_path": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/playground/users/wyx/MOPD/step3p6_mopd_online_turn_loader_0710.py",
-    "native_loader_sha256": "ffd9bb314c2ad5be44c52e2bd11684b51204aaa82b63e298d557b9834becacc8",
+    "native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "skip_masked_assistant_turns": true,
+    "visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
     "chat_template_path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
     "chat_template_kwargs": {"preserve_thinking": true, "enable_thinking": true}
   },

@@ -1,0 +1,1113 @@
+{
+  "complete": true,
+  "elapsed_s": 120.42932623904198,
+  "files": [
+    {
+      "counts": {
+        "assistant_turns": 95051,
+        "eligible_assistant_turns": 93723,
+        "eligible_trajectories": 951,
+        "masked_assistant_turns": 1328,
+        "messages": 198353,
+        "tool_calls": 102351,
+        "trajectories": 951,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 14.216647493653,
+      "role_mask_counts": {
+        "assistant/mask0": 1328,
+        "assistant/mask1": 93723,
+        "system/mask0": 951,
+        "tool/mask0": 101400,
+        "user/mask0": 951
+      },
+      "roles": {
+        "assistant": 95051,
+        "system": 951,
+        "tool": 101400,
+        "user": 951
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3011,
+          "source_item_index": 618
+        },
+        {
+          "assistant_turn_index": 107,
+          "context_masked_assistant_count": 0,
+          "context_messages": 107,
+          "overlength": false,
+          "prompt_tokens": 95977,
+          "source_item_index": 618
+        },
+        {
+          "assistant_turn_index": 207,
+          "context_masked_assistant_count": 0,
+          "context_messages": 207,
+          "overlength": true,
+          "prompt_tokens": 147610,
+          "source_item_index": 618
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3643,
+          "source_item_index": 920
+        },
+        {
+          "assistant_turn_index": 150,
+          "context_masked_assistant_count": 0,
+          "context_messages": 150,
+          "overlength": false,
+          "prompt_tokens": 87051,
+          "source_item_index": 920
+        },
+        {
+          "assistant_turn_index": 288,
+          "context_masked_assistant_count": 0,
+          "context_messages": 288,
+          "overlength": true,
+          "prompt_tokens": 157155,
+          "source_item_index": 920
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4279,
+          "source_item_index": 889
+        },
+        {
+          "assistant_turn_index": 135,
+          "context_masked_assistant_count": 1,
+          "context_messages": 135,
+          "overlength": false,
+          "prompt_tokens": 92597,
+          "source_item_index": 889
+        },
+        {
+          "assistant_turn_index": 261,
+          "context_masked_assistant_count": 1,
+          "context_messages": 261,
+          "overlength": true,
+          "prompt_tokens": 144053,
+          "source_item_index": 889
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 6622,
+          "source_item_index": 686
+        },
+        {
+          "assistant_turn_index": 74,
+          "context_masked_assistant_count": 2,
+          "context_messages": 74,
+          "overlength": false,
+          "prompt_tokens": 122155,
+          "source_item_index": 686
+        },
+        {
+          "assistant_turn_index": 136,
+          "context_masked_assistant_count": 2,
+          "context_messages": 136,
+          "overlength": true,
+          "prompt_tokens": 162576,
+          "source_item_index": 686
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 94435,
+        "eligible_assistant_turns": 93081,
+        "eligible_trajectories": 943,
+        "masked_assistant_turns": 1354,
+        "messages": 197156,
+        "tool_calls": 101778,
+        "trajectories": 943,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 13.620130504481494,
+      "role_mask_counts": {
+        "assistant/mask0": 1354,
+        "assistant/mask1": 93081,
+        "system/mask0": 943,
+        "tool/mask0": 100835,
+        "user/mask0": 943
+      },
+      "roles": {
+        "assistant": 94435,
+        "system": 943,
+        "tool": 100835,
+        "user": 943
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3607,
+          "source_item_index": 769
+        },
+        {
+          "assistant_turn_index": 100,
+          "context_masked_assistant_count": 1,
+          "context_messages": 100,
+          "overlength": false,
+          "prompt_tokens": 108349,
+          "source_item_index": 769
+        },
+        {
+          "assistant_turn_index": 190,
+          "context_masked_assistant_count": 1,
+          "context_messages": 190,
+          "overlength": true,
+          "prompt_tokens": 151498,
+          "source_item_index": 769
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3048,
+          "source_item_index": 222
+        },
+        {
+          "assistant_turn_index": 141,
+          "context_masked_assistant_count": 0,
+          "context_messages": 141,
+          "overlength": false,
+          "prompt_tokens": 102982,
+          "source_item_index": 222
+        },
+        {
+          "assistant_turn_index": 273,
+          "context_masked_assistant_count": 2,
+          "context_messages": 273,
+          "overlength": true,
+          "prompt_tokens": 159348,
+          "source_item_index": 222
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3597,
+          "source_item_index": 751
+        },
+        {
+          "assistant_turn_index": 86,
+          "context_masked_assistant_count": 1,
+          "context_messages": 86,
+          "overlength": false,
+          "prompt_tokens": 84959,
+          "source_item_index": 751
+        },
+        {
+          "assistant_turn_index": 160,
+          "context_masked_assistant_count": 1,
+          "context_messages": 160,
+          "overlength": false,
+          "prompt_tokens": 122843,
+          "source_item_index": 751
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4326,
+          "source_item_index": 234
+        },
+        {
+          "assistant_turn_index": 86,
+          "context_masked_assistant_count": 1,
+          "context_messages": 86,
+          "overlength": false,
+          "prompt_tokens": 68963,
+          "source_item_index": 234
+        },
+        {
+          "assistant_turn_index": 160,
+          "context_masked_assistant_count": 1,
+          "context_messages": 160,
+          "overlength": false,
+          "prompt_tokens": 115038,
+          "source_item_index": 234
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 93526,
+        "eligible_assistant_turns": 92184,
+        "eligible_trajectories": 942,
+        "masked_assistant_turns": 1342,
+        "messages": 195304,
+        "tool_calls": 100836,
+        "trajectories": 942,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 12.938369859941304,
+      "role_mask_counts": {
+        "assistant/mask0": 1342,
+        "assistant/mask1": 92184,
+        "system/mask0": 942,
+        "tool/mask0": 99894,
+        "user/mask0": 942
+      },
+      "roles": {
+        "assistant": 93526,
+        "system": 942,
+        "tool": 99894,
+        "user": 942
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 6441,
+          "source_item_index": 474
+        },
+        {
+          "assistant_turn_index": 106,
+          "context_masked_assistant_count": 1,
+          "context_messages": 106,
+          "overlength": false,
+          "prompt_tokens": 79136,
+          "source_item_index": 474
+        },
+        {
+          "assistant_turn_index": 196,
+          "context_masked_assistant_count": 1,
+          "context_messages": 196,
+          "overlength": false,
+          "prompt_tokens": 123308,
+          "source_item_index": 474
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 5412,
+          "source_item_index": 898
+        },
+        {
+          "assistant_turn_index": 92,
+          "context_masked_assistant_count": 4,
+          "context_messages": 92,
+          "overlength": false,
+          "prompt_tokens": 89612,
+          "source_item_index": 898
+        },
+        {
+          "assistant_turn_index": 166,
+          "context_masked_assistant_count": 5,
+          "context_messages": 166,
+          "overlength": true,
+          "prompt_tokens": 134250,
+          "source_item_index": 898
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 7084,
+          "source_item_index": 407
+        },
+        {
+          "assistant_turn_index": 78,
+          "context_masked_assistant_count": 0,
+          "context_messages": 78,
+          "overlength": false,
+          "prompt_tokens": 67904,
+          "source_item_index": 407
+        },
+        {
+          "assistant_turn_index": 148,
+          "context_masked_assistant_count": 1,
+          "context_messages": 148,
+          "overlength": false,
+          "prompt_tokens": 104602,
+          "source_item_index": 407
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 2922,
+          "source_item_index": 723
+        },
+        {
+          "assistant_turn_index": 217,
+          "context_masked_assistant_count": 4,
+          "context_messages": 217,
+          "overlength": true,
+          "prompt_tokens": 137791,
+          "source_item_index": 723
+        },
+        {
+          "assistant_turn_index": 425,
+          "context_masked_assistant_count": 5,
+          "context_messages": 425,
+          "overlength": true,
+          "prompt_tokens": 219866,
+          "source_item_index": 723
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 93349,
+        "eligible_assistant_turns": 91976,
+        "eligible_trajectories": 923,
+        "masked_assistant_turns": 1373,
+        "messages": 194650,
+        "tool_calls": 100378,
+        "trajectories": 923,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 12.368164682760835,
+      "role_mask_counts": {
+        "assistant/mask0": 1373,
+        "assistant/mask1": 91976,
+        "system/mask0": 923,
+        "tool/mask0": 99455,
+        "user/mask0": 923
+      },
+      "roles": {
+        "assistant": 93349,
+        "system": 923,
+        "tool": 99455,
+        "user": 923
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 7260,
+          "source_item_index": 341
+        },
+        {
+          "assistant_turn_index": 44,
+          "context_masked_assistant_count": 0,
+          "context_messages": 44,
+          "overlength": false,
+          "prompt_tokens": 64963,
+          "source_item_index": 341
+        },
+        {
+          "assistant_turn_index": 81,
+          "context_masked_assistant_count": 0,
+          "context_messages": 81,
+          "overlength": false,
+          "prompt_tokens": 90525,
+          "source_item_index": 341
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 6441,
+          "source_item_index": 93
+        },
+        {
+          "assistant_turn_index": 90,
+          "context_masked_assistant_count": 0,
+          "context_messages": 90,
+          "overlength": false,
+          "prompt_tokens": 64765,
+          "source_item_index": 93
+        },
+        {
+          "assistant_turn_index": 164,
+          "context_masked_assistant_count": 0,
+          "context_messages": 164,
+          "overlength": false,
+          "prompt_tokens": 105057,
+          "source_item_index": 93
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3195,
+          "source_item_index": 402
+        },
+        {
+          "assistant_turn_index": 187,
+          "context_masked_assistant_count": 1,
+          "context_messages": 187,
+          "overlength": false,
+          "prompt_tokens": 130377,
+          "source_item_index": 402
+        },
+        {
+          "assistant_turn_index": 365,
+          "context_masked_assistant_count": 2,
+          "context_messages": 365,
+          "overlength": true,
+          "prompt_tokens": 215556,
+          "source_item_index": 402
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3753,
+          "source_item_index": 882
+        },
+        {
+          "assistant_turn_index": 121,
+          "context_masked_assistant_count": 1,
+          "context_messages": 121,
+          "overlength": false,
+          "prompt_tokens": 62726,
+          "source_item_index": 882
+        },
+        {
+          "assistant_turn_index": 225,
+          "context_masked_assistant_count": 1,
+          "context_messages": 225,
+          "overlength": false,
+          "prompt_tokens": 121433,
+          "source_item_index": 882
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 76677,
+        "eligible_assistant_turns": 75362,
+        "eligible_trajectories": 782,
+        "masked_assistant_turns": 1315,
+        "messages": 160586,
+        "tool_calls": 83127,
+        "trajectories": 782,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 12.277248074300587,
+      "role_mask_counts": {
+        "assistant/mask0": 1315,
+        "assistant/mask1": 75362,
+        "system/mask0": 782,
+        "tool/mask0": 82345,
+        "user/mask0": 782
+      },
+      "roles": {
+        "assistant": 76677,
+        "system": 782,
+        "tool": 82345,
+        "user": 782
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 6573,
+          "source_item_index": 686
+        },
+        {
+          "assistant_turn_index": 168,
+          "context_masked_assistant_count": 4,
+          "context_messages": 168,
+          "overlength": true,
+          "prompt_tokens": 162982,
+          "source_item_index": 686
+        },
+        {
+          "assistant_turn_index": 324,
+          "context_masked_assistant_count": 6,
+          "context_messages": 324,
+          "overlength": true,
+          "prompt_tokens": 212218,
+          "source_item_index": 686
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4386,
+          "source_item_index": 197
+        },
+        {
+          "assistant_turn_index": 150,
+          "context_masked_assistant_count": 1,
+          "context_messages": 150,
+          "overlength": true,
+          "prompt_tokens": 149385,
+          "source_item_index": 197
+        },
+        {
+          "assistant_turn_index": 284,
+          "context_masked_assistant_count": 1,
+          "context_messages": 284,
+          "overlength": true,
+          "prompt_tokens": 208805,
+          "source_item_index": 197
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4252,
+          "source_item_index": 242
+        },
+        {
+          "assistant_turn_index": 88,
+          "context_masked_assistant_count": 0,
+          "context_messages": 88,
+          "overlength": false,
+          "prompt_tokens": 97992,
+          "source_item_index": 242
+        },
+        {
+          "assistant_turn_index": 164,
+          "context_masked_assistant_count": 0,
+          "context_messages": 164,
+          "overlength": true,
+          "prompt_tokens": 132178,
+          "source_item_index": 242
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 5014,
+          "source_item_index": 365
+        },
+        {
+          "assistant_turn_index": 141,
+          "context_masked_assistant_count": 1,
+          "context_messages": 141,
+          "overlength": false,
+          "prompt_tokens": 119224,
+          "source_item_index": 365
+        },
+        {
+          "assistant_turn_index": 269,
+          "context_masked_assistant_count": 1,
+          "context_messages": 269,
+          "overlength": true,
+          "prompt_tokens": 180233,
+          "source_item_index": 365
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 181762,
+        "eligible_assistant_turns": 178910,
+        "eligible_trajectories": 1978,
+        "masked_assistant_turns": 2852,
+        "messages": 380732,
+        "tool_calls": 196991,
+        "trajectories": 1978,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 20.981141320429742,
+      "role_mask_counts": {
+        "assistant/mask0": 2852,
+        "assistant/mask1": 178910,
+        "system/mask0": 1978,
+        "tool/mask0": 195013,
+        "user/mask0": 1979
+      },
+      "roles": {
+        "assistant": 181762,
+        "system": 1978,
+        "tool": 195013,
+        "user": 1979
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3841,
+          "source_item_index": 281
+        },
+        {
+          "assistant_turn_index": 56,
+          "context_masked_assistant_count": 1,
+          "context_messages": 56,
+          "overlength": false,
+          "prompt_tokens": 54782,
+          "source_item_index": 281
+        },
+        {
+          "assistant_turn_index": 100,
+          "context_masked_assistant_count": 1,
+          "context_messages": 100,
+          "overlength": false,
+          "prompt_tokens": 79418,
+          "source_item_index": 281
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3526,
+          "source_item_index": 521
+        },
+        {
+          "assistant_turn_index": 106,
+          "context_masked_assistant_count": 1,
+          "context_messages": 106,
+          "overlength": false,
+          "prompt_tokens": 102786,
+          "source_item_index": 521
+        },
+        {
+          "assistant_turn_index": 198,
+          "context_masked_assistant_count": 1,
+          "context_messages": 198,
+          "overlength": true,
+          "prompt_tokens": 141043,
+          "source_item_index": 521
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3615,
+          "source_item_index": 982
+        },
+        {
+          "assistant_turn_index": 63,
+          "context_masked_assistant_count": 0,
+          "context_messages": 63,
+          "overlength": false,
+          "prompt_tokens": 81652,
+          "source_item_index": 982
+        },
+        {
+          "assistant_turn_index": 119,
+          "context_masked_assistant_count": 0,
+          "context_messages": 119,
+          "overlength": false,
+          "prompt_tokens": 113539,
+          "source_item_index": 982
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4099,
+          "source_item_index": 1976
+        },
+        {
+          "assistant_turn_index": 101,
+          "context_masked_assistant_count": 1,
+          "context_messages": 101,
+          "overlength": false,
+          "prompt_tokens": 93826,
+          "source_item_index": 1976
+        },
+        {
+          "assistant_turn_index": 193,
+          "context_masked_assistant_count": 2,
+          "context_messages": 193,
+          "overlength": true,
+          "prompt_tokens": 132224,
+          "source_item_index": 1976
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 181915,
+        "eligible_assistant_turns": 178926,
+        "eligible_trajectories": 1969,
+        "masked_assistant_turns": 2989,
+        "messages": 380829,
+        "tool_calls": 196945,
+        "trajectories": 1969,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 19.91843711771071,
+      "role_mask_counts": {
+        "assistant/mask0": 2989,
+        "assistant/mask1": 178926,
+        "system/mask0": 1969,
+        "tool/mask0": 194976,
+        "user/mask0": 1969
+      },
+      "roles": {
+        "assistant": 181915,
+        "system": 1969,
+        "tool": 194976,
+        "user": 1969
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4858,
+          "source_item_index": 508
+        },
+        {
+          "assistant_turn_index": 52,
+          "context_masked_assistant_count": 0,
+          "context_messages": 52,
+          "overlength": false,
+          "prompt_tokens": 46793,
+          "source_item_index": 508
+        },
+        {
+          "assistant_turn_index": 94,
+          "context_masked_assistant_count": 0,
+          "context_messages": 94,
+          "overlength": false,
+          "prompt_tokens": 68471,
+          "source_item_index": 508
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3469,
+          "source_item_index": 1462
+        },
+        {
+          "assistant_turn_index": 71,
+          "context_masked_assistant_count": 1,
+          "context_messages": 71,
+          "overlength": false,
+          "prompt_tokens": 74220,
+          "source_item_index": 1462
+        },
+        {
+          "assistant_turn_index": 133,
+          "context_masked_assistant_count": 1,
+          "context_messages": 133,
+          "overlength": false,
+          "prompt_tokens": 107759,
+          "source_item_index": 1462
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4555,
+          "source_item_index": 44
+        },
+        {
+          "assistant_turn_index": 67,
+          "context_masked_assistant_count": 2,
+          "context_messages": 67,
+          "overlength": false,
+          "prompt_tokens": 54844,
+          "source_item_index": 44
+        },
+        {
+          "assistant_turn_index": 123,
+          "context_masked_assistant_count": 2,
+          "context_messages": 123,
+          "overlength": false,
+          "prompt_tokens": 88059,
+          "source_item_index": 44
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 2705,
+          "source_item_index": 1173
+        },
+        {
+          "assistant_turn_index": 60,
+          "context_masked_assistant_count": 2,
+          "context_messages": 60,
+          "overlength": false,
+          "prompt_tokens": 39344,
+          "source_item_index": 1173
+        },
+        {
+          "assistant_turn_index": 108,
+          "context_masked_assistant_count": 2,
+          "context_messages": 108,
+          "overlength": false,
+          "prompt_tokens": 63586,
+          "source_item_index": 1173
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      }
+    },
+    {
+      "counts": {
+        "assistant_turns": 75905,
+        "eligible_assistant_turns": 74621,
+        "eligible_trajectories": 766,
+        "masked_assistant_turns": 1284,
+        "messages": 158761,
+        "tool_calls": 82090,
+        "trajectories": 766,
+        "trajectories_without_eligible_turns": 0
+      },
+      "elapsed_s": 11.947739315219223,
+      "role_mask_counts": {
+        "assistant/mask0": 1284,
+        "assistant/mask1": 74621,
+        "system/mask0": 766,
+        "tool/mask0": 81324,
+        "user/mask0": 766
+      },
+      "roles": {
+        "assistant": 75905,
+        "system": 766,
+        "tool": 81324,
+        "user": 766
+      },
+      "sampled_prefixes": [
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 6132,
+          "source_item_index": 103
+        },
+        {
+          "assistant_turn_index": 97,
+          "context_masked_assistant_count": 1,
+          "context_messages": 97,
+          "overlength": false,
+          "prompt_tokens": 123795,
+          "source_item_index": 103
+        },
+        {
+          "assistant_turn_index": 191,
+          "context_masked_assistant_count": 2,
+          "context_messages": 191,
+          "overlength": true,
+          "prompt_tokens": 173954,
+          "source_item_index": 103
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 3571,
+          "source_item_index": 485
+        },
+        {
+          "assistant_turn_index": 225,
+          "context_masked_assistant_count": 1,
+          "context_messages": 225,
+          "overlength": true,
+          "prompt_tokens": 137165,
+          "source_item_index": 485
+        },
+        {
+          "assistant_turn_index": 433,
+          "context_masked_assistant_count": 2,
+          "context_messages": 433,
+          "overlength": true,
+          "prompt_tokens": 236021,
+          "source_item_index": 485
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 5205,
+          "source_item_index": 443
+        },
+        {
+          "assistant_turn_index": 143,
+          "context_masked_assistant_count": 1,
+          "context_messages": 143,
+          "overlength": true,
+          "prompt_tokens": 139979,
+          "source_item_index": 443
+        },
+        {
+          "assistant_turn_index": 273,
+          "context_masked_assistant_count": 1,
+          "context_messages": 273,
+          "overlength": true,
+          "prompt_tokens": 198461,
+          "source_item_index": 443
+        },
+        {
+          "assistant_turn_index": 2,
+          "context_masked_assistant_count": 0,
+          "context_messages": 2,
+          "overlength": false,
+          "prompt_tokens": 4559,
+          "source_item_index": 442
+        },
+        {
+          "assistant_turn_index": 127,
+          "context_masked_assistant_count": 2,
+          "context_messages": 127,
+          "overlength": false,
+          "prompt_tokens": 123477,
+          "source_item_index": 442
+        },
+        {
+          "assistant_turn_index": 241,
+          "context_masked_assistant_count": 4,
+          "context_messages": 241,
+          "overlength": true,
+          "prompt_tokens": 184805,
+          "source_item_index": 442
+        }
+      ],
+      "signature": {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      }
+    }
+  ],
+  "identity": {
+    "audit_version": 2,
+    "max_prompt_length": 131071,
+    "prompt_policy": "adaptive_sft_tools_reasoning_effort_preserve_thinking_v1",
+    "sample_seed": 20261001,
+    "sample_trajectories_per_file": 4,
+    "sources": [
+      {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      },
+      {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      },
+      {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      },
+      {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      },
+      {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      },
+      {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      },
+      {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      },
+      {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      }
+    ],
+    "target_policy": "assistant_with_scalar_integer_loss_mask_one_v1",
+    "tokenizer_sha256": {
+      "chat_template.jinja": "9d459a466e9648721ef6dda4cd168d921c2b6b4e7c0a82e032d261ea9854ef2e",
+      "special_tokens_map.json": "d47424bda11df4cedc3f9458915c465a28e601d3b7df0e78f6dff4d7727006c4",
+      "tokenizer.json": "b564c620eb77fa11d0926011c2202347d6cfc358d79724ee04ae7007e13636f0",
+      "tokenizer_config.json": "78202af487f4d4360e8d15cb0506d60718f8599770599c6f28f7f1fa045a591f"
+    }
+  },
+  "sampled_prompt_tokens": {
+    "count": 96,
+    "max": 236021,
+    "mean": 81281.72916666667,
+    "min": 2705,
+    "overlength": 24
+  },
+  "source_sft_commit": "390c6ac66838856ef34f7e1e5d6d787dcf252213",
+  "source_sft_effective_epochs": 0.4,
+  "totals": {
+    "assistant_turns": 892620,
+    "eligible_assistant_turns": 878783,
+    "eligible_trajectories": 9254,
+    "masked_assistant_turns": 13837,
+    "messages": 1866371,
+    "tool_calls": 964496,
+    "trajectories": 9254,
+    "trajectories_without_eligible_turns": 0
+  }
+}

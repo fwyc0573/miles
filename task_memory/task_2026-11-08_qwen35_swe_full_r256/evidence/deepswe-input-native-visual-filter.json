@@ -1,0 +1,464 @@
+{
+  "baseline_expected_totals": {
+    "eligible_assistant_turns": 878783,
+    "messages": 1866371,
+    "trajectories": 9254
+  },
+  "complete": true,
+  "elapsed_s": 127.23696851078421,
+  "failure_codes": [],
+  "files": [
+    {
+      "counts": {
+        "messages": 198353,
+        "trajectories": 951
+      },
+      "elapsed_s": 14.0621766904369,
+      "eligible_assistant_turns_excluded": 0,
+      "error_type": null,
+      "excluded_source_item_indices": [],
+      "file_index": 0,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      },
+      "signature_before": {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      },
+      "source": {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      }
+    },
+    {
+      "counts": {
+        "messages": 197156,
+        "messages_with_content_visual_signal": 4,
+        "messages_with_visual_payload": 4,
+        "trajectories": 943,
+        "trajectories_with_visual_payload": 4
+      },
+      "elapsed_s": 13.595277271233499,
+      "eligible_assistant_turns_excluded": 556,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        313,
+        350,
+        748,
+        902
+      ],
+      "file_index": 1,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      },
+      "signature_before": {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      },
+      "source": {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      }
+    },
+    {
+      "counts": {
+        "messages": 195304,
+        "messages_with_content_visual_signal": 6,
+        "messages_with_visual_payload": 6,
+        "trajectories": 942,
+        "trajectories_with_visual_payload": 6
+      },
+      "elapsed_s": 13.288621629588306,
+      "eligible_assistant_turns_excluded": 696,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        23,
+        219,
+        688,
+        730,
+        799,
+        917
+      ],
+      "file_index": 2,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      },
+      "signature_before": {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      },
+      "source": {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      }
+    },
+    {
+      "counts": {
+        "messages": 194650,
+        "messages_with_content_visual_signal": 6,
+        "messages_with_visual_payload": 6,
+        "trajectories": 923,
+        "trajectories_with_visual_payload": 6
+      },
+      "elapsed_s": 13.375815264880657,
+      "eligible_assistant_turns_excluded": 851,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        107,
+        195,
+        346,
+        376,
+        810,
+        881
+      ],
+      "file_index": 3,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      },
+      "signature_before": {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      },
+      "source": {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      }
+    },
+    {
+      "counts": {
+        "messages": 160586,
+        "messages_with_content_visual_signal": 22,
+        "messages_with_visual_payload": 22,
+        "trajectories": 782,
+        "trajectories_with_visual_payload": 15
+      },
+      "elapsed_s": 11.063370137475431,
+      "eligible_assistant_turns_excluded": 1412,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        23,
+        34,
+        77,
+        112,
+        138,
+        162,
+        164,
+        202,
+        317,
+        403,
+        458,
+        524,
+        610,
+        676,
+        774
+      ],
+      "file_index": 4,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      },
+      "signature_before": {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      },
+      "source": {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      }
+    },
+    {
+      "counts": {
+        "messages": 380732,
+        "messages_with_content_visual_signal": 76,
+        "messages_with_visual_payload": 76,
+        "trajectories": 1978,
+        "trajectories_with_visual_payload": 29
+      },
+      "elapsed_s": 25.3654140047729,
+      "eligible_assistant_turns_excluded": 2575,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        59,
+        60,
+        61,
+        133,
+        206,
+        316,
+        317,
+        388,
+        462,
+        464,
+        563,
+        564,
+        630,
+        806,
+        807,
+        876,
+        1058,
+        1126,
+        1297,
+        1298,
+        1372,
+        1551,
+        1552,
+        1553,
+        1619,
+        1693,
+        1764,
+        1866,
+        1974
+      ],
+      "file_index": 5,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      },
+      "signature_before": {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      },
+      "source": {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      }
+    },
+    {
+      "counts": {
+        "messages": 380829,
+        "messages_with_content_visual_signal": 82,
+        "messages_with_visual_payload": 82,
+        "trajectories": 1969,
+        "trajectories_with_visual_payload": 29
+      },
+      "elapsed_s": 25.281039690598845,
+      "eligible_assistant_turns_excluded": 2603,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        58,
+        60,
+        128,
+        266,
+        296,
+        297,
+        370,
+        540,
+        541,
+        542,
+        614,
+        796,
+        797,
+        798,
+        871,
+        1048,
+        1049,
+        1050,
+        1118,
+        1296,
+        1297,
+        1367,
+        1540,
+        1541,
+        1542,
+        1609,
+        1679,
+        1853,
+        1923
+      ],
+      "file_index": 6,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      },
+      "signature_before": {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      },
+      "source": {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      }
+    },
+    {
+      "counts": {
+        "messages": 158761,
+        "messages_with_content_visual_signal": 33,
+        "messages_with_visual_payload": 33,
+        "trajectories": 766,
+        "trajectories_with_visual_payload": 13
+      },
+      "elapsed_s": 11.175010880455375,
+      "eligible_assistant_turns_excluded": 1315,
+      "error_type": null,
+      "excluded_source_item_indices": [
+        141,
+        145,
+        258,
+        327,
+        345,
+        501,
+        519,
+        528,
+        557,
+        562,
+        633,
+        713,
+        723
+      ],
+      "file_index": 7,
+      "scan_finished": true,
+      "signature_after": {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      },
+      "signature_before": {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      },
+      "source": {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      }
+    }
+  ],
+  "identity": {
+    "baseline_audit_path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-baseline-audit.json",
+    "baseline_audit_sha256": "84e607ab08d43abac4569434f1f5e0660bf5aaaa3fceef08ee882c4ba52f8019",
+    "filter_version": 1,
+    "sources": [
+      {
+        "mtime_ns": 1794142216874896517,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+        "size": 1840507093
+      },
+      {
+        "mtime_ns": 1794142230766901667,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 1798751171
+      },
+      {
+        "mtime_ns": 1794142244490906792,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 1777535746
+      },
+      {
+        "mtime_ns": 1794142257930912089,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+        "size": 1776704827
+      },
+      {
+        "mtime_ns": 1794142270074916583,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1377049904
+      },
+      {
+        "mtime_ns": 1794142285802922546,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+        "size": 3299554993
+      },
+      {
+        "mtime_ns": 1794142312018932637,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+        "size": 3331390326
+      },
+      {
+        "mtime_ns": 1794142332694940327,
+        "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+        "size": 1358046403
+      }
+    ],
+    "visual_audit_path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-audit.json",
+    "visual_audit_sha256": "094a95fb7b97202ded7a7283e14b053e83098d010a7d834b392ec0d68e75a437",
+    "visual_policy_sha256": "086dcf806d9670985c0a5fedb058255eda8f4e1848cd0db558dd189968aa7470"
+  },
+  "source_signatures_after_scan": [
+    {
+      "mtime_ns": 1794142216874896517,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "size": 1840507093
+    },
+    {
+      "mtime_ns": 1794142230766901667,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "size": 1798751171
+    },
+    {
+      "mtime_ns": 1794142244490906792,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "size": 1777535746
+    },
+    {
+      "mtime_ns": 1794142257930912089,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "size": 1776704827
+    },
+    {
+      "mtime_ns": 1794142270074916583,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "size": 1377049904
+    },
+    {
+      "mtime_ns": 1794142285802922546,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "size": 3299554993
+    },
+    {
+      "mtime_ns": 1794142312018932637,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "size": 3331390326
+    },
+    {
+      "mtime_ns": 1794142332694940327,
+      "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "size": 1358046403
+    }
+  ],
+  "totals": {
+    "eligible_assistant_turns_excluded": 10008,
+    "messages": 1866371,
+    "messages_with_content_visual_signal": 229,
+    "messages_with_visual_payload": 229,
+    "trajectories": 9254,
+    "trajectories_with_visual_payload": 102
+  },
+  "visual_expected_totals": {
+    "messages": 1866371,
+    "messages_with_visual_payload": 229,
+    "trajectories": 9254,
+    "trajectories_with_visual_payload": 102
+  }
+}

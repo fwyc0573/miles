@@ -1,0 +1,121 @@
+{
+  "task_id": "T01-DEEPSWE-ACTIVATION",
+  "status": "PASS_NATIVE_FULL_SOURCE_RECEIPTS",
+  "python": "3.12.13",
+  "python_executable": "/data/ycfeng/envs/openmopd-py312/bin/python",
+  "transformers": "4.57.6",
+  "ijson_version": "3.6.0",
+  "ijson_backend": "yajl2_c",
+  "loguru": "0.7.3",
+  "workers": 1,
+  "rlimit_as_soft_hard_bytes": [
+    32212254720,
+    32212254720
+  ],
+  "command_time_limit_seconds": 1800,
+  "native_tokenizer_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/third_party/steptokenizer/tokenizers/Step4VMainlineVLLMMultiTurnMultiRoleXMLV0ReasonEffortSpacePreserveThinkingAdaptive",
+  "source_manifest_sha256": "c23a757918031592f6440cd50f0ca750f5de07da5590e98c55eb6b5760f7f73d",
+  "native_modules": [
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_data_audit_1001.py",
+      "sha256": "8d6f34caac3c1915efd85b40c1751725c789625a02e35eb0f6ee737c5910323a"
+    },
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_audit_1001.py",
+      "sha256": "5838a812996890f003199b7575788962360ef27810a7c29c4df466b64d0ebc1e"
+    },
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_filter_1001.py",
+      "sha256": "91d2ea967208147775f1f398d4dc8dc9adccbeb2ea30249296167dcd1e6588a8"
+    }
+  ],
+  "previous_failed_attempt": {
+    "task_id": "T01-DEEPSWE-ACTIVATION",
+    "status": "FAIL_NATIVE_API",
+    "python": "3.12.13",
+    "ijson_version": "3.6.0",
+    "ijson_backend": "yajl2_c",
+    "workers": 1,
+    "rlimit_as_soft_hard_bytes": [
+      32212254720,
+      32212254720
+    ],
+    "command_time_limit_seconds": 1800,
+    "source_manifest_sha256": "c23a757918031592f6440cd50f0ca750f5de07da5590e98c55eb6b5760f7f73d",
+    "native_modules": [
+      {
+        "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_data_audit_1001.py",
+        "sha256": "8d6f34caac3c1915efd85b40c1751725c789625a02e35eb0f6ee737c5910323a"
+      },
+      {
+        "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_audit_1001.py",
+        "sha256": "5838a812996890f003199b7575788962360ef27810a7c29c4df466b64d0ebc1e"
+      },
+      {
+        "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_filter_1001.py",
+        "sha256": "91d2ea967208147775f1f398d4dc8dc9adccbeb2ea30249296167dcd1e6588a8"
+      }
+    ],
+    "stages": {},
+    "failed_stage": "baseline",
+    "error_type": "TypeError",
+    "elapsed_s": 7.587522344663739,
+    "parent_peak_rss_kib": 34404,
+    "max_child_peak_rss_kib": 829404,
+    "receipts_present": []
+  },
+  "stages": {
+    "baseline": {
+      "elapsed_s": 120.50305730290711,
+      "complete": true,
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-baseline-audit.json",
+      "totals": {
+        "trajectories": 9254,
+        "eligible_assistant_turns": 878783,
+        "trajectories_without_eligible_turns": 0,
+        "messages": 1866371,
+        "assistant_turns": 892620,
+        "masked_assistant_turns": 13837,
+        "tool_calls": 964496,
+        "eligible_trajectories": 9254
+      }
+    },
+    "visual": {
+      "elapsed_s": 127.67137576825917,
+      "complete": false,
+      "failure_codes": [
+        "visual_payload_detected"
+      ],
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-audit.json",
+      "totals": {
+        "trajectories": 9254,
+        "messages": 1866371,
+        "messages_with_content_visual_signal": 229,
+        "messages_with_visual_payload": 229,
+        "trajectories_with_visual_payload": 102
+      }
+    },
+    "filter": {
+      "elapsed_s": 127.26333520375192,
+      "complete": true,
+      "failure_codes": [],
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
+      "totals": {
+        "trajectories": 9254,
+        "messages": 1866371,
+        "messages_with_content_visual_signal": 229,
+        "messages_with_visual_payload": 229,
+        "trajectories_with_visual_payload": 102,
+        "eligible_assistant_turns_excluded": 10008
+      }
+    }
+  },
+  "elapsed_s": 375.4382953364402,
+  "parent_peak_rss_kib": 533368,
+  "max_child_peak_rss_kib": 688992,
+  "receipts_present": [
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-baseline-audit.json",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-audit.json",
+    "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+  ]
+}

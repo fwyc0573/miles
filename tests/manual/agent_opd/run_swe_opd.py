@@ -123,6 +123,9 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
         "num_gpus_per_node": student["gpus_per_node"], "attention_dropout": 0, "hidden_dropout": 0,
         "accumulate_allreduce_grads_in_fp32": True, "attention_softmax_in_fp32": True, "attention_backend": "flash",
     }
+    for name in ("skip_masked_assistant_turns", "visual_filter_receipt"):
+        if name in inputs:
+            arguments[f"swe_{name}"] = inputs[name]
     if "release_scoring_output" in train:
         arguments.update(
             custom_megatron_before_log_prob_hook_path=(

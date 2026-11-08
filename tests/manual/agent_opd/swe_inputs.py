@@ -30,6 +30,8 @@ class SWEInputConfig(BaseConfig):
     swe_source_manifest: A[str, Arg()]
     swe_native_loader_path: A[str, Arg()]
     swe_native_loader_sha256: A[str, Arg()]
+    swe_skip_masked_assistant_turns: A[bool, Arg()] = False
+    swe_visual_filter_receipt: A[str | None, Arg()] = None
 
 
 def file_sha256(path: Path) -> str:
@@ -41,7 +43,7 @@ def file_sha256(path: Path) -> str:
 
 
 def load_native_module(path: Path, expected_sha256: str) -> ModuleType:
-    """Load the standalone stdlib module, registering it before dataclass exec."""
+    """Load the pinned CPU module, registering it before dataclass exec."""
     content = path.read_bytes()
     actual = hashlib.sha256(content).hexdigest()
     if actual != expected_sha256:
@@ -58,6 +60,17 @@ def load_native_module(path: Path, expected_sha256: str) -> ModuleType:
             del sys.modules[name]
             raise
     return sys.modules[name]
+
+
+def load_swe_native_module(args) -> ModuleType:
+    path = Path(args.swe_native_loader_path).resolve()
+    if args.swe_skip_masked_assistant_turns:
+        # The pinned SWE1003 module imports its CPU-only native package peers.
+        # Its existing playground/users/cj/opd package layout owns this root.
+        root = str(path.parents[4])
+        if root not in sys.path:
+            sys.path.insert(0, root)
+    return load_native_module(path, args.swe_native_loader_sha256)
 
 
 @dataclass(frozen=True)
@@ -137,6 +150,9 @@ def native_source_identity(item: dict, file: dict, epoch: int) -> dict:
             "source_item_index", "source_row_index", "source_message_count",
             "assistant_turn_index", "assistant_turn_ordinal", "num_context_messages",
         )},
+        **{name: ground_truth[name] for name in (
+            "target_policy", "target_loss_mask", "source_assistant_turn_ordinal", "context_masked_assistant_count",
+        ) if name in ground_truth},
     }
 
 
@@ -146,12 +162,14 @@ class NativeSWEDataSource(DataSource):
     Args use the existing Miles fields hf_checkpoint, chat_template_path,
     apply_chat_template_kwargs, rollout_max_context_len and n_samples_per_prompt. The custom
     data_source_path config adds swe_source_root, swe_source_manifest,
-    swe_native_loader_path and swe_native_loader_sha256. Paths are caller-owned.
+    swe_native_loader_path and swe_native_loader_sha256. The optional native
+    mask policy requires swe_skip_masked_assistant_turns and a verified
+    swe_visual_filter_receipt. Paths are caller-owned.
     """
 
     config_class = SWEInputConfig
 
-    def __init__(self, args, *, tokenizer=None, population: SWESourcePopulation | None = None):
+    def __init__(self, args, *, tokenizer=None, population: SWESourcePopulation | None = None, native_source=None):
         if args.n_samples_per_prompt != 1:
             raise ValueError("Native SWE inputs require n_samples_per_prompt=1")
         if args.rollout_max_context_len is None or args.rollout_max_context_len <= 0:
@@ -164,14 +182,23 @@ class NativeSWEDataSource(DataSource):
         reserved = {"tools", "chat_template", "tokenize", "add_generation_prompt", "return_dict"} & kwargs.keys()
         if reserved:
             raise ValueError(f"SWE rendering owns template arguments: {sorted(reserved)}")
-        native = load_native_module(Path(args.swe_native_loader_path), args.swe_native_loader_sha256)
+        if args.swe_skip_masked_assistant_turns and native_source is None and args.swe_visual_filter_receipt is None:
+            raise ValueError("Native mask-aware SWE inputs require a verified swe_visual_filter_receipt")
+        native = load_swe_native_module(args)
         self.population = population if population is not None else load_source_population(
             Path(args.swe_source_root), Path(args.swe_source_manifest)
         )
-        self.native = native.OnlineTrajectoryTurnSource(
-            self.population.filelist, domain="reasoning", source_group="swe",
-            source_load_path=None, source_load_safetensors=None,
-        )
+        source_kwargs = dict(domain="reasoning", source_group="swe", source_load_path=None, source_load_safetensors=None)
+        if native_source is not None:
+            # Test-only injection cannot be supplied through SWEInputConfig.
+            self.native = native_source
+        elif args.swe_skip_masked_assistant_turns:
+            exclusions = native.load_visual_filter_exclusions(args.swe_visual_filter_receipt, self.population.filelist)
+            self.native = native.MaskAwareSWETurnSource(
+                self.population.filelist, excluded_source_item_indices=exclusions, **source_kwargs,
+            )
+        else:
+            self.native = native.OnlineTrajectoryTurnSource(self.population.filelist, **source_kwargs)
         self._files = {entry["local_path"]: entry for entry in self.population.files}
         self.tokenizer = tokenizer if tokenizer is not None else load_tokenizer(
             args.hf_checkpoint, chat_template_path=args.chat_template_path, local_files_only=True,
@@ -203,6 +230,26 @@ class NativeSWEDataSource(DataSource):
             "tools_rendering_difference": "Step caller omits system.tools; Qwen passes system.tools explicitly",
             "resume_supported": False,
         }
+        if args.swe_skip_masked_assistant_turns:
+            base = sys.modules[native.OnlineTrajectoryTurnSource.__module__]
+            dependencies = [importlib.import_module(name) for name in (
+                "playground.users.cj.opd.s4_swe_visual_filter_1001",
+                "playground.users.cj.opd.s4_swe_visual_audit_1001",
+                "playground.users.cj.opd.s4_swe_source_manifest_1001",
+            )]
+            self.identity.update(
+                native_base_path=base.__file__, native_base_sha256=file_sha256(Path(base.__file__)),
+                native_dependencies=[{"path": module.__file__, "sha256": file_sha256(Path(module.__file__))}
+                                     for module in dependencies],
+                target_policy=native.TARGET_POLICY,
+                visual_exclusion_policy=native.VISUAL_EXCLUSION_POLICY,
+                visual_filter_receipt=args.swe_visual_filter_receipt,
+                visual_filter_receipt_sha256=(file_sha256(Path(args.swe_visual_filter_receipt))
+                                             if args.swe_visual_filter_receipt is not None else None),
+                visual_filter_verified=native_source is None,
+                native_source_injected_for_test=native_source is not None,
+                tools_rendering_difference="Native SWE1003 adaptive Step and Qwen both receive tools; model templates differ",
+            )
         logger.info("NATIVE_SWE_INPUT_IDENTITY %s", json.dumps(self.identity))
 
     def get_samples(self, num_samples: int) -> list[list[Sample]]:

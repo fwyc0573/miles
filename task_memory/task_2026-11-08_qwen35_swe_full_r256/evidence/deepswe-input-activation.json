@@ -1,0 +1,294 @@
+{
+  "task_id": "T01-DEEPSWE-ACTIVATION",
+  "status": "PASS_LOCAL_NATIVE_INPUT_ACTIVATION",
+  "data_source_path": "tests.manual.agent_opd.swe_inputs.NativeSWEDataSource",
+  "activation_config": {
+    "swe_source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+    "swe_source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "swe_native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "swe_native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "swe_skip_masked_assistant_turns": true,
+    "swe_visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+  },
+  "source_manifest": {
+    "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "sha256": "c23a757918031592f6440cd50f0ca750f5de07da5590e98c55eb6b5760f7f73d",
+    "total_bytes": 16559540463,
+    "ordered_source_count": 8
+  },
+  "source_population_before_visual_filter": {
+    "conversations": 9254,
+    "raw_assistant_positions": 892620,
+    "mask1_eligible_turns": 878783,
+    "mask0_assistant_positions": 13837
+  },
+  "visual_filter": {
+    "receipt": {
+      "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
+      "sha256": "fcc3bdd9bcbda5ef5ac27e0246e9db9cba9493f48dfb90fb29d3eedbe158ab35"
+    },
+    "policy_sha256": "086dcf806d9670985c0a5fedb058255eda8f4e1848cd0db558dd189968aa7470",
+    "excluded_conversations": 102,
+    "excluded_mask1_turns": 10008,
+    "remaining_conversations": 9152,
+    "remaining_native_eligible_turns": 868775,
+    "remaining_qwen_length_eligible_turns": null,
+    "per_file": [
+      {
+        "file_index": 0,
+        "source": {
+          "mtime_ns": 1794142216874896517,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+          "size": 1840507093
+        },
+        "excluded_conversations": 0,
+        "excluded_source_item_indices": [],
+        "excluded_mask1_turns": 0,
+        "retained_conversations": 951,
+        "retained_native_eligible_turns": 93723
+      },
+      {
+        "file_index": 1,
+        "source": {
+          "mtime_ns": 1794142230766901667,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+          "size": 1798751171
+        },
+        "excluded_conversations": 4,
+        "excluded_source_item_indices": [
+          313,
+          350,
+          748,
+          902
+        ],
+        "excluded_mask1_turns": 556,
+        "retained_conversations": 939,
+        "retained_native_eligible_turns": 92525
+      },
+      {
+        "file_index": 2,
+        "source": {
+          "mtime_ns": 1794142244490906792,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+          "size": 1777535746
+        },
+        "excluded_conversations": 6,
+        "excluded_source_item_indices": [
+          23,
+          219,
+          688,
+          730,
+          799,
+          917
+        ],
+        "excluded_mask1_turns": 696,
+        "retained_conversations": 936,
+        "retained_native_eligible_turns": 91488
+      },
+      {
+        "file_index": 3,
+        "source": {
+          "mtime_ns": 1794142257930912089,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+          "size": 1776704827
+        },
+        "excluded_conversations": 6,
+        "excluded_source_item_indices": [
+          107,
+          195,
+          346,
+          376,
+          810,
+          881
+        ],
+        "excluded_mask1_turns": 851,
+        "retained_conversations": 917,
+        "retained_native_eligible_turns": 91125
+      },
+      {
+        "file_index": 4,
+        "source": {
+          "mtime_ns": 1794142270074916583,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+          "size": 1377049904
+        },
+        "excluded_conversations": 15,
+        "excluded_source_item_indices": [
+          23,
+          34,
+          77,
+          112,
+          138,
+          162,
+          164,
+          202,
+          317,
+          403,
+          458,
+          524,
+          610,
+          676,
+          774
+        ],
+        "excluded_mask1_turns": 1412,
+        "retained_conversations": 767,
+        "retained_native_eligible_turns": 73950
+      },
+      {
+        "file_index": 5,
+        "source": {
+          "mtime_ns": 1794142285802922546,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+          "size": 3299554993
+        },
+        "excluded_conversations": 29,
+        "excluded_source_item_indices": [
+          59,
+          60,
+          61,
+          133,
+          206,
+          316,
+          317,
+          388,
+          462,
+          464,
+          563,
+          564,
+          630,
+          806,
+          807,
+          876,
+          1058,
+          1126,
+          1297,
+          1298,
+          1372,
+          1551,
+          1552,
+          1553,
+          1619,
+          1693,
+          1764,
+          1866,
+          1974
+        ],
+        "excluded_mask1_turns": 2575,
+        "retained_conversations": 1949,
+        "retained_native_eligible_turns": 176335
+      },
+      {
+        "file_index": 6,
+        "source": {
+          "mtime_ns": 1794142312018932637,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+          "size": 3331390326
+        },
+        "excluded_conversations": 29,
+        "excluded_source_item_indices": [
+          58,
+          60,
+          128,
+          266,
+          296,
+          297,
+          370,
+          540,
+          541,
+          542,
+          614,
+          796,
+          797,
+          798,
+          871,
+          1048,
+          1049,
+          1050,
+          1118,
+          1296,
+          1297,
+          1367,
+          1540,
+          1541,
+          1542,
+          1609,
+          1679,
+          1853,
+          1923
+        ],
+        "excluded_mask1_turns": 2603,
+        "retained_conversations": 1940,
+        "retained_native_eligible_turns": 176323
+      },
+      {
+        "file_index": 7,
+        "source": {
+          "mtime_ns": 1794142332694940327,
+          "path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+          "size": 1358046403
+        },
+        "excluded_conversations": 13,
+        "excluded_source_item_indices": [
+          141,
+          145,
+          258,
+          327,
+          345,
+          501,
+          519,
+          528,
+          557,
+          562,
+          633,
+          713,
+          723
+        ],
+        "excluded_mask1_turns": 1315,
+        "retained_conversations": 753,
+        "retained_native_eligible_turns": 73306
+      }
+    ]
+  },
+  "baseline_receipt": {
+    "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-baseline-audit.json",
+    "sha256": "84e607ab08d43abac4569434f1f5e0660bf5aaaa3fceef08ee882c4ba52f8019"
+  },
+  "visual_audit_receipt": {
+    "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-audit.json",
+    "sha256": "094a95fb7b97202ded7a7283e14b053e83098d010a7d834b392ec0d68e75a437"
+  },
+  "input_config_identity": {
+    "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-config.json",
+    "sha256": "147ca3f3b0cf3f99d2f9ddbf8a4078e3e9c2c29acc52b559afec5a5059c17e1c"
+  },
+  "parity_identity": {
+    "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-parity.json",
+    "sha256": "f3919e1b1dce989532410757ebe910438767d082b1f8640c190712f6a0b7c5a0"
+  },
+  "ordinary_typed_factory": {
+    "status": "PASS",
+    "scope": "actual source files",
+    "path": "tests.manual.agent_opd.swe_inputs.NativeSWEDataSource",
+    "config": {
+      "swe_source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+      "swe_source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+      "swe_native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+      "swe_native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+      "swe_skip_masked_assistant_turns": true,
+      "swe_visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+    },
+    "uses_actual_custom_function_config_merge": true,
+    "runtime_config_type": "RolloutConfig",
+    "runtime_config_builder": "existing make_rollout_config with real parser defaults and model_validate",
+    "nonexistent_max_seq_len_launch_field_absent": true,
+    "native_request_max_new_tokens": 126706
+  },
+  "native_source_injected_for_test": false,
+  "visual_filter_verified": true,
+  "limits": [
+    "Native eligible turn total is before Qwen >=131072-token rejection; only representative Qwen prefixes encoded",
+    "No new native sampler/scanner or permissive receipt fallback",
+    "Receipt is bound to exact local absolute paths,size,mtime and policy; another mount/copy requires native revalidation",
+    "Actual launch argv and final ticket acceptance are owned by parent; no GPU or production runtime acceptance claimed"
+  ]
+}
