@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Collect full source-derived teacher/student logs and verify retained sampling metadata across184 shared valid UIDs. |
 | 2026-11-09 | Record exact-job terminal readback, failed D12 acquisition and independent baseline progress. |
 
 # D12 and baseline runtime readback
@@ -31,3 +32,17 @@ The27 pending slots are collector observations; detailed generation/teacher clas
 ## Limits and next action
 
 D12's approval covers one experiment,now concluded unsuccessfully. No further GPU run,concurrency/graph/deadline/threshold change or formal-profile change was made. Router effect and uniqueness of the remaining bottleneck are not proven by the227 total. Independent source-lifetime capacity remains unverified. The baseline's4 false outcomes are completed model outcomes,not infrastructure-missing slots; the full score remains unavailable. Captured files and retained HFs/results are preserved. Continue read-only RCA and baseline monitoring; prepare a concrete approval request only after the remaining cause is narrowed.
+
+## Retained evidence follow-up
+
+Downloaded complete existing logs with `timeout 60s ssh -o BatchMode=yes -o ConnectTimeout=10 shai-ycfeng 'cat <exact-path>'`, using `set -C` and `umask 077` for new local files. No GPU job or remote write was created:
+
+- Student source: `/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-round-robin/r256/student/A/exp-1109-010244-280221.log`.
+- Teacher source: `/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-round-robin/r256/teacher/A/exp-1109-010244-280221/rank-0.log`. This follows `qwen35_pair_worker.py:218`, the protocol runtime root and the actual `teacher-ready.json`; it is not an inferred filename. The receipt binds the same job/pair/rank, two H200 GPUs, approved image and Qwen27B source.
+- Local files: `/data/ycfeng/tmp/T02-ROUND-ROBIN-RCA/native-full-20261109/student.log` and `teacher.log`. Detailed log inspection belongs to the resumed local-only RCA agent.
+
+The same bounded read-only SSH command streamed the two original bank JSONLs and extracted only requested probability/seed/completion and weight-version fields. The first collector failed on an actual null sample with `AttributeError: 'NoneType' object has no attribute 'get'`; the corrected collector explicitly records null samples and writes a separate `sampling-weight-metadata-20261109-v2.json`. It does not substitute a sample or change a slot result.
+
+Local Python3.10.6 compared valid samples by source UID: new227, old206, shared184. Probability definitions, seed, maximum response budget and maximum sequence length have zero shared-UID mismatches. All observed output/prefill spans have version label0; all retained request seeds are1729. Completion hashes match70 and differ114. Expected identity/metadata consistency: PASS. Equal metadata does not establish equal weight bytes, bitwise inference or a causal routing-only throughput delta. No numerical or concurrency-safety verdict follows. Summary: `evidence/deepswe-round-robin-sampling-metadata.json`; original bank paths and raw capture are recorded there.
+
+The independent baseline readback at1794162993.5202243 finds9 completed outcomes (4 true,5 false),391 missing,no infrastructure failure files and statusRUNNING. The original first start/deadline remain unchanged. Full-score acceptance is still NOT COMPLETE. Raw follow-up:`/data/ycfeng/tmp/qwen35-swe-original4b-progress-20261109-followup.json`; this advances the earlier8-result observation,which remains retained.

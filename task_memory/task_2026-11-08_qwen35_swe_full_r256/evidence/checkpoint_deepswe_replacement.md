@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Verify retained policy/metadata evidence and baseline9/400; continue only the specific missing-log RCA without another GPU trial. |
 | 2026-11-09 | Check failed D12 and baseline8/400; correct stale experiment/03 dependency statuses without changing acceptance. |
 | 2026-11-09 | Accept03 after actual native isolation and review; track approved02 routing experiment and independent08. |
 | 2026-11-08 | Accept numerical audit; stop blind reruns after acquisition/permission failures and retain independent baseline progress. |
@@ -27,7 +28,7 @@
 | 05 A/r256 | BLOCKED | 等待02；D12不是正式profile变更。 |
 | 06 B/full | BLOCKED | 等待02。 |
 | 07 B/r256 | BLOCKED | 等待02。 |
-| 08 原始学生基线 | TODO | 已持久化8/400结果，4 true/4 false；392缺失，原72h不变，无完整avg@4。 |
+| 08 原始学生基线 | TODO | 已持久化9/400结果，4 true/5 false；391缺失，原72h不变，无完整avg@4。 |
 | 09 比较归档 | BLOCKED | 无正式cell或完整benchmark结果。 |
 
 ## 2. 偏离检测
@@ -42,7 +43,7 @@
 | D3 支线问题修补 | CLEAR | 只读RCA直接服务02容量门槛，未修无关问题。 |
 | D4 可并行任务停滞 | CLEAR | 02失败取证与08基线并行；03验收已提交49aa6f8b。 |
 | D5 超范围镀金 | CLEAR | D12单次范围保持；正式profile与门槛未变。 |
-| D6 分析空转 | CLEAR | 新增227/256终态与8/400基线结果；后续分析限定在未完成请求原因。 |
+| D6 分析空转 | CLEAR | actual policy/256 UIDs、27 generation pending及184共同UID的metadata已核验；仅补原始日志中明确缺失的原因证据。 |
 | D7 路线违背 | CLEAR | D12已记录原始批准；231/1800/128K/n1/max1/graphFalse/TP2保持，04–07未提前启动。 |
 
 **文档检查：** S5：plan/progress仍称D12运行中，ticket08仍称03未完成，与实际Failed及49aa6f8b矛盾；已修正。S1–S4/S6无新缺陷；三次未达门槛不证明criterion不可达。
@@ -54,7 +55,7 @@
 
 **文档更新（先执行，已完成）：**
 1. plan、progress、ticket02：记录D12 failed227/256、未评分；只读RCA继续，另一GPU实验需审批（可直接执行，已更新）。
-2. ticket08：03能力已验收；记录8/400与原72h，移除旧03阻塞描述（可直接执行，已更新）。
+2. ticket08：03能力已验收；最新9/400与原72h已记录，旧03阻塞描述已移除（可直接执行，已更新）。
 
 **需停止的偏离行为：** 无。
 
@@ -67,4 +68,4 @@
 
 1. D12单次对照失败227/256；未进入评分，不能评价sourcepatch容量，也不自动重提。
 2. 03原生流程通过，但HF3只是1/400；两份qualification HF必须继续保留。
-3. baseline核实8个完成结果，4 true/4 false；false不重抽，392缺失。04–07等待02，不等待03或完整baseline。
+3. baseline核实9个完成结果，4 true/5 false；false不重抽，391缺失。04–07等待02，不等待03或完整baseline。

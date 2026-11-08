@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Continue scoped retained-log RCA and independent baseline9/400; keep additional GPU experiments approval-dependent. |
 | 2026-11-09 | Record the failed single D12 acquisition and continue read-only02 RCA in parallel with08; no additional experiment approval inferred. |
 | 2026-11-09 | Accept Ticket03 after actual native isolation/review; advance02 to the approved D12 experiment while08 continues. |
 | 2026-11-08 | Route parallel02/03 to the measured acquisition and filesystem blockers while08 continues independently. |
@@ -66,4 +67,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes. The original256-turn acquisitions failed at206/224 valid; the single approved D12 routing-only A/r256 experiment`exp-1109-010244-280221` also failed at227/256 before scoring.02 now completes read-only RCA; any further GPU experiment requires a concrete approval rather than another D12 retry. Formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues with8/400 persisted outcomes and no full avg@4. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.
+01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes. The original256-turn acquisitions failed at206/224 valid; the single approved D12 routing-only A/r256 experiment`exp-1109-010244-280221` also failed at227/256 before scoring.02 now completes read-only RCA from retained full logs; any further GPU experiment requires a concrete approval rather than another D12 retry. Formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues with9/400 persisted outcomes and no full avg@4. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.
