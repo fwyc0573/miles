@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-08 | Record the document checks of the draft spec, plan and six tickets. |
 | 2026-11-08 | Rerun after D18/D19: replace the random-order quantities with the interleaved-order quantities. |
+| 2026-11-08 | Rerun after the ticket 01 rename at the freeze; same result. |
 
 # Test report — documentation landing
 
@@ -20,7 +21,7 @@ python3 /data/ycfeng/tmp/agent-opd-image/check_docs.py .   # run from this task 
 
 The current script is reproduced at the end of this report.
 
-## Current run (after D18/D19)
+## Current run (after D18/D19; repeated after the ticket 01 rename)
 
 Output: `files=12 tickets=6 links=21 anchors=5 order=['01', '02', '03', '04', '05', '06']`, `spans=[3, 11, 18, 58] conversations=564.6 trend_min_turns=81`, `errors: 0`, exit 0.
 
@@ -135,7 +136,7 @@ updates, turns, cells, open_conversations, block = 200, 256, 2, 32, 8
 lengths = {"min": 19, "median": 81, "p90": 144, "max": 464}
 mean_turns, audited_conversations = 90.69, 546
 spec = (task / "spec.md").read_text()
-ticket01 = (task / "tickets/01-indexed-turn-order.md").read_text()
+ticket01 = (task / "tickets/01-interleaved-turn-order.md").read_text()
 per_cell = updates * turns
 spans = [math.ceil(n / block) for n in lengths.values()]
 conversations = per_cell / mean_turns

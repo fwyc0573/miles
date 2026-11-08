@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-08 | Draft the indexed turn order ticket. |
 | 2026-11-08 | Rewrite for the interleaved turn order (D18). |
+| 2026-11-08 | Rename the file from `01-indexed-turn-order.md`; documentation frozen. |
 
 # 01: SWE 输入改用 Interleaved turn order
 
@@ -11,7 +12,7 @@
 
 **Blocked by:** 文档冻结。
 
-**Status:** blocked — waiting for documentation freeze
+**Status:** in-progress
 
 - [ ] `SWEInputConfig` 新增 `swe_active_conversations`（默认 1）和 `swe_block_turns`（默认 8）。`NativeSWEDataSource` 改为由共享 cursor、M 个 `OnlineTrajectoryTurnSource` 和 `TurnBalancedTrajectoryBlockMixer` 组成，不保留旧的单 source 路径。identity 记录 M、block 和全局取数序号。
 - [ ] M = 1：现有 `check_swe_inputs.py` 的检查在真实固定副本上全部通过，且前 512 次取数的 uid 序列与单个 native `OnlineTrajectoryTurnSource` 直接发出的序列完全相同。

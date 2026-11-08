@@ -207,7 +207,7 @@ NLL_i = nll_sum_i / tokens_i
 | 层次 | 检查 |
 | --- | --- |
 | 文档 | 每条原始需求都能对应到本 spec 的章节或 ticket；链接、计数、依赖图（DAG）正确 |
-| 输入顺序（[01](tickets/01-indexed-turn-order.md)） | 在真实固定副本上用 CPU 检查：M = 1 时与当前 streaming 序列完全相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同 |
+| 输入顺序（[01](tickets/01-interleaved-turn-order.md)） | 在真实固定副本上用 CPU 检查：M = 1 时与当前 streaming 序列完全相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同 |
 | 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | CPU：长短不一的样本、CP 切分时，逐 turn 和相加等于原有标量；GPU：在 A 的第一个 update 上检查一致性 |
 | Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
 | 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | 200 个实际 successful update；profile 文件各 200 行；observation 数等于实际训练的 turn 数；每个 update 都通过一致性检查；采集耗时；RJob 终态 |

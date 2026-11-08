@@ -7,6 +7,7 @@
 | 2026-11-08 | Record round-2 decisions D12–D16 and the round-3 questions put with the draft documents. |
 | 2026-11-08 | Record the round-3 answer: random order rejected (D12 withdrawn), GPU budget D17; put Q20 and revised Q18. |
 | 2026-11-08 | Record the round-4 answer as D18 (interleaved turn order) and D19 (relaunch rule). |
+| 2026-11-08 | Record the documentation freeze and the approved ticket 01 rename. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -110,3 +111,10 @@ User answered: **“采纳你的推荐，继续”**.
 - **D18 rollout turn order (Q20 → B).** Use the interleaved turn order: 32 source conversations open at once, each contributing 8 consecutive turns in ascending order per round of 256 draws, the next conversation in file order replacing a finished one. Both numbers are input config fields. Built from the native cursor, turn source and block mixer; with one open conversation it equals the current streaming order. Owner of the exact behavior: [spec S2](spec.md#s2-rollout-取数顺序d18).
 - **Q17 settled by D7.** A conversation stops being alive after the successful update that trains the bank in which its last turn was drawn.
 - **D19 relaunch rule (revised Q18).** If a cell's first update fails D6 because rollout or teacher scoring is too slow, end that attempt as D6 requires and relaunch it as a new attempt with more GPUs, keeping this task's non-preemptible total at most 32, without asking again. If both cells cannot fit in 32, run them one after the other; formal-cell roles do not go on preemptible jobs. D6's deadline and minimum stay unchanged. Later-update throughput failures are not covered: the attempt ends under D6 and is reported.
+
+### Round 5 — [Follow-up Answer] 2026-11-08
+
+Asked: approve renaming `tickets/01-indexed-turn-order.md` to `tickets/01-interleaved-turn-order.md` with `git mv`, and confirm the documentation freeze. User answered: **“同意，继续”**.
+
+- **Documentation frozen.** spec, plan and tickets as of commit `3ede53e6` plus the rename. The freeze covers the narrowing of D1 recorded in the plan: ticket 01 and the pure module part of ticket 03 start now; ticket 02 and the integration part of 03 wait for the reused Ticket02 and the merge.
+- **Rename approved** and applied with `git mv`; links updated.

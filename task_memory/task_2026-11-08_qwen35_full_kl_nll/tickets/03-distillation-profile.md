@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-08 | Draft the Distillation profile ticket. |
 | 2026-11-08 | Take `alive` from the per-bank report of finished conversations (D18). |
+| 2026-11-08 | Documentation frozen: module work in progress; integration waits for 02. |
 
 # 03: Distillation profile 模块与接入
 
@@ -11,7 +12,7 @@
 
 **Blocked by:** 文档冻结（模块本身和 CPU 测试）；02（接入部分）。
 
-**Status:** blocked — waiting for documentation freeze
+**Status:** in-progress — module and CPU test; integration blocked by 02
 
 - [ ] 模块包含 Turn observation、宏观行、conversation 条目、查找表，以及 S4 定义的全部查询（单个 conversation 和全部 conversation 两种形式）。
 - [ ] fast CPU 测试使用合成的 update 序列，期望值手工计算。覆盖：同一 update 内多个 turn、跳过的 update、窗口 k 未到、并列最佳、表格映射和 `alive` 状态变化。

@@ -4,10 +4,11 @@
 | --- | --- |
 | 2026-11-08 | Draft the six-ticket dependency graph and verification strategy; awaiting Q17–Q19 and freeze. |
 | 2026-11-08 | Update ticket 01 and the verification strategy for D18; awaiting freeze. |
+| 2026-11-08 | Record the freeze; rename the ticket 01 link; move the frontier to 01 and the 03 module. |
 
 # Plan
 
-**Phase: DOCS_LANDING.** No implementation or GPU action is authorized until the user freezes the documents.
+**Phase: IMPLEMENTATION.** The user froze the documents on 2026-11-08 (requirements Round 5). GPU actions follow the tickets and S8.
 
 ## Scope and ownership
 
@@ -17,7 +18,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
-| [01](tickets/01-indexed-turn-order.md) | Interleaved turn order in the committed SWE input adapter | Documentation freeze |
+| [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter | Documentation freeze |
 | [02](tickets/02-per-turn-sums.md) | Per-turn KL/NLL sums in the optimizer-step record | Reused Ticket02 committed and smoke-passed on `agent-opd`, then merged (D1) |
 | [03](tickets/03-distillation-profile.md) | Distillation profile module, persistence and rollout-side integration | Documentation freeze (module and CPU test); 02 (integration) |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 01, 02, 03 |
@@ -49,4 +50,4 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-Waiting for the user's freeze confirmation.
+01 and the 03 module are in progress. 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged.

@@ -7,6 +7,7 @@
 | 2026-11-08 | Record round 2 (D12–D16), the drafted spec, plan and six tickets, the Q41 manifest check and the document checks. |
 | 2026-11-08 | Record the round-3 answer and the second loader verification (Finding 12); spec S2 and tickets 01/04/05 wait for Q20. |
 | 2026-11-08 | Record the round-4 answer (D18, D19); rewrite spec S2/S4/S5/S8/S9, tickets 01/03/04/05, the plan and the glossary order term. |
+| 2026-11-08 | Record the freeze and the ticket 01 rename; start 01 and the 03 module. |
 
 # Progress
 
@@ -58,10 +59,14 @@
 - Round 3 answer: random order rejected (D12 withdrawn); D17 GPU budget recorded and applied to spec S0/S8; spec S2 marked as waiting for Q20.
 - Round 4 answer: D18 (interleaved order, 32 × 8) and D19 (relaunch rule) recorded. Rewrote spec S2; updated S4 `alive`, the table and trend notes, S5, S8 (start-up prompt lengths, D19) and S9; rewrote ticket 01 and updated 03/04/05, the plan and the glossary term (Indexed turn order → Interleaved turn order). The ticket 01 file keeps its old name `01-indexed-turn-order.md` until the user approves a `git mv`.
 
+- Round 5 answer: documentation frozen; `git mv` of ticket 01 to `01-interleaved-turn-order.md` approved and applied; links in the plan, spec S9 and the checker updated; checker rerun: 21 links, 5 anchors, 0 errors.
+
 ## in-progress
 
-- Waiting for the user's freeze confirmation and approval to rename the ticket 01 file.
+- Ticket 01: interleaved turn order in `tests/manual/agent_opd/swe_inputs.py`.
+- Ticket 03 (module part): `tests/manual/agent_opd/distillation_profile.py` and its fast CPU test.
 
 ## pending
 
-1. After the freeze: start 01 and the 03 module; 02 waits for the reused Ticket02 and the merge (D1).
+1. 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged (D1).
+2. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.
