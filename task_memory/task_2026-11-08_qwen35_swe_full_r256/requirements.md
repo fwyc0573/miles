@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Clarify completion-only RKL statistics with fresh current-student scoring on the unchanged completion; no new estimator or sampling path. |
 | 2026-11-08 | Amend D9 with the user-approved temporary independent task allocation, overflow preemption, and continuation after expiry. |
 | 2026-11-08 | Record approval to implement and execute the frozen tickets in parallel after the documentation review fixes. |
 | 2026-11-08 | After the post-freeze review, link the spec for D3 optimizer parameters instead of restating them and restore word spacing; no decision changed. |
@@ -65,6 +66,14 @@ User selected: **“筛选前均值（推荐）”**.
 The selected option states: “全部原始有效tokens上的当前学生−教师log-prob均值；TIS保留率另列，旧轨迹采样属性明确标注。”
 
 The primary200-point series is the mean current-student minus frozen-teacher log probability on all original eligible target tokens before TIS. Retain the native post-TIS statistic in its existing logs under its own identity. No extra model forward is required merely to obtain the pre-TIS reduction. Replayed trajectories retain their original sampling distribution; the primary statistic is not relabeled as an exact fresh-policy KL.
+
+**[Original Request / Follow-up Correction] 2026-11-08:** “修正：当前统计的kl实际指的是：RKL：KL(student‖teacher)；student 经常生成的内容，teacher 是否也倾向于生成？”
+
+This explicitly identifies the target direction as reverse KL, student to teacher. The implementation's subtraction direction already agrees. The parent asked an unnecessary estimator-choice question referring to “fixed prefixes”; the user clarified the intended operation below rather than selecting either proposed option.
+
+**[Original Request / Follow-up Clarification] 2026-11-08:** “我没有理解你说的。什么叫做固定前缀？前缀部分也要算入到rkl中吗？这是不允许的。应该用当前student来重新计算该completion的logprob来计算rkl”.
+
+Decision: only original eligible **completion** tokens enter the numerator and denominator; all prompt/prefix and padding positions are excluded. Each update recomputes the current student's log-probabilities for that same stored completion, then compares the corresponding frozen teacher values before TIS. No importance weighting or extra current-policy sampling is introduced. The original D2 reduction remains the implemented statistic and the estimator-choice question is withdrawn. Replay results describe this fixed-completion sampled statistic, not an exact all-output current-policy KL expectation. The explicit formula and reporting contract remain owned by spec S4.
 
 ### D3 — [Original Request / Follow-up Answer] 2026-11-08: research-based optimizer selection
 

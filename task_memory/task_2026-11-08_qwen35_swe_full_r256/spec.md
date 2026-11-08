@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Fix the RKL direction and completion-only scope: rescore the same completion with current student each update; preserve the original D2 reduction. |
 | 2026-11-08 | Apply the explicit D9 temporary independent allocation and post-expiry continuation amendment. |
 | 2026-11-08 | Freeze D1–D10 and the source-backed contract after explicit whole-document confirmation. |
 | 2026-11-08 | Draft the four-cell protocol from the request; explicitly hold source-dependent decisions for the interview. |
@@ -124,7 +125,7 @@ L_pg  = sum(m_i * w_i * max(-rho_i * a_i,
 
 每行至少包含：cell/attempt、update、bank、bank visit、生成/当前权重版本、实际 turn 数、KL estimator 名称与方向、KL numerator/denominator/value、TIS 前有效 target tokens、TIS 后实际参与训练的 tokens、保留率、有效权重统计、实际 LR、训练 loss、时间戳。
 
-- **D2已确认：** 主KL曲线是TIS前所有原始有效target tokens上，当前student减冻结teacher的log-prob均值；每个update使用该次更新前的当前student评分。令原始有效mask为`m`，则`kl_before_tis = sum(m * (logp_student_current - logp_teacher)) / sum(m)`，跨DP/microbatch累计分子分母。OPD surrogate loss、train/rollout数值差与benchmark得分保持各自名称。
+- **D2已确认：** RKL方向为`KL(student‖teacher)`。本实验的逐步采样统计只包含TIS前原始有效**completion tokens**；prompt/prefix和padding不进入分子或分母。每个update用该次更新前的当前student重新评分同一个已存completion，与对应冻结teacher值求差。令仅覆盖有效completion位置的原始mask为`m`，则`kl_before_tis = sum(m * (logp_student_current - logp_teacher)) / sum(m)`，跨DP/microbatch累计分子分母。不得复用生成时或上个update的student评分；不增加重要性权重或额外rollout。该操作与已实施的原D2一致，估计器待选项撤回。OPD surrogate loss、train/rollout数值差与benchmark得分保持各自名称。
 - 原生`train/opd_reverse_kl`经过后TIS mask聚合且保留原始token分母，继续作为原生日志保留，不代替主曲线。主曲线复用已有逐token差增加归约，无需额外模型前向。replay旧轨迹上的sampled log-prob gap准确标记其采样来源，不能声称是当前策略fresh分布下的精确KL；有限样本值也不能因负数而裁成0。
 - TIS 保留率是实际 surviving training tokens / original eligible target tokens；原始 padding/prompt mask、非有限数排除、TIS 丢弃须可区分。跨 rank 使用实际计数总和，不能平均每序列比率。
 - D4的token与整条回答筛选可能重叠，最终survivor数按两个mask交集计数，不能简单相减两层丢弃率。可分别记录两层原因，但同一token不重复扣减。
