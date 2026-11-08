@@ -17,6 +17,7 @@
 | 2026-11-08 | Record the round-8 answers (D23–D25); replace the copy step with reading the files in place. |
 | 2026-11-08 | Record the audit script, the stopped audit hand-off, the round-9 answer (D26, D27) and the document update; reopen 01. |
 | 2026-11-08 | Record the ticket 01 SWE-1003 revision: selectable turn source, local checks PASS (items 1–4). |
+| 2026-11-08 | Record the round-10 request and the questions put; the audit job is not resubmitted. |
 
 # Progress
 
@@ -119,6 +120,11 @@
   - Method: `swe_inputs.py` now loads the pinned f4522d45 modules by dotted name after a SHA256 check (`load_pinned_modules`, moved from the audit) and picks the turn source from the `TURN_SOURCES` table (`all_assistants` → `OnlineTrajectoryTurnSource` with the GLM recipe normalization; `loss_masked` → `MaskAwareSWETurnSource` with the `tokenize_swe_prefix` normalization and the manifest's visual list). Tools: first message `tools`, else `tool_schemas`. The audit imports these owners instead of keeping copies. `check_swe_inputs.py` follows the turn source and gains a `loss_masked` fixture check.
   - Finding: the two native normalizations differ (the GLM recipe drops `value` and requires `content`; `tokenize_swe_prefix` maps `value` to `content` only when `content` is missing), so each turn source carries its own; the parity check now compares normalized history and tools with the native reference on every draw.
   - Result: PASS on the GLM copies with `all_assistants` (all order, prefix, boundary, length and cursor sections equal to the earlier evidence) and on the synthetic SWE-1003 set with `loss_masked`; the synthetic audit output is unchanged after the import refactor. Commands, values and limits: [test report](test_report_2026-11-08_swe1003_turn_source.md); evidence in `evidence/input-all-assistants-f4522d45/` and `evidence/input-loss-masked-synthetic/`.
+
+## Round 10: remaining gap
+
+- Request and Q28–Q31: [requirements Round 10](requirements.md#round-10--follow-up-request-2026-11-08). Spec, tickets and the ticket 03 module change wait for the answers.
+- The audit job resubmission was permitted by the user but not performed: the safety classifier's stop on the earlier hand-off forbids producing that content again. The user was asked to submit; the lead verifies the outputs.
 
 ## in-progress
 

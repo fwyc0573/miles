@@ -14,6 +14,7 @@
 | 2026-11-08 | Record the round-8 request to switch to the SWE-1003 0913 data and the questions put with the analysis. |
 | 2026-11-08 | Record the round-8 answers as D23 (interleaved with the mask-aware turn source), D24 (training turns and `t_id`) and D25 (read the files in place). |
 | 2026-11-08 | Record the round-9 answer: D26 (keep 32 × 8) and D27 (compute the visual exclusion list); documents updated before the audit. |
+| 2026-11-08 | Record the round-10 request (remaining gap, trend on remaining gap, resubmission permission) and Q28–Q31. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -188,3 +189,25 @@ Explained in the reply: M is the number of source conversations open at once; bl
 - **D26 open conversations and block (Q24).** Keep M = 32 and block = 8. If the audit shows a median of training turns per conversation clearly below 81 (the length at which a conversation spans the 11 updates a trend at k = 10 needs), come back with the numbers and a proposal that keeps M × block = 256. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
 - **D27 visual exclusion (Q26).** Compute the list of visual source conversations with the pinned Steptron predicate; do not read the receipt on posttrain-release. The list is written into the source manifest that the audit produces. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
 - **Documents first.** Update spec, plan and tickets with D23–D27 now; numbers that only the audit can give are marked pending, then continue with the ticket 01 revision.
+
+### Round 10 — [Follow-up Request] 2026-11-08
+
+After the ticket 01 local result, the user wrote:
+
+> 允许你再次提交；
+> 在已有的模块（数据结构属性）设计基础上，补充几个属性，如果存在冗余，请你替换合并：
+> - 定义remaining gap属性（both 宏观和微观），计算方式为 remaining_gap（t）=当前update次的rkl / 最初5次rkl的平均值，因此从第5次开始统计。因此补充了2类型remaining gap：总体remaining gap 和 traj-level 的remaining gap，用于表达可以优化的gap
+> - 替换近期趋势的计算方式，依旧按照时间窗口k计算gap，但是对象更换为 不同update下remaining gap 之间做差
+>
+> 如果你未理解或者不认可我的定义，先于我深入充分探讨确认，否则修改tickets和spec
+
+- **Resubmission permission.** The user permits resubmitting the CPU audit job. Not acted on: the earlier hand-off was stopped by the safety classifier with the instruction not to produce that content again, even reworded, and a user permission does not lift that instruction. Reported to the user with the alternative that the user submits the job and the lead verifies the outputs.
+- Observation put with the questions: for one curve the baseline is a constant, so the new trend equals the old RKL trend divided by the baseline; the change is a common unit across conversations and cells, not new information.
+
+Questions put, with recommendations (not decisions until answered):
+
+- **Q28 conversation baseline.** Recommended: the mean RKL of the conversation's own first 5 entries (an entry is the conversation's equal-weight turn mean in one update); reported from its 5th entry. Consequences: only conversations with at least 5 entries (about 33 or more training turns) get a value; a conversation opened later has its baseline measured on a student trained longer, so the value describes the drop within the conversation's own span. Alternative: divide every conversation by the macro baseline.
+- **Q29 trend reference earlier than the 5th update.** Recommended (A): once the baseline exists, the remaining gap of any update, including updates 1–4 (or a conversation's entries 1–4), is its RKL divided by the baseline; the trend needs the current update at or after the 5th and a reference k updates back. Coverage equals the old trend: macro from update 11 at k = 10; a conversation spanning at least 11 updates (about 81 training turns); the D26 threshold stays 81. Alternative (B): remaining gaps exist only from the 5th update or entry; macro from update 15; a conversation needs at least 15 entries (about 113 training turns) and the D26 threshold would rise to about 113.
+- **Q30 recovery gap.** RKL(U) − RKL(best) equals baseline × (remaining gap(U) − remaining gap(best)), so it is derivable. Recommended: restate it in the same unit as remaining gap(U) − remaining gap(best) (always ≥ 0), keeping the separate meaning "how far back from the best point"; alternative: drop it and keep only the RKL-best record.
+- **Q31 details.** Recommended: when a baseline is ≤ 0 (possible with the sampled-token estimate), its remaining gap, trend and recovery gap are not computed and are counted; the baseline length 5 is a profile config value (default 5) logged like k.
+- Known effects to be written into the spec without a decision: the macro baseline covers updates 1–5, when the 32 open conversations are all at their first ~40 turns, and a conversation baseline covers its turns 1–40, so later values mix training progress with turn position; RKL does not reach 0 for a smaller student, so a remaining gap of 0.6 does not mean 60% is still reducible.
