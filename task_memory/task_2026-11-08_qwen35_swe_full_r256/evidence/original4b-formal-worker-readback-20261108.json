@@ -1,0 +1,12 @@
+{
+  "observed_at": 1794146336.0505588,
+  "job": "exp-1108-215214-032806",
+  "phase": "Running",
+  "replicas": [
+    {
+      "name": "exp-1108-215214-032806-cfcd2084",
+      "selected_log_lines": [],
+      "returned_log_lines": 0
+    }
+  ]
+}
