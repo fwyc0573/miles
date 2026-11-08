@@ -9,11 +9,16 @@ from pathlib import Path
 
 import pytest
 
+from tests.ci.ci_register import register_cpu_ci
 from tests.fast import test_swe_evaluation as lifecycle
 from tests.manual.agent_opd import run_swe_evaluation as worker
 from tests.manual.agent_opd import swe_evaluation as swe
 from tests.manual.agent_opd import swe_evaluation_config as assembly
 from tests.manual.agent_opd import swe_native_evaluation as native
+from tests.manual.agent_opd import watch_swe_evaluations as watch
+
+# Recorded testcase time is 34.321s; include interpreter/setup headroom.
+register_cpu_ci(est_time=50, suite="stage-b-cpu", labels=["eval", "ckpt"])
 
 case = lifecycle.case
 FIXTURES = Path(__file__).parent / "fixtures" / "swe_native"
@@ -123,7 +128,7 @@ def test_configuration_binds_ordered_100_four_seeds_and_supplied_endpoint(config
     assert (model["temperature"], model["top_p"], model["max_context_tokens"]) == (1.0, 0.95, 131072)
     assert "max_tokens" not in model and "top_k" not in model
     assert model["drop_thinking"] == "never"
-    assert config["parser_validation"] == "CANDIDATE_PENDING_NATIVE_VERIFICATION"
+    assert "parser_validation" not in config
     env = worker._native_environment(config)
     assert env["PYTHONPATH"].split(":") == [
         config["server"]["repo"],
@@ -132,6 +137,75 @@ def test_configuration_binds_ordered_100_four_seeds_and_supplied_endpoint(config
         *inputs["python_paths"],
     ]
     assert env["CUDA_VISIBLE_DEVICES"] == "" and env["PYTHONNOUSERSITE"] == "1"
+    assert "dispatch" not in config
+
+
+def test_configuration_builder_preserves_dispatch_and_watcher_consumes_real_output(
+    configuration, case, tmp_path, monkeypatch
+):
+    original, inputs = configuration
+    integration_path = Path(inputs["integration_config"])
+    integration = swe.read_json(integration_path)
+    integration["local_mount"] = str(tmp_path)
+    swe.write_json(integration_path, integration)
+    inputs["dispatch"] = {
+        "local_mount": str(tmp_path),
+        "directory": str(tmp_path / "dispatch"),
+        "poll_seconds": 0.03,
+    }
+    input_path, output_path = tmp_path / "inputs.json", tmp_path / "evaluation.json"
+    swe.write_json(input_path, inputs)
+    monkeypatch.setattr(
+        sys, "argv", ["swe_evaluation_config", "--inputs", str(input_path), "--output", str(output_path)]
+    )
+    assembly.main()
+    built = swe.read_json(output_path)
+    assert built["dispatch"] == inputs["dispatch"]
+    assert {key: value for key, value in built.items() if key != "dispatch"} == original
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("KUBEBRAIN_RJOB_NAME", raising=False)
+    watcher = watch.EvaluationWatcher(integration_path, output_path, "builder-fixture-job")
+    notification = watch.notify_ready(
+        output_path,
+        built,
+        job_id=watcher.job_id,
+        point_id="A-full.builder-fixture-job.HF200",
+        checkpoint_dir=case[2],
+    )
+    assert swe.read_json(notification)["configuration"] == str(watcher.configuration)
+    assert swe.read_json(watcher.configuration) == built
+    assert not watcher.children
+
+
+@pytest.mark.parametrize("field,value", [("directory", "/mnt/codesign-exp/another-user"), ("poll_seconds", 0)])
+def test_configuration_builder_reuses_dispatch_validation(configuration, tmp_path, field, value):
+    _, inputs = configuration
+    integration = swe.read_json(inputs["integration_config"])
+    integration["local_mount"] = str(tmp_path)
+    swe.write_json(inputs["integration_config"], integration)
+    inputs["dispatch"] = {
+        "local_mount": str(tmp_path),
+        "directory": str(tmp_path / "dispatch"),
+        "poll_seconds": 0.03,
+    }
+    inputs["dispatch"][field] = value
+    with pytest.raises(ValueError, match="Dispatch|dispatch"):
+        assembly.build_configuration(inputs)
+
+
+def test_configuration_builder_cli_rejects_output_outside_dispatch_mount(configuration, tmp_path, monkeypatch):
+    _, inputs = configuration
+    inputs["dispatch"] = {
+        "local_mount": str(tmp_path),
+        "directory": str(tmp_path / "dispatch"),
+        "poll_seconds": 0.03,
+    }
+    inputs_path, output = tmp_path / "inputs.json", tmp_path.parent / f"{tmp_path.name}-outside.json"
+    swe.write_json(inputs_path, inputs)
+    monkeypatch.setattr(sys, "argv", ["swe_evaluation_config", "--inputs", str(inputs_path), "--output", str(output)])
+    with pytest.raises(ValueError, match="Dispatch paths"):
+        assembly.main()
+    assert not output.exists()
 
 
 @pytest.mark.parametrize(

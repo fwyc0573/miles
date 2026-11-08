@@ -241,3 +241,77 @@ def test_each_native_environment_exit_cause_keeps_slot_missing(tmp_path, field):
 def test_native_environment_failure_precedes_patch_grader_false():
     with pytest.raises(native.NativeInfrastructureError):
         native.native_outcome(TASK, FIXTURES / "exit_env_error.json", FIXTURES / "apply_patch_fail.json", REFERENCE)
+
+
+def test_native_child_reader_persists_actual_exit_boundary(native_case, monkeypatch):
+    runner, request, _, *_ = native_case
+    store, point = runner.store, runner.point_id
+    store.start(point, allocation=lifecycle.ALLOCATION)
+    deadline = store.state(point)["deadline_at"]
+
+    class Child:
+        pid = 987654
+        returncode = None
+
+        async def wait(self):
+            self.returncode = 0
+
+    child, cleanups = Child(), []
+
+    async def create(*args, **kwargs):
+        return child
+
+    async def cleanup(process, grace):
+        cleanups.append(process.pid)
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", create)
+    monkeypatch.setattr(native, "_stop_child_tree", cleanup)
+    monkeypatch.setattr(runner, "_validated_outcome", lambda *args: {"success": False, "raw": {"fixture": True}})
+    result = asyncio.run(runner(request, deadline))
+    reader = next(row for name, row in store.state(point)["readers"].items() if name.startswith("native-child-"))
+    invocation = swe.read_json(Path(reader["start"]["destination"]) / "invocation.json")
+    assert reader["status"] == "EXITED" and reader["exit"]["returncode"] == 0
+    assert invocation["started_at"] <= reader["started_at"] <= reader["finished_at"]
+    assert reader["start"]["request"] == request and cleanups == [child.pid]
+    store.record(point, request, success=result["success"], raw=result["raw"])
+    counts = store.summary(point)["accounting"]
+    assert counts["attempted"] == counts["model_failed"] == 1 and counts["unstarted"] == 399
+
+
+def test_old_finished_native_records_remain_valid_without_timestamp_migration(native_case, monkeypatch):
+    _saved_native_attempt(native_case)
+    runner, request, deadline, *_ = native_case
+    store, point = runner.store, runner.point_id
+    store.start(point, allocation=lifecycle.ALLOCATION)
+    store.reader_enter(point, "historical-native", {"request": request})
+    state = store.state(point)
+    state["readers"]["historical-native"].update(status="EXITED", exit={"returncode": 0})
+    swe.write_json(store._point(point) / "state.json", state)
+    before = (store._point(point) / "state.json").read_bytes()
+
+    async def forbidden(*args, **kwargs):
+        pytest.fail("A finished native model outcome must not start another child")
+
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", forbidden)
+    outcome = asyncio.run(runner(request, deadline))
+    store.record(point, request, success=outcome["success"], raw=outcome["raw"])
+    assert store.summary(point)["accounting"]["model_failed"] == 1
+    assert (store._point(point) / "state.json").read_bytes() == before
+    assert "finished_at" not in store.state(point)["readers"]["historical-native"]
+
+
+def test_native_outcome_persistence_error_remains_native_io_failure(native_case, monkeypatch):
+    destination = _saved_native_attempt(native_case, published=False)
+    runner, request, deadline, *_ = native_case
+
+    def fail_outcome(path, value):
+        raise OSError("fixture native outcome storage unavailable")
+
+    async def forbidden(*args, **kwargs):
+        pytest.fail("A completed trajectory/grader must not be regenerated on outcome I/O failure")
+
+    monkeypatch.setattr(native, "write_json", fail_outcome)
+    monkeypatch.setattr(asyncio, "create_subprocess_exec", forbidden)
+    with pytest.raises(OSError, match="native outcome storage unavailable"):
+        asyncio.run(runner(request, deadline))
+    assert not (destination / "outcome.json").exists()

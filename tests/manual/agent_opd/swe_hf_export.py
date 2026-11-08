@@ -10,12 +10,14 @@ identity, metadata, and queue failures retain HF and remain training soft gates.
 """
 
 import logging
+import os
 import time
 from collections.abc import Callable
 from pathlib import Path
 
 from tests.manual.agent_opd import qwen_export
 from tests.manual.agent_opd.swe_evaluation import HF_UPDATES, read_json, store_from_config, write_json
+from tests.manual.agent_opd.watch_swe_evaluations import notify_ready, qualification_attempt_ids
 
 from miles.backends.training_utils.types import TrainStepOutcome, TrainStepOutput
 from miles.utils.args.custom_view import ImmutableNamespace
@@ -118,8 +120,27 @@ def post_save(
         stage = "completion_marker"
         # Republish the native marker after packaging and identity metadata, not before.
         write_json(checkpoint / ".complete", {})
+        config = None
         if record["run_kind"] == "smoke":
             publication.update(status="SMOKE_PACKAGED", formal_evaluation=False)
+            if args.swe_evaluation_configuration is not None:
+                stage = "qualification_enqueue"
+                config = read_json(args.swe_evaluation_configuration)
+                if qualification_attempt_ids(config):
+                    # The existing qualification entry verifies the actual persisted smoke publication.
+                    _diagnostic(checkpoint, publication)
+                    point_id = (
+                        f"qualification.{record['cell'].replace('/', '-')}"
+                        f".{record['attempt']}.HF{native['successful_update']}"
+                    )
+                    store_from_config(config).enqueue_qualification_checkpoint(
+                        point_id=point_id,
+                        checkpoint_dir=checkpoint,
+                        source=args.hf_checkpoint,
+                        task_ids=config["task_ids"],
+                        configuration=config["evaluation_contract"],
+                    )
+                    publication.update(point_id=point_id, qualification_evaluation=True, evaluation_status="QUEUED")
         else:
             stage = "enqueue"
             if native["successful_update"] not in HF_UPDATES:
@@ -127,6 +148,8 @@ def post_save(
             if args.swe_evaluation_configuration is None:
                 raise ValueError("Formal SWE HF publication requires --swe-evaluation-configuration")
             config = read_json(args.swe_evaluation_configuration)
+            if qualification_attempt_ids(config):
+                raise ValueError("Qualification dispatch must never enqueue a formal training point")
             point_id = f"{record['cell'].replace('/', '-')}.{record['attempt']}.HF{native['successful_update']}"
             store_from_config(config).enqueue_checkpoint(
                 point_id=point_id,
@@ -137,9 +160,22 @@ def post_save(
                 configuration=config["evaluation_contract"],
             )
             publication.update(status="QUEUED", point_id=point_id, formal_evaluation=True)
+        if "point_id" in publication:
+            stage = "notification"
+            publication["dispatch_status"] = "UNVERIFIED"
+            if os.environ["KUBEBRAIN_RJOB_NAME"] != record["attempt"]:
+                raise ValueError("Ready notification must identify the actual native training job")
+            notification = notify_ready(
+                args.swe_evaluation_configuration,
+                config,
+                job_id=record["attempt"],
+                point_id=point_id,
+                checkpoint_dir=checkpoint,
+            )
+            publication.update(dispatch_status="NOTIFIED", notification=str(notification))
     except Exception as error:
         publication.update(stage=stage, error={"type": type(error).__name__, "message": str(error)})
-        logger.exception("SWE HF publication is unverified; preserve HF and repair %s; training continues", stage)
+        logger.exception("SWE HF publication observer failed at %s; preserve HF; training continues", stage)
     _diagnostic(checkpoint, publication)
 
 

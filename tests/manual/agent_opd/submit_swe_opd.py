@@ -19,6 +19,7 @@ from pathlib import Path
 
 from tests.manual.agent_opd.rjob_budget import policy_admission_snapshot
 from tests.manual.agent_opd.submit_qwen35 import _task_specs, _worker_command
+from tests.manual.agent_opd.watch_swe_evaluations import finish_dispatch, start_dispatch
 
 
 def _validate_paths(config: dict, config_path: Path) -> None:
@@ -116,7 +117,22 @@ def main() -> int:
         receipt.flush()
         fcntl.flock(lock, fcntl.LOCK_UN)
     print("SWE_PAIR_SUBMITTED", workers.rjob.meta.name, flush=True)
-    workers.wait()
+    observer = start_dispatch(path, config, workers.rjob.meta.name)
+    try:
+        try:
+            workers.wait()
+        except Exception:
+            try:
+                _finish_training(client, workers, tasks, args.receipt, config)
+            except Exception as error:
+                print("SWE_TERMINAL_RECEIPT_UNVERIFIED", type(error).__name__, str(error), flush=True)
+            raise
+        return _finish_training(client, workers, tasks, args.receipt, config)
+    finally:
+        finish_dispatch(observer)
+
+
+def _finish_training(client, workers, tasks, receipt, config):
     job = client.api.get_namespaced_custom_object(
         group=client.group, version=client.version, namespace=client.namespace,
         plural=client.plural, name=workers.rjob.meta.name, _request_timeout=config["api_timeout_seconds"],
@@ -128,7 +144,7 @@ def main() -> int:
         "native_execution_succeeded": succeeded,
     }
     try:
-        with args.receipt.with_suffix(".terminal.json").open("x") as output:
+        with receipt.with_suffix(".terminal.json").open("x") as output:
             json.dump(terminal, output, indent=2)
             output.write("\n")
     except OSError as error:

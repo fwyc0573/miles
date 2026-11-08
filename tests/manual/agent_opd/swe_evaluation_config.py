@@ -13,6 +13,7 @@ from urllib.parse import urlsplit
 
 from tests.manual.agent_opd import swe_native_evaluation as native
 from tests.manual.agent_opd.swe_evaluation import SEEDS, benchmark_tasks, read_json, write_json
+from tests.manual.agent_opd.watch_swe_evaluations import validate_dispatch
 
 
 def build_configuration(inputs):
@@ -87,7 +88,7 @@ def build_configuration(inputs):
         raise ValueError("Native cleanup and server startup/request timeouts must be positive")
     if server["cleanup_grace_seconds"] <= runtime["kill_grace_seconds"]:
         raise ValueError("Coordinator cleanup must allow the native children to finish their cleanup")
-    return {
+    configuration = {
         "root": inputs["root"],
         "owned_root": inputs["owned_root"],
         "protected_sources": protected,
@@ -102,8 +103,11 @@ def build_configuration(inputs):
         "evaluation_contract": contract,
         "runtime": runtime,
         "server": server,
-        "parser_validation": "CANDIDATE_PENDING_NATIVE_VERIFICATION",
     }
+    if "dispatch" in inputs:
+        configuration["dispatch"] = copy.deepcopy(inputs["dispatch"])
+        validate_dispatch(inputs["integration_config"], configuration)
+    return configuration
 
 
 def _validate_identity(identity, template):
@@ -128,7 +132,10 @@ def main():
     args = parser.parse_args()
     if args.output.exists():
         parser.error("Configuration already exists; do not replace an immutable point contract")
-    write_json(args.output, build_configuration(read_json(args.inputs)))
+    configuration = build_configuration(read_json(args.inputs))
+    if "dispatch" in configuration:
+        validate_dispatch(args.output, configuration)
+    write_json(args.output, configuration)
 
 
 if __name__ == "__main__":

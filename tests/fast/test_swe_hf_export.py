@@ -13,6 +13,7 @@ import pytest
 from tests.fast.backends.megatron_utils.score_rpc_fixtures import ScoreModel
 from tests.fast.test_qwen_text_export import _write_export
 from tests.fast.test_qwen_text_export import single_thread_cpu as single_thread_cpu
+from tests.fast.test_swe_evaluation import _FourAttemptsFixture
 from tests.manual.agent_opd import qwen_export, swe_evaluation, swe_hf_export
 from transformers import AutoConfig
 
@@ -37,9 +38,11 @@ def case(tmp_path, monkeypatch):
         "allocation_identity": {"task_id": "fixture-swe", "creator": "fixture-user", "gpu_tag": "H200"},
         "task_ids": [f"fixture__task-{i}" for i in range(100)],
         "evaluation_contract": {"fixture": True},
+        "dispatch": {"local_mount": str(tmp_path), "directory": str(tmp_path / "dispatch"), "poll_seconds": 0.01},
     }
     config_path = tmp_path / "configuration.json"
     swe_evaluation.write_json(config_path, configuration)
+    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "attempt-1")
     hook = CustomFunctionConfig(path=HOOK, config={"swe_evaluation_configuration": str(config_path)})
     args = ImmutableNamespace(
         hf_checkpoint=str(source),
@@ -195,6 +198,13 @@ def test_actual_actor_callback_after_skipped_attempt_binds_all_native_identities
     }
     assert case.store.state(point_id)["deadline_at"] is None
     assert _diagnostic(case.checkpoint)["status"] == "QUEUED"
+    notification = swe_evaluation.read_json(_diagnostic(case.checkpoint)["notification"])
+    assert notification == {
+        "point_id": point_id,
+        "job_id": "attempt-1",
+        "checkpoint_dir": str(case.checkpoint),
+        "configuration": str(case.config_path.parent / "dispatch" / "attempt-1" / "evaluation.json"),
+    }
     assert all("hf_publications" not in item["path"] for item in manifest["files"])
     assert before == {file.name: file.read_bytes() for file in case.source.iterdir()}
     # A new producer-independent process observes the durable queue, without a GPU or scorer.
@@ -259,6 +269,7 @@ def test_smoke_packages_without_formal_enqueue_even_at_formal_index(case, monkey
     assert package["successful_update"] == successful and package["weight_version"] == 907
     assert package["run_kind"] == "smoke" and case.store.queued() == ()
     assert "avg_at_n" not in package and "avg_at_n" not in _diagnostic(path)
+    assert not Path(case.config["dispatch"]["directory"]).exists()
     if successful == 50:
         with pytest.raises(ValueError, match="Only formal"):
             case.store.enqueue_checkpoint(
@@ -377,6 +388,27 @@ def test_native_conversion_io_still_propagates(case, monkeypatch):
     assert not case.store.queued()
 
 
+def test_ready_notification_failure_is_soft_after_durable_enqueue(case, monkeypatch):
+    def fail(*args, **kwargs):
+        raise OSError("Injected local notification failure")
+
+    monkeypatch.setattr(swe_hf_export, "notify_ready", fail)
+    path = _callback(case)
+    diagnostic = _diagnostic(path)
+    assert diagnostic["status"] == "QUEUED" and diagnostic["dispatch_status"] == "UNVERIFIED"
+    assert diagnostic["stage"] == "notification" and case.store.queued() == ("A-full.attempt-1.HF50",)
+    assert path.is_dir() and list(path.glob("*.safetensors"))
+
+
+def test_notification_refuses_a_changed_frozen_configuration_without_losing_queue(case):
+    frozen = Path(case.config["dispatch"]["directory"]) / "attempt-1" / "evaluation.json"
+    swe_evaluation.write_json(frozen, {**case.config, "evaluation_contract": {"changed": True}})
+    path = _callback(case)
+    diagnostic = _diagnostic(path)
+    assert diagnostic["status"] == "QUEUED" and diagnostic["stage"] == "notification"
+    assert diagnostic["dispatch_status"] == "UNVERIFIED" and case.store.queued() == ("A-full.attempt-1.HF50",)
+
+
 def test_formal_save_outside_frozen_points_is_not_enqueued(case):
     path = case.checkpoint.with_name("step_1")
     _callback(case, result=_result(2), checkpoint_index=1, path=path)
@@ -408,3 +440,103 @@ def test_store_requires_packaged_native_identity_agreement(case, field, value):
             task_ids=case.config["task_ids"],
             configuration=case.config["evaluation_contract"],
         )
+
+
+def _qualification(case):
+    case.config["root"] = str(case.config_path.parent / "qualification-evaluations")
+    case.config["dispatch"]["qualification_attempt_ids"] = [f"{case.config['task_ids'][0]}#attempt-0"]
+    swe_evaluation.write_json(case.config_path, case.config)
+    case.store = swe_evaluation.store_from_config(case.config)
+
+
+def test_public_actor_smoke_callback_queues_actual_hf2_and_hf3_qualification_without_formal_scores(case, monkeypatch):
+    _qualification(case)
+    reference = ModuleType("playground.users.ycfeng.MOPD.bounded_replay_evaluation")
+    reference.FourAttempts = _FourAttemptsFixture
+    monkeypatch.setitem(sys.modules, reference.__name__, reference)
+    actor = _actor(case, monkeypatch)
+    enqueue = swe_evaluation.EvaluationStore.enqueue_qualification_checkpoint
+    observed = []
+
+    def qualify(store, **kwargs):
+        checkpoint = Path(kwargs["checkpoint_dir"])
+        publication = _diagnostic(checkpoint)
+        assert publication["status"] == "SMOKE_PACKAGED" and publication["formal_evaluation"] is False
+        assert publication["run_kind"] == "smoke"
+        observed.append(publication["native_update"])
+        return enqueue(store, **kwargs)
+
+    monkeypatch.setattr(swe_evaluation.EvaluationStore, "enqueue_qualification_checkpoint", qualify)
+    monkeypatch.setattr(
+        swe_evaluation.EvaluationStore, "enqueue_checkpoint", lambda *args, **kwargs: pytest.fail("No formal enqueue")
+    )
+    monkeypatch.setattr(case.reference, "forward", lambda *args, **kwargs: pytest.fail("No extra packaging forward"))
+    for successful, native_rollout_id, version in ((2, 2, 907), (3, 3, 908)):
+        result = _result(successful, run_kind="smoke", native_rollout_id=native_rollout_id)
+        actor._train_actor = lambda *args, result=result, **kwargs: result
+        actor.model[0].model_companion.weight_version.data.fill_(version)
+        assert actor.train(native_rollout_id, object()) is result
+        actor.save_model(successful - 1)
+        point = f"qualification.A-full.attempt-1.HF{successful}"
+        checkpoint = case.checkpoint.with_name(f"step_{successful - 1}")
+        manifest = case.store.manifest(point)
+        assert manifest["run_kind"] == "qualification" and manifest["owned"] is True
+        assert manifest["native_update"]["rollout_id"] == native_rollout_id
+        assert manifest["native_update"]["weight_version"] == version
+        assert manifest["native_update"]["checkpoint_index"] == successful - 1
+        publication = _diagnostic(checkpoint)
+        assert publication["status"] == "SMOKE_PACKAGED" and publication["evaluation_status"] == "QUEUED"
+        assert publication["dispatch_status"] == "NOTIFIED"
+        assert swe_evaluation.read_json(publication["notification"])["point_id"] == point
+        summary = case.store.summary(point)
+        assert len(summary["missing_attempt_ids"]) == 400 and summary["avg_at_n"] is None
+        assert case.store.state(point)["deadline_at"] is None
+        assert case.store.release(point)["status"] == "PROTECTED_QUALIFICATION"
+        assert checkpoint.is_dir() and swe_evaluation._file_inventory(checkpoint) == manifest["files"]
+    assert [native["successful_update"] for native in observed] == [2, 3]
+    assert len(case.store.queued()) == 2
+
+
+def test_smoke_with_configuration_but_without_explicit_qualification_still_only_packages(case, monkeypatch):
+    monkeypatch.setattr(swe_hf_export, "store_from_config", lambda *args: pytest.fail("No implicit qualification"))
+    checkpoint = case.checkpoint.with_name("step_1")
+    _callback(case, result=_result(2, run_kind="smoke"), checkpoint_index=1, path=checkpoint)
+    assert _diagnostic(checkpoint)["status"] == "SMOKE_PACKAGED" and not case.store.queued()
+    assert not Path(case.config["dispatch"]["directory"]).exists()
+
+
+@pytest.mark.parametrize("failure", ["enqueue", "notification", "source", "version"])
+def test_explicit_qualification_failures_remain_soft_and_retain_smoke_hf(case, monkeypatch, failure):
+    _qualification(case)
+    enqueue = swe_evaluation.EvaluationStore.enqueue_qualification_checkpoint
+
+    def qualify(store, **kwargs):
+        if failure == "enqueue":
+            raise OSError("CPU qualification queue failure")
+        checkpoint = Path(kwargs["checkpoint_dir"])
+        if failure in ("source", "version"):
+            package = swe_evaluation.read_json(checkpoint / "qwen_text_export.json")
+            package["source" if failure == "source" else "weight_version"] = (
+                "foreign-source" if failure == "source" else 2
+            )
+            swe_evaluation.write_json(checkpoint / "qwen_text_export.json", package)
+        return enqueue(store, **kwargs)
+
+    monkeypatch.setattr(swe_evaluation.EvaluationStore, "enqueue_qualification_checkpoint", qualify)
+    if failure == "notification":
+        monkeypatch.setattr(
+            swe_hf_export, "notify_ready", lambda *args, **kwargs: (_ for _ in ()).throw(OSError("CPU ready failure"))
+        )
+    checkpoint = case.checkpoint.with_name("step_1")
+    _callback(case, result=_result(2, run_kind="smoke"), checkpoint_index=1, path=checkpoint)
+    publication = _diagnostic(checkpoint)
+    assert publication["status"] == "SMOKE_PACKAGED" and publication["formal_evaluation"] is False
+    assert checkpoint.is_dir() and list(checkpoint.glob("*.safetensors"))
+    assert publication["stage"] == ("notification" if failure == "notification" else "qualification_enqueue")
+    assert bool(case.store.queued()) is (failure == "notification")
+
+
+def test_explicit_qualification_configuration_cannot_dispatch_a_formal_run(case):
+    _qualification(case)
+    _callback(case)
+    assert _diagnostic(case.checkpoint)["stage"] == "enqueue" and not case.store.queued()

@@ -13,9 +13,13 @@ from types import ModuleType, SimpleNamespace
 
 import pytest
 
+from tests.fast import test_swe_evaluation as lifecycle
 from tests.manual.agent_opd import rjob_budget
 from tests.manual.agent_opd import submit_swe_evaluation as submit
 from tests.manual.agent_opd import swe_evaluation as swe
+
+case = lifecycle.case
+qualification_case = lifecycle.qualification_case
 
 
 @pytest.fixture
@@ -84,6 +88,8 @@ def inputs(tmp_path, monkeypatch):
     monkeypatch.setenv("BRAINPP_ACCESS_KEY", "synthetic-access")
     monkeypatch.setenv("BRAINPP_SECRET_KEY", "synthetic-secret")
     monkeypatch.setenv("SR_USER_TOKEN", "synthetic-private-router-token")
+    monkeypatch.setenv("AK_BASEMIND", "synthetic-native-access-key")
+    monkeypatch.setenv("SK_BASEMIND", "synthetic-native-secret-key")
     monkeypatch.setenv("EXP_ID", "fixture-original-exp-id")
     monkeypatch.delenv("SESSION_ROUTER_USER_TOKEN", raising=False)
     monkeypatch.delenv("KUBEBRAIN_RJOB_NAME", raising=False)
@@ -252,7 +258,15 @@ def test_dry_run_is_local_cpu_only_and_hides_private_environment(inputs, monkeyp
     result = json.loads(output)
     assert not inputs.receipt.exists()
     assert not (set(sys.modules) - before) & {"steptron", "steptron.utils.stepmind", "ray"}
-    assert "synthetic-private-router-token" not in output and "synthetic-secret" not in output
+    assert all(
+        value not in output
+        for value in (
+            "synthetic-private-router-token",
+            "synthetic-secret",
+            "synthetic-native-access-key",
+            "synthetic-native-secret-key",
+        )
+    )
     assert result["requested_gpus"] == 2 and result["submitted"] is False
     assert result["tasks"]["evaluation"]["cpu"] == 16 and result["tasks"]["evaluation"]["mem_gb"] == 128
     script = shlex.split(result["command"])[2]
@@ -285,12 +299,12 @@ def test_fresh_snapshot_submit_and_receipt_share_the_lock(inputs, monkeypatch, c
     assert resource.pull_code is False and resource.charged_group == "step_main"
     assert resource.task_specs["evaluation"]["gpu"] == 2 and resource.task_specs["evaluation"]["replica"] == 1
     assert (
-        resource.envs["SR_USER_TOKEN"]
-        == resource.envs["SESSION_ROUTER_USER_TOKEN"]
-        == "synthetic-private-router-token"
+        resource.envs["SR_USER_TOKEN"] == resource.envs["SESSION_ROUTER_USER_TOKEN"] == "synthetic-private-router-token"
     )
     assert resource.envs["PYTHONPATH"] == inputs.config["repo"]
     assert resource.envs["OMP_NUM_THREADS"] == "1"
+    assert resource.envs["AK_BASEMIND"] == "synthetic-native-access-key"
+    assert resource.envs["SK_BASEMIND"] == "synthetic-native-secret-key"
     allocation = json.loads(inputs.receipt.read_text())
     assert allocation["admission"]["requested_gpus"] == allocation["eval_gpus"] == 2
     assert allocation["admission"]["preemptible"] is preemptible
@@ -298,7 +312,15 @@ def test_fresh_snapshot_submit_and_receipt_share_the_lock(inputs, monkeypatch, c
     submit.validate_allocation(allocation, requested_gpus=2, expected=inputs.evaluation["allocation_identity"])
     output = capsys.readouterr().out
     for text in (output, inputs.receipt.read_text(), events[1][1]["command"]):
-        assert "synthetic-private-router-token" not in text and "synthetic-secret" not in text
+        assert all(
+            value not in text
+            for value in (
+                "synthetic-private-router-token",
+                "synthetic-secret",
+                "synthetic-native-access-key",
+                "synthetic-native-secret-key",
+            )
+        )
 
 
 def test_expired_personal_ceiling_denies_without_backend_submit(inputs, monkeypatch):
@@ -444,6 +466,7 @@ def test_worker_waits_for_receipt_enqueues_only_explicit_source_then_execs_nativ
         configuration=inputs.configuration,
         point=inputs.point,
         original_source=Path(inputs.evaluation["original_source"]) if baseline else None,
+        qualification_checkpoint=None,
         qualification_attempts=["fixture__task-0#attempt-0", "fixture__task-1#attempt-3"],
     )
     submit._prepare_worker(inputs.config, inputs.evaluation, args)
@@ -519,6 +542,7 @@ def test_worker_enqueue_uses_real_protected_baseline_identity_without_overwritin
         configuration=inputs.configuration,
         point=inputs.point,
         original_source=source,
+        qualification_checkpoint=None,
         qualification_attempts=["fixture__task-0#attempt-0"],
     )
     submit._prepare_worker(inputs.config, evaluation, args)
@@ -553,7 +577,7 @@ sys.modules[module.__name__] = module
 os.environ['KUBEBRAIN_RJOB_NAME'] = 'fixture-actual-job'
 submit._worker_argv = lambda *args: [sys.executable, '-B', '-c', 'raise SystemExit(23)']
 args = SimpleNamespace(receipt=receipt, configuration=Path(sys.argv[2]), point='qualification.local',
-                       original_source=None, qualification_attempts=None)
+                       original_source=None, qualification_attempts=None, qualification_checkpoint=None)
 submit._prepare_worker(config, evaluation, args)
 raise AssertionError('exec must replace, not return from, the adapter')
 """
@@ -566,3 +590,193 @@ raise AssertionError('exec must replace, not return from, the adapter')
         timeout=10,
     )
     assert result.returncode == 23 and result.stdout == "" and result.stderr == ""
+
+
+@pytest.mark.parametrize("name", ["AK_BASEMIND", "SK_BASEMIND"])
+@pytest.mark.parametrize("absent", [True, False])
+def test_native_acs_keys_are_required_without_fallback(inputs, monkeypatch, name, absent):
+    if absent:
+        monkeypatch.delenv(name)
+    else:
+        monkeypatch.setenv(name, "")
+    with pytest.raises(ValueError, match=name):
+        submit._worker_environment(inputs.config)
+
+
+@pytest.mark.parametrize("name", ["AK_BASEMIND", "SK_BASEMIND"])
+def test_native_acs_config_file_credentials_are_refused(inputs, name):
+    config = copy.deepcopy(inputs.config)
+    config["envs"][name] = "synthetic-must-never-be-configured"
+    with pytest.raises(ValueError, match="not stored in configuration"):
+        submit._worker_environment(config)
+
+
+@pytest.fixture
+def qualification_inputs(inputs):
+    original = inputs.evaluation["original_source"]
+    inputs.config["pairs"]["A"]["student"] = {"path": original}
+    inputs.config["pairs"]["B"] = {"student": {"path": original}}
+    inputs.evaluation.update(
+        root="/mnt/codesign-exp/ycfeng/fixture/qualification-evaluations",
+        protected_sources=[original],
+        reference_root="/fixture/reference",
+    )
+    inputs.checkpoint = Path(inputs.evaluation["owned_root"]) / "smoke" / "hf" / "step_2"
+    inputs.config_path.write_text(json.dumps(inputs.config))
+    inputs.configuration.write_text(json.dumps(inputs.evaluation))
+    return inputs
+
+
+def test_owned_qualification_dry_run_hands_off_checkpoint_and_attempts(qualification_inputs, monkeypatch, capsys):
+    data = qualification_inputs
+    _cli(
+        data,
+        monkeypatch,
+        "--dry-run",
+        "--qualification-checkpoint",
+        str(data.checkpoint),
+        "--qualification-attempt",
+        "fixture__task-0#attempt-0",
+    )
+    assert submit.main() == 0
+    preview = json.loads(capsys.readouterr().out)
+    script = shlex.split(preview["command"])[2]
+    argv = shlex.split(script.splitlines()[-1])[1:]
+    assert "--original-source" not in argv and "--worker" in argv
+    assert argv[argv.index("--qualification-checkpoint") + 1] == str(data.checkpoint)
+    assert argv[-2:] == ["--qualification-attempt", "fixture__task-0#attempt-0"]
+    assert not data.receipt.exists()
+
+
+def test_owned_checkpoint_and_original_source_are_mutually_exclusive(inputs, monkeypatch):
+    _cli(
+        inputs,
+        monkeypatch,
+        "--qualification-checkpoint",
+        "/fixture/hf/step_2",
+        "--original-source",
+        inputs.evaluation["original_source"],
+    )
+    with pytest.raises(SystemExit) as error:
+        submit.main()
+    assert error.value.code == 2 and not inputs.receipt.exists()
+
+
+@pytest.mark.parametrize(
+    "attempts",
+    [
+        None,
+        [],
+        ["foreign#attempt-0"],
+        ["fixture__task-0#attempt-0", "fixture__task-0#attempt-0"],
+        ["fixture__task-0#attempt-4"],
+    ],
+)
+def test_owned_qualification_requires_exact_explicit_attempts(qualification_inputs, attempts):
+    data = qualification_inputs
+    with pytest.raises(ValueError, match="distinct explicit slots"):
+        submit._validate_qualification_checkpoint(data.config, data.evaluation, data.point, data.checkpoint, attempts)
+
+
+def test_owned_qualification_cannot_request_all400(qualification_inputs):
+    data = qualification_inputs
+    attempts = [f"{task}#attempt-{attempt}" for task in data.evaluation["task_ids"] for attempt in range(4)]
+    with pytest.raises(ValueError, match="not all"):
+        submit._validate_qualification_checkpoint(data.config, data.evaluation, data.point, data.checkpoint, attempts)
+
+
+@pytest.mark.parametrize("change", ["namespace", "point", "original", "unprotected", "checkpoint"])
+def test_owned_qualification_refuses_formal_or_unprotected_identity(qualification_inputs, change):
+    data = qualification_inputs
+    if change == "namespace":
+        data.evaluation["root"] = "/mnt/codesign-exp/ycfeng/fixture/evaluations"
+    elif change == "point":
+        data.point = "A-r256.HF50"
+    elif change == "original":
+        data.config["pairs"]["B"]["student"]["path"] = "/mnt/codesign-exp/ycfeng/other-original"
+    elif change == "unprotected":
+        data.evaluation["protected_sources"] = []
+    else:
+        data.checkpoint = Path(data.evaluation["original_source"])
+    with pytest.raises(ValueError, match="qualification|original|owned root|protected"):
+        submit._validate_qualification_checkpoint(
+            data.config, data.evaluation, data.point, data.checkpoint, ["fixture__task-0#attempt-0"]
+        )
+
+
+def test_owned_qualification_receipt_identifies_source_without_credentials(qualification_inputs, monkeypatch, capsys):
+    data = qualification_inputs
+    events, _ = _platform(data, monkeypatch)
+    _cli(
+        data,
+        monkeypatch,
+        "--qualification-checkpoint",
+        str(data.checkpoint),
+        "--qualification-attempt",
+        "fixture__task-0#attempt-0",
+    )
+    assert submit.main() == 0
+    receipt = json.loads(data.receipt.read_text())
+    assert receipt["run_kind"] == "qualification" and receipt["qualification_checkpoint"] == str(data.checkpoint)
+    assert receipt["point"] == data.point
+    for text in (data.receipt.read_text(), capsys.readouterr().out, events[1][1]["command"]):
+        assert all(
+            value not in text
+            for value in (
+                "synthetic-private-router-token",
+                "synthetic-native-access-key",
+                "synthetic-native-secret-key",
+            )
+        )
+
+
+def test_worker_enqueues_actual_owned_qualification_before_native_exec(inputs, qualification_case, monkeypatch):
+    store, enqueue, hf, source, native, _ = qualification_case
+    evaluation = {
+        **inputs.evaluation,
+        "root": str(store.root),
+        "owned_root": str(store.owned_root),
+        "protected_sources": [str(source)],
+        "original_source": str(source),
+        "reference_root": str(store.reference_root),
+        "evaluation_contract": enqueue["configuration"],
+    }
+    allocation = _allocation(inputs) | {
+        "point": enqueue["point_id"],
+        "run_kind": "qualification",
+        "qualification_checkpoint": str(hf),
+    }
+    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", allocation["job_id"])
+    module = ModuleType("tests.manual.agent_opd.rjob_warmup")
+    module._wait_file = lambda *args: allocation
+    monkeypatch.setitem(sys.modules, module.__name__, module)
+    executed = []
+
+    def execute(python, argv):
+        queued = swe.store_from_config(evaluation)
+        assert queued.manifest(enqueue["point_id"])["native_update"] == native
+        assert queued.state(enqueue["point_id"])["status"] == "QUEUED"
+        executed.append(argv)
+
+    monkeypatch.setattr(submit.os, "execv", execute)
+    args = SimpleNamespace(
+        receipt=inputs.receipt,
+        configuration=inputs.configuration,
+        point=enqueue["point_id"],
+        original_source=None,
+        qualification_checkpoint=hf,
+        qualification_attempts=["fixture__task-0#attempt-0"],
+    )
+    submit._prepare_worker(inputs.config, evaluation, args)
+    manifest = swe.store_from_config(evaluation).manifest(enqueue["point_id"])
+    assert manifest["owned"] is True and manifest["run_kind"] == "qualification"
+    assert manifest["checkpoint_dir"] == str(hf)
+    assert executed[0][4] == "tests.manual.agent_opd.run_swe_evaluation"
+    assert executed[0][-2:] == ["--qualification-attempt", "fixture__task-0#attempt-0"]
+    assert "--qualification-checkpoint" not in executed[0]
+    summary = swe.store_from_config(evaluation).summary(enqueue["point_id"])
+    assert summary["completed"] == 0 and len(summary["missing_attempt_ids"]) == 400 and summary["avg_at_n"] is None
+    allocation["qualification_checkpoint"] = "/another/hf/step_2"
+    with pytest.raises(ValueError, match="exact owned qualification checkpoint"):
+        submit._prepare_worker(inputs.config, evaluation, args)
+    assert len(executed) == 1

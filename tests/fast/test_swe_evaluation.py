@@ -11,8 +11,8 @@ from tests.ci.ci_register import register_cpu_ci
 from tests.manual.agent_opd import swe_evaluation as swe
 from tests.manual.agent_opd.swe_native_evaluation import _stop_child_tree
 
-# Full-file measured local runtime: 100.46s, including fsync fault injection.
-register_cpu_ci(est_time=130, suite="stage-b-cpu", labels=["eval", "ckpt"])
+# Measured testcase runtime: 137.325s with qualification fixtures; retain CPU headroom.
+register_cpu_ci(est_time=180, suite="stage-b-cpu", labels=["eval", "ckpt"])
 
 REFERENCE = Path("/data/ycfeng/steptron/.worktrees/step3p6-replay-v1")
 ALLOCATION_IDENTITY = {"task_id": "fixture-swe", "creator": "fixture-user", "gpu_tag": "H200"}
@@ -81,10 +81,31 @@ class _FourAttemptsFixture:
         self.tasks, self.seeds, self.rows = tasks, seeds, []
 
     def record(self, task_id, attempt, *, success, raw):
-        self.rows.append({"task_id": task_id, "attempt": attempt, "success": success, "raw": raw})
+        self.rows.append(
+            {
+                "kind": "result",
+                "uid": f"{task_id}#attempt-{attempt}",
+                "task_id": task_id,
+                "attempt": attempt,
+                "success": success,
+                "raw": raw,
+            }
+        )
+
+    def infra_failure(self, task_id, attempt, *, error, raw):
+        self.rows.append(
+            {
+                "kind": "infra_failure",
+                "uid": f"{task_id}#attempt-{attempt}",
+                "task_id": task_id,
+                "attempt": attempt,
+                "error": error,
+                "raw": raw,
+            }
+        )
 
     def summarize(self):
-        completed = {(row["task_id"], row["attempt"]): row["success"] for row in self.rows}
+        completed = {(row["task_id"], row["attempt"]): row["success"] for row in self.rows if row["kind"] == "result"}
         missing = [
             f"{task}#attempt-{attempt}"
             for task in self.tasks
@@ -503,3 +524,350 @@ def test_existing_checkpoint_evaluator_seam_enqueues_without_native_dependencies
     failure = asyncio.run(backend.evaluate_checkpoint(str(hf), RolloutFnEvalInput(rollout_id=213, hf_dir=str(hf))))
     assert failure.metrics == {"swe_enqueue_unverified": 1}
     assert hf.is_dir()
+
+
+@pytest.fixture
+def qualification_case(case):
+    original_store, _, _, source, tasks = case
+    store = swe.EvaluationStore(
+        original_store.root.parent / "qualification-evaluations",
+        owned_root=original_store.owned_root,
+        protected_sources=original_store.protected_sources,
+        reference_root=REFERENCE,
+        allocation_identity=ALLOCATION_IDENTITY,
+    )
+    hf = store.owned_root / "A-r256" / "smoke-attempt" / "hf" / "step_2"
+    hf.mkdir(parents=True)
+    for filename in ("config.json", "tokenizer.json", "tokenizer_config.json"):
+        (hf / filename).write_text("{}")
+    (hf / "model-1.safetensors").write_bytes(b"fixture-smoke-not-real-hf")
+    swe.write_json(hf / "model.safetensors.index.json", {"weight_map": {"fixture": "model-1.safetensors"}})
+    native = {
+        "successful_update": 3,
+        "checkpoint_index": 2,
+        "rollout_id": 2,
+        "weight_version": 3,
+        "native_counters": {"successful_updates": 3, "native_attempted_count": 3, "native_skipped_count": 0},
+    }
+    swe.write_json(
+        hf / "qwen_text_export.json",
+        {
+            "status": "packaged",
+            "source": str(source),
+            "run_kind": "smoke",
+            **native,
+        },
+    )
+    swe.write_json(hf / ".complete", {})
+    publication = hf.parent.parent / "hf_publications" / "step_2.json"
+    swe.write_json(
+        publication,
+        {
+            "checkpoint_dir": str(hf),
+            "status": "SMOKE_PACKAGED",
+            "run_kind": "smoke",
+            "formal_evaluation": False,
+            "native_update": native,
+            "cell": "A/r256",
+            "attempt": "smoke-attempt",
+        },
+    )
+    enqueue = {
+        "point_id": "qualification.A-r256-smoke-HF3",
+        "checkpoint_dir": hf,
+        "source": source,
+        "task_ids": tasks,
+        "configuration": {"fixture": "unchanged-full400-contract"},
+    }
+    return store, enqueue, hf, source, native, publication
+
+
+def test_qualification_preserves_actual_smoke_identity_and_full400(qualification_case):
+    store, enqueue, hf, source, native, _ = qualification_case
+    before = {path.name: path.read_bytes() for path in hf.iterdir()}
+    original_bytes = (source / "weights").read_bytes()
+    assert store.enqueue_qualification_checkpoint(**enqueue) == enqueue["point_id"]
+    manifest = store.manifest(enqueue["point_id"])
+    assert manifest["run_kind"] == "qualification" and manifest["owned"] is True
+    assert manifest["checkpoint_dir"] == str(hf) and manifest["native_update"] == native
+    assert manifest["configuration"] == enqueue["configuration"]
+    assert len(manifest["task_ids"]) == 100 and manifest["seeds"] == list(swe.SEEDS)
+    summary = store.summary(enqueue["point_id"])
+    assert summary["completed"] == 0 and summary["denominator"] == 400
+    assert len(summary["missing_attempt_ids"]) == 400 and summary["avg_at_n"] is None
+    assert store.state(enqueue["point_id"])["deadline_at"] is None
+    assert store.enqueue_qualification_checkpoint(**enqueue) == enqueue["point_id"]
+    assert store.manifest(enqueue["point_id"]) == manifest
+    assert {path.name: path.read_bytes() for path in hf.iterdir()} == before
+    assert (source / "weights").read_bytes() == original_bytes
+
+
+def test_qualification_cannot_bypass_the_formal_update_gate(qualification_case):
+    store, enqueue, _, _, native, _ = qualification_case
+    assert swe.HF_UPDATES == (50, 100, 150, 200)
+    with pytest.raises(ValueError, match="not an HF evaluation point"):
+        store.enqueue_checkpoint(**enqueue, native_update=native)
+    assert not (store._point(enqueue["point_id"]) / "manifest.json").exists()
+
+
+@pytest.mark.parametrize(
+    "root,point",
+    [
+        ("evaluations", "qualification.smoke"),
+        ("qualification-evaluations", "A-r256.HF50"),
+        ("qualification-evaluations", "qualification."),
+    ],
+)
+def test_qualification_namespace_is_explicit(qualification_case, root, point):
+    store, enqueue, *_ = qualification_case
+    store.root = store.root.parent / root
+    with pytest.raises(ValueError, match="qualification|Identity"):
+        store.enqueue_qualification_checkpoint(**(enqueue | {"point_id": point}))
+    assert not (store._point(point) / "manifest.json").exists()
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("status", "QUEUED"),
+        ("run_kind", "formal"),
+        ("formal_evaluation", True),
+        ("checkpoint_dir", "/unrelated/hf/step_2"),
+    ],
+)
+def test_qualification_requires_the_actual_smoke_publication(qualification_case, field, value):
+    store, enqueue, _, _, _, publication = qualification_case
+    row = swe.read_json(publication)
+    swe.write_json(publication, row | {field: value})
+    with pytest.raises(ValueError, match="SMOKE_PACKAGED"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("run_kind", "formal"),
+        ("successful_update", 4),
+        ("checkpoint_index", 3),
+        ("rollout_id", 3),
+        ("weight_version", 4),
+        ("native_counters", {"successful_updates": 3, "native_attempted_count": 4, "native_skipped_count": 1}),
+        ("source", "/unrelated/original-4b"),
+    ],
+)
+def test_qualification_package_and_native_publication_must_match(qualification_case, field, value):
+    store, enqueue, hf, *_ = qualification_case
+    package = swe.read_json(hf / "qwen_text_export.json")
+    swe.write_json(hf / "qwen_text_export.json", package | {field: value})
+    swe.write_json(hf / ".complete", {})
+    with pytest.raises(ValueError, match="smoke|identity|counters"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("successful_updates", 4),
+        ("native_attempted_count", 4),
+        ("native_skipped_count", -1),
+        ("native_attempted_count", True),
+    ],
+)
+def test_qualification_rejects_inconsistent_native_counters(qualification_case, field, value):
+    store, enqueue, hf, _, _, publication = qualification_case
+    row = swe.read_json(publication)
+    row["native_update"]["native_counters"][field] = value
+    swe.write_json(publication, row)
+    package = swe.read_json(hf / "qwen_text_export.json")
+    package["native_counters"][field] = value
+    swe.write_json(hf / "qwen_text_export.json", package)
+    swe.write_json(hf / ".complete", {})
+    with pytest.raises(ValueError, match="counters"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("successful_update", 0),
+        ("rollout_id", -1),
+        ("weight_version", "3"),
+        ("checkpoint_index", 3),
+    ],
+)
+def test_qualification_rejects_non_native_update_version_index(qualification_case, field, value):
+    store, enqueue, _, _, _, publication = qualification_case
+    row = swe.read_json(publication)
+    row["native_update"][field] = value
+    swe.write_json(publication, row)
+    with pytest.raises(ValueError, match="native|index"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+
+
+@pytest.mark.parametrize("failure", ["missing-marker", "stale-marker", "unpackaged", "missing-shard"])
+def test_qualification_rejects_partial_or_stale_exports(qualification_case, failure):
+    store, enqueue, hf, *_ = qualification_case
+    if failure == "missing-marker":
+        (hf / ".complete").unlink()
+    elif failure == "stale-marker":
+        stale = (hf / "qwen_text_export.json").stat().st_mtime_ns - 1
+        os.utime(hf / ".complete", ns=(stale, stale))
+    elif failure == "unpackaged":
+        package = swe.read_json(hf / "qwen_text_export.json")
+        swe.write_json(hf / "qwen_text_export.json", package | {"status": "unverified"})
+    else:
+        (hf / "model-1.safetensors").unlink()
+    with pytest.raises(ValueError, match="Partial|Stale|incomplete"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+    assert not (store._point(enqueue["point_id"]) / "manifest.json").exists()
+
+
+def test_qualification_protects_original_and_current_owned_root(qualification_case, tmp_path):
+    store, enqueue, hf, source, *_ = qualification_case
+    store.owned_root = source.parent
+    with pytest.raises(ValueError, match="protected"):
+        store.enqueue_qualification_checkpoint(**(enqueue | {"checkpoint_dir": source}))
+    store.owned_root = tmp_path / "another-owned-root"
+    with pytest.raises(ValueError, match="owned root"):
+        store.enqueue_qualification_checkpoint(**enqueue)
+    with pytest.raises(ValueError, match="protected original"):
+        store.enqueue_qualification_checkpoint(**(enqueue | {"source": hf}))
+    assert (source / "weights").read_bytes() == b"original-source"
+
+
+def test_qualification_never_releases_even_after_all400_slots_complete(qualification_case):
+    store, enqueue, hf, source, *_ = qualification_case
+    store.enqueue_qualification_checkpoint(**enqueue)
+    point = enqueue["point_id"]
+    inventory = swe._file_inventory(hf)
+    assert store.release(point) == {"status": "PROTECTED_QUALIFICATION", "deleted_bytes": 0}
+    store.start(point, allocation=ALLOCATION)
+    assert _finish_all(store, point)["status"] == "COMPLETE"
+    assert store.release(point) == {"status": "PROTECTED_QUALIFICATION", "deleted_bytes": 0}
+    assert store.state(point)["status"] == "COMPLETE" and swe._file_inventory(hf) == inventory
+    assert not (store._point(point) / "release.json").exists()
+    assert source.is_dir()
+
+
+def test_accounting_distinguishes_unstarted_failure_events_and_recovered_slots(case):
+    store, point = _start(case)
+    initial = store.summary(point)
+    assert initial["accounting"]["unstarted"] == 400 and initial["accounting"]["attempted"] == 0
+    request = store.request(point, case[4][0], 0)
+    failure = store.infra_failure(point, request, {"type": "ConnectionError", "message": "fixture connection failure"})
+    assert failure.is_file()
+    failed = store.settle(point)
+    assert failed["accounting"] == {
+        "attempted": 1,
+        "successful": 0,
+        "model_failed": 0,
+        "timed_out": 0,
+        "infra_failed": 1,
+        "skipped": 0,
+        "unstarted": 399,
+        "in_progress": 0,
+        "failure_events": 1,
+    }
+    assert failed["failure_paths"] == [str(failure)]
+    assert failed["denominator"] == 400 and failed["avg_at_n"] is None
+    assert request["uid"] in failed["missing_attempt_ids"]
+    deadline = store.state(point)["deadline_at"]
+    store.resume(point, diagnosis="fixture connection failed", remedy="fixture connection repaired")
+    assert store.start(point, allocation=ALLOCATION)
+    store.record(point, request, success=True, raw={"fixture": "recovery"})
+    second = store.request(point, case[4][1], 0)
+    store.record(point, second, success=False, raw={"fixture": "completed model failure"})
+    recovered = store.summary(point)
+    assert recovered["accounting"] == {
+        "attempted": 2,
+        "successful": 1,
+        "model_failed": 1,
+        "timed_out": 0,
+        "infra_failed": 0,
+        "skipped": 0,
+        "unstarted": 398,
+        "in_progress": 0,
+        "failure_events": 1,
+    }
+    assert recovered["failure_paths"] == [str(failure)] and failure.is_file()
+    assert store.state(point)["deadline_at"] == deadline
+    with pytest.raises(ValueError, match="rerolled"):
+        store.record(point, second, success=True, raw={"fixture": "forbidden reroll"})
+
+
+def test_accounting_active_recovery_uses_existing_native_reader(case, monkeypatch):
+    store, point = _start(case)
+    request = store.request(point, case[4][0], 0)
+    monkeypatch.setattr(swe.time, "time", lambda: 100.0)
+    store.infra_failure(point, request, {"type": "TimeoutError", "message": "fixture timeout"})
+    monkeypatch.setattr(swe.time, "time", lambda: 101.0)
+    store.reader_enter(point, "native-reader", {"request": request, "destination": "fixture-native-directory"})
+    assert store.summary(point)["accounting"]["in_progress"] == 1
+    assert store.summary(point)["accounting"]["timed_out"] == 0
+    monkeypatch.setattr(swe.time, "time", lambda: 102.0)
+    store.reader_exit(point, "native-reader", {"returncode": 0, "all_live_group_members_exited": True})
+    reader = store.state(point)["readers"]["native-reader"]
+    assert reader["started_at"] == 101.0 and reader["finished_at"] == 102.0
+    assert store.summary(point)["accounting"]["infra_failed"] == 1
+    store.record(point, request, success=True, raw={"fixture": "recovered scored outcome"})
+    counts = store.summary(point)["accounting"]
+    assert counts["successful"] == 1 and counts["attempted"] == 1 and counts["failure_events"] == 1
+    assert counts["infra_failed"] == counts["timed_out"] == counts["in_progress"] == 0
+
+
+def test_accounting_timeout_cancellation_leave_subsequent_healthy_outcome(case):
+    store, enqueue, _, _, tasks = case
+    point = enqueue["point_id"]
+    cleaned = []
+
+    async def scenario():
+        async def runner(request, deadline):
+            if request["attempt"] == 0 and request["task_id"] == tasks[0]:
+                raise TimeoutError("fixture isolated timeout")
+            if request["attempt"] == 0 and request["task_id"] == tasks[1]:
+                return {"success": True, "raw": {"fixture": "subsequent healthy attempt"}}
+            try:
+                await asyncio.Event().wait()
+            finally:
+                cleaned.append(request["uid"])
+
+        job = asyncio.create_task(swe.evaluate(store, point, runner=runner, allocation=ALLOCATION))
+        try:
+            while store.summary(point)["completed"] != 1:
+                await asyncio.sleep(0)
+        finally:
+            job.cancel()
+            with pytest.raises(asyncio.CancelledError):
+                await job
+
+    asyncio.run(scenario())
+    summary = store.summary(point)
+    counts = summary["accounting"]
+    assert counts["successful"] == 1 and counts["timed_out"] == 1
+    assert counts["infra_failed"] == len(cleaned) and counts["failure_events"] == len(cleaned) + 1
+    assert counts["attempted"] == len(cleaned) + 2 and counts["unstarted"] == 398 - len(cleaned)
+    assert counts["model_failed"] == counts["skipped"] == counts["in_progress"] == 0
+    assert summary["denominator"] == 400 and summary["avg_at_n"] is None
+    assert all(row["status"] == "EXITED" and "finished_at" in row for row in store.state(point)["readers"].values())
+    failure_types = [swe.read_json(path)["error"]["type"] for path in summary["failure_paths"]]
+    assert failure_types.count("TimeoutError") == 1 and failure_types.count("CancelledError") == len(cleaned)
+
+
+def test_accounting_failure_and_reader_io_errors_are_not_suppressed(case, monkeypatch):
+    store, point = _start(case)
+    request = store.request(point, case[4][0], 0)
+    original = swe.write_json
+
+    def fail_evidence(path, value):
+        if Path(path).parent.name == "failures" or "finished_at" in value.get("readers", {}).get("native", {}):
+            raise OSError("fixture durable storage unavailable")
+        return original(path, value)
+
+    monkeypatch.setattr(swe, "write_json", fail_evidence)
+    with pytest.raises(OSError, match="storage unavailable"):
+        store.infra_failure(point, request, {"type": "RuntimeError", "message": "fixture native failure"})
+    store.reader_enter(point, "native", {"request": request})
+    with pytest.raises(OSError, match="storage unavailable"):
+        store.reader_exit(point, "native", {"all_live_group_members_exited": True})
+    assert store.state(point)["readers"]["native"]["status"] == "RUNNING"
+    assert not list((store._point(point) / "failures").glob("*.json"))

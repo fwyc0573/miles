@@ -105,13 +105,17 @@ class EvaluationStore:
     def state(self, point_id):
         return read_json(self._point(point_id) / "state.json")
 
-    def _owned_path(self, path, native_update):
+    def _owned_directory(self, path):
         path = Path(path)
         resolved = path.resolve()
         if path.is_symlink() or not resolved.is_relative_to(self.owned_root) or resolved == self.owned_root:
             raise ValueError("HF deletion scope must be inside this task's owned root")
         if any(resolved.is_relative_to(source) or source.is_relative_to(resolved) for source in self.protected_sources):
             raise ValueError("Original and historical source weights are protected")
+        return resolved
+
+    def _owned_path(self, path, native_update):
+        resolved = self._owned_directory(path)
         checkpoint_index = native_update["checkpoint_index"]
         if type(checkpoint_index) is not int or checkpoint_index != native_update["successful_update"] - 1:
             raise ValueError("HF checkpoint index must match the native successful update")
@@ -127,12 +131,16 @@ class EvaluationStore:
             raise ValueError("Need the observed native rollout ID, not update minus one")
         if native_update["weight_version"] is None or not native_update["native_counters"]:
             raise ValueError("Native counters and published weight version are required")
+        checkpoint, _ = self._packaged_checkpoint(checkpoint_dir, native_update, source, run_kind="formal")
+        return self._enqueue(point_id, checkpoint, native_update, task_ids, configuration, owned=True)
+
+    def _packaged_checkpoint(self, checkpoint_dir, native_update, source, *, run_kind):
         checkpoint = self._owned_path(checkpoint_dir, native_update)
         package = read_json(checkpoint / "qwen_text_export.json")
         if not (checkpoint / ".complete").is_file() or package.get("status") != "packaged":
             raise ValueError("Partial export cannot be enqueued")
-        if package.get("run_kind") != "formal":
-            raise ValueError("Only formal HF packages may enter a 400-attempt evaluation point")
+        if package.get("run_kind") != run_kind:
+            raise ValueError(f"Only {run_kind} HF packages may enter this evaluation point")
         if (
             package.get("rollout_id") != native_update["rollout_id"]
             or package.get("checkpoint_index") != native_update["checkpoint_index"]
@@ -148,7 +156,50 @@ class EvaluationStore:
         for name in ("config.json", "tokenizer.json", "tokenizer_config.json"):
             if not (checkpoint / name).is_file():
                 raise ValueError(f"Export is missing {name}")
-        return self._enqueue(point_id, checkpoint, native_update, task_ids, configuration, owned=True)
+        return checkpoint, package
+
+    def enqueue_qualification_checkpoint(self, *, point_id, checkpoint_dir, source, task_ids, configuration):
+        """Read an actual smoke publication; retain its HF regardless of qualification results."""
+        if self.root.name != "qualification-evaluations" or not point_id.startswith("qualification."):
+            raise ValueError("Smoke HF requires /qualification-evaluations and a qualification.<name> point")
+        _label(point_id.removeprefix("qualification."))
+        source = Path(source).resolve()
+        if source not in self.protected_sources or not source.is_dir():
+            raise ValueError("Qualification source must be the configured protected original model")
+        checkpoint = self._owned_directory(checkpoint_dir)
+        publication = read_json(checkpoint.parent.parent / "hf_publications" / f"{checkpoint.name}.json")
+        if (
+            publication["status"] != "SMOKE_PACKAGED"
+            or publication["run_kind"] != "smoke"
+            or publication["formal_evaluation"] is not False
+            or Path(publication["checkpoint_dir"]).resolve() != checkpoint
+        ):
+            raise ValueError("Qualification requires this HF's actual SMOKE_PACKAGED publication")
+        native = publication["native_update"]
+        if (
+            type(native["successful_update"]) is not int
+            or native["successful_update"] <= 0
+            or type(native["rollout_id"]) is not int
+            or native["rollout_id"] < 0
+            or type(native["weight_version"]) is not int
+            or native["weight_version"] < 0
+        ):
+            raise ValueError("Smoke publication requires actual native successful/rollout/version identity")
+        counters = native["native_counters"]
+        if (
+            any(
+                type(counters[name]) is not int
+                for name in ("successful_updates", "native_attempted_count", "native_skipped_count")
+            )
+            or counters["successful_updates"] != native["successful_update"]
+            or counters["native_skipped_count"] < 0
+            or counters["native_attempted_count"] != counters["successful_updates"] + counters["native_skipped_count"]
+        ):
+            raise ValueError("Smoke native successful/attempted/skipped counters disagree")
+        checkpoint, package = self._packaged_checkpoint(checkpoint, native, source, run_kind="smoke")
+        if package["native_counters"] != counters:
+            raise ValueError("Packaging counters disagree with native smoke publication")
+        return self._enqueue(point_id, checkpoint, native, task_ids, configuration, owned=True, qualification=True)
 
     def enqueue_baseline(self, *, point_id, source, task_ids, configuration):
         source = Path(source).resolve()
@@ -156,7 +207,7 @@ class EvaluationStore:
             raise ValueError("Baseline must use a registered, protected original model")
         return self._enqueue(point_id, source, None, task_ids, configuration, owned=False)
 
-    def _enqueue(self, point_id, checkpoint, native_update, task_ids, configuration, *, owned):
+    def _enqueue(self, point_id, checkpoint, native_update, task_ids, configuration, *, owned, qualification=False):
         tasks = tuple(_label(task) for task in task_ids)
         if len(tasks) != 100 or len(set(tasks)) != 100:
             raise ValueError("Formal SWE evaluation requires 100 distinct manifest tasks")
@@ -171,6 +222,11 @@ class EvaluationStore:
             "configuration": configuration,
             "files": _file_inventory(checkpoint) if owned else [],
         }
+        if qualification:
+            manifest["run_kind"] = "qualification"
+            marker = (checkpoint / ".complete").stat().st_mtime_ns
+            if any(item["mtime_ns"] > marker for item in manifest["files"]):
+                raise ValueError("Stale .complete precedes packaged HF files")
         with _locked(self.root / "queue.lock"), _locked(point / "lock"):
             for other in (self.root / "points").glob("*/manifest.json"):
                 previous = read_json(other)
@@ -247,6 +303,17 @@ class EvaluationStore:
 
         manifest = self.manifest(point_id)
         ledger = FourAttempts(manifest["task_ids"], seeds=SEEDS, scope="formal_subset", domain="swe")
+        for path in sorted((self._point(point_id) / "failures").glob("*.json")):
+            row = read_json(path)
+            request = row["request"]
+            if request != self.request(point_id, request["task_id"], request["attempt"]):
+                raise ValueError("Persisted failure identity changed")
+            ledger.infra_failure(
+                request["task_id"],
+                request["attempt"],
+                error=row["error"],
+                raw={"failure_path": str(path), "observed_at": row["observed_at"]},
+            )
         for path in sorted((self._point(point_id) / "results").glob("*.json")):
             row = read_json(path)
             request = row["request"]
@@ -256,7 +323,46 @@ class EvaluationStore:
         return ledger
 
     def summary(self, point_id):
-        return self._ledger(point_id).summarize()
+        summary = self._ledger(point_id).summarize()
+        results, failures, readers = {}, {}, {}
+        failure_paths = []
+        for row in summary["raw_records"]:
+            if row["kind"] == "result":
+                results[row["uid"]] = row
+            else:
+                failure_paths.append(row["raw"]["failure_path"])
+                previous = failures.get(row["uid"])
+                if previous is None or row["raw"]["observed_at"] >= previous["raw"]["observed_at"]:
+                    failures[row["uid"]] = row
+        for reader in self.state(point_id)["readers"].values():
+            request = reader["start"].get("request")
+            if request is None:
+                continue
+            if request != self.request(point_id, request["task_id"], request["attempt"]):
+                raise ValueError("Native reader request identity changed")
+            previous = readers.get(request["uid"])
+            if previous is None or reader["started_at"] > previous["started_at"]:
+                readers[request["uid"]] = reader
+        attempted = results.keys() | failures.keys() | readers.keys()
+        counts = {
+            "attempted": len(attempted),
+            "successful": summary["successes"],
+            "model_failed": summary["completed"] - summary["successes"],
+            "timed_out": 0,
+            "infra_failed": 0,
+            "skipped": 0,
+            "unstarted": summary["denominator"] - len(attempted),
+            "in_progress": 0,
+            "failure_events": len(failure_paths),
+        }
+        for uid in attempted - results.keys():
+            reader, failure = readers.get(uid), failures.get(uid)
+            if reader is not None and (failure is None or reader["started_at"] > failure["raw"]["observed_at"]):
+                category = "in_progress" if reader["status"] == "RUNNING" else "infra_failed"
+            else:
+                category = "timed_out" if failure["error"]["type"] == "TimeoutError" else "infra_failed"
+            counts[category] += 1
+        return {**summary, "accounting": counts, "failure_paths": failure_paths}
 
     def record(self, point_id, request, *, success, raw):
         if request != self.request(point_id, request["task_id"], request["attempt"]) or type(success) is not bool:
@@ -284,11 +390,10 @@ class EvaluationStore:
 
     def infra_failure(self, point_id, request, error):
         point = self._point(point_id)
+        path = point / "failures" / f"{request['task_id']}.{request['seed']}.{uuid.uuid4().hex}.json"
         with _locked(point / "lock"):
-            write_json(
-                point / "failures" / f"{request['task_id']}.{request['seed']}.{uuid.uuid4().hex}.json",
-                {"request": request, "observed_at": time.time(), "error": error},
-            )
+            write_json(path, {"request": request, "observed_at": time.time(), "error": error})
+        return path
 
     def reader_enter(self, point_id, reader_id, evidence):
         point = self._point(point_id)
@@ -307,7 +412,7 @@ class EvaluationStore:
         point = self._point(point_id)
         with _locked(point / "lock"):
             state = self.state(point_id)
-            state["readers"][reader_id].update(status="EXITED", exit=evidence)
+            state["readers"][reader_id].update(status="EXITED", exit=evidence, finished_at=time.time())
             write_json(point / "state.json", state)
 
     def start(self, point_id, *, allocation, now=None):
@@ -380,6 +485,8 @@ class EvaluationStore:
         point = self._point(point_id)
         with _locked(point / "lock"):
             manifest, state = self.manifest(point_id), self.state(point_id)
+            if manifest.get("run_kind") == "qualification":
+                return {"status": "PROTECTED_QUALIFICATION", "deleted_bytes": 0}
             if not manifest["owned"]:
                 return {"status": "PROTECTED_SOURCE", "deleted_bytes": 0}
             if state["status"] == "RELEASED":
@@ -472,6 +579,9 @@ async def evaluate(store, point_id, *, runner, allocation):
             try:
                 outcome = await asyncio.wait_for(runner(request, deadline), timeout=remaining)
                 store.record(point_id, request, success=outcome["success"], raw=outcome["raw"])
+            except asyncio.CancelledError as error:
+                store.infra_failure(point_id, request, {"type": type(error).__name__, "message": str(error)})
+                raise
             except Exception as error:
                 store.infra_failure(point_id, request, {"type": type(error).__name__, "message": str(error)})
             await asyncio.sleep(0)

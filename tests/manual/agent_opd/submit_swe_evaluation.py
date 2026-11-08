@@ -11,9 +11,11 @@ evaluation configuration in the same local workspace:
 Omit --original-source for a trainer-enqueued HF point. Qualification uses a
 separate /qualification-evaluations store, qualification.<name> point and repeated explicit
 --qualification-attempt TASK#attempt-N options, which go unchanged to the worker.
+For an owned smoke HF, explicitly pass --qualification-checkpoint instead of
+--original-source; the worker validates/enqueues its actual SMOKE_PACKAGED publication.
 Optional integration evaluation_resources replaces the teacher role's CPU/memory,
 host_network and gang_start sizing; this adapter always requests one two-GPU node.
-Private router-token aliases are inherited only through the worker environment.
+Private router-token aliases and native ACS access keys are inherited only through the worker environment.
 Exit 2 denotes denied admission without submission. Native wait failures remain
 failures; no scheduler, recovery, retries, grading or source-weight writes occur.
 """
@@ -29,7 +31,7 @@ from pathlib import Path
 
 from tests.manual.agent_opd.rjob_budget import policy_admission_snapshot, validate_allocation
 from tests.manual.agent_opd.submit_swe_opd import _validate_paths
-from tests.manual.agent_opd.swe_evaluation import _label, read_json, store_from_config
+from tests.manual.agent_opd.swe_evaluation import SEEDS, _label, read_json, store_from_config
 
 # StepMind adds vendored packages to sys.path; reserve the real Miles package first.
 import miles.utils  # noqa: F401
@@ -66,6 +68,34 @@ def _validate_inputs(config, evaluation, config_path, configuration, receipt, or
         raise ValueError("Explicit baseline source must be the configured protected original model")
 
 
+def _validate_qualification_checkpoint(config, evaluation, point, checkpoint, attempts):
+    store = store_from_config(evaluation)
+    if store.root.name != "qualification-evaluations" or not point.startswith("qualification."):
+        raise ValueError("Owned smoke HF requires /qualification-evaluations and a qualification.<name> point")
+    _label(point.removeprefix("qualification."))
+    original = Path(evaluation["original_source"]).resolve()
+    if original not in store.protected_sources or any(
+        Path(config["pairs"][pair]["student"]["path"]).resolve() != original for pair in ("A", "B")
+    ):
+        raise ValueError("Qualification must identify the exact protected original student from integration_config")
+    if not checkpoint.is_absolute() or ".." in checkpoint.parts:
+        raise ValueError("Explicit qualification checkpoint must be an absolute owned HF path")
+    checkpoint = store._owned_directory(checkpoint)
+    tasks = evaluation["task_ids"]
+    slots = {f"{task}#attempt-{attempt}" for task in tasks for attempt in range(len(SEEDS))}
+    if (
+        len(tasks) != 100
+        or len(set(tasks)) != 100
+        or not attempts
+        or len(set(attempts)) != len(attempts)
+        or not set(attempts) < slots
+    ):
+        raise ValueError(
+            "Owned HF qualification requires distinct explicit slots from, but not all of, the frozen100x4"
+        )
+    return checkpoint
+
+
 def _task_specs(config):
     resource = config["evaluation_resources"] if "evaluation_resources" in config else config["pairs"]["A"]["teacher"]
     for field in ("cpu_per_node", "memory_gb_per_node"):
@@ -91,12 +121,18 @@ def _task_specs(config):
 def _worker_environment(config):
     envs = dict(config.get("envs", {}))
     aliases = ("SR_USER_TOKEN", "SESSION_ROUTER_USER_TOKEN")
-    if any(name in envs for name in aliases):
-        raise ValueError("Private router tokens must be inherited, not stored in configuration")
+    native_keys = ("AK_BASEMIND", "SK_BASEMIND")
+    if any(name in envs for name in (*aliases, *native_keys)):
+        raise ValueError("Private native credentials must be inherited, not stored in configuration")
     tokens = [os.environ.get(name) for name in aliases]
     if not any(tokens) or (all(tokens) and tokens[0] != tokens[1]):
         raise ValueError("Inherit one private router token or matching token aliases")
     envs.update({name: tokens[0] or tokens[1] for name in aliases})
+    for name in native_keys:
+        value = os.environ.get(name)
+        if not value:
+            raise ValueError(f"Native ACS evaluation requires inherited {name}")
+        envs[name] = value
     envs.update(PYTHONPATH=config["repo"], PYTHONNOUSERSITE="1", PYTHONDONTWRITEBYTECODE="1")
     return envs
 
@@ -118,7 +154,16 @@ def _worker_argv(config, configuration, point, receipt, qualification_attempts):
     ]
 
 
-def _worker_command(config, config_path, configuration, point, receipt, original_source, qualification_attempts):
+def _worker_command(
+    config,
+    config_path,
+    configuration,
+    point,
+    receipt,
+    original_source,
+    qualification_attempts,
+    qualification_checkpoint,
+):
     argv = [
         config["worker_python"],
         "-u",
@@ -137,6 +182,8 @@ def _worker_command(config, config_path, configuration, point, receipt, original
     ]
     if original_source is not None:
         argv.extend(("--original-source", str(original_source)))
+    if qualification_checkpoint is not None:
+        argv.extend(("--qualification-checkpoint", str(qualification_checkpoint)))
     argv.extend(arg for uid in qualification_attempts or () for arg in ("--qualification-attempt", uid))
     script = (
         f"cd {shlex.quote(config['repo'])}\n"
@@ -160,6 +207,19 @@ def _prepare_worker(config, evaluation, args):
     ):
         raise ValueError("Receipt must belong to this actual two-GPU worker and point")
     validate_allocation(allocation, requested_gpus=2, expected=evaluation["allocation_identity"])
+    if args.qualification_checkpoint is not None:
+        if (
+            allocation.get("qualification_checkpoint") != str(args.qualification_checkpoint)
+            or allocation.get("run_kind") != "qualification"
+        ):
+            raise ValueError("Receipt must identify this exact owned qualification checkpoint")
+        store_from_config(evaluation).enqueue_qualification_checkpoint(
+            point_id=args.point,
+            checkpoint_dir=args.qualification_checkpoint,
+            source=evaluation["original_source"],
+            task_ids=evaluation["task_ids"],
+            configuration=evaluation["evaluation_contract"],
+        )
     if args.original_source is not None:
         store_from_config(evaluation).enqueue_baseline(
             point_id=args.point,
@@ -227,6 +287,8 @@ def _submit(config, policy, config_path, args, tasks, command):
             "configuration": str(args.configuration),
             "admission": snapshot,
         }
+        if args.qualification_checkpoint is not None:
+            allocation.update(run_kind="qualification", qualification_checkpoint=str(args.qualification_checkpoint))
         if not snapshot["admitted"]:
             _publish_receipt(stream, pending, args.receipt, allocation)
             print("SWE_EVALUATION_ADMISSION_WAIT", args.point, flush=True)
@@ -265,7 +327,13 @@ def main():
     parser.add_argument("--configuration", type=Path, required=True)
     parser.add_argument("--point", required=True)
     parser.add_argument("--receipt", type=Path, required=True)
-    parser.add_argument("--original-source", type=Path, help="Explicit protected source to enqueue on the worker")
+    source = parser.add_mutually_exclusive_group()
+    source.add_argument("--original-source", type=Path, help="Explicit protected source to enqueue on the worker")
+    source.add_argument(
+        "--qualification-checkpoint",
+        type=Path,
+        help="Explicit owned SMOKE_PACKAGED HF to qualify, never a formal point",
+    )
     parser.add_argument("--qualification-attempt", action="append", dest="qualification_attempts")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
@@ -275,6 +343,10 @@ def main():
     config, evaluation = read_json(config_path), read_json(args.configuration)
     _label(args.point)
     _validate_inputs(config, evaluation, config_path, args.configuration, args.receipt, args.original_source)
+    if args.qualification_checkpoint is not None:
+        args.qualification_checkpoint = _validate_qualification_checkpoint(
+            config, evaluation, args.point, args.qualification_checkpoint, args.qualification_attempts
+        )
     if args.worker:
         _prepare_worker(config, evaluation, args)
         return 0
@@ -289,6 +361,7 @@ def main():
         args.receipt,
         args.original_source,
         args.qualification_attempts,
+        args.qualification_checkpoint,
     )
     policy = read_json(config["gpu_policy"])
     if args.dry_run:
