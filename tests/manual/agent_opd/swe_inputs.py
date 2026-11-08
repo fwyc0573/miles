@@ -45,13 +45,17 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_native_module(path: Path, expected_sha256: str) -> ModuleType:
-    """Load the standalone stdlib module, registering it before dataclass exec."""
+def load_native_module(path: Path, expected_sha256: str, name: str | None = None) -> ModuleType:
+    """Load the standalone stdlib module, registering it before dataclass exec.
+
+    A pinned module that other pinned modules import by its Steptron dotted path
+    is registered under that name; otherwise the name derives from the SHA256.
+    """
     content = path.read_bytes()
     actual = hashlib.sha256(content).hexdigest()
     if actual != expected_sha256:
         raise ValueError(f"Native SWE loader SHA256 mismatch: expected {expected_sha256}, got {actual}")
-    name = f"_steptron_swe_turn_loader_{actual}"
+    name = name or f"_steptron_swe_turn_loader_{actual}"
     if name not in sys.modules:
         spec = importlib.util.spec_from_file_location(name, path)
         module = importlib.util.module_from_spec(spec)
