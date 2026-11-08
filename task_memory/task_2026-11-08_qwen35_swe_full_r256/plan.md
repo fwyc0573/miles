@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Reopen Ticket01 for D11's replacement dataset while continuing independent training/evaluation implementation checks. |
 | 2026-11-08 | Accept Ticket01 and move the integration/acceptance frontier to parallel Tickets02 and03. |
 | 2026-11-08 | Start authorized execution and distinguish independent development from prerequisite-dependent runtime acceptance. |
 | 2026-11-08 | Renumber the baseline (08) and comparison (09) tickets into dependency order after the post-freeze standards review; restore word spacing. |
@@ -22,7 +23,7 @@ Primary agent owns interview, shared-understanding confirmation, coordination an
 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
-| [01](tickets/01-native-swe-inputs.md) | GLM-5.2 SWE default-loader parity and frozen four-cell inputs | Documentation freeze — complete |
+| [01](tickets/01-native-swe-inputs.md) | D11 source identity, default-loader parity and frozen four-cell inputs | D11 replacement is authorized; source acceptance reopened |
 | [02](tickets/02-replay-training-and-metrics.md) | Native full/r256 training with replay and exact per-update KL/TIS | 01 |
 | [03](tickets/03-hf-async-swe-evaluation.md) | HF publication → asynchronous SWE evaluation → scoped weight release | 01 |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 02, 03 |
@@ -58,4 +59,4 @@ The edges above gate integration and acceptance. Independent 02 algorithm/replay
 
 ## Current frontier
 
-01 input parity and identity verification is accepted. The acceptance frontier is now parallel 02 training/replay and 03 evaluation lifecycle, including their native integration checks. Formal cells and the shared baseline retain all recorded prerequisites.
+01 is reopened by D11. Verify the replacement source manifest/readability, actual default-loader parity, Qwen length filtering and benchmark overlap, then activate new-data run configurations. In parallel, continue the independent 02 capacity fix and 03 evaluator/lifecycle work. Existing GLM-5.2 smokes retain their provenance and engineering value; they do not establish new-data acceptance. Formal cells and the shared baseline retain the dependency graph above.

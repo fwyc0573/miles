@@ -1,4 +1,4 @@
-"""Compare the frozen SWE benchmark with ordered GLM-5.2 conversations.
+"""Compare the frozen SWE benchmark with ordered source conversations.
 
 Example (use a memory-limited systemd scope when available):
     timeout 180s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python \
@@ -10,13 +10,17 @@ Example (use a memory-limited systemd scope when available):
         --output task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/benchmark-training-overlap.json
 
 This is a source-text audit, not a tokenizer eligibility or contamination certificate.
+For DeepSWE, pass --source-selection with the approved eight-path selection receipt.
+Sources are streamed sequentially; an inherited RLIMIT_AS can enforce the host limit.
 """
 
 import argparse
 import hashlib
+import io
 import json
 import platform
 import re
+import resource
 import shlex
 import sys
 import time
@@ -41,6 +45,60 @@ FIELD_LINE = re.compile(
     r"[\"']?([^\s\"'<>]+)",
     re.MULTILINE,
 )
+WHITESPACE = re.compile(r"\s*")
+
+
+def iter_json_array(stream, read_chars=4 * 1024 * 1024):
+    """Decode one top-level array item at a time with the standard JSON decoder."""
+    decoder = json.JSONDecoder()
+    buffer = stream.read(read_chars)
+    position = WHITESPACE.match(buffer).end()
+    if position == len(buffer) or buffer[position] != "[":
+        raise ValueError("Source must contain a top-level JSON array")
+    position += 1
+    after_comma = False
+    while True:
+        position = WHITESPACE.match(buffer, position).end()
+        if position == len(buffer):
+            buffer = stream.read(read_chars)
+            position = 0
+            if not buffer:
+                raise ValueError("Source JSON array is truncated")
+            continue
+        if buffer[position] == "]":
+            if after_comma:
+                raise ValueError("Source JSON array contains a trailing comma")
+            if buffer[position + 1:].strip() or any(block.strip() for block in iter(lambda: stream.read(read_chars), "")):
+                raise ValueError("Source contains text after its JSON array")
+            return
+        try:
+            row, end = decoder.raw_decode(buffer, position)
+        except json.JSONDecodeError:
+            block = stream.read(read_chars)
+            if not block:
+                raise
+            buffer = buffer[position:] + block
+            position = 0
+            continue
+        yield row
+        position = end
+        after_comma = False
+        while True:
+            position = WHITESPACE.match(buffer, position).end()
+            if position < len(buffer):
+                break
+            buffer = stream.read(read_chars)
+            position = 0
+            if not buffer:
+                raise ValueError("Source JSON array is truncated")
+        if buffer[position] == ",":
+            position += 1
+            after_comma = True
+        elif buffer[position] != "]":
+            raise ValueError("Expected a comma or closing bracket after a conversation")
+        if position >= read_chars:
+            buffer = buffer[position:]
+            position = 0
 
 
 def sha256(path):
@@ -136,51 +194,100 @@ def conversation_identity(conversation, metadata_counts, field_counts, role_coun
     }
 
 
-def scan_sources(directory):
+def conversation_format(conversation, counts):
+    """Count structural fields without retaining or printing trajectory contents."""
+    counts["conversation_type"][type(conversation).__name__] += 1
+    for message in conversation:
+        role = message["role"]
+        counts["message_key_occurrences_by_role"].update(f"{role}.{key}" for key in message)
+        counts["content_type_by_role"][f"{role}.{type(message.get('content')).__name__}"] += 1
+        counts["loss_mask_by_role"][f"{role}.{message.get('loss_mask', 'absent')}"] += 1
+        for key in ("content", "reasoning_content", "tool_calls", "tool_call_id", "tools"):
+            if key in message:
+                counts["field_presence_by_role"][f"{role}.{key}"] += 1
+                if message[key]:
+                    counts["nonempty_fields_by_role"][f"{role}.{key}"] += 1
+        if role != "assistant":
+            continue
+        calls = message.get("tool_calls")
+        if isinstance(calls, list):
+            counts["assistant_tool_calls"]["call_count"] += len(calls)
+            for call in calls:
+                counts["assistant_tool_call_keys"].update(call.keys())
+                if isinstance(call.get("function"), dict):
+                    counts["assistant_tool_call_function_keys"].update(call["function"].keys())
+        if message.get("content") and not calls:
+            counts["assistant_reply"]["nonempty_content_without_tool_calls"] += 1
+        content = message.get("content")
+        if isinstance(content, str):
+            counts["assistant_inline_markers"].update(
+                marker for marker in ("<think>", "</think>", "<tool_call>", "<tool_response>")
+                if marker in content
+            )
+        raw = message.get("meta", {}).get("raw_response")
+        counts["assistant_raw_response_type"][type(raw).__name__] += 1
+        if not isinstance(raw, dict):
+            continue
+        counts["raw_response_key_occurrences"].update(raw.keys())
+        for choice in raw.get("choices", []):
+            raw_message = choice.get("message")
+            if not isinstance(raw_message, dict):
+                continue
+            counts["raw_choice_message_key_occurrences"].update(raw_message.keys())
+            for key in ("content", "reasoning", "reasoning_content", "tool_calls"):
+                if key in raw_message:
+                    counts["raw_choice_message_field_presence"][key] += 1
+                    if raw_message[key]:
+                        counts["raw_choice_message_nonempty_fields"][key] += 1
+
+
+def scan_sources(directory, selection_path=None):
     receipt_path = directory / "COPY_COMPLETE.json"
     receipt = json.loads(receipt_path.read_text())
     expected = {Path(row["path"]).name: row for row in receipt["files"]}
-    files = [
-        directory / f"glm5.2_distill_{series}_include_unresolved_part{part:04d}.json"
-        for series, parts in ((0, 5), (1, 6))
-        for part in range(parts)
-    ]
+    selection = json.loads(selection_path.read_text()) if selection_path else None
+    ordered_paths = selection["paths"] if selection else [row["path"] for row in receipt["files"]]
+    if selection and (receipt["selection"] != selection or ordered_paths != [row["path"] for row in receipt["files"]]):
+        raise ValueError("Approved selection differs from the verified copy receipt")
     conversations = []
     inputs = []
     metadata_counts, field_counts, role_counts = Counter(), Counter(), Counter()
+    format_counts = defaultdict(Counter)
     turn_offset = 0
-    for path in files:
+    for original_path in ordered_paths:
+        path = directory / Path(original_path).name
         identity = file_identity(path)
-        if identity["sha256"] != expected[path.name]["sha256"]:
+        if identity["sha256"] != expected[path.name]["sha256"] or identity["bytes"] != expected[path.name]["bytes"]:
             raise ValueError(f"Source differs from verified copy receipt: {path}")
         identity.update(
             original_path=expected[path.name]["path"], copy_receipt_sha256_match=True
         )
-        rows = json.loads(path.read_text())
-        file_turns = 0
-        for index, conversation in enumerate(rows):
-            turns = sum(message["role"] == "assistant" for message in conversation)
-            row = conversation_identity(
-                conversation, metadata_counts, field_counts, role_counts
-            )
-            row.update(
-                file_name=path.name,
-                conversation_index=index,
-                assistant_turn_count=turns,
-                first_assistant_stream_index=turn_offset,
-                assistant_stream_end_exclusive=turn_offset + turns,
-            )
-            conversations.append(row)
-            turn_offset += turns
-            file_turns += turns
-        if (
-            len(rows) != expected[path.name]["conversations"]
-            or file_turns != expected[path.name]["assistant_turns"]
+        file_turns, file_conversations = 0, 0
+        with path.open(encoding="utf-8") as stream:
+            for index, conversation in enumerate(iter_json_array(stream)):
+                if not isinstance(conversation, list):
+                    raise ValueError(f"Expected a conversation message list: {path.name}[{index}]")
+                turns = sum(message["role"] == "assistant" for message in conversation)
+                row = conversation_identity(conversation, metadata_counts, field_counts, role_counts)
+                conversation_format(conversation, format_counts)
+                row.update(
+                    file_name=path.name, conversation_index=index, assistant_turn_count=turns,
+                    first_assistant_stream_index=turn_offset,
+                    assistant_stream_end_exclusive=turn_offset + turns,
+                )
+                conversations.append(row)
+                turn_offset += turns
+                file_turns += turns
+                file_conversations += 1
+        recorded = expected[path.name]
+        if "conversations" in recorded and (
+            file_conversations != recorded["conversations"] or file_turns != recorded["assistant_turns"]
         ):
             raise ValueError(f"Source counts differ from copy receipt: {path}")
-        identity.update(conversations=len(rows), assistant_turns=file_turns)
+        identity.update(conversations=file_conversations, assistant_turns=file_turns)
         inputs.append(identity)
-        del rows
+        print(json.dumps({"file": path.name, "conversations": file_conversations, "assistant_turns": file_turns,
+                          "local_sha256_matches_verified_source": True}), flush=True)
     return inputs, conversations, {
         "conversation_count": len(conversations),
         "assistant_turn_count": turn_offset,
@@ -198,6 +305,8 @@ def scan_sources(directory):
         "task_description_count": sum(row["task_description_count"] for row in conversations),
         "messages_with_tools": sum(row["messages_with_tools"] for row in conversations),
         "copy_receipt": file_identity(receipt_path),
+        "source_selection": file_identity(selection_path) if selection_path else None,
+        "format_counts": {name: dict(values) for name, values in format_counts.items()},
     }
 
 
@@ -321,6 +430,90 @@ def reference_evidence(task_directory):
     }
 
 
+def positive_controls(tasks):
+    """Exercise identity extraction, all match methods, and streaming boundaries."""
+    task = tasks[0]
+    fixture = [
+        {"role": "system", "content": "System context", "meta": {}},
+        {
+            "role": "user", "meta": {key: task[key] for key in ("instance_id", "repo", "base_commit")},
+            "content": "<pr_description>\n" + task["problem_statement"] + "\n</pr_description>",
+        },
+        {"role": "assistant", "content": "Reply", "meta": {"raw_response": {"id": "request-only"}}},
+    ]
+    row = conversation_identity(fixture, Counter(), Counter(), Counter())
+    row.update(file_name="synthetic_positive_control", conversation_index=0)
+    result = comparison([row], [task])
+    methods = ("exact_instance_id", "repo_and_base_commit", "normalized_problem_statement_sha256")
+    for method in methods:
+        if result[method]["matching_pair_count"] != 1:
+            raise AssertionError(f"Positive match control failed: {method}")
+    if text_sha256("A\n B\tC") != text_sha256("A B C") or text_sha256("A B") == text_sha256("a b"):
+        raise AssertionError("Whitespace/case normalization control failed")
+    request_only = [{"role": "user", "content": "<pr_description>x</pr_description>",
+                     "meta": {"raw_response": {"id": task["instance_id"]}}}]
+    if conversation_identity(request_only, Counter(), Counter(), Counter())["instance_ids"]:
+        raise AssertionError("A request ID was incorrectly treated as a task ID")
+    fixture_json = json.dumps([fixture, [{"role": "user", "content": 'Unicode α and brackets [] {} "'}]], ensure_ascii=False)
+    if list(iter_json_array(io.StringIO(fixture_json), read_chars=17)) != json.loads(fixture_json):
+        raise AssertionError("Streaming chunk-boundary control failed")
+    for invalid in (fixture_json[:-1], fixture_json + " trailing", "[{},]"):
+        try:
+            list(iter_json_array(io.StringIO(invalid), read_chars=17))
+        except (ValueError, json.JSONDecodeError):
+            continue
+        raise AssertionError("Streaming parser accepted invalid JSON")
+    return {
+        "status": "PASS", "synthetic_rows_are_excluded_from_source_counts": True,
+        "benchmark_task_used": task["instance_id"],
+        "matching_pairs_per_method": {name: result[name]["matching_pair_count"] for name in methods},
+        "whitespace_normalization": "PASS", "case_preservation": "PASS",
+        "request_id_exclusion": "PASS", "streaming_chunk_boundaries": "PASS",
+        "truncated_trailing_text_and_trailing_comma_rejection": "PASS",
+    }
+
+
+def scope_results(conversations, tasks):
+    scopes = {}
+    for name, budget in (
+        ("all_conversations", None),
+        ("first_51200_assistant_turns", 51200),
+        ("first_1024_assistant_turns", 1024),
+    ):
+        rows = conversations if budget is None else [
+            row for row in conversations
+            if row["assistant_turn_count"] and row["first_assistant_stream_index"] < budget
+        ]
+        scopes[name] = {
+            "conversation_count": len(rows), "assistant_turn_budget": budget,
+            "membership_stage": "RAW_SOURCE_BEFORE_QWEN_LENGTH_FILTER",
+            "assistant_turns_in_included_whole_conversations": sum(row["assistant_turn_count"] for row in rows),
+            "last_conversation": {
+                key: rows[-1][key] for key in (
+                    "file_name", "conversation_index", "first_assistant_stream_index",
+                    "assistant_stream_end_exclusive",
+                )
+            },
+            "overlap": comparison(rows, tasks),
+        }
+    return scopes
+
+
+def compact_identities(conversations, inputs):
+    files = [row["path"].rsplit("/", 1)[-1] for row in inputs]
+    file_indices = {name: index for index, name in enumerate(files)}
+    fields = (
+        "conversation_index", "assistant_turn_count", "first_assistant_stream_index",
+        "instance_ids", "repos", "base_commits", "problem_statement_sha256",
+        "task_context_github_repo_mentions", "initial_context_instance_id_literals",
+    )
+    return {
+        "encoding": "column_table", "index_base": 0, "file_names": files,
+        "columns": ["file_index", *fields],
+        "rows": [[file_indices[row["file_name"]], *[row[key] for key in fields]] for row in conversations],
+    }
+
+
 def main():
     started_at = time.monotonic()
     parser = argparse.ArgumentParser(description=__doc__)
@@ -328,6 +521,8 @@ def main():
     parser.add_argument("--benchmark-copy-receipt", required=True, type=Path)
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--sources", required=True, type=Path)
+    parser.add_argument("--source-selection", type=Path)
+    parser.add_argument("--task-id", default="T01-overlap")
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     benchmark_input = file_identity(args.benchmark)
@@ -341,33 +536,11 @@ def main():
         copy_receipt_sha256_match=True,
     )
     tasks, benchmark_counts = benchmark_tasks(args.benchmark, args.manifest)
-    inputs, conversations, training_counts = scan_sources(args.sources)
-    scopes = {}
-    for name, budget in (
-        ("all_conversations", None),
-        ("first_51200_assistant_turns", 51200),
-        ("first_1024_assistant_turns", 1024),
-    ):
-        rows = conversations if budget is None else [
-            row for row in conversations
-            if row["assistant_turn_count"] and row["first_assistant_stream_index"] < budget
-        ]
-        scopes[name] = {
-            "conversation_count": len(rows),
-            "assistant_turn_budget": budget,
-            "assistant_turns_in_included_whole_conversations": sum(
-                row["assistant_turn_count"] for row in rows
-            ),
-            "last_conversation": {
-                key: rows[-1][key] for key in (
-                    "file_name", "conversation_index", "first_assistant_stream_index",
-                    "assistant_stream_end_exclusive",
-                )
-            },
-            "overlap": comparison(rows, tasks),
-        }
+    controls = positive_controls(tasks)
+    inputs, conversations, training_counts = scan_sources(args.sources, args.source_selection)
+    scopes = scope_results(conversations, tasks)
     report = {
-        "task_id": "T01-overlap",
+        "task_id": args.task_id,
         "status": "FACTUAL_SOURCE_COMPARISON_COMPLETE_WITH_IDENTITY_LIMITS",
         "inputs": {
             "benchmark_library": benchmark_input,
@@ -377,7 +550,8 @@ def main():
         "method": {
             "benchmark_selection": "benchmark.task_ids[:100] from the existing 500-task domain manifest; map by instance_id into the library, not library[:100]",
             "selection_source": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/tests/e2e/mopd_step3p6_bounded_replay/swe_formal.py:112-127,163-170,202-206",
-            "training_order": "distill_0 parts 0000..0004, then distill_1 parts 0000..0005; conversation order, then every role=assistant position",
+            "training_order": "Approved source-selection paths when supplied, otherwise verified copy-receipt file order; then conversation order and every role=assistant position, including loss_mask=0",
+            "source_parser": "Standard-library JSON decoder; one top-level conversation at a time, one source file at a time, no whole-file materialization",
             "identity_extraction": "Recursive explicit message/meta keys and labelled initial-context fields; no request/tool-call IDs used as task identities",
             "problem_statement_extraction": "Nonempty <pr_description> bodies and text after Task Description: in system/user context before the first assistant",
             "problem_statement_normalization": "SHA256 of UTF-8 encoded ' '.join(text.split()); case and punctuation preserved",
@@ -389,12 +563,12 @@ def main():
         "benchmark_tasks": tasks,
         "training_identity_counts": training_counts,
         "scopes": scopes,
-        "training_conversation_identities": conversations,
-        "reference_evidence": reference_evidence(args.manifest.parents[4]),
+        "training_conversation_identities": compact_identities(conversations, inputs) if args.source_selection else conversations,
+        "positive_controls": controls,
         "limitations": [
-            "Missing structured instance_id/repo/base_commit fields leave identity-based overlap unverified; seven initial-context repo labels do not restore complete task identity. Zero observed matches is not proof of non-overlap.",
+            "Missing structured instance_id/repo/base_commit fields leave identity-based overlap unverified where comparable identity is absent. Zero observed matches is not proof of non-overlap.",
             "Exact problem text matching does not detect paraphrases, aliases, translations, or edited copies.",
-            "The two prefix memberships are native pre-tokenization assistant prefixes, not a verified post-Qwen-length-filter eligible stream. An all-source zero exact-text intersection also implies zero for any subset of these source conversations.",
+            "The two prefix memberships count raw source assistant positions, including loss_mask=0, before Qwen prompt rendering/length filtering. They do not certify the effective native eligible stream.",
             "Repository mentions can reference dependencies, comparisons, or screenshots, rather than the task repository.",
             "No exclusion, data rewrite, GPU run, cloud write, or overlap-handling decision is made.",
         ],
@@ -404,17 +578,26 @@ def main():
             "argv": shlex.join([sys.executable, *sys.argv]),
             "script": file_identity(__file__),
             "elapsed_seconds_before_write": time.monotonic() - started_at,
+            "rlimit_as_soft_hard_bytes": list(resource.getrlimit(resource.RLIMIT_AS)),
+            "peak_rss_kib": resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
         },
     }
+    if not args.source_selection:
+        report["reference_evidence"] = reference_evidence(args.manifest.parents[4])
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w") as stream:
         json.dump(report, stream, indent=2, ensure_ascii=False)
         stream.write("\n")
     print(json.dumps({
         "output": str(args.output),
-        "training_identity_counts": training_counts,
+        "conversation_count": training_counts["conversation_count"],
+        "assistant_turn_count": training_counts["assistant_turn_count"],
+        "identity_coverage": training_counts["conversations_with_identity"],
         "benchmark_counts": benchmark_counts,
-        "scopes": scopes,
+        "scopes": {name: {"conversation_count": scope["conversation_count"],
+                           "overlap": {method: {key: value for key, value in values.items() if key != "matches"}
+                                       for method, values in scope["overlap"].items()}}
+                   for name, scope in scopes.items()},
     }, indent=2))
 
 

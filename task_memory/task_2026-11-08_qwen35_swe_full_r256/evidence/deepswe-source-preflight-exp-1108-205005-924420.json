@@ -1,0 +1,65 @@
+{
+  "job": "exp-1108-205005-924420",
+  "status": "READABLE",
+  "selection": {
+    "dataset": "swe-1003-deepswe-0913",
+    "source_document": "/data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md",
+    "selection_file": "/data/ycfeng/steptron/.worktrees/yc-mopd-learning-dynamics-s4-branch/task_memory/task_2026-11-08_mopd_agentic_dataset_lookup/dataset_paths.json",
+    "selection_file_sha256": "576045f3183b8a38ffbe47b5cee133f7fd60ba8708c928b672ae0325b8b177a3",
+    "selection_key": "swe_1003_reused_by_20261021_step3p7_student.swe",
+    "source_root": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913",
+    "paths": [
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json"
+    ]
+  },
+  "files": [
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "bytes": 1840507093,
+      "mtime_ns": 1789293203334902630
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "bytes": 1798751171,
+      "mtime_ns": 1789293192491252333
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "bytes": 1777535746,
+      "mtime_ns": 1789293192779992329
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "bytes": 1776704827,
+      "mtime_ns": 1789293187339868644
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "bytes": 1377049904,
+      "mtime_ns": 1789298047273332287
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "bytes": 3299554993,
+      "mtime_ns": 1789293707885207546
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "bytes": 3331390326,
+      "mtime_ns": 1789293718169617258
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "bytes": 1358046403,
+      "mtime_ns": 1789298072498783371
+    }
+  ],
+  "total_bytes": 16559540463
+}

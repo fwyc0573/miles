@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record D11: replace GLM-5.2 training inputs with the eight SWE-1003/0913 DeepSWE resolved sources; reopen input acceptance. |
 | 2026-11-08 | Clarify completion-only RKL statistics with fresh current-student scoring on the unchanged completion; no new estimator or sampling path. |
 | 2026-11-08 | Amend D9 with the user-approved temporary independent task allocation, overflow preemption, and continuation after expiry. |
 | 2026-11-08 | Record approval to implement and execute the frozen tickets in parallel after the documentation review fixes. |
@@ -44,6 +45,16 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 - Reference task: `/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/task_memory/task_2026-10-01_step3p6_single_teacher_bounded_replay_h200`.
 - Prior Qwen acceptance: `../task_2026-11-06_qwen35_three_pairs/summary.md`; tokenizer/data distinction: `../task_2026-11-08_qwen_tokenizer_opd_inventory/findings.md`.
 - Reference documents have multiple dated overrides. Resolve current behavior against the latest actual request and code; do not inherit the historical 8-use schedule, 100-update budget, 500-question benchmark, or superseded checkpoint cadence by reading the original spec alone.
+
+### D11 — [Original Request / Follow-up Amendment] 2026-11-08: replace training data
+
+> big change：将当前数据集替换为：
+> /data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md中的 ## 2026 年 10 月 21 日交付实验使用的 sew数据集：复用 SWE-1003 的 0913 SFT 数据：DeepSWE resolved 轨迹，经过 garble filtering 和 datapipe 处理，位于
+> /mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/
+
+This explicitly supersedes the original GLM-5.2 dataset selection for all four training cells. The requested delivery consists of eight ordered JSON sources; spec S3 owns their selection reference. Preserve the repeated `mnt/posttrain` components in the source path. Reading those requested source files is authorized; any generated cloud copy remains inside the existing personal namespace.
+
+Retain the previously approved default Steptron loading requirement. Reopen Ticket01 for the replacement sources' identity, schema, native loader parity, Qwen rendering/length filtering and benchmark-overlap evidence. Prior GLM-5.2 input counts, overlap checks, training smokes and saved-bank capacity probes retain their actual provenance and cannot certify the replacement data. Existing model/math/evaluator evidence remains evidence for the implementation that was actually exercised. No formal cell has started. A future formal configuration must select the replacement sources after their acceptance.
 
 ## Interview decisions
 

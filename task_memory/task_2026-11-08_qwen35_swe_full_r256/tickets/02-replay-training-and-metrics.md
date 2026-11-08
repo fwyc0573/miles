@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Mark the D11 input prerequisite reopened; retain source-independent math evidence with its historical dataset provenance. |
+| 2026-11-08 | Accept directly observed native derivative/detach, original-token finalization and AdamW continuity; capacity remains open. |
 | 2026-11-08 | Accept the four short native paths and exact A/r256 tensor reconstruction; keep actual gradient and256-turn capacity checks open. |
 | 2026-11-08 | Clear the completed input prerequisite; keep native GPU acceptance in progress. |
 | 2026-11-08 | Draft the generation-to-update replay and metrics slice. |
@@ -12,7 +14,7 @@
 
 **Blocked by:** 01 — 默认SWE输入与身份契约。
 
-**Status:** in-progress — 01 accepted; CPU implementation and remediation verified, native GPU integration pending
+**Status:** in-progress — D11 reopens the 01 input prerequisite. Existing implementation/math observations remain qualified for the recorded GLM-5.2 probes; replacement-data native load and capacity acceptance are pending.
 
 - [x] 使用已有Qwen训练路径和共享的显式实验配置；两种教师及两种模式无需复制整套实现。
 - [ ] 完整200行排程符合spec；验证bank边界、成功/跳过计数及失败不提交使用次数。
@@ -21,6 +23,6 @@
 - [ ] D7首个全局零survivor batch终止当前attempt，保存证据且不提交成功update；其他cell继续，不将辅助观测错误误判为零。
 - [ ] Hung request、晚返回、重复callback与有效样本不足按已确认策略结束，已完成结果可用且不会无限等待。
 - [x] 在真实DP/rank与mask归约处输出KL numerator/denominator、TIS前后tokens及保留率；独立计算核验至少一个非均匀长度且有TIS丢弃的batch。
-- [ ] 检查实际optimizer、逐步LR、S4的原生OPD surrogate、detach关系、分布式原始token分母及同一bank多次更新；用真实loss/gradient核验而非只比较KL日志或配置开关。
+- [x] 检查实际optimizer、逐步LR、S4的原生OPD surrogate、detach关系、分布式原始token分母及同一bank多次更新；用真实loss/gradient核验而非只比较KL日志或配置开关。
 - [ ] 分别验证A/B以及full/r256原生关键路径，使用代表性256-turn负载检查容量；测试缩短的排程与正式预算清晰分开。
 - [ ] 实际GPU角色数、长上下文显存和bank转换证据支持正式并发计划，所有辅助观察符合soft-gate约束。
