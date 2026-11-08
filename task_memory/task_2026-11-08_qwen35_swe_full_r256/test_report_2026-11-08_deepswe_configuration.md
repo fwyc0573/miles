@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Parent rechecks four real formal argv/source/hook contracts and records CPU versus GPU validation limits. |
 | 2026-11-08 | Activate the genuine native visual receipt in four real smoke argv configurations;18 final launcher regressions pass. |
 | 2026-11-08 | T02-DEEPSWE-CAPACITY-CONFIG: derive the existing two-update/256-slot smoke for current inputs; verify both native custom-hook registrations and no-submit dry-runs. |
 | 2026-11-08 | Wire the native masked-target/visual-receipt fields through the real launcher parser; 18 CPU regressions passed. |
@@ -11,7 +12,7 @@
 
 ## Scope and result
 
-PASS for configuration construction and source-selection binding. Full-source native visual receipt,ordinary non-injected factory,representative Qwen/native parity and overlap audit have since passed in their respective reports. Four actual smoke argv input contracts match that accepted source. Final formal-profile transport and new-data GPU acceptance remain separate gates; this report does not close Ticket02 or03.
+PASS for source-selection and four-cell smoke/formal configuration contracts. Full-source native visual receipt,ordinary non-injected factory,representative Qwen/native parity and qualified overlap audit passed in their respective reports. Ticket01 is reaccepted; native new-data GPU capacity and asynchronous integration remain02/03 gates. CPU post-parse typed transport is not full Megatron/SGLang validation.
 
 - `deepswe_integration_config.json` selects the eight D11 files and a new `deepswe-0913/integration` output namespace. Historical configurations and outputs retain their original source selection.
 - The three-update/eight-slot profile enables the approved scoring-lifetime patch for qualification. It does not authorize formal adoption before capacity acceptance.
@@ -90,6 +91,17 @@ Observed: Python3.12.13, **18 passed, 0 failures/errors/skips; 2.815s**. The two
 After actual activation, a direct native AllConfig/custom-hook registration check built A/B full/r256 argv from `deepswe_integration_config.json` and asserted all six source fields exactly match `deepswe-input-activation.json`, receiptSHA256 matches and context/response limits remain131072 withone sample per prompt. Four checks PASS; `evidence/deepswe-active-launcher-inputs.json` retains the observed config SHA and six-field contract. Final unchanged regression command used `--junitxml=.../evidence/deepswe-active-launcher-regressions.xml` with log `/data/ycfeng/tmp/qwen35-swe-deepswe-active-launcher-regressions-20261108.log`:18 passed,0 failed/skipped/errors,2.479s. Three changed scripts compile; `git diff --check` passes. This verifies launcher transport,notGPU consumption or a full-population Qwen-length census.
 
 ## T02-DEEPSWE-CAPACITY-CONFIG — current-input native256 smoke
+
+The final formal profile is `deepswe_formal_config.json`,SHA256 `e14b05b4546cf3510c3fa2d5c4d058420fe76fdd25b452356b13b31f6a3ce92a`. `evidence/deepswe-formal-launcher-inputs.json` records the exact nine approved field differences,all four real dry-run commands,backend flags not consumed by the CPU parser and the full verification source. Parent independently reran that source:
+
+```bash
+env TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 \
+  /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c \
+  'import json; from pathlib import Path; evidence=json.loads(Path("task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-formal-launcher-inputs.json").read_text()); exec("\n".join(evidence["verification_source_lines"]))' \
+  > /data/ycfeng/tmp/qwen35-swe-formal-input-parent-verification-20261108.log 2>&1
+```
+
+Expected/observed: exit0 and `FORMAL_PROFILE_RECHECK_PASS cells=4 input_fields=6 hooks=9 budget=200 slots=256 context=131072 n=1`. All source fields match the real ordinary factory contract; nominalfull200banks×1 andr2564banks×50,constant2e-6,save50/100/150/200 and unrestricted100×4 formal evaluation remain fixed. Existing CPU fixture supplies post-parse schema fields; every explicit recipe field is transported from actual parsed argv and backend arguments. This is not native Megatron validation or a successful training run. The CPU interpreter has no Megatron and its SGLang0.5.23 does not consume the pinned-image prefill-weight-version option; GPU startup remains a required02/03 check.
 
 ### Result and ownership
 

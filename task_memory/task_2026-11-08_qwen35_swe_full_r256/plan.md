@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Reaccept D11 Ticket01 and move the new-data runtime frontier to parallel02/03;08 is already independently running. |
 | 2026-11-08 | Clarify08's existing capability-specific prerequisites after independent readiness review; retain the full01/03 gates for04–07. |
 | 2026-11-08 | Reopen Ticket01 for D11's replacement dataset while continuing independent training/evaluation implementation checks. |
 | 2026-11-08 | Accept Ticket01 and move the integration/acceptance frontier to parallel Tickets02 and03. |
@@ -24,7 +25,7 @@ Primary agent owns interview, shared-understanding confirmation, coordination an
 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
-| [01](tickets/01-native-swe-inputs.md) | D11 source identity, default-loader parity and frozen four-cell inputs | D11 replacement is authorized; source acceptance reopened |
+| [01](tickets/01-native-swe-inputs.md) | Accepted D11 source identity, default-loader parity and frozen four-cell inputs | done; documentation freeze and D11 amendment |
 | [02](tickets/02-replay-training-and-metrics.md) | Native full/r256 training with replay and exact per-update KL/TIS | 01 |
 | [03](tickets/03-hf-async-swe-evaluation.md) | HF publication → asynchronous SWE evaluation → scoped weight release | 01 |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 02, 03 |
@@ -62,4 +63,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reopened by D11. Verify the replacement source manifest/readability, actual default-loader parity, Qwen length filtering and benchmark overlap, then activate new-data run configurations. In parallel, continue the independent 02 capacity fix and 03 evaluator/lifecycle work. Existing GLM-5.2 smokes retain their provenance and engineering value; they do not establish new-data acceptance. Formal cells and the shared baseline retain the dependency graph above.
+01 is reaccepted for D11: genuine full-source visual receipt,ordinary native/Qwen factory parity,qualified overlap audit and formal four-cell source/budget transport pass. Execute new-data02 capacity and03 training/HF/asynchronous-evaluation qualification in parallel.08's shared original-model baseline is already independently running. Existing GLM-5.2 smokes retain their provenance and engineering value; they do not establish new-data GPU acceptance.04–07 still require02/03 native acceptance; formal four-cell training has not started.
