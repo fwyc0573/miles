@@ -15,6 +15,7 @@
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
 | 2026-11-08 | Record Finding 14: the SWE-1003 0913 data, its mask-aware streaming loader and the order comparison. |
 | 2026-11-08 | Record the round-8 answers (D23–D25); replace the copy step with reading the files in place. |
+| 2026-11-08 | Record the audit script, the stopped audit hand-off, the round-9 answer (D26, D27) and the document update; reopen 01. |
 
 # Progress
 
@@ -107,12 +108,19 @@
 - D1 is not met (the reused ticket's own capacity smoke fails). Put to the user; answered as D22: wait for that branch's complete out-of-memory fix before merging, and start no part of ticket 02 early.
 - Checked again at 20:30 (read only): `agent-opd` is at `cee3bfa5`, which adds a Megatron scoring output-lifetime patch, a saved-bank replay seam for re-running the failing bank, and their CPU tests (53 pass). Its own report states that the real 256-turn run on the saved bank has not happened and that the CPU result "不证明原 OOM 已修复". So D22's condition is still open; this task stays stopped.
 
+## Round 8–9: SWE-1003 0913 data
+
+- Audit script `tests/manual/agent_opd/audit_swe1003_sources.py` (commit `721090cc`). Reason: the counts that decide D26 and the visual exclusion list (D27) are only known after reading the 8 files. Method: one pass with the pinned cursor; training turns by `eligible_assistant_positions`; visual conversations by `_scan_message` on every message; the prefix before each trainable conversation's last training turn rendered with the Qwen template, with bisection for the first over-length turn; then the native mixer over `MaskAwareSWETurnSource` for 32 × 8 and 1 × 8 until 200 × 256 accepted turns. It writes an audit JSON and a source manifest readable by `load_source_population`. `load_native_module` gained an optional module name so pinned modules register under their Steptron dotted names.
+- Synthetic check: `/data/ycfeng/tmp/agent-opd-image/make_and_check_swe1003_synthetic.py` writes 8 files shaped like the recipe list and compares the audit output with hand-computed values (10 conversations, 21 assistants, 18 training turns, 1 visual, 1 over-length turn; M = 1: 7 draws, 6 accepted, 1 rejected). PASS.
+- The audit job hand-off to the executor was stopped before it ran: no run directory, no launcher, no output directory exist (checked). No job was submitted. Reported to the user.
+- Round 9 answer: D26 (keep 32 × 8; come back if the median training-turn count is clearly below 81) and D27 (compute the visual list). Documents updated with D23–D27 (spec S0–S2, S4, S5, S8, S9; tickets 01, 03, 04, 05; plan; `GLOSSARY.md` Training turn); numbers that need the audit are marked pending.
+
 ## in-progress
 
-- Round 8: dataset switch to SWE-1003 0913 (Finding 14). Answers recorded as D23–D25; Q24 (M × block) and Q26 (visual exclusion source) explained, confirmation pending. Next: the audit job that reads the 8 files in place (D25), no copy.
+- Ticket 01 revision for the SWE-1003 data: adapter code and local checks (synthetic `loss_masked` set, GLM copies with `all_assistants`).
 
 ## pending
 
 1. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-2. Audit of the 0913 files in place (CPU RJob), then the spec and ticket edits listed with the questions, then the revised 01. Ticket 01's checks on real data run inside a CPU RJob, because no local copy exists.
+2. The source audit and ticket 01's checks on the 8 files in place, both in a CPU RJob that mounts posttrain (no local copy exists); the submission route is open after the stopped hand-off. Then update spec S2 取数顺序第 6 条 with the audit numbers and apply D26.
 3. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.

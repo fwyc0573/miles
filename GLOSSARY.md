@@ -41,7 +41,7 @@ One specified combination of a student, a teacher and a learning protocol in an 
 _Avoid_: Unqualified cell when it could mean a deployment reconcile unit, execution attempt.
 
 **Training turn**:
-One assistant response to be learned from, together with the preceding conversation that supplies its input context.
+One assistant response to be learned from, together with the preceding conversation that supplies its input context. When a dataset marks assistant responses with a loss mask, only the marked responses are training turns; the others stay part of the context.
 _Avoid_: Conversation when counting individual assistant responses.
 
 **Replay bank**:

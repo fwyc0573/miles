@@ -13,6 +13,7 @@
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
 | 2026-11-08 | Record the round-8 request to switch to the SWE-1003 0913 data and the questions put with the analysis. |
 | 2026-11-08 | Record the round-8 answers as D23 (interleaved with the mask-aware turn source), D24 (training turns and `t_id`) and D25 (read the files in place). |
+| 2026-11-08 | Record the round-9 answer: D26 (keep 32 × 8) and D27 (compute the visual exclusion list); documents updated before the audit. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -113,7 +114,7 @@ Recommendations below are not decisions until the user answers.
 
 User answered: **“采纳你的推荐，继续”**.
 
-- **D18 rollout turn order (Q20 → B).** Use the interleaved turn order: 32 source conversations open at once, each contributing 8 consecutive turns in ascending order per round of 256 draws, the next conversation in file order replacing a finished one. Both numbers are input config fields. Built from the native cursor, turn source and block mixer; with one open conversation it equals the current streaming order. Owner of the exact behavior: [spec S2](spec.md#s2-rollout-取数顺序d18).
+- **D18 rollout turn order (Q20 → B).** Use the interleaved turn order: 32 source conversations open at once, each contributing 8 consecutive turns in ascending order per round of 256 draws, the next conversation in file order replacing a finished one. Both numbers are input config fields. Built from the native cursor, turn source and block mixer; with one open conversation it equals the current streaming order. Owner of the exact behavior: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
 - **Q17 settled by D7.** A conversation stops being alive after the successful update that trains the bank in which its last turn was drawn.
 - **D19 relaunch rule (revised Q18).** If a cell's first update fails D6 because rollout or teacher scoring is too slow, end that attempt as D6 requires and relaunch it as a new attempt with more GPUs, keeping this task's non-preemptible total at most 32, without asking again. If both cells cannot fit in 32, run them one after the other; formal-cell roles do not go on preemptible jobs. D6's deadline and minimum stay unchanged. Later-update throughput failures are not covered: the attempt ends under D6 and is reported.
 
@@ -173,7 +174,17 @@ User wrote:
 
 > q24：如何理解 “M” 和 block的含义？32*8当前是如何定的？ q26: 什么是视觉轨迹？ q27: 允许一次任务读取多个数据卷，避免无意义的冗余复制 其他问题采纳你的方案
 
-- **D23 turn order (Q23).** Keep the D18 interleaved order. The turn source class becomes the SWE-1003 `MaskAwareSWETurnSource`; the cursor and the block mixer stay the native ones. With one open conversation the order equals the SWE-1003 streaming order. Owner: [spec S2](spec.md#s2-rollout-取数顺序d18).
+- **D23 turn order (Q23).** Keep the D18 interleaved order. The turn source class becomes the SWE-1003 `MaskAwareSWETurnSource`; the cursor and the block mixer stay the native ones. With one open conversation the order equals the SWE-1003 streaming order. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
 - **D24 training turns and `t_id` (Q25).** Only assistant messages with integer `loss_mask = 1` are training turns; masked assistants and tool replies stay in the prompt prefix. `t_id` is the 1-based ordinal among a conversation's training turns (native `assistant_turn_ordinal`); the ordinal among all assistants (`source_assistant_turn_ordinal`) is kept as metadata. Owner: [spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13).
 - **D25 read in place (Q27).** Read the 8 files in place from `/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/`; make no cloud or local copy. A job may mount several volumes at once (posttrain read-only, the personal cloud root, the local NFS workspace). The audit job is approved without the copy step; its small JSON outputs go to this task's `evidence/`.
 - **Q24 and Q26:** the user asked what M, block and a visual trajectory mean and how 32 × 8 was chosen. Explanations given in the reply; the recommendations stand until the user confirms.
+
+### Round 9 — [Follow-up Answer] 2026-11-08
+
+Explained in the reply: M is the number of source conversations open at once; block is the number of consecutive training turns taken from one open conversation before switching; 32 = 256 / 8, so each update holds about one block from each open conversation. A visual trajectory is a source conversation carrying image or video content. The reply also reported that the audit job had not been submitted (the hand-off to the executor was stopped before anything ran) and offered three ways on: the user submits the audit, the documents are updated first with the audit numbers marked pending, or another submission route. User wrote:
+
+> 确认q24和q26，采纳推荐方案。按照已确定的q选项，更新docs，继续
+
+- **D26 open conversations and block (Q24).** Keep M = 32 and block = 8. If the audit shows a median of training turns per conversation clearly below 81 (the length at which a conversation spans the 11 updates a trend at k = 10 needs), come back with the numbers and a proposal that keeps M × block = 256. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
+- **D27 visual exclusion (Q26).** Compute the list of visual source conversations with the pinned Steptron predicate; do not read the receipt on posttrain-release. The list is written into the source manifest that the audit produces. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
+- **Documents first.** Update spec, plan and tickets with D23–D27 now; numbers that only the audit can give are marked pending, then continue with the ticket 01 revision.
