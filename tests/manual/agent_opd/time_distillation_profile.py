@@ -3,7 +3,8 @@
 Example:
     python -m tests.manual.agent_opd.time_distillation_profile --updates 200 --bank-turns 256 \
         --open-conversations 32 --block-turns 8 --min-turns 19 --max-turns 464 --max-tokens 4000 \
-        --trend-window 10 --seed 1234 --temporary-root /data/ycfeng/tmp/agent-opd-image/profile-timing \
+        --trend-window 10 --baseline-updates 10 --baseline-turns 8 \
+        --seed 1234 --temporary-root /data/ycfeng/tmp/agent-opd-image/profile-timing \
         --output task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/profile-timing.json
 """
 
@@ -71,7 +72,7 @@ def _stats(seconds):
 def main():
     parser = argparse.ArgumentParser()
     for name in ("updates", "bank-turns", "open-conversations", "block-turns", "min-turns", "max-turns",
-                 "max-tokens", "trend-window", "seed"):
+                 "max-tokens", "trend-window", "baseline-updates", "baseline-turns", "seed"):
         parser.add_argument(f"--{name}", type=int, required=True)
     parser.add_argument("--temporary-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
@@ -81,7 +82,9 @@ def main():
     if directory.exists():
         raise SystemExit(f"{directory} already exists; choose an empty temporary root")
 
-    profile = DistillationProfile(estimator="sampled_token", trend_window=args.trend_window, directory=directory)
+    profile = DistillationProfile(estimator="sampled_token", trend_window=args.trend_window,
+                                  baseline_updates=args.baseline_updates, baseline_turns=args.baseline_turns,
+                                  directory=directory)
     record_seconds, states_seconds = [], []
     for update_id, (sums, bank_turns, finished) in enumerate(banks, start=1):
         started = time.perf_counter()
@@ -99,7 +102,9 @@ def main():
     del banks
     gc.collect()
     tracemalloc.start()
-    in_memory = DistillationProfile(estimator="sampled_token", trend_window=args.trend_window, directory=None)
+    in_memory = DistillationProfile(estimator="sampled_token", trend_window=args.trend_window,
+                                    baseline_updates=args.baseline_updates,
+                                    baseline_turns=args.baseline_turns, directory=None)
     for update_id, (sums, bank_turns, finished) in enumerate(_banks(args), start=1):
         in_memory.record_update(update_id, sums, bank_turns, finished)
     del sums, bank_turns, finished
@@ -108,12 +113,16 @@ def main():
     tracemalloc.stop()
 
     states = profile.conversation_states(args.trend_window)
+    summary = profile.summary()
     report = {
-        "status": "PASS" if profile.unverified_from is None and rebuilt.summary() == profile.summary() else "FAIL",
+        "status": "PASS" if profile.unverified_from is None and rebuilt.summary() == summary else "FAIL",
         "python": sys.version.split()[0], "argv": sys.argv, "updates": profile.latest_update,
         "observations": sum(profile.update(u).turns for u in range(1, profile.latest_update + 1)),
         "conversations": profile.conversation_count, "conversations_alive": sum(states.alive),
         "conversations_with_trend": sum(t is not None for t in states.rkl_trend),
+        "baseline": profile.baseline, "remaining_gap": profile.remaining_gap(profile.latest_update),
+        "conversations_with_baseline": summary["conversations_with_baseline"],
+        "conversations_with_nonpositive_baseline": summary["conversations_with_nonpositive_baseline"],
         "record_update_per_update": _stats(record_seconds),
         "conversation_states_per_query": _stats(states_seconds),
         "rebuild_seconds": rebuild_seconds,

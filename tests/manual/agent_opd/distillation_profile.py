@@ -5,6 +5,12 @@ per-update entries with pointers to its RKL-best and latest entry, and a t_id ->
 observation lookup, so queries read stored values and never recompute history. Every successful
 update appends one line to updates.jsonl and one to observations.jsonl; the latter is enough to
 rebuild the profile offline.
+
+RKL is also reported against a baseline measured at the start: the run's first baseline_updates
+successful updates, and a conversation's first baseline_turns turn observations. The remaining gap
+is RKL over that baseline, the trend is a drop in remaining gap over a window of updates, and the
+recovery gap is how far the latest value sits above the best one, in the same unit. A baseline
+that is not yet complete, or is not positive, leaves those values undefined.
 """
 
 import bisect
@@ -93,18 +99,32 @@ class SourceConversation:
     alive: bool
     latest: ConversationEntry
     best: ConversationEntry
+    baseline: float | None
+    run_baseline: float | None
 
     @property
-    def recovery_gap(self) -> float:
-        return self.latest.rkl - self.best.rkl
+    def remaining_gap(self) -> float | None:
+        """Latest RKL over this conversation's own baseline."""
+        return _ratio(self.latest.rkl, self.baseline)
+
+    @property
+    def run_relative_gap(self) -> float | None:
+        """Latest RKL over the run's baseline, the same denominator for every conversation."""
+        return _ratio(self.latest.rkl, self.run_baseline)
+
+    @property
+    def recovery_gap(self) -> float | None:
+        return _ratio(self.latest.rkl - self.best.rkl, self.baseline)
 
 
 @dataclass(frozen=True)
 class ConversationStates:
-    """Per-conversation values indexed by c_id; a trend is None when no entry lies k updates back."""
+    """Per-conversation values indexed by c_id; each is None where its baseline or reference entry is missing."""
 
+    remaining_gap: tuple[float | None, ...]
+    run_relative_gap: tuple[float | None, ...]
     rkl_trend: tuple[float | None, ...]
-    recovery_gap: tuple[float, ...]
+    recovery_gap: tuple[float | None, ...]
     alive: tuple[bool, ...]
 
 
@@ -120,9 +140,10 @@ class UpdateObservations:
 
 
 class _Conversation:
-    __slots__ = ("group_id", "alive", "updates", "rkl", "nll", "rows", "best", "cells")
+    __slots__ = ("group_id", "alive", "updates", "rkl", "nll", "rows", "best", "cells",
+                 "baseline_turns", "baseline_sum", "baseline_count", "baseline")
 
-    def __init__(self, group_id: str):
+    def __init__(self, group_id: str, baseline_turns: int):
         self.group_id = group_id
         self.alive = True
         self.updates: list[int] = []
@@ -131,26 +152,46 @@ class _Conversation:
         self.rows: list[range] = []
         self.best = 0
         self.cells: dict[int, int] = {}
+        self.baseline_turns = baseline_turns
+        self.baseline_sum = 0.0
+        self.baseline_count = 0
+        self.baseline: float | None = None
 
-    def add(self, update_id: int, rkl: float, nll: float, rows: range) -> None:
+    def add(self, update_id: int, nll: float, rows: range, turn_rkl: Sequence[float]) -> None:
+        """Append this update's entry; turn_rkl holds the conversation's per-turn RKL there, in t_id order."""
+        rkl = sum(turn_rkl) / len(turn_rkl)
         self.updates.append(update_id)
         self.rkl.append(rkl)
         self.nll.append(nll)
         self.rows.append(rows)
         if rkl < self.rkl[self.best]:
             self.best = len(self.rkl) - 1
+        if self.baseline is None:
+            # The earliest turns of this conversation, which arrive in ascending t_id order.
+            taken = turn_rkl[: self.baseline_turns - self.baseline_count]
+            self.baseline_sum += sum(taken)
+            self.baseline_count += len(taken)
+            if self.baseline_count == self.baseline_turns:
+                self.baseline = self.baseline_sum / self.baseline_turns
 
     def entry(self, index: int) -> ConversationEntry:
         return ConversationEntry(self.updates[index], self.rkl[index], self.nll[index], self.rows[index])
 
 
 class DistillationProfile:
-    def __init__(self, *, estimator: str, trend_window: int, directory: Path | None):
+    def __init__(self, *, estimator: str, trend_window: int, baseline_updates: int, baseline_turns: int,
+                 directory: Path | None):
+        if min(trend_window, baseline_updates, baseline_turns) < 1:
+            raise ValueError(f"Trend window {trend_window} and baseline lengths {baseline_updates} updates, "
+                             f"{baseline_turns} turns must all be positive")
         self.estimator = estimator
         self.trend_window = trend_window
+        self.baseline_updates = baseline_updates
+        self.baseline_turns = baseline_turns
         self.directory = directory
         self.unverified_from: int | None = None
         self._updates: list[UpdateRow] = []
+        self._baseline: float | None = None
         self._best_update = 0
         self._conversations: list[_Conversation] = []
         self._c_ids: dict[str, int] = {}
@@ -215,7 +256,7 @@ class DistillationProfile:
         update_id = observations.update_id
         for c_id, group_id in observations.new_conversations:
             self._c_ids[group_id] = c_id
-            self._conversations.append(_Conversation(group_id))
+            self._conversations.append(_Conversation(group_id, self.baseline_turns))
         start = len(self._uid)
         for uid, c_id, t_id, replay_num, rkl_sum, nll_sum, tokens in observations.rows:
             self._conversations[c_id].cells[t_id] = len(self._uid)
@@ -232,15 +273,17 @@ class DistillationProfile:
         # Rows are sorted by c_id, so each conversation's rows are contiguous.
         for c_id, group in itertools.groupby(range(start, stop), key=self._c_id.__getitem__):
             rows = list(group)
-            rkl = sum(self._rkl_sum[r] / self._tokens[r] for r in rows) / len(rows)
+            turn_rkl = [self._rkl_sum[r] / self._tokens[r] for r in rows]
             nll = sum(self._nll_sum[r] / self._tokens[r] for r in rows) / len(rows)
-            self._conversations[c_id].add(update_id, rkl, nll, range(rows[0], rows[-1] + 1))
+            self._conversations[c_id].add(update_id, nll, range(rows[0], rows[-1] + 1), turn_rkl)
             conversations += 1
         row = UpdateRow(update_id, sum(self._rkl_sum[start:stop]), sum(self._nll_sum[start:stop]),
                         sum(self._tokens[start:stop]), stop - start, conversations)
         self._updates.append(row)
         if row.rkl < self._updates[self._best_update].rkl:
             self._best_update = len(self._updates) - 1
+        if self._baseline is None and len(self._updates) == self.baseline_updates:
+            self._baseline = sum(update.rkl for update in self._updates) / self.baseline_updates
         for c_id in observations.finished:
             self._conversations[c_id].alive = False
 
@@ -259,7 +302,9 @@ class DistillationProfile:
         lines = _read_lines(directory / OBSERVATIONS_FILE)
         if not summaries or len(summaries) != len(lines):
             raise ValueError(f"{len(summaries)} update lines and {len(lines)} observation lines")
-        profile = cls(estimator=summaries[0]["estimator"], trend_window=summaries[0]["trend_window"], directory=None)
+        profile = cls(estimator=summaries[0]["estimator"], trend_window=summaries[0]["trend_window"],
+                      baseline_updates=summaries[0]["baseline_updates"],
+                      baseline_turns=summaries[0]["baseline_turns"], directory=None)
         for line, summary in zip(lines, summaries, strict=True):
             profile._apply(UpdateObservations(
                 line["update_id"], tuple(tuple(row) for row in line["rows"]),
@@ -284,13 +329,24 @@ class DistillationProfile:
         """Lowest macro RKL; the earliest update wins a tie."""
         return self._updates[self._best_update]
 
-    def rkl_trend(self, k: int) -> float | None:
-        """RKL of the latest update minus RKL k successful updates earlier."""
-        latest = len(self._updates)
-        return None if latest <= k else self._updates[-1].rkl - self._updates[latest - k - 1].rkl
+    @property
+    def baseline(self) -> float | None:
+        """Mean macro RKL of the first baseline_updates updates; None until they are all in."""
+        return self._baseline
 
-    def recovery_gap(self) -> float:
-        return self._updates[-1].rkl - self.best_update().rkl
+    def remaining_gap(self, update_id: int) -> float | None:
+        """That update's macro RKL over the run's baseline; readable once the baseline is complete."""
+        return _ratio(self.update(update_id).rkl, self._baseline)
+
+    def rkl_trend(self, k: int) -> float | None:
+        """Remaining gap k successful updates back minus the latest one; positive means RKL went down."""
+        latest = len(self._updates)
+        if latest <= k:
+            return None
+        return _ratio(self._updates[latest - k - 1].rkl - self._updates[-1].rkl, self._baseline)
+
+    def recovery_gap(self) -> float | None:
+        return _ratio(self._updates[-1].rkl - self.best_update().rkl, self._baseline)
 
     def conversation_id(self, group_id: str) -> int | None:
         return self._c_ids.get(group_id)
@@ -298,19 +354,25 @@ class DistillationProfile:
     def conversation(self, c_id: int) -> SourceConversation:
         conversation = self._conversations[c_id]
         return SourceConversation(c_id, conversation.group_id, conversation.alive,
-                                  conversation.entry(-1), conversation.entry(conversation.best))
+                                  conversation.entry(-1), conversation.entry(conversation.best),
+                                  conversation.baseline, self._baseline)
 
     def conversation_trend(self, c_id: int, k: int) -> float | None:
-        """Latest entry's RKL minus that of the latest entry at least k updates before it."""
+        """Remaining gap at the latest entry at least k updates back, minus the one at the latest entry."""
         conversation = self._conversations[c_id]
         reference = bisect.bisect_right(conversation.updates, conversation.updates[-1] - k) - 1
-        return None if reference < 0 else conversation.rkl[-1] - conversation.rkl[reference]
+        if reference < 0:
+            return None
+        return _ratio(conversation.rkl[reference] - conversation.rkl[-1], conversation.baseline)
 
     def conversation_states(self, k: int) -> ConversationStates:
+        views = [self.conversation(c_id) for c_id in range(len(self._conversations))]
         return ConversationStates(
-            tuple(self.conversation_trend(c_id, k) for c_id in range(len(self._conversations))),
-            tuple(c.rkl[-1] - c.rkl[c.best] for c in self._conversations),
-            tuple(c.alive for c in self._conversations),
+            tuple(view.remaining_gap for view in views),
+            tuple(view.run_relative_gap for view in views),
+            tuple(self.conversation_trend(view.c_id, k) for view in views),
+            tuple(view.recovery_gap for view in views),
+            tuple(view.alive for view in views),
         )
 
     def observation(self, row: int) -> TurnObservation:
@@ -327,18 +389,28 @@ class DistillationProfile:
     def summary(self) -> dict:
         """The updates.jsonl line for the latest update."""
         row, best = self._updates[-1], self.best_update()
-        states = self.conversation_states(self.trend_window)
+        baselines = [c.baseline for c in self._conversations]
+        trends = [self.conversation_trend(c_id, self.trend_window) for c_id in range(len(self._conversations))]
         return {
             "update_id": row.update_id, "estimator": self.estimator,
             "rkl": row.rkl, "nll": row.nll, "rkl_sum": row.rkl_sum, "nll_sum": row.nll_sum,
             "tokens": row.tokens, "turns": row.turns, "conversations": row.conversations,
             "rkl_best": {"update_id": best.update_id, "rkl": best.rkl, "nll": best.nll},
+            "baseline_updates": self.baseline_updates, "baseline_turns": self.baseline_turns,
+            "baseline": self._baseline, "remaining_gap": self.remaining_gap(row.update_id),
             "trend_window": self.trend_window, "rkl_trend": self.rkl_trend(self.trend_window),
             "recovery_gap": self.recovery_gap(),
-            "conversations_seen": len(states.alive),
-            "conversations_with_trend": sum(trend is not None for trend in states.rkl_trend),
-            "conversations_alive": sum(states.alive),
+            "conversations_seen": len(self._conversations),
+            "conversations_with_baseline": sum(b is not None and b > 0 for b in baselines),
+            "conversations_with_nonpositive_baseline": sum(b is not None and b <= 0 for b in baselines),
+            "conversations_with_trend": sum(trend is not None for trend in trends),
+            "conversations_alive": sum(c.alive for c in self._conversations),
         }
+
+
+def _ratio(value: float, baseline: float | None) -> float | None:
+    """Value in baseline units, or None where the baseline is incomplete or not positive."""
+    return None if baseline is None or baseline <= 0 else value / baseline
 
 
 def _append(path: Path, record: dict) -> None:

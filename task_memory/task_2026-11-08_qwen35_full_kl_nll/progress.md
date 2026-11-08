@@ -134,9 +134,16 @@
 - Q32 answered as D32 (B = 10, N = 8, both config values). Measured with `/data/ycfeng/tmp/agent-opd-image/r251.py` on `task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`: per-update RKL coefficient of variation over the first 20 updates 0.177 (A) and 0.234 (B); standard error of a 5-update baseline 7.4% / 10.1%, of a 10-update baseline 4.9% / 6.7%; A's updates 1–5 mean 0.09159 against updates 6–10 mean 0.10037 (−8.8%); mean of the last 10 updates over the first 10 is 0.96 (A) and 1.07 (B), so no consistent drift. The N choice rests on one block making the baseline the conversation's first entry; the per-turn spread is not in that evidence.
 - The user asked to hand the audit RJob to dsv4 and, if that failed, to skip it and land the documents first. The hand-off is the content stopped by the safety classifier, so it was not written; ticket 01 items 5–6 are deferred.
 
+## Ticket 03, module part for D28–D32 (done)
+
+- Change: `tests/manual/agent_opd/distillation_profile.py` takes `baseline_updates` and `baseline_turns`, keeps the run baseline and a per-conversation baseline running sum, and exposes `baseline`, `remaining_gap(update_id)`, the restated `rkl_trend` and `recovery_gap`, and per conversation `remaining_gap`, `run_relative_gap`, `recovery_gap` plus the batch `conversation_states`. `updates.jsonl` gained the two lengths, the run baseline, the macro remaining gap and the two baseline counts. The timing script takes the two lengths.
+- Reason: D28–D32. Expectation: values in baseline units, undefined where a baseline is missing or not positive, at the same per-update cost. Result: 9 fast tests PASS, 8 injected bugs all caught, two synthetic 200 × 256 runs PASS ([test report](test_report_2026-11-08_profile_remaining_gap.md)).
+- `summary()` no longer calls `conversation_states`: with that call, per-update time rose from 1.65 to 2.39 ms (lengths 19–464) and 1.82 to 3.64 ms (19–162); counting baselines and trends directly brought it back to 1.73 and 1.96 ms. The batch query itself is about 10 times its earlier cost, 0.8–2.0 ms, and is not on the per-update path.
+- The first mutation run left one bug alive (a conversation baseline that takes every turn of an update instead of only the turns it still needs); `test_baseline_stops_at_its_turn_count` was added and the mutant then failed.
+
 ## in-progress
 
-- Ticket 03 module revision for D28–D31 (CPU only); the default B and N follow the Q32 answer.
+- Nothing: the frontier waits on the reused Ticket02 fix (pending item 2) and on the deferred CPU RJob (pending item 1).
 
 ## pending
 

@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "python": "3.12.13",
+  "argv": [
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/time_distillation_profile.py",
+    "--updates",
+    "200",
+    "--bank-turns",
+    "256",
+    "--open-conversations",
+    "32",
+    "--block-turns",
+    "8",
+    "--min-turns",
+    "19",
+    "--max-turns",
+    "464",
+    "--max-tokens",
+    "4000",
+    "--trend-window",
+    "10",
+    "--baseline-updates",
+    "10",
+    "--baseline-turns",
+    "8",
+    "--seed",
+    "1234",
+    "--temporary-root",
+    "/data/ycfeng/tmp/agent-opd-image/profile-timing-rg",
+    "--output",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/profile-timing-remaining-gap.json"
+  ],
+  "updates": 200,
+  "observations": 51200,
+  "conversations": 234,
+  "conversations_alive": 31,
+  "conversations_with_trend": 189,
+  "baseline": 0.5030392612189222,
+  "remaining_gap": 0.9557568435704209,
+  "conversations_with_baseline": 234,
+  "conversations_with_nonpositive_baseline": 0,
+  "record_update_per_update": {
+    "mean_ms": 1.7304720869287848,
+    "median_ms": 1.7070528119802475,
+    "p95_ms": 1.9192304462194443,
+    "max_ms": 2.763019874691963,
+    "total_s": 0.34609441738575697
+  },
+  "conversation_states_per_query": {
+    "mean_ms": 0.822122422978282,
+    "median_ms": 0.7930872961878777,
+    "p95_ms": 1.4144545421004295,
+    "max_ms": 3.0441610142588615,
+    "total_s": 0.1644244845956564
+  },
+  "rebuild_seconds": 0.2287078145891428,
+  "profile_memory_mb": 12.864587783813477,
+  "file_bytes": {
+    "updates.jsonl": 134331,
+    "observations.jsonl": 6886741
+  },
+  "unverified_from": null
+}
