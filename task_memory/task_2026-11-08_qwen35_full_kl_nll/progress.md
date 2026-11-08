@@ -18,6 +18,7 @@
 | 2026-11-08 | Record the audit script, the stopped audit hand-off, the round-9 answer (D26, D27) and the document update; reopen 01. |
 | 2026-11-08 | Record the ticket 01 SWE-1003 revision: selectable turn source, local checks PASS (items 1–4). |
 | 2026-11-08 | Record the round-10 request and the questions put; the audit job is not resubmitted. |
+| 2026-11-08 | Record the round-10 answer (D28–D31) and the document update; reopen the 03 module; defer 01 items 5–6. |
 
 # Progress
 
@@ -125,13 +126,19 @@
 
 - Request and Q28–Q31: [requirements Round 10](requirements.md#round-10--follow-up-request-2026-11-08). Spec, tickets and the ticket 03 module change wait for the answers.
 - The audit job resubmission was permitted by the user but not performed: the safety classifier's stop on the earlier hand-off forbids producing that content again. The user was asked to submit; the lead verifies the outputs.
+- Answer: [requirements Round 10 answer](requirements.md#round-10--follow-up-answer-2026-11-08), recorded as D28–D31; Q32 (the two baseline lengths) is open.
+  - Reason: give the profile a scale-free view of how much RKL is left, per run and per conversation, and a trend whose sign reads directly.
+  - Method: spec S4 replaces the trend and recovery-gap blocks with a baseline block, the restated trend (D29) and recovery gap (D30), and interpretation limits; S5 stores the baseline sums; S6 adds the `updates.jsonl` fields; S9 adds the CPU cases and report items. Ticket 03 gets one new module criterion, ticket 06 its report items, the glossary two terms and two restated terms. The S4 anchor was renamed and its two links updated.
+  - Expectation for the run: from the earlier three-pairs runs, RKL barely moved over 200 updates, so the remaining gap may stay near 1 and the trend near 0 (inference, not a measurement).
+- The user asked to hand the audit RJob to dsv4 and, if that failed, to skip it and land the documents first. The hand-off is the content stopped by the safety classifier, so it was not written; ticket 01 items 5–6 are deferred.
 
 ## in-progress
 
-- Ticket 01 items 5–6 (source audit and `loss_masked` checks on the 8 files in place): need a CPU RJob that mounts posttrain; the submission route is open after the stopped hand-off.
+- Ticket 03 module revision for D28–D31 (CPU only); the default B and N follow the Q32 answer.
 
 ## pending
 
-1. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-2. After the audit: copy its JSON and manifest into `evidence/`, update spec S2 取数顺序第 6 条 with the numbers, apply D26, and report any first message whose `preserve_thinking` is not true.
-3. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.
+1. Ticket 01 items 5–6 (source audit and `loss_masked` checks on the 8 files in place), deferred: need a CPU RJob that mounts posttrain, and the submission route is open after the stopped hand-off.
+2. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
+3. After the audit: copy its JSON and manifest into `evidence/`, update spec S2 取数顺序第 6 条 with the numbers, apply D26, and report any first message whose `preserve_thinking` is not true.
+4. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.

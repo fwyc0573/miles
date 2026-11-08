@@ -9,10 +9,11 @@
 | 2026-11-08 | Rename the profile's KL quantities and fields to RKL/`rkl` (D21); correct the `opd.py` line citation. |
 | 2026-11-08 | Correct the S5 memory estimate to the measured total. |
 | 2026-11-08 | Switch the source data to SWE-1003 0913 (D23–D27): S0 inheritance, S1, S2 data source and turn source, S4 `t_id` and table heights, S8 mounts, S9 checks; numbers that need the audit are marked pending. |
+| 2026-11-08 | Add the remaining gap and the run-relative gap; restate the RKL trend and the recovery gap in remaining-gap units (D28–D31) in S4–S6 and S9; the two baseline lengths wait for Q32. |
 
 # Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D27；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D31；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -156,7 +157,7 @@ NLL_i = nll_sum_i / tokens_i
 - **RKL 的含义**（D20、D21）：本 task 测量的 KL 都是 RKL，即 KL(student‖teacher) = E_{y～student}[log student(y) − log teacher(y)]，回答“student 经常生成的内容，teacher 是否也倾向于生成”。在 student 自己采样的 token 上平均 `s − q`，就是它的 sampled-token 估计。以后加入的 top-k 或 full vocab estimator 必须估计同一方向（native 写入的字段同为 `opd_reverse_kl`）。profile 的量、字段和术语都用 RKL / `rkl` 命名（D21）；复用代码已有的 `kl_before_tis` 和 native 的 `opd_reverse_kl` 保持原名。
 - **NLL 的含义**：student 在自己采样的 token 上的 NLL，相当于 student 每 token 熵的采样估计。sampled-token 下，teacher NLL = RKL + NLL，因此不单独存储（D4）。
 
-## S4. Distillation profile 的内容（D3、D6–D9、D13）
+## S4. Distillation profile 的内容（D3、D6–D9、D13、D28–D31）
 
 每个 experiment cell 一个 profile，放在 rollout 进程中，位于 data source 旁边。
 
@@ -171,7 +172,7 @@ NLL_i = nll_sum_i / tokens_i
 | `rkl_sum`、`nll_sum`、`tokens` | S3 的三个和；RKL、NLL 均值在读取时计算 |
 | `uid` | 复用的 source uid，用于回连原始数据 |
 
-**Source conversation**：`c_id`、`group_id`、`alive`，以及按 update 追加的条目。
+**Source conversation**：`c_id`、`group_id`、`alive`、conversation baseline，以及按 update 追加的条目。
 - 条目内容：该 update 中这个 conversation 各 turn 均值的等权平均（RKL 和 NLL 各一个，D6），以及对应的 observation 行。
 - `alive`（D7）：data source 报告该 conversation 的最后一个 training turn 已被取出（S2 取数顺序第 4 条），并且训练这个 bank 的 successful update 完成后，变为 False。被超长拒绝或超时缺失的 turn 不影响这一判断。
 
@@ -183,15 +184,36 @@ NLL_i = nll_sum_i / tokens_i
 - 记录 `(update_id, RKL, NLL)`，NLL 只是读取该 update 上的值，没有单独的"最佳 NLL"。
 - conversation 的最佳条目可以直接映射到表中的对应 observation。
 
-**RKL trend**（D9）：窗口 k 是查询参数；日志使用配置的默认值 10。
-- 宏观：`RKL(U) − RKL(U−k)`，U 为最新的 update。`U ≤ k` 时不计算。
-- conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为两者 RKL 之差。没有参考条目时不计算。
-- 注意：full 模式下每个 turn 只训练一次，所以这里比较的是同一 conversation 的不同 turn（本顺序下相隔约 8k 个 turn），结果会混入 turn 位置本身带来的差异。
+**Baseline 与 remaining gap**（D28、D31）：
+- 两个长度由 profile 配置给出：宏观 baseline 的 update 数 B，conversation baseline 的 turn 数 N。默认值待 [Q32](requirements.md#round-10--follow-up-answer-2026-11-08)（推荐 B = 10、N = 8）。
+- 宏观 baseline `b`：前 B 个 successful update 的宏观 RKL 的算术平均。第 B 个 update 完成后固定。
+- conversation baseline `b_c`：该 conversation 最早的 N 个 Turn observation（按 `t_id` 从小到大）的 RKL 等权平均，与 D6 的等权一致。超长、超时的 turn 没有 observation，不计入。第 N 个 observation 到达后固定。
+- 三个比值，都只对 RKL 定义，NLL 只在对应 update 上读取（D13）：
 
-**Recovery gap**：
-- 宏观：`RKL(U) − RKL(RKL-best update)`。
-- conversation：最新条目的 RKL 减去其最佳条目的 RKL。
-- 两者恒 ≥ 0。
+  | 量 | 定义 | 含义 |
+  | --- | --- | --- |
+  | 宏观 remaining gap | `G(u) = RKL(u) / b` | 整体 RKL 相对开始时还剩的比例 |
+  | conversation remaining gap | `G_c(u) = RKL_c(u) / b_c`，`RKL_c(u)` 为该 conversation 在 update u 的条目 | 该 conversation 相对它自己开头还剩的比例 |
+  | run-relative gap | `RKL_c(u) / b` | 该 conversation 相对整个 run 开始时水平的位置；所有 conversation 共用一个分母 |
+
+- baseline 一旦固定，任何 update 或条目的比值都可以读取，包括 baseline 窗口之内的（D28）。查询时用已存的值相除，不重算历史。
+- baseline 尚未固定，或 baseline ≤ 0 时，依赖它的比值、trend 和 recovery gap 都不计算。sampled-token 估计在 token 少时均值可能为负，所以 baseline ≤ 0 能够发生；这类 conversation 单独计数，不做截断或替换。
+
+**RKL trend**（D9、D29）：窗口 k 是查询参数；日志使用配置的默认值 10。正值表示 RKL 下降（变好）。
+- 宏观：`G(U−k) − G(U)`，U 为最新的 update。`U ≤ k` 或宏观 baseline 未固定时不计算。
+- conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为 `G_c(参考) − G_c(u_c)`。没有参考条目或 conversation baseline 未固定时不计算。
+- 同一条曲线的 baseline 固定，所以 trend 就是两个 update 的 RKL 之差除以 baseline：比较的仍是两个 update，换成 baseline 的单位后，不同 conversation、两个 cell 之间可以直接比较。
+- 注意：full 模式下每个 turn 只训练一次，所以 conversation trend 比较的是同一 conversation 的不同 turn（本顺序下相隔约 8k 个 turn），结果会混入 turn 位置本身带来的差异。
+
+**Recovery gap**（D30）：
+- 宏观：`G(U) − G(RKL-best update)`。
+- conversation：`G_c(最新条目) − G_c(最佳条目)`。
+- 与 remaining gap 共用 baseline，恒 ≥ 0；baseline 未固定或 ≤ 0 时不计算。
+
+**解读限制**：
+- 开头 32 个 conversation 同时从 turn 1 开始（S2 取数顺序第 7 条），所以宏观 baseline 只覆盖这些 conversation 的前约 8B 个 turn，之后的 update 混合了各种位置的 turn。conversation baseline 来自它的前 N 个 turn，之后的条目来自更靠后的 turn。full 模式下无法把训练带来的变化和 turn 位置本身的差异分开。
+- 越晚开始训练的 conversation，baseline 是在训练得越久的 student 上测得的；conversation remaining gap 描述的是它自己跨度内的变化，run-relative gap 才与整个 run 的开头比较。
+- student 比 teacher 小，RKL 不会降到 0。remaining gap 是相对开始时还剩的比例，其中一部分可能无法降低。
 
 **二维表**：
 - 行是 `t_id`（从小到大），列是 `c_id`（从左到右即首次训练的先后），每格是该 `(c_id, t_id)` 的最新 Turn observation；更早的 presentation 保留在历史中（D7）。
@@ -203,14 +225,14 @@ NLL_i = nll_sum_i / tokens_i
 | 部分 | 结构 | 写入代价 |
 | --- | --- | --- |
 | Turn observations | 按列存放、只追加的数组（容量按倍数增长） | 每个 update O(该 update 的 turn 数) |
-| 宏观行 | 以 `update_id` 为下标的数组，另存 RKL-best 指针 | O(1) |
-| Conversation 条目 | 每个 conversation 一串只追加的条目，另存最佳条目和最新条目的指针 | 每次出现 O(1) |
+| 宏观行 | 以 `update_id` 为下标的数组，另存 RKL-best 指针和宏观 baseline | O(1) |
+| Conversation 条目 | 每个 conversation 一串只追加的条目，另存最佳条目和最新条目的指针，以及 baseline 的累计和与已计入的 observation 数 | 每次出现 O(1) |
 | 查找表 | `group_id → c_id`；`(c_id, t_id) → 最新 observation 行` | O(1) |
 
 - **查询**：只读已有数据，不重算历史。
-  - 单个 conversation：trend 用二分查找，O(log 条目数)；其他查询 O(1)。
+  - 单个 conversation：trend 用二分查找，O(log 条目数)；remaining gap、run-relative gap、recovery gap 等其他查询 O(1)。
   - 宏观查询 O(1)。
-  - 另提供对全部 conversation 一次性计算 trend、recovery gap、alive 的批量版本，O(conversation 数)，供以后的算法策略使用。
+  - 另提供对全部 conversation 一次性计算 remaining gap、run-relative gap、trend、recovery gap、alive 的批量版本，O(conversation 数)，供以后的算法策略使用。
 - **内存**：每个 cell 约 51,200 行。数值列每行约 40 字节，共约 2 MB；加上每行保留的 `uid` 字符串和 `(c_id, t_id)` 查找表等，合成的 200 × 256 运行实测共约 13 MB（[ticket 03 模块测试报告](test_report_2026-11-08_distillation_profile_module.md)）。
 - **代码位置**：`tests/manual/agent_opd/distillation_profile.py`，与它唯一的使用方 `SweReplay` 放在同一目录。等出现第二个使用方时，再考虑移入 `miles/`。
 - **接入点**：
@@ -223,7 +245,7 @@ NLL_i = nll_sum_i / tokens_i
 
 目录：`<cell evidence dir>/distillation_profile/`。每个 successful update 向两个文件各追加一行：
 
-- `updates.jsonl`：`update_id`、estimator 标签、宏观 RKL/NLL 及其和、tokens、turns、conversation 数、RKL-best `(update, RKL, NLL)`、默认 k 下的 RKL trend、recovery gap，以及三个计数：已出现的 conversation 数、默认 k 下 trend 有定义的 conversation 数、alive 的 conversation 数。
+- `updates.jsonl`：`update_id`、estimator 标签、B 和 N、宏观 RKL/NLL 及其和、tokens、turns、conversation 数、RKL-best `(update, RKL, NLL)`、宏观 baseline 和 remaining gap、默认 k 下的 RKL trend、recovery gap，以及五个计数：已出现的 conversation 数、baseline 已固定且为正的 conversation 数、baseline ≤ 0 的 conversation 数、默认 k 下 trend 有定义的 conversation 数、alive 的 conversation 数。未定义的值写为 null。
 - `observations.jsonl`：`update_id`，该 update 的全部 observation 行（`uid, c_id, t_id, replay_num, rkl_sum, nll_sum, tokens`），本次新出现的 conversation（`c_id, group_id`），以及本次 alive 发生变化的 conversation。
 
 补充说明：
@@ -257,14 +279,14 @@ NLL_i = nll_sum_i / tokens_i
 | 文档 | 每条原始需求都能对应到本 spec 的章节或 ticket；链接、计数、依赖图（DAG）正确 |
 | 输入（[01](tickets/01-interleaved-turn-order.md)） | 源数据审计（S2 数据源第 6 条，CPU RJob）；在原位源文件上用 `loss_masked` 检查：M = 1 时与单个 native `MaskAwareSWETurnSource` 的序列完全相同，渲染前的消息与 native 规范化结果相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同；`all_assistants` 在本地 GLM 副本上的已有检查仍通过 |
 | 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | CPU：长短不一的样本、CP 切分时，逐 turn 和相加等于原有标量；GPU：在 A 的第一个 update 上检查一致性 |
-| Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
+| Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；baseline 未固定、baseline ≤ 0、trend 参考条目落在 baseline 窗口内、remaining gap 与 run-relative gap 的手算值；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
 | 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | 200 个实际 successful update；profile 文件各 200 行；observation 数等于实际训练的 turn 数；每个 update 都通过一致性检查；采集耗时；RJob 终态 |
 | 报告（[06](tickets/06-profile-report.md)） | 用保留的证据重新计算 |
 
 最终报告按 cell 给出：
-- update 1、10、50、100、150、200 处的宏观 RKL/NLL；
+- update 1、10、50、100、150、200 处的宏观 RKL/NLL 和 remaining gap（baseline 窗口内的 update 在 baseline 固定后补算），以及宏观 baseline；
 - RKL-best update、默认 k 下的 RKL trend 和 recovery gap；
-- 训练结束时 profile 的统计：出现过的 conversation 数、alive 数、trend 有定义的 conversation 数、conversation recovery gap 的分位数；
+- 训练结束时 profile 的统计：出现过的 conversation 数、alive 数、baseline 为正和 ≤ 0 的 conversation 数、trend 有定义的 conversation 数，以及 conversation remaining gap、run-relative gap、trend、recovery gap 的分位数；
 - 准确的产物路径和观察到的局限。
 
 不做 benchmark，也不做因果结论。

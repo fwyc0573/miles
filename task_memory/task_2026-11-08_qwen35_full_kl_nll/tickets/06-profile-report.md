@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-08 | Draft the final report ticket. |
 | 2026-11-08 | Rename the reported KL quantities to RKL (D21). |
+| 2026-11-08 | Add the remaining gap, the run-relative gap and the baseline counts to the report (D28–D31). |
 
 # 06: Profile 报告与归档
 
@@ -13,6 +14,6 @@
 
 **Status:** blocked — waiting for 04 and 05
 
-- [ ] 从 JSONL 文件重新计算并列出：update 1、10、50、100、150、200 处的宏观 RKL/NLL，RKL-best update，默认 k 下的 RKL trend 和 recovery gap。
-- [ ] 列出训练结束时的 profile 统计：出现过的 conversation 数、alive 数、trend 有定义的 conversation 数、conversation recovery gap 的分位数。
+- [ ] 从 JSONL 文件重新计算并列出 S9 的宏观值：选定 update 的 RKL/NLL 和 remaining gap、宏观 baseline、RKL-best update、默认 k 下的 RKL trend 和 recovery gap。
+- [ ] 列出 S9 中训练结束时的 profile 统计：各类 conversation 计数（含 baseline 为正和 ≤ 0），以及 conversation remaining gap、run-relative gap、trend、recovery gap 的分位数。
 - [ ] 写明准确的云端路径、未验证的 update、观察到的局限，以及结论适用的范围（例如两个 cell 各只有一组 seed）。

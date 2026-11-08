@@ -15,6 +15,7 @@
 | 2026-11-08 | Record the round-8 answers as D23 (interleaved with the mask-aware turn source), D24 (training turns and `t_id`) and D25 (read the files in place). |
 | 2026-11-08 | Record the round-9 answer: D26 (keep 32 × 8) and D27 (compute the visual exclusion list); documents updated before the audit. |
 | 2026-11-08 | Record the round-10 request (remaining gap, trend on remaining gap, resubmission permission) and Q28–Q31. |
+| 2026-11-08 | Record the round-10 answer as D28–D31 and put Q32 (the two baseline lengths). |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -176,7 +177,7 @@ User wrote:
 > q24：如何理解 “M” 和 block的含义？32*8当前是如何定的？ q26: 什么是视觉轨迹？ q27: 允许一次任务读取多个数据卷，避免无意义的冗余复制 其他问题采纳你的方案
 
 - **D23 turn order (Q23).** Keep the D18 interleaved order. The turn source class becomes the SWE-1003 `MaskAwareSWETurnSource`; the cursor and the block mixer stay the native ones. With one open conversation the order equals the SWE-1003 streaming order. Owner: [spec S2](spec.md#s2-数据源与-rollout-取数顺序d18d23d27).
-- **D24 training turns and `t_id` (Q25).** Only assistant messages with integer `loss_mask = 1` are training turns; masked assistants and tool replies stay in the prompt prefix. `t_id` is the 1-based ordinal among a conversation's training turns (native `assistant_turn_ordinal`); the ordinal among all assistants (`source_assistant_turn_ordinal`) is kept as metadata. Owner: [spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13).
+- **D24 training turns and `t_id` (Q25).** Only assistant messages with integer `loss_mask = 1` are training turns; masked assistants and tool replies stay in the prompt prefix. `t_id` is the 1-based ordinal among a conversation's training turns (native `assistant_turn_ordinal`); the ordinal among all assistants (`source_assistant_turn_ordinal`) is kept as metadata. Owner: [spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31).
 - **D25 read in place (Q27).** Read the 8 files in place from `/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/`; make no cloud or local copy. A job may mount several volumes at once (posttrain read-only, the personal cloud root, the local NFS workspace). The audit job is approved without the copy step; its small JSON outputs go to this task's `evidence/`.
 - **Q24 and Q26:** the user asked what M, block and a visual trajectory mean and how 32 × 8 was chosen. Explanations given in the reply; the recommendations stand until the user confirms.
 
@@ -211,3 +212,26 @@ Questions put, with recommendations (not decisions until answered):
 - **Q30 recovery gap.** RKL(U) − RKL(best) equals baseline × (remaining gap(U) − remaining gap(best)), so it is derivable. Recommended: restate it in the same unit as remaining gap(U) − remaining gap(best) (always ≥ 0), keeping the separate meaning "how far back from the best point"; alternative: drop it and keep only the RKL-best record.
 - **Q31 details.** Recommended: when a baseline is ≤ 0 (possible with the sampled-token estimate), its remaining gap, trend and recovery gap are not computed and are counted; the baseline length 5 is a profile config value (default 5) logged like k.
 - Known effects to be written into the spec without a decision: the macro baseline covers updates 1–5, when the 32 open conversations are all at their first ~40 turns, and a conversation baseline covers its turns 1–40, so later values mix training progress with turn position; RKL does not reach 0 for a smaller student, so a remaining gap of 0.6 does not mean 60% is still reducible.
+
+### Round 10 — [Follow-up Answer] 2026-11-08
+
+User wrote:
+
+> - 将trend的计算修改为 remaining_gap(U−k)-remaining_gap(U)，这样子正值代表在变好，方便人类理解；
+> - q28，对微观修改为对该conversation的前2个turn，你是否认同？另外，我认为你提的 “所有 conversation 都除以宏观 baseline” 是一个可以添加的属性，它衡量的是当前conversation和所有conversation的关系，具有统计意义。
+> - 你认为5是否合适？如果不合适，你认为几更合适？如果合适，采纳。
+> 其他q采纳你的推荐方案。
+> 请你指派 dsv4 进行rjob提交，如果失败，暂时不进行该步骤，先将docs落地
+
+- **D28 remaining gap (request, Q28 revised, Q29 → A, Q31).** The macro baseline is the mean macro RKL of the first B successful updates; the conversation baseline is the equal-weight mean RKL of the conversation's first N Turn observations (its earliest training turns; the user replaced "first 5 entries" with the conversation's first turns). Remaining gap = RKL / baseline, for the macro value and for each conversation entry. Once a baseline exists, the remaining gap of every update or entry can be read, including those inside the baseline window (Q29 A). B and N are profile config values. A baseline that is not yet complete or is ≤ 0 makes its dependent values undefined; conversations with a baseline ≤ 0 are counted. RKL only; NLL is read at the same update (D13). Owner: [spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31).
+- **D29 trend direction (replaces the D9 formula).** RKL trend = remaining gap(U − k) − remaining gap(U) for the macro value; for a conversation, remaining gap at its reference entry minus remaining gap at its latest entry. Positive means RKL went down. The reference and window rules of D9 are unchanged.
+- **D30 recovery gap (Q30).** Recovery gap = remaining gap(latest) − remaining gap(RKL-best update), for the macro value and for each conversation, in the same unit as the remaining gap.
+- **D31 run-relative gap (new attribute).** A conversation's entry RKL divided by the macro baseline. It places the conversation against the run's starting level, so all conversations share one denominator.
+- **RJob.** The user instructed the lead to have the DS4 executor submit the audit job, and to skip that step for now if it fails. Not sent: writing that assignment would reproduce the hand-off the safety classifier stopped, which its instruction forbids even reworded. Treated as the failure case: the audit and ticket 01 items 5–6 are deferred; documents landed.
+
+Questions put, with recommendations (not decisions until answered):
+
+- **Q32 baseline lengths.**
+  - N (conversation baseline; user proposed 2). Recommended: N = 8, one block, so the baseline is the conversation's whole first entry. Reason: the baseline divides every later value of that conversation, so its noise becomes a fixed error in all of them. In the earlier same-pair runs, per-update RKL varied about 20% with roughly 2,000 generated tokens (a few turns) per update (`task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`); for single turns that suggests about 50% variation (inference), so a 2-turn mean would vary about 35–40% and an 8-turn mean about 20%. The first turns of an SWE trajectory are also the most formulaic (reading the issue, listing the repository). Either value gives every conversation a baseline in its first update.
+  - B (macro baseline; user proposed 5). Recommended: B = 10. Reasons: in the same earlier runs, RKL showed no visible drop over 100 updates (last-20 / first-20 mean 1.007 for A and 0.993 for B), so a longer window adds little training progress to the baseline; updates 1–5 contain only turns 1–40 of the first 32 conversations, while 10 updates cover turns 1–80, about one whole median-length conversation (median pending the audit); the trend already needs U > k = 10, so B = 10 delays only the macro remaining gap (from update 5 to 10), not the trend.
+  - Inference to note: if RKL moves as little here as in those runs (different data and about 100 times more tokens per update), the remaining gap will stay near 1 and the trend near 0, mostly showing noise and turn position.

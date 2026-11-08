@@ -74,10 +74,18 @@ _Avoid_: Cell, element, sample, when referring to one measured value record.
 The update with the lowest RKL, either for the whole run or for one source conversation; NLL is read at that update rather than having its own best.
 _Avoid_: KL-best update, best NLL, best checkpoint.
 
+**Remaining gap**:
+The RKL at an update divided by a baseline RKL measured at the start: for the whole run, the mean over its first successful updates; for one source conversation, the mean over its first turn observations. It is the share of the starting RKL that is still left.
+_Avoid_: Progress, convergence rate, normalized KL.
+
+**Run-relative gap**:
+The RKL of one source conversation at an update divided by the whole-run baseline, so that every conversation is compared with the same starting level.
+_Avoid_: Relative difficulty, global remaining gap.
+
 **RKL trend**:
-The change in RKL between an update and an earlier update a fixed number of successful updates before it.
+The remaining gap a fixed number of successful updates earlier minus the remaining gap now; a positive value means RKL went down.
 _Avoid_: KL trend, slope, progress.
 
 **Recovery gap**:
-The latest RKL minus the RKL at the RKL-best update.
+The latest remaining gap minus the remaining gap at the RKL-best update.
 _Avoid_: Regret, recovery space.
