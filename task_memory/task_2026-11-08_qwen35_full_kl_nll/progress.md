@@ -13,6 +13,7 @@
 | 2026-11-08 | Record the ticket 03 module part done. |
 | 2026-11-08 | Record the reused Ticket02 state found after the module commit. |
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
+| 2026-11-08 | Record Finding 14: the SWE-1003 0913 data, its mask-aware streaming loader and the order comparison. |
 
 # Progress
 
@@ -51,6 +52,18 @@
     - Conversation lengths (999-conversation sample, `task_2026-10-23_swe_turn_replay/swe-dataset-format.md:61`): assistant turns min 19, median 81, P90 144, max 464, mean 90.69. With 8 turns per conversation per update, a conversation spans ceil(n/8) updates: min 3, median 11, P90 18, max 58.
 
 13. **Native classes cover the interleaved order (D18).** `SequentialJsonArrayCursor.__init__` only collects file stat signatures and opens files lazily; `close` is idempotent (`step3p6_mopd_online_turn_loader_0710.py:31–46,297–301`). `OnlineTrajectoryTurnSource` loads conversations through `self.cursor.next_record()` (`:383–427`), so several sources can share one cursor by replacing the attribute after construction. `TurnBalancedTrajectoryBlockMixer` picks the source with the fewest emitted turns, ties rotating, and ends a block at `trajectory_block_turns` or at the end of the conversation (`:669–706`). With one source the mixer emits exactly the source's sequence. The committed adapter uses one native source directly (`tests/manual/agent_opd/swe_inputs.py:171–174,213`).
+
+14. **SWE-1003 0913 data and its loader (round-8 request).** Sources: Steptron commit `f4522d451a9db59e5f1fee3990aedd73bc549002`, files under `playground/users/cj/opd/` and `playground/baseline_new/mopd/online_turn_loader.py`, extracted to `/data/ycfeng/tmp/agent-opd-image/s4_*.py`; the lookup task's `findings.md` ("October delivery streaming versus indexed recipe").
+    - **The recipe is streaming with one source.** Chain 1003 → 1002 → 1001 → `LossMaskedSWEDataConfig`. `build_dataloader` raises unless `online_turn_streaming` is true (`s4_swe_turn_data_1001.py:514–517`); the pinned base config sets it true and `online_trajectory_block_turns = 8` (`turn_5teachers_data.py` DataConfig). `SOURCE_SPECS` has one entry holding all 8 files (`s4_swe_opd_sft105_teacher400_1001.py:50–59`), so the mixer always picks that source and a conversation's turns are drawn strictly consecutively. 1001–1003 change only resources; `infer_samples = 1024` per update (`1001.py:198`).
+    - **Same native classes.** The pinned base loader (sha256 `0c11561f…efaa740f`) equals the 0710 loader this task pins (sha256 `ffd9bb31…ecacc8`) plus one added function, `iter_json_array_item_spans`; the cursor, turn source and mixer are byte-identical.
+    - **Mask-aware turn source.** `MaskAwareSWETurnSource(OnlineTrajectoryTurnSource)` (`s4_swe_turn_data_1001.py:309–481`) overrides `_load_next_trajectory`, which still reads `self.cursor.next_record()`, so cursor sharing (Finding 13) still works. Only assistants with integer `loss_mask = 1` are training turns (`eligible_assistant_positions`, `:106–129`); masked assistants, their reasoning and tool calls, and tool replies stay in the prefix. `active_remaining_turns` then counts eligible turns only, and the native `assistant_turn_ordinal` becomes the 1-based ordinal among eligible turns (base `__next__`: `offset + 1`); `_make_ground_truth` adds `source_assistant_turn_ordinal` (ordinal among all assistants), `context_masked_assistant_count` and `target_policy` (`:397–409`).
+    - **Visual exclusion.** Whole source conversations with image or video payloads are skipped through `excluded_source_item_indices` (`:316–358`), read from a receipt at `/mnt/posttrain-release/cj/opd/s4_swe_1001/data/swe_visual_filter_1001.json` that checks absolute path, size and mtime of each file (`:180–306`). It lies outside the permitted cloud root and would not match personal copies; the predicate itself is in `s4_swe_visual_audit_1001.py` (`VISUAL_FIELDS`, `VISION_MARKERS` including Qwen `<|vision_start|>`, data URIs).
+    - **Schema** (from the audit script `s4_swe_data_audit_1001.py:130–165`): `content` string, optional string `reasoning_content`, `tool_calls` with `id` and string `function.arguments`, `tool` messages with `tool_call_id`, per-message `loss_mask`. Tool schemas are read from the first message's `tools` or `tool_schemas`, plus optional `reasoning_effort` and `preserve_thinking` (`s4_swe_turn_data_1001.py:72–82`). The adapter reads only `tools` (`swe_inputs.py:243`).
+    - **Unknown until the files are read:** per-file conversation and eligible-turn counts, eligible turns per conversation, the share of masked assistants, the number of visual conversations, prompt lengths under the Qwen template, and whether trajectories of the same SWE instance sit next to each other in file order (the manifest says to keep "existing row multiplicity", `s4_swe_source_manifest_1001.py:10–15`). The data are not mounted locally (`/mnt/posttrain/...` and `/mnt/codesign-exp` both absent); no personal copy exists. Local disk has 244 GB free; the GLM local copy is 3.2 GB.
+    - **Order comparison for this task (inference from the code above):**
+      - Streaming (M = 1, which is what the SWE-1003 recipe does here): a conversation with n ≤ 256 eligible turns sits in one or two adjacent updates; trend at k = 10 needs a span of at least 11 updates, so it is undefined for nearly every conversation.
+      - Indexed: not available for this data. The SWE-1003 config rejects it, and the native `LazySWETurnSplitDataset` indexes every assistant without the loss mask or the visual exclusion, so it would need new code. It also breaks ascending turn order, which the user rejected in round 3 (D12 withdrawn).
+      - Interleaved (D18): carries over by building `MaskAwareSWETurnSource` objects instead of `OnlineTrajectoryTurnSource`. A conversation spans about ceil(n / block) updates; M = 1 still reproduces the SWE-1003 streaming sequence exactly, which keeps ticket 01's parity check meaningful.
 
 ## Interview and document iterations
 
@@ -95,9 +108,10 @@
 
 ## in-progress
 
-- None. The next step waits for the reused branch's out-of-memory fix (D22).
+- Round 8: dataset switch to SWE-1003 0913 (Finding 14). Questions Q23–Q27 put to the user; spec and tickets wait for the answers.
 
 ## pending
 
 1. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-2. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.
+2. After the round-8 answers: source copy and audit, revised 01, then the spec and ticket edits listed with the questions.
+3. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.

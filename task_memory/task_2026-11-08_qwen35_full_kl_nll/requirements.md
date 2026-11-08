@@ -11,6 +11,7 @@
 | 2026-11-08 | Record the user's correction that the measured KL is RKL, KL(student‖teacher), as D20. |
 | 2026-11-08 | Record the approved KL → RKL renaming as D21; correct the `opd.py` line citation in D20. |
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
+| 2026-11-08 | Record the round-8 request to switch to the SWE-1003 0913 data and the questions put with the analysis. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -148,3 +149,11 @@ Asked, with the ticket 03 module result: the reused training code is committed o
 > 当前agent-opd分支更新了针对smoke的oom的问题，允许等待其完整修复后再合并到当前branch下
 
 - **D22 wait for the fix (Q → option 2).** Do not merge `agent-opd` while its out-of-memory problem is open. Wait until that fix is complete on `agent-opd`, then merge and start ticket 02 and the ticket 03 integration. D1 stands as written: the reused Ticket02 must be committed and pass its own native smoke, which now includes the 256-turn capacity smoke that exposed the failure. No part of ticket 02 starts early.
+
+### Round 8 — [Follow-up Request] 2026-11-08
+
+User wrote, while the task waited on D22:
+
+> 将当前数据集替换为：/data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md中的 ## 2026 年 10 月 21 日交付实验使用的 sew数据集：复用 **SWE-1003** 的 0913 SFT 数据：DeepSWE resolved 轨迹，经过 garble filtering 和 datapipe 处理，位于 /mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/ 在这种情况下，请你recheck当前有哪些需要修改的tickets和spec。其中关键是：dataloader对turn的取用这些细节。在这种情况下，为了不让同一个conversation的所有turns集中在相邻updates，是否还需要 recipe为indexed？还是当前的new recipe策略？还是steaming？给出分析和依据。
+
+This replaces the "数据集…不变" part of the original request for this task only; the reused task keeps its GLM-5.2 data. Evidence: [progress.md Finding 14](progress.md#findings-that-shape-the-interview). Questions Q23–Q27 were put with the analysis; answers pending. Spec and tickets are not edited until they are answered.
