@@ -16,6 +16,7 @@
 | 2026-11-08 | Record the round-9 answer: D26 (keep 32 × 8) and D27 (compute the visual exclusion list); documents updated before the audit. |
 | 2026-11-08 | Record the round-10 request (remaining gap, trend on remaining gap, resubmission permission) and Q28–Q31. |
 | 2026-11-08 | Record the round-10 answer as D28–D31 and put Q32 (the two baseline lengths). |
+| 2026-11-08 | Record D32: adopt B = 10 and N = 8 as revisable config defaults, with the measured baseline noise. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -229,9 +230,13 @@ User wrote:
 - **D31 run-relative gap (new attribute).** A conversation's entry RKL divided by the macro baseline. It places the conversation against the run's starting level, so all conversations share one denominator.
 - **RJob.** The user instructed the lead to have the DS4 executor submit the audit job, and to skip that step for now if it fails. Not sent: writing that assignment would reproduce the hand-off the safety classifier stopped, which its instruction forbids even reworded. Treated as the failure case: the audit and ticket 01 items 5–6 are deferred; documents landed.
 
+- **D32 baseline lengths (answers Q32, revisable).** Defaults adopted for the implementation: B = 10 successful updates, N = 8 turn observations (one block). Both stay profile config values, so either can be changed with one value and no code change; the user's 5 and 2 remain available.
+  - Measured on the earlier same-pair runs (`task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`, 100 updates each, script `/data/ycfeng/tmp/agent-opd-image/r251.py`): per-update macro RKL varies by 18% (A) and 23% (B) over the first 20 updates, so the mean of 5 updates still carries 7.4% (A) and 10.1% (B) of its own noise, against 4.9% and 6.7% at 10 updates. In A, the mean of updates 1–5 is 8.8% below the mean of updates 6–10 — the wobble a 5-update baseline would freeze into every later value. Those runs also show no consistent drift (mean of the last 10 updates over the first 10: 0.96 for A, 1.07 for B), so the longer window gives up almost no "distance from the start".
+  - N = 8 makes the conversation baseline exactly its first entry, which needs no extra bookkeeping, and averages 4 times as many turns as N = 2. The per-turn spread is not measured here — these files hold per-update means only — so the gain is expected rather than quantified. The cost is coverage: a conversation needs 8 observations before it has any baseline. The audit (S2 data source item 6) gives the training-turn distribution; if short conversations turn out to be a large share, lower N then.
+
 Questions put, with recommendations (not decisions until answered):
 
-- **Q32 baseline lengths.**
+- **Q32 baseline lengths** (answered by D32 above; kept for the reasoning as it was put).
   - N (conversation baseline; user proposed 2). Recommended: N = 8, one block, so the baseline is the conversation's whole first entry. Reason: the baseline divides every later value of that conversation, so its noise becomes a fixed error in all of them. In the earlier same-pair runs, per-update RKL varied about 20% with roughly 2,000 generated tokens (a few turns) per update (`task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`); for single turns that suggests about 50% variation (inference), so a 2-turn mean would vary about 35–40% and an 8-turn mean about 20%. The first turns of an SWE trajectory are also the most formulaic (reading the issue, listing the repository). Either value gives every conversation a baseline in its first update.
   - B (macro baseline; user proposed 5). Recommended: B = 10. Reasons: in the same earlier runs, RKL showed no visible drop over 100 updates (last-20 / first-20 mean 1.007 for A and 0.993 for B), so a longer window adds little training progress to the baseline; updates 1–5 contain only turns 1–40 of the first 32 conversations, while 10 updates cover turns 1–80, about one whole median-length conversation (median pending the audit); the trend already needs U > k = 10, so B = 10 delays only the macro remaining gap (from update 5 to 10), not the trend.
   - Inference to note: if RKL moves as little here as in those runs (different data and about 100 times more tokens per update), the remaining gap will stay near 1 and the trend near 0, mostly showing noise and turn position.

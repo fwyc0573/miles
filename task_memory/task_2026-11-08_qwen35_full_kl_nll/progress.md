@@ -19,6 +19,7 @@
 | 2026-11-08 | Record the ticket 01 SWE-1003 revision: selectable turn source, local checks PASS (items 1–4). |
 | 2026-11-08 | Record the round-10 request and the questions put; the audit job is not resubmitted. |
 | 2026-11-08 | Record the round-10 answer (D28–D31) and the document update; reopen the 03 module; defer 01 items 5–6. |
+| 2026-11-08 | Record D32 with the measured baseline noise: default B = 10, N = 8. |
 
 # Progress
 
@@ -130,6 +131,7 @@
   - Reason: give the profile a scale-free view of how much RKL is left, per run and per conversation, and a trend whose sign reads directly.
   - Method: spec S4 replaces the trend and recovery-gap blocks with a baseline block, the restated trend (D29) and recovery gap (D30), and interpretation limits; S5 stores the baseline sums; S6 adds the `updates.jsonl` fields; S9 adds the CPU cases and report items. Ticket 03 gets one new module criterion, ticket 06 its report items, the glossary two terms and two restated terms. The S4 anchor was renamed and its two links updated.
   - Expectation for the run: from the earlier three-pairs runs, RKL barely moved over 200 updates, so the remaining gap may stay near 1 and the trend near 0 (inference, not a measurement).
+- Q32 answered as D32 (B = 10, N = 8, both config values). Measured with `/data/ycfeng/tmp/agent-opd-image/r251.py` on `task_2026-11-06_qwen35_three_pairs/evidence/{A,B}-training-steps.json`: per-update RKL coefficient of variation over the first 20 updates 0.177 (A) and 0.234 (B); standard error of a 5-update baseline 7.4% / 10.1%, of a 10-update baseline 4.9% / 6.7%; A's updates 1–5 mean 0.09159 against updates 6–10 mean 0.10037 (−8.8%); mean of the last 10 updates over the first 10 is 0.96 (A) and 1.07 (B), so no consistent drift. The N choice rests on one block making the baseline the conversation's first entry; the per-turn spread is not in that evidence.
 - The user asked to hand the audit RJob to dsv4 and, if that failed, to skip it and land the documents first. The hand-off is the content stopped by the safety classifier, so it was not written; ticket 01 items 5–6 are deferred.
 
 ## in-progress

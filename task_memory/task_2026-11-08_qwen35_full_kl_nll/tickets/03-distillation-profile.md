@@ -23,4 +23,4 @@
 - [x] 故障注入（写文件抛错、行数不一致）只会把 profile 标记为未验证，调用方继续运行（S7）。
 - [ ] 接入：successful update 的 record 加上 bank 中的 identity，正确映射到 `c_id`/`t_id`（`t_id` 为 training turn 序号，D24）；`alive` 来自 01 按 bank 报告的已取完 conversation；被跳过的 update 不产生 observation。
 - [x] 测量合成的 200 update × 256 turn 运行中，每个 update 的更新耗时和全部 conversation 查询的耗时，并写入测试报告。
-- [ ] D28–D31：B、N 作为 profile 配置；宏观 baseline、conversation baseline、两种 remaining gap 和 run-relative gap；trend 与 recovery gap 改用 remaining gap；单个和全部 conversation 两种查询；`updates.jsonl` 的新字段及离线重建。CPU 测试的期望值手工计算，覆盖 baseline 未固定、baseline ≤ 0、trend 参考条目落在 baseline 窗口内；重新测量上一条的两个耗时。
+- [ ] D28–D32：B、N 作为 profile 配置（默认 10 和 8）；宏观 baseline、conversation baseline、两种 remaining gap 和 run-relative gap；trend 与 recovery gap 改用 remaining gap；单个和全部 conversation 两种查询；`updates.jsonl` 的新字段及离线重建。CPU 测试的期望值手工计算，覆盖 baseline 未固定、baseline ≤ 0、trend 参考条目落在 baseline 窗口内；重新测量上一条的两个耗时。

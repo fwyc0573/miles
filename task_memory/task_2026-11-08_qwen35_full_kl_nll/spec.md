@@ -9,11 +9,11 @@
 | 2026-11-08 | Rename the profile's KL quantities and fields to RKL/`rkl` (D21); correct the `opd.py` line citation. |
 | 2026-11-08 | Correct the S5 memory estimate to the measured total. |
 | 2026-11-08 | Switch the source data to SWE-1003 0913 (D23–D27): S0 inheritance, S1, S2 data source and turn source, S4 `t_id` and table heights, S8 mounts, S9 checks; numbers that need the audit are marked pending. |
-| 2026-11-08 | Add the remaining gap and the run-relative gap; restate the RKL trend and the recovery gap in remaining-gap units (D28–D31) in S4–S6 and S9; the two baseline lengths wait for Q32. |
+| 2026-11-08 | Add the remaining gap and the run-relative gap; restate the RKL trend and the recovery gap in remaining-gap units (D28–D31) in S4–S6 and S9; set the default baseline lengths B = 10, N = 8 (D32). |
 
 # Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D31；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D32；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -185,7 +185,7 @@ NLL_i = nll_sum_i / tokens_i
 - conversation 的最佳条目可以直接映射到表中的对应 observation。
 
 **Baseline 与 remaining gap**（D28、D31）：
-- 两个长度由 profile 配置给出：宏观 baseline 的 update 数 B，conversation baseline 的 turn 数 N。默认值待 [Q32](requirements.md#round-10--follow-up-answer-2026-11-08)（推荐 B = 10、N = 8）。
+- 两个长度由 profile 配置给出：宏观 baseline 的 update 数 B，conversation baseline 的 turn 数 N。默认 B = 10、N = 8（D32，可改）：N = 8 等于一个 block，使 conversation baseline 正好是它的第一个条目；依据见 [D32](requirements.md#round-10--follow-up-answer-2026-11-08)。
 - 宏观 baseline `b`：前 B 个 successful update 的宏观 RKL 的算术平均。第 B 个 update 完成后固定。
 - conversation baseline `b_c`：该 conversation 最早的 N 个 Turn observation（按 `t_id` 从小到大）的 RKL 等权平均，与 D6 的等权一致。超长、超时的 turn 没有 observation，不计入。第 N 个 observation 到达后固定。
 - 三个比值，都只对 RKL 定义，NLL 只在对应 update 上读取（D13）：
