@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept existing-guard verification and primary5-case rerun; nextdependentfrontier is the scoped resource choice. |
+| 2026-11-09 | Check D13 diagnosis/correction and baseline10/400; close repeated-log analysis and require a scoped resource decision before new native execution. |
 | 2026-11-09 | Verify retained policy/metadata evidence and baseline9/400; continue only the specific missing-log RCA without another GPU trial. |
 | 2026-11-09 | Check failed D12 and baseline8/400; correct stale experiment/03 dependency statuses without changing acceptance. |
 | 2026-11-09 | Accept03 after actual native isolation and review; track approved02 routing experiment and independent08. |
@@ -28,44 +30,47 @@
 | 05 A/r256 | BLOCKED | 等待02；D12不是正式profile变更。 |
 | 06 B/full | BLOCKED | 等待02。 |
 | 07 B/r256 | BLOCKED | 等待02。 |
-| 08 原始学生基线 | TODO | 已持久化9/400结果，4 true/5 false；391缺失，原72h不变，无完整avg@4。 |
+| 08 原始学生基线 | TODO | 已持久化10/400结果，4 true/6 false；390缺失，原72h不变，无完整avg@4。 |
 | 09 比较归档 | BLOCKED | 无正式cell或完整benchmark结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次原生03验收checkpoint至今｜**当前前沿：** 02失败收集的只读RCA、08完整评测；03已完成。
+**检测窗口：** 77cfa618 checkpoint至今｜**当前前沿：** 02rollout资源选择、08完整评测；原始日志RCA和现有deadline验证已完成。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 03通过后未追加harness；只收集02失败与08真实结果。 |
+| D1 工具打磨 | CLEAR | 发现现有Qwen总超时后撤回共享HTTP改动；只验证已部署机制，不增加第二套deadline。 |
 | D2 细节反复重试 | CLEAR | D12是事先记录queue假设且获批的单次检验；失败后未再提交。 |
-| D3 支线问题修补 | CLEAR | 只读RCA直接服务02容量门槛，未修无关问题。 |
-| D4 可并行任务停滞 | CLEAR | 02失败取证与08基线并行；03验收已提交49aa6f8b。 |
-| D5 超范围镀金 | CLEAR | D12单次范围保持；正式profile与门槛未变。 |
-| D6 分析空转 | CLEAR | actual policy/256 UIDs、27 generation pending及184共同UID的metadata已核验；仅补原始日志中明确缺失的原因证据。 |
-| D7 路线违背 | CLEAR | D12已记录原始批准；231/1800/128K/n1/max1/graphFalse/TP2保持，04–07未提前启动。 |
+| D3 支线问题修补 | CLEAR | D13明确要求有限timeout和条件扩容；teacher输入边界只取证，没有擅自修包络。 |
+| D4 可并行任务停滞 | CLEAR | 02的deadline/拓扑调查并行，08持续9→10结果；未暂停基线。 |
+| D5 超范围镀金 | CLEAR | 共享HTTP补丁被取消；多节点只准备选择，未扩容或更改formal参数。 |
+| D6 分析空转 | CLEAR | full-log核验完成512payload/4engines/teacherguard，当前转向有成本的资源选择；不再索取同一日志中的缺失字段。 |
+| D7 路线违背 | CLEAR | D13原话已记录；仍保留231/1800/128K/n1/max1/graphFalse/TP2，04–07未启动。 |
 
-**文档检查：** S5：plan/progress仍称D12运行中，ticket08仍称03未完成，与实际Failed及49aa6f8b矛盾；已修正。S1–S4/S6无新缺陷；三次未达门槛不证明criterion不可达。
-**归因：** 无执行偏离；S5状态滞后已修正。
+**文档检查：** S5：ticket02仍称原始日志RCA进行中并未记录D13；plan/ticket08尚是9/400，与最新分析和10结果不一致。S1–S4/S6无新缺陷；失败不证明231门槛不可达。
+**归因：** 无执行偏离；S5状态与授权记录需同步。
 
 ## 3. 纠正建议
 
-**分支：** B：tickets存在状态滞后，先更新记录，不改变scope或验收条件。
+**分支：** B：ticket状态与D13记录滞后，先同步，不改变验收条件。
 
 **文档更新（先执行，已完成）：**
-1. plan、progress、ticket02：记录D12 failed227/256、未评分；只读RCA继续，另一GPU实验需审批（可直接执行，已更新）。
-2. ticket08：03能力已验收；最新9/400与原72h已记录，旧03阻塞描述已移除（可直接执行，已更新）。
+1. plan、progress、ticket02：原始日志RCA已完成，现有总超时已部署；记录D13条件授权与18/26卡可选拓扑（可直接执行，已更新）。
+2. ticket08：同步10/400与原72h，false不重抽（可直接执行，已更新）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 02：完成256-slot及router/queue只读取证，给出剩余原因与有证据的下一步 → 后续实验先获批准；容量完成仍需至少231有效及原生评分/两次ACK/下一轮评分/source-lifetime。
-2. 并行08：保留原72h与400分母，按实际results核验完成数；完成400后才报告avg@4。
-3. 04–07：继续等02验收；03不再阻塞，不为已通过03追加新harness或GPU故障实验。
+1. 02：现有deadline故障注入已通过93+8regressions和primary5-case rerun；生产/共享HTTP未改，总时限覆盖retry/sleep/read，取消与typed hook路径已核验（完成）。
+2. 02：确认D13是否适用于当前非已证实KV/503的队首阻塞，选择18卡半共置或26卡解耦 → 完成标志：owner确认范围/成本，CPU配置与多节点生命周期通过，然后fresh admission和原生231/评分/两次ACK/下一轮评分/source-lifetime验收。
+3. 并行08：保留原72h/400分母，按实际results核验；400完成后才报avg@4。
+4. 04–07：继续等02；不为已通过03追加harness或GPU故障实验。
+
+**暂缓事项：** teacher131070>131066输入包络修正 → `issues.md`已有失败证据；未获批准，不auto-truncate。
 
 ## 4. 最值得关注的 3 点
 
-1. D12单次对照失败227/256；未进入评分，不能评价sourcepatch容量，也不自动重提。
-2. 03原生流程通过，但HF3只是1/400；两份qualification HF必须继续保留。
-3. baseline核实9个完成结果，4 true/5 false；false不重抽，391缺失。04–07等待02，不等待03或完整baseline。
+1. D12仍227<231且未评分；不自动重提、改max1或以startup-health503冒充KV证据。
+2. 当前SWE已有总超时；扩8卡必须真正把4服务变8，18卡方案需修参数入口，26卡方案成本更高，二者尚未获本次队首阻塞用途确认。
+3. baseline10/400，4true/6false，390缺失且原72h不变；04–07继续等待02，不等待03或完整baseline。

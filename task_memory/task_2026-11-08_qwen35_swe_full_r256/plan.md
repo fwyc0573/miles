@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Close retained-log RCA,verify the existing timeout guard, and update baseline10/400; retain the rollout-only topology decision before new execution. |
+| 2026-11-09 | Add D13 finite-timeout and conditional rollout-only expansion investigation; preserve the training topology and acquisition contract. |
 | 2026-11-09 | Continue scoped retained-log RCA and independent baseline9/400; keep additional GPU experiments approval-dependent. |
 | 2026-11-09 | Record the failed single D12 acquisition and continue read-only02 RCA in parallel with08; no additional experiment approval inferred. |
 | 2026-11-09 | Accept Ticket03 after actual native isolation/review; advance02 to the approved D12 experiment while08 continues. |
@@ -67,4 +69,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes. The original256-turn acquisitions failed at206/224 valid; the single approved D12 routing-only A/r256 experiment`exp-1109-010244-280221` also failed at227/256 before scoring.02 now completes read-only RCA from retained full logs; any further GPU experiment requires a concrete approval rather than another D12 retry. Formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues with9/400 persisted outcomes and no full avg@4. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.
+01 and03 are accepted; small-run RKL/TIS/PPO reconstruction passes.02's acquisitions remain failed206/224 and227/256 before scoring. Retained-log RCA is complete; further identical-log collection cannot recover unrecorded request-level timings. Verify the already-selected Qwen retry deadline instead of adding shared HTTP code. D13 allows conditional rollout expansion; current captured failure is one-engine queue/HOL,not demonstrated generation503. Native18-GPU mixed placement can double engines4→8 without changing trainer8,but a legacy argument override prevents reaching it;26-GPU fully disaggregated placement also doubles engines but uses16 extraGPUs. A scoped choice precedes implementation/submission; no D12 retry,concurrency or teacher-envelope change is implied. Chosen supported topology -> CPU transport/lifecycle checks -> fresh admission -> native acquisition/scoring/ACK/lifetime acceptance.08 independently continues with10/400 persisted outcomes and no full avg@4. Formal profiles,science and231/1800 contract remain unchanged;04–07 are blocked on02 and unstarted.

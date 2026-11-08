@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Close retained-log RCA; record D13 conditional rollout expansion and verification of the existing retry deadline without duplicate HTTP code. |
 | 2026-11-09 | Record single D12 acquisition failure at227/256; retain capacity/scoring gates and require approval before another GPU experiment. |
 | 2026-11-08 | Accept small-run native loss reconstruction; record failed acquisition gates and pending large-bank verification. |
 | 2026-11-08 | Record the reaccepted D11 prerequisite and actual replacement-data runtime progress; retain capacity gates. |
@@ -17,7 +18,7 @@
 
 **Blocked by:** 01 — 默认SWE输入与身份契约。
 
-**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Small-run completion RKL/TIS and native PPO reconstruction pass. The original256-turn attempts failedD6 acquisition at206/224 valid; the single approved D12 routing-only experiment failed at227/256 before student scoring. Read-only RCA continues; further GPU experiments need approval. Large-bank gradient/optimizer/lifetime and sourcepatch adoption remain unverified. Historical GLM evidence does not certify replacement-data capacity.
+**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Small-run completion RKL/TIS and native PPO reconstruction pass. Original256-turn attempts failed D6 acquisition at206/224 valid; D12 failed at227/256 before scoring. Retained-log RCA is complete: 27 requests remain on one engine, 2 teacher inputs fail the131066-token guard, and no generation503 is captured. D13 conditionally authorizes extra rollout capacity and finite timeouts. The selected Qwen hook already bounds the full retry chain; fault injection passes 93 + 8 regressions and 5 primary checks. Native mixed placement is supported below a legacy parameter override but needs a scoped implementation/approval decision. No additional GPU job, concurrency change or teacher-envelope change was submitted. Large-bank gradient/optimizer/lifetime and sourcepatch adoption remain unverified; historical GLM evidence does not certify replacement-data capacity.
 
 - [x] 使用已有Qwen训练路径和共享的显式实验配置；两种教师及两种模式无需复制整套实现。
 - [ ] 完整200行排程符合spec；验证bank边界、成功/跳过计数及失败不提交使用次数。

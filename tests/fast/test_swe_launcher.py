@@ -174,3 +174,93 @@ def test_native_router_policy_preserves_default_and_typed_transport(tmp_path, mo
         has_pd_disaggregation=False,
     )
     assert parse_router_args_argv(router_args_to_argv(router)).policy == expected
+
+
+@pytest.mark.parametrize(
+    "profile",
+    ["deepswe_capacity_smoke_config.json", "deepswe_capacity_round_robin_config.json", "deepswe_formal_config.json"],
+)
+async def test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook(tmp_path, monkeypatch, profile):
+    import asyncio
+
+    import httpx
+    from tests.fast.test_qwen35_sample_lifecycle import _input
+    from tests.fast.test_swe_replay import _typed_swe_config
+
+    from miles.ray.rollout.rollout_executor import _compute_rollout_function_config
+    from miles.rollout.base_types import GenerateFnInput
+    from miles.rollout.generate_hub import single_turn
+    from miles.rollout.inference_rollout import inference_rollout_common
+    from miles.utils import http_utils
+    from miles.utils.args import custom_function
+    from miles.utils.args.custom_view import ImmutableNamespace
+    from miles.utils.args.runtime import AllConfig, RolloutConfig
+    from miles.utils.arguments import get_miles_extra_args_provider
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / profile).read_text())
+    config["protocol"] = "r256"
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "timeout"))
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    parser = argparse.ArgumentParser()
+    get_miles_extra_args_provider()(parser)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert "--sglang-router-request-timeout-secs" not in unknown
+    custom_function.resolve_custom_function_configs(parsed)
+    assert parsed.custom_generate_function_path.path == "tests.manual.agent_opd.qwen_alignment.generate"
+    assert (
+        parsed.rollout_function_path.config.swe_acquisition_seconds
+        == config["training"]["acquisition_seconds"]
+        == 1800
+    )
+
+    monkeypatch.setattr(sys, "argv", ["test"])
+    template = _typed_swe_config("r256")
+    typed = AllConfig.model_validate(
+        template.model_dump(mode="python")
+        | {
+            "custom_generate_function_path": parsed.custom_generate_function_path,
+            "sglang_router_request_timeout_secs": parsed.sglang_router_request_timeout_secs,
+        }
+    )
+    rollout = RolloutConfig.slice_from(typed)
+    restored = RolloutConfig.model_validate_json(rollout.model_dump_json())
+    # Router startup resolves these mutable addresses before the rollout worker runs.
+    restored.sglang_router_ip = "student"
+    restored.sglang_router_port = 30002
+    args = _compute_rollout_function_config(restored, restored.rollout_function_path)
+    assert args.sglang_router_request_timeout_secs == config["request_timeout"] == 3600
+
+    example = _input()
+    tokenizer = example.state.tokenizer
+    monkeypatch.setattr(inference_rollout_common, "load_tokenizer", lambda *args, **kwargs: tokenizer)
+    monkeypatch.setattr(inference_rollout_common, "load_processor", lambda *args, **kwargs: None)
+    monkeypatch.setattr(single_turn, "compute_routing_headers", lambda args, sample: {})
+    state = inference_rollout_common.GenerateState(args)
+    from tests.manual.agent_opd import qwen_alignment
+
+    assert state.generate_function is qwen_alignment.generate
+    loop = asyncio.get_running_loop()
+    time = loop.time
+    elapsed = 0
+    monkeypatch.setattr(loop, "time", lambda: time() + elapsed)
+    entered, cancelled = asyncio.Event(), asyncio.Event()
+
+    async def stalled(request):
+        nonlocal elapsed
+        entered.set()
+        elapsed += config["request_timeout"] + 1
+        try:
+            await asyncio.Event().wait()
+        finally:
+            cancelled.set()
+
+    input = GenerateFnInput(
+        state=state, sample=example.sample, sampling_params=example.sampling_params, evaluation=True
+    )
+    async with httpx.AsyncClient(transport=httpx.MockTransport(stalled), timeout=None) as client:
+        monkeypatch.setattr(http_utils, "_rollout_client", lambda: client)
+        with pytest.raises(TimeoutError):
+            await state.generate_function(input)
+    assert entered.is_set() and cancelled.is_set()
+    assert isinstance(state.args, ImmutableNamespace)

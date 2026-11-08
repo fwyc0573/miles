@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record D13 conditional extra rollout capacity and finite timeouts for KV-pressure/HTTP503 retry blockage. |
 | 2026-11-09 | Record D12 approval for one isolated routing-only A/r256 capacity experiment; formal profiles remain unchanged. |
 | 2026-11-08 | Record D11: replace GLM-5.2 training inputs with the eight SWE-1003/0913 DeepSWE resolved sources; reopen input acceptance. |
 | 2026-11-08 | Clarify completion-only RKL statistics with fresh current-student scoring on the unchanged completion; no new estimator or sampling path. |
@@ -202,6 +203,12 @@ Question: “是否批准一次 A/r256 routing-only GPU 对照？实际 cache_aw
 User selected: **“批准 routing-only（推荐）”**.
 
 This authorizes one isolated A/r256 smoke with256 requested candidates,2 successful updates and2 bank uses, differing only in student router policy plus distinct artifact namespaces. Reuse the existing native router CLI/config transport; do not add a second routing implementation. Preserve the six-field D11 input contract, models, seeds, objective/TIS/optimizer,128K,n1,TP2/DP4/CP1,8+2H200,max-running1,CUDA-graph-disabled,minimum231 and1800-second acquisition deadline. Admission remains governed by current D9. The acquisition stage costs at most5 GPU-hours; startup and the two actual updates add unmeasured cost. This approval is not a formal-profile change, a capacity PASS, or permission to relax D6/D7. Required validation still includes native acquisition, fresh scoring/backward/optimizer ACK, next scoring and source/lifetime evidence.
+
+## D13 — [Original Request / Follow-up Answer] 2026-11-09: conditional rollout expansion and finite timeout
+
+User: “- 补充：已有debug发现 推理服务在 KV cache 占用超过 80% 时返回 HTTP 503，client，对 503 无限重试。重采样一旦卡住，其他 rank 会一直等下去。因此，如果出现类似情况，允许你额外扩展rollout集群规模（例如添加8卡）避免相关问题 + 设定合理的timeout时间，防止干等阻塞。”
+
+The reported prior debugging result is a KV-pressure/HTTP503 retry mechanism; it is not yet a confirmed cause of the current D12 failure. Diagnose actual generation versus startup-health503 responses, the client retry/cancellation path, and native rollout-only placement before execution. This approval allows reasonable finite timeouts and, for a confirmed similar blockage, additional rollout capacity such as8 GPUs. Added rollout resources must not implicitly increase training DP or change the objective,optimizer,sampling,128K,n1,231/256 threshold or1800-second acquisition deadline. Reuse native timeout/placement mechanisms; D9 admission and applicable H200 non-preemptible limits still apply. Do not change concurrency1→2 or silently relax other frozen parameters under this approval. Any selected expanded allocation records its actual GPU count and added cost; no expanded job has been submitted.
 
 ## Documentation acceptance criteria
 

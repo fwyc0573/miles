@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.217" timestamp="2026-11-09T02:56:46.451231+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.utils.test_http_utils" name="test_post_timeout_cancels_a_hung_response" time="0.004"><failure message="TypeError: post() got an unexpected keyword argument 'timeout'">rollout_post_client = &lt;function rollout_post_client.&lt;locals&gt;.use_transport at 0x7fe5d313ab60&gt;
+
+    @pytest.mark.asyncio
+    async def test_post_timeout_cancels_a_hung_response(rollout_post_client):
+        calls = []
+        cancelled = asyncio.Event()
+    
+        async def respond(request):
+            calls.append(request)
+            try:
+                await asyncio.Event().wait()
+            finally:
+                cancelled.set()
+    
+        async with rollout_post_client(respond):
+&gt;           task = asyncio.create_task(http_utils.post("http://engine/generate", {}, timeout=0.01))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: post() got an unexpected keyword argument 'timeout'
+
+tests/fast/utils/test_http_utils.py:86: TypeError</failure></testcase><testcase classname="tests.fast.utils.test_http_utils" name="test_post_timeout_covers_all_retries_and_retry_sleep" time="0.003"><failure message="TypeError: post() got an unexpected keyword argument 'timeout'">rollout_post_client = &lt;function rollout_post_client.&lt;locals&gt;.use_transport at 0x7fe5d313f4c0&gt;
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fe5d331a540&gt;
+
+    @pytest.mark.asyncio
+    async def test_post_timeout_covers_all_retries_and_retry_sleep(rollout_post_client, monkeypatch):
+        loop = asyncio.get_running_loop()
+        now = loop.time()
+        monkeypatch.setattr(loop, "time", lambda: now)
+        sleep = asyncio.sleep
+        calls = []
+        retry_sleeps = []
+    
+        async def respond(request):
+            nonlocal now
+            calls.append(request)
+            now += 0.25
+            await sleep(0)
+            return httpx.Response(503 if len(calls) &lt; 4 else 200, json={"ok": True})
+    
+        async def retry_sleep(delay):
+            nonlocal now
+            retry_sleeps.append(delay)
+            now += delay
+            await sleep(0)
+    
+        monkeypatch.setattr(http_utils.asyncio, "sleep", retry_sleep)
+        async with rollout_post_client(respond):
+            with pytest.raises(asyncio.TimeoutError):
+&gt;               await http_utils.post("http://engine/generate", {}, timeout=2)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               TypeError: post() got an unexpected keyword argument 'timeout'
+
+tests/fast/utils/test_http_utils.py:124: TypeError</failure></testcase></testsuite></testsuites>

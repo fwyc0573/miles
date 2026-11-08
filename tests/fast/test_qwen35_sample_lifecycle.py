@@ -186,6 +186,51 @@ async def test_deadline_covers_native_retry_sleep_without_background_retries(mon
     assert start["attempt_id"] == end["attempt_id"] and end["status"] == "timeout"
 
 
+@pytest.mark.parametrize("timeout,expected_attempts", [(2, 2), (5, 4)])
+async def test_repeated_503_responses_share_one_generation_deadline(monkeypatch, capsys, timeout, expected_attempts):
+    """Response waits and retry sleeps consume one budget, not a budget per attempt."""
+    loop = asyncio.get_running_loop()
+    time = loop.time
+    elapsed = 0
+    monkeypatch.setattr(loop, "time", lambda: time() + elapsed)
+    sleep = asyncio.sleep
+    requests, retry_sleeps = [], []
+
+    async def endpoint(request):
+        nonlocal elapsed
+        requests.append(request)
+        elapsed += 0.25
+        await sleep(0)
+        await sleep(0)
+        return httpx.Response(503 if len(requests) < 4 else 200, json=_native_response())
+
+    async def retry_sleep(seconds):
+        nonlocal elapsed
+        retry_sleeps.append(seconds)
+        elapsed += seconds
+        await sleep(0)
+        await sleep(0)
+
+    monkeypatch.setattr(http_utils.asyncio, "sleep", retry_sleep)
+    input = _input(timeout=timeout)
+    async with httpx.AsyncClient(transport=httpx.MockTransport(endpoint), timeout=None) as client:
+        monkeypatch.setattr(http_utils, "_rollout_client", lambda: client)
+        if timeout == 2:
+            with pytest.raises(TimeoutError):
+                await qwen_alignment.generate(input)
+            assert input.sample.status is Sample.Status.PENDING and input.sample.tokens == []
+        else:
+            output = await qwen_alignment.generate(input)
+            assert output.samples is input.sample and input.sample.status is Sample.Status.COMPLETED
+        await sleep(0)
+
+    assert len(requests) == expected_attempts
+    assert retry_sleeps == [1] * (2 if timeout == 2 else 3)
+    start, end = _receipts(capsys)
+    assert start["attempt_id"] == end["attempt_id"]
+    assert end["status"] == ("timeout" if timeout == 2 else "succeeded")
+
+
 @pytest.mark.parametrize("failure", ["http_failure", "timeout"])
 async def test_failed_attempt_does_not_prevent_a_later_successful_sample(monkeypatch, capsys, failure):
     requests = []
