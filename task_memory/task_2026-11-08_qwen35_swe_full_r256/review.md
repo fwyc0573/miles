@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record no actionable findings in the D11 replacement-input phase review; keep GPU runtime acceptance independent. |
 | 2026-11-08 | Record independent Ticket08 baseline-specific readiness and correct its overbroad progress blocker without accepting all of03. |
 | 2026-11-08 | Record parent-launch, T02 and T03 phase findings, remediation ownership and native-verification limits. |
 | 2026-11-08 | Record the post-freeze two-axis review of commit `f2f86fea` and its remediation; renumber the baseline/comparison rows. |
@@ -132,3 +133,11 @@ Reviewer `ses_e44a21e69ffewws62CNDQ7RzIu` inspected the current requirements/spe
 OneP2 documentation finding: progress incorrectly grouped02 capacity, D11 training inputs and03 asynchronous training integration as04–08 prerequisites. Ticket08 explicitly depends only on01's original-model/task identities and03's native SWE evaluation capability. Corrected the progress line and documented these scoped edges;03 stays in-progress and04–07 retain their full prerequisites.
 
 Readiness evidence: real original4B recovery/HF3 native agent/grader outcomes, stable task/seed/version/artifact references, exited readers,215+8 accounting checks and8 cloud lifecycle fixtures. The new formal profile keeps the qualified runtime/server/contract and fixed100 IDs unchanged, enables no qualification subset and protects the original source. Its actual launcher dry-run passed. This is not a400-result score, a throughput guarantee or final08 acceptance. Submission still requires fresh policy admission; formal failure/timing accounting must be inspected in real output.
+
+### D11 replacement-input acceptance
+
+TaskID `T01-D11-PHASE-REVIEW`; reviewer `ses_e447e98c1ffew3VxKjXY34dHBT`. Inspected fixed code diff02bb895e..2a14093c (`/data/ycfeng/tmp/qwen35-swe-deepswe-input-acceptance.diff`),four changed source/checker/launcher/test files,native SWE1003 source/render/visual validator,requirements/spec/plan/Ticket01,three current profiles and source/activation/formal-transport receipts/reports. No tests or resource operations were performed by this review.
+
+**Findings:** no actionable P1–P3 defects. Actual mask-aware source and receipt validator preserve mask0 history,structured reasoning/tool calls/replies,original-position UID and no-slot length rejection; legacy defaults and new input-policy CLI transport show no identified regression. Supplied ordinary factory evidence contains no source injection. Genuine full-source exclusions and signature/hash chain are verified;868775 native eligible targets remain before Qwen-length filtering. Four formal source/budget contracts retain their documented CPU post-parse/schema scope.
+
+**Acceptance/limits:** supports Ticket01 local input acceptance,not GPU runtime acceptance. No whole-population Qwen-length census or historical10/21 binary replay is claimed.02/03 new-data CUDA,training/HF/evaluator outcomes remain pending;04–07 remain gated. No remediation or run suspension is required by this review.
