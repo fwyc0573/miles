@@ -5,12 +5,13 @@
 | 2026-11-08 | Draft the per-turn measurement ticket. |
 | 2026-11-08 | Rename KL to RKL and `kl_sum` to `rkl_sum` (D21). |
 | 2026-11-08 | Update the blocker: reused code committed; its 256-turn capacity smoke fails. |
+| 2026-11-08 | Apply D22: wait for that branch's complete fix; start nothing early. |
 
 # 02: optimizer-step record 携带逐 turn RKL/NLL
 
 **What to build:** 实现 [spec S3](../spec.md#s3-逐-turn-测量d4d5d14)：利用已有张量计算每个 turn 的 `rkl_sum`、`nll_sum`、`tokens`，每个 update 汇总一次，随 optimizer-step record 送到 rollout 侧。
 
-**Blocked by:** 复用 Ticket02 在 `agent-opd` 上提交并通过其 native smoke，然后合并到 `agent-opd-image`（D1）。
+**Blocked by:** 复用 Ticket02 在 `agent-opd` 上提交并通过其 native smoke，然后合并到 `agent-opd-image`（D1）。其 256-turn smoke 的显存问题完整修好之后才合并，期间本 ticket 不提前开工（D22）。
 
 **Status:** blocked — reused Ticket02 code is committed on `agent-opd` (`176ffd05`) and its four short native smokes pass, but its 256-turn capacity smoke fails with an out-of-memory error and that ticket is not accepted
 

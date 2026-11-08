@@ -10,6 +10,7 @@
 | 2026-11-08 | Record the documentation freeze and the approved ticket 01 rename. |
 | 2026-11-08 | Record the user's correction that the measured KL is RKL, KL(student‖teacher), as D20. |
 | 2026-11-08 | Record the approved KL → RKL renaming as D21; correct the `opd.py` line citation in D20. |
+| 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -139,3 +140,11 @@ User wrote, while ticket 01 was in progress:
 Asked, with the ticket 01 result: rename the profile's `kl` names and KL terms to `rkl` / RKL before the ticket 03 module is written (spec field names such as `kl_sum`, the glossary terms "KL-best update" and "KL trend", and tickets 02 and 06), keeping the reused names `kl_before_tis` and `opd_reverse_kl`. User answered: **“确认，继续”**.
 
 - **D21 RKL naming.** The profile's quantities, fields and terms say RKL / `rkl`: `rkl_sum`, RKL-best update, RKL trend; the recovery gap is taken on RKL. The reused training-side `kl_before_tis` (with its new sibling `nll_before_tis`) and the native `opd_reverse_kl` keep their names. Raw requests and earlier decision records above keep their original wording. Owner: [spec S3](spec.md#s3-逐-turn-测量d4d5d14).
+
+### Round 7 — [Follow-up Answer] 2026-11-08
+
+Asked, with the ticket 03 module result: the reused training code is committed on `agent-opd` and its short native smokes pass, but its 256-turn capacity smoke fails with an out-of-memory error during current-student rescoring, so D1 is not met. Option 1 was to merge now and do the CPU parts of ticket 02 and the ticket 03 integration; option 2 was to wait. User answered:
+
+> 当前agent-opd分支更新了针对smoke的oom的问题，允许等待其完整修复后再合并到当前branch下
+
+- **D22 wait for the fix (Q → option 2).** Do not merge `agent-opd` while its out-of-memory problem is open. Wait until that fix is complete on `agent-opd`, then merge and start ticket 02 and the ticket 03 integration. D1 stands as written: the reused Ticket02 must be committed and pass its own native smoke, which now includes the 256-turn capacity smoke that exposed the failure. No part of ticket 02 starts early.
