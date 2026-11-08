@@ -1,0 +1,332 @@
+{
+  "task_id": "T01-inputs",
+  "status": "PASS",
+  "python": "3.12.13",
+  "transformers": "5.19.0",
+  "argv": [
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/check_swe_inputs.py",
+    "--source-root",
+    "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic",
+    "--source-manifest",
+    "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic-out2/swe1003-source-manifest.json",
+    "--steptron-root",
+    "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9",
+    "--module-sha256",
+    "{\"playground.baseline_new.mopd.online_turn_loader\": \"0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f\", \"playground.users.cj.opd.s4_swe_turn_data_1001\": \"8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980\"}",
+    "--turn-source",
+    "loss_masked",
+    "--tokenizer",
+    "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+    "--chat-template",
+    "miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+    "--rollout-max-context-len",
+    "2000",
+    "--active-conversations",
+    "2",
+    "--block-turns",
+    "2",
+    "--order-draws",
+    "12",
+    "--parity-draws",
+    "30",
+    "--temporary-root",
+    "/data/ycfeng/tmp/agent-opd-image/t01c",
+    "--output-root",
+    "/data/ycfeng/tmp/agent-opd-image/t01c/evidence"
+  ],
+  "turn_source": "loss_masked",
+  "pinned_module_sha256": {
+    "playground.baseline_new.mopd.online_turn_loader": "0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f",
+    "playground.users.cj.opd.s4_swe_turn_data_1001": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980"
+  },
+  "length_rejection": {
+    "status": "PASS",
+    "fault_injection_tokenizer": "JSON character count",
+    "accepted_source_ordinals": [
+      0,
+      3
+    ],
+    "accepted_slot_indices": [
+      0,
+      1
+    ],
+    "overlength_turns_skipped": 2,
+    "generation_slots_consumed_by_rejections": 0,
+    "prompt_exactly_at_limit_rejected": true
+  },
+  "finished_report": {
+    "status": "PASS",
+    "fault_injection_tokenizer": "JSON character count",
+    "active_conversations": 2,
+    "block_turns": 2,
+    "calls": [
+      {
+        "requested": 2,
+        "accepted": [
+          [
+            "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:0",
+            1,
+            0,
+            0
+          ],
+          [
+            "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:1",
+            1,
+            1,
+            2
+          ]
+        ],
+        "finished": [
+          "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:0"
+        ]
+      },
+      {
+        "requested": 3,
+        "accepted": [
+          [
+            "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:1",
+            2,
+            2,
+            1
+          ],
+          [
+            "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:2",
+            1,
+            3,
+            1
+          ],
+          [
+            "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:2",
+            2,
+            4,
+            0
+          ]
+        ],
+        "finished": [
+          "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:2"
+        ]
+      },
+      {
+        "requested": 1,
+        "accepted": [
+          [
+            "540f2f399a106aaa3151e0bc7388dd61a049d437af93dc7835553e5314229859:0",
+            1,
+            6,
+            1
+          ]
+        ],
+        "finished": [
+          "338042edb5a59152eca6a190aecd4fd027b1e7049c82d42b94800a838c031c7a:1"
+        ]
+      },
+      {
+        "requested": 1,
+        "accepted": [
+          [
+            "540f2f399a106aaa3151e0bc7388dd61a049d437af93dc7835553e5314229859:0",
+            2,
+            7,
+            0
+          ]
+        ],
+        "finished": [
+          "540f2f399a106aaa3151e0bc7388dd61a049d437af93dc7835553e5314229859:0"
+        ]
+      }
+    ],
+    "single_turn_conversation_finished": true,
+    "last_turn_overlength_reported_finished": true,
+    "rejected_draw_index": 5
+  },
+  "loss_masked_fixture": {
+    "status": "PASS",
+    "fixture_tokenizer": "JSON character count, limit 2048; Qwen for rendering",
+    "calls": [
+      {
+        "requested": 2,
+        "accepted": [
+          [
+            "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:2",
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:2",
+            2,
+            1,
+            0,
+            0
+          ]
+        ],
+        "finished": [
+          "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:2"
+        ]
+      },
+      {
+        "requested": 2,
+        "accepted": [
+          [
+            "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:3",
+            1,
+            2,
+            1,
+            0
+          ],
+          [
+            "36831814fd6b61ed69a55b8c7baca1bfdb4174fcbcd1efdcacce4d6132b5ad1c:0",
+            1,
+            4,
+            0,
+            0
+          ]
+        ],
+        "finished": [
+          "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:3",
+          "36831814fd6b61ed69a55b8c7baca1bfdb4174fcbcd1efdcacce4d6132b5ad1c:0"
+        ]
+      },
+      {
+        "requested": 1,
+        "accepted": [
+          [
+            "3eee252e10c0e5e9c2f8b9dc4424bbc41f73cc33f515c02788c0f39d2eba1e9e:2",
+            1,
+            5,
+            1,
+            1
+          ]
+        ],
+        "finished": []
+      }
+    ],
+    "masked_assistant_kept_in_prefix_not_a_turn": true,
+    "training_turn_ordinals_contiguous": true,
+    "identity_fields": {
+      "source_assistant_turn_ordinal": [
+        2,
+        3
+      ],
+      "context_masked_assistant_count": [
+        1,
+        1
+      ],
+      "num_context_messages": [
+        4,
+        6
+      ]
+    },
+    "history_equal_native_tokenize_swe_prefix": true,
+    "visual_and_no_training_turn_conversations_skipped_per_epoch": 1,
+    "last_training_turn_overlength_reported_finished": true,
+    "rejected_draw_index": 3,
+    "masked_reasoning_rendered_with_preserve_thinking": true,
+    "tool_schemas_renders_equal_to_tools": true,
+    "qwen_prompt_tokens": [
+      324,
+      349
+    ]
+  },
+  "four_cursors": {
+    "status": "PASS",
+    "independent_instances": 4,
+    "start_uid": "26f24877846c1a6ff141dfe27f5cec53304558f20e75ad2a715bc678feb4f26b:0:2",
+    "counts_after_only_first_advanced": [
+      2,
+      1,
+      1,
+      1
+    ],
+    "other_cursors_next_uid": "26f24877846c1a6ff141dfe27f5cec53304558f20e75ad2a715bc678feb4f26b:0:6"
+  },
+  "single_source_parity": {
+    "status": "PASS",
+    "draws": 30,
+    "active_conversations": 1,
+    "items_equal_single_native_source": true,
+    "remaining_turns_equal_native_source": true,
+    "history_and_tools_equal_native_normalization": true,
+    "draws_with_tools": 30,
+    "conversations": 8,
+    "skipped_by_turn_source": {
+      "skipped_no_assistant": 2,
+      "skipped_excluded_trajectories": 2
+    },
+    "seconds": 0.03464546799659729
+  },
+  "interleaved_order": {
+    "status": "PASS",
+    "draws": 12,
+    "active_conversations": 2,
+    "block_turns": 2,
+    "instances_with_equal_sequences": 2,
+    "ascending_without_gaps": true,
+    "conversations_open_in_file_order": true,
+    "remaining_turns_equal_independent_count": true,
+    "max_open_conversations": 2,
+    "min_open_conversations_after_first_window": 0,
+    "conversations": 6,
+    "finished_conversations": 5,
+    "conversations_per_window": [
+      2,
+      3,
+      3
+    ],
+    "turns_per_conversation_per_window": [
+      {
+        "2": 2
+      },
+      {
+        "1": 2,
+        "2": 1
+      },
+      {
+        "1": 2,
+        "2": 1
+      }
+    ],
+    "turns_drawn_per_conversation": {
+      "min": 1,
+      "median": 2.0,
+      "max": 3
+    },
+    "run_lengths": {
+      "1": 2,
+      "2": 5
+    },
+    "longest_run": 2,
+    "runs_longer_than_block": [],
+    "construction_seconds_per_instance": 0.015779457986354828,
+    "draw_milliseconds_mean": 1.0890611447393894
+  },
+  "configuration": {
+    "status": "PASS",
+    "path": "tests.manual.agent_opd.swe_inputs.NativeSWEDataSource",
+    "config": {
+      "swe_source_root": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic",
+      "swe_source_manifest": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic-out2/swe1003-source-manifest.json",
+      "swe_steptron_root": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9",
+      "swe_module_sha256": {
+        "playground.baseline_new.mopd.online_turn_loader": "0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f",
+        "playground.users.cj.opd.s4_swe_turn_data_1001": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980"
+      },
+      "swe_turn_source": "loss_masked",
+      "swe_active_conversations": 2,
+      "swe_block_turns": 2
+    },
+    "uses_actual_custom_function_config_merge": true,
+    "runtime_config_type": "RolloutConfig",
+    "runtime_config_builder": "existing make_rollout_config with real parser defaults and model_validate",
+    "nonexistent_max_seq_len_launch_field_absent": true,
+    "native_request_max_new_tokens": 1726
+  },
+  "limits": [
+    "No Step/Qwen token or prompt byte equality is asserted",
+    "Tokenizer compatibility with teacher models and benchmark overlap are separately owned",
+    "Real prompts are Qwen encoded only in the configuration check and by the source audit; message normalization and tools are compared with native for every parity draw",
+    "Loss-mask, exclusion and finished-report rules are checked on a synthetic fixture"
+  ],
+  "parent_model_source_receipt": null
+}

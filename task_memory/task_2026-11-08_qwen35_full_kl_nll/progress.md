@@ -16,6 +16,7 @@
 | 2026-11-08 | Record Finding 14: the SWE-1003 0913 data, its mask-aware streaming loader and the order comparison. |
 | 2026-11-08 | Record the round-8 answers (D23–D25); replace the copy step with reading the files in place. |
 | 2026-11-08 | Record the audit script, the stopped audit hand-off, the round-9 answer (D26, D27) and the document update; reopen 01. |
+| 2026-11-08 | Record the ticket 01 SWE-1003 revision: selectable turn source, local checks PASS (items 1–4). |
 
 # Progress
 
@@ -114,13 +115,17 @@
 - Synthetic check: `/data/ycfeng/tmp/agent-opd-image/make_and_check_swe1003_synthetic.py` writes 8 files shaped like the recipe list and compares the audit output with hand-computed values (10 conversations, 21 assistants, 18 training turns, 1 visual, 1 over-length turn; M = 1: 7 draws, 6 accepted, 1 rejected). PASS.
 - The audit job hand-off to the executor was stopped before it ran: no run directory, no launcher, no output directory exist (checked). No job was submitted. Reported to the user.
 - Round 9 answer: D26 (keep 32 × 8; come back if the median training-turn count is clearly below 81) and D27 (compute the visual list). Documents updated with D23–D27 (spec S0–S2, S4, S5, S8, S9; tickets 01, 03, 04, 05; plan; `GLOSSARY.md` Training turn); numbers that need the audit are marked pending.
+- Ticket 01 revision, items 1–4 (local). Reason: the SWE-1003 recipe trains only `loss_mask=1` assistants and excludes visual conversations (D23, D24, D27), which the GLM-era adapter could not express.
+  - Method: `swe_inputs.py` now loads the pinned f4522d45 modules by dotted name after a SHA256 check (`load_pinned_modules`, moved from the audit) and picks the turn source from the `TURN_SOURCES` table (`all_assistants` → `OnlineTrajectoryTurnSource` with the GLM recipe normalization; `loss_masked` → `MaskAwareSWETurnSource` with the `tokenize_swe_prefix` normalization and the manifest's visual list). Tools: first message `tools`, else `tool_schemas`. The audit imports these owners instead of keeping copies. `check_swe_inputs.py` follows the turn source and gains a `loss_masked` fixture check.
+  - Finding: the two native normalizations differ (the GLM recipe drops `value` and requires `content`; `tokenize_swe_prefix` maps `value` to `content` only when `content` is missing), so each turn source carries its own; the parity check now compares normalized history and tools with the native reference on every draw.
+  - Result: PASS on the GLM copies with `all_assistants` (all order, prefix, boundary, length and cursor sections equal to the earlier evidence) and on the synthetic SWE-1003 set with `loss_masked`; the synthetic audit output is unchanged after the import refactor. Commands, values and limits: [test report](test_report_2026-11-08_swe1003_turn_source.md); evidence in `evidence/input-all-assistants-f4522d45/` and `evidence/input-loss-masked-synthetic/`.
 
 ## in-progress
 
-- Ticket 01 revision for the SWE-1003 data: adapter code and local checks (synthetic `loss_masked` set, GLM copies with `all_assistants`).
+- Ticket 01 items 5–6 (source audit and `loss_masked` checks on the 8 files in place): need a CPU RJob that mounts posttrain; the submission route is open after the stopped hand-off.
 
 ## pending
 
 1. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-2. The source audit and ticket 01's checks on the 8 files in place, both in a CPU RJob that mounts posttrain (no local copy exists); the submission route is open after the stopped hand-off. Then update spec S2 取数顺序第 6 条 with the audit numbers and apply D26.
+2. After the audit: copy its JSON and manifest into `evidence/`, update spec S2 取数顺序第 6 条 with the numbers, apply D26, and report any first message whose `preserve_thinking` is not true.
 3. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.

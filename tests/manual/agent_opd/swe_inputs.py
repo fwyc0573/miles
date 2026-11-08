@@ -1,11 +1,13 @@
 """Consume the pinned Steptron SWE turn stream through Miles DataSource.
 
-The external loader owns file/conversation/turn ordering and epoch wrapping:
-swe_active_conversations native turn sources share one cursor, so conversations
-open in file order, and the native block mixer takes swe_block_turns consecutive
-turns from one open conversation at a time. One open conversation reproduces the
-native streaming order. Only native role normalization and Qwen-specific rendering
-happen here; no shuffle, deduplication or target-message training is added.
+The pinned Steptron modules own file/conversation/turn ordering, training-turn
+selection and epoch wrapping: swe_active_conversations native turn sources share
+one cursor, so conversations open in file order, and the native block mixer takes
+swe_block_turns consecutive turns from one open conversation at a time. One open
+conversation reproduces the native streaming order. swe_turn_source names the
+native turn source class. Only that source's native prefix normalization and
+Qwen-specific rendering happen here; no shuffle, deduplication or target-message
+training is added.
 """
 
 import copy
@@ -14,6 +16,7 @@ import importlib.util
 import json
 import logging
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
@@ -28,11 +31,18 @@ from miles.utils.types import Sample
 logger = logging.getLogger(__name__)
 
 
+# Dotted names are fixed by the pinned modules' own imports; load order follows them.
+BASE_LOADER = "playground.baseline_new.mopd.online_turn_loader"
+TURN_DATA = "playground.users.cj.opd.s4_swe_turn_data_1001"
+
+
 class SWEInputConfig(BaseConfig):
     swe_source_root: A[str, Arg()]
     swe_source_manifest: A[str, Arg()]
-    swe_native_loader_path: A[str, Arg()]
-    swe_native_loader_sha256: A[str, Arg()]
+    swe_steptron_root: A[str, Arg()]
+    # Pinned module SHA256 keyed by dotted module name.
+    swe_module_sha256: A[dict[str, str], Arg(type_parser=json.loads)]
+    swe_turn_source: A[str, Arg()]
     swe_active_conversations: A[int, Arg()] = 1
     swe_block_turns: A[int, Arg()] = 8
 
@@ -45,28 +55,31 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_native_module(path: Path, expected_sha256: str, name: str | None = None) -> ModuleType:
-    """Load the standalone stdlib module, registering it before dataclass exec.
+def load_pinned_modules(steptron_root: Path, pins: dict[str, str]) -> dict[str, ModuleType]:
+    """Load standalone Steptron modules in pin order, each registered under its dotted name.
 
-    A pinned module that other pinned modules import by its Steptron dotted path
-    is registered under that name; otherwise the name derives from the SHA256.
+    Pinned modules import each other by these names, so registration precedes
+    execution (also required by dataclass exec) and a module follows its imports.
     """
-    content = path.read_bytes()
-    actual = hashlib.sha256(content).hexdigest()
-    if actual != expected_sha256:
-        raise ValueError(f"Native SWE loader SHA256 mismatch: expected {expected_sha256}, got {actual}")
-    name = name or f"_steptron_swe_turn_loader_{actual}"
-    if name not in sys.modules:
-        spec = importlib.util.spec_from_file_location(name, path)
-        module = importlib.util.module_from_spec(spec)
-        sys.modules[name] = module
-        try:
-            # Execute the verified bytes, not a second filesystem read.
-            exec(compile(content, str(path), "exec"), module.__dict__)
-        except BaseException:
-            del sys.modules[name]
-            raise
-    return sys.modules[name]
+    modules = {}
+    for name, expected_sha256 in pins.items():
+        path = steptron_root / (name.replace(".", "/") + ".py")
+        content = path.read_bytes()
+        actual = hashlib.sha256(content).hexdigest()
+        if actual != expected_sha256:
+            raise ValueError(f"Pinned Steptron module SHA256 mismatch for {path}: expected {expected_sha256}, got {actual}")
+        if name not in sys.modules:
+            spec = importlib.util.spec_from_file_location(name, path)
+            module = importlib.util.module_from_spec(spec)
+            sys.modules[name] = module
+            try:
+                # Execute the verified bytes, not a second filesystem read.
+                exec(compile(content, str(path), "exec"), module.__dict__)
+            except BaseException:
+                del sys.modules[name]
+                raise
+        modules[name] = sys.modules[name]
+    return modules
 
 
 @dataclass(frozen=True)
@@ -97,8 +110,8 @@ def load_source_population(source_root: Path, manifest_path: Path) -> SWESourceP
     return SWESourcePopulation(tuple(files), manifest, hashlib.sha256(content).hexdigest())
 
 
-def native_chat_messages(conversation: list[dict]) -> list[dict]:
-    """Match the native recipe's convert_to_chatml_with_tool (lines 527-553)."""
+def recipe_chat_messages(conversation: list[dict]) -> list[dict]:
+    """Match the GLM-5.2 0710 recipe's convert_to_chatml_with_tool (lines 527-553)."""
     messages = copy.deepcopy(conversation)
     for message in messages:
         role = message.get("role", message.get("from"))
@@ -120,6 +133,58 @@ def native_chat_messages(conversation: list[dict]) -> list[dict]:
     return messages
 
 
+def swe_prefix_messages(prefix: list[dict]) -> list[dict]:
+    """Match the SWE-1003 tokenize_swe_prefix normalization (s4_swe_turn_data_1001.py:60-67)."""
+    messages = []
+    for message in prefix:
+        item = copy.deepcopy(message)
+        role = message.get("role", message.get("from", ""))
+        role = role.lower() if isinstance(role, str) else ""
+        item["role"] = "user" if role == "human" else role
+        item.pop("from", None)
+        if "content" not in item and "value" in item:
+            item["content"] = item.pop("value")
+        messages.append(item)
+    return messages
+
+
+def history_tools(history: list[dict]) -> list[dict] | None:
+    """Tool definitions from the first message, read as tokenize_swe_prefix reads them (line 77)."""
+    return (history[0].get("tools") or history[0].get("tool_schemas")) if history else None
+
+
+@dataclass(frozen=True)
+class TurnSourceKind:
+    module: str
+    class_name: str
+    normalize_history: Callable[[list[dict]], list[dict]]
+    excludes_visual: bool
+    ground_truth_fields: tuple[str, ...]
+
+
+# swe_turn_source -> the pinned native class that selects a conversation's training turns,
+# and that dataset's native prefix normalization.
+TURN_SOURCES = {
+    # GLM-5.2 copies without loss_mask: every assistant is a training turn.
+    "all_assistants": TurnSourceKind(BASE_LOADER, "OnlineTrajectoryTurnSource", recipe_chat_messages, False, ()),
+    # SWE-1003: only loss_mask=1 assistants; visual conversations are excluded by the manifest.
+    "loss_masked": TurnSourceKind(TURN_DATA, "MaskAwareSWETurnSource", swe_prefix_messages, True, (
+        "source_assistant_turn_ordinal", "context_masked_assistant_count", "target_policy",
+    )),
+}
+
+
+def turn_source_pins(turn_source: str, module_sha256: dict[str, str]) -> dict[str, str]:
+    """The base loader (cursor, mixer) and the turn source's module, in load order."""
+    if turn_source not in TURN_SOURCES:
+        raise ValueError(f"Unknown swe_turn_source {turn_source!r}; expected one of {sorted(TURN_SOURCES)}")
+    names = list(dict.fromkeys((BASE_LOADER, TURN_SOURCES[turn_source].module)))
+    missing = [name for name in names if name not in module_sha256]
+    if missing:
+        raise ValueError(f"swe_module_sha256 has no pin for {missing}")
+    return {name: module_sha256[name] for name in names}
+
+
 def render_qwen_history(tokenizer, history: list[dict], tools: list[dict] | None, kwargs: dict) -> tuple[str, list[int]]:
     prompt = tokenizer.apply_chat_template(
         normalize_tool_arguments(history),
@@ -131,7 +196,7 @@ def render_qwen_history(tokenizer, history: list[dict], tools: list[dict] | None
     return prompt, tokenizer.encode(prompt, add_special_tokens=False)
 
 
-def native_source_identity(item: dict, file: dict, epoch: int) -> dict:
+def native_source_identity(item: dict, file: dict, epoch: int, ground_truth_fields: tuple[str, ...]) -> dict:
     ground_truth = item["conversation"][-1]["ground_truth"]
     conversation_index = ground_truth["source_item_index"]
     return {
@@ -144,7 +209,7 @@ def native_source_identity(item: dict, file: dict, epoch: int) -> dict:
         "epoch": epoch,
         **{name: ground_truth[name] for name in (
             "source_item_index", "source_row_index", "source_message_count",
-            "assistant_turn_index", "assistant_turn_ordinal", "num_context_messages",
+            "assistant_turn_index", "assistant_turn_ordinal", "num_context_messages", *ground_truth_fields,
         )},
     }
 
@@ -155,8 +220,8 @@ class NativeSWEDataSource(DataSource):
     Args use the existing Miles fields hf_checkpoint, chat_template_path,
     apply_chat_template_kwargs, rollout_max_context_len and n_samples_per_prompt. The custom
     data_source_path config adds swe_source_root, swe_source_manifest,
-    swe_native_loader_path, swe_native_loader_sha256, swe_active_conversations and
-    swe_block_turns. Paths are caller-owned. Each get_samples call fills one bank;
+    swe_steptron_root, swe_module_sha256, swe_turn_source, swe_active_conversations
+    and swe_block_turns. Paths are caller-owned. Each get_samples call fills one bank;
     afterwards finished_conversations names the group_ids whose last turn it drew,
     including a last turn rejected for length.
     """
@@ -176,12 +241,19 @@ class NativeSWEDataSource(DataSource):
         reserved = {"tools", "chat_template", "tokenize", "add_generation_prompt", "return_dict"} & kwargs.keys()
         if reserved:
             raise ValueError(f"SWE rendering owns template arguments: {sorted(reserved)}")
-        native = load_native_module(Path(args.swe_native_loader_path), args.swe_native_loader_sha256)
+        pins = turn_source_pins(args.swe_turn_source, args.swe_module_sha256)
+        modules = load_pinned_modules(Path(args.swe_steptron_root), pins)
+        self.kind = TURN_SOURCES[args.swe_turn_source]
+        native = modules[BASE_LOADER]
         self.population = population if population is not None else load_source_population(
             Path(args.swe_source_root), Path(args.swe_source_manifest)
         )
-        self.sources = [native.OnlineTrajectoryTurnSource(
-            self.population.filelist, domain="reasoning", source_group="swe",
+        source_class = getattr(modules[self.kind.module], self.kind.class_name)
+        exclusions = {}
+        if self.kind.excludes_visual:
+            exclusions["excluded_source_item_indices"] = [entry["visual_source_item_indices"] for entry in self.population.files]
+        self.sources = [source_class(
+            self.population.filelist, **exclusions, domain="reasoning", source_group="swe",
             source_load_path=None, source_load_safetensors=None,
         ) for _ in range(args.swe_active_conversations)]
         # Construction only stats the files, so replacing the cursors opens nothing.
@@ -202,8 +274,10 @@ class NativeSWEDataSource(DataSource):
         self.sample_index = 0
         self.skipped_overlength = 0
         self.identity = {
-            "native_loader_path": str(Path(args.swe_native_loader_path).resolve()),
-            "native_loader_sha256": args.swe_native_loader_sha256,
+            "turn_source": args.swe_turn_source,
+            "steptron_root": str(Path(args.swe_steptron_root).resolve()),
+            "pinned_module_sha256": pins,
+            **({"visual_exclusion_sha256": self.sources[0].exclusion_sha256} if self.kind.excludes_visual else {}),
             "source_manifest_path": str(Path(args.swe_source_manifest).resolve()),
             "source_manifest_sha256": self.population.manifest_sha256,
             "files": list(self.population.files),
@@ -222,7 +296,7 @@ class NativeSWEDataSource(DataSource):
             "shuffle": False, "deduplicate": False, "epoch_wrap": True,
             "length_reject": "prompt_token_count >= rollout_max_context_len",
             "generation_budget": "rollout_max_context_len - prompt_token_count",
-            "tools_rendering_difference": "Step caller omits system.tools; Qwen passes system.tools explicitly",
+            "tools_field": "first message tools, else tool_schemas",
             "resume_supported": False,
         }
         logger.info("NATIVE_SWE_INPUT_IDENTITY %s", json.dumps(self.identity))
@@ -242,12 +316,12 @@ class NativeSWEDataSource(DataSource):
         finished = []
         while len(samples) < num_samples:
             draw_index, item, remaining_turns = self.draw()
-            messages = native_chat_messages(item["conversation"])
-            history = messages[:-1]
-            tools = history[0].get("tools") if history else None
+            ground_truth = item["conversation"][-1]["ground_truth"]
+            history = self.kind.normalize_history(item["conversation"][:-1])
+            tools = history_tools(history)
             prompt, prompt_ids = render_qwen_history(self.tokenizer, history, tools, self.template_kwargs)
-            source = native_source_identity(item, self._files[item["conversation"][-1]["ground_truth"]["data_path"]],
-                                            self.cursor.epoch)
+            source = native_source_identity(item, self._files[ground_truth["data_path"]], self.cursor.epoch,
+                                            self.kind.ground_truth_fields)
             source.update(draw_index=draw_index, remaining_turns=remaining_turns,
                           prompt_token_count=len(prompt_ids), prompt_sha256=token_hash(prompt_ids))
             if remaining_turns == 0:
@@ -264,7 +338,7 @@ class NativeSWEDataSource(DataSource):
                 metadata={
                     "source": source, "history": history, "tools": tools,
                     "thinking_enabled": True, "chat_template_kwargs": dict(self.template_kwargs),
-                    "native_ground_truth": messages[-1]["ground_truth"],
+                    "native_ground_truth": ground_truth,
                 },
             )
             self.sample_index += 1

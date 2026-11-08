@@ -1,12 +1,17 @@
 """Run CPU-only native SWE input parity, real Qwen rendering and cursor checks.
 
+The population checks use --turn-source; the GLM-5.2 copies (all_assistants) also
+need --native-recipe for the real-prefix checks. Fixture checks for both turn
+sources run in every invocation.
+
 Example:
     python -m tests.manual.agent_opd.check_swe_inputs --source-root SOURCES \
-        --source-manifest SOURCES/COPY_COMPLETE.json --native-loader LOADER.py \
-        --native-loader-sha256 SHA256 --native-recipe RECIPE.py \
+        --source-manifest SOURCES/COPY_COMPLETE.json --steptron-root STEPTRON \
+        --module-sha256 '{"playground.baseline_new.mopd.online_turn_loader": "SHA256", ...}' \
+        --turn-source all_assistants --native-recipe RECIPE.py \
         --tokenizer QWEN_TOKENIZER --chat-template TEMPLATE.jinja \
         --rollout-max-context-len 131072 --active-conversations 32 --block-turns 8 \
-        --order-draws 2048 --temporary-root TEMP --output-root TASK/evidence
+        --order-draws 2048 --parity-draws 512 --temporary-root TEMP --output-root TASK/evidence
 """
 
 import argparse
@@ -26,13 +31,19 @@ from types import SimpleNamespace
 import transformers
 from examples.agentic_opd.glm_turns import normalize_tool_arguments, token_hash
 from tests.manual.agent_opd.swe_inputs import (
+    BASE_LOADER,
+    TURN_DATA,
+    TURN_SOURCES,
     NativeSWEDataSource,
     SWEInputConfig,
     SWESourcePopulation,
     file_sha256,
-    load_native_module,
+    history_tools,
+    load_pinned_modules,
     load_source_population,
-    native_chat_messages,
+    recipe_chat_messages,
+    render_qwen_history,
+    turn_source_pins,
 )
 from tests.fast.ray.rollout.conftest import make_rollout_config
 
@@ -58,11 +69,45 @@ def _native_converter(recipe_path: Path):
     return namespace[function.name]
 
 
-def _source(native, filelist):
-    return native.OnlineTrajectoryTurnSource(
-        filelist, domain="reasoning", source_group="swe",
-        source_load_path=None, source_load_safetensors=None,
-    )
+class _CapturingTokenizer:
+    """Records what native tokenize_swe_prefix passes to the chat template."""
+
+    def apply_chat_template(self, messages, **kwargs):
+        return messages, kwargs.get("tools")
+
+
+def _native_reference(modules, turn_source: str, recipe: Path | None):
+    """(history, tools) as the native code prepares a drawn item's prefix for its template."""
+    if turn_source == "loss_masked":
+        return lambda conversation: modules[TURN_DATA].tokenize_swe_prefix(_CapturingTokenizer(), conversation[:-1])
+    converter = _native_converter(recipe)
+
+    def reference(conversation):
+        history = converter(conversation)[:-1]
+        # The GLM Step caller passes no tools; this is the adapter's rule before tool_schemas.
+        return history, (history[0].get("tools") or None) if history else None
+    return reference
+
+
+def _source(modules, turn_source: str, population: SWESourcePopulation):
+    """The native turn source the adapter wraps, built independently as the parity oracle."""
+    common = {"domain": "reasoning", "source_group": "swe", "source_load_path": None, "source_load_safetensors": None}
+    if turn_source == "loss_masked":
+        return modules[TURN_DATA].MaskAwareSWETurnSource(
+            population.filelist, **common,
+            excluded_source_item_indices=[entry["visual_source_item_indices"] for entry in population.files],
+        )
+    return modules[BASE_LOADER].OnlineTrajectoryTurnSource(population.filelist, **common)
+
+
+def _training_turn_counter(modules, turn_source: str, population: SWESourcePopulation):
+    """A source conversation's training-turn count from its raw record; 0 when the turn source skips it."""
+    if turn_source == "loss_masked":
+        excluded = [set(entry["visual_source_item_indices"]) for entry in population.files]
+        eligible = modules[TURN_DATA].eligible_assistant_positions
+        return lambda record: 0 if record.source_item_index in excluded[record.file_idx] else len(eligible(record.value))
+    role = modules[BASE_LOADER].message_role
+    return lambda record: sum(role(message) == "assistant" for message in record.value)
 
 
 def _args(args, **swe_fields) -> SimpleNamespace:
@@ -70,8 +115,8 @@ def _args(args, **swe_fields) -> SimpleNamespace:
     defaults = {name: field.default for name, field in SWEInputConfig.model_fields.items() if not field.is_required()}
     return SimpleNamespace(
         swe_source_root=str(args.source_root), swe_source_manifest=str(args.source_manifest),
-        swe_native_loader_path=str(args.native_loader), swe_native_loader_sha256=args.native_loader_sha256,
-        **{**defaults, **swe_fields},
+        swe_steptron_root=str(args.steptron_root), swe_module_sha256=args.module_sha256,
+        **{**defaults, "swe_turn_source": args.turn_source, **swe_fields},
         hf_checkpoint=str(args.tokenizer), chat_template_path=str(args.chat_template),
         apply_chat_template_kwargs={"preserve_thinking": True, "enable_thinking": True},
         rollout_max_context_len=args.rollout_max_context_len,
@@ -79,7 +124,8 @@ def _args(args, **swe_fields) -> SimpleNamespace:
     )
 
 
-def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tuple[list[dict], list[list[dict]]]:
+def _actual_prefix_checks(args, modules, population, tokenizer, converter) -> tuple[list[dict], list[list[dict]]]:
+    native = modules[BASE_LOADER]
     cursor = native.SequentialJsonArrayCursor(population.filelist)
     conversations = [cursor.next_record().value, cursor.next_record().value]
     cursor.close()
@@ -87,7 +133,7 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
     ordinals = {int(value) for value in args.turn_ordinals.split(",") if value != "last"}
     if "last" in args.turn_ordinals.split(","):
         ordinals.add(len(positions))
-    oracle = _source(native, population.filelist)
+    oracle = _source(modules, "all_assistants", population)
     adapter = NativeSWEDataSource(_args(args), tokenizer=tokenizer, population=population)
     checks = []
     try:
@@ -99,7 +145,7 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
             actual_history = conversations[0][:positions[ordinal - 1]]
             assert expected["conversation"][:-1] == actual_history
             converted = converter(expected["conversation"])
-            assert native_chat_messages(expected["conversation"]) == converted
+            assert recipe_chat_messages(expected["conversation"][:-1]) == converted[:-1]
             # Position only this test cursor using native state; the public training
             # DataSource.load intentionally remains unsupported.
             adapter.sources[0].load_state_dict(before)
@@ -166,14 +212,16 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
     return checks, conversations
 
 
-def _fixture_population(root: Path, files: list[list[list[dict]]]) -> SWESourcePopulation:
+def _fixture_population(root: Path, files: list[list[list[dict]]],
+                        visual: list[list[int]] | None = None) -> SWESourcePopulation:
     root.mkdir(parents=True, exist_ok=True)
     entries = []
     for index, conversations in enumerate(files):
         path = root / f"part{index}.json"
         path.write_text(json.dumps(conversations, ensure_ascii=False))
         entries.append({"path": str(path), "local_path": str(path), "bytes": path.stat().st_size,
-                        "sha256": file_sha256(path)})
+                        "sha256": file_sha256(path),
+                        "visual_source_item_indices": visual[index] if visual else []})
     manifest = {"status": "COMPLETE", "files": entries, "total_bytes": sum(f["bytes"] for f in entries)}
     return SWESourcePopulation(tuple(entries), manifest, _digest(manifest))
 
@@ -183,13 +231,14 @@ def _excerpt(native, conversation: list[dict], turns: int) -> list[dict]:
     return conversation[:positions[min(turns, len(positions)) - 1] + 1]
 
 
-def _boundary_checks(args, native, tokenizer, converter, conversations) -> dict:
+def _boundary_checks(args, modules, tokenizer, converter, conversations) -> dict:
+    native = modules[BASE_LOADER]
     population = _fixture_population(args.temporary_root / "input-boundaries", [
         [[{"from": "human", "value": "No assistant in this conversation"}],
          _excerpt(native, conversations[0], 2), _excerpt(native, conversations[1], 1)],
         [_excerpt(native, conversations[0], 1)],
     ])
-    oracle = _source(native, population.filelist)
+    oracle = _source(modules, "all_assistants", population)
     adapter = NativeSWEDataSource(_args(args), tokenizer=tokenizer, population=population)
     rows = []
     try:
@@ -214,7 +263,7 @@ def _boundary_checks(args, native, tokenizer, converter, conversations) -> dict:
         else:
             raise AssertionError("Unsupported training restore was accepted")
         role_case = [{"from": "HUMAN", "value": "Question"}, {"from": "ASSISTANT"}]
-        assert native_chat_messages(role_case) == converter(role_case)
+        assert recipe_chat_messages(role_case) == converter(role_case)
     finally:
         oracle.close()
         adapter.close()
@@ -233,7 +282,7 @@ class _CharacterTokenizer:
         return list(range(len(prompt)))
 
 
-def _length_rejection_check(args, native) -> dict:
+def _length_rejection_check(args) -> dict:
     population = _fixture_population(args.temporary_root / "input-length", [[[
         {"role": "user", "content": "short"},
         {"role": "assistant", "content": "x" * 600},
@@ -241,7 +290,7 @@ def _length_rejection_check(args, native) -> dict:
         {"role": "assistant", "content": "next"},
         {"role": "assistant", "content": "last"},
     ], [{"role": "user", "content": "next conversation"}, {"role": "assistant", "content": "answer"}]]])
-    config = _args(args)
+    config = _args(args, swe_turn_source="all_assistants")
     config.rollout_max_context_len = 512
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
     try:
@@ -292,34 +341,46 @@ def _conversation_key(item: dict) -> tuple[str, int]:
     return ground_truth["data_path"], ground_truth["source_item_index"]
 
 
-def _single_source_parity(args, native, population, tokenizer) -> dict:
-    """With the default single open conversation, draws equal one native source's items."""
-    oracle = _source(native, population.filelist)
+def _single_source_parity(args, modules, population, tokenizer, reference) -> dict:
+    """With the default single open conversation, draws equal one native source's items,
+    and the adapter's prefix normalization and tools equal the native reference."""
+    oracle = _source(modules, args.turn_source, population)
     adapter = NativeSWEDataSource(_args(args), tokenizer=tokenizer, population=population)
+    normalize_history = TURN_SOURCES[args.turn_source].normalize_history
     try:
-        conversations = set()
+        conversations, tools_present = set(), 0
+        started = time.perf_counter()
         for expected_index in range(args.parity_draws):
             draw_index, item, remaining_turns = adapter.draw()
             assert draw_index == expected_index and item == next(oracle)
             assert remaining_turns == oracle.active_remaining_turns
+            history = normalize_history(item["conversation"][:-1])
+            expected_history, expected_tools = reference(item["conversation"])
+            assert history == expected_history and history_tools(history) == expected_tools
+            tools_present += expected_tools is not None
             conversations.add(_conversation_key(item))
         return {"status": "PASS", "draws": args.parity_draws, "active_conversations": len(adapter.sources),
                 "items_equal_single_native_source": True, "remaining_turns_equal_native_source": True,
-                "conversations": len(conversations)}
+                "history_and_tools_equal_native_normalization": True, "draws_with_tools": tools_present,
+                "conversations": len(conversations),
+                "skipped_by_turn_source": {name: getattr(adapter.sources[0], name) for name in (
+                    "skipped_no_assistant", "skipped_excluded_trajectories") if hasattr(adapter.sources[0], name)},
+                "seconds": time.perf_counter() - started}
     finally:
         oracle.close()
         adapter.close()
 
 
-def _interleaved_order(args, native, population, tokenizer) -> dict:
+def _interleaved_order(args, modules, population, tokenizer) -> dict:
     """Order properties of the raw native draws for the task's open-conversation count and block."""
+    training_turns = _training_turn_counter(modules, args.turn_source, population)
     fields = {"swe_active_conversations": args.active_conversations, "swe_block_turns": args.block_turns}
     started = time.perf_counter()
     adapters = [NativeSWEDataSource(_args(args, **fields), tokenizer=tokenizer, population=population)
                 for _ in range(2)]
     construction_seconds = (time.perf_counter() - started) / len(adapters)
-    # An independent cursor gives each conversation's assistant-turn count in file order.
-    oracle = native.SequentialJsonArrayCursor(population.filelist)
+    # An independent cursor gives each conversation's training-turn count in file order.
+    oracle = modules[BASE_LOADER].SequentialJsonArrayCursor(population.filelist)
     totals, drawn, open_conversations, sequences = {}, {}, set(), [[], []]
     window = args.active_conversations * args.block_turns
     open_counts = []
@@ -332,10 +393,10 @@ def _interleaved_order(args, native, population, tokenizer) -> dict:
             if ordinal == 1:
                 assert key not in drawn
                 record = oracle.next_record()
-                while not any(native.message_role(m) == "assistant" for m in record.value):
+                while not training_turns(record):
                     record = oracle.next_record()
                 assert key == (record.path, record.source_item_index), "conversations must open in file order"
-                totals[key] = sum(native.message_role(m) == "assistant" for m in record.value)
+                totals[key] = training_turns(record)
                 drawn[key] = 0
                 open_conversations.add(key)
             assert ordinal == drawn[key] + 1, "a conversation's turns must be drawn in ascending order without gaps"
@@ -387,7 +448,7 @@ def _interleaved_order(args, native, population, tokenizer) -> dict:
     }
 
 
-def _finished_report_check(args, native) -> dict:
+def _finished_report_check(args) -> dict:
     """remaining_turns and the per-call finished report on a fixture with hand-derived mixer order.
 
     Two open conversations, blocks of two. Conversation 0 has one turn; conversation 1's
@@ -400,7 +461,7 @@ def _finished_report_check(args, native) -> dict:
         [conversation("single"), conversation("first", "second", "x" * 600), conversation("a", "b")],
         [conversation("c", "d")],
     ])
-    config = _args(args, swe_active_conversations=2, swe_block_turns=2)
+    config = _args(args, swe_turn_source="all_assistants", swe_active_conversations=2, swe_block_turns=2)
     config.rollout_max_context_len = 512
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
     first, second = (entry["sha256"] for entry in population.files)
@@ -430,6 +491,107 @@ def _finished_report_check(args, native) -> dict:
                       for count, expected, finished in calls],
             "single_turn_conversation_finished": True, "last_turn_overlength_reported_finished": True,
             "rejected_draw_index": 5}
+
+
+def _loss_masked_fixture(args) -> tuple[SWESourcePopulation, list[dict], dict]:
+    """File 0: a visual conversation (excluded through the manifest), one without loss_mask=1
+    assistants, one whose masked assistant (reasoning and a tool call) precedes two training
+    turns and whose first message carries tool_schemas, and one whose last training turn is
+    over the length limit. File 1: one single-turn conversation."""
+    def message(role, content, mask=0, **fields):
+        return {"role": role, "content": content, "loss_mask": mask, **fields}
+
+    schema = {"type": "function", "function": {
+        "name": "run_tests", "description": "Run the test suite.",
+        "parameters": {"type": "object", "properties": {"path": {"type": "string"}}, "required": ["path"]},
+    }}
+    masked = [
+        message("system", "You fix repositories.", tool_schemas=[schema]),
+        message("user", "Fix the failing test."),
+        message("assistant", "", reasoning_content="masked reasoning",
+                tool_calls=[{"id": "call-0", "type": "function",
+                             "function": {"name": "run_tests", "arguments": json.dumps({"path": "tests"})}}]),
+        message("tool", "1 failed", tool_call_id="call-0"),
+        message("assistant", "first training turn", 1, reasoning_content="trained reasoning"),
+        message("user", "Explain the fix."),
+        message("assistant", "second training turn", 1),
+    ]
+    image = [{"type": "image", "image": "data:image/png;base64,AAAA"}, {"type": "text", "text": "Describe it."}]
+    population = _fixture_population(args.temporary_root / "input-loss-masked", [[
+        [message("user", image), message("assistant", "visual answer", 1)],
+        [message("user", "Context only."), message("assistant", "masked answer")],
+        masked,
+        [message("user", "first"), message("assistant", "answer", 1),
+         message("user", "x" * 4000), message("assistant", "answer", 1)],
+    ], [[message("user", "single"), message("assistant", "answer", 1)]]], visual=[[0], []])
+    return population, masked, schema
+
+
+def _loss_masked_fixture_check(args, modules, tokenizer) -> dict:
+    """loss_masked training turns, exclusions, identity, remaining_turns, finished report and rendering."""
+    population, masked, schema = _loss_masked_fixture(args)
+    config = _args(args, swe_turn_source="loss_masked")
+    config.rollout_max_context_len = config.rollout_max_response_len = 2048
+    adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
+    first, second = (entry["sha256"] for entry in population.files)
+    c2, c3, d0 = f"{first}:2", f"{first}:3", f"{second}:0"
+    # (requested samples, [(group_id, ordinal, draw index, remaining turns, epoch)], finished)
+    calls = [
+        (2, [(c2, 1, 0, 1, 0), (c2, 2, 1, 0, 0)], (c2,)),
+        (2, [(c3, 1, 2, 1, 0), (d0, 1, 4, 0, 0)], (c3, d0)),
+        (1, [(c2, 1, 5, 1, 1)], ()),
+    ]
+    try:
+        groups = []
+        for count, expected, finished in calls:
+            samples = [group[0] for group in adapter.get_samples(count)]
+            assert [tuple(s.metadata["source"][name] for name in (
+                "group_id", "assistant_turn_ordinal", "draw_index", "remaining_turns", "epoch",
+            )) for s in samples] == expected
+            assert adapter.finished_conversations == finished
+            groups.append(samples)
+        turn_1, turn_2 = groups[0]
+        assert [s.metadata["source"]["uid"] for s in (turn_1, turn_2)] == [f"{c2}:4", f"{c2}:6"]
+        identity = {name: [s.metadata["source"][name] for s in (turn_1, turn_2)] for name in (
+            "source_assistant_turn_ordinal", "context_masked_assistant_count", "num_context_messages")}
+        assert identity == {"source_assistant_turn_ordinal": [2, 3], "context_masked_assistant_count": [1, 1],
+                            "num_context_messages": [4, 6]}
+        assert {s.metadata["source"]["target_policy"] for s in (turn_1, turn_2)} == {modules[TURN_DATA].TARGET_POLICY}
+        history = turn_1.metadata["history"]
+        assert history[2]["role"] == "assistant" and history[2]["loss_mask"] == 0, "the masked assistant stays in the prefix"
+        native_history, native_tools = modules[TURN_DATA].tokenize_swe_prefix(_CapturingTokenizer(), masked[:4])
+        assert history == native_history and turn_1.metadata["tools"] == native_tools == [schema]
+        source = adapter.sources[0]
+        assert source.skipped_excluded_trajectories == 2 and source.skipped_no_assistant == 2
+        assert adapter.skipped_overlength == 1 and adapter.sample_index == 5 and adapter.draws == 6
+        assert adapter.identity["turn_source"] == "loss_masked"
+        assert adapter.identity["visual_exclusion_sha256"] == source.exclusion_sha256
+        assert list(adapter.identity["pinned_module_sha256"]) == [BASE_LOADER, TURN_DATA]
+    finally:
+        adapter.close()
+
+    qwen = NativeSWEDataSource(_args(args, swe_turn_source="loss_masked"), tokenizer=tokenizer, population=population)
+    try:
+        turn_1, turn_2 = [group[0] for group in qwen.get_samples(2)]
+        for sample in (turn_1, turn_2):
+            assert sample.prompt.endswith("<|im_start|>assistant\n<think>\n")
+            assert all(text in sample.prompt for text in ("masked reasoning", "<function=run_tests>", "<tool_response>", "<tools>"))
+        assert "trained reasoning" in turn_2.prompt and "first training turn" in turn_2.prompt
+        renamed = copy.deepcopy(turn_1.metadata["history"])
+        renamed[0]["tools"] = renamed[0].pop("tool_schemas")
+        assert render_qwen_history(tokenizer, renamed, history_tools(renamed), qwen.template_kwargs)[0] == turn_1.prompt
+        prompt_tokens = [s.metadata["source"]["prompt_token_count"] for s in (turn_1, turn_2)]
+    finally:
+        qwen.close()
+    return {"status": "PASS", "fixture_tokenizer": "JSON character count, limit 2048; Qwen for rendering",
+            "calls": [{"requested": count, "accepted": [list(row) for row in expected], "finished": list(finished)}
+                      for count, expected, finished in calls],
+            "masked_assistant_kept_in_prefix_not_a_turn": True, "training_turn_ordinals_contiguous": True,
+            "identity_fields": identity, "history_equal_native_tokenize_swe_prefix": True,
+            "visual_and_no_training_turn_conversations_skipped_per_epoch": 1,
+            "last_training_turn_overlength_reported_finished": True, "rejected_draw_index": 3,
+            "masked_reasoning_rendered_with_preserve_thinking": True,
+            "tool_schemas_renders_equal_to_tools": True, "qwen_prompt_tokens": prompt_tokens}
 
 
 def _configuration_check(args) -> dict:
@@ -477,11 +639,14 @@ def _model_receipt_reference(path: Path | None, input_identity: dict) -> dict | 
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    for name in ("source-root", "source-manifest", "native-loader", "native-recipe", "tokenizer",
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    for name in ("source-root", "source-manifest", "steptron-root", "tokenizer",
                  "chat-template", "temporary-root", "output-root"):
         parser.add_argument(f"--{name}", type=Path, required=True)
-    parser.add_argument("--native-loader-sha256", required=True)
+    parser.add_argument("--module-sha256", type=json.loads, required=True,
+                        help="JSON object: dotted Steptron module name -> SHA256, for every turn source")
+    parser.add_argument("--turn-source", choices=sorted(TURN_SOURCES), required=True)
+    parser.add_argument("--native-recipe", type=Path, help="GLM-5.2 0710 recipe; required for all_assistants")
     parser.add_argument("--rollout-max-context-len", type=int, required=True)
     parser.add_argument("--active-conversations", type=int, required=True)
     parser.add_argument("--block-turns", type=int, required=True)
@@ -490,29 +655,46 @@ def main():
     parser.add_argument("--turn-ordinals", default="1,2,8,32,64,100,last")
     parser.add_argument("--model-source-receipt", type=Path)
     args = parser.parse_args()
+    glm = args.turn_source == "all_assistants"
+    if glm and args.native_recipe is None:
+        parser.error("--native-recipe is required for --turn-source all_assistants")
     logging.basicConfig(level=logging.INFO)
+    # Fixture checks cover every turn source, so all their modules load.
+    pins = {name: sha256 for turn_source in TURN_SOURCES
+            for name, sha256 in turn_source_pins(turn_source, args.module_sha256).items()}
+    modules = load_pinned_modules(args.steptron_root, pins)
     population = load_source_population(args.source_root, args.source_manifest)
-    native = load_native_module(args.native_loader, args.native_loader_sha256)
-    converter = _native_converter(args.native_recipe)
     tokenizer = load_tokenizer(str(args.tokenizer), chat_template_path=str(args.chat_template), local_files_only=True)
-    rows, conversations = _actual_prefix_checks(args, native, population, tokenizer, converter)
+    reference = _native_reference(modules, args.turn_source, args.native_recipe)
+    rows = []
     report = {
         "task_id": "T01-inputs", "status": "PASS", "python": platform.python_version(),
-        "transformers": transformers.__version__, "argv": sys.argv,
-        "native_recipe_sha256": file_sha256(args.native_recipe),
-        "actual_prefix_checks": rows,
-        "boundary_checks": _boundary_checks(args, native, tokenizer, converter, conversations),
-        "length_rejection": _length_rejection_check(args, native),
-        "four_cursors": _four_cursors(args, population, tokenizer),
-        "single_source_parity": _single_source_parity(args, native, population, tokenizer),
-        "interleaved_order": _interleaved_order(args, native, population, tokenizer),
-        "finished_report": _finished_report_check(args, native),
-        "configuration": _configuration_check(args),
-        "limits": ["Only selected actual prefixes were Qwen encoded, not all raw assistant turns",
-                   "Conversation/file/EOF regression fixtures use actual conversation excerpts, not a full epoch scan",
-                   "No Step/Qwen token or prompt byte equality is asserted; Qwen explicitly renders system.tools",
-                   "Tokenizer compatibility with teacher models and benchmark overlap are separately owned"],
+        "transformers": transformers.__version__, "argv": sys.argv, "turn_source": args.turn_source,
+        "pinned_module_sha256": pins,
     }
+    if glm:
+        converter = _native_converter(args.native_recipe)
+        rows, conversations = _actual_prefix_checks(args, modules, population, tokenizer, converter)
+        report.update(native_recipe_sha256=file_sha256(args.native_recipe), actual_prefix_checks=rows,
+                      boundary_checks=_boundary_checks(args, modules, tokenizer, converter, conversations))
+    report.update({
+        "length_rejection": _length_rejection_check(args),
+        "finished_report": _finished_report_check(args),
+        "loss_masked_fixture": _loss_masked_fixture_check(args, modules, tokenizer),
+        "four_cursors": _four_cursors(args, population, tokenizer),
+        "single_source_parity": _single_source_parity(args, modules, population, tokenizer, reference),
+        "interleaved_order": _interleaved_order(args, modules, population, tokenizer),
+        "configuration": _configuration_check(args),
+        "limits": ["No Step/Qwen token or prompt byte equality is asserted",
+                   "Tokenizer compatibility with teacher models and benchmark overlap are separately owned",
+                   *(["Only selected actual prefixes were Qwen encoded, not all raw assistant turns",
+                      "Conversation/file/EOF regression fixtures use actual conversation excerpts, not a full epoch scan",
+                      "Qwen explicitly renders system.tools; the GLM Step caller omits them"] if glm else
+                     ["Real prompts are Qwen encoded only in the configuration check and by the source audit; "
+                      "message normalization and tools are compared with native for every parity draw",
+                      "Loss-mask, exclusion and finished-report rules are checked on a synthetic fixture"]),
+                   ],
+    })
     args.output_root.mkdir(parents=True, exist_ok=True)
     adapter = NativeSWEDataSource(
         _args(args, swe_active_conversations=args.active_conversations, swe_block_turns=args.block_turns),

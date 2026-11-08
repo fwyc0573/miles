@@ -28,19 +28,20 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from tests.manual.agent_opd.swe_inputs import (
+    BASE_LOADER,
+    TURN_DATA,
+    TURN_SOURCES,
     file_sha256,
-    load_native_module,
-    native_chat_messages,
+    history_tools,
+    load_pinned_modules,
     render_qwen_history,
 )
 
 from miles.utils.processing_utils import load_tokenizer
 
-# Dotted names are fixed by the pinned modules' own imports; load order follows them.
-BASE_LOADER = "playground.baseline_new.mopd.online_turn_loader"
 SOURCE_MANIFEST = "playground.users.cj.opd.s4_swe_source_manifest_1001"
-TURN_DATA = "playground.users.cj.opd.s4_swe_turn_data_1001"
 VISUAL_AUDIT = "playground.users.cj.opd.s4_swe_visual_audit_1001"
+TURN_SOURCE = TURN_SOURCES["loss_masked"]
 USER_ROLES = ("user", "human")
 SHORT_VALUE_CHARS = 32
 
@@ -60,13 +61,6 @@ class SourceConversation:
     @property
     def trainable(self) -> bool:
         return not self.visual and self.eligible > 0
-
-
-def load_pinned_modules(steptron_root: Path, pins: dict[str, str]) -> dict:
-    return {
-        name: load_native_module(steptron_root / (name.replace(".", "/") + ".py"), sha256, name=name)
-        for name, sha256 in pins.items()
-    }
 
 
 def distribution(values) -> dict:
@@ -107,8 +101,8 @@ class PromptMeter:
         self.renders = 0
 
     def tokens(self, messages: list, position: int) -> int:
-        history = native_chat_messages(messages[:position])
-        tools = (history[0].get("tools") or history[0].get("tool_schemas")) if history else None
+        history = TURN_SOURCE.normalize_history(messages[:position])
+        tools = history_tools(history)
         self.renders += 1
         return len(render_qwen_history(self.tokenizer, history, tools, self.template_kwargs)[1])
 
@@ -270,6 +264,7 @@ def main() -> None:
     parser.add_argument("--output-root", type=Path, required=True)
     args = parser.parse_args()
 
+    # Load order: turn data imports the base loader, visual audit the source manifest.
     pins = {BASE_LOADER: args.base_loader_sha256, SOURCE_MANIFEST: args.source_manifest_sha256,
             TURN_DATA: args.turn_data_sha256, VISUAL_AUDIT: args.visual_audit_sha256}
     modules = load_pinned_modules(args.steptron_root, pins)

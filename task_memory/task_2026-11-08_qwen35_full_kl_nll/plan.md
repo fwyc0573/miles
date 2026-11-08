@@ -11,6 +11,7 @@
 | 2026-11-08 | Note the reused Ticket02 capacity failure in the frontier. |
 | 2026-11-08 | Apply D22: the frontier waits for that branch's out-of-memory fix. |
 | 2026-11-08 | Reopen 01 for the SWE-1003 0913 data (D23–D27); add the source audit and the checks on the files in place. |
+| 2026-11-08 | 01 SWE-1003 items 1–4 done locally; the frontier is the CPU RJob for items 5–6. |
 
 # Plan
 
@@ -57,4 +58,4 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-The 03 module is done ([test report](test_report_2026-11-08_distillation_profile_module.md)). 01 is reopened for the SWE-1003 0913 data (D23–D27): the adapter code and its local checks come next; the source audit and the checks on the files in place need a CPU RJob that mounts posttrain, and that job has not been submitted yet. The interleaved order itself was verified on the GLM copies ([test report](test_report_2026-11-08_interleaved_turn_order.md)). 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged. Its code is committed, but its 256-turn capacity smoke fails with an out-of-memory error ([progress](progress.md#reused-ticket02-state-read-only-2026-11-08-after-c7dfbf5a)). By D22 this task waits for that fix to be complete before merging, and starts no part of ticket 02 early.
+The 03 module is done ([test report](test_report_2026-11-08_distillation_profile_module.md)). 01 is reopened for the SWE-1003 0913 data (D23–D27): the adapter code and its local checks pass ([test report](test_report_2026-11-08_swe1003_turn_source.md)); the source audit and the checks on the files in place need a CPU RJob that mounts posttrain, and that job has not been submitted yet. The interleaved order itself was verified on the GLM copies ([test report](test_report_2026-11-08_interleaved_turn_order.md)). 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged. Its code is committed, but its 256-turn capacity smoke fails with an out-of-memory error ([progress](progress.md#reused-ticket02-state-read-only-2026-11-08-after-c7dfbf5a)). By D22 this task waits for that fix to be complete before merging, and starts no part of ticket 02 early.

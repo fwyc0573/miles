@@ -1,0 +1,98 @@
+{
+  "status": "COMPLETE",
+  "source_root": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic",
+  "read_in_place": true,
+  "files": [
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "sha256": "26f24877846c1a6ff141dfe27f5cec53304558f20e75ad2a715bc678feb4f26b",
+      "bytes": 32569,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 3,
+      "assistant_turns": 7,
+      "eligible_turns": 6,
+      "visual_source_item_indices": [
+        1
+      ]
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "sha256": "acbc44debcc144a3653e590df1673d77fdd349cd3e78332404f3de9dc1a19281",
+      "bytes": 744,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 0,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "sha256": "1c3becd716c34b30c45e6639aedf5515e342ecfb472e77994a44a6356af6514b",
+      "bytes": 631,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "sha256": "ff5ee5eaa9cabe2300fd0a9996272ff46c7021d60c87ac60ad0f1593a5fd3502",
+      "bytes": 610,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "sha256": "0b6b79daa903aa72754bf19a744755065788dbfb38e53007f0ddd9be6e7e4d72",
+      "bytes": 610,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "sha256": "d4a95658ea22357d4d965b8b96d1c7d15a3419d96c14ac1b5f51a2d6f9adc2b2",
+      "bytes": 610,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "sha256": "1115cbbf642ba5cbb562190b15bde11d7f6e4bb150b82d71587c9fc83b39fe4e",
+      "bytes": 610,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    },
+    {
+      "path": "/data/ycfeng/tmp/agent-opd-image/swe1003-synthetic/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "recipe_path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "sha256": "ef7f46f0a2a1c43fb6cb875979b4e80b7a2abb4788ba49837089257b88cbcae2",
+      "bytes": 610,
+      "mtime_ns": 1794146566776441010,
+      "conversations": 1,
+      "assistant_turns": 2,
+      "eligible_turns": 2,
+      "visual_source_item_indices": []
+    }
+  ],
+  "total_bytes": 36994
+}
