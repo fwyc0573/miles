@@ -21,6 +21,8 @@ Reviewer: `ses_e4373800affezhqaC06Ftzyn1p`, task `profile-standards-20261109`.
 
 Four findings, all P3; no additional smell finding. Verification and fixed-ref rereview are recorded in the dated test report.
 
+**Remediation review, 2026-11-09:** the same Standards reviewer inspected the fixed-ref diff, commit list, complete repair diff, submitter/config, retained scripts and current documents. All four original findings are closed. One additional P3 remained: the documentation checker was still temporary-only. The primary retained it byte-for-byte as `tests/manual/agent_opd/check_profile_docs.py`, verified equality with `cmp`, updated the report command, and ran the retained copy: 73 links, 22 anchors, zero errors. That last fix was verified by the primary, not sent for another review. No Standards finding remains open; real-source and GPU acceptance remain outside this verdict.
+
 ## Spec
 
 Reviewer: `ses_e43738006ffeim4QCGXqygBMha`, task `profile-spec-20261109`.
@@ -34,6 +36,8 @@ Reviewer: `ses_e43738006ffeim4QCGXqygBMha`, task `profile-spec-20261109`.
 | N=8 is claimed to equal every conversation's first entry. | P3 | State the exact aligned/full-block condition; preserve the earliest-N-observation equation. |
 
 Five findings: four P2 and one P3. The upstream missing implementation is explicitly blocked work, not a newly discovered defect.
+
+**Remediation review, 2026-11-09:** the same Spec reviewer inspected the immutable initial diff, 21-entry commit list, repair hunks, corresponding code and receipts. All five findings are closed, with **zero remaining actionable Spec findings**. The CPU-ready / GPU-accepted split removes the dependency cycle while preserving D1/D22. This verdict covers the reviewed changes; it does not certify real-source scan completion, native task identities, prompt-length assumptions or GPU integration. The reviewer did not rerun tests or perform platform operations.
 
 ## Upstream prerequisite
 

@@ -40,11 +40,13 @@ Final checks:
 ```bash
 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q \
   tests/fast/test_distillation_profile.py tests/fast/test_swe_input_pins.py
-python3 /data/ycfeng/tmp/agent-opd-image/check_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+python3 tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
 git diff --check
 ```
 
 The partial-write fault leaves one complete summary/observation pair and an orphan second observations row; the caller continues, later updates append nothing, and `rebuild()` rejects a complete-profile claim. Native token-count comparison and healthy trainer integration still await Ticket02; this CPU result does not certify them.
+
+The documentation checker is retained unchanged from `/data/ycfeng/tmp/agent-opd-image/check_docs.py` at `tests/manual/agent_opd/check_profile_docs.py` following the final Standards review. `cmp` confirmed byte equality; the retained command above passed with 20 documents, 73 links, 22 anchors and zero errors after the final report link was added. The original temporary file remains available. This last documentation-only check does not change the 15-test code result.
 
 Profile verification commands:
 
