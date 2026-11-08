@@ -99,6 +99,13 @@ def _compute_dynamic_global_batch_size(
     dp_size = train_parallel_config.dp_size
     original_gbs = args.global_batch_size
 
+    # The rollout-side dynamic schedule balances microbatches rather than
+    # trimming samples to a DP multiple. Preserve an accepted partial bank.
+    if args.allow_partial_train_step and args.use_dynamic_batch_size and train_parallel_config.supports_precomputed_schedule:
+        if num_samples < dp_size:
+            raise ValueError(f"{num_samples} samples cannot populate {dp_size} DP ranks")
+        return num_samples
+
     # Round down to a multiple of dp_size to ensure only one training step
     dynamic_gbs = (num_samples // dp_size) * dp_size
 

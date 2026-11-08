@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Clear the completed input prerequisite; keep native GPU acceptance in progress. |
 | 2026-11-08 | Draft the generation-to-update replay and metrics slice. |
 
 # 02: 打通 full/r256 训练与逐步 KL/TIS
@@ -10,7 +11,7 @@
 
 **Blocked by:** 01 — 默认SWE输入与身份契约。
 
-**Status:** in-progress — independent development authorized; integration and acceptance blocked by 01
+**Status:** in-progress — 01 accepted; CPU implementation and remediation verified, native GPU integration pending
 
 - [ ] 使用已有Qwen训练路径和共享的显式实验配置；两种教师及两种模式无需复制整套实现。
 - [ ] 完整200行排程符合spec；验证bank边界、成功/跳过计数及失败不提交使用次数。

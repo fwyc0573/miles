@@ -22,6 +22,10 @@ class CustomMegatronPluginsConfig(BaseConfig):
         CustomFunctionConfig | None,
         Arg(),
     ] = None
+    custom_megatron_optimizer_step_hook_path: A[
+        CustomFunctionConfig | None,
+        Arg(help="Collective callback before/after optimizer.step; receives exact loss token sums and update success."),
+    ] = None
 
 
 class Dsv4MegatronPluginsConfig(BaseConfig):

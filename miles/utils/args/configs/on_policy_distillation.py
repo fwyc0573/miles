@@ -37,9 +37,6 @@ class OnPolicyDistillationConfig(BaseConfig):
         ),
     ] = None
     opd_teacher_ckpt_step: A[int | None, Arg(help="The checkpoint step for OPD teacher model.")] = None
-
-
-class OnPolicyDistillationRolloutOnlyConfig(BaseConfig):
     opd_log_prob_top_k: A[
         int,
         Arg(
@@ -49,6 +46,9 @@ class OnPolicyDistillationRolloutOnlyConfig(BaseConfig):
             )
         ),
     ] = 0
+
+
+class OnPolicyDistillationRolloutOnlyConfig(BaseConfig):
     opd_top_k_strategy: A[
         str,
         Arg(

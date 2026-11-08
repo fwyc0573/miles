@@ -1,0 +1,525 @@
+{
+  "actual_http_request_observed": false,
+  "benchmark_library_sha256": "f57b0957c562726bbc0a8f452d1b573d354d78fd0916459d249150fa257bf124",
+  "benchmark_manifest": "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/task_memory/task_2026-10-01_step3p6_single_teacher_bounded_replay_h200/artifacts/readiness/domain_manifests_1009/swe/domain_manifest.json",
+  "configuration_payloads": [
+    {
+      "agent": {
+        "agent_loop_timeout": 18000,
+        "prompt_file": "default_multilingual.yaml",
+        "type": "sweagent.DefaultAgent"
+      },
+      "check": {
+        "concurrency": 1,
+        "cpu": "2000m",
+        "extra_labels": {
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "memory": "8Gi",
+        "timeout": 1200
+      },
+      "check_concurrency": 1,
+      "concurrency": 1,
+      "dataset": {
+        "name_or_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json",
+        "namespace": "hub.i.basemind.com/swe-bench2512-tags",
+        "range_str": "442",
+        "type": "swe-bench"
+      },
+      "env": {
+        "augment_tools": false,
+        "auto_interrupt_on_timeout": false,
+        "cwd": "/testbed",
+        "extra_labels": {
+          "alibabacloud.com/compute-class": "performance",
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "limit_cpu": "2000m",
+        "limit_memory": "8Gi",
+        "requests_cpu": "2000m",
+        "requests_memory": "8Gi",
+        "session_router_url": "http://session-router-acs.i-stepfun.com",
+        "session_router_user_token": "${SESSION_ROUTER_USER_TOKEN}",
+        "timeout": 1200,
+        "type": "sweagent.BashShellSessionEnv"
+      },
+      "model": {
+        "close_session_on_teardown": false,
+        "content_strip": [
+          1,
+          1
+        ],
+        "drop_thinking": "never",
+        "inference_args": {
+          "custom_upstream_url": "http://evaluation-worker:31000/v1/chat/completions",
+          "seed": 1729
+        },
+        "max_context_tokens": 131072,
+        "max_tokens": null,
+        "model_name": "qwen35-4b",
+        "proxy_env": "",
+        "reasoning_strip": [
+          1,
+          1
+        ],
+        "source": "stepcast",
+        "stream": false,
+        "temperature": 1.0,
+        "top_k": null,
+        "top_p": 0.95,
+        "type": "step_align.StepAlignModel"
+      },
+      "repeat": 1,
+      "save_stepeval_checkpoint": false,
+      "use_exit_code": false
+    },
+    {
+      "agent": {
+        "agent_loop_timeout": 18000,
+        "prompt_file": "default_multilingual.yaml",
+        "type": "sweagent.DefaultAgent"
+      },
+      "check": {
+        "concurrency": 1,
+        "cpu": "2000m",
+        "extra_labels": {
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "memory": "8Gi",
+        "timeout": 1200
+      },
+      "check_concurrency": 1,
+      "concurrency": 1,
+      "dataset": {
+        "name_or_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json",
+        "namespace": "hub.i.basemind.com/swe-bench2512-tags",
+        "range_str": "442",
+        "type": "swe-bench"
+      },
+      "env": {
+        "augment_tools": false,
+        "auto_interrupt_on_timeout": false,
+        "cwd": "/testbed",
+        "extra_labels": {
+          "alibabacloud.com/compute-class": "performance",
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "limit_cpu": "2000m",
+        "limit_memory": "8Gi",
+        "requests_cpu": "2000m",
+        "requests_memory": "8Gi",
+        "session_router_url": "http://session-router-acs.i-stepfun.com",
+        "session_router_user_token": "${SESSION_ROUTER_USER_TOKEN}",
+        "timeout": 1200,
+        "type": "sweagent.BashShellSessionEnv"
+      },
+      "model": {
+        "close_session_on_teardown": false,
+        "content_strip": [
+          1,
+          1
+        ],
+        "drop_thinking": "never",
+        "inference_args": {
+          "custom_upstream_url": "http://evaluation-worker:31000/v1/chat/completions",
+          "seed": 1730
+        },
+        "max_context_tokens": 131072,
+        "max_tokens": null,
+        "model_name": "qwen35-4b",
+        "proxy_env": "",
+        "reasoning_strip": [
+          1,
+          1
+        ],
+        "source": "stepcast",
+        "stream": false,
+        "temperature": 1.0,
+        "top_k": null,
+        "top_p": 0.95,
+        "type": "step_align.StepAlignModel"
+      },
+      "repeat": 1,
+      "save_stepeval_checkpoint": false,
+      "use_exit_code": false
+    },
+    {
+      "agent": {
+        "agent_loop_timeout": 18000,
+        "prompt_file": "default_multilingual.yaml",
+        "type": "sweagent.DefaultAgent"
+      },
+      "check": {
+        "concurrency": 1,
+        "cpu": "2000m",
+        "extra_labels": {
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "memory": "8Gi",
+        "timeout": 1200
+      },
+      "check_concurrency": 1,
+      "concurrency": 1,
+      "dataset": {
+        "name_or_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json",
+        "namespace": "hub.i.basemind.com/swe-bench2512-tags",
+        "range_str": "442",
+        "type": "swe-bench"
+      },
+      "env": {
+        "augment_tools": false,
+        "auto_interrupt_on_timeout": false,
+        "cwd": "/testbed",
+        "extra_labels": {
+          "alibabacloud.com/compute-class": "performance",
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "limit_cpu": "2000m",
+        "limit_memory": "8Gi",
+        "requests_cpu": "2000m",
+        "requests_memory": "8Gi",
+        "session_router_url": "http://session-router-acs.i-stepfun.com",
+        "session_router_user_token": "${SESSION_ROUTER_USER_TOKEN}",
+        "timeout": 1200,
+        "type": "sweagent.BashShellSessionEnv"
+      },
+      "model": {
+        "close_session_on_teardown": false,
+        "content_strip": [
+          1,
+          1
+        ],
+        "drop_thinking": "never",
+        "inference_args": {
+          "custom_upstream_url": "http://evaluation-worker:31000/v1/chat/completions",
+          "seed": 1731
+        },
+        "max_context_tokens": 131072,
+        "max_tokens": null,
+        "model_name": "qwen35-4b",
+        "proxy_env": "",
+        "reasoning_strip": [
+          1,
+          1
+        ],
+        "source": "stepcast",
+        "stream": false,
+        "temperature": 1.0,
+        "top_k": null,
+        "top_p": 0.95,
+        "type": "step_align.StepAlignModel"
+      },
+      "repeat": 1,
+      "save_stepeval_checkpoint": false,
+      "use_exit_code": false
+    },
+    {
+      "agent": {
+        "agent_loop_timeout": 18000,
+        "prompt_file": "default_multilingual.yaml",
+        "type": "sweagent.DefaultAgent"
+      },
+      "check": {
+        "concurrency": 1,
+        "cpu": "2000m",
+        "extra_labels": {
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "memory": "8Gi",
+        "timeout": 1200
+      },
+      "check_concurrency": 1,
+      "concurrency": 1,
+      "dataset": {
+        "name_or_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json",
+        "namespace": "hub.i.basemind.com/swe-bench2512-tags",
+        "range_str": "442",
+        "type": "swe-bench"
+      },
+      "env": {
+        "augment_tools": false,
+        "auto_interrupt_on_timeout": false,
+        "cwd": "/testbed",
+        "extra_labels": {
+          "alibabacloud.com/compute-class": "performance",
+          "session-router/execd": "true",
+          "session-router/trace": "exec"
+        },
+        "limit_cpu": "2000m",
+        "limit_memory": "8Gi",
+        "requests_cpu": "2000m",
+        "requests_memory": "8Gi",
+        "session_router_url": "http://session-router-acs.i-stepfun.com",
+        "session_router_user_token": "${SESSION_ROUTER_USER_TOKEN}",
+        "timeout": 1200,
+        "type": "sweagent.BashShellSessionEnv"
+      },
+      "model": {
+        "close_session_on_teardown": false,
+        "content_strip": [
+          1,
+          1
+        ],
+        "drop_thinking": "never",
+        "inference_args": {
+          "custom_upstream_url": "http://evaluation-worker:31000/v1/chat/completions",
+          "seed": 1732
+        },
+        "max_context_tokens": 131072,
+        "max_tokens": null,
+        "model_name": "qwen35-4b",
+        "proxy_env": "",
+        "reasoning_strip": [
+          1,
+          1
+        ],
+        "source": "stepcast",
+        "stream": false,
+        "temperature": 1.0,
+        "top_k": null,
+        "top_p": 0.95,
+        "type": "step_align.StepAlignModel"
+      },
+      "repeat": 1,
+      "save_stepeval_checkpoint": false,
+      "use_exit_code": false
+    }
+  ],
+  "excluded_unsafe_link_count": 51,
+  "excluded_unsafe_links": [
+    "src/swe_agents/impl/claude_code/bin/anti_hack-glibc.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/anti_hack-musl.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-alpine-v5p6-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-tbcc-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-v4-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-v5-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-v5p4-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-legacy-v5p6-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-xid-alpine-v2-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-xid-legacy-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-xid-legacy-tbcc-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi-xid-v2-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-glibc-v5p11.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-glibc-v5p16.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-glibc-v5p9.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-glibc.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-musl-v5p11.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-musl-v5p16.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-musl-v5p9.tar.gz",
+    "src/swe_agents/impl/claude_code/bin/fastapi_server-musl.tar.gz",
+    "src/swe_agents/impl/claude_code/claude_code/bin/cc_log_extract-amd64-v2.bin",
+    "src/swe_agents/impl/claude_code/claude_code/bin/cc_log_extract-amd64-v3.bin",
+    "src/swe_agents/impl/claude_code/claude_code/bin/cc_log_extract-legacy-3.10-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/claude_code/bin/cc_log_extract-legacy-alpine-v2-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/claude_code/bin/cc_log_extract-legacy-v2-bin.tar.gz",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.0.37-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.139-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.140-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.140-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.156-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.156-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.177-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.177-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.195-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.195-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.211-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.211-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.215-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.215-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.220-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.220-musl-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.76-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.88-dev0508-linux-x64.sh",
+    "src/swe_agents/impl/claude_code/claude_code/bin/claude-2.1.88-dev0508-musl-x64.sh",
+    "src/swe_agents/impl/kilocode/env_tools/kilo_code/bin/kilocode-cli-final.tar.gz",
+    "src/swe_agents/impl/kilocode/env_tools/kilo_code/bin/node-v22.13.1-linux-x64.tar.xz",
+    "src/swe_agents/impl/openclaw/env_tools/openclaw/bin/fastapi-proxy-v14-3.10-bin-v2.tar.gz",
+    "src/swe_agents/impl/openclaw/env_tools/openclaw/bin/node-v22.13.1-linux-x64.tar.xz",
+    "src/swe_agents/impl/openclaw/env_tools/openclaw/bin/openclaw-2026.2.6-3.tgz",
+    "src/swe_agents/impl/openclaw/env_tools/openclaw/bin/openclaw-runtime-2026.2.6-3-node-v22.13.1-linux-x64.tar.gz"
+  ],
+  "git_object_checks": {
+    "src/swe_agents/cli/run.py": {
+      "bytes": 12686,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "01a45579804620bfe12105af0f1b257d4abdf220"
+    },
+    "src/swe_agents/impl/sweagent/agents/default.py": {
+      "bytes": 81017,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "24b80ebfc7a07df8b1ba2d6171e16f50c022d3ee"
+    },
+    "src/swe_agents/models/step_align.py": {
+      "bytes": 16842,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "a09d8fa1a9598786d7f0f030ecaa0e8a74a3f89d"
+    },
+    "src/swe_agents/swe_evaluation/evaluations.py": {
+      "bytes": 14524,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "d3edcd1e60cb63dfcd796eca981d8e20578cfdfa"
+    },
+    "src/swe_agents/swe_evaluation/harness/test_spec/test_spec.py": {
+      "bytes": 61344,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "b805089a1a985766518f053e94751519c3b3482d"
+    },
+    "src/swe_agents/utils/agent_runtime.py": {
+      "bytes": 1816,
+      "bytes_equal_git_object": true,
+      "git_blob_sha1": "7c44ac170a2eb5d576c8493bee90d9c9898ccdad"
+    }
+  },
+  "max_tokens_call_chain": {
+    "StepAlignModel_query": "omits None gen_kwargs before complete_fn",
+    "Stepchat_build_request": "copies surviving kwargs into actual body without inserting max_tokens",
+    "final_request_max_tokens": "absent unless inherited caller supplies it; real HTTP capture remains pending",
+    "model_config_max_tokens": null,
+    "native_agent_query": "DefaultAgent invokes model.query(dialog) without max_tokens override",
+    "resolved_server_generation_cap": "UNVERIFIED until native GPU request/server evidence"
+  },
+  "native_agent_grader_executed": false,
+  "ordered_task_ids_match_T01": true,
+  "ordered_task_ids_sha256_from_T01": "36394396b15746b75fbdfc1fbe8d74230161259a3dabf9d1ad824a1291140068",
+  "ordered_task_ids_sha256_recomputed": "36394396b15746b75fbdfc1fbe8d74230161259a3dabf9d1ad824a1291140068",
+  "python": "3.12.13 (main, May 10 2026, 19:30:01) [Clang 22.1.3 ]",
+  "qwen_template": {
+    "enable_thinking_required_by_task": true,
+    "native_required_defaults": {
+      "preserve_thinking": true
+    },
+    "path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+    "sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9"
+  },
+  "snapshot_limits": "51 unsafe absolute symlinks for unrelated Claude/Kilo/OpenClaw binaries were excluded; pinned native SWE files exactly match Git objects. Earlier failed extraction remains unused; no existing worktree altered.",
+  "snapshot_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native",
+  "source_sha256": {
+    "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9",
+    "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/tito_tokenizer.py": "88c4c4c3ddcddfb5bbd102cf85a9d539a7296c3f9c10b561423775e696eba611",
+    "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/playground/agenticeval/sweagents_configs.py": "5d910bc3625834963b95f473f415a1d2201e2fec8cc121e29cfe3f6c5b47405f",
+    "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/playground/agenticeval/sweagents_swe.py": "1cc428f664bf9add1ddaf093b204367588475159b620c0341954bd8aa72d4e4f",
+    "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/playground/users/ycfeng/MOPD/bounded_replay_evaluation.py": "cd81187ae53ae7c37e07e10ab00a3be436af2eb8448d372e5d0b6304a6586632",
+    "/data/ycfeng/steptron/.worktrees/step3p6-replay-v1/tests/e2e/mopd_step3p6_bounded_replay/swe_formal.py": "2ea3fc4fc891fe048bc066d43f52cf4f702c5a35ea33425bbaf80d48e59eea5b",
+    "/data/ycfeng/steptron/third_party/step_align/step_align/model/stepchat.py": "b12388e0a1b6b14631251d85b8f49eb68bb38c8974a7e5c12b8c1b2142dca454",
+    "/data/ycfeng/steptron/third_party/step_align/step_align/retry.py": "1ec42125e65799ae215d1608c3600b10a887574933f31b9c54ce6ba5a7b5f3ca",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/cli/run.py": "868adcb39223a059fa9de58e008f5c6458691a591b7bc87f4e2c4c122d109536",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/impl/sweagent/agents/default.py": "873ca0e23ceb0d36460a32ea972f075b70ed7504f8870a8c15a0e53afe00cf65",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/models/step_align.py": "1516b830b80a709e34054c007bd47e4930497ea875865606b864ea3092df56d0",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/swe_evaluation/evaluations.py": "0106cf6b073edb85d68f192494fe390bb26ae929ff85353441c40deba8f407b4",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/swe_evaluation/harness/test_spec/test_spec.py": "2f36447e28f4205446fdae09314790d9aca664bcdf754b8c4dddd60587bb47c0",
+    "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-agents-1af09e5f-native/src/swe_agents/utils/agent_runtime.py": "7b3607cf4ce4987c5ace46699bd428f502560a49d6119e29d472145dcf46de2d"
+  },
+  "status": "SOURCE_BYTES_AND_NATIVE_CALL_CONFIGURATION_VERIFIED",
+  "swe_commit": "1af09e5f90f55f6fbce5f71efe7da0030a2e126e",
+  "task_id": "T03-eval",
+  "task_ids": [
+    "astropy__astropy-12907",
+    "astropy__astropy-13033",
+    "astropy__astropy-13236",
+    "astropy__astropy-13398",
+    "astropy__astropy-13453",
+    "astropy__astropy-13579",
+    "astropy__astropy-13977",
+    "astropy__astropy-14096",
+    "astropy__astropy-14182",
+    "astropy__astropy-14309",
+    "astropy__astropy-14365",
+    "astropy__astropy-14369",
+    "astropy__astropy-14508",
+    "astropy__astropy-14539",
+    "astropy__astropy-14598",
+    "astropy__astropy-14995",
+    "astropy__astropy-7166",
+    "astropy__astropy-7336",
+    "astropy__astropy-7606",
+    "astropy__astropy-7671",
+    "astropy__astropy-8707",
+    "astropy__astropy-8872",
+    "django__django-10097",
+    "django__django-10554",
+    "django__django-10880",
+    "django__django-10914",
+    "django__django-10973",
+    "django__django-10999",
+    "django__django-11066",
+    "django__django-11087",
+    "django__django-11095",
+    "django__django-11099",
+    "django__django-11119",
+    "django__django-11133",
+    "django__django-11138",
+    "django__django-11141",
+    "django__django-11149",
+    "django__django-11163",
+    "django__django-11179",
+    "django__django-11206",
+    "django__django-11211",
+    "django__django-11239",
+    "django__django-11265",
+    "django__django-11276",
+    "django__django-11292",
+    "django__django-11299",
+    "django__django-11333",
+    "django__django-11400",
+    "django__django-11433",
+    "django__django-11451",
+    "django__django-11477",
+    "django__django-11490",
+    "django__django-11532",
+    "django__django-11551",
+    "django__django-11555",
+    "django__django-11603",
+    "django__django-11728",
+    "django__django-11734",
+    "django__django-11740",
+    "django__django-11749",
+    "django__django-11790",
+    "django__django-11815",
+    "django__django-11820",
+    "django__django-11848",
+    "django__django-11880",
+    "django__django-11885",
+    "django__django-11951",
+    "django__django-11964",
+    "django__django-11999",
+    "django__django-12039",
+    "django__django-12050",
+    "django__django-12125",
+    "django__django-12143",
+    "django__django-12155",
+    "django__django-12193",
+    "django__django-12209",
+    "django__django-12262",
+    "django__django-12273",
+    "django__django-12276",
+    "django__django-12304",
+    "django__django-12308",
+    "django__django-12325",
+    "django__django-12406",
+    "django__django-12419",
+    "django__django-12663",
+    "django__django-12708",
+    "django__django-12713",
+    "django__django-12741",
+    "django__django-12754",
+    "django__django-12774",
+    "django__django-12858",
+    "django__django-12965",
+    "django__django-13012",
+    "django__django-13023",
+    "django__django-13028",
+    "django__django-13033",
+    "django__django-13089",
+    "django__django-13109",
+    "django__django-13112",
+    "django__django-13121"
+  ]
+}

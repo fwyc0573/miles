@@ -279,6 +279,10 @@ class RolloutExecutor(DedicatedRpcLoopWorker):
         # Off the loop: the fully-async producer keeps generating on it.
         await asyncio.to_thread(self._try_delete_store_refs, list(refs.values()))
 
+    async def notify_train_result(self, rollout_id: int, result: dict) -> None:
+        """Acknowledge the optimizer result to a stateful native rollout protocol."""
+        await maybe_await(self.generate_rollout.on_train_result(rollout_id, result))
+
     def _try_delete_store_refs(self, refs: list) -> None:
         try:
             self._delete_store_refs(refs)

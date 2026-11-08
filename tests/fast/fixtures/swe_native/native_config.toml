@@ -1,0 +1,62 @@
+repeat = 1
+concurrency = 1
+check_concurrency = 1
+save_stepeval_checkpoint = false
+use_exit_code = false
+
+[agent]
+agent_loop_timeout = 18000
+prompt_file = "default_multilingual.yaml"
+type = "sweagent.DefaultAgent"
+
+[check]
+cpu = "2000m"
+memory = "8Gi"
+timeout = 1200
+concurrency = 1
+
+[dataset]
+name_or_path = "/data/ycfeng/tmp/qwen35-swe-full-r256/swe_bench2512_all_sorted.json"
+namespace = "hub.i.basemind.com/swe-bench2512-tags"
+type = "swe-bench"
+range_str = "0"
+
+[env]
+augment_tools = false
+auto_interrupt_on_timeout = false
+cwd = "/testbed"
+limit_cpu = "2000m"
+limit_memory = "8Gi"
+requests_cpu = "2000m"
+requests_memory = "8Gi"
+session_router_url = "http://session-router-acs.i-stepfun.com"
+session_router_user_token = "${SESSION_ROUTER_USER_TOKEN}"
+timeout = 1200
+type = "sweagent.BashShellSessionEnv"
+
+[model]
+close_session_on_teardown = false
+content_strip = [ 1, 1,]
+drop_thinking = "never"
+max_context_tokens = 131072
+model_name = "qwen35-4b"
+proxy_env = ""
+reasoning_strip = [ 1, 1,]
+source = "stepcast"
+stream = false
+temperature = 1.0
+top_p = 0.95
+type = "step_align.StepAlignModel"
+
+[check.extra_labels]
+"session-router/execd" = "true"
+"session-router/trace" = "exec"
+
+[env.extra_labels]
+"session-router/execd" = "true"
+"session-router/trace" = "exec"
+"alibabacloud.com/compute-class" = "performance"
+
+[model.inference_args]
+custom_upstream_url = "http://evaluation-worker:31000/v1/chat/completions"
+seed = 1729

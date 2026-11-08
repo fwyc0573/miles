@@ -274,6 +274,7 @@ def _launch_receipt(args, run: Path, training_args: str) -> dict:
         "source_commit": subprocess.check_output([*git, "rev-parse", "HEAD"], text=True).strip(),
         "source_changes": subprocess.check_output([*git, "status", "--short"], text=True).splitlines(),
         "python": sys.version.split()[0], "planned_rollout_positions": args.num_rollout,
+        "final_hf": str(run / "hf" / f"step_{args.num_rollout - 1}") if args.num_rollout else None,
         "update_accounting": "Use native optimizer outcomes and consumed/published versions in events; never infer success from rollout count",
         "native_resolved_config_and_events": str(run / "events"),
         "dynamic_microbatches": "Native length-based scheduling uses the supplied max_tokens_per_gpu; micro_batch_size is ignored",
@@ -299,7 +300,15 @@ def _record_receipt(path: Path, value: dict) -> None:
         print("QWEN35_RECEIPT_UNVERIFIED", str(path), type(error).__name__, str(error), flush=True)
 
 
-def _run(args) -> None:
+def _prepare_training(args, run: Path) -> tuple[str, dict]:
+    population = _check_population(args)
+    train_args = _training_args(args, run)
+    receipt = _launch_receipt(args, run, train_args)
+    receipt["population"] = population
+    return train_args, receipt
+
+
+def _run(args, *, prepare_training=_prepare_training) -> None:
     if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
         raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
@@ -314,14 +323,12 @@ def _run(args) -> None:
     observer.start()
     outcome = {"status": "failed", "pair": args.pair, "run_dir": str(cloud)}
     try:
-        population = _check_population(args)
+        train_args, receipt = prepare_training(args, cloud)
         _check_tokenizers(args.student, args.teacher)
         gpu_rows = _gpu_devices(args.gpu_type, args.gpus_per_node)
-        train_args = _training_args(args, cloud)
         config = U.ExecuteTrainConfig(num_nodes=1, output_dir=str(cloud), run_id=job)
         env = _runtime_env(config)
-        receipt = _launch_receipt(args, cloud, train_args)
-        receipt.update(population=population, gpu_devices=gpu_rows, runtime_env=env)
+        receipt.update(gpu_devices=gpu_rows, runtime_env=env)
         _record_receipt(records / "launch.json", receipt)
         ray_args = SimpleNamespace(nodes=1, gpus_per_node=args.gpus_per_node, startup_timeout=args.startup_timeout)
         head = _start_ray(0, records, local, ray_args)
@@ -336,7 +343,7 @@ def _run(args) -> None:
         )
         outcome.update(
             status="native_execution_succeeded", actual_updates="See native events; not inferred from schedule",
-            final_hf=str(cloud / "hf" / f"step_{args.num_rollout - 1}") if args.num_rollout else None,
+            final_hf=receipt["final_hf"],
             qualification="Unverified until native alignment, updates, export and reload evidence is inspected",
         )
         print("QWEN35_NATIVE_EXECUTION_FINISHED", json.dumps(outcome), flush=True)

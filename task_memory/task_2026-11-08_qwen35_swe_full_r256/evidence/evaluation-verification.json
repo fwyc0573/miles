@@ -1,0 +1,72 @@
+{
+  "commands": {
+    "compile": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m compileall -q tests/manual/agent_opd/swe_evaluation.py tests/manual/agent_opd/swe_native_evaluation.py tests/manual/agent_opd/swe_evaluation_fn.py tests/fast/test_swe_evaluation.py",
+    "producer_exit_queue_cli": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m tests.manual.agent_opd.swe_evaluation --configuration /data/ycfeng/tmp/opencode-v2-tmp/opencode/t03-eval-pytest-final/test_existing_checkpoint_evalu0/owned/configuration.json --action queue",
+    "pytest": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest tests/fast/test_swe_evaluation.py -q --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/t03-eval-pytest-final"
+  },
+  "final_run": {
+    "passed": 28,
+    "seconds": 115.91,
+    "warnings": 2
+  },
+  "first_run": {
+    "passed": 21,
+    "seconds": 100.46,
+    "warnings": 2
+  },
+  "hung_head_recovery": {
+    "final_completed": 400,
+    "original_deadline": 1794381461.6423502,
+    "preserved_first_execution_results": 3,
+    "recovered_missing_results": 397
+  },
+  "native_capability": {
+    "agent_grader_executed": false,
+    "cloud_writes": 0,
+    "gpu_operations": 0,
+    "pending": [
+      "T01 model/loader acceptance",
+      "SWE dependency/auth environment",
+      "actual Qwen HF serving/reload/tool round trip",
+      "ACS/native grader run",
+      "actual emitted HTTP max_tokens and resolved engine generation cap",
+      "native optimizer-update/export/enqueue integration",
+      "cloud filesystem atomic-write/locking/restart validation",
+      "platform/server reader terminal evidence"
+    ],
+    "status": "UNVERIFIED"
+  },
+  "observed_utc": "2026-11-08T07:22:38.753070+00:00",
+  "producer_exit_cli": {
+    "avg_at_n": null,
+    "completed": 0,
+    "denominator": 400,
+    "queue": [
+      "A-full.attempt-1.HF200"
+    ],
+    "summary_status": "INCOMPLETE"
+  },
+  "python_executable": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+  "python_version": "3.12.13 (main, May 10 2026, 19:30:01) [Clang 22.1.3 ]",
+  "quality": {
+    "compileall": "PASS",
+    "git_diff_check": "PASS",
+    "isort_check_only": "PASS",
+    "ruff": "PASS"
+  },
+  "release": {
+    "deleted_bytes": 258,
+    "deleted_files": 7,
+    "native_update": {
+      "native_counters": {
+        "optimizer_skip": 14,
+        "optimizer_success": 200
+      },
+      "rollout_id": 213,
+      "successful_update": 200,
+      "weight_version": "native-v214"
+    },
+    "status": "RELEASED"
+  },
+  "task_id": "T03-eval"
+}

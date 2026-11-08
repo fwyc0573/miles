@@ -266,7 +266,9 @@ def _run_teacher(config: dict, pair: str, rank: int, directory: Path, local: Pat
                 _log_tail(log_path, directory / f"teacher-tail-{rank}.log")
 
 
-def _run_student(config: dict, pair: str, rank: int, directory: Path, local: Path) -> int:
+def _run_student(
+    config: dict, pair: str, rank: int, directory: Path, local: Path, *, command_builder=None,
+) -> int:
     process = None
     log_path = Path(config["run_root"]) / "student" / pair / f"{directory.parent.name}.log"
     result = {"status": "failed", "job": directory.parent.name, "pair": pair, "returncode": None}
@@ -279,7 +281,7 @@ def _run_student(config: dict, pair: str, rank: int, directory: Path, local: Pat
             "ready", result["job"], pair, config["pairs"][pair]["teacher"]["path"],
         ) or ready["url"] != f"http://{ready['ip']}:{config['teacher_port']}/generate":
             raise ValueError("Teacher readiness identity/endpoint differs from the current job/pair/source")
-        command = _student_command(config, pair, ready, local)
+        command = (command_builder or _student_command)(config, pair, ready, local)
         _record_receipt(directory / "student-launch.json", {**evidence, "argv": command, "teacher_url": ready["url"]})
         # Do not create the job directory: the native CLI owns its exist_ok=False output creation.
         log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -307,6 +309,11 @@ def _terminate(signum, frame) -> None:
     raise SystemExit(128 + signum)
 
 
+def _exit_code(code: int) -> int:
+    # Keep raw subprocess returncodes in records and conventional signal status at the CLI.
+    return 128 - code if code < 0 else code
+
+
 def main() -> int:
     args = _parser().parse_args()
     config = _load_config(args.config, args.pair)
@@ -326,8 +333,7 @@ def main() -> int:
     except subprocess.CalledProcessError as error:
         print("QWEN35_NATIVE_CHILD_FAILED", error.returncode, str(error), flush=True)
         code = error.returncode
-    # Retain raw subprocess returncodes in records; expose conventional signal exit status to the shell.
-    return 128 - code if code < 0 else code
+    return _exit_code(code)
 
 
 if __name__ == "__main__":

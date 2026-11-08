@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Clear the completed input prerequisite; keep native HF/SWE acceptance in progress. |
 | 2026-11-08 | Draft the complete checkpoint-to-evaluation-to-release slice. |
 
 # 03: 打通 HF 异步 SWE 评测与权重释放
@@ -10,7 +11,7 @@
 
 **Blocked by:** 01 — 模型、数据与benchmark身份契约。
 
-**Status:** in-progress — independent development authorized; integration and acceptance blocked by 01
+**Status:** in-progress — 01 accepted; CPU lifecycle and HF bridge verified, native HF/SWE integration pending
 
 - [ ] 复用Qwen HF导出路径，保存正确dtype/config/tokenizer和成功update/weight-version identity；无额外训练或optimizer权重。
 - [ ] 实际重载可生成文本，完成标记晚于全部文件写入；导出部分失败不会被评测消费。

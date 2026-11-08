@@ -235,11 +235,17 @@ def loss_function(
             loss = loss / num_step_tokens * parallel_state.intra_dp.size
 
     per_datum = log.pop("per_datum", None) if batch.get("loss_fn") is not None else None
+    training_mask_counts = log.pop("training_mask_counts", None)
+    token_sums = log.pop("token_sums", None)
+    mask_evidence = log.pop("mask_evidence", None)
     return (
         loss,
         torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),
         {
             **({"per_datum": per_datum} if per_datum is not None else {}),
+            **({"training_mask_counts": training_mask_counts} if training_mask_counts is not None else {}),
+            **({"token_sums": token_sums} if token_sums is not None else {}),
+            **({"mask_evidence": mask_evidence} if mask_evidence is not None else {}),
             "keys": list(log.keys()),
             "values": torch.tensor(
                 [num_samples if not args.backend.calculate_per_token_loss else num_tokens] + list(log.values()),
