@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Accept small-run native loss reconstruction; record failed acquisition gates and pending large-bank verification. |
 | 2026-11-08 | Record the reaccepted D11 prerequisite and actual replacement-data runtime progress; retain capacity gates. |
 | 2026-11-08 | Mark the D11 input prerequisite reopened; retain source-independent math evidence with its historical dataset provenance. |
 | 2026-11-08 | Accept directly observed native derivative/detach, original-token finalization and AdamW continuity; capacity remains open. |
@@ -15,7 +16,7 @@
 
 **Blocked by:** 01 — 默认SWE输入与身份契约。
 
-**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Replacement-data workers have started and A/r256 has emitted successful native updates; its independent tensor audit and the two 256-turn capacity runs remain pending. Historical GLM-5.2 math observations retain their provenance and do not certify replacement-data capacity.
+**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Small-run completion RKL/TIS and native PPO reconstruction pass; both256-turn attempts failedD6 acquisition at206/224 valid before student scoring. Acquisition RCA is active; large-bank gradient/optimizer/lifetime and sourcepatch adoption remain unverified. Historical GLM evidence does not certify replacement-data capacity.
 
 - [x] 使用已有Qwen训练路径和共享的显式实验配置；两种教师及两种模式无需复制整套实现。
 - [ ] 完整200行排程符合spec；验证bank边界、成功/跳过计数及失败不提交使用次数。

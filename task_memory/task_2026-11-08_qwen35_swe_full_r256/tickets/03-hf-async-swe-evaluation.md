@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record verified snapshot fix and the native rerun's separate local directory-ownership blocker. |
 | 2026-11-08 | Record the reaccepted D11 prerequisite and the observed dispatch snapshot failure without accepting async isolation. |
 | 2026-11-08 | Track D11's reopened input prerequisite while retaining verified evaluator/model capabilities. |
 | 2026-11-08 | Verify actual trainedHF3 reload and original/trained native SWE qualification; cloud lifecycle and formal dispatch acceptance remain open. |
@@ -14,7 +15,7 @@
 
 **Blocked by:** 01 — 模型、数据与benchmark身份契约。
 
-**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Original-model and historical-input HF3 reload/native SWE qualification remain verified; cloud lifecycle fixtures passed. The new-data training run continued after its observer failed before watcher construction; the configuration-snapshot failure and actual HF2/HF3 evaluator isolation remain pending.
+**Status:** in-progress — 01's D11 input prerequisite is reaccepted. Existing native evaluator/reload and cloud lifecycle evidence remain verified. Snapshot aliasing is fixed with40 CPU regressions; the explicit native rerun exposed a separate root-owned local IPC directory error. Healthy training completed,without evaluator launch. Directory ordering/ownership repair and actual HF2-failure/HF3 isolation remain pending; no third blind GPU rerun.
 
 - [ ] 复用Qwen HF导出路径，保存正确dtype/config/tokenizer和成功update/weight-version identity；无额外训练或optimizer权重。
 - [x] 实际重载可生成文本，完成标记晚于全部文件写入；导出部分失败不会被评测消费。

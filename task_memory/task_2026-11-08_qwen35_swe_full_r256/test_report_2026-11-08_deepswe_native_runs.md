@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record completed PPO reconstruction, failed acquisition gates, the directory-permission discriminator and two formal baseline results. |
 | 2026-11-08 | Verify actual worker devices, native updates and baseline readers; record the dispatch snapshot failure as an unresolved isolation gate. |
 | 2026-11-08 | Record three local native submissions, exact platform resource readback and pending runtime criteria. |
 
@@ -68,8 +69,29 @@ The async observer failed before watcher construction with `Training integration
 
 After the eight-turn native launcher completed, primary downloaded12 selected native tensors, five training JSONLs and eight observation JSONLs (6,457,928 /22,006,630 /39,310 bytes) to `/data/ycfeng/tmp/qwen35-swe-deepswe-native-audit/exp-1108-221044-294843`. The existing independent auditor owns the mathematical verdict; neither exit0 nor dump presence is substituted for it. Raw snapshot and download commands are retained in the session trace; cloud paths map `/mnt/codesign-exp/ycfeng` to `/mnt/ws-jfs/ycfeng` on `shai-ycfeng`.
 
-The first independent audit verified RKL/TIS but could not reconstruct native PPO without `policy_loss_debug`; this was a missing download, not an observed training failure. Primary then fetched12 existing native policy-loss files (400212 bytes), and copied `training/updates.jsonl` byte-for-byte to the auditor's expected root path. No producer/core/auditor code changed. The same bounded auditor is rerunning; its in-place report owns the final numerical verdict.
+The first independent audit verified RKL/TIS but lacked the downloaded `policy_loss_debug`. Primary fetched the 12 existing files (400212 bytes) and supplied a byte-identical updates file at the auditor's expected path. The unchanged auditor now exits 0: 10724 completion tokens have zero token-loss/KL/advantage errors; scalar-loss maximum absolute error is 1.6458376744798997e-9. This settles small-run loss reconstruction, not final TIS-mask, live-gradient/optimizer-state or large-bank capacity acceptance. Exact commands and limits remain in `test_report_2026-11-08_deepswe_native_training_audit.md`.
 
 CPU snapshot repair is now verified: the SDK first mutates the borrowed list during resource iteration, while the JSON file stays unchanged. A fresh mounts list at the ResourceConfig boundary solves the alias without weakening true-drift rejection. Forty persistent dispatch tests and three real-resource cases pass. The original profile is unchanged, and the existing qualification entrypoint will be explicitly rerun with a new training receipt; the old job's preserved HF2/HF3 are not silently resubmitted.
+
+## Acquisition and second observer failure
+
+Both capacity launchers exited 1 because the native bank minimum was not met at 1800 seconds. A/r256 has 206 valid, 49 generation-pending and one teacher HTTP400; B/full has 224 valid, 30 generation-pending and two teacher HTTP400. All teacher requests ended. Both successful-update counts are zero; student scoring/sourcepatch capacity was not exercised. The 48 A cancellation events do not equal its 49 pending slots. Generation durations in the adapter include queue time; do not present them as decode-only measurements. The exact slot/clock analysis and serving-log hypothesis tests are owned by `test_report_2026-11-08_deepswe_acquisition.md`. No D6 threshold, deadline or context budget changed.
+
+The explicit same-profile async rerun used a new receipt:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.check_swe_native_async \
+  --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_integration_config.json \
+  --pair A --protocol r256 \
+  --receipt /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/admission-deepswe-native-async-fixed-20261108.json
+```
+
+`exp-1108-224927-865957` passed the snapshot boundary, but `_publish_once` failed with PermissionError13 when creating its job directory. Native student succeeded; platform stop reason is exactly `All critical tasks are finished.` The noncritical teacher stop is cleanup, not a training failure. No HF2 evaluator injection or HF3 evaluation occurred. Log: `/data/ycfeng/tmp/qwen35-swe-deepswe-native-async-fixed-20261108.log`.
+
+The filesystem RED runs local `Path.mkdir()` under the configured base. UID/GID10250 cannot write the UID/GID0,0755 base; the enclosing evidence directory is owned10250,0700. Primary used a nonrecursive `sudo -n chown --no-dereference` on ONLY that base directory, targeting the actual local UID/GID. Its mode and all existing child owners/modes are unchanged, and local write access is restored. Raw commands/receipts are `/data/ycfeng/tmp/qwen35-swe-dispatch-permission-red-20261108.json` and `/data/ycfeng/tmp/qwen35-swe-dispatch-directory-owner-repair-20261108.json`. Recurrence prevention and CPU ordering/soft-gate tests remain pending; no third blind GPU submission.
+
+## Formal baseline update
+
+The actual store writes completed outcomes to `results/`, not `attempts/`. A corrected bounded read at 1794151445.9297264 found two native success=true rows for astropy__astropy-12907, seeds1731/1732, persisted at1794150865.5533686/1794151152.0826128. Four native children remain running; two earlier children have exit timestamps. No infrastructure-failure file was present. Thus the formal ledger is 2/400,398 missing,avg@4=null,with the original 72-hour clock unchanged. Reader exit alone was not used to infer success. Raw snapshot: `/data/ycfeng/tmp/qwen35-swe-original4b-completion-update-20261108.json`.
 
 Formal04–07 remain gated on02/03 acceptance; original baseline08 continues independently.

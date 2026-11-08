@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Route parallel02/03 to the measured acquisition and filesystem blockers while08 continues independently. |
 | 2026-11-08 | Reaccept D11 Ticket01 and move the new-data runtime frontier to parallel02/03;08 is already independently running. |
 | 2026-11-08 | Clarify08's existing capability-specific prerequisites after independent readiness review; retain the full01/03 gates for04–07. |
 | 2026-11-08 | Reopen Ticket01 for D11's replacement dataset while continuing independent training/evaluation implementation checks. |
@@ -63,4 +64,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reaccepted for D11: genuine full-source visual receipt,ordinary native/Qwen factory parity,qualified overlap audit and formal four-cell source/budget transport pass. Execute new-data02 capacity and03 training/HF/asynchronous-evaluation qualification in parallel.08's shared original-model baseline is already independently running. Existing GLM-5.2 smokes retain their provenance and engineering value; they do not establish new-data GPU acceptance.04–07 still require02/03 native acceptance; formal four-cell training has not started.
+01 is reaccepted for D11. Small-run native RKL/TIS/PPO reconstruction passes; both256-turn acquisitions failD6 before scoring,so02 first needs measured serving-bottleneck resolution.03's snapshot alias fix passes; its native rerun identifies a separate local directory-ownership blocker,which must be verified before another qualification. These two diagnosis/repair scopes run independently while08 continues its400-slot baseline (currently2 persisted results). No threshold,deadline orscientific decision is changed. Historical GLM does not certify replacement-data GPU capacity;04–07 remain blocked and unstarted.
