@@ -1,0 +1,19 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-08 | Draft the A/full formal cell ticket. |
+
+# 04: A/full 正式 cell（Qwen3.5-4B + Qwen3.5-27B）
+
+**What to build:** 使用 indexed turn order 和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
+
+**Blocked by:** 01、02、03。
+
+**Status:** blocked — waiting for 01, 02 and 03
+
+- [ ] 冻结 attempt identity、源代码、解析后的配置、输入和模型 identity；在 D11 额度内提交。
+- [ ] 第一个 update 检查（结果写入 progress，之后才启动 05）：S3 一致性检查通过；采集、teacher 评分、训练各阶段耗时；profile 两个文件已写入且内容正确；uid 与取数序列一致。
+- [ ] 完成 200 个实际 successful update：训练侧 record 200 行，profile 两个文件各 200 行，observation 数等于实际训练的 turn 数。
+- [ ] 每个 update 的一致性标记都已记录；未验证的 update 列出原因。
+- [ ] 记录 RJob 业务终态和资源使用；失败的 attempt 单独保留，不拼接到正式结果中。

@@ -1,0 +1,86 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-08 | Open the documentation task; record the original request verbatim before the interview. |
+| 2026-11-08 | Record round-1 decisions and the loader-order concern with its verified answer. |
+| 2026-11-08 | Record round-2 decisions D12–D16 and the round-3 questions put with the draft documents. |
+
+# Requirements — Qwen3.5 full-mode KL/NLL training profile
+
+## [Original Request] 2026-11-08
+
+The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`, and requested:
+
+> 这是一个new task，当前为docs landing阶段，创建docs（spec、tickets）：
+> - 基于agent-opd创建new worktree branch，取名为agent-opd-image
+> - 灵活运用已完成task的轮子（task_2026-11-08_qwen35_swe_full_r256；避免冗余的测试验证或者构造）
+> - 测试comb models还是 Qwen3.5-4B + Qwen3.5-27B 和 Qwen3.5-4B + Qwen3.5-35B-A3B，数据集等其他参数（例如总updates数）也不变，只保留full（不引入replay）
+> - 本ticket 不关心 benchmark（不引入评测步骤），只关心 kl 和 nll 2个指标。我的想法是记录2类型指标，并想在已有架构中维护一个模块（用合理高效的数据结构来表示）来动态的更新记录这些数值。在后续版本中，我会希望利用该模块，引入算法策略等控制，因此你需要在系统中补充以下内容（随着系统运行动态更新，在计算、读取、写入上处理高效；如果系统本身workflow已包含某个数值的计算或者中间结果，直接复用这些结果，避免为统计而引入二次计算），该模块应该能清晰表达：
+>     - 宏观（记录每个update粒度的数值）：每个已完成update的kl和nll数值
+>     - 微观（记录每个update中包含的traj和turn的数值）：一个global table，该table是一个二维表：traj, turn，每一行代表一个turn（按照turn id从小到大），每一列代表一个traj（conversation），从左到右分别代表训练时的顺序。对于一个具体的元素，例如 c_1,t1(代表traj id1,turn id1)，其包含数值属性：kl和nll 以及 身份metadata属性：update_id, c_id, t_id, alive, replay_num（分别含义是，在turn此次在哪个update中、traj id、turn id、是否该trajs已经完结即无额外turns待训练, 已经被replay的次数)
+>     - 历史最佳：
+>         - 宏观：历史最佳kl和nll；
+>         - 微观：每个traj的在已有updates下的历史最佳kl和nll（能快速mapping到gobal table中该元素）
+>     - 近期趋势：设定时间窗口k（k为间隔update轮次，表达最近k个trainer update）
+>         - 宏观：时间窗口下的2个update的kl差距
+>         - 微观：微观下并非每个traj都会在每次update下被引入训练；因此计算的是最该traj的latest的turns与其间隔 窗口k（update次数）的turn的kl差距。如果某个traj存在多个turns在同一个update下，则取它们的平均值；如果还未达到 窗口k 的进度，则skip
+>     - 恢复空间：
+>         - 宏观：当前update的kl数值 minus 历史最佳
+>         - 微观：每个traj 的latest update的 turns kl数值 - 历史最佳
+> - 这里需要注意的是：
+>     - 一个traj可能存在多个turns在同一个update下，在计算时应该取这些同update下的turns平均数值
+>     - 默认采用sampled token策略（后续可能会引入 top64，full vocab等策略，这里不要写死）
+>     - 上述一系列指标和模块的核心目标是构建一个低开销方便查询调用的训练画像（分别总体的宏观层面，和traj turn的微观层面），从而方便记录和监视训练变化情况以及为后续引入的算法策略提供runtime的数据支持。
+>     - 如果对上述我描述的某些属性、指标、你不认同，或者认为存在更好的优化
+> - 使用h200，允许提交 56卡内不可抢占rjobs
+
+## Authority and document ownership
+
+- Current phase: **DOCS_LANDING / INTERVIEW**. No implementation or GPU action is authorized by this phase.
+- The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
+- Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
+- The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
+- This file owns the raw request and actual user answers. Recommendations are not user decisions until answered.
+
+## Interview decisions
+
+### Round 1 — [Follow-up Answer] 2026-11-08
+
+User answered: **“上述所有问题采纳你的推荐”**. The recommended answers to Q1–Q11 are therefore decisions D1–D11:
+
+- **D1 code base:** documentation lands now in this worktree. Implementation tickets are blocked until the reused task's Ticket 02 is committed on `agent-opd` and passes its own native smoke; then merge `agent-opd` into `agent-opd-image` and reuse that verification rather than repeating it.
+- **D2 separate runs:** this task runs its own two full cells (A/full: 4B+27B, B/full: 4B+35B-A3B) without waiting for the reused task's evaluation ticket.
+- **D3 vocabulary:** column = Source conversation (replaces "traj"); row/element = Training turn; one measured value record = Turn observation; the module = Distillation profile (not bare "profile").
+- **D4 NLL:** student NLL — mean negative current-student log probability of the sampled response tokens, on the same tokens and at the same measurement point as KL. Teacher NLL is derivable as KL + student NLL under the sampled-token estimator and is not stored separately.
+- **D5 per-turn value:** mean over the turn's original target tokens before TIS, scored by the policy entering the update (before its optimizer step). Per-token KL reuses the native `opd_reverse_kl` written by the configured estimator; the profile records an estimator label and stores per-turn sums (KL sum, NLL sum, token count); means are derived on read; the macro value is the sum of the per-turn sums.
+- **D6 weighting:** macro update values are token-weighted; a conversation's value within one update is the equal-weight mean of its turns' means.
+- **D7 identity and alive:** `c_id` is a dense index in order of first training appearance with a lookup to the source `group_id`; `t_id` is `assistant_turn_ordinal`; `update_id` is the 1-based successful optimizer update; `alive` is stored once per conversation and becomes False when the source has moved past the conversation and all its drawn turns are trained; `replay_num` is per element (always 0 in this task); with future replay an element shows its latest presentation and earlier ones stay in the history; failed or over-length turns do not enter the table.
+- **D8 conversation best:** minimum over the conversation's per-update means, stored as (value, update_id) and mapping to that update's elements; macro best is the minimum over updates with its update_id; lower KL is better.
+- **D9 trend:** macro trend = KL(current) − KL(current − k), skipped while current ≤ k; micro trend compares the conversation's own latest update u_c with its latest appearance at or before u_c − k, skipped when none exists; k is a query argument with configured default 10 for logging.
+- **D10 HF:** no HF checkpoints are saved.
+- **D11 GPU:** carry forward the reused task's D9 — all of the user's submitted, nonterminal, non-preemptible H200 jobs together stay at or below 56 GPUs, including the reused task's jobs.
+
+### Round 1 concern — [Follow-up Answer] 2026-11-08
+
+User wrote: **“我的核心concern是你一开始描述的第二点‘full 模式下，每个 conversation 的历史很短。’。这一点和我的理解不一致。在rollout侧使用的dataloader应该采用和steptron默认的逻辑（参考worktree：/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6），我认为其逻辑是会较为均匀地在不同 conversation 下取turns（按顺序），因此我并不认为同一个conversation会集中在几个updates内。请你再次确认。”**
+
+Verified answer (progress.md Finding 10): the Steptron streaming default keeps one conversation's turns consecutive and mixes only across sources; in the SWE-only setting all 11 files are one source, so there is no interleaving. The even spread across conversations comes from the native indexed order (`randperm`), which the user adopted as Q41 in behavior-turn-replay with seed 1234. The rollout order for this task is put to the user as Q12 in round 2.
+
+### Round 2 — [Follow-up Answer] 2026-11-08
+
+User answered: **“q13：2；其他采纳你的推荐，继续”**.
+
+- **D12 rollout turn order (Q12 → B):** use the native indexed order. The population is every assistant position of the 11 pinned SWE files in stable order (file → conversation → assistant position); the order is `torch.randperm` with seed 1234; over-length prompts are skipped under the reused length rule; no replacement and no wrap. Each experiment cell has its own cursor from the start of the same sequence. Consequences accepted with the recommendation: turns of one conversation arrive in random turn order; rollout loses prefix-cache locality and its time is measured at the first update; the training data differs from the reused task's full cells, so their KL curves are not directly comparable.
+- **D13 best NLL (Q13 → option 2):** only KL defines "best". The macro best is the update with the lowest macro KL; a conversation's best is its update with the lowest conversation KL. NLL is reported at those updates and has no separate best, trend or recovery value.
+- **D14 placement and data flow (Q14 → recommended):** the trainer computes per-turn KL sum, NLL sum and token count from tensors it already holds before TIS, without another forward; they travel once per update with the existing optimizer-step record; the Distillation profile lives in the rollout process next to the data source; macro values are derived from the same per-turn sums and checked against the existing training-mask counts as a soft check.
+- **D15 structure, queries and persistence (Q15 → recommended):** in-memory, column-wise append-only Turn observations; per-update macro rows; per-conversation update entries with lowest-KL and latest pointers; a `(c_id, t_id)` lookup to the latest observation; single-conversation and all-conversation queries. Each successful update appends to the profile's own JSONL files in the cell's cloud evidence directory; the in-memory profile is the runtime owner. No rebuild after interruption, because this task saves no checkpoints (D10).
+- **D16 errors and verification (Q16 → recommended):** profile errors are isolated, logged and mark the profile unverified while training continues (soft gate). A CPU test replays a synthetic update sequence covering several turns in one update, skipped updates, a window not yet reached and tied best values. No separate GPU smoke: the A cell starts formally first; its first update's profile is inspected before the B cell starts.
+
+### Round 3 — questions put with the draft documents, 2026-11-08
+
+Recommendations below are not decisions until the user answers.
+
+- **Q17 `alive` under the indexed order.** Recommendation: keep the D7 rule read against the whole frozen order — a conversation becomes not alive once every one of its assistant positions has been drawn (trained, rejected as over-length or failed). In this task almost every conversation stays alive, because about 11.5% of positions are drawn.
+- **Q18 relaunch after a throughput failure.** Recommendation: if the first update of a cell fails the reused D6 rule (fewer than 231 valid turns within 1800 s) because rollout or teacher scoring is too slow, end that attempt as D6 requires, then relaunch as a new attempt with more teacher or rollout GPUs within D11, without asking again; report the measured stage times. D6's deadline and minimum stay unchanged.
+- **Q19 GPU priority with other tasks.** Recommendation: first come, first served within the D11 aggregate of 56; no job of another task is stopped to make room; each submission checks the live personal aggregate first.

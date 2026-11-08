@@ -47,3 +47,33 @@ _Avoid_: Conversation when counting individual assistant responses.
 **Replay bank**:
 A fixed collection of generated trajectories whose original responses and behavior-policy evidence are reused across specified optimizer updates.
 _Avoid_: Prompt pool, which supplies inputs rather than completed trajectories.
+
+**Source conversation**:
+One multi-turn conversation in a training dataset whose assistant responses supply training turns.
+_Avoid_: Trajectory, traj, when referring to dataset conversations rather than generated outputs.
+
+**Indexed turn order**:
+A fixed uniform random order over all training turns of a dataset, drawn without replacement, so that turns of different source conversations interleave.
+_Avoid_: Shuffle, when it could mean shuffling whole conversations; streaming order, which keeps one conversation's turns consecutive.
+
+## Distillation profile
+
+**Distillation profile**:
+The running record of distillation measurements over successful optimizer updates, kept for the whole update and for each source conversation and training turn.
+_Avoid_: Profile without qualification, training image, profiler.
+
+**Turn observation**:
+The KL and NLL measured for one training turn in one successful optimizer update, together with that turn's identity.
+_Avoid_: Cell, element, sample, when referring to one measured value record.
+
+**KL-best update**:
+The update with the lowest KL, either for the whole run or for one source conversation; NLL is read at that update rather than having its own best.
+_Avoid_: Best NLL, best checkpoint.
+
+**KL trend**:
+The change in KL between an update and an earlier update a fixed number of successful updates before it.
+_Avoid_: Slope, progress.
+
+**Recovery gap**:
+The latest KL minus the KL at the KL-best update.
+_Avoid_: Regret, recovery space.
