@@ -40,7 +40,6 @@ class _ScoringObservation:
         record = {
             "event": event,
             "rank": rank,
-            "attempt": self.args.swe_attempt,
             "store_prefix": self.store_prefix,
             "scoring_pass_index": self.pass_index,
             "forward_microbatch_index": self.microbatch_index,

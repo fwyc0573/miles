@@ -6,6 +6,7 @@ step on CPU. SDK metadata/groups and the unused CUDA token counter are mocked;
 no schedule implementation is copied and no CUDA/fused-scorer claim follows.
 """
 
+import argparse
 import ast
 import contextlib
 import hashlib
@@ -20,6 +21,11 @@ from types import ModuleType, SimpleNamespace
 import pytest
 import torch
 
+from miles.utils.args.custom_function import resolve_custom_function_configs
+from miles.utils.args.custom_view import ImmutableNamespace, compute_custom_function_config
+from miles.utils.args.runtime import AllConfig, TrainerConfig
+from miles.utils.args.trainer_utils import compute_trainer_config
+from miles.utils.arguments import get_miles_extra_args_provider
 from tests.manual.agent_opd import megatron_scoring_lifetime as lifetime
 from tests.manual.agent_opd import megatron_scoring_lifetime_observer as observer
 from tests.manual.agent_opd import run_swe_opd
@@ -233,9 +239,7 @@ def test_actual_schedule_callback_red_green(pinned_checkout, tmp_path, monkeypat
 
 
 def _observation(tmp_path):
-    return observer._ScoringObservation(
-        SimpleNamespace(scoring_lifetime_dir=str(tmp_path), swe_attempt="cpu-fixture"), "", 0
-    )
+    return observer._ScoringObservation(ImmutableNamespace(scoring_lifetime_dir=str(tmp_path)), "", 0)
 
 
 def _cpu_memory(monkeypatch):
@@ -316,9 +320,8 @@ def test_native_hook_installation_is_soft_and_pass_scoped(tmp_path, monkeypatch,
     utilities.get_attr_wrapped_model = getattr
     monkeypatch.setitem(sys.modules, parallel.__name__, parallel)
     monkeypatch.setitem(sys.modules, utilities.__name__, utilities)
-    args = SimpleNamespace(
+    args = ImmutableNamespace(
         scoring_lifetime_dir=str(tmp_path / "observations"),
-        swe_attempt="cpu-fixture",
         scoring_lifetime_source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
     )
 
@@ -332,7 +335,7 @@ def test_native_hook_installation_is_soft_and_pass_scoped(tmp_path, monkeypatch,
 
     model = Model()
     if failure == "source":
-        args.scoring_lifetime_source_sha256 = "different-source"
+        args = args.model_copy(update={"scoring_lifetime_source_sha256": "different-source"})
     elif failure == "registration":
         monkeypatch.setattr(
             model.output_layer,
@@ -355,6 +358,111 @@ def test_native_hook_installation_is_soft_and_pass_scoped(tmp_path, monkeypatch,
             model(inputs)
         if failure == "source":
             assert any(row["event"] == "observer_unverified" for row in records)
+
+
+@pytest.mark.parametrize("release", [False, True])
+def test_combined_cli_typed_before_log_prob_installs_without_swe_attempt(tmp_path, monkeypatch, release):
+    """Execute the actual native caller and typed transport, excluding GPU compute."""
+    from tests.fast.test_swe_replay import _typed_swe_config
+
+    root = Path(__file__).resolve().parents[2]
+    source = tmp_path / "schedules.py"
+    source.write_bytes(b"source identity fixture\n")
+    source_sha = hashlib.sha256(source.read_bytes()).hexdigest()
+    config = json.loads(
+        (root / "task_memory/task_2026-11-08_qwen35_swe_full_r256/capacity_smoke_config.json").read_text()
+    )
+    config["protocol"] = "r256"
+    config["training"]["release_scoring_output"] = release
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "typed-attempt"))
+    argv[argv.index("--scoring-lifetime-source-sha256") + 1] = source_sha
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    parser = argparse.ArgumentParser()
+    get_miles_extra_args_provider()(parser)
+    parsed, _ = parser.parse_known_args(argv)
+    resolve_custom_function_configs(parsed)
+    actions = [option for action in parser._actions for option in action.option_strings]
+    assert len(actions) == len(set(actions))
+    assert set(observer.ScoringLifetimeConfig.model_fields) == {
+        "scoring_lifetime_dir",
+        "scoring_lifetime_source_sha256",
+    }
+    assert not hasattr(parsed, "swe_attempt")
+    assert parsed.custom_rm_path.config.swe_attempt == "typed-attempt"
+
+    monkeypatch.setattr(sys, "argv", ["test"])
+    typed = _typed_swe_config("r256", run_kind="smoke")
+    names = ("custom_megatron_before_log_prob_hook_path", "custom_rm_path", "custom_megatron_optimizer_step_hook_path")
+    typed = AllConfig.model_validate(typed.model_dump(mode="python") | {name: getattr(parsed, name) for name in names})
+    trainer = compute_trainer_config(typed, typed.raw_megatron.trainers[0])
+    trainer = TrainerConfig.model_validate_json(trainer.model_dump_json())
+    view = compute_custom_function_config(trainer, trainer.custom_megatron_before_log_prob_hook_path)
+    assert isinstance(view, ImmutableNamespace) and not hasattr(view, "swe_attempt")
+    assert trainer.custom_megatron_optimizer_step_hook_path.config.swe_attempt == "typed-attempt"
+
+    parallel = ModuleType("megatron.core.pipeline_parallel")
+    parallel.schedules = SimpleNamespace(__file__=str(source))
+    utilities = ModuleType("megatron.core.utils")
+    utilities.get_attr_wrapped_model = getattr
+    monkeypatch.setitem(sys.modules, parallel.__name__, parallel)
+    monkeypatch.setitem(sys.modules, utilities.__name__, utilities)
+    _cpu_memory(monkeypatch)
+
+    class Model(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.output_layer = torch.nn.Linear(3, 7)
+
+        def forward(self, inputs):
+            return self.output_layer(inputs)
+
+    class Dumper:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def wrap_forward_step(self, function):
+            return function
+
+        def finalize(self, model):
+            pass
+
+    path = root / "miles/backends/megatron_utils/model.py"
+    function = next(
+        node
+        for node in ast.parse(path.read_text()).body
+        if isinstance(node, ast.FunctionDef) and node.name == "forward_only"
+    )
+    namespace = {
+        "torch": torch,
+        "DumperMegatronUtil": Dumper,
+        "DumperPhase": SimpleNamespace(FWD_ONLY="forward_only"),
+        "get_model_config": lambda model: SimpleNamespace(hidden_dropout=0, attention_dropout=0),
+        "get_forward_backward_func": lambda: None,
+        "mpu": SimpleNamespace(is_pipeline_last_stage=lambda: False),
+    }
+    module = ast.Module(body=ast.parse("from __future__ import annotations").body + [function], type_ignores=[])
+    exec(compile(module, str(path), "exec"), namespace)
+    model = Model()
+    assert namespace["forward_only"](None, trainer, [model], [], [], rollout_id=0) == {}
+    records_path = Path(view.scoring_lifetime_dir) / "rank_0.jsonl"
+    records = [json.loads(row) for row in records_path.read_text().splitlines()]
+    assert records[0]["event"] == "source_identity" and records[0]["source_verified"]
+    assert not any(row["event"] == "observer_unverified" for row in records)
+    assert len(model._forward_pre_hooks) == len(model._forward_hooks) == 1
+    assert len(model.output_layer._forward_pre_hooks) == 1
+    with torch.no_grad():
+        output = model(torch.ones(4, 3))
+        reference = weakref.ref(output)
+        del output
+        assert reference() is None and model._scoring_lifetime_observation.previous() is None
+    records = [json.loads(row) for row in records_path.read_text().splitlines()]
+    assert [row["event"] for row in records] == [
+        "source_identity",
+        "forward_enter",
+        "projection_enter",
+        "forward_exit",
+    ]
+    assert all("attempt" not in row for row in records)
 
 
 def test_student_preflight_precedes_training_preparation(tmp_path, monkeypatch):
