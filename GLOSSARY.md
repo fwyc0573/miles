@@ -62,6 +62,10 @@ _Avoid_: Streaming order, which opens one conversation at a time; random turn or
 The running record of distillation measurements over successful optimizer updates, kept for the whole update and for each source conversation and training turn.
 _Avoid_: Profile without qualification, training image, profiler.
 
+**RKL**:
+The reverse KL divergence KL(student‖teacher), taken over what the student generates: it asks whether the teacher also tends to generate what the student often generates. In the distillation profile, KL without qualification means RKL.
+_Avoid_: Forward KL or KL(teacher‖student) for this quantity; they measure the opposite direction.
+
 **Turn observation**:
 The KL and NLL measured for one training turn in one successful optimizer update, together with that turn's identity.
 _Avoid_: Cell, element, sample, when referring to one measured value record.

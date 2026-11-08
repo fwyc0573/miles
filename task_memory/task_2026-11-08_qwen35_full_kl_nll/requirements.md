@@ -8,6 +8,7 @@
 | 2026-11-08 | Record the round-3 answer: random order rejected (D12 withdrawn), GPU budget D17; put Q20 and revised Q18. |
 | 2026-11-08 | Record the round-4 answer as D18 (interleaved turn order) and D19 (relaunch rule). |
 | 2026-11-08 | Record the documentation freeze and the approved ticket 01 rename. |
+| 2026-11-08 | Record the user's correction that the measured KL is RKL, KL(student‖teacher), as D20. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -118,3 +119,16 @@ Asked: approve renaming `tickets/01-indexed-turn-order.md` to `tickets/01-interl
 
 - **Documentation frozen.** spec, plan and tickets as of commit `3ede53e6` plus the rename. The freeze covers the narrowing of D1 recorded in the plan: ticket 01 and the pure module part of ticket 03 start now; ticket 02 and the integration part of 03 wait for the reused Ticket02 and the merge.
 - **Rename approved** and applied with `git mv`; links updated.
+
+### Correction during implementation — [Follow-up Answer] 2026-11-08
+
+User wrote, while ticket 01 was in progress:
+
+> 修正：当前统计的kl实际指的是：
+>
+> | RKL：KL(student‖teacher) | student 经常生成的内容，teacher 是否也倾向于生成？ |
+> | --- | --- |
+
+(The user's table had an empty header row and an empty third column; the two filled cells are quoted.)
+
+- **D20 KL direction.** Every KL in the original request, D1–D19 and the spec means the reverse KL, RKL = KL(student‖teacher) = E over student-generated tokens of (log student − log teacher): whether the teacher also tends to generate what the student often generates. Verified against code: native `opd_reverse_kl` is `old_student_log_prob - teacher_log_probs` on the student's sampled tokens (`miles/backends/training_utils/loss/hub/opd.py:90`), which the spec's sampled-token value `s − q` already uses; no computation changes. Owner of the definition: [spec S3](spec.md#s3-逐-turn-测量d4d5d14).

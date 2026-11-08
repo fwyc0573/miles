@@ -5,10 +5,11 @@
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
 | 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
 | 2026-11-08 | Rewrite S2 for the interleaved turn order (D18); update `alive`, the table and trend notes, S5, S8 (D19) and S9. |
+| 2026-11-08 | Define KL as RKL, KL(student‖teacher), in S3 (D20). |
 
 # Spec — Qwen3.5 full 模式 KL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D19；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D20；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -82,7 +83,7 @@
 
 对一个 successful update 中的每个 training turn i，定义以下记号：
 - `m`：TIS 之前的原始有效 target mask；
-- `k`：native `opd_reverse_kl` 的逐 token 值，由当前配置的 estimator 写入；sampled-token 时等于 `s − q`；
+- `k`：native `opd_reverse_kl` 的逐 token 值，由当前配置的 estimator 写入；sampled-token 时等于 `s − q`（`miles/backends/training_utils/loss/hub/opd.py:90`）；
 - `s`：更新前的 actor 评分，即 D2 使用的当前 student log-prob。
 
 则：
@@ -107,6 +108,7 @@ NLL_i = nll_sum_i / tokens_i
   - 由 native 配置 `opd_log_prob_top_k`、`opd_top_k_strategy`（`miles/utils/args/configs/on_policy_distillation.py:42–60`）在一处推出，写入 record 和 profile。
   - 取代复用代码中写死的标签字符串。以后加入 top-k 或 full vocab 时，只改 native estimator 和这一处推导。
   - sampled-token 下，数值与复用 D2 相同。
+- **KL 的含义**（D20）：本 task 中的 KL 都指 RKL，即 KL(student‖teacher) = E_{y～student}[log student(y) − log teacher(y)]，回答“student 经常生成的内容，teacher 是否也倾向于生成”。在 student 自己采样的 token 上平均 `s − q`，就是它的 sampled-token 估计。以后加入的 top-k 或 full vocab estimator 必须估计同一方向（native 写入的字段同为 `opd_reverse_kl`）。
 - **NLL 的含义**：student 在自己采样的 token 上的 NLL，相当于 student 每 token 熵的采样估计。sampled-token 下，teacher NLL = KL + NLL，因此不单独存储（D4）。
 
 ## S4. Distillation profile 的内容（D3、D6–D9、D13）
