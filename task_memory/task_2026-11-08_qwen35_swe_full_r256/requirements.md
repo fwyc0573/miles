@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record D12 approval for one isolated routing-only A/r256 capacity experiment; formal profiles remain unchanged. |
 | 2026-11-08 | Record D11: replace GLM-5.2 training inputs with the eight SWE-1003/0913 DeepSWE resolved sources; reopen input acceptance. |
 | 2026-11-08 | Clarify completion-only RKL statistics with fresh current-student scoring on the unchanged completion; no new estimator or sampling path. |
 | 2026-11-08 | Amend D9 with the user-approved temporary independent task allocation, overflow preemption, and continuation after expiry. |
@@ -193,6 +194,14 @@ The frozen contract's runtime prerequisites are listed in [spec.md](spec.md#free
 ## Execution authorization — [Original Request / Follow-up Answer] 2026-11-08
 
 Following the landing review, the user wrote: **“确认，继续，完成后开始按照tickets/spec并行执行任务”** and subsequently repeated **“continue”**. The approved documentation fixes were committed as `df66bf4b`. This authorizes ordinary implementation, verification, and execution of the frozen tickets, including their approved GPU runs. Scientific decisions, budgets, and prerequisite acceptance remain as frozen.
+
+## D12 — [Original Request / Follow-up Answer] 2026-11-09: one routing-only capacity experiment
+
+Question: “是否批准一次 A/r256 routing-only GPU 对照？实际 cache_aware 最后将49个未完成请求留在一个服务。建议仅改为 round_robin并接通现有原生CLI参数；保持128K、n1、231/256、1800秒、max_running_requests=1、CUDA graph关闭、TP2和8+2张H200。收集阶段最多5 GPU-hours，另加启动和两次更新成本；成功标准仍须达到231条并完成实际训练验收。不会直接修改正式四cell配置。”
+
+User selected: **“批准 routing-only（推荐）”**.
+
+This authorizes one isolated A/r256 smoke with256 requested candidates,2 successful updates and2 bank uses, differing only in student router policy plus distinct artifact namespaces. Reuse the existing native router CLI/config transport; do not add a second routing implementation. Preserve the six-field D11 input contract, models, seeds, objective/TIS/optimizer,128K,n1,TP2/DP4/CP1,8+2H200,max-running1,CUDA-graph-disabled,minimum231 and1800-second acquisition deadline. Admission remains governed by current D9. The acquisition stage costs at most5 GPU-hours; startup and the two actual updates add unmeasured cost. This approval is not a formal-profile change, a capacity PASS, or permission to relax D6/D7. Required validation still includes native acquisition, fresh scoring/backward/optimizer ACK, next scoring and source/lifetime evidence.
 
 ## Documentation acceptance criteria
 

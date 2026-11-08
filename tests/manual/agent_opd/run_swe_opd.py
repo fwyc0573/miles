@@ -126,6 +126,8 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
     for name in ("skip_masked_assistant_turns", "visual_filter_receipt"):
         if name in inputs:
             arguments[f"swe_{name}"] = inputs[name]
+    if "router_policy" in config:
+        arguments["router_policy"] = config["router_policy"]
     if "release_scoring_output" in train:
         arguments.update(
             custom_megatron_before_log_prob_hook_path=(

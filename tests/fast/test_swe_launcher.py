@@ -111,3 +111,66 @@ def test_native_input_policy_reaches_registered_source_config(tmp_path, monkeypa
     assert source.swe_skip_masked_assistant_turns is masked
     assert source.swe_visual_filter_receipt == (receipt if masked else None)
     assert source.swe_source_manifest == config["inputs"]["source_manifest"]
+
+
+@pytest.mark.parametrize("policy", [None, "round_robin"])
+def test_native_router_policy_preserves_default_and_typed_transport(tmp_path, monkeypatch, policy):
+    from tests.fast.test_swe_replay import _typed_swe_config
+
+    from miles.backends.sglang_utils.router_args_utils import (
+        compute_sglang_router_args,
+        parse_router_args_argv,
+        router_args_to_argv,
+    )
+    from miles.utils.args import custom_function
+    from miles.utils.args.configs.router import RouterConfig
+    from miles.utils.args.runtime import AllConfig, OrchestratorConfig
+    from miles.utils.arguments import get_miles_extra_args_provider
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "deepswe_capacity_smoke_config.json").read_text())
+    config["protocol"] = "r256"
+    baseline = shlex.split(
+        run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "router-policy")
+    )
+    assert "--router-policy" not in baseline
+    assert "--sglang-router-policy" not in baseline
+    config["router_policy"] = policy
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "router-policy"))
+    if policy is None:
+        assert argv == baseline
+    else:
+        assert argv.count("--router-policy") == 1
+        index = argv.index("--router-policy")
+        assert argv[index + 1] == policy
+        assert argv[:index] + argv[index + 2 :] == baseline
+    assert "--sglang-router-policy" not in argv
+
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    parser = argparse.ArgumentParser()
+    get_miles_extra_args_provider()(parser)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert not any(value.startswith(("--router-", "--swe-", "--scoring-lifetime-", "--tis-")) for value in unknown)
+    custom_function.resolve_custom_function_configs(parsed)
+    monkeypatch.setattr(sys, "argv", ["test"])
+    typed = _typed_swe_config("r256", run_kind="smoke")
+    typed = AllConfig.model_validate(
+        typed.model_dump(mode="python")
+        | RouterConfig.from_args(parsed)
+        | {
+            "sglang_router_policy": parsed.sglang_router_policy,
+        }
+    )
+    orchestrator = OrchestratorConfig.slice_from(typed)
+    restored = OrchestratorConfig.model_validate_json(orchestrator.model_dump_json())
+    expected = "cache_aware" if policy is None else policy
+    assert restored.router_args["policy"] == expected
+    assert restored.sglang_router_policy is None
+    router = compute_sglang_router_args(
+        restored,
+        host="127.0.0.1",
+        port=30000,
+        prometheus_port=30001,
+        has_pd_disaggregation=False,
+    )
+    assert parse_router_args_argv(router_args_to_argv(router)).policy == expected
