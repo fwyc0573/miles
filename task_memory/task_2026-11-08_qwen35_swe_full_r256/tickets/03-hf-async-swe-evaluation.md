@@ -10,7 +10,7 @@
 
 **Blocked by:** 01 — 模型、数据与benchmark身份契约。
 
-**Status:** blocked — waiting for 01; implementation not started
+**Status:** in-progress — independent development authorized; integration and acceptance blocked by 01
 
 - [ ] 复用Qwen HF导出路径，保存正确dtype/config/tokenizer和成功update/weight-version identity；无额外训练或optimizer权重。
 - [ ] 实际重载可生成文本，完成标记晚于全部文件写入；导出部分失败不会被评测消费。

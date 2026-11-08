@@ -10,7 +10,7 @@
 
 **Blocked by:** 01 — 默认SWE输入与身份契约。
 
-**Status:** blocked — waiting for 01; implementation not started
+**Status:** in-progress — independent development authorized; integration and acceptance blocked by 01
 
 - [ ] 使用已有Qwen训练路径和共享的显式实验配置；两种教师及两种模式无需复制整套实现。
 - [ ] 完整200行排程符合spec；验证bank边界、成功/跳过计数及失败不提交使用次数。

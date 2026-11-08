@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Resume authorized implementation; record T01 source findings and parallel implementation ownership. |
 | 2026-11-08 | Record the post-freeze two-axis review and its documentation-only remediation; restore word spacing. |
 | 2026-11-08 | Complete D1–D10, final checks and explicit whole-document freeze; leave runtime tickets unstarted. |
 | 2026-11-08 | Start source-backed documentation landing and the one-question-at-a-time interview. |
@@ -26,11 +27,22 @@
 
 ## in-progress
 
-- None. Documentation landing is complete; implementation and experiment tickets have not started.
+- 01: source discovery and native-loader investigation are underway. The previous session reported all 11 local source copies matching their recorded SHA256 values (3,356,482,428 bytes); durable verification will be retained with the input receipt. Local copies: `/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/`.
+- 01 native-filter investigation completed (`ses_e462bd318ffeOcLzGDtVOJsrds`): overlength turns advance the source ordinal but not the generation batch; active DPMux is 1-in/1-out; no shuffle/dedup/status filter applies. The native template ignores message-level tool schemas unless explicitly passed; the Qwen adapter must preserve the source messages and pass their tools through its model-native interface, recording the rendering difference.
+- 01 overlap investigation completed (`ses_e462bd316ffedVBkZnaPsJyfjg`): `check_swe_benchmark_overlap.py` and `evidence/benchmark-training-overlap.json` scan all 4,992 conversations / 446,569 assistant turns. All-source normalized exact problem-text intersection is zero; structured task IDs/base commits are absent, so semantic nonoverlap is not established. The raw first 51,200/1,024 turns cover 546/11 conversations before Qwen length filtering; these are not actual eligible membership counts. No observed overlap requires a policy change. The benchmark uses manifest IDs, not library row order (only 18/100 overlap between those selections); final 100 payloads and identities are recorded.
+- Parallel development: 01 input adapter/parity, 02 training/replay/math, and 03 HF/evaluation lifecycle have separate file ownership. Integration and formal admission remain gated by actual prerequisite acceptance.
+- Active implementation sessions: T01-inputs `ses_e46206d83ffe44LMNd9r6uwBGd`; T02-native `ses_e46206d68ffeuuECrBU2rN5aa7`; T03-eval `ses_e46206ca7ffeA3nV3fu9WSuGn1`. Parent owns shared configuration/model identity, environment, integration, and final acceptance; these agents make no GPU submissions.
+- Resume self-check found stale execution status and overly broad development serialization; corrected plan/status records and started independent development. See [checkpoint_2026-11-08_implementation.md](checkpoint_2026-11-08_implementation.md).
+- Personal RJob API read succeeded at 2026-11-08T06:38:33Z: 13 nonterminal jobs, 25 non-preemptible GPUs across the user's other work. Conservatively counting all against D9 leaves 31 GPUs; this is a snapshot, not a reservation. Filtered evidence: `evidence/platform-admission-20261108T063833Z.json`.
+- Parent completed zero-GPU model-source inspection through local Python RJobBackend, reusing the qualified image/source paths and existing `_model_metadata`. The launcher remained alive until success, then exited. Raw log `/data/ycfeng/tmp/qwen35-swe-model-sources-launch-20261108.log`. Selected models only: original 4B, 27B, 35B-A3B. No formal training has started.
+- Parent accepted the source/benchmark audit subtask after reconstructing all 100 benchmark payloads, checking all 4,992 identity rows, verifying three positive matching controls and lossless archive equality. Full report retained as `evidence/benchmark-training-overlap.json.gz`; exact results and limits in `test_report_2026-11-08_swe_source_audit.md`. Ticket01 still awaits loader/model/config acceptance.
+- Zero-GPU inspection job is `exp-1108-144027-369537`. Initial platform receipt verifies creator `i-fengyicheng`, pinned image, 0 GPUs and actual local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`; observed phase was Starting, not business PASS (`evidence/model-source-platform-exp-1108-144027-369537.json`).
+- Model-source inspection is now PASS: 3 models have matching metadata and 2/11/14 existing indexed shards; tokenizer metadata agrees across all three. Actual worker Python 3.12.16. Business receipt says verified with no errors; independent final API status is Succeeded at 2026-11-08T06:47:37Z. See the model-source and terminal evidence JSONs and the source-audit test report.
+- Active implementation sessions: T01-inputs `ses_e46206d83ffe44LMNd9r6uwBGd`; T02-native `ses_e46206d68ffeuuECrBU2rN5aa7`; T03-eval `ses_e46206ca7ffeA3nV3fu9WSuGn1`. Shared plan/spec remain parent-owned. T02 also owns the targeted native successful-update driver seam; HF/eval launch integration remains parent/T03-coordinated.
 
 ## pending
 
-1. Subsequent implementation begins at ticket 01. Tickets 02/03 follow 01; the four formal cells (04–07) and the baseline (08) follow their own graph edges; the final comparison (09) waits for all five results. All runtime tickets are unstarted.
+1. Complete 01's real input parity, shared identities and overlap disposition. Integrate and verify 02/03, then admit 04–08 within the approved resource ceiling. 09 waits for the four cells and baseline. No runtime ticket is yet accepted.
 
 ## Interview and document iterations
 

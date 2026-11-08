@@ -10,7 +10,7 @@
 
 **Blocked by:** Documentation freeze（访谈决策完成且用户确认）。
 
-**Status:** ready — documentation frozen; implementation not started
+**Status:** in-progress — source inspection completed; adapter, parity, and identity acceptance pending
 
 - [ ] 根据已冻结spec，解析实际默认源配方、记录选择、turn顺序、shuffle/seed、过滤、长度与模板规则，区分历史 replay 定制规则。
 - [ ] 用实际多轮样本逐阶段比较原始消息、assistant-turn边界、prompt与来源identity；记录不一致和其修复，禁止把旧Qwen小数据集当本次原始输入。

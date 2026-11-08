@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record approval to implement and execute the frozen tickets in parallel after the documentation review fixes. |
 | 2026-11-08 | After the post-freeze review, link the spec for D3 optimizer parameters instead of restating them and restore word spacing; no decision changed. |
 | 2026-11-08 | Record D1–D10 and explicit final confirmation; freeze the documentation deliverable. |
 | 2026-11-08 | Open the new documentation task; preserve the original request and separate confirmed requirements from interview decisions. |
@@ -27,7 +28,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **DOCS_LANDING_COMPLETE**. The user explicitly confirmed the specification and nine local tickets as the basis for subsequent implementation. This completed task delivers documentation; runtime tickets have not been executed.
+- Current phase: **IMPLEMENTATION_IN_PROGRESS**. Documentation landing is complete; the user subsequently authorized implementation and parallel execution. Actual ticket completion is tracked in the plan and progress records.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. Use the existing local ticket template; publish no external issues.
 - This task is separate from the completed A/B qualification and the unfinished C work in `../task_2026-11-06_qwen35_three_pairs/`. Historical artifacts and unrelated working-tree changes remain owned by their original tasks.
 - D9 resolves the resource boundary as **56 H200 GPUs in non-preemptible RJobs across all of the user's submitted, nonterminal jobs**, including other tasks. This explicit request supersedes the older default 32-GPU ceiling; it does not transfer historical Step3p6 resource permissions.
@@ -152,7 +153,11 @@ The specification and dependency graph are now frozen as the documentation deliv
 
 The frozen contract's runtime prerequisites are listed in [spec.md](spec.md#freeze-and-implementation-prerequisites).
 
-## Documentation acceptance
+## Execution authorization — [Original Request / Follow-up Answer] 2026-11-08
+
+Following the landing review, the user wrote: **“确认，继续，完成后开始按照tickets/spec并行执行任务”** and subsequently repeated **“continue”**. The approved documentation fixes were committed as `df66bf4b`. This authorizes ordinary implementation, verification, and execution of the frozen tickets, including their approved GPU runs. Scientific decisions, budgets, and prerequisite acceptance remain as frozen.
+
+## Documentation acceptance criteria
 
 1. A source-backed spec covers the four experiment cells, Steptron-compatible input loading, bank/update semantics, optimizer and objective, exact KL/TIS observations, checkpoint/evaluation/deletion lifecycle, resources, and failure behavior.
 2. Each implementation/execution ticket is a verifiable vertical slice with acceptance criteria and explicit blocking edges; the two teacher pairs and four formal cells have independent execution paths after shared prerequisites.

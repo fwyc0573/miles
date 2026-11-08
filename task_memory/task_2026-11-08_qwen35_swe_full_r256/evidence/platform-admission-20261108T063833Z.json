@@ -1,0 +1,774 @@
+{
+  "observed_at": "2026-11-08T06:38:33.158765+00:00",
+  "host": "kun-workspace-vgen2",
+  "namespace": "shai-core",
+  "pages": 1,
+  "nonterminal_personal_jobs": [
+    {
+      "name": "exp-1108-140737-941398",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "16",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "16",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-140737-941398",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-140737-941398-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-140737-941398-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-140737-941398-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-140737-941398",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-132201-894886",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "64",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "64",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-132201-894886",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-132201-894886-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-132201-894886-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-132201-894886-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-132201-894886",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-195223-989527",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {
+            "nodeAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "weight": 100,
+                  "preference": {
+                    "matchExpressions": [
+                      {
+                        "key": "MachineType",
+                        "operator": "NotIn",
+                        "values": [
+                          "GPU"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1107-195223-989527",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1107-195223-989527-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1107-195223-989527-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1107-195223-989527-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1107-195223-989527",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-132201-822740",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "64",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "64",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-132201-822740",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-132201-822740-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-132201-822740-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-132201-822740-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-132201-822740",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-135046-259386",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "16",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "16",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-135046-259386",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-135046-259386-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-135046-259386-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-135046-259386-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-135046-259386",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-193812-083550",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "32",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "375Gi",
+                "nvidia.com/gpu": "1",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "32",
+                "memory": "375Gi",
+                "nvidia.com/gpu": "1"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1107-193812-083550",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1107-193812-083550-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1107-193812-083550-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1107-193812-083550-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1107-193812-083550",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-143119-244828",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "16",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "1"
+              },
+              "requests": {
+                "cpu": "16",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "1"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-143119-244828",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-143119-244828-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-143119-244828-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-143119-244828-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-143119-244828",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-125752-548602",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "16",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "16",
+                "memory": "192000Mi",
+                "nvidia.com/gpu": "2"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-125752-548602",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-125752-548602-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-125752-548602-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-125752-548602-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-125752-548602",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-125752-973923",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {
+            "nodeAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "weight": 100,
+                  "preference": {
+                    "matchExpressions": [
+                      {
+                        "key": "MachineType",
+                        "operator": "NotIn",
+                        "values": [
+                          "GPU"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-125752-973923",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-125752-973923-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-125752-973923-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-125752-973923-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-125752-973923",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-140737-459799",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "32",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "375Gi",
+                "nvidia.com/gpu": "1",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "32",
+                "memory": "375Gi",
+                "nvidia.com/gpu": "1"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-140737-459799",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-140737-459799-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-140737-459799-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-140737-459799-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-140737-459799",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-125752-068585",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "32",
+                "mellanox.com/mlnx_rdma": "1",
+                "memory": "1500Gi",
+                "nvidia.com/gpu": "8",
+                "rdma/mlnx_shared": "8"
+              },
+              "requests": {
+                "cpu": "32",
+                "memory": "1500Gi",
+                "nvidia.com/gpu": "8"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {},
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/is-critical-task": "yes",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-125752-068585",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-125752-068585-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-125752-068585-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-125752-068585-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-125752-068585",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1107-193813-144440",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {
+            "nodeAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "weight": 100,
+                  "preference": {
+                    "matchExpressions": [
+                      {
+                        "key": "MachineType",
+                        "operator": "NotIn",
+                        "values": [
+                          "GPU"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1107-193813-144440",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1107-193813-144440-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1107-193813-144440-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1107-193813-144440-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1107-193813-144440",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    },
+    {
+      "name": "exp-1108-140738-438586",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "tasks": [
+        {
+          "role": "default",
+          "replicas": 1,
+          "resources": [
+            {
+              "limits": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              },
+              "requests": {
+                "cpu": "1",
+                "memory": "2000Mi",
+                "nvidia.com/gpu": "0"
+              }
+            }
+          ],
+          "node_selector": null,
+          "affinity": {
+            "nodeAffinity": {
+              "preferredDuringSchedulingIgnoredDuringExecution": [
+                {
+                  "weight": 100,
+                  "preference": {
+                    "matchExpressions": [
+                      {
+                        "key": "MachineType",
+                        "operator": "NotIn",
+                        "values": [
+                          "GPU"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "template_labels": {
+            "brainpp.cn/restartable": "false",
+            "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+            "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+            "kubebrain.brainpp.cn/creator-type": "user",
+            "kubebrain.brainpp.cn/extraresourceid": "",
+            "kubebrain.brainpp.cn/extraresourcetype": "",
+            "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "logs.monitoring.basemind.com/collect": "true",
+            "privatemachine.brainpp.cn/privatemachine": "group",
+            "quotagroup.brainpp.cn/preemptible": "no",
+            "quotagroup.brainpp.cn/quotagroup": "step_main",
+            "rjob.brainpp.cn/rjob-name": "exp-1108-140738-438586",
+            "rjob.brainpp.cn/rjob-task-id": "exp-1108-140738-438586-default",
+            "rjob.brainpp.cn/rjob-task-type": "default",
+            "rjob.brainpp.cn/task-fail-policy": "any",
+            "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1108-140738-438586-default",
+            "scheduling.x-k8s.io/pod-group": "exp-1108-140738-438586-default",
+            "scheduling.x-k8s.io/pod-group-root": "exp-1108-140738-438586",
+            "stepmind.com/gang-group": "true",
+            "workspace.brainpp.cn/workspace-namspace": "shai-core"
+          }
+        }
+      ]
+    }
+  ],
+  "admission_limit": 56,
+  "submitted": false
+}

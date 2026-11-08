@@ -1,0 +1,40 @@
+{
+  "job": "exp-1108-144027-369537",
+  "creator": "i-fengyicheng",
+  "preemptible": "no",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [default]",
+    "taskStatuses": {
+      "default": {
+        "pending": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "default": {
+      "replicas": 1,
+      "filestore_volume": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "images": [
+        "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+      ],
+      "resources": [
+        {
+          "limits": {
+            "cpu": "8",
+            "memory": "64000Mi",
+            "nvidia.com/gpu": "0"
+          },
+          "requests": {
+            "cpu": "8",
+            "memory": "64000Mi",
+            "nvidia.com/gpu": "0"
+          }
+        }
+      ]
+    }
+  }
+}
