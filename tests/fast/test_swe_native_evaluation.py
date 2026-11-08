@@ -53,7 +53,8 @@ def native_case(case, tmp_path, monkeypatch):
     template, _ = resolve_fixed_chat_template("qwen35")
     runtime = {
         "swe_commit": swe.SWE_COMMIT,
-        "source_sha256": {str(source_file): native._sha(source_file)},
+        "source_sha256": {str(source_file): native._sha(source_file), str(template): native._sha(template)},
+        "chat_template": str(template),
         "input_sha256": {str(path): native._sha(path) for path in (dataset, manifest)},
         "dataset_path": str(dataset),
         "manifest_path": str(manifest),

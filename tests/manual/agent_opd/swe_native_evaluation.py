@@ -164,8 +164,6 @@ def native_config(runtime, *, request, dataset_index):
 
 class NativeSweRunner:
     def __init__(self, store, point_id, runtime):
-        from miles.utils.chat_template_utils.tito_tokenizer import Qwen35TITOTokenizer, resolve_fixed_chat_template
-
         manifest = store.manifest(point_id)
         _verify_runtime(runtime, manifest["configuration"])
         if (
@@ -186,17 +184,15 @@ class NativeSweRunner:
         )
         if str(observed["weight_version"]) != str(expected_version):
             raise ValueError("Serving native weight-version readback differs")
+        # Parser classification is validated against the live registry by the
+        # outer GPU worker. Here it must equal the immutable scientific runtime,
+        # already checked above, without importing GPU-only SGLang dependencies.
+        template_path = runtime["chat_template"]
         if (
-            observed["tool_call_parser"],
-            observed["reasoning_parser"],
-            observed["context_length"],
-            observed["preserve_thinking"],
-            observed["enable_thinking"],
-        ) != (Qwen35TITOTokenizer.tool_call_parser, Qwen35TITOTokenizer.reasoning_parser, 131072, True, True):
-            raise ValueError("Need Qwen's registered parsers, full context, and preserved thinking")
-        template_path, _ = resolve_fixed_chat_template("qwen35")
-        if observed["chat_template_sha256"] != _sha(template_path):
-            raise ValueError("Serving chat template differs from the existing fixed Qwen template")
+            runtime["source_sha256"].get(template_path) != observed["chat_template_sha256"]
+            or _sha(template_path) != observed["chat_template_sha256"]
+        ):
+            raise ValueError("Serving chat template differs from the pinned Qwen template bytes")
         self.store, self.point_id, self.runtime = store, point_id, runtime
         if runtime["kill_grace_seconds"] <= 0:
             raise ValueError("Native child cleanup grace must be positive")
