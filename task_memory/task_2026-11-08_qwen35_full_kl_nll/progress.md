@@ -91,6 +91,7 @@
 - Inference: the same failure blocks this task's 04 and 05, which use the same models and 256-turn banks.
 - Merge check: the two branches change disjoint files since `20d0b3f4` (`agent-opd` does not touch `GLOSSARY.md`, `swe_inputs.py` or `check_swe_inputs.py`), so a merge has no textual conflict. `run_swe_opd.py` loads `NativeSWEDataSource` by path; ticket 01 keeps its interface and M = 1 behavior.
 - D1 is not met (the reused ticket's own capacity smoke fails). Put to the user; answered as D22: wait for that branch's complete out-of-memory fix before merging, and start no part of ticket 02 early.
+- Checked again at 20:30 (read only): `agent-opd` is at `cee3bfa5`, which adds a Megatron scoring output-lifetime patch, a saved-bank replay seam for re-running the failing bank, and their CPU tests (53 pass). Its own report states that the real 256-turn run on the saved bank has not happened and that the CPU result "不证明原 OOM 已修复". So D22's condition is still open; this task stays stopped.
 
 ## in-progress
 
