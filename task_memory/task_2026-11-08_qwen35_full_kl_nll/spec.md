@@ -6,10 +6,11 @@
 | 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
 | 2026-11-08 | Rewrite S2 for the interleaved turn order (D18); update `alive`, the table and trend notes, S5, S8 (D19) and S9. |
 | 2026-11-08 | Define KL as RKL, KL(student‖teacher), in S3 (D20). |
+| 2026-11-08 | Rename the profile's KL quantities and fields to RKL/`rkl` (D21); correct the `opd.py` line citation. |
 
-# Spec — Qwen3.5 full 模式 KL/NLL 与 Distillation profile
+# Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D20；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D21；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -37,7 +38,7 @@
 
 ## S1. 目标与实验矩阵
 
-为两个 teacher 组合各跑一个 full 正式 cell。训练中同时维护 Distillation profile：它记录每个 update 的整体 KL/NLL，以及每个 source conversation、每个 training turn 的 KL/NLL。它用于监控，也为以后的算法策略提供运行时数据。
+为两个 teacher 组合各跑一个 full 正式 cell。训练中同时维护 Distillation profile：它记录每个 update 的整体 RKL/NLL，以及每个 source conversation、每个 training turn 的 RKL/NLL。它用于监控，也为以后的算法策略提供运行时数据。
 
 | Experiment cell | Student | Frozen teacher | Protocol |
 | --- | --- | --- | --- |
@@ -77,22 +78,22 @@
 7. **已知后果**：
    - 起始阶段 32 个 conversation 同时从 turn 1 开始，前若干 update 的 prompt 偏短；大约 10–20 个 update 后，各 conversation 的进度错开，prompt 长度分布趋于稳定。所以第一个 update 的耗时偏低，吞吐要看前约 20 个 update 的各阶段耗时（S8）。
    - 同一 block 内的连续 turn 共享前缀，prefix cache 大部分仍然有效；block 的第一个 turn 能否命中上一个 update 留下的缓存，取决于缓存是否被换出。
-   - 训练的 turn 集合与复用 task 的 full cell 基本相同，但顺序不同，两者的 KL 曲线不能逐点对比。
+   - 训练的 turn 集合与复用 task 的 full cell 基本相同，但顺序不同，两者的 RKL 曲线不能逐点对比。
 
 ## S3. 逐 turn 测量（D4、D5、D14）
 
 对一个 successful update 中的每个 training turn i，定义以下记号：
 - `m`：TIS 之前的原始有效 target mask；
-- `k`：native `opd_reverse_kl` 的逐 token 值，由当前配置的 estimator 写入；sampled-token 时等于 `s − q`（`miles/backends/training_utils/loss/hub/opd.py:90`）；
+- `k`：native `opd_reverse_kl` 的逐 token 值，由当前配置的 estimator 写入；sampled-token 时等于 `s − q`（`miles/backends/training_utils/loss/hub/opd.py:88–89`）；
 - `s`：更新前的 actor 评分，即 D2 使用的当前 student log-prob。
 
 则：
 
 ```text
-kl_sum_i  = sum(m * k)
+rkl_sum_i = sum(m * k)
 nll_sum_i = sum(m * (-s))
 tokens_i  = sum(m)
-KL_i  = kl_sum_i  / tokens_i
+RKL_i = rkl_sum_i / tokens_i
 NLL_i = nll_sum_i / tokens_i
 ```
 
@@ -101,15 +102,15 @@ NLL_i = nll_sum_i / tokens_i
   - 同一样本在不同 CP rank 上的部分和相加；只取一个 TP/PP 副本参与，与复用 D7 的计数方式一致。
   - 每个 update 只汇总一次，数据量约 256 行 × 3 个 float64，外加样本 identity。
   - 这些行随现有的 optimizer-step record 送到 rollout 进程。
-- **宏观值**：`KL(u) = Σ kl_sum / Σ tokens`，`NLL(u) = Σ nll_sum / Σ tokens`，按 token 加权（D6）。
+- **宏观值**：`RKL(u) = Σ rkl_sum / Σ tokens`，`NLL(u) = Σ nll_sum / Σ tokens`，按 token 加权（D6）。
   - record 中已有的 `kl_before_tis` 改为由同一组和推出，保证只有一个来源；新增 `nll_before_tis`。
   - 一致性检查：`Σ tokens` 必须等于 native 训练 mask 统计的 `original_tokens`，行数必须等于 `actual_turns`。不一致时把该 update 标记为未验证，训练继续（S7）。
 - **Estimator 标签**：
   - 由 native 配置 `opd_log_prob_top_k`、`opd_top_k_strategy`（`miles/utils/args/configs/on_policy_distillation.py:42–60`）在一处推出，写入 record 和 profile。
   - 取代复用代码中写死的标签字符串。以后加入 top-k 或 full vocab 时，只改 native estimator 和这一处推导。
   - sampled-token 下，数值与复用 D2 相同。
-- **KL 的含义**（D20）：本 task 中的 KL 都指 RKL，即 KL(student‖teacher) = E_{y～student}[log student(y) − log teacher(y)]，回答“student 经常生成的内容，teacher 是否也倾向于生成”。在 student 自己采样的 token 上平均 `s − q`，就是它的 sampled-token 估计。以后加入的 top-k 或 full vocab estimator 必须估计同一方向（native 写入的字段同为 `opd_reverse_kl`）。
-- **NLL 的含义**：student 在自己采样的 token 上的 NLL，相当于 student 每 token 熵的采样估计。sampled-token 下，teacher NLL = KL + NLL，因此不单独存储（D4）。
+- **RKL 的含义**（D20、D21）：本 task 测量的 KL 都是 RKL，即 KL(student‖teacher) = E_{y～student}[log student(y) − log teacher(y)]，回答“student 经常生成的内容，teacher 是否也倾向于生成”。在 student 自己采样的 token 上平均 `s − q`，就是它的 sampled-token 估计。以后加入的 top-k 或 full vocab estimator 必须估计同一方向（native 写入的字段同为 `opd_reverse_kl`）。profile 的量、字段和术语都用 RKL / `rkl` 命名（D21）；复用代码已有的 `kl_before_tis` 和 native 的 `opd_reverse_kl` 保持原名。
+- **NLL 的含义**：student 在自己采样的 token 上的 NLL，相当于 student 每 token 熵的采样估计。sampled-token 下，teacher NLL = RKL + NLL，因此不单独存储（D4）。
 
 ## S4. Distillation profile 的内容（D3、D6–D9、D13）
 
@@ -123,29 +124,29 @@ NLL_i = nll_sum_i / tokens_i
 | `c_id` | conversation 编号：按首次参与训练的顺序从 0 起连续编号 |
 | `t_id` | `assistant_turn_ordinal`（1-based） |
 | `replay_num` | 同一 turn 此前已有的 observation 数；本 task 恒为 0 |
-| `kl_sum`、`nll_sum`、`tokens` | S3 的三个和；KL、NLL 均值在读取时计算 |
+| `rkl_sum`、`nll_sum`、`tokens` | S3 的三个和；RKL、NLL 均值在读取时计算 |
 | `uid` | 复用的 source uid，用于回连原始数据 |
 
 **Source conversation**：`c_id`、`group_id`、`alive`，以及按 update 追加的条目。
-- 条目内容：该 update 中这个 conversation 各 turn 均值的等权平均（KL 和 NLL 各一个，D6），以及对应的 observation 行。
+- 条目内容：该 update 中这个 conversation 各 turn 均值的等权平均（RKL 和 NLL 各一个，D6），以及对应的 observation 行。
 - `alive`（D7）：data source 报告该 conversation 的最后一个 turn 已被取出（S2 第 4 条），并且训练这个 bank 的 successful update 完成后，变为 False。被超长拒绝或超时缺失的 turn 不影响这一判断。
 
-**宏观（每个 update）**：KL、NLL、tokens、turns、conversation 数。
+**宏观（每个 update）**：RKL、NLL、tokens、turns、conversation 数。
 
-**KL-best update**（D8、D13）：
-- 宏观：宏观 KL 最低的 update。conversation：其各条目中 KL 最低的那个 update。
+**RKL-best update**（D8、D13）：
+- 宏观：宏观 RKL 最低的 update。conversation：其各条目中 RKL 最低的那个 update。
 - 并列时取最早的 update。
-- 记录 `(update_id, KL, NLL)`，NLL 只是读取该 update 上的值，没有单独的"最佳 NLL"。
+- 记录 `(update_id, RKL, NLL)`，NLL 只是读取该 update 上的值，没有单独的"最佳 NLL"。
 - conversation 的最佳条目可以直接映射到表中的对应 observation。
 
-**KL trend**（D9）：窗口 k 是查询参数；日志使用配置的默认值 10。
-- 宏观：`KL(U) − KL(U−k)`，U 为最新的 update。`U ≤ k` 时不计算。
-- conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为两者 KL 之差。没有参考条目时不计算。
+**RKL trend**（D9）：窗口 k 是查询参数；日志使用配置的默认值 10。
+- 宏观：`RKL(U) − RKL(U−k)`，U 为最新的 update。`U ≤ k` 时不计算。
+- conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为两者 RKL 之差。没有参考条目时不计算。
 - 注意：full 模式下每个 turn 只训练一次，所以这里比较的是同一 conversation 的不同 turn（本顺序下相隔约 8k 个 turn），结果会混入 turn 位置本身带来的差异。
 
 **Recovery gap**：
-- 宏观：`KL(U) − KL(KL-best update)`。
-- conversation：最新条目的 KL 减去其最佳条目的 KL。
+- 宏观：`RKL(U) − RKL(RKL-best update)`。
+- conversation：最新条目的 RKL 减去其最佳条目的 RKL。
 - 两者恒 ≥ 0。
 
 **二维表**：
@@ -158,7 +159,7 @@ NLL_i = nll_sum_i / tokens_i
 | 部分 | 结构 | 写入代价 |
 | --- | --- | --- |
 | Turn observations | 按列存放、只追加的数组（容量按倍数增长） | 每个 update O(该 update 的 turn 数) |
-| 宏观行 | 以 `update_id` 为下标的数组，另存 KL-best 指针 | O(1) |
+| 宏观行 | 以 `update_id` 为下标的数组，另存 RKL-best 指针 | O(1) |
 | Conversation 条目 | 每个 conversation 一串只追加的条目，另存最佳条目和最新条目的指针 | 每次出现 O(1) |
 | 查找表 | `group_id → c_id`；`(c_id, t_id) → 最新 observation 行` | O(1) |
 
@@ -178,8 +179,8 @@ NLL_i = nll_sum_i / tokens_i
 
 目录：`<cell evidence dir>/distillation_profile/`。每个 successful update 向两个文件各追加一行：
 
-- `updates.jsonl`：`update_id`、estimator 标签、宏观 KL/NLL 及其和、tokens、turns、conversation 数、KL-best `(update, KL, NLL)`、默认 k 下的 KL trend、recovery gap，以及三个计数：已出现的 conversation 数、默认 k 下 trend 有定义的 conversation 数、alive 的 conversation 数。
-- `observations.jsonl`：`update_id`，该 update 的全部 observation 行（`uid, c_id, t_id, replay_num, kl_sum, nll_sum, tokens`），本次新出现的 conversation（`c_id, group_id`），以及本次 alive 发生变化的 conversation。
+- `updates.jsonl`：`update_id`、estimator 标签、宏观 RKL/NLL 及其和、tokens、turns、conversation 数、RKL-best `(update, RKL, NLL)`、默认 k 下的 RKL trend、recovery gap，以及三个计数：已出现的 conversation 数、默认 k 下 trend 有定义的 conversation 数、alive 的 conversation 数。
+- `observations.jsonl`：`update_id`，该 update 的全部 observation 行（`uid, c_id, t_id, replay_num, rkl_sum, nll_sum, tokens`），本次新出现的 conversation（`c_id, group_id`），以及本次 alive 发生变化的 conversation。
 
 补充说明：
 - 这两个文件足以离线重建整个 profile。运行时只以内存中的 profile 为准，不回读文件。
@@ -216,8 +217,8 @@ NLL_i = nll_sum_i / tokens_i
 | 报告（[06](tickets/06-profile-report.md)） | 用保留的证据重新计算 |
 
 最终报告按 cell 给出：
-- update 1、10、50、100、150、200 处的宏观 KL/NLL；
-- KL-best update、默认 k 下的 KL trend 和 recovery gap；
+- update 1、10、50、100、150、200 处的宏观 RKL/NLL；
+- RKL-best update、默认 k 下的 RKL trend 和 recovery gap；
 - 训练结束时 profile 的统计：出现过的 conversation 数、alive 数、trend 有定义的 conversation 数、conversation recovery gap 的分位数；
 - 准确的产物路径和观察到的局限。
 

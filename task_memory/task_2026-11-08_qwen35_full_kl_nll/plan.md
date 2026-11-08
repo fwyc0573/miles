@@ -6,6 +6,7 @@
 | 2026-11-08 | Update ticket 01 and the verification strategy for D18; awaiting freeze. |
 | 2026-11-08 | Record the freeze; rename the ticket 01 link; move the frontier to 01 and the 03 module. |
 | 2026-11-08 | Ticket 01 done; frontier is the 03 module. |
+| 2026-11-08 | Rename KL to RKL in the ticket 02 row (D21). |
 
 # Plan
 
@@ -20,7 +21,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter | Documentation freeze |
-| [02](tickets/02-per-turn-sums.md) | Per-turn KL/NLL sums in the optimizer-step record | Reused Ticket02 committed and smoke-passed on `agent-opd`, then merged (D1) |
+| [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums in the optimizer-step record | Reused Ticket02 committed and smoke-passed on `agent-opd`, then merged (D1) |
 | [03](tickets/03-distillation-profile.md) | Distillation profile module, persistence and rollout-side integration | Documentation freeze (module and CPU test); 02 (integration) |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 01, 02, 03 |
 | [05](tickets/05-b-full.md) | Accepted B/full formal cell | 01, 02, 03; 04 first-update inspection |

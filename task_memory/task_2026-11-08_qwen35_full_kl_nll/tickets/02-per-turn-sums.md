@@ -3,10 +3,11 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-08 | Draft the per-turn measurement ticket. |
+| 2026-11-08 | Rename KL to RKL and `kl_sum` to `rkl_sum` (D21). |
 
-# 02: optimizer-step record 携带逐 turn KL/NLL
+# 02: optimizer-step record 携带逐 turn RKL/NLL
 
-**What to build:** 实现 [spec S3](../spec.md#s3-逐-turn-测量d4d5d14)：利用已有张量计算每个 turn 的 `kl_sum`、`nll_sum`、`tokens`，每个 update 汇总一次，随 optimizer-step record 送到 rollout 侧。
+**What to build:** 实现 [spec S3](../spec.md#s3-逐-turn-测量d4d5d14)：利用已有张量计算每个 turn 的 `rkl_sum`、`nll_sum`、`tokens`，每个 update 汇总一次，随 optimizer-step record 送到 rollout 侧。
 
 **Blocked by:** 复用 Ticket02 在 `agent-opd` 上提交并通过其 native smoke，然后合并到 `agent-opd-image`（D1）。
 

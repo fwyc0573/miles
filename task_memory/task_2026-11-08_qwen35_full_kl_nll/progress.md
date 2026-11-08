@@ -9,6 +9,7 @@
 | 2026-11-08 | Record the round-4 answer (D18, D19); rewrite spec S2/S4/S5/S8/S9, tickets 01/03/04/05, the plan and the glossary order term. |
 | 2026-11-08 | Record the freeze and the ticket 01 rename; start 01 and the 03 module. |
 | 2026-11-08 | Record D20 (profiled KL is RKL) and ticket 01 done. |
+| 2026-11-08 | Record the D21 renaming to RKL and correct the `opd.py` line citation. |
 
 # Progress
 
@@ -61,7 +62,9 @@
 - Round 4 answer: D18 (interleaved order, 32 × 8) and D19 (relaunch rule) recorded. Rewrote spec S2; updated S4 `alive`, the table and trend notes, S5, S8 (start-up prompt lengths, D19) and S9; rewrote ticket 01 and updated 03/04/05, the plan and the glossary term (Indexed turn order → Interleaved turn order). The ticket 01 file keeps its old name `01-indexed-turn-order.md` until the user approves a `git mv`.
 
 - Round 5 answer: documentation frozen; `git mv` of ticket 01 to `01-interleaved-turn-order.md` approved and applied; links in the plan, spec S9 and the checker updated; checker rerun: 21 links, 5 anchors, 0 errors.
-- User correction during implementation: the measured KL is RKL, KL(student‖teacher). Recorded as D20 in `requirements.md`, spec S3 and `GLOSSARY.md` (commit `beb996a4`). Native `opd_reverse_kl = old_student_log_prob - teacher_log_probs` on student-sampled tokens (`miles/backends/training_utils/loss/hub/opd.py:65–66`) is already the sampled-token RKL estimate, so no computation changes. Checker rerun: 22 links, 6 anchors, 0 errors.
+- User correction during implementation: the measured KL is RKL, KL(student‖teacher). Recorded as D20 in `requirements.md`, spec S3 and `GLOSSARY.md` (commit `beb996a4`). Native `opd_reverse_kl = old_student_log_prob - teacher_log_probs` on student-sampled tokens (`miles/backends/training_utils/loss/hub/opd.py:88–89`) is already the sampled-token RKL estimate, so no computation changes. Checker rerun: 22 links, 6 anchors, 0 errors.
+
+- Round 6 answer: renaming approved as D21. Applied with a script that requires each exact text to match once (`/data/ycfeng/tmp/agent-opd-image/rename_rkl.py`): spec (title, S1–S6, S9), `GLOSSARY.md` (Turn observation, RKL-best update, RKL trend, Recovery gap; old terms moved to _Avoid_), plan row 02, tickets 02 and 06. The `opd.py` citation in spec S3 and D20 was `:90`; in this worktree the lines are `:88–89`, corrected. Checker rerun: 13 files, 29 links, 7 anchors, 0 errors.
 
 ## Ticket 01 (done)
 
@@ -71,7 +74,7 @@
 
 ## in-progress
 
-- Ticket 03 (module part): `tests/manual/agent_opd/distillation_profile.py` and its fast CPU test. Field names wait for the user's answer on renaming `kl` to `rkl`.
+- Ticket 03 (module part): `tests/manual/agent_opd/distillation_profile.py` and its fast CPU test. Field names follow D21 (`rkl_sum`).
 
 ## pending
 

@@ -9,6 +9,7 @@
 | 2026-11-08 | Record the round-4 answer as D18 (interleaved turn order) and D19 (relaunch rule). |
 | 2026-11-08 | Record the documentation freeze and the approved ticket 01 rename. |
 | 2026-11-08 | Record the user's correction that the measured KL is RKL, KL(student‖teacher), as D20. |
+| 2026-11-08 | Record the approved KL → RKL renaming as D21; correct the `opd.py` line citation in D20. |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -131,4 +132,10 @@ User wrote, while ticket 01 was in progress:
 
 (The user's table had an empty header row and an empty third column; the two filled cells are quoted.)
 
-- **D20 KL direction.** Every KL in the original request, D1–D19 and the spec means the reverse KL, RKL = KL(student‖teacher) = E over student-generated tokens of (log student − log teacher): whether the teacher also tends to generate what the student often generates. Verified against code: native `opd_reverse_kl` is `old_student_log_prob - teacher_log_probs` on the student's sampled tokens (`miles/backends/training_utils/loss/hub/opd.py:90`), which the spec's sampled-token value `s − q` already uses; no computation changes. Owner of the definition: [spec S3](spec.md#s3-逐-turn-测量d4d5d14).
+- **D20 KL direction.** Every KL in the original request, D1–D19 and the spec means the reverse KL, RKL = KL(student‖teacher) = E over student-generated tokens of (log student − log teacher): whether the teacher also tends to generate what the student often generates. Verified against code: native `opd_reverse_kl` is `old_student_log_prob - teacher_log_probs` on the student's sampled tokens (`miles/backends/training_utils/loss/hub/opd.py:88–89`), which the spec's sampled-token value `s − q` already uses; no computation changes. Owner of the definition: [spec S3](spec.md#s3-逐-turn-测量d4d5d14).
+
+### Round 6 — [Follow-up Answer] 2026-11-08
+
+Asked, with the ticket 01 result: rename the profile's `kl` names and KL terms to `rkl` / RKL before the ticket 03 module is written (spec field names such as `kl_sum`, the glossary terms "KL-best update" and "KL trend", and tickets 02 and 06), keeping the reused names `kl_before_tis` and `opd_reverse_kl`. User answered: **“确认，继续”**.
+
+- **D21 RKL naming.** The profile's quantities, fields and terms say RKL / `rkl`: `rkl_sum`, RKL-best update, RKL trend; the recovery gap is taken on RKL. The reused training-side `kl_before_tis` (with its new sibling `nll_before_tis`) and the native `opd_reverse_kl` keep their names. Raw requests and earlier decision records above keep their original wording. Owner: [spec S3](spec.md#s3-逐-turn-测量d4d5d14).

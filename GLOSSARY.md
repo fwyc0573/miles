@@ -63,21 +63,21 @@ The running record of distillation measurements over successful optimizer update
 _Avoid_: Profile without qualification, training image, profiler.
 
 **RKL**:
-The reverse KL divergence KL(student‖teacher), taken over what the student generates: it asks whether the teacher also tends to generate what the student often generates. In the distillation profile, KL without qualification means RKL.
-_Avoid_: Forward KL or KL(teacher‖student) for this quantity; they measure the opposite direction.
+The reverse KL divergence KL(student‖teacher), taken over what the student generates: it asks whether the teacher also tends to generate what the student often generates. The distillation profile measures this quantity.
+_Avoid_: Forward KL or KL(teacher‖student) for this quantity, since they measure the opposite direction; KL without a direction.
 
 **Turn observation**:
-The KL and NLL measured for one training turn in one successful optimizer update, together with that turn's identity.
+The RKL and NLL measured for one training turn in one successful optimizer update, together with that turn's identity.
 _Avoid_: Cell, element, sample, when referring to one measured value record.
 
-**KL-best update**:
-The update with the lowest KL, either for the whole run or for one source conversation; NLL is read at that update rather than having its own best.
-_Avoid_: Best NLL, best checkpoint.
+**RKL-best update**:
+The update with the lowest RKL, either for the whole run or for one source conversation; NLL is read at that update rather than having its own best.
+_Avoid_: KL-best update, best NLL, best checkpoint.
 
-**KL trend**:
-The change in KL between an update and an earlier update a fixed number of successful updates before it.
-_Avoid_: Slope, progress.
+**RKL trend**:
+The change in RKL between an update and an earlier update a fixed number of successful updates before it.
+_Avoid_: KL trend, slope, progress.
 
 **Recovery gap**:
-The latest KL minus the KL at the KL-best update.
+The latest RKL minus the RKL at the RKL-best update.
 _Avoid_: Regret, recovery space.
