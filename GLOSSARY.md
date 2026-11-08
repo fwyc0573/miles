@@ -35,3 +35,15 @@ _Avoid_: Mean of per-sequence means.
 **Successful optimizer update**:
 A completed parameter optimization step that is counted separately from attempted or skipped training iterations.
 _Avoid_: Iteration count when it includes skipped updates.
+
+**Experiment cell**:
+One specified combination of a student, a teacher and a learning protocol in an experiment matrix, independent of how many execution attempts it requires.
+_Avoid_: Unqualified cell when it could mean a deployment reconcile unit, execution attempt.
+
+**Training turn**:
+One assistant response to be learned from, together with the preceding conversation that supplies its input context.
+_Avoid_: Conversation when counting individual assistant responses.
+
+**Replay bank**:
+A fixed collection of generated trajectories whose original responses and behavior-policy evidence are reused across specified optimizer updates.
+_Avoid_: Prompt pool, which supplies inputs rather than completed trajectories.
