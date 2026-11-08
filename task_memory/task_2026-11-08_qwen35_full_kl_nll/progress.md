@@ -14,6 +14,7 @@
 | 2026-11-08 | Record the reused Ticket02 state found after the module commit. |
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
 | 2026-11-08 | Record Finding 14: the SWE-1003 0913 data, its mask-aware streaming loader and the order comparison. |
+| 2026-11-08 | Record the round-8 answers (D23–D25); replace the copy step with reading the files in place. |
 
 # Progress
 
@@ -108,10 +109,10 @@
 
 ## in-progress
 
-- Round 8: dataset switch to SWE-1003 0913 (Finding 14). Questions Q23–Q27 put to the user; spec and tickets wait for the answers.
+- Round 8: dataset switch to SWE-1003 0913 (Finding 14). Answers recorded as D23–D25; Q24 (M × block) and Q26 (visual exclusion source) explained, confirmation pending. Next: the audit job that reads the 8 files in place (D25), no copy.
 
 ## pending
 
 1. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-2. After the round-8 answers: source copy and audit, revised 01, then the spec and ticket edits listed with the questions.
+2. Audit of the 0913 files in place (CPU RJob), then the spec and ticket edits listed with the questions, then the revised 01. Ticket 01's checks on real data run inside a CPU RJob, because no local copy exists.
 3. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.

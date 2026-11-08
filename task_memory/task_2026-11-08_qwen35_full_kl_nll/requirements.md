@@ -12,6 +12,7 @@
 | 2026-11-08 | Record the approved KL → RKL renaming as D21; correct the `opd.py` line citation in D20. |
 | 2026-11-08 | Record D22: wait for the reused branch's out-of-memory fix before merging. |
 | 2026-11-08 | Record the round-8 request to switch to the SWE-1003 0913 data and the questions put with the analysis. |
+| 2026-11-08 | Record the round-8 answers as D23 (interleaved with the mask-aware turn source), D24 (training turns and `t_id`) and D25 (read the files in place). |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -156,4 +157,23 @@ User wrote, while the task waited on D22:
 
 > 将当前数据集替换为：/data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md中的 ## 2026 年 10 月 21 日交付实验使用的 sew数据集：复用 **SWE-1003** 的 0913 SFT 数据：DeepSWE resolved 轨迹，经过 garble filtering 和 datapipe 处理，位于 /mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/ 在这种情况下，请你recheck当前有哪些需要修改的tickets和spec。其中关键是：dataloader对turn的取用这些细节。在这种情况下，为了不让同一个conversation的所有turns集中在相邻updates，是否还需要 recipe为indexed？还是当前的new recipe策略？还是steaming？给出分析和依据。
 
-This replaces the "数据集…不变" part of the original request for this task only; the reused task keeps its GLM-5.2 data. Evidence: [progress.md Finding 14](progress.md#findings-that-shape-the-interview). Questions Q23–Q27 were put with the analysis; answers pending. Spec and tickets are not edited until they are answered.
+This replaces the "数据集…不变" part of the original request for this task only; the reused task keeps its GLM-5.2 data. Evidence: [progress.md Finding 14](progress.md#findings-that-shape-the-interview). Questions Q23–Q27 were put with the analysis and answered below.
+
+Questions put, with recommendations (summarized from the reply):
+
+- **Q23 turn order:** keep D18 interleaved, use the SWE-1003 streaming, or use indexed? Recommended: keep D18 with `MaskAwareSWETurnSource` as the turn source class.
+- **Q24 M and block:** keep 32 × 8 now, or decide after the audit? Recommended: keep 32 × 8; if the audit shows a median eligible-turn count clearly below 81, come back with numbers and a proposal, keeping M × block = 256.
+- **Q25 training turns and `t_id`:** train only `loss_mask = 1` assistants? Number `t_id` among eligible turns (1..n) or among all assistants (with gaps)? Recommended: only `loss_mask = 1`; `t_id` is the ordinal among eligible turns (native `assistant_turn_ordinal`); the ordinal among all assistants is kept as metadata.
+- **Q26 visual exclusion list:** read the existing receipt on posttrain-release, or compute it? Recommended: compute it with the pinned predicate.
+- **Q27 copy and audit job:** approve a CPU-only RJob that copies the 8 files to the personal cloud root and to `/data/ycfeng/tmp`, and writes a manifest with the audit counts. Recommended: approve.
+
+### Round 8 — [Follow-up Answer] 2026-11-08
+
+User wrote:
+
+> q24：如何理解 “M” 和 block的含义？32*8当前是如何定的？ q26: 什么是视觉轨迹？ q27: 允许一次任务读取多个数据卷，避免无意义的冗余复制 其他问题采纳你的方案
+
+- **D23 turn order (Q23).** Keep the D18 interleaved order. The turn source class becomes the SWE-1003 `MaskAwareSWETurnSource`; the cursor and the block mixer stay the native ones. With one open conversation the order equals the SWE-1003 streaming order. Owner: [spec S2](spec.md#s2-rollout-取数顺序d18).
+- **D24 training turns and `t_id` (Q25).** Only assistant messages with integer `loss_mask = 1` are training turns; masked assistants and tool replies stay in the prompt prefix. `t_id` is the 1-based ordinal among a conversation's training turns (native `assistant_turn_ordinal`); the ordinal among all assistants (`source_assistant_turn_ordinal`) is kept as metadata. Owner: [spec S4](spec.md#s4-distillation-profile-的内容d3d6d9d13).
+- **D25 read in place (Q27).** Read the 8 files in place from `/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/`; make no cloud or local copy. A job may mount several volumes at once (posttrain read-only, the personal cloud root, the local NFS workspace). The audit job is approved without the copy step; its small JSON outputs go to this task's `evidence/`.
+- **Q24 and Q26:** the user asked what M, block and a visual trajectory mean and how 32 × 8 was chosen. Explanations given in the reply; the recommendations stand until the user confirms.
