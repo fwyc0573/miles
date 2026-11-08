@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Amend D9 with the user-approved temporary independent task allocation, overflow preemption, and continuation after expiry. |
 | 2026-11-08 | Record approval to implement and execute the frozen tickets in parallel after the documentation review fixes. |
 | 2026-11-08 | After the post-freeze review, link the spec for D3 optimizer parameters instead of restating them and restore word spacing; no decision changed. |
 | 2026-11-08 | Record D1–D10 and explicit final confirmation; freeze the documentation deliverable. |
@@ -130,6 +131,16 @@ Add one shared baseline using the same original 4B source, selected 100 tasks, f
 The question contrasted a personal aggregate limit with a new-task-only limit, recommending the personal aggregate. The interactive tool was interrupted and supplied no decision. The user subsequently wrote: **“确认，继续”**.
 
 The primary explicitly acknowledged that confirmation as the recommended rule: all personal submitted, nonterminal non-preemptible H200 commitments together must remain at or below 56, including other tasks and every role of this task. Count Pending/Starting/Running requested GPUs, not only active CUDA processes. This confirmation continues documentation landing; no implementation or GPU action was performed under it.
+
+#### D9 amendment — [Original Request / Follow-up Answer] 2026-11-08
+
+After the personal aggregate reached 72 GPUs and denied a one-GPU check, the user initially selected **“等待释放（推荐）”**. The user subsequently replaced that waiting decision with:
+
+> 关于用卡规则：在hk时间11.9日凌晨5点之前，允许当前task使用独立的64卡内的gpus资源（不可抢占rjobs），超过数量则通过 可抢占方式提交
+
+The primary asked how to handle admitted non-preemptible jobs still running at Hong Kong 2026-11-09 05:00. The user selected **“继续完成”**, whose description was **“此前获准的作业继续运行；05:00后新提交恢复原D9准入规则。”**
+
+The active policy is specified in [spec S7](spec.md#s7-gpu-与执行准备). This exception counts this task's nonterminal training, teacher, rollout, evaluation and auxiliary GPU commitments independently of other tasks. Whole RJobs that would exceed the temporary non-preemptible ceiling use preemptible submission; a paired job is not split across preemption classes. At expiry, already admitted jobs continue and new admissions return to the original personal aggregate rule.
 
 ### D10 — [Original Request / Follow-up Answer] 2026-11-08: preserve incomplete evaluation and bounded recovery
 

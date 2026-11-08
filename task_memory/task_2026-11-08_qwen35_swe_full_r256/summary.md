@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Retain the documentation archive and update implementation status and the explicitly amended D9 resource policy. |
 | 2026-11-08 | Record the post-freeze two-axis review: link the spec for optimizer/TIS parameters and list the renumbered tickets. |
 | 2026-11-08 | Archive the completed, explicitly confirmed documentation deliverable. |
 
@@ -9,7 +10,7 @@
 
 ## Status
 
-Documentation landing is complete. The user explicitly selected “确认冻结（推荐）”, accepting decisions D1–D10, the source-backed specification and all nine tickets for subsequent implementation. Implementation and experiment execution have not started; no runtime result is claimed.
+Documentation landing is complete. The user explicitly selected “确认冻结（推荐）”, accepting decisions D1–D10, the source-backed specification and all nine tickets. Subsequent implementation is authorized and in progress: Ticket 01 is accepted in `20d0b3f4`; Tickets 02 and 03 are undergoing native integration. No formal training or benchmark result is claimed.
 
 ## Deliverables
 
@@ -30,10 +31,10 @@ All cells use constant LR 2e-6, the optimizer recipe adopted under D3 and the St
 
 There are 16 planned training HFs at successful updates 50/100/150/200 and one shared original 4B baseline. Each SWE-bench Verified point uses 100 fixed tasks × 4 seeds: 17 points and 6,800 logical attempts. Complete checkpoint evaluations release their generated HF after readers exit, including HF200; incomplete evaluations retain HF/evidence with time-limited missing-slot recovery. Original source and historical accepted weights are protected.
 
-All personal submitted nonterminal non-preemptible H200 commitments, including other tasks, must total at most 56 GPUs. Actual Qwen 256-target capacity and concurrency remain unverified.
+The user subsequently amended the resource policy; [spec.md S7](spec.md#s7-gpu-与执行准备) and `gpu_policy.json` define the temporary independent task allocation, preemptible overflow, continuation of admitted jobs, and post-expiry personal admission. Actual Qwen 256-target capacity and concurrency remain unverified.
 
 ## Validation and limitations
 
 The final document check passed: 17 Markdown files, nine tickets, 25 local links, one anchor, a valid plan/ticket DAG and correct 800-update/16-HF/17-point/6,800-attempt arithmetic. The two follow-up review findings were corrected, in addition to the three earlier closed findings. A post-freeze two-axis review of commit `f2f86fea` then found no Spec issue and three Standards Nits; the Nits were fixed without changing any decision, and the post-review revision check passed. Exact evidence is recorded in the test report and [review.md](review.md). Historical A/B qualification establishes reusable foundations, not acceptance of this new data/replay/optimizer/benchmark contract. The official Qwen3.5 original-training optimizer remains unconfirmed; the adopted settings come from explicitly identified community recipes.
 
-All nine runtime tickets remain unstarted. Data readability/parity, actual distributed loss/gradient scaling, long-context capacity, native SWE requests/grading, and HF cleanup require the assigned implementation checks before formal runs. A failed cell or missing benchmark result must remain incomplete rather than be filled with planned values.
+Input readability/parity is accepted. Actual distributed loss/gradient scaling, long-context capacity, native SWE requests/grading, and HF cleanup still require the assigned integration checks before Tickets 04–08 enter formal execution. Ticket 09 awaits their results. A failed cell or missing benchmark result must remain incomplete rather than be filled with planned values.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Apply the explicit D9 temporary independent allocation and post-expiry continuation amendment. |
 | 2026-11-08 | Freeze D1–D10 and the source-backed contract after explicit whole-document confirmation. |
 | 2026-11-08 | Draft the four-cell protocol from the request; explicitly hold source-dependent decisions for the interview. |
 
@@ -49,7 +50,7 @@
 
 ## S2. 实验预算与计数
 
-用户明确指定：四个 cell、每 update 使用256个 turn、学习率2e-6、同 bank 连续训练50次、总计200 updates、每50 updates 存储 HF、100题 avg@4、逐 update KL 与 TIS 训练 token 数、H200 非抢占最多56卡。
+用户明确指定：四个 cell、每 update 使用256个 turn、学习率2e-6、同 bank 连续训练50次、总计200 updates、每50 updates 存储 HF、100题 avg@4、逐 update KL 与 TIS 训练 token 数；资源规则采用 S7 中的 D9 及其显式修订。
 
 以下继承参考full/r256定义及已有Qwen初始化方式，纳入最终文档冻结：
 
@@ -187,9 +188,11 @@ Miles已有`allow_partial_train_step`与动态DP排程，实施先检查其真�
 
 ## S7. GPU 与执行准备
 
-**D9：本人全部已提交、未终止的非抢占H200作业合计≤56 GPUs**，包括其他任务和本任务的training student、teacher、rollout、eval、辅助GPU。按Pending/Starting/Running请求配置计承诺；未终态的停止中作业也不提前释放账面额度。提交前用当前个人作业清单及平台quota核对，不凭旧空闲值提交。
+**D9及其修订：** 香港时间 **2026-11-09 05:00之前**（UTC **2026-11-08 21:00**），本任务享有独立的 **64张不可抢占GPU** 额度，其他任务不占此额度。新增RJob若会超过该额度，整份RJob以 `ResourceConfig.preemptible=True` 提交。窗口内获准的作业在截止后可继续完成；截止时及之后的新提交恢复原D9：本人全部已提交、未终止的不可抢占H200承诺合计≤56，含其他任务。
 
-旧A/B每cell的已验收布局为8student+2teacher H200，但其batch仅8turns，不能据此声称新任务256目标已满足容量/吞吐。暂以四个独立10-GPU训练组合40卡、最多16卡评测余量作为**未验证估算**，且以没有其他个人H200承诺为前提；实际布局/并发由真实batch smoke及当时额度决定。旧约75K平均输入长度不能代表新数据，简单将旧单步耗时乘32不足以承诺工期；应测量新数据长度、acquisition/current-student scoring/training各阶段与50次cache reuse耗时。
+两种规则均计入training student、teacher、rollout、eval和辅助角色，按Pending/Starting/Running请求配置计承诺；未终态的停止中作业也不提前释放账面额度。所有本任务RJob在提交时写入相同task annotation，统一准入锁覆盖实时清单读取与提交。共享执行规则为 [gpu_policy.json](gpu_policy.json)；评测使用实际提交receipt，不另外硬编码额度。提交前核对当前作业及平台quota，不凭旧空闲值提交。
+
+旧A/B每cell的已验收布局为8student+2teacher H200，但其batch仅8turns，不能据此声称新任务256目标已满足容量/吞吐。暂以四个独立10-GPU训练组合40卡作为**未验证估算**；临时额度内剩余部分可供评测及辅助作业，实际布局/并发由真实batch smoke及当时额度决定。旧约75K平均输入长度不能代表新数据，简单将旧单步耗时乘32不足以承诺工期；应测量新数据长度、acquisition/current-student scoring/training各阶段与50次cache reuse耗时。
 
 使用个人认证与本机 source mount 的 StepMind Python `RJobBackend`，遵循现有 GPU/存储 runbook。平台容量和任务 ceiling 分开核查；不为扩大并发复制健康任务或越限排队。两个教师对的测试可并行，共享代码与数据配方。
 

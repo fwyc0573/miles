@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record parent-launch, T02 and T03 phase findings, remediation ownership and native-verification limits. |
 | 2026-11-08 | Record the post-freeze two-axis review of commit `f2f86fea` and its remediation; renumber the baseline/comparison rows. |
 | 2026-11-08 | Refresh the final D1–D10 checkpoint, nine-ticket graph and closure of both follow-up review findings. |
 | 2026-11-08 | Record the phase checkpoint and remediation of DOC-REVIEW findings after D1/D2. |
@@ -59,7 +60,7 @@
 
 1. 全矩阵目标800updates与6800评测attempts；D7早停、缺失评测均需保留INCOMPLETE，不能补造计划数。
 2. 主KL、真实OPD梯度和TIS是不同契约，S4已明确其计算与detach，02负责原生验证。
-3. 文档已明确冻结；56卡计入其他任务，实际容量与运行仍由后续tickets验证。
+3. 冻结时的D9为个人合计56卡；后续用户明确修订，当前规则见spec S7。实际容量与运行仍由后续tickets验证。
 
 审查记录：DOC-REVIEW，reviewer session`ses_e48b02733ffejx5fyyB0aqqlby`，范围为新任务全部文档及GLOSSARY新增术语。初轮3项P2已独立确认关闭；复轮2项P2（缺实际反传目标、旧八票图检查）由主agent依据源码与本次执行检查修订关闭。未声称reviewer已重查最后修订或做过运行验证。
 
@@ -77,3 +78,48 @@
 | — | Spec | — | 无 P1–P3 发现。 | 无需修改。审查者未独立复核 SWE submodule 两版本差异；数据一致性、256 目标容量、梯度归约与 HF/评测/删除运行能力仍由 01–03 实测。 |
 
 **验证：** 见 test report 的 “Post-review revision check”。本次修订不改变任何科学决定或验收条件。
+
+## 6. Implementation phase reviews — 2026-11-08
+
+The earlier sections record the documentation phase. Current execution status is in `progress.md` and `checkpoint_2026-11-08_implementation.md`.
+
+### Parent launch/admission
+
+Reviewer `ses_e4600735bffex5pmiLBYPLO0GQ` inspected the eight specified parent launch/config/test artifacts and frozen requirements. The changed-file list, dry-run/admission receipts and local report were supplied; the historical baseline diff was not independently verified by the reviewer.
+
+| ID | Finding | Remediation and evidence |
+| --- | --- | --- |
+| L1 / P1 | Missing native dynamic-global-batch flag rejects SWE startup. | Added the flag. Exact native Megatron parser/driver check remains pending. |
+| L2 / P1 | Small integration budgets defaulted to formal mode. | Configuration now explicitly sets `run_kind=smoke`; launcher forwards it. Formal checks remain strict. |
+| L3 / P2 | Native `Terminated` jobs incorrectly consumed the budget. | Added native Terminated/Deleted states; Stopping still counts. Admission regression passed. |
+| L4 / P2 | Shared/config/repo/temp path boundaries were not validated. | One validator is used by submitter and worker; seven combined path/signal regression cases passed. |
+| L5 / P3 | Child exit/status handling diverged from the existing paired worker. | Shared signal-status conversion and CalledProcessError handling preserve23 and137 in fault-injection checks. |
+
+Local affected suite:42 passed. Pinned-image suite:104 passed, no skips (`launch-checks-exp-1108-153652-994118.xml`). Native configuration acceptance is still pending: the separate full Megatron parse needs a real GPU and the existing complete training environment. No claim of parent launch runtime acceptance yet.
+
+### T02 native replay/training
+
+Reviewer `ses_e45deee1cffeShOOhyp106Skes` inspected the complete T02 changed-file list, mathematical specification, public integration contract and CPU/Gloo evidence. No native model/platform calls were performed. No actionable error was found in the recorded surrogate/detach, original denominator, pre-TIS KL/count mathematics or success-only control logic.
+
+| ID | Finding | Owner/status |
+| --- | --- | --- |
+| T2-1 / P1 | Optional diagnostic omissions can stop healthy optimization or fail rank-locally before D7 collective. | T02-REMEDIATION: separate actual training-mask counts from optional diagnostic evidence. |
+| T2-2 / P2 | stdout failure after optimizer success can prevent acknowledgement. | T02-REMEDIATION: isolate all diagnostic sinks and preserve native result/cleanup. |
+| T2-3 / P2 | Canonical bank remains resident after its final successful use. | T02-REMEDIATION: release immediately at successful bank boundary/end; retain on skip. |
+| T2-4 / P3 | Teacher failure/cancellation receipts lack stage/deadline identity. | T02-REMEDIATION: add isolated stage receipts without extra forwards. |
+
+Remediation session: `ses_e46206d68ffeuuECrBU2rN5aa7`. Real Qwen GPU/231/255/128K and throughput checks remain pending; T02 is not accepted.
+
+### T03 persistent evaluation
+
+Reviewer `ses_e45eb6f97ffeKvjf34jqPxjGk5` inspected all four new Python modules/tests, three evidence files, frozen requirements and relevant native grader/agent/exporter interfaces. No native/ACS/platform execution was performed.
+
+| ID | Finding | Owner/status |
+| --- | --- | --- |
+| T3-1 / P1 | Model `apply_patch_fail` can be treated as retryable infrastructure failure. | T03-REMEDIATION: archive verified model failure as False using real native artifact formats. |
+| T3-2 / P1 | Native `exit_env_error` autosubmit may be hidden by ordinary unresolved grading. | T03-REMEDIATION: inspect structured native infrastructure exits before terminal scoring. |
+| T3-3 / P2 | Complete child outcomes or grading-only recovery can be lost before parent ledger persistence. | T03-REMEDIATION: recover validated native outcomes/trajectories before new generation. |
+| T3-4 / P2 | Runtime can replace its self-supplied source/input hashes across resume. | T03-REMEDIATION: bind scientific configuration and pins to immutable point manifest. |
+| T3-5 / P2 | Repeated worker cancellation can interrupt native child reaping. | T03-REMEDIATION: cancel once and await protected cleanup; verify four slow-TERM workers. |
+
+Remediation session: `ses_e45df2e96ffeu2r2c5xjvsDOn8`. Existing28 fixture passes do not establish native ACS/model/grader, cloud durability or reader-platform termination; T03 is not accepted.
