@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record8/400 outcomes and correct03 to capability-accepted; preserve the original72h deadline and incomplete baseline. |
 | 2026-11-08 | Accept the baseline-specific model/task/evaluator prerequisites after independent readiness review; retain the dependency edges and pending400-result acceptance. |
 | 2026-11-08 | Distinguish still-qualified model/benchmark identities from D11's reopened training-input criteria. |
 | 2026-11-08 | Clear the completed input prerequisite; retain native evaluation as the remaining blocker. |
@@ -14,7 +15,7 @@
 
 **Blocked by:** 01 — 原始模型与题集身份；03 — 原生SWE评测能力。
 
-**Status:** in-progress — baseline-specific prerequisites verified: 01 original-model/task identities and 03 native SWE evaluation capability. Formal400-attempt job exp-1108-215214-032806 submitted on2 non-preemptible H200 GPUs; native execution,score and terminal acceptance remain pending. The03 training-to-asynchronous-evaluation criteria remain in-progress and still gate04–07.
+**Status:** in-progress — 01 and03 capability prerequisites are accepted. Formal400-attempt job exp-1108-215214-032806 continues on2 non-preemptible H200 GPUs,with8 completed outcomes (4 true,4 false),392 missing and no full avg@4. Original72h deadline is unchanged; model-false outcomes are not rerolled. Complete ledger,score and terminal acceptance remain pending.02 capacity still gates04–07,not this baseline.
 
 - [ ] 使用四cell共同的原始4B源权重，任务IDs、seeds、模板、精度和native grader与训练checkpoint评测一致。
 - [ ] 完成400个逻辑attempt；每个完成结果即时保存，基础设施缺失按同一协议恢复且不缩分母。

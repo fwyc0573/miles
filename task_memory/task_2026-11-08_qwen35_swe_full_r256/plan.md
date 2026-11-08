@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the failed single D12 acquisition and continue read-only02 RCA in parallel with08; no additional experiment approval inferred. |
 | 2026-11-09 | Accept Ticket03 after actual native isolation/review; advance02 to the approved D12 experiment while08 continues. |
 | 2026-11-08 | Route parallel02/03 to the measured acquisition and filesystem blockers while08 continues independently. |
 | 2026-11-08 | Reaccept D11 Ticket01 and move the new-data runtime frontier to parallel02/03;08 is already independently running. |
@@ -52,7 +53,7 @@ The edges above gate integration and acceptance. Independent 02 algorithm/replay
 
 08 was added by explicit D8 approval after the initial decomposition and renumbered after the post-freeze standards review, so ticket numbers now follow dependency order. Baseline scoring and formal training are independent after their stated prerequisites, so final baseline completion is not a blocker of 04–07.
 
-Ticket08's edges refer to its stated capability slices:01 original-model/task identities and03 native SWE evaluation capability. Independent readiness review verified these slices from real original4B/HF3 agent/grader results, reader exit, failure recovery and cloud lifecycle evidence. D11's training-input activation and03's remaining training-to-asynchronous-evaluation isolation do not block08; they still gate04–07. The full01/03 tickets are not relabeled complete by this limited readiness decision.
+Ticket08's edges refer to its stated capability slices:01 original-model/task identities and03 native SWE evaluation capability. Independent readiness review verified these slices from real original4B/HF3 agent/grader results, reader exit, failure recovery and cloud lifecycle evidence. At baseline admission,D11's training-input activation and03's then-unfinished isolation did not block08. That limited readiness decision did not complete the full tickets;01 and03 subsequently passed their independent acceptance checks.02 remains a prerequisite for04–07,not for08.
 
 ## Verification strategy
 
@@ -65,4 +66,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes, but both256-turn acquisitions failD6 before scoring.02 now executes the explicitly approved D12 routing-only A/r256 experiment `exp-1109-010244-280221`, changing only routing to round_robin in an isolated profile; formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues its400-slot baseline. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.
+01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes. The original256-turn acquisitions failed at206/224 valid; the single approved D12 routing-only A/r256 experiment`exp-1109-010244-280221` also failed at227/256 before scoring.02 now completes read-only RCA; any further GPU experiment requires a concrete approval rather than another D12 retry. Formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues with8/400 persisted outcomes and no full avg@4. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.

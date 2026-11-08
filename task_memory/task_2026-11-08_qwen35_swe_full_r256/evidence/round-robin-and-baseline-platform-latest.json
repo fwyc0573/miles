@@ -1,0 +1,69 @@
+{
+  "observed_at": "2026-11-08T17:52:09.230312+00:00",
+  "jobs": [
+    {
+      "name": "exp-1109-010244-280221",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "task": "task_2026-11-08_qwen35_swe_full_r256",
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-08T17:42:57Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop": {
+        "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+      },
+      "roles": {
+        "student": {
+          "replicas": 1,
+          "mounts": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "gpu_limit": "8"
+        },
+        "teacher": {
+          "replicas": 1,
+          "mounts": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "gpu_limit": "2"
+        }
+      }
+    },
+    {
+      "name": "exp-1108-215214-032806",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "task": "task_2026-11-08_qwen35_swe_full_r256",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [evaluation]",
+        "taskStatuses": {
+          "evaluation": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "stop": {},
+      "roles": {
+        "evaluation": {
+          "replicas": 1,
+          "mounts": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "gpu_limit": "2"
+        }
+      }
+    }
+  ]
+}
