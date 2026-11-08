@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-08 | Record the document checks of the draft spec, plan and six tickets. |
+| 2026-11-08 | Rerun after D18/D19: replace the random-order quantities with the interleaved-order quantities. |
 
 # Test report — documentation landing
 
@@ -17,36 +18,38 @@
 python3 /data/ycfeng/tmp/agent-opd-image/check_docs.py .   # run from this task directory
 ```
 
-The script is reproduced at the end of this report.
+The current script is reproduced at the end of this report.
 
-## Expected and actual
+## Current run (after D18/D19)
+
+Output: `files=12 tickets=6 links=21 anchors=5 order=['01', '02', '03', '04', '05', '06']`, `spans=[3, 11, 18, 58] conversations=564.6 trend_min_turns=81`, `errors: 0`, exit 0.
 
 | Check | Expected | Actual | Result |
 | --- | --- | --- | --- |
-| Local links in the 10 task documents and `GLOSSARY.md` resolve | 0 missing | 20 links, 0 missing | PASS |
-| Heading anchors used by links exist (GitHub slug rule) | 0 missing | 4 anchors, 0 missing | PASS |
+| Local links in the 11 task documents and `GLOSSARY.md` resolve | 0 missing | 21 links, 0 missing | PASS |
+| Heading anchors used by links exist (GitHub slug rule) | 0 missing | 5 anchors, 0 missing | PASS |
 | Each ticket's **Blocked by** equals its row in the plan table | equal for 01–06 | equal | PASS |
 | Ticket graph has no cycle | a topological order exists | `01, 02, 03, 04, 05, 06` | PASS |
 | Every ticket has a **Status** line | 6/6 | 6/6 | PASS |
 | Observations per cell = 200 × 256 | 51,200 | 51,200 | PASS |
 | Observations for both cells | 102,400 | 102,400 | PASS |
-| Fraction of positions drawn = 51,200 / 446,569 | 11.5% | 11.47% | PASS |
-| Mean assistant positions per conversation = 446,569 / 4,992 | 89.5 | 89.46 | PASS |
-| Appearances per conversation = 89.46 × 0.1147 | about 10 | 10.26 | PASS |
-| Mean interval = 200 / 10.26 | about 19.5 updates | 19.50 | PASS |
+| Open conversations × block = slots per update | 32 × 8 = 256 | 256 | PASS |
+| Updates spanned = ceil(n / 8) for n = 19, 81, 144, 464 | 3, 11, 18, 58 | 3, 11, 18, 58 | PASS |
+| Conversations covered ≈ 51,200 / 90.69 (spec: about 550–580, of which about 32 partly drawn) | estimate within 550–580; the reused audit's 546 is below 580 | 564.6; 546 | PASS |
+| Smallest turn count with a trend value at k = 10 (span ≥ 11) | 81 | 81 | PASS |
 | Profile memory = 51,200 rows × 40 bytes | about 2 MB | 2.05 MB | PASS |
-| First 512 draws = 2 updates × 256 | 512 | 512 | PASS |
+| Ticket 01 draw counts = 2 × 256 and 8 × 256 | 512 and 2,048 | 512 and 2,048 | PASS |
 
-First run: one error, `count text not found: 约 10 个 update`. The checker searched for wording the spec does not use (the spec says "大约出现在 10 个 update 中"); the checker's search text was corrected, no document changed, and the rerun returned 0 errors.
+## Earlier run (before D12 was withdrawn)
 
-## Separate fact check
+The first draft passed the same link, anchor and graph checks (20 links, 4 anchors) and the random-order quantities (11.5%, 89.5, about 10 appearances, about 19.5 updates apart). Its first attempt had one checker error, `count text not found: 约 10 个 update`, caused by the checker's search text rather than the documents. Those quantities no longer appear in the spec.
 
-The Q41 manifest `fresh-smoke-20261104a.json` (Steptron behavior-turn-replay task evidence) was read with Python: `status=smoke_prefix_ready`, seed 1234, 11 files, population count 446,569, 4,992 conversations, encoding "little-endian int64, row-major". These match spec S2 item 6.
+The Q41 manifest `fresh-smoke-20261104a.json` was read with Python at that time: seed 1234, 11 files, 446,569 positions, 4,992 conversations, little-endian int64 encoding. It is no longer used.
 
 ## Limits
 
 - Anchor slugs follow the GitHub rule as implemented in the script; other renderers may differ.
-- The appearance and interval estimates ignore length rejection and failed turns; they are inferences, checked here only for arithmetic.
+- The span, coverage and trend estimates use a 999-conversation sample and ignore length rejection, failed turns and the native mixer's balancing; they are inferences, checked here only for arithmetic.
 - No code or GPU behavior is verified in this phase.
 
 ## Checker script
@@ -126,32 +129,37 @@ while remaining:
     for k in ready:
         remaining.pop(k)
 
-# Counts stated in the spec.
-updates, turns, cells, population, conversations = 200, 256, 2, 446_569, 4_992
+# Counts stated in the spec and ticket 01.
+import math
+updates, turns, cells, open_conversations, block = 200, 256, 2, 32, 8
+lengths = {"min": 19, "median": 81, "p90": 144, "max": 464}
+mean_turns, audited_conversations = 90.69, 546
 spec = (task / "spec.md").read_text()
+ticket01 = (task / "tickets/01-indexed-turn-order.md").read_text()
 per_cell = updates * turns
-fraction = per_cell / population
-mean_turns = population / conversations
-appearances = mean_turns * fraction
+spans = [math.ceil(n / block) for n in lengths.values()]
+conversations = per_cell / mean_turns
+trend_min_turns = min(n for n in range(1, 1000) if math.ceil(n / block) >= 11)
 facts = {
     "51,200": per_cell == 51_200,
     "102,400": per_cell * cells == 102_400,
-    "11.5%": round(fraction * 100, 1) == 11.5,
-    "89.5": round(mean_turns, 1) == 89.5,
-    "10 个 update 中": round(appearances) == 10,
-    "约 19.5": round(updates / appearances, 1) == 19.5,
+    "M × block = 256": open_conversations * block == turns,
+    "3、11、18、58": spans == [3, 11, 18, 58],
+    "550–580": 550 <= conversations <= 580 and audited_conversations < 580,
+    "不少于 81": trend_min_turns == 81,
     "约 2 MB": round(per_cell * 40 / 1e6) == 2,
     "前 512": 2 * turns == 512,
+    "前 2,048 次取数（8 个 update 的量）": 8 * turns == 2_048,
 }
 for text, ok in facts.items():
-    if text not in spec and text not in (task / "tickets/01-indexed-turn-order.md").read_text():
+    if text not in spec and text not in ticket01:
         errors.append(f"count text not found: {text}")
     if not ok:
         errors.append(f"count mismatch: {text}")
 
 print(f"files={len(files)} tickets={len(tickets)} links={links} anchors={anchor_links} order={order}")
-print(f"per_cell={per_cell} total={per_cell * cells} fraction={fraction:.4f} mean_turns={mean_turns:.2f} "
-      f"appearances={appearances:.2f} interval={updates / appearances:.2f}")
+print(f"per_cell={per_cell} total={per_cell * cells} spans={spans} conversations={conversations:.1f} "
+      f"trend_min_turns={trend_min_turns}")
 print("errors:", len(errors))
 for e in errors:
     print(" ", e)

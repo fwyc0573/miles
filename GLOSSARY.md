@@ -52,9 +52,9 @@ _Avoid_: Prompt pool, which supplies inputs rather than completed trajectories.
 One multi-turn conversation in a training dataset whose assistant responses supply training turns.
 _Avoid_: Trajectory, traj, when referring to dataset conversations rather than generated outputs.
 
-**Indexed turn order**:
-A fixed uniform random order over all training turns of a dataset, drawn without replacement, so that turns of different source conversations interleave.
-_Avoid_: Shuffle, when it could mean shuffling whole conversations; streaming order, which keeps one conversation's turns consecutive.
+**Interleaved turn order**:
+An order in which a fixed number of source conversations are open at once and each in turn contributes a block of its next training turns, always in ascending turn order; a finished conversation is replaced by the next one in dataset order.
+_Avoid_: Streaming order, which opens one conversation at a time; random turn order, which does not keep a conversation's turns ascending.
 
 ## Distillation profile
 

@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-08 | Draft the six-ticket dependency graph and verification strategy; awaiting Q17–Q19 and freeze. |
+| 2026-11-08 | Update ticket 01 and the verification strategy for D18; awaiting freeze. |
 
 # Plan
 
@@ -16,7 +17,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
-| [01](tickets/01-indexed-turn-order.md) | Indexed turn order in the committed SWE input adapter | Documentation freeze |
+| [01](tickets/01-indexed-turn-order.md) | Interleaved turn order in the committed SWE input adapter | Documentation freeze |
 | [02](tickets/02-per-turn-sums.md) | Per-turn KL/NLL sums in the optimizer-step record | Reused Ticket02 committed and smoke-passed on `agent-opd`, then merged (D1) |
 | [03](tickets/03-distillation-profile.md) | Distillation profile module, persistence and rollout-side integration | Documentation freeze (module and CPU test); 02 (integration) |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 01, 02, 03 |
@@ -38,14 +39,14 @@ Parallel work: 01 and the pure profile module of 03 touch no uncommitted reused 
 ## Verification strategy
 
 1. **Documentation:** trace each original requirement to a spec section or ticket; check local links, counts and the graph above.
-2. **Input order (01):** run the extended `tests/manual/agent_opd/check_swe_inputs.py` on CPU against the real pinned source copies; compare population and permutation hashes with the Q41 manifest when the source bytes match.
+2. **Input order (01):** run the extended `tests/manual/agent_opd/check_swe_inputs.py` on CPU against the real pinned source copies: with one open conversation the sequence equals the native single-source sequence; with 32 × 8 the order properties hold on the raw mixer output.
 3. **Measurement (02):** a fast CPU test of the per-sample sums with uneven lengths and a two-rank CP split, following the reused `tests/fast/test_swe_tis.py`; GPU acceptance happens at the first update of 04 rather than in a separate smoke (D16).
 4. **Profile (03):** a fast CPU test with a synthetic update sequence and hand-computed expected values; offline rebuild from the JSONL files; fault injection for a failing write and a row-count mismatch; measured update and query time.
-5. **Formal cells (04, 05):** inspect the first update before starting B; then check 200 successful updates, complete profile files and per-update consistency flags against the spec.
+5. **Formal cells (04, 05):** inspect the first update before starting B; report stage times again near update 20, when the open conversations' progress has spread; then check 200 successful updates, complete profile files and per-update consistency flags against the spec.
 6. **Report (06):** recompute every reported value from the retained files.
 
 Each ticket records commands and evidence in `progress.md` and a dated test report in this directory.
 
 ## Current frontier
 
-Waiting for answers to Q17–Q19 and the user's freeze confirmation.
+Waiting for the user's freeze confirmation.

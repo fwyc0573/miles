@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-08 | Draft the Distillation profile ticket. |
+| 2026-11-08 | Take `alive` from the per-bank report of finished conversations (D18). |
 
 # 03: Distillation profile 模块与接入
 
@@ -16,5 +17,5 @@
 - [ ] fast CPU 测试使用合成的 update 序列，期望值手工计算。覆盖：同一 update 内多个 turn、跳过的 update、窗口 k 未到、并列最佳、表格映射和 `alive` 状态变化。
 - [ ] 按 S6 写两个 JSONL 文件；测试中由文件离线重建的 profile 与内存中的一致。
 - [ ] 故障注入（写文件抛错、行数不一致）只会把 profile 标记为未验证，调用方继续运行（S7）。
-- [ ] 接入：successful update 的 record 加上 bank 中的 identity，正确映射到 `c_id`/`t_id`；`alive` 来自 01 提供的剩余位置数；被跳过的 update 不产生 observation。
+- [ ] 接入：successful update 的 record 加上 bank 中的 identity，正确映射到 `c_id`/`t_id`；`alive` 来自 01 按 bank 报告的已取完 conversation；被跳过的 update 不产生 observation。
 - [ ] 测量合成的 200 update × 256 turn 运行中，每个 update 的更新耗时和全部 conversation 查询的耗时，并写入测试报告。

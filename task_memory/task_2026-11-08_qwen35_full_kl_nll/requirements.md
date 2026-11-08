@@ -6,6 +6,7 @@
 | 2026-11-08 | Record round-1 decisions and the loader-order concern with its verified answer. |
 | 2026-11-08 | Record round-2 decisions D12–D16 and the round-3 questions put with the draft documents. |
 | 2026-11-08 | Record the round-3 answer: random order rejected (D12 withdrawn), GPU budget D17; put Q20 and revised Q18. |
+| 2026-11-08 | Record the round-4 answer as D18 (interleaved turn order) and D19 (relaunch rule). |
 
 # Requirements — Qwen3.5 full-mode KL/NLL training profile
 
@@ -38,7 +39,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **DOCS_LANDING / INTERVIEW**. No implementation or GPU action is authorized by this phase.
+- Current phase: **DOCS_LANDING / AWAITING FREEZE**. No implementation or GPU action is authorized by this phase.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -101,3 +102,11 @@ Recommendations below are not decisions until the user answers.
 - **Q20 rollout turn order.** Options: (A) the Steptron streaming default as already implemented by the committed adapter — ascending order, one conversation at a time, about three conversations per update, a conversation spans one or two updates; (B) a new order in this task's adapter with 32 active conversations taking 8 consecutive turns each per round of 256 draws, ascending within each conversation, the next conversation in file order replacing a finished one — a median conversation of 81 turns spans about 11 updates. Recommendation: B with 32 conversations × 8 turns as config fields, because the per-conversation best, trend and recovery values need history spread over many updates, and blocks of 8 consecutive turns keep most of the prefix-cache reuse.
 - **Q17** is settled by D7 under either A or B: with ascending order, a conversation stops being alive after the update that trains its last drawn turn.
 - **Q18 (revised for D17).** If a cell's first update fails the reused D6 rule because rollout or teacher scoring is too slow, end that attempt as D6 requires and relaunch it as a new attempt with more GPUs, keeping this task's non-preemptible total at most 32, without asking again. If both cells cannot fit in 32, run them one after the other instead of putting formal-cell roles on preemptible jobs, because a preemption ends the attempt and this task keeps no checkpoint to resume from (D10). D6's deadline and minimum stay unchanged.
+
+### Round 4 — [Follow-up Answer] 2026-11-08
+
+User answered: **“采纳你的推荐，继续”**.
+
+- **D18 rollout turn order (Q20 → B).** Use the interleaved turn order: 32 source conversations open at once, each contributing 8 consecutive turns in ascending order per round of 256 draws, the next conversation in file order replacing a finished one. Both numbers are input config fields. Built from the native cursor, turn source and block mixer; with one open conversation it equals the current streaming order. Owner of the exact behavior: [spec S2](spec.md#s2-rollout-取数顺序d18).
+- **Q17 settled by D7.** A conversation stops being alive after the successful update that trains the bank in which its last turn was drawn.
+- **D19 relaunch rule (revised Q18).** If a cell's first update fails D6 because rollout or teacher scoring is too slow, end that attempt as D6 requires and relaunch it as a new attempt with more GPUs, keeping this task's non-preemptible total at most 32, without asking again. If both cells cannot fit in 32, run them one after the other; formal-cell roles do not go on preemptible jobs. D6's deadline and minimum stay unchanged. Later-update throughput failures are not covered: the attempt ends under D6 and is reported.

@@ -4,10 +4,11 @@
 | --- | --- |
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
 | 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
+| 2026-11-08 | Rewrite S2 for the interleaved turn order (D18); update `alive`, the table and trend notes, S5, S8 (D19) and S9. |
 
 # Spec — Qwen3.5 full 模式 KL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D16，Q17–Q19 待答）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D19；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -47,33 +48,35 @@
 - 云端根目录：`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/`，每个 cell/attempt 一个子目录。
 - 不保存 HF，不做评测（D10）。
 
-## S2. Rollout 取数顺序（D12）
+## S2. Rollout 取数顺序（D18）
 
-> **状态：已撤回。** 用户否决了随机顺序（requirements Round 3），本节待 Q20 回答后重写；以下内容仅保留到重写为止，不作为实现依据。
+采用 Interleaved turn order：同时打开 M 个 source conversation，轮流从每个 conversation 按 turn 从小到大取一个 block；取完的 conversation 由文件顺序中的下一个补上。本 task 取 M = 32、block = 8。
 
-采用 native indexed turn order，取代复用 Ticket01 的 streaming 顺序。
-
-1. **总体（population）**：11 个源文件按 manifest 顺序，文件内 conversation 按文件顺序，conversation 内 assistant 位置按消息顺序，组成一个固定列表。
-   - 建索引的方法与 native `LazySWETurnSplitDataset._build_index` 相同（Steptron recipe `step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:350–409`）。
-   - 使用已经按 sha256 加载的 native loader 模块中的 `iter_json_array_item_spans` 和 `message_role`。
-   - 每个 conversation 记录：文件、字节区间、`source_item_index`、消息数。每个 turn 记录：所属 conversation、`assistant_turn_index`、`assistant_turn_ordinal`。
-2. **顺序**：`torch.randperm(N, generator=torch.Generator().manual_seed(seed))`。seed 是 input config 的字段，本 task 设为 1234，与 behavior-turn-replay 的 Q41 相同。
-3. **取数**：
-   - 按排列顺序逐个取位置，用复用的渲染和长度规则处理。
-   - 超长的位置记一次 rejection（写日志），也算"已取过"，然后继续取下一个。
-   - 通过长度检查的位置依次填入 256 个候选 slot。超时 slot 的处理沿用复用规则：记为缺失，不补取。
-   - 不放回，不回绕。走到排列末尾时直接报错；本 task 只用约 11.5% 的位置，正常运行不会走到末尾。
-4. **identity**：沿用复用的 `uid`、`group_id`、`assistant_turn_ordinal` 等字段，另外记录该 turn 在排列中的位置，便于审计。
-5. **cell 之间相互独立**：每个 cell 有自己的 cursor，都从排列的第 0 个位置开始，取到的序列相同。
-6. **预期事实**：N = 446,569 个 assistant 位置，4,992 个 conversation（来自 Steptron 的扫描）。
-   - population 表示为 `(file_index, source_item_index, assistant_position)` 的 int64 张量；population 和排列的 hash 都是其 `<i8` 字节的 sha256，与 Q41 冻结脚本的算法相同（Steptron behavior-turn-replay worktree `tests/e2e/mopd_turn_replay/freeze_glm_fresh_order.py:143–157`）。
-   - 若本 task 的固定副本与 Q41 的源字节相同，两个 sha256 应等于 Q41 manifest（同一 worktree 的 `task_memory/task_2026-10-25_swe_behavior_turn_replay/evidence/glm-parity-20261104/fresh-smoke-20261104a.json` 中的 `population.sha256`、`population.permutation_sha256`）。
-   - 若不同，记录本 task 自己的值，并说明原因。
-7. **已接受的后果**（D12）：
-   - 同一 conversation 的 turns 以随机 turn 顺序到达，不是递增顺序。
-   - 相邻 turns 不再共享前缀，SGLang 的 prefix cache 基本失效，teacher 和 student 的 prefill 量会明显增加，耗时在第一个 update 实测。
-   - 训练数据与复用 task 的 full cell 不同，两者的 KL 曲线不能直接对比。
-8. **估算（推断，未计长度过滤和失败）**：几乎每个 conversation 都会被训练到。一个约 89.5 turns 的 conversation 大约出现在 10 个 update 中，平均间隔约 19.5 个 update。同一 update 内出现同一 conversation 的多个 turn 很少见。
+1. **由 native 类组成**（Steptron loader `step3p6_mopd_online_turn_loader_0710.py`，已按 sha256 加载）：
+   - 一个 `SequentialJsonArrayCursor`，按 manifest 的文件顺序、文件内的 conversation 顺序读取，与复用 Ticket01 相同。
+   - M 个 `OnlineTrajectoryTurnSource` 共享这个 cursor：构造后把每个 source 的 `cursor` 换成共享的那一个（cursor 构造时只读取文件 stat，`close` 可重复调用，`:31–46`、`:297–301`）。每个 source 同一时间只打开一个 conversation，按 turn 从小到大发出，发完后从共享 cursor 取下一个 conversation（`:383–427`、`:463–492`）。
+   - 外面套 `TurnBalancedTrajectoryBlockMixer`，权重全为 1，`trajectory_block_turns = block`。它每次选已发 turn 数最少的 source（并列时轮转），连续取 block 个 turn，或取到该 conversation 结束为止，然后重新选择（`:669–706`）。
+   - 结果：每约 M × block 次取数中，每个打开的 conversation 贡献约 block 个连续 turn；同一 conversation 的 turn t+1 一定在 turn t 之后被取到。
+2. **配置**：input config 新增 `swe_active_conversations`（M，默认 1）和 `swe_block_turns`（block，默认 8，即 native recipe 的 `online_trajectory_block_turns`）。M = 1 时与当前的 streaming 顺序完全相同，所以只保留这一条取数路径。本 task 设 M = 32、block = 8，M × block = 256，等于每个 update 的 slot 数。
+3. **取数与长度规则**：
+   - 顺序只由源数据决定，不依赖 tokenizer。每个取出的 turn 用复用的渲染和长度规则处理。
+   - 超长的 turn 记一次 rejection（写日志），也算在 block 里，然后继续取下一个。
+   - 通过长度检查的 turn 依次填入 256 个候选 slot。超时 slot 的处理沿用复用规则：记为缺失，不补取。
+   - 因为有 rejection，且 block 会因 conversation 结束而提前终止，update 的边界与轮次不完全对齐：个别 conversation 在一个 update 中可能出现少于或多于 block 个 turn。profile 按用户规则对同一 update 内的 turn 取平均。
+4. **identity**：沿用复用的 `uid`、`group_id`、`assistant_turn_ordinal`、`epoch` 等字段（`epoch` 取自共享 cursor），另外记录：
+   - 全局取数序号（从 0 起）；native 的 `source_row_index` 在多个 source 下只是单个 source 内的计数。
+   - `remaining_turns`：取出该 turn 后，它所属 conversation 还剩几个 turn 未取。由各 source 公开的 `active_remaining_turns` 得到。
+   - data source 另外报告每次取数（一个 bank）中取完最后一个 turn 的 conversation，包括最后一个 turn 因超长被拒绝的情况。这个报告供 `alive` 使用（S4）。
+5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，取到的序列相同。
+6. **估算（推断，未计长度过滤和失败）**：
+   - 一个 conversation 跨约 ceil(n / 8) 个 update。按 999 个 conversation 的样本统计（assistant turn 数最小 19、中位数 81、P90 144、最大 464，平均 90.69），分别约为 3、11、18、58 个 update。
+   - 每个 update 约 32 个 conversation，每个约 8 个 turn。
+   - 200 个 update 取约 51,200 个 turn，覆盖按文件顺序的前约 550–580 个 conversation，其中最后约 32 个只取了一部分。复用 task 的审计显示，前 51,200 个 turn 覆盖 546 个 conversation，所以训练用到的 conversation 与复用 task 的 full cell 基本是同一批。
+   - 默认 k = 10 时，跨度不少于 11 个 update、即 turn 数不少于 81 的 conversation（约一半）会有 trend 值。
+7. **已知后果**：
+   - 起始阶段 32 个 conversation 同时从 turn 1 开始，前若干 update 的 prompt 偏短；大约 10–20 个 update 后，各 conversation 的进度错开，prompt 长度分布趋于稳定。所以第一个 update 的耗时偏低，吞吐要看前约 20 个 update 的各阶段耗时（S8）。
+   - 同一 block 内的连续 turn 共享前缀，prefix cache 大部分仍然有效；block 的第一个 turn 能否命中上一个 update 留下的缓存，取决于缓存是否被换出。
+   - 训练的 turn 集合与复用 task 的 full cell 基本相同，但顺序不同，两者的 KL 曲线不能逐点对比。
 
 ## S3. 逐 turn 测量（D4、D5、D14）
 
@@ -123,7 +126,7 @@ NLL_i = nll_sum_i / tokens_i
 
 **Source conversation**：`c_id`、`group_id`、`alive`，以及按 update 追加的条目。
 - 条目内容：该 update 中这个 conversation 各 turn 均值的等权平均（KL 和 NLL 各一个，D6），以及对应的 observation 行。
-- `alive` 的口径待 Q17 决定。推荐：按 D7 的规则，对照整个固定排列判断——该 conversation 的全部 assistant 位置都已被取过（训练、超长 rejection 或失败）后，才变为 False。
+- `alive`（D7）：data source 报告该 conversation 的最后一个 turn 已被取出（S2 第 4 条），并且训练这个 bank 的 successful update 完成后，变为 False。被超长拒绝或超时缺失的 turn 不影响这一判断。
 
 **宏观（每个 update）**：KL、NLL、tokens、turns、conversation 数。
 
@@ -136,7 +139,7 @@ NLL_i = nll_sum_i / tokens_i
 **KL trend**（D9）：窗口 k 是查询参数；日志使用配置的默认值 10。
 - 宏观：`KL(U) − KL(U−k)`，U 为最新的 update。`U ≤ k` 时不计算。
 - conversation：设其最新条目在 update `u_c`，参考条目取 update `≤ u_c − k` 中最新的一个，值为两者 KL 之差。没有参考条目时不计算。
-- 注意：full 模式下每个 turn 只训练一次，所以这里比较的是同一 conversation 的不同 turn，结果会混入 turn 位置本身带来的差异。
+- 注意：full 模式下每个 turn 只训练一次，所以这里比较的是同一 conversation 的不同 turn（本顺序下相隔约 8k 个 turn），结果会混入 turn 位置本身带来的差异。
 
 **Recovery gap**：
 - 宏观：`KL(U) − KL(KL-best update)`。
@@ -145,7 +148,7 @@ NLL_i = nll_sum_i / tokens_i
 
 **二维表**：
 - 行是 `t_id`（从小到大），列是 `c_id`（从左到右即首次训练的先后），每格是该 `(c_id, t_id)` 的最新 Turn observation；更早的 presentation 保留在历史中（D7）。
-- 这张表是稀疏的：本 task 每列约 10 格。
+- 每列的格数等于该 conversation 已训练的 turn 数，各列高度不同（样本中为 19–464 个 turn）；超长、超时的 turn 留空。
 - 失败、超长、超时的 turn 不进入表（D7）。
 
 ## S5. 数据结构与查询（D15）
@@ -166,7 +169,7 @@ NLL_i = nll_sum_i / tokens_i
 - **接入点**：
   - `SweReplay.on_train_result` 收到 successful update 的 record 后更新 profile。
   - 每个 bank 里的 trajectory 已带有 source identity，用来映射到 `c_id` 和 `t_id`。
-  - `alive` 所需的"剩余未取位置数"由 data source 提供。
+  - `alive` 所需的"已取完的 conversation"由 data source 按 bank 报告（S2 第 4 条）。
   - 被跳过的 update 不产生 observation。
 
 ## S6. 持久化与日志（D15）
@@ -190,19 +193,21 @@ NLL_i = nll_sum_i / tokens_i
 - native 训练、通信和 I/O 的故障处理不变，D6、D7 的停止规则不变。
 - profile 不参与任何训练控制。
 
-## S8. GPU 与执行（D16、D17、Q18）
+## S8. GPU 与执行（D16、D17、D19）
 
 - **D17**：本 task 自己的非抢占 H200 额度为 32 卡，只计本 task 已提交、未终止的作业，与其他 task 无关。超过 32 卡的部分可以用可抢占 RJob 提交（`ResourceConfig.preemptible=True`，按 RJob runbook 的可抢占提交一节）。
 - **初始布局**：沿用复用 task 的每 cell 布局（复用 spec S7 中 8 student + 2 teacher 的估计，尚未验证），两个 cell 约 20 GPU，在 32 卡以内。
 - **启动顺序**（D16）：先启动 A，检查它第一个 update 的 profile 和各阶段耗时，通过后再启动 B。
-- **Q18（待答）**：第一个 update 若因吞吐不足违反 D6，按 D6 结束该 attempt。推荐：之后增加 GPU，作为新 attempt 重启，不再另行询问，本 task 的非抢占总数保持在 32 以内；两个 cell 同时放不下时改为先后运行，而不是把正式 cell 的角色放到可抢占作业上（被抢占会结束该 attempt，本 task 没有 checkpoint 可恢复，D10）。D6 的截止时间和最低条数不变。
+- **吞吐判断**：第一个 update 的 prompt 偏短（S2 第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
+- **D19**：第一个 update 若因 rollout 或 teacher 打分太慢违反 D6，按 D6 结束该 attempt，然后增加 GPU，作为新 attempt 重启，不再另行询问；本 task 的非抢占总数保持在 32 以内。两个 cell 同时放不下时改为先后运行，不把正式 cell 的角色放到可抢占作业上（被抢占会结束该 attempt，本 task 没有 checkpoint 可恢复，D10）。D6 的截止时间和最低条数不变。
+- 第一个之后的 update 若因吞吐违反 D6，按 D6 结束该 attempt 并报告；D19 不覆盖这种情况，是否重启由用户决定。
 
 ## S9. 验证与交付
 
 | 层次 | 检查 |
 | --- | --- |
 | 文档 | 每条原始需求都能对应到本 spec 的章节或 ticket；链接、计数、依赖图（DAG）正确 |
-| 输入顺序（[01](tickets/01-indexed-turn-order.md)） | 在真实固定副本上用 CPU 检查 population 和排列、前 512 次取数的 identity、超长 rejection、两个独立 cursor、剩余位置计数、建索引的耗时和内存 |
+| 输入顺序（[01](tickets/01-indexed-turn-order.md)） | 在真实固定副本上用 CPU 检查：M = 1 时与当前 streaming 序列完全相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同 |
 | 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | CPU：长短不一的样本、CP 切分时，逐 turn 和相加等于原有标量；GPU：在 A 的第一个 update 上检查一致性 |
 | Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
 | 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | 200 个实际 successful update；profile 文件各 200 行；observation 数等于实际训练的 turn 数；每个 update 都通过一致性检查；采集耗时；RJob 终态 |

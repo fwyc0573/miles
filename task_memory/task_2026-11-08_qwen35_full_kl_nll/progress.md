@@ -6,6 +6,7 @@
 | 2026-11-08 | Answer the round-1 loader-order concern with source evidence; correct Finding 8. |
 | 2026-11-08 | Record round 2 (D12–D16), the drafted spec, plan and six tickets, the Q41 manifest check and the document checks. |
 | 2026-11-08 | Record the round-3 answer and the second loader verification (Finding 12); spec S2 and tickets 01/04/05 wait for Q20. |
+| 2026-11-08 | Record the round-4 answer (D18, D19); rewrite spec S2/S4/S5/S8/S9, tickets 01/03/04/05, the plan and the glossary order term. |
 
 # Progress
 
@@ -34,7 +35,7 @@
     - Estimate for this task under the indexed order (inference, ignoring length rejection and failed turns): 51,200 / 446,569 = 11.5% of turns. A conversation of 89.5 turns appears in about 10 updates, about 19.5 updates apart; two turns of one conversation in the same update are rare; nearly every conversation is visited. A conversation's turns arrive in random turn order, not ascending.
     - Conclusion: the user's expectation (turns spread evenly over conversations) matches the native indexed order, not the streaming default. The reused Ticket 01 adapter (`tests/manual/agent_opd/swe_inputs.py`) uses the streaming source directly.
 
-11. **Q41 manifest facts (for ticket 01).** `fresh-smoke-20261104a.json` in the Steptron behavior-turn-replay task evidence records `status=smoke_prefix_ready`, seed 1234, 11 files, population count 446,569 over 4,992 conversations, rows `(file_index, source_item_index, assistant_position)` hashed as little-endian row-major int64: population sha256 `fdcf79d2…bd547e`, permutation sha256 `8a5f64ce…1baf1aa`. The hash algorithm is in `tests/e2e/mopd_turn_replay/freeze_glm_fresh_order.py:143–157`. Spec S2 item 6 now cites both.
+11. **Q41 manifest facts (no longer used after D12 was withdrawn).** `fresh-smoke-20261104a.json` in the Steptron behavior-turn-replay task evidence records `status=smoke_prefix_ready`, seed 1234, 11 files, population count 446,569 over 4,992 conversations, rows `(file_index, source_item_index, assistant_position)` hashed as little-endian row-major int64: population sha256 `fdcf79d2…bd547e`, permutation sha256 `8a5f64ce…1baf1aa`. The hash algorithm is in `tests/e2e/mopd_turn_replay/freeze_glm_fresh_order.py:143–157`. Spec S2 cited both until D12 was withdrawn.
 
 12. **Second loader verification (round-3 question: does the native indexed order keep ascending turns and take about 8 turns per conversation at a time?).** Source: `/data/ycfeng/steptron/.worktrees/behavior-turn-replay-step3p6/`.
     - Indexed path (`online_turn_streaming=False`, recipe `playground/users/wyx/MOPD/step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:636–667`): `LazySWETurnSplitDataset._build_index` (`:429–450`) appends every assistant turn of every conversation to one flat `turn_index` list; `MultiEpochSampler(len(dataset))` (`third_party/datahub/src/datahub/text/samplers/multi_epoch_sampler.py:41–47`) draws `torch.randperm(size, seed=base_seed + epoch)` over that list. Turn order within a conversation is not kept and there is no 8-turn grouping.
@@ -42,6 +43,8 @@
     - With SWE as the only source (this task), the mixer always picks the same source and a conversation's turns are fully consecutive. In the 5-domain production run, a SWE conversation is taken 8 turns at a time with other domains' blocks in between. The behavior-turn-replay task recorded the same reading (`task_2026-10-25_swe_behavior_turn_replay/progress.md:3269`).
     - A search of all 58 Steptron worktrees' `playground/users` and `tests/e2e` for sampler, mixer and turn-source classes found no loader that keeps several conversations of one source active at once.
     - Conversation lengths (999-conversation sample, `task_2026-10-23_swe_turn_replay/swe-dataset-format.md:61`): assistant turns min 19, median 81, P90 144, max 464, mean 90.69. With 8 turns per conversation per update, a conversation spans ceil(n/8) updates: min 3, median 11, P90 18, max 58.
+
+13. **Native classes cover the interleaved order (D18).** `SequentialJsonArrayCursor.__init__` only collects file stat signatures and opens files lazily; `close` is idempotent (`step3p6_mopd_online_turn_loader_0710.py:31–46,297–301`). `OnlineTrajectoryTurnSource` loads conversations through `self.cursor.next_record()` (`:383–427`), so several sources can share one cursor by replacing the attribute after construction. `TurnBalancedTrajectoryBlockMixer` picks the source with the fewest emitted turns, ties rotating, and ends a block at `trajectory_block_turns` or at the end of the conversation (`:669–706`). With one source the mixer emits exactly the source's sequence. The committed adapter uses one native source directly (`tests/manual/agent_opd/swe_inputs.py:171–174,213`).
 
 ## Interview and document iterations
 
@@ -52,15 +55,13 @@
   - "Existing metrics log" resolves to the JSONL evidence: the reused configuration enables no wandb/tensorboard.
   - The profile module lives in `tests/manual/agent_opd/` next to its only user, `SweReplay`.
 - Round 3 questions Q17–Q19 recorded in `requirements.md` with recommendations.
-
 - Round 3 answer: random order rejected (D12 withdrawn); D17 GPU budget recorded and applied to spec S0/S8; spec S2 marked as waiting for Q20.
+- Round 4 answer: D18 (interleaved order, 32 × 8) and D19 (relaunch rule) recorded. Rewrote spec S2; updated S4 `alive`, the table and trend notes, S5, S8 (start-up prompt lengths, D19) and S9; rewrote ticket 01 and updated 03/04/05, the plan and the glossary term (Indexed turn order → Interleaved turn order). The ticket 01 file keeps its old name `01-indexed-turn-order.md` until the user approves a `git mv`.
 
 ## in-progress
 
-- Waiting for the user's answers to Q20 (rollout order) and revised Q18.
+- Waiting for the user's freeze confirmation and approval to rename the ticket 01 file.
 
 ## pending
 
-1. Rewrite spec S2 (and S4 `alive`, the S1/S2 estimates), tickets 01/04/05 and the glossary's order term from the Q20 answer; rerun the document checks.
-2. User freeze confirmation.
-3. After the freeze: start 01 and the 03 module; 02 waits for the reused Ticket02 and the merge (D1).
+1. After the freeze: start 01 and the 03 module; 02 waits for the reused Ticket02 and the merge (D1).
