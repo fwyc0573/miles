@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Accept Ticket01 and move the integration/acceptance frontier to parallel Tickets02 and03. |
 | 2026-11-08 | Start authorized execution and distinguish independent development from prerequisite-dependent runtime acceptance. |
 | 2026-11-08 | Renumber the baseline (08) and comparison (09) tickets into dependency order after the post-freeze standards review; restore word spacing. |
 | 2026-11-08 | Freeze the nine-ticket dependency graph after user confirmation. |
@@ -57,4 +58,4 @@ The edges above gate integration and acceptance. Independent 02 algorithm/replay
 
 ## Current frontier
 
-01 input parity and identity verification is the acceptance frontier. Independent 02 training/replay and 03 evaluation-lifecycle code can develop in parallel; their integration waits for 01. Formal cells and the shared baseline retain all recorded prerequisites.
+01 input parity and identity verification is accepted. The acceptance frontier is now parallel 02 training/replay and 03 evaluation lifecycle, including their native integration checks. Formal cells and the shared baseline retain all recorded prerequisites.

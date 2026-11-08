@@ -1,0 +1,232 @@
+{
+  "manifest": {
+    "status": "COMPLETE",
+    "python": "3.12.13",
+    "files": [
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0000.json",
+        "sha256": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb",
+        "bytes": 352168391,
+        "conversations": 500,
+        "assistant_turns": 46619,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json",
+        "copied_bytes": 352168391
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0001.json",
+        "sha256": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d",
+        "bytes": 369235910,
+        "conversations": 500,
+        "assistant_turns": 48399,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json",
+        "copied_bytes": 369235910
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0002.json",
+        "sha256": "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4",
+        "bytes": 361892347,
+        "conversations": 500,
+        "assistant_turns": 45993,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json",
+        "copied_bytes": 361892347
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0003.json",
+        "sha256": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662",
+        "bytes": 350282225,
+        "conversations": 500,
+        "assistant_turns": 46715,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json",
+        "copied_bytes": 350282225
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0004.json",
+        "sha256": "f9be77c6019ac52038c47cc70f847e1666633f2fb4c1aaad3c2584e0f7e7f518",
+        "bytes": 278147323,
+        "conversations": 392,
+        "assistant_turns": 35308,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json",
+        "copied_bytes": 278147323
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0000.json",
+        "sha256": "d5b933155df1f412f83734f53c420032c275c8fbe44b3f5c9fe6c6619fd3646c",
+        "bytes": 317335603,
+        "conversations": 500,
+        "assistant_turns": 43069,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json",
+        "copied_bytes": 317335603
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0001.json",
+        "sha256": "fd39d460ee87dbb0a10274ae0cfa52fb650c017a1d0ac1b876828698a1a3cfbd",
+        "bytes": 319631987,
+        "conversations": 500,
+        "assistant_turns": 43355,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json",
+        "copied_bytes": 319631987
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0002.json",
+        "sha256": "e1045ba26039633bfaf33ee7cf83f835dfb081d61bd97cdef3c481ca276d074e",
+        "bytes": 317100901,
+        "conversations": 500,
+        "assistant_turns": 43400,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json",
+        "copied_bytes": 317100901
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0003.json",
+        "sha256": "6c1b02bf08dcabb4fe6f991e5aa09493f69dd6e90e8f20bb1a1d9850e213b002",
+        "bytes": 313332735,
+        "conversations": 500,
+        "assistant_turns": 42302,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json",
+        "copied_bytes": 313332735
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0004.json",
+        "sha256": "82961f98acffecb9fb487f245e8fcc356c272c07e7c743289a789e6ea0104cab",
+        "bytes": 314832778,
+        "conversations": 500,
+        "assistant_turns": 43101,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json",
+        "copied_bytes": 314832778
+      },
+      {
+        "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0005.json",
+        "sha256": "ed75390fb50fc55a36148aa6b09c2cae876e0a564556d58b873626939674b289",
+        "bytes": 62522228,
+        "conversations": 100,
+        "assistant_turns": 8308,
+        "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json",
+        "copied_bytes": 62522228
+      }
+    ],
+    "total_bytes": 3356482428
+  },
+  "manifest_sha256": "bb0db1091760e2a52f0c3c8f0fb9f54eaa2346073bccb4ca00f3df4779ec23c5",
+  "local_verified_files": [
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0000.json",
+      "sha256": "cd24a887eb3d3f1c0139415b3956d25a3c9fc1b95ec3af7fb56ffff34669cceb",
+      "bytes": 352168391,
+      "conversations": 500,
+      "assistant_turns": 46619,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json",
+      "copied_bytes": 352168391,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0000.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0001.json",
+      "sha256": "7b8a183eef2142de98554a8e275b1e07941ed070e39305bd551857e5a2f6846d",
+      "bytes": 369235910,
+      "conversations": 500,
+      "assistant_turns": 48399,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json",
+      "copied_bytes": 369235910,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0001.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0002.json",
+      "sha256": "d52a450378d9fdf0cac3f0f3c281dad3b1437a444a7ff6fc746473e3252190d4",
+      "bytes": 361892347,
+      "conversations": 500,
+      "assistant_turns": 45993,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json",
+      "copied_bytes": 361892347,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0002.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0003.json",
+      "sha256": "03a138d3272bec93831642dd6402b1718899d261812092c185ab0528ee68f662",
+      "bytes": 350282225,
+      "conversations": 500,
+      "assistant_turns": 46715,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json",
+      "copied_bytes": 350282225,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0003.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_0_include_unresolved_part0004.json",
+      "sha256": "f9be77c6019ac52038c47cc70f847e1666633f2fb4c1aaad3c2584e0f7e7f518",
+      "bytes": 278147323,
+      "conversations": 392,
+      "assistant_turns": 35308,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json",
+      "copied_bytes": 278147323,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_0_include_unresolved_part0004.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0000.json",
+      "sha256": "d5b933155df1f412f83734f53c420032c275c8fbe44b3f5c9fe6c6619fd3646c",
+      "bytes": 317335603,
+      "conversations": 500,
+      "assistant_turns": 43069,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json",
+      "copied_bytes": 317335603,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0000.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0001.json",
+      "sha256": "fd39d460ee87dbb0a10274ae0cfa52fb650c017a1d0ac1b876828698a1a3cfbd",
+      "bytes": 319631987,
+      "conversations": 500,
+      "assistant_turns": 43355,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json",
+      "copied_bytes": 319631987,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0001.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0002.json",
+      "sha256": "e1045ba26039633bfaf33ee7cf83f835dfb081d61bd97cdef3c481ca276d074e",
+      "bytes": 317100901,
+      "conversations": 500,
+      "assistant_turns": 43400,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json",
+      "copied_bytes": 317100901,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0002.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0003.json",
+      "sha256": "6c1b02bf08dcabb4fe6f991e5aa09493f69dd6e90e8f20bb1a1d9850e213b002",
+      "bytes": 313332735,
+      "conversations": 500,
+      "assistant_turns": 42302,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json",
+      "copied_bytes": 313332735,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0003.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0004.json",
+      "sha256": "82961f98acffecb9fb487f245e8fcc356c272c07e7c743289a789e6ea0104cab",
+      "bytes": 314832778,
+      "conversations": 500,
+      "assistant_turns": 43101,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json",
+      "copied_bytes": 314832778,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0004.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/glm5.2_distill_1_include_unresolved_part0005.json",
+      "sha256": "ed75390fb50fc55a36148aa6b09c2cae876e0a564556d58b873626939674b289",
+      "bytes": 62522228,
+      "conversations": 100,
+      "assistant_turns": 8308,
+      "destination": "/mnt/codesign-exp/ycfeng/steptron/turn-replay-step3p6/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json",
+      "copied_bytes": 62522228,
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/swe-sources-20261023/glm5.2_distill_1_include_unresolved_part0005.json"
+    }
+  ],
+  "local_verified_bytes": 3356482428,
+  "manifest_reported_conversations": 4992,
+  "manifest_reported_raw_assistant_turns": 446569,
+  "counts_independently_recomputed_in_this_check": false,
+  "parent_model_source_receipt": {
+    "path": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/model-sources-exp-1108-144027-369537.json",
+    "sha256": "38d0844c4841d58a1628d2e7b811a0bd28e45841a7e8742af341bbddf5494c73",
+    "status": "verified",
+    "local_tokenizer_assets_match_all_models": true,
+    "verification_owner": "parent; receipt read only, no duplicate model scan"
+  }
+}
