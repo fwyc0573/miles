@@ -1,0 +1,3324 @@
+{
+  "task_id": "T02-ACTUAL-GRADIENT-AUDIT",
+  "job_id": "exp-1108-195742-592659",
+  "command": [
+    "timeout",
+    "60s",
+    "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+    "tests/manual/agent_opd/audit_swe_native_gradients.py",
+    "--root",
+    "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live",
+    "--output",
+    "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/native-gradient-audit.json",
+    "--config",
+    "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-config.json",
+    "--job-id",
+    "exp-1108-195742-592659",
+    "--ranks",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "--pinned-core",
+    "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core",
+    "--memory-gib",
+    "30"
+  ],
+  "python": "3.12.13",
+  "memory_limit_gib": 30,
+  "files": [
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_0.jsonl",
+      "sha256": "6ba0457c28acb904b7d431b6d89f4493099896ef10c4e10f31f821a5ac98b416",
+      "bytes": 50914,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_1.jsonl",
+      "sha256": "dc8188ea1a3770f9069cf87dd6f749e32fd0b20c039087c03e732db04fe1b860",
+      "bytes": 50908,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_2.jsonl",
+      "sha256": "e65955c77338446171e5c432d2a7909b600d990adf14b60308b241c6814b83fb",
+      "bytes": 44499,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_3.jsonl",
+      "sha256": "ccb126a82ab003490d2a3baf4d23907f0267d33a6db6a8ef225af3efd059984e",
+      "bytes": 44499,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_4.jsonl",
+      "sha256": "c62339940eb986fa7839749db9713e69f54693cc0c8e5a55f7b25ac9a0aa7fb3",
+      "bytes": 51563,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_5.jsonl",
+      "sha256": "9c9facabb05d45a2f794c03a183a899759b529b21ca056d2fba03a1e9c135876",
+      "bytes": 51566,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_6.jsonl",
+      "sha256": "9dac85b31d925cb95fbc7dcdecdb38c021cc2ce2aec080d1c8a02e167021837b",
+      "bytes": 48146,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-live/native_gradients_rank_7.jsonl",
+      "sha256": "8ddbc13e1c94ad44b20cd321735a3a70ec1cadd4190e06f0cec04fd7dc79899b",
+      "bytes": 48143,
+      "rows": 33,
+      "events": {
+        "before_train": 3,
+        "live_loss_graph": 3,
+        "post_tis_backward": 3,
+        "live_logprob_backward": 3,
+        "finalizer_before": 3,
+        "parameter_gradient_scale": 3,
+        "finalizer_after": 3,
+        "live_graph_source_values": 3,
+        "optimizer_boundary": 6,
+        "optimizer_ack": 3
+      }
+    }
+  ],
+  "config": "task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/training-native-gradient-config.json",
+  "coverage": {
+    "status": "PASS",
+    "missing_or_duplicate": [],
+    "observer_soft_failures": [],
+    "rank_steps": 24,
+    "rows": 264
+  },
+  "tokens": {
+    "status": "PASS",
+    "violations": [],
+    "calls": [
+      {
+        "rank": 0,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 177,
+        "surviving_tokens": 177,
+        "response_lengths": [
+          65,
+          112
+        ],
+        "sample_indices": [
+          5,
+          3
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 5,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.09260504692792892,
+            "teacher": -0.2983822822570801,
+            "behavior": -0.09284885972738266,
+            "advantage_f32": -0.20577722787857056,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.20577722787857056,
+            "observed_d_loss_d_l": 0.20577722787857056,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 7.450580596923828e-09,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 0,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 177,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          65,
+          112
+        ],
+        "sample_indices": [
+          5,
+          3
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 5,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.09276792407035828,
+            "teacher": -0.2983822822570801,
+            "behavior": -0.09284885972738266,
+            "advantage_f32": -0.2056143581867218,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 0,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 267,
+        "surviving_tokens": 131,
+        "response_lengths": [
+          58,
+          78,
+          131
+        ],
+        "sample_indices": [
+          13,
+          12,
+          11
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 13,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.17006449401378632,
+            "teacher": -0.46932607889175415,
+            "behavior": -0.18155847489833832,
+            "advantage_f32": -0.29926156997680664,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 136,
+            "sample_index": 11,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.76579350233078,
+            "teacher": -0.5011405944824219,
+            "behavior": -0.6983727812767029,
+            "advantage_f32": 0.26465290784835815,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.26465290784835815,
+            "observed_d_loss_d_l": -0.26465290784835815,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 1,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 177,
+        "surviving_tokens": 177,
+        "response_lengths": [
+          65,
+          112
+        ],
+        "sample_indices": [
+          5,
+          3
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 5,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.09260504692792892,
+            "teacher": -0.2983822822570801,
+            "behavior": -0.09284885972738266,
+            "advantage_f32": -0.20577722787857056,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.20577722787857056,
+            "observed_d_loss_d_l": 0.20577722787857056,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 7.450580596923828e-09,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 1,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 177,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          65,
+          112
+        ],
+        "sample_indices": [
+          5,
+          3
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 5,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.09276792407035828,
+            "teacher": -0.2983822822570801,
+            "behavior": -0.09284885972738266,
+            "advantage_f32": -0.2056143581867218,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 1,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 267,
+        "surviving_tokens": 131,
+        "response_lengths": [
+          58,
+          78,
+          131
+        ],
+        "sample_indices": [
+          13,
+          12,
+          11
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 13,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.17006449401378632,
+            "teacher": -0.46932607889175415,
+            "behavior": -0.18155847489833832,
+            "advantage_f32": -0.29926156997680664,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 136,
+            "sample_index": 11,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.76579350233078,
+            "teacher": -0.5011405944824219,
+            "behavior": -0.6983727812767029,
+            "advantage_f32": 0.26465290784835815,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.26465290784835815,
+            "observed_d_loss_d_l": -0.26465290784835815,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 2,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 72,
+        "surviving_tokens": 72,
+        "response_lengths": [
+          72
+        ],
+        "sample_indices": [
+          7
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 7,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5869840383529663,
+            "teacher": -0.41099491715431213,
+            "behavior": -0.5854762196540833,
+            "advantage_f32": 0.17598912119865417,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.17598912119865417,
+            "observed_d_loss_d_l": -0.17598912119865417,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 2,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 72,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          72
+        ],
+        "sample_indices": [
+          7
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 7,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5743852257728577,
+            "teacher": -0.41099491715431213,
+            "behavior": -0.5854762196540833,
+            "advantage_f32": 0.16339030861854553,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 2,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 323,
+        "surviving_tokens": 150,
+        "response_lengths": [
+          150,
+          173
+        ],
+        "sample_indices": [
+          14,
+          8
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 14,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.41388562321662903,
+            "teacher": -1.0012599229812622,
+            "behavior": -0.4109293222427368,
+            "advantage_f32": -0.5873743295669556,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.5873743295669556,
+            "observed_d_loss_d_l": 0.5873743295669556,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 2.9802322387695312e-08,
+            "sign_error": 0.0
+          },
+          "rejected": {
+            "flat_position": 150,
+            "sample_index": 8,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.105652332305908,
+            "teacher": -1.6229310035705566,
+            "behavior": -2.232761859893799,
+            "advantage_f32": 0.48272132873535156,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 3,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 72,
+        "surviving_tokens": 72,
+        "response_lengths": [
+          72
+        ],
+        "sample_indices": [
+          7
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 7,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5869840383529663,
+            "teacher": -0.41099491715431213,
+            "behavior": -0.5854762196540833,
+            "advantage_f32": 0.17598912119865417,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.17598912119865417,
+            "observed_d_loss_d_l": -0.17598912119865417,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 3,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 72,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          72
+        ],
+        "sample_indices": [
+          7
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 7,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5743852257728577,
+            "teacher": -0.41099491715431213,
+            "behavior": -0.5854762196540833,
+            "advantage_f32": 0.16339030861854553,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 3,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 323,
+        "surviving_tokens": 150,
+        "response_lengths": [
+          150,
+          173
+        ],
+        "sample_indices": [
+          14,
+          8
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 14,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.41388562321662903,
+            "teacher": -1.0012599229812622,
+            "behavior": -0.4109293222427368,
+            "advantage_f32": -0.5873743295669556,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.5873743295669556,
+            "observed_d_loss_d_l": 0.5873743295669556,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 2.9802322387695312e-08,
+            "sign_error": 0.0
+          },
+          "rejected": {
+            "flat_position": 150,
+            "sample_index": 8,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.105652332305908,
+            "teacher": -1.6229310035705566,
+            "behavior": -2.232761859893799,
+            "advantage_f32": 0.48272132873535156,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 4,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 286,
+        "surviving_tokens": 286,
+        "response_lengths": [
+          127,
+          67,
+          92
+        ],
+        "sample_indices": [
+          4,
+          2,
+          0
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 4,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.076067715883255,
+            "teacher": -0.033515628427267075,
+            "behavior": -0.07559995353221893,
+            "advantage_f32": 0.04255208745598793,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.04255208745598793,
+            "observed_d_loss_d_l": -0.04255208745598793,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 4,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 286,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          127,
+          67,
+          92
+        ],
+        "sample_indices": [
+          4,
+          2,
+          0
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 4,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.07280641049146652,
+            "teacher": -0.033515628427267075,
+            "behavior": -0.07559995353221893,
+            "advantage_f32": 0.03929078206419945,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 4,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 813,
+        "surviving_tokens": 813,
+        "response_lengths": [
+          518,
+          295
+        ],
+        "sample_indices": [
+          10,
+          9
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 10,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5985196828842163,
+            "teacher": -0.8583807945251465,
+            "behavior": -0.5986108183860779,
+            "advantage_f32": -0.2598611116409302,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.2598611116409302,
+            "observed_d_loss_d_l": 0.2598611116409302,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 5,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 286,
+        "surviving_tokens": 286,
+        "response_lengths": [
+          127,
+          67,
+          92
+        ],
+        "sample_indices": [
+          4,
+          2,
+          0
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 4,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.076067715883255,
+            "teacher": -0.033515628427267075,
+            "behavior": -0.07559995353221893,
+            "advantage_f32": 0.04255208745598793,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.04255208745598793,
+            "observed_d_loss_d_l": -0.04255208745598793,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 5,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 286,
+        "surviving_tokens": 0,
+        "response_lengths": [
+          127,
+          67,
+          92
+        ],
+        "sample_indices": [
+          4,
+          2,
+          0
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 0,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 4,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.07280641049146652,
+            "teacher": -0.033515628427267075,
+            "behavior": -0.07559995353221893,
+            "advantage_f32": 0.03929078206419945,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": -0.0,
+            "observed_d_loss_d_l": -0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 5,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 813,
+        "surviving_tokens": 813,
+        "response_lengths": [
+          518,
+          295
+        ],
+        "sample_indices": [
+          10,
+          9
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 10,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.5985196828842163,
+            "teacher": -0.8583807945251465,
+            "behavior": -0.5986108183860779,
+            "advantage_f32": -0.2598611116409302,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.2598611116409302,
+            "observed_d_loss_d_l": 0.2598611116409302,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 6,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 131,
+        "surviving_tokens": 56,
+        "response_lengths": [
+          75,
+          56
+        ],
+        "sample_indices": [
+          6,
+          1
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 6,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.3140931129455566,
+            "teacher": -2.4338161945343018,
+            "behavior": -2.3125,
+            "advantage_f32": -0.11972308158874512,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 75,
+            "sample_index": 1,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.23104046285152435,
+            "teacher": -0.24754191935062408,
+            "behavior": -0.22986151278018951,
+            "advantage_f32": -0.01650145649909973,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.01650145649909973,
+            "observed_d_loss_d_l": 0.01650145649909973,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 6,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 131,
+        "surviving_tokens": 56,
+        "response_lengths": [
+          75,
+          56
+        ],
+        "sample_indices": [
+          6,
+          1
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 6,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.3051326274871826,
+            "teacher": -2.4338161945343018,
+            "behavior": -2.3125,
+            "advantage_f32": -0.12868356704711914,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 75,
+            "sample_index": 1,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.36423444747924805,
+            "teacher": -0.24754191935062408,
+            "behavior": -0.22986151278018951,
+            "advantage_f32": 0.11669252812862396,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.11669252812862396,
+            "observed_d_loss_d_l": -0.11669252812862396,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 6,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 129,
+        "surviving_tokens": 129,
+        "response_lengths": [
+          129
+        ],
+        "sample_indices": [
+          15
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 15,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -1.5730547904968262,
+            "teacher": -1.557738184928894,
+            "behavior": -1.5729302167892456,
+            "advantage_f32": 0.015316605567932129,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.015316605567932129,
+            "observed_d_loss_d_l": -0.015316605567932129,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 7,
+        "rollout_id": 0,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 131,
+        "surviving_tokens": 56,
+        "response_lengths": [
+          75,
+          56
+        ],
+        "sample_indices": [
+          6,
+          1
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 6,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.3140931129455566,
+            "teacher": -2.4338161945343018,
+            "behavior": -2.3125,
+            "advantage_f32": -0.11972308158874512,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 75,
+            "sample_index": 1,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.23104046285152435,
+            "teacher": -0.24754191935062408,
+            "behavior": -0.22986151278018951,
+            "advantage_f32": -0.01650145649909973,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": 0.01650145649909973,
+            "observed_d_loss_d_l": 0.01650145649909973,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 7,
+        "rollout_id": 1,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 131,
+        "surviving_tokens": 56,
+        "response_lengths": [
+          75,
+          56
+        ],
+        "sample_indices": [
+          6,
+          1
+        ],
+        "sampled_presentations": 16,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "rejected": {
+            "flat_position": 0,
+            "sample_index": 6,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 0.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -2.3051326274871826,
+            "teacher": -2.4338161945343018,
+            "behavior": -2.3125,
+            "advantage_f32": -0.12868356704711914,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 0.0,
+            "expected_d_loss_d_l": 0.0,
+            "observed_d_loss_d_l": 0.0,
+            "absolute_error": 0.0,
+            "relative_error": null,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          },
+          "retained": {
+            "flat_position": 75,
+            "sample_index": 1,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -0.36423444747924805,
+            "teacher": -0.24754191935062408,
+            "behavior": -0.22986151278018951,
+            "advantage_f32": 0.11669252812862396,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.11669252812862396,
+            "observed_d_loss_d_l": -0.11669252812862396,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      },
+      {
+        "rank": 7,
+        "rollout_id": 2,
+        "step_id": 0,
+        "call": 1,
+        "original_tokens": 129,
+        "surviving_tokens": 129,
+        "response_lengths": [
+          129
+        ],
+        "sample_indices": [
+          15
+        ],
+        "sampled_presentations": 8,
+        "retained_presentations": 8,
+        "max_derivative_abs_error": 0.0,
+        "examples": {
+          "retained": {
+            "flat_position": 0,
+            "sample_index": 15,
+            "response_index": 0,
+            "original": 1.0,
+            "retained": 1.0,
+            "rho": 1.0,
+            "clip_active": false,
+            "scored_student": -1.5730547904968262,
+            "teacher": -1.557738184928894,
+            "behavior": -1.5729302167892456,
+            "advantage_f32": 0.015316605567932129,
+            "actual_native_s_minus_l": 0.0,
+            "incoming_pg_gradient": 1.0,
+            "expected_d_loss_d_l": -0.015316605567932129,
+            "observed_d_loss_d_l": -0.015316605567932129,
+            "absolute_error": 0.0,
+            "relative_error": 0.0,
+            "float64_source_error": 0.0,
+            "sign_error": 0.0
+          }
+        }
+      }
+    ],
+    "sampled_presentations": 256,
+    "tp_deduplicated_presentations": 128,
+    "tp_deduplicated_retained": 72,
+    "tp_deduplicated_rejected": 56,
+    "retained_presentations": 144,
+    "rejected_presentations": 112,
+    "nonzero_retained_presentations": 144,
+    "max_derivative_abs_error": 0.0,
+    "max_derivative_relative_error": 0,
+    "max_float64_source_error": 2.9802322387695312e-08,
+    "max_sign_error": 0.0,
+    "rho_values": [
+      1.0
+    ],
+    "clip_active_presentations": 0
+  },
+  "normalization": {
+    "status": "PASS",
+    "violations": [],
+    "calls": [
+      {
+        "rank": 0,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 177,
+        "local_surviving": 177,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.512923285597935e-11,
+        "max_relative_error": 4.339905425587497e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 0,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 177,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 7.958078640513122e-13,
+        "max_relative_error": 3.6485930569098426e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 0,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 267,
+        "local_surviving": 131,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 1.0402345651527867e-11,
+        "max_relative_error": 4.4511367969164744e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 1,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 177,
+        "local_surviving": 177,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.512923285597935e-11,
+        "max_relative_error": 4.339905425587497e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 1,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 177,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 7.958078640513122e-13,
+        "max_relative_error": 3.6485930569098426e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 1,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          0,
+          1
+        ],
+        "local_original": 267,
+        "local_surviving": 131,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 1.0402345651527867e-11,
+        "max_relative_error": 4.4511367969164744e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 2,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 72,
+        "local_surviving": 72,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 5.9117155615240335e-12,
+        "max_relative_error": 4.451632677090956e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 2,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 72,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 0,
+        "scale_positions": 8,
+        "max_abs_error": 0.0,
+        "max_relative_error": null,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "UNVERIFIED_ZERO_ONLY_SLICE",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 2,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 323,
+        "local_surviving": 150,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 6.59383658785373e-12,
+        "max_relative_error": 4.1376798709186556e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 3,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 72,
+        "local_surviving": 72,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 5.9117155615240335e-12,
+        "max_relative_error": 4.451632677090956e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 3,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 72,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 0,
+        "scale_positions": 8,
+        "max_abs_error": 0.0,
+        "max_relative_error": null,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "UNVERIFIED_ZERO_ONLY_SLICE",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 3,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          2,
+          3
+        ],
+        "local_original": 323,
+        "local_surviving": 150,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 6.59383658785373e-12,
+        "max_relative_error": 4.1376798709186556e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 4,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 286,
+        "local_surviving": 286,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 5.4569682106375694e-11,
+        "max_relative_error": 4.771237074420563e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 4,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 286,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 0,
+        "scale_positions": 8,
+        "max_abs_error": 0.0,
+        "max_relative_error": null,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "UNVERIFIED_ZERO_ONLY_SLICE",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 4,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 813,
+        "local_surviving": 813,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.183231456205249e-11,
+        "max_relative_error": 3.302745746263295e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 5,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 286,
+        "local_surviving": 286,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 5.4569682106375694e-11,
+        "max_relative_error": 4.771237074420563e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 5,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 286,
+        "local_surviving": 0,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 0,
+        "scale_positions": 8,
+        "max_abs_error": 0.0,
+        "max_relative_error": null,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "UNVERIFIED_ZERO_ONLY_SLICE",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 5,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          4,
+          5
+        ],
+        "local_original": 813,
+        "local_surviving": 813,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.183231456205249e-11,
+        "max_relative_error": 3.302745746263295e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 6,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 131,
+        "local_surviving": 56,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 1.4779288903810084e-12,
+        "max_relative_error": 3.821512159133058e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 6,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 131,
+        "local_surviving": 56,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 7.958078640513122e-13,
+        "max_relative_error": 3.6485930569098426e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 6,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 129,
+        "local_surviving": 129,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.410605131648481e-12,
+        "max_relative_error": 5.459640927496467e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 7,
+        "rollout_id": 0,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 131,
+        "local_surviving": 56,
+        "global_original": 666,
+        "global_surviving": 591,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 1.4779288903810084e-12,
+        "max_relative_error": 3.821512159133058e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 7,
+        "rollout_id": 1,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 131,
+        "local_surviving": 56,
+        "global_original": 666,
+        "global_surviving": 56,
+        "factor": 0.0015015015378594398,
+        "factor_relative_error": 2.421438694867606e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 7.958078640513122e-13,
+        "max_relative_error": 3.6485930569098426e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      },
+      {
+        "rank": 7,
+        "rollout_id": 2,
+        "chunk": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "tp_ranks": [
+          6,
+          7
+        ],
+        "local_original": 129,
+        "local_surviving": 129,
+        "global_original": 1532,
+        "global_surviving": 1223,
+        "factor": 0.0006527415243908763,
+        "factor_relative_error": 1.536682246814497e-08,
+        "nonzero_before_positions": 8,
+        "scale_positions": 8,
+        "max_abs_error": 3.410605131648481e-12,
+        "max_relative_error": 5.459640927496467e-08,
+        "max_fp32_reference_error": 0.0,
+        "nonzero_scale_evidence": "PASS",
+        "ownership": "Not recorded: sampled full-parameter main_grad is not established as this optimizer rank's owned shard"
+      }
+    ],
+    "group_totals": [
+      {
+        "rollout_id": 0,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "original_tokens": 666,
+        "surviving_tokens": 591,
+        "bank": 0,
+        "bank_visit": 1
+      },
+      {
+        "rollout_id": 1,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "original_tokens": 666,
+        "surviving_tokens": 56,
+        "bank": 0,
+        "bank_visit": 2
+      },
+      {
+        "rollout_id": 2,
+        "dp_cp_ranks": [
+          0,
+          2,
+          4,
+          6
+        ],
+        "original_tokens": 1532,
+        "surviving_tokens": 1223,
+        "bank": 1,
+        "bank_visit": 1
+      },
+      {
+        "rollout_id": 0,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "original_tokens": 666,
+        "surviving_tokens": 591,
+        "bank": 0,
+        "bank_visit": 1
+      },
+      {
+        "rollout_id": 1,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "original_tokens": 666,
+        "surviving_tokens": 56,
+        "bank": 0,
+        "bank_visit": 2
+      },
+      {
+        "rollout_id": 2,
+        "dp_cp_ranks": [
+          1,
+          3,
+          5,
+          7
+        ],
+        "original_tokens": 1532,
+        "surviving_tokens": 1223,
+        "bank": 1,
+        "bank_visit": 1
+      }
+    ],
+    "scale_calls": 24,
+    "sampled_scale_positions": 192,
+    "nonzero_scale_calls": 20,
+    "zero_only_scale_calls": [
+      {
+        "rank": 2,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 3,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 4,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 5,
+        "rollout_id": 1,
+        "chunk": 0
+      }
+    ],
+    "max_factor_relative_error": 2.421438694867606e-08,
+    "max_scale_abs_error": 5.4569682106375694e-11,
+    "max_scale_relative_error": 5.459640927496467e-08,
+    "max_scale_fp32_reference_error": 0.0
+  },
+  "optimizer": {
+    "status": "PASS",
+    "violations": [],
+    "ranks": [
+      {
+        "rank": 0,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 139641949673648,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 139641964810304,
+            "state_id": 139638757068048,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 62,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139638817031984,
+                    "state_id": 139632614225920,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 43,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139638757067184,
+                    "state_id": 139629926628992,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 1,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 139539467689936,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 139538310451264,
+            "state_id": 139538307665888,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 62,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139538309556544,
+                    "state_id": 139534566155264,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 43,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139538307665024,
+                    "state_id": 139534835526976,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 2,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 139822058053152,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 139820906578384,
+            "state_id": 139820905439104,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 71,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139820906158576,
+                    "state_id": 139816007419264,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 44,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139820905438240,
+                    "state_id": 139815019424448,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 3,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 139492089143728,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 139491309047152,
+            "state_id": 139491181828656,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 71,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139491184008624,
+                    "state_id": 139486586263744,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 44,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 139491181827792,
+                    "state_id": 139486581806720,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 4,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 140021079175920,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 140024197362848,
+            "state_id": 140021077153392,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 67,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140021080032352,
+                    "state_id": 140016069858560,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 44,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140021077152528,
+                    "state_id": 140016221721792,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 5,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 140337770394016,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 140338932457136,
+            "state_id": 140337773854240,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 67,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140337773840096,
+                    "state_id": 140334104042240,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 44,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140337770259600,
+                    "state_id": 140334255528448,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 6,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 140337483760128,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 140340551859568,
+            "state_id": 140337480035968,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 28,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140337482514368,
+                    "state_id": 140332490903808,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 22,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140337480035104,
+                    "state_id": 140332489622464,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      },
+      {
+        "rank": 7,
+        "wrapper_class": "megatron.core.optimizer.optimizer.ChainedOptimizer",
+        "wrapper_id": 140256065689008,
+        "initialized_leaf_states": [
+          {
+            "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+            "id": 140259475306544,
+            "state_id": 140256064691456,
+            "param_groups": [
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.1,
+                "param_count": 28,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140256064778992,
+                    "state_id": 140252644556928,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              },
+              {
+                "lr": 2e-06,
+                "betas": [
+                  0.9,
+                  0.98
+                ],
+                "eps": 1e-08,
+                "weight_decay": 0.0,
+                "param_count": 22,
+                "group_step": 1,
+                "group_keys": [
+                  "betas",
+                  "bias_correction",
+                  "default_config",
+                  "eps",
+                  "is_decoupled_lr",
+                  "is_expert_parallel",
+                  "lr",
+                  "lr_mult",
+                  "max_lr",
+                  "min_lr",
+                  "params",
+                  "step",
+                  "wd_mult",
+                  "weight_decay"
+                ],
+                "state_sample": [
+                  {
+                    "param_index": 0,
+                    "parameter_id": 140256064690592,
+                    "state_id": 140252656143040,
+                    "state_keys": [
+                      "exp_avg",
+                      "exp_avg_sq"
+                    ],
+                    "state_step": null
+                  }
+                ]
+              }
+            ],
+            "adam_w_mode": 1
+          }
+        ],
+        "native_acks": [
+          {
+            "bank": 0,
+            "bank_visit": 1,
+            "successful_updates": 1,
+            "native_skipped_count": 0,
+            "current_weight_version": 0
+          },
+          {
+            "bank": 0,
+            "bank_visit": 2,
+            "successful_updates": 2,
+            "native_skipped_count": 0,
+            "current_weight_version": 1
+          },
+          {
+            "bank": 1,
+            "bank_visit": 1,
+            "successful_updates": 3,
+            "native_skipped_count": 0,
+            "current_weight_version": 2
+          }
+        ],
+        "post_update_group_steps": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            3
+          ]
+        ]
+      }
+    ],
+    "rank_count": 8,
+    "sampled_state_dicts": 16
+  },
+  "provenance": {
+    "status": "PASS",
+    "delegates": [
+      {
+        "name": "megatron.core.optimizer.optimizer.MegatronOptimizer.scale_loss",
+        "runtime_path": "/root/Megatron-LM/megatron/core/optimizer/optimizer.py",
+        "runtime_sha256": [
+          "328e6ad17d0f60b3bd9e6e1eaf372ea274dd91165ff861051e635e55386bcccb"
+        ],
+        "inspected_local_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/optimizer/optimizer.py",
+        "local_sha256": "328e6ad17d0f60b3bd9e6e1eaf372ea274dd91165ff861051e635e55386bcccb",
+        "status": "PASS"
+      },
+      {
+        "name": "miles.backends.megatron_utils.model.finalize_model_grads_with_empty_cache",
+        "runtime_path": "/data/ycfeng/sota-engine/miles/miles/backends/megatron_utils/model.py",
+        "runtime_sha256": [
+          "d8d8f5a4afb8023cb523091c0c45c3c8723b879b9487735bba30055669c7182e"
+        ],
+        "inspected_local_path": "miles/backends/megatron_utils/model.py",
+        "local_sha256": "d8d8f5a4afb8023cb523091c0c45c3c8723b879b9487735bba30055669c7182e",
+        "status": "PASS"
+      },
+      {
+        "name": "megatron.core.distributed.finalize_model_grads.finalize_model_grads",
+        "runtime_path": "/root/Megatron-LM/megatron/core/distributed/finalize_model_grads.py",
+        "runtime_sha256": [
+          "ee0936e28c99083a65eb19af6f72c74345f6fb0379eb05f0245d3e7976ec6536"
+        ],
+        "inspected_local_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/finalize_model_grads.py",
+        "local_sha256": "ee0936e28c99083a65eb19af6f72c74345f6fb0379eb05f0245d3e7976ec6536",
+        "status": "PASS"
+      },
+      {
+        "name": "megatron.core.distributed.distributed_data_parallel.DistributedDataParallel.scale_gradients",
+        "runtime_path": "/root/Megatron-LM/megatron/core/distributed/distributed_data_parallel.py",
+        "runtime_sha256": [
+          "3898ac3f6d10e50ac61f0a70698e2c0a27e2d1d0df23195118e2fa44b842741b"
+        ],
+        "inspected_local_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+        "local_sha256": "3898ac3f6d10e50ac61f0a70698e2c0a27e2d1d0df23195118e2fa44b842741b",
+        "status": "PASS"
+      },
+      {
+        "name": "megatron.core.distributed.distributed_data_parallel.DistributedDataParallel.finish_grad_sync",
+        "runtime_path": "/root/Megatron-LM/megatron/core/distributed/distributed_data_parallel.py",
+        "runtime_sha256": [
+          "3898ac3f6d10e50ac61f0a70698e2c0a27e2d1d0df23195118e2fa44b842741b"
+        ],
+        "inspected_local_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-pinned-normalization-exp-1107-235600-946937/core/distributed/distributed_data_parallel.py",
+        "local_sha256": "3898ac3f6d10e50ac61f0a70698e2c0a27e2d1d0df23195118e2fa44b842741b",
+        "status": "PASS"
+      }
+    ],
+    "unrecorded_runtime_digests": [
+      "observer module",
+      "TransformerEngine FusedAdam",
+      "param_and_grad_buffer.py",
+      "distrib_optimizer.py"
+    ]
+  },
+  "status": "OBSERVED_MATH_PASS_WITH_UNVERIFIED_ZERO_SLICES_AND_SHARD_OWNERSHIP",
+  "failed_criteria": [],
+  "unverified_numeric_criteria": [],
+  "nonzero_scale_coverage": {
+    "status": "UNVERIFIED",
+    "calls_with_nonzero_slice": 20,
+    "total_scale_calls": 24,
+    "zero_only_calls": [
+      {
+        "rank": 2,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 3,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 4,
+        "rollout_id": 1,
+        "chunk": 0
+      },
+      {
+        "rank": 5,
+        "rollout_id": 1,
+        "chunk": 0
+      }
+    ],
+    "reason": "Measured zeros are genuine observations, not missing rows; zero multiplication alone cannot verify nonzero scaling at these calls"
+  },
+  "optimizer_owned_gradient": {
+    "status": "UNVERIFIED",
+    "reason": "Runtime use_distributed_optimizer=True; JSONL does not record parameter-to-buffer ranges or this rank's owning shard. Only actual scale-method multiplication is audited"
+  },
+  "limits": [
+    "4 zero-only scale slices verify recorded factor and zero preservation but not nonzero scaling at those calls",
+    "No parameter-to-buffer shard range is recorded; no sampled full-buffer value is claimed to be an optimizer-owned gradient or a cross-rank SUM",
+    "Only sampled actual gradients are saved; complete tensor/parameter gradients and full answer TIS ratios cannot be independently reconstructed from JSONL",
+    "All observed PPO ratios are one; this reachable configuration does not exercise clipping branches",
+    "Optimizer continuity proves observed identities/group counters and sampled initialized state dicts, not unsaved momentum values or every parameter state",
+    "Only A/r256, three eight-turn smoke updates; no 256-turn capacity, formal schedule or Ticket02 completion verdict"
+  ],
+  "maximum_rss_kib": 20212
+}
