@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept03 after actual native isolation and review; track approved02 routing experiment and independent08. |
 | 2026-11-08 | Accept numerical audit; stop blind reruns after acquisition/permission failures and retain independent baseline progress. |
 | 2026-11-08 | Check actual worker/native/baseline progress and correct stale02/03 input statuses; isolate the dispatch snapshot repair. |
 | 2026-11-08 | Verify32 task GPU commitments after three new-data admissions; keep runtime and optional review independent. |
@@ -14,55 +15,55 @@
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 6｜TODO 2
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 6｜TODO 1
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | 01 输入 | PASS | 全源visual/普通factory与四组formal配置通过；200/256/50合同及CPU/GPU验证边界明确。 |
-| 02 训练与度量 | FAILED | 小批量RKL/TIS/PPO独立重算通过；两组256收集只有206/224有效，未进入student评分。 |
-| 03 HF/评测 | TODO | mounts别名修复通过；新运行暴露root目录写权限问题，HF2/HF3隔离仍未执行。 |
-| 04 A/full | BLOCKED | 等待02/03及新源验收。 |
-| 05 A/r256 | BLOCKED | 等待02/03及新源验收。 |
-| 06 B/full | BLOCKED | 等待02/03及新源验收。 |
-| 07 B/r256 | BLOCKED | 等待02/03及新源验收。 |
+| 02 训练与度量 | FAILED | 旧两组256收集仅206/224；D12独立routing对照已准入，容量/两次更新/source-lifetime仍未验收。 |
+| 03 HF/评测 | PASS | 实际HF2故障不阻止update3；HF3重载/grader/3reader退出通过，独立review GO。 |
+| 04 A/full | BLOCKED | 等待02实际容量与完整原生训练验收。 |
+| 05 A/r256 | BLOCKED | 等待02；D12不是正式profile变更。 |
+| 06 B/full | BLOCKED | 等待02。 |
+| 07 B/r256 | BLOCKED | 等待02。 |
 | 08 原始学生基线 | TODO | 已持久化2/400原生成功结果；398缺失、avg@4=null，原72h不变。 |
 | 09 比较归档 | BLOCKED | 无正式cell或完整benchmark结果。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 上次worker/reader checkpoint至今｜**当前前沿：** 02收集瓶颈、03本机/worker目录ownership与隔离、08完整评测。
+**检测窗口：** 上次acquisition/permission checkpoint至今｜**当前前沿：** 02批准的D12容量对照、08完整评测；03已完成。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 复用原生dump完成PPO复算；CPU目录准备直接解除03阻塞，没有扩展harness。 |
-| D2 细节反复重试 | CLEAR | mounts预测经CPU与新运行验证；错误推进到独立权限边界，停止第三次盲重跑。 |
-| D3 支线问题修补 | CLEAR | 03真实共享目录无法写入，直接阻塞已有HF2/HF3验收。 |
-| D4 可并行任务停滞 | CLEAR | 02 serving日志分析、03权限修复和08正式评测独立进行。 |
-| D5 超范围镀金 | CLEAR | 没有新协议、重试或科学参数；仅修一个本机通知根目录owner，旧子目录/HF未动。 |
-| D6 分析空转 | CLEAR | 512 slots归类、PPO误差和2个真实benchmark结果均已有实值；下一实验须基于日志判别。 |
-| D7 路线违背 | CLEAR | 231/256、1800s、128K保持不变；未以小批量或历史GLM结果放行正式训练。 |
+| D1 工具打磨 | CLEAR | 目录准备只解除真实03阻塞；原生路由transport仅两行，未另造router/harness。 |
+| D2 细节反复重试 | CLEAR | CPU/cross-UID判别后真实03通过；D12在queue不均测量及用户批准后仅改路由。 |
+| D3 支线问题修补 | CLEAR | ownership修复在03路径；路由直接检验02的有效样本不足。 |
+| D4 可并行任务停滞 | CLEAR | 02配置/准入、03原生评分/验收、08正式评测独立推进。 |
+| D5 超范围镀金 | CLEAR | D12明确批准单次隔离A/r256；默认216 argv完全一致，正式profile未改。 |
+| D6 分析空转 | CLEAR | 512 slots与1083 serving观察收敛为routing-only决策，已实际准入；03完成。 |
+| D7 路线违背 | CLEAR | D12已记录原始批准；231/1800/128K/n1/max1/graphFalse/TP2保持，04–07未提前启动。 |
 
-**文档检查：** S5：02/03状态行仍称tensor审计或snapshot原因待验收，与最新PPO PASS、alias修复和权限失败证据不符；已更新当前阻塞。S1–S4/S6无新缺陷；未把初次吞吐不足宣称为不可达criterion。
-**归因：** 无执行偏离；S5结果/状态滞后已修正。
+**文档检查：** S5：03待验收及D12未提交状态落后于原生grader/review GO和实际admission，已更新tickets/plan/progress；fault时间已按原始文件纠正。S1–S4/S6无新缺陷；吞吐不足不是不可达criterion的证明。
+**归因：** 无执行偏离；S5状态/时间滞后已修正。
 
 ## 3. 纠正建议
 
 **分支：** B：tickets存在状态滞后，先更新记录，不改变scope或验收条件。
 
 **文档更新（先执行，已完成）：**
-1. tickets02/03、plan、progress：记录PPO PASS、206/224失败和权限阻塞，保持验收条件（可直接执行，已更新）。
-2. native test report：记录原始失败、正确49 pending/48 cancellations区别、单目录owner修复与2/400实值（可直接执行，已更新）。
+1. ticket03、plan、progress：将实际流程能力验收标done，保留1/400/null与fixture/真实benchmark边界（可直接执行，已更新）。
+2. native test report/review：从fault.json纠正时间为1794153345.1932557，并记录update3晚350.20s；D12记录实际准入且不改正式profiles（可直接执行，已更新）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 03：提交前创建本机拥有的共享目录，先通过CPU ordering/soft-gate验证；不改变true-drift guard → 再执行HF2失败/HF3原生评分与reader清理。
-2. 并行02：以已有serving日志判别queue/prefill和long decode，得到最小有证据实验；不放宽D6 → 收齐至少231后才验证large-bank scoring/optimizer和受控sourcepatch对照。
-3. 并行08：保留原72h与400分母，按实际results核验完成数；04–07继续等待02/03。
+1. 02：核对D12实际router/engine/GPU身份 →1800s至少231有效 → 两次原生optimizer ACK/第二轮scoring/source-lifetime；未达标保留证据，不扩展为额外未批准实验。
+2. 并行08：保留原72h与400分母，按实际results核验完成数；完成400后才报告avg@4。
+3. 04–07：继续等02验收；03不再阻塞，不为已通过03追加新harness或GPU故障实验。
 
 ## 4. 最值得关注的 3 点
 
-1. 两组失败在生成收集，不在student projection；没有large-bank sourcepatch PASS或OOM判定。
-2. 第二个observer问题是root拥有0755目录；CPU/文件系统验证前不再消耗GPU重跑。
-3. baseline已有2个真实成功结果，但仍398缺失；最终avg@4不可报告。
+1. D12只批准一个A/r256对照，现请求10张H200、baseline2张；容量和sourcepatch仍未通过。
+2. 03原生流程通过，但HF3只是1/400；两份qualification HF必须继续保留。
+3. baseline最近核实2个真实成功结果，仍不完整；04–07等待02，而不是等待03或完整baseline。

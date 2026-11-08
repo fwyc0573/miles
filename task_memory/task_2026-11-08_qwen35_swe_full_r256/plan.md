@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept Ticket03 after actual native isolation/review; advance02 to the approved D12 experiment while08 continues. |
 | 2026-11-08 | Route parallel02/03 to the measured acquisition and filesystem blockers while08 continues independently. |
 | 2026-11-08 | Reaccept D11 Ticket01 and move the new-data runtime frontier to parallel02/03;08 is already independently running. |
 | 2026-11-08 | Clarify08's existing capability-specific prerequisites after independent readiness review; retain the full01/03 gates for04–07. |
@@ -64,4 +65,4 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 is reaccepted for D11. Small-run native RKL/TIS/PPO reconstruction passes; both256-turn acquisitions failD6 before scoring,so02 first needs measured serving-bottleneck resolution.03's snapshot alias fix passes; its native rerun identifies a separate local directory-ownership blocker,which must be verified before another qualification. These two diagnosis/repair scopes run independently while08 continues its400-slot baseline (currently2 persisted results). No threshold,deadline orscientific decision is changed. Historical GLM does not certify replacement-data GPU capacity;04–07 remain blocked and unstarted.
+01 is reaccepted for D11 and03 is capability-accepted after actual HF2-failure/HF3 native grading and independent phase review. Small-run native RKL/TIS/PPO reconstruction passes, but both256-turn acquisitions failD6 before scoring.02 now executes the explicitly approved D12 routing-only A/r256 experiment `exp-1109-010244-280221`, changing only routing to round_robin in an isolated profile; formal profiles and all science/deadline/threshold parameters remain unchanged.08 independently continues its400-slot baseline. Historical GLM and the eight-slot isolation smoke do not certify replacement-data GPU capacity;04–07 remain blocked on02 and unstarted.
