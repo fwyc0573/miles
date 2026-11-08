@@ -7,6 +7,7 @@
 | 2026-11-08 | Rewrite S2 for the interleaved turn order (D18); update `alive`, the table and trend notes, S5, S8 (D19) and S9. |
 | 2026-11-08 | Define KL as RKL, KL(student‖teacher), in S3 (D20). |
 | 2026-11-08 | Rename the profile's KL quantities and fields to RKL/`rkl` (D21); correct the `opd.py` line citation. |
+| 2026-11-08 | Correct the S5 memory estimate to the measured total. |
 
 # Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
@@ -167,7 +168,7 @@ NLL_i = nll_sum_i / tokens_i
   - 单个 conversation：trend 用二分查找，O(log 条目数)；其他查询 O(1)。
   - 宏观查询 O(1)。
   - 另提供对全部 conversation 一次性计算 trend、recovery gap、alive 的批量版本，O(conversation 数)，供以后的算法策略使用。
-- **内存**：每个 cell 约 51,200 行，每行约 40 字节，共约 2 MB。
+- **内存**：每个 cell 约 51,200 行。数值列每行约 40 字节，共约 2 MB；加上每行保留的 `uid` 字符串和 `(c_id, t_id)` 查找表等，合成的 200 × 256 运行实测共约 13 MB（[ticket 03 模块测试报告](test_report_2026-11-08_distillation_profile_module.md)）。
 - **代码位置**：`tests/manual/agent_opd/distillation_profile.py`，与它唯一的使用方 `SweReplay` 放在同一目录。等出现第二个使用方时，再考虑移入 `miles/`。
 - **接入点**：
   - `SweReplay.on_train_result` 收到 successful update 的 record 后更新 profile。

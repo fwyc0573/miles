@@ -1,0 +1,55 @@
+{
+  "status": "PASS",
+  "python": "3.12.13",
+  "argv": [
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/time_distillation_profile.py",
+    "--updates",
+    "200",
+    "--bank-turns",
+    "256",
+    "--open-conversations",
+    "32",
+    "--block-turns",
+    "8",
+    "--min-turns",
+    "19",
+    "--max-turns",
+    "162",
+    "--max-tokens",
+    "4000",
+    "--trend-window",
+    "10",
+    "--seed",
+    "1234",
+    "--temporary-root",
+    "/data/ycfeng/tmp/agent-opd-image/profile-timing-mean-length",
+    "--output",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/profile-timing-mean-length.json"
+  ],
+  "updates": 200,
+  "observations": 51200,
+  "conversations": 589,
+  "conversations_alive": 31,
+  "conversations_with_trend": 302,
+  "record_update_per_update": {
+    "mean_ms": 1.817299616523087,
+    "median_ms": 1.8144231289625168,
+    "p95_ms": 2.0533250644803047,
+    "max_ms": 3.615470603108406,
+    "total_s": 0.3634599233046174
+  },
+  "conversation_states_per_query": {
+    "mean_ms": 0.19095886498689651,
+    "median_ms": 0.1881713978946209,
+    "p95_ms": 0.35135913640260696,
+    "max_ms": 0.3755241632461548,
+    "total_s": 0.0381917729973793
+  },
+  "rebuild_seconds": 0.24691534787416458,
+  "profile_memory_mb": 12.628204345703125,
+  "file_bytes": {
+    "updates.jsonl": 95648,
+    "observations.jsonl": 6905025
+  },
+  "unverified_from": null
+}

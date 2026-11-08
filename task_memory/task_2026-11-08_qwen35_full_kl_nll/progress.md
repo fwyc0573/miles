@@ -10,6 +10,7 @@
 | 2026-11-08 | Record the freeze and the ticket 01 rename; start 01 and the 03 module. |
 | 2026-11-08 | Record D20 (profiled KL is RKL) and ticket 01 done. |
 | 2026-11-08 | Record the D21 renaming to RKL and correct the `opd.py` line citation. |
+| 2026-11-08 | Record the ticket 03 module part done. |
 
 # Progress
 
@@ -72,9 +73,17 @@
 - Method: `NativeSWEDataSource` now builds `swe_active_conversations` native `OnlineTrajectoryTurnSource` objects that share the first one's cursor, mixed by the native `TurnBalancedTrajectoryBlockMixer` with `swe_block_turns`. `draw()` finds the emitting source by comparing `mixer.emitted_turns` before and after the draw and returns its `active_remaining_turns`. Each sample's `metadata.source` gains `draw_index` and `remaining_turns`; `finished_conversations` holds the group_ids whose last turn the latest `get_samples` call drew, including a last turn rejected for length. `check_swe_inputs.py` gains the M = 1 parity, the 32 × 8 order check and the synthetic finished-report check.
 - Expectation and result: all criteria PASS on the real pinned copies in 69 s; the four existing sections equal the reused evidence; longest run 8; mean draw 8.38 ms. Details in [test_report_2026-11-08_interleaved_turn_order.md](test_report_2026-11-08_interleaved_turn_order.md).
 
+## Ticket 03, module part (done)
+
+- Reason: spec S4–S7 define the profile; the module and its CPU test touch no uncommitted reused code, so they run before 02 (plan, parallel work).
+- Method: `tests/manual/agent_opd/distillation_profile.py`. `record_update(update_id, sums, bank_turns, finished_group_ids)` joins the record's per-turn sums to the bank's `(group_id, t_id)` by `uid`, requires a one-to-one match and contiguous successful-update ids, assigns `c_id` in first-trained order, then appends columns, conversation entries (equal-weight means, D6) and the update row, and writes one line to each JSONL file. Any error marks the profile unverified from that update and stops later updates; the caller continues (S7). Conversations reported finished but never trained are ignored. `rebuild` replays `observations.jsonl` and requires every replayed summary to equal its `updates.jsonl` line.
+- Tests: `tests/fast/test_distillation_profile.py` (6 cases, hand-computed values); three injected bugs each fail a test; `tests/manual/agent_opd/time_distillation_profile.py` times a synthetic 200 × 256 interleaved run.
+- Result: all module criteria PASS; under 4 ms per update, under 0.4 ms per all-conversation query, about 13 MB. Details in [test_report_2026-11-08_distillation_profile_module.md](test_report_2026-11-08_distillation_profile_module.md).
+- Finding: spec S5's 2 MB counted the numeric columns only; the `uid` strings and lookups bring the total to about 13 MB. S5 now states the measured total.
+
 ## in-progress
 
-- Ticket 03 (module part): `tests/manual/agent_opd/distillation_profile.py` and its fast CPU test. Field names follow D21 (`rkl_sum`).
+- None. The next step is blocked (see pending).
 
 ## pending
 
