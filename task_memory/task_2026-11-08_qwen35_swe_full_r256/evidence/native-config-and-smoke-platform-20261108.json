@@ -1,0 +1,98 @@
+{
+  "observed_at": "2026-11-08T09:24:25.186683+00:00",
+  "jobs": [
+    {
+      "job": "exp-1108-172044-476666",
+      "observed_at": "2026-11-08T09:24:24.380606+00:00",
+      "phase": "Succeeded",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "task": "task_2026-11-08_qwen35_swe_full_r256",
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "roles": {
+        "default": {
+          "replicas": 1,
+          "positive_tags": [
+            "H200"
+          ],
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "gpu_request": "1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "job": "exp-1108-172407-535512",
+      "observed_at": "2026-11-08T09:24:24.396104+00:00",
+      "phase": "Pending",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "task": "task_2026-11-08_qwen35_swe_full_r256",
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "roles": {
+        "student": {
+          "replicas": 1,
+          "positive_tags": [
+            "H200"
+          ],
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "gpu_request": "8"
+            }
+          ]
+        },
+        "teacher": {
+          "replicas": 1,
+          "positive_tags": [
+            "H200"
+          ],
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "gpu_request": "2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "job": "exp-1108-172408-392372",
+      "observed_at": "2026-11-08T09:24:25.186620+00:00",
+      "phase": "Starting",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "task": "task_2026-11-08_qwen35_swe_full_r256",
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "roles": {
+        "student": {
+          "replicas": 1,
+          "positive_tags": [
+            "H200"
+          ],
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "gpu_request": "8"
+            }
+          ]
+        },
+        "teacher": {
+          "replicas": 1,
+          "positive_tags": [
+            "H200"
+          ],
+          "containers": [
+            {
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "gpu_request": "2"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

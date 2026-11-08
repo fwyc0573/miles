@@ -130,3 +130,30 @@ Expected: all four production driver factories pass, followed by the real parser
 - T01 is accepted in `20d0b3f4`; launch review findings are corrected and 104 pinned-image tests passed.
 - Inspect the new native configuration check, then execute actual Qwen training for both teachers and both protocols.
 - Complete T02/T03 GPU/benchmark acceptance before formal-cell admission. The current launch profile does not establish 256-turn throughput, distributed loss correctness, or asynchronous HF/eval/delete readiness.
+
+## Four native training smokes — submitted, runtime acceptance pending
+
+Source commit: `176ffd05`. Each job uses the complete original Qwen student and its own frozen teacher, with the same approved scientific settings and explicitly reduced smoke budget from `integration_config.json`. Full creates fresh banks; r256 uses two visits in this smoke so three updates cross a bank boundary. This does not test 50 visits or 256-turn capacity.
+
+From `/data/ycfeng`, after the handbook's local personal authentication and proxy initialization, execute for each pair/protocol:
+
+```bash
+STEPMIND_BACKEND=rjob \
+PYTHONPATH=/data/ycfeng/sota-engine/miles:/data/ycfeng/steptron \
+PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp \
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.submit_swe_opd \
+  --config /data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/integration_config.json \
+  --pair "$PAIR" --protocol "$PROTOCOL" \
+  --receipt "$EVIDENCE/admission-$PAIR-$PROTOCOL-smoke-20261108.json"
+```
+
+| Pair/mode | RJob | Committed before + requested | Submission |
+| --- | --- | --- | --- |
+| A/r256 | exp-1108-172407-535512 | 0 + 10 | Non-preemptible |
+| B/r256 | exp-1108-172408-392372 | 10 + 10 | Non-preemptible |
+| A/full | exp-1108-172446-101025 | 20 + 10 | Non-preemptible |
+| B/full | exp-1108-172446-701416 | 30 + 10 | Non-preemptible |
+
+All use the active task-local GPU policy, exact task annotation and local NFS `100.96.128.195:/data/ycfeng:/data/ycfeng`. The launchers are kept alive with the native backend wait. Raw launcher logs: `/data/ycfeng/tmp/qwen35-swe-{A,B}-{full,r256}-smoke-20261108.log`. The initial platform verification for the parser and two replay jobs is `evidence/native-config-and-smoke-platform-20261108.json`: parser Succeeded, A/r256 Pending, B/r256 Starting at the recorded observation. Initial states do not prove training success.
+
+Expected business outputs: three actual native successful acknowledgements, expected bank visits and transition, current-student rescoring, exact KL/TIS numerators and denominators, nonzero actual retained masks or an accurately recorded D7 stop, HF-only publication with native successful index/version. Inspect actual outputs before PASS; independent raw-evidence recomputation and native HF/SWE execution remain required by Tickets 02/03.
