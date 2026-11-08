@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-08 | Draft the per-turn measurement ticket. |
 | 2026-11-08 | Rename KL to RKL and `kl_sum` to `rkl_sum` (D21). |
+| 2026-11-08 | Update the blocker: reused code committed; its 256-turn capacity smoke fails. |
 
 # 02: optimizer-step record 携带逐 turn RKL/NLL
 
@@ -11,7 +12,7 @@
 
 **Blocked by:** 复用 Ticket02 在 `agent-opd` 上提交并通过其 native smoke，然后合并到 `agent-opd-image`（D1）。
 
-**Status:** blocked — reused Ticket02 not yet committed
+**Status:** blocked — reused Ticket02 code is committed on `agent-opd` (`176ffd05`) and its four short native smokes pass, but its 256-turn capacity smoke fails with an out-of-memory error and that ticket is not accepted
 
 - [ ] 逐 turn 的和在 `swe_tis.token_sums` 已有的逐样本循环中计算：用 native `opd_reverse_kl` 和更新前的 student log-prob，乘以原始 mask。没有新增 forward。
 - [ ] 同一样本的 CP 部分和相加，只取一个 TP/PP 副本参与，每个 update 汇总一次；record 中的行用 source uid 标识。

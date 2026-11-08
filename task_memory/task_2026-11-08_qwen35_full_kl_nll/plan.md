@@ -8,6 +8,7 @@
 | 2026-11-08 | Ticket 01 done; frontier is the 03 module. |
 | 2026-11-08 | Rename KL to RKL in the ticket 02 row (D21). |
 | 2026-11-08 | The 03 module is done; the frontier waits for the reused Ticket02. |
+| 2026-11-08 | Note the reused Ticket02 capacity failure in the frontier. |
 
 # Plan
 
@@ -53,4 +54,4 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-01 is done ([test report](test_report_2026-11-08_interleaved_turn_order.md)). The 03 module is done ([test report](test_report_2026-11-08_distillation_profile_module.md)). 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged.
+01 is done ([test report](test_report_2026-11-08_interleaved_turn_order.md)). The 03 module is done ([test report](test_report_2026-11-08_distillation_profile_module.md)). 02 and the 03 integration wait for the reused Ticket02 to be committed and smoke-passed on `agent-opd`, then merged. Its code is committed, but its 256-turn capacity smoke fails with an out-of-memory error ([progress](progress.md#reused-ticket02-state-read-only-2026-11-08-after-c7dfbf5a)).

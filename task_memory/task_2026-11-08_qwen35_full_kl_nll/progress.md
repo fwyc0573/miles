@@ -11,6 +11,7 @@
 | 2026-11-08 | Record D20 (profiled KL is RKL) and ticket 01 done. |
 | 2026-11-08 | Record the D21 renaming to RKL and correct the `opd.py` line citation. |
 | 2026-11-08 | Record the ticket 03 module part done. |
+| 2026-11-08 | Record the reused Ticket02 state found after the module commit. |
 
 # Progress
 
@@ -81,9 +82,18 @@
 - Result: all module criteria PASS; under 4 ms per update, under 0.4 ms per all-conversation query, about 13 MB. Details in [test_report_2026-11-08_distillation_profile_module.md](test_report_2026-11-08_distillation_profile_module.md).
 - Finding: spec S5's 2 MB counted the numeric columns only; the `uid` strings and lookups bring the total to about 13 MB. S5 now states the measured total.
 
+## Reused Ticket02 state (read only, 2026-11-08 after `c7dfbf5a`)
+
+- `agent-opd` moved from `20d0b3f4` to `2df38065` (5 commits). `176ffd05` commits the reused training code (`swe_replay.py`, `swe_training.py`, `swe_tis.py`, `run_swe_opd.py`, `submit_swe_opd.py`) and `0869183b` records four short native smokes.
+- The committed reused ticket 02 accepts the four short native paths and the exact A/r256 tensor reconstruction; it stays in-progress with the gradient check and the 256-turn capacity check open.
+- Staged but uncommitted in the main checkout (another session): `test_report_2026-11-08_capacity_oom.md`. Both 256-turn capacity smokes (A/r256 `exp-1108-174749-557599`, B/full `exp-1108-174748-739227`) collected 256/256 trajectories, then failed with `torch.OutOfMemoryError` in Megatron `tensor_parallel/layers.py:514` during the current-student rescoring (`_compute_log_prob`) before any successful update. The fix is being diagnosed there.
+- Inference: the same failure blocks this task's 04 and 05, which use the same models and 256-turn banks.
+- Merge check: the two branches change disjoint files since `20d0b3f4` (`agent-opd` does not touch `GLOSSARY.md`, `swe_inputs.py` or `check_swe_inputs.py`), so a merge has no textual conflict. `run_swe_opd.py` loads `NativeSWEDataSource` by path; ticket 01 keeps its interface and M = 1 behavior.
+- D1 is not met (the reused ticket's own capacity smoke fails). Starting 02 and the 03 integration before that needs the user's decision.
+
 ## in-progress
 
-- None. The next step is blocked (see pending).
+- None. The next step waits for the user's decision on D1 (see pending).
 
 ## pending
 
