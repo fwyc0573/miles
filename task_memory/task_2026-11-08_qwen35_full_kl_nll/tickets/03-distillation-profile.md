@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record02 CPU readiness6129aefe and active integration owner; retain unfinished bank identity,S7 suppression and real consumer-path verification. |
 | 2026-11-10 | Record merge55fba827 complete; preserve module CPU acceptance and02 CPU-ready as the integration blocker. |
 | 2026-11-10 | Apply D35 candidate merge authorization while retaining02 CPU readiness and unimplemented rollout/native-count integration. |
 | 2026-11-09 | Make integration depend on 02 CPU readiness, retain the upstream gate, and add explicit incomplete-profile, baseline-entry and post-failure verification. |
@@ -17,9 +18,9 @@
 
 **What to build:** 按 [spec S4–S7](../spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31) 实现 `tests/manual/agent_opd/distillation_profile.py`，并接入 `SweReplay.on_train_result`。
 
-**Blocked by:** 文档冻结已满足，模块CPU已接受，D35合并`55fba827`已验证；接入部分仍等待 02 的 CPU implementation-ready。
+**Blocked by:** 前置条件已满足：文档冻结、模块CPU、D35合并`55fba827`及 02 的CPU implementation-ready`6129aefe`。无剩余CPU依赖；不等待02在A内取得GPU acceptance。
 
-**Status:** in-progress — pure module and review-added historical queries / baseline boundaries / partial-write isolation retain CPU acceptance ([review test report](../test_report_2026-11-09_review_execution.md)). Candidate merge`55fba827`is verified, but02 CPU-ready and this ticket's integration/native-count/S7 full-path acceptance are not yet recorded. Integration remains blocked by02 CPU readiness; neither input merge checks nor H800 capacity establish profile acceptance.
+**Status:** in-progress —02 CPU-ready accepted at`6129aefe`;integration owner`profile-t03-integration-20261110`,session`ses_e3ea12276ffeR5IWKB9CfabC5k`,has staged code and[the delivery report](../test_report_2026-11-10_profile_integration.md)claiming CPU-ready with201 PASS. Primary integration acceptance/commit is not yet recorded in this checkpoint,so no remaining criterion is marked complete from staging alone. Consume the existing ACK API in[the per-turn sums report](../test_report_2026-11-10_per_turn_sums.md#t03-consumer-api). Pure-module CPU acceptance remains valid ([review test report](../test_report_2026-11-09_review_execution.md));T02 Standards/Spec reviews are complete with0/0 findings,not a substitute for this full-path acceptance.
 
 - [x] 模块包含 Turn observation、宏观行、conversation 条目、查找表，以及 S4 定义的全部查询（单个 conversation 和全部 conversation 两种形式）。
 - [x] fast CPU 测试使用合成的 update 序列，期望值手工计算。覆盖：同一 update 内多个 turn、跳过的 update、窗口 k 未到、并列最佳、表格映射和 `alive` 状态变化。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Archive02 trainer CPU-ready6129aefe,completed clean reviews,formal guard commit and staged03 delivery;retain pending primary integration/GPU acceptance and original concurrent B admission. |
 | 2026-11-10 | Archive verified merge55fba827 and local prep-reference resolution; identify02 implementation as the frontier without accepting03 integration or formal profiles. |
 | 2026-11-10 | Archive D35 parent-only H800 capacity adoption and merge authorization; retain independent upstream provenance and pending02/03/formal acceptance. |
 | 2026-11-09 | Close D34 original-source112K audit/parity and record isolated H800 initial synchronization; retain historical128K evidence and unchanged upstream/integration gates. |
@@ -12,9 +13,9 @@
 
 # Review, input, capacity and merge milestones — profile integration pending
 
-The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft's implementation phase, inherited contract, statistical interpretation, dependency checkpoints, and soft-gate behavior have been corrected. D33 authorizes H800/codesign without a task GPU-count cap; D34 sets112K inclusive prompts and16K completions within unchanged128K training/rollout context. On2026-11-10, D35 adopts the accepted H800 capacity basis and authorizes consolidation followed by02/03 integration. Actual merge`55fba827`now completes consolidation of archived candidate`0e6e8b1e`and prep records.02 implementation is the current frontier,03 integration waits for02 CPU-ready; other scientific and formal acceptance conditions remain unchanged.
+The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft contract and soft gates have been corrected. D33 authorizes H800/codesign without a task GPU-count cap;D34 retains128K context with112K inclusive prompts/16K completions. D35 adopts the accepted H800 capacity basis;merge`55fba827`consolidates archived candidate`0e6e8b1e`. The primary now accepts02 trainer CPU-ready`6129aefe`;03 integration is executing,not yet accepted.02 GPU and downstream S7 acceptance remain pending;other scientific/formal conditions are unchanged.
 
-Main repair commit: `a0b0d113`. Both independent remediation reviews are complete. All original findings are closed; the final Standards P3 was resolved by retaining and verifying the unchanged document-check script. No review finding remains open.
+Historical draft repair commit:`a0b0d113`. Both remediation reviews completed and all original findings closed;the final Standards P3 was resolved by retaining and verifying the unchanged document-check script. T02 phase reviews of`4863e68e...6129aefe`are separately complete in`ba3cb696`,with Standards0/Spec0 actionable findings ([review](review.md));reviewers did not independently rerun tests and do not certify GPU/03 acceptance.
 
 ## Deliverables
 
@@ -26,6 +27,8 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 - CPU execution: `tests/manual/agent_opd/submit_swe1003_audit.py` and `source_audit_config.json`; inputs are read in place without copies.
 - D35 authorization, current gate and checkpoint: `requirements.md`, `spec.md` S0, `plan.md`, `progress.md`, `tickets/02-*.md` through `tickets/05-*.md`, and `test_report_2026-11-09_h800_preparation.md` D35 section. Scoped verification: `test_report_2026-11-10_d35_records.md`.
 - Consolidated input and merge verification: `test_report_2026-11-10_input_merge.md` post-merge section; current four-section milestone checkpoint in`progress.md`. The previous D35/input slice reports retain their pre-merge snapshots; no separate merge/checkpoint report was added.
+-02 CPU-ready commit`6129aefe`:native original-mask per-turn measurements and existing ACK transport;consumer contract,exact tests and limits in`test_report_2026-11-10_per_turn_sums.md`. Current03 owner:`profile-t03-integration-20261110`/`ses_e3ea12276ffeR5IWKB9CfabC5k`.
+- Formal preparation`4863e68e`and correction`059a6a75`:existing`formal_config.json`/`test_report_2026-11-10_formal_configuration.md`. Both are committed;those artifacts and all proof reports remain outside this documentation commit.
 
 ## Observed validation
 
@@ -35,14 +38,15 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 - Document links, ticket DAG and arithmetic checks: 73 links, 22 anchors, zero errors using the retained `tests/manual/agent_opd/check_profile_docs.py`. See the test report for exact commands and environments.
 - Historical pre-merge D35 document check:26 documents,6 tickets,88 links,34 anchors,zero errors;candidate ancestry and`git diff --check`PASS under systemPython3.10.6. Commands and the then-pending reference resolution are retained in`test_report_2026-11-10_d35_records.md`; no runtime check was rerun by that delegation.
 - Post-merge verification: two input conflict files retain first-parent bytes;139 related CPU tests and seven genuine native synthetic checks PASS in the input report. All seven unique prep references resolve;retained H800 checker,docchecker(27 documents/87 links/33 anchors/zero errors)and scoped merge code/task whitespace checks PASS. Whole merge whitespace is not clean:17 inherited upstream XML/diff artifact paths exactly match incoming`0e6e8b1e`blobs; no historical evidence was rewritten. Commands and limits are owned by`test_report_2026-11-10_input_merge.md`post-merge section.
+-02 recorded evidence:110 combined PASS;79 affected PASS after final nullable-metadata preservation;8-process CPU/Gloo2CP×2TP×2PP and genuine AdamW updates under auxiliary errors. These are the report's accepted CPU results,not reruns by this delegation. Native Megatron/NCCL overhead and A actual bank/profile remain unverified.
 
 ## Execution and open work
 
 | Ticket | Status at this milestone |
 | --- | --- |
 | 01 | Done: historical128K evidence retained; D34 budgets, boundaries, actual native request construction and completed original-source112K audit/parity accepted. |
-| 02 | Merge55fba827 verified; implementation frontier, CPU-ready and A-update GPU acceptance not yet recorded. |
-| 03 | Pure module fixes verified on CPU; native-count checks and rollout integration not implemented, blocked by02 CPU readiness. |
+| 02 | Trainer CPU-ready6129aefe accepted;downstream S7 and A-update GPU acceptance pending,not full ticket done. |
+| 03 | Pure module CPU accepted;02 dependency satisfied;201-PASS CPU-ready delivery staged,primary acceptance/commit pending. |
 | 04 | Blocked; no A/full formal run submitted. |
 | 05 | Blocked; requires launch prerequisites and actual A first-update inspection. |
 | 06 | Blocked by formal-run evidence. |
@@ -61,4 +65,6 @@ Historical H800 initial-sync milestone: isolated changes include explicit-null a
 
 Current terminal H800 capacity is accepted underD35:256/256 valid samples in1633.2862s, two successful unskipped optimizer ACKs on bank0 visits1/2, and ranks0–7 each completing2×88 student scoring microbatches with second scoring afterACK1. The job and all five replicas Succeeded;1644 text hashes match across eight engines atversions0/1, including the same972 changed hashes. The full128K logits storage is15.15625GiB/rank and observed scoring PyTorch allocation peaks at28.89246GiB, not whole-device/backward usage. Whole-model checksum equality and final engine NIC/HCA values remain unverified. Canonical record: `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-capacity-acceptance-20261109.json`; exact commands and limits: `../task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_network_fixed_prelaunch.md`. These repo-local paths now resolve after merge55fba827; the historical pre-merge references retain their original scope.
 
-Next: primary-coordinated02 per-turn implementation/CPU-ready, then03 rollout/native-count/S7 integration CPU-ready. No merge blocker remains, but neither02/03 acceptance nor a formal A/B run is yet recorded. The primary must also synchronize`spec.md`S0's stale current merge-pending phrase; that file is outside this documentation delegation's scope. D16 checks the native profile at A's first formal successful update, without another GPU smoke. The prerequisite's two uses of one bank do not introduce replay into either formal full cell or satisfy its200-update acceptance; B's teacher/runtime remains separately unverified. Upstream may continue its own acceptance independently.
+Next:primary acceptance/commit of the staged[03 CPU-ready delivery](test_report_2026-11-10_profile_integration.md),then final profile configuration/launch checks. T02 reviews and formal correction have completed independently. The prior spec merge-pending status is resolved;`requirements.md:59`still names02 frontier and remains a primary-owned status update. No formal A/B run or02 GPU acceptance is recorded. D16 uses A's first actual formal successful ACK/profile inspection,without another GPU smoke.
+
+The primary's real`training_protocol`RED1/GREEN50 verifies working`bank_uses=50`;`ReplaySchedule(full)`still performs200 distinct banks with one visit each. B's four-H800 TP4/EP1 teacher is feasible by completed read-only mapping,not native load/memory/throughput accepted. Under unchangedS8,B may run concurrently with continuing A after A's firstactual ACK/inspection and fresh resource admission;neither A200-update completion nor another user approval is required. Upstream acceptance remains independent. Formal cells still require their own200 native updates and separate complete paired-profile acceptance.

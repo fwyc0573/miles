@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record02 CPU-ready6129aefe;retain03 integration and formal native/profile checks as unfinished,without extra GPU smoke. |
 | 2026-11-10 | Record merge55fba827 complete without accepting02/03 readiness or formal first-update profile verification. |
 | 2026-11-10 | Apply D35 capacity adoption; preserve pending merge/integration and D16 profile verification at A's first formal update without another GPU smoke. |
 | 2026-11-09 | Accept the completed D34 input re-audit while retaining the separate integration and formal-run blockers. |
@@ -18,7 +19,7 @@
 
 **Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready；不是 02 在本 cell 内取得的 GPU acceptance。
 
-**Status:** blocked — 01, including the D34 input re-audit, the D35 H800 capacity basis and candidate merge`55fba827`are accepted.02 CPU-ready and03 integration-ready remain pending; A/full has no formal attempt or first-update profile evidence. Input merge tests and the two-update capacity smoke do not satisfy this cell's formal/full acceptance;D16 still uses A's firstformal successful update without an extraGPU smoke.
+**Status:** blocked —01,D35 capacity/merge and02 CPU-ready`6129aefe`are accepted;03 has staged a CPU-ready delivery,with primary integration acceptance pending. Formal preparation`4863e68e`and real-contract`bank_uses=50`correction`059a6a75`are committed ([formal configuration report](../test_report_2026-11-10_formal_configuration.md));profile configuration/native launch checks remain separate. No formal A attempt or first-update profile evidence exists. D16 still verifies02 GPU/profile at A's first formal successful update,without an extra GPU smoke;CPU/formal dry-run evidence is not native acceptance.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

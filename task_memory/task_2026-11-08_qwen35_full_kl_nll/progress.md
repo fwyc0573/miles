@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record02 trainer CPU-ready6129aefe,clean completed phase reviews,committed formal correction and staged03 delivery;preserve pending primary integration/GPU/S7 acceptance and append the four-section milestone checkpoint. |
 | 2026-11-10 | Record actual merge55fba827, resolved prep references and scoped verification; move implementation to02 and append the four-section post-merge checkpoint without rewriting earlier snapshots. |
 | 2026-11-10 | Record D35 parent-only capacity adoption and pending candidate consolidation; move the frontier to merge→02 CPU→03 integration, preserve historical observations and add a scoped checkpoint. |
 | 2026-11-09 | Accept the completed D34 original-source112K audit/parity; record successful H800 initial synchronization separately from still-unaccepted upstream capacity and parent integration. |
@@ -36,6 +37,17 @@
 
 ## completed
 
+- Scoped milestone-document verification (systemPython3.10.6):30 documents/6 tickets/107 links/35 anchors,valid01→02→03→04→05→06 DAG,unchanged51,200/cell/102,400 total/81-turn estimate,zero errors. Scoped whitespace PASS. One-off local text assertions PASS:trainer consistency checked,downstream S7/GPU unchecked,and the appended exact four-section checkpoint covers allD1–D7/S1–S6. No CPU/Gloo/formal test was rerun and no code/config/proof report was edited. The30-file checker scope includes the primary's staged03 report,which is excluded from this seven-document commit.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/02-per-turn-sums.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/03-distillation-profile.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md
+```
+
+-02 trainer CPU implementation-ready accepted by the primary at`6129aefe`(eight owned files). [Per-turn sums report](test_report_2026-11-10_per_turn_sums.md)records110 combined PASS,79 affected PASS after final nullable-metadata preservation,and8-process Gloo2CP×2TP×2PP checks with genuine AdamW updates during auxiliary failures. Existing original-mask/native-RKL tensors yield compact rows in the native ACK;trainer consistency and transport are accepted. Downstream bank joining/permanent S7 suppression and A-firstformal-update GPU acceptance are not done.
+- Formal preparation`4863e68e`and correction`059a6a75`are committed. The primary validated`bank_uses=50`through real`training_protocol`RED1/GREEN50 for both A/B and`ReplaySchedule(full)`200 distinct banks/one visit each. This does not introduce replay into full. Proof,commands and four-H800 B TP4/EP1 feasibility limits remain owned by[the formal configuration report](test_report_2026-11-10_formal_configuration.md);no configuration or proof report is edited by this delegation.
+- T02 Standards/Spec phase reviews completed and archived in`ba3cb696`:0/0 actionable findings on immutable`4863e68e...6129aefe`,with reviewers not independently rerunning tests. [Review record](review.md)retains CPU/native limits;review completion is not GPU or03 acceptance.
+- Prior current-state S5 for spec S0's merge-pending wording is resolved in the inspected repository:spec now records`55fba827`merged. The prior merge checkpoint remains explicitly historical;current`requirements.md`phase still names02 as the frontier and is assigned to the primary for status-only synchronization,not a renewed dependency.
 - D35 consolidation accepted: actual merge`55fba827`, first parent`eee754bc`,second parent archived H800 candidate`0e6e8b1e`. The two input conflict files exactly retain first-parent bytes;`run_swe_opd`now transports the explicit parent source schema. The owned input report records139 affected CPU tests and seven genuine native synthetic checks PASS, with local SGLang/lint baselines preserved. These checks do not implement02 per-turn/profile integration.
 - Post-merge local checks: all seven unique`../task_2026-11-09_profile_h800_preparation/`references resolve; existing retained-capacity checker PASS; scoped merge code/parent-task`git diff --check`PASS. The whole merge still reports whitespace in17 inherited upstream XML/diff artifact paths; each committed blob is byte-identical to incoming`0e6e8b1e`, independently verified locally. Exact commands, primary acceptance, local diagnostic-parser correction and limits are appended to`test_report_2026-11-10_input_merge.md`; no historical artifact was rewritten and no new runtime was launched.
 - Post-merge documentation PASS underPython3.10.6:27 documents/6 tickets/87 links/33 anchors,valid DAG,unchanged51,200/102,400/81 arithmetic,zero errors;owned-document scoped whitespace PASS. The initial ticket03 Chinese/identifier boundary was corrected without changing its02 CPU-ready dependency or the existing checker. The exact command and first/final results are in`test_report_2026-11-10_input_merge.md`;independently edited code and the primary integration-merge report are excluded from this commit.
@@ -174,11 +186,10 @@
 
 ## in-progress
 
-- Formal configuration preparation: `formal_config.json` now expresses both A/B cells with the accepted H800 topology, D34 lengths and parent loss-masked32×8 inputs. Four submission/native-argv dry-runs PASS; each requests36 GPUs with no submission. Exact commands and21 checked flags are in`test_report_2026-11-10_formal_configuration.md`. Profile wiring and B teacher runtime remain pending; this does not advance04/05 to launched or accepted. Optional broad integration mapping returned no deliverable; the scoped Ticket02 implementation continues as`profile-t02-sums-20261110`.
+- Formal preparation`4863e68e`and correction`059a6a75`express full A/B with accepted H800/D34/loss-masked32×8 settings;initial argument-only`bank_uses=1`checks remain historical in`test_report_2026-11-10_formal_configuration.md`. Profile configuration/final launch checks and B native TP4/EP1 load/memory/throughput remain pending;completed read-only mapping supports feasibility,not native acceptance. Neither04 nor05 is launched.
 
-- CurrentD35 frontier:02 implementation. The candidate merge and prep consolidation are complete at`55fba827`,and repo-relative evidence resolves. The primary independently coordinates implementation agents; this documentation slice does not implement or claim their CPU readiness.
--02 per-turn CPU implementation-ready evidence is not yet recorded; it precedes03 integration and04 launch.02 GPU acceptance remains at A's first formal successful update underD16, without an additionalGPU smoke.
-- Pure03 module and01 input, including112K audit, retain CPU acceptance.03 native-count/identity/S7 integration acceptance still depends on02 CPU-ready and is not yet recorded.04/05 have no formal attempts or first-update profile evidence; B still waits for A's actual first formal successful update and completed inspection.
+- Current frontier:primary acceptance/commit of03 delivery from`profile-t03-integration-20261110`,session`ses_e3ea12276ffeR5IWKB9CfabC5k`. Its staged[profile integration report](test_report_2026-11-10_profile_integration.md)records CPU-ready/201 PASS;no primary acceptance is yet recorded at this checkpoint,so remaining ticket03 conditions are not checked from staging alone.02 CPU-ready prerequisite is accepted at`6129aefe`;the existing ACK contract remains owned by[the consumer API](test_report_2026-11-10_per_turn_sums.md#t03-consumer-api).
+- Pure03 module and01 input,including112K audit,retain CPU acceptance.02 GPU/full-ticket acceptance remains at A's first formal successful update underD16,no additional GPU smoke.04/05 still have no formal attempt or first-update profile evidence. B admission remains authorized after A's actual first successful ACK/inspection and fresh resources while A continues;not after A200 updates,nor after another user approval.
 - Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
 
 ### Historical preparation snapshots — 2026-11-09 before D35
@@ -205,9 +216,9 @@
 
 ## pending
 
-1. Implement02 per-turn sums and verify CPU readiness, then implement03 integration/native-count propagation and verify the actual`SweReplay.on_train_result`CPU path. Existing pure-module and input merge tests are not integration acceptance; no merge blocker remains.
-2. Primary: synchronize`spec.md`S0's current-state phrase“实际合并仍pending”with`55fba827`;preserve its historical gate and unchanged behavior. That file is outside this delegation's ownership; this wording defect does not restore a resolved merge dependency.
-3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready};freeze/verify the formal explicit input configuration;inspect A's firstformal successful update for02 GPU/profile evidence underD16;05 after that actualupdate/inspection and resource admission;06 after{04,05}terminal evidence. The two-update capacity run is not a200-update formal result.
+1.03 owner:complete bank identity/native-count/finished/skipped/S7 propagation and verify the real`SweReplay.on_train_result`CPU path against the02 ACK API.02 trainer checks and pure03 module tests do not accept the full integration path.
+2. Primary:accept/commit the staged03 delivery and complete final profile configuration/native launch checks;status-only update`requirements.md`phase from02 to the current03 frontier. Formal correction and T02 review receipts are complete,not remaining blockers. This delegation owns neither configuration,proof reports,nor requirements phase;no extra review/user approval edge is added.
+3.04 after{01 accepted,02 CPU-ready accepted,03 integration CPU-ready};freeze/verify formal identity/configuration,then A's firstformal successful ACK/inspection provides02 GPU/profile evidence underD16.05 may admit concurrently with continuing A after that inspection and fresh resources underS8;06 after{04,05}terminal evidence. No extra GPU smoke,native B verification or200-update formal result is inferred from CPU feasibility.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109
@@ -314,6 +325,8 @@
 
 ---
 
+### Historical merge milestone checkpoint — before02 CPU-ready6129aefe
+
 ## 1. 规划完成情况
 
 **汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 4｜TODO 1
@@ -366,3 +379,58 @@
 1. merge`55fba827`已验证、七个prep引用已解析；17处历史whitespace是incoming原始artifact，不是新merge代码错误。
 2.02当前可实施；03接入仍等02 CPU-ready，input/capacity PASS不能替代逐turn/profile验收。
 3. primary还需同步spec S0状态；正式A首个successful update承担D16 GPU/profile检查，不新增GPU smoke。
+
+---
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 3｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+|01 | PASS | 原始源112K审计与输入契约已接受，未重开。 |
+|02 | TODO | Trainer CPU-ready`6129aefe`已接受；下游S7和A首formal update的GPU验收仍未完成，非ticket done。 |
+|03 | TODO |02依赖已满足，指定agent已stage201-PASS CPU-ready交付；primary acceptance/commit未记录。 |
+|04 | BLOCKED | 等03 CPU-ready和formal launch准备；无A actual ACK/profile验收。 |
+|05 | BLOCKED | 等03及A首次actual ACK/inspection/资源准入；B native teacher仍未验证。 |
+|06 | BLOCKED | 两个formal cell终态与profile完成判定尚无。 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D2，仅本轮文档patch重试；业务代码/测试milestone仍直接推进主线，局部纠正已应用。
+**检测窗口：** 上次merge checkpoint至02 CPU-ready`6129aefe`及本次记录同步（TaskID`profile-d35-records-20261110`）｜**当前前沿：**03 primary验收；并行review/formal修正已完成，native配置准备继续。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |110/79测试与8-process检查直接验收S3；通过后转03，仅按用户要求同步文档，未扩展harness。 |
+| D2 细节反复重试 | HIT | 本slice多次手工重建旧paragraph的空格导致patch拒绝；没有先核对字面原文。已停止猜测，实际重读progress/summary后成功更新，未影响并行03。T02业务测试和formal RED/GREEN本身不是此偏离。 |
+| D3 支线问题修补 | CLEAR | Estimator/native index传输和formal budget guard均在既有S3/S8执行路径，不修无关parser/历史artifact。 |
+| D4 可并行任务停滞 | CLEAR |03已stage交付，Standards/Spec reviews和formal修正独立完成；无可执行项因等待A200updates而闲置。 |
+| D5 超范围镀金 | CLEAR | 复用既有ACK/tensor循环；仅拆开原一致性条目的trainer/下游状态，不新增机制或验收。 |
+| D6 分析空转 | CLEAR |`6129aefe`代码/测试完成后立即交接03；只引用现有proof reports，不新增研究文档。 |
+| D7 路线违背 | CLEAR |02 CPU-ready不冒认GPU/S7；full仍200 distinct banks一次访问；S8允许A首ACK检查后并行B，无新审批或smoke。 |
+
+**文档检查：** S1依赖正确：03等02 CPU-ready而非02GPU/全部done；S2所有未完成项已有03/04/05/primary owner；S3标准可达且B TP4/EP1只是feasible；S4以明确CPU/ACK/JSONL条件判定；S5本轮前plan/progress/summary/tickets02–05落后于`6129aefe`，已同步，`requirements.md:59`phase仍由primary同步；S6原一致性trainer与03全链路条件已拆开标状态，原scope/criteria不变。上次spec merge-pending S5已解决，历史checkpoint不改写。
+**归因：** D2执行偏离，与spec/tickets无关；S5另为完成milestone后的状态同步。
+
+## 3. 纠正建议
+
+**分支：** B：当前状态有S5，先同步事实，不改spec scope或准入。
+
+**文档更新（先执行）：**
+1. `plan.md`/`progress.md`/`summary.md`和tickets02–05：记录02 CPU-ready及active03；一致性条目分别标已验收trainer和pending下游S7/GPU，保留历史snapshot（可直接执行，本轮已更新）。
+2. `requirements.md:59`当前phase：primary将02 frontier改为已接受CPU-ready/03 executing，其余决定不变（可直接执行，本slice无ownership，不阻塞03）。
+
+**需停止的偏离行为：**
+- D2：停止凭记忆重建旧paragraph或压缩其空格；改用最新字面文件内容、缩小patch块并验证再继续。本轮已应用，不新增测试工具或重跑业务检查。
+
+**接下去的路线：**
+1. Primary验收/提交03交付 → 完成标志：真实`SweReplay.on_train_result`successful/skipped、bank/finished identity、native计数及永久S7 suppression验收通过，CPU-ready与实际commit记录完成。
+2. 并行：primary最终profile配置/启动验证 ‖ 当前requirements状态同步；T02 reviews`ba3cb696`和formal修正`059a6a75`已完成，不重复开工。
+3.03 CPU-ready后launchA；A首次actual ACK/inspection→B fresh资源准入，可与继续运行的A并行 → 完成标志：D16 GPU/profile检查及各cell自己的native/profile判定；不另增用户审批或GPU smoke。
+
+## 4. 最值得关注的 3 点
+
+1.02 trainer CPU-ready已接受；全ticket仍缺下游S7/GPU证据，combined criterion未被错误整项勾选。
+2.03已stage201-PASS交付，仍待primary验收/提交；两个T02 reviews已0/0完成，requirements phase文字待primary同步。本slice局部patch重试已纠正，没有停住业务主线。
+3. formal`bank_uses=50`已真实RED/GREEN且full仍每bank一次；B TP4/EP1只是可行性，不是native验收，原A首ACK后并行准入不变。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept02 CPU readiness6129aefe and move the frontier to active03 integration;keep pending reviews,GPU acceptance and existing A-first-ACK concurrent B admission separate. |
 | 2026-11-10 | Record verified D35 merge55fba827 and resolved prep references; move the frontier to02 implementation, retaining03 CPU-readiness and formal-update dependencies. |
 | 2026-11-10 | Apply D35: capacity basis accepted, candidate merge is the frontier, then02 CPU-ready and03 integration; upstream frozen-D11 acceptance is independent. |
 | 2026-11-09 | Close Ticket01's D34 original-source112K audit and return the parent frontier to the unchanged upstream integration gate. |
@@ -25,7 +26,7 @@
 
 # Plan
 
-**Phase: IMPLEMENTATION / PROFILE_INTEGRATION.** Review repairs,Ticket01,theD35 H800 capacity basis and candidate consolidation are complete. Actual merge`55fba827`has archived candidate second parent`0e6e8b1e`;02 implementation is the frontier,03 integration waits for02 CPU-ready. GPU actions follow the tickets andS8; formal runtime acceptance is unchanged.
+**Phase: IMPLEMENTATION / PROFILE_INTEGRATION.** Review repairs,Ticket01,D35 capacity/consolidation and02 trainer CPU readiness`6129aefe`are complete.03 integration acceptance is the active frontier;02 GPU acceptance remains at A's first formal successful update. Standards/Spec reviews of`4863e68e...6129aefe`completed in`ba3cb696`with0/0 findings ([review](review.md));formal guard correction committed as`059a6a75`. GPU actions follow the tickets andS8;formal runtime acceptance is unchanged.
 
 ## Scope and ownership
 
@@ -37,7 +38,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | --- | --- | --- |
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
 | [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums: CPU implementation-ready, then GPU acceptance at A's first update | Satisfied: D35 capacity basis accepted and candidate merged as`55fba827`; no remaining merge blocker |
-| [03](tickets/03-distillation-profile.md) | Distillation profile module, persistence and rollout-side integration | Documentation freeze (module and CPU test); 02 CPU implementation-ready (integration) |
+| [03](tickets/03-distillation-profile.md) | Distillation profile module, persistence and rollout-side integration | Satisfied: documentation freeze/module CPU; 02 CPU implementation-ready6129aefe (integration now executing) |
 | [04](tickets/04-a-full.md) | A/full native training and separately verified profile | 01 accepted, 02 CPU implementation-ready, 03 integration CPU-ready |
 | [05](tickets/05-b-full.md) | B/full native training and separately verified profile | 01 accepted, 02 CPU implementation-ready, 03 integration CPU-ready; 04 actual first successful update and inspection completed |
 | [06](tickets/06-profile-report.md) | Final profile report and archive with explicit complete/incomplete disposition | 04, 05 terminal evidence and completion checks |
@@ -48,13 +49,13 @@ Dependency graph:
 documentation freeze -> {01, 03-module}
 D28–D32 in the spec -> 03-module revision (CPU only)
 D23–D27 in the spec -> 01 revision: {adapter code + local checks, source audit (CPU RJob)} -> checks on the files in place (CPU RJob)
-D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU implementation-ready -> 03-integration CPU-ready
+D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU implementation-ready6129aefe accepted -> 03-integration CPU-ready
 {01 accepted, 02 CPU implementation-ready, 03-integration CPU-ready} -> 04 launch
 04 actual first successful update -> inspection completed -> {02 GPU acceptance evidence, 05 resource admission}
 {04 terminal evidence, 05 terminal evidence} -> 06
 ```
 
-Historical parallel work: 01 and the pure profile module of 03 touched no uncommitted reused code and started after the freeze; both now have CPU acceptance. The freeze narrowed D1 for those slices only. The D35 merge is now verified, so02 can proceed;03 integration still depends on02 CPU readiness. The primary coordinates independent implementation/preparation agents; upstream's separate acceptance may continue independently and is not a parent blocking edge.
+Historical parallel work:01 and the pure03 module touched no uncommitted reused code and started after the freeze;both retain CPU acceptance. D35 merge and02 CPU-ready dependencies are satisfied.03 owner`profile-t03-integration-20261110`(`ses_e3ea12276ffeR5IWKB9CfabC5k`)has staged its201-PASS CPU-ready report;primary acceptance/commit remains to be recorded. Reviews and formal correction progressed independently during this documentation update. Upstream acceptance remains independent.
 
 The table's 02/03 edges into formal cells are CPU readiness checkpoints, not full ticket closure. 02 remains unaccepted until its A runtime checks are verified, but waiting for that before launching A would be circular. B requires A's real successful native update and a completed inspection, not a PASS auxiliary profile verdict or all 200 A updates. S7 errors continue healthy training and are reported separately as incomplete profile acceptance. Failed/incomplete terminal evidence permits honest reporting in 06; it does not satisfy complete-cell acceptance.
 
@@ -75,6 +76,8 @@ Ticket01 is accepted including D34: the original-source112K CPU audit,512 native
 
 The historical2026-11-09T07:56Z upstream refresh at `c52991ac` recorded capacity job`exp-1109-144110-764758` failing at initial trainer-to-rollout weight synchronization after600s, before rollout collection or optimizer updates. This failure remains unaccepted evidence, as do earlier acquisition227<231 and historical interrupted scoring. Those historical outcomes are not relabeled byD35; exact limits remain in [the H800 preparation report](test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
 
-CurrentD35 frontier: implement02 per-turn sums and obtain CPU implementation-ready evidence, then03 integration CPU-ready ->04 formal launch ->A first successful update/inspection ->05 resource admission. Merge`55fba827`consolidates archived candidate`0e6e8b1e`and prep records; both input conflicts preserve first-parent bytes, the native caller uses the explicit parent source schema,139 affected CPU tests and seven genuine native synthetic checks PASS. All seven unique repo-relative prep references resolve; retained capacity checker and documentation checker PASS. Canonical commands, primary archive-whitespace exception and current limitations are in[the input merge report](test_report_2026-11-10_input_merge.md#post-merge-verification-2026-11-10). No merge blocker remains;02 CPU-ready,03 integration-ready and formal-cell acceptance are not yet recorded. Upstream frozen-D11 work remains independent. Formal cells use`before-steptron-run`and existing per-sample isolation/soft gates;D16 verifies the native profile at A's first formal update, without another GPU smoke.
+Current frontier:03 integration CPU-ready ->04 formal launch ->A firstsuccessful update/inspection ->05 resource admission. The primary accepted02 trainer CPU-ready at`6129aefe`:110 combined PASS,79 affected PASS after the final nullable-metadata edit,and8-process Gloo2CP×2TP×2PP/AdamW evidence ([per-turn sums report](test_report_2026-11-10_per_turn_sums.md)). Bank-to-conversation/turn joining and permanent S7 suppression remain03 work;02 GPU/full-ticket acceptance is notdone. Merge/source/archive evidence remains in[the input merge report](test_report_2026-11-10_input_merge.md#post-merge-verification-2026-11-10),not a substitute for profile integration.
+
+Formal preparation`4863e68e`and real-contract`bank_uses=50`correction`059a6a75`are committed ([existing report](test_report_2026-11-10_formal_configuration.md)). Both A/B reproduce RED at1/GREEN at50;full executes200 distinct banks once each,not50-use replay. B's four-H800 TP4/EP1 layout is feasible by retained read-only mapping,not native verified. After primary03 CPU-ready acceptance and final configuration checks,A launches first;after its first actual successful ACK/inspection,B may be admitted concurrently with continuing A underS8 and fresh resources. Do not wait forA200 updates or add another user-approval/GPU-smoke gate. Formal cells retain`before-steptron-run`,per-sample isolation andS7 soft gates;completed reviews do not replace native readiness conditions.
 
 D34's input length slice is complete: adapter/native-request bounds, CPU boundary/config checks and the existing in-place112K prompt/16K completion audit have verified evidence separate from the historical128K run. No repeat full-source scan or sampling change is needed for Ticket01 closure. D35 explicitly adopts the now-completed H800 capacity basis; it does not certify02/03 integration, B's native runtime or either200-update profile.
