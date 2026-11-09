@@ -34,7 +34,7 @@ git diff --check
 | Audit bisection | Equal112K accepted,112K+1 rejected | Three boundary sequences return expected first-overlength ordinals | PASS |
 | Audit/parity workflow integration | Both commands receive three explicit budgets | Synthetic16 parity+16 interleaved PASS; real-source dry-run carries131072/114688/16384 in both argv | PASS |
 | Documentation and diff | Links/DAG/arithmetic valid; no whitespace errors | Before this report:22 documents,75 links,22 anchors,zero errors; diff clean | PASS |
-| New real-source audit | Actual112K statistics and terminal success | Not yet submitted at this checkpoint | PENDING |
+| New real-source audit | Actual112K statistics and terminal success | `exp-1109-154414-275606` Running at07:45:51Z; worker command carries all three approved limits | RUNNING, NOT ACCEPTED |
 
 Durable receipts with exact CLI argv:
 
@@ -49,3 +49,17 @@ The audit agent's first cumulative verification command exceeded60 seconds; the 
 The input and native request path is CPU-verified. The launcher's explicit `prompt_tokens` and `response_tokens` contract is separately verified by53 launcher tests and7 related tests in the isolated preparation worktree; see its`test_report_2026-11-09_native_launch_lengths.md`. These results do not prove a live H800 training run or replace the D1/D22 native capacity gate.
 
 Prior audit output`evidence/source-audit-20261109/` remains the accepted pre-D34 source evidence at commit`2d695ba0`; its128K prompt-rejection and span statistics do not apply to112K. Updated`source_audit_config.json` writes only to`evidence/source-audit-112k-20261109/`, with separate temporary storage. Source files continue to be read in place from posttrain.
+
+## Submitted112K audit
+
+After committing the verified input/audit code as`438d25fc`, the primary submitted the existing CPU workflow using personal StepMind authentication and the runbook proxy setup:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+  /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/submit_swe1003_audit.py \
+  --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/source_audit_config.json
+```
+
+Environment:`STEPMIND_BACKEND=rjob`, `PYTHONPATH=/data/ycfeng/steptron`, `PYTHONNOUSERSITE=1`, `PYTHONDONTWRITEBYTECODE=1`, local mount cwd`/data/ycfeng`. The local launcher remains alive as`sh_1bf43bd8e0011S3o8uZqd0btZi`; raw log:`/data/ycfeng/tmp/agent-opd-image/source-audit-112k-launch-20261109.log`.
+
+Filtered receipt`evidence/source-audit-112k-admission-20261109.json` confirms creator`i-fengyicheng`,8 CPU,32000Mi,0 GPU, pinned image, local NFS source`100.96.128.195:/data/ycfeng:/data/ycfeng`, codesign/posttrain volume mounts and worker startup withPython3.12.13/torch2.11.0+cu130/transformers5.19.0. Startup argv binds131072/114688/16384 and the new output directory. This verifies submission/startup only; completion, business outputs and final parity remain pending.

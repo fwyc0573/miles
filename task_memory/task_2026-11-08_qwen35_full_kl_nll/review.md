@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
 
 # Branch-base review
@@ -48,3 +49,13 @@ Read-only reviewer: `ses_e43737fe8ffe4iK1j8uAE81u0C`, task `profile-upstream-202
 - Therefore D1/D22 remain **NOT MET**. No merge, Ticket02 implementation, Ticket03 integration, or formal run is accepted by this review. Other-session uncommitted edits remain untouched.
 
 Decisive current upstream artifacts: `/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/capacity-lifetime-gpu-partial.json`, `test_report_2026-11-09_round_robin_acquisition.md`, and `tickets/02-replay-training-and-metrics.md`.
+
+## D33/D34 preparation phase
+
+Reviewer:`ses_e40bbe487ffeqJc4LSyAlspkFg`, task`profile-h800-length-review-20261109`. Fixed ranges: parent`2d695ba0..438d25fc`; isolated preparation`c52991ac..46e7b292`, including nullable admission`1ae93261`, native lengths`8c9537bf` andfour-node lifecycle`46e7b292`.
+
+Inspected artifacts: input/audit/checker/synthetic code andtests; budget/receipt, SWE argv andQwen worker lifecycle code/tests; parentrequirements/spec/plan/tickets/configs/reports; preparation task reports. Exact diffs retained at`/data/ycfeng/tmp/agent-opd-image/profile-h800-length-parent-438d25fc.diff` and`profile-h800-length-preparation-46e7b292.diff`; their Git ranges remain reproducible. The initial review lacked exact diff access; the follow-up read both artifacts against inspected current code and closed that coverage limitation.
+
+**Result: fixed-diff phase review complete; no new actionable findings.** Inclusive112K filtering,16K completion requests, explicit-null admission andall-rank supervision align with the stated contracts. No new data copying, out-of-scope cloud write orauxiliary hard gate was identified. No test orplatform operation was performed by the reviewer.
+
+This is not native readiness: D1/D22 remains closed; typed-input wiring/merge is deferred toTicket02;112K real-source audit isRunning butunaccepted;36-GPU H800 placement, full peak memory, mixed weight synchronization andthroughput remain unverified. The broader local related test run retains its existing parser failure andis not reported as all-pass.

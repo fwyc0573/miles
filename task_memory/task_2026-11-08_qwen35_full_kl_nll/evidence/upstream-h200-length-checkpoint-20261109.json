@@ -1,0 +1,74 @@
+{
+  "checked_at": "2026-11-09T07:45:51.538458+00:00",
+  "job": "exp-1109-144110-764758",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [student,teacher]",
+    "taskStatuses": {
+      "student": {
+        "active": 2,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "roles": {
+    "student": {
+      "replicas": 2,
+      "positive_tags": [
+        "H200"
+      ],
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8",
+              "rdma/mlnx_shared": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          }
+        }
+      ],
+      "volumes": []
+    },
+    "teacher": {
+      "replicas": 1,
+      "positive_tags": [
+        "H200"
+      ],
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            },
+            "requests": {
+              "cpu": "16",
+              "memory": "125Gi",
+              "nvidia.com/gpu": "2"
+            }
+          }
+        }
+      ],
+      "volumes": []
+    }
+  },
+  "stop_annotations": {}
+}

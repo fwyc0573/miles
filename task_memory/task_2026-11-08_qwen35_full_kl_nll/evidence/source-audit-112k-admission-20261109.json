@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-11-09T07:45:51.531599+00:00",
+  "job": "exp-1109-154414-275606",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [audit]",
+    "taskStatuses": {
+      "audit": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "roles": {
+    "audit": {
+      "replicas": 1,
+      "positive_tags": [],
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "8",
+              "memory": "32000Mi",
+              "nvidia.com/gpu": "0"
+            },
+            "requests": {
+              "cpu": "8",
+              "memory": "32000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          }
+        }
+      ],
+      "volumes": []
+    }
+  },
+  "stop_annotations": {},
+  "mount_annotations": {
+    "job": {
+      "kubebrain.brainpp.cn/filestore-volume": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    },
+    "audit": {
+      "kubebrain.brainpp.cn/filestore-volume": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "mount.brainpp.cn/juicefs": "s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant;s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp;s3://aliyun-sh/posttrain:/mnt/posttrain"
+    }
+  },
+  "startup_lines": [
+    "{\"python\": \"3.12.13\", \"torch\": \"2.11.0+cu130\", \"transformers\": \"5.19.0\", \"configuration\": \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/source_audit_config.json\"}",
+    "COMMAND /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -u -B -m tests.manual.agent_opd.audit_swe1003_sources --steptron-root /data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9 --source-root /mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913 --tokenizer /data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B --chat-template miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja --rollout-max-context-len 131072 --rollout-max-prompt-len 114688 --rollout-max-response-len 16384 --base-loader-sha256 0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f --source-manifest-sha256 0a46156646a098161151b4ba311a1811e1c61c5e8ab950f3a3617ecf7e67df16 --turn-data-sha256 8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980 --visual-audit-sha256 5838a812996890f003199b7575788962360ef27810a7c29c4df466b64d0ebc1e --chat-template-kwargs '{\"preserve_thinking\": true, \"enable_thinking\": true}' --simulate 32x8 1x8 --output-root /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/source-audit-112k-20261109 --updates 200 --turns-per-update 256 --trend-window 10"
+  ]
+}

@@ -10,13 +10,13 @@ Modification History
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
-|01输入 | TODO | 原始源验收已完成；D34新预算CPU检查通过，112K全源重验待执行 |
+|01输入 | TODO | 原始源验收已完成；D34新预算CPU检查通过，112K全源CPU作业Running |
 |02per-turn sums | BLOCKED | D1/D22上游256-turn验收未完成 |
 |03profile接入 | BLOCKED | pure module已验证，native接入依赖02 |
 |04A/full | BLOCKED | 输入重验和02/03未完成 |
 |05B/full | BLOCKED | 依赖A首次successful update及检查 |
 |06归档比较 | BLOCKED | 正式运行证据缺失 |
-|H800资源准备 | TODO | 无上限准入和长度参数已有提交；四节点支持验证中 |
+|H800资源准备 | TODO | 无上限准入、长度参数和四节点支持已有验证提交；真实payload/runtime及接入仍待完成 |
 
 ## 2. 偏离检测
 
@@ -51,4 +51,4 @@ Modification History
 
 1.112K/16K已通过实际native request构造检查；旧128K长度统计不能用于新规则。
 2.H800 TP4把单份128K logits降至约15.2GiB，不等于完整峰值或吞吐通过。
-3.上游最新平台证据仍为Starting，缺少native容量通过；不能用CPU测试或提交回执替代。
+3.上游最新平台证据为Running，仍缺少native容量通过；不能用CPU测试或提交回执替代。

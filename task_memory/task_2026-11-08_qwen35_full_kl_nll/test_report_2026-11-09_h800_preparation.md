@@ -17,8 +17,8 @@ D33 authorizes H800/codesign execution with no task GPU-count cap. Parent Ticket
 | Document links and dependency graph afterD33 | Existing six tickets remain coherent |21 documents,6 tickets,75 links,22 anchors; zero errors | PASS |
 | Whitespace | No diff errors | `git diff --check` exits0 | PASS |
 | Fresh personal H800 commitments | Query actual nonterminal non-preemptible jobs using Python API | At07:13:27Z:24 GPUs across three other jobs | RECORDED |
-| Upstream native gate | Actual capacity evidence, not submission/startup alone | `exp-1109-144110-764758`: Starting at07:23:41Z; teacher Running, both student replicas Starting | NOT YET MET |
-| Unlimited allocation | No manufactured numeric ceiling | Candidate`gpu_policy.json` has explicitnull; old integer-only reader needs the isolated change below | PENDING |
+| Upstream native gate | Actual capacity evidence, not submission/startup alone | `exp-1109-144110-764758`: Running at07:45:51Z, two student replicas plus teacher active; native acceptance not received | NOT YET MET |
+| Unlimited allocation | No manufactured numeric ceiling | Candidate`gpu_policy.json` has explicitnull; isolated`1ae93261` passes25 budget+4 consumer checks | CPU PASS |
 | H800 payload/runtime | Configuration validated, then actual H800 runtime evidence | No H800 payload accepted or job submitted yet | PENDING |
 
 Commands:
@@ -48,3 +48,7 @@ Prepare36 H800 GPUs per pair: four student/rollout nodes of8, with the first8 al
 Evidence: a131072-token scoring tensor at vocab248320 has bf16 logits of30.3125GiB per TP2 rank and15.15625GiB per TP4 rank; the former matches the measured H200 allocation request32,547,799,040bytes. These are individual tensor sizes, not measured H800 peak memory. `max_tokens_per_gpu` is a packing target: `seqlen_balancing.first_fit_decreasing_pack` leaves an oversized sample whole, so reducing that target cannot bound a single128K sample. The prior exploration's32768-token workaround and0.6 memory fraction were withdrawn as unsupported. No guessed throughput multiplier is used as acceptance evidence.
 
 The existing entrypoint's two-student-node restriction blocks this layout despite native engine-group support. `profile-h800-four-node-20261109` owns the isolated lifecycle extension and CPU checks. Native36-GPU memory, mixed weight sync and throughput remain unverified. The existing scoring-lifetime observer isolates all installation and per-forward errors through its `soft` method; it is not an auxiliary hard gate for a≥32-GPU run.
+
+The restriction has now been removed by`46e7b292` in the isolated worktree. The four-node lifecycle keeps one trainer head and supervises ranks1–3;122 affected tests PASS. The broader related run records171PASS,12SKIP and one existing local parser failure for`--sglang-enable-prefill-weight-versions`. That broader run is not an all-pass result; the pinned worker image's native path remains the relevant runtime check. Exact commands and failure are in`task_memory/task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_four_node_rollout.md`in the preparation worktree.
+
+The separate length launcher commit`8c9537bf` passes53 launcher+7 related tests, using explicit`context_tokens`, `prompt_tokens` and`response_tokens`. Its old source-input wiring still requires parentTicket02 integration afterD1/D22; neither these commits nor the36-GPU YAML is currently a complete formal-run configuration. Latest upstream platform receipt:`evidence/upstream-h200-length-checkpoint-20261109.json`.
