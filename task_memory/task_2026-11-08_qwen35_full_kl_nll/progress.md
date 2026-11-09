@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept the completed in-place CPU audit/parity and refresh upstream gate at05:10Z; Ticket01 done,02/03 integration still blocked. |
 | 2026-11-09 | Resume with the user-selected branch-base review, in-place audit preparation, and read-only upstream prerequisite verification. |
 | 2026-11-08 | Record the worktree setup and the source investigation that shapes interview round 1. |
 | 2026-11-08 | Answer the round-1 loader-order concern with source evidence; correct Finding 8. |
@@ -144,15 +145,18 @@
 
 ## in-progress
 
-- Review and repair `20d0b3f4...0e94c522` on separate Standards and Spec axes. Reviewer sessions: `ses_e4373800affezhqaC06Ftzyn1p` (Standards), `ses_e43738006ffeim4QCGXqygBMha` (Spec). Both are read-only.
-- Ticket01 in-place CPU audit and parity job `exp-1109-031258-820360` is Running. Personal creator, 0 GPUs, 8 CPUs, 32000 Mi memory, pinned image and current-host NFS source were verified in `evidence/source-audit-admission-20261109.json`. Launcher remains alive (`sh_1bc93f1b6001yRHmShtyUp3cEN`). Source scan and parity acceptance remain pending.
-- Upstream check completed (`ses_e43737fe8ffe4iK1j8uAE81u0C`): D1/D22 NOT MET. Historical patched scoring reached backward but was externally stopped before successful updates; new-data D12 acquisition reached227/256, below231. No merge or Ticket02 integration begins. See [review.md](review.md).
+- Upstream refresh at2026-11-09T05:10Z (`ses_e43737fe8ffe4iK1j8uAE81u0C`): `agent-opd` at`d8c27b75`, no new256-turn acceptance. D1/D22 NOT MET. Latest D12 acquisition remains227/256<231 within1800s, zero updates; OOM mechanism patch has no completed two-update native capacity proof.02/03 integration and formal cells remain blocked.
+
+### Latest completed work
+
+- Standards/Spec review of`20d0b3f4...0e94c522` and repairs are complete. Reviewer sessions:`ses_e4373800affezhqaC06Ftzyn1p` and`ses_e43738006ffeim4QCGXqygBMha`; all findings closed.
+- Ticket01 is done. CPU job`exp-1109-031258-820360` finished at2026-11-09T00:24:08Z. Direct personal Python query at05:11:30Z confirmed job/replica Succeeded and worker completion marker. Actual source identities/counts,512 native parity draws and2,048 interleaved draws were inspected. Results and limits: [source test report](test_report_2026-11-09_source_audit.md); terminal receipt:`evidence/source-audit-terminal-20261109.json`.
+- D26: eligible-turn median90 before length filtering, retain32×8. Length audit rejects27.51% of eligible turns;32×8 simulated span median7, with17/745 conversations spanning≥11updates. This is not measured runtime trend coverage. Source first-message`preserve_thinking` is absent in all9,254 conversations; the existing Qwen config explicitly sets it true. Native task identity remainsunverified/null. Updated specS2 and01 acceptance without changing scientific parameters.
 - Repairs implemented: native module cache requires matching verified code and object identity; audit exact-text grouping is separate from task identity; historical profile entry/ratio queries and partial-write isolation are verified. Final affected fast suite:15/15 PASS. Complete synthetic worker audit → parity PASS; retained changed-identity fixture audit/check PASS. Task document links/DAG/arithmetic: zero errors. Commands and evidence: [test report](test_report_2026-11-09_review_execution.md).
 - Repair milestone committed as `a0b0d113`. Independent Spec remediation review closed all five findings with zero new actionable findings. Standards remediation review closed all four original findings; its last P3 (temporary-only document checker) was fixed by retaining the script byte-for-byte under `tests/manual/agent_opd/check_profile_docs.py`, with `cmp` and the retained check passing (73 links/22 anchors/0 errors). All review findings are closed. No new experiment choices or upstream edits were made.
 
 ## pending
 
-1. Ticket 01 items 5–6: inspect the actual in-place source audit and parity results from the running CPU RJob; submission is no longer deferred.
-2. 02 and the 03 integration wait for the reused Ticket02's out-of-memory fix to be complete on `agent-opd`, then the merge (D1, D22).
-3. After the audit: copy its JSON and manifest into `evidence/`, update spec S2 取数顺序第 6 条 with the numbers, apply D26, and report any first message whose `preserve_thinking` is not true.
-4. 04 after {01, 02, 03}; 05 after 04's first-update inspection; 06 after {04, 05}.
+1. Upstream-owned acquisition/capacity repair: obtain≥231 valid slots within1800s and accepted representative256-turn training, including two successful optimizer updates/second scoring. Its rollout topology decision remains upstream-owned.
+2. Only after that acceptance, merge`agent-opd` and implement02 plus03 integration (D1/D22).
+3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready};05 after04's actual first-update inspection;06 after{04,05}terminal evidence.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept Ticket01 source audit/parity; independent CPU work complete, integration waits for the freshly rechecked upstream gate. |
 | 2026-11-09 | Repair executable dependency checkpoints, soft-gate acceptance and B admission; refresh the upstream blocker and pending in-place CPU evidence. |
 | 2026-11-08 | Draft the six-ticket dependency graph and verification strategy; awaiting Q17–Q19 and freeze. |
 | 2026-11-08 | Update ticket 01 and the verification strategy for D18; awaiting freeze. |
@@ -18,7 +19,7 @@
 
 # Plan
 
-**Phase: IMPLEMENTATION / REVIEW_REPAIRS.** The user froze the documents on 2026-11-08 (requirements Round 5) and authorized review repairs and resumed execution on 2026-11-09. GPU actions follow the tickets and S8; D1/D22 remain mandatory.
+**Phase: IMPLEMENTATION / WAITING_UPSTREAM.** Review repairs and Ticket01 are complete. The user froze the documents on2026-11-08 (requirements Round5) and authorized resumed execution on2026-11-09. GPU actions follow the tickets and S8; D1/D22 remain mandatory.
 
 ## Scope and ownership
 
@@ -64,6 +65,6 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-The 03 module has recorded D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)); historical entry queries, baseline boundaries and partial-write isolation now also pass CPU checks ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full integration path in [ticket 03](tickets/03-distillation-profile.md) remain pending. Its integration has not started. 01's adapter and local checks pass ([test report](test_report_2026-11-08_swe1003_turn_source.md)); the primary's latest [progress record](progress.md#in-progress) reports the in-place CPU audit/parity RJob `exp-1109-031258-820360` Running, with its launcher alive. There is no completed source audit/parity result yet: items 5–6 remain pending and 01 is not accepted; submission is no longer deferred. Historical GLM order evidence ([test_report](test_report_2026-11-08_interleaved_turn_order.md)) does not substitute for current-source parity.
+Ticket01 is accepted: the real-source CPU audit,512 native parity draws and2,048 interleaved draws passed; job/replica Succeeded ([source test report](test_report_2026-11-09_source_audit.md)). The03 module has recorded D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)); historical entry queries, baseline boundaries and partial-write isolation also pass ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full integration path in [ticket03](tickets/03-distillation-profile.md) remain pending. Current state is owned by [progress](progress.md#in-progress).
 
-The current upstream gate is owned by [spec S0](spec.md#s0-复用与改动范围): at `f33546f4` plus retained local evidence, reused Ticket02 is NOT ACCEPTED. Historical green scoring completed 31 microbatches/rank but was externally stopped before optimizer; DeepSWE D12 collected 227 < 231 and never reached scoring. D1/D22 therefore still block merge, every part of 02, and the 03 integration. Current independent work is doc repair, running 01 CPU evidence and 03 module verification; no formal cell has begun and no GPU/profile runtime gate is claimed passed.
+At the2026-11-09T05:10Z read-only refresh, upstream `agent-opd` was at `d8c27b75` with no newer capacity acceptance. The gate defined in [specS0](spec.md#s0-复用与改动范围) remains NOT MET: historical patched scoring was stopped before optimizer; the latest DeepSWE acquisition collected227<231 and produced zero updates. D1/D22 block merge, every part of02 and03 integration. Independent authorized CPU work is complete; the next executable integration step requires upstream acceptance. No formal cell has begun.

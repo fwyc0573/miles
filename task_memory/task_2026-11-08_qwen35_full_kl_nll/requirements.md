@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the execution-readiness follow-up; accept completed input evidence without changing D1/D22. |
 | 2026-11-09 | Record the branch-base review and authorization to repair the draft and resume execution, subject to D1/D22. |
 | 2026-11-08 | Open the documentation task; record the original request verbatim before the interview. |
 | 2026-11-08 | Record round-1 decisions and the loader-order concern with its verified answer. |
@@ -50,7 +51,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **IMPLEMENTATION / REVIEW_REPAIRS**. Round 5 froze the documentation and authorized the independent implementation slices; the 2026-11-09 request authorizes review repairs and continued execution. D1/D22 still gate the upstream merge and training integration.
+- Current phase: **IMPLEMENTATION / WAITING_UPSTREAM**. Review repairs and Ticket01 input acceptance are complete. Round5 and the2026-11-09 request authorize continued execution; D1/D22 still gate the upstream merge and training integration.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -255,3 +256,9 @@ Asked for the review baseline, the user selected **“分支创建点 (Recommend
 This resumes the already approved in-place CPU audit and parity checks under D25; no input copy is authorized. Current execution uses the prescribed personal Python RJobBackend path and its actual tool permissions. Historical non-submission remains recorded as such. The request does not waive D1/D22 or change the experiment, baseline defaults, resource limits, or first-update acceptance.
 
 Review correction to the explanatory D32 rationale: N=8 equals the first conversation entry only when that entry contains exactly the first eight successful observations. Short blocks, overlength rejection, timeout, and bank boundaries can produce fewer or more observations. The approved definition remains the mean of the earliest N observations; the historical recommendation above is not an additional equality requirement.
+
+### Execution readiness — [Original Request] 2026-11-09
+
+> 是否可以开始执行？当前的阻塞是什么？
+
+Fresh evidence is recorded in `test_report_2026-11-09_source_audit.md`: Ticket01 completed, while the upstream256-turn native capacity gate is still unaccepted. This question does not waive D1/D22 or change the approved32×8 configuration.

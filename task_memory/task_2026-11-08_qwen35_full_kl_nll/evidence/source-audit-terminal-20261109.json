@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-11-09T05:11:30.302155+00:00",
+  "name": "exp-1109-031258-820360",
+  "creator": "i-fengyicheng",
+  "phase": "Succeeded",
+  "startTime": null,
+  "finishTime": "2026-11-09T00:24:08Z",
+  "stop": {},
+  "replicas": [
+    {
+      "name": "exp-1109-031258-820360-cfcd2084",
+      "phase": "Succeeded",
+      "completion_lines": [
+        "SWE1003_IN_PLACE_AUDIT_AND_PARITY_PASS"
+      ]
+    }
+  ]
+}

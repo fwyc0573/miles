@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Link completed real-source and terminal acceptance; retain the earlier launch-time observations as history. |
 | 2026-11-09 | Record review repair checks and the approved in-place CPU audit launch. |
 
 # Review repairs and execution
@@ -78,6 +79,8 @@ Submission uses `tests/manual/agent_opd/submit_swe1003_audit.py` after the autho
 Launcher raw log: `/data/ycfeng/tmp/agent-opd-image/source-audit-launch-20261109.log`. The launcher stays alive throughout `spawn_tasks`. Audit and parity artifacts are written under `evidence/source-audit-20261109/`.
 
 Job `exp-1109-031258-820360` was Running at `2026-11-08T19:14:27Z` (2026-11-09 local time). The personal Python client verified creator `i-fengyicheng`, non-preemptible, one audit replica, 8 CPU / 32000 Mi / 0 GPU, exact image digest, and NFS source `100.96.128.195:/data/ycfeng:/data/ycfeng`. Filtered receipt: [source-audit-admission-20261109.json](evidence/source-audit-admission-20261109.json). Business results and terminal state are pending. Ticket01 items 5–6 are not yet accepted.
+
+**Subsequent acceptance:** job and replica finished Succeeded at2026-11-09T00:24:08Z. The actual source outputs and parity checks were inspected and Ticket01 items5–6 accepted; see [source audit report](test_report_2026-11-09_source_audit.md). The preceding pending statements describe the launch-time inspection only.
 
 ## Verification limits
 

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Replace pending source estimates with the accepted in-place audit; retain32×8 and distinguish raw eligible counts, length rejection and simulated span coverage. |
 | 2026-11-09 | Repair fork inheritance, audit identity and statistical interpretation; distinguish CPU readiness from runtime acceptance; align soft gates and B admission; refresh the blocked upstream gate from retained evidence. |
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
 | 2026-11-08 | Apply D17 to S0/S8; mark S2 as withdrawn pending Q20. |
@@ -122,11 +123,13 @@
    - `source_assistant_turn_ordinal`、`context_masked_assistant_count` 和 native 的 `target_policy`（数据源第 3 条）；data source 的 identity 另记 turn source 名称、视觉排除名单的 sha256 和源文件 manifest 的 sha256。
    - data source 另外报告每次取数（一个 bank）中取完最后一个 turn 的 conversation，包括最后一个 turn 因超长被拒绝的情况。这个报告供 `alive` 使用（S4）。
 5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，源取数序列相同；生成结果和最终有效 bank membership 不保证相同，按各 cell 的实际 receipt 记录。
-6. **估算（待审计）**：
+6. **估算与原位审计（2026-11-09，详见 [测试报告](test_report_2026-11-09_source_audit.md)）**：
    - 理想情况下（每个 update 恰好接收该 conversation 的一个完整 8-turn block，无 rejection / 失败 / skip），有 n 个 training turn 的 conversation 跨约 ceil(n / 8) 个 update，training turn 数不少于 81 对应约 11 个 update。这是 D26 的估算阈值，不是实际 trend 的必要或充分条件。
    - 实际 trend 需要固定且为正的 conversation baseline，以及 latest update `u_c` 之前存在一个 update `≤ u_c − k` 的条目（S4）。bank membership 会变化，跨度 11 不等于必须出现 11 次；少于 81 个 turn 也可能满足参考距离，多于 81 个 turn 也可能因缺失或截断的运行没有 trend。以实际 observation 和 successful update ID 判定。
-   - 每个 update 约 32 个 conversation，每个约 8 个 turn。200 个 update 取约 51,200 个 turn；覆盖的 conversation 数约为 51,200 除以每个 conversation 的平均 training turn 数。
-   - SWE-1003 数据的 training turn 数分布和模拟覆盖由审计给出，实际 trend 有定义的比例由 profile runtime evidence 给出。若每个 conversation 的 training turn 数中位数明显低于 81，带着数字和保持 M × block = 256 的方案回来找用户（D26）。
+    - 全源9,254个conversation，排除102个视觉conversation后剩9,152个、868,775个loss-mask-eligible turn；长度过滤前每个conversation的eligible turn中位数90、P90为153，因此D26不要求调整32×8。128K规则拒绝239,015个turn（27.51%）；不能用过滤前中位数代替过滤后分布。
+    - 200个update ×256个接受turn共51,200个。32×8模拟需71,737次原始取数，覆盖745个conversation；每update覆盖conversation中位数25，conversation跨度中位数7、P90为9，仅17/745跨至少11个update。1×8模拟覆盖735个conversation，跨度中位数1。两者均零重复、epoch0。模拟不包含生成失败或optimizer skip；实际trend覆盖仍由profile runtime evidence判定。
+    - 首条源消息均没有`preserve_thinking`，`reasoning_effort`均为null；Qwen配置显式设置`preserve_thinking=true`、`enable_thinking=true`。native任务身份仍为unverified/null，955个首条问题文本分组只作为proxy。以上均已在正式cell之前记录；没有变更渲染或采样参数。
+    - 若后续核验表明每个conversation的training turn数中位数明显低于81，仍须带着数字和保持M × block = 256的方案回来找用户（D26）。
 7. **已知后果**：
    - 起始阶段 32 个 conversation 同时从 turn 1 开始，预计前若干 update 的 prompt 较短；进度错开后长度分布可能改变，但是否在 10–20 个 update 后稳定由实际长度和阶段耗时检验。第一个 update 不能代表长期吞吐，前约 20 个 update 的耗时仍按 S8 报告。
    - 同一 block 内的连续 turn 共享前缀，prefix cache 大部分仍然有效；block 的第一个 turn 能否命中上一个 update 留下的缓存，取决于缓存是否被换出。
@@ -226,7 +229,7 @@ NLL_i = nll_sum_i / tokens_i
 
 **二维表**：
 - 行是 `t_id`（从小到大），列是 `c_id`（从左到右即首次训练的先后），每格是该 `(c_id, t_id)` 的最新 Turn observation；更早的 presentation 保留在历史中（D7）。
-- 每列的格数等于该 conversation 已训练的 training turn 数，各列高度不同（分布待审计，S2 数据源第 6 条）；超长、超时的 turn 留空。被 mask 的 assistant 不是行。
+- 每列的格数等于该 conversation 已训练的 training turn 数，各列高度不同（源数据分布见S2，实际已训练数量由runtime记录）；超长、超时的 turn 留空。被 mask 的 assistant 不是行。
 - 失败、超长、超时的 turn 不进入表（D7）。
 
 ## S5. 数据结构与查询（D15）
