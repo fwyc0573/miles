@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Update only S0 current status after the second pre-training A failure: placement blocked, submissions paused, strategy undecided; retain all scientific/native gates. |
 | 2026-11-10 | Synchronize only S0 current execution: retain first formal A failure separately and record unchanged freshly admitted retry; preserve all scientific and native acceptance gates. |
 | 2026-11-10 | Link the actual A/full submission from S0; preserve the scientific and runtime acceptance contract. |
 | 2026-11-10 | Update only S0 current readiness: accept Ticket03 CPU integration and explicit formal profile configuration; preserve all formal native/GPU gates. |
@@ -55,7 +56,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前合并及CPU接入状态（2026-11-10，D35，已完成）**：用户接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据；原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)。实际合并`55fba827`、02 CPU-ready`6129aefe`和03 CPU接入`15186817`均已接受，见[合并报告](test_report_2026-11-10_input_merge.md)及[接入报告](test_report_2026-11-10_profile_integration.md)。显式配置`ec002ea8`及启动前lifecycle检查见[formal配置报告](test_report_2026-11-10_formal_configuration.md)。首个A/full `exp-1110-014836-849060`在18:24:34Z因placement后native startup timeout而FAILED，0 successful updates，五replica均terminal；不是OOM或D6/D19吞吐失败。Primary在fresh准入后于18:28:44Z以同一配置/source/image/四节点topology/长度/timeout提交 `exp-1110-022844-821769`；18:31:08Z仅证实Starting/placement，非actual GPU、全部engine或ACK证明。两attempt及RCA未关闭边界见[formal运行报告](test_report_2026-11-10_formal_runs.md)。正式逐turn/profile验收仍在A首个actual successful update；05等待其ACK、完成inspection和fresh资源准入，不等A200或辅助PASS。上游旧失败及首个formal失败保持独立证据，不拼接结果；所有formal cloud输出受保护，不属于smoke清理。
+**当前合并及CPU接入状态（2026-11-10，D35，已完成）**：用户接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据；原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)。实际合并`55fba827`、02 CPU-ready`6129aefe`和03 CPU接入`15186817`均已接受，见[合并报告](test_report_2026-11-10_input_merge.md)及[接入报告](test_report_2026-11-10_profile_integration.md)。显式配置`ec002ea8`及启动前lifecycle检查见[formal配置报告](test_report_2026-11-10_formal_configuration.md)。两次A/full `exp-1110-014836-849060`和 `exp-1110-022844-821769`均在acquisition/training前因placement/native startup失败，分别18:24:34Z、19:03:12Z Failed，各0 successful updates；第二次缺失rank3，19:06:54Z已核对全部五replica终态。Literal "two-node"错误保留，actual configured student nodes=4；不是OOM或D6/D19吞吐失败。当前前沿 **PLACEMENT_BLOCKED**：primary暂停提交，尚无第三attempt、placement/startup策略决定或新approval；其SDK/权威文档调查独立进行，不能把候选机制写成已选解法。两attempt及partial RCA见[formal运行报告](test_report_2026-11-10_formal_runs.md)，审计stop actor/time仍UNKNOWN。正式逐turn/profile验收仍在未来A首个actual successful update；05等待其ACK、完成inspection和fresh资源准入，不等A200或辅助PASS。全部formal attempt独立保留、不拼接、cloud输出受保护，不适用smoke清理权限。
 
 ## S1. 目标与实验矩阵
 

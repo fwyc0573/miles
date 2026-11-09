@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-11-09T19:06:54.726589+00:00",
+  "job": "exp-1110-022844-821769",
+  "uid": "a54101b9-6baf-4c84-a0c9-ac2897bded83",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T19:03:12Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1110-022844-821769-student-eccbc87e",
+        "phase": "Stopped",
+        "ip": ""
+      },
+      {
+        "name": "exp-1110-022844-821769-student-cfcd2084",
+        "phase": "Stopped",
+        "ip": "10.191.5.56"
+      },
+      {
+        "name": "exp-1110-022844-821769-student-c4ca4238",
+        "phase": "Stopped",
+        "ip": "10.191.5.44"
+      },
+      {
+        "name": "exp-1110-022844-821769-student-c81e728d",
+        "phase": "Failed",
+        "ip": "10.191.8.63"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1110-022844-821769-teacher-cfcd2084",
+        "phase": "Stopped",
+        "ip": "100.99.211.103"
+      }
+    ]
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "observed_at": "2026-11-09T19:03:11.473087+00:00",
+  "job": "exp-1110-022844-821769",
+  "uid": "a54101b9-6baf-4c84-a0c9-ac2897bded83",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobStopping",
+    "message": "RJob stopping",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": [
+    {
+      "role": "student",
+      "name": "exp-1110-022844-821769-student-eccbc87e",
+      "ip": "",
+      "uid": "79ee52f3-b3a6-4acc-8721-4b647cb324e7",
+      "status": {
+        "conditions": [
+          {
+            "type": "PodScheduled",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:29:06Z",
+            "reason": "Unschedulable",
+            "message": "0/4551 nodes are available: 111 Insufficient memory, 149 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. co-scheduling: can not find pod related pod group, preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 27 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 58 Insufficient cpu. add into backoff."
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "finishTimestamp": "2026-11-09T19:03:00Z"
+      }
+    },
+    {
+      "role": "student",
+      "name": "exp-1110-022844-821769-student-cfcd2084",
+      "ip": "10.191.5.56",
+      "uid": "cd5fa061-c861-45a2-9f0f-0d892441db7f",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:49Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:49Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          }
+        ],
+        "hostIP": "10.191.5.56",
+        "podIP": "10.191.5.56",
+        "podIPs": [
+          {
+            "ip": "10.191.5.56"
+          }
+        ],
+        "startTime": "2026-11-09T18:28:46Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-09T18:28:48Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://a371e7c86ef05427fdc3afea142bc27fd270a7efd62b3b23119a9ad959e1ec1a",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h800-0110.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-09T19:03:04Z"
+      }
+    },
+    {
+      "role": "student",
+      "name": "exp-1110-022844-821769-student-c4ca4238",
+      "ip": "10.191.5.44",
+      "uid": "1c76bc2d-87f7-444e-a6fb-bf08b8e20721",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:50Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:50Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          }
+        ],
+        "hostIP": "10.191.5.44",
+        "podIP": "10.191.5.44",
+        "podIPs": [
+          {
+            "ip": "10.191.5.44"
+          }
+        ],
+        "startTime": "2026-11-09T18:28:46Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-09T18:28:49Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://777d52b2eda6523471ff8fe69f3e8afc3c082795cbd4b2d88709b7f18a266897",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h800-0104.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-09T19:03:04Z"
+      }
+    },
+    {
+      "role": "student",
+      "name": "exp-1110-022844-821769-student-c81e728d",
+      "ip": "10.191.8.63",
+      "uid": "9668f21f-0c51-43b5-b90e-24886765433f",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:38:11Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T19:02:57Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T19:02:57Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:38:11Z"
+          }
+        ],
+        "hostIP": "10.191.8.63",
+        "podIP": "10.191.8.63",
+        "podIPs": [
+          {
+            "ip": "10.191.8.63"
+          }
+        ],
+        "startTime": "2026-11-09T18:38:11Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 1,
+                "reason": "Error",
+                "message": "user command: exit status 1",
+                "startedAt": "2026-11-09T18:38:13Z",
+                "finishedAt": "2026-11-09T19:02:56Z",
+                "containerID": "containerd://c8178a102e0bf1fe7ae592ca1a82e8151bae0f837728b3da00210fffa8af0e16"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://c8178a102e0bf1fe7ae592ca1a82e8151bae0f837728b3da00210fffa8af0e16",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Failed",
+        "nodeName": "gpu-h800-0180.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-09T19:02:58Z"
+      }
+    },
+    {
+      "role": "teacher",
+      "name": "exp-1110-022844-821769-teacher-cfcd2084",
+      "ip": "100.99.211.103",
+      "uid": "33262bf3-24a8-4aa8-aff4-8dc48f97d9c6",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:29:00Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:29:00Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T18:28:46Z"
+          }
+        ],
+        "hostIP": "10.191.3.43",
+        "podIP": "100.99.211.103",
+        "podIPs": [
+          {
+            "ip": "100.99.211.103"
+          }
+        ],
+        "startTime": "2026-11-09T18:28:46Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-09T18:29:00Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://b60e44017a28d097c9db8c545dee7106794527ed1afe8dedb5ec8de9f69fc5fb",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h800-0550.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-09T19:03:11Z"
+      }
+    }
+  ],
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  }
+}

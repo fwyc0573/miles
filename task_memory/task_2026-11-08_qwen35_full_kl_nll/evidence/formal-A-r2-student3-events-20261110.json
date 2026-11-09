@@ -1,0 +1,213 @@
+{
+  "job": "exp-1110-022844-821769",
+  "replica": "exp-1110-022844-821769-student-eccbc87e",
+  "events": [
+    {
+      "action": "Scheduling",
+      "api_version": null,
+      "count": null,
+      "event_time": "2026-11-09 19:00:35.206198+00:00",
+      "first_timestamp": null,
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-022844-821769-student-eccbc87e",
+        "namespace": "shai-core",
+        "resource_version": "45581161099",
+        "uid": "ed6103c0-1095-49ed-bb1a-095dc18c47ac"
+      },
+      "kind": null,
+      "last_timestamp": null,
+      "message": "0/4551 nodes are available: 111 Insufficient memory, 150 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. co-scheduling: can not find pod related pod group, preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 27 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 59 Insufficient cpu. add into backoff.",
+      "metadata": {
+        "annotations": null,
+        "creation_timestamp": "2026-11-09 19:00:35+00:00",
+        "deletion_grace_period_seconds": null,
+        "deletion_timestamp": null,
+        "finalizers": null,
+        "generate_name": null,
+        "generation": null,
+        "labels": null,
+        "managed_fields": [
+          {
+            "api_version": "events.k8s.io/v1",
+            "fields_type": "FieldsV1",
+            "fields_v1": {
+              "f:action": {},
+              "f:eventTime": {},
+              "f:note": {},
+              "f:reason": {},
+              "f:regarding": {},
+              "f:reportingController": {},
+              "f:reportingInstance": {},
+              "f:type": {}
+            },
+            "manager": "scheduler",
+            "operation": "Update",
+            "subresource": null,
+            "time": "2026-11-09 19:00:35+00:00"
+          }
+        ],
+        "name": "exp-1110-022844-821769-student-eccbc87e.18e675a0d669e51e",
+        "namespace": "shai-core",
+        "owner_references": null,
+        "resource_version": "45581217836",
+        "self_link": null,
+        "uid": "a8725619-e05d-46d8-ade1-18d90fd4c73c"
+      },
+      "reason": "FailedScheduling",
+      "related": null,
+      "reporting_component": "basemind-scheduler",
+      "reporting_instance": "basemind-scheduler-sys.k8s.scheduler.default-7447668679-9kx5h",
+      "series": null,
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "type": "Warning"
+    },
+    {
+      "action": null,
+      "api_version": null,
+      "count": 1,
+      "event_time": null,
+      "first_timestamp": "2026-11-09 19:02:59+00:00",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-022844-821769-student-eccbc87e",
+        "namespace": "shai-core",
+        "resource_version": "1645126349",
+        "uid": "79ee52f3-b3a6-4acc-8721-4b647cb324e7"
+      },
+      "kind": null,
+      "last_timestamp": "2026-11-09 19:02:59+00:00",
+      "message": "Deleted pod: exp-1110-022844-821769-student-eccbc87e",
+      "metadata": {
+        "annotations": null,
+        "creation_timestamp": "2026-11-09 19:02:59+00:00",
+        "deletion_grace_period_seconds": null,
+        "deletion_timestamp": null,
+        "finalizers": null,
+        "generate_name": null,
+        "generation": null,
+        "labels": null,
+        "managed_fields": [
+          {
+            "api_version": "v1",
+            "fields_type": "FieldsV1",
+            "fields_v1": {
+              "f:count": {},
+              "f:firstTimestamp": {},
+              "f:involvedObject": {},
+              "f:lastTimestamp": {},
+              "f:message": {},
+              "f:reason": {},
+              "f:source": {
+                "f:component": {}
+              },
+              "f:type": {}
+            },
+            "manager": "rjob-controller",
+            "operation": "Update",
+            "subresource": null,
+            "time": "2026-11-09 19:02:59+00:00"
+          }
+        ],
+        "name": "exp-1110-022844-821769-student-eccbc87e.18e675c2791c6844",
+        "namespace": "shai-core",
+        "owner_references": null,
+        "resource_version": "45581290055",
+        "self_link": null,
+        "uid": "d829ddc5-d882-4564-b309-8d81b3b291fc"
+      },
+      "reason": "SuccessfulDelete",
+      "related": null,
+      "reporting_component": "",
+      "reporting_instance": "",
+      "series": null,
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "type": "Normal"
+    },
+    {
+      "action": null,
+      "api_version": null,
+      "count": null,
+      "event_time": null,
+      "first_timestamp": "2026-11-09 19:00:35+00:00",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-022844-821769-student-eccbc87e",
+        "namespace": "shai-core",
+        "resource_version": "1645116029",
+        "uid": "79ee52f3-b3a6-4acc-8721-4b647cb324e7"
+      },
+      "kind": null,
+      "last_timestamp": "2026-11-09 19:00:35+00:00",
+      "message": "0/4551 nodes are available: 111 Insufficient memory, 150 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. co-scheduling: can not find pod related pod group, preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 27 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 59 Insufficient cpu. add into backoff.",
+      "metadata": {
+        "annotations": {
+          "rjob.brainpp.cn/rjob-name": "exp-1110-022844-821769"
+        },
+        "creation_timestamp": "2026-11-09 19:00:35+00:00",
+        "deletion_grace_period_seconds": null,
+        "deletion_timestamp": null,
+        "finalizers": null,
+        "generate_name": null,
+        "generation": null,
+        "labels": null,
+        "managed_fields": [
+          {
+            "api_version": "v1",
+            "fields_type": "FieldsV1",
+            "fields_v1": {
+              "f:firstTimestamp": {},
+              "f:involvedObject": {},
+              "f:lastTimestamp": {},
+              "f:message": {},
+              "f:metadata": {
+                "f:annotations": {
+                  ".": {},
+                  "f:rjob.brainpp.cn/rjob-name": {}
+                }
+              },
+              "f:reason": {},
+              "f:source": {
+                "f:component": {}
+              },
+              "f:type": {}
+            },
+            "manager": "rjob-controller",
+            "operation": "Update",
+            "subresource": null,
+            "time": "2026-11-09 19:00:35+00:00"
+          }
+        ],
+        "name": "exp-1110-022844-821769-student-eccbc87e.a7050f8f1b0273d2",
+        "namespace": "shai-core",
+        "owner_references": null,
+        "resource_version": "45581217837",
+        "self_link": null,
+        "uid": "64427fdb-9659-4c0a-85a3-df752a1f62b6"
+      },
+      "reason": "FailedScheduling",
+      "related": null,
+      "reporting_component": "",
+      "reporting_instance": "",
+      "series": null,
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "type": "Warning"
+    }
+  ],
+  "continuation": null
+}

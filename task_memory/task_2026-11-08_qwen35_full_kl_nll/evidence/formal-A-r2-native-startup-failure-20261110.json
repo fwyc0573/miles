@@ -1,0 +1,129 @@
+{
+  "job": "exp-1110-022844-821769",
+  "files": [
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-finished.json",
+      "mtime_ns": 1794250979960194670,
+      "status": "failed",
+      "rank": 0,
+      "error_type": "SystemExit",
+      "reason": "143"
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-launch-0.json",
+      "mtime_ns": 1794249129059700272,
+      "status": null,
+      "rank": 0,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-launch-1.json",
+      "mtime_ns": 1794249129267700381,
+      "status": null,
+      "rank": 1,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-launch-2.json",
+      "mtime_ns": 1794249513395865543,
+      "status": null,
+      "rank": 2,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-node-0.json",
+      "mtime_ns": 1794248949019581286,
+      "status": null,
+      "rank": 0,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-node-1.json",
+      "mtime_ns": 1794248949235581465,
+      "status": null,
+      "rank": 1,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-node-2.json",
+      "mtime_ns": 1794249513391865542,
+      "status": null,
+      "rank": 2,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-status-0.json",
+      "mtime_ns": 1794250979956194665,
+      "status": "failed",
+      "rank": 0,
+      "error_type": "SystemExit",
+      "reason": "143"
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-status-1.json",
+      "mtime_ns": 1794250979752194379,
+      "status": "failed",
+      "rank": 1,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/student-status-2.json",
+      "mtime_ns": 1794250974708187158,
+      "status": "failed",
+      "rank": 2,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/teacher-head.json",
+      "mtime_ns": 1794248958163588294,
+      "status": null,
+      "rank": null,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/teacher-node-0.json",
+      "mtime_ns": 1794248958159588290,
+      "status": null,
+      "rank": 0,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/teacher-ready.json",
+      "mtime_ns": 1794249079351670897,
+      "status": "ready",
+      "rank": 0,
+      "error_type": null,
+      "reason": null
+    },
+    {
+      "file": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/teacher-status-0.json",
+      "mtime_ns": 1794250985420202322,
+      "status": "failed",
+      "rank": 0,
+      "error_type": "SystemExit",
+      "reason": "143"
+    }
+  ],
+  "native_training": {
+    "status": "failed",
+    "pair": "A",
+    "rank": 0,
+    "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110/full/student/A/exp-1110-022844-821769",
+    "error_type": "TimeoutError",
+    "reason": "Ray did not register the requested two-node GPU allocation",
+    "traceback": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 405, in _run\n    _check_cluster(head, records, ray_args)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/rjob_warmup.py\", line 206, in _check_cluster\n    raise TimeoutError(\"Ray did not register the requested two-node GPU allocation\")\nTimeoutError: Ray did not register the requested two-node GPU allocation\n"
+  },
+  "native_failure_mtime_ns": 1794250955748147270,
+  "expected_student_nodes": 4,
+  "diagnostic_note": "Native literal says two-node; the configured allocation has four student nodes"
+}

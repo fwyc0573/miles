@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record both A attempts failed before training; pause submissions at PLACEMENT_BLOCKED pending an evidence-backed placement/startup strategy decision. |
 | 2026-11-10 | Retain failed first A attempt with zero updates and partial RCA; move current frontier to unchanged retry after fresh admission, without changing gates or adding a rerun loop. |
 | 2026-11-10 | Record formal A submission and move the frontier to startup/first-update inspection. |
 | 2026-11-10 | Accept03 CPU integration15186817 and final profile configurationec002ea8; move to fresh A admission/first-update verification without changing B concurrent admission. |
@@ -29,7 +30,7 @@
 
 # Plan
 
-**Phase: FORMAL_EXECUTION / A_RETRY_STARTUP / A_FIRST_UPDATE_PENDING.** CPU/configuration/review prerequisites remain accepted. First A `exp-1110-014836-849060` FAILED at18:24:34Z with0 successful updates and all five replicas terminal; rank2 placement failure preceded native four-node startup TimeoutError, not OOM or D6/D19 throughput. Primary freshly admitted and submitted unchanged36-H800 non-preemptible attempt `exp-1110-022844-821769` at18:28:44Z. The18:31:08Z readback is Starting, student active2/pending2 and teacher active1; placement is not actual GPU/all-engine/ACK evidence. Frontier: retry startup and D16 first actual update, then fresh B admission. See[formal execution evidence](test_report_2026-11-10_formal_runs.md).02 GPU and both cells'200-update native/profile acceptance remain pending; RCA stop actor/time remain UNKNOWN.
+**Phase: PLACEMENT_BLOCKED.** CPU/configuration/review prerequisites remain accepted. First A `exp-1110-014836-849060` and unchanged retry `exp-1110-022844-821769` both failed before acquisition/training, with 0 updates each, at18:24:34Z and19:03:12Z respectively. Retry rank3 never scheduled; rank0's19:02:35.748Z native cluster TimeoutError preceded peer/SIGTERM exits. The19:06:54Z readback confirms all five retry replicas terminal. Submission is paused; no third attempt or chosen/approved placement/startup route is recorded. Primary's SDK and authoritative-document investigation is independent; current work is an explicit evidence-backed strategy decision, not another unchanged submission, GPU smoke or throughput/science workaround. See[formal execution evidence](test_report_2026-11-10_formal_runs.md).02 GPU, D16, B and200-update native/profile acceptance remain pending; stop-audit actor/time remain UNKNOWN.
 
 ## Scope and ownership
 
@@ -42,7 +43,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
 | [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums: CPU implementation-ready, then GPU acceptance at A's first update | Satisfied: D35 capacity basis accepted and candidate merged as`55fba827`; no remaining merge blocker |
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
-| [04](tickets/04-a-full.md) | First A FAILED0 updates; unchanged retry exp-1110-022844-821769 submitted, startup/first-update pending | Satisfied:01 accepted,02 CPU-ready,03 CPU integration and fresh retry admission; native/profile execution evidence pending |
+| [04](tickets/04-a-full.md) | Both A attempts FAILED0 updates; PLACEMENT_BLOCKED, submission paused pending strategy decision | Satisfied:01 accepted,02 CPU-ready,03 CPU integration; unresolved placement/startup route after two terminal attempts, then any future fresh admission |
 | [05](tickets/05-b-full.md) | B/full native training and separately verified profile | Satisfied: 01 accepted, 02 CPU-ready, 03 CPU integration; pending: 04 actual first successful ACK, completed inspection and fresh resource admission |
 | [06](tickets/06-profile-report.md) | Final profile report and archive with explicit complete/incomplete disposition | 04, 05 terminal evidence and completion checks |
 
@@ -54,11 +55,12 @@ D28–D32 in the spec -> 03-module revision (CPU only)
 D23–D27 in the spec -> 01 revision: {adapter code + local checks, source audit (CPU RJob)} -> checks on the files in place (CPU RJob)
 D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU implementation-ready6129aefe accepted -> 03-integration CPU-ready15186817 accepted
 {01 accepted, 02 CPU implementation-ready, 03-integration CPU-ready, final formal configuration/lifecycle checks} -> 04 fresh admission -> 04 launch
+04 repeated pre-training placement/startup failures -> primary evidence-backed strategy decision (pending; no third submission)
 04 actual first successful update -> inspection completed -> {02 GPU acceptance evidence, 05 resource admission}
 {04 terminal evidence, 05 terminal evidence} -> 06
 ```
 
-Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code.02`6129aefe`and03`15186817`now satisfy the CPU dependencies; configuration, lifecycle checks and reviews are complete. The first formal A failure is retained separately; the unchanged freshly admitted retry is now being observed. Upstream acceptance remains independent.
+Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code.02`6129aefe`and03`15186817`still satisfy the CPU dependencies; configuration, lifecycle checks and reviews remain complete. Both formal A failures are retained separately; submissions are now paused for a placement/startup strategy decision. Upstream acceptance remains independent.
 
 The table's 02/03 edges into formal cells are CPU readiness checkpoints, not full ticket closure. 02 remains unaccepted until its A runtime checks are verified, but waiting for that before launching A would be circular. B requires A's real successful native update and a completed inspection, not a PASS auxiliary profile verdict or all 200 A updates. S7 errors continue healthy training and are reported separately as incomplete profile acceptance. Failed/incomplete terminal evidence permits honest reporting in 06; it does not satisfy complete-cell acceptance.
 
@@ -79,7 +81,7 @@ Ticket01 is accepted including D34: the original-source112K CPU audit,512 native
 
 The historical2026-11-09T07:56Z upstream refresh at `c52991ac` recorded capacity job`exp-1109-144110-764758` failing at initial trainer-to-rollout weight synchronization after600s, before rollout collection or optimizer updates. This failure remains unaccepted evidence, as do earlier acquisition227<231 and historical interrupted scoring. Those historical outcomes are not relabeled byD35; exact limits remain in [the H800 preparation report](test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
 
-Current frontier:04 retry `exp-1110-022844-821769` actual startup -> first successful ACK/completed D16 inspection ->05 fresh resource admission. Attempt identities, first failure and partial RCA are retained in[the formal execution report](test_report_2026-11-10_formal_runs.md). One placement failure followed one fresh unchanged submission under existing authorization; there is no automatic unbounded rerun loop. If placement fails again, primary performs a fresh route assessment rather than claiming D19 throughput relaunch.02 GPU/full-ticket acceptance remains incomplete. CPU, merge and source checks retain their narrower scope; failed attempts and all protected formal outputs remain separate.
+Current frontier: **PLACEMENT_BLOCKED**. Primary consolidates its independent native-SDK/authoritative-document evidence and records an explicit placement/startup strategy decision with applicable authority and unresolved choices. No third attempt is submitted; no eventual solution or approval is inferred here. Only after that blocker is resolved can any future attempt proceed through fresh admission and actual startup/first ACK/D16, then05 fresh admission under the existing dependency. Both failures, transitional/terminal readbacks and partial RCA remain in[the formal execution report](test_report_2026-11-10_formal_runs.md). Repeated startup failures justify stopping unchanged retries; this is not D19 throughput escalation or permission to change science/configuration.02 GPU/full-ticket acceptance remains incomplete; failed attempts and all protected formal outputs remain separate.
 
 Formal preparation `4863e68e`, guard correction `059a6a75` and explicit profile configuration `ec002ea8` are committed ([existing report](test_report_2026-11-10_formal_configuration.md)). Final submission/native-argv dry-runs pass4/4 with each of13 valued flags once, profile-enabled once and no HF save/evaluation. The primary completed `before-steptron-run` lifecycle inspection before launch:16 targeted CPU cases PASS in2.63s, covering cancellation/draining,503 deadlines, later success, late/invalid slots, teacher states and soft evidence sinks; exact commands and mock limits are in [the report](test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check). Full still visits200 distinct banks once each with configured `bank_uses=50`. B TP4/EP1 is feasible, not native verified. A launches after fresh admission; B may run concurrently after A's first actual ACK/completed inspection and fresh resources. Do not wait forA200 or add user-approval/profile-PASS/GPU-smoke gates. Native acceptance and S7 soft isolation remain unchanged.
 

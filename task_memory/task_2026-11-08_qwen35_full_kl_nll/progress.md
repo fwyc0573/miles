@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record second A FAILED0 updates and all-replica terminal evidence; pause at PLACEMENT_BLOCKED, retain partial RCA and append a bounded strategy-decision checkpoint. |
 | 2026-11-10 | Retain first A FAILED0 updates and partial RCA; synchronize unchanged fresh retry, intentional local observer cleanup and bounded failure-route checkpoint. |
 | 2026-11-10 | Record A/full actual submission and first worker evidence; native first-update inspection remains pending. |
 | 2026-11-10 | Record final accepted CPU integration15186817, explicit profile configurationec002ea8 and lifecycle verification before launch; move to A admission and append the exact four-section milestone checkpoint. |
@@ -39,6 +40,52 @@
 # Progress
 
 ## completed
+
+- Second-failure documentation/evidence verification (system Python3.10.6): docchecker PASS with31 documents/6 tickets/139 links/40 anchors,zero errors,unchanged01→02→03→04→05→06 DAG and51,200/cell/102,400 total/81-turn arithmetic. Local parse/identity assertions PASS for exactlyfive new approved JSONs: same retry job/UID, transitional Running/RJobStopping distinct from final Failed19:03:12Z,all five terminal replicas,rank3 unscheduled andother scheduling times,literal error/four-node config/native time,3 events andRCA6/8/zero DeepScan/audit UNKNOWN. Scoped whitespace PASS. Seven-owned-doc/five-selected-JSON scope only; no JSON changed,code/config/test implementation modified,platform/network/GPU call ornew report. Exact commands:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_formal_runs.md task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-failure-readback-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-native-startup-failure-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-terminal-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-student3-events-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-rca-query-coverage-20261110.json
+python3 -B - <<'PY'
+import json
+from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence')
+names = ['formal-A-r2-failure-readback-20261110.json', 'formal-A-r2-native-startup-failure-20261110.json', 'formal-A-r2-terminal-20261110.json', 'formal-A-r2-student3-events-20261110.json', 'formal-A-r2-rca-query-coverage-20261110.json']
+transition, native, terminal, events, coverage = [json.loads((root / name).read_text()) for name in names]
+job = 'exp-1110-022844-821769'
+assert all(receipt['job'] == job for receipt in [transition, native, terminal, events, coverage])
+assert transition['uid'] == terminal['uid'] == 'a54101b9-6baf-4c84-a0c9-ac2897bded83'
+assert transition['status']['phase'] == 'Running' and transition['status']['reason'] == 'RJobStopping'
+assert terminal['status']['phase'] == 'Failed' and terminal['status']['finishTime'] == '2026-11-09T19:03:12Z'
+replicas = [item for role in terminal['replicas'].values() for item in role]
+assert len(replicas) == 5 and all(item['phase'] in {'Failed', 'Stopped'} for item in replicas)
+assert terminal['status']['taskStatuses']['student']['failed'] == 1 and terminal['status']['taskStatuses']['student']['stopped'] == 3
+assert terminal['status']['taskStatuses']['teacher']['stopped'] == 1
+by_name = {item['name']: item for item in transition['replicas']}
+missing = by_name[job + '-student-eccbc87e']
+assert missing['ip'] == '' and any(item['type'] == 'PodScheduled' and item['status'] == 'False' and item['reason'] == 'Unschedulable' for item in missing['status']['conditions'])
+for suffix, scheduled in [('cfcd2084', '18:28:46Z'), ('c4ca4238', '18:28:46Z'), ('c81e728d', '18:38:11Z')]:
+    assert any(item['type'] == 'PodScheduled' and item['status'] == 'True' and item['lastTransitionTime'] == '2026-11-09T' + scheduled for item in by_name[job + '-student-' + suffix]['status']['conditions'])
+assert native['expected_student_nodes'] == 4 and native['native_training']['error_type'] == 'TimeoutError'
+assert native['native_training']['reason'] == 'Ray did not register the requested two-node GPU allocation'
+assert 'line 206' in native['native_training']['traceback']
+assert datetime.fromtimestamp(native['native_failure_mtime_ns'] / 1e9, timezone.utc).isoformat().startswith('2026-11-09T19:02:35.748')
+assert events['replica'] == missing['name'] and events['continuation'] is None
+assert len(events['events']) == 3 and Counter(item['reason'] for item in events['events']) == {'FailedScheduling': 2, 'SuccessfulDelete': 1}
+assert len(coverage['queries']) == 8 and sum(item['ok'] for item in coverage['queries']) == 6
+assert all(item['error']['type'] == 'ReadTimeout' for item in coverage['queries'] if not item['ok'])
+assert coverage['existing_deepscan_bodies'][0]['data']['total'] == 0
+assert coverage['audited_stop_actor'] == coverage['audited_stop_request_time'] == 'UNKNOWN'
+print('PASS: 5 JSON identities; distinct transitional/terminal state; 5 terminal replicas; rank3/schedule times; literal error/4 nodes/native time; 3 events; RCA 6/8, zero DeepScan and audit UNKNOWN')
+PY
+```
+
+- Second formal A `exp-1110-022844-821769` failed before acquisition/training,0 successful updates. Rank3 `student-eccbc87e` remained unscheduled; rank0/rank1 scheduled18:28:46Z andrank2 at18:38:11Z. Native rank0 TimeoutError19:02:35.748Z preceded peer/SIGTERM failures; actual configured nodes=4 andliteral "two-node" error isretained. Job Failed19:03:12Z;19:06:54Z personal API read confirms all five replicas terminal (student1 Failed+3 Stopped, teacherStopped). The19:03:11Z Running/RJobStopping readback remains transitional, not current execution. Three rank3 events and separate failure/terminal evidence arein[the existing formal report](test_report_2026-11-10_formal_runs.md#second-attempt-failure--19021906z).
+- Retry RCA has6 successful reads andtwo all-operation audits ReadTimeout10s,zero existing DeepScan flows andcollector exit1 for limited audit-query failure. Raw root:`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-placement-failure-20261110`; coverage isretained in`evidence/formal-A-r2-rca-query-coverage-20261110.json`. Placement shortfall/native initiating error areestablished; audited stop actor/request time remain UNKNOWN. This isnot complete platform stop-audit closure or another GPU failure. Both formal attempts andprotected cloud artifacts remain separate; no smoke cleanup applies.
+
+### Historical first-failure/retry synchronization — before second failure
 
 - Failure/retry documentation andimmutable evidence verification: retained docchecker PASS with31 documents/6 tickets/135 links/39 anchors,unchanged01→02→03→04→05→06 DAG and51,200/cell/102,400 total/81-turn estimate,zero errors. Scoped whitespace PASS; direct local JSON parse/identity assertions PASS for exactlyfive primary-approved files: oldfive terminal replicas, retainedliteral error/four configured nodes,6/8 RCA query success/audit UNKNOWN anddistinct retry UID/source/fresh36-GPU admission/placement. No JSON wasmodified, no other live/untracked evidence wasincluded, andno business/lifecycle test orGPU/SSH/platform/network operation wasrun. Seven-owned-doc plusfive-JSON scope below; results arealso summarized in the existing`test_report_2026-11-10_formal_runs.md`, not a newreport.
 
@@ -293,10 +340,10 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Current retry `exp-1110-022844-821769` wascreated18:28:44Z after [fresh own admission](evidence/admission-formal-A-r2-20261110.json): committed0/requested36 H800, non-preemptible, creator`i-fengyicheng`, local source`100.96.128.195:/data/ycfeng:/data/ycfeng`. Primary reusedthe exact unchanged config/source/image/lengths/four-node topology/timeouts underexisting formal authorization; no code/config fix orbusiness-test rerun. At18:31:08Z the[direct readback](evidence/formal-A-r2-submission-readback-20261110.json) pinsUID`a54101b9-6baf-4c84-a0c9-ac2897bded83`, Starting, student active2/pending2 andteacher active1. These areplacement/status receipts, not actual GPU/all-engine/ACK proof.
+- Current frontier: **PLACEMENT_BLOCKED**. Both A attempts areterminal Failed before acquisition/training with0 updates each; the second Failed19:03:12Z andall five replicas were confirmed terminal at19:06:54Z. Primary haspaused submission: no third attempt, selected placement/startup strategy or new approval isrecorded. Historical admission/Starting snapshots are not current native execution orsuccessful ACK evidence. See[the formal report's current route](test_report_2026-11-10_formal_runs.md#current-route--placement_blocked).
 
-- Current frontier: primary observes retry startup, confirms actual worker GPUs/engines andfirst successful native ACK, then completesD16/02 GPU inspection. Launcher`sh_1c191cdc5001x6Xr3PoAy7Gg2n`iskept alive; log`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-h800-112k-20261110.log`. Newread-only observer`sh_1c193b14f00106un9zmHJvU6bW`outputs live`evidence/formal-A-r2-first-update-notification-20261110.json`, retains9,000-second soft window andchecks retainednative failure for early return aswell as first successful ACK. Notification/error/timeout isnot a GPU stop orauxiliary PASS gate. Exact retry command differs only by`-r2`receipt/log; identities andseparate evidence roots arein[the current formal runs report](test_report_2026-11-10_formal_runs.md#current-afull-retry--exp-1110-022844-821769).
-- First attempt's18:22Z unscheduled-rank2/28-device snapshot,18:23:55Z initiating timeout and18:24:34Z Failed terminal state arehistorical, not current startup orretry GPU proof. One placement failure followedone fresh unchanged submission; ifplacement fails again, primary performs fresh route assessment, not an automatic unbounded rerun orD19 throughput escalation. Stop-audit UNKNOWN remains explicitly open inthe same report; failed attempt results are never spliced andall formal cloud outputs remain protected.
+- Primary independently investigates native SDK mechanisms (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) andauthoritative Lark docs. Next action is an explicit evidence-backed placement/startup strategy decision with applicable authority andunresolved choices. This documentation slice doesnot duplicate exploration, inspect platform/cloud/network orinfer a solution/approval. Repeated startup failures justify stopping unchanged retries, not a GPU smoke or throughput/science workaround.
+- Failed-attempt launcher/log/observer identities remain historical evidence inthe same report; their current local process state isnot independently verified here. No observer notification substitutes for ACK/D16 orproves a GPU stop. T02/T03 CPU andconfig readiness remain unchanged; no third job isclaimed. Stop-audit UNKNOWN andall protected formal outputs remain explicit, without result splicing orsmoke cleanup.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
 - B's four-H800 TP4/EP1 teacher remains feasible, not native load/memory/throughput verified.05 admission remains authorized after A's actual first successful ACK, completed inspection and fresh resources while A continues; neither A200 updates, auxiliary profile PASS nor another user approval is required.
@@ -326,7 +373,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Primary/04: observe unchanged freshly admitted retry`exp-1110-022844-821769`andconfirm actual workers/engines andnative startup outcome. Existing CPU/config/lifecycle readiness isreused; ifplacement fails again, makefresh route assessment rather than automatically submit another retry. Partial audit gaps remain explicit inthe existing formal report; no new science, approval gate orGPU smoke isintroduced.
+1. Primary/04: finish independent SDK/authoritative-document investigation andrecord an explicit evidence-backed placement/startup strategy decision, including applicable authority andunresolved choices. Submissions remain paused; no third attempt orchosen solution isrecorded. Do not repeat unchanged submission, addGPU smoke oralter science/configuration as a throughput workaround. Partial stop-audit gaps remain open inthe existing formal report.
 2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
 3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
@@ -660,3 +707,57 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1. 首attempt FAILED0 updates，native initiating startup TimeoutError已知；literal "two-node"必须保留，actual config为four nodes，不能写成OOM/D6/D19结果。
 2. 当前retry仅Starting/placement；新launcher/soft observer不证明actual GPU、全部engine或ACK。一次fresh提交后若再placement失败，重新评估路线。
 3. 6 RCA queries成功、2审计ReadTimeout；stop actor/time UNKNOWN、RCA未全关闭。Collector exit1/旧observer intentional SIGTERM不等于新GPU failure或GPU stop；formal outputs全保留。
+
+## Second formal A failure checkpoint — profile-d35-records-20261110
+
+## 1. 规划完成情况
+
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 4｜TODO 0
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 输入 | PASS | D34原位审计/parity及科学输入不变。 |
+| 02 逐turn测量 | BLOCKED | CPU已接受；D16/GPU缺实际A首ACK，随placement阻塞，未重开CPU工作。 |
+| 03 Profile接入 | PASS |15186817和201项CPU证据保持接受。 |
+| 04 A/full | BLOCKED | 两attempt均FAILED0 updates；当前PLACEMENT_BLOCKED，暂停第三次提交等策略决定。 |
+| 05 B/full | BLOCKED | 等未来A实际首ACK、完成inspection和fresh资源，不等A200/profile PASS。 |
+| 06 终态报告 | BLOCKED | 两cell完整native/profile验收未到；失败及partial RCA独立保留。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，主线因placement/startup阻塞；重复失败已转为暂停提交和策略决策，不继续同配置重投。
+**检测窗口：** 上次first-failure/retry checkpoint至19:02:35.748Z native error、19:06:54Z terminal read及本次同步｜**当前前沿：**04 placement/startup策略决定；primary独立SDK/权威文档调查。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只同步现有报告/指定5份完整receipt，不建新工具或GPU smoke。 |
+| D2 细节反复重试 | CLEAR | 已有两次同类失败，但第二次终态后立即暂停；无第三次提交或参数轮换。后续同配置重投必须停止，先作策略决定。 |
+| D3 支线问题修补 | CLEAR | 不修literal诊断、代码/config或无关历史artifact；只推进04真实阻塞记录。 |
+| D4 可并行任务停滞 | CLEAR | 文档/evidence同步与primary SDK调查独立；B仍缺真实首ACK，非假串行。 |
+| D5 超范围镀金 | CLEAR | 不选择新机制、不增科学/资源/stop权限或验收范围。 |
+| D6 分析空转 | CLEAR | Native failure和placement短缺已确立；主agent调查有具体策略决定产物，本slice不重复探索或声称完整RCA。 |
+| D7 路线违背 | CLEAR | 保留D16/S7/B依赖，未改timeout/topology/science；无D19吞吐替代和formal清理。 |
+
+**文档检查：** S1依赖CLEAR（04策略阻塞真实，B首ACK/inspection不变）；S2 owner CLEAR（04/primary负责策略决定，现有formal报告保留审计UNKNOWN）；S3标准CLEAR（0 updates/terminal不充当native/profile PASS）；S4有界CLEAR（明确decision、ACK、200-update和paired完整性）；S5 FOUND→CORRECTED（phase/spec S0/plan/progress/summary/ticket04旧retry Starting/观察路线已改为两次FAILED及PLACEMENT_BLOCKED）；S6 slice CLEAR（CPU readiness/全部ticket04验收条目不变，docs-only且不重叠SDK探索）。
+**归因：** 无D模式HIT；S5为终态后的事实同步。资源失败本身不是已证明的执行漂移；重复失败已触发正确暂停。
+
+## 3. 纠正建议
+
+**分支：** B：先同步S5当前状态，已执行；科学/config、既有权限和验收不变。
+
+**文档更新（先执行，已完成）：**
+1. Requirements仅phase、spec仅S0；plan/progress/summary/ticket04记录两次FAILED0和暂停提交，保留原始历史证据。（可直接执行）
+2. 现有formal_runs报告追加第二次native/placement/terminal、3events及partial RCA；只纳入指定5份完整JSON，不改JSON或其他live/raw文件。（可直接执行）
+
+**需停止的偏离行为：** 无已发生HIT；保持暂停，不进行第三次unchanged retry，不以吞吐/科学/workaround替代placement策略决定。
+
+**接下去的路线：**
+1. Primary/04：汇总独立SDK和权威文档证据，记录explicit placement/startup策略及适用授权/待决事项 → 完成标志：证据支持的策略决定已落档；目前未完成，不预判方案或approval。
+2. 并行：本次docs/evidence收束 ‖ primary既有调查；partial stop-audit缺口保留现有报告，不重复调查或新增GPU smoke。
+3. 仅在策略阻塞解除后考虑future fresh admission/attempt；随后真实首ACK/D16/02 GPU，符合既有条件才进入05准入。两cell各自200 native updates/paired profile/RCA后06；失败attempt不拼接、formal cloud不清理。
+
+## 4. 最值得关注的 3 点
+
+1. 两次formal A在training前FAILED，各0 updates；第二次缺rank3，19:06:54Z证实五replica全terminal。Literal "two-node"不改写，actual student nodes=4。
+2. 当前PLACEMENT_BLOCKED，第三次提交暂停；next是证据支持的placement/startup策略决定，不是GPU smoke、再次unchanged提交或科学/吞吐变更。
+3. RCA6成功/2审计ReadTimeout10s/0DeepScan，stop actor/time UNKNOWN；collector exit1不是新GPU失败。CPU readiness不变，D16/B/200-update仍pending，formal evidence受保护。
