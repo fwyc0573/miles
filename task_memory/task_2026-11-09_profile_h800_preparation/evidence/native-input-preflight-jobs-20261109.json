@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-11-09T09:35:21.301083+00:00",
+  "jobs": [
+    {
+      "job": "exp-1109-164358-350923",
+      "creator": "i-fengyicheng",
+      "uid": "fabe32a6-5706-4c72-9b62-a636826921ff",
+      "status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "default": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-09T08:50:45Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "default": {
+          "replicas": 1,
+          "images": [
+            "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+          ],
+          "limits": [
+            {
+              "cpu": "8",
+              "memory": "32000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          ],
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        }
+      }
+    },
+    {
+      "job": "exp-1109-172310-849823",
+      "creator": "i-fengyicheng",
+      "uid": "e49c04d3-2ece-4c4b-9be5-51840e2ff0f0",
+      "status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "default": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-09T09:28:42Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "default": {
+          "replicas": 1,
+          "images": [
+            "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+          ],
+          "limits": [
+            {
+              "cpu": "8",
+              "memory": "32000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          ],
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        }
+      }
+    }
+  ]
+}

@@ -4,10 +4,11 @@
 | --- | --- |
 | 2026-11-09 | Archive the verified, scoped nullable GPU admission implementation. |
 | 2026-11-09 | Add the verified explicit native launcher length contract and integration limits. |
+| 2026-11-09 | Record completed mixed-session/source repairs, candidate H800 topology and genuine in-place native receipts; keep real input/GPU acceptance open. |
 
 # Scoped H800 Preparation Summary
 
-Task IDs: `profile-h800-admission-20261109` and `profile-length-launcher-20261109`.
+Task IDs: `profile-h800-admission-20261109`, `profile-length-launcher-20261109`, `profile-initial-weight-sync-20261109`, and `profile-capacity-input-lengths-20261109`.
 
 ## Outcome
 
@@ -48,9 +49,11 @@ Paths are relative to `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-
 
 ## Open and Primary-Owned Work
 
-- No configuration files, platform/RJob operations, parent Ticket02/03 integration, or other worktrees were touched.
-- H800 memory/topology/configuration, CPU payload validation and real GPU execution remain with the primary agent.
-- Full input-side acceptance remains pending integration of another agent's `swe_inputs.py`/checker/audit changes. The old constructor on this branch still requires response >= context; the local dry-run only renders argv and does not prove generation with the new cap. Parent dry-run behavior could not be inspected at its named launcher path.
+- The subsequent primary stage added the36-H800/codesign configuration and validated its real resource builder, argv and eight-engine native group resolution. No H800 job is submitted yet.
+- The old source constructor restriction is removed in`82915613`; the existing real-factory parity tool accepts D34 budgets in`8d517b48`. Original-source pinned-image parity passed in`exp-1109-172310-849823` (Succeeded09:28:42Z), including the normal native factory and actual16K request budget. Earlier worker PYTHONPATH and local quoting failures are retained in`test_report_2026-11-09_native_preflight.md`; neither reached training.
+- Native baseline/visual/filter receipts for original posttrain paths completed in CPU job`exp-1109-164358-350923`:9254 conversations,102 excluded visual conversations,10008 excluded targets. Retained files are`evidence/native-visual-in-place/{baseline,visual,filter,runtime}.json`; these are native exclusion evidence, not full112K Qwen length statistics.
+- The session correction is reviewed and CPU-verified; subsequent`422a613d` matches upstream`864cac87` byte-for-byte and passes37 directly affected checks. Pinned-image source inspection confirms the absent-session400 guard, but native CUDA/NCCL synchronization and capacity acceptance remain open.
+- Prelaunch review's P1 replay-budget override is closed by`0e7e0df3`:62 affected checks pass, including the actual replay-to-request budget regression. The actual submitting Python3.10 environment's36-GPU dry-run passes. Native GPU execution is the remaining prerequisite step.
 - Parent branch integration remains subject to the parent task's source-input, scientific, formal-run and merge gates. This scoped change grants no additional platform authorization.
 - The initial preparation `requirements.md` and `plan.md` were excluded from the admission commit; this follow-up explicitly authorized their update and inclusion. Archived config JSON and historical Qwen35 preparation constants remain unchanged.
 - Concurrent unowned multi-node edits to `run_qwen35_opd.py` and `qwen35_pair_worker.py` are preserved and excluded from the launcher length delivery commit; their correctness belongs to their owner.

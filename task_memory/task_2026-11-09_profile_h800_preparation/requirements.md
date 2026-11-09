@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-09 | Record the isolated resource-preparation slice for parent task D33. |
 | 2026-11-09 | Record the independently configured 128K context, 112K prompt and 16K response follow-up. |
+| 2026-11-09 | Own the failed upstream synchronization prerequisite, D34 source-consumer correction and in-place native receipts before H800 capacity execution. |
 
 # Requirements
 
@@ -35,3 +36,11 @@ Task ID: `profile-length-launcher-20261109`. The previous admission commit `1ae9
 - Do not copy or edit `swe_inputs.py`, its checker/audit, parent Ticket02/03, archived JSON configs, or the historical Qwen35 preparer/launcher constants.
 - The launch JSON owns required positive integer `context_tokens`, `prompt_tokens`, and `response_tokens`. Their prompt/response sum must not exceed context. No missing-field defaults or alternative knobs are authorized.
 - Native rollout prompt/response flags consume the corresponding explicit input values. Native training, SGLang and rollout context flags continue to consume `context_tokens`.
+
+## Prerequisite repair and execution slice
+
+The upstream attempt `exp-1109-144110-764758` failed before generation during initial weight publication. Within the parent's continuing D33/D34 execution authorization, this isolated branch owns the minimal mixed-engine session correction and the old native SWE source's prompt/completion budget consumer. Neither change implements the parent's per-turn profile hooks or merges upstream into the parent.
+
+The prepared A/r256 capacity configuration requests36 H800/codesign: one8-GPU TP4/DP2 trainer colocated with twoTP4 engines, three additional8-GPU nodes providing six dedicatedTP4 engines, and a separate4-GPU TP4 teacher. Its acceptance remains at least231 of256 within1800 seconds, two successful optimizer ACKs, second-student scoring and two uses of the same bank. The original source sequence, mask policy, models, seeds and loss parameters remain the upstream prerequisite's contract; parent formal32×8 interleaving and200-update runs are separate gated work.
+
+D25 is enforced by reading original posttrain sources in place. The existing genuine native baseline/visual/filter APIs must produce fresh receipts for those exact paths and metadata; existing receipts for copied sources must not be relabeled. D10 is enforced with the existing `save_interval=None` mechanism; no HF or evaluation is requested. The scoring observer remains soft-only, and all cloud writes remain under `/mnt/codesign-exp/ycfeng`.

@@ -8,6 +8,7 @@
 | 2026-11-09 | Complete the delegated admission slice and prepare the single verified delivery commit. |
 | 2026-11-09 | Start the independently configured native prompt/response launcher follow-up. |
 | 2026-11-09 | Verify 53 launcher and 7 directly affected argv tests; update the scoped length checkpoint. |
+| 2026-11-09 | Complete session/source repairs and native visual receipts; prepare the36-H800 payload and diagnose the zero-GPU parity launch import failure. |
 
 # Progress
 
@@ -27,7 +28,7 @@
 
 ## pending
 
-- Primary-owned work: hardware feasibility/configuration and CPU payload validation; consolidate onto the parent final branch after its upstream gate. This subagent did not edit configs or parent Ticket02/03, inspect/change platform resources, or touch other worktrees.
+- Current primary frontier: finish original-source D34 parity, then submit and inspect the H800 native capacity prerequisite. Consolidation onto the parent remains blocked by D1/D22. Earlier delegated admission/launcher slices did not perform platform operations; the current primary stage is recorded below.
 
 ## completed: profile-length-launcher-20261109
 
@@ -86,3 +87,27 @@
 1. 新 launch JSON 必须显式给出 context/prompt/response 正整数；当前值是 131072/114688/16384。
 2. 本地 dry-run 和 native argv 已通过，但不是完整 native input 或 GPU 执行验证。
 3. parent input/checker/audit 与新 H800 config 是整体验证依赖；不能通过 runtime monkeypatch 消除该依赖。
+
+## Current primary execution: native capacity prerequisite
+
+### completed
+
+- `7689fbec`: hybrid lifecycle regression RED2→GREEN2;80 related checks passed. Read-only fixed-diff review`profile-hybrid-session-review-20261109` returned no findings. Exact pinned-image CPU probe`exp-1109-161858-331786` succeeded and confirmed SGLang`0.5.24.dev80+g056f871` rejects distributed writes outside a session before receive.
+- `422a613d`: align complete receiver metadata and local IPC mapping with upstream`864cac87`; source blob equality verified as`fa8d01b1b4bacd9edfe7b4f287f5391c136ed7bc`. Update two stale receiver-list assertions; final affected protocol/lifecycle suite37 PASS. No transport, timeout or NCCL behavior is replaced.
+- `82915613`: existing native sequential capacity source accepts112K equality, skips oversized prompts before slots, caps completion at16K;39 affected checks passed. `8d517b48`: existing parity checker supports those native flags and checks the actual registry factory/request budget;19 checks passed. Parent32×8 profile integration is not part of either change.
+- `h800_capacity_config.json`, `h800_gpu_policy.json`, `h800_capacity_sglang.yaml`: actual submitter dry-run requests36 GPUs, student replicas4×8 and teacher1×4, explicit null personal ceiling, codesign/H800, no preemption. Native config resolution returns8 engines,2 colocated and6 dedicated, TP4 each; only the colocated group offloads. Evidence:`evidence/h800-native-layout-20261109.json`.
+- Candidate argv has exactly one seq/context131072, prompt114688, response16384, trainer8/TP4, rollout32, slots256, acquisition1800 and updates2. `save_interval=None` emits no save-interval flag and the native periodic predicate is false at both updates. This is CPU configuration evidence, not native execution.
+- In-place native baseline/visual/filter job`exp-1109-164358-350923` completed the three unchanged native APIs in397.38s:9254 trajectories,102 excluded visual conversations,10008 excluded eligible targets. Filter`complete=true`, no failure codes, all8 source scans finished. Native hashes match the accepted upstream functions. Artifacts:`evidence/native-visual-in-place/`; no dataset copy or receipt relabeling.
+- Native audit Python3.12.13/Transformers4.57.6 lacked`ijson` and`loguru`. A public PyPI install timed out; the documented Basemind mirror installed only`ijson==3.6.0` and`loguru==0.7.3`, followed by actual native tokenizer construction and the completed audit. The source producer's native atomic receipts were root-owned0600; only these three new task receipts were made0644. The new task evidence directory was returned to the submitting user's ownership for primary evidence writes; unrelated directories were untouched. The retained wrapper now sets published receipt readability itself.
+
+### in-progress
+
+- Original-source D34 parity is now accepted: CPU job`exp-1109-172310-849823` Succeeded09:28:42Z, verified personal creator/exact image/current-host source mount/8CPU/0GPU. Actual native registry factory and request construction PASS with4366 prompt tokens and max16384; all9 selected prefixes pass their identity/eligibility checks. Exact report:`test_report_2026-11-09_native_preflight.md`; artifacts:`evidence/native-inputs-in-place-d34/` and`evidence/native-input-preflight-jobs-20261109.json`.
+- Historical first CPU job`exp-1109-170837-174061` failed before import: `No module named tests.manual`. The cause is`steptron/utils/stepmind.py:917`, which replaces`PYTHONPATH` with`code_mount_point`. The intermediate worker-shell attempt failed locally with`NameError: worker` and created no RJob. The successful worker shell follows production ordering by exporting the repo path before execution; its exact command is retained. No source behavior or acceptance threshold was changed to obtain PASS.
+- Plan3/7 preflight is complete. Review`profile-h800-prelaunch-review-20261109` found a later override in real`SweReplay._generate`; fix`0e7e0df3` preserves the sample/default budgets and seed, with62 affected checks PASS and actual replay→request RED126706/16385→GREEN16384/16384. The reviewer closed P1 with no remaining findings. The actual Python3.10 submission environment's dry-run also passes36-GPU/role/RDMA/null-policy checks (`evidence/h800-submission-dry-run-20261109.json`). No GPU job is submitted yet.
+
+### pending
+
+- Submit36-H800 A/r256 only after the original-source preparation is accepted, then inspect real worker GPU/layout, initial publication, at least231/256 within1800s, two optimizer ACKs and second-student scoring. No new GPU job is currently submitted.
+- Read-only upstream coordination at09:10Z found no new capacity retry after`exp-1109-144110-764758`; upstream's proposed18-H200 retry awaits its own approval. Its shared gate evidence and the isolated H800 prerequisite must not be counted as two different acceptances.
+- Parent merge and Ticket02/03 integration remain blocked. The parent's independent full112K length-distribution audit is separate from this native visual/source readiness check.

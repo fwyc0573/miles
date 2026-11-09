@@ -33,7 +33,7 @@ def main() -> int:
     options = parser.parse_args()
     original_argv = sys.argv
     rows = []
-    for pair in ("A", "B"):
+    for pair in json.loads(options.config.read_text())["pairs"]:
         for protocol in ("full", "r256"):
             row = {"pair": pair, "protocol": protocol, "status": "failed"}
             try:

@@ -1,0 +1,48 @@
+{
+  "submitted": false,
+  "pair": "A",
+  "protocol": "r256",
+  "requested_gpus": 36,
+  "tasks": {
+    "student": {
+      "cpu": 64,
+      "gpu": 8,
+      "mem_gb": 512,
+      "replica": 4,
+      "host_network": true,
+      "gang_start": false,
+      "envs": {
+        "QWEN35_ROLE": "student",
+        "DISTRIBUTED_JOB": "true"
+      },
+      "custom_resources": [
+        "mellanox.com/mlnx_rdma:1",
+        "rdma/mlnx_shared:8"
+      ],
+      "is_critical": true
+    },
+    "teacher": {
+      "cpu": 32,
+      "gpu": 4,
+      "mem_gb": 256,
+      "replica": 1,
+      "host_network": false,
+      "gang_start": false,
+      "envs": {
+        "QWEN35_ROLE": "teacher"
+      },
+      "custom_resources": [],
+      "is_critical": false
+    }
+  },
+  "command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.run_swe_opd --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/h800_capacity_config.json --pair A --protocol r256 --role \"$QWEN35_ROLE\"'",
+  "gpu_policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": null,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-09T00:00:00+00:00",
+      "nonpreemptible_gpus": null
+    }
+  }
+}

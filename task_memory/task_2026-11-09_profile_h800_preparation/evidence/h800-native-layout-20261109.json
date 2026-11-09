@@ -1,0 +1,54 @@
+{
+  "status": "PASS_NATIVE_CONFIG_RESOLUTION",
+  "config_sha256": "0e0f5913847e8fa26ca15544993069ee1471b683daf865414e367be8e670b289",
+  "gpus": 32,
+  "engines": 8,
+  "colocated_engines": 2,
+  "dedicated_engines": 6,
+  "resolved": {
+    "models": [
+      {
+        "name": "default",
+        "model_path": null,
+        "server_groups": [
+          {
+            "worker_type": "regular",
+            "num_gpus_per_engine": 4,
+            "overrides": {
+              "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+            },
+            "needs_offload": true
+          },
+          {
+            "worker_type": "regular",
+            "num_gpus_per_engine": 4,
+            "overrides": {
+              "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+              "enable_memory_saver": false
+            },
+            "needs_offload": false
+          }
+        ],
+        "update_weights": true
+      }
+    ],
+    "base_args": {}
+  },
+  "scaling": {
+    "groups": {
+      "default": [
+        {
+          "num_gpus": 8,
+          "gpu_offset": 0,
+          "engine_offset": 0
+        },
+        {
+          "num_gpus": 24,
+          "gpu_offset": 8,
+          "engine_offset": 2
+        }
+      ]
+    }
+  },
+  "native_execution": false
+}
