@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the reviewed session repair, pinned receiver evidence, native in-place receipts and source parity launch status. |
 | 2026-11-09 | Record exact upstream terminal/timeout evidence and failed audit-query coverage; synchronization diagnosis is pending. |
 | 2026-11-09 | Record D33 documentation checks, live resource inspection and isolated admission preparation. |
 
@@ -52,7 +53,7 @@ The existing entrypoint's two-student-node restriction blocks this layout despit
 
 The restriction has now been removed by`46e7b292` in the isolated worktree. The four-node lifecycle keeps one trainer head and supervises ranks1–3;122 affected tests PASS. The broader related run records171PASS,12SKIP and one existing local parser failure for`--sglang-enable-prefill-weight-versions`. That broader run is not an all-pass result; the pinned worker image's native path remains the relevant runtime check. Exact commands and failure are in`task_memory/task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_four_node_rollout.md`in the preparation worktree.
 
-The separate length launcher commit`8c9537bf` passes53 launcher+7 related tests, using explicit`context_tokens`, `prompt_tokens` and`response_tokens`. Its old source-input wiring still requires parentTicket02 integration afterD1/D22; neither these commits nor the36-GPU YAML is currently a complete formal-run configuration. The historical Running receipt is`evidence/upstream-h200-length-checkpoint-20261109.json`; the terminal refresh follows below.
+The separate length launcher commit`8c9537bf` passes53 launcher+7 related tests, using explicit`context_tokens`, `prompt_tokens` and`response_tokens`. Formal profile-input wiring still requires parentTicket02 integration afterD1/D22. The standalone capacity prerequisite instead uses the existing sequential source, independently updated for D34 in`82915613`; that source preparation does not require starting parent integration. The historical Running receipt is`evidence/upstream-h200-length-checkpoint-20261109.json`; the terminal refresh follows below.
 
 ## Upstream prerequisite failure 2026-11-09T07:56Z
 
@@ -89,3 +90,17 @@ timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -u -B \
 Environment: Python3.10.6, brainpp2.8.6. Collector exit1: six event/log/DeepScan queries succeeded, while both all-operation audit queries raised`ReadTimeout` after15s. No existing DeepScan flow was returned. Failed/empty query coverage does not exclude events; manual-stop actor/request time remainUNKNOWN. The business timeout is independently present in the retained native log. Read-only diagnosis owner:`profile-initial-weight-sync-20261109` (`ses_e40a9a62effejB0VqD42HkARmR`); no replacement GPU job has been submitted.
 
 Documentation verification uses the existing two commands above. The first check found two new links whose anchors omitted the heading's punctuation-derived hyphen; the heading was simplified before rerunning. Final result:24 files,6 tickets,76 links,23 anchors,zero errors; `git diff --check` PASS. This is a documentation correction, separate from the native job failure.
+
+## Subsequent prerequisite repair and preparation
+
+The native excerpt also records a dedicated`/update_weights_from_distributed` HTTP400 at07:34:32, before the outer600-second deadline. CPU reproduction found that hybrid setup discarded dedicated engines' lifecycle updaters while continuing to send tensors to them. Isolated commit`7689fbec` retains the complete lifecycle map, and review`profile-hybrid-session-review-20261109` found no defects. Subsequent`422a613d` aligns the full receiver collection with upstream`864cac87`; byte comparison passed and the37 affected protocol/lifecycle checks pass. The earlier broader80-test result belongs to the initial repair, not a repeated all-suite run.
+
+Exact-image source probe`exp-1109-161858-331786`: Succeeded at08:19:13Z; creator`i-fengyicheng`;2CPU/0GPU; Python3.12.16; SGLang`0.5.24.dev80+g056f871`. It confirms scheduler lines266–319 refuse a distributed write without an active session before entering receive and HTTP lines1537–1552 map failure to400. Evidence:`evidence/native-weight-session-source-20261109.json` and`evidence/native-weight-session-source-job-20261109.json`. This closes the previous version mismatch; it does not recover the original HTTP response body or stalled trainer program counter and does not establish native CUDA/NCCL success.
+
+The isolated source/checker fixes`82915613` and`8d517b48` pass39 and19 affected checks respectively. Candidate`h800_capacity_config.json` requests36 GPUs, eightTP4 rollout engines (two colocated/six dedicated), and the unchanged231/256-in1800s/two-update prerequisite. Native group resolution and exact argv values pass on CPU. `save_interval=None` disables scheduled HF saves through the existing periodic predicate. Parent formal profiles and200-update execution remain gated.
+
+Native in-place receipt job`exp-1109-164358-350923` ran the unchanged baseline/visual/filter APIs against original posttrain sources, producing a complete filter in397.38s:9254 conversations,102 visual exclusions,10008 excluded eligible targets. The source metadata and native module hashes match the prior accepted audits. Receipts live in the preparation task's`evidence/native-visual-in-place/` directory and are not relabeled copy-based receipts or Qwen112K length statistics.
+
+The original-source D34 parity job`exp-1109-170837-174061` failed before importing the checker because`spawn_tasks()` overrides`PYTHONPATH` with the mount root (`steptron/utils/stepmind.py:917`). A local quoting mistake in the next launcher produced no RJob. The corrected worker shell explicitly exports the project path, as the production submitter already does; its command is retained under preparation`evidence/native-inputs-in-place-d34/worker-command.json`. Retry`exp-1109-172310-849823` Succeeded09:28:42Z: all9 selected prefix checks and the real registry factory/request pass, first prompt4366 and request cap16384. Personal creator, exact image,0GPU and local NFS source were verified by API. Full commands/results are in the preparation task's`test_report_2026-11-09_native_preflight.md`. The new H800 native capacity run is pending; no parent merge or Ticket02/03 implementation has begun.
+
+Prelaunch review found that the later`SweReplay._generate` caller still expanded the response budget. `0e7e0df3` removes that override, preserving the source and GenerateState limits while adding only the seed. Real replay→request regressions observe RED126706/16385 versus GREEN16384/16384;62 affected checks pass. The same reviewer closed P1 with no remaining findings. A final dry-run using the actual Python3.10.6 StepMind submission environment passes36-GPU role/RDMA/null-policy checks. No source re-audit or GPU acceptance is inferred from this caller correction.

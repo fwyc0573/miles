@@ -1,0 +1,54 @@
+{
+  "python": "3.12.16 (main, Oct 26 2026, 14:08:45) [Clang 23.1.3 ]",
+  "hostname": "cpu-0007.host.platform.shaipower.com",
+  "sglang": "0.5.24.dev80+g056f871",
+  "source_root": "/sgl-workspace/sglang/python/sglang",
+  "files": {
+    "srt/managers/scheduler_components/weight_updater.py": {
+      "sha256": "19fdcc5b77a70ede2f95e7ac6835eda9243abe20b165aede22f970e3912950a4",
+      "methods": [
+        {
+          "name": "update_weights_from_distributed",
+          "line": 266,
+          "end_line": 319,
+          "source": "    def update_weights_from_distributed(\n        self,\n        recv_req: UpdateWeightsFromDistributedReqInput,\n    ) -> Tuple[bool, str]:\n        \"\"\"Update the online model parameter, fanning out to the selected runners.\"\"\"\n        if self._session is None:\n            return UpdateWeightsFromDistributedReqOutput(\n                success=False,\n                message=\"update_weights_from_distributed must run between \"\n                \"begin_weight_update() and end_weight_update()\",\n            )\n        with self._observe_weight_load(\"distributed\"):\n            # only the target runner joined the update group; drafts load its receive\n            target = self.tp_worker.model_runner.weight_updater\n            try:\n                weights = target.receive_weights_from_distributed(\n                    names=recv_req.names,\n                    dtypes=recv_req.dtypes,\n                    shapes=recv_req.shapes,\n                    group_name=recv_req.group_name,\n                    load_format=recv_req.load_format,\n                )\n                base_tensors, lora_tensors = _split_lora_named_tensors(weights)\n                if base_tensors:\n                    assert self._session.sync_base, (\n                        \"base tensors arrived in a sync_base=False weight-update session\"\n                    )\n                self._stash_lora_tensors(lora_tensors)\n            except Exception as e:\n                success, message = False, f\"Failed to receive weights: {e}\"\n                logger.error(message)\n            else:\n                success, message = True, \"Succeeded to update parameter online.\"\n                if base_tensors:\n                    for _, runner in self._select_runners(recv_req.selector):\n                        success, message = (\n                            runner.weight_updater.load_weights_from_distributed(\n                                base_tensors\n                            )\n                        )\n                        if not success:\n                            break\n            if success:\n                if base_tensors:\n                    self._session = msgspec.structs.replace(\n                        self._session, loaded_weights=True\n                    )\n                self.record_weight_version_after_update(recv_req.weight_version)\n                success, message = self.flush_cache_after_weight_update(\n                    recv_req, success, message\n                )\n            return UpdateWeightsFromDistributedReqOutput(\n                success=success, message=message\n            )"
+        },
+        {
+          "name": "begin_weight_update",
+          "line": 419,
+          "end_line": 439,
+          "source": "    def begin_weight_update(self, recv_req: BeginWeightUpdateReqInput):\n        \"\"\"Open the session: restore in-place-packed weights on the selected runners, and return only once the\n        device has finished the work already launched on it.\"\"\"\n        if self._session is not None:\n            return BeginWeightUpdateReqOutput(\n                success=False,\n                message=\"a weight-update session is already open; \"\n                \"call end_weight_update() first\",\n            )\n        self._lora_stash = {}\n        if recv_req.sync_base:\n            for _, runner in self._select_runners(recv_req.selector):\n                runner.weight_updater.begin_weight_update()\n        # peers write the weights over RDMA, outside the engine's streams; an in_place pause leaves the last\n        # overlapped forward running\n        torch.get_device_module().synchronize()\n        self._session = _WeightUpdateSession(\n            selector=recv_req.selector, sync_base=recv_req.sync_base\n        )\n        torch.distributed.barrier(group=self.tp_cpu_group)\n        return BeginWeightUpdateReqOutput(success=True, message=\"Success\")"
+        },
+        {
+          "name": "end_weight_update",
+          "line": 441,
+          "end_line": 462,
+          "source": "    def end_weight_update(self, recv_req: EndWeightUpdateReqInput):\n        \"\"\"Finalize the runners begin opened; post_load_weights only if no load ran (P2P/RDMA).\"\"\"\n        if self._session is None:\n            return EndWeightUpdateReqOutput(\n                success=False,\n                message=\"no weight-update session is open; call begin_weight_update() first\",\n            )\n        if self._session.sync_base:\n            run_post_load = not self._session.loaded_weights\n            for _, runner in self._select_runners(self._session.selector):\n                runner.weight_updater.end_weight_update(run_post_load=run_post_load)\n        if recv_req.abort:\n            self._lora_stash = {}\n            success, message = True, \"Aborted: streamed adapters discarded\"\n        else:\n            success, message = self._apply_lora_stash(recv_req.expected_lora_checksums)\n        pending_version = self._session.pending_version\n        self._session = None\n        if success and not recv_req.abort:\n            self.record_weight_version_after_update(pending_version)\n        torch.distributed.barrier(group=self.tp_cpu_group)\n        return EndWeightUpdateReqOutput(success=success, message=message)"
+        }
+      ]
+    },
+    "srt/entrypoints/http_server.py": {
+      "sha256": "329e4e1552b176f0753303a17df65dc49c0a59f1e642979a3537ad3a0d953b0a",
+      "methods": [
+        {
+          "name": "begin_weight_update",
+          "line": 1507,
+          "end_line": 1517,
+          "source": "async def begin_weight_update(\n    obj: Annotated[BeginWeightUpdateReqInput, Body()], request: Request\n):\n    \"\"\"Open a weight-update session so in-place-quantized weights become loadable.\"\"\"\n    success, message = await _global_state.tokenizer_manager.begin_weight_update(\n        obj, request\n    )\n    return ORJSONResponse(\n        {\"success\": success, \"message\": message},\n        status_code=HTTPStatus.OK if success else HTTPStatus.BAD_REQUEST,\n    )"
+        },
+        {
+          "name": "end_weight_update",
+          "line": 1522,
+          "end_line": 1532,
+          "source": "async def end_weight_update(\n    obj: Annotated[EndWeightUpdateReqInput, Body()], request: Request\n):\n    \"\"\"Close the weight-update session and finalize quantized weights.\"\"\"\n    success, message = await _global_state.tokenizer_manager.end_weight_update(\n        obj, request\n    )\n    return ORJSONResponse(\n        {\"success\": success, \"message\": message},\n        status_code=HTTPStatus.OK if success else HTTPStatus.BAD_REQUEST,\n    )"
+        },
+        {
+          "name": "update_weights_from_distributed",
+          "line": 1537,
+          "end_line": 1552,
+          "source": "async def update_weights_from_distributed(\n    obj: Annotated[UpdateWeightsFromDistributedReqInput, Body()], request: Request\n):\n    \"\"\"Update model parameter from distributed online.\"\"\"\n    (\n        success,\n        message,\n    ) = await _global_state.tokenizer_manager.update_weights_from_distributed(\n        obj, request\n    )\n\n    content = {\"success\": success, \"message\": message}\n    if success:\n        return ORJSONResponse(content, status_code=200)\n    else:\n        return ORJSONResponse(content, status_code=HTTPStatus.BAD_REQUEST)"
+        }
+      ]
+    }
+  }
+}

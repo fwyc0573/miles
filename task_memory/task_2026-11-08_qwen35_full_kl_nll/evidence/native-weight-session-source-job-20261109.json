@@ -1,0 +1,42 @@
+{
+  "checked_at": "2026-11-09T08:25:29.692502+00:00",
+  "job": "exp-1109-161858-331786",
+  "creator": "i-fengyicheng",
+  "uid": "335189bc-240a-411e-8557-41ec62f6767c",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "default": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T08:19:13Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "default": {
+      "replicas": 1,
+      "images": [
+        "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+      ],
+      "resources": [
+        {
+          "limits": {
+            "cpu": "2",
+            "memory": "8000Mi",
+            "nvidia.com/gpu": "0"
+          },
+          "requests": {
+            "cpu": "2",
+            "memory": "8000Mi",
+            "nvidia.com/gpu": "0"
+          }
+        }
+      ],
+      "local_mount_mentioned": true
+    }
+  }
+}
