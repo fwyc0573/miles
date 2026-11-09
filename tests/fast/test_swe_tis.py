@@ -77,11 +77,22 @@ def _optimizer_context(directory, batch, log, *, attempt):
     data = {"metadata": [{"swe_successful_before": 0, "swe_bank": 0, "swe_bank_visit": 1,
                            "generation_weight_versions": [], "current_weight_version": 0,
                            "swe_actual_bank_turns": 3, "swe_original_bank_tokens": 7}],
-            "num_microbatches": [1], "tokens": batch["unconcat_tokens"]}
+             "num_microbatches": [1], "tokens": batch["unconcat_tokens"]}
+    _attach_bank_identity(data, batch["sample_indices"])
     config = SimpleNamespace(swe_evidence_dir=str(directory), swe_cell="A/r256", swe_attempt=attempt,
                              swe_teacher_identity="A", swe_run_kind="smoke", swe_protocol="r256")
     return config, dict(rollout_id=0, step_id=0, data_iterator=[SimpleNamespace(rollout_data=data)],
                         model=[torch.nn.Linear(2, 2)], losses_reduced=[log])
+
+
+def _attach_bank_identity(data, indices):
+    data["sample_indices"] = list(indices)
+    data["metadata"] = [
+        {**data["metadata"][0], "source_uid": f"source-{index}",
+         "opd_estimator_config": {"opd_log_prob_top_k": 0, "opd_top_k_strategy": "only-student",
+                                  "opd_reward_weight_mode": "student_p"}}
+        for index in indices
+    ]
 
 
 @pytest.mark.parametrize("omitted", ["kl", "rejection", "mask_evidence"])
@@ -103,7 +114,12 @@ def test_optional_diagnostic_omissions_keep_actual_survivors(tmp_path, omitted):
         assert not result["mask_evidence_verified"]
     else:
         assert not result["diagnostics_verified"]
-        assert result["kl_before_tis_numerator" if omitted == "kl" else "answer_rejected_tokens"] is None
+        if omitted == "kl":
+            # The macro has one source now: verified rows, not optional scalar logs.
+            assert result["turn_sums_verified"]
+            assert result["kl_before_tis_numerator"] == pytest.approx(-2.1, abs=1e-6)
+        else:
+            assert result["answer_rejected_tokens"] is None
 
 
 @pytest.mark.parametrize("failure", [BrokenPipeError, OSError])
@@ -181,7 +197,8 @@ def test_global_guard_runs_before_step_and_does_not_use_missing_logs(tmp_path, m
     data = {"metadata": [{"swe_successful_before": 0, "swe_bank": 0, "swe_bank_visit": 1,
                            "generation_weight_versions": [], "current_weight_version": 0,
                            "swe_actual_bank_turns": 3, "swe_original_bank_tokens": 7}],
-            "num_microbatches": [1], "tokens": batch["unconcat_tokens"]}
+             "num_microbatches": [1], "tokens": batch["unconcat_tokens"]}
+    _attach_bank_identity(data, batch["sample_indices"])
     config = SimpleNamespace(swe_evidence_dir=str(tmp_path), swe_cell="A/r256", swe_attempt="test", swe_teacher_identity="A",
                              swe_run_kind="smoke", swe_protocol="r256")
     kwargs = dict(rollout_id=0, step_id=0, data_iterator=[SimpleNamespace(rollout_data=data)],
@@ -246,7 +263,8 @@ def _gloo_gradient_and_guard(rank, world_size, port, *, directory):
     data = {"num_microbatches": [2], "tokens": [[0, 1, 2, 3]] * 2,
             "metadata": [{"swe_successful_before": 0, "swe_bank": 0, "swe_bank_visit": 1,
                            "generation_weight_versions": [], "current_weight_version": 0,
-                           "swe_actual_bank_turns": 4, "swe_original_bank_tokens": 6}]}
+                            "swe_actual_bank_turns": 4, "swe_original_bank_tokens": 6}]}
+    _attach_bank_identity(data, [rank * 2, rank * 2 + 1])
 
     def native_microbatch(index, reject_all=False):
         inputs = torch.arange(8, dtype=torch.float32).reshape(1, 4, 2) / 8 + (rank + index) / 10
@@ -308,7 +326,8 @@ def _gloo_gradient_and_guard(rank, world_size, port, *, directory):
         if missing == "mask_evidence":
             assert not result["mask_evidence_verified"] and result["diagnostics_verified"]
         else:
-            assert not result["diagnostics_verified"] and result["kl_before_tis_numerator"] is None
+            assert not result["diagnostics_verified"]
+            assert result["turn_sums_verified"] and result["kl_before_tis_numerator"] is not None
         assert result["successful_updates"] == 1
     if rank == 0:
         logs[0].pop("training_mask_counts")
@@ -350,7 +369,8 @@ def _gloo_cp_tis(rank, world_size, port):
     pg_loss = torch.ones_like(local_s, requires_grad=True)
     config = SimpleNamespace(qkv_format="thd", **SweTISConfig().model_dump())
     actual, masks, metrics = apply_tis(config, pg_loss=pg_loss, train_log_probs=[local_s], rollout_log_probs=[local_b],
-                                     teacher_log_probs=[local_s + 0.3], loss_masks=[mask], total_lengths=[12], response_lengths=[8])
+                                     teacher_log_probs=[local_s + 0.3], opd_reverse_kl=[local_s - 0.3], sample_indices=[0],
+                                     loss_masks=[mask], total_lengths=[12], response_lengths=[8])
     expected = torch.tensor(reference([s.tolist()], [b.tolist()], [mask.tolist()])[0])
     assert masks[0].tolist() == expected.tolist()
     actual.sum().backward()

@@ -206,6 +206,18 @@ def convert_samples_to_train_data(
 
     if samples[0].train_metadata is not None:
         train_data["metadata"] = [sample.train_metadata for sample in samples]
+        if args.use_opd:
+            # Top-k strategy is rollout-only configuration. Carry its native
+            # values with existing metadata; the measurement consumer owns labels.
+            estimator_config = {
+                "opd_log_prob_top_k": args.opd_log_prob_top_k,
+                "opd_top_k_strategy": args.opd_top_k_strategy,
+                "opd_reward_weight_mode": args.opd_reward_weight_mode,
+            }
+            train_data["metadata"] = [
+                {**item, "opd_estimator_config": estimator_config} if item is not None else None
+                for item in train_data["metadata"]
+            ]
 
     if any(sample.multimodal_train_inputs is not None for sample in samples):
         train_data["multimodal_train_inputs"] = [sample.multimodal_train_inputs for sample in samples]

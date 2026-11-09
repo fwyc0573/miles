@@ -270,11 +270,13 @@ def policy_loss_function(
             "max_seq_lens": max_seq_lens,
             "teacher_log_probs": batch.get("teacher_log_probs"),
             "sample_indices": batch.get("sample_indices"),
+            "opd_reverse_kl": batch.get("opd_reverse_kl"),
         }
 
         pg_loss, modified_response_masks, tis_metrics = tis_func(**tis_kwargs)
         token_sums = tis_metrics.pop("token_sums", None)
         mask_evidence = tis_metrics.pop("mask_evidence", None)
+        turn_sums = tis_metrics.pop("turn_sums", None)
         survivor_masks = get_local_response_loss_masks(
             total_lengths, response_lengths, modified_response_masks, args.qkv_format, max_seq_lens
         )
@@ -406,6 +408,8 @@ def policy_loss_function(
             reported_loss["token_sums"] = token_sums
         if mask_evidence is not None:
             reported_loss["mask_evidence"] = mask_evidence
+        if turn_sums is not None:
+            reported_loss["turn_sums"] = turn_sums
         # Aggregate mismatch/TIS/RS related metrics with the *pre-RS* masks.
         # See comment above where `sum_of_sample_mean_for_mismatch_metrics` is defined.
         reported_loss["ois"] = sum_of_sample_mean_for_mismatch_metrics(ois).clone().detach()

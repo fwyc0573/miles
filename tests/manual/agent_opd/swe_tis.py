@@ -1,6 +1,7 @@
-"""Binary two-level TIS for the native sampled-token OPD policy loss."""
+"""Binary two-level TIS and original-mask measurements for native OPD."""
 
 from dataclasses import dataclass
+from numbers import Integral
 from typing import Any
 
 import torch
@@ -58,26 +59,34 @@ def compute_tis(
     return TISResult(masks, tokens, answers, finite_masks)
 
 
-def token_sums(student, teacher, original_masks, result: TISResult) -> dict[str, torch.Tensor]:
-    """Unnormalized float64 sums: additive across microbatches, DP and CP."""
+def token_sums(student, reverse_kl, original_masks, result: TISResult, sample_indices):
+    """Measure existing native scores once per sample; CP partials remain additive."""
     device = original_masks[0].device
     zero = torch.zeros((), dtype=torch.float64, device=device)
-    numerator = sum(
-        (torch.where(m.bool(), s.detach().double() - q.detach().double(), 0).sum()
-         for s, q, m in zip(student, teacher, original_masks, strict=True)), zero
-    )
-    return {
-        "kl_before_tis_numerator": numerator,
-        "nonfinite_tokens": sum(
-            ((m.bool() & ~f).double().sum() for m, f in zip(original_masks, result.finite, strict=True)), zero
-        ),
-        "token_rejected_tokens": sum(
-            ((m.bool() & ~t).double().sum() for m, t in zip(original_masks, result.token_pass, strict=True)), zero
-        ),
-        "answer_rejected_tokens": sum(
-            ((m.bool() & ~a).double().sum() for m, a in zip(original_masks, result.answer_pass, strict=True)), zero
-        ),
+    sums = {
+        name: zero.clone() for name in (
+            "kl_before_tis_numerator", "nonfinite_tokens", "token_rejected_tokens", "answer_rejected_tokens"
+        )
     }
+    rows, indices = [], []
+    for s, k, m, f, t, a, index in zip(
+        student, reverse_kl, original_masks, result.finite, result.token_pass, result.answer_pass,
+        sample_indices, strict=True,
+    ):
+        if s.ndim != 1 or s.shape != k.shape or s.shape != m.shape:
+            raise ValueError("Turn sums require matching native response tensors")
+        if isinstance(index, bool) or not isinstance(index, Integral):
+            raise ValueError("Turn sums require native integer sample indices")
+        indices.append(int(index))
+        eligible = m.bool()
+        row = torch.stack((torch.where(eligible, k.detach().double(), 0).sum(),
+                           torch.where(eligible, -s.detach().double(), 0).sum(), m.double().sum()))
+        rows.append(row)
+        sums["kl_before_tis_numerator"] += row[0]
+        sums["nonfinite_tokens"] += (eligible & ~f).double().sum()
+        sums["token_rejected_tokens"] += (eligible & ~t).double().sum()
+        sums["answer_rejected_tokens"] += (eligible & ~a).double().sum()
+    return sums, {"sample_indices": indices, "values": torch.stack(rows)}
 
 
 def apply_tis(
@@ -86,12 +95,13 @@ def apply_tis(
     pg_loss: torch.Tensor,
     train_log_probs: list[torch.Tensor],
     rollout_log_probs: list[torch.Tensor],
-    teacher_log_probs: list[torch.Tensor],
+    teacher_log_probs: list[torch.Tensor] | None,
     loss_masks: list[torch.Tensor],
     total_lengths: list[int],
     response_lengths: list[int],
     max_seq_lens=None,
     sample_indices=None,
+    opd_reverse_kl=None,
     **kwargs: Any,
 ):
     # Defer native parallel utilities so the pure calculation needs no runtime.
@@ -116,7 +126,13 @@ def apply_tis(
 
     local_result = TISResult(*(local(getattr(result, name))
                               for name in ("masks", "token_pass", "answer_pass", "finite")))
-    sums = token_sums(train_log_probs, teacher_log_probs, local_masks, local_result)
+    # Measurement failures are auxiliary, unlike failures in native TIS itself.
+    # No collective is inside this block, so every rank reaches the optimizer's
+    # fixed aggregation order even when one rank cannot measure its partials.
+    try:
+        sums, turn_sums = token_sums(train_log_probs, opd_reverse_kl, local_masks, local_result, sample_indices)
+    except Exception as error:
+        sums, turn_sums = {}, {"error": f"{type(error).__name__}: {error}"}
     # Both branches share the exact mask used by the native loss reducer. The
     # where also avoids propagating NaN on a rejected token through 0 * NaN.
     retained = torch.cat(local_result.masks).bool()
@@ -124,13 +140,14 @@ def apply_tis(
     return pg_loss, result.masks, {
         "swe_tis_retained": retained.float(),
         "token_sums": sums,
+        "turn_sums": turn_sums,
         "mask_evidence": {
             "sample_indices": sample_indices,
             "original_masks": local_masks,
             "survivor_masks": local_result.masks,
             "student": [x.detach() for x in train_log_probs],
             "behavior": [x.detach() for x in rollout_log_probs],
-            "teacher": [x.detach() for x in teacher_log_probs],
+            "teacher": [x.detach() for x in teacher_log_probs] if teacher_log_probs is not None else None,
         },
     }
 
