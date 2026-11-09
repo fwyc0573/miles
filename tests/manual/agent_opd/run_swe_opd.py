@@ -1,6 +1,7 @@
 """Run a SWE full/r256 pair using the qualified Qwen worker and Ray lifecycles.
 
-The input JSON owns model paths, resource shapes and experiment parameters.
+The input JSON owns model paths, resource shapes and experiment parameters,
+including explicit context_tokens, prompt_tokens and response_tokens limits.
 Run on a separately allocated teacher or student; `train` is the student's
 native child entrypoint. This worker does not submit platform jobs.
 
@@ -31,6 +32,11 @@ from miles.utils.external_utils.model_args_utils import shell_safe_model_args
 def _config(path: Path, pair: str, protocol: str) -> dict:
     config = json.loads(path.read_text())
     _validate_paths(config, path.resolve())
+    for name in ("context_tokens", "prompt_tokens", "response_tokens"):
+        if type(config.get(name)) is not int or config[name] <= 0:
+            raise ValueError(f"{name} must be an explicit positive integer")
+    if config["prompt_tokens"] + config["response_tokens"] > config["context_tokens"]:
+        raise ValueError("prompt_tokens + response_tokens must not exceed context_tokens")
     training = config.get("training", {})
     if "release_scoring_output" in training and type(training["release_scoring_output"]) is not bool:
         raise ValueError("release_scoring_output must be a JSON boolean")
@@ -83,7 +89,8 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
         "num_rollout": train["successful_updates"], "rollout_batch_size": train["bank_slots"],
         "n_samples_per_prompt": 1, "global_batch_size": train["bank_slots"], "allow_partial_train_step": True,
         "rollout_seed": train["rollout_seed"], "seed": train["seed"],
-        "rollout_max_response_len": config["context_tokens"], "rollout_max_context_len": config["context_tokens"],
+        "rollout_max_prompt_len": config["prompt_tokens"], "rollout_max_response_len": config["response_tokens"],
+        "rollout_max_context_len": config["context_tokens"],
         "rollout_temperature": train["temperature"], "rollout_top_p": train["top_p"], "rollout_top_k": train["top_k"],
         "balance_data": True,
         "swe_cell": f"{pair}/{config['protocol']}", "swe_attempt": attempt, "swe_protocol": config["protocol"],

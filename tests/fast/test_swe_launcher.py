@@ -13,8 +13,12 @@ from tests.manual.agent_opd import run_swe_opd
 from tests.manual.agent_opd.submit_swe_opd import _job_succeeded, _validate_paths
 
 
+_LENGTH_LIMITS = {"context_tokens": 131072, "prompt_tokens": 114688, "response_tokens": 16384}
+
+
 def _config(tmp_path):
     return {
+        **_LENGTH_LIMITS,
         "local_mount": str(tmp_path), "repo": str(tmp_path), "shared_dir": str(tmp_path / "shared"),
         "admission_lock": str(tmp_path / "admission.lock"), "worker_local_root": str(tmp_path / "cache"),
         "run_root": "/mnt/codesign-exp/ycfeng/swe-fixture", "gpu_policy": str(tmp_path / "gpu-policy.json"),
@@ -22,6 +26,87 @@ def _config(tmp_path):
                         "student": {"path": "/mnt/codesign-exp/ycfeng/source-student"},
                         "teacher": {"path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model"}}},
     }
+
+
+@pytest.mark.parametrize("field", ["context_tokens", "prompt_tokens", "response_tokens"])
+@pytest.mark.parametrize("value", [None, 0, -1, True, 1.5])
+def test_length_config_requires_explicit_positive_integers(tmp_path, field, value):
+    config = _config(tmp_path)
+    config[field] = value
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match=f"{field} must be an explicit positive integer"):
+        run_swe_opd._config(path, "A", "full")
+
+
+@pytest.mark.parametrize("field", ["context_tokens", "prompt_tokens", "response_tokens"])
+def test_length_config_never_defaults_missing_limits(tmp_path, field):
+    config = _config(tmp_path)
+    del config[field]
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match=f"{field} must be an explicit positive integer"):
+        run_swe_opd._config(path, "A", "full")
+
+
+def test_prompt_and_response_budgets_must_fit_context(tmp_path):
+    config = _config(tmp_path)
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    resolved = run_swe_opd._config(path, "A", "full")
+    assert {name: resolved[name] for name in _LENGTH_LIMITS} == _LENGTH_LIMITS
+    config["prompt_tokens"] += 1
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="prompt_tokens \\+ response_tokens must not exceed context_tokens"):
+        run_swe_opd._config(path, "A", "full")
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+@pytest.mark.parametrize("protocol", ["full", "r256"])
+def test_native_argv_separates_prompt_response_and_context_limits(tmp_path, pair, protocol):
+    from miles.utils.args.runtime import AllConfig
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "integration_config.json").read_text())
+    config.update(_LENGTH_LIMITS, protocol=protocol)
+    argv = shlex.split(run_swe_opd._training_args(config, pair, "http://teacher/generate", tmp_path, "lengths"))
+    expected = {
+        "--rollout-max-prompt-len": "114688",
+        "--rollout-max-response-len": "16384",
+        "--rollout-max-context-len": "131072",
+        "--seq-length": "131072",
+        "--sglang-context-length": "131072",
+        "--swe-context-tokens": "131072",
+    }
+    for flag, value in expected.items():
+        assert argv.count(flag) == 1 and argv[argv.index(flag) + 1] == value
+    assert "--rollout-max-response-len 131072" not in shlex.join(argv)
+    parser = argparse.ArgumentParser(add_help=False)
+    AllConfig.add_arguments(parser)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert parsed.rollout_max_prompt_len == config["prompt_tokens"]
+    assert parsed.rollout_max_response_len == config["response_tokens"]
+    assert parsed.rollout_max_context_len == parsed.sglang_context_length == config["context_tokens"]
+    assert not any(flag in unknown for flag in expected if flag not in ("--seq-length", "--swe-context-tokens"))
+
+
+def test_worker_dry_run_emits_explicit_limits_without_native_execution(tmp_path):
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "integration_config.json").read_text())
+    # Keep the archived recipe's full resource/model shapes while relocating only local paths.
+    config.update(_config(tmp_path) | {"pairs": config["pairs"]})
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    result = subprocess.run(
+        [sys.executable, "-m", "tests.manual.agent_opd.run_swe_opd", "--config", str(path),
+         "--pair", "A", "--protocol", "full", "--role", "student", "--dry-run"],
+        check=True, capture_output=True, text=True,
+    )
+    argv = shlex.split(result.stdout)
+    assert argv.count("--rollout-max-prompt-len") == argv.count("--rollout-max-response-len") == 1
+    assert argv[argv.index("--rollout-max-prompt-len") + 1] == "114688"
+    assert argv[argv.index("--rollout-max-response-len") + 1] == "16384"
+    assert "--rollout-max-response-len 131072" not in result.stdout
 
 
 @pytest.mark.parametrize("field", ["shared_dir", "repo", "admission_lock", "worker_local_root", "gpu_policy"])
@@ -95,7 +180,7 @@ def test_native_input_policy_reaches_registered_source_config(tmp_path, monkeypa
 
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     config = json.loads((task / "integration_config.json").read_text())
-    config["protocol"] = "r256"
+    config.update(_LENGTH_LIMITS, protocol="r256")
     receipt = str(tmp_path / "native visual receipt.json")
     if masked:
         config["inputs"].update(skip_masked_assistant_turns=True, visual_filter_receipt=receipt)
@@ -129,7 +214,7 @@ def test_native_router_policy_preserves_default_and_typed_transport(tmp_path, mo
 
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     config = json.loads((task / "deepswe_capacity_smoke_config.json").read_text())
-    config["protocol"] = "r256"
+    config.update(_LENGTH_LIMITS, protocol="r256")
     baseline = shlex.split(
         run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "router-policy")
     )
@@ -215,7 +300,7 @@ def test_expanded_rollout_recipe_preserves_eight_gpu_training(tmp_path, monkeypa
 
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
-    config["protocol"] = "r256"
+    config.update(_LENGTH_LIMITS, protocol="r256")
     argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "expanded"))
     for flag, value in {
         "--actor-num-nodes": "1",
@@ -266,7 +351,7 @@ async def test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook(tmp_
 
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     config = json.loads((task / profile).read_text())
-    config["protocol"] = "r256"
+    config.update(_LENGTH_LIMITS, protocol="r256")
     argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "timeout"))
     monkeypatch.setattr(sys, "argv", ["train.py", *argv])
     parser = argparse.ArgumentParser()

@@ -165,6 +165,7 @@ def test_combined_native_hook_registration_uses_real_generated_arguments(tmp_pat
 
     config = json.loads((Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256/capacity_smoke_config.json").read_text())
     config["protocol"] = "r256"
+    config.update(prompt_tokens=114688, response_tokens=16384)
     arguments = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "cpu-cli"))
     for field, value in {
         "--rollout-function-path": "tests.manual.agent_opd.probe_swe_capacity.CapacityReplay",

@@ -37,6 +37,7 @@ def test_combined_native_hook_cli_registration_from_generated_argv(tmp_path, mon
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     config = json.loads((task / "evidence/training-native-gradient-config.json").read_text())
     config["protocol"] = "r256"
+    config.update(prompt_tokens=114688, response_tokens=16384)
     argv = shlex.split(_training_args(config, "A", "http://teacher/generate", tmp_path, "registration-test"))
     parser = argparse.ArgumentParser(add_help=False)
     AllConfig.add_arguments(parser)
@@ -273,6 +274,7 @@ def test_configuration_uses_existing_flag_carrier_without_recipe_edits(tmp_path)
     from tests.manual.agent_opd.run_swe_opd import _training_args
     task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
     original = json.loads((task / "integration_config.json").read_text())
+    original.update(prompt_tokens=114688, response_tokens=16384)
     unchanged = copy.deepcopy(original)
     configured = probe.configure_probe(original, str(tmp_path), "decoder.final_layernorm.weight")
     assert original == unchanged

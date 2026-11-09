@@ -373,6 +373,7 @@ def test_combined_cli_typed_before_log_prob_installs_without_swe_attempt(tmp_pat
         (root / "task_memory/task_2026-11-08_qwen35_swe_full_r256/capacity_smoke_config.json").read_text()
     )
     config["protocol"] = "r256"
+    config.update(prompt_tokens=114688, response_tokens=16384)
     config["training"]["release_scoring_output"] = release
     argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "typed-attempt"))
     argv[argv.index("--scoring-lifetime-source-sha256") + 1] = source_sha
@@ -506,6 +507,7 @@ def test_contrast_adds_only_observation_arguments(tmp_path, release):
         (root / "task_memory/task_2026-11-08_qwen35_swe_full_r256/capacity_smoke_config.json").read_text()
     )
     config["protocol"] = "r256"
+    config.update(prompt_tokens=114688, response_tokens=16384)
     config["training"].pop("release_scoring_output", None)
     baseline = shlex.split(run_swe_opd._training_args(config, "A", "fixture-teacher", tmp_path, "fixture-attempt"))
     config["training"]["release_scoring_output"] = release
