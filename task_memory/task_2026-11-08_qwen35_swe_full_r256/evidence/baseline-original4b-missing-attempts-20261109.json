@@ -1,0 +1,148 @@
+{
+  "observed_at": 1794201993.4329975,
+  "failures": [
+    {
+      "request": {
+        "attempt": 1,
+        "benchmark": "SWE-bench Verified",
+        "domain": "swe",
+        "point_id": "original4b",
+        "scope": "formal_subset",
+        "seed": 1730,
+        "task_id": "astropy__astropy-13398",
+        "uid": "astropy__astropy-13398#attempt-1"
+      },
+      "failure_file": "astropy__astropy-13398.1730.c86827dee68b4f71b9fea2f69cf05fe7.json",
+      "native_failure": {
+        "message": "Native SWE child exited 1; evidence: /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations/points/original4b/native/astropy__astropy-13398.1730/3886ac488be74ab880326a086996970d",
+        "type": "RuntimeError"
+      },
+      "later_final_result": false,
+      "selected_terminal_lines": [
+        "swe_agents.core.exceptions.ModelError: 400: {\"object\":\"error\",\"message\":\"The input (131220 tokens) is longer than the model's context length (131072 tokens).\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}"
+      ]
+    },
+    {
+      "request": {
+        "attempt": 2,
+        "benchmark": "SWE-bench Verified",
+        "domain": "swe",
+        "point_id": "original4b",
+        "scope": "formal_subset",
+        "seed": 1731,
+        "task_id": "astropy__astropy-13398",
+        "uid": "astropy__astropy-13398#attempt-2"
+      },
+      "failure_file": "astropy__astropy-13398.1731.6245ce20fad14e5db3a93aebb0f24070.json",
+      "native_failure": {
+        "message": "Native SWE child exited 1; evidence: /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations/points/original4b/native/astropy__astropy-13398.1731/93e247c461e842b883101354948ebfb2",
+        "type": "RuntimeError"
+      },
+      "later_final_result": false,
+      "selected_terminal_lines": [
+        "swe_agents.core.exceptions.ModelError: 400: {\"object\":\"error\",\"message\":\"The input (131489 tokens) is longer than the model's context length (131072 tokens).\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}"
+      ]
+    },
+    {
+      "request": {
+        "attempt": 1,
+        "benchmark": "SWE-bench Verified",
+        "domain": "swe",
+        "point_id": "original4b",
+        "scope": "formal_subset",
+        "seed": 1730,
+        "task_id": "astropy__astropy-13579",
+        "uid": "astropy__astropy-13579#attempt-1"
+      },
+      "failure_file": "astropy__astropy-13579.1730.35d2cbe3496b42eeaf71d4867e5f5d6f.json",
+      "native_failure": {
+        "message": "Native SWE child exited 1; evidence: /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations/points/original4b/native/astropy__astropy-13579.1730/71a2af7d60a14647b58fc24885b9a371",
+        "type": "RuntimeError"
+      },
+      "later_final_result": false,
+      "selected_terminal_lines": [
+        "NativeInfrastructureError: Native trajectory ended with an infrastructure failure; keep the slot missing"
+      ]
+    },
+    {
+      "request": {
+        "attempt": 2,
+        "benchmark": "SWE-bench Verified",
+        "domain": "swe",
+        "point_id": "original4b",
+        "scope": "formal_subset",
+        "seed": 1731,
+        "task_id": "astropy__astropy-13579",
+        "uid": "astropy__astropy-13579#attempt-2"
+      },
+      "failure_file": "astropy__astropy-13579.1731.d10a86aca3204db8a3694cd9057d6aac.json",
+      "native_failure": {
+        "message": "Native SWE child exited 1; evidence: /mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations/points/original4b/native/astropy__astropy-13579.1731/a7340470874a4f37967dc9d7a4e90ec9",
+        "type": "RuntimeError"
+      },
+      "later_final_result": false,
+      "selected_terminal_lines": [
+        "swe_agents.core.exceptions.ModelError: 400: {\"object\":\"error\",\"message\":\"The input (131230 tokens) is longer than the model's context length (131072 tokens).\",\"type\":\"BadRequestError\",\"param\":null,\"code\":400}"
+      ]
+    }
+  ],
+  "fourth_selected_child_log": {
+    "observed_at": 1794206881.4536405,
+    "source": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/evaluations/points/original4b/native/astropy__astropy-13579.1730/71a2af7d60a14647b58fc24885b9a371/child.log",
+    "bytes": 30580,
+    "selected_lines": [
+      {
+        "line": 19,
+        "text": "03:00:06 | WARNING  | instance_id: astropy__astropy-13579 | repeat_idx: 0 | x_chat_id: e4283801 | step_align.model.stepchat:sync_forward_with_retry:222 - [request_id step-align-2026-11-09-02-58-30-e711fcfc-25b5-4a0c-a61c-4e8222629440] ClientResponseError [400] qwen35-4b maximum context length exceeded (finish_reason=length with raise_on_context_window_exceed)"
+      },
+      {
+        "line": 22,
+        "text": "03:58:35 | ERROR    | instance_id: astropy__astropy-13579 | repeat_idx: 0 | swe_agents.impl.sweagent.agents.default:forward_with_handling:956 - Unknown error traceback:"
+      },
+      {
+        "line": 42,
+        "text": "httpcore.RemoteProtocolError: Server disconnected without sending a response."
+      },
+      {
+        "line": 99,
+        "text": "httpx.RemoteProtocolError: Server disconnected without sending a response."
+      },
+      {
+        "line": 101,
+        "text": "03:58:35 | ERROR    | instance_id: astropy__astropy-13579 | repeat_idx: 0 | exc_info: True | swe_agents.impl.sweagent.agents.default:forward_with_handling:959 - Exiting due to unknown error: Server disconnected without sending a response."
+      },
+      {
+        "line": 121,
+        "text": "httpcore.RemoteProtocolError: Server disconnected without sending a response."
+      },
+      {
+        "line": 202,
+        "text": "httpx.RemoteProtocolError: Server disconnected without sending a response."
+      },
+      {
+        "line": 203,
+        "text": "03:58:35 | WARNING  | instance_id: astropy__astropy-13579 | repeat_idx: 0 | swe_agents.impl.sweagent.agents.default:handle_error_with_autosubmission:696 - Exit due to unknown error: Server disconnected without sending a response."
+      },
+      {
+        "line": 204,
+        "text": "03:58:35 | WARNING  | instance_id: astropy__astropy-13579 | repeat_idx: 0 | swe_agents.impl.sweagent.agents.default:attempt_autosubmission_after_error:1343 - Attempting autosubmission after error"
+      },
+      {
+        "line": 205,
+        "text": "03:58:35 | INFO     | instance_id: astropy__astropy-13579 | repeat_idx: 0 | swe_agents.impl.sweagent.agents.default:attempt_autosubmission_after_error:1376 - Executing submission command: cd /testbed"
+      },
+      {
+        "line": 236,
+        "text": "03:58:36 | INFO     | instance_id: astropy__astropy-13579 | repeat_idx: 0 | swe_agents.impl.sweagent.agents.default:attempt_autosubmission_after_error:1392 - Exiting with autosubmission"
+      },
+      {
+        "line": 254,
+        "text": "    raise NativeInfrastructureError(\"Native trajectory ended with an infrastructure failure; keep the slot missing\")"
+      },
+      {
+        "line": 255,
+        "text": "NativeInfrastructureError: Native trajectory ended with an infrastructure failure; keep the slot missing"
+      }
+    ]
+  }
+}
