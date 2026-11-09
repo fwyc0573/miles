@@ -2,12 +2,13 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record D33 H800 preparation and D34 input/request budget implementation; reopen only the changed source length verification. |
 | 2026-11-09 | Accept completed Ticket01 source audit/parity and refresh the remaining upstream-only integration gate. |
 | 2026-11-09 | Archive the review repair milestone and ongoing, prerequisite-limited execution. |
 
 # Review and input milestones — integration waits for upstream
 
-The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft's implementation phase, inherited contract, statistical interpretation, dependency checkpoints, and soft-gate behavior have been corrected. Scientific decisions D1–D32 remain in force.
+The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft's implementation phase, inherited contract, statistical interpretation, dependency checkpoints, and soft-gate behavior have been corrected. D33 subsequently authorizes H800/codesign without a task GPU-count cap; D34 sets112K inclusive prompts and16K completions within unchanged128K training/rollout context. Other scientific decisions and D1/D22 remain in force.
 
 Main repair commit: `a0b0d113`. Both independent remediation reviews are complete. All original findings are closed; the final Standards P3 was resolved by retaining and verifying the unchanged document-check script. No review finding remains open.
 
@@ -31,7 +32,7 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 
 | Ticket | Status at this milestone |
 | --- | --- |
-| 01 | Done: real-source audit and native parity accepted; CPU RJob and replica Succeeded. |
+| 01 | Original source audit/parity accepted; D34 budget implementation CPU-verified, updated112K full-source audit pending. |
 | 02 | Blocked by D1/D22; no implementation or upstream merge begun. |
 | 03 | Pure module fixes verified on CPU; native-count checks and integration blocked by02. |
 | 04 | Blocked; no A/full formal run submitted. |
@@ -43,3 +44,7 @@ At the2026-11-09T05:10Z refresh, upstream`agent-opd` was at`d8c27b75` without ne
 CPU job creator`i-fengyicheng`,0 GPUs,8 CPUs,32000 Mi memory, exact image and current-host NFS source were verified in`evidence/source-audit-admission-20261109.json`. Terminal receipt`evidence/source-audit-terminal-20261109.json` confirms job/replica Succeeded, finish00:24:08Z and the worker completion marker. Real-source output, source identities/counts,512 native parity draws and2,048 interleaved draws are accepted in`test_report_2026-11-09_source_audit.md`.
 
 Eligible-turn median90 before length filtering retains D26's32×8. The128K audit rejects27.51% of eligible turns; the32×8 simulation has median span7 updates and17/745 conversations spanning≥11 updates. These are CPU scheduling measurements, not runtime trend coverage. All first-source messages omit`preserve_thinking`; the Qwen configuration explicitly sets it true. Native task identity remains unverified/null. No benchmark, HF checkpoint or formal training result is claimed.
+
+Those128K prompt-filter statistics are historical afterD34. The new request/input contract passes33 affected primary fast tests, real pinned GLM512/2048 checks and synthetic SWE/audit workflow checks; see`test_report_2026-11-09_length_budgets.md`. New full-source output is isolated under`evidence/source-audit-112k-20261109/`.
+
+H800 resource changes are isolated in`agent-opd-h800-capacity`: explicit-null admission`1ae93261`, native length argv`8c9537bf`, and pending four-node lifecycle support. Planned per-pair layout is36 GPUs, including8TP4 rollout engines and4TP4 teacher GPUs. Individual-logits size decreases underTP4, but H800 runtime memory/throughput is unverified. Upstream capacity job`exp-1109-144110-764758` wasStarting at07:23:41Z, with teacherRunning and both student replicasStarting. Neither that status nor preparation CPU tests opens D1/D22.

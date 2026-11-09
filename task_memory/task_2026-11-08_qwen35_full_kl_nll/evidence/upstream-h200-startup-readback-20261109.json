@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-11-09T07:23:41.994373+00:00",
+  "job": "exp-1109-144110-764758",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 2,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": [
+    {
+      "name": "exp-1109-144110-764758-student-cfcd2084",
+      "phase": "Starting",
+      "selected_log_lines": []
+    },
+    {
+      "name": "exp-1109-144110-764758-student-c4ca4238",
+      "phase": "Starting",
+      "selected_log_lines": []
+    },
+    {
+      "name": "exp-1109-144110-764758-teacher-cfcd2084",
+      "phase": "Running",
+      "selected_log_lines": [
+        "GPU_TYPE=H200",
+        "GPU_VENDOR=NVIDIA",
+        "2026-11-09 07:20:19: Ready to go."
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ Run from the repository root with python -m tests.manual.agent_opd.make_and_chec
   audit-command <source-directory> <output-directory> [--config <source_audit_config.json>]
   check <output-directory>
   prompt-adjacency
+  prompt-boundary
 
 audit-command only prints a command; this script never launches the audit workflow.
 The fixture adds different instance_id values for identical first-user text. Missing
@@ -17,15 +18,18 @@ import argparse
 import json
 import shlex
 from pathlib import Path
+from unittest.mock import patch
 
 from tests.manual.agent_opd.audit_swe1003_sources import (
-    SOURCE_MANIFEST, SourceConversation, prompt_adjacency, prompt_key,
+    SOURCE_MANIFEST, PromptMeter, SourceConversation, prompt_adjacency, prompt_key,
 )
 from tests.manual.agent_opd.submit_swe1003_audit import _commands
 from tests.manual.agent_opd.swe_inputs import load_pinned_modules
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CONFIG = REPO_ROOT / "task_memory/task_2026-11-08_qwen35_full_kl_nll/source_audit_config.json"
+SYNTHETIC_BUDGETS = {"rollout_max_context_len": 2000, "rollout_max_prompt_len": 1500,
+                    "rollout_max_response_len": 500}
 TOOLS = [{"type": "function", "function": {
     "name": "bash", "description": "Run a command",
     "parameters": {"type": "object", "properties": {"command": {"type": "string"}}, "required": ["command"]},
@@ -62,9 +66,9 @@ def files():
         # c1: visual (image part in user content), eligible 1.
         [system(instance="V"), {"role": "user", "loss_mask": 0, "content": [
             {"type": "image_url", "image_url": {"url": "data:image/png;base64,AAAA"}}]}, assistant(1)],
-        # c2: identical prompt A, different instance metadata; third training prefix is over-length.
+        # c2: identical prompt A, different instance metadata; third prefix exceeds the prompt limit, not context.
         [system(instance="A-other"), user("Fix task A"), assistant(1, "c1"), tool("c1"), assistant(1, "c2"),
-         tool("c2", "word " * 6000), assistant(1)],
+         tool("c2", "word " * 1200), assistant(1)],
     ]
     f1 = [[system(instance="N"), user("Fix task N"), assistant(0, "c1"), tool("c1"), assistant(0)]]
     rest = []
@@ -114,6 +118,23 @@ def check_prompt_adjacency() -> dict:
             "prompt_adjacency": adjacency}
 
 
+def check_prompt_boundary() -> dict:
+    """Exercise the audit's bisection with exact token counts at the approved 112K limit."""
+    prompt_limit = 114688
+    meter = PromptMeter(None, {}, prompt_limit)
+    cases = [((prompt_limit - 1, prompt_limit), None),
+             ((prompt_limit - 1, prompt_limit, prompt_limit + 1), 3),
+             ((prompt_limit + 1, prompt_limit + 2), 1)]
+    for lengths, expected in cases:
+        row = SourceConversation(0, 0, len(lengths), len(lengths), len(lengths), False, None)
+        with patch.object(meter, "tokens", side_effect=lambda _messages, position: lengths[position]):
+            meter.measure(row, [], list(range(len(lengths))))
+        assert row.longest_prompt_tokens == lengths[-1]
+        assert row.first_overlength_ordinal == expected
+    return {"status": "PASS", "prompt_limit": prompt_limit, "prompt_exactly_at_limit_accepted": True,
+            "prompt_one_token_over_limit_rejected": True, "first_overlength_bisection_checked": True}
+
+
 def check(output_root: Path) -> dict:
     audit = json.loads((output_root / "swe1003-source-audit.json").read_text())
     manifest = json.loads((output_root / "swe1003-source-manifest.json").read_text())
@@ -124,6 +145,8 @@ def check(output_root: Path) -> dict:
         "overlength_turns": 1,
     }
     checks = {f"totals.{key}": (audit["totals"][key], value) for key, value in expected_totals.items()}
+    checks.update({f"identity.{name}": (audit["identity"][name], value)
+                   for name, value in SYNTHETIC_BUDGETS.items()})
     checks.update({
         "file0 visual indices": (audit["files"][0]["visual_source_item_indices"], [1]),
         "file0 eligible per conversation": (audit["eligible_turns_per_conversation"][0], [2, 1, 3]),
@@ -132,6 +155,10 @@ def check(output_root: Path) -> dict:
         "longest same-prompt run": (audit["prompt_adjacency"]["same_prompt_runs_in_file_order"]["max"], 2),
         "task identity unverified": (audit["task_identity"]["status"], "UNVERIFIED"),
         "task count unknown": (audit["task_identity"]["distinct_tasks"], None),
+        "overlength prompt fits context": (
+            SYNTHETIC_BUDGETS["rollout_max_prompt_len"]
+            < audit["trainable_distributions"]["longest_prompt_tokens"]["max"]
+            <= SYNTHETIC_BUDGETS["rollout_max_context_len"], True),
         "reasoning_effort values": (audit["schema"]["first_message_option_values"], {"reasoning_effort": {"'high'": 1}}),
         "meta instance_id": (audit["schema"]["meta_keys"]["instance_id"], {"messages": 10, "distinct_values": 10}),
         "manifest status": (manifest["status"], "COMPLETE"),
@@ -149,12 +176,16 @@ def check(output_root: Path) -> dict:
                    "M=2 draws = accepted + rejected": (interleaved["draws"],
                                                        interleaved["accepted"] + interleaved["rejected_overlength"])})
     for index, simulation in enumerate(audit["simulations"]):
+        checks.update({f"simulation {index} {name}": (simulation[name], value)
+                       for name, value in SYNTHETIC_BUDGETS.items()})
         checks[f"simulation {index} task count unknown"] = (simulation["tasks_per_update"], None)
         checks[f"simulation {index} prompt groups recorded"] = ("prompt_groups_per_update" in simulation, True)
     failures = [f"{name}: {actual!r} != {expected!r}"
                 for name, (actual, expected) in checks.items() if actual != expected]
     check_prompt_adjacency()
+    boundary = check_prompt_boundary()
     return {"status": "FAIL" if failures else "PASS", "failures": failures,
+            "prompt_boundary": boundary,
             "longest_prompt_tokens": audit["trainable_distributions"]["longest_prompt_tokens"],
             "task_identity": audit["task_identity"],
             "M=2": {key: interleaved[key] for key in ("draws", "rejected_overlength", "update_span",
@@ -174,6 +205,7 @@ def main() -> None:
     audit_parser.add_argument("--config", type=Path, default=CONFIG)
     commands.add_parser("check").add_argument("output_root", type=Path)
     commands.add_parser("prompt-adjacency")
+    commands.add_parser("prompt-boundary")
     args = parser.parse_args()
     if args.command == "make":
         make(args.directory, json.loads(args.config.read_text()))
@@ -182,10 +214,15 @@ def main() -> None:
         # Fixture dimensions replace formal-run dimensions, not native module pins.
         config.update(repo=str(REPO_ROOT), source_root=str(args.source_root.resolve()),
                       output_root=str(args.output_root.resolve()), simulate=["1x2", "2x2"],
-                      updates=2, turns_per_update=3, trend_window=1, rollout_max_context_len=2000)
+                      updates=2, turns_per_update=3, trend_window=1, **SYNTHETIC_BUDGETS)
         print(shlex.join(_commands(config)[0]))
     else:
-        result = check(args.output_root) if args.command == "check" else check_prompt_adjacency()
+        if args.command == "check":
+            result = check(args.output_root)
+        elif args.command == "prompt-boundary":
+            result = check_prompt_boundary()
+        else:
+            result = check_prompt_adjacency()
         print(json.dumps(result))
         raise SystemExit(result["status"] != "PASS")
 

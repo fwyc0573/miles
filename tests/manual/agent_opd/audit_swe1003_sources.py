@@ -6,7 +6,7 @@ loss-mask rule (eligible_assistant_positions); visual trajectories follow the
 pinned predicate (_scan_message on every message). For every trainable
 conversation it renders the prefix before the last training turn with the Qwen
 template, and finds the first over-length training turn by bisection when that
-prefix reaches rollout_max_context_len (prefix lengths grow with the turn
+prefix exceeds rollout_max_prompt_len (prefix lengths grow with the turn
 ordinal). It then drives the native mixer over MaskAwareSWETurnSource for each
 open-conversations x block-turns config until the requested number of accepted
 turns, rejecting over-length turns as the adapter does.
@@ -94,10 +94,10 @@ def prompt_key(messages: list) -> str | None:
 class PromptMeter:
     """Prompt token count of the prefix before a training turn, as the adapter renders it."""
 
-    def __init__(self, tokenizer, template_kwargs: dict, context_tokens: int):
+    def __init__(self, tokenizer, template_kwargs: dict, prompt_limit: int):
         self.tokenizer = tokenizer
         self.template_kwargs = template_kwargs
-        self.context_tokens = context_tokens
+        self.prompt_limit = prompt_limit
         self.renders = 0
 
     def tokens(self, messages: list, position: int) -> int:
@@ -108,12 +108,12 @@ class PromptMeter:
 
     def measure(self, conversation: SourceConversation, messages: list, eligible: list[int]) -> None:
         conversation.longest_prompt_tokens = self.tokens(messages, eligible[-1])
-        if conversation.longest_prompt_tokens < self.context_tokens:
+        if conversation.longest_prompt_tokens <= self.prompt_limit:
             return
         low, high = 0, len(eligible) - 1  # eligible[high] is over-length
         while low < high:
             middle = (low + high) // 2
-            if self.tokens(messages, eligible[middle]) >= self.context_tokens:
+            if self.tokens(messages, eligible[middle]) > self.prompt_limit:
                 high = middle
             else:
                 low = middle + 1
@@ -202,7 +202,8 @@ def prompt_adjacency(trainable: list[SourceConversation], window: int) -> dict:
 
 
 def simulate(modules: dict, files: list[Path], exclusions: list[list[int]], conversations: list[SourceConversation],
-             active: int, block: int, updates: int, turns_per_update: int, trend_window: int) -> dict:
+             active: int, block: int, updates: int, turns_per_update: int, trend_window: int, *,
+             rollout_max_context_len: int, rollout_max_prompt_len: int, rollout_max_response_len: int) -> dict:
     native, turn_data = modules[BASE_LOADER], modules[TURN_DATA]
     by_key = {(c.file_index, c.source_item_index): c for c in conversations}
     file_index = {str(path): index for index, path in enumerate(files)}
@@ -241,6 +242,9 @@ def simulate(modules: dict, files: list[Path], exclusions: list[list[int]], conv
     spans = [last_update[key] - first_update[key] + 1 for key in first_update]
     return {
         "active_conversations": active, "block_turns": block, "updates": updates,
+        "rollout_max_context_len": rollout_max_context_len,
+        "rollout_max_prompt_len": rollout_max_prompt_len,
+        "rollout_max_response_len": rollout_max_response_len,
         "turns_per_update": turns_per_update, "draws": draws, "accepted": accepted,
         "rejected_overlength": rejected, "repeated_turns": repeated, "final_cursor_epoch": cursor.epoch,
         "conversations_trained": len(first_update),
@@ -268,12 +272,18 @@ def main() -> None:
     parser.add_argument("--chat-template", type=Path, required=True)
     parser.add_argument("--chat-template-kwargs", type=json.loads, required=True)
     parser.add_argument("--rollout-max-context-len", type=int, required=True)
+    parser.add_argument("--rollout-max-prompt-len", type=int, required=True)
+    parser.add_argument("--rollout-max-response-len", type=int, required=True)
     parser.add_argument("--simulate", nargs="+", required=True, help="open-conversations x block-turns, e.g. 32x8")
     parser.add_argument("--updates", type=int, required=True)
     parser.add_argument("--turns-per-update", type=int, required=True)
     parser.add_argument("--trend-window", type=int, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     args = parser.parse_args()
+    if min(args.rollout_max_context_len, args.rollout_max_prompt_len, args.rollout_max_response_len) <= 0:
+        parser.error("Rollout context, prompt and response limits must be positive")
+    if args.rollout_max_prompt_len + args.rollout_max_response_len > args.rollout_max_context_len:
+        parser.error("Rollout prompt and response limits must fit within rollout_max_context_len")
 
     # Load order: turn data imports the base loader, visual audit the source manifest.
     pins = {BASE_LOADER: args.base_loader_sha256, SOURCE_MANIFEST: args.source_manifest_sha256,
@@ -282,7 +292,7 @@ def main() -> None:
     original_paths = list(modules[SOURCE_MANIFEST].SWE_DATA_FILES)
     files = [args.source_root / Path(path).name for path in original_paths]
     tokenizer = load_tokenizer(args.tokenizer, chat_template_path=str(args.chat_template), local_files_only=True)
-    meter = PromptMeter(tokenizer, args.chat_template_kwargs, args.rollout_max_context_len)
+    meter = PromptMeter(tokenizer, args.chat_template_kwargs, args.rollout_max_prompt_len)
 
     signatures = [{"bytes": path.stat().st_size, "mtime_ns": path.stat().st_mtime_ns} for path in files]
     conversations, schema = scan_sources(modules, files, meter)
@@ -308,8 +318,11 @@ def main() -> None:
     eligible = sum(c.eligible for c in conversations)
     overlength = [c for c in trainable if c.first_overlength_ordinal is not None]
     window = max(int(spec.split("x")[0]) for spec in args.simulate)
+    budgets = {name: getattr(args, name) for name in (
+        "rollout_max_context_len", "rollout_max_prompt_len", "rollout_max_response_len",
+    )}
     simulations = [simulate(modules, files, exclusions, conversations, *map(int, spec.split("x")),
-                            args.updates, args.turns_per_update, args.trend_window) for spec in args.simulate]
+                            args.updates, args.turns_per_update, args.trend_window, **budgets) for spec in args.simulate]
 
     identity = {
         "steptron_root": str(args.steptron_root.resolve()), "pinned_module_sha256": pins,
@@ -317,8 +330,9 @@ def main() -> None:
         "tokenizer_json_sha256": file_sha256(Path(args.tokenizer) / "tokenizer.json"),
         "chat_template": str(args.chat_template), "chat_template_sha256": file_sha256(args.chat_template),
         "chat_template_kwargs": args.chat_template_kwargs, "tools_field": "first message tools or tool_schemas",
-        "rollout_max_context_len": args.rollout_max_context_len, "python": sys.version,
-        "overlength_rule": "prompt_token_count >= rollout_max_context_len; prefix length assumed non-decreasing in the turn ordinal",
+        **budgets, "python": sys.version,
+        "overlength_rule": "prompt_token_count > rollout_max_prompt_len; prefix length assumed non-decreasing in the turn ordinal",
+        "generation_budget": "min(rollout_max_response_len, rollout_max_context_len - prompt_token_count)",
     }
     audit = {
         "identity": identity, "files": per_file,

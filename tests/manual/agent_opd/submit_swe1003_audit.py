@@ -16,7 +16,8 @@ from pathlib import Path
 def _commands(config: dict) -> list[list[str]]:
     python = [config["worker_python"], "-u", "-B", "-m"]
     common = []
-    for name in ("steptron_root", "source_root", "tokenizer", "chat_template", "rollout_max_context_len"):
+    for name in ("steptron_root", "source_root", "tokenizer", "chat_template", "rollout_max_context_len",
+                 "rollout_max_prompt_len", "rollout_max_response_len"):
         common.extend(["--" + name.replace("_", "-"), str(config[name])])
     output = Path(config["repo"]) / config["output_root"]
     audit = python + ["tests.manual.agent_opd.audit_swe1003_sources"] + common

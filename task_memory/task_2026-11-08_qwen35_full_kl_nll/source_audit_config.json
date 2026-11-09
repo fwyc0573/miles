@@ -23,6 +23,8 @@
   "chat_template": "miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
   "chat_template_kwargs": {"preserve_thinking": true, "enable_thinking": true},
   "rollout_max_context_len": 131072,
+  "rollout_max_prompt_len": 114688,
+  "rollout_max_response_len": 16384,
   "simulate": ["32x8", "1x8"],
   "updates": 200,
   "turns_per_update": 256,
@@ -31,6 +33,6 @@
   "block_turns": 8,
   "order_draws": 2048,
   "parity_draws": 512,
-  "temporary_root": "/data/ycfeng/tmp/agent-opd-image/source-audit-20261109",
-  "output_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/source-audit-20261109"
+  "temporary_root": "/data/ycfeng/tmp/agent-opd-image/source-audit-112k-20261109",
+  "output_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/source-audit-112k-20261109"
 }

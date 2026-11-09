@@ -1,0 +1,110 @@
+{
+  "checked_at": "2026-11-09T07:13:27.160333+00:00",
+  "creator": "i-fengyicheng",
+  "hardware": {
+    "H800": {
+      "jobs": [
+        {
+          "name": "exp-1109-135424-940308",
+          "phase": "Starting",
+          "roles": {
+            "default": 8
+          },
+          "gpus": 8
+        },
+        {
+          "name": "exp-1109-135006-360974",
+          "phase": "Running",
+          "roles": {
+            "default": 8
+          },
+          "gpus": 8
+        },
+        {
+          "name": "exp-1109-135425-148924",
+          "phase": "Starting",
+          "roles": {
+            "default": 8
+          },
+          "gpus": 8
+        }
+      ],
+      "nonpreemptible_committed_gpus": 24
+    },
+    "H200": {
+      "jobs": [
+        {
+          "name": "exp-1109-134855-638747",
+          "phase": "Running",
+          "roles": {
+            "default": 8
+          },
+          "gpus": 8
+        },
+        {
+          "name": "exp-1109-144110-764758",
+          "phase": "Starting",
+          "roles": {
+            "student": 16,
+            "teacher": 2
+          },
+          "gpus": 18
+        },
+        {
+          "name": "exp-1109-145357-180294",
+          "phase": "Pending",
+          "roles": {
+            "default": 48,
+            "inference": 8
+          },
+          "gpus": 56
+        },
+        {
+          "name": "exp-1108-215214-032806",
+          "phase": "Running",
+          "roles": {
+            "evaluation": 2
+          },
+          "gpus": 2
+        },
+        {
+          "name": "exp-1108-140737-459799",
+          "phase": "Running",
+          "roles": {
+            "default": 1
+          },
+          "gpus": 1
+        },
+        {
+          "name": "exp-1109-130452-917016",
+          "phase": "Running",
+          "roles": {
+            "default": 2
+          },
+          "gpus": 2
+        }
+      ],
+      "nonpreemptible_committed_gpus": 87
+    }
+  },
+  "upstream_capacity_job": {
+    "name": "exp-1109-144110-764758",
+    "status": {
+      "phase": "Starting",
+      "reason": "RJobStarting",
+      "message": "Tasks is starting: [student,teacher]",
+      "taskStatuses": {
+        "student": {
+          "pending": 2,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "pending": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "stop_annotations": {}
+  }
+}

@@ -10,7 +10,8 @@ Example:
         --module-sha256 '{"playground.baseline_new.mopd.online_turn_loader": "SHA256", ...}' \
         --turn-source all_assistants --native-recipe RECIPE.py \
         --tokenizer QWEN_TOKENIZER --chat-template TEMPLATE.jinja \
-        --rollout-max-context-len 131072 --active-conversations 32 --block-turns 8 \
+        --rollout-max-context-len 131072 --rollout-max-prompt-len 114688 \
+        --rollout-max-response-len 16384 --active-conversations 32 --block-turns 8 \
         --order-draws 2048 --parity-draws 512 --temporary-root TEMP --output-root TASK/evidence
 """
 
@@ -52,7 +53,11 @@ from miles.utils.args.custom_function import CustomFunctionConfig
 from miles.utils.args.custom_view import compute_custom_function_config
 from miles.utils.args.runtime import RolloutConfig
 from miles.utils.function_registry import load_function
-from miles.rollout.generate_utils.generate_endpoint_utils import apply_sample_max_response_len
+from miles.rollout.generate_utils.generate_endpoint_utils import (
+    apply_sample_max_response_len,
+    compute_prompt_ids_from_sample,
+    compute_request_payload,
+)
 
 
 def _digest(value) -> str:
@@ -120,7 +125,8 @@ def _args(args, **swe_fields) -> SimpleNamespace:
         hf_checkpoint=str(args.tokenizer), chat_template_path=str(args.chat_template),
         apply_chat_template_kwargs={"preserve_thinking": True, "enable_thinking": True},
         rollout_max_context_len=args.rollout_max_context_len,
-        rollout_max_response_len=args.rollout_max_context_len, n_samples_per_prompt=1,
+        rollout_max_prompt_len=args.rollout_max_prompt_len,
+        rollout_max_response_len=args.rollout_max_response_len, n_samples_per_prompt=1,
     )
 
 
@@ -158,7 +164,7 @@ def _actual_prefix_checks(args, modules, population, tokenizer, converter) -> tu
             )
             prompt_ids = tokenizer.encode(prompt, add_special_tokens=False)
             expected_uid = f"{population.files[0]['sha256']}:0:{positions[ordinal - 1]}"
-            valid = len(prompt_ids) < args.rollout_max_context_len
+            valid = len(prompt_ids) <= args.rollout_max_prompt_len
             if valid:
                 sample = adapter.get_samples(1)[0][0]
                 assert sample.metadata["history"] == converted[:-1]
@@ -166,7 +172,9 @@ def _actual_prefix_checks(args, modules, population, tokenizer, converter) -> tu
                 assert sample.metadata["source"]["uid"] == expected_uid
                 assert sample.prompt == prompt
                 assert sample.metadata["source"]["prompt_sha256"] == token_hash(prompt_ids)
-                assert sample.max_response_len == args.rollout_max_context_len - len(prompt_ids)
+                assert sample.max_response_len == min(
+                    args.rollout_max_response_len, args.rollout_max_context_len - len(prompt_ids),
+                )
             next_after_reject = None
             if not valid and ordinal == len(positions):
                 slot_before = adapter.sample_index
@@ -199,7 +207,8 @@ def _actual_prefix_checks(args, modules, population, tokenizer, converter) -> tu
                 "target_message_sha256": _digest(conversations[0][positions[ordinal - 1]]),
                 "prompt_token_count": len(prompt_ids), "prompt_sha256": token_hash(prompt_ids),
                 "length_eligible": valid,
-                "max_new_tokens": args.rollout_max_context_len - len(prompt_ids) if valid else None,
+                "max_new_tokens": min(args.rollout_max_response_len,
+                                      args.rollout_max_context_len - len(prompt_ids)) if valid else None,
                 "history_reasoning_messages": len(reasoning), "history_tool_calls": len(historical_calls),
                 "history_tool_responses": sum(m["role"] == "tool" for m in converted[:-1]),
                 "tools": len(tools or []), "native_prefix_and_conversion_equal": True,
@@ -292,6 +301,7 @@ def _length_rejection_check(args) -> dict:
     ], [{"role": "user", "content": "next conversation"}, {"role": "assistant", "content": "answer"}]]])
     config = _args(args, swe_turn_source="all_assistants")
     config.rollout_max_context_len = 512
+    config.rollout_max_prompt_len = 511
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
     try:
         first, second = [row[0] for row in adapter.get_samples(2)]
@@ -299,23 +309,43 @@ def _length_rejection_check(args) -> dict:
         assert first.metadata["source"]["source_row_index"] == 0
         assert second.metadata["source"]["source_row_index"] == 3
         assert second.index == second.group_index == 1
+        overhead = len(json.dumps([{"role": "user", "content": ""}]))
+        lengths = [args.rollout_max_prompt_len, args.rollout_max_prompt_len + 1, overhead]
         equality_population = _fixture_population(args.temporary_root / "input-equality", [[
-            [{"role": "user", "content": "equal threshold"}, {"role": "assistant", "content": "answer"}],
-            [{"role": "user", "content": "x"}, {"role": "assistant", "content": "answer"}],
+            [{"role": "user", "content": "x" * (length - overhead)}, {"role": "assistant", "content": "answer"}]
+            for length in lengths
         ]])
-        config.rollout_max_context_len = len(json.dumps([{"role": "user", "content": "equal threshold"}]))
+        config = _args(args, swe_turn_source="all_assistants")
         equality = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=equality_population)
         try:
-            next_valid = equality.get_samples(1)[0][0]
+            boundary, next_valid = [row[0] for row in equality.get_samples(2)]
+            assert boundary.metadata["source"]["prompt_token_count"] == args.rollout_max_prompt_len
+            assert boundary.metadata["source"]["source_row_index"] == 0 and boundary.index == 0
             assert equality.skipped_overlength == 1
-            assert next_valid.metadata["source"]["source_row_index"] == 1
-            assert next_valid.index == 0
+            assert next_valid.metadata["source"]["source_row_index"] == 2 and next_valid.index == 1
+            runtime = make_rollout_config(
+                rollout_max_context_len=config.rollout_max_context_len,
+                rollout_max_prompt_len=config.rollout_max_prompt_len,
+                rollout_max_response_len=config.rollout_max_response_len,
+            )
+            requests = []
+            for sample in (boundary, next_valid):
+                prompt_ids = compute_prompt_ids_from_sample(SimpleNamespace(processor=None, tokenizer=equality.tokenizer), sample)
+                sampling = apply_sample_max_response_len({"max_new_tokens": runtime.rollout_max_response_len}, sample)
+                payload, halt_status = compute_request_payload(runtime, prompt_ids, sampling)
+                assert halt_status is None
+                expected = min(args.rollout_max_response_len, args.rollout_max_context_len - len(prompt_ids))
+                assert payload["sampling_params"]["max_new_tokens"] == expected == sample.max_response_len
+                assert len(payload["input_ids"]) + expected <= args.rollout_max_context_len
+                requests.append({"prompt_tokens": len(prompt_ids), "max_new_tokens": expected,
+                                 "total_token_budget": len(prompt_ids) + expected})
         finally:
             equality.close()
         return {"status": "PASS", "fault_injection_tokenizer": "JSON character count",
                 "accepted_source_ordinals": [0, 3], "accepted_slot_indices": [0, 1],
                 "overlength_turns_skipped": 2, "generation_slots_consumed_by_rejections": 0,
-                "prompt_exactly_at_limit_rejected": True}
+                "prompt_exactly_at_limit_accepted": True, "prompt_one_above_limit_rejected": True,
+                "inclusive_boundary_requests": requests}
     finally:
         adapter.close()
 
@@ -463,6 +493,7 @@ def _finished_report_check(args) -> dict:
     ])
     config = _args(args, swe_turn_source="all_assistants", swe_active_conversations=2, swe_block_turns=2)
     config.rollout_max_context_len = 512
+    config.rollout_max_prompt_len = 511
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
     first, second = (entry["sha256"] for entry in population.files)
     c0, c1, c2, c3 = f"{first}:0", f"{first}:1", f"{first}:2", f"{second}:0"
@@ -532,6 +563,7 @@ def _loss_masked_fixture_check(args, modules, tokenizer) -> dict:
     population, masked, schema = _loss_masked_fixture(args)
     config = _args(args, swe_turn_source="loss_masked")
     config.rollout_max_context_len = config.rollout_max_response_len = 2048
+    config.rollout_max_prompt_len = 2047
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population)
     first, second = (entry["sha256"] for entry in population.files)
     c2, c3, d0 = f"{first}:2", f"{first}:3", f"{second}:0"
@@ -611,15 +643,29 @@ def _configuration_check(args) -> dict:
         assert len(adapter.sources) == adapter.identity["active_conversations"] == args.active_conversations
         assert adapter.mixer.trajectory_block_turns == adapter.identity["block_turns"] == args.block_turns
         sample = adapter.get_samples(1)[0][0]
-        assert sample.max_response_len == args.rollout_max_context_len - sample.metadata["source"]["prompt_token_count"]
-        sampling = apply_sample_max_response_len({"max_new_tokens": args.rollout_max_context_len}, sample)
-        assert sampling["max_new_tokens"] == sample.max_response_len
+        limits = {name: getattr(args, name) for name in (
+            "rollout_max_context_len", "rollout_max_prompt_len", "rollout_max_response_len",
+        )}
+        assert {name: getattr(rollout, name) for name in limits} == limits
+        assert {name: adapter.identity[name] for name in limits} == limits
+        assert sample.max_seq_len == args.rollout_max_context_len
+        prompt_ids = compute_prompt_ids_from_sample(SimpleNamespace(processor=None, tokenizer=adapter.tokenizer), sample)
+        assert len(prompt_ids) == sample.metadata["source"]["prompt_token_count"] <= args.rollout_max_prompt_len
+        assert sample.max_response_len == min(args.rollout_max_response_len, args.rollout_max_context_len - len(prompt_ids))
+        sampling = apply_sample_max_response_len({"max_new_tokens": rollout.rollout_max_response_len}, sample)
+        payload, halt_status = compute_request_payload(rollout, prompt_ids, sampling)
+        assert halt_status is None
+        assert payload["sampling_params"]["max_new_tokens"] == sample.max_response_len
+        assert len(payload["input_ids"]) + sample.max_response_len <= args.rollout_max_context_len
         return {"status": "PASS", "path": hook.path, "config": hook.config.model_dump(),
                 "uses_actual_custom_function_config_merge": True,
                 "runtime_config_type": type(rollout).__name__,
                 "runtime_config_builder": "existing make_rollout_config with real parser defaults and model_validate",
                 "nonexistent_max_seq_len_launch_field_absent": True,
-                "native_request_max_new_tokens": sampling["max_new_tokens"]}
+                "rollout_limits": limits,
+                "native_request_builder": "compute_prompt_ids_from_sample -> apply_sample_max_response_len -> compute_request_payload",
+                "native_request_prompt_tokens": len(payload["input_ids"]),
+                "native_request_max_new_tokens": payload["sampling_params"]["max_new_tokens"]}
     finally:
         adapter.close()
 
@@ -648,6 +694,8 @@ def main():
     parser.add_argument("--turn-source", choices=sorted(TURN_SOURCES), required=True)
     parser.add_argument("--native-recipe", type=Path, help="GLM-5.2 0710 recipe; required for all_assistants")
     parser.add_argument("--rollout-max-context-len", type=int, required=True)
+    parser.add_argument("--rollout-max-prompt-len", type=int, required=True)
+    parser.add_argument("--rollout-max-response-len", type=int, required=True)
     parser.add_argument("--active-conversations", type=int, required=True)
     parser.add_argument("--block-turns", type=int, required=True)
     parser.add_argument("--order-draws", type=int, required=True)

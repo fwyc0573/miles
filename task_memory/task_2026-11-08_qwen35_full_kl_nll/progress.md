@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Begin D34 budget implementation and a fresh112K prompt audit; retain prior source evidence and historical128K outputs. |
+| 2026-11-09 | Start H800 execution preparation underD33 and record live resource/upstream status. |
 | 2026-11-09 | Accept the completed in-place CPU audit/parity and refresh upstream gate at05:10Z; Ticket01 done,02/03 integration still blocked. |
 | 2026-11-09 | Resume with the user-selected branch-base review, in-place audit preparation, and read-only upstream prerequisite verification. |
 | 2026-11-08 | Record the worktree setup and the source investigation that shapes interview round 1. |
@@ -27,6 +29,8 @@
 
 ## completed
 
+- D34 input/audit implementation: existing native prompt limit now114688 inclusive; response cap16384 and total131072 reach the actual request builder. Primary affected suite33 PASS; pinned GLM512/2048 and synthetic SWE30/12 checks PASS; audit threshold/bisection and synthetic16/16 workflow PASS. Durable receipts and exact commands:`test_report_2026-11-09_length_budgets.md`. Old128K source artifacts remain intact; new full-source job pending.
+- Isolated H800 preparation commits:`1ae93261` makes the existing admission ceiling explicitly nullable (25 budget+4 consumer checks PASS); `8c9537bf` wires explicit prompt/response fields (53 launcher+7 related checks PASS). Four-node lifecycle preparation remains separate and in progress. These commits are not merged into the parent branch beforeD1/D22.
 - Loaded `grilling` and `domain-modeling`. Read repository `AGENTS.md`, the loaded `.claude/rules/` files, `GLOSSARY.md`, and the reused task's requirements, spec, plan, progress, checkpoint, ticket 02/04 and `evidence/training-integration-api.md`.
 - Created worktree `.worktrees/agent-opd-image` on new branch `agent-opd-image` from `agent-opd` HEAD `20d0b3f4`. Added `.worktrees/` to the local `.git/info/exclude` only; no tracked file changed.
 
@@ -145,6 +149,10 @@
 
 ## in-progress
 
+- D34 steering:128K training/rollout total,112K inclusive prompt budget,16K completion cap. Input adapter/checker changes delegated to`profile-length-inputs-20261109` (`ses_e40c9ced3ffeuhJ4fOwvF1d5vS`); audit/submitter/synthetic commands to`profile-length-audit-20261109` (`ses_e40c9927efferVhKwq9xSHQCwk`); isolated upstream-based launcher wiring to`profile-length-launcher-20261109` (`ses_e40d1c58dffeRxbihEEvr5yxwj`). New source audit outputs go to`evidence/source-audit-112k-20261109`, preserving prior128K evidence. No running job configuration is changed.
+- D33 execution: H800/codesign, no task GPU-count cap. Inspecting existing launch/config support and H800 memory sizing; no premature merge or02/03 implementation. Fresh direct personal API read at07:13:27Z:24 non-preemptible H800 GPUs committed across other jobs; upstream capacity job`exp-1109-144110-764758` is nowStarting,18 H200 GPUs. Receipt:`evidence/h800-resource-readback-20261109.json`. This is startup, not native acceptance.
+- Local readback first failed with`ModuleNotFoundError: No module named 'tests.manual'`: importing Steptron prepends`third_party/super_agent/tests`, shadowing Miles' tests package. Importing the existing Miles budget reader before Steptron, as the established submitter already does, resolved it. No environment or launcher code changed.
+- Resource preparation is isolated in`/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity`, branch`agent-opd-h800-capacity` fromupstream`c52991ac`; parent integration remains gated. The existing admission field needs explicit`null` support forD33, delegated as`profile-h800-admission-20261109` (`ses_e40d1c58dffeRxbihEEvr5yxwj`). Candidate`gpu_policy.json` uses no count ceiling; the existing temporary-window schema retains an already-expired timestamp and therefore selects the unlimited personal branch. It is not submitted with an integer-only implementation. Preparation task records live in that worktree's`task_memory/task_2026-11-09_profile_h800_preparation/` and will be consolidated with code.
 - Upstream refresh at2026-11-09T05:10Z (`ses_e43737fe8ffe4iK1j8uAE81u0C`): `agent-opd` at`d8c27b75`, no new256-turn acceptance. D1/D22 NOT MET. Latest D12 acquisition remains227/256<231 within1800s, zero updates; OOM mechanism patch has no completed two-update native capacity proof.02/03 integration and formal cells remain blocked.
 
 ### Latest completed work

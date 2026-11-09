@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record D34: Qwen3.5 training/rollout context128K, inclusive prompt budget112K and completion cap16K. |
+| 2026-11-09 | Record D33: continue on H800/codesign with no task GPU-count cap; supersede the H200/32-GPU resource restriction while retaining scientific and upstream acceptance requirements. |
 | 2026-11-09 | Record the execution-readiness follow-up; accept completed input evidence without changing D1/D22. |
 | 2026-11-09 | Record the branch-base review and authorization to repair the draft and resume execution, subject to D1/D22. |
 | 2026-11-08 | Open the documentation task; record the original request verbatim before the interview. |
@@ -51,7 +53,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **IMPLEMENTATION / WAITING_UPSTREAM**. Review repairs and Ticket01 input acceptance are complete. Round5 and the2026-11-09 request authorize continued execution; D1/D22 still gate the upstream merge and training integration.
+- Current phase: **IMPLEMENTATION / H800_PREPARATION**. Review repairs and Ticket01 input acceptance are complete. D33 authorizes continued execution on H800 without a task GPU-count cap; D1/D22 still gate the upstream merge and training integration.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -262,3 +264,22 @@ Review correction to the explanatory D32 rationale: N=8 equals the first convers
 > 是否可以开始执行？当前的阻塞是什么？
 
 Fresh evidence is recorded in `test_report_2026-11-09_source_audit.md`: Ticket01 completed, while the upstream256-turn native capacity gate is still unaccepted. This question does not waive D1/D22 or change the approved32×8 configuration.
+
+### H800 execution — [Original Request / Follow-up Answer] 2026-11-09
+
+> 确认，允许在h800上继续执行（无gpu数量限制）
+
+- **D33 hardware and allocation.** Continue this task on H800 with `charged_group=codesign`; no user-imposed GPU-count cap. This supersedes the H200 choice and D17/D19's32-GPU ceiling for subsequent task submissions. Platform availability still governs placement; formal cells remain non-preemptible. Resource configuration may be sized for H800 memory and throughput through existing mechanisms.
+- The authorization covers necessary in-scope preparation, submission, monitoring and verification. It does not waive D1/D22, alter the scientific inputs,128K context,256 slots,231/1800s admission criterion or200 successful updates, or authorize stopping another task's jobs. D19's first-update throughput relaunch permission remains, without the old count ceiling.
+
+### Qwen3.5 length budgets — [Original Request] 2026-11-09
+
+> 修改 qwen3.5系列的上下文长度大小，依据：
+> setting / length
+> 训练全局上下文 global_seq_length：131,072（128K）
+> rollout 上下文 max_seq_len：131,072（128K）
+> 输入 prompt 预算：114,688（112K）
+> completion 上限 max_tokens：16,384（16K）
+
+- **D34 length contract.** For this task's subsequent Qwen3.5 runs, training sequence length and rollout context remain131072; rendered prompt tokens are at most114688, and generated completion tokens at most16384. Prompt-budget equality is allowed; longer prompts are rejected before consuming candidate slots, not truncated. Use existing native fields `seq_length`, `rollout_max_context_len`, `rollout_max_prompt_len` and `rollout_max_response_len`; each request uses the minimum of its completion cap and remaining total context.
+- D34 supersedes the inherited remaining-context-only completion rule. All other scientific and resource decisions remain as recorded. Existing submitted jobs and historical artifacts retain their original configuration; do not rewrite their provenance. Recheck the new threshold through the existing input/audit workflow. The prior audit's source hashes, visual exclusions and raw eligible counts remain evidence; its128K prompt rejection/span figures are not results for the new112K budget.

@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Apply D34 prompt112K/completion16K within total128K; mark old128K prompt statistics as historical and require the new threshold checks. |
+| 2026-11-09 | Apply D33 H800/codesign execution with no task GPU-count cap; require hardware sizing from evidence and retain the existing execution gates. |
 | 2026-11-09 | Replace pending source estimates with the accepted in-place audit; retain32×8 and distinguish raw eligible counts, length rejection and simulated span coverage. |
 | 2026-11-09 | Repair fork inheritance, audit identity and statistical interpretation; distinguish CPU readiness from runtime acceptance; align soft gates and B admission; refresh the blocked upstream gate from retained evidence. |
 | 2026-11-08 | Draft the specification from decisions D1–D16; Q17–Q19 remain open. |
@@ -15,7 +17,7 @@
 
 # Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D32；D11、D12 已被取代或撤回）。本文件是本 task 行为规格的唯一来源；从复用 task 继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D34；D11、D12已被取代或撤回，D17资源限制由D33替代）。本文件是本task行为规格的唯一来源；从复用task继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -26,11 +28,11 @@
 | 内容 | 复用 spec 位置 |
 | --- | --- |
 | 每个 prompt 保留目标 turn 之前的完整消息前缀；Qwen 模板及 `preserve_thinking=true`、`enable_thinking=true`；Steptron 与 Miles 逐阶段对照的要求；数据 receipt 的字段 | S3 第 1–3、6 条（数据源改为本 spec S2） |
-| D5 长度规则：prompt `<131072` tokens，`max_new_tokens = 131072 − prompt_tokens` | S3 D5 |
+| 长度规则由本task的D34/S2替代，不继承原D5的剩余上下文生成策略 | 本spec S2 |
 | full 定义：200 个 successful optimizer update，每个 update 256 个候选 slot，update u 使用 bank u−1，跳过的 update 不计数、不换 bank | S2 |
 | 优化参数、D4 两层 binary TIS、实际 loss、D2 的 KL 定义（TIS 前，原始 target tokens，更新前的当前 student） | S4 |
 | D6 采集规则（1800 s 内至少 231/256）、D7 零 survivor 停止、故障隔离 | S5 |
-| GPU 提交方式（StepMind Python `RJobBackend`、H200）；额度改由本 task 的 D17 规定 | S7 |
+| GPU提交机制（StepMind Python `RJobBackend`）；硬件和额度改由本task的D33规定 | S7 |
 | train seed 1234、rollout base seed 1729 | S3 第 5 条 |
 
 **不继承**：11 个 GLM-5.2 源文件及其固定副本和 manifest（本 task 改用 SWE-1003 0913 数据，D23–D25，见 S2）、r256 cell、HF 导出（D10）、benchmark 与基线、权重删除流程、四 cell 对比。
@@ -45,7 +47,7 @@
 **当前复用 gate（2026-11-09，`agent-opd` = `f33546f4`，另读本地保留证据）**：复用 [Ticket02](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/tickets/02-replay-training-and-metrics.md) **NOT ACCEPTED**，D1/D22 未解除，不合并，也不开始本 task 的任何 ticket 02 工作或 03 接入。
 - 历史 GLM-5.2 green patch 完成每 rank 的 31 个初次 scoring microbatch，并进入 backward，但被外部 `release_quota` 停止；没有 optimizer ACK、backward 完成或下一次 scoring 的证据，GPU observer 安装失败，显存峰值和 lifetime 仍未验证。它不是完整 capacity PASS，也不验收替换后的 DeepSWE 数据。证据：[capacity-lifetime-gpu-partial.json](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/capacity-lifetime-gpu-partial.json)。
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
-- 解锁需要复用 Ticket02 按其自身验收获得接受，包括当前来源的代表性 256-turn native capacity、实际 successful optimizer ACK 和后续 fresh scoring 等未完成项目；提交了修复、短 smoke 或 acquisition 改善不能代替。合并时记录实际 commit 和通过的证据，科学契约仍以 fork 与本 task D1–D32 为准。
+- 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
 ## S1. 目标与实验矩阵
 
@@ -113,8 +115,8 @@
    - turn source 由配置按名字从一张表中选择：`loss_masked` 对应 `MaskAwareSWETurnSource`（本 task）；`all_assistants` 对应 `OnlineTrajectoryTurnSource`，供复用 task 的 GLM-5.2 数据使用（这些数据没有 `loss_mask` 字段）。保留后者，是因为 GLM 副本在本地可读，取数顺序的共用逻辑可以在本地用真实数据回归检查；SWE-1003 原文件只能在 RJob 中读取。
    - 配置还给出固定版本 Steptron 代码的根目录和上表各模块的 sha256。
 3. **取数与长度规则**：
-   - 顺序只由源数据决定，不依赖 tokenizer。每个取出的 turn 用复用的渲染和长度规则处理。
-   - 超长的 turn 记一次 rejection（写日志），也算在 block 里，然后继续取下一个。
+    - 顺序只由源数据决定，不依赖tokenizer。每个取出的turn用复用的Qwen模板渲染，再按D34长度规则处理：training `seq_length`和rollout `max_seq_len`为131072，渲染后prompt最多114688 tokens，completion最多16384 tokens。
+    - prompt大于114688时记一次rejection（等于预算允许），也算在block里，然后继续取下一个；不截断消息。样本的生成预算为`min(rollout_max_response_len, rollout_max_context_len - prompt_token_count)`，短prompt也不能超过16K completion。
    - 通过长度检查的 turn 依次填入 256 个候选 slot。超时 slot 的处理沿用复用规则：记为缺失，不补取。
    - 因为有 rejection，且 block 会因 conversation 结束而提前终止，update 的边界与轮次不完全对齐：个别 conversation 在一个 update 中可能出现少于或多于 block 个 turn。profile 按用户规则对同一 update 内的 turn 取平均。
 4. **identity**：沿用复用的 `uid`、`group_id`、`assistant_turn_ordinal`、`epoch` 等字段（`epoch` 取自共享 cursor），另外记录：
@@ -123,11 +125,11 @@
    - `source_assistant_turn_ordinal`、`context_masked_assistant_count` 和 native 的 `target_policy`（数据源第 3 条）；data source 的 identity 另记 turn source 名称、视觉排除名单的 sha256 和源文件 manifest 的 sha256。
    - data source 另外报告每次取数（一个 bank）中取完最后一个 turn 的 conversation，包括最后一个 turn 因超长被拒绝的情况。这个报告供 `alive` 使用（S4）。
 5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，源取数序列相同；生成结果和最终有效 bank membership 不保证相同，按各 cell 的实际 receipt 记录。
-6. **估算与原位审计（2026-11-09，详见 [测试报告](test_report_2026-11-09_source_audit.md)）**：
+6. **估算与原位审计（2026-11-09，历史128K prompt结果见 [测试报告](test_report_2026-11-09_source_audit.md)；D34的112K阈值重验尚待完成）**：
    - 理想情况下（每个 update 恰好接收该 conversation 的一个完整 8-turn block，无 rejection / 失败 / skip），有 n 个 training turn 的 conversation 跨约 ceil(n / 8) 个 update，training turn 数不少于 81 对应约 11 个 update。这是 D26 的估算阈值，不是实际 trend 的必要或充分条件。
    - 实际 trend 需要固定且为正的 conversation baseline，以及 latest update `u_c` 之前存在一个 update `≤ u_c − k` 的条目（S4）。bank membership 会变化，跨度 11 不等于必须出现 11 次；少于 81 个 turn 也可能满足参考距离，多于 81 个 turn 也可能因缺失或截断的运行没有 trend。以实际 observation 和 successful update ID 判定。
-    - 全源9,254个conversation，排除102个视觉conversation后剩9,152个、868,775个loss-mask-eligible turn；长度过滤前每个conversation的eligible turn中位数90、P90为153，因此D26不要求调整32×8。128K规则拒绝239,015个turn（27.51%）；不能用过滤前中位数代替过滤后分布。
-    - 200个update ×256个接受turn共51,200个。32×8模拟需71,737次原始取数，覆盖745个conversation；每update覆盖conversation中位数25，conversation跨度中位数7、P90为9，仅17/745跨至少11个update。1×8模拟覆盖735个conversation，跨度中位数1。两者均零重复、epoch0。模拟不包含生成失败或optimizer skip；实际trend覆盖仍由profile runtime evidence判定。
+    - 全源9,254个conversation，排除102个视觉conversation后剩9,152个、868,775个loss-mask-eligible turn；长度过滤前每个conversation的eligible turn中位数90、P90为153，因此D26不要求调整32×8。这些源计数不受D34影响。旧128K prompt规则拒绝239,015个turn（27.51%），只保留为历史结果；新112K规则的拒绝数量和模拟覆盖由重验给出，不能沿用旧数值或把过滤前中位数当成过滤后分布。
+    - 200个update ×256个接受turn共51,200个。旧128K prompt规则下，32×8模拟需71,737次原始取数，覆盖745个conversation；每update覆盖conversation中位数25，conversation跨度中位数7、P90为9，仅17/745跨至少11个update。1×8模拟覆盖735个conversation，跨度中位数1。两者均零重复、epoch0。以上不是D34下的结果，且模拟不包含生成失败或optimizer skip；实际trend覆盖仍由profile runtime evidence判定。
     - 首条源消息均没有`preserve_thinking`，`reasoning_effort`均为null；Qwen配置显式设置`preserve_thinking=true`、`enable_thinking=true`。native任务身份仍为unverified/null，955个首条问题文本分组只作为proxy。以上均已在正式cell之前记录；没有变更渲染或采样参数。
     - 若后续核验表明每个conversation的training turn数中位数明显低于81，仍须带着数字和保持M × block = 256的方案回来找用户（D26）。
 7. **已知后果**：
@@ -275,14 +277,14 @@ NLL_i = nll_sum_i / tokens_i
 - native 训练、通信和 I/O 的故障处理不变，D6、D7 的停止规则不变。
 - profile 不参与任何训练控制。
 
-## S8. GPU 与执行（D16、D17、D19）
+## S8. GPU 与执行（D16、D19、D33）
 
-- **D17**：本 task 自己的非抢占 H200 额度为 32 卡，只计本 task 已提交、未终止的作业，与其他 task 无关。超过 32 卡的部分可以用可抢占 RJob 提交（`ResourceConfig.preemptible=True`，按 RJob runbook 的可抢占提交一节）。
-- **初始布局**：沿用复用 task 的每 cell 布局（复用 spec S7 中 8 student + 2 teacher 的估计，尚未验证），两个 cell 约 20 GPU，在 32 卡以内。
+- **D33**：本task后续作业使用H800/codesign，无用户设定的GPU数量上限。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；提交前核对作业和配额，平台决定排队与调度。正式cell保持非抢占，不停止其他task作业来腾资源。
+- **布局**：按H800实际显存和吞吐选择现有trainer/rollout/teacher并行配置并记录依据；历史H200的8 student +2 teacher估算不能当成H800容量证明。global batch、上下文和验收阈值不因硬件迁移而改变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
 - **启动顺序**（D16）：先启动 A；在它实际完成第一个 successful native optimizer update 后，完成 profile、identity 和各阶段耗时检查并记录结果，再启动 B。profile 辅助检查失败时报告 unverified，健康训练继续，不能单凭该 verdict 阻止 B；A 尚未完成真实 successful update、native 失败或资源准入不满足时仍不能启动 B。
 - **吞吐判断**：第一个 update 的 prompt 长度不一定代表后续分布（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
-- **D19**：第一个 update 若因 rollout 或 teacher 打分太慢违反 D6，按 D6 结束该 attempt，然后增加 GPU，作为新 attempt 重启，不再另行询问；本 task 的非抢占总数保持在 32 以内。两个 cell 同时放不下时改为先后运行，不把正式 cell 的角色放到可抢占作业上（被抢占会结束该 attempt，本 task 没有 checkpoint 可恢复，D10）。D6 的截止时间和最低条数不变。
+- **D19，经D33更新资源限制**：第一个update若因rollout或teacher打分太慢违反D6，按D6结束该attempt，然后增加GPU作为新attempt重启，不再另行询问。正式cell保持非抢占；D6的截止时间和最低条数不变。
 - 第一个之后的 update 若因吞吐违反 D6，按 D6 结束该 attempt 并报告；D19 不覆盖这种情况，是否重启由用户决定。
 
 ## S9. 验证与交付

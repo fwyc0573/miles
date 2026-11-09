@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Add D34 input/launcher budget changes and renewed112K audit in parallel with H800 preparation. |
+| 2026-11-09 | Start D33 H800 preparation in parallel with read-only monitoring of the upstream capacity attempt. |
 | 2026-11-09 | Accept Ticket01 source audit/parity; independent CPU work complete, integration waits for the freshly rechecked upstream gate. |
 | 2026-11-09 | Repair executable dependency checkpoints, soft-gate acceptance and B admission; refresh the upstream blocker and pending in-place CPU evidence. |
 | 2026-11-08 | Draft the six-ticket dependency graph and verification strategy; awaiting Q17–Q19 and freeze. |
@@ -19,7 +21,7 @@
 
 # Plan
 
-**Phase: IMPLEMENTATION / WAITING_UPSTREAM.** Review repairs and Ticket01 are complete. The user froze the documents on2026-11-08 (requirements Round5) and authorized resumed execution on2026-11-09. GPU actions follow the tickets and S8; D1/D22 remain mandatory.
+**Phase: IMPLEMENTATION / H800_PREPARATION.** Review repairs andTicket01 are complete. D33 authorizes H800 execution without a task GPU-count cap; GPU actions follow the tickets andS8. D1/D22 remain mandatory for integration.
 
 ## Scope and ownership
 
@@ -68,3 +70,7 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 Ticket01 is accepted: the real-source CPU audit,512 native parity draws and2,048 interleaved draws passed; job/replica Succeeded ([source test report](test_report_2026-11-09_source_audit.md)). The03 module has recorded D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)); historical entry queries, baseline boundaries and partial-write isolation also pass ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full integration path in [ticket03](tickets/03-distillation-profile.md) remain pending. Current state is owned by [progress](progress.md#in-progress).
 
 At the2026-11-09T05:10Z read-only refresh, upstream `agent-opd` was at `d8c27b75` with no newer capacity acceptance. The gate defined in [specS0](spec.md#s0-复用与改动范围) remains NOT MET: historical patched scoring was stopped before optimizer; the latest DeepSWE acquisition collected227<231 and produced zero updates. D1/D22 block merge, every part of02 and03 integration. Independent authorized CPU work is complete; the next executable integration step requires upstream acceptance. No formal cell has begun.
+
+D33 adds executable H800 resource preparation: inspect existing native launch mechanisms, H800 memory/topology constraints and task-scoped admission; validate the chosen configuration on CPU before GPU submission. Independently monitor the already-submitted upstream capacity attempt, using current evidence rather than resubmitting it. OnceD1/D22 is satisfied, merge and execute02 ->03 integration ->04 ->05 underD33. Formal cells additionally use the `before-steptron-run` workflow and the existing per-sample failure isolation/soft-gate rules.
+
+D34 now reopens the input length slice: adapter/native-request bounds and audit workflow changes run in parallel with isolated launcher wiring. After CPU boundary/config checks, run the existing in-place CPU audit at112K prompt/16K completion and record its actual output separately. Historical source identities/exclusions remain valid; historical length-rejection/span figures do not verify the new threshold. This work proceeds before the unchanged upstream integration gate.

@@ -224,7 +224,8 @@ class NativeSWEDataSource(DataSource):
     """One independent native cursor per instance; only accepted turns get slots.
 
     Args use the existing Miles fields hf_checkpoint, chat_template_path,
-    apply_chat_template_kwargs, rollout_max_context_len and n_samples_per_prompt. The custom
+    apply_chat_template_kwargs, rollout_max_context_len, rollout_max_prompt_len,
+    rollout_max_response_len and n_samples_per_prompt. The custom
     data_source_path config adds swe_source_root, swe_source_manifest,
     swe_steptron_root, swe_module_sha256, swe_turn_source, swe_active_conversations
     and swe_block_turns. Paths are caller-owned. Each get_samples call fills one bank;
@@ -239,8 +240,10 @@ class NativeSWEDataSource(DataSource):
             raise ValueError("Native SWE inputs require n_samples_per_prompt=1")
         if args.rollout_max_context_len is None or args.rollout_max_context_len <= 0:
             raise ValueError("Native SWE rollout_max_context_len must be set and positive")
-        if args.rollout_max_response_len < args.rollout_max_context_len:
-            raise ValueError("Native SWE remaining-context generation requires rollout_max_response_len >= rollout_max_context_len")
+        if args.rollout_max_prompt_len is None or not 0 < args.rollout_max_prompt_len < args.rollout_max_context_len:
+            raise ValueError("Native SWE rollout_max_prompt_len must be set, positive and smaller than rollout_max_context_len")
+        if args.rollout_max_response_len is None or args.rollout_max_response_len <= 0:
+            raise ValueError("Native SWE rollout_max_response_len must be set and positive")
         kwargs = dict(args.apply_chat_template_kwargs)
         if kwargs.get("preserve_thinking") is not True or kwargs.get("enable_thinking") is not True:
             raise ValueError("Native Qwen SWE inputs require preserve_thinking=true and enable_thinking=true")
@@ -277,6 +280,8 @@ class NativeSWEDataSource(DataSource):
         )
         self.template_kwargs = kwargs
         self.context_tokens = args.rollout_max_context_len
+        self.prompt_token_limit = args.rollout_max_prompt_len
+        self.response_token_limit = args.rollout_max_response_len
         self.sample_index = 0
         self.skipped_overlength = 0
         self.identity = {
@@ -294,14 +299,15 @@ class NativeSWEDataSource(DataSource):
             "chat_template_sha256": file_sha256(Path(args.chat_template_path)),
             "chat_template_kwargs": kwargs,
             "rollout_max_context_len": self.context_tokens,
-            "rollout_max_response_len": args.rollout_max_response_len,
+            "rollout_max_prompt_len": self.prompt_token_limit,
+            "rollout_max_response_len": self.response_token_limit,
             "n_samples_per_prompt": 1,
             "active_conversations": len(self.sources), "block_turns": args.swe_block_turns,
             "domain": "reasoning", "source_group": "swe", "reward_fn_type": "noop",
             "source_load_path": None, "source_load_safetensors": None,
             "shuffle": False, "deduplicate": False, "epoch_wrap": True,
-            "length_reject": "prompt_token_count >= rollout_max_context_len",
-            "generation_budget": "rollout_max_context_len - prompt_token_count",
+            "length_reject": "prompt_token_count > rollout_max_prompt_len",
+            "generation_budget": "min(rollout_max_response_len, rollout_max_context_len - prompt_token_count)",
             "tools_field": "first message tools, else tool_schemas",
             "resume_supported": False,
         }
@@ -332,15 +338,17 @@ class NativeSWEDataSource(DataSource):
                           prompt_token_count=len(prompt_ids), prompt_sha256=token_hash(prompt_ids))
             if remaining_turns == 0:
                 finished.append(source["group_id"])
-            if len(prompt_ids) >= self.context_tokens:
+            if len(prompt_ids) > self.prompt_token_limit:
                 self.skipped_overlength += 1
                 logger.info("NATIVE_SWE_INPUT_REJECT %s", json.dumps({
-                    "source": source, "reason": "prompt_at_or_above_context_limit", "rollout_max_context_len": self.context_tokens,
+                    "source": source, "reason": "prompt_above_prompt_limit",
+                    "rollout_max_prompt_len": self.prompt_token_limit, "rollout_max_context_len": self.context_tokens,
                 }))
                 continue
             sample = Sample(
                 index=self.sample_index, group_index=self.sample_index, prompt=prompt,
-                max_seq_len=self.context_tokens, max_response_len=self.context_tokens - len(prompt_ids),
+                max_seq_len=self.context_tokens,
+                max_response_len=min(self.response_token_limit, self.context_tokens - len(prompt_ids)),
                 metadata={
                     "source": source, "history": history, "tools": tools,
                     "thinking_enabled": True, "chat_template_kwargs": dict(self.template_kwargs),
