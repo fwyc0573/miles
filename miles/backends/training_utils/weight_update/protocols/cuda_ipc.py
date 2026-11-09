@@ -95,9 +95,6 @@ class UpdateWeightFromTensor(WeightTransferProtocol):
 
         if self.use_distribute:
             self.rollout_engines = rollout_engines[:colocate_engine_nums]
-            self.cell_updaters_of_cell_id = create_rollout_cell_updaters(
-                self.args, self.rollout_engines, engine_cell_ids[:colocate_engine_nums]
-            )
             self.distributed_rollout_engines = rollout_engines[colocate_engine_nums:]
             distributed_gpu_counts = engine_gpu_counts[colocate_engine_nums:]
             self._is_distributed_src_rank = (
