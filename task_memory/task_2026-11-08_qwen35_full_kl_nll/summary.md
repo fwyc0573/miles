@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record submitted formal A/full and observed startup evidence; retain all native/profile completion checks. |
 | 2026-11-10 | Archive accepted03 CPU integration15186817 and explicit formal profile configurationec002ea8; record pre-launch lifecycle verification and A admission readiness, not GPU acceptance. |
 | 2026-11-10 | Archive02 trainer CPU-ready6129aefe,completed clean reviews,formal guard commit and staged03 delivery;retain pending primary integration/GPU acceptance and original concurrent B admission. |
 | 2026-11-10 | Archive verified merge55fba827 and local prep-reference resolution; identify02 implementation as the frontier without accepting03 integration or formal profiles. |
@@ -14,7 +15,7 @@
 
 # CPU integration complete — formal A admission pending
 
-The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. Draft repairs and soft gates are complete. D33 authorizes H800/codesign without a task GPU-count cap; D34 retains128K context with112K inclusive prompts/16K completions. D35 capacity and merge `55fba827` are accepted. Primary accepted02 trainer CPU-ready `6129aefe` and03 integration CPU-ready `15186817`, including downstream S7 CPU criteria. Explicit formal profile configuration `ec002ea8` and pre-run lifecycle checks are complete.04 is ready for fresh formal admission but not launched.02 GPU and both cells' formal native/profile acceptance remain pending; scientific conditions are unchanged.
+The user selected`20d0b3f4`as the review base for`agent-opd-image`, initially at`0e94c522`. Draft repairs, D35 consolidation,02 CPU-ready`6129aefe`,03 integration`15186817`and explicit formal configuration`ec002ea8`are accepted. A/full is now submitted as`exp-1110-014836-849060`on36 non-preemptible H800 under D33/D34. Initial platform state is Starting; native first-update and both cells' formal native/profile acceptance remain pending. Current identity/resource/worker evidence is in[the formal execution report](test_report_2026-11-10_formal_runs.md). Scientific conditions and B's A-first-ACK/inspection dependency are unchanged.
 
 Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all original findings, including the retained unchanged document checker. T02 phase reviews remain Standards0/Spec0; at this checkpoint the primary-owned [review](review.md) also records T03 Standards/Spec No findings. These are inspected review records, not independent test reruns or formal GPU certification.
 
@@ -51,7 +52,7 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 | 01 | Done: historical128K evidence retained; D34 budgets, boundaries, actual native request construction and completed original-source112K audit/parity accepted. |
 | 02 | Trainer and downstream S7 CPU checks accepted; A-update GPU acceptance pending, not full ticket done. |
 | 03 | Done: module and all CPU integration/S7 criteria accepted at15186817. |
-| 04 | Ready for fresh formal admission/first-update verification, not launched. |
+| 04 | A/full submitted as`exp-1110-014836-849060`; startup/first-update verification in progress. |
 | 05 | Blocked on actual A first successful ACK, completed inspection and fresh resources; not A200 or auxiliary profile PASS. |
 | 06 | Blocked by formal-run evidence. |
 

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Link the actual A/full submission from S0; preserve the scientific and runtime acceptance contract. |
 | 2026-11-10 | Update only S0 current readiness: accept Ticket03 CPU integration and explicit formal profile configuration; preserve all formal native/GPU gates. |
 | 2026-11-10 | Record completed candidate consolidation at55fba827; move the active dependency to02 CPU readiness. |
 | 2026-11-10 | Apply D35 parent-only H800 capacity adoption and merge authorization; retain historical upstream evidence and separate CPU integration from formal runtime acceptance. |
@@ -53,7 +54,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前合并及CPU接入状态（2026-11-10，D35，已完成）**：用户明确接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据，允许合并上述候选并继续02/03接入；不再等待上游独立冻结D11的验收。依据、原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)，本地状态见[H800报告当前采用记录](test_report_2026-11-09_h800_preparation.md#d35-parent-adoption-2026-11-10)。实际合并`55fba827`已保留prep records和已验收的父分支输入契约，验证见[合并报告](test_report_2026-11-10_input_merge.md)。02 CPU-ready `6129aefe`和03 CPU接入 `15186817`均已由primary接受，后者的真实consumer/S7路径见[接入报告](test_report_2026-11-10_profile_integration.md)。显式formal profile配置 `ec002ea8`及启动前lifecycle检查见[formal配置报告](test_report_2026-11-10_formal_configuration.md)；04可进入fresh formal admission，尚未launch。正式逐turn/profile验收仍在A首个actual successful update；05等待其ACK、完成inspection和fresh资源准入，不等A200或profile辅助PASS。旧失败和上游NOT ACCEPTED记录保持其原日期，不改写成PASS。
+**当前合并及CPU接入状态（2026-11-10，D35，已完成）**：用户接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据；原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)。实际合并`55fba827`、02 CPU-ready`6129aefe`和03 CPU接入`15186817`均已接受，见[合并报告](test_report_2026-11-10_input_merge.md)及[接入报告](test_report_2026-11-10_profile_integration.md)。显式配置`ec002ea8`及启动前lifecycle检查见[formal配置报告](test_report_2026-11-10_formal_configuration.md)。A/full已提交为`exp-1110-014836-849060`，当前执行证据见[formal运行报告](test_report_2026-11-10_formal_runs.md)。正式逐turn/profile验收仍在A首个actual successful update；05等待其ACK、完成inspection和fresh资源准入，不等A200或辅助PASS。上游独立冻结D11的旧失败保持原日期及原判定。
 
 ## S1. 目标与实验矩阵
 

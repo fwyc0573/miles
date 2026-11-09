@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record A/full actual submission and first worker evidence; native first-update inspection remains pending. |
 | 2026-11-10 | Record final accepted CPU integration15186817, explicit profile configurationec002ea8 and lifecycle verification before launch; move to A admission and append the exact four-section milestone checkpoint. |
 | 2026-11-10 | Record02 trainer CPU-ready6129aefe,clean completed phase reviews,committed formal correction and staged03 delivery;preserve pending primary integration/GPU/S7 acceptance and append the four-section milestone checkpoint. |
 | 2026-11-10 | Record actual merge55fba827, resolved prep references and scoped verification; move implementation to02 and append the four-section post-merge checkpoint without rewriting earlier snapshots. |
@@ -200,9 +201,59 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 - `summary()` no longer calls `conversation_states`: with that call, per-update time rose from 1.65 to 2.39 ms (lengths 19–464) and 1.82 to 3.64 ms (19–162); counting baselines and trends directly brought it back to 1.73 and 1.96 ms. The batch query itself is about 10 times its earlier cost, 0.8–2.0 ms, and is not on the per-update path.
 - The first mutation run left one bug alive (a conversation baseline that takes every turn of an update instead of only the turns it still needs); `test_baseline_stops_at_its_turn_count` was added and the mutant then failed.
 
+## Formal A launch checkpoint — 2026-11-10
+
+## 1. 规划完成情况
+
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 2｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 输入 | PASS | D34原位审计及native parity已接受 |
+| 02 逐turn测量 | TODO | CPU已接受；GPU检查等待A首个正式update |
+| 03 Profile集成 | PASS | 15186817、201项CPU检查、两轴无发现 |
+| 04 A/full | TODO | exp-1110-014836-849060已提交，启动证据部分到达 |
+| 05 B/full | BLOCKED | 等待A实际首ACK和完成D16检查 |
+| 06 终态报告 | BLOCKED | 等待两cell终态及profile完整性 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** CPU readiness checkpoint至本次正式提交｜**当前前沿：** 04 startup与首update检查
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 最终配置/回执检查已完成，实际A已提交；无新GPU smoke |
+| D2 细节反复重试 | CLEAR | 单次正式提交成功，无GPU重试 |
+| D3 支线问题修补 | CLEAR | 本窗口只推进04准备及执行 |
+| D4 可并行任务停滞 | CLEAR | B有真实A首ACK依赖；只读首update观察已启动 |
+| D5 超范围镀金 | CLEAR | 保留既定36H800和200update配置 |
+| D6 分析空转 | CLEAR | CPU里程碑已转为实际formal job |
+| D7 路线违背 | CLEAR | D35/02/03前置满足，D16和soft gates保留 |
+
+**文档检查：** S1–S6均未发现明显缺陷；当前状态已同步实际提交，历史ready记录保留原时间范围。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 04：确认全部worker与引擎启动，完成实际首ACK/D16检查 → 完成标志：native与profile分别有可追溯判定。
+2. 并行：A继续训练 ‖ 首ACK/检查完成后B fresh admission → 完成标志：B提交回执；不等待A200或辅助PASS。
+3. 两cell约20update报告阶段耗时，终态后按06核对200成功update和完整paired profile。
+
+## 4. 最值得关注的 3 点
+
+1. A已提交且身份/资源/source匹配，但当前只确认rank0和teacher的12张实际H800。
+2. 首个实际ACK和profile检查尚未到达，B仍有真实启动依赖。
+3. 正式产物不属于smoke清理范围；profile辅助失败不会停止健康native训练。
+
 ## in-progress
 
-- Current frontier: primary's fresh read-only A admission and formal attempt freeze/submission.02 `6129aefe`,03 `15186817`, explicit profile configuration `ec002ea8`, final4/4 dry-runs and the before-launch lifecycle inspection are complete. No fresh live admission receipt or formal A/B launch is accepted by this documentation checkpoint.
+- Current frontier: A/full`exp-1110-014836-849060`startup and first actual successful update/D16 inspection. Submission and direct platform readback are committed in`1976048f`;36 non-preemptible H800, personal creator and local NFS source match. Initial platform state was Starting. Worker evidence now confirms rank0's8 H800 and the ready27B teacher's4 H800, both with the frozen image/model paths; the other student ranks and all-engine/first-update readiness are not yet confirmed. See[formal execution evidence](test_report_2026-11-10_formal_runs.md). Local launcher`sh_1c16d0f990014RQthEERNRrdWW`remains alive; read-only observer`sh_1c16ff2bb0017aVjX6GHz8NQ1s`will notify on the first native update without controlling training.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
 - B's four-H800 TP4/EP1 teacher remains feasible, not native load/memory/throughput verified.05 admission remains authorized after A's actual first successful ACK, completed inspection and fresh resources while A continues; neither A200 updates, auxiliary profile PASS nor another user approval is required.

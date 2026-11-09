@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record formal A submission in the current phase; preserve all decisions and runtime acceptance criteria. |
 | 2026-11-10 | Update only the current phase after verified merge55fba827; keep raw D35 authorization and historical decisions unchanged. |
 | 2026-11-10 | Record D35: accept the verified 36-H800 D34 capacity result as this task's D1/D22 basis and authorize consolidation followed by Ticket02/03 integration; preserve upstream and formal-run independence. |
 | 2026-11-09 | Record the request to verify whether D1/D22 acceptance has started or is blocked. |
@@ -56,7 +57,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **FORMAL_ADMISSION / A_FIRST_UPDATE_PENDING**. Review repairs, Ticket01 input acceptance, the H800 capacity basis and D35 consolidation are complete; merge `55fba827` archives H800 second parent `0e6e8b1e`. Primary accepted Ticket02 CPU-ready `6129aefe` and Ticket03 integration CPU-ready `15186817`; explicit formal profile configuration `ec002ea8` and pre-formal lifecycle checks are complete. Ticket04 is ready for fresh formal admission, not launched; Ticket02 GPU/profile verification remains at A's first actual successful update. Ticket05 waits for that ACK, completed inspection and fresh resource admission, not A's 200-update completion or an auxiliary profile PASS. Evidence: `test_report_2026-11-10_input_merge.md`, `test_report_2026-11-10_profile_integration.md` and `test_report_2026-11-10_formal_configuration.md`.
+- Current phase: **FORMAL_EXECUTION / A_FIRST_UPDATE_PENDING**. CPU/configuration/review prerequisites are accepted. A/full was submitted as`exp-1110-014836-849060`on36 non-preemptible H800; the first platform readback is Starting. Ticket02 GPU/profile verification remains at A's first actual successful update. B waits for that ACK, completed inspection and fresh resource admission, not A200 or an auxiliary PASS. Current evidence:`test_report_2026-11-10_formal_runs.md`; previous CPU/configuration evidence remains in the linked task reports.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.

@@ -1,0 +1,50 @@
+{
+  "observed_at": "2026-11-09T17:57:56.610845+00:00",
+  "job": "exp-1110-014836-849060",
+  "inspected_gpu_count": 12,
+  "requested_gpu_count": 36,
+  "uninspected_student_ranks": [
+    1,
+    2,
+    3
+  ],
+  "all_engine_startup_verified": false,
+  "workers": [
+    {
+      "job": "exp-1110-014836-849060",
+      "pair": "A",
+      "role": "student",
+      "rank": 0,
+      "hostname": "gpu-h800-0180.host.platform.shaipower.com",
+      "gpu_devices": [
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ],
+      "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+    },
+    {
+      "job": "exp-1110-014836-849060",
+      "pair": "A",
+      "role": "teacher",
+      "rank": 0,
+      "hostname": "rjob-006a8d624e49ebe3-12b353edd056a1c8-0",
+      "gpu_devices": [
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06",
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ],
+      "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "status": "ready",
+      "url": "http://100.99.211.93:30000/generate"
+    }
+  ]
+}

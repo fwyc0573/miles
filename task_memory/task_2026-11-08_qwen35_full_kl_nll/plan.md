@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record formal A submission and move the frontier to startup/first-update inspection. |
 | 2026-11-10 | Accept03 CPU integration15186817 and final profile configurationec002ea8; move to fresh A admission/first-update verification without changing B concurrent admission. |
 | 2026-11-10 | Accept02 CPU readiness6129aefe and move the frontier to active03 integration;keep pending reviews,GPU acceptance and existing A-first-ACK concurrent B admission separate. |
 | 2026-11-10 | Record verified D35 merge55fba827 and resolved prep references; move the frontier to02 implementation, retaining03 CPU-readiness and formal-update dependencies. |
@@ -27,7 +28,7 @@
 
 # Plan
 
-**Phase: FORMAL_ADMISSION / A_FIRST_UPDATE_PENDING.** Review repairs, Ticket01, D35 consolidation,02 CPU-ready `6129aefe` and03 integration CPU-ready `15186817` are accepted. Explicit formal profile configuration `ec002ea8`, final four A/B dry-runs and the primary's pre-run lifecycle check are complete.04 is ready for fresh formal admission, not launched;02 GPU acceptance remains at A's first actual formal successful update. The primary-owned [review record](review.md) now reports T03 Standards/Spec No findings; the result is observed, not anticipated. Formal runtime acceptance and S8 admission are unchanged.
+**Phase: FORMAL_EXECUTION / A_FIRST_UPDATE_PENDING.** CPU/configuration/review prerequisites are accepted. A/full is submitted as`exp-1110-014836-849060`on36 non-preemptible H800; initial platform state Starting. The frontier is actual startup and D16 first-update inspection, followed by fresh B admission. See[formal execution evidence](test_report_2026-11-10_formal_runs.md).02 GPU and both cells' native/profile terminal acceptance remain pending.
 
 ## Scope and ownership
 
@@ -40,7 +41,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
 | [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums: CPU implementation-ready, then GPU acceptance at A's first update | Satisfied: D35 capacity basis accepted and candidate merged as`55fba827`; no remaining merge blocker |
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
-| [04](tickets/04-a-full.md) | Ready for formal admission; A/full native training and separately verified profile not launched | Satisfied:01 accepted,02 CPU-ready,03 CPU integration; remaining fresh live admission and formal attempt freeze/submission |
+| [04](tickets/04-a-full.md) | A/full submitted; startup and first-update inspection in progress | Satisfied:01 accepted,02 CPU-ready,03 CPU integration and fresh admission; native/profile execution evidence pending |
 | [05](tickets/05-b-full.md) | B/full native training and separately verified profile | Satisfied: 01 accepted, 02 CPU-ready, 03 CPU integration; pending: 04 actual first successful ACK, completed inspection and fresh resource admission |
 | [06](tickets/06-profile-report.md) | Final profile report and archive with explicit complete/incomplete disposition | 04, 05 terminal evidence and completion checks |
 
@@ -56,7 +57,7 @@ D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU i
 {04 terminal evidence, 05 terminal evidence} -> 06
 ```
 
-Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code. Current CPU dependencies are satisfied:02 `6129aefe` and03 `15186817` are primary accepted; the latter records201 PASS and all real-consumer/S7 checks. Final configuration, lifecycle inspection and reviews progressed independently. The primary now performs read-only A admission preparation; no formal launch is recorded. Upstream acceptance remains independent.
+Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code.02`6129aefe`and03`15186817`now satisfy the CPU dependencies; configuration, lifecycle checks and reviews are complete. A has been submitted and its native execution is being observed. Upstream acceptance remains independent.
 
 The table's 02/03 edges into formal cells are CPU readiness checkpoints, not full ticket closure. 02 remains unaccepted until its A runtime checks are verified, but waiting for that before launching A would be circular. B requires A's real successful native update and a completed inspection, not a PASS auxiliary profile verdict or all 200 A updates. S7 errors continue healthy training and are reported separately as incomplete profile acceptance. Failed/incomplete terminal evidence permits honest reporting in 06; it does not satisfy complete-cell acceptance.
 
@@ -77,7 +78,7 @@ Ticket01 is accepted including D34: the original-source112K CPU audit,512 native
 
 The historical2026-11-09T07:56Z upstream refresh at `c52991ac` recorded capacity job`exp-1109-144110-764758` failing at initial trainer-to-rollout weight synchronization after600s, before rollout collection or optimizer updates. This failure remains unaccepted evidence, as do earlier acquisition227<231 and historical interrupted scoring. Those historical outcomes are not relabeled byD35; exact limits remain in [the H800 preparation report](test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
 
-Current frontier:04 fresh formal admission/attempt freeze -> A launch -> A first actual successful ACK/completed inspection ->05 fresh resource admission. Primary accepted02 trainer CPU-ready `6129aefe` ([per-turn sums report](test_report_2026-11-10_per_turn_sums.md)) and03 integration `15186817`: bank/conversation/turn/finished identity, native counts and permanent S7 suppression pass through the real consumer.02 GPU/full-ticket acceptance remains incomplete. Merge/source/archive evidence is retained in [the input merge report](test_report_2026-11-10_input_merge.md#post-merge-verification-2026-11-10), not a formal launch receipt.
+Current frontier:04 A startup -> first actual successful ACK/completed D16 inspection ->05 fresh resource admission. A's launch/admission identity is retained in[the formal execution report](test_report_2026-11-10_formal_runs.md).02 GPU/full-ticket acceptance remains incomplete. CPU, merge and source checks retain their narrower scope.
 
 Formal preparation `4863e68e`, guard correction `059a6a75` and explicit profile configuration `ec002ea8` are committed ([existing report](test_report_2026-11-10_formal_configuration.md)). Final submission/native-argv dry-runs pass4/4 with each of13 valued flags once, profile-enabled once and no HF save/evaluation. The primary completed `before-steptron-run` lifecycle inspection before launch:16 targeted CPU cases PASS in2.63s, covering cancellation/draining,503 deadlines, later success, late/invalid slots, teacher states and soft evidence sinks; exact commands and mock limits are in [the report](test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check). Full still visits200 distinct banks once each with configured `bank_uses=50`. B TP4/EP1 is feasible, not native verified. A launches after fresh admission; B may run concurrently after A's first actual ACK/completed inspection and fresh resources. Do not wait forA200 or add user-approval/profile-PASS/GPU-smoke gates. Native acceptance and S7 soft isolation remain unchanged.
 

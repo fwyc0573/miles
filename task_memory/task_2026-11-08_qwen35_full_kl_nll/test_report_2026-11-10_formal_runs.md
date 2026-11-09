@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Inspect first native worker receipts: rank0 eight H800 and ready teacher four H800; remaining ranks/engine startup unverified. |
 | 2026-11-10 | Record A/full submission and exact platform identity/resource readback; first-update, B and terminal acceptance remain pending. |
 
 # Formal A/B execution
@@ -19,6 +20,7 @@ Configuration:`formal_config.json`. Both cells use full mode,200 successful upda
 - Platform readback at17:49:29Z:[receipt](evidence/formal-A-submission-readback-20261110.json). Job UID`ccc4c4e4-3945-4159-8021-e0f0b17008f5`, creator`i-fengyicheng`, preemptible=false, task annotation matches this task, local source`100.96.128.195:/data/ycfeng:/data/ycfeng`.
 - Observed status:`Starting`, reason`RJobStarting`, teacher active1 and student pending4. Platform resource requests are4×8 student GPUs plus1×4 teacher GPUs, positive tagH800. All four student replicas retain both RDMA limits. Requested placement is not yet worker`nvidia-smi`or engine readiness evidence.
 - First successful optimizer ACK, actual GPU identity, per-turn/profile native consistency and terminal acceptance: **PENDING**. B is not yet submitted.
+- Subsequent worker inspection: `student-node-0.json` confirms eight NVIDIA H800,81,559MiB each,driver570.124.06 on`gpu-h800-0180.host.platform.shaipower.com`; `teacher-ready.json` confirms four matching H800 and ready27B model endpoint. Both pin the configured image and model paths; selected fields are retained in[the startup receipt](evidence/formal-A-worker-startup-20261110.json). Student ranks1–3, all-engine readiness and first ACK are not yet verified. These are partial startup observations, not a claim that all36 devices or training are ready.
 - A separate read-only first-update observer is running as local shell`sh_1c16ff2bb0017aVjX6GHz8NQ1s`. Once per60 seconds it reads only the first newline-complete native update and the two profile-file sizes from this exact training directory through the approved SSH cloud mount. It writes`evidence/formal-A-first-update-notification-20261110.json`and exits when a successful native record appears, prompting D16 inspection before B. Its observation window is9,000 seconds (three configured startup windows plus the configured request timeout); observer errors/timeouts do not stop or modify native training. This is a notification, not an auxiliary PASS gate or a replacement for native/profile inspection.
 
 ### Exact submission
@@ -41,6 +43,10 @@ Submission holds the existing lock around fresh inventory and backend creation, 
 ## B/full
 
 Not submitted. Waiting for A's first actual successful update plus completed D16 inspection and fresh36-H800 admission. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported but has no native H800 acceptance yet.
+
+## Local record verification
+
+`python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll`passes with31 documents,6 tickets,123 links,37 anchors and dependency order01→02→03→04→05→06. During status synchronization, the checker caught a temporary`04-a-full.md: blocked-by ['01', '02', '03'] != plan []`mismatch; the plan and ticket now both retain the satisfied CPU dependency IDs. No dependency or scientific requirement was removed. Scoped`git diff --check`passes. Admission/platform JSON identities, requested GPU sum36 and inspected worker GPU count12 were independently reconciled by the primary's Python reads.
 
 ## Completion criteria
 

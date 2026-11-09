@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record actual A/full submission and worker-startup evidence; leave runtime acceptance incomplete. |
 | 2026-11-10 | Record accepted03 CPU integration, explicit formal profile configuration and pre-run lifecycle checks; ready for fresh admission, not launched or GPU accepted. |
 | 2026-11-10 | Record02 CPU-ready6129aefe;retain03 integration and formal native/profile checks as unfinished,without extra GPU smoke. |
 | 2026-11-10 | Record merge55fba827 complete without accepting02/03 readiness or formal first-update profile verification. |
@@ -18,9 +19,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready均已满足；剩余fresh live资源准入与formal attempt冻结/提交。不是02在本cell内取得的GPU acceptance。
+**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready及fresh live准入均已满足；A已提交，正在等待原生startup/first-update结果。不是02在本cell内取得的GPU acceptance。
 
-**Status:** ready for formal admission / first-update verification, not launched —01 and D35 merge are accepted;02 CPU-ready `6129aefe` and03 integration `15186817` are primary accepted. Explicit formal profile configuration `ec002ea8` has four final submission/native-argv dry-runs PASS, each with the13 valued flags once, profile-enabled once, and no HF save/evaluation. Primary completed the pre-run lifecycle inspection before launch:16 targeted CPU cases PASS in2.63s. Exact commands, configuration and limits are in [the formal configuration report](../test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check). Fresh live admission and an actual formal attempt/ACK remain unverified. D16 verifies02 GPU/profile at A's first actual formal successful update, without an extra smoke; these preparation checks are not native GPU acceptance.
+**Status:** in-progress — A/full`exp-1110-014836-849060`submitted at2026-11-09T17:48:36Z on36 non-preemptible H800. Platform identity/local source/admission match; first state Starting. Rank0's8 H800 and the ready teacher's4 H800 are observed; full startup and first optimizer ACK remain pending. Exact command, resource/identity receipts and D16 route are in[the formal execution report](../test_report_2026-11-10_formal_runs.md). Runtime criteria below stay unchecked until verified; submission is not native/profile acceptance.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
