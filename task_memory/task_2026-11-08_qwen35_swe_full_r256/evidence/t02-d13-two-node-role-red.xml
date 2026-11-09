@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="0.307" timestamp="2026-11-09T13:18:58.246832+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[0]" time="0.005"><failure message="AssertionError: assert not True&#10; +  where True = exists()&#10; +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev0/records/test-job/A') / 'student-finished.json').exists">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_ne...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev0/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7faae99bffb0&gt;
+returncode = 0
+
+    @pytest.mark.parametrize("returncode", [0, 17, -15])
+    def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+        monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+        process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
+        monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
+        assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
+&gt;       assert not (directory / "student-finished.json").exists()
+E       AssertionError: assert not True
+E        +  where True = exists()
+E        +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev0/records/test-job/A') / 'student-finished.json').exists
+
+tests/fast/test_qwen35_pair_worker.py:397: AssertionError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[17]" time="0.004"><failure message="AssertionError: assert not True&#10; +  where True = exists()&#10; +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev1/records/test-job/A') / 'student-finished.json').exists">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_ne...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev1/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7faae99bff50&gt;
+returncode = 17
+
+    @pytest.mark.parametrize("returncode", [0, 17, -15])
+    def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+        monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+        process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
+        monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
+        assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
+&gt;       assert not (directory / "student-finished.json").exists()
+E       AssertionError: assert not True
+E        +  where True = exists()
+E        +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev1/records/test-job/A') / 'student-finished.json').exists
+
+tests/fast/test_qwen35_pair_worker.py:397: AssertionError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[-15]" time="0.004"><failure message="AssertionError: assert not True&#10; +  where True = exists()&#10; +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev2/records/test-job/A') / 'student-finished.json').exists">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_ne...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev2/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7faae99befc0&gt;
+returncode = -15
+
+    @pytest.mark.parametrize("returncode", [0, 17, -15])
+    def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+        monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+        process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
+        monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
+        assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
+&gt;       assert not (directory / "student-finished.json").exists()
+E       AssertionError: assert not True
+E        +  where True = exists()
+E        +    where exists = (PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_peer_nev2/records/test-job/A') / 'student-finished.json').exists
+
+tests/fast/test_qwen35_pair_worker.py:397: AssertionError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_allocation_uses_configured_replicas" time="0.002"><failure message="ValueError: Platform replica rank/count differs from the student allocation">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_allocat...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_allocati0/cloud/ycfeng/population', ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7faae99e1c40&gt;
+
+    def test_two_node_student_allocation_uses_configured_replicas(config, monkeypatch):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
+        monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
+        monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "10.0.0.8")
+        monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H800, memory, driver\n" * 8)
+&gt;       assert worker._allocation(1, "student", config, "A")["nodes"] == 2
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_pair_worker.py:408: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+rank = 1, role = 'student'
+config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_allocat...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3953/test_two_node_student_allocati0/cloud/ycfeng/population', ...}
+pair = 'A'
+
+    def _allocation(rank: int, role: str, config: dict, pair: str) -&gt; dict:
+        model = config["pairs"][pair][role]
+        nodes = model["nodes"] if role == "teacher" else 1
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 &lt;= rank &lt; nodes:
+&gt;           raise ValueError(f"Platform replica rank/count differs from the {role} allocation")
+E           ValueError: Platform replica rank/count differs from the student allocation
+
+tests/manual/agent_opd/qwen35_pair_worker.py:95: ValueError</failure></testcase></testsuite></testsuites>

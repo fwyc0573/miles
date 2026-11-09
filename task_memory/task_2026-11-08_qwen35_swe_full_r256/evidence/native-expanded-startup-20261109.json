@@ -1,0 +1,39 @@
+{
+  "observed_at": 1794206699.7553992,
+  "job": "exp-1109-144110-764758",
+  "creator": "i-fengyicheng",
+  "phase": "Pending",
+  "preemptible": "no",
+  "roles": {
+    "student": {
+      "replicas": 2,
+      "positiveTags": [
+        "H200"
+      ],
+      "requested_gpu_per_replica": 8,
+      "nfs_mounts": []
+    },
+    "teacher": {
+      "replicas": 1,
+      "positiveTags": [
+        "H200"
+      ],
+      "requested_gpu_per_replica": 2,
+      "nfs_mounts": []
+    }
+  },
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "student": {
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "Modification History": [
+    {"date": "2026-11-09", "change": "Compare retained valid-sample probability, seed, budget and weight-version metadata without a new GPU run."}
+  ],
+  "task_id": "T02-ROUND-ROBIN-RCA",
+  "raw_capture": "/data/ycfeng/tmp/T02-ROUND-ROBIN-RCA/sampling-weight-metadata-20261109-v2.json",
+  "source_paths": [
+    "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-round-robin/r256/student/A/exp-1109-010244-280221/training/bank_0.jsonl",
+    "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-smoke/r256/student/A/exp-1108-221043-570148/training/bank_0.jsonl"
+  ],
+  "new_slot_finished_records": 229,
+  "new_retained_samples": 227,
+  "old_slot_finished_records": 207,
+  "old_retained_samples": 206,
+  "shared_valid_source_uids": 184,
+  "shared_field_mismatch_counts": {
+    "probability_definition": 0,
+    "swe_sampling_seed": 0,
+    "max_response_len": 0,
+    "max_seq_len": 0
+  },
+  "shared_completion_token_sha256_matches": 70,
+  "shared_completion_token_sha256_differences": 114,
+  "new_observed_output_and_prefill_span_version_counts": {"0": 454},
+  "old_observed_output_and_prefill_span_version_counts": {"0": 412},
+  "all_retained_sample_seed_values": [1729],
+  "verdict": "PASS_retained_metadata_comparison_only",
+  "limits": "Compared by source UID, not file order. Null samples in failed slot records were explicitly retained as absent. Version labels and equal recorded probability definitions do not prove equal weight bytes or bitwise inference. Different completion hashes prevent attributing the entire capacity-count delta to routing. No log-probability tensors, per-engine latency or max-running2 safety were independently verified."
+}

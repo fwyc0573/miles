@@ -1,0 +1,1099 @@
+diff --git a/.claude/rules/launch-and-model-scripts.md b/.claude/rules/launch-and-model-scripts.md
+index a2d0e83b..cd3b0527 100644
+--- a/.claude/rules/launch-and-model-scripts.md
++++ b/.claude/rules/launch-and-model-scripts.md
+@@ -93,9 +93,10 @@ definition, and when substantially modifying an existing one.
+   `default_factory` for exactly this reason; a value captured at import leaks a
+   stale SLURM allocation into every snapshot.
+ - **Always pass `--num-gpus-per-node`,** so the GPU-count field is honoured
+-  under `--colocate` on a sub-8-GPU node. Drop `--rollout-num-gpus` wherever
+-  `--colocate` is set — `arguments.py` documents and implements it as ignored
+-  there.
++  under `--colocate` on a sub-8-GPU node. Omit `--rollout-num-gpus` when using
++  the training allocation alone; pass it explicitly when additional inference
++  GPUs are allocated. Use native `--sglang-config` server pools to express
++  different offload behavior for shared and dedicated inference GPUs.
+ - **A cluster that is already joined is expressed with
+   `MILES_SCRIPT_EXTERNAL_RAY=1`,** not by deleting the `ray start` from the
+   launcher.
+diff --git a/miles/utils/args/configs/scaling.py b/miles/utils/args/configs/scaling.py
+index fbddf11e..0416e09a 100644
+--- a/miles/utils/args/configs/scaling.py
++++ b/miles/utils/args/configs/scaling.py
+@@ -12,9 +12,9 @@ class ScalingConfig(BaseConfig):
+         int | None,
+         Arg(
+             help=(
+-                "Number of GPUs for inference. Note that when using --colocate, "
+-                "i.e. the training and the inference engines are on the same gpus, this param will be ignored and will be set as "
+-                "actor_num_gpus_per_node * actor_num_nodes."
++                "Number of GPUs for inference. With --colocate, an omitted value defaults to "
++                "actor_num_gpus_per_node * actor_num_nodes; an explicit value is preserved "
++                "and may include additional inference GPUs."
+             )
+         ),
+     ] = None
+diff --git a/miles/utils/arguments.py b/miles/utils/arguments.py
+index 4b999510..87813849 100644
+--- a/miles/utils/arguments.py
++++ b/miles/utils/arguments.py
+@@ -1504,12 +1504,12 @@ def miles_validate_args(args):
+                 f"Warning: colocate mode with --sglang-cuda-graph-backend-prefill="
+                 f"{args.sglang_cuda_graph_backend_prefill} may trigger NVLS OOM."
+             )
+-        if args.rollout_num_gpus != args.actor_num_gpus_per_node * args.actor_num_nodes:
++        if args.rollout_num_gpus is None:
++            args.rollout_num_gpus = args.actor_num_gpus_per_node * args.actor_num_nodes
+             logger.info(
+-                f"rollout_num_gpus {args.rollout_num_gpus} != actor_num_gpus_per_node {args.actor_num_gpus_per_node} "
+-                f"* actor_num_nodes {args.actor_num_nodes}, overriding rollout_num_gpus to match actor_num_gpus_per_node * actor_num_nodes."
++                f"Colocate mode: defaulting rollout_num_gpus to actor_num_gpus_per_node "
++                f"* actor_num_nodes ({args.rollout_num_gpus})."
+             )
+-            args.rollout_num_gpus = args.actor_num_gpus_per_node * args.actor_num_nodes
+ 
+     if args.debug_train_only:
+         args.rollout_num_gpus = 0
+diff --git a/tests/fast/backends/sglang_utils/test_sglang_config.py b/tests/fast/backends/sglang_utils/test_sglang_config.py
+index 87702a5c..4ddd56c0 100644
+--- a/tests/fast/backends/sglang_utils/test_sglang_config.py
++++ b/tests/fast/backends/sglang_utils/test_sglang_config.py
+@@ -3,6 +3,7 @@ from __future__ import annotations
+ from argparse import Namespace
+ 
+ import pytest
++from tests.fast.fixtures.args_fixtures import parse_fsdp_test_config
+ from tests.fast.fixtures.sglang_config_fixtures import resolve_sglang_config, resolve_sglang_config_and_scaling
+ 
+ from miles.backends.sglang_utils.sglang_api_client import WorkerType
+@@ -417,6 +418,96 @@ class TestEngineOffset:
+         assert scaling.groups["eval"][0].engine_offset == 4
+ 
+ 
++class TestValidatedRolloutGpuCount:
++    def test_explicit_colocated_rollout_gpus_support_shared_and_dedicated_engines(self, tmp_path):
++        """The real validation chain must preserve rollout GPUs outside the shared training span."""
++        config_path = tmp_path / "sglang.yaml"
++        config_path.write_text(
++            "sglang:\n"
++            "  - name: default\n"
++            "    server_groups:\n"
++            "      - worker_type: regular\n"
++            "        num_gpus: 8\n"
++            "      - worker_type: regular\n"
++            "        num_gpus: 8\n"
++        )
++        # FSDP's CPU parser exercises the shared Miles validator and native SGLang
++        # config parser without Megatron's GPU-dependent backend validation.
++        args = parse_fsdp_test_config(
++            "--actor-num-gpus-per-node",
++            "8",
++            "--num-gpus-per-node",
++            "8",
++            "--colocate",
++            "--rollout-num-gpus",
++            "16",
++            "--rollout-num-gpus-per-engine",
++            "2",
++            "--sglang-max-running-requests",
++            "1",
++            "--sglang-config",
++            str(config_path),
++        )
++
++        assert args.rollout_num_gpus == 16
++        assert args.actor_num_nodes == 1
++        assert args.actor_num_gpus_per_node == 8
++        assert args.colocate is True
++        assert args.offload_train is True
++        assert args.offload_rollout is True
++        [model] = args.sglang.models
++        assert model.num_server_cells(args.sglang_scaling) == 8
++        assert [group.num_gpus_per_engine for group in model.server_groups] == [2, 2]
++        assert [args.sglang.get_value("max_running_requests", group) for group in model.server_groups] == [1, 1]
++        assert [group.needs_offload for group in model.server_groups] == [True, False]
++        assert "enable_memory_saver" not in model.server_groups[0].overrides
++        assert model.server_groups[1].overrides["enable_memory_saver"] is False
++        assert [group.num_gpus for group in args.sglang_scaling.groups["default"]] == [8, 8]
++        assert [group.gpu_offset for group in args.sglang_scaling.groups["default"]] == [0, 8]
++        assert [group.engine_offset for group in args.sglang_scaling.groups["default"]] == [0, 4]
++
++    @pytest.mark.parametrize(
++        ("extra", "expected_gpus", "expected_engines", "expected_offload"),
++        [
++            (["--colocate"], 8, 4, True),
++            (["--colocate", "--rollout-num-gpus", "8"], 8, 4, True),
++            (["--rollout-num-gpus", "16"], 16, 8, False),
++            ([], None, 0, False),
++            (["--colocate", "--debug-train-only", "--rollout-num-gpus", "16"], 0, 0, True),
++        ],
++        ids=[
++            "colocated-default",
++            "colocated-explicit-shared",
++            "disaggregated-explicit",
++            "disaggregated-unset",
++            "train-only",
++        ],
++    )
++    def test_existing_rollout_gpu_defaults_and_modes_are_preserved(
++        self, extra, expected_gpus, expected_engines, expected_offload
++    ):
++        """Only an omitted colocated count defaults; disaggregation and train-only keep their semantics."""
++        args = parse_fsdp_test_config(
++            "--actor-num-gpus-per-node",
++            "8",
++            "--num-gpus-per-node",
++            "8",
++            "--rollout-num-gpus-per-engine",
++            "2",
++            *extra,
++        )
++
++        assert args.rollout_num_gpus == expected_gpus
++        assert args.actor_num_nodes == 1
++        assert args.actor_num_gpus_per_node == 8
++        assert args.offload_train is expected_offload
++        assert args.offload_rollout is expected_offload
++        assert sum(model.num_server_cells(args.sglang_scaling) for model in args.sglang.models) == expected_engines
++        assert all(
++            group.needs_offload is expected_offload for model in args.sglang.models for group in model.server_groups
++        )
++
++
+ class TestNeedsOffload:
+     @pytest.mark.parametrize("multi_lora", [False, True])
+     def test_no_offload_flag_means_no_group_needs_offload(self, tmp_path, multi_lora):
+diff --git a/tests/fast/test_megatron_scoring_lifetime.py b/tests/fast/test_megatron_scoring_lifetime.py
+index 2b47f774..33ed1c9b 100644
+--- a/tests/fast/test_megatron_scoring_lifetime.py
++++ b/tests/fast/test_megatron_scoring_lifetime.py
+@@ -470,6 +470,7 @@ def test_student_preflight_precedes_training_preparation(tmp_path, monkeypatch):
+     args = SimpleNamespace(
+         swe_config={"training": {"release_scoring_output": True}, "image": "fixture-image"},
+         megatron_path="fixture-megatron",
++        student_nodes=1,
+         pair="A",
+         teacher_url="fixture-teacher",
+     )
+@@ -481,6 +482,7 @@ def test_student_preflight_precedes_training_preparation(tmp_path, monkeypatch):
+ 
+     monkeypatch.setattr(run_swe_opd, "_training_args", training)
+     monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "fixture")
++    run_swe_opd._prepare_node(args, tmp_path, 0)
+     with pytest.raises(RuntimeError, match="stop before native launch"):
+         run_swe_opd._prepare_training(args, tmp_path)
+     assert calls == ["preflight", "training_args"]
+diff --git a/tests/fast/test_qwen35_monitoring.py b/tests/fast/test_qwen35_monitoring.py
+index c3e6954a..5c7f5614 100644
+--- a/tests/fast/test_qwen35_monitoring.py
++++ b/tests/fast/test_qwen35_monitoring.py
+@@ -529,7 +529,7 @@ def _write_teacher_ready(run_dir):
+                "max_running_requests": 1, "chunked_prefill_size": 8192}
+     teacher = {"path": "/models/frozen-teacher", "nodes": 1, "tp_size": 8, "mem_fraction_static": 0.7,
+                "max_running_requests": 1, "chunked_prefill_size": 8192}
+-    config = {"pairs": {"A": {"student": student, "teacher": teacher}}, "run_root": str(root),
++    config = {"pairs": {"A": {"student": student, "teacher": teacher}}, "run_root": str(root), "gpu_tag": "H200",
+               "shared_dir": str(root / "shared"), "population_dir": str(root / "population"),
+               "teacher_port": 30000, "teacher_dist_port": 29500, "context_tokens": CONTEXT_TOKENS,
+               "startup_timeout": 1800, "request_timeout": 60, "num_rollout": 100}
+diff --git a/tests/fast/test_qwen35_pair_worker.py b/tests/fast/test_qwen35_pair_worker.py
+index 66e9afe7..625dfcae 100644
+--- a/tests/fast/test_qwen35_pair_worker.py
++++ b/tests/fast/test_qwen35_pair_worker.py
+@@ -10,6 +10,8 @@ from types import SimpleNamespace
+ 
+ import pytest
+ from tests.manual.agent_opd import qwen35_pair_worker as worker
++from tests.manual.agent_opd import rjob_warmup as rendezvous
++from tests.manual.agent_opd import run_qwen35_opd as native
+ from tests.manual.agent_opd import submit_qwen35 as submitter
+ 
+ 
+@@ -384,3 +386,326 @@ def test_real_cpu_child_failure_is_recorded_and_auxiliary_tail_failure_is_soft(c
+     (directory / "student-tail.log").mkdir()
+     assert worker._run_student(config, "A", 0, directory, tmp_path / "local") == 17
+     assert json.loads((directory / "student-finished.json").read_text())["returncode"] == 17
++
++
++@pytest.mark.parametrize("returncode", [0, 17, -15])
++def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
++    monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
++    process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
++    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
++    assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
++    assert not (directory / "student-finished.json").exists()
++    status = json.loads((directory / "student-status-1.json").read_text())
++    assert status["returncode"] == returncode and status["rank"] == 1
++
++
++def test_two_node_student_allocation_uses_configured_replicas(config, monkeypatch):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
++    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
++    monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "10.0.0.8")
++    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H800, memory, driver\n" * 8)
++    assert worker._allocation(1, "student", config, "A")["nodes"] == 2
++
++
++@pytest.fixture
++def student_node(tmp_path, monkeypatch):
++    args = SimpleNamespace(
++        pair="A", student=tmp_path / "student", teacher=tmp_path / "teacher", student_nodes=2,
++        output_root=tmp_path / "artifacts", shared_dir=tmp_path / "rendezvous", local_root=tmp_path / "local",
++        gpu_type="H200", gpus_per_node=8, startup_timeout=3, megatron_path="/root/Megatron-LM", num_rollout=2,
++    )
++    records, cloud = args.shared_dir / "A" / "test-job", args.output_root / "A" / "test-job"
++    events, submissions = [], []
++    clock = SimpleNamespace(now=0, on_sleep=lambda: None)
++    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
++    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
++    monkeypatch.setenv("KUBEBRAIN_REPLICA", "0")
++    monkeypatch.setenv("PORT_AUTO0", "20000")
++    monkeypatch.setenv("PORT_AUTO1", "20001")
++    monkeypatch.setattr(native, "_check_tokenizers", lambda *args: events.append("tokenizers"))
++    monkeypatch.setattr(native, "_record_memory", lambda path, stopped: path.write_text('{"counters": {}}\n'))
++    monkeypatch.setattr(native.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H200, memory, driver\n" * 8)
++
++    def command(argv, **kwargs):
++        events.append(("ray", argv))
++        return SimpleNamespace(returncode=0)
++
++    def backend(config):
++        return SimpleNamespace(execute_train=lambda **kwargs: submissions.append((config.num_nodes, kwargs)))
++
++    def sleep(seconds):
++        clock.now += seconds
++        clock.on_sleep()
++
++    monkeypatch.setattr(native.subprocess, "run", command)
++    monkeypatch.setattr(native.U.ExecuteTrainConfig, "create_backend", backend)
++    monkeypatch.setattr(rendezvous.ray, "init", lambda **kwargs: events.append("ray-init"))
++    monkeypatch.setattr(rendezvous.ray, "shutdown", lambda: events.append("ray-shutdown"))
++    monkeypatch.setattr(rendezvous.ray, "nodes", lambda: [
++        {"Alive": True, "Resources": {"GPU": 8}, "NodeManagerAddress": f"10.0.0.{rank + 7}", "NodeID": str(rank)}
++        for rank in range(int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]))
++    ])
++    monkeypatch.setattr(rendezvous.time, "monotonic", lambda: clock.now)
++    monkeypatch.setattr(rendezvous.time, "sleep", sleep)
++
++    def prepare(args, run):
++        events.append("prepare-driver")
++        return "--actor-num-nodes 1 --actor-num-gpus-per-node 8", {"megatron_model_type": "qwen3.5-4B", "final_hf": None}
++
++    return SimpleNamespace(
++        args=args, records=records, cloud=cloud, events=events, submissions=submissions, clock=clock, prepare=prepare,
++    )
++
++
++def test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes(student_node):
++    node = student_node
++    native._run(node.args, prepare_training=node.prepare)
++    assert len(node.submissions) == 1 and node.submissions[0][0] == 1
++    assert node.submissions[0][1]["num_gpus_per_node"] == 8
++    assert "MILES_NODE_EXTERNAL_IP" not in node.submissions[0][1]["extra_env_vars"]
++    assert len(json.loads((node.records / "cluster.json").read_text())["nodes"]) == 2
++    assert json.loads((node.records / "finished.json").read_text())["status"] == "native_execution_succeeded"
++
++
++@pytest.mark.parametrize("status", ["native_execution_succeeded", "failed"])
++def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
++    node = student_node
++    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
++    node.records.mkdir(parents=True)
++    node.cloud.mkdir(parents=True)
++    (node.cloud / "head-owned").write_text("preserved")
++    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
++    rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
++    completion = {"status": status, "rank": 0, "sentinel": "only the driver wrote this"}
++
++    def finish():
++        if node.clock.now == 2:
++            rendezvous._write_json(node.records / "finished.json", completion)
++
++    node.clock.on_sleep = finish
++    if status == "failed":
++        with pytest.raises(RuntimeError, match="driver replica failed"):
++            native._run(node.args, prepare_training=node.prepare)
++    else:
++        native._run(node.args, prepare_training=node.prepare)
++    assert node.clock.now == 2 and node.submissions == [] and "prepare-driver" not in node.events
++    assert (node.cloud / "head-owned").read_text() == "preserved"
++    assert json.loads((node.records / "finished.json").read_text()) == completion
++    assert not (node.records / "training.json").exists() and not (node.records / "launch.json").exists()
++    starts = [argv for name, argv in (event for event in node.events if isinstance(event, tuple)) if "start" in argv]
++    assert len(starts) == 1 and "--head" not in starts[0] and "--address" in starts[0]
++
++
++def test_two_node_native_peer_missing_ray_head_times_out_before_driver(student_node, monkeypatch):
++    node = student_node
++    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
++    node.records.mkdir(parents=True)
++    node.cloud.mkdir(parents=True)
++    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
++    with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
++        native._run(node.args, prepare_training=node.prepare)
++    assert node.clock.now == 3 and node.submissions == []
++    assert not (node.records / "finished.json").exists()
++
++
++@pytest.mark.parametrize("error", [RuntimeError("driver failed"), SystemExit(143)])
++def test_two_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
++    node = student_node
++
++    def fail(*args):
++        raise error
++
++    with pytest.raises(type(error)):
++        native._run(node.args, prepare_training=fail)
++    assert json.loads((node.records / "finished.json").read_text())["status"] == "failed"
++    assert node.submissions == []
++
++
++@pytest.mark.parametrize("rank", [0, 1])
++def test_two_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
++    node = student_node
++    monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
++    if rank:
++        node.records.mkdir(parents=True)
++        node.cloud.mkdir(parents=True)
++        rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
++        rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
++        rendezvous._write_json(node.records / "finished.json", {"status": "native_execution_succeeded"})
++    prepared = []
++
++    def prepare_node(args, run, node_rank):
++        assert args.megatron_path == "/root/Megatron-LM" and run == node.cloud and node_rank == rank
++        assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
++        archive = run / "megatron_scoring_lifetime" / "source" / f"rank-{node_rank}"
++        archive.mkdir(parents=True)
++        (archive / "source-prepared").write_text("pinned container source prepared")
++        prepared.append(archive)
++        return {"archive_dir": str(archive)}
++
++    native._run(node.args, prepare_training=node.prepare, prepare_node=prepare_node)
++    assert len(prepared) == 1 and prepared[0].name == f"rank-{rank}"
++    if rank:
++        assert node.submissions == [] and "prepare-driver" not in node.events
++
++
++def test_two_node_native_peer_source_rejection_prevents_ray_join(student_node, monkeypatch):
++    node = student_node
++    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
++    node.records.mkdir(parents=True)
++    node.cloud.mkdir(parents=True)
++    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
++
++    def reject(*args):
++        raise ValueError("Unrecognized scoring schedule")
++
++    with pytest.raises(ValueError, match="Unrecognized scoring schedule"):
++        native._run(node.args, prepare_training=node.prepare, prepare_node=reject)
++    assert node.submissions == []
++    assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
++    assert not (node.records / "finished.json").exists()
++
++
++def test_two_node_native_failed_local_initialization_preserves_preexisting_directory(student_node):
++    node = student_node
++    local = node.args.local_root / "qo-test-job"
++    local.mkdir(parents=True)
++    sentinel = local / "user-owned"
++    sentinel.write_text("do not remove")
++    with pytest.raises(FileExistsError):
++        native._run(node.args, prepare_training=node.prepare)
++    assert sentinel.read_text() == "do not remove"
++
++
++@pytest.mark.parametrize("rank", [0, 1])
++def test_two_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, rank):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
++    monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
++    clock = SimpleNamespace(now=0)
++    child = SimpleNamespace(returncode=None, poll=lambda: None)
++    child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
++    stopped = []
++
++    def sleep(seconds):
++        clock.now += seconds
++        marker = "student-finished.json" if rank else "student-status-1.json"
++        worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
++
++    def stop(process):
++        stopped.append(process)
++        process.returncode = -15
++
++    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
++    monkeypatch.setattr(worker.time, "sleep", sleep)
++    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: child)
++    monkeypatch.setattr(worker, "_stop_child", stop)
++    with pytest.raises(RuntimeError, match="student.*replica.*failed"):
++        worker._run_student(config, "A", rank, directory, tmp_path / "local")
++    assert clock.now == 1 and stopped == [child]
++    result = json.loads((directory / "student-finished.json").read_text())
++    assert result["rank"] == 0
++    if rank:
++        assert result["returncode"] == 17
++
++
++def test_two_node_role_peer_absent_teacher_readiness_is_bounded_without_global_completion(config, tmp_path, monkeypatch):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    config["startup_timeout"] = 3
++    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
++    (directory / "teacher-ready.json").unlink()
++    clock = SimpleNamespace(now=0)
++    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
++    monkeypatch.setattr(worker.time, "sleep", lambda seconds: setattr(clock, "now", clock.now + seconds))
++    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: pytest.fail("Teacher was not ready"))
++    with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
++        worker._run_student(config, "A", 1, directory, tmp_path / "local")
++    assert clock.now == 3 and not (directory / "student-finished.json").exists()
++
++
++def test_two_node_student_command_transports_only_ray_node_count(config, tmp_path):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
++    args = native._parser().parse_args(argv[4:])
++    assert args.student_nodes == 2 and args.gpus_per_node == 8 and args.tensor_model_parallel_size == 2
++    train = native._training_args(args, tmp_path / "run")
++    assert "--actor-num-nodes 1" in train and "--actor-num-gpus-per-node 8" in train
++
++
++def test_single_node_native_default_retains_driver_and_record_paths(student_node, monkeypatch):
++    node = student_node
++    del node.args.student_nodes
++    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "1")
++    native._run(node.args, prepare_training=node.prepare)
++    assert node.submissions[0][0] == 1
++    assert (node.records / "launch.json").exists() and (node.records / "training.json").exists()
++    assert not (node.records / "finished.json").exists() and not (node.records / "run-ready.json").exists()
++
++
++def test_two_node_native_sigterm_stops_driver_and_publishes_failure(student_node, monkeypatch):
++    node = student_node
++    previous = signal.getsignal(signal.SIGTERM)
++    monkeypatch.setattr(native.U.ExecuteTrainConfig, "create_backend", lambda config: SimpleNamespace(
++        execute_train=lambda **kwargs: os.kill(os.getpid(), signal.SIGTERM),
++    ))
++    with pytest.raises(SystemExit) as caught:
++        native._run(node.args, prepare_training=node.prepare)
++    assert caught.value.code == 143 and signal.getsignal(signal.SIGTERM) == previous
++    assert json.loads((node.records / "finished.json").read_text())["error_type"] == "SystemExit"
++    assert not (node.args.local_root / "qo-test-job").exists()
++
++
++@pytest.mark.parametrize("rank", [0, 1])
++def test_two_node_role_real_child_is_cancelled_after_other_replica_failure(config, tmp_path, monkeypatch, rank):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
++    Path(config["repo"]).mkdir()
++    marker = "student-finished.json" if rank else "student-status-1.json"
++    worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
++    with pytest.raises(RuntimeError, match="student.*replica.*failed"):
++        worker._run_student(
++            config, "A", rank, directory, tmp_path / "local",
++            command_builder=lambda *args: [sys.executable, "-B", "-c", "import time; time.sleep(60)"],
++        )
++    own = json.loads((directory / f"student-status-{rank}.json").read_text())
++    assert own["returncode"] == -signal.SIGTERM
++    assert json.loads((directory / "student-finished.json").read_text())["rank"] == 0
++
++
++def test_two_node_teacher_ignores_helper_completion_until_driver_finishes(config, tmp_path, monkeypatch):
++    config["pairs"]["A"]["student"]["nodes"] = 2
++    directory, ready = _execution(config, tmp_path, monkeypatch, "teacher")
++    clock = SimpleNamespace(now=0)
++    process = SimpleNamespace(poll=lambda: None)
++    stopped = []
++
++    def sleep(seconds):
++        clock.now += seconds
++        if clock.now == 1:
++            worker._write_json(directory / "student-status-1.json", {"status": "native_execution_succeeded", "rank": 1})
++        else:
++            assert not stopped and not (directory / "student-finished.json").exists()
++            worker._write_json(directory / "student-finished.json", {"status": "native_execution_succeeded", "rank": 0})
++
++    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
++    monkeypatch.setattr(worker.time, "sleep", sleep)
++    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
++    monkeypatch.setattr(worker, "_wait_teacher_ready", lambda *args: ready["model_info"])
++    monkeypatch.setattr(worker, "_stop_child", stopped.append)
++    assert worker._run_teacher(config, "A", 0, directory, tmp_path / "local") == 0
++    assert clock.now == 2 and stopped == [process]
++
++
++def test_two_node_native_existing_run_does_not_overwrite_driver_records(student_node):
++    node = student_node
++    node.records.mkdir(parents=True)
++    node.cloud.mkdir(parents=True)
++    original = {"status": "native_execution_succeeded", "sentinel": "another attempt owns these records"}
++    for name in ("training.json", "finished.json"):
++        rendezvous._write_json(node.records / name, original)
++    with pytest.raises(FileExistsError):
++        native._run(node.args, prepare_training=node.prepare)
++    assert json.loads((node.records / "training.json").read_text()) == original
++    assert json.loads((node.records / "finished.json").read_text()) == original
+diff --git a/tests/fast/test_swe_launcher.py b/tests/fast/test_swe_launcher.py
+index a0ddcd64..e2e5eb77 100644
+--- a/tests/fast/test_swe_launcher.py
++++ b/tests/fast/test_swe_launcher.py
+@@ -176,9 +176,76 @@ def test_native_router_policy_preserves_default_and_typed_transport(tmp_path, mo
+     assert parse_router_args_argv(router_args_to_argv(router)).policy == expected
+ 
+ 
++def test_expanded_student_bootstrap_transports_node_preflight(tmp_path, monkeypatch):
++    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
++    config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
++    config["startup_timeout"] = config["pairs"]["A"]["startup_timeout"]
++    calls = []
++    monkeypatch.setattr(run_swe_opd.native, "_run", lambda args, **kwargs: calls.append((args, kwargs)))
++    run_swe_opd._train(config, "A", "http://teacher/generate")
++    args, callbacks = calls[0]
++    assert args.student_nodes == 2 and args.gpus_per_node == 8
++    assert callbacks["prepare_training"] is run_swe_opd._prepare_training
++    assert callbacks["prepare_node"] is run_swe_opd._prepare_node
++
++
++@pytest.mark.parametrize("nodes,rank", [(1, 0), (2, 0), (2, 1)])
++def test_scoring_source_preflight_runs_in_each_container(tmp_path, monkeypatch, nodes, rank):
++    from types import SimpleNamespace
++
++    config = {"image": "pinned-image", "training": {"release_scoring_output": True}}
++    args = SimpleNamespace(swe_config=config, student_nodes=nodes, megatron_path=str(tmp_path / "Megatron-LM"))
++    calls = []
++    source = {"source_sha256": "verified-source"}
++    monkeypatch.setattr(
++        run_swe_opd.megatron_scoring_lifetime, "prepare_source",
++        lambda path, **kwargs: calls.append((path, kwargs)) or source,
++    )
++    receipt = run_swe_opd._prepare_node(args, tmp_path / "run", rank)
++    archive = tmp_path / "run/megatron_scoring_lifetime/source"
++    if nodes == 2:
++        archive /= f"rank-{rank}"
++    assert calls == [(Path(args.megatron_path), {"image": "pinned-image", "release": True, "archive_dir": archive})]
++    assert receipt == {"megatron_scoring_lifetime": source}
++
++
++def test_expanded_rollout_recipe_preserves_eight_gpu_training(tmp_path, monkeypatch):
++    from miles.utils.args import custom_function
++    from miles.utils.arguments import get_miles_extra_args_provider
++
++    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
++    config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
++    config["protocol"] = "r256"
++    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "expanded"))
++    for flag, value in {
++        "--actor-num-nodes": "1",
++        "--actor-num-gpus-per-node": "8",
++        "--tensor-model-parallel-size": "2",
++        "--context-parallel-size": "1",
++        "--rollout-num-gpus": "16",
++        "--sglang-config": config["sglang_config"],
++    }.items():
++        assert argv.count(flag) == 1
++        assert argv[argv.index(flag) + 1] == value
++    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
++    parser = argparse.ArgumentParser()
++    get_miles_extra_args_provider()(parser)
++    parsed, unknown = parser.parse_known_args(argv)
++    assert "--rollout-num-gpus" not in unknown and "--sglang-config" not in unknown
++    custom_function.resolve_custom_function_configs(parsed)
++    assert parsed.rollout_num_gpus == 16
++    assert parsed.sglang_config == config["sglang_config"]
++    assert config["pairs"]["A"]["student"]["nodes"] == 2
++
++
+ @pytest.mark.parametrize(
+     "profile",
+-    ["deepswe_capacity_smoke_config.json", "deepswe_capacity_round_robin_config.json", "deepswe_formal_config.json"],
++    [
++        "deepswe_capacity_smoke_config.json",
++        "deepswe_capacity_round_robin_config.json",
++        "deepswe_capacity_expanded_config.json",
++        "deepswe_formal_config.json",
++    ],
+ )
+ async def test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook(tmp_path, monkeypatch, profile):
+     import asyncio
+diff --git a/tests/manual/agent_opd/qwen35_pair_worker.py b/tests/manual/agent_opd/qwen35_pair_worker.py
+index 567f860f..a3bc1c47 100644
+--- a/tests/manual/agent_opd/qwen35_pair_worker.py
++++ b/tests/manual/agent_opd/qwen35_pair_worker.py
+@@ -85,12 +85,20 @@ def _load_config(path: Path, pair: str) -> dict:
+         raise ValueError("Teacher node count must be positive")
+     if teacher["tp_size"] != teacher["nodes"] * teacher["gpus_per_node"]:
+         raise ValueError("Teacher TP must span exactly its separately allocated GPUs")
++    _student_nodes(config, pair)
+     return config
+ 
+ 
++def _student_nodes(config: dict, pair: str) -> int:
++    nodes = config["pairs"][pair]["student"].get("nodes", 1)
++    if type(nodes) is not int or nodes not in (1, 2):
++        raise ValueError("Student allocation requires one or two nodes")
++    return nodes
++
++
+ def _allocation(rank: int, role: str, config: dict, pair: str) -> dict:
+     model = config["pairs"][pair][role]
+-    nodes = model["nodes"] if role == "teacher" else 1
++    nodes = model["nodes"] if role == "teacher" else _student_nodes(config, pair)
+     if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
+         raise ValueError(f"Platform replica rank/count differs from the {role} allocation")
+     rows = _gpu_devices(config["gpu_tag"], model["gpus_per_node"])
+@@ -119,6 +127,7 @@ def _teacher_command(config: dict, pair: str, rank: int, head: dict) -> list[str
+ 
+ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[str]:
+     student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
++    nodes = _student_nodes(config, pair)
+     # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+     return [
+         sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+@@ -134,7 +143,7 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
+         "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+         "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+         "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+-    ]
++    ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+ 
+ 
+ def _check_server(process: subprocess.Popen) -> None:
+@@ -213,6 +222,22 @@ def _log_tail(source: Path, destination: Path) -> None:
+         print("QWEN35_LOG_TAIL_UNVERIFIED", str(destination), type(error).__name__, str(error), flush=True)
+ 
+ 
++def _wait_student_child(process: subprocess.Popen, rank: int, directory: Path, timeout: int) -> int:
++    marker = directory / ("student-status-1.json" if rank == 0 else "student-finished.json")
++    while True:
++        code = process.poll()
++        if marker.exists():
++            result = json.loads(marker.read_text())
++            if result["status"] == "failed":
++                raise RuntimeError(f"The other student replica failed: {result}")
++            if rank != 0 and code is None:
++                # The driver has finished; bound helper drain with the existing startup budget.
++                return process.wait(timeout=timeout)
++        if code is not None:
++            return code
++        time.sleep(1)
++
++
+ def _run_teacher(config: dict, pair: str, rank: int, directory: Path, local: Path) -> int:
+     process = None
+     log_path = Path(config["run_root"]) / "teacher" / pair / directory.parent.name / f"rank-{rank}.log"
+@@ -270,24 +295,32 @@ def _run_student(
+     config: dict, pair: str, rank: int, directory: Path, local: Path, *, command_builder=None,
+ ) -> int:
+     process = None
+-    log_path = Path(config["run_root"]) / "student" / pair / f"{directory.parent.name}.log"
+-    result = {"status": "failed", "job": directory.parent.name, "pair": pair, "returncode": None}
++    nodes = _student_nodes(config, pair)
++    suffix = "" if nodes == 1 else f"-rank-{rank}"
++    log_path = Path(config["run_root"]) / "student" / pair / f"{directory.parent.name}{suffix}.log"
++    result = {"status": "failed", "job": directory.parent.name, "pair": pair, "rank": rank, "returncode": None}
+     try:
+         _worker_environment(local)
+         evidence = _allocation(rank, "student", config, pair)
+-        _record_receipt(directory / "student-node.json", evidence)
++        _record_receipt(directory / ("student-node.json" if nodes == 1 else f"student-node-{rank}.json"), evidence)
+         ready = _wait_file(directory / "teacher-ready.json", time.monotonic() + config["startup_timeout"])
+         if (ready["status"], ready["job"], ready["pair"], ready["model_info"]["model_path"]) != (
+             "ready", result["job"], pair, config["pairs"][pair]["teacher"]["path"],
+         ) or ready["url"] != f"http://{ready['ip']}:{config['teacher_port']}/generate":
+             raise ValueError("Teacher readiness identity/endpoint differs from the current job/pair/source")
+         command = (command_builder or _student_command)(config, pair, ready, local)
+-        _record_receipt(directory / "student-launch.json", {**evidence, "argv": command, "teacher_url": ready["url"]})
++        _record_receipt(
++            directory / ("student-launch.json" if nodes == 1 else f"student-launch-{rank}.json"),
++            {**evidence, "argv": command, "teacher_url": ready["url"]},
++        )
+         # Do not create the job directory: the native CLI owns its exist_ok=False output creation.
+         log_path.parent.mkdir(parents=True, exist_ok=True)
+         with log_path.open("x") as log:
+             process = subprocess.Popen(command, cwd=config["repo"], stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+-            result["returncode"] = process.wait()
++            result["returncode"] = (
++                process.wait() if nodes == 1
++                else _wait_student_child(process, rank, directory, config["startup_timeout"])
++            )
+         result["status"] = "native_execution_succeeded" if result["returncode"] == 0 else "failed"
+         return result["returncode"]
+     except BaseException as error:
+@@ -299,10 +332,15 @@ def _run_student(
+                 _stop_child(process)
+                 result["returncode"] = process.returncode
+         finally:
+-            # Required lifecycle marker, including validation, readiness and native execution errors.
+-            _write_json(directory / "student-finished.json", result)
++            try:
++                if nodes != 1:
++                    _write_json(directory / f"student-status-{rank}.json", result)
++            finally:
++                # Only the driver owner may release the teacher, including on failure.
++                if rank == 0:
++                    _write_json(directory / "student-finished.json", result)
+         if process is not None:
+-            _log_tail(log_path, directory / "student-tail.log")
++            _log_tail(log_path, directory / ("student-tail.log" if nodes == 1 else f"student-tail-{rank}.log"))
+ 
+ 
+ def _terminate(signum, frame) -> None:
+diff --git a/tests/manual/agent_opd/run_qwen35_opd.py b/tests/manual/agent_opd/run_qwen35_opd.py
+index 38cdcf38..9f3b03cc 100644
+--- a/tests/manual/agent_opd/run_qwen35_opd.py
++++ b/tests/manual/agent_opd/run_qwen35_opd.py
+@@ -35,8 +35,10 @@ import json
+ import os
+ import shlex
+ import shutil
++import signal
+ import subprocess
+ import sys
++import time
+ import traceback
+ from pathlib import Path
+ from threading import Event, Thread
+@@ -53,6 +55,7 @@ from tests.manual.agent_opd.rjob_warmup import (
+     _record_memory,
+     _retain_failure_diagnostics,
+     _start_ray,
++    _wait_file,
+     _worker_environment,
+     _write_json,
+ )
+@@ -84,6 +87,7 @@ def _parser() -> argparse.ArgumentParser:
+     parser.add_argument("--teacher-url", required=True, help="Full native teacher /generate URL")
+     parser.add_argument("--gpu-type", required=True, help="Expected GPU model from the parent allocation")
+     parser.add_argument("--gpus-per-node", type=int, required=True)
++    parser.add_argument("--student-nodes", type=int, choices=(1, 2), default=1, help="Ray allocation; trainer remains one node")
+     parser.add_argument("--student-engine-gpus", type=int, required=True)
+     parser.add_argument("--tensor-model-parallel-size", type=int, help="Defaults to the dense student recipe's TP")
+     parser.add_argument("--max-tokens-per-gpu", type=int, required=True)
+@@ -308,30 +312,96 @@ def _prepare_training(args, run: Path) -> tuple[str, dict]:
+     return train_args, receipt
+ 
+ 
+-def _run(args, *, prepare_training=_prepare_training) -> None:
+-    if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+-        raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
++def _terminate(signum, frame) -> None:
++    raise SystemExit(128 + signum)
++
++
++def _wait_driver(records: Path) -> dict:
++    # The role wrapper supervises both children and cancels peers on driver exit.
++    # Healthy training has no guessed wall-clock limit; startup waits remain bounded.
++    completion = records / "finished.json"
++    while not completion.exists():
++        time.sleep(1)
++    result = json.loads(completion.read_text())
++    if result["status"] != "native_execution_succeeded":
++        raise RuntimeError(f"The student driver replica failed: {result}")
++    return result
++
++
++def _stop_node(local: Path, records: Path, cloud: Path, outcome: dict) -> None:
++    rank = outcome["rank"]
++    try:
++        _record_receipt(
++            records / ("memory.json" if rank == 0 else f"memory-{rank}.json"),
++            _memory_receipt(local / "memory.jsonl"),
++        )
++    except (OSError, ValueError) as error:
++        print("QWEN35_MEMORY_UNVERIFIED", type(error).__name__, str(error), flush=True)
++    if outcome["status"] == "failed":
++        _retain_failure_diagnostics(local, cloud, rank)
++    try:
++        subprocess.run([sys.executable, "-m", "ray.scripts.scripts", "stop", "--force"], timeout=60, check=False)
++        shutil.rmtree(local)
++    except (OSError, subprocess.TimeoutExpired) as error:
++        print("QWEN35_WORKER_CLEANUP_UNVERIFIED", type(error).__name__, str(error), flush=True)
++
++
++def _run(args, *, prepare_training=_prepare_training, prepare_node=None) -> None:
++    """Prepare each container before Ray join, then run the driver only on rank zero.
++
++    prepare_node(args, run, rank) returns optional receipt fields. It owns any
++    container-local dependency preflight; prepare_training only builds the driver.
++    """
++    nodes = getattr(args, "student_nodes", 1)
++    rank = int(os.environ["KUBEBRAIN_REPLICA"])
++    if type(nodes) is not int or nodes not in (1, 2) or int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
++        raise ValueError("Platform replica rank/count differs from the student Ray allocation")
+     job = os.environ["KUBEBRAIN_RJOB_NAME"]
+     cloud = args.output_root / args.pair / job
+-    cloud.mkdir(parents=True, exist_ok=False)
+     records = args.shared_dir / args.pair / job
+-    records.mkdir(parents=True, exist_ok=False)
+     local = args.local_root / f"qo-{job.removeprefix('exp-')}"
+-    _worker_environment(local)
+     stopped = Event()
+-    observer = Thread(target=_record_memory, args=(local / "memory.jsonl", stopped), daemon=True)
+-    observer.start()
+-    outcome = {"status": "failed", "pair": args.pair, "run_dir": str(cloud)}
++    observer = None
++    records_ready = False
++    previous_handler = signal.signal(signal.SIGTERM, _terminate)
++    outcome = {"status": "failed", "pair": args.pair, "rank": rank, "run_dir": str(cloud)}
+     try:
+-        train_args, receipt = prepare_training(args, cloud)
++        if rank == 0:
++            cloud.mkdir(parents=True, exist_ok=False)
++            records.mkdir(parents=True, exist_ok=False)
++            records_ready = True
++            if nodes != 1:
++                _write_json(records / "run-ready.json", {"job": job, "pair": args.pair, "run_dir": str(cloud)})
++        else:
++            ready = _wait_file(records / "run-ready.json", time.monotonic() + args.startup_timeout)
++            if ready != {"job": job, "pair": args.pair, "run_dir": str(cloud)}:
++                raise ValueError("Student run rendezvous differs from the current job/pair/output")
++            records_ready = True
++        _worker_environment(local)
++        observer = Thread(target=_record_memory, args=(local / "memory.jsonl", stopped), daemon=True)
++        observer.start()
+         _check_tokenizers(args.student, args.teacher)
+         gpu_rows = _gpu_devices(args.gpu_type, args.gpus_per_node)
++        node_preflight = prepare_node(args, cloud, rank) if prepare_node is not None else None
++        if node_preflight is not None:
++            _record_receipt(records / f"node-preflight-{rank}.json", node_preflight)
++        ray_args = SimpleNamespace(nodes=nodes, gpus_per_node=args.gpus_per_node, startup_timeout=args.startup_timeout)
++        if rank != 0:
++            _start_ray(rank, records, local, ray_args)
++            _wait_driver(records)
++            outcome.update(status="native_execution_succeeded", role="rollout_replica")
++            return
++        train_args, receipt = prepare_training(args, cloud)
+         config = U.ExecuteTrainConfig(num_nodes=1, output_dir=str(cloud), run_id=job)
+         env = _runtime_env(config)
+-        receipt.update(gpu_devices=gpu_rows, runtime_env=env)
++        if nodes != 1:
++            # Each raylet inherits its own node address; a job-wide override would alias both nodes to the head.
++            env.pop("MILES_NODE_EXTERNAL_IP")
++        receipt.update(gpu_devices=gpu_rows, runtime_env=env, student_ray_nodes=nodes, trainer_nodes=1)
++        if node_preflight is not None:
++            receipt.update(node_preflight)
+         _record_receipt(records / "launch.json", receipt)
+-        ray_args = SimpleNamespace(nodes=1, gpus_per_node=args.gpus_per_node, startup_timeout=args.startup_timeout)
+-        head = _start_ray(0, records, local, ray_args)
++        head = _start_ray(rank, records, local, ray_args)
+         _check_cluster(head, records, ray_args)
+         os.environ["MILES_SCRIPT_EXTERNAL_RAY"] = "1"
+         os.environ["MASTER_ADDR"] = head["ip"]
+@@ -347,24 +417,24 @@ def _run(args, *, prepare_training=_prepare_training) -> None:
+             qualification="Unverified until native alignment, updates, export and reload evidence is inspected",
+         )
+         print("QWEN35_NATIVE_EXECUTION_FINISHED", json.dumps(outcome), flush=True)
+-    except Exception as error:
++    except BaseException as error:
+         outcome.update(error_type=type(error).__name__, reason=str(error), traceback=traceback.format_exc())
+         raise
+     finally:
+         stopped.set()
+-        observer.join(timeout=5)
+-        _record_receipt(records / "training.json", outcome)
+-        try:
+-            _record_receipt(records / "memory.json", _memory_receipt(local / "memory.jsonl"))
+-        except (OSError, ValueError) as error:
+-            print("QWEN35_MEMORY_UNVERIFIED", type(error).__name__, str(error), flush=True)
+-        if outcome["status"] == "failed":
+-            _retain_failure_diagnostics(local, cloud, 0)
++        if observer is not None:
++            observer.join(timeout=5)
+         try:
+-            subprocess.run([sys.executable, "-m", "ray.scripts.scripts", "stop", "--force"], timeout=60, check=False)
+-            shutil.rmtree(local)
+-        except (OSError, subprocess.TimeoutExpired) as error:
+-            print("QWEN35_WORKER_CLEANUP_UNVERIFIED", type(error).__name__, str(error), flush=True)
++            if rank == 0 and records_ready and nodes != 1:
++                _write_json(records / "finished.json", outcome)
++        finally:
++            try:
++                if records_ready:
++                    _record_receipt(records / ("training.json" if rank == 0 else f"training-{rank}.json"), outcome)
++                if observer is not None:
++                    _stop_node(local, records, cloud, outcome)
++            finally:
++                signal.signal(signal.SIGTERM, previous_handler)
+ 
+ 
+ def main():
+diff --git a/tests/manual/agent_opd/run_swe_opd.py b/tests/manual/agent_opd/run_swe_opd.py
+index 0c7c792f..f7718418 100644
+--- a/tests/manual/agent_opd/run_swe_opd.py
++++ b/tests/manual/agent_opd/run_swe_opd.py
+@@ -128,6 +128,9 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
+             arguments[f"swe_{name}"] = inputs[name]
+     if "router_policy" in config:
+         arguments["router_policy"] = config["router_policy"]
++    for name in ("rollout_num_gpus", "sglang_config"):
++        if name in config:
++            arguments[name] = config[name]
+     if "release_scoring_output" in train:
+         arguments.update(
+             custom_megatron_before_log_prob_hook_path=(
+@@ -151,15 +154,21 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
+             "--protocol", config["protocol"], "--role", "train", "--teacher-url", ready["url"]]
+ 
+ 
++def _prepare_node(args, run: Path, rank: int) -> dict | None:
++    config = args.swe_config
++    if "release_scoring_output" not in config["training"]:
++        return None
++    archive = run / "megatron_scoring_lifetime" / "source"
++    if args.student_nodes != 1:
++        archive /= f"rank-{rank}"
++    return {"megatron_scoring_lifetime": megatron_scoring_lifetime.prepare_source(
++        Path(args.megatron_path), image=config["image"], release=config["training"]["release_scoring_output"],
++        archive_dir=archive,
++    )}
++
++
+ def _prepare_training(args, run: Path) -> tuple[str, dict]:
+     config = args.swe_config
+-    scoring_source = None
+-    if "release_scoring_output" in config["training"]:
+-        # Patch the student dependency before the native worker starts Ray or submits its driver.
+-        scoring_source = megatron_scoring_lifetime.prepare_source(
+-            Path(args.megatron_path), image=config["image"], release=config["training"]["release_scoring_output"],
+-            archive_dir=run / "megatron_scoring_lifetime" / "source",
+-        )
+     train_args = _training_args(config, args.pair, args.teacher_url, run, os.environ["KUBEBRAIN_RJOB_NAME"])
+     recipe = DenseArgs(model_name=native._PAIRS[args.pair][0]).recipe
+     git = ["git", "-c", f"safe.directory={U.repo_base_dir}", "-C", str(U.repo_base_dir)]
+@@ -173,8 +182,6 @@ def _prepare_training(args, run: Path) -> tuple[str, dict]:
+         "resolved_experiment": config, "final_hf": None,
+         "update_accounting": "Native successful optimizer acknowledgements; checkpoint mapping is recorded at export.",
+     }
+-    if scoring_source is not None:
+-        receipt["megatron_scoring_lifetime"] = scoring_source
+     return train_args, receipt
+ 
+ 
+@@ -185,10 +192,11 @@ def _train(config: dict, pair: str, teacher_url: str) -> None:
+         teacher_url=teacher_url, output_root=Path(config["run_root"]) / "student",
+         shared_dir=Path(config["shared_dir"]) / "student", local_root=Path(config["worker_local_root"]),
+         gpu_type=config["gpu_tag"], gpus_per_node=allocation["student"]["gpus_per_node"],
++        student_nodes=allocation["student"]["nodes"],
+         startup_timeout=config["startup_timeout"], megatron_path=config["megatron_path"],
+         num_rollout=config["training"]["successful_updates"], swe_config=config,
+     )
+-    native._run(args, prepare_training=_prepare_training)
++    native._run(args, prepare_training=_prepare_training, prepare_node=_prepare_node)
+ 
+ 
+ def main() -> int:
+diff --git a/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_config.json b/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_config.json
+new file mode 100644
+index 00000000..130f86d7
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_config.json
+@@ -0,0 +1,91 @@
++{
++  "phase": "deepswe-capacity-expanded",
++  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
++  "repo": "/data/ycfeng/sota-engine/miles",
++  "local_mount": "/data/ycfeng",
++  "worker_python": "/opt/sglang/bin/python3",
++  "worker_local_root": "/var/tmp",
++  "megatron_path": "/root/Megatron-LM",
++  "cuda_compat_dir": "/usr/local/cuda-13.0/compat",
++  "run_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-expanded",
++  "shared_dir": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-capacity-expanded",
++  "context_tokens": 131072,
++  "request_timeout": 3600,
++  "router_policy": "round_robin",
++  "rollout_num_gpus": 16,
++  "sglang_config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_sglang.yaml",
++  "teacher_port": 30000,
++  "teacher_dist_port": 29501,
++  "charged_group": "step_main",
++  "gpu_tag": "H200",
++  "gpu_policy": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/gpu_policy.json",
++  "creator": "i-fengyicheng",
++  "admission_lock": "/data/ycfeng/tmp/qwen35-swe-admission.lock",
++  "api_timeout_seconds": 20,
++  "rdma_resources": ["mellanox.com/mlnx_rdma:1", "rdma/mlnx_shared:8"],
++  "mounts": [
++    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
++    "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
++  ],
++  "inputs": {
++    "source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
++    "source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
++    "native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
++    "native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
++    "skip_masked_assistant_turns": true,
++    "visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
++    "chat_template_path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
++    "chat_template_kwargs": {"preserve_thinking": true, "enable_thinking": true}
++  },
++  "training": {
++    "run_kind": "smoke",
++    "successful_updates": 2,
++    "bank_slots": 256,
++    "bank_min_fraction": 0.9,
++    "bank_uses": 2,
++    "acquisition_seconds": 1800,
++    "save_interval": 2,
++    "seed": 1234,
++    "rollout_seed": 1729,
++    "temperature": 1.0,
++    "top_p": 1.0,
++    "top_k": -1,
++    "optimizer": "adam",
++    "lr": 0.000002,
++    "weight_decay": 0.1,
++    "adam_beta1": 0.9,
++    "adam_beta2": 0.98,
++    "adam_eps": 0.00000001,
++    "eps_clip": 0.2,
++    "eps_clip_high": 0.28,
++    "release_scoring_output": true
++  },
++  "tis": {
++    "tis_token_lower": 0.5,
++    "tis_token_upper": 2.0,
++    "tis_answer_lower": 0.9897,
++    "tis_answer_upper": 1.001
++  },
++  "checkpoint": {
++    "post_save_hook": "tests.manual.agent_opd.swe_hf_export.post_save",
++    "hook_args": {}
++  },
++  "pairs": {
++    "A": {
++      "startup_timeout": 1800,
++      "student": {
++        "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
++        "nodes": 2, "gpus_per_node": 8, "cpu_per_node": 64, "memory_gb_per_node": 512,
++        "host_network": true, "gang_start": false, "tp_size": 2, "engine_gpus": 2,
++        "max_tokens_per_gpu": 131072, "mem_fraction_static": 0.7,
++        "max_running_requests": 1, "chunked_prefill_size": 8192
++      },
++      "teacher": {
++        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
++        "nodes": 1, "gpus_per_node": 2, "cpu_per_node": 16, "memory_gb_per_node": 128,
++        "host_network": false, "gang_start": false, "tp_size": 2,
++        "mem_fraction_static": 0.85, "max_running_requests": 1, "chunked_prefill_size": 8192
++      }
++    }
++  }
++}
+diff --git a/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_sglang.yaml b/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_sglang.yaml
+new file mode 100644
+index 00000000..dfe95e9a
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_sglang.yaml
+@@ -0,0 +1,9 @@
++sglang:
++  - name: default
++    server_groups:
++      - worker_type: regular
++        num_gpus: 8
++        num_gpus_per_engine: 2
++      - worker_type: regular
++        num_gpus: 8
++        num_gpus_per_engine: 2

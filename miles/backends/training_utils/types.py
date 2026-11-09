@@ -22,6 +22,7 @@ class TrainStepOutcome(StrEnum):
 class TrainStepOutput:
     outcome: TrainStepOutcome
     values: StoreObjectRef | None = None
+    optimizer_step: dict | None = None
 
 
 class LogProbScoreMetadata(TypedDict):

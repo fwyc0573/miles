@@ -3,6 +3,7 @@ from __future__ import annotations
 from argparse import Namespace
 
 import pytest
+from tests.fast.fixtures.args_fixtures import parse_fsdp_test_config
 from tests.fast.fixtures.sglang_config_fixtures import resolve_sglang_config, resolve_sglang_config_and_scaling
 
 from miles.backends.sglang_utils.sglang_api_client import WorkerType
@@ -415,6 +416,96 @@ class TestEngineOffset:
 
         assert scaling.groups["default"][0].engine_offset == 0
         assert scaling.groups["eval"][0].engine_offset == 4
+
+
+class TestValidatedRolloutGpuCount:
+    def test_explicit_colocated_rollout_gpus_support_shared_and_dedicated_engines(self, tmp_path):
+        """The real validation chain must preserve rollout GPUs outside the shared training span."""
+        config_path = tmp_path / "sglang.yaml"
+        config_path.write_text(
+            "sglang:\n"
+            "  - name: default\n"
+            "    server_groups:\n"
+            "      - worker_type: regular\n"
+            "        num_gpus: 8\n"
+            "      - worker_type: regular\n"
+            "        num_gpus: 8\n"
+        )
+        # FSDP's CPU parser exercises the shared Miles validator and native SGLang
+        # config parser without Megatron's GPU-dependent backend validation.
+        args = parse_fsdp_test_config(
+            "--actor-num-gpus-per-node",
+            "8",
+            "--num-gpus-per-node",
+            "8",
+            "--colocate",
+            "--rollout-num-gpus",
+            "16",
+            "--rollout-num-gpus-per-engine",
+            "2",
+            "--sglang-max-running-requests",
+            "1",
+            "--sglang-config",
+            str(config_path),
+        )
+
+        assert args.rollout_num_gpus == 16
+        assert args.actor_num_nodes == 1
+        assert args.actor_num_gpus_per_node == 8
+        assert args.colocate is True
+        assert args.offload_train is True
+        assert args.offload_rollout is True
+        [model] = args.sglang.models
+        assert model.num_server_cells(args.sglang_scaling) == 8
+        assert [group.num_gpus_per_engine for group in model.server_groups] == [2, 2]
+        assert [args.sglang.get_value("max_running_requests", group) for group in model.server_groups] == [1, 1]
+        assert [group.needs_offload for group in model.server_groups] == [True, False]
+        assert "enable_memory_saver" not in model.server_groups[0].overrides
+        assert model.server_groups[1].overrides["enable_memory_saver"] is False
+        assert [group.num_gpus for group in args.sglang_scaling.groups["default"]] == [8, 8]
+        assert [group.gpu_offset for group in args.sglang_scaling.groups["default"]] == [0, 8]
+        assert [group.engine_offset for group in args.sglang_scaling.groups["default"]] == [0, 4]
+
+    @pytest.mark.parametrize(
+        ("extra", "expected_gpus", "expected_engines", "expected_offload"),
+        [
+            (["--colocate"], 8, 4, True),
+            (["--colocate", "--rollout-num-gpus", "8"], 8, 4, True),
+            (["--rollout-num-gpus", "16"], 16, 8, False),
+            ([], None, 0, False),
+            (["--colocate", "--debug-train-only", "--rollout-num-gpus", "16"], 0, 0, True),
+        ],
+        ids=[
+            "colocated-default",
+            "colocated-explicit-shared",
+            "disaggregated-explicit",
+            "disaggregated-unset",
+            "train-only",
+        ],
+    )
+    def test_existing_rollout_gpu_defaults_and_modes_are_preserved(
+        self, extra, expected_gpus, expected_engines, expected_offload
+    ):
+        """Only an omitted colocated count defaults; disaggregation and train-only keep their semantics."""
+        args = parse_fsdp_test_config(
+            "--actor-num-gpus-per-node",
+            "8",
+            "--num-gpus-per-node",
+            "8",
+            "--rollout-num-gpus-per-engine",
+            "2",
+            *extra,
+        )
+
+        assert args.rollout_num_gpus == expected_gpus
+        assert args.actor_num_nodes == 1
+        assert args.actor_num_gpus_per_node == 8
+        assert args.offload_train is expected_offload
+        assert args.offload_rollout is expected_offload
+        assert sum(model.num_server_cells(args.sglang_scaling) for model in args.sglang.models) == expected_engines
+        assert all(
+            group.needs_offload is expected_offload for model in args.sglang.models for group in model.server_groups
+        )
 
 
 class TestNeedsOffload:

@@ -1,0 +1,5 @@
+{
+  "instance_id": "astropy__astropy-12907",
+  "status": "apply_patch_fail",
+  "detail": "Apply Patch Failed: Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/tests/fast/fixtures/swe_native/generate.py\", line 77, in main\n    raise PatchApplyFailedError(\"CPU fault injection: git apply rejected the model patch\")\nswe_agents.swe_evaluation.harness.utils.PatchApplyFailedError: CPU fault injection: git apply rejected the model patch\n, CPU fault injection: git apply rejected the model patch"
+}

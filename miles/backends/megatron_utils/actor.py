@@ -160,6 +160,7 @@ class MegatronTrainRayActor(TrainRayActor):
         monkey_patch_torch_dist()
 
         self._last_rollout_id: int | None = None
+        self._last_train_result: TrainStepOutput | None = None
         self._cell_index = indep_dp_info.cell_index
         super()._init_common(args, role, with_ref, with_opd_teacher=with_opd_teacher)
 
@@ -437,6 +438,7 @@ class MegatronTrainRayActor(TrainRayActor):
                 resume_from_ckpt=resume_from_ckpt,
             )
         self._last_rollout_id = None
+        self._last_train_result = None
 
         rebind_env_reporting(self.args)
         logger.info(f"load_state rolled this trainer back to checkpoint iteration {load_output.loaded_rollout_id}")
@@ -774,6 +776,7 @@ class MegatronTrainRayActor(TrainRayActor):
     ) -> TrainStepOutput:
         self._heartbeat.bump()
         self._last_rollout_id = rollout_id
+        self._last_train_result = None
         if self.args.offload_train and self._asleep:
             self.wake_up()
 
@@ -805,6 +808,7 @@ class MegatronTrainRayActor(TrainRayActor):
                     attempt=attempt,
                 )
 
+            self._last_train_result = result
             self._publish_model_companion_info(rollout_id=rollout_id, attempt=attempt, result=result)
             return result
 
@@ -968,6 +972,7 @@ class MegatronTrainRayActor(TrainRayActor):
             self._set_replay_stage("replay_backward")
             with timer("actor_train"):
                 self._log_first_train_config()
+                optimizer_step_results = []
                 train_step_outcome = train(
                     self.args,
                     rollout_id,
@@ -979,6 +984,7 @@ class MegatronTrainRayActor(TrainRayActor):
                     num_rollouts,
                     witness_info=witness_info,
                     attempt=attempt,
+                    optimizer_step_results=optimizer_step_results,
                 )
 
             self.prof.step(rollout_id=rollout_id)
@@ -1016,7 +1022,10 @@ class MegatronTrainRayActor(TrainRayActor):
         )
 
         self._heartbeat.bump()
-        return TrainStepOutput(outcome=train_step_outcome)
+        return TrainStepOutput(
+            outcome=train_step_outcome,
+            optimizer_step=optimizer_step_results[-1] if optimizer_step_results else None,
+        )
 
     def _log_first_train_config(self) -> None:
         if SNAPSHOT_TESTING_ENABLED and not self._config_snapshot_train_recorded:
@@ -1087,7 +1096,18 @@ class MegatronTrainRayActor(TrainRayActor):
             )
             post_save_hook = load_function(x)
             fn_args = compute_custom_function_config(self.args, x)
-            post_save_hook(fn_args, rollout_id, checkpoint_dir, hf_checkpoint_dir)
+            # Opt-in hooks bind a successful-index save to the actual native attempt.
+            # Defer version inspection to the hook so auxiliary failures stay soft.
+            train_state = (
+                dict(
+                    train_result=self._last_train_result,
+                    native_rollout_id=self._last_rollout_id,
+                    get_weight_version=self._get_actor_weight_version,
+                )
+                if getattr(post_save_hook, "with_train_state", False)
+                else {}
+            )
+            post_save_hook(fn_args, rollout_id, checkpoint_dir, hf_checkpoint_dir, **train_state)
 
     @with_logs
     @timer

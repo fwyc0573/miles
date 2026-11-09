@@ -2,6 +2,9 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Record no actionable findings in the D11 replacement-input phase review; keep GPU runtime acceptance independent. |
+| 2026-11-08 | Record independent Ticket08 baseline-specific readiness and correct its overbroad progress blocker without accepting all of03. |
+| 2026-11-08 | Record parent-launch, T02 and T03 phase findings, remediation ownership and native-verification limits. |
 | 2026-11-08 | Record the post-freeze two-axis review of commit `f2f86fea` and its remediation; renumber the baseline/comparison rows. |
 | 2026-11-08 | Refresh the final D1–D10 checkpoint, nine-ticket graph and closure of both follow-up review findings. |
 | 2026-11-08 | Record the phase checkpoint and remediation of DOC-REVIEW findings after D1/D2. |
@@ -59,7 +62,7 @@
 
 1. 全矩阵目标800updates与6800评测attempts；D7早停、缺失评测均需保留INCOMPLETE，不能补造计划数。
 2. 主KL、真实OPD梯度和TIS是不同契约，S4已明确其计算与detach，02负责原生验证。
-3. 文档已明确冻结；56卡计入其他任务，实际容量与运行仍由后续tickets验证。
+3. 冻结时的D9为个人合计56卡；后续用户明确修订，当前规则见spec S7。实际容量与运行仍由后续tickets验证。
 
 审查记录：DOC-REVIEW，reviewer session`ses_e48b02733ffejx5fyyB0aqqlby`，范围为新任务全部文档及GLOSSARY新增术语。初轮3项P2已独立确认关闭；复轮2项P2（缺实际反传目标、旧八票图检查）由主agent依据源码与本次执行检查修订关闭。未声称reviewer已重查最后修订或做过运行验证。
 
@@ -77,3 +80,64 @@
 | — | Spec | — | 无 P1–P3 发现。 | 无需修改。审查者未独立复核 SWE submodule 两版本差异；数据一致性、256 目标容量、梯度归约与 HF/评测/删除运行能力仍由 01–03 实测。 |
 
 **验证：** 见 test report 的 “Post-review revision check”。本次修订不改变任何科学决定或验收条件。
+
+## 6. Implementation phase reviews — 2026-11-08
+
+The earlier sections record the documentation phase. Current execution status is in `progress.md` and `checkpoint_2026-11-08_implementation.md`.
+
+### Parent launch/admission
+
+Reviewer `ses_e4600735bffex5pmiLBYPLO0GQ` inspected the eight specified parent launch/config/test artifacts and frozen requirements. The changed-file list, dry-run/admission receipts and local report were supplied; the historical baseline diff was not independently verified by the reviewer.
+
+| ID | Finding | Remediation and evidence |
+| --- | --- | --- |
+| L1 / P1 | Missing native dynamic-global-batch flag rejects SWE startup. | Added the flag. Exact native Megatron parser/driver check remains pending. |
+| L2 / P1 | Small integration budgets defaulted to formal mode. | Configuration now explicitly sets `run_kind=smoke`; launcher forwards it. Formal checks remain strict. |
+| L3 / P2 | Native `Terminated` jobs incorrectly consumed the budget. | Added native Terminated/Deleted states; Stopping still counts. Admission regression passed. |
+| L4 / P2 | Shared/config/repo/temp path boundaries were not validated. | One validator is used by submitter and worker; seven combined path/signal regression cases passed. |
+| L5 / P3 | Child exit/status handling diverged from the existing paired worker. | Shared signal-status conversion and CalledProcessError handling preserve23 and137 in fault-injection checks. |
+
+Local affected suite:42 passed. Pinned-image suite:104 passed, no skips (`launch-checks-exp-1108-153652-994118.xml`). Native configuration acceptance is still pending: the separate full Megatron parse needs a real GPU and the existing complete training environment. No claim of parent launch runtime acceptance yet.
+
+### T02 native replay/training
+
+Reviewer `ses_e45deee1cffeShOOhyp106Skes` inspected the complete T02 changed-file list, mathematical specification, public integration contract and CPU/Gloo evidence. No native model/platform calls were performed. No actionable error was found in the recorded surrogate/detach, original denominator, pre-TIS KL/count mathematics or success-only control logic.
+
+| ID | Finding | Owner/status |
+| --- | --- | --- |
+| T2-1 / P1 | Optional diagnostic omissions can stop healthy optimization or fail rank-locally before D7 collective. | T02-REMEDIATION: separate actual training-mask counts from optional diagnostic evidence. |
+| T2-2 / P2 | stdout failure after optimizer success can prevent acknowledgement. | T02-REMEDIATION: isolate all diagnostic sinks and preserve native result/cleanup. |
+| T2-3 / P2 | Canonical bank remains resident after its final successful use. | T02-REMEDIATION: release immediately at successful bank boundary/end; retain on skip. |
+| T2-4 / P3 | Teacher failure/cancellation receipts lack stage/deadline identity. | T02-REMEDIATION: add isolated stage receipts without extra forwards. |
+
+Remediation session: `ses_e46206d68ffeuuECrBU2rN5aa7`. Real Qwen GPU/231/255/128K and throughput checks remain pending; T02 is not accepted.
+
+### T03 persistent evaluation
+
+Reviewer `ses_e45eb6f97ffeKvjf34jqPxjGk5` inspected all four new Python modules/tests, three evidence files, frozen requirements and relevant native grader/agent/exporter interfaces. No native/ACS/platform execution was performed.
+
+| ID | Finding | Owner/status |
+| --- | --- | --- |
+| T3-1 / P1 | Model `apply_patch_fail` can be treated as retryable infrastructure failure. | T03-REMEDIATION: archive verified model failure as False using real native artifact formats. |
+| T3-2 / P1 | Native `exit_env_error` autosubmit may be hidden by ordinary unresolved grading. | T03-REMEDIATION: inspect structured native infrastructure exits before terminal scoring. |
+| T3-3 / P2 | Complete child outcomes or grading-only recovery can be lost before parent ledger persistence. | T03-REMEDIATION: recover validated native outcomes/trajectories before new generation. |
+| T3-4 / P2 | Runtime can replace its self-supplied source/input hashes across resume. | T03-REMEDIATION: bind scientific configuration and pins to immutable point manifest. |
+| T3-5 / P2 | Repeated worker cancellation can interrupt native child reaping. | T03-REMEDIATION: cancel once and await protected cleanup; verify four slow-TERM workers. |
+
+Remediation session: `ses_e45df2e96ffeu2r2c5xjvsDOn8`. Existing28 fixture passes do not establish native ACS/model/grader, cloud durability or reader-platform termination; T03 is not accepted.
+
+### Ticket08 baseline-specific readiness
+
+Reviewer `ses_e44a21e69ffewws62CNDQ7RzIu` inspected the current requirements/spec/plan,03/08 tickets, qualification/source/reader receipts, formal-accounting report, cloud lifecycle JUnit, five evaluator/submission modules and `evaluation_deepswe_formal_{inputs,config}.json`. It returned GO for starting08 only; no tests, resource operations or writes were performed by the reviewer.
+
+OneP2 documentation finding: progress incorrectly grouped02 capacity, D11 training inputs and03 asynchronous training integration as04–08 prerequisites. Ticket08 explicitly depends only on01's original-model/task identities and03's native SWE evaluation capability. Corrected the progress line and documented these scoped edges;03 stays in-progress and04–07 retain their full prerequisites.
+
+Readiness evidence: real original4B recovery/HF3 native agent/grader outcomes, stable task/seed/version/artifact references, exited readers,215+8 accounting checks and8 cloud lifecycle fixtures. The new formal profile keeps the qualified runtime/server/contract and fixed100 IDs unchanged, enables no qualification subset and protects the original source. Its actual launcher dry-run passed. This is not a400-result score, a throughput guarantee or final08 acceptance. Submission still requires fresh policy admission; formal failure/timing accounting must be inspected in real output.
+
+### D11 replacement-input acceptance
+
+TaskID `T01-D11-PHASE-REVIEW`; reviewer `ses_e447e98c1ffew3VxKjXY34dHBT`. Inspected fixed code diff02bb895e..2a14093c (`/data/ycfeng/tmp/qwen35-swe-deepswe-input-acceptance.diff`),four changed source/checker/launcher/test files,native SWE1003 source/render/visual validator,requirements/spec/plan/Ticket01,three current profiles and source/activation/formal-transport receipts/reports. No tests or resource operations were performed by this review.
+
+**Findings:** no actionable P1–P3 defects. Actual mask-aware source and receipt validator preserve mask0 history,structured reasoning/tool calls/replies,original-position UID and no-slot length rejection; legacy defaults and new input-policy CLI transport show no identified regression. Supplied ordinary factory evidence contains no source injection. Genuine full-source exclusions and signature/hash chain are verified;868775 native eligible targets remain before Qwen-length filtering. Four formal source/budget contracts retain their documented CPU post-parse/schema scope.
+
+**Acceptance/limits:** supports Ticket01 local input acceptance,not GPU runtime acceptance. No whole-population Qwen-length census or historical10/21 binary replay is claimed.02/03 new-data CUDA,training/HF/evaluator outcomes remain pending;04–07 remain gated. No remediation or run suspension is required by this review.

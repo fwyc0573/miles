@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="17" skipped="20" tests="314" time="48.824" timestamp="2026-11-09T13:45:29.455942+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_swe_launcher" name="test_cloud_paths_fail_before_any_submission[shared_dir]" time="0.004" /><testcase classname="tests.fast.test_swe_launcher" name="test_cloud_paths_fail_before_any_submission[repo]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_cloud_paths_fail_before_any_submission[admission_lock]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_cloud_paths_fail_before_any_submission[worker_local_root]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_cloud_paths_fail_before_any_submission[gpu_policy]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_resolved_shared_path_must_stay_in_the_mount" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_cli_preserves_child_failure_status[student-137]" time="0.005" /><testcase classname="tests.fast.test_swe_launcher" name="test_cli_preserves_child_failure_status[teacher-23]" time="0.006" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Succeeded-None-student0-True]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Stopped-All critical tasks are finished.-student1-True]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Stopped-All critical tasks are finished.-student2-False]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Stopped-All critical tasks are finished.-student3-False]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Stopped-Some critical tasks failed.-student4-False]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Stopped-None-student5-False]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_platform_critical_completion_is_not_a_training_failure[Failed-All critical tasks are finished.-student6-False]" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_partial_critical_replica_completion_remains_failed" time="0.002" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_input_policy_reaches_registered_source_config[False]" time="0.098" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_input_policy_reaches_registered_source_config[True]" time="0.084" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_router_policy_preserves_default_and_typed_transport[None]" time="0.194" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_router_policy_preserves_default_and_typed_transport[round_robin]" time="0.129" /><testcase classname="tests.fast.test_swe_launcher" name="test_expanded_student_bootstrap_transports_node_preflight" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[1-0]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[2-0]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[2-1]" time="0.003" /><testcase classname="tests.fast.test_swe_launcher" name="test_expanded_rollout_recipe_preserves_eight_gpu_training" time="0.116" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook[deepswe_capacity_smoke_config.json]" time="0.149" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook[deepswe_capacity_round_robin_config.json]" time="0.569" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook[deepswe_capacity_expanded_config.json]" time="0.238" /><testcase classname="tests.fast.test_swe_launcher" name="test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook[deepswe_formal_config.json]" time="0.133" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H800-A]" time="0.027" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H800-B]" time="0.016" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H800-C]" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H200-A]" time="0.016" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H200-B]" time="0.036" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_scope_and_native_commands[H200-C]" time="0.030" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_startup_budget_is_not_a_submitted_role[A]" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_startup_budget_is_not_a_submitted_role[B]" time="0.002" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_startup_budget_is_not_a_submitted_role[C]" time="0.002" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_startup_budget_is_required_and_positive[None-KeyError]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_selected_pair_startup_budget_is_required_and_positive[0-ValueError]" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_native_student_ray_socket_paths_fit_and_remain_job_isolated" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_readiness_checks_health_and_exact_model_identity" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_peer_can_finish_before_head_without_deadlock_and_environment_preserves_platform_values" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_pair_startup_budget_waits_for_verified_teacher_before_student[A-1799-1800]" time="0.011" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_pair_startup_budget_waits_for_verified_teacher_before_student[B-1799-1800]" time="0.011" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_pair_startup_budget_waits_for_verified_teacher_before_student[C-8112-9000]" time="0.031" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_pair_startup_budget_waits_for_verified_teacher_before_student[C-9001-9000]" time="0.033" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate[ready-8113]" time="0.039" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate[error-1000]" time="0.006" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_c_teacher_startup_loop_remains_bounded_and_native_errors_propagate[timeout-9686]" time="0.046" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_student_returncode_and_failure_finally_are_faithful[0]" time="0.005" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_student_returncode_and_failure_finally_are_faithful[17]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_student_returncode_and_failure_finally_are_faithful[-9]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_teacher_publishes_head_before_launch_and_only_stops_own_child[None]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_teacher_publishes_head_before_launch_and_only_stops_own_child[0]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_teacher_publishes_head_before_launch_and_only_stops_own_child[23]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_graceful_shutdown_targets_child_session_only" time="0.002" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_allocation_is_checked_against_selected_hardware_and_role[H800-H200]" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_allocation_is_checked_against_selected_hardware_and_role[H200-H800]" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_real_cpu_child_failure_is_recorded_and_auxiliary_tail_failure_is_soft" time="0.021" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[0]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[17]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_peer_never_publishes_driver_completion[-15]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_allocation_uses_configured_replicas" time="0.002" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files[native_execution_succeeded]" time="0.006" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files[failed]" time="0.008" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_missing_ray_head_times_out_before_driver" time="0.023" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_failure_or_cancellation_publishes_completion[error0]" time="0.008" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_failure_or_cancellation_publishes_completion[error1]" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_prepares_each_container_source_before_ray_join[0]" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_prepares_each_container_source_before_ray_join[1]" time="0.005" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_source_rejection_prevents_ray_join" time="0.013" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_failed_local_initialization_preserves_preexisting_directory" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_propagates_other_replica_failure_without_waiting_for_child[0]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_propagates_other_replica_failure_without_waiting_for_child[1]" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_peer_absent_teacher_readiness_is_bounded_without_global_completion" time="0.003" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_command_transports_only_ray_node_count" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_single_node_native_default_retains_driver_and_record_paths" time="0.006" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_sigterm_stops_driver_and_publishes_failure" time="0.007" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_real_child_is_cancelled_after_other_replica_failure[0]" time="0.006" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_real_child_is_cancelled_after_other_replica_failure[1]" time="0.006" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_teacher_ignores_helper_completion_until_driver_finishes" time="0.004" /><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_existing_run_does_not_overwrite_driver_records" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[0-A-2-32-False]" time="0.010" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[0-B-2-32-False]" time="0.011" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[0-C-4-64-True]" time="0.009" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[100-A-2-32-False]" time="0.010" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[100-B-2-32-False]" time="0.009" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_command_utils_composes_full_student_and_external_teacher[100-C-4-64-True]" time="0.009" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_required_capacity_inputs_have_no_inherited_token_default" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_false_defaults_and_baseline_eval_are_verified_not_guessed" time="0.008" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_parser_accepts_sglang_and_custom_mis_flags" time="0.107"><failure message="AssertionError: assert {'--accumulat...in-fp32', ...} == {'--accumulat...in-fp32', ...}&#10;  &#10;  Extra items in the left set:&#10;  '--sglang-enable-prefill-weight-versions'&#10;  Use -v to get more diff">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f82ad20ac00&gt;
+
+    def test_native_parser_accepts_sglang_and_custom_mis_flags(monkeypatch):
+        argv = shlex.split(launcher._training_args(_args("C"), Path("/run")))
+        monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+        parser = argparse.ArgumentParser()
+        get_miles_extra_args_provider()(parser)
+        parsed, unknown = parser.parse_known_args(argv)
+        # Megatron's own parser is absent in the CPU environment. Every remaining
+        # option belongs to that parser, not an unregistered launcher/scorer flag.
+&gt;       assert set(_flags(unknown)) == {
+            "--tensor-model-parallel-size", "--sequence-parallel", "--pipeline-model-parallel-size",
+            "--context-parallel-size", "--expert-model-parallel-size", "--expert-tensor-parallel-size",
+            "--recompute-granularity", "--recompute-method", "--recompute-num-layers", "--seq-length",
+            "--optimizer", "--lr-decay-style", "--lr-warmup-iters", "--weight-decay", "--adam-beta1", "--adam-beta2",
+            "--optimizer-cpu-offload", "--overlap-cpu-optimizer-d2h-h2d", "--use-precision-aware-optimizer",
+            "--attention-dropout", "--hidden-dropout", "--accumulate-allreduce-grads-in-fp32",
+            "--attention-softmax-in-fp32", "--attention-backend",
+        }
+E       AssertionError: assert {'--accumulat...in-fp32', ...} == {'--accumulat...in-fp32', ...}
+E         
+E         Extra items in the left set:
+E         '--sglang-enable-prefill-weight-versions'
+E         Use -v to get more diff
+
+tests/fast/test_qwen35_opd_launcher.py:183: AssertionError</failure></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_zero_rollouts_uses_native_eval_without_any_save" time="0.005" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_scheduler_module_preserves_native_bindings_and_source_order" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[0-A]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[0-B]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[0-C]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[100-A]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[100-B]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_native_setup_for_baseline_or_formal_budget[100-C]" time="0.001"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:320: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[False-A]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[False-B]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[False-C]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[True-A]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[True-B]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_scoring_needs_no_optimizer[True-C]" time="0.002"><skipped type="pytest.skip" message="Native scheduler source requires Megatron or read-only MEGATRON_PATH">/data/ycfeng/sota-engine/miles/tests/fast/test_qwen35_opd_launcher.py:358: Native scheduler source requires Megatron or read-only MEGATRON_PATH</skipped></testcase><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_driver_evaluates_without_training_or_saving[A]" time="0.084" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_driver_evaluates_without_training_or_saving[B]" time="0.088" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_baseline_native_driver_evaluates_without_training_or_saving[C]" time="0.136" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_exact_approved_model_sources_are_accepted_without_reads[teacher0]" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_exact_approved_model_sources_are_accepted_without_reads[teacher1]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_exact_approved_model_sources_are_accepted_without_reads[teacher2]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra0]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra1]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra2]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra3]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra4]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra5]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra6]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_scope_endpoint_or_topology_fails_before_submission[extra7]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_platform_nccl_values_are_preserved_and_channel_conflicts_rejected" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_frozen_population_byte_identity_is_enforced_without_rerendering" time="0.024" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_population_is_not_launched[status-incomplete]" time="0.007" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_invalid_population_is_not_launched[selection_seed-1]" time="0.017" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_receipt_write_failure_is_auxiliary_not_a_training_gate" time="0.002" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_teacher_scores_original_tokens_and_records_real_endpoint[True-http://external-teacher:30000/generate]" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_teacher_scores_original_tokens_and_records_real_endpoint[False-http://named-teacher:30001/generate]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_bad_teacher_token_ids_missing_scores_or_nonfinite_values_are_not_silenced[bad_scores0]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_bad_teacher_token_ids_missing_scores_or_nonfinite_values_are_not_silenced[bad_scores1]" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_bad_teacher_token_ids_missing_scores_or_nonfinite_values_are_not_silenced[bad_scores2]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_missing_named_teacher_never_falls_back_to_student" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_zero_length_teacher_response_keeps_empty_native_target" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_generation_retains_prefix_completion_ids_and_minimal_train_identity" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_probability_declarations_follow_real_native_requests_and_endpoint_versions" time="0.005" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides0-PASS]" time="1.531" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides1-INCOMPLETE]" time="0.714" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides2-INCOMPLETE]" time="0.728" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides3-INCOMPLETE]" time="0.765" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_reader_verdict_tracks_actual_request_probability_definition[sampling_overrides4-INCOMPLETE]" time="0.736" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_unresolved_decode_probability_source_is_not_declared[nondeterministic]" time="0.002" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_unresolved_decode_probability_source_is_not_declared[recompute_logprobs_via_prefill]" time="0.002" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_unresolved_decode_probability_source_is_not_declared[use_sampling_support_replay]" time="0.002" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_prefill_versions_are_never_filled_from_decode_or_zero[None]" time="0.004" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_prefill_versions_are_never_filled_from_decode_or_zero[different-actual-version]" time="0.003" /><testcase classname="tests.fast.test_qwen35_opd_launcher" name="test_unverified_prefill_ids_have_no_probability_declaration" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_generation_deadline_cancels_and_drains_native_request" time="0.054" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_success_receipts_keep_native_identity_status_and_probability[stop-completed]" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_success_receipts_keep_native_identity_status_and_probability[length-truncated]" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_success_receipts_keep_native_identity_status_and_probability[abort-aborted]" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_teacher_failure_is_logged_once_and_preserves_native_exception" time="0.003" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_prompt_validation_failure_is_an_attempt_without_an_http_call" time="0.003" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_deadline_covers_native_retry_sleep_without_background_retries" time="0.055" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_repeated_503_responses_share_one_generation_deadline[2-2]" time="0.006" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_repeated_503_responses_share_one_generation_deadline[5-4]" time="0.007" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_failed_attempt_does_not_prevent_a_later_successful_sample[http_failure]" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_failed_attempt_does_not_prevent_a_later_successful_sample[timeout]" time="0.054" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_external_cancellation_propagates_after_one_terminal_receipt[generate]" time="0.004" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_external_cancellation_propagates_after_one_terminal_receipt[score_teacher]" time="0.003" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_teacher_and_student_scoring_keep_independent_native_total_timeouts" time="0.252" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_native_scoring_timeout_preserves_teacher_failure_and_observer_soft_failure[teacher]" time="0.108" /><testcase classname="tests.fast.test_qwen35_sample_lifecycle" name="test_native_scoring_timeout_preserves_teacher_failure_and_observer_soft_failure[student]" time="0.111" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_complete_native_artifact_contract_passes_without_inventing_versions" time="4.434" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_all_baseline_monitoring_cannot_qualify_updated_weights" time="4.898" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_final_monitor_stale_against_actual_publisher_is_incomplete" time="3.980" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_counter_advance_without_updated_model_tensor_observation_is_incomplete" time="0.024" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_baseline_probe_keeps_checkpoint_zero_result_but_full_d8_is_incomplete" time="0.761" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_native_events_never_use_monitor_versions_as_update_proof" time="0.005" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_same_version_restores_do_not_count_as_planned_updates" time="0.034" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[version]" time="0.069" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[final_restore_version]" time="0.117" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[epoch]" time="0.030" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[publisher]" time="0.111" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[checksum_model]" time="0.063" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[snapshot]" time="0.063" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[tensor]" time="0.047" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[duplicate_id]" time="0.030" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[checksum_order]" time="0.044" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[receipt_order]" time="0.045" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[planned_version]" time="0.110" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_malformed_restoration_provenance_cannot_pass[missing_planned]" time="0.031" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_final_native_checksum_missing_or_corrupt_is_incomplete[False]" time="0.029" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_final_native_checksum_missing_or_corrupt_is_incomplete[True]" time="0.064" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_pre_tis_outlier_is_not_removed_from_acceptance" time="0.004" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[trainer_version-trainer_decode_version_mismatch-decode]" time="0.780" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[decode_version-trainer_decode_version_mismatch-decode]" time="0.737" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[generation_prefill_version-mixed_consumed_versions-decode]" time="0.759" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[prefill_version-prefill_version_mismatch-prefill]" time="0.783" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[trainer_tokens-trainer_token_mismatch-decode]" time="0.740" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[trainer_mask-trainer_mask_mismatch-decode]" time="0.717" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[missing_tokens-trainer_input_tokens_missing-decode]" time="0.277" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[missing_mask-trainer_input_mask_missing-decode]" time="0.734" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[completion_hash-completion_token_mismatch-decode]" time="0.776" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[source_prefix-source_identity_mismatch-decode]" time="0.782" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[probability-probability_definition_missing-decode]" time="0.738" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_identity_version_mask_and_probability_faults_are_incomplete[prefill_probability-prefill_probability_definition_missing-prefill]" time="0.778" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[sample]" time="0.758" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[stratum]" time="0.350" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[final_checkpoint]" time="3.286" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[score_row]" time="0.769" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[corrupt_score]" time="0.316" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[duplicate_rank]" time="1.365" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_missing_corrupt_duplicate_population_or_slices_are_incomplete[dp_rank]" time="0.759" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_valid_nonfinite_is_incomplete_but_masked_nonfinite_is_excluded" time="0.004" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_native_nested_teacher_response_is_separate_diagnostic_with_bound_launch" time="0.081"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_native_nested_teacher_res0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+
+    def test_native_nested_teacher_response_is_separate_diagnostic_with_bound_launch(tmp_path, native_fixture, native_teacher_samples):
+        samples, requests = native_teacher_samples
+        root = tmp_path / "student" / "A" / "teacher-job"
+        (root / "rollout_data").mkdir(parents=True)
+        (root / "train_data").mkdir()
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:555: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_native_nested_teacher_res0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_native_nested_teacher_res0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8[0]" time="0.035"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+prefix_position = 0
+
+    @pytest.mark.parametrize("prefix_position", [0, 1])
+    def test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, prefix_position):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:587: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8[1]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+prefix_position = 1
+
+    @pytest.mark.parametrize("prefix_position", [0, 1])
+    def test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, prefix_position):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:587: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_prefix_token_corr1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[token_ids-teacher_input_token_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'token_ids', code = 'teacher_input_token_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[missing_field-teacher_scores_missing]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'missing_field', code = 'teacher_scores_missing'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[short_array-teacher_input_score_coverage_mismatch]" time="0.004"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp2')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'short_array', code = 'teacher_input_score_coverage_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp2/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp2/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[missing_value-missing_valid_token]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp3')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'missing_value', code = 'missing_valid_token'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp3/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp3/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[nonfinite-nonfinite_valid_token]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp4')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'nonfinite', code = 'nonfinite_valid_token'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp4/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp4/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[sample_endpoint-teacher_sample_endpoint_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp5')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'sample_endpoint', code = 'teacher_sample_endpoint_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp5/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp5/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[unbound-teacher_identity_unbound]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp6')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'unbound', code = 'teacher_identity_unbound'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp6/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp6/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[ready_url-teacher_endpoint_identity_mismatch]" time="0.004"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp7')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'ready_url', code = 'teacher_endpoint_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp7/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp7/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[ready_model-teacher_model_identity_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp8')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'ready_model', code = 'teacher_model_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp8/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp8/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[server_model-teacher_model_identity_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp9')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'server_model', code = 'teacher_model_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp9/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp9/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[deterministic-teacher_probability_contract_unestablished]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp10')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'deterministic', code = 'teacher_probability_contract_unestablished'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp10/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_faults_are_incomp10/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_masked_corruption_is_incomplete_with_original_denominator[False]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+missing = False
+
+    @pytest.mark.parametrize("missing", [False, True])
+    def test_teacher_masked_corruption_is_incomplete_with_original_denominator(tmp_path, native_fixture, native_teacher_samples, missing):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:679: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_masked_corruption_is_incomplete_with_original_denominator[True]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+missing = True
+
+    @pytest.mark.parametrize("missing", [False, True])
+    def test_teacher_masked_corruption_is_incomplete_with_original_denominator(tmp_path, native_fixture, native_teacher_samples, missing):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:679: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...ed', 'population_dir': '/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-expanded-parent-final/test_teacher_masked_corruption1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_token_weighted_not_sample_weighted_and_each_stratum_is_gated" time="4.072" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_inclusive_native_tis_boundaries_and_unclamped_k3" time="0.004" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_native_zigzag_cp_reassembles_token_positions_not_rank_order[2-thd-None]" time="0.003" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_native_zigzag_cp_reassembles_token_positions_not_rank_order[4-thd-None]" time="0.003" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_native_zigzag_cp_reassembles_token_positions_not_rank_order[2-bshd-32]" time="0.003" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_unknown_cp_allgather_is_explicitly_incomplete" time="0.002" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_zero_target_denominator_is_named_not_synthetic_zero" time="0.002" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_finite_native_values_with_overflowing_difference_are_incomplete" time="0.003" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_incomplete_frozen_population_cannot_be_used" time="0.003" /><testcase classname="tests.fast.test_qwen35_monitoring" name="test_schedule_and_threshold_cannot_be_relaxed" time="0.002" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_pinned_patch_is_exact_and_idempotent" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:72: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_drift_is_rejected_without_altering_source" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:90: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_patch_identity_is_checked_before_mutation" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:100: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_dependency_identity_is_checked_before_mutation[image]" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:111: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_dependency_identity_is_checked_before_mutation[commit]" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:111: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_dependency_identity_is_checked_before_mutation[version]" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:111: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_actual_schedule_callback_red_green[False]" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:222: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_actual_schedule_callback_red_green[True]" time="0.002"><skipped type="pytest.skip" message="The actual qualified Megatron source must be explicitly supplied">/data/ycfeng/sota-engine/miles/tests/fast/test_megatron_scoring_lifetime.py:222: The actual qualified Megatron source must be explicitly supplied</skipped></testcase><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_observer_retains_no_output_and_leaves_hooks_transparent" time="0.006" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_observer_failure_cannot_change_forward_or_backward[memory]" time="0.004" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_observer_failure_cannot_change_forward_or_backward[write]" time="0.004" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_native_hook_installation_is_soft_and_pass_scoped[None]" time="0.004" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_native_hook_installation_is_soft_and_pass_scoped[source]" time="0.004" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_native_hook_installation_is_soft_and_pass_scoped[registration]" time="0.003" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_combined_cli_typed_before_log_prob_installs_without_swe_attempt[False]" time="0.142" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_combined_cli_typed_before_log_prob_installs_without_swe_attempt[True]" time="0.138" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_student_preflight_precedes_training_preparation" time="0.003" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_default_training_skips_preflight" time="0.002" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_contrast_adds_only_observation_arguments[False]" time="0.007" /><testcase classname="tests.fast.test_megatron_scoring_lifetime" name="test_contrast_adds_only_observation_arguments[True]" time="0.013" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNumGpusPerEnginePrecedence" name="test_group_level_value_wins_over_model_and_args" time="0.006" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNumGpusPerEnginePrecedence" name="test_model_then_global_num_gpus_per_engine_defaults_are_resolved" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNumGpusPerEnginePrecedence" name="test_a_group_asking_for_zero_gpus_per_engine_is_rejected_not_defaulted" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNumGpusPerEnginePrecedence" name="test_a_model_asking_for_zero_gpus_per_engine_is_rejected_not_defaulted" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestModelPathConsistency" name="test_groups_for_one_model_cannot_resolve_to_different_model_paths" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestModelPathConsistency" name="test_multi_lora_engines_may_serve_a_quantized_copy_of_the_base" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestModelPathConsistency" name="test_multi_lora_rejects_weight_updates" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestResolvedServerGroupValidation" name="test_a_resolved_group_with_zero_gpus_is_rejected" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestResolvedServerGroupValidation" name="test_a_resolved_group_with_non_positive_gpus_per_engine_is_rejected" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNumServerCells" name="test_non_placeholder_engine_cells_are_counted" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestOverridesResolution" name="test_an_explicit_model_path_override_is_not_replaced" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestOverridesResolution" name="test_unrelated_override_keys_pass_through" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlShapeValidation" name="test_engine_groups_is_accepted_as_an_alias_for_server_groups" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlShapeValidation" name="test_a_yaml_without_the_sglang_key_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlShapeValidation" name="test_an_unknown_model_key_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlShapeValidation" name="test_an_unknown_server_group_key_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlShapeValidation" name="test_giving_both_group_spellings_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestPrefillNumServersPath" name="test_prefill_num_servers_counts_engines_not_gpus[False]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestPrefillNumServersPath" name="test_prefill_num_servers_counts_engines_not_gpus[True]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestPrefillNumServersPath" name="test_prefill_consuming_all_gpus_is_rejected" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestGpuOffset" name="test_gpu_offsets_accumulate_across_groups_and_models_including_placeholders" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestEngineOffset" name="test_engine_offsets_count_the_workers_of_every_preceding_group" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestEngineOffset" name="test_a_group_whose_engine_spans_nodes_contributes_one_worker_per_node" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestEngineOffset" name="test_prefill_and_decode_groups_are_numbered_in_that_order" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestEngineOffset" name="test_the_generated_eval_model_is_numbered_after_every_rollout_engine" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_explicit_colocated_rollout_gpus_support_shared_and_dedicated_engines" time="0.192" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_existing_rollout_gpu_defaults_and_modes_are_preserved[colocated-default]" time="0.161" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_existing_rollout_gpu_defaults_and_modes_are_preserved[colocated-explicit-shared]" time="0.166" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_existing_rollout_gpu_defaults_and_modes_are_preserved[disaggregated-explicit]" time="0.168" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_existing_rollout_gpu_defaults_and_modes_are_preserved[disaggregated-unset]" time="0.149" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_existing_rollout_gpu_defaults_and_modes_are_preserved[train-only]" time="0.149" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_no_offload_flag_means_no_group_needs_offload[False]" time="0.007" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_no_offload_flag_means_no_group_needs_offload[True]" time="0.006" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_groups_overlapping_megatron_offload_and_the_rest_disable_memory_saver" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_the_gpu_cursor_accumulates_across_models" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_a_disaggregated_rollout_group_past_the_megatron_gpus_does_not_offload" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestNeedsOffload" name="test_an_explicit_memory_saver_override_wins" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlEvalModel" name="test_a_yaml_without_an_eval_model_is_rejected_when_eval_gpus_are_requested" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlEvalModel" name="test_a_yaml_eval_model_sized_differently_from_eval_num_gpus_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlEvalModel" name="test_yaml_eval_update_weights_is_not_overridden" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestYamlEvalModel" name="test_yaml_eval_group_num_gpus_per_engine_wins_over_eval_cli" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestRolloutOffset" name="test_debug_train_only_without_eval_fleet_has_zero_rollout_placement_offset" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestRolloutOffset" name="test_debug_train_only_places_the_eval_fleet_after_the_actor_bundles" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestRolloutOffset" name="test_debug_rollout_only_has_zero_rollout_placement_offset" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestMegatronNumGpus" name="test_a_namespace_carrying_the_removed_critic_train_only_field_is_rejected" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestOutputStoreOverrideRejection" name="test_a_group_may_not_set_the_output_store" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_disaggregation_mode_override_is_rejected_at_resolve_time[null]" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_disaggregation_mode_override_is_rejected_at_resolve_time[prefill]" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_disaggregation_mode_override_is_rejected_at_resolve_time[decode]" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_port_override_is_rejected_at_resolve_time" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_host_override_is_rejected_at_resolve_time" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_gated_launch_port_override_is_rejected_at_resolve_time" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_gated_launch_port_override_in_a_later_group_is_rejected" time="0.004" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestHostPortOverrideRejection" name="test_a_gated_launch_port_reaching_the_eval_fleet_from_the_cli_is_rejected" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestSglangConfigFileArg" name="test_a_path_is_still_read_from_disk" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestSglangConfigFileArg" name="test_an_inline_base64_payload_is_accepted" time="0.003" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValue" name="test_groups_that_agree_share_their_override" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValue" name="test_a_config_without_engine_groups_reads_the_cli_value" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValue" name="test_a_field_nobody_declares_is_rejected" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValueBoundaries" name="test_disagreeing_groups_cannot_supply_a_shared_value[second_overrides0]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValueBoundaries" name="test_disagreeing_groups_cannot_supply_a_shared_value[second_overrides1]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValueBoundaries" name="test_placeholder_overrides_do_not_affect_shared_engine_values[False]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValueBoundaries" name="test_placeholder_overrides_do_not_affect_shared_engine_values[True]" time="0.002" /><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestCommonValueBoundaries" name="test_a_field_missing_from_one_live_group_is_rejected" time="0.002" /></testsuite></testsuites>

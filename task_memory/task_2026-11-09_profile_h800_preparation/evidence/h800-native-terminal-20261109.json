@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-11-09T10:33:04.798241+00:00",
+  "job": "exp-1109-181120-274261",
+  "uid": "8af62b65-5176-472a-bb2d-86ab35776203",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T10:29:35Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed.",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"student\" 8 GPU/replica x 4 replicas = 32 GPU (H800), task \"teacher\" 4 GPU/replica x 1 replicas = 4 GPU (H800). Queue remaining: H800=30."
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1109-181120-274261-student-eccbc87e",
+        "ip": "10.191.7.15",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-cfcd2084",
+        "ip": "10.191.0.30",
+        "phase": "Failed"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-c4ca4238",
+        "ip": "10.191.1.9",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-c81e728d",
+        "ip": "10.191.5.7",
+        "phase": "Stopped"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1109-181120-274261-teacher-cfcd2084",
+        "ip": "100.112.20.152",
+        "phase": "Stopped"
+      }
+    ]
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "job": {
+    "kind": "RJob",
+    "apiVersion": "rjob.brainpp.cn/v1alpha1",
+    "metadata": {
+      "name": "exp-1108-172407-535512",
+      "uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+      "creationTimestamp": "2026-11-08T09:24:07Z",
+      "deletionTimestamp": null,
+      "ownerReferences": null
+    },
+    "creator": "i-fengyicheng",
+    "preemptible": "no",
+    "quota_group": "step_main",
+    "stop_annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+    },
+    "stop_spec": {
+      "stopTimestamp": "2026-11-08T09:42:58Z"
+    },
+    "status": {
+      "phase": "Stopped",
+      "reason": "RJobStopped",
+      "message": "RJob stopped",
+      "taskStatuses": {
+        "student": {
+          "succeeded": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-08T09:43:01Z",
+      "taskStage": "stepmind-task-stage-1"
+    }
+  },
+  "replica": {
+    "kind": "Replica",
+    "apiVersion": "rjob.brainpp.cn/v1alpha1",
+    "metadata": {
+      "name": "exp-1108-172407-535512-student-cfcd2084",
+      "uid": "1c494c32-b551-4493-b1b2-755e83f899fb",
+      "creationTimestamp": "2026-11-08T09:24:29Z",
+      "deletionTimestamp": null,
+      "ownerReferences": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1108-172407-535512",
+          "uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ]
+    },
+    "creator": "i-fengyicheng",
+    "preemptible": "no",
+    "quota_group": "step_main",
+    "stop_annotations": {},
+    "stop_spec": {},
+    "status": {
+      "conditions": [
+        {
+          "type": "Initialized",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-08T09:24:30Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "Ready",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-08T09:42:57Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "ContainersReady",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-08T09:42:57Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "PodScheduled",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-08T09:24:30Z"
+        }
+      ],
+      "hostIP": "10.204.13.66",
+      "podIP": "10.204.13.66",
+      "podIPs": [
+        {
+          "ip": "10.204.13.66"
+        }
+      ],
+      "startTime": "2026-11-08T09:24:30Z",
+      "containerStatuses": [
+        {
+          "name": "student",
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "reason": "Completed",
+              "startedAt": "2026-11-08T09:30:43Z",
+              "finishedAt": "2026-11-08T09:42:54Z",
+              "containerID": "containerd://dccab21a8e3801d71e9d00d0785e851f59ebf2c14bfafe716636a77fbddbabc0"
+            }
+          },
+          "lastState": {},
+          "ready": false,
+          "restartCount": 0,
+          "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "containerID": "containerd://dccab21a8e3801d71e9d00d0785e851f59ebf2c14bfafe716636a77fbddbabc0",
+          "started": false
+        }
+      ],
+      "qosClass": "Guaranteed",
+      "phase": "Succeeded",
+      "nodeName": "gpu-h200-0969.lgcm.sh.istep.fun",
+      "finishTimestamp": "2026-11-08T09:42:58Z"
+    }
+  }
+}

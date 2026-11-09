@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 import pytest
+import torch
 
 from miles.backends.sglang_utils.sglang_api_client import WorkerType
 from miles.backends.sglang_utils.sglang_config import ModelConfig, ServerGroupConfig, SglangConfig
@@ -16,6 +17,8 @@ from miles.utils.args.runtime import TrainerConfig
 
 _UPDATER_MODULE = "miles.backends.training_utils.weight_update.updater"
 _SESSION_MODULE = "miles.backends.training_utils.weight_update.session"
+_TENSOR_MODULE = "miles.backends.training_utils.weight_update.protocols.cuda_ipc"
+_BROADCAST_MODULE = "miles.backends.training_utils.weight_update.protocols.broadcast"
 
 _ENGINE_COUNT = 2
 _PREPARE_PHASES = ["pause_generation", "flush_cache", "begin_weight_update"]
@@ -276,6 +279,85 @@ class TestWeightUpdateSessionFrame:
         _run(updater, rank=1)
 
         assert calls == []
+
+
+@pytest.mark.parametrize("colocated_engine_count", [1, 4], ids=["one_per_transport", "four_per_transport"])
+def test_mixed_engines_complete_successive_weight_update_sessions(colocated_engine_count: int) -> None:
+    """Every mixed-layout receiver closes and publishes both sessions, regardless of its tensor transport."""
+    calls: list[tuple[int, str, dict]] = []
+    engines = [_RecordingApiClient(calls, index) for index in range(2 * colocated_engine_count)]
+    cell_ids = [f"cell-{index}" for index in range(len(engines))]
+    args = TrainerConfig.model_construct(
+        colocate=True,
+        rollout_num_gpus_per_engine=2,
+        update_weight_transfer_mode="broadcast",
+        lora_rank=0,
+        lora_adapter_path=None,
+        lora_sync_sends_base=True,
+        check_weight_update_equal=False,
+        check_lora_weight_equal=False,
+        ft_components=[],
+        update_weight_engine_request_timeout=10.0,
+        pause_generation_mode="retract",
+        fully_async=False,
+        sglang=SglangConfig(models=[], base_args={"speculative_algorithm": None}),
+        enable_mtp_training=False,
+    )
+    parallel_state = SimpleNamespace(
+        intra_dp_cp=SimpleNamespace(rank=0), tp=SimpleNamespace(rank=0), pp=SimpleNamespace(rank=0)
+    )
+    iterator = MagicMock(placement=SimpleNamespace(gather_pp=True))
+    iterator.iter_hf_weights.side_effect = lambda *a, **k: iter([[("weight", torch.zeros(1))]])
+
+    def send_ipc(*, ipc_engine, selector, **kwargs):
+        return [
+            async_utils.submit(ipc_engine.update_weights_from_tensor(serialized_named_tensors=[], selector=selector))
+        ], object()
+
+    with (
+        patch(f"{_TENSOR_MODULE}.dist") as dist_mock,
+        patch(f"{_UPDATER_MODULE}.dist", dist_mock),
+        patch(f"{_BROADCAST_MODULE}.dist", dist_mock),
+        patch(f"{_TENSOR_MODULE}.connect_rollout_engines_from_distributed") as connect,
+        patch(f"{_TENSOR_MODULE}._send_to_colocated_engine", side_effect=send_ipc),
+        patch(f"{_UPDATER_MODULE}.get_gloo_group", return_value=MagicMock()),
+        patch(f"{_TENSOR_MODULE}.torch.cuda.ipc_collect"),
+        patch(f"{_TENSOR_MODULE}.torch.cuda.empty_cache"),
+    ):
+        dist_mock.get_rank.return_value = 0
+        dist_mock.get_world_size.return_value = 2 * colocated_engine_count
+        dist_mock.all_gather_object.side_effect = lambda results, value, group: results.__setitem__(
+            slice(None), [value] * len(results)
+        )
+        updater = WeightUpdater(
+            args,
+            [],
+            weights_getter=lambda: {},
+            model_name="qwen",
+            quantization_config=None,
+            iterator_factory=lambda *a, **k: iterator,
+            parallel_state=parallel_state,
+            is_lora=False,
+        )
+        updater.connect_rollout_engines(engines, [2] * len(engines), list(range(0, 2 * len(engines), 2)), cell_ids)
+        connect.assert_called_once_with(
+            "miles", engines[colocated_engine_count:], engine_gpu_counts=[2] * colocated_engine_count
+        )
+        for version in (4, 5):
+            calls.clear()
+            assert updater.update_weights(weight_version=version) is True
+            for index in range(len(engines)):
+                transfers = (
+                    ["update_weights_from_tensor"]
+                    if index == 0
+                    else ["update_weights_from_distributed"] if index >= colocated_engine_count else []
+                )
+                assert [name for engine_index, name, _ in calls if engine_index == index] == (
+                    _PREPARE_PHASES + transfers + _FINALIZE_PHASES
+                )
+            assert _kwargs_of(calls, "update_weight_version") == [{"weight_version": str(version)}] * len(engines)
+            assert set(updater.protocol.cell_updaters_of_cell_id) == set(cell_ids)
+            assert all(not cell.is_errored for cell in updater.protocol.cell_updaters_of_cell_id.values())
 
 
 class TestExplicitWeightVersion:

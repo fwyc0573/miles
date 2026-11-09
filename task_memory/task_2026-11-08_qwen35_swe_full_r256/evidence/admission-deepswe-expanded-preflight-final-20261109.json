@@ -1,0 +1,165 @@
+{
+  "submitted": false,
+  "d9": {
+    "observed_at": "2026-11-09T06:08:20.233635+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H200",
+    "nonterminal_jobs": [
+      {
+        "name": "exp-1109-025514-730455",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1109-030045-360720",
+        "phase": "Running",
+        "roles": {
+          "default": 6
+        },
+        "gpus": 6
+      },
+      {
+        "name": "exp-1109-130452-917016",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1108-211048-457019",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1108-215214-032806",
+        "phase": "Running",
+        "roles": {
+          "evaluation": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1108-140737-459799",
+        "phase": "Running",
+        "roles": {
+          "default": 1
+        },
+        "gpus": 1
+      },
+      {
+        "name": "exp-1108-211047-906353",
+        "phase": "Running",
+        "roles": {
+          "default": 8
+        },
+        "gpus": 8
+      },
+      {
+        "name": "exp-1109-134855-638747",
+        "phase": "Running",
+        "roles": {
+          "default": 8
+        },
+        "gpus": 8
+      }
+    ],
+    "committed_gpus": 31,
+    "requested_gpus": 18,
+    "ceiling_gpus": 56,
+    "admitted": true,
+    "scope": "personal",
+    "policy": {
+      "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+      "task_annotation": "miles.ycfeng/task",
+      "personal_nonpreemptible_gpus": 56,
+      "temporary_task_allocation": {
+        "expires_at": "2026-11-08T21:00:00+00:00",
+        "nonpreemptible_gpus": 64
+      }
+    },
+    "evaluated_at": "2026-11-09T06:08:20.233635+00:00",
+    "preemptible": false
+  },
+  "h200_nonpreemptible": {
+    "observed_at": "2026-11-09T06:08:20.592938+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H200",
+    "nonterminal_jobs": [
+      {
+        "name": "exp-1108-140737-459799",
+        "phase": "Running",
+        "roles": {
+          "default": 1
+        },
+        "gpus": 1
+      },
+      {
+        "name": "exp-1109-130452-917016",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1108-211048-457019",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1108-211047-906353",
+        "phase": "Running",
+        "roles": {
+          "default": 8
+        },
+        "gpus": 8
+      },
+      {
+        "name": "exp-1109-134855-638747",
+        "phase": "Running",
+        "roles": {
+          "default": 8
+        },
+        "gpus": 8
+      },
+      {
+        "name": "exp-1109-030045-360720",
+        "phase": "Running",
+        "roles": {
+          "default": 6
+        },
+        "gpus": 6
+      },
+      {
+        "name": "exp-1108-215214-032806",
+        "phase": "Running",
+        "roles": {
+          "evaluation": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1109-025514-730455",
+        "phase": "Running",
+        "roles": {
+          "default": 2
+        },
+        "gpus": 2
+      }
+    ],
+    "committed_gpus": 31,
+    "requested_gpus": 18,
+    "ceiling_gpus": 32,
+    "admitted": false
+  }
+}

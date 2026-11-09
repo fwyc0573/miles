@@ -1,0 +1,122 @@
+{
+  "query": "rjob-historical-events",
+  "job": "exp-1108-172407-535512",
+  "replica": "exp-1108-172407-535512-student-cfcd2084",
+  "rjob_uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+  "replica_uid": "1c494c32-b551-4493-b1b2-755e83f899fb",
+  "started_at": "2026-11-08T09:43:39.732904+00:00",
+  "ok": true,
+  "response": {
+    "pages": [
+      {
+        "parameters": {
+          "name": "exp-1108-172407-535512",
+          "kind": "RJob",
+          "uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+          "sortBy": "lastTimestamp:desc",
+          "page": 1,
+          "pageSize": 100
+        },
+        "response": {
+          "method": "GET",
+          "path": "/kapis/v1/tenants/shai/projects/shai-core/events",
+          "parameters": {
+            "name": "exp-1108-172407-535512",
+            "kind": "RJob",
+            "uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+            "sortBy": "lastTimestamp:desc",
+            "page": 1,
+            "pageSize": 100
+          },
+          "timeout_seconds": 20.0,
+          "scope": "/shai/shai-core",
+          "http_status": 200,
+          "body": {
+            "status": "Success",
+            "code": 200,
+            "data": {
+              "total": 5,
+              "data": [
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "Close replica",
+                  "message": "Close replica/exp-1108-172407-535512-teacher-cfcd2084",
+                  "source": {},
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-08T09:43:00Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                },
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "SuccessfulDelete",
+                  "message": "Deleted pod: exp-1108-172407-535512-teacher-cfcd2084",
+                  "source": {},
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-08T09:43:00Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                },
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "Pulling",
+                  "message": "Pulling image \"artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805\"",
+                  "source": {
+                    "host": "gpu-h200-0969.lgcm.sh.istep.fun"
+                  },
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-08T09:24:33Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                },
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "Start replica",
+                  "message": "Start replica/exp-1108-172407-535512-student-cfcd2084",
+                  "source": {},
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-08T09:24:29Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                },
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "Start replica",
+                  "message": "Start replica/exp-1108-172407-535512-teacher-cfcd2084",
+                  "source": {},
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-08T09:24:28Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "count": 5,
+    "pagination_complete": true
+  },
+  "finished_at": "2026-11-08T09:43:41.273752+00:00"
+}

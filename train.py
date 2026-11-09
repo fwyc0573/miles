@@ -19,6 +19,8 @@ from miles.utils import object_store
 from miles.utils.async_utils import Disposer, with_disposer
 from miles.utils.data import RolloutDataPack, remove_rollout_data_refs, remove_train_output_refs
 from miles.utils.ft_utils.mini_ft_controller import maybe_start_mini_ft_controller
+from miles.utils.args.custom_view import compute_custom_function_config
+from miles.utils.function_registry import load_function
 from miles.utils.lora.utils import lora_rollout_enabled
 from miles.utils.misc import should_run_periodic_action
 from miles.utils.orchestration_utils import (
@@ -124,6 +126,11 @@ async def _score_eval_datasets(
 
 async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
     args = startup_info.args
+    training_protocol = None
+    if (hook := args.custom_megatron_optimizer_step_hook_path) is not None:
+        factory = getattr(load_function(hook), "training_protocol", None)
+        if factory is not None:
+            training_protocol = factory(compute_custom_function_config(args, hook))
     assert not args.fully_async, "--fully-async requires the async driver: run train_async.py"
     capability = init_orchestration_script(startup_info, disposer=disposer)
     trainer_handles = create_trainer_handles(
@@ -225,7 +232,9 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
 
     # train loop.
     # note that for async training, one can change the position of the sync operation(ray.get).
-    for rollout_id in range(args.start_rollout_id, args.num_rollout):
+    rollout_ids = (training_protocol.rollout_ids(args.start_rollout_id) if training_protocol is not None
+                   else range(args.start_rollout_id, args.num_rollout))
+    for rollout_id in rollout_ids:
         await inference_controller.prepare_rollout(rollout_id)
         rollout_data_pack = await rollout_executor.get(rollout_id)
 
@@ -247,21 +256,30 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
                     await actor_model.offload()
             remove_train_output_refs(values)
         else:
-            await actor_model.train(rollout_id, rollout_data_pack)
+            train_outputs = await actor_model.train(rollout_id, rollout_data_pack)
+        if training_protocol is not None:
+            step_result = training_protocol.accept(train_outputs)
+            await rollout_executor.notify_train_result(rollout_id, step_result)
+        action_index = training_protocol.successful - 1 if training_protocol is not None else rollout_id
+        action_budget = training_protocol.budget if training_protocol is not None else args.num_rollout
+        update_successful = step_result["update_successful"] if training_protocol is not None else True
+        training_finished = action_index + 1 == action_budget
         remove_rollout_data_refs(args, rollout_data_pack)
         await rollout_executor.release(rollout_id)
 
         external_save = args.save_trigger_sentinel is not None and os.path.exists(args.save_trigger_sentinel)
-        if external_save or should_run_periodic_action(
-            rollout_id, args.save_interval, num_rollout_per_epoch, args.num_rollout
-        ):
-            await save(rollout_id, force_sync=external_save)
+        if update_successful and (external_save or should_run_periodic_action(
+            action_index, args.save_interval, num_rollout_per_epoch, action_budget
+        )):
+            await save(action_index, force_sync=external_save or training_finished)
             if external_save:
                 os.remove(args.save_trigger_sentinel)
 
         # One predicate for both blocks: the handoff below exists to feed this eval on the last rollout.
-        eval_due = should_run_periodic_action(rollout_id, args.eval_interval, num_rollout_per_epoch, args.num_rollout)
-        if rollout_id + 1 < args.num_rollout or eval_due:
+        eval_due = update_successful and should_run_periodic_action(
+            action_index, args.eval_interval, num_rollout_per_epoch, action_budget
+        )
+        if not training_finished or eval_due:
             if args.colocate_memory_peak_device == "gpu":
                 await actor_model.clear_memory()
                 if lora_rollout_enabled(args):
@@ -278,7 +296,7 @@ async def train(startup_info: OrchestratorStartupInfo, *, disposer: Disposer):
 
         if eval_due:
             await inference_controller.prepare_eval()
-            await eval_dispatcher.dispatch(rollout_id, force=rollout_id == args.num_rollout - 1)
+            await eval_dispatcher.dispatch(action_index, force=training_finished)
 
         if (
             args.debug_exit_after_rollout is not None

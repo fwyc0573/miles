@@ -121,7 +121,7 @@ class TestConnect:
         dist_mock, connect, disconnect = self._connect(protocol, engines, rank=rank, tp_rank=0)
 
         assert protocol.use_distribute is True
-        assert protocol.rollout_engines == engines[:3]
+        assert protocol.rollout_engines == engines
         assert protocol.distributed_rollout_engines == engines[3:]
         connect.assert_called_once_with("miles", engines[3:], engine_gpu_counts=[2])
         disconnect.assert_not_called()
@@ -208,6 +208,6 @@ class TestObservedWorldSize:
 
         _, connect, _ = TestConnect._connect(protocol, engines, rank=0, tp_rank=0)
 
-        assert protocol.rollout_engines == engines[:3]
+        assert protocol.rollout_engines == engines
         assert protocol.distributed_rollout_engines == engines[3:]
         connect.assert_called_once_with("miles", engines[3:], engine_gpu_counts=[2])

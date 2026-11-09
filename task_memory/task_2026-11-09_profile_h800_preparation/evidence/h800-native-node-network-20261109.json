@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-11-09T10:42:21.276312+00:00",
+  "job": "exp-1109-181120-274261",
+  "native_replica_environment": [
+    {
+      "replica": "exp-1109-181120-274261-student-c4ca4238",
+      "selected_lines": [
+        "NODE_NAME=gpu-h800-0381.host.platform.shaipower.com",
+        "NODE_RANK=1",
+        "RDMA_NETWORK_LINK_TYPE=RoCE",
+        "NET_IF_PREFIX=brainpf",
+        "NCCL_SOCKET_IFNAME=ens20np0",
+        "NVSHMEM_BOOTSTRAP_UID_SOCK_IFNAME=ens20np0",
+        "NCCL_IB_HCA==mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_6,mlx5_7,mlx5_8",
+        "NCCL_IB_GID_INDEX=3",
+        "NVSHMEM_HCA_PE_MAPPING=mlx5_0:1:1,mlx5_1:1:1,mlx5_2:1:1,mlx5_3:1:1,mlx5_4:1:1,mlx5_6:1:1,mlx5_7:1:1,mlx5_8:1:1",
+        "2026-11-09 10:19:10: Ready to go."
+      ]
+    },
+    {
+      "replica": "exp-1109-181120-274261-student-c81e728d",
+      "selected_lines": [
+        "NODE_NAME=gpu-h800-0057.host.platform.shaipower.com",
+        "NODE_RANK=2",
+        "RDMA_NETWORK_LINK_TYPE=RoCE",
+        "NET_IF_PREFIX=brainpf",
+        "NCCL_SOCKET_IFNAME=ens22np0",
+        "NVSHMEM_BOOTSTRAP_UID_SOCK_IFNAME=ens22np0",
+        "NCCL_IB_HCA==mlx5_2,mlx5_3,mlx5_1,mlx5_0,mlx5_4,mlx5_6,mlx5_8,mlx5_7",
+        "NCCL_IB_GID_INDEX=3",
+        "NVSHMEM_HCA_PE_MAPPING=mlx5_2:1:1,mlx5_3:1:1,mlx5_1:1:1,mlx5_0:1:1,mlx5_4:1:1,mlx5_6:1:1,mlx5_8:1:1,mlx5_7:1:1",
+        "2026-11-09 10:18:54: Ready to go."
+      ]
+    },
+    {
+      "replica": "exp-1109-181120-274261-student-eccbc87e",
+      "selected_lines": [
+        "NODE_NAME=gpu-h800-0264.host.platform.shaipower.com",
+        "NODE_RANK=3",
+        "RDMA_NETWORK_LINK_TYPE=RoCE",
+        "NET_IF_PREFIX=brainpf",
+        "NCCL_SOCKET_IFNAME=ens20np0",
+        "NVSHMEM_BOOTSTRAP_UID_SOCK_IFNAME=ens20np0",
+        "NCCL_IB_HCA==mlx5_0,mlx5_1,mlx5_2,mlx5_3,mlx5_4,mlx5_6,mlx5_7,mlx5_8",
+        "NCCL_IB_GID_INDEX=3",
+        "NVSHMEM_HCA_PE_MAPPING=mlx5_0:1:1,mlx5_1:1:1,mlx5_2:1:1,mlx5_3:1:1,mlx5_4:1:1,mlx5_6:1:1,mlx5_7:1:1,mlx5_8:1:1",
+        "2026-11-09 10:18:49: Ready to go."
+      ]
+    }
+  ]
+}

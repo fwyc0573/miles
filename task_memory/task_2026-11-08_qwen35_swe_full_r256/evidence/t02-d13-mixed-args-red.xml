@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.441" timestamp="2026-11-09T13:19:16.714876+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount" name="test_explicit_colocated_rollout_gpus_support_shared_and_dedicated_engines" time="0.166"><failure message="AssertionError: sglang_config total GPUs (16) != rollout_num_gpus + eval_num_gpus (8)">self = &lt;tests.fast.backends.sglang_utils.test_sglang_config.TestValidatedRolloutGpuCount object at 0x7f6de76ccd40&gt;
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/t02-d13-mixed-args-red/test_explicit_colocated_rollou0')
+
+    def test_explicit_colocated_rollout_gpus_support_shared_and_dedicated_engines(self, tmp_path):
+        """The real validation chain must preserve rollout GPUs outside the shared training span."""
+        config_path = tmp_path / "sglang.yaml"
+        config_path.write_text(
+            "sglang:\n"
+            "  - name: default\n"
+            "    server_groups:\n"
+            "      - worker_type: regular\n"
+            "        num_gpus: 8\n"
+            "      - worker_type: regular\n"
+            "        num_gpus: 8\n"
+        )
+        # FSDP's CPU parser exercises the shared Miles validator and native SGLang
+        # config parser without Megatron's GPU-dependent backend validation.
+&gt;       args = parse_fsdp_test_config(
+            "--actor-num-gpus-per-node",
+            "8",
+            "--num-gpus-per-node",
+            "8",
+            "--colocate",
+            "--rollout-num-gpus",
+            "16",
+            "--rollout-num-gpus-per-engine",
+            "2",
+            "--sglang-config",
+            str(config_path),
+        )
+
+tests/fast/backends/sglang_utils/test_sglang_config.py:436: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/fixtures/args_fixtures.py:121: in parse_fsdp_test_config
+    return _parse_test_config([*_FSDP_TEST_ARGV, *argv])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/fast/fixtures/args_fixtures.py:127: in _parse_test_config
+    return parse_args()
+           ^^^^^^^^^^^^
+miles/utils/arguments.py:243: in parse_args
+    args, _ = parse_args_and_get_parser(
+miles/utils/arguments.py:411: in parse_args_and_get_parser
+    sglang, sglang_scaling = SglangConfig.parse_args(args)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+miles/backends/sglang_utils/sglang_config.py:295: in parse_args
+    return cls.resolve(raw=_compute_raw_sglang_config(args), args=args, base_args=base_args)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = Namespace(config=None, optimizer='adam', lr=1e-06, lr_warmup_init=0.0, min_lr=0.0, lr_decay_style='constant', lr_decay...nal=False, ckpt_step=None, lora_B_init_method='zero', rollout_dataset_functions={}, rollout_dataset_agent_functions=[])
+
+    def _compute_raw_sglang_config(args) -&gt; _RawSglangConfig:
+        if not args.starts_inference_engines:
+            return _RawSglangConfig(models=[])
+    
+        eval_num_gpus = args.eval_num_gpus
+        rollout_num_gpus = args.rollout_num_gpus or 0
+    
+        if args.sglang_config is not None:
+            config = _RawSglangConfig.from_file_arg(args.sglang_config)
+            expected = rollout_num_gpus + eval_num_gpus
+            actual = config.total_num_gpus
+            assert (
+&gt;               actual == expected
+            ), f"sglang_config total GPUs ({actual}) != rollout_num_gpus + eval_num_gpus ({expected})"
+E           AssertionError: sglang_config total GPUs (16) != rollout_num_gpus + eval_num_gpus (8)
+
+miles/backends/sglang_utils/sglang_config.py:395: AssertionError</failure></testcase></testsuite></testsuites>

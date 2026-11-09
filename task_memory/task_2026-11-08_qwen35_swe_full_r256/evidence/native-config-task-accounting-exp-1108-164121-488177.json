@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-11-08T08:41:21.962456+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H200",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1108-164121-488177",
+      "phase": "Pending",
+      "roles": {
+        "default": 1
+      },
+      "gpus": 1
+    }
+  ],
+  "committed_gpus": 1,
+  "requested_gpus": 0,
+  "ceiling_gpus": 64,
+  "admitted": true,
+  "scope": "task",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": 56,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": 64
+    }
+  },
+  "evaluated_at": "2026-11-08T08:41:21.962456+00:00",
+  "preemptible": false
+}

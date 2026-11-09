@@ -1,0 +1,34 @@
+{
+  "versions": {
+    "black": "24.3.0",
+    "isort": "5.13.2"
+  },
+  "results": {
+    "tests/fast/test_qwen35_sample_lifecycle.py": {
+      "new_fragment_formatted": true,
+      "baseline_bytes_preserved": true,
+      "ast_compile": "PASS",
+      "whole_file_black_baseline_current": [
+        false,
+        false
+      ],
+      "whole_file_isort_baseline_current": [
+        true,
+        true
+      ]
+    },
+    "tests/fast/test_swe_launcher.py": {
+      "new_fragment_formatted": true,
+      "baseline_bytes_preserved": true,
+      "ast_compile": "PASS",
+      "whole_file_black_baseline_current": [
+        false,
+        false
+      ],
+      "whole_file_isort_baseline_current": [
+        false,
+        false
+      ]
+    }
+  }
+}

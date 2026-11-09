@@ -1,0 +1,14 @@
+{
+  "completed_at": "2026-11-09T10:53:11.714013+00:00",
+  "status": "PASS",
+  "job": "exp-1109-181120-274261",
+  "deleted_cloud_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-20261109",
+  "deleted_files": 167,
+  "removed_logical_bytes": 15325989,
+  "cloud_root_exists_after": false,
+  "physical_oss_reclamation": "UNVERIFIED",
+  "shared_trash_touched": false,
+  "source_assets_touched": false,
+  "backup_receipt": "cloud-cleanup-backup-20261109.json",
+  "inventory_receipt": "cloud-cleanup-inventory-20261109.json"
+}

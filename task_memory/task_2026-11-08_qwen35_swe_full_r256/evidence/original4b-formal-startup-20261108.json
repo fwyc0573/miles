@@ -1,0 +1,16 @@
+{
+  "observed_at": 1794146282.194822,
+  "point": "original4b",
+  "cloud_point_exists": false,
+  "state.json": {
+    "present": false
+  },
+  "manifest.json": {
+    "present": false
+  },
+  "summary.json": {
+    "present": false
+  },
+  "servers": [],
+  "native_invocation_count": 0
+}

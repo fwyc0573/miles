@@ -1,0 +1,89 @@
+{
+  "observed_at": 1794147086.4558148,
+  "jobs": [
+    {
+      "label": "A/r256 capacity",
+      "receipt_present": true,
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/admission-deepswe-A-r256-capacity-20261108.json",
+      "job": "exp-1108-221043-570148",
+      "creator": "i-fengyicheng",
+      "task_annotation": "task_2026-11-08_qwen35_swe_full_r256",
+      "preemptible": "no",
+      "phase": "Running",
+      "requested_gpus": 10,
+      "tasks": [
+        {
+          "role": "student",
+          "replicas": 1,
+          "gpus_per_replica": 8,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        },
+        {
+          "role": "teacher",
+          "replicas": 1,
+          "gpus_per_replica": 2,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        }
+      ],
+      "admission_committed_gpus_before": 12,
+      "admission_scope": "task",
+      "admission_ceiling": 64
+    },
+    {
+      "label": "B/full capacity",
+      "receipt_present": true,
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/admission-deepswe-B-full-capacity-20261108.json",
+      "job": "exp-1108-221042-909448",
+      "creator": "i-fengyicheng",
+      "task_annotation": "task_2026-11-08_qwen35_swe_full_r256",
+      "preemptible": "no",
+      "phase": "Starting",
+      "requested_gpus": 10,
+      "tasks": [
+        {
+          "role": "student",
+          "replicas": 1,
+          "gpus_per_replica": 8,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        },
+        {
+          "role": "teacher",
+          "replicas": 1,
+          "gpus_per_replica": 2,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        }
+      ],
+      "admission_committed_gpus_before": 2,
+      "admission_scope": "task",
+      "admission_ceiling": 64
+    },
+    {
+      "label": "A/r256 asynchronous qualification",
+      "receipt_present": true,
+      "receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/admission-deepswe-native-async-20261108.json",
+      "job": "exp-1108-221044-294843",
+      "creator": "i-fengyicheng",
+      "task_annotation": "task_2026-11-08_qwen35_swe_full_r256",
+      "preemptible": "no",
+      "phase": "Starting",
+      "requested_gpus": 10,
+      "tasks": [
+        {
+          "role": "student",
+          "replicas": 1,
+          "gpus_per_replica": 8,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        },
+        {
+          "role": "teacher",
+          "replicas": 1,
+          "gpus_per_replica": 2,
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+        }
+      ],
+      "admission_committed_gpus_before": 22,
+      "admission_scope": "task",
+      "admission_ceiling": 64
+    }
+  ]
+}

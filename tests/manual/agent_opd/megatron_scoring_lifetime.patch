@@ -1,0 +1,21 @@
+diff --git a/megatron/core/pipeline_parallel/schedules.py b/megatron/core/pipeline_parallel/schedules.py
+--- a/megatron/core/pipeline_parallel/schedules.py
++++ b/megatron/core/pipeline_parallel/schedules.py
+@@ -784,7 +784,7 @@
+                     # and triggering PyTorch's "AccumulateGrad node's stream does
+                     # not match" warning. See issue #4124.
+-                    del output_tensor
++                del output_tensor
+         # Run computation for last microbatch out of context handler (want to
+         # synchronize gradients).
+         output_tensor, num_tokens = forward_step(
+             forward_step_func,
+@@ -807,7 +807,7 @@
+
+         if not forward_only:
+             backward_step(input_tensor, output_tensor, output_tensor_grad, config)
+-            del output_tensor
++        del output_tensor
+
+     if config.finalize_model_grads_func is not None and not forward_only:
+         # Finalize model grads (perform full grad all-reduce / reduce-scatter for

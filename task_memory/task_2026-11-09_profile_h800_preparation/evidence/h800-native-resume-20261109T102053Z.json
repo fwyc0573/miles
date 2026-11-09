@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-11-09T10:20:53.357184+00:00",
+  "job": "exp-1109-181120-274261",
+  "uid": "8af62b65-5176-472a-bb2d-86ab35776203",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 1,
+        "active": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "system_stop_reason": null,
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1109-181120-274261-student-eccbc87e",
+        "ip": "10.191.7.15",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-c4ca4238",
+        "ip": "10.191.1.9",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-c81e728d",
+        "ip": "10.191.5.7",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1109-181120-274261-student-cfcd2084",
+        "ip": "10.191.0.30",
+        "phase": "Starting"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1109-181120-274261-teacher-cfcd2084",
+        "ip": "100.112.20.152",
+        "phase": "Running"
+      }
+    ]
+  }
+}

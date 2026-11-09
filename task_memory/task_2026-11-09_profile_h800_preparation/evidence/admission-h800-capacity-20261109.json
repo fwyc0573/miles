@@ -1,0 +1,53 @@
+{
+  "observed_at": "2026-11-09T10:11:20.262141+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H800",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1109-135425-148924",
+      "phase": "Running",
+      "roles": {
+        "default": 8
+      },
+      "gpus": 8
+    },
+    {
+      "name": "exp-1109-135424-940308",
+      "phase": "Running",
+      "roles": {
+        "default": 8
+      },
+      "gpus": 8
+    },
+    {
+      "name": "exp-1109-135006-360974",
+      "phase": "Running",
+      "roles": {
+        "default": 8
+      },
+      "gpus": 8
+    }
+  ],
+  "committed_gpus": 24,
+  "requested_gpus": 36,
+  "ceiling_gpus": null,
+  "admitted": true,
+  "scope": "personal",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": null,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-09T00:00:00+00:00",
+      "nonpreemptible_gpus": null
+    }
+  },
+  "evaluated_at": "2026-11-09T10:11:20.262141+00:00",
+  "preemptible": false,
+  "config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/h800_capacity_config.json",
+  "pair": "A",
+  "protocol": "r256",
+  "submitted": true,
+  "job": "exp-1109-181120-274261",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}

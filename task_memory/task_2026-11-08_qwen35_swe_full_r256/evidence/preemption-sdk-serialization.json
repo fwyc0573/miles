@@ -1,0 +1,37 @@
+{
+  "status": "passed",
+  "brainpp": "2.8.6",
+  "kind": "native SDK serialization, no platform submission",
+  "workspace_namespace_stubbed": true,
+  "task_gpu_request_fixture": true,
+  "cases": [
+    {
+      "requested_preemptible": "no",
+      "root_metadata_labels": {
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "workspace.brainpp.cn/workspace-namspace": "cpu-fixture",
+        "kubebrain.brainpp.cn/creator": "fixture-user"
+      },
+      "root_metadata_annotations": {
+        "miles.ycfeng/task": "task_2026-11-08_qwen35_swe_full_r256"
+      },
+      "counted_nonpreemptible_gpus": 2
+    },
+    {
+      "requested_preemptible": "yes",
+      "root_metadata_labels": {
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "quotagroup.brainpp.cn/preemptible": "yes",
+        "workspace.brainpp.cn/workspace-namspace": "cpu-fixture",
+        "stepmind.com/queue-status": "suspend",
+        "kubebrain.brainpp.cn/creator": "fixture-user"
+      },
+      "root_metadata_annotations": {
+        "miles.ycfeng/task": "task_2026-11-08_qwen35_swe_full_r256",
+        "stepmind.com/queue-name": "quotagroup-global-default"
+      },
+      "counted_nonpreemptible_gpus": 0
+    }
+  ]
+}

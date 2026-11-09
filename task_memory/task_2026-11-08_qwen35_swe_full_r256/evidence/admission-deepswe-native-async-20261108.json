@@ -1,0 +1,55 @@
+{
+  "observed_at": "2026-11-08T14:10:44.282124+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H200",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1108-215214-032806",
+      "phase": "Running",
+      "roles": {
+        "evaluation": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1108-221043-570148",
+      "phase": "Pending",
+      "roles": {
+        "student": 8,
+        "teacher": 2
+      },
+      "gpus": 10
+    },
+    {
+      "name": "exp-1108-221042-909448",
+      "phase": "Pending",
+      "roles": {
+        "student": 8,
+        "teacher": 2
+      },
+      "gpus": 10
+    }
+  ],
+  "committed_gpus": 22,
+  "requested_gpus": 10,
+  "ceiling_gpus": 64,
+  "admitted": true,
+  "scope": "task",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": 56,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": 64
+    }
+  },
+  "evaluated_at": "2026-11-08T14:10:44.282124+00:00",
+  "preemptible": false,
+  "config": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_integration_config.json",
+  "pair": "A",
+  "protocol": "r256",
+  "submitted": true,
+  "job": "exp-1108-221044-294843",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}

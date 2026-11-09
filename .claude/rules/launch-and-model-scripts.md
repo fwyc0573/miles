@@ -93,9 +93,10 @@ definition, and when substantially modifying an existing one.
   `default_factory` for exactly this reason; a value captured at import leaks a
   stale SLURM allocation into every snapshot.
 - **Always pass `--num-gpus-per-node`,** so the GPU-count field is honoured
-  under `--colocate` on a sub-8-GPU node. Drop `--rollout-num-gpus` wherever
-  `--colocate` is set — `arguments.py` documents and implements it as ignored
-  there.
+  under `--colocate` on a sub-8-GPU node. Omit `--rollout-num-gpus` when using
+  the training allocation alone; pass it explicitly when additional inference
+  GPUs are allocated. Use native `--sglang-config` server pools to express
+  different offload behavior for shared and dedicated inference GPUs.
 - **A cluster that is already joined is expressed with
   `MILES_SCRIPT_EXTERNAL_RAY=1`,** not by deleting the `ray start` from the
   launcher.

@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-11-09T10:15:10.126322+00:00",
+  "job": "exp-1109-181120-274261",
+  "uid": "8af62b65-5176-472a-bb2d-86ab35776203",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "student": {
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "scheduling": {
+    "backoffLimit": 10,
+    "selector": {
+      "matchLabels": {
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "rjob.brainpp.cn/rjob-name": "exp-1109-181120-274261"
+      }
+    },
+    "autoDeleteDuration": "120h0m0s"
+  },
+  "tasks": {
+    "student": {
+      "replicas": 4,
+      "is_critical": null,
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "limits": {
+            "cpu": "64",
+            "mellanox.com/mlnx_rdma": "1",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8",
+            "rdma/mlnx_shared": "8"
+          },
+          "affinity": {}
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "is_critical": null,
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "limits": {
+            "cpu": "32",
+            "memory": "250Gi",
+            "nvidia.com/gpu": "4"
+          },
+          "affinity": {}
+        }
+      ]
+    }
+  }
+}

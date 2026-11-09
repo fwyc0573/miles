@@ -1,0 +1,50 @@
+{
+  "observed_at": "2026-11-09T12:40:37.504489+00:00",
+  "job": "exp-1109-192340-580111",
+  "uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "creation_timestamp": "2026-11-09T11:23:40Z",
+  "creator_labels": {
+    "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+    "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+    "kubebrain.brainpp.cn/creator-type": "user",
+    "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign"
+  },
+  "stop_annotations": {},
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1109-192340-580111-student-eccbc87e",
+        "ip": "10.191.1.46",
+        "phase": "Succeeded"
+      },
+      {
+        "name": "exp-1109-192340-580111-student-cfcd2084",
+        "ip": "10.191.5.38",
+        "phase": "Succeeded"
+      },
+      {
+        "name": "exp-1109-192340-580111-student-c4ca4238",
+        "ip": "10.191.4.29",
+        "phase": "Succeeded"
+      },
+      {
+        "name": "exp-1109-192340-580111-student-c81e728d",
+        "ip": "10.191.9.58",
+        "phase": "Succeeded"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1109-192340-580111-teacher-cfcd2084",
+        "ip": "100.112.20.174",
+        "phase": "Succeeded"
+      }
+    ]
+  }
+}

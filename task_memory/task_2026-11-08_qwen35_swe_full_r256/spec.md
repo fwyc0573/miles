@@ -2,12 +2,16 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-08 | Resolve D11's source-specific native eligibility: retain masked history, select loss-bearing assistant targets and require the original visual exclusion policy. |
+| 2026-11-08 | Apply D11's eight-source SWE-1003/0913 DeepSWE replacement and reopen source-dependent acceptance. |
+| 2026-11-08 | Fix the RKL direction and completion-only scope: rescore the same completion with current student each update; preserve the original D2 reduction. |
+| 2026-11-08 | Apply the explicit D9 temporary independent allocation and post-expiry continuation amendment. |
 | 2026-11-08 | Freeze D1–D10 and the source-backed contract after explicit whole-document confirmation. |
 | 2026-11-08 | Draft the four-cell protocol from the request; explicitly hold source-dependent decisions for the interview. |
 
 # Qwen3.5 SWE full versus r256 — Specification
 
-**Status: FROZEN / DOCS_LANDING_COMPLETE.** 用户已确认D1–D10及源码继承契约，作为后续实施依据。原始需求与实际回答由 [requirements.md](requirements.md) 维护。
+**Status: FROZEN_WITH_AUTHORIZED_AMENDMENTS / IMPLEMENTATION_IN_PROGRESS.** 用户已确认D1–D10及源码继承契约，并以D11明确替换训练数据。原始需求与实际回答由 [requirements.md](requirements.md) 维护。
 
 ## S0. 已核实的复用依据
 
@@ -16,8 +20,9 @@
 | Topic | Inspected source | Fact and implication |
 | --- | --- | --- |
 | Qwen既有配置 | Miles `tests/manual/agent_opd/run_qwen35_opd.py:175–245` | 原始HF初始化，Adam、constant2e-6、warmup0、TP2/DP4、GBS8、128K context、8192 response、token-mask TIS[0.5,2]；本次256目标与replay不是已验证行为。 |
-| GLM-5.2 SWE来源 | Steptron `playground/users/wyx/MOPD/step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:59–71` | 原始目录`/mnt/posttrain/hanqi/data/swe/distill_ablation_0623/`，distill_0 part0000–0004和distill_1 part0000–0005，共11源。实际读取优先核验已记录的个人云副本身份。 |
-| Native turn/default ordering | Steptron `playground/users/wyx/MOPD/step3p6_mopd_online_turn_loader_0710.py:218–236,407–425,463–518`；上述recipe`:527–577,589–627` | 全assistant-turn前缀、完整历史、角色规范化、在线顺序读取并epoch回绕；未做replay实验的task去重/随机pool。SWE-only只有一类source。 |
+| 当前训练来源（D11） | `/data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md` 第1节及其JSON清单 | SWE-1003／0913 SFT的8个DeepSWE resolved、garble-filtered、datapipe处理源；选择与待核验项见S3。 |
+| 历史GLM-5.2来源（已被D11替换） | Steptron `playground/users/wyx/MOPD/step3p6_mopd_turn_5experts_fullyasync_tis_no_kl_0710_h200.py:59–71` | 11个GLM-5.2源用于已完成的工程smoke；其统计与容量证据保留原来源，不作为新数据验收。 |
+| D11 native eligibility/default ordering | `/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py:106–129,180–306,353–408` | 原生mask/visual规则见S3；完整历史、有序stream与epoch回绕继承原生基类，不引入task去重或随机pool。 |
 | 旧replay的定制 | Steptron `playground/users/ycfeng/MOPD/bounded_replay_inputs.py:187–300,377–395` | task组划分/去重/shuffle与不回绕的QueryStream属于定制，不是默认loader。 |
 | Replay预算参考 | Steptron `playground/users/ycfeng/MOPD/bounded_replay_protocol.py:22–36,122–129` | 当前旧r256为8次连续复用，d50是相位偏移；本次50次连续复用/200updates是显式新预算。当前参考LR2e-6、warmup0、train seed1234、rollout seed1729、eval100题。 |
 | KL计算与聚合 | Miles `miles/backends/training_utils/loss/hub/opd.py:88–94`；`hub/losses.py:266–278,400–403` | 原始OPD逐token值为student_logp−teacher_logp；现有logged `opd_reverse_kl`经过TIS修改后的mask聚合、分母仍为原始token数。它不是未经筛选的全部原始token均值。 |
@@ -30,11 +35,11 @@
 | Async eval可复用入口 | Miles `miles/ray/rollout/eval_dispatch.py:38–118`；`miles/rollout/checkpoint_eval.py:63–80` | 现有外部checkpoint evaluator接口可承载参考SWE评测；默认队列满时会wait/skip、自有快照失败也删除，且不删除复用的save-HF。任务生命周期须补足这些实际差异。 |
 | 已有成功计数证据 | Miles `tests/manual/agent_opd/inspect_qwen35.py:705–746` | 既有Megatron成功optimizer counter与publication deltas可复用；rollout_id不是successful update，不能仅按目录编号计训练进度。 |
 
-先前A/B实际运行与完整HF验收见`../task_2026-11-06_qwen35_three_pairs/summary.md`。当前原始11源数据字节、SWE evaluator运行能力和新batch容量均未在本次文档阶段实际读取/运行验证。
+先前A/B实际运行与完整HF验收见`../task_2026-11-06_qwen35_three_pairs/summary.md`。实施证据由progress及测试报告记录；D11指定的新源尚需独立完成输入与负载验收。
 
 ## S1. 目标与实验矩阵
 
-在 Miles 已完成的 Qwen3.5 A/B OPD 验收基础上，比较两种教师下的新鲜轨迹训练与连续轨迹复用。数据仅使用 GLM-5.2 的 SWE 部分，数据取用与加载对齐 Steptron 默认逻辑。
+在 Miles 已完成的 Qwen3.5 A/B OPD 验收基础上，比较两种教师下的新鲜轨迹训练与连续轨迹复用。训练采用D11指定的SWE-1003／0913 SFT DeepSWE resolved数据，数据取用与加载对齐Steptron默认逻辑。
 
 | Experiment cell | Student | Frozen teacher | Protocol |
 | --- | --- | --- | --- |
@@ -49,7 +54,7 @@
 
 ## S2. 实验预算与计数
 
-用户明确指定：四个 cell、每 update 使用256个 turn、学习率2e-6、同 bank 连续训练50次、总计200 updates、每50 updates 存储 HF、100题 avg@4、逐 update KL 与 TIS 训练 token 数、H200 非抢占最多56卡。
+用户明确指定：四个 cell、每 update 使用256个 turn、学习率2e-6、同 bank 连续训练50次、总计200 updates、每50 updates 存储 HF、100题 avg@4、逐 update KL 与 TIS 训练 token 数；资源规则采用 S7 中的 D9 及其显式修订。
 
 以下继承参考full/r256定义及已有Qwen初始化方式，纳入最终文档冻结：
 
@@ -69,9 +74,10 @@
 
 ## S3. 输入、加载与比较控制
 
-1. 采用Steptron默认SWE配方中的11个GLM-5.2原始JSON源，展开每段对话全部assistant turns；每个prompt保留目标turn之前的完整消息前缀。默认在线loader按文件及对话turn顺序消费、无shuffle，文件用尽后允许epoch回绕。冻结实际使用的代码内容和解析后的配置；原始文件当前可读性与Qwen重编码后的数量待执行核验。
+1. **D11当前来源：** 使用`/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/`下指定的8个JSON，按交付清单顺序选择：`/data/ycfeng/steptron/.worktrees/yc-mopd-learning-dynamics-s4-branch/task_memory/task_2026-11-08_mopd_agentic_dataset_lookup/dataset_paths.json`中的`swe_1003_reused_by_20261021_step3p7_student.swe`。该清单为4个`deepswe_32_swa_rl`、3个`deepswe_8_test_swa_rl`和1个`deepswe_8_test_swa_rl_1066`；保留文件名中的`ds0p5`选择，不使用目录glob扩大来源。逐文件冻结实际字节数、SHA256、顺序和副本身份；旧GLM-5.2清单不再是当前正式输入。
+   复用该来源的原生SWE1003 `MaskAwareSWETurnSource`：仅把标量整数`loss_mask=1`的assistant位置作为生成目标，`loss_mask=0`的assistant仍完整保留在后续历史中。先按原生visual审计的逐文件source-item索引排除整段含visual payload的轨迹；过滤receipt必须绑定全部实际源文件、size/mtime和原生policy，不以空排除列表代替全源核验。随后按文件、对话及eligible turn顺序消费，无shuffle，文件用尽后允许epoch回绕。eligible ordinal与全部assistant ordinal分别记录。来源身份、实际schema与代表性Qwen对照见[test_report_2026-11-08_deepswe_inputs.md](test_report_2026-11-08_deepswe_inputs.md)，全源数量/重叠见[test_report_2026-11-08_deepswe_source_audit.md](test_report_2026-11-08_deepswe_source_audit.md)；原始数量不能替代visual/长度过滤后的membership。
 2. 通过同一真实样本的Steptron与Miles逐阶段对照，证明任务/对话/turn identity、消息内容与轮次选择一致。Qwen沿用已有`miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja`，`preserve_thinking=true`、`enable_thinking=true`；输入训练与评测全过程保留消息和工具语义。默认loader一致不能用token vocabulary一致替代，也不能强行采用Step tokenizer或Step专用parser。
-3. 复用已有 loader/预处理接口；实现差异必须有逐阶段证据。不能直接沿用旧 Qwen 的924训练/24监测输入来代表本次默认 GLM-5.2 加载。
+3. 复用已有loader/预处理接口；实现差异必须有逐阶段证据。旧Qwen的924训练/24监测输入，以及此前GLM-5.2的11源统计、overlap和parity结果，都不能替代D11新源验收。
 4. 旧replay的prompt去重、task组shuffle、train/probe划分、256固定监测输入与全程唯一prompt约束属于其定制逻辑，不是默认loader。本任务不自动继承这些数据重写；“51,200个full生成slot”不要求51,200条唯一prefix，也不因旧924条数据而减少本任务预算。已知benchmark重叠若在源调查中发现，记录事实后再提出具体处理决定。
 5. 四cell共用源配方、默认有序turn流、基准题集与seed定义。每个cell建立独立cursor，从同一默认流起点开始；按已计划的256slots推进，超时slot记录缺失，不因完成先后改变下个bank输入。对应bank序号的输入候选一致，而full/r256在相同update的覆盖量不同，这是协议本身的差异。train seed1234、rollout base seed1729；沿用现有确定性请求seed派生并记录实际seed，不要求异步运行bitwise相同。每cell自己生成轨迹，teacher目标按身份隔离，不共用一个竞争消费cursor或跨教师冒用目标。
 6. 数据 receipt 至少保存 source identity、conversation/turn identity、实际呈现顺序、prompt 长度、原始有效生成 tokens，以及失败/过滤原因。训练记录能回连到实际来源，而不是只保留合成 batch 序号。
@@ -123,7 +129,7 @@ L_pg  = sum(m_i * w_i * max(-rho_i * a_i,
 
 每行至少包含：cell/attempt、update、bank、bank visit、生成/当前权重版本、实际 turn 数、KL estimator 名称与方向、KL numerator/denominator/value、TIS 前有效 target tokens、TIS 后实际参与训练的 tokens、保留率、有效权重统计、实际 LR、训练 loss、时间戳。
 
-- **D2已确认：** 主KL曲线是TIS前所有原始有效target tokens上，当前student减冻结teacher的log-prob均值；每个update使用该次更新前的当前student评分。令原始有效mask为`m`，则`kl_before_tis = sum(m * (logp_student_current - logp_teacher)) / sum(m)`，跨DP/microbatch累计分子分母。OPD surrogate loss、train/rollout数值差与benchmark得分保持各自名称。
+- **D2已确认：** RKL方向为`KL(student‖teacher)`。本实验的逐步采样统计只包含TIS前原始有效**completion tokens**；prompt/prefix和padding不进入分子或分母。每个update用该次更新前的当前student重新评分同一个已存completion，与对应冻结teacher值求差。令仅覆盖有效completion位置的原始mask为`m`，则`kl_before_tis = sum(m * (logp_student_current - logp_teacher)) / sum(m)`，跨DP/microbatch累计分子分母。不得复用生成时或上个update的student评分；不增加重要性权重或额外rollout。该操作与已实施的原D2一致，估计器待选项撤回。OPD surrogate loss、train/rollout数值差与benchmark得分保持各自名称。
 - 原生`train/opd_reverse_kl`经过后TIS mask聚合且保留原始token分母，继续作为原生日志保留，不代替主曲线。主曲线复用已有逐token差增加归约，无需额外模型前向。replay旧轨迹上的sampled log-prob gap准确标记其采样来源，不能声称是当前策略fresh分布下的精确KL；有限样本值也不能因负数而裁成0。
 - TIS 保留率是实际 surviving training tokens / original eligible target tokens；原始 padding/prompt mask、非有限数排除、TIS 丢弃须可区分。跨 rank 使用实际计数总和，不能平均每序列比率。
 - D4的token与整条回答筛选可能重叠，最终survivor数按两个mask交集计数，不能简单相减两层丢弃率。可分别记录两层原因，但同一token不重复扣减。
@@ -187,9 +193,11 @@ Miles已有`allow_partial_train_step`与动态DP排程，实施先检查其真�
 
 ## S7. GPU 与执行准备
 
-**D9：本人全部已提交、未终止的非抢占H200作业合计≤56 GPUs**，包括其他任务和本任务的training student、teacher、rollout、eval、辅助GPU。按Pending/Starting/Running请求配置计承诺；未终态的停止中作业也不提前释放账面额度。提交前用当前个人作业清单及平台quota核对，不凭旧空闲值提交。
+**D9及其修订：** 香港时间 **2026-11-09 05:00之前**（UTC **2026-11-08 21:00**），本任务享有独立的 **64张不可抢占GPU** 额度，其他任务不占此额度。新增RJob若会超过该额度，整份RJob以 `ResourceConfig.preemptible=True` 提交。窗口内获准的作业在截止后可继续完成；截止时及之后的新提交恢复原D9：本人全部已提交、未终止的不可抢占H200承诺合计≤56，含其他任务。
 
-旧A/B每cell的已验收布局为8student+2teacher H200，但其batch仅8turns，不能据此声称新任务256目标已满足容量/吞吐。暂以四个独立10-GPU训练组合40卡、最多16卡评测余量作为**未验证估算**，且以没有其他个人H200承诺为前提；实际布局/并发由真实batch smoke及当时额度决定。旧约75K平均输入长度不能代表新数据，简单将旧单步耗时乘32不足以承诺工期；应测量新数据长度、acquisition/current-student scoring/training各阶段与50次cache reuse耗时。
+两种规则均计入training student、teacher、rollout、eval和辅助角色，按Pending/Starting/Running请求配置计承诺；未终态的停止中作业也不提前释放账面额度。所有本任务RJob在提交时写入相同task annotation，统一准入锁覆盖实时清单读取与提交。共享执行规则为 [gpu_policy.json](gpu_policy.json)；评测使用实际提交receipt，不另外硬编码额度。提交前核对当前作业及平台quota，不凭旧空闲值提交。
+
+旧A/B每cell的已验收布局为8student+2teacher H200，但其batch仅8turns，不能据此声称新任务256目标已满足容量/吞吐。暂以四个独立10-GPU训练组合40卡作为**未验证估算**；临时额度内剩余部分可供评测及辅助作业，实际布局/并发由真实batch smoke及当时额度决定。旧约75K平均输入长度不能代表新数据，简单将旧单步耗时乘32不足以承诺工期；应测量新数据长度、acquisition/current-student scoring/training各阶段与50次cache reuse耗时。
 
 使用个人认证与本机 source mount 的 StepMind Python `RJobBackend`，遵循现有 GPU/存储 runbook。平台容量和任务 ceiling 分开核查；不为扩大并发复制健康任务或越限排队。两个教师对的测试可并行，共享代码与数据配方。
 
@@ -205,6 +213,6 @@ Miles已有`allow_partial_train_step`与动态DP排程，实施先检查其真�
 
 ## Freeze and implementation prerequisites
 
-**整体文档已冻结，无遗留访谈决策。** 用户已确认spec与9tickets；D1–D10保留实际回答，其他源码继承和实现约束在最终整体确认中一并接受。
+**整体文档已冻结并按明确授权修订。** 用户已确认spec与9tickets；D1–D10保留实际回答，D11替换训练来源。Ticket01因数据变更重新打开；正式执行须以新源的验收结果为依据。
 
 运行前仍需验证的数据可读性、实际Qwen parser/tool交互、native loss/DP计数、256目标吞吐、GPU配额、HF/eval/cleanup能力分别由01/02/03承担，属于已分配实施验收，不是新增科学决策。失败后改变科学规则、继续D7已终止cell或超出原预算的重训须另行决定；只保存HF不提供无损训练恢复。

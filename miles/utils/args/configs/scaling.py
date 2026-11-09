@@ -12,9 +12,9 @@ class ScalingConfig(BaseConfig):
         int | None,
         Arg(
             help=(
-                "Number of GPUs for inference. Note that when using --colocate, "
-                "i.e. the training and the inference engines are on the same gpus, this param will be ignored and will be set as "
-                "actor_num_gpus_per_node * actor_num_nodes."
+                "Number of GPUs for inference. With --colocate, an omitted value defaults to "
+                "actor_num_gpus_per_node * actor_num_nodes; an explicit value is preserved "
+                "and may include additional inference GPUs."
             )
         ),
     ] = None

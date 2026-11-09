@@ -33,11 +33,12 @@ def _task_specs(config: dict, pair: str) -> dict:
     return tasks
 
 
-def _worker_command(config: dict, config_path: Path, pair: str) -> str:
+def _worker_command(config: dict, config_path: Path, pair: str, *, worker_module=None, extra_args=()) -> str:
     argv = [
         config["worker_python"], "-u", "-B",
-        str(Path(config["repo"]) / "tests/manual/agent_opd/qwen35_pair_worker.py"),
+        *(["-m", worker_module] if worker_module else [str(Path(config["repo"]) / "tests/manual/agent_opd/qwen35_pair_worker.py")]),
         "--config", str(config_path), "--pair", pair,
+        *extra_args,
     ]
     script = (
         f"export PYTHONPATH={shlex.quote(config['repo'])}\n"

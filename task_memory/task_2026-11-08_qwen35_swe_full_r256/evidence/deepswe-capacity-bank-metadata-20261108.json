@@ -1,0 +1,32 @@
+[
+  {
+    "job": "exp-1108-221043-570148",
+    "observed_at": 1794148900.8877578,
+    "banks": [
+      {
+        "name": "bank_0.jsonl",
+        "bytes": 439464090,
+        "started_at": 1794147554.8634818,
+        "deadline_at": 1794149354.8635335,
+        "candidate_slots": 256,
+        "final_acquisition_records": []
+      }
+    ],
+    "successful_updates": []
+  },
+  {
+    "job": "exp-1108-221042-909448",
+    "observed_at": 1794148900.9074068,
+    "banks": [
+      {
+        "name": "bank_0.jsonl",
+        "bytes": 339060950,
+        "started_at": 1794147654.2975109,
+        "deadline_at": 1794149454.2975616,
+        "candidate_slots": 256,
+        "final_acquisition_records": []
+      }
+    ],
+    "successful_updates": []
+  }
+]

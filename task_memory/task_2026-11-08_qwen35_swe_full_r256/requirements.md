@@ -2,6 +2,13 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record explicit personal50-H200 ceiling for the selected isolated D13 A submission;leave originalD9/formal policies unchanged. |
+| 2026-11-09 | Record explicit A expansion selection: one18-H200 mixed-rollout smoke, necessary argument/startup repairs, and unchanged scientific limits. |
+| 2026-11-09 | Record D13 conditional extra rollout capacity and finite timeouts for KV-pressure/HTTP503 retry blockage. |
+| 2026-11-09 | Record D12 approval for one isolated routing-only A/r256 capacity experiment; formal profiles remain unchanged. |
+| 2026-11-08 | Record D11: replace GLM-5.2 training inputs with the eight SWE-1003/0913 DeepSWE resolved sources; reopen input acceptance. |
+| 2026-11-08 | Clarify completion-only RKL statistics with fresh current-student scoring on the unchanged completion; no new estimator or sampling path. |
+| 2026-11-08 | Amend D9 with the user-approved temporary independent task allocation, overflow preemption, and continuation after expiry. |
 | 2026-11-08 | Record approval to implement and execute the frozen tickets in parallel after the documentation review fixes. |
 | 2026-11-08 | After the post-freeze review, link the spec for D3 optimizer parameters instead of restating them and restore word spacing; no decision changed. |
 | 2026-11-08 | Record D1–D10 and explicit final confirmation; freeze the documentation deliverable. |
@@ -43,6 +50,16 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 - Prior Qwen acceptance: `../task_2026-11-06_qwen35_three_pairs/summary.md`; tokenizer/data distinction: `../task_2026-11-08_qwen_tokenizer_opd_inventory/findings.md`.
 - Reference documents have multiple dated overrides. Resolve current behavior against the latest actual request and code; do not inherit the historical 8-use schedule, 100-update budget, 500-question benchmark, or superseded checkpoint cadence by reading the original spec alone.
 
+### D11 — [Original Request / Follow-up Amendment] 2026-11-08: replace training data
+
+> big change：将当前数据集替换为：
+> /data/ycfeng/paper-data/stepfun-swe-data/swe-oss-data.md中的 ## 2026 年 10 月 21 日交付实验使用的 sew数据集：复用 SWE-1003 的 0913 SFT 数据：DeepSWE resolved 轨迹，经过 garble filtering 和 datapipe 处理，位于
+> /mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/
+
+This explicitly supersedes the original GLM-5.2 dataset selection for all four training cells. The requested delivery consists of eight ordered JSON sources; spec S3 owns their selection reference. Preserve the repeated `mnt/posttrain` components in the source path. Reading those requested source files is authorized; any generated cloud copy remains inside the existing personal namespace.
+
+Retain the previously approved default Steptron loading requirement. Reopen Ticket01 for the replacement sources' identity, schema, native loader parity, Qwen rendering/length filtering and benchmark-overlap evidence. Prior GLM-5.2 input counts, overlap checks, training smokes and saved-bank capacity probes retain their actual provenance and cannot certify the replacement data. Existing model/math/evaluator evidence remains evidence for the implementation that was actually exercised. No formal cell has started. A future formal configuration must select the replacement sources after their acceptance.
+
 ## Interview decisions
 
 ### D1 — [Original Request / Follow-up Answer] 2026-11-08: valid subset after timeout
@@ -64,6 +81,20 @@ User selected: **“筛选前均值（推荐）”**.
 The selected option states: “全部原始有效tokens上的当前学生−教师log-prob均值；TIS保留率另列，旧轨迹采样属性明确标注。”
 
 The primary200-point series is the mean current-student minus frozen-teacher log probability on all original eligible target tokens before TIS. Retain the native post-TIS statistic in its existing logs under its own identity. No extra model forward is required merely to obtain the pre-TIS reduction. Replayed trajectories retain their original sampling distribution; the primary statistic is not relabeled as an exact fresh-policy KL.
+
+**[Original Request / Follow-up Correction] 2026-11-08:** “修正：当前统计的kl实际指的是：RKL：KL(student‖teacher)；student 经常生成的内容，teacher 是否也倾向于生成？”
+
+This explicitly identifies the target direction as reverse KL, student to teacher. The implementation's subtraction direction already agrees. The parent asked an unnecessary estimator-choice question referring to “fixed prefixes”; the user clarified the intended operation below rather than selecting either proposed option.
+
+**[Original Request / Follow-up Clarification] 2026-11-08:** “我没有理解你说的。什么叫做固定前缀？前缀部分也要算入到rkl中吗？这是不允许的。应该用当前student来重新计算该completion的logprob来计算rkl”.
+
+Decision: only original eligible **completion** tokens enter the numerator and denominator; all prompt/prefix and padding positions are excluded. Each update recomputes the current student's log-probabilities for that same stored completion, then compares the corresponding frozen teacher values before TIS. No importance weighting or extra current-policy sampling is introduced. The original D2 reduction remains the implemented statistic and the estimator-choice question is withdrawn. Replay results describe this fixed-completion sampled statistic, not an exact all-output current-policy KL expectation. The explicit formula and reporting contract remain owned by spec S4.
+
+### Capacity repair authorization
+
+**[Original Request / Follow-up Decision] 2026-11-08:** Asked whether to approve a minimal source patch to pinned Megatron that releases the previous scoring microbatch's completed logits before the next forward, with a same256-trajectory GPU before/after comparison, the user selected “批准源码修复（推荐）”.
+
+Approved scope: move the existing PP1 schedule output-reference release outside its training-only branch, record the pinned dependency and source patch, and verify the unchanged workload on GPU before adopting the patch for formal runs. Existing parallelism, context/candidate budgets and training mathematics remain fixed for this comparison. The alternative TP4 route was not selected. This approval covers the controlled dependency source edit; it is not a native capacity PASS or permission for an unrelated allocator workaround.
 
 ### D3 — [Original Request / Follow-up Answer] 2026-11-08: research-based optimizer selection
 
@@ -131,6 +162,16 @@ The question contrasted a personal aggregate limit with a new-task-only limit, r
 
 The primary explicitly acknowledged that confirmation as the recommended rule: all personal submitted, nonterminal non-preemptible H200 commitments together must remain at or below 56, including other tasks and every role of this task. Count Pending/Starting/Running requested GPUs, not only active CUDA processes. This confirmation continues documentation landing; no implementation or GPU action was performed under it.
 
+#### D9 amendment — [Original Request / Follow-up Answer] 2026-11-08
+
+After the personal aggregate reached 72 GPUs and denied a one-GPU check, the user initially selected **“等待释放（推荐）”**. The user subsequently replaced that waiting decision with:
+
+> 关于用卡规则：在hk时间11.9日凌晨5点之前，允许当前task使用独立的64卡内的gpus资源（不可抢占rjobs），超过数量则通过 可抢占方式提交
+
+The primary asked how to handle admitted non-preemptible jobs still running at Hong Kong 2026-11-09 05:00. The user selected **“继续完成”**, whose description was **“此前获准的作业继续运行；05:00后新提交恢复原D9准入规则。”**
+
+The active policy is specified in [spec S7](spec.md#s7-gpu-与执行准备). This exception counts this task's nonterminal training, teacher, rollout, evaluation and auxiliary GPU commitments independently of other tasks. Whole RJobs that would exceed the temporary non-preemptible ceiling use preemptible submission; a paired job is not split across preemption classes. At expiry, already admitted jobs continue and new admissions return to the original personal aggregate rule.
+
 ### D10 — [Original Request / Follow-up Answer] 2026-11-08: preserve incomplete evaluation and bounded recovery
 
 Question: “是否采用‘未完成评测保留HF，只补缺失attempt；同一72小时截止到期后停止该评测并报告’的规则？”
@@ -156,6 +197,32 @@ The frozen contract's runtime prerequisites are listed in [spec.md](spec.md#free
 ## Execution authorization — [Original Request / Follow-up Answer] 2026-11-08
 
 Following the landing review, the user wrote: **“确认，继续，完成后开始按照tickets/spec并行执行任务”** and subsequently repeated **“continue”**. The approved documentation fixes were committed as `df66bf4b`. This authorizes ordinary implementation, verification, and execution of the frozen tickets, including their approved GPU runs. Scientific decisions, budgets, and prerequisite acceptance remain as frozen.
+
+## D12 — [Original Request / Follow-up Answer] 2026-11-09: one routing-only capacity experiment
+
+Question: “是否批准一次 A/r256 routing-only GPU 对照？实际 cache_aware 最后将49个未完成请求留在一个服务。建议仅改为 round_robin并接通现有原生CLI参数；保持128K、n1、231/256、1800秒、max_running_requests=1、CUDA graph关闭、TP2和8+2张H200。收集阶段最多5 GPU-hours，另加启动和两次更新成本；成功标准仍须达到231条并完成实际训练验收。不会直接修改正式四cell配置。”
+
+User selected: **“批准 routing-only（推荐）”**.
+
+This authorizes one isolated A/r256 smoke with256 requested candidates,2 successful updates and2 bank uses, differing only in student router policy plus distinct artifact namespaces. Reuse the existing native router CLI/config transport; do not add a second routing implementation. Preserve the six-field D11 input contract, models, seeds, objective/TIS/optimizer,128K,n1,TP2/DP4/CP1,8+2H200,max-running1,CUDA-graph-disabled,minimum231 and1800-second acquisition deadline. Admission remains governed by current D9. The acquisition stage costs at most5 GPU-hours; startup and the two actual updates add unmeasured cost. This approval is not a formal-profile change, a capacity PASS, or permission to relax D6/D7. Required validation still includes native acquisition, fresh scoring/backward/optimizer ACK, next scoring and source/lifetime evidence.
+
+## D13 — [Original Request / Follow-up Answer] 2026-11-09: conditional rollout expansion and finite timeout
+
+User: “- 补充：已有debug发现 推理服务在 KV cache 占用超过 80% 时返回 HTTP 503，client，对 503 无限重试。重采样一旦卡住，其他 rank 会一直等下去。因此，如果出现类似情况，允许你额外扩展rollout集群规模（例如添加8卡）避免相关问题 + 设定合理的timeout时间，防止干等阻塞。”
+
+The reported prior debugging result is a KV-pressure/HTTP503 retry mechanism; it is not yet a confirmed cause of the current D12 failure. Diagnose actual generation versus startup-health503 responses, the client retry/cancellation path, and native rollout-only placement before execution. This approval allows reasonable finite timeouts and, for a confirmed similar blockage, additional rollout capacity such as8 GPUs. Added rollout resources must not implicitly increase training DP or change the objective,optimizer,sampling,128K,n1,231/256 threshold or1800-second acquisition deadline. Reuse native timeout/placement mechanisms; D9 admission and applicable H200 non-preemptible limits still apply. Do not change concurrency1→2 or silently relax other frozen parameters under this approval. Any selected expanded allocation records its actual GPU count and added cost; no expanded job has been submitted.
+
+### D13 selected execution — [Original Request / Follow-up Answer] 2026-11-09
+
+The interrupted resource question was reissued at the user's request, “再次提交问题”. Question: “是否把扩容授权用于这次队首阻塞，并执行一次新的隔离A/r256容量smoke？上次227/256失败未见生成503，27个未完成请求集中在一个服务队列。两种方案均保留训练8卡（TP2/DP4）、128K、n1、服务并发1及231/256 within1800s，正式四cell配置不变。执行前会重新核对代码状态、当前额度和H200限制。”
+
+User selected: **“A 额外8卡 (Recommended)”**.
+
+Selected scope: one new isolated A/r256 smoke with18H200 total: trainer8 shares its cards with the first8 rollout GPUs, another8 rollout GPUs are dedicated, and the frozen teacher retains2 GPUs. Sixteen rollout GPUs supply8 TP2 services at concurrency1. This explicitly permits expansion for the captured queue/HOL even though generationKV/503 was not confirmed. Repair the existing explicit-rollout argument overwrite and two-node startup/lifecycle boundaries; verify native mixed CUDA IPC/NCCL weight synchronization. Acquisition costs at most9GPU-hours, plus startup and two successful updates. Preserve2bank uses, the accepted inputs/models/seeds, TP2/DP4/CP1,128K,n1,231/256 within1800s, and all scientific parameters. The existing3600s generation retry-chain guard and1800s bank deadline have passed fault injection; no second timeout implementation is needed. No teacher-envelope, concurrency1→2, formal-profile change or further GPU experiment is approved. Fresh D9/H200 admission is required before submission.
+
+### D13 admission follow-up — [Original Request / Follow-up Answer] 2026-11-09
+
+After the final31+18=49 non-preemptible H200 admission hold,the user explicitly answered:`允许提高到50卡内`. This authorizes the selected single18-H200 experiment under a personal aggregate50 ceiling including other tasks. Use the existing policy input mechanism through a D13-only policy file;leave originalD9 policy and formal profiles unchanged. The expired64 window is not reactivated. No job stop,preemption substitution,teacher-envelope orconcurrency change is authorized.
 
 ## Documentation acceptance criteria
 

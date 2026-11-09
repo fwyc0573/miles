@@ -35,8 +35,10 @@ import json
 import os
 import shlex
 import shutil
+import signal
 import subprocess
 import sys
+import time
 import traceback
 from pathlib import Path
 from threading import Event, Thread
@@ -53,6 +55,7 @@ from tests.manual.agent_opd.rjob_warmup import (
     _record_memory,
     _retain_failure_diagnostics,
     _start_ray,
+    _wait_file,
     _worker_environment,
     _write_json,
 )
@@ -84,6 +87,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--teacher-url", required=True, help="Full native teacher /generate URL")
     parser.add_argument("--gpu-type", required=True, help="Expected GPU model from the parent allocation")
     parser.add_argument("--gpus-per-node", type=int, required=True)
+    parser.add_argument("--student-nodes", type=int, default=1, help="Positive Ray node count; trainer remains one node")
     parser.add_argument("--student-engine-gpus", type=int, required=True)
     parser.add_argument("--tensor-model-parallel-size", type=int, help="Defaults to the dense student recipe's TP")
     parser.add_argument("--max-tokens-per-gpu", type=int, required=True)
@@ -122,7 +126,7 @@ def _validate_args(args) -> None:
     if args.tensor_model_parallel_size is None:
         args.tensor_model_parallel_size = recipe.tensor_model_parallel_size
     for name in (
-        "gpus_per_node", "student_engine_gpus", "tensor_model_parallel_size", "max_tokens_per_gpu",
+        "gpus_per_node", "student_nodes", "student_engine_gpus", "tensor_model_parallel_size", "max_tokens_per_gpu",
         "sglang_max_running_requests", "sglang_chunked_prefill_size", "sglang_router_request_timeout_secs",
         "startup_timeout",
     ):
@@ -247,11 +251,11 @@ def _training_args(args, run: Path) -> str:
 
 
 def _runtime_env(config) -> dict[str, str]:
-    # All inherited platform NCCL values survive unchanged. The existing
-    # deterministic-channel validator rejects conflicts rather than overwriting.
+    # Platform NCCL values stay in each raylet's inherited node environment.
+    # Only explicit job-wide controls from _training_env may override them.
     inherited = {
         key: value for key, value in os.environ.items()
-        if key.startswith("NCCL_") or key in {
+        if key in {
             "TMPDIR", "TORCH_EXTENSIONS_DIR", "TORCHINDUCTOR_CACHE_DIR", "TRITON_CACHE_DIR",
             "FLASHINFER_WORKSPACE_BASE", "XDG_CACHE_HOME", "CUDA_CACHE_PATH", "RAY_TMPDIR",
             "PYTHONDONTWRITEBYTECODE", "HF_HUB_OFFLINE", "TOKENIZERS_PARALLELISM", "MILES_NODE_EXTERNAL_IP",
@@ -274,6 +278,7 @@ def _launch_receipt(args, run: Path, training_args: str) -> dict:
         "source_commit": subprocess.check_output([*git, "rev-parse", "HEAD"], text=True).strip(),
         "source_changes": subprocess.check_output([*git, "status", "--short"], text=True).splitlines(),
         "python": sys.version.split()[0], "planned_rollout_positions": args.num_rollout,
+        "final_hf": str(run / "hf" / f"step_{args.num_rollout - 1}") if args.num_rollout else None,
         "update_accounting": "Use native optimizer outcomes and consumed/published versions in events; never infer success from rollout count",
         "native_resolved_config_and_events": str(run / "events"),
         "dynamic_microbatches": "Native length-based scheduling uses the supplied max_tokens_per_gpu; micro_batch_size is ignored",
@@ -299,32 +304,104 @@ def _record_receipt(path: Path, value: dict) -> None:
         print("QWEN35_RECEIPT_UNVERIFIED", str(path), type(error).__name__, str(error), flush=True)
 
 
-def _run(args) -> None:
-    if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
-        raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+def _prepare_training(args, run: Path) -> tuple[str, dict]:
+    population = _check_population(args)
+    train_args = _training_args(args, run)
+    receipt = _launch_receipt(args, run, train_args)
+    receipt["population"] = population
+    return train_args, receipt
+
+
+def _terminate(signum, frame) -> None:
+    raise SystemExit(128 + signum)
+
+
+def _wait_driver(records: Path) -> dict:
+    # The role wrapper supervises each child and cancels peers on driver exit.
+    # Healthy training has no guessed wall-clock limit; startup waits remain bounded.
+    completion = records / "finished.json"
+    while not completion.exists():
+        time.sleep(1)
+    result = json.loads(completion.read_text())
+    if result["status"] != "native_execution_succeeded":
+        raise RuntimeError(f"The student driver replica failed: {result}")
+    return result
+
+
+def _stop_node(local: Path, records: Path, cloud: Path, outcome: dict) -> None:
+    rank = outcome["rank"]
+    try:
+        _record_receipt(
+            records / ("memory.json" if rank == 0 else f"memory-{rank}.json"),
+            _memory_receipt(local / "memory.jsonl"),
+        )
+    except (OSError, ValueError) as error:
+        print("QWEN35_MEMORY_UNVERIFIED", type(error).__name__, str(error), flush=True)
+    if outcome["status"] == "failed":
+        _retain_failure_diagnostics(local, cloud, rank)
+    try:
+        subprocess.run([sys.executable, "-m", "ray.scripts.scripts", "stop", "--force"], timeout=60, check=False)
+        shutil.rmtree(local)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        print("QWEN35_WORKER_CLEANUP_UNVERIFIED", type(error).__name__, str(error), flush=True)
+
+
+def _run(args, *, prepare_training=_prepare_training, prepare_node=None) -> None:
+    """Prepare each container before Ray join, then run the driver only on rank zero.
+
+    prepare_node(args, run, rank) returns optional receipt fields. It owns any
+    container-local dependency preflight; prepare_training only builds the driver.
+    """
+    nodes = getattr(args, "student_nodes", 1)
+    rank = int(os.environ["KUBEBRAIN_REPLICA"])
+    if type(nodes) is not int or nodes <= 0 or int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
+        raise ValueError("Platform replica rank/count differs from the student Ray allocation")
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
     cloud = args.output_root / args.pair / job
-    cloud.mkdir(parents=True, exist_ok=False)
     records = args.shared_dir / args.pair / job
-    records.mkdir(parents=True, exist_ok=False)
     local = args.local_root / f"qo-{job.removeprefix('exp-')}"
-    _worker_environment(local)
     stopped = Event()
-    observer = Thread(target=_record_memory, args=(local / "memory.jsonl", stopped), daemon=True)
-    observer.start()
-    outcome = {"status": "failed", "pair": args.pair, "run_dir": str(cloud)}
+    observer = None
+    records_ready = False
+    previous_handler = signal.signal(signal.SIGTERM, _terminate)
+    outcome = {"status": "failed", "pair": args.pair, "rank": rank, "run_dir": str(cloud)}
     try:
-        population = _check_population(args)
+        if rank == 0:
+            cloud.mkdir(parents=True, exist_ok=False)
+            records.mkdir(parents=True, exist_ok=False)
+            records_ready = True
+            if nodes != 1:
+                _write_json(records / "run-ready.json", {"job": job, "pair": args.pair, "run_dir": str(cloud)})
+        else:
+            ready = _wait_file(records / "run-ready.json", time.monotonic() + args.startup_timeout)
+            if ready != {"job": job, "pair": args.pair, "run_dir": str(cloud)}:
+                raise ValueError("Student run rendezvous differs from the current job/pair/output")
+            records_ready = True
+        _worker_environment(local)
+        observer = Thread(target=_record_memory, args=(local / "memory.jsonl", stopped), daemon=True)
+        observer.start()
         _check_tokenizers(args.student, args.teacher)
         gpu_rows = _gpu_devices(args.gpu_type, args.gpus_per_node)
-        train_args = _training_args(args, cloud)
+        node_preflight = prepare_node(args, cloud, rank) if prepare_node is not None else None
+        if node_preflight is not None:
+            _record_receipt(records / f"node-preflight-{rank}.json", node_preflight)
+        ray_args = SimpleNamespace(nodes=nodes, gpus_per_node=args.gpus_per_node, startup_timeout=args.startup_timeout)
+        if rank != 0:
+            _start_ray(rank, records, local, ray_args)
+            _wait_driver(records)
+            outcome.update(status="native_execution_succeeded", role="rollout_replica")
+            return
+        train_args, receipt = prepare_training(args, cloud)
         config = U.ExecuteTrainConfig(num_nodes=1, output_dir=str(cloud), run_id=job)
         env = _runtime_env(config)
-        receipt = _launch_receipt(args, cloud, train_args)
-        receipt.update(population=population, gpu_devices=gpu_rows, runtime_env=env)
+        if nodes != 1:
+            # Each raylet inherits its own node address; a job-wide override would alias all nodes to the head.
+            env.pop("MILES_NODE_EXTERNAL_IP")
+        receipt.update(gpu_devices=gpu_rows, runtime_env=env, student_ray_nodes=nodes, trainer_nodes=1)
+        if node_preflight is not None:
+            receipt.update(node_preflight)
         _record_receipt(records / "launch.json", receipt)
-        ray_args = SimpleNamespace(nodes=1, gpus_per_node=args.gpus_per_node, startup_timeout=args.startup_timeout)
-        head = _start_ray(0, records, local, ray_args)
+        head = _start_ray(rank, records, local, ray_args)
         _check_cluster(head, records, ray_args)
         os.environ["MILES_SCRIPT_EXTERNAL_RAY"] = "1"
         os.environ["MASTER_ADDR"] = head["ip"]
@@ -336,28 +413,28 @@ def _run(args) -> None:
         )
         outcome.update(
             status="native_execution_succeeded", actual_updates="See native events; not inferred from schedule",
-            final_hf=str(cloud / "hf" / f"step_{args.num_rollout - 1}") if args.num_rollout else None,
+            final_hf=receipt["final_hf"],
             qualification="Unverified until native alignment, updates, export and reload evidence is inspected",
         )
         print("QWEN35_NATIVE_EXECUTION_FINISHED", json.dumps(outcome), flush=True)
-    except Exception as error:
+    except BaseException as error:
         outcome.update(error_type=type(error).__name__, reason=str(error), traceback=traceback.format_exc())
         raise
     finally:
         stopped.set()
-        observer.join(timeout=5)
-        _record_receipt(records / "training.json", outcome)
+        if observer is not None:
+            observer.join(timeout=5)
         try:
-            _record_receipt(records / "memory.json", _memory_receipt(local / "memory.jsonl"))
-        except (OSError, ValueError) as error:
-            print("QWEN35_MEMORY_UNVERIFIED", type(error).__name__, str(error), flush=True)
-        if outcome["status"] == "failed":
-            _retain_failure_diagnostics(local, cloud, 0)
-        try:
-            subprocess.run([sys.executable, "-m", "ray.scripts.scripts", "stop", "--force"], timeout=60, check=False)
-            shutil.rmtree(local)
-        except (OSError, subprocess.TimeoutExpired) as error:
-            print("QWEN35_WORKER_CLEANUP_UNVERIFIED", type(error).__name__, str(error), flush=True)
+            if rank == 0 and records_ready and nodes != 1:
+                _write_json(records / "finished.json", outcome)
+        finally:
+            try:
+                if records_ready:
+                    _record_receipt(records / ("training.json" if rank == 0 else f"training-{rank}.json"), outcome)
+                if observer is not None:
+                    _stop_node(local, records, cloud, outcome)
+            finally:
+                signal.signal(signal.SIGTERM, previous_handler)
 
 
 def main():

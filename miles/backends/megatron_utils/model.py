@@ -493,6 +493,7 @@ def run_forward_backward_pass(
                 "max_seq_lens",
                 "witness_ids",
                 "opd_reverse_kl",
+                "teacher_log_probs",
                 "rollout_mask_sums",
                 "loss_weights",
                 "target_tokens",
@@ -585,6 +586,7 @@ def train_one_step(
     num_rollouts: int,
     witness_info: WitnessInfo | None,
     attempt: int,
+    optimizer_step_results: list[dict] | None = None,
 ) -> tuple[dict[str, float], float, TrainStepOutcome]:
     """Run pipeline forward/backward, then step the optimizer and scheduler when gradients are valid."""
     parallel_state = get_parallel_state()
@@ -674,11 +676,30 @@ def train_one_step(
     if outcome == TrainStepOutcome.NORMAL:
         dumper_phase_util.finalize(model)
 
+    step_hook = None
+    if (x := args.custom_megatron_optimizer_step_hook_path) is not None:
+        from miles.utils.args.custom_view import compute_custom_function_config
+        from miles.utils.function_registry import load_function
+
+        step_hook = load_function(x)
+        hook_args = compute_custom_function_config(args, x)
+        hook_context = dict(
+            rollout_id=rollout_id, step_id=step_id, data_iterator=data_iterator,
+            model=model, optimizer=optimizer, losses_reduced=losses_reduced,
+        )
+        step_hook(hook_args, stage="before_optimizer", update_successful=False, **hook_context)
+
+    update_successful = False
     if not disable_optimizer and valid_step:
         update_successful, grad_norm, num_zeros_in_grad = optimizer.step()
         assert update_successful
         ModelCompanionWeightVersionUtils.bump_weight_version(model)
         opt_param_scheduler.step(increment=num_rollouts)
+
+    if step_hook is not None:
+        step_result = step_hook(hook_args, stage="after_optimizer", update_successful=update_successful, **hook_context)
+        if optimizer_step_results is not None:
+            optimizer_step_results.append(step_result)
 
     if args.enable_sample_ownership_checker:
         if parallel_state.indep_dp.size == 1:
@@ -763,6 +784,7 @@ def train(
     num_rollouts: Sequence[int],
     witness_info: WitnessInfo | None,
     attempt: int,
+    optimizer_step_results: list[dict] | None = None,
 ) -> TrainStepOutcome:
     """Run training over a rollout consisting of multiple steps.
 
@@ -842,6 +864,7 @@ def train(
             num_rollouts[step_id],
             witness_info=witness_info,
             attempt=attempt,
+            optimizer_step_results=optimizer_step_results,
         )
 
         if step_id == 0:

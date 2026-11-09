@@ -1,0 +1,9 @@
+sglang:
+  - name: default
+    server_groups:
+      - worker_type: regular
+        num_gpus: 8
+        num_gpus_per_engine: 4
+      - worker_type: regular
+        num_gpus: 24
+        num_gpus_per_engine: 4

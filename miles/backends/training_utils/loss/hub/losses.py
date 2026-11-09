@@ -62,6 +62,13 @@ class LossFunction(Protocol):
         ...
 
 
+def _training_mask_counts(original_masks, survivor_masks) -> torch.Tensor:
+    """The optimizer's actual-mask signal, independent of diagnostic metrics."""
+    original = torch.cat(original_masks).detach().to(torch.int64).sum()
+    surviving = torch.cat(survivor_masks).detach().to(torch.int64).sum()
+    return torch.stack((original, surviving, original.new_tensor(len(original_masks))))
+
+
 def policy_loss_function(
     args: Namespace,
     batch: RolloutBatch,
@@ -261,9 +268,17 @@ def policy_loss_function(
             "response_lengths": response_lengths,
             "parallel_state": parallel_state,
             "max_seq_lens": max_seq_lens,
+            "teacher_log_probs": batch.get("teacher_log_probs"),
+            "sample_indices": batch.get("sample_indices"),
         }
 
         pg_loss, modified_response_masks, tis_metrics = tis_func(**tis_kwargs)
+        token_sums = tis_metrics.pop("token_sums", None)
+        mask_evidence = tis_metrics.pop("mask_evidence", None)
+        survivor_masks = get_local_response_loss_masks(
+            total_lengths, response_lengths, modified_response_masks, args.qkv_format, max_seq_lens
+        )
+        training_mask_counts = _training_mask_counts(local_loss_mask_list, survivor_masks)
 
         # [decouple IS and rejection] modified masks correct the numerator only;
         # denominators stay the precomputed rollout_mask_sums.
@@ -386,6 +401,11 @@ def policy_loss_function(
         reported_loss["kl_loss"] = kl_loss.clone().detach()
 
     if args.get_mismatch_metrics or args.use_tis:
+        reported_loss["training_mask_counts"] = training_mask_counts
+        if token_sums is not None:
+            reported_loss["token_sums"] = token_sums
+        if mask_evidence is not None:
+            reported_loss["mask_evidence"] = mask_evidence
         # Aggregate mismatch/TIS/RS related metrics with the *pre-RS* masks.
         # See comment above where `sum_of_sample_mean_for_mismatch_metrics` is defined.
         reported_loss["ois"] = sum_of_sample_mean_for_mismatch_metrics(ois).clone().detach()

@@ -1,0 +1,89 @@
+[
+  {
+    "at": "2026-11-08T09:46:09.256675+00:00",
+    "pair": "A",
+    "protocol": "r256",
+    "job": "exp-1108-172407-535512",
+    "uid": "68bec707-06be-4c82-95e5-fe7f8beab2dc",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Stopped",
+      "reason": "RJobStopped",
+      "message": "RJob stopped",
+      "taskStatuses": {
+        "student": {
+          "succeeded": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-08T09:43:01Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+    },
+    "native_execution_succeeded": true
+  },
+  {
+    "at": "2026-11-08T09:46:09.263788+00:00",
+    "pair": "B",
+    "protocol": "r256",
+    "job": "exp-1108-172408-392372",
+    "uid": "6b422ed9-e697-4761-94c1-03476af19d35",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Stopped",
+      "reason": "RJobStopped",
+      "message": "RJob stopped",
+      "taskStatuses": {
+        "student": {
+          "succeeded": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-08T09:43:15Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+    },
+    "native_execution_succeeded": true
+  },
+  {
+    "at": "2026-11-08T09:46:09.681247+00:00",
+    "pair": "B",
+    "protocol": "full",
+    "job": "exp-1108-172446-701416",
+    "uid": "34da3f73-fc49-4555-ab24-90dc84d241fa",
+    "creator": "i-fengyicheng",
+    "status": {
+      "phase": "Stopped",
+      "reason": "RJobStopped",
+      "message": "RJob stopped",
+      "taskStatuses": {
+        "student": {
+          "succeeded": 1,
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "teacher": {
+          "stopped": 1,
+          "taskStage": "stepmind-task-stage-1"
+        }
+      },
+      "finishTime": "2026-11-08T09:43:37Z",
+      "taskStage": "stepmind-task-stage-1"
+    },
+    "annotations": {
+      "rjob.brainpp.cn/system-stop-reason": "All critical tasks are finished."
+    },
+    "native_execution_succeeded": true
+  }
+]

@@ -2,6 +2,17 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Resolve the selected D13 A admission ceiling to user-authorized personal50;require fresh native admission and preserve formal policies. |
+| 2026-11-09 | Execute the selected18-H200 mixed-rollout preparation in parallel; record the current admission constraint and baseline23/400. |
+| 2026-11-09 | Close retained-log RCA,verify the existing timeout guard, and update baseline10/400; retain the rollout-only topology decision before new execution. |
+| 2026-11-09 | Add D13 finite-timeout and conditional rollout-only expansion investigation; preserve the training topology and acquisition contract. |
+| 2026-11-09 | Continue scoped retained-log RCA and independent baseline9/400; keep additional GPU experiments approval-dependent. |
+| 2026-11-09 | Record the failed single D12 acquisition and continue read-only02 RCA in parallel with08; no additional experiment approval inferred. |
+| 2026-11-09 | Accept Ticket03 after actual native isolation/review; advance02 to the approved D12 experiment while08 continues. |
+| 2026-11-08 | Route parallel02/03 to the measured acquisition and filesystem blockers while08 continues independently. |
+| 2026-11-08 | Reaccept D11 Ticket01 and move the new-data runtime frontier to parallel02/03;08 is already independently running. |
+| 2026-11-08 | Clarify08's existing capability-specific prerequisites after independent readiness review; retain the full01/03 gates for04–07. |
+| 2026-11-08 | Reopen Ticket01 for D11's replacement dataset while continuing independent training/evaluation implementation checks. |
 | 2026-11-08 | Accept Ticket01 and move the integration/acceptance frontier to parallel Tickets02 and03. |
 | 2026-11-08 | Start authorized execution and distinguish independent development from prerequisite-dependent runtime acceptance. |
 | 2026-11-08 | Renumber the baseline (08) and comparison (09) tickets into dependency order after the post-freeze standards review; restore word spacing. |
@@ -14,6 +25,8 @@
 
 ## Scope and ownership
 
+- D13 final admission follow-up:the user explicitly raises this isolated experiment's personal non-preemptible H200 ceiling to50 including other tasks. Route the candidate through `deepswe_capacity_expanded_gpu_policy.json` using unchanged native admission logic. Leave originalD9/formal policies unchanged;refresh counts and require committed+18<=50 immediately before submission.
+
 The protocol is owned by [spec.md](spec.md); raw requests and actual answers are in [requirements.md](requirements.md). This plan owns dependencies and verification strategy rather than maintaining another parameter table.
 
 Primary agent owns interview, shared-understanding confirmation, coordination and final acceptance. Scoped agents may investigate or implement independently owned slices after approval; they return evidence and leave final acceptance to the primary.
@@ -22,7 +35,7 @@ Primary agent owns interview, shared-understanding confirmation, coordination an
 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
-| [01](tickets/01-native-swe-inputs.md) | GLM-5.2 SWE default-loader parity and frozen four-cell inputs | Documentation freeze — complete |
+| [01](tickets/01-native-swe-inputs.md) | Accepted D11 source identity, default-loader parity and frozen four-cell inputs | done; documentation freeze and D11 amendment |
 | [02](tickets/02-replay-training-and-metrics.md) | Native full/r256 training with replay and exact per-update KL/TIS | 01 |
 | [03](tickets/03-hf-async-swe-evaluation.md) | HF publication → asynchronous SWE evaluation → scoped weight release | 01 |
 | [04](tickets/04-a-full.md) | Accepted A/full formal cell | 02, 03 |
@@ -47,6 +60,8 @@ The edges above gate integration and acceptance. Independent 02 algorithm/replay
 
 08 was added by explicit D8 approval after the initial decomposition and renumbered after the post-freeze standards review, so ticket numbers now follow dependency order. Baseline scoring and formal training are independent after their stated prerequisites, so final baseline completion is not a blocker of 04–07.
 
+Ticket08's edges refer to its stated capability slices:01 original-model/task identities and03 native SWE evaluation capability. Independent readiness review verified these slices from real original4B/HF3 agent/grader results, reader exit, failure recovery and cloud lifecycle evidence. At baseline admission,D11's training-input activation and03's then-unfinished isolation did not block08. That limited readiness decision did not complete the full tickets;01 and03 subsequently passed their independent acceptance checks.02 remains a prerequisite for04–07,not for08.
+
 ## Verification strategy
 
 1. **Documentation:** trace every original requirement to a spec section/ticket; check source citations, local links, arithmetic, DAG and explicit unresolved decisions. Run a phase `check-progress` before asking for freeze.
@@ -58,4 +73,8 @@ The edges above gate integration and acceptance. Independent 02 algorithm/replay
 
 ## Current frontier
 
-01 input parity and identity verification is accepted. The acceptance frontier is now parallel 02 training/replay and 03 evaluation lifecycle, including their native integration checks. Formal cells and the shared baseline retain all recorded prerequisites.
+01 and03 are accepted; small-run RKL/TIS/PPO reconstruction passes.02's acquisitions remain failed206/224 and227/256 before scoring. D13 explicitly selects one new18-H200 A/r256 mixed-rollout smoke despite unconfirmed generationKV/503. The existing timeout guard is verified; no duplicate shared HTTP mechanism is needed. Formal profiles,teacher envelope,concurrency1,science and231/1800 remain unchanged;04–07 are blocked on02 and unstarted.08 independently continues with23/400 persisted outcomes (9true,14false),4 infrastructure-failed missing slots,and no full avg@4; the original72h deadline remains.
+
+Preparation graph: selected scope -> {native argument default repair, two-node worker lifecycle repair, parent profile/CLI/source-preflight integration} -> combined CPU contract/phase review -> fresh D9/H200 admission -> one native18-H200 acquisition/scoring/backward/two-ACK/second-scoring/source-lifetime verification ->02 acceptance decision. The argument owner is `T02-D13-MIXED-ARGS`/`ses_e41449368ffe60SW5yDWEPstjQ`; the worker owner is `T02-D13-MULTINODE-WORKER`/`ses_e41449341ffeyPdv5aSUrf7Wud`; the parent owns configuration, node-local dependency integration, platform operations and final acceptance. No additional tickets or GPU retries are introduced.
+
+Initial preflight at2026-11-09T05:17UTC found23 personal nonterminal non-preemptible H200s;later31+18=49 exceeded the then32 limit. The user explicitly raised this isolated experiment's ceiling to50. Fresh admission at06:41:10UTC selects personal scope,31+18=49,preemptibleFalse,and submits `exp-1109-144110-764758`. The first platform readback isPending/queuing with student2×8 and teacher1×2 requested. Native startup,actual8 engines and capacity still await verification. No unrelated job was stopped or preemption substituted. Evidence:`admission-deepswe-expanded-20261109.json`,`native-expanded-startup-20261109.json`.

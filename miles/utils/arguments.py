@@ -1504,12 +1504,12 @@ def miles_validate_args(args):
                 f"Warning: colocate mode with --sglang-cuda-graph-backend-prefill="
                 f"{args.sglang_cuda_graph_backend_prefill} may trigger NVLS OOM."
             )
-        if args.rollout_num_gpus != args.actor_num_gpus_per_node * args.actor_num_nodes:
-            logger.info(
-                f"rollout_num_gpus {args.rollout_num_gpus} != actor_num_gpus_per_node {args.actor_num_gpus_per_node} "
-                f"* actor_num_nodes {args.actor_num_nodes}, overriding rollout_num_gpus to match actor_num_gpus_per_node * actor_num_nodes."
-            )
+        if args.rollout_num_gpus is None:
             args.rollout_num_gpus = args.actor_num_gpus_per_node * args.actor_num_nodes
+            logger.info(
+                f"Colocate mode: defaulting rollout_num_gpus to actor_num_gpus_per_node "
+                f"* actor_num_nodes ({args.rollout_num_gpus})."
+            )
 
     if args.debug_train_only:
         args.rollout_num_gpus = 0

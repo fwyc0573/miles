@@ -1,0 +1,19 @@
+{
+  "task_id": "T01-DEEPSWE-ACTIVATION",
+  "status": "PASS_FINAL_HANDOFF_VERIFICATION",
+  "native_reference_receipts_and_exclusions_revalidated": true,
+  "exact_local_source_signatures_unchanged": true,
+  "native_source_and_dependency_hashes_unchanged": true,
+  "model_tokenizer_template_hashes_unchanged": true,
+  "ordinary_full_source_typed_factory_recorded_pass": true,
+  "native_source_injected_for_test": false,
+  "activation_config_matches_actual_typed_factory": true,
+  "activation_source_count": 8,
+  "excluded_rows": 102,
+  "excluded_mask1_turns": 10008,
+  "retained_conversations": 9152,
+  "retained_native_eligible_turns_before_qwen_length": 868775,
+  "all_qwen_prefixes_encoded": false,
+  "historical_glm_artifacts_unchanged": 3,
+  "remaining_local_input_blockers": []
+}

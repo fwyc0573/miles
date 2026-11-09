@@ -23,6 +23,12 @@ class RewardModelConfig(BaseConfig):
             ),
         ),
     ] = None
+    custom_reward_post_process_path: A[
+        CustomFunctionConfig | None,
+        Arg(
+            help="Path to the custom function that will post process reward, by default it will be the normalization for grpo. ",
+        ),
+    ] = None
 
 
 class RewardModelRolloutOnlyConfig(BaseConfig):
@@ -39,12 +45,6 @@ class RewardModelRolloutOnlyConfig(BaseConfig):
     rm_url: A[
         str | None,
         Arg(help="URL for the reward model service for --rm-type remote_rm, e.g. http://localhost:8000"),
-    ] = None
-    custom_reward_post_process_path: A[
-        CustomFunctionConfig | None,
-        Arg(
-            help="Path to the custom function that will post process reward, by default it will be the normalization for grpo. ",
-        ),
     ] = None
     custom_convert_samples_to_train_data_path: A[
         CustomFunctionConfig | None,

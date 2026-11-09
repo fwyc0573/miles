@@ -1,0 +1,13 @@
+{
+  "verified_at": "2026-11-09T10:51:54.810657+00:00",
+  "status": "PASS",
+  "job": "exp-1109-181120-274261",
+  "cloud_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-20261109",
+  "archive": "/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz",
+  "archive_bytes": 3911955,
+  "archive_sha256": "14f5cb41073dab396a8f2d378f259a417de376fe75f943bd3956d1d2b537eb23",
+  "verified_files": 167,
+  "verified_logical_bytes": 15325989,
+  "retained_head_log": "/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-head.log",
+  "extracted_files": 0
+}

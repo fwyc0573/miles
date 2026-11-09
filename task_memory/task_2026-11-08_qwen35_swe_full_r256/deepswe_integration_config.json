@@ -1,0 +1,106 @@
+{
+  "phase": "deepswe-integration",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "repo": "/data/ycfeng/sota-engine/miles",
+  "local_mount": "/data/ycfeng",
+  "worker_python": "/opt/sglang/bin/python3",
+  "worker_local_root": "/var/tmp",
+  "megatron_path": "/root/Megatron-LM",
+  "cuda_compat_dir": "/usr/local/cuda-13.0/compat",
+  "run_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/integration",
+  "shared_dir": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-integration",
+  "context_tokens": 131072,
+  "request_timeout": 3600,
+  "teacher_port": 30000,
+  "teacher_dist_port": 29501,
+  "charged_group": "step_main",
+  "gpu_tag": "H200",
+  "gpu_policy": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/gpu_policy.json",
+  "creator": "i-fengyicheng",
+  "admission_lock": "/data/ycfeng/tmp/qwen35-swe-admission.lock",
+  "api_timeout_seconds": 20,
+  "rdma_resources": ["mellanox.com/mlnx_rdma:1", "rdma/mlnx_shared:8"],
+  "mounts": [
+    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+    "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
+  ],
+  "inputs": {
+    "source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+    "source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "skip_masked_assistant_turns": true,
+    "visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
+    "chat_template_path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+    "chat_template_kwargs": {"preserve_thinking": true, "enable_thinking": true}
+  },
+  "training": {
+    "run_kind": "smoke",
+    "successful_updates": 3,
+    "bank_slots": 8,
+    "bank_min_fraction": 0.9,
+    "bank_uses": 2,
+    "acquisition_seconds": 1800,
+    "save_interval": 2,
+    "seed": 1234,
+    "rollout_seed": 1729,
+    "temperature": 1.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "optimizer": "adam",
+    "lr": 0.000002,
+    "weight_decay": 0.1,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.98,
+    "adam_eps": 0.00000001,
+    "eps_clip": 0.2,
+    "eps_clip_high": 0.28,
+    "release_scoring_output": true
+  },
+  "tis": {
+    "tis_token_lower": 0.5,
+    "tis_token_upper": 2.0,
+    "tis_answer_lower": 0.9897,
+    "tis_answer_upper": 1.001
+  },
+  "checkpoint": {
+    "post_save_hook": "tests.manual.agent_opd.swe_hf_export.post_save",
+    "hook_args": {
+      "swe_evaluation_configuration": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evaluation_deepswe_async_config.json"
+    }
+  },
+  "pairs": {
+    "A": {
+      "startup_timeout": 1800,
+      "student": {
+        "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+        "nodes": 1, "gpus_per_node": 8, "cpu_per_node": 64, "memory_gb_per_node": 512,
+        "host_network": true, "gang_start": false, "tp_size": 2, "engine_gpus": 2,
+        "max_tokens_per_gpu": 131072, "mem_fraction_static": 0.7,
+        "max_running_requests": 1, "chunked_prefill_size": 8192
+      },
+      "teacher": {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "nodes": 1, "gpus_per_node": 2, "cpu_per_node": 16, "memory_gb_per_node": 128,
+        "host_network": false, "gang_start": false, "tp_size": 2,
+        "mem_fraction_static": 0.85, "max_running_requests": 1, "chunked_prefill_size": 8192
+      }
+    },
+    "B": {
+      "startup_timeout": 1800,
+      "student": {
+        "path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+        "nodes": 1, "gpus_per_node": 8, "cpu_per_node": 64, "memory_gb_per_node": 512,
+        "host_network": true, "gang_start": false, "tp_size": 2, "engine_gpus": 2,
+        "max_tokens_per_gpu": 131072, "mem_fraction_static": 0.7,
+        "max_running_requests": 1, "chunked_prefill_size": 8192
+      },
+      "teacher": {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+        "nodes": 1, "gpus_per_node": 2, "cpu_per_node": 16, "memory_gb_per_node": 128,
+        "host_network": false, "gang_start": false, "tp_size": 2,
+        "mem_fraction_static": 0.85, "max_running_requests": 1, "chunked_prefill_size": 8192
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-11-08T13:53:27.946465+00:00",
+  "job": "exp-1108-215214-032806",
+  "creator": "i-fengyicheng",
+  "task_annotation": "task_2026-11-08_qwen35_swe_full_r256",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "preemptible": "no",
+  "phase": "Starting",
+  "task_resources": {
+    "evaluation": {
+      "replicas": 1,
+      "containers": [
+        {
+          "name": "evaluation",
+          "gpu_request": "2",
+          "gpu_limit": "2"
+        }
+      ]
+    }
+  }
+}

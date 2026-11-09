@@ -94,10 +94,6 @@ class UpdateWeightFromTensor(WeightTransferProtocol):
             raise NotImplementedError("LoRA weight sync is not supported for hybrid colocated+distributed deployments")
 
         if self.use_distribute:
-            self.rollout_engines = rollout_engines[:colocate_engine_nums]
-            self.cell_updaters_of_cell_id = create_rollout_cell_updaters(
-                self.args, self.rollout_engines, engine_cell_ids[:colocate_engine_nums]
-            )
             self.distributed_rollout_engines = rollout_engines[colocate_engine_nums:]
             distributed_gpu_counts = engine_gpu_counts[colocate_engine_nums:]
             self._is_distributed_src_rank = (
@@ -114,6 +110,7 @@ class UpdateWeightFromTensor(WeightTransferProtocol):
                     engine_gpu_counts=distributed_gpu_counts,
                 )
 
+        colocated_rollout_engines = rollout_engines[:colocate_engine_nums]
         colocate_gpu_offsets = engine_gpu_offsets[:colocate_engine_nums]
         colocate_gpu_counts = engine_gpu_counts[:colocate_engine_nums]
 
@@ -143,7 +140,7 @@ class UpdateWeightFromTensor(WeightTransferProtocol):
 
         # Map training ranks to colocated engine actors.
         self._ipc_engine = None
-        for i, engine in enumerate(self.rollout_engines):
+        for i, engine in enumerate(colocated_rollout_engines):
             start = colocate_gpu_offsets[i]
             end = start + colocate_gpu_counts[i]
             if start <= dist.get_rank() < end:

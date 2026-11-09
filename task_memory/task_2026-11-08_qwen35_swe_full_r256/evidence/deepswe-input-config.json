@@ -1,0 +1,142 @@
+{
+  "native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+  "native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+  "source_manifest_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+  "source_manifest_sha256": "c23a757918031592f6440cd50f0ca750f5de07da5590e98c55eb6b5760f7f73d",
+  "files": [
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "bytes": 1840507093,
+      "mtime_ns": 1789293203334902630,
+      "sha256": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6",
+      "copied_bytes": 1840507093,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part1_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "bytes": 1798751171,
+      "mtime_ns": 1789293192491252333,
+      "sha256": "92bda966708e79c42f2297e4954adfb79363afe2d161430e95a10a0600113afd",
+      "copied_bytes": 1798751171,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part2_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "bytes": 1777535746,
+      "mtime_ns": 1789293192779992329,
+      "sha256": "4c86c51facc53beab085ece14c4a4caf98dc4c01b89bad8d079fdf5570657082",
+      "copied_bytes": 1777535746,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part3_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "bytes": 1776704827,
+      "mtime_ns": 1789293187339868644,
+      "sha256": "b6b7b3062ee47e557c6680212ffe24165049ec951a87c86d498a9b5af6390085",
+      "copied_bytes": 1776704827,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_32_swa_rl_part4_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "bytes": 1377049904,
+      "mtime_ns": 1789298047273332287,
+      "sha256": "c44573ae084f4e72f473eef3b7ca2bbe03935d6c5d87cf719fdbe9479f23ddd0",
+      "copied_bytes": 1377049904,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part1_resolved_garble_filtered_sft_ds0p5.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "bytes": 3299554993,
+      "mtime_ns": 1789293707885207546,
+      "sha256": "bb538ae4f4a5f6234019999dde77a26019afb6358e758159d6c7a66c4e198e07",
+      "copied_bytes": 3299554993,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part2_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "bytes": 3331390326,
+      "mtime_ns": 1789293718169617258,
+      "sha256": "2eed550ec6e204913268ed2457f5cae9ca9f40b87451a45dcbf503775dff6373",
+      "copied_bytes": 3331390326,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_part3_resolved_garble_filtered_sft.json"
+    },
+    {
+      "path": "/mnt/posttrain/hanqi/swe_data/sft/datapipe_stage2_rft_0913/mnt/posttrain/qidi/garble_filtered_sft_20260913/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "bytes": 1358046403,
+      "mtime_ns": 1789298072498783371,
+      "sha256": "dee3cbfde45a0c5d9c3297105f878f0123ff2d5c8ad24139069e3c97e8ce5a9d",
+      "copied_bytes": 1358046403,
+      "destination": "/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/inputs/deepswe-0913/exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "local_destination": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json",
+      "local_path": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/qidi_it150_hf_fp8_deepswe_8_test_swa_rl_1066_part2_resolved_garble_filtered_sft_ds0p5.json"
+    }
+  ],
+  "hf_checkpoint": "/data/ycfeng/tmp/swe-model-pairs-20261103/Qwen/Qwen3.5-4B",
+  "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+  "tokenizer_config_json_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+  "chat_template_path": "/data/ycfeng/sota-engine/miles/miles/utils/chat_template_utils/templates/qwen3.5_fixed.jinja",
+  "chat_template_sha256": "ca447731ed457cb460b7522ea9edb986d52e4ea62c5d8482365146592d69b1b9",
+  "chat_template_kwargs": {
+    "preserve_thinking": true,
+    "enable_thinking": true
+  },
+  "rollout_max_context_len": 131072,
+  "rollout_max_response_len": 131072,
+  "n_samples_per_prompt": 1,
+  "domain": "reasoning",
+  "source_group": "swe",
+  "reward_fn_type": "noop",
+  "source_load_path": null,
+  "source_load_safetensors": null,
+  "shuffle": false,
+  "deduplicate": false,
+  "epoch_wrap": true,
+  "length_reject": "prompt_token_count >= rollout_max_context_len",
+  "generation_budget": "rollout_max_context_len - prompt_token_count",
+  "tools_rendering_difference": "Native SWE1003 adaptive Step and Qwen both receive tools; model templates differ",
+  "resume_supported": false,
+  "native_base_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/baseline_new/mopd/online_turn_loader.py",
+  "native_base_sha256": "0c11561f33dacf1a15cd804dbd2f4feed4d1c33734bfaea7a416fdf1efaa740f",
+  "native_dependencies": [
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_filter_1001.py",
+      "sha256": "91d2ea967208147775f1f398d4dc8dc9adccbeb2ea30249296167dcd1e6588a8"
+    },
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_visual_audit_1001.py",
+      "sha256": "5838a812996890f003199b7575788962360ef27810a7c29c4df466b64d0ebc1e"
+    },
+    {
+      "path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_source_manifest_1001.py",
+      "sha256": "0a46156646a098161151b4ba311a1811e1c61c5e8ab950f3a3617ecf7e67df16"
+    }
+  ],
+  "target_policy": "assistant_with_scalar_integer_loss_mask_one_v1",
+  "visual_exclusion_policy": "exclude_entire_visual_source_trajectory_v1",
+  "visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json",
+  "visual_filter_receipt_sha256": "fcc3bdd9bcbda5ef5ac27e0246e9db9cba9493f48dfb90fb29d3eedbe158ab35",
+  "visual_filter_verified": true,
+  "native_source_injected_for_test": false,
+  "candidate_data_source_config": {
+    "swe_source_root": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420",
+    "swe_source_manifest": "/data/ycfeng/tmp/qwen35-swe-full-r256/deepswe-0913-exp-1108-205005-924420/COPY_COMPLETE.json",
+    "swe_native_loader_path": "/data/ycfeng/steptron/.worktrees/reasoning-replay-f4522d451a9/playground/users/cj/opd/s4_swe_turn_data_1001.py",
+    "swe_native_loader_sha256": "8850287f633b03b188659778136e81c1d5a6fb4e87591a8a4fb05639e7603980",
+    "swe_skip_masked_assistant_turns": true,
+    "swe_visual_filter_receipt": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/deepswe-input-native-visual-filter.json"
+  }
+}

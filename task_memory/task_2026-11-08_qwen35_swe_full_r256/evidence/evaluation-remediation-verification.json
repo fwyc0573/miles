@@ -1,0 +1,32 @@
+{
+  "committed": false,
+  "dependencies_installed": false,
+  "failed": 0,
+  "limitations": [
+    "CPU fault injection is not live ACS/model grading or HF/RJob acceptance",
+    "Parent must enqueue the immutable evaluation_contract(runtime) before native startup"
+  ],
+  "native_check_only": {
+    "ACS_model_HTTP_forbidden": true,
+    "grade": false,
+    "native_check_requests": 1,
+    "status": "PASS",
+    "trajectory_and_request_bytes_unchanged": true
+  },
+  "native_python": "3.10.20",
+  "passed": 51,
+  "per_file_test_counts": {
+    "tests.fast.test_swe_evaluation": 29,
+    "tests.fast.test_swe_native_evaluation": 22
+  },
+  "per_file_testcase_seconds": {
+    "tests.fast.test_swe_evaluation": 127.10900000000001,
+    "tests.fast.test_swe_native_evaluation": 6.81
+  },
+  "pytest": "9.1.1",
+  "python": "3.12.13",
+  "skipped": 0,
+  "task_id": "T03-REMEDIATION",
+  "tests": 51,
+  "wall_seconds": 134.21
+}

@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-11-09T10:23:50.461804+00:00",
+  "job": "exp-1109-181120-274261",
+  "observed_nodes": [
+    {
+      "file": "h800-capacity-112k/r256/exp-1109-181120-274261/A/student-node-1.json",
+      "role": "student",
+      "rank": 1,
+      "nodes": 4,
+      "hostname": "gpu-h800-0381.host.platform.shaipower.com",
+      "ip": "10.191.1.9",
+      "gpus": 8,
+      "device_types": [
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ]
+    },
+    {
+      "file": "h800-capacity-112k/r256/exp-1109-181120-274261/A/student-node-2.json",
+      "role": "student",
+      "rank": 2,
+      "nodes": 4,
+      "hostname": "gpu-h800-0057.host.platform.shaipower.com",
+      "ip": "10.191.5.7",
+      "gpus": 8,
+      "device_types": [
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ]
+    },
+    {
+      "file": "h800-capacity-112k/r256/exp-1109-181120-274261/A/student-node-3.json",
+      "role": "student",
+      "rank": 3,
+      "nodes": 4,
+      "hostname": "gpu-h800-0264.host.platform.shaipower.com",
+      "ip": "10.191.7.15",
+      "gpus": 8,
+      "device_types": [
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ]
+    },
+    {
+      "file": "h800-capacity-112k/r256/exp-1109-181120-274261/A/teacher-node-0.json",
+      "role": "teacher",
+      "rank": 0,
+      "nodes": 1,
+      "hostname": "rjob-c682ded69a587698-12b353edd056a1c8-0",
+      "ip": "100.112.20.152",
+      "gpus": 4,
+      "device_types": [
+        "NVIDIA H800, 81559 MiB, 570.124.06"
+      ]
+    }
+  ],
+  "observed_gpus": 28,
+  "requested_gpus": 36,
+  "shared_files": [
+    "student-launch-1.json",
+    "student-launch-2.json",
+    "student-launch-3.json",
+    "student-node-1.json",
+    "student-node-2.json",
+    "student-node-3.json",
+    "teacher-head.json",
+    "teacher-node-0.json",
+    "teacher-ready.json"
+  ],
+  "native_capacity_accepted": false
+}
