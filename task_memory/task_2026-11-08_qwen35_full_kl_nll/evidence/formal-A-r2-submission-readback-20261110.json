@@ -1,0 +1,42 @@
+{
+  "observed_at": "2026-11-09T18:31:08.667805+00:00",
+  "job": "exp-1110-022844-821769",
+  "uid": "a54101b9-6baf-4c84-a0c9-ac2897bded83",
+  "creator": "i-fengyicheng",
+  "preemptible": false,
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "task_annotation": "task_2026-11-08_qwen35_full_kl_nll",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 2,
+        "active": 2,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "roles": {
+    "student": {
+      "replicas": 4,
+      "tags": [
+        "H800"
+      ],
+      "gpus_per_replica": 8
+    },
+    "teacher": {
+      "replicas": 1,
+      "tags": [
+        "H800"
+      ],
+      "gpus_per_replica": 4
+    }
+  }
+}

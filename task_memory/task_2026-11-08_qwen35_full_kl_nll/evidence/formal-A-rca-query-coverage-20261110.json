@@ -1,0 +1,66 @@
+{
+  "job": "exp-1110-014836-849060",
+  "collector_root": "/data/ycfeng/tmp/agent-opd-image/formal-A-placement-failure-20261110",
+  "queries": [
+    {
+      "query": "existing-deepscan",
+      "started_at": "2026-11-09T18:27:02.720065+00:00",
+      "finished_at": "2026-11-09T18:27:04.326413+00:00",
+      "ok": true
+    },
+    {
+      "query": "incident-logs",
+      "started_at": "2026-11-09T18:27:02.716472+00:00",
+      "finished_at": "2026-11-09T18:27:04.106014+00:00",
+      "ok": true
+    },
+    {
+      "query": "replica-audit",
+      "started_at": "2026-11-09T18:27:02.718787+00:00",
+      "finished_at": "2026-11-09T18:27:14.015262+00:00",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=10.0)"
+      }
+    },
+    {
+      "query": "replica-historical-events",
+      "started_at": "2026-11-09T18:27:02.713036+00:00",
+      "finished_at": "2026-11-09T18:27:04.060865+00:00",
+      "ok": true
+    },
+    {
+      "query": "replica-live-events",
+      "started_at": "2026-11-09T18:27:02.715714+00:00",
+      "finished_at": "2026-11-09T18:27:02.975557+00:00",
+      "ok": true
+    },
+    {
+      "query": "rjob-audit",
+      "started_at": "2026-11-09T18:27:02.717464+00:00",
+      "finished_at": "2026-11-09T18:27:14.014955+00:00",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=10.0)"
+      }
+    },
+    {
+      "query": "rjob-historical-events",
+      "started_at": "2026-11-09T18:27:02.711660+00:00",
+      "finished_at": "2026-11-09T18:27:04.073614+00:00",
+      "ok": true
+    },
+    {
+      "query": "rjob-live-events",
+      "started_at": "2026-11-09T18:27:02.714729+00:00",
+      "finished_at": "2026-11-09T18:27:02.862296+00:00",
+      "ok": true
+    }
+  ],
+  "audited_stop_actor": "UNKNOWN",
+  "audited_stop_request_time": "UNKNOWN",
+  "audit_limit": "Both all-operation audit queries timed out after10s; no initiating stop-request claim is made",
+  "initiating_workload_failure": "Rank0 Ray cluster startup TimeoutError at18:23:55Z after rank2 remained unscheduled"
+}

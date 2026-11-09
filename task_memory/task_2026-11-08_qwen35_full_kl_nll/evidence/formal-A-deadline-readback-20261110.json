@@ -1,0 +1,58 @@
+{
+  "observed_at": "2026-11-09T18:25:02.594788+00:00",
+  "job": "exp-1110-014836-849060",
+  "uid": "ccc4c4e4-3945-4159-8021-e0f0b17008f5",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T18:24:34Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1110-014836-849060-student-eccbc87e",
+        "ip": "10.191.5.44",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "ip": "",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-cfcd2084",
+        "ip": "10.191.8.63",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-c4ca4238",
+        "ip": "10.191.5.56",
+        "phase": "Failed"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1110-014836-849060-teacher-cfcd2084",
+        "ip": "100.99.211.93",
+        "phase": "Stopped"
+      }
+    ]
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  }
+}

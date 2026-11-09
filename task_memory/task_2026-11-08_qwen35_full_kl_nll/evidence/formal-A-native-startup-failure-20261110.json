@@ -1,0 +1,98 @@
+{
+  "job": "exp-1110-014836-849060",
+  "failure_class": "platform_placement_then_native_cluster_startup_timeout",
+  "configured_student_nodes": 4,
+  "literal_error_mentions_two_nodes": true,
+  "native": [
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/student/A/exp-1110-014836-849060/training.json",
+      "mtime_utc": "2026-11-09T18:23:55.179530+00:00",
+      "record": {
+        "status": "failed",
+        "pair": "A",
+        "rank": 0,
+        "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110/full/student/A/exp-1110-014836-849060",
+        "error_type": "TimeoutError",
+        "reason": "Ray did not register the requested two-node GPU allocation",
+        "traceback": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 405, in _run\n    _check_cluster(head, records, ray_args)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/rjob_warmup.py\", line 206, in _check_cluster\n    raise TimeoutError(\"Ray did not register the requested two-node GPU allocation\")\nTimeoutError: Ray did not register the requested two-node GPU allocation\n"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/student/A/exp-1110-014836-849060/finished.json",
+      "mtime_utc": "2026-11-09T18:23:55.179530+00:00",
+      "record": {
+        "status": "failed",
+        "pair": "A",
+        "rank": 0,
+        "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110/full/student/A/exp-1110-014836-849060",
+        "error_type": "TimeoutError",
+        "reason": "Ray did not register the requested two-node GPU allocation",
+        "traceback": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 405, in _run\n    _check_cluster(head, records, ray_args)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/rjob_warmup.py\", line 206, in _check_cluster\n    raise TimeoutError(\"Ray did not register the requested two-node GPU allocation\")\nTimeoutError: Ray did not register the requested two-node GPU allocation\n"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/student-finished.json",
+      "mtime_utc": "2026-11-09T18:24:21.695529+00:00",
+      "record": {
+        "status": "failed",
+        "job": "exp-1110-014836-849060",
+        "pair": "A",
+        "rank": 0,
+        "returncode": -15,
+        "error_type": "SystemExit",
+        "reason": "143"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/student-status-0.json",
+      "mtime_utc": "2026-11-09T18:24:21.655529+00:00",
+      "record": {
+        "status": "failed",
+        "job": "exp-1110-014836-849060",
+        "pair": "A",
+        "rank": 0,
+        "returncode": -15,
+        "error_type": "SystemExit",
+        "reason": "143"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/student-status-1.json",
+      "mtime_utc": "2026-11-09T18:24:16.567529+00:00",
+      "record": {
+        "status": "failed",
+        "job": "exp-1110-014836-849060",
+        "pair": "A",
+        "rank": 1,
+        "returncode": 1
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/student-status-3.json",
+      "mtime_utc": "2026-11-09T18:24:23.615529+00:00",
+      "record": {
+        "status": "failed",
+        "job": "exp-1110-014836-849060",
+        "pair": "A",
+        "rank": 3,
+        "returncode": 143,
+        "error_type": "SystemExit",
+        "reason": "143"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/teacher-status-0.json",
+      "mtime_utc": "2026-11-09T18:24:27.955529+00:00",
+      "record": {
+        "status": "failed",
+        "job": "exp-1110-014836-849060",
+        "pair": "A",
+        "rank": 0,
+        "returncode": null,
+        "error_type": "SystemExit",
+        "reason": "143",
+        "shutdown_returncode": -9
+      }
+    }
+  ]
+}

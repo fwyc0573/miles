@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Retain first A FAILED0 updates and partial RCA; synchronize unchanged fresh retry, intentional local observer cleanup and bounded failure-route checkpoint. |
 | 2026-11-10 | Record A/full actual submission and first worker evidence; native first-update inspection remains pending. |
 | 2026-11-10 | Record final accepted CPU integration15186817, explicit profile configurationec002ea8 and lifecycle verification before launch; move to A admission and append the exact four-section milestone checkpoint. |
 | 2026-11-10 | Record02 trainer CPU-ready6129aefe,clean completed phase reviews,committed formal correction and staged03 delivery;preserve pending primary integration/GPU/S7 acceptance and append the four-section milestone checkpoint. |
@@ -38,6 +39,45 @@
 # Progress
 
 ## completed
+
+- Failure/retry documentation andimmutable evidence verification: retained docchecker PASS with31 documents/6 tickets/135 links/39 anchors,unchanged01→02→03→04→05→06 DAG and51,200/cell/102,400 total/81-turn estimate,zero errors. Scoped whitespace PASS; direct local JSON parse/identity assertions PASS for exactlyfive primary-approved files: oldfive terminal replicas, retainedliteral error/four configured nodes,6/8 RCA query success/audit UNKNOWN anddistinct retry UID/source/fresh36-GPU admission/placement. No JSON wasmodified, no other live/untracked evidence wasincluded, andno business/lifecycle test orGPU/SSH/platform/network operation wasrun. Seven-owned-doc plusfive-JSON scope below; results arealso summarized in the existing`test_report_2026-11-10_formal_runs.md`, not a newreport.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_formal_runs.md task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-deadline-readback-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-native-startup-failure-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-rca-query-coverage-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-A-r2-20261110.json task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-A-r2-submission-readback-20261110.json
+python3 -B - <<'PY'
+import json
+from pathlib import Path
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence')
+names = ['formal-A-deadline-readback-20261110.json', 'formal-A-native-startup-failure-20261110.json', 'formal-A-rca-query-coverage-20261110.json', 'admission-formal-A-r2-20261110.json', 'formal-A-r2-submission-readback-20261110.json']
+old, native, coverage, admission, retry = [json.loads((root / name).read_text()) for name in names]
+replicas = [item for role in old['replicas'].values() for item in role]
+assert old['job'] == native['job'] == coverage['job'] == 'exp-1110-014836-849060'
+assert old['status']['phase'] == 'Failed' and old['status']['finishTime'] == '2026-11-09T18:24:34Z'
+assert len(replicas) == 5 and all(item['phase'] in {'Failed', 'Stopped'} for item in replicas)
+assert native['configured_student_nodes'] == 4 and native['literal_error_mentions_two_nodes'] is True
+assert native['native'][0]['record']['reason'] == 'Ray did not register the requested two-node GPU allocation'
+assert 'line 206' in native['native'][0]['record']['traceback']
+assert len(coverage['queries']) == 8 and sum(item['ok'] for item in coverage['queries']) == 6
+assert all(item['error']['type'] == 'ReadTimeout' for item in coverage['queries'] if not item['ok'])
+assert coverage['audited_stop_actor'] == coverage['audited_stop_request_time'] == 'UNKNOWN'
+assert admission['job'] == retry['job'] == 'exp-1110-022844-821769'
+assert admission['committed_gpus'] == 0 and admission['requested_gpus'] == 36 and admission['admitted'] and admission['submitted']
+assert not admission['preemptible'] and not retry['preemptible']
+assert admission['source_mount'] == retry['source_mount'] == '100.96.128.195:/data/ycfeng:/data/ycfeng'
+assert retry['uid'] == 'a54101b9-6baf-4c84-a0c9-ac2897bded83' and retry['status']['phase'] == 'Starting'
+assert retry['status']['taskStatuses']['student']['active'] == 2 and retry['status']['taskStatuses']['student']['pending'] == 2
+assert retry['status']['taskStatuses']['teacher']['active'] == 1
+assert sum(role['replicas'] * role['gpus_per_replica'] for role in retry['roles'].values()) == 36
+print('PASS: 5 JSON parses; old 5 terminal replicas; literal error/four-node topology; RCA 6/8 and audit UNKNOWN; distinct retry UID/source/admission and 36-GPU placement request')
+PY
+```
+
+- First formal A `exp-1110-014836-849060` is terminal Failed at2026-11-09T18:24:34Z, withall five replicas terminal and0 successful updates. Native rank0 `training.json` at18:23:55.179530Z records startup TimeoutError at`rjob_warmup.py:206` after rank2 remained unscheduled; later peer/143 chronology isnot the initiating cause. The exact "two-node" diagnostic isretained, whileactual configuration hasfour student nodes.10 fully paginated FailedScheduling events were already committed in`c59e4077`; this isplacement/native startup failure, not OOM or D6/D19 throughput. Terminal/native receipts andfull chronology remain in[the single formal runs report](test_report_2026-11-10_formal_runs.md#terminal-failure-and-partial-rca--18241827z).
+- Primary RCA collector completed6 queries;2 all-operation audit queries ReadTimeout at10s. Existing DeepScan0flows andcollector exit1 arepartial RCA query observations, not another GPU failure. Raw root:`/data/ycfeng/tmp/agent-opd-image/formal-A-placement-failure-20261110`;[coverage receipt](evidence/formal-A-rca-query-coverage-20261110.json) retainsaudited stop actor/time UNKNOWN. Initiating native failure isknown; all RCA/auditable stop closure isnot claimed. No cloud/formal evidence wascleaned.
+- After the old job wasterminal, primary positively identified old read-only observer PID2124241 bycmdline/cwd/start17:51:41 and85-byte startup banner, then locally SIGTERM-terminated it. Completed notification for`sh_1c16ff2bb0017aVjX6GHz8NQ1s`isintentional observer cleanup, not a GPU stop; no other job wasstopped. Retry observer isseparate, read-only andsoft.
+
+### Historical final CPU readiness — before first formal A launch
 
 - Final CPU-readiness document verification under system Python3.10.6:31 documents/6 tickets/121 links/40 anchors,01→02→03→04→05→06 DAG,unchanged51,200/cell/102,400 total/81-turn estimate,zero errors. Nine-owned-document scoped whitespace PASS. A one-off read-only assertion checks the exact four checkpoint sections,all D1–D7/S1–S6 rows,11/11 checked03 CPU criteria,02 downstream S7 checked/GPU unchecked,all8 A and9 B formal criteria unchecked,and the pre-launch lifecycle evidence link; PASS. Six unique backticked prep paths resolve; Markdown references are separately checked by the retained docchecker. The first docchecker run had two dependency-text mismatches because `and02`/`for04` and a Chinese-adjacent04 lacked the existing `\b0\d\b` boundary; restoring explicit numbered references/spacing passed without changing checker code or dependency semantics. No business/lifecycle/GPU check was rerun, and no code/config/proof report or new task file was written.
 
@@ -201,7 +241,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 - `summary()` no longer calls `conversation_states`: with that call, per-update time rose from 1.65 to 2.39 ms (lengths 19–464) and 1.82 to 3.64 ms (19–162); counting baselines and trends directly brought it back to 1.73 and 1.96 ms. The batch query itself is about 10 times its earlier cost, 0.8–2.0 ms, and is not on the per-update path.
 - The first mutation run left one bug alive (a conversation baseline that takes every turn of an update instead of only the turns it still needs); `test_baseline_stops_at_its_turn_count` was added and the mutant then failed.
 
-## Formal A launch checkpoint — 2026-11-10
+## Historical first formal A launch checkpoint — before18:24:34Z failure
 
 ## 1. 规划完成情况
 
@@ -253,9 +293,10 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Latest startup diagnosis18:22Z: student0/1/3 plus teacher have28 actual H800; student2 remains`PodScheduled=False/Unschedulable`. Exact replica/Pod Events confirm resource placement failure, with10 retained`FailedScheduling`records and no missing pagination. Ray-head startup deadline is approximately18:23:53Z; acquisition has not started and this is not a D6/D19 throughput result. The previous12-GPU snapshot below is historical. No live timeout/config/placement change was made. See[formal execution report](test_report_2026-11-10_formal_runs.md#partial-placement-observation--1822z).
+- Current retry `exp-1110-022844-821769` wascreated18:28:44Z after [fresh own admission](evidence/admission-formal-A-r2-20261110.json): committed0/requested36 H800, non-preemptible, creator`i-fengyicheng`, local source`100.96.128.195:/data/ycfeng:/data/ycfeng`. Primary reusedthe exact unchanged config/source/image/lengths/four-node topology/timeouts underexisting formal authorization; no code/config fix orbusiness-test rerun. At18:31:08Z the[direct readback](evidence/formal-A-r2-submission-readback-20261110.json) pinsUID`a54101b9-6baf-4c84-a0c9-ac2897bded83`, Starting, student active2/pending2 andteacher active1. These areplacement/status receipts, not actual GPU/all-engine/ACK proof.
 
-- Current frontier: A/full`exp-1110-014836-849060`startup and first actual successful update/D16 inspection. Submission and direct platform readback are committed in`1976048f`;36 non-preemptible H800, personal creator and local NFS source match. Initial platform state was Starting. Worker evidence now confirms rank0's8 H800 and the ready27B teacher's4 H800, both with the frozen image/model paths; the other student ranks and all-engine/first-update readiness are not yet confirmed. See[formal execution evidence](test_report_2026-11-10_formal_runs.md). Local launcher`sh_1c16d0f990014RQthEERNRrdWW`remains alive; read-only observer`sh_1c16ff2bb0017aVjX6GHz8NQ1s`will notify on the first native update without controlling training.
+- Current frontier: primary observes retry startup, confirms actual worker GPUs/engines andfirst successful native ACK, then completesD16/02 GPU inspection. Launcher`sh_1c191cdc5001x6Xr3PoAy7Gg2n`iskept alive; log`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-h800-112k-20261110.log`. Newread-only observer`sh_1c193b14f00106un9zmHJvU6bW`outputs live`evidence/formal-A-r2-first-update-notification-20261110.json`, retains9,000-second soft window andchecks retainednative failure for early return aswell as first successful ACK. Notification/error/timeout isnot a GPU stop orauxiliary PASS gate. Exact retry command differs only by`-r2`receipt/log; identities andseparate evidence roots arein[the current formal runs report](test_report_2026-11-10_formal_runs.md#current-afull-retry--exp-1110-022844-821769).
+- First attempt's18:22Z unscheduled-rank2/28-device snapshot,18:23:55Z initiating timeout and18:24:34Z Failed terminal state arehistorical, not current startup orretry GPU proof. One placement failure followedone fresh unchanged submission; ifplacement fails again, primary performs fresh route assessment, not an automatic unbounded rerun orD19 throughput escalation. Stop-audit UNKNOWN remains explicitly open inthe same report; failed attempt results are never spliced andall formal cloud outputs remain protected.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
 - B's four-H800 TP4/EP1 teacher remains feasible, not native load/memory/throughput verified.05 admission remains authorized after A's actual first successful ACK, completed inspection and fresh resources while A continues; neither A200 updates, auxiliary profile PASS nor another user approval is required.
@@ -285,7 +326,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Primary/04: finish fresh live resource admission and formal identity/configuration/input/model freezing, then submit A through the existing approved mechanism. CPU integration, explicit profile configuration and before-run lifecycle checks are complete; no new review/user approval or GPU smoke gate is introduced.
+1. Primary/04: observe unchanged freshly admitted retry`exp-1110-022844-821769`andconfirm actual workers/engines andnative startup outcome. Existing CPU/config/lifecycle readiness isreused; ifplacement fails again, makefresh route assessment rather than automatically submit another retry. Partial audit gaps remain explicit inthe existing formal report; no new science, approval gate orGPU smoke isintroduced.
 2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
 3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
@@ -565,3 +606,57 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1.03已primary接受并完成全部CPU条件；02仅GPU验收未完成，CPU/dry-run不代表native acceptance。
 2. Before-run lifecycle检查和报告链接已在launch前记录；fresh admission/actual A launch、实际sample失败和RCA仍未验证。
 3. B等A首次actual ACK和完成inspection/fresh资源，不等A200或profile PASS；S7失败只标未验证并停止profile派生，healthy训练继续。
+
+## Formal A placement-failure/retry checkpoint — profile-d35-records-20261110
+
+## 1. 规划完成情况
+
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 2｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 输入 | PASS | D34审计/parity已接受，配置和科学输入未改。 |
+| 02 逐turn测量 | TODO | CPU已接受；GPU/D16仍等实际首ACK。 |
+| 03 Profile集成 | PASS |15186817及201-case CPU证据保持接受。 |
+| 04 A/full | TODO | 首attempt FAILED0 updates；fresh unchanged retry18:31:08Z Starting，非actual GPU/ACK证明。 |
+| 05 B/full | BLOCKED | 等A实际首ACK、完成inspection和fresh资源，不等A200/profile PASS。 |
+| 06 终态报告 | BLOCKED | 两cell200-update/native/profile验收未到；旧失败和partial RCA单独保留。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，主线未变；一次placement失败后进行一次fresh准入/同配置提交，不是无界重试。
+**检测窗口：** 首formal A launch checkpoint至18:24:34Z failure、18:28:44Z retry及本次记录同步｜**当前前沿：**04 retry native startup/首ACK；并行保留partial RCA审计缺口。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只保留5份完整receipt并同步现有报告；observer软通知，不新增工具/smoke/清理。 |
+| D2 细节反复重试 | CLEAR | 单次placement失败后单次unchanged fresh admission；无参数轮换或自动继续重投，重复placement失败须重新评估路线。 |
+| D3 支线问题修补 | CLEAR | 未修hardcoded "two-node"诊断或无关代码；只推进04失败/当前attempt记录。 |
+| D4 可并行任务停滞 | CLEAR | 新observer观察retry；RCA只读审计缺口可并行，B仍有真实首ACK/inspection依赖。 |
+| D5 超范围镀金 | CLEAR | 同config/source/image/topology/lengths/timeouts；未增GPU或科学/验收/stop权限。 |
+| D6 分析空转 | CLEAR | Native initiating failure已确认并转fresh retry；2审计timeout明确为partial RCA，不继续空转或称全部closed。 |
+| D7 路线违背 | CLEAR | 既有formal授权及fresh36-H800准入；非D19吞吐重启；D16/S7/B依赖与formal evidence保护保持。 |
+
+**文档检查：** S1依赖CLEAR（B仍等实际首ACK/inspection，04不等自身02 GPU证据）；S2 blocker ownership CLEAR（04负责placement/native outcome，06/现有formal报告保留审计UNKNOWN）；S3可达标准CLEAR（Starting不等于native/GPU/200-update PASS）；S4有界标准CLEAR（ACK/终态/paired evidence保持明确）；S5 FOUND→CORRECTED（requirements phase、spec S0、plan/progress/summary、ticket04仍指向旧executing A，已同步FAILED0及新retry）；S6 slice CLEAR（只改当前状态/既有单报告，所有ticket04验收checkbox及science未改）。
+**归因：** 无D模式HIT；S5是runtime状态同步缺口，不是新的科学或代码缺陷。
+
+## 3. 纠正建议
+
+**分支：** B：先纠正S5当前状态，已执行；既定科学、资源、native/profile验收及stop权限不变。
+
+**文档更新（先执行，已完成）：**
+1. Requirements只更新phase、spec只更新S0状态；plan/progress/summary/ticket04记录旧FAILED0和当前retry，保留历史证据。（可直接执行）
+2. 现有`test_report_2026-11-10_formal_runs.md`记录两attempt、exact native error/four-node解释、partial audit UNKNOWN、local observer清理和新read-only observer；只纳入5份primary确认完整JSON，不纳入live输出。（可直接执行）
+
+**需停止的偏离行为：** 无。不得将一次fresh重投扩展为自动无界loop；再次placement失败先fresh route assessment。
+
+**接下去的路线：**
+1. Primary/04：保留launcher，观察当前retry actual workers/engines及native outcome → 完成标志：真实startup与first ACK证据；若再次placement失败，先评估新路线并单独记录失败。
+2. Primary/02/04：实际首successful ACK后完成D16检查 → 完成标志：bank/uid/token/行数/timing、paired profile与复算及分离的02 GPU verdict；S7未验证不停止healthy training。
+3. 并行：ACK/inspection后05 fresh准入与A继续训练 ‖ 现有formal报告保留/补充只读RCA审计缺口。两cell分别200真实updates/native终态和profile完整性后进入06；不拼接attempt，不以A200或profile PASS阻塞B。
+
+## 4. 最值得关注的 3 点
+
+1. 首attempt FAILED0 updates，native initiating startup TimeoutError已知；literal "two-node"必须保留，actual config为four nodes，不能写成OOM/D6/D19结果。
+2. 当前retry仅Starting/placement；新launcher/soft observer不证明actual GPU、全部engine或ACK。一次fresh提交后若再placement失败，重新评估路线。
+3. 6 RCA queries成功、2审计ReadTimeout；stop actor/time UNKNOWN、RCA未全关闭。Collector exit1/旧observer intentional SIGTERM不等于新GPU failure或GPU stop；formal outputs全保留。

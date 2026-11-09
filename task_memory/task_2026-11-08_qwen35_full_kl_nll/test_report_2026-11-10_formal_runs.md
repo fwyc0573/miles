@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record first A terminal/native failure and incomplete stop audit; retain snapshots and separately document unchanged freshly admitted retry and read-only observer replacement. |
 | 2026-11-10 | Diagnose partial placement from exact replica/Pod events and separate Ray startup deadline from acquisition/D19. |
 | 2026-11-10 | Inspect first native worker receipts: rank0 eight H800 and ready teacher four H800; remaining ranks/engine startup unverified. |
 | 2026-11-10 | Record A/full submission and exact platform identity/resource readback; first-update, B and terminal acceptance remain pending. |
@@ -14,15 +15,17 @@ The D35 consolidation is`55fba827`, per-turn CPU implementation is`6129aefe`, ro
 
 Configuration:`formal_config.json`. Both cells use full mode,200 successful updates, H800/codesign,32 student/rollout GPUs plus4 teacher GPUs, source32×8, seq/context131072, prompt114688 inclusive and response16384. Profile is explicitly enabled with k10/B10/N8. See[the configuration and sample-lifecycle preparation report](test_report_2026-11-10_formal_configuration.md)for final dry-runs, real formal-driver/full-bank semantics and16 lifecycle checks. No additional profile GPU smoke was run.
 
-## A/full — exp-1110-014836-849060
+## First A/full attempt — exp-1110-014836-849060 — FAILED, 0 successful updates
 
-- Submitted2026-11-09T17:48:36Z (2026-11-10 01:48:36UTC+8). Local launcher shell handle:`sh_1c16d0f990014RQthEERNRrdWW`; kept alive for the workload. Log:`/data/ycfeng/tmp/agent-opd-image/formal-A-h800-112k-20261110.log`.
+The startup observations below retain their original times and scope. They are superseded by the terminal/native failure evidence, not merged into the retry's results.
+
+- Submitted2026-11-09T17:48:36Z (2026-11-10 01:48:36UTC+8). Historical local launcher shell handle:`sh_1c16d0f990014RQthEERNRrdWW`; kept alive during the workload. Log:`/data/ycfeng/tmp/agent-opd-image/formal-A-h800-112k-20261110.log`.
 - Admission:[receipt](evidence/admission-formal-A-20261110.json). Fresh personal H800 non-preemptible inventory found0 committed GPUs for this creator before the36-GPU request; explicit ceiling isnull. This is not a claim that the shared cluster was empty or36 GPUs immediately available.
 - Platform readback at17:49:29Z:[receipt](evidence/formal-A-submission-readback-20261110.json). Job UID`ccc4c4e4-3945-4159-8021-e0f0b17008f5`, creator`i-fengyicheng`, preemptible=false, task annotation matches this task, local source`100.96.128.195:/data/ycfeng:/data/ycfeng`.
 - Observed status:`Starting`, reason`RJobStarting`, teacher active1 and student pending4. Platform resource requests are4×8 student GPUs plus1×4 teacher GPUs, positive tagH800. All four student replicas retain both RDMA limits. Requested placement is not yet worker`nvidia-smi`or engine readiness evidence.
-- First successful optimizer ACK, actual GPU identity, per-turn/profile native consistency and terminal acceptance: **PENDING**. B is not yet submitted.
+- Final disposition: **FAILED, 0 successful updates**; training/acquisition/optimizer never started, so this attempt provides no first ACK or native profile consistency acceptance. Partial actual GPU receipts below remain startup evidence only. B was not submitted.
 - Subsequent worker inspection: `student-node-0.json` confirms eight NVIDIA H800,81,559MiB each,driver570.124.06 on`gpu-h800-0180.host.platform.shaipower.com`; `teacher-ready.json` confirms four matching H800 and ready27B model endpoint. Both pin the configured image and model paths; selected fields are retained in[the startup receipt](evidence/formal-A-worker-startup-20261110.json). Student ranks1–3, all-engine readiness and first ACK are not yet verified. These are partial startup observations, not a claim that all36 devices or training are ready.
-- A separate read-only first-update observer is running as local shell`sh_1c16ff2bb0017aVjX6GHz8NQ1s`. Once per60 seconds it reads only the first newline-complete native update and the two profile-file sizes from this exact training directory through the approved SSH cloud mount. It writes`evidence/formal-A-first-update-notification-20261110.json`and exits when a successful native record appears, prompting D16 inspection before B. Its observation window is9,000 seconds (three configured startup windows plus the configured request timeout); observer errors/timeouts do not stop or modify native training. This is a notification, not an auxiliary PASS gate or a replacement for native/profile inspection.
+- Historical read-only first-update observer:`sh_1c16ff2bb0017aVjX6GHz8NQ1s`;60-second reads of native first-update/profile sizes,9,000-second soft observation window and output`evidence/formal-A-first-update-notification-20261110.json`. After this job was terminal, the primary positively identified its local Python PID2124241 by cmdline, cwd and17:51:41 start time matching its85-byte startup banner, then terminated that local observer. Its completed SIGTERM notification is intentional observer cleanup, not a GPU/job stop. No other job was stopped. The replacement observer belongs only to the retry below.
 
 ### Partial placement observation — 18:22Z
 
@@ -34,7 +37,19 @@ The rank0 cloud log records Ray start at17:53:51Z and connection at17:53:53Z. Lo
 
 Existing mechanisms tolerate a late worker only within this startup window; no live timeout/config alteration was made. If native startup times out, retain this attempt separately and perform fresh admission for any subsequent attempt. D19's specific more-GPU response to first-update rollout/teacher throughput does not apply to a worker that never starts. `gang_start` is not an established fix: the handbook records cross-task ConfigMap injection and prior single-node teacher failures, so it was not changed speculatively.
 
-### Exact submission
+### Terminal failure and partial RCA — 18:24–18:27Z
+
+The18:25:02Z [deadline readback](evidence/formal-A-deadline-readback-20261110.json) confirms job Failed, finishTime2026-11-09T18:24:34Z andall five replicas Failed/Stopped, withno active replica. The retained system annotation says`Some critical tasks failed.` It does not establish an audited stop-request actor or time.
+
+The initiating native failure is retained in[the native failure chronology](evidence/formal-A-native-startup-failure-20261110.json): rank0 `training.json` and `finished.json` have mtime2026-11-09T18:23:55.179530Z andrecord TimeoutError at`rjob_warmup.py:206`. The exact literal error is:
+
+> Ray did not register the requested two-node GPU allocation
+
+"two-node" is a hardcoded diagnostic string, not the configured topology: this attempt configuredfour student nodes,4×8 GPUs. Rank2 `PodScheduled=False/Unschedulable` andthe10 fully paginated FailedScheduling Events remained the placement evidence through18:22Z. The native cluster-complete wait then expired before acquisition/training/update began;0 successful updates. The later rank1 failure at18:24:16Z, rank0/rank3 143 or-15 exits at18:24:21–23Z andteacher shutdown at18:24:27Z are subsequent chronology, not proof of a new initiating failure, OOM or D6/D19 throughput.
+
+Primary RCA collector root:`/data/ycfeng/tmp/agent-opd-image/formal-A-placement-failure-20261110`. The[query coverage receipt](evidence/formal-A-rca-query-coverage-20261110.json) records6 successful queries and2 failed all-operation audit queries (`rjob-audit`, `replica-audit`, ReadTimeout after10s). Primary reports existing DeepScan0 flows. Collector exit1 means partial RCA query failure, not another GPU failure. Native initiating failure is known; `audited_stop_actor=UNKNOWN` and `audited_stop_request_time=UNKNOWN`. Full RCA/auditable stop closure is **NOT established**; the missing audit coverage stays explicit anddoes not require stopping healthy retry training.
+
+### Exact first-attempt submission
 
 Run from`/data/ycfeng`, using the handbook proxy/personal-auth initialization (`BRAINPP_ACCESS_KEY`/`BRAINPP_SECRET_KEY` from permission-restricted local files; values never logged). Environment:`STEPMIND_BACKEND=rjob`, `PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image:/data/ycfeng/steptron`, `PYTHONNOUSERSITE=1`, `PYTHONDONTWRITEBYTECODE=1`, `TMPDIR=/data/ycfeng/tmp`. StepMind interpreter:`/data/ycfeng/tmp/stepmind-env/bin/python` (Python3.10.6); worker interpreter is the frozen image's`/opt/sglang/bin/python3`.
 
@@ -51,13 +66,34 @@ Submission holds the existing lock around fresh inventory and backend creation, 
 - Profile:`distillation_profile/{observations,updates}.jsonl`inside the training directory. Read both files together; a paired prefix is not automatically the complete run.
 - D16 checks actual successful ACK and counters first, then bank/source UID and token/turn counts, pre-TIS macros, estimator, profile pairing/rebuild and stage timings. Record auxiliary failures/unverified intervals separately while healthy native training continues. B may be admitted after this inspection and A's first real success; it does not wait for A200 or an auxiliary PASS verdict.
 
+## Current A/full retry — exp-1110-022844-821769
+
+- Created2026-11-09T18:28:44Z (2026-11-10 02:28:44UTC+8) under the existing formal execution authorization, after the old attempt andall five replicas were terminal. This is one fresh submission withthe **same unchanged configuration, source, image, four-node topology, lengths andtimeouts**. No code/config fix, more-GPU D19 response, business-test rerun or new scientific choice occurred; existing CPU/configuration/lifecycle readiness is reused.
+- Fresh[admission receipt](evidence/admission-formal-A-r2-20261110.json): creator`i-fengyicheng`, own nonterminal H800 committed0, requested36, preemptible=false, ceilingnull, admitted/submitted=true, local source`100.96.128.195:/data/ycfeng:/data/ycfeng`. Own committed0 is not a claim that shared cluster GPUs are empty or immediately placeable.
+- Direct platform[submission readback](evidence/formal-A-r2-submission-readback-20261110.json) at18:31:08.667805Z pins UID`a54101b9-6baf-4c84-a0c9-ac2897bded83`, creator/task/source andnon-preemptible4×8 student plus1×4 teacher request. StatusStarting/RJobStarting, student active2/pending2 andteacher active1. This is placement/status evidence, **not** actual`nvidia-smi`, all-engine readiness orsuccessful optimizer ACK proof. Old attempt's28 actual devices cannot verify this retry.
+- Primary keeps launcher`sh_1c191cdc5001x6Xr3PoAy7Gg2n`alive; log:`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-h800-112k-20261110.log`. The exact submission below changes only the receipt andlog path to`-r2`; original environment/interpreters/config/argv stay unchanged.
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.submit_swe_opd --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json --pair A --protocol full --receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-A-r2-20261110.json > /data/ycfeng/tmp/agent-opd-image/formal-A-r2-h800-112k-20261110.log 2>&1
+```
+
+- Primary's newread-only observer:`sh_1c193b14f00106un9zmHJvU6bW`; output`evidence/formal-A-r2-first-update-notification-20261110.json`is live andnot included in this immutable evidence commit. It retains the9,000-second soft window andchecks retained native failure toreturn early aswell as first successful ACK; no observer error/timeout/verdict stops orchanges GPU training. Notification still requires actual D16/native/profile inspection.
+- Worker/local attempt receipts:`evidence/formal-h800-112k-20261110/full/exp-1110-022844-821769/A/`. Durable native training root:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110/full/student/A/exp-1110-022844-821769/training/`; profile files remain`distillation_profile/{observations,updates}.jsonl`there. All formal outputs, including the failed attempt, areprotected andnot smoke-cleanup candidates.
+- Current acceptance: actual worker GPU/all-engine startup, first successful ACK/D16/02 GPU and200-update native/profile terminal verification remain **PENDING**. One placement failure followed onefresh unchanged admission/submission; no automatic unbounded rerun loop is authorized or implemented. If placement fails again, primary performs a fresh route assessment. The audited stop-actor/time gap remains open separately; no attempt results are spliced.
+
 ## B/full
 
-Not submitted. Waiting for A's first actual successful update plus completed D16 inspection and fresh36-H800 admission. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported but has no native H800 acceptance yet.
+Not submitted. The failed first A produced0 updates anddoes not satisfy admission. Waiting for current A's first actual successful update plus completed D16 inspection andfresh36-H800 admission; not A200 completion orauxiliary profile PASS. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported buthas no native H800 acceptance yet.
 
 ## Local record verification
 
+### Historical first-submission verification
+
 `python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll`passes with31 documents,6 tickets,123 links,37 anchors and dependency order01→02→03→04→05→06. During status synchronization, the checker caught a temporary`04-a-full.md: blocked-by ['01', '02', '03'] != plan []`mismatch; the plan and ticket now both retain the satisfied CPU dependency IDs. No dependency or scientific requirement was removed. Scoped`git diff --check`passes. Admission/platform JSON identities, requested GPU sum36 and inspected worker GPU count12 were independently reconciled by the primary's Python reads.
+
+### Failure/retry documentation and immutable evidence verification
+
+System Python3.10.6; retained docchecker PASS:31 documents,6 tickets,135 links,39 anchors,zero errors andunchanged01→02→03→04→05→06 dependency order/arithmetic. Local parsing andidentity assertions PASS for exactlythe five approved JSONs linked in the failure/retry sections: oldjob/all five replicas terminal; full literal native error withfour configured nodes;6 successful queries/two ReadTimeouts/audit UNKNOWN; distinct retry job/UID/source/fresh admission and36 requested GPUs. Seven-owned-document plusfive-approved-JSON scoped whitespace PASS. Exact commands arein `progress.md`. JSON content isretained unchanged; other live/untracked evidence, Python/configs andticket05 areexcluded. No GPU/SSH/platform/network call, code/config fix orbusiness-test rerun occurred in this documentation slice. Read-only JSON/doc PASS doesnot close the RCA audit gap orprove actual retry GPU/engine/ACK/200-update acceptance.
 
 ## Completion criteria
 
