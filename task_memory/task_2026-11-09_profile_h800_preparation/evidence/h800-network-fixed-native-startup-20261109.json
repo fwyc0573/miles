@@ -1,0 +1,96 @@
+{
+  "observed_at": "2026-11-09T11:25:38.643672+00:00",
+  "job": "exp-1109-192340-580111",
+  "uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "creator": "i-fengyicheng",
+  "submitted_at": "2026-11-09T11:23:40Z",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 2,
+        "active": 2,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "labels": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "quotagroup.brainpp.cn/quotagroup": "codesign"
+  },
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "tasks": {
+    "student": {
+      "replicas": 4,
+      "gpus_per_replica": 8,
+      "positive_tags": [
+        "H800"
+      ],
+      "labels": {
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign"
+      },
+      "host_network": true,
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "64",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8",
+              "rdma/mlnx_shared": "8"
+            },
+            "requests": {
+              "cpu": "64",
+              "memory": "500Gi",
+              "nvidia.com/gpu": "8"
+            }
+          },
+          "node_network_env": {}
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "gpus_per_replica": 4,
+      "positive_tags": [
+        "H800"
+      ],
+      "labels": {
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign"
+      },
+      "host_network": null,
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            },
+            "requests": {
+              "cpu": "32",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            }
+          },
+          "node_network_env": {}
+        }
+      ]
+    }
+  },
+  "native_business_verified": false
+}
