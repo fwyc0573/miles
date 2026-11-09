@@ -1,0 +1,70 @@
+{
+  "observed_at": "2026-11-09T17:49:29.372367+00:00",
+  "job": "exp-1110-014836-849060",
+  "uid": "ccc4c4e4-3945-4159-8021-e0f0b17008f5",
+  "created_at": "2026-11-09T17:48:36Z",
+  "creator": "i-fengyicheng",
+  "preemptible": false,
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "task_annotation": "task_2026-11-08_qwen35_full_kl_nll",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 4,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "roles": {
+    "student": {
+      "replicas": 4,
+      "positive_tags": [
+        "H800"
+      ],
+      "resources": [
+        {
+          "limits": {
+            "cpu": "64",
+            "mellanox.com/mlnx_rdma": "1",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8",
+            "rdma/mlnx_shared": "8"
+          },
+          "requests": {
+            "cpu": "64",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8"
+          }
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "positive_tags": [
+        "H800"
+      ],
+      "resources": [
+        {
+          "limits": {
+            "cpu": "32",
+            "memory": "250Gi",
+            "nvidia.com/gpu": "4"
+          },
+          "requests": {
+            "cpu": "32",
+            "memory": "250Gi",
+            "nvidia.com/gpu": "4"
+          }
+        }
+      ]
+    }
+  }
+}
