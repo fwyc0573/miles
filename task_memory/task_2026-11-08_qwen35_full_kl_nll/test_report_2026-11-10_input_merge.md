@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Append accepted merge55fba827,local prep-reference resolution and scoped archive/document verification; preserve the input resolver's original pre-merge snapshot and checks. |
 | 2026-11-10 | Resolve the input merge in favor of the approved parent contract, adapt the native caller and test fixtures, and record scoped offline verification. |
 
 # Input Merge Test Report
@@ -254,3 +255,71 @@ These CPU checks do not repeat or replace the accepted original-source audit, ve
 1. 两个冲突文件保留 parent 的已验收 contract；candidate native runtime fixes 没有被此 slice 改写。
 2. 所有 owned CPU checks 通过；已知 SGLang/parser 与 lint baseline 不能误报为新 merge 回归或全量 lint PASS。
 3. archived configs 保留旧 schema，不能静默兼容；新的 formal config、其他 callers 和最终 merge commit 由 primary 验收。
+
+## Post-merge verification 2026-11-10
+
+Follow-up TaskID: `profile-d35-records-20261110`. All preceding input-slice scope, remaining-work statements and checkpoint are historical pre-merge snapshots. The primary has now accepted and committed the merge as`55fba827`,first parent`eee754bc1958e49c840b86961d64f50262935415`,second parent archived H800 candidate`0e6e8b1e9298638fd72651869692a41cad703b71`. This clears candidate consolidation, input conflict resolution and local prep-path resolution; it does not replace the recorded139 CPU tests/seven genuine native synthetic checks or claim02/03/formal acceptance. Those CPU/native-synthetic tests were read from this report, not rerun by the documentation follow-up.
+
+Local environment for the follow-up: same parent worktree, systemPython3.10.6 and Git; no dependency/configuration, Python source, upstream/preparation-record, platform/network/GPU or runtime change. The primary's uncommitted`test_report_2026-11-10_integration_merge.md`,`.cortexkit/`and all independently coordinated implementation changes are excluded from this documentation commit.
+
+Exact local commands:
+
+```bash
+python3 -B tests/manual/agent_opd/check_h800_capacity_evidence.py task_memory/task_2026-11-09_profile_h800_preparation/evidence
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check 55fba827^1 55fba827 -- tests/manual/agent_opd tests/fast task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/02-per-turn-sums.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/03-distillation-profile.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_input_merge.md
+python3 -B - <<'PY'
+import re
+from pathlib import Path
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
+refs = sorted({match for doc in root.rglob('*.md') for match in re.findall(r'`(\.\./task_2026-11-09_profile_h800_preparation/[^`]*)`', doc.read_text())})
+for ref in refs:
+    assert (root / ref).exists(), ref
+print(f'PASS: {len(refs)} unique preparation references resolve in the consolidated parent')
+for ref in refs:
+    print(ref)
+PY
+python3 -B - <<'PY'
+import subprocess
+merge = '55fba827'
+parents = subprocess.check_output(['git', 'show', '-s', '--format=%P', merge], text=True).split()
+assert len(parents) == 2 and parents[1].startswith('0e6e8b1e'), parents
+for name in ('swe_inputs.py', 'check_swe_inputs.py'):
+    path = 'tests/manual/agent_opd/' + name
+    assert subprocess.check_output(['git', 'show', parents[0] + ':' + path]) == subprocess.check_output(['git', 'show', merge + ':' + path]), path
+print('PASS: actual merge has archived H800 second parent; both input conflict files preserve first-parent bytes')
+print('parents:', *parents)
+PY
+python3 -B - <<'PY'
+import re
+import subprocess
+merge, incoming = '55fba827', '0e6e8b1e'
+check = subprocess.run(['git', 'diff', '--check', merge + '^1', merge], text=True, capture_output=True)
+pattern = r'^([^+:]+):\d+: (?:trailing whitespace\.|new blank line at EOF\.|space before tab in indent\.)$'
+paths = sorted({match.group(1) for line in check.stdout.splitlines() if (match := re.match(pattern, line))})
+assert check.returncode == 2 and paths, (check.returncode, check.stderr)
+for path in paths:
+    assert path.startswith('task_memory/task_2026-11-08_qwen35_swe_full_r256/'), path
+    assert subprocess.check_output(['git', 'rev-parse', merge + ':' + path]) == subprocess.check_output(['git', 'rev-parse', incoming + ':' + path]), path
+print(f'PASS: {len(paths)} inherited upstream whitespace-artifact paths are byte-identical to incoming {incoming}; whole merge diff--check is not clean')
+for path in paths:
+    print(path)
+PY
+```
+
+| Check | Expected | Actual | Verdict |
+| --- | --- | --- | --- |
+| Actual merge and preserved input |Two merge parents, archived candidate second parent;both conflict files equal first parent |`55fba827`parents as above;byte comparisons pass | PASS |
+| Preparation references |All exact repo-local prep references resolve after consolidation |Seven unique references resolve,including four terminal/acceptance JSONs,two preparation reports and the directory | PASS |
+| Retained capacity checker |Terminal updates/bank visits/two scoring passes/text-only scope consistent |`PASS: retained terminal updates, bank visits, two student passes and text-only weight scope` | PASS, ARCHIVE ONLY |
+| Consolidated documentation |Links/anchors,ticket DAG and arithmetic valid |27 documents,6 tickets,87 links,33 anchors;order01→02→03→04→05→06;51,200/cell,102,400 total,81-turn estimate;zero errors | PASS |
+| Merge code/parent-task whitespace |No scoped diff error |Exit0,no output | PASS |
+| Owned documentation whitespace |No scoped diff error |Exit0,no output | PASS |
+| Whole merge historical artifacts |Attribute warnings without changing inherited evidence |Whole merge check exit2;17 upstream XML/diff artifact paths,all committed blobs equal incoming`0e6e8b1e` | LIMITATION VERIFIED; NOT CLEAN |
+
+The primary's earlier whole cached check found the same17 inherited paths and verified their index blobs against incoming`0e6e8b1e`; the follow-up independently checks committed merge blobs. An initial local path extractor matched a pasted`+tests/fast/...:line:`inside a historical diff and stopped at its prefix assertion. Restricting extraction to actual Git whitespace diagnostic lines resolves that readback error and yields the17 real artifact paths. No evidence or code was changed to make the check pass; the whole merge is deliberately not described as whitespace-clean.
+
+The first post-edit docchecker reported one error,`03-distillation-profile.md: blocked-by [] != plan ['02']`: adjoining the Chinese text to`02`removed the word boundaries expected by the existing checker. Restoring spaces around the explicit ticket identifier preserves the same real dependency; the rerun yields zero errors. The checker itself and acceptance criteria were unchanged.
+
+Current frontier:02 per-turn implementation/CPU-ready,then03 integration CPU-ready; formal first-update GPU/profile acceptance remains later at A underD16,not another smoke. The new explicit formal input configuration remains a primary implementation/launch responsibility; old archived configs are not silently adapted. `spec.md`S0 still says actual merge pending, outside this slice's file ownership; primary status synchronization is recorded asS5 in the exact four-section checkpoint appended to`progress.md`. The older D35/input reports and failed upstream evidence keep their original time scopes. No new native/capacity/formal run or whole-model checksum verdict is inferred.

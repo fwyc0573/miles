@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Update only the current phase after verified merge55fba827; keep raw D35 authorization and historical decisions unchanged. |
 | 2026-11-10 | Record D35: accept the verified 36-H800 D34 capacity result as this task's D1/D22 basis and authorize consolidation followed by Ticket02/03 integration; preserve upstream and formal-run independence. |
 | 2026-11-09 | Record the request to verify whether D1/D22 acceptance has started or is blocked. |
 | 2026-11-09 | Record D34: Qwen3.5 training/rollout context128K, inclusive prompt budget112K and completion cap16K. |
@@ -55,7 +56,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **IMPLEMENTATION / MERGE_AND_PROFILE_INTEGRATION**. Review repairs, Ticket01 input acceptance and the H800 capacity basis are complete. D35 updates this task's D1/D22 capacity prerequisite and authorizes merging the verified candidate before Ticket02/03 integration; the merge and integration have not yet occurred.
+- Current phase: **IMPLEMENTATION / PROFILE_INTEGRATION**. Review repairs, Ticket01 input acceptance, the H800 capacity basis and D35 consolidation are complete. Actual merge`55fba827`has archived H800 second parent`0e6e8b1e`; Ticket02 implementation is the current frontier, Ticket03 integration waits for02 CPU readiness, and formal runtime/profile acceptance remains pending. Merge verification and limits are in`test_report_2026-11-10_input_merge.md`.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.

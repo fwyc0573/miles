@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record actual merge55fba827, resolved prep references and scoped verification; move implementation to02 and append the four-section post-merge checkpoint without rewriting earlier snapshots. |
 | 2026-11-10 | Record D35 parent-only capacity adoption and pending candidate consolidation; move the frontier to merge→02 CPU→03 integration, preserve historical observations and add a scoped checkpoint. |
 | 2026-11-09 | Accept the completed D34 original-source112K audit/parity; record successful H800 initial synchronization separately from still-unaccepted upstream capacity and parent integration. |
 | 2026-11-09 | Supersede first H800 startup with terminal failure, reviewed node-local NCCL correction and new network-fixed H800 job Starting; preserve separate upstream D11 gate. |
@@ -34,6 +35,12 @@
 # Progress
 
 ## completed
+
+- D35 consolidation accepted: actual merge`55fba827`, first parent`eee754bc`,second parent archived H800 candidate`0e6e8b1e`. The two input conflict files exactly retain first-parent bytes;`run_swe_opd`now transports the explicit parent source schema. The owned input report records139 affected CPU tests and seven genuine native synthetic checks PASS, with local SGLang/lint baselines preserved. These checks do not implement02 per-turn/profile integration.
+- Post-merge local checks: all seven unique`../task_2026-11-09_profile_h800_preparation/`references resolve; existing retained-capacity checker PASS; scoped merge code/parent-task`git diff --check`PASS. The whole merge still reports whitespace in17 inherited upstream XML/diff artifact paths; each committed blob is byte-identical to incoming`0e6e8b1e`, independently verified locally. Exact commands, primary acceptance, local diagnostic-parser correction and limits are appended to`test_report_2026-11-10_input_merge.md`; no historical artifact was rewritten and no new runtime was launched.
+- Post-merge documentation PASS underPython3.10.6:27 documents/6 tickets/87 links/33 anchors,valid DAG,unchanged51,200/102,400/81 arithmetic,zero errors;owned-document scoped whitespace PASS. The initial ticket03 Chinese/identifier boundary was corrected without changing its02 CPU-ready dependency or the existing checker. The exact command and first/final results are in`test_report_2026-11-10_input_merge.md`;independently edited code and the primary integration-merge report are excluded from this commit.
+
+### Historical D35 adoption and checks — before merge55fba827
 
 - D35 decision recorded on2026-11-10: exact question/selection are in`requirements.md`. The user accepts the verified36-H800 D34 result as this parent's D1/D22 capacity basis and authorizes candidate consolidation followed by02/03 integration; upstream frozen-D11 acceptance stays independently owned. The terminal result and retained paths are in[the H800 adoption record](test_report_2026-11-09_h800_preparation.md#d35-parent-adoption-2026-11-10). No merge, parent per-turn implementation, profile integration or formal A/B result is claimed.
 - ScopedD35 documentation verification: systemPython3.10.6;`git merge-base --is-ancestor c52991ac agent-opd-h800-capacity`exit0; existing`python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll`reports26 documents/6 tickets/88 links/34 anchors,valid DAG and unchanged51,200/102,400/81 arithmetic,zero errors;`git diff --check`PASS. Exact checks, pending post-merge path resolution and preserved prior-document scope are in`test_report_2026-11-10_d35_records.md`. The primary's concurrent merge-preflight report and`.cortexkit/`are excluded from this delegation's commit.
@@ -167,9 +174,9 @@
 
 ## in-progress
 
-- CurrentD35 frontier: consolidate the verified`agent-opd-h800-capacity`candidate, containing`c52991ac`ancestry plus H800 fixes, into this branch and preserve its prep records. The capacity prerequisite is accepted, but the actual merge commit and local resolution of`../task_2026-11-09_profile_h800_preparation/`arepending; the primary owns this consolidation.
-- Parent02 per-turn sums have not been implemented. Work begins only after the candidate merge; its CPU implementation-ready checkpoint precedes03 integration and04 launch.02 GPU acceptance remains at A's first formal successful update underD16, without an additionalGPU smoke.
-- Pure03 module and01 input, including112K audit, retain CPU acceptance.03 native-count/identity/S7 integration is not implemented and still depends on02 CPU-ready.04/05 have no formal attempts or first-update profile evidence; B still waits for A's actual first formal successful update and completed inspection.
+- CurrentD35 frontier:02 implementation. The candidate merge and prep consolidation are complete at`55fba827`,and repo-relative evidence resolves. The primary independently coordinates implementation agents; this documentation slice does not implement or claim their CPU readiness.
+-02 per-turn CPU implementation-ready evidence is not yet recorded; it precedes03 integration and04 launch.02 GPU acceptance remains at A's first formal successful update underD16, without an additionalGPU smoke.
+- Pure03 module and01 input, including112K audit, retain CPU acceptance.03 native-count/identity/S7 integration acceptance still depends on02 CPU-ready and is not yet recorded.04/05 have no formal attempts or first-update profile evidence; B still waits for A's actual first formal successful update and completed inspection.
 - Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
 
 ### Historical preparation snapshots — 2026-11-09 before D35
@@ -196,9 +203,9 @@
 
 ## pending
 
-1. Primary: completeD35-authorized candidate merge and preparation-record consolidation; record the actual commit and resolve the repo-local evidence references. No new capacity smoke or full-source scan is needed for the accepted prerequisites.
-2. Implement02 per-turn sums and verify CPU readiness, then implement03 integration/native-count propagation and verify the actual`SweReplay.on_train_result`CPU path. Existing pure-module tests are not integration acceptance.
-3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready}; inspect A's firstformal successful update for02 GPU/profile evidence underD16;05 after that actualupdate/inspection and resource admission;06 after{04,05}terminal evidence. The two-update capacity run is not a200-update formal result.
+1. Implement02 per-turn sums and verify CPU readiness, then implement03 integration/native-count propagation and verify the actual`SweReplay.on_train_result`CPU path. Existing pure-module and input merge tests are not integration acceptance; no merge blocker remains.
+2. Primary: synchronize`spec.md`S0's current-state phrase“实际合并仍pending”with`55fba827`;preserve its historical gate and unchanged behavior. That file is outside this delegation's ownership; this wording defect does not restore a resolved merge dependency.
+3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready};freeze/verify the formal explicit input configuration;inspect A's firstformal successful update for02 GPU/profile evidence underD16;05 after that actualupdate/inspection and resource admission;06 after{04,05}terminal evidence. The two-update capacity run is not a200-update formal result.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109
@@ -253,7 +260,7 @@
 2. 过滤后每conversation中位数未验证；模拟跨度不等于native trend；D26继续32×8。
 3. 36实际H800/all8 engines/initial sync3.8s不等于上游D11、native optimizer或正式cell验收。
 
-## Scoped checkpoint — profile-d35-records-20261110
+## Historical scoped checkpoint — profile-d35-records-20261110 before merge55fba827
 
 ### 1. 规划完成情况
 
@@ -302,3 +309,58 @@
 1. D35接受的是完整H800容量证据，不只是initial sync；上游自身验收没有被冒认。
 2. merge、02逐turn、03接入均未完成；纯模块CPU PASS不代表集成PASS。
 3. A首个formal successful update承担D16原生profile检查；不额外smoke，不把辅助错误升级为training stop。
+
+---
+
+## 1. 规划完成情况
+
+**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 4｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+|01 | PASS |112K原始源审计已接受；merge保留parent input字节且139 tests/七项native合成检查PASS。 |
+|02 | TODO |`55fba827`解除merge依赖，当前实现前沿；CPU-ready/GPU验收尚未记录。 |
+|03 | BLOCKED | 纯模块CPU已接受；接入等02 CPU-ready，不能由容量/input检查代替。 |
+|04 | BLOCKED |02/03 CPU-ready缺失；没有formal attempt或profile首update证据。 |
+|05 | BLOCKED | 同上，另等A实际首次formal ACK和inspection。 |
+|06 | BLOCKED | 两个formal cell终态与profile完成判定尚无。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 前次D35 checkpoint至本轮merge后记录更新（TaskID`profile-d35-records-20261110`）｜**当前前沿：**02实现与CPU-ready；primary协调独立实施。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 本轮用户要求状态同步；复用docchecker/evidence checker，未新增harness或GPU smoke。 |
+| D2 细节反复重试 | CLEAR | merge和139/七项检查明确推进；本地whitespace路径解析一次按真实diagnostic边界修正，未改业务或反复试参。 |
+| D3 支线问题修补 | CLEAR | inherited XML/diff和既有parser/lint仅归因留存，不修补历史证据或无关code。 |
+| D4 可并行任务停滞 | CLEAR | merge前input冲突为真实依赖；merge后02立即成为前沿，primary独立协调agents，本slice不持有其code。 |
+| D5 超范围镀金 | CLEAR | 仅更新已完成merge事实，保留32×8/full/200-update和S7标准。 |
+| D6 分析空转 | CLEAR |`55fba827`和本地解析/字节验证直接用于解除merge等待，无新研究文档。 |
+| D7 路线违背 | CLEAR | D35授权merge已执行；02/03 CPU-ready未冒认，GPU/profile仍按D16正式首update验收。 |
+
+**文档检查：** S1–S4/S6无明显缺陷；S5：合并前`plan.md`当前前沿、`requirements.md`phase、tickets02–05及summary/progress仍写merge pending，本轮已同步；`spec.md`S0仍写“实际合并仍pending”，primary-owned，待同步。先前D35/input resolver报告保留其原始pre-merge时间范围，不视为新blocker。
+**归因：** 无执行偏离；S5为完成milestone后的状态同步，不改变契约。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets状态有S5，先同步事实，不改变范围或验收。
+
+**文档更新（先执行）：**
+1. `requirements.md`phase、`plan.md`当前前沿、`progress.md`、`summary.md`和tickets02–05：记录merge`55fba827`已验证，02为前沿，03仍等02 CPU-ready（可直接执行，本轮已更新）。
+2. `test_report_2026-11-10_input_merge.md`：追加真实merge、prep路径解析、checker及历史whitespace限制；不改旧input slice的原始结果（可直接执行，本轮已更新）。
+3. `spec.md`S0：primary将当前merge pending状态改为`55fba827`已完成，保留历史gate和D35行为（可直接执行，但本slice无文件ownership；已交接，不阻塞02）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1.02实现：既有tensor循环生成逐turn sums、CP汇总和uid/native计数一致性 → 完成标志：ticket02 CPU implementation-ready条件通过并记录。
+2.03接入：02 CPU-ready后验证真实`SweReplay.on_train_result`identity/finished/skipped/S7传播 → 完成标志：ticket03 integration CPU-ready；primary可并行协调不依赖02完成的准备工作和状态同步。
+3.04正式A首update/inspection→05资源准入 → 完成标志：D16真实ACK和profile检查记录；辅助错误按S7隔离，不增smoke、不阻止healthy training。上游冻结D11可独立继续。
+
+## 4. 最值得关注的 3 点
+
+1. merge`55fba827`已验证、七个prep引用已解析；17处历史whitespace是incoming原始artifact，不是新merge代码错误。
+2.02当前可实施；03接入仍等02 CPU-ready，input/capacity PASS不能替代逐turn/profile验收。
+3. primary还需同步spec S0状态；正式A首个successful update承担D16 GPU/profile检查，不新增GPU smoke。

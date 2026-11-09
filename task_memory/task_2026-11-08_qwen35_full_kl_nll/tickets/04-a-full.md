@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record merge55fba827 complete without accepting02/03 readiness or formal first-update profile verification. |
 | 2026-11-10 | Apply D35 capacity adoption; preserve pending merge/integration and D16 profile verification at A's first formal update without another GPU smoke. |
 | 2026-11-09 | Accept the completed D34 input re-audit while retaining the separate integration and formal-run blockers. |
 | 2026-11-09 | Apply D33 H800 authorization and remove the superseded count limit;01 is accepted. |
@@ -17,7 +18,7 @@
 
 **Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready；不是 02 在本 cell 内取得的 GPU acceptance。
 
-**Status:** blocked — 01, including the D34 input re-audit, and the D35 H800 capacity basis are accepted. Candidate merge and02/03 integration remain pending; A/full has no formal attempt or first-update profile evidence. The two-update capacity smoke does not satisfy this cell's formal/full acceptance.
+**Status:** blocked — 01, including the D34 input re-audit, the D35 H800 capacity basis and candidate merge`55fba827`are accepted.02 CPU-ready and03 integration-ready remain pending; A/full has no formal attempt or first-update profile evidence. Input merge tests and the two-update capacity smoke do not satisfy this cell's formal/full acceptance;D16 still uses A's firstformal successful update without an extraGPU smoke.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
