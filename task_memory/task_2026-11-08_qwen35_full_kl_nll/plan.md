@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Replace the stale running prerequisite with the observed initial-weight-sync timeout and scoped diagnosis. |
 | 2026-11-09 | Add D34 input/launcher budget changes and renewed112K audit in parallel with H800 preparation. |
 | 2026-11-09 | Start D33 H800 preparation in parallel with read-only monitoring of the upstream capacity attempt. |
 | 2026-11-09 | Accept Ticket01 source audit/parity; independent CPU work complete, integration waits for the freshly rechecked upstream gate. |
@@ -69,7 +70,7 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 Ticket01 is accepted: the real-source CPU audit,512 native parity draws and2,048 interleaved draws passed; job/replica Succeeded ([source test report](test_report_2026-11-09_source_audit.md)). The03 module has recorded D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)); historical entry queries, baseline boundaries and partial-write isolation also pass ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full integration path in [ticket03](tickets/03-distillation-profile.md) remain pending. Current state is owned by [progress](progress.md#in-progress).
 
-At the2026-11-09T05:10Z read-only refresh, upstream `agent-opd` was at `d8c27b75` with no newer capacity acceptance. The gate defined in [specS0](spec.md#s0-复用与改动范围) remains NOT MET: historical patched scoring was stopped before optimizer; the latest DeepSWE acquisition collected227<231 and produced zero updates. D1/D22 block merge, every part of02 and03 integration. Independent authorized CPU work is complete; the next executable integration step requires upstream acceptance. No formal cell has begun.
+At the2026-11-09T07:56Z read-only refresh, upstream `agent-opd` is at `c52991ac`. Its expanded capacity job`exp-1109-144110-764758` has failed: initial trainer-to-rollout weight synchronization timed out after600s, before rollout collection or optimizer updates. The immediate prerequisite is now diagnosis and repair of this synchronization failure, followed by actual256-turn capacity verification. Earlier acquisition227<231 and historical interrupted scoring remain unaccepted evidence. D1/D22 block merge, every part of02 and03 integration. No formal cell has begun. Evidence and query limits are in [the H800 preparation report](test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
 
 D33 adds executable H800 resource preparation: inspect existing native launch mechanisms, H800 memory/topology constraints and task-scoped admission; validate the chosen configuration on CPU before GPU submission. Independently monitor the already-submitted upstream capacity attempt, using current evidence rather than resubmitting it. OnceD1/D22 is satisfied, merge and execute02 ->03 integration ->04 ->05 underD33. Formal cells additionally use the `before-steptron-run` workflow and the existing per-sample failure isolation/soft-gate rules.
 

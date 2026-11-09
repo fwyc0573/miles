@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the request to verify whether D1/D22 acceptance has started or is blocked. |
 | 2026-11-09 | Record D34: Qwen3.5 training/rollout context128K, inclusive prompt budget112K and completion cap16K. |
 | 2026-11-09 | Record D33: continue on H800/codesign with no task GPU-count cap; supersede the H200/32-GPU resource restriction while retaining scientific and upstream acceptance requirements. |
 | 2026-11-09 | Record the execution-readiness follow-up; accept completed input evidence without changing D1/D22. |
@@ -283,3 +284,9 @@ Fresh evidence is recorded in `test_report_2026-11-09_source_audit.md`: Ticket01
 
 - **D34 length contract.** For this task's subsequent Qwen3.5 runs, training sequence length and rollout context remain131072; rendered prompt tokens are at most114688, and generated completion tokens at most16384. Prompt-budget equality is allowed; longer prompts are rejected before consuming candidate slots, not truncated. Use existing native fields `seq_length`, `rollout_max_context_len`, `rollout_max_prompt_len` and `rollout_max_response_len`; each request uses the minimum of its completion cap and remaining total context.
 - D34 supersedes the inherited remaining-context-only completion rule. All other scientific and resource decisions remain as recorded. Existing submitted jobs and historical artifacts retain their original configuration; do not rewrite their provenance. Recheck the new threshold through the existing input/audit workflow. The prior audit's source hashes, visual exclusions and raw eligible counts remain evidence; its128K prompt rejection/span figures are not results for the new112K budget.
+
+### Upstream acceptance status — [Original Request] 2026-11-09
+
+> D1/D22 验收是否已经开始进行？是否被blocked？
+
+This requests a fresh runtime-status check. It does not waive the integration gate or change D33/D34. The observed failed initial-weight-sync attempt and remaining acceptance work are recorded in `test_report_2026-11-09_h800_preparation.md`.

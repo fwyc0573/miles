@@ -1,0 +1,278 @@
+{
+  "job": "exp-1109-144110-764758",
+  "gate": "D1/D22 NOT MET",
+  "failure_stage": "initial trainer-to-rollout update_weights, before rollout collection",
+  "observed_timeout_seconds": 600.0,
+  "successful_optimizer_updates": 0,
+  "zero_updates_basis": "fatal traceback at train.py:169 before the rollout/training loop",
+  "root_cause": "UNKNOWN: underlying cause of mixed weight synchronization stall is not yet established",
+  "native_log": "/mnt/ws-jfs/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-expanded/r256/student/A/exp-1109-144110-764758-rank-0.log",
+  "native_log_bytes": 6788149,
+  "native_log_total_lines": 3452,
+  "raw_excerpt": "/data/ycfeng/tmp/agent-opd-image/d1-d22-status-20261109T0755Z/native-failure-excerpt.json",
+  "selected_native_lines": [
+    {
+      "line": 2902,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13) [2026-11-09 07:34:31.721 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout="
+    },
+    {
+      "line": 2903,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13) [2026-11-09 07:34:31.721 trainer_controller_actor] cell.py:253 - ft op=execute phase=start cell=trainer-engine-actor-00000 fn=update_weights n_actors=8"
+    },
+    {
+      "line": 2904,
+      "message": "(MegatronTrainRayActor pid=2493, ip=10.204.5.13) [2026-11-09 07:34:31.722 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start"
+    },
+    {
+      "line": 2921,
+      "message": "(CommandActor pid=1839, ip=10.204.5.13) [2026-11-09 07:34:32] INFO:     10.204.5.13:53146 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    },
+    {
+      "line": 2935,
+      "message": "(MegatronTrainRayActor pid=2500, ip=10.204.5.13) [2026-11-09 07:34:31.755 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 131.54, 'used_GB': 8.27, 'allocated_GB': 13.71, 'reserved_GB': 13.95} [repeated 7x across cluster]"
+    },
+    {
+      "line": 2936,
+      "message": "(CommandActor pid=8018) [2026-11-09 07:34:31 TP1] init custom process group: master_address=10.204.5.13, master_port=42463, rank_offset=7, rank=8, world_size=9, group_name=miles, backend=nccl [repeated 6x across cluster]"
+    },
+    {
+      "line": 3063,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13) [2026-11-09 07:44:31.736 trainer_controller_actor] cell.py:280 - ft op=execute phase=fail cell=trainer-engine-actor-00000 fn=update_weights elapsed_s=600.0"
+    },
+    {
+      "line": 3075,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13) Traceback (most recent call last):"
+    },
+    {
+      "line": 3076,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13)   File \"/data/ycfeng/sota-engine/miles/miles/ray/train/cell.py\", line 258, in _execute_raw"
+    },
+    {
+      "line": 3080,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13)     return await asyncio.wait_for(asyncio.gather(*tasks), timeout=timeout)"
+    },
+    {
+      "line": 3086,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13)     raise TimeoutError from exc_val"
+    },
+    {
+      "line": 3087,
+      "message": "(TrainerController pid=1843, ip=10.204.5.13) TimeoutError"
+    },
+    {
+      "line": 3205,
+      "message": "  File \"/data/ycfeng/sota-engine/miles/train.py\", line 169, in train"
+    },
+    {
+      "line": 3206,
+      "message": "    await update_weights(args, actor_model, rollout_executor, inference_controller)"
+    },
+    {
+      "line": 3213,
+      "message": "ray.exceptions.RayTaskError(NonRetryableError): ray::TrainerController.update_weights() (pid=1843, ip=10.204.5.13, actor_id=547a69ed649ea4a6b9cdd8e103000000, repr=<miles.ray.train.group.TrainerController object at 0x7f9ec541cfb0>)"
+    },
+    {
+      "line": 3240,
+      "message": "TimeoutError"
+    }
+  ],
+  "platform_objects": {
+    "job": {
+      "kind": "RJob",
+      "apiVersion": "rjob.brainpp.cn/v1alpha1",
+      "metadata": {
+        "name": "exp-1109-144110-764758",
+        "uid": "fa85b2a7-f48c-4ac5-8a06-402113aa874f",
+        "creationTimestamp": "2026-11-09T06:41:10Z",
+        "deletionTimestamp": null,
+        "ownerReferences": null
+      },
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "quota_group": "step_main",
+      "stop_annotations": {
+        "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+      },
+      "stop_spec": {
+        "stopTimestamp": "2026-11-09T07:47:06Z"
+      },
+      "status": {
+        "phase": "Failed",
+        "reason": "RJobFailed",
+        "message": "Tasks with failed status: [student]",
+        "taskStatuses": {
+          "student": {
+            "failed": 1,
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          },
+          "teacher": {
+            "stopped": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-09T07:47:18Z",
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "replica": {
+      "kind": "Replica",
+      "apiVersion": "rjob.brainpp.cn/v1alpha1",
+      "metadata": {
+        "name": "exp-1109-144110-764758-student-cfcd2084",
+        "uid": "29df6ecf-ad06-4280-8176-528eaf1d8cf1",
+        "creationTimestamp": "2026-11-09T07:12:47Z",
+        "deletionTimestamp": null,
+        "ownerReferences": [
+          {
+            "apiVersion": "rjob.brainpp.cn/v1alpha1",
+            "kind": "RJob",
+            "name": "exp-1109-144110-764758",
+            "uid": "fa85b2a7-f48c-4ac5-8a06-402113aa874f",
+            "controller": true,
+            "blockOwnerDeletion": true
+          }
+        ]
+      },
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "quota_group": "step_main",
+      "stop_annotations": {},
+      "stop_spec": {},
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T07:17:50Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T07:47:05Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T07:47:05Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-09T07:17:50Z"
+          }
+        ],
+        "hostIP": "10.204.12.67",
+        "podIP": "10.204.12.67",
+        "podIPs": [
+          {
+            "ip": "10.204.12.67"
+          }
+        ],
+        "startTime": "2026-11-09T07:17:50Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 1,
+                "reason": "Error",
+                "message": "user command: exit status 1",
+                "startedAt": "2026-11-09T07:24:10Z",
+                "finishedAt": "2026-11-09T07:47:04Z",
+                "containerID": "containerd://0f20106f5cd619f655b953d15a95fce28a029dca726377795a4f90a31f98f1f0"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://0f20106f5cd619f655b953d15a95fce28a029dca726377795a4f90a31f98f1f0",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Failed",
+        "nodeName": "gpu-h200-0375.lgcm.sh.istep.fun",
+        "finishTimestamp": "2026-11-09T07:47:06Z"
+      }
+    }
+  },
+  "collector": {
+    "python": "3.10.6 (main, Nov 14 2022, 16:10:14) [GCC 11.3.0]",
+    "brainpp": "2.8.6",
+    "namespace": "shai-core",
+    "cluster_entry": "https://platform.shaipower.com",
+    "creator": "i-fengyicheng",
+    "log_window": {
+      "start": "2026-11-09T07:43:00+00:00",
+      "end": "2026-11-09T07:48:00+00:00"
+    },
+    "log_limit": 3000,
+    "sources": [
+      {
+        "query": "rjob-historical-events",
+        "ok": true
+      },
+      {
+        "query": "replica-historical-events",
+        "ok": true
+      },
+      {
+        "query": "rjob-live-events",
+        "ok": true
+      },
+      {
+        "query": "replica-live-events",
+        "ok": true
+      },
+      {
+        "query": "incident-logs",
+        "ok": true
+      },
+      {
+        "query": "rjob-audit",
+        "ok": false
+      },
+      {
+        "query": "replica-audit",
+        "ok": false
+      },
+      {
+        "query": "existing-deepscan",
+        "ok": true
+      }
+    ],
+    "limitations": [
+      "Empty or failed queries do not establish absence of an incident.",
+      "A full log-limit response may be truncated; narrow the time window.",
+      "DeepScan findings are returned text, not original Kubernetes Event objects.",
+      "RJob finishTime is not an audited stop-request timestamp.",
+      "Stopped phase alone does not identify the actor or the initiating cause.",
+      "All-operation audit rows may lack changed fields or an initiating reason.",
+      "A controller update after SIGTERM is not an initiating stop request.",
+      "Audit data is arbitrary; inspect workload-specific secrets before archiving."
+    ]
+  },
+  "manual_stop_actor": "UNKNOWN",
+  "manual_stop_request_time": "UNKNOWN",
+  "audit_query_errors": {
+    "rjob-audit": {
+      "type": "ReadTimeout",
+      "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=15.0)"
+    },
+    "replica-audit": {
+      "type": "ReadTimeout",
+      "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=15.0)"
+    }
+  },
+  "existing_deepscan_count": 0,
+  "diagnosis_task": "profile-initial-weight-sync-20261109"
+}

@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-11-09T07:56:39.963167+00:00",
+  "job": "exp-1109-144110-764758",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T07:47:18Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  },
+  "replicas": [
+    {
+      "name": "exp-1109-144110-764758-student-c4ca4238",
+      "phase": "Stopped",
+      "selected_log_lines": [],
+      "error_lines": [],
+      "raw_log": "/data/ycfeng/tmp/agent-opd-image/d1-d22-status-20261109T0755Z/exp-1109-144110-764758-student-c4ca4238.json"
+    },
+    {
+      "name": "exp-1109-144110-764758-student-cfcd2084",
+      "phase": "Failed",
+      "selected_log_lines": [],
+      "error_lines": [],
+      "raw_log": "/data/ycfeng/tmp/agent-opd-image/d1-d22-status-20261109T0755Z/exp-1109-144110-764758-student-cfcd2084.json"
+    },
+    {
+      "name": "exp-1109-144110-764758-teacher-cfcd2084",
+      "phase": "Stopped",
+      "selected_log_lines": [],
+      "error_lines": [],
+      "raw_log": "/data/ycfeng/tmp/agent-opd-image/d1-d22-status-20261109T0755Z/exp-1109-144110-764758-teacher-cfcd2084.json"
+    }
+  ]
+}

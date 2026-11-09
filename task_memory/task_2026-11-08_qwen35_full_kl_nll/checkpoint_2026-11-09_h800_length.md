@@ -4,6 +4,7 @@ Modification History
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Refresh the failed upstream prerequisite and prioritize initial-weight-sync diagnosis. |
 | 2026-11-09 | Check the D33/D34 preparation milestone against the unchanged integration gate. |
 
 **汇总：** PASS0｜BLOCKED5｜TODO2
@@ -21,7 +22,7 @@ Modification History
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** Ticket01原始源验收提交`2d695ba0`至今｜**当前前沿：** D34输入重验与D33 H800准备并行
+**检测窗口：** Ticket01原始源验收提交`2d695ba0`至今｜**当前前沿：** D34输入重验与上游首次权重同步故障定位并行
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -33,22 +34,25 @@ Modification History
 | D6分析空转 | CLEAR | 显存分析纠正了错误packing假设，并落到TP4/八engine配置与四节点实现 |
 | D7路线违背 | CLEAR | 未提前merge或接入02/03；原位读取和历史证据保留 |
 
-**文档检查：** S1–S6均未发现剩余明显缺陷；D34导致的旧D5继承表和01状态已同步更新。
+**文档检查：** S5：plan/summary/ticket02的当前上游证据滞后于07:47Z失败终态；应同步为首次权重同步600s超时。S1–S4/S6无新增缺陷，验收条件和依赖不变。
 **归因：** 无。
 
 ## 3. 纠正建议
 
-**分支：** A：spec/tickets合理，无需改动。
+**分支：** B：当前上游状态过期，先更新证据再继续。
+
+**文档更新（先执行）：**
+1. `plan.md`当前前沿、`progress.md`、`summary.md`、ticket02和H800报告：记录失败阶段与终态，保留未验证根因（可直接执行，本次已更新）。
 
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
 1.01：提交并收验112K原位CPU audit/parity → 完成标志：预算/源身份正确、实际结果与job终态成功。
 2.并行H800准备：完成四节点CPU生命周期、36-GPU资源和长度参数检查 → 完成标志：payload/worker命令正确，无上限准入保持非抢占；native容量仍待运行。
-3.上游：等实际≥231/256、1800s内采集和两次optimizer ACK/第二次scoring验收 → 解锁merge及02/03，之后按D16启动正式A。
+3.上游：先定位并修复首次混合部署权重同步超时，再取得实际≥231/256、1800s内采集和两次optimizer ACK/第二次scoring验收 → 解锁merge及02/03，之后按D16启动正式A。只读诊断已分配，未盲目重提GPU。
 
 ## 4. 最值得关注的3点
 
 1.112K/16K已通过实际native request构造检查；旧128K长度统计不能用于新规则。
 2.H800 TP4把单份128K logits降至约15.2GiB，不等于完整峰值或吞吐通过。
-3.上游最新平台证据为Running，仍缺少native容量通过；不能用CPU测试或提交回执替代。
+3.上游已启动并失败，直接阻塞点为首次权重同步600s超时；内部原因尚待确定，未进入256条采集和optimizer更新。

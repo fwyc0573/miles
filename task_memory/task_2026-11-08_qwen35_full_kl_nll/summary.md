@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record the expanded upstream attempt failing before rollout at initial weight synchronization. |
 | 2026-11-09 | Record D33 H800 preparation and D34 input/request budget implementation; reopen only the changed source length verification. |
 | 2026-11-09 | Accept completed Ticket01 source audit/parity and refresh the remaining upstream-only integration gate. |
 | 2026-11-09 | Archive the review repair milestone and ongoing, prerequisite-limited execution. |
@@ -39,7 +40,7 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 | 05 | Blocked; requires launch prerequisites and actual A first-update inspection. |
 | 06 | Blocked by formal-run evidence. |
 
-At the2026-11-09T05:10Z refresh, upstream`agent-opd` was at`d8c27b75` without newer capacity acceptance. Its patch has historical partial scoring evidence, but the latest new-data attempt collected only227/256 (<231), with no successful update. Its Ticket02 is not accepted. The branch is therefore not merged, and this task's training integration cannot start under D1/D22.
+At the2026-11-09T07:56Z refresh, upstream`agent-opd` is at`c52991ac` without capacity acceptance. Expanded attempt`exp-1109-144110-764758` failed at07:47:18Z after its initial trainer-to-rollout weight synchronization timed out at600s. The fatal call precedes rollout collection and optimizer updates; no256-turn acceptance follows. The synchronization stall's underlying cause remains under diagnosis. Earlier227/256 acquisition and historical partial scoring remain unaccepted. D1/D22 therefore still block merge and this task's training integration.
 
 CPU job creator`i-fengyicheng`,0 GPUs,8 CPUs,32000 Mi memory, exact image and current-host NFS source were verified in`evidence/source-audit-admission-20261109.json`. Terminal receipt`evidence/source-audit-terminal-20261109.json` confirms job/replica Succeeded, finish00:24:08Z and the worker completion marker. Real-source output, source identities/counts,512 native parity draws and2,048 interleaved draws are accepted in`test_report_2026-11-09_source_audit.md`.
 
@@ -47,6 +48,6 @@ Eligible-turn median90 before length filtering retains D26's32×8. The128K audit
 
 Those128K prompt-filter statistics are historical afterD34. The new request/input contract passes33 affected primary fast tests, real pinned GLM512/2048 checks and synthetic SWE/audit workflow checks; see`test_report_2026-11-09_length_budgets.md`. New full-source output is isolated under`evidence/source-audit-112k-20261109/`.
 
-H800 resource changes are isolated in`agent-opd-h800-capacity`: explicit-null admission`1ae93261`, native length argv`8c9537bf`, and four-node lifecycle`46e7b292`. Planned per-pair layout is36 GPUs, including8TP4 rollout engines and4TP4 teacher GPUs. Individual-logits size decreases underTP4, but H800 runtime memory/throughput is unverified. Upstream capacity job`exp-1109-144110-764758` wasRunning at07:45:51Z, with both student replicas andteacher active. Neither that status nor preparation CPU tests opens D1/D22.
+H800 resource changes are isolated in`agent-opd-h800-capacity`: explicit-null admission`1ae93261`, native length argv`8c9537bf`, and four-node lifecycle`46e7b292`. Planned per-pair layout is36 GPUs, including8TP4 rollout engines and4TP4 teacher GPUs. Individual-logits size decreases underTP4, but H800 runtime memory/throughput is unverified. The upstream07:45:51Z Running snapshot is superseded by the failure above. No H800 native capacity job has been submitted by this task.
 
 The new112K CPU audit`exp-1109-154414-275606` isRunning under input/audit implementation`438d25fc`; creator,0GPU/8CPU,image,mount and worker budget argv were verified. Outputs and terminal acceptance remain pending. Four-node affected tests pass122cases; broader related tests retain171PASS/12SKIP/one existing local SGLang parser failure, so that broader suite is not claimed all-pass. Parent/isolated preparation integration remains pending until the recorded upstream gate opens.

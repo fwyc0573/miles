@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record exact upstream terminal/timeout evidence and failed audit-query coverage; synchronization diagnosis is pending. |
 | 2026-11-09 | Record D33 documentation checks, live resource inspection and isolated admission preparation. |
 
 # H800 execution preparation
@@ -17,7 +18,7 @@ D33 authorizes H800/codesign execution with no task GPU-count cap. Parent Ticket
 | Document links and dependency graph afterD33 | Existing six tickets remain coherent |21 documents,6 tickets,75 links,22 anchors; zero errors | PASS |
 | Whitespace | No diff errors | `git diff --check` exits0 | PASS |
 | Fresh personal H800 commitments | Query actual nonterminal non-preemptible jobs using Python API | At07:13:27Z:24 GPUs across three other jobs | RECORDED |
-| Upstream native gate | Actual capacity evidence, not submission/startup alone | `exp-1109-144110-764758`: Running at07:45:51Z, two student replicas plus teacher active; native acceptance not received | NOT YET MET |
+| Upstream native gate | Actual capacity evidence, not submission/startup alone | `exp-1109-144110-764758`: Failed at07:47:18Z; initial weight synchronization timed out after600s, before rollout collection | FAILED / GATE NOT MET |
 | Unlimited allocation | No manufactured numeric ceiling | Candidate`gpu_policy.json` has explicitnull; isolated`1ae93261` passes25 budget+4 consumer checks | CPU PASS |
 | H800 payload/runtime | Configuration validated, then actual H800 runtime evidence | No H800 payload accepted or job submitted yet | PENDING |
 
@@ -51,4 +52,40 @@ The existing entrypoint's two-student-node restriction blocks this layout despit
 
 The restriction has now been removed by`46e7b292` in the isolated worktree. The four-node lifecycle keeps one trainer head and supervises ranks1–3;122 affected tests PASS. The broader related run records171PASS,12SKIP and one existing local parser failure for`--sglang-enable-prefill-weight-versions`. That broader run is not an all-pass result; the pinned worker image's native path remains the relevant runtime check. Exact commands and failure are in`task_memory/task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_four_node_rollout.md`in the preparation worktree.
 
-The separate length launcher commit`8c9537bf` passes53 launcher+7 related tests, using explicit`context_tokens`, `prompt_tokens` and`response_tokens`. Its old source-input wiring still requires parentTicket02 integration afterD1/D22; neither these commits nor the36-GPU YAML is currently a complete formal-run configuration. Latest upstream platform receipt:`evidence/upstream-h200-length-checkpoint-20261109.json`.
+The separate length launcher commit`8c9537bf` passes53 launcher+7 related tests, using explicit`context_tokens`, `prompt_tokens` and`response_tokens`. Its old source-input wiring still requires parentTicket02 integration afterD1/D22; neither these commits nor the36-GPU YAML is currently a complete formal-run configuration. The historical Running receipt is`evidence/upstream-h200-length-checkpoint-20261109.json`; the terminal refresh follows below.
+
+## Upstream prerequisite failure 2026-11-09T07:56Z
+
+The previous Running observation is superseded. Direct personal Python API read at07:56:39Z reports job`exp-1109-144110-764758` Failed, finish07:47:18Z. Exact replica`exp-1109-144110-764758-student-cfcd2084` exits1 at07:47:04Z; platform cleanup subsequently stops the other student and teacher with`Some critical tasks failed.` The collector verifies creator`i-fengyicheng` and replica ownership by RJob UID`fa85b2a7-f48c-4ac5-8a06-402113aa874f`.
+
+The native student log records:
+
+| UTC | Observation | Source log line |
+| --- | --- | --- |
+|07:34:31.721|Initial`update_weights` starts on eight trainer actors|2902–2904|
+|07:34:32|A colocated`/update_weights_from_tensor` request returns200|2921|
+|07:34:31|Dedicated-engine custom NCCL group initialization reports world size9|2936|
+|07:44:31.736|The same`update_weights` fails with`elapsed_s=600.0`, followed by`TimeoutError`|3063–3087|
+|Fatal stack|`train.py:169` initial weight synchronization, before the rollout/training loop|3205–3213|
+
+This establishes the failed stage and zero successful optimizer updates. It does not establish why synchronization stalled, nor a GPU OOM, network fault, or manual stop. No new256-turn admission or scoring-capacity acceptance was obtained. The next prerequisite is a cause-based synchronization repair followed by the unchanged native capacity checks.
+
+Evidence: `evidence/upstream-capacity-status-20261109T0755Z.json` and `evidence/upstream-weight-sync-timeout-20261109.json`. The latter retains16 decisive native log lines, filtered exact platform objects and query limitations. The complete native log remains at`/mnt/codesign-exp/ycfeng/miles-qwen35-swe-full-r256/deepswe-0913/capacity-expanded/r256/student/A/exp-1109-144110-764758-rank-0.log` (6,788,149 bytes). Bounded read-only SSH extraction used the corresponding`/mnt/ws-jfs/ycfeng` path; the line-numbered local excerpt is`/data/ycfeng/tmp/agent-opd-image/d1-d22-status-20261109T0755Z/native-failure-excerpt.json`. No source or runtime parameter was changed.
+
+Exact platform collector command, after the runbook's personal proxy/auth initialization:
+
+```bash
+timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -u -B \
+  /data/ycfeng/codex-home/skills/stepmind-gpu-worker/scripts/collect_failure_evidence.py \
+  exp-1109-144110-764758 \
+  --replica exp-1109-144110-764758-student-cfcd2084 \
+  --expected-creator i-fengyicheng \
+  --credential-dir /data/ycfeng/tmp/brainctl-auth-i-fengyicheng \
+  --start 2026-11-09T07:43:00Z --end 2026-11-09T07:48:00Z \
+  --timeout 15 \
+  --output /data/ycfeng/tmp/agent-opd-image/rca-exp-1109-144110-764758
+```
+
+Environment: Python3.10.6, brainpp2.8.6. Collector exit1: six event/log/DeepScan queries succeeded, while both all-operation audit queries raised`ReadTimeout` after15s. No existing DeepScan flow was returned. Failed/empty query coverage does not exclude events; manual-stop actor/request time remainUNKNOWN. The business timeout is independently present in the retained native log. Read-only diagnosis owner:`profile-initial-weight-sync-20261109` (`ses_e40a9a62effejB0VqD42HkARmR`); no replacement GPU job has been submitted.
+
+Documentation verification uses the existing two commands above. The first check found two new links whose anchors omitted the heading's punctuation-derived hyphen; the heading was simplified before rerunning. Final result:24 files,6 tickets,76 links,23 anchors,zero errors; `git diff --check` PASS. This is a documentation correction, separate from the native job failure.

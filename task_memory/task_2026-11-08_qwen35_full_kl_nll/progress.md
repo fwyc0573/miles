@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record upstream initial-weight-sync failure, terminal API evidence and the active scoped diagnosis; D1/D22 remain blocked. |
 | 2026-11-09 | Begin D34 budget implementation and a fresh112K prompt audit; retain prior source evidence and historical128K outputs. |
 | 2026-11-09 | Start H800 execution preparation underD33 and record live resource/upstream status. |
 | 2026-11-09 | Accept the completed in-place CPU audit/parity and refresh upstream gate at05:10Z; Ticket01 done,02/03 integration still blocked. |
@@ -151,7 +152,8 @@
 ## in-progress
 
 - D34 in-place CPU audit`exp-1109-154414-275606` submitted andRunning at07:45:51Z;8CPU/0GPU, creator/image/current-host NFS source and actual131072/114688/16384 worker argv verified. Launcher`sh_1bf43bd8e0011S3o8uZqd0btZi` remains alive; business outputs and terminal receipt pending. Full details:`test_report_2026-11-09_length_budgets.md`.
-- Upstream gate refresh at07:45:51Z: capacity job`exp-1109-144110-764758` nowRunning withtwo student replicas andone teacher. This is newer than theStarting readback, but still no actual≥231/two-update acceptance; D1/D22 remain closed.
+- failed upstream prerequisite, refreshed07:56:39Z: capacity job`exp-1109-144110-764758` finishedFailed at07:47:18Z. Initial`update_weights` began07:34:31Z and timed out at07:44:31Z after600s; the fatal stack is`train.py:169`, before rollout collection and optimizer updates. Student exited1; other roles were stopped after critical failure. This supersedes the07:45:51Z Running snapshot. Underlying synchronization cause remainsUNKNOWN; no OOM or manual-stop cause is inferred. Evidence:`evidence/upstream-weight-sync-timeout-20261109.json`; command/query limits:`test_report_2026-11-09_h800_preparation.md`.
+- in-progress prerequisite diagnosis:`profile-initial-weight-sync-20261109` (`ses_e40a9a62effejB0VqD42HkARmR`) owns read-only native mixed-update call tracing and a faithful reproduction proposal. No source edits or new GPU submission have been made for this failure. D1/D22 still block parent merge and02/03 integration; D34 source-audit acceptance proceeds independently.
 - D34 steering:128K training/rollout total,112K inclusive prompt budget,16K completion cap. Input adapter/checker changes delegated to`profile-length-inputs-20261109` (`ses_e40c9ced3ffeuhJ4fOwvF1d5vS`); audit/submitter/synthetic commands to`profile-length-audit-20261109` (`ses_e40c9927efferVhKwq9xSHQCwk`); isolated upstream-based launcher wiring to`profile-length-launcher-20261109` (`ses_e40d1c58dffeRxbihEEvr5yxwj`). New source audit outputs go to`evidence/source-audit-112k-20261109`, preserving prior128K evidence. No running job configuration is changed.
 - D33 execution: H800/codesign, no task GPU-count cap. Inspecting existing launch/config support and H800 memory sizing; no premature merge or02/03 implementation. Fresh direct personal API read at07:13:27Z:24 non-preemptible H800 GPUs committed across other jobs; upstream capacity job`exp-1109-144110-764758` is nowStarting,18 H200 GPUs. Receipt:`evidence/h800-resource-readback-20261109.json`. This is startup, not native acceptance.
 - Local readback first failed with`ModuleNotFoundError: No module named 'tests.manual'`: importing Steptron prepends`third_party/super_agent/tests`, shadowing Miles' tests package. Importing the existing Miles budget reader before Steptron, as the established submitter already does, resolved it. No environment or launcher code changed.
