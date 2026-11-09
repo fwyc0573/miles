@@ -5,7 +5,8 @@ Example:
         --source-manifest SOURCES/COPY_COMPLETE.json --native-loader LOADER.py \
         --native-loader-sha256 SHA256 --native-recipe RECIPE.py \
         --tokenizer QWEN_TOKENIZER --chat-template TEMPLATE.jinja \
-        --rollout-max-context-len 131072 --temporary-root TEMP --output-root TASK/evidence
+        --rollout-max-context-len 131072 --rollout-max-prompt-len 114688 \
+        --rollout-max-response-len 16384 --temporary-root TEMP --output-root TASK/evidence
 """
 
 import argparse
@@ -29,6 +30,7 @@ from tests.manual.agent_opd.swe_inputs import (
     load_swe_native_module,
     load_source_population,
     native_chat_messages,
+    render_qwen_history,
 )
 from tests.fast.ray.rollout.conftest import make_rollout_config
 
@@ -37,7 +39,10 @@ from miles.utils.args.custom_function import CustomFunctionConfig
 from miles.utils.args.custom_view import compute_custom_function_config
 from miles.utils.args.runtime import RolloutConfig
 from miles.utils.function_registry import load_function
-from miles.rollout.generate_utils.generate_endpoint_utils import apply_sample_max_response_len
+from miles.rollout.generate_utils.generate_endpoint_utils import (
+    apply_sample_max_response_len,
+    compute_request_payload,
+)
 
 
 def _digest(value) -> str:
@@ -64,6 +69,7 @@ def _source(native, filelist, masked=False, exclusions=None):
 
 
 def _args(args) -> SimpleNamespace:
+    # Omitted response limits preserve this historical checker's remaining-context requests.
     return SimpleNamespace(
         swe_source_root=str(args.source_root), swe_source_manifest=str(args.source_manifest),
         swe_native_loader_path=str(args.native_loader), swe_native_loader_sha256=args.native_loader_sha256,
@@ -72,8 +78,31 @@ def _args(args) -> SimpleNamespace:
         hf_checkpoint=str(args.tokenizer), chat_template_path=str(args.chat_template),
         apply_chat_template_kwargs={"preserve_thinking": True, "enable_thinking": True},
         rollout_max_context_len=args.rollout_max_context_len,
-        rollout_max_response_len=args.rollout_max_context_len, n_samples_per_prompt=1,
+        rollout_max_prompt_len=args.rollout_max_prompt_len,
+        rollout_max_response_len=(
+            args.rollout_max_context_len if args.rollout_max_response_len is None else args.rollout_max_response_len
+        ), n_samples_per_prompt=1,
     )
+
+
+def _prompt_budget(config, prompt_token_count: int) -> int | None:
+    if prompt_token_count >= config.rollout_max_context_len or (
+        config.rollout_max_prompt_len is not None and prompt_token_count > config.rollout_max_prompt_len
+    ):
+        return None
+    return min(config.rollout_max_response_len, config.rollout_max_context_len - prompt_token_count)
+
+
+def _next_eligible(oracle, tokenizer, config, converter):
+    rejected = 0
+    while True:
+        item = next(oracle)
+        converted = converter(item["conversation"])
+        tools = converted[0].get("tools")
+        _, prompt_ids = render_qwen_history(tokenizer, converted[:-1], tools, config.apply_chat_template_kwargs)
+        if _prompt_budget(config, len(prompt_ids)) is not None:
+            return item, converted, rejected
+        rejected += 1
 
 
 def _cursor(native, filelist):
@@ -117,6 +146,7 @@ def _visual_scan(native, conversation):
 
 
 def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tuple[list[dict], list[list[dict]]]:
+    config = _args(args)
     cursor = _cursor(native, population.filelist)
     conversations = [cursor.next_record().value, cursor.next_record().value]
     cursor.close()
@@ -152,7 +182,8 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
             )
             prompt_ids = tokenizer.encode(prompt, add_special_tokens=False)
             expected_uid = f"{population.files[0]['sha256']}:0:{positions[ordinal - 1]}"
-            valid = len(prompt_ids) < args.rollout_max_context_len
+            budget = _prompt_budget(config, len(prompt_ids))
+            valid = budget is not None
             if valid:
                 sample = adapter.get_samples(1)[0][0]
                 assert sample.metadata["history"] == converted[:-1]
@@ -160,22 +191,23 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
                 assert sample.metadata["source"]["uid"] == expected_uid
                 assert sample.prompt == prompt
                 assert sample.metadata["source"]["prompt_sha256"] == token_hash(prompt_ids)
-                assert sample.max_response_len == args.rollout_max_context_len - len(prompt_ids)
+                assert sample.max_seq_len == config.rollout_max_context_len
+                assert sample.max_response_len == budget
             next_after_reject = None
             if not valid and ordinal == len(positions):
                 slot_before = adapter.sample_index
                 rejected_before = adapter.skipped_overlength
-                next_item = next(oracle)
+                next_item, next_converted, additional_rejections = _next_eligible(oracle, tokenizer, config, converter)
                 sample = adapter.get_samples(1)[0][0]
-                assert sample.metadata["history"] == converter(next_item["conversation"])[:-1]
+                assert sample.metadata["history"] == next_converted[:-1]
                 assert sample.metadata["native_ground_truth"] == next_item["conversation"][-1]["ground_truth"]
-                assert sample.index == slot_before
-                assert adapter.skipped_overlength == rejected_before + 1
-                assert sample.metadata["source"]["source_item_index"] == 1
+                assert sample.index == sample.group_index == slot_before
+                assert sample.max_response_len == _prompt_budget(config, sample.metadata["source"]["prompt_token_count"])
+                assert adapter.skipped_overlength == rejected_before + 1 + additional_rejections
                 next_after_reject = {
                     "source": sample.metadata["source"], "sample_index": sample.index,
                     "rejected_source_row_index": ground_truth["source_row_index"],
-                    "overlength_turns_skipped": 1, "generation_slots_consumed_by_rejection": 0,
+                    "overlength_turns_skipped": 1 + additional_rejections, "generation_slots_consumed_by_rejection": 0,
                     "full_next_conversation_prefix_equal": True,
                 }
             assert prompt.endswith("<|im_start|>assistant\n<think>\n")
@@ -193,7 +225,7 @@ def _actual_prefix_checks(args, native, population, tokenizer, converter) -> tup
                 "target_message_sha256": _digest(conversations[0][positions[ordinal - 1]]),
                 "prompt_token_count": len(prompt_ids), "prompt_sha256": token_hash(prompt_ids),
                 "length_eligible": valid,
-                "max_new_tokens": args.rollout_max_context_len - len(prompt_ids) if valid else None,
+                "max_new_tokens": budget,
                 "history_reasoning_messages": len(reasoning), "history_tool_calls": len(historical_calls),
                 "context_masked_assistant_count": ground_truth.get("context_masked_assistant_count"),
                 "source_assistant_turn_ordinal": ground_truth.get("source_assistant_turn_ordinal"),
@@ -237,6 +269,7 @@ def _excerpt(native, conversation: list[dict], turns: int, masked=False) -> list
 def _boundary_checks(args, native, tokenizer, converter, conversations) -> dict:
     args = copy.copy(args)
     args.visual_filter_receipt = None
+    config = _args(args)
     population = _fixture_population(args.temporary_root / f"{args.evidence_prefix}-boundaries", [
         [[{"from": "human", "value": "No assistant in this conversation"}],
          _excerpt(native, conversations[0], 2, args.skip_masked_assistant_turns),
@@ -248,18 +281,22 @@ def _boundary_checks(args, native, tokenizer, converter, conversations) -> dict:
     rows = []
     try:
         for index in range(6):
-            item = next(oracle)
+            _, expected, rejected = _next_eligible(oracle, tokenizer, config, converter)
+            rejected_before = adapter.skipped_overlength
             sample = adapter.get_samples(1)[0][0]
-            expected = converter(item["conversation"])
             assert sample.metadata["history"] == expected[:-1]
             assert sample.metadata["native_ground_truth"] == expected[-1]["ground_truth"]
             assert sample.index == sample.group_index == index
+            assert sample.metadata["source"]["epoch"] == oracle.cursor.epoch
+            assert adapter.skipped_overlength == rejected_before + rejected
             rows.append({name: sample.metadata["source"][name] for name in (
                 "uid", "epoch", "source_item_index", "source_row_index", "assistant_turn_ordinal",
             )})
-        assert [r["epoch"] for r in rows] == [0, 0, 0, 0, 1, 1]
-        assert rows[0]["uid"] == rows[4]["uid"] and rows[1]["uid"] == rows[5]["uid"]
-        assert adapter.native.skipped_no_assistant == oracle.skipped_no_assistant == 2
+        if adapter.skipped_overlength == 0:
+            assert [r["epoch"] for r in rows] == [0, 0, 0, 0, 1, 1]
+            assert rows[0]["uid"] == rows[4]["uid"] and rows[1]["uid"] == rows[5]["uid"]
+        assert adapter.native.skipped_no_assistant == oracle.skipped_no_assistant
+        assert oracle.skipped_no_assistant >= 2
         adapter.save(args.temporary_root / f"{args.evidence_prefix}-audit")
         try:
             adapter.load(args.temporary_root / f"{args.evidence_prefix}-audit")
@@ -273,7 +310,8 @@ def _boundary_checks(args, native, tokenizer, converter, conversations) -> dict:
         oracle.close()
         adapter.close()
     return {"status": "PASS", "fixture": "small excerpts of the first two actual conversations, two files",
-            "rows": rows, "empty_assistant_conversations_skipped": 2,
+            "rows": rows, "empty_assistant_conversations_skipped": oracle.skipped_no_assistant,
+            "overlength_turns_skipped": adapter.skipped_overlength,
             "conversation_file_and_epoch_boundaries": True, "restore_rejected": restore_error}
 
 
@@ -299,6 +337,8 @@ def _length_rejection_check(args, native) -> dict:
     config = _args(args)
     config.swe_visual_filter_receipt = None
     config.rollout_max_context_len = 512
+    # These existing fault-injection fixtures test the context boundary independently.
+    config.rollout_max_prompt_len = None
     source = _source(native, population.filelist, True) if args.skip_masked_assistant_turns else None
     adapter = NativeSWEDataSource(config, tokenizer=_CharacterTokenizer(), population=population, native_source=source)
     try:
@@ -325,7 +365,7 @@ def _length_rejection_check(args, native) -> dict:
         return {"status": "PASS", "fault_injection_tokenizer": "JSON character count",
                 "accepted_source_ordinals": [0, 3], "accepted_slot_indices": [0, 1],
                 "overlength_turns_skipped": 2, "generation_slots_consumed_by_rejections": 0,
-                "prompt_exactly_at_limit_rejected": True}
+                "prompt_exactly_at_limit_rejected": True, "rejection_limit": "rollout_max_context_len"}
     finally:
         adapter.close()
 
@@ -394,27 +434,52 @@ def _configuration_check(args, native, conversations) -> dict:
             assert sample.metadata["source"]["source_item_index"] == 1
             assert adapter.native.skipped_excluded_trajectories == 1
             assert adapter.identity["visual_filter_verified"] is True
-        assert sample.max_response_len == args.rollout_max_context_len - sample.metadata["source"]["prompt_token_count"]
-        sampling = apply_sample_max_response_len({"max_new_tokens": args.rollout_max_context_len}, sample)
+        prompt_ids = adapter.tokenizer.encode(sample.prompt, add_special_tokens=False)
+        assert len(prompt_ids) == sample.metadata["source"]["prompt_token_count"]
+        assert token_hash(prompt_ids) == sample.metadata["source"]["prompt_sha256"]
+        assert sample.max_seq_len == rollout.rollout_max_context_len
+        assert sample.max_response_len == _prompt_budget(rollout, len(prompt_ids))
+        sampling = apply_sample_max_response_len({"max_new_tokens": rollout.rollout_max_response_len}, sample)
         assert sampling["max_new_tokens"] == sample.max_response_len
+        payload, halt_status = compute_request_payload(rollout, prompt_ids, sampling)
+        assert halt_status is None
+        assert payload["input_ids"] == prompt_ids
+        assert payload["sampling_params"]["max_new_tokens"] == sample.max_response_len
         return {"status": "PASS", "scope": scope, "path": hook.path, "config": hook.config.model_dump(),
                 "uses_actual_custom_function_config_merge": True,
                 "runtime_config_type": type(rollout).__name__,
                 "runtime_config_builder": "existing make_rollout_config with real parser defaults and model_validate",
                 "nonexistent_max_seq_len_launch_field_absent": True,
-                "native_request_max_new_tokens": sampling["max_new_tokens"]}
+                "rollout_length_limits": {name: config[name] for name in (
+                    "rollout_max_context_len", "rollout_max_prompt_len", "rollout_max_response_len",
+                )},
+                "accepted_source_uid": sample.metadata["source"]["uid"], "sample_index": sample.index,
+                "native_request_prompt_tokens": len(payload["input_ids"]),
+                "native_request_prompt_sha256": token_hash(payload["input_ids"]),
+                "native_request_max_new_tokens": payload["sampling_params"]["max_new_tokens"],
+                "native_request_payload_constructed": True, "native_request_sent": False}
     finally:
         adapter.close()
 
 
 def _actual_file_boundaries(args, native, population, tokenizer) -> dict:
+    config = _args(args)
+    oracle = _source(native, population.filelist, args.skip_masked_assistant_turns, _exclusions(args, native, population))
+    converter = _native_converter(args.native_recipe)
     adapter = _adapter(args, native, population, tokenizer)
     rows = []
     try:
         for index, path in enumerate(population.filelist):
+            expected, converted, rejected = _next_eligible(oracle, tokenizer, config, converter)
+            rejected_before = adapter.skipped_overlength
             sample = adapter.get_samples(1)[0][0]
             source = sample.metadata["source"]
-            assert source["path"] == path and source["source_item_index"] == 0
+            assert source["path"] == path
+            if rejected == 0:
+                assert source["source_item_index"] == 0
+            assert sample.metadata["history"] == converted[:-1]
+            assert sample.metadata["native_ground_truth"] == expected["conversation"][-1]["ground_truth"]
+            assert adapter.skipped_overlength == rejected_before + rejected
             rows.append({"file_index": index, "uid": source["uid"], "epoch": source["epoch"],
                          "prompt_token_count": source["prompt_token_count"]})
             with Path(path).open("rb") as stream:
@@ -426,11 +491,13 @@ def _actual_file_boundaries(args, native, population, tokenizer) -> dict:
             state["active"] = None
             state["cursor"]["next_offset"] = closing
             adapter.native.load_state_dict(state)
+            oracle.load_state_dict(state)
         wrapped = adapter.get_samples(1)[0][0].metadata["source"]
         assert wrapped["epoch"] == 1 and wrapped["uid"] == rows[0]["uid"]
         return {"status": "PASS", "scope": "native test cursor placed at each actual file's closing bracket; not a full-epoch scan",
                 "ordered_files": rows, "wrapped_uid": wrapped["uid"], "wrapped_epoch": wrapped["epoch"]}
     finally:
+        oracle.close()
         adapter.close()
 
 
@@ -480,6 +547,10 @@ def main():
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--native-loader-sha256", required=True)
     parser.add_argument("--rollout-max-context-len", type=int, required=True)
+    parser.add_argument("--rollout-max-prompt-len", type=int,
+                        help="Native prompt limit; omitted means no prompt-specific filter")
+    parser.add_argument("--rollout-max-response-len", type=int,
+                        help="Native response maximum; omitted retains the historical context-sized maximum")
     parser.add_argument("--turn-ordinals", default="1,2,8,32,64,100,last")
     parser.add_argument("--model-source-receipt", type=Path)
     parser.add_argument("--skip-masked-assistant-turns", action="store_true")
@@ -487,6 +558,9 @@ def main():
     parser.add_argument("--evidence-prefix", default="input")
     parser.add_argument("--file-last-prefixes", default="")
     args = parser.parse_args()
+    for name in ("rollout_max_context_len", "rollout_max_prompt_len", "rollout_max_response_len"):
+        if vars(args)[name] is not None and vars(args)[name] <= 0:
+            parser.error(f"--{name.replace('_', '-')} must be positive")
     if args.skip_masked_assistant_turns and args.evidence_prefix == "input":
         raise ValueError("Use a separate evidence prefix for mask-aware inputs; historical input-* evidence is protected")
     logging.basicConfig(level=logging.INFO)
