@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Apply D35 accepted H800 capacity basis; retain pending candidate merge and separate CPU readiness from A formal first-update acceptance. |
 | 2026-11-09 | Refresh the prerequisite to the expanded attempt's initial-weight-sync timeout. |
 | 2026-11-09 | Refresh the unaccepted upstream gate; define post-merge CPU implementation-ready separately from A first-update GPU acceptance; align consistency failures with S7. |
 | 2026-11-08 | Draft the per-turn measurement ticket. |
@@ -13,11 +14,11 @@
 
 **What to build:** 实现 [spec S3](../spec.md#s3-逐-turn-测量d4d5d14)：利用已有张量计算每个 turn 的 `rkl_sum`、`nll_sum`、`tokens`，每个 update 汇总一次，随 optimizer-step record 送到 rollout 侧。
 
-**Blocked by:** 复用 Ticket02 在 `agent-opd` 上提交并按其自身标准验收，然后合并到 `agent-opd-image`（D1/D22）；当前证据见 [spec S0](../spec.md#s0-复用与改动范围)。期间本 ticket 的任何部分均不提前开工。
+**Blocked by:** D35容量依据已接受；验证通过的`agent-opd-h800-capacity`候选合并到`agent-opd-image`。当前契约见[spec S0](../spec.md#s0-复用与改动范围)；合并前本ticket任何部分均不提前开工。
 
-**Status:** blocked — at upstream `c52991ac`, reused Ticket02 is NOT ACCEPTED. Expanded attempt`exp-1109-144110-764758` failed on2026-11-09 at initial weight synchronization after600s, before rollout collection or optimizer updates. Earlier227<231 acquisition and interrupted historical scoring do not satisfy acceptance. No merge or work on this ticket has begun; see the [current prerequisite report](../test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
+**Status:** blocked — D35 accepts the H800 capacity basis and authorizes consolidation, but the candidate merge is stillpending. No per-turn implementation has begun. Historical upstream failures remain unaccepted under their own contract and no longer block this parent; see the[current D35 record](../test_report_2026-11-09_h800_preparation.md#d35-parent-adoption-2026-11-10).
 
-**Readiness checkpoints:** D1/D22 解除并合并后，下列代码和 CPU 条件完成才是 **CPU implementation-ready**，可供 03 接入及 04 启动；不是 GPU accepted / done。GPU 验收借用 04 的第一个实际 successful update，不新增 smoke，不要求 04 在启动前提供该证据。辅助验收失败按 S7 报告，不单独停止 healthy training 或阻止 05。
+**Readiness checkpoints:** 按D35完成候选合并后，下列代码和 CPU 条件完成才是 **CPU implementation-ready**，可供 03 接入及 04 启动；不是 GPU accepted / done。已接受的容量run不包含本ticket逐turn测量。GPU 验收借用 04 的第一个实际formal successful update（D16），不新增 smoke，不要求 04 在启动前提供该证据。辅助验收失败按 S7 报告，不单独停止 healthy training 或阻止 05。
 
 - [ ] 逐 turn 的和在 `swe_tis.token_sums` 已有的逐样本循环中计算：用 native `opd_reverse_kl` 和更新前的 student log-prob，乘以原始 mask。没有新增 forward。
 - [ ] 同一样本的 CP 部分和相加，只取一个 TP/PP 副本参与，每个 update 汇总一次；record 中的行用 source uid 标识。

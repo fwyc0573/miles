@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Apply D35 candidate merge authorization while retaining02 CPU readiness and unimplemented rollout/native-count integration. |
 | 2026-11-09 | Make integration depend on 02 CPU readiness, retain the upstream gate, and add explicit incomplete-profile, baseline-entry and post-failure verification. |
 | 2026-11-08 | Draft the Distillation profile ticket. |
 | 2026-11-08 | Take `alive` from the per-bank report of finished conversations (D18). |
@@ -15,9 +16,9 @@
 
 **What to build:** 按 [spec S4–S7](../spec.md#s4-distillation-profile-的内容d3d6d9d13d28d31) 实现 `tests/manual/agent_opd/distillation_profile.py`，并接入 `SweReplay.on_train_result`。
 
-**Blocked by:** 文档冻结（模块本身和 CPU 测试）；02 的 CPU implementation-ready（接入部分，仅在 D1/D22 解除并合并后）。
+**Blocked by:** 文档冻结（模块本身和 CPU 测试）；02 的 CPU implementation-ready（接入部分，在D35授权的候选合并后）。
 
-**Status:** in-progress — module and review-added historical queries / baseline boundaries / partial-write isolation have CPU evidence ([review test report](../test_report_2026-11-09_review_execution.md)); integration and native-count consistency remain blocked by 02 CPU readiness and the unaccepted upstream D1/D22 gate
+**Status:** in-progress — pure module and review-added historical queries / baseline boundaries / partial-write isolation retain CPU acceptance ([review test report](../test_report_2026-11-09_review_execution.md)). D35 accepts the parent capacity basis, but candidate merge,02 per-turn implementation and this ticket's integration/native-count propagation are not implemented. Integration remains blocked by02 CPU readiness; the H800 capacity result is not profile acceptance.
 
 - [x] 模块包含 Turn observation、宏观行、conversation 条目、查找表，以及 S4 定义的全部查询（单个 conversation 和全部 conversation 两种形式）。
 - [x] fast CPU 测试使用合成的 update 序列，期望值手工计算。覆盖：同一 update 内多个 turn、跳过的 update、窗口 k 未到、并列最佳、表格映射和 `alive` 状态变化。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Apply D35 parent-only H800 capacity adoption and merge authorization; retain historical upstream evidence and separate CPU integration from formal runtime acceptance. |
 | 2026-11-09 | Accept D34 original-source112K audit; record current rejection/span figures separately from historical128K results and retain the pre-length D26 criterion/runtime limits. |
 | 2026-11-09 | Apply D34 prompt112K/completion16K within total128K; mark old128K prompt statistics as historical and require the new threshold checks. |
 | 2026-11-09 | Apply D33 H800/codesign execution with no task GPU-count cap; require hardware sizing from evidence and retain the existing execution gates. |
@@ -18,7 +19,7 @@
 
 # Spec — Qwen3.5 full 模式 RKL/NLL 与 Distillation profile
 
-原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D34；D11、D12已被取代或撤回，D17资源限制由D33替代）。本文件是本task行为规格的唯一来源；从复用task继承的内容只给出链接，不复制。
+原始请求和用户的实际回答见 [requirements.md](requirements.md)（D1–D35；D11、D12已被取代或撤回，D17资源限制由D33替代，D1/D22的本task容量依据由D35更新）。本文件是本task行为规格的唯一来源；从复用task继承的内容只给出链接，不复制。
 
 ## S0. 复用与改动范围
 
@@ -43,12 +44,14 @@
 **代码复用**：
 - 已提交的输入适配器 `tests/manual/agent_opd/swe_inputs.py` 及其检查脚本 `check_swe_inputs.py`（复用 Ticket01，本 task 的 ticket 01 已扩展为 interleaved 顺序，并按 S2 改为可选 turn source）。
 - 已提交的源数据审计脚本 `tests/manual/agent_opd/audit_swe1003_sources.py`（`721090cc`），生成 S2 的源文件 manifest 和审计数字。
-- 复用 Ticket02 的训练代码（`swe_replay.py`、`swe_training.py`、`swe_tis.py` 和启动脚本），已在 `agent-opd` 上提交。按 D1、D22，它的 256-turn 显存问题完整修好、通过自己的 native smoke 后，合并进 `agent-opd-image` 再使用；不重复它已做过的验证。
+- 复用 Ticket02 的训练代码（`swe_replay.py`、`swe_training.py`、`swe_tis.py` 和启动脚本），已在 `agent-opd` 上提交。当前按D35合并已经通过本task H800容量验收的`agent-opd-h800-capacity`候选（含上游`c52991ac`祖先及H800修复），然后使用；不重复已经接受的容量验证。
 
-**当前复用 gate（2026-11-09，`agent-opd` = `f33546f4`，另读本地保留证据）**：复用 [Ticket02](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/tickets/02-replay-training-and-metrics.md) **NOT ACCEPTED**，D1/D22 未解除，不合并，也不开始本 task 的任何 ticket 02 工作或 03 接入。
+**历史复用 gate（2026-11-09，D35之前，`agent-opd` = `f33546f4`，另读本地保留证据）**：当时复用 [Ticket02](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/tickets/02-replay-training-and-metrics.md) **NOT ACCEPTED**，D1/D22 未解除，不合并，也不开始本 task 的任何 ticket 02 工作或 03 接入。
 - 历史 GLM-5.2 green patch 完成每 rank 的 31 个初次 scoring microbatch，并进入 backward，但被外部 `release_quota` 停止；没有 optimizer ACK、backward 完成或下一次 scoring 的证据，GPU observer 安装失败，显存峰值和 lifetime 仍未验证。它不是完整 capacity PASS，也不验收替换后的 DeepSWE 数据。证据：[capacity-lifetime-gpu-partial.json](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/capacity-lifetime-gpu-partial.json)。
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
+
+**当前合并 gate（2026-11-10，D35）**：用户明确接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据，允许合并上述候选并继续02/03接入；不再等待上游独立冻结D11的验收。依据、原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)，本地状态见[H800报告当前采用记录](test_report_2026-11-09_h800_preparation.md#d35-parent-adoption-2026-11-10)。这只解除容量等待：实际合并仍pending，02任何代码工作在合并后开始，03接入等待02 CPU-ready。合并时保留prep records并记录实际commit；旧失败和上游NOT ACCEPTED记录保持其原日期，不改写成PASS。
 
 ## S1. 目标与实验矩阵
 
@@ -281,7 +284,7 @@ NLL_i = nll_sum_i / tokens_i
 ## S8. GPU 与执行（D16、D19、D33）
 
 - **D33**：本task后续作业使用H800/codesign，无用户设定的GPU数量上限。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；提交前核对作业和配额，平台决定排队与调度。正式cell保持非抢占，不停止其他task作业来腾资源。
-- **布局**：按H800实际显存和吞吐选择现有trainer/rollout/teacher并行配置并记录依据；历史H200的8 student +2 teacher估算不能当成H800容量证明。global batch、上下文和验收阈值不因硬件迁移而改变。
+- **布局**：D35接受的容量依据为36-H800布局，配置和实测范围见[S0当前gate](#s0-复用与改动范围)及其报告；formal配置继续使用现有trainer/rollout/teacher机制并冻结各cell实际布局。历史H200的8 student +2 teacher估算不能当成H800容量证明；已验收的容量smoke不代替B teacher或32×8/profile正式路径的验收。global batch、上下文和验收阈值不因硬件迁移而改变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
 - **启动顺序**（D16）：先启动 A；在它实际完成第一个 successful native optimizer update 后，完成 profile、identity 和各阶段耗时检查并记录结果，再启动 B。profile 辅助检查失败时报告 unverified，健康训练继续，不能单凭该 verdict 阻止 B；A 尚未完成真实 successful update、native 失败或资源准入不满足时仍不能启动 B。
 - **吞吐判断**：第一个 update 的 prompt 长度不一定代表后续分布（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
@@ -294,7 +297,7 @@ NLL_i = nll_sum_i / tokens_i
 | --- | --- |
 | 文档 | 每条原始需求都能对应到本 spec 的章节或 ticket；链接、计数、依赖图（DAG）正确 |
 | 输入（[01](tickets/01-interleaved-turn-order.md)） | 源数据审计（S2 数据源第 6 条，CPU RJob）；在原位源文件上用 `loss_masked` 检查：M = 1 时与单个 native `MaskAwareSWETurnSource` 的序列完全相同，渲染前的消息与 native 规范化结果相同；M = 32、block = 8 时的顺序性质、`remaining_turns` 和取完报告、超长 rejection、两个独立实例序列相同；`all_assistants` 在本地 GLM 副本上的已有检查仍通过 |
-| 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | D1/D22 合并后完成代码和 CPU 检查才是 implementation-ready，可供 03 接入与 04 启动；GPU 验收在 A 第一个实际 successful update 检查逐 turn sums、bank uid 和 native 计数，未通过时保持该验收未完成，不把辅助 verdict 变成 native stop / B blocker |
+| 逐 turn 测量（[02](tickets/02-per-turn-sums.md)） | 按D35完成候选合并后，完成代码和 CPU 检查才是 implementation-ready，可供 03 接入与 04 启动；GPU 验收在 A 第一个实际 successful update 检查逐 turn sums、bank uid 和 native 计数，未通过时保持该验收未完成，不把辅助 verdict 变成 native stop / B blocker |
 | Profile（[03](tickets/03-distillation-profile.md)） | CPU 合成序列：同一 update 内多个 turn、跳过的 update、窗口未到、并列最佳；baseline 未固定、baseline ≤ 0、trend 参考条目落在 baseline 窗口内、remaining gap 与 run-relative gap 的手算值；离线重建结果与内存一致；故障注入；每个 update 的计算耗时 |
 | 正式 cell（[04](tickets/04-a-full.md)、[05](tickets/05-b-full.md)） | native training 与 profile 分开判定：training 需 200 个实际 successful update、native counter 和终态；完整 profile 需两个文件各 200 个成对一致的 update、observation 数等于实际训练 turn 数、每个 update 的 S3 一致性通过及离线重建成功。S7 错误允许 training 继续完成，但 profile 标 INCOMPLETE / UNVERIFIED，不能验收为完整交付 |
 | 报告（[06](tickets/06-profile-report.md)） | 用保留的证据重新计算 |

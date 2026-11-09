@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D35 adoption of the accepted terminal H800 capacity result; preserve all dated historical readbacks and parent-owned prior initial-sync progress. |
+| 2026-11-09 | Record eight native engines ready and successful 3.8-second initial synchronization; leave bank/training acceptance pending. |
 | 2026-11-09 | Record first H800 terminal failure/cleanup, reviewed node-network correction and submitted network-fixed H800 retry; distinguish upstream D11 acceptance. |
 | 2026-11-09 | Record actual36-H800 submission, Starting state and initial worker GPU identities. |
 | 2026-11-09 | Record the reviewed session repair, pinned receiver evidence, native in-place receipts and source parity launch status. |
@@ -12,7 +14,7 @@
 
 ## Authorization and current gate
 
-D33 authorizes H800/codesign execution with no task GPU-count cap. Parent Ticket01 is accepted; D1/D22 still require upstream256-turn capacity acceptance before merge and Ticket02/03 integration. The already-submitted upstream job is separate from this task's H800 allocation.
+D33 authorizes H800/codesign execution with no task GPU-count cap. Parent Ticket01 is accepted. D35 now adopts the accepted H800 capacity basis and authorizes candidate consolidation followed by Ticket02/03 integration; neither consolidation nor integration has occurred. The upstream task remains independent. The checks and readbacks below retain their2026-11-09 scope and original verdicts; current adoption is recorded in[the D35 section](#d35-parent-adoption-2026-11-10).
 
 ## Observed checks
 
@@ -121,8 +123,34 @@ After freeze `ebc0e6a0`, ordinary personal Python submission from `/data/ycfeng`
 
 Authoritative exact commands and filtered receipts are in preparation `test_report_2026-11-09_network_fixed_prelaunch.md`, `evidence/admission-h800-network-fixed-20261109.json`, `evidence/h800-network-fixed-native-startup-20261109.json`. Auxiliary environment/evidence checks remain soft-only; missing data is marked unverified and cannot stop healthy training.
 
-At11:33:03Z all five current node receipts confirm36 actual H800 GPUs, matching the configured image and original model paths. Four student hosts have8 devices each; teacher has4,81559MiB/device anddriver570.124.06. Preparation `evidence/h800-network-fixed-worker-gpu-readback-20261109.json` retains the validated records. Hardware observation does not establish8 healthy engines, effective process environment, weight synchronization or successful training.
+At11:33:03Z all five current node receipts confirm36 actual H800 GPUs, matching the configured image and original model paths. Four student hosts have8 devices each; teacher has4,81559MiB/device anddriver570.124.06. Preparation `evidence/h800-network-fixed-worker-gpu-readback-20261109.json` retains the validated records. This hardware observation alone does not establish engines, effective process environment, synchronization or training.
+
+The later complete native head-log read at 11:39:09Z confirms all eight engines ready by 11:36:41Z. Initial eight-actor `update_weights` starts at 11:37:18.596Z and ends successfully at 11:37:22.414Z with `elapsed_s=3.8`. Mixed tensor/distributed transfers and session begin/end return HTTP200. The native checksum event contains eight snapshots at version 0; contents and later changed-weight consistency are not yet independently verified. Exact preparation evidence: `evidence/h800-network-fixed-initial-sync-20261109.json`, with commands/limits in `test_report_2026-11-09_network_fixed_prelaunch.md`. Native post-warmup `/freeze_gc` connection-refused warnings were inspected, retained and not patched; they did not prevent readiness or synchronization. Source preparation is active, but no valid-bank count, optimizer ACK or second scoring is accepted in this readback. The H800 readiness result still does not replace the separate upstream D1/D22 contract.
 
 Coordination at11:19Z: upstream `23b29f66` approves the original18-H200 retry, but no new job or acceptance is recorded. It has not adopted the parent D34 budget in its authoritative requirements. The H800112K/16K readiness run and upstream frozen D11 acceptance therefore stay separate; H800 results will not automatically satisfy D1/D22. Parent merge,02/03 integration and formal runs remain blocked; no other owner's job was stopped or held.
 
 User-authorized cleanup removed the first terminal H800 smoke's167 cloud duplicates/15,325,989 logical bytes only after complete byte/hash-verified local retention. Original source assets, other tasks and shared trash were untouched. Raw archive: `/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz`; the exact report and receipts are in the preparation task. Physical OSS reclamation was not measured; the new live job's root is protected from cleanup.
+
+## D35 parent adoption 2026-11-10
+
+The user explicitly selected adoption of the completed H800 result; the exact question, answer and parent-only authorization are owned by[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10). This changes the parent's capacity dependency, not the provenance or verdict of the preceding historical observations.
+
+| Accepted check | Expected | Recorded actual | Verdict |
+| --- | --- | --- | --- |
+| Hardware and length contract | Current task's H800 D33/D34 configuration |36 actual H800/codesign GPUs;131072 context/114688 inclusive prompt/16384 completion | PASS |
+| Native bank admission |≥231/256 within1800s |256/256 valid in1633.2862s; no invalid/missing/pending slots | PASS |
+| Optimizer and fresh scoring |Two successful ACKs and second scoring on the same bank |Two unskipped ACKs;bank0 visits1/2; ranks0–7 each complete2×88 microbatches;second scoring afterACK1 | PASS |
+| Terminal state |Job and all replicas Succeeded |`exp-1109-192340-580111`, UID`28536e46-208d-4635-b648-27c782a09c9b`;four student replicas and one teacher Succeeded | PASS |
+| Updated text weights |Same text hashes on all eight engines, including update |1644 hashes equal atversions0/1;same972 hashes changed on all engines | PASS, TEXT ONLY |
+
+Canonical preparation evidence, relative to this task after consolidation:
+
+- `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-capacity-acceptance-20261109.json`
+- `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-native-capacity-final-20261109.json`
+- `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-native-terminal-20261109.json`
+- `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-version-one-checksum-check-20261109.json`
+- `../task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_network_fixed_prelaunch.md` — exact native/readback commands, environment and limits.
+
+These references are deliberately plain-code paths: the records are currently in the sibling preparation worktree and will resolve locally only after the primary merges them. Candidate`agent-opd-h800-capacity`contains`c52991ac`ancestry and H800 fixes; actual merge commit and final artifact resolution remainpending. The original result receipt's upstream-not-accepted field correctly describes its2026-11-09 scope; D35 is the separate later parent authorization, not a rewrite of that receipt.
+
+Limits remain unchanged: this was the sequential A/r256 two-use capacity prerequisite, not parent32×8/full/profile integration or either200-update formal cell. Whole-model checksum equality and final engine NIC/HCA variables are not verified. Native profile checks are due at A's first formal successful update underD16; no additionalGPU smoke is required. Local D35 documentation checks are recorded in`test_report_2026-11-10_d35_records.md`; this delegation performs no platform operation or fresh runtime verification.

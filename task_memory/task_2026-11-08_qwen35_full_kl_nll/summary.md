@@ -2,15 +2,16 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Archive D35 parent-only H800 capacity adoption and merge authorization; retain independent upstream provenance and pending02/03/formal acceptance. |
 | 2026-11-09 | Close D34 original-source112K audit/parity and record isolated H800 initial synchronization; retain historical128K evidence and unchanged upstream/integration gates. |
 | 2026-11-09 | Record the expanded upstream attempt failing before rollout at initial weight synchronization. |
 | 2026-11-09 | Record D33 H800 preparation and D34 input/request budget implementation; reopen only the changed source length verification. |
 | 2026-11-09 | Accept completed Ticket01 source audit/parity and refresh the remaining upstream-only integration gate. |
 | 2026-11-09 | Archive the review repair milestone and ongoing, prerequisite-limited execution. |
 
-# Review and input milestones — integration waits for upstream
+# Review, input and capacity milestones — candidate consolidation pending
 
-The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft's implementation phase, inherited contract, statistical interpretation, dependency checkpoints, and soft-gate behavior have been corrected. D33 subsequently authorizes H800/codesign without a task GPU-count cap; D34 sets112K inclusive prompts and16K completions within unchanged128K training/rollout context. Other scientific decisions and D1/D22 remain in force.
+The user selected `20d0b3f4` as the review base for `agent-opd-image`, initially at `0e94c522`. The draft's implementation phase, inherited contract, statistical interpretation, dependency checkpoints, and soft-gate behavior have been corrected. D33 authorizes H800/codesign without a task GPU-count cap; D34 sets112K inclusive prompts and16K completions within unchanged128K training/rollout context. On2026-11-10, D35 explicitly adopts the accepted H800 capacity result as this parent's D1/D22 basis and authorizes candidate consolidation followed by02/03 integration. Consolidation and integration are stillpending; other scientific and formal acceptance conditions remain unchanged.
 
 Main repair commit: `a0b0d113`. Both independent remediation reviews are complete. All original findings are closed; the final Standards P3 was resolved by retaining and verifying the unchanged document-check script. No review finding remains open.
 
@@ -22,6 +23,7 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 - Profile fixes: `tests/manual/agent_opd/distillation_profile.py` exposes historical conversation entries and baseline-relative values; both JSONL files are documented as necessary for rebuild.
 - Reproducible checks: `tests/fast/test_swe_input_pins.py`, extended `tests/fast/test_distillation_profile.py`, and retained synthetic/mutation scripts under `tests/manual/agent_opd/`.
 - CPU execution: `tests/manual/agent_opd/submit_swe1003_audit.py` and `source_audit_config.json`; inputs are read in place without copies.
+- D35 authorization, current gate and checkpoint: `requirements.md`, `spec.md` S0, `plan.md`, `progress.md`, `tickets/02-*.md` through `tickets/05-*.md`, and `test_report_2026-11-09_h800_preparation.md` D35 section. Scoped verification: `test_report_2026-11-10_d35_records.md`.
 
 ## Observed validation
 
@@ -29,19 +31,20 @@ Main repair commit: `a0b0d113`. Both independent remediation reviews are complet
 - Synthetic audit and native parity worker commands: PASS. Updated same-prompt/different-instance fixture: PASS; task identity/counts remain unverified/null.
 - Synthetic profile: 200 updates, 51,200 observations, 589 conversations; mean record cost 1.460 ms/update, all-conversation query 1.316 ms, profile memory 12.943 MiB.
 - Document links, ticket DAG and arithmetic checks: 73 links, 22 anchors, zero errors using the retained `tests/manual/agent_opd/check_profile_docs.py`. See the test report for exact commands and environments.
+- D35 scoped document check:26 documents,6 tickets,88 links,34 anchors,zero errors;candidate ancestry and`git diff --check`PASS under systemPython3.10.6. Exact commands and remaining post-merge reference resolution are in`test_report_2026-11-10_d35_records.md`; no runtime check was rerun by this documentation delegation.
 
 ## Execution and open work
 
 | Ticket | Status at this milestone |
 | --- | --- |
 | 01 | Done: historical128K evidence retained; D34 budgets, boundaries, actual native request construction and completed original-source112K audit/parity accepted. |
-| 02 | Blocked by D1/D22; no implementation or upstream merge begun. |
-| 03 | Pure module fixes verified on CPU; native-count checks and integration blocked by02. |
+| 02 | D35 capacity basis accepted; blocked only by pending candidate merge before per-turn implementation. |
+| 03 | Pure module fixes verified on CPU; native-count checks and rollout integration not implemented, blocked by02 CPU readiness. |
 | 04 | Blocked; no A/full formal run submitted. |
 | 05 | Blocked; requires launch prerequisites and actual A first-update inspection. |
 | 06 | Blocked by formal-run evidence. |
 
-The historical2026-11-09T07:56Z refresh at upstream`c52991ac` recorded expanded attempt`exp-1109-144110-764758` failing at07:47:18Z after initial weight synchronization timed out at600s, before rollout collection or optimizer updates. It remains unaccepted, as do earlier227/256 acquisition and historical partial scoring. A later isolated H800 initial-sync milestone below does not establish representative256-turn capacity or upstream acceptance. The latest retained upstream checkpoint at11:19Z (`23b29f66`) had an approved original18-H200 retry but no new submission/acceptance and no recorded adoption of this parent's112K/16K. D1/D22 still block merge and training integration until the upstream owner records authoritative frozen-D11 acceptance; H800 D34 readiness is separate.
+The historical2026-11-09T07:56Z refresh at upstream`c52991ac` recorded expanded attempt`exp-1109-144110-764758` failing at07:47:18Z after initial weight synchronization timed out at600s, before rollout collection or optimizer updates. It remains unaccepted, as do earlier227/256 acquisition and historical partial scoring. The retained11:19Z upstream checkpoint (`23b29f66`) had an approved original18-H200 retry but no new submission/acceptance and no recorded adoption of this parent's112K/16K. Those are historical upstream facts, not current parent blockers underD35. The later parent authorization does not rewrite frozen-D11 provenance or certify upstream Ticket02.
 
 Historical128K CPU job`exp-1109-031258-820360` is retained in`evidence/source-audit-admission-20261109.json` and`evidence/source-audit-terminal-20261109.json`, with job/replica Succeeded, finish00:24:08Z and worker completion marker. Its real-source output/counts and512/2,048 raw-draw parity remain accepted under their original policy in`test_report_2026-11-09_source_audit.md`; no historical provenance is rewritten.
 
@@ -51,4 +54,8 @@ Current112K results:9,254 source/9,152 trainable conversations;868,775 pre-lengt
 
 The new input/request contract also passes33 affected primary fast tests, pinned GLM512/2048 checks and synthetic SWE/audit workflow checks, including inclusive112K/+1 rejection with zero slot consumption and actual4,366-token prompt→16,384-token native request construction. Exact commands, environments, current acceptance and limits are in`test_report_2026-11-09_length_budgets.md`; this closes Ticket01 only.
 
-H800 resource changes remain isolated in`agent-opd-h800-capacity`: explicit-null admission`1ae93261`, native length argv`8c9537bf`, four-node lifecycle`46e7b292`, and reviewed node-local NCCL correction`cf98293a`. Network-fixed native attempt`exp-1109-192340-580111` was submitted at11:23:40Z, with36 actual H800 GPUs confirmed and all8 rollout engines ready by11:36:41Z. Initial8-actor `update_weights` began11:37:18.596Z and ended11:37:22.414Z (`ok=true`,elapsed_s3.8); begin/end/tensor/distributed endpoints returned HTTP200. The11:37:27.670Z checksum event reports8 engine snapshots and weight_version0 only; checksum contents and later changed-weight consistency remain unverified. Decisive receipt:`/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-initial-sync-20261109.json`. This is a startup/initial-sync milestone underD34, not accepted native bank/optimizer/capacity, upstream frozenD11 or parent02/03/formal acceptance. Runtime memory/throughput and parent/isolated consolidation remain pending. Four-node affected tests pass122cases; broader related tests retain171PASS/12SKIP/one existing local SGLang parser failure, so that broader suite is not claimed all-pass.
+Historical H800 initial-sync milestone: isolated changes include explicit-null admission`1ae93261`, native length argv`8c9537bf`, four-node lifecycle`46e7b292`, and reviewed node-local NCCL correction`cf98293a`. Network-fixed attempt`exp-1109-192340-580111` was submitted at11:23:40Z, with36 actual H800 GPUs confirmed and all8 engines ready by11:36:41Z. Initial synchronization completed in3.8s at11:37:22.414Z; its11:39Z readback did not yet verify bank/optimizer/capacity or updated checksum contents. The original initial-sync receipt and its scope remain retained. Four-node affected tests pass122cases; broader related tests retain171PASS/12SKIP/one existing local SGLang parser failure, so that broader suite is not claimed all-pass.
+
+Current terminal H800 capacity is accepted underD35:256/256 valid samples in1633.2862s, two successful unskipped optimizer ACKs on bank0 visits1/2, and ranks0–7 each completing2×88 student scoring microbatches with second scoring afterACK1. The job and all five replicas Succeeded;1644 text hashes match across eight engines atversions0/1, including the same972 changed hashes. The full128K logits storage is15.15625GiB/rank and observed scoring PyTorch allocation peaks at28.89246GiB, not whole-device/backward usage. Whole-model checksum equality and final engine NIC/HCA values remain unverified. Canonical record: `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-capacity-acceptance-20261109.json`; exact commands and limits: `../task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_network_fixed_prelaunch.md`. These plain-code paths are pending local resolution after consolidation, not broken Markdown links.
+
+Next: the primary merges verified candidate`agent-opd-h800-capacity`(upstream`c52991ac`ancestry plus H800 fixes) and its records, then implements02 per-turn sums and03 rollout/native-count integration. No merge commit, per-turn implementation, profile integration, or formal A/B run exists yet. D16 checks the native profile at A's first formal successful update, without another GPU smoke. The prerequisite's two uses of one bank do not introduce replay into either formal full cell or satisfy its200-update acceptance; B's teacher/runtime remains separately unverified. Upstream may continue its own acceptance independently.

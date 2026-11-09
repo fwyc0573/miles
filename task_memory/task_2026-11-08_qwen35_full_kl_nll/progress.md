@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D35 parent-only capacity adoption and pending candidate consolidation; move the frontier to merge→02 CPU→03 integration, preserve historical observations and add a scoped checkpoint. |
 | 2026-11-09 | Accept the completed D34 original-source112K audit/parity; record successful H800 initial synchronization separately from still-unaccepted upstream capacity and parent integration. |
 | 2026-11-09 | Supersede first H800 startup with terminal failure, reviewed node-local NCCL correction and new network-fixed H800 job Starting; preserve separate upstream D11 gate. |
 | 2026-11-09 | Record submitted H800 prerequisite exp-1109-181120-274261 and initial Starting/worker evidence; D1/D22 stay unaccepted. |
@@ -33,6 +34,11 @@
 # Progress
 
 ## completed
+
+- D35 decision recorded on2026-11-10: exact question/selection are in`requirements.md`. The user accepts the verified36-H800 D34 result as this parent's D1/D22 capacity basis and authorizes candidate consolidation followed by02/03 integration; upstream frozen-D11 acceptance stays independently owned. The terminal result and retained paths are in[the H800 adoption record](test_report_2026-11-09_h800_preparation.md#d35-parent-adoption-2026-11-10). No merge, parent per-turn implementation, profile integration or formal A/B result is claimed.
+- ScopedD35 documentation verification: systemPython3.10.6;`git merge-base --is-ancestor c52991ac agent-opd-h800-capacity`exit0; existing`python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll`reports26 documents/6 tickets/88 links/34 anchors,valid DAG and unchanged51,200/102,400/81 arithmetic,zero errors;`git diff --check`PASS. Exact checks, pending post-merge path resolution and preserved prior-document scope are in`test_report_2026-11-10_d35_records.md`. The primary's concurrent merge-preflight report and`.cortexkit/`are excluded from this delegation's commit.
+
+### Earlier completed milestones — evidence retained as recorded
 
 - D34 original-source CPU re-audit accepted for task`profile-source-audit-112k-records-20261109`: the primary's direct personal `get_rjob_client()` / API read at11:52:22.402210Z confirms`exp-1109-154414-275606`, UID`6e08e161-435d-4195-bcd4-88d40d291eac`, creator`i-fengyicheng`, job/audit replica Succeeded, finish11:47:11Z. The first terminal import of nonexistent `get_client` failed locally before any request; reading `stepmind.py:744` corrected the method, with no audit failure/relaunch. Terminal receipt:`evidence/source-audit-112k-terminal-20261109.json`.
 - Ticket01's D34 slice is done: all8 original file SHA/bytes/counts/visual indices match historical128K evidence;16,559,540,463 bytes,9,254 source/9,152 trainable conversations,868,775 pre-length eligible turns,102 visual conversations/10,008 eligible turns excluded. Current112K rejects323,121 turns (37.1927%) across6,257 conversations.512 native parity and2,048 interleaved raw draws PASS; inclusive112K/+1skip/zero consumed-slot and real4,366-token→16,384-token native request construction PASS. Current32×8 simulation:51,200 accepted/84,229 draws/33,029 rejected,869 conversations,span median5/P90 7/max9;0/869 span≥11 updates,median23 conversations/update (not tasks). D26's pre-length eligible median90 retains32×8; post-length median remains absent/unverified. Native SWE identity stays UNVERIFIED/null;955 first-prompt groups are proxies. Full commands/environment/limits are owned by`test_report_2026-11-09_length_budgets.md`; old128K report/receipts remain explicitly historical. This is input acceptance only, not native trend/capacity or02/03 integration.
@@ -161,6 +167,13 @@
 
 ## in-progress
 
+- CurrentD35 frontier: consolidate the verified`agent-opd-h800-capacity`candidate, containing`c52991ac`ancestry plus H800 fixes, into this branch and preserve its prep records. The capacity prerequisite is accepted, but the actual merge commit and local resolution of`../task_2026-11-09_profile_h800_preparation/`arepending; the primary owns this consolidation.
+- Parent02 per-turn sums have not been implemented. Work begins only after the candidate merge; its CPU implementation-ready checkpoint precedes03 integration and04 launch.02 GPU acceptance remains at A's first formal successful update underD16, without an additionalGPU smoke.
+- Pure03 module and01 input, including112K audit, retain CPU acceptance.03 native-count/identity/S7 integration is not implemented and still depends on02 CPU-ready.04/05 have no formal attempts or first-update profile evidence; B still waits for A's actual first formal successful update and completed inspection.
+- Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
+
+### Historical preparation snapshots — 2026-11-09 before D35
+
 - failed upstream prerequisite, refreshed07:56:39Z: capacity job`exp-1109-144110-764758` finishedFailed at07:47:18Z. Initial`update_weights` began07:34:31Z and timed out at07:44:31Z after600s; the fatal stack is`train.py:169`, before rollout collection and optimizer updates. Student exited1; other roles were stopped after critical failure. This supersedes the07:45:51Z Running snapshot. Underlying synchronization cause remainsUNKNOWN; no OOM or manual-stop cause is inferred. Evidence:`evidence/upstream-weight-sync-timeout-20261109.json`; command/query limits:`test_report_2026-11-09_h800_preparation.md`.
 - Historical first H800 attempt: `exp-1109-181120-274261`, submitted at10:11:20Z after freeze `a470c841`, Failed at10:29:35Z before weight publication or acquisition. The full log supersedes initial startup tails: two TP4 engines on rank2 first failed `ncclGetUniqueId` with invalid usage; subsequent `matches=[]` and supervision failures followed. Ray registered4 nodes/32 student GPUs. The head's serialized `ens20np0`/HCA values overwrote rank2's platform `ens22np0`. Isolated `cf98293a` removes that inherited NCCL broadcast; the real caller-to-subprocess regression is RED/GREEN, with529 affected tests passed,12 skipped and1 known-baseline parser case deselected. Complete fixed-diff review returned No Findings; native NCCL2.30.7 remains unverified.
 - In-progress H800 D34 runtime verification: `exp-1109-192340-580111`, submitted at11:23:40Z from the current host after freeze `ebc0e6a0` and fresh personal admission,36 non-preemptible H800/codesign GPUs, creator `i-fengyicheng`, source `100.96.128.195:/data/ycfeng:/data/ycfeng`, student4×8/teacher1×4. Initial Starting is superseded by worker receipts confirming36 actual H800 GPUs at11:33:03Z, all8 rollout engines ready by11:36:41Z and successful initial8-actor `update_weights` from11:37:18.596Z to11:37:22.414Z (`ok=true`,elapsed_s3.8). Native bank/optimizer and representative capacity acceptance remain pending. Ordinary launcher: `sh_1c00ca257001FAmkzN0D28AQ9j`; log `/data/ycfeng/tmp/agent-opd-image/qwen35-h800-network-fixed-20261109.log`; cloud root `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109`. Authoritative receipts/report remain in the isolated preparation task, including `evidence/h800-network-fixed-initial-sync-20261109.json` and `test_report_2026-11-09_network_fixed_prelaunch.md`. Keep this launcher alive; the first attempt's launcher exited1.
@@ -183,9 +196,10 @@
 
 ## pending
 
-1. Upstream-owned acquisition/capacity repair: obtain≥231 valid slots within1800s and accepted representative256-turn training, including two successful optimizer updates/second scoring. Its rollout topology decision remains upstream-owned.
-2. Only after that acceptance, merge`agent-opd` and implement02 plus03 integration (D1/D22).
-3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready};05 after04's actual first-update inspection;06 after{04,05}terminal evidence.
+1. Primary: completeD35-authorized candidate merge and preparation-record consolidation; record the actual commit and resolve the repo-local evidence references. No new capacity smoke or full-source scan is needed for the accepted prerequisites.
+2. Implement02 per-turn sums and verify CPU readiness, then implement03 integration/native-count propagation and verify the actual`SweReplay.on_train_result`CPU path. Existing pure-module tests are not integration acceptance.
+3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready}; inspect A's firstformal successful update for02 GPU/profile evidence underD16;05 after that actualupdate/inspection and resource admission;06 after{04,05}terminal evidence. The two-update capacity run is not a200-update formal result.
+4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109
 
@@ -238,3 +252,53 @@
 1. 112K源审计已完成，01不再等待CPU结果；历史128K产物完整保留。
 2. 过滤后每conversation中位数未验证；模拟跨度不等于native trend；D26继续32×8。
 3. 36实际H800/all8 engines/initial sync3.8s不等于上游D11、native optimizer或正式cell验收。
+
+## Scoped checkpoint — profile-d35-records-20261110
+
+### 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED4｜TODO1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+|01 | PASS | 原位112K审计与CPU parity已接受；本轮不重开。 |
+|02 | BLOCKED | D35容量已接受；候选merge尚未执行，逐turn代码未实现。 |
+|03 | TODO | 纯模块CPU已接受；接入与native计数仍待02 CPU-ready。 |
+|04 | BLOCKED | merge/02/03接入缺失；没有formal attempt。 |
+|05 | BLOCKED | 同上，另缺A首次formal successful update与inspection。 |
+|06 | BLOCKED | 两个formal cell的终态与profile证据尚无。 |
+
+### 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** D35用户选择至本轮指定父task记录更新｜**当前前沿：** 主agent合并候选和prep records，然后02 CPU→03接入。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+|D1工具打磨 | CLEAR | 复用既有docchecker；未增加GPU smoke、源扫描或测试框架。 |
+|D2细节反复重试 | CLEAR | 本轮仅核对已保留terminal evidence，无容量重试。 |
+|D3支线问题修补 | CLEAR | 只修改指定父task文档，prep/upstream/code/platform不变。 |
+|D4可并行任务停滞 | CLEAR | 主agent明确等待本轮共享文档提交后merge；同checkout存在资源冲突，上游独立不被hold。 |
+|D5超范围镀金 | CLEAR | D35只变容量依据；full/32×8/200 updates/soft gates不变。 |
+|D6分析空转 | CLEAR | 明确用户选择已转成当前gate和merge→02→03路线，不新增研究。 |
+|D7路线违背 | CLEAR | 按后续明确D35更新父契约；旧D1/D22与上游失败保留，不冒称集成完成。 |
+
+**文档检查：** S1–S6均未发现当前缺陷；原有上游等待状态已按D35同步，旧日期证据明确标为historical。合并后的prep引用解析由plan当前frontier拥有，不是新验收或无owner blocker。
+**归因：** 无。
+
+### 3. 纠正建议
+
+**分支：** A：当前spec/tickets已对齐D35，无需再改变范围或验收条件。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 主agentmerge候选和prep records → 完成标志：实际merge commit、代码冲突处理和repo-local evidence解析已记录。
+2.02 CPU→03接入CPU → 完成标志：各ticket代码/计数/identity/S7条件在真实接入路径通过；不新增GPU smoke。
+3.04正式A首update/inspection→05资源准入 → 完成标志：D16真实ACK/profile检查已记录；各cell完整native/profile分别验收。并行：上游独立冻结D11工作，不阻塞本路线。
+
+### 4. 最值得关注的 3 点
+
+1. D35接受的是完整H800容量证据，不只是initial sync；上游自身验收没有被冒认。
+2. merge、02逐turn、03接入均未完成；纯模块CPU PASS不代表集成PASS。
+3. A首个formal successful update承担D16原生profile检查；不额外smoke，不把辅助错误升级为training stop。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D35: accept the verified 36-H800 D34 capacity result as this task's D1/D22 basis and authorize consolidation followed by Ticket02/03 integration; preserve upstream and formal-run independence. |
 | 2026-11-09 | Record the request to verify whether D1/D22 acceptance has started or is blocked. |
 | 2026-11-09 | Record D34: Qwen3.5 training/rollout context128K, inclusive prompt budget112K and completion cap16K. |
 | 2026-11-09 | Record D33: continue on H800/codesign with no task GPU-count cap; supersede the H200/32-GPU resource restriction while retaining scientific and upstream acceptance requirements. |
@@ -54,7 +55,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **IMPLEMENTATION / H800_PREPARATION**. Review repairs and Ticket01 input acceptance are complete. D33 authorizes continued execution on H800 without a task GPU-count cap; D1/D22 still gate the upstream merge and training integration.
+- Current phase: **IMPLEMENTATION / MERGE_AND_PROFILE_INTEGRATION**. Review repairs, Ticket01 input acceptance and the H800 capacity basis are complete. D35 updates this task's D1/D22 capacity prerequisite and authorizes merging the verified candidate before Ticket02/03 integration; the merge and integration have not yet occurred.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -290,3 +291,15 @@ Fresh evidence is recorded in `test_report_2026-11-09_source_audit.md`: Ticket01
 > D1/D22 验收是否已经开始进行？是否被blocked？
 
 This requests a fresh runtime-status check. It does not waive the integration gate or change D33/D34. The observed failed initial-weight-sync attempt and remaining acceptance work are recorded in `test_report_2026-11-09_h800_preparation.md`.
+
+### H800 capacity adoption — [Original Request / Follow-up Question and Answer] 2026-11-10
+
+Exact question put to the user:
+
+> boss YC，是否将 full_kl_nll 的 D1/D22 容量依据更新为本轮已通过的 36 卡 H800、128K/112K/16K 验收，然后继续合并与 Ticket02/03 集成？
+
+User selected: **“采用 H800 结果 (Recommended)”**.
+
+- **D35 parent capacity basis and integration authorization.** Adopt this round's accepted 36-H800/codesign, 131072/114688/16384 result as the `full_kl_nll` task's D1/D22 capacity prerequisite. The explicit selection supersedes the requirement to await a separate upstream frozen-D11 acceptance for this parent's merge; it does not rewrite D1/D22's historical decisions or claim that upstream Ticket02 is accepted under its own contract. Consolidate the verified `agent-opd-h800-capacity` candidate, which contains upstream `c52991ac` ancestry plus the H800 fixes, into `agent-opd-image`, then implement Ticket02 per-turn sums and Ticket03 integration. Record the actual merge commit and retained evidence after consolidation; neither merge nor integration is already complete.
+- **Accepted evidence.** Native job `exp-1109-192340-580111` collected 256/256 valid samples in 1633.2862 seconds, produced two successful unskipped optimizer ACKs with bank0 visits1/2, and completed two 88-microbatch student scoring passes on each of ranks0–7, including fresh scoring after ACK1. The job and all five replicas Succeeded; updated text weights match across all eight engines. Canonical retained result: `../task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-capacity-acceptance-20261109.json`; commands and limits: `../task_2026-11-09_profile_h800_preparation/test_report_2026-11-09_network_fixed_prelaunch.md`. These repo-relative paths will resolve after the primary consolidates the preparation records; until then they are plain-code references, not local Markdown links.
+- **Unchanged boundaries.** Upstream remains independently owned and may continue its own frozen-D11 acceptance. This two-update capacity run does not implement parent02/03, adopt replay in the formal cells, prove whole-model checksum equality, or certify either 200-update A/B result. Ticket01 and the pure03 module retain their CPU acceptance. Native profile verification remains at A's first formal successful update under D16, not a new GPU smoke. Formal32×8/full scientific inputs, D33/D34, S7 soft gates and A-before-B admission remain unchanged.
