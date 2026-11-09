@@ -174,6 +174,8 @@
 
 ## in-progress
 
+- Formal configuration preparation: `formal_config.json` now expresses both A/B cells with the accepted H800 topology, D34 lengths and parent loss-masked32×8 inputs. Four submission/native-argv dry-runs PASS; each requests36 GPUs with no submission. Exact commands and21 checked flags are in`test_report_2026-11-10_formal_configuration.md`. Profile wiring and B teacher runtime remain pending; this does not advance04/05 to launched or accepted. Optional broad integration mapping returned no deliverable; the scoped Ticket02 implementation continues as`profile-t02-sums-20261110`.
+
 - CurrentD35 frontier:02 implementation. The candidate merge and prep consolidation are complete at`55fba827`,and repo-relative evidence resolves. The primary independently coordinates implementation agents; this documentation slice does not implement or claim their CPU readiness.
 -02 per-turn CPU implementation-ready evidence is not yet recorded; it precedes03 integration and04 launch.02 GPU acceptance remains at A's first formal successful update underD16, without an additionalGPU smoke.
 - Pure03 module and01 input, including112K audit, retain CPU acceptance.03 native-count/identity/S7 integration acceptance still depends on02 CPU-ready and is not yet recorded.04/05 have no formal attempts or first-update profile evidence; B still waits for A's actual first formal successful update and completed inspection.

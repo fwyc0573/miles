@@ -28,4 +28,17 @@ Existing tracked modifications before this step were task-owned documentation. T
 
 ## Verification state
 
-Preflight: PASS. Actual merge, reconciled caller checks and Ticket02/03 integration are pending. CPU test interpreter is `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python` (Python 3.12.13); torch, pytest, Ray and SGLang are available. Native profile acceptance remains at A's first formal successful update under D16, not an additional GPU smoke.
+Preflight and consolidation: PASS. Actual merge `55fba827`, reconciled caller checks and remaining integration boundaries are recorded in [the input merge report](test_report_2026-11-10_input_merge.md). Ticket02/03 integration is still pending. CPU test interpreter is `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python` (Python 3.12.13); torch, pytest, Ray and SGLang are available. Native profile acceptance remains at A's first formal successful update under D16, not an additional GPU smoke.
+
+## Merge started
+
+Parent D35 records committed as `6bdb4d32`; merge preflight as `eee754bc`. The candidate archived its reviewed terminal evidence as `0e6e8b1e9298638fd72651869692a41cad703b71`. With only unrelated untracked `.cortexkit/` in the parent, `git merge --no-ff --no-commit 0e6e8b1e9298638fd72651869692a41cad703b71` entered the predicted two-file conflict. Scoped resolution task `profile-input-merge-20261110` owns those files, their native launcher input wiring and directly affected test fixtures. The main session owns merge completion.
+
+Checks on the consolidated evidence/document tree:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+python3 -B tests/manual/agent_opd/check_h800_capacity_evidence.py task_memory/task_2026-11-09_profile_h800_preparation/evidence
+```
+
+PASS: 26 documents, 88 links, 34 anchors, zero errors; retained terminal updates, bank visits, two student passes and text-only weight scope also PASS. These are archive/consolidation checks, not a new native run or completed profile integration.
