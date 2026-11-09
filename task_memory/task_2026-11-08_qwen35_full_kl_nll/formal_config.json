@@ -72,6 +72,7 @@
     "tis_answer_lower": 0.9897,
     "tis_answer_upper": 1.001
   },
+  "profile": {"enabled": true, "trend_window": 10, "baseline_updates": 10, "baseline_turns": 8},
   "checkpoint": {"post_save_hook": null, "hook_args": {}},
   "pairs": {
     "A": {

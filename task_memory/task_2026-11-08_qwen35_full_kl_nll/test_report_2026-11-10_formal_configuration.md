@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Enable the verified Ticket03 profile path and confirm both final A/B launch command/config outputs; preserve native first-update acceptance. |
 | 2026-11-10 | Correct the inherited formal bank_uses validation field after native-contract RED/GREEN; confirm full still uses200 distinct banks once each and record B teacher feasibility limits. |
 | 2026-11-10 | Prepare the formal A/B configuration and verify dry-run resource and native argument output; profile integration remains pending. |
 
@@ -9,7 +10,7 @@
 
 ## Scope and state
 
-`formal_config.json` uses the merged launcher from `55fba827`, the accepted D34 source manifest, and the accepted H800 eight-engine topology. It is a preparation artifact, not a launch receipt. Ticket02 CPU implementation and Ticket03 integration still precede submission.
+`formal_config.json` uses the merged launcher from `55fba827` with Ticket02`6129aefe`and Ticket03`15186817`, the accepted D34 source manifest, and the accepted H800 eight-engine topology. Ticket02 CPU implementation and Ticket03 integration now have recorded readiness. This configuration is a preparation artifact, not a launch receipt.
 
 Both cells request 32 student/rollout GPUs plus a four-GPU teacher. The student, rollout geometry, image, ports, timeouts and numerical configuration match the accepted capacity configuration. B uses the explicitly permitted read-only Qwen3.5-35B-A3B model source. Completed read-only research `profile-formal-config-map-20261110` supports TP4 as a feasible initial layout: retained model assets total71,903,878,016 bytes (66.97GiB), or16.74GiB/rank atTP4; TP2/EP1 was previously exercised at128K on H200. Native H800 TP4/EP1 load time, peak memory and throughput remain unverified. Existing TP4 serving tests useEP4, so they do not directly validate this teacher path. Keep TP4/EP1 without adding a new EP launcher option. B admission follows A's real first successful update and inspection, with fresh resource admission; completion of A's200 updates is not required (specS8).
 
@@ -55,7 +56,9 @@ The same Python3.12.13 invocation then executed real`ReplaySchedule('full', bank
 
 ## Remaining acceptance
 
-Profile configuration and native consumption will be verified after Ticket03 integration. These dry-runs do not construct a full native worker, mount or rescan data, launch GPU work, or establish B's memory/throughput. A's first successful formal update supplies native per-turn/profile acceptance and the required inspection before B admission (D16); auxiliary profile failure is reported without becoming a training hard gate.
+Ticket03`15186817`records201 affected CPU tests PASS, including real native custom-schema/view propagation and profile failure isolation. The final explicit profile object enables the path with trend_window10, baseline_updates10 and baseline_turns8. All four dry-run commands above were rerun after enabling it; each exited0. Current outputs are`/data/ycfeng/tmp/agent-opd-image/formal-profile-{A,B}-submission-20261110.json`and`formal-profile-{A,B}-native-argv-20261110.txt`. Both submissions remain`submitted=false`,36GPUs. `shlex.split`checks confirmed each of13 valued flags once (three profile lengths, bank_uses50, full, successful budget200, num_rollout200, seq/context131072, prompt114688, response16384, source32×8), exactly one`--swe-profile-enabled`, and no save-interval/post-save-hook/evaluation flags. The CPU dry-runs retain the known optional`deep_ep`warning.
+
+These checks do not construct a full native worker, mount or rescan data, launch GPU work, or establish B's memory/throughput. A's first successful formal update supplies native per-turn/profile acceptance and the required inspection before B admission (D16); auxiliary profile failure is reported without becoming a training hard gate. Phase reviews and final admission are recorded separately; neither a configuration nor test counts alone establish native acceptance.
 
 ## Pre-formal sample lifecycle check
 
