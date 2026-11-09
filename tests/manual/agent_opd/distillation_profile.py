@@ -181,7 +181,7 @@ class _Conversation:
 
 
 class DistillationProfile:
-    def __init__(self, *, estimator: str, trend_window: int, baseline_updates: int, baseline_turns: int,
+    def __init__(self, *, estimator: str | None, trend_window: int, baseline_updates: int, baseline_turns: int,
                  directory: Path | None):
         if min(trend_window, baseline_updates, baseline_turns) < 1:
             raise ValueError(f"Trend window {trend_window} and baseline lengths {baseline_updates} updates, "
@@ -192,6 +192,8 @@ class DistillationProfile:
         self.baseline_turns = baseline_turns
         self.directory = directory
         self.unverified_from: int | None = None
+        self.unverified_reason: str | None = None
+        self.latest_verified_update = 0
         self._updates: list[UpdateRow] = []
         self._baseline: float | None = None
         self._best_update = 0
@@ -205,6 +207,29 @@ class DistillationProfile:
         self._nll_sum = array("d")
         self._tokens = array("q")
         self._uid: list[str] = []
+        if directory is not None:
+            try:
+                directory.mkdir(parents=True, exist_ok=True)
+            except Exception as error:
+                self.invalidate(1, f"Initialization: {type(error).__name__}: {error}")
+
+    def invalidate(self, update_id: int, reason: str) -> None:
+        """Keep the first failure and stop profile work without changing native training control."""
+        if self.unverified_from is not None:
+            return
+        self.unverified_from = update_id
+        self.unverified_reason = reason
+        try:
+            logger.error("Distillation profile unverified from update %d; training continues; %s", update_id,
+                         json.dumps({"unverified_from": update_id, "reason": reason,
+                                     "verified_through": self.latest_verified_update,
+                                     "directory": str(self.directory)}))
+        except Exception:
+            pass
+
+    def _require_verified(self, update_id: int | None = None) -> None:
+        if self.unverified_from is not None and (update_id is None or update_id >= self.unverified_from):
+            raise ValueError(f"Distillation profile unverified from update {self.unverified_from}: {self.unverified_reason}")
 
     def record_update(
         self,
@@ -212,6 +237,9 @@ class DistillationProfile:
         sums: Sequence[TurnSums],
         bank_turns: Mapping[str, tuple[str, int]],
         finished_group_ids: Iterable[str],
+        *,
+        native_record: Mapping | None = None,
+        bank_token_counts: Mapping[str, int] | None = None,
     ) -> None:
         """Add one successful update behind a soft gate.
 
@@ -223,13 +251,41 @@ class DistillationProfile:
         if self.unverified_from is not None:
             return
         try:
+            if native_record is not None:
+                self._validate_native_record(native_record, sums, bank_turns, bank_token_counts)
             observations = self._observations(update_id, sums, bank_turns, finished_group_ids)
             self._apply(observations)
             if self.directory is not None:
                 self._persist(observations)
-        except Exception:
-            self.unverified_from = update_id
-            logger.exception("Distillation profile unverified from update %d; training continues", update_id)
+            self.latest_verified_update = update_id
+        except Exception as error:
+            self.invalidate(update_id, f"{type(error).__name__}: {error}")
+
+    def _validate_native_record(self, record, sums, bank_turns, bank_token_counts):
+        if record["turn_sums_verified"] is not True or record["unverified_turn_sums"] != []:
+            raise ValueError(f"Native turn sums unverified: {record['unverified_turn_sums']}")
+        if record["bank_membership_verified"] is not True:
+            raise ValueError("Native bank membership unverified")
+        for name in ("actual_turns", "expected_bank_turns"):
+            if type(record[name]) is not int or record[name] != len(bank_turns):
+                raise ValueError(f"Native {name}={record[name]} differs from {len(bank_turns)} canonical bank turns")
+        tokens = sum(turn.tokens for turn in sums)
+        if bank_token_counts is None or bank_token_counts.keys() != bank_turns.keys():
+            raise ValueError("Missing canonical bank token counts")
+        for turn in sums:
+            if turn.tokens != bank_token_counts[turn.uid]:
+                raise ValueError(f"Turn {turn.uid} tokens={turn.tokens} differs from canonical {bank_token_counts[turn.uid]}")
+        for name in ("original_tokens", "expected_bank_tokens"):
+            if type(record[name]) is not int or record[name] != tokens:
+                raise ValueError(f"Native {name}={record[name]} differs from {tokens} turn tokens")
+        for name, value in (("kl_before_tis", sum(turn.rkl_sum for turn in sums) / tokens),
+                            ("nll_before_tis", sum(turn.nll_sum for turn in sums) / tokens)):
+            if not isinstance(record[name], (int, float)) or not math.isfinite(record[name]) or not math.isclose(record[name], value):
+                raise ValueError(f"Native {name}={record[name]} differs from turn sums mean {value}")
+        estimator = record["kl_estimator"]
+        if not isinstance(estimator, str) or not estimator or (self.estimator is not None and estimator != self.estimator):
+            raise ValueError(f"Native estimator {estimator!r} differs from profile {self.estimator!r}")
+        self.estimator = estimator
 
     def _observations(self, update_id, sums, bank_turns, finished_group_ids) -> UpdateObservations:
         if update_id != len(self._updates) + 1:
@@ -239,18 +295,27 @@ class DistillationProfile:
             raise ValueError(f"{len(sums)} record rows do not match the {len(bank_turns)} bank turns one to one")
         new: dict[str, int] = {}
         rows = []
+        cells = set()
         for uid, (group_id, t_id) in bank_turns.items():
+            if not isinstance(uid, str) or not uid or not isinstance(group_id, str) or not group_id or type(t_id) is not int or t_id < 1:
+                raise ValueError(f"Invalid canonical source identity {(uid, group_id, t_id)!r}")
+            if (group_id, t_id) in cells:
+                raise ValueError(f"Duplicate canonical training turn {(group_id, t_id)!r}")
+            cells.add((group_id, t_id))
             c_id = self._c_ids.get(group_id)
             if c_id is None:
                 c_id = new.setdefault(group_id, len(self._conversations) + len(new))
             turn = by_uid[uid]
-            if turn.tokens <= 0 or not (math.isfinite(turn.rkl_sum) and math.isfinite(turn.nll_sum)):
+            if type(turn.tokens) is not int or turn.tokens <= 0 or not (math.isfinite(turn.rkl_sum) and math.isfinite(turn.nll_sum)):
                 raise ValueError(f"Turn {uid} has no target tokens or nonfinite sums")
             previous = self._conversations[c_id].cells.get(t_id) if c_id < len(self._conversations) else None
             replay_num = 0 if previous is None else self._replay_num[previous] + 1
             rows.append((uid, c_id, t_id, replay_num, float(turn.rkl_sum), float(turn.nll_sum), int(turn.tokens)))
         rows.sort(key=lambda row: (row[1], row[2]))
         c_ids = {**self._c_ids, **new}
+        finished_group_ids = tuple(finished_group_ids)
+        if any(not isinstance(group_id, str) or not group_id for group_id in finished_group_ids):
+            raise ValueError("Invalid finished conversation identity")
         finished = sorted({c_ids[group_id] for group_id in finished_group_ids if group_id in c_ids})
         return UpdateObservations(update_id, tuple(rows), tuple((c_id, g) for g, c_id in new.items()), tuple(finished))
 
@@ -314,6 +379,7 @@ class DistillationProfile:
             ))
             if profile.summary() != summary:
                 raise ValueError(f"Update {line['update_id']} does not reproduce its {UPDATES_FILE} line")
+            profile.latest_verified_update = line["update_id"]
         return profile
 
     @property
@@ -325,35 +391,42 @@ class DistillationProfile:
         return len(self._conversations)
 
     def update(self, update_id: int) -> UpdateRow:
+        self._require_verified(update_id)
         return self._updates[update_id - 1]
 
     def best_update(self) -> UpdateRow:
         """Lowest macro RKL; the earliest update wins a tie."""
+        self._require_verified()
         return self._updates[self._best_update]
 
     @property
     def baseline(self) -> float | None:
         """Mean macro RKL of the first baseline_updates updates; None until they are all in."""
+        self._require_verified()
         return self._baseline
 
     def remaining_gap(self, update_id: int) -> float | None:
         """That update's macro RKL over the run's baseline; readable once the baseline is complete."""
+        self._require_verified()
         return _ratio(self.update(update_id).rkl, self._baseline)
 
     def rkl_trend(self, k: int) -> float | None:
         """Remaining gap k successful updates back minus the latest one; positive means RKL went down."""
+        self._require_verified()
         latest = len(self._updates)
         if latest <= k:
             return None
         return _ratio(self._updates[latest - k - 1].rkl - self._updates[-1].rkl, self._baseline)
 
     def recovery_gap(self) -> float | None:
+        self._require_verified()
         return _ratio(self._updates[-1].rkl - self.best_update().rkl, self._baseline)
 
     def conversation_id(self, group_id: str) -> int | None:
         return self._c_ids.get(group_id)
 
     def conversation(self, c_id: int) -> SourceConversation:
+        self._require_verified()
         conversation = self._conversations[c_id]
         return SourceConversation(c_id, conversation.group_id, conversation.alive,
                                   conversation.entry(-1), conversation.entry(conversation.best),
@@ -361,19 +434,23 @@ class DistillationProfile:
 
     def conversation_entry(self, c_id: int, update_id: int) -> ConversationEntry:
         """Stored entry at this successful update; KeyError if the conversation did not appear there."""
+        self._require_verified(update_id)
         conversation = self._conversations[c_id]
         return conversation.entry(conversation.update_indices[update_id])
 
     def conversation_remaining_gap(self, c_id: int, update_id: int) -> float | None:
         """That entry's RKL over its conversation baseline, including entries inside the baseline window."""
+        self._require_verified()
         return _ratio(self.conversation_entry(c_id, update_id).rkl, self._conversations[c_id].baseline)
 
     def conversation_run_relative_gap(self, c_id: int, update_id: int) -> float | None:
         """That entry's RKL over the run baseline, including entries inside the baseline window."""
+        self._require_verified()
         return _ratio(self.conversation_entry(c_id, update_id).rkl, self._baseline)
 
     def conversation_trend(self, c_id: int, k: int) -> float | None:
         """Remaining gap at the latest entry at least k updates back, minus the one at the latest entry."""
+        self._require_verified()
         conversation = self._conversations[c_id]
         reference = bisect.bisect_right(conversation.updates, conversation.updates[-1] - k) - 1
         if reference < 0:
@@ -381,6 +458,7 @@ class DistillationProfile:
         return _ratio(conversation.rkl[reference] - conversation.rkl[-1], conversation.baseline)
 
     def conversation_states(self, k: int) -> ConversationStates:
+        self._require_verified()
         views = [self.conversation(c_id) for c_id in range(len(self._conversations))]
         return ConversationStates(
             tuple(view.remaining_gap for view in views),
@@ -391,6 +469,7 @@ class DistillationProfile:
         )
 
     def observation(self, row: int) -> TurnObservation:
+        self._require_verified()
         c_id = self._c_id[row]
         return TurnObservation(self._update_id[row], c_id, self._t_id[row], self._replay_num[row],
                                self._conversations[c_id].alive, self._rkl_sum[row], self._nll_sum[row],
@@ -398,11 +477,13 @@ class DistillationProfile:
 
     def cell(self, c_id: int, t_id: int) -> TurnObservation | None:
         """Latest observation of turn t_id of conversation c_id, or None if it was never trained."""
+        self._require_verified()
         row = self._conversations[c_id].cells.get(t_id)
         return None if row is None else self.observation(row)
 
     def summary(self) -> dict:
         """The updates.jsonl line for the latest update."""
+        self._require_verified()
         row, best = self._updates[-1], self.best_update()
         baselines = [c.baseline for c in self._conversations]
         trends = [self.conversation_trend(c_id, self.trend_window) for c_id in range(len(self._conversations))]

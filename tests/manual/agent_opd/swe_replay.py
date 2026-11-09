@@ -11,11 +11,14 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 
+from pydantic import Field
+
 from miles.rollout.base_types import (
     BaseRolloutFn, RolloutFnTrainInput, RolloutFnTrainOutput, compute_kv_cache_namespace, stamp_kv_cache_namespace,
 )
 from miles.utils.args.schema import A, Arg, BaseConfig
 from miles.utils.types import Sample
+from tests.manual.agent_opd.distillation_profile import DistillationProfile, TurnSums
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +36,10 @@ class SweReplayConfig(BaseConfig):
     swe_bank_uses: A[int, Arg()] = 50
     swe_successful_updates: A[int, Arg()] = 200
     swe_context_tokens: A[int, Arg()] = 131072
+    swe_profile_enabled: A[bool, Arg(), Field(strict=True)] = False
+    swe_profile_trend_window: A[int, Arg(), Field(strict=True, gt=0)] = 10
+    swe_profile_baseline_updates: A[int, Arg(), Field(strict=True, gt=0)] = 10
+    swe_profile_baseline_turns: A[int, Arg(), Field(strict=True, gt=0)] = 8
 
 
 @dataclass(frozen=True)
@@ -308,6 +315,23 @@ class SweReplay(BaseRolloutFn):
         self.bank_tokens = 0
         self.pending_rollout = None
         self.native_state = None
+        self.profile = None
+        self.profile_initialization_error = None
+        self.profile_finished = ()
+        if self.args.swe_profile_enabled:
+            try:
+                self.profile = DistillationProfile(
+                    estimator=None, trend_window=self.args.swe_profile_trend_window,
+                    baseline_updates=self.args.swe_profile_baseline_updates,
+                    baseline_turns=self.args.swe_profile_baseline_turns,
+                    directory=self.directory / "distillation_profile",
+                )
+            except Exception as error:
+                self.profile_initialization_error = f"{type(error).__name__}: {error}"
+                try:
+                    logger.exception("Distillation profile initialization failed; unverified from update 1; training continues")
+                except Exception:
+                    pass
 
     def on_train_result(self, rollout_id: int, record: dict):
         if self.pending_rollout != rollout_id or record["attempted_rollout_id"] != rollout_id:
@@ -316,12 +340,39 @@ class SweReplay(BaseRolloutFn):
             raise ValueError("Optimizer acknowledgement belongs to another attempt")
         if record["successful_updates"] != self.schedule.successful + int(record["update_successful"]):
             raise ValueError("Native and replay successful-update counters differ")
+        if record["update_successful"]:
+            self._record_profile(record)
         self.schedule.commit(attempted_rollout_id=self.pending_rollout, successful=record["update_successful"])
         self.pending_rollout = None
         if self.schedule.successful >= self.schedule.limit or self.schedule.position.bank != self.bank_id:
             self.bank = ()
             self.bank_id = None
             self.bank_tokens = 0
+            self.profile_finished = ()
+
+    def _record_profile(self, record):
+        if self.profile is None or self.profile.unverified_from is not None:
+            return
+        try:
+            position = self.schedule.position
+            if (record["bank"], record["bank_visit"]) != (position.bank, position.visit):
+                raise ValueError("Optimizer acknowledgement does not identify the trained bank/visit")
+            if record["teacher_identity"] != self.args.swe_teacher_identity or record["protocol"] != self.args.swe_protocol:
+                raise ValueError("Optimizer acknowledgement has different teacher/protocol metadata")
+            bank_turns, token_counts = {}, {}
+            for trajectory in self.bank:
+                source = json.loads(trajectory.sample_json)["metadata"]["source"]
+                uid = source["uid"]
+                if uid in bank_turns:
+                    raise ValueError(f"Duplicate canonical bank uid {uid}")
+                bank_turns[uid] = (source["group_id"], source["assistant_turn_ordinal"])
+                token_counts[uid] = sum(trajectory.original_mask)
+            self.profile.record_update(
+                record["successful_updates"], [TurnSums(**row) for row in record["turn_sums"]],
+                bank_turns, self.profile_finished, native_record=record, bank_token_counts=token_counts,
+            )
+        except Exception as error:
+            self.profile.invalidate(record["successful_updates"], f"{type(error).__name__}: {error}")
 
     async def _generate(self, sample):
         from miles.rollout.inference_rollout.inference_rollout_common import GenerateState, generate_and_rm
@@ -347,6 +398,14 @@ class SweReplay(BaseRolloutFn):
         if self.bank_id != position.bank:
             started_at, started_clock = time.time(), time.monotonic()
             candidates = self.source.get_samples(self.args.swe_bank_slots)
+            if self.profile is not None and self.profile.unverified_from is None:
+                try:
+                    finished = self.source.finished_conversations
+                    if not isinstance(finished, tuple):
+                        raise ValueError("Native finished_conversations must be a tuple of group IDs")
+                    self.profile_finished = finished
+                except Exception as error:
+                    self.profile.invalidate(position.successful_updates + 1, f"Bank boundary: {type(error).__name__}: {error}")
             if len(candidates) != self.args.swe_bank_slots:
                 raise ValueError("The native data source did not supply the fixed candidate-slot count")
             for group in candidates:

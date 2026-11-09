@@ -19,11 +19,14 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+from pydantic import TypeAdapter
+
 from scripts.run_qwen3_dense import ScriptArgs as DenseArgs
 from tests.manual.agent_opd import megatron_scoring_lifetime
 from tests.manual.agent_opd import qwen35_pair_worker as paired
 from tests.manual.agent_opd import run_qwen35_opd as native
 from tests.manual.agent_opd.submit_swe_opd import _validate_paths
+from tests.manual.agent_opd.swe_replay import SweReplayConfig
 
 from miles.utils.external_utils import command_utils as U
 from miles.utils.external_utils.model_args_utils import shell_safe_model_args
@@ -40,6 +43,7 @@ def _config(path: Path, pair: str, protocol: str) -> dict:
     training = config.get("training", {})
     if "release_scoring_output" in training and type(training["release_scoring_output"]) is not bool:
         raise ValueError("release_scoring_output must be a JSON boolean")
+    _profile_arguments(config)
     allocation = config["pairs"][pair]
     config["startup_timeout"] = allocation["startup_timeout"]
     config["protocol"] = protocol
@@ -65,6 +69,18 @@ def _flags(values: dict) -> list[str]:
         if value is not True:
             result.append(json.dumps(value) if isinstance(value, dict) else str(value))
     return result
+
+
+def _profile_arguments(config: dict) -> dict:
+    if "profile" not in config:
+        return {}
+    profile = config["profile"]
+    fields = {name.removeprefix("swe_profile_"): (name, field)
+              for name, field in SweReplayConfig.model_fields.items() if name.startswith("swe_profile_")}
+    if not isinstance(profile, dict) or "enabled" not in profile or profile.keys() - fields.keys():
+        raise ValueError(f"profile must contain explicit enabled and only these keys: {sorted(fields)}")
+    return {fields[key][0]: TypeAdapter(fields[key][1].rebuild_annotation()).validate_python(value)
+            for key, value in profile.items()}
 
 
 def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt: str) -> str:
@@ -149,6 +165,7 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
             ),
         )
     arguments.update(config["tis"])
+    arguments.update(_profile_arguments(config))
     overlap = arguments.keys() & config["checkpoint"]["hook_args"].keys()
     if overlap:
         raise ValueError(f"Checkpoint hook arguments duplicate recipe fields: {sorted(overlap)}")

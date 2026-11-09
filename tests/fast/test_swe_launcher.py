@@ -443,3 +443,61 @@ async def test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook(tmp_
             await state.generate_function(input)
     assert entered.is_set() and cancelled.is_set()
     assert isinstance(state.args, ImmutableNamespace)
+
+
+@pytest.mark.parametrize("enabled", [False, True])
+def test_profile_object_reaches_native_custom_schema_without_unused_keys(tmp_path, monkeypatch, enabled):
+    from miles.utils.args import custom_function
+    from miles.utils.args.runtime import AllConfig
+
+    config = _recipe_config()
+    config.update(_LENGTH_LIMITS, protocol="full", profile={
+        "enabled": enabled, "trend_window": 3, "baseline_updates": 4, "baseline_turns": 5,
+    })
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "profile"))
+    assert ("--swe-profile-enabled" in argv) is enabled
+    assert "--profile" not in argv
+    for name in ("trend_window", "baseline_updates", "baseline_turns"):
+        flag = "--swe-profile-" + name.replace("_", "-")
+        assert argv.count(flag) == 1 and argv[argv.index(flag) + 1] == str(config["profile"][name])
+    parser = argparse.ArgumentParser(add_help=False)
+    AllConfig.add_arguments(parser)
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    custom_function.add_user_provided_function_arguments(parser, config_class=AllConfig)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert not any(value.startswith("--swe-profile") for value in unknown)
+    custom_function.resolve_custom_function_configs(parsed, config_class=AllConfig)
+    for name in ("rollout_function_path", "custom_rm_path", "custom_megatron_optimizer_step_hook_path"):
+        profile = getattr(parsed, name).config
+        assert profile.swe_profile_enabled is enabled
+        assert (profile.swe_profile_trend_window, profile.swe_profile_baseline_updates, profile.swe_profile_baseline_turns) == (3, 4, 5)
+        assert type(profile).model_validate_json(profile.model_dump_json()) == profile
+
+
+@pytest.mark.parametrize("profile", [None, [], {}, {"enabled": True, "unused": 5}, {"trend_window": 3},
+                                    {"enabled": "true"}, {"enabled": 1}, {"enabled": True, "trend_window": 0},
+                                    {"enabled": True, "baseline_updates": 1.5},
+                                    {"enabled": True, "baseline_turns": True}])
+def test_launcher_rejects_invalid_or_silent_unused_profile_blocks(tmp_path, profile):
+    config = _config(tmp_path) | {"profile": profile}
+    path = tmp_path / "config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError):
+        run_swe_opd._config(path, "A", "full")
+
+
+def test_reused_launcher_profile_default_remains_disabled(tmp_path, monkeypatch):
+    from miles.utils.args import custom_function
+    from miles.utils.args.runtime import AllConfig
+
+    config = _recipe_config()
+    config.update(_LENGTH_LIMITS, protocol="r256")
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "no-profile"))
+    assert not any(flag.startswith("--swe-profile") for flag in argv)
+    parser = argparse.ArgumentParser(add_help=False)
+    AllConfig.add_arguments(parser)
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    custom_function.add_user_provided_function_arguments(parser, config_class=AllConfig)
+    parsed, _ = parser.parse_known_args(argv)
+    custom_function.resolve_custom_function_configs(parsed, config_class=AllConfig)
+    assert parsed.rollout_function_path.config.swe_profile_enabled is False

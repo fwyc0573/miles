@@ -212,12 +212,13 @@ def test_files_rebuild_the_profile(tmp_path):
 def test_write_error_marks_unverified(tmp_path, caplog):
     blocker = tmp_path / "not_a_directory"
     blocker.write_text("")
-    profile = _profile(blocker / "profile")
     with caplog.at_level(logging.ERROR):
+        profile = _profile(blocker / "profile")
         _record(profile, 1)
         _record(profile, 2)
     assert profile.unverified_from == 1
-    assert profile.latest_update == 1  # the failed write does not stop the caller; later updates are ignored
+    assert profile.latest_update == profile.latest_verified_update == 0
+    assert "Initialization" in profile.unverified_reason
     assert "unverified from update 1" in caplog.text
 
 
@@ -239,6 +240,7 @@ def test_partial_write_preserves_evidence_and_stops_later_updates(tmp_path, monk
         _record(profile, 3)
     assert profile.unverified_from == 2
     assert profile.latest_update == 2
+    assert profile.latest_verified_update == 1
     assert "injected summary write failure" in caplog.text
     assert {name: (directory / name).read_bytes() for name in before} == before
     summaries = [json.loads(line) for line in before[UPDATES_FILE].splitlines()]
