@@ -251,3 +251,88 @@ async def test_native_swe_unset_prompt_limit_keeps_remaining_context_budget(
         await common.generate_and_rm(make_state(generate), sample, sampling_params=run_params, evaluation=True)
     assert generate.max_new_tokens == expected
     assert run_params == {"temperature": 1.0, "max_new_tokens": response_limit}
+
+
+@pytest.mark.parametrize(
+    "prompt_length,prompt_limit,expected",
+    [(4366, 114688, 16384), (114687, 114688, 16384), (114688, 114688, 16384), (131071, None, 1)],
+)
+async def test_swe_replay_preserves_source_budget_in_native_request(
+    native_swe_source, monkeypatch, tmp_path, prompt_length, prompt_limit, expected
+):
+    from tests.fast.test_qwen35_sample_lifecycle import _native_response
+    from tests.fast.test_swe_replay import _typed_swe_config
+    from tests.manual.agent_opd.swe_replay import SweReplay
+
+    from miles.rollout import on_policy_distillation as opd
+    from miles.rollout.base_types import RolloutFnConstructorInput
+    from miles.rollout.generate_hub import single_turn
+    from miles.utils.args.custom_function import CustomFunctionConfig
+    from miles.utils.args.custom_view import compute_custom_function_config
+    from miles.utils.args.runtime import RolloutConfig
+
+    source = native_swe_source([prompt_length], prompt_limit=prompt_limit)
+    candidate = source.get_samples(1)[0][0]
+    assert candidate.max_response_len == expected
+    tokenizer = SimpleNamespace(encode=source.tokenizer.encode, decode=lambda ids, **kwargs: "fresh completion")
+    monkeypatch.setattr(common, "load_tokenizer", lambda *args, **kwargs: tokenizer)
+    monkeypatch.setattr(common, "load_processor", lambda *args, **kwargs: None)
+
+    rollout = RolloutConfig.slice_from(_typed_swe_config("r256", run_kind="smoke"))
+    replay_config = rollout.rollout_function_path.config.model_copy(
+        update={"swe_evidence_dir": str(tmp_path / "replay")}
+    )
+    rollout = rollout.model_copy(
+        update={
+            "rollout_function_path": rollout.rollout_function_path.model_copy(update={"config": replay_config}),
+            "custom_rm_path": rollout.custom_rm_path.model_copy(update={"config": replay_config}),
+            "custom_generate_function_path": CustomFunctionConfig(
+                path="tests.manual.agent_opd.qwen_alignment.generate"
+            ),
+            "rollout_max_context_len": 131072,
+            "rollout_max_prompt_len": prompt_limit,
+            "rollout_max_response_len": 16384,
+            "rollout_seed": 1729,
+        }
+    )
+    args = compute_custom_function_config(rollout, rollout.rollout_function_path)
+    replay = SweReplay(RolloutFnConstructorInput(args=args, data_source=source))
+    requests = []
+
+    async def student_post(url, payload, **kwargs):
+        requests.append(payload)
+        response = _native_response()
+        info = response["meta_info"]
+        info["prompt_tokens"] = len(payload["input_ids"])
+        info["prefill_weight_versions"][0]["end"] = info["prompt_tokens"]
+        info["output_token_logprobs"] = info["output_token_logprobs"][: payload["sampling_params"]["max_new_tokens"]]
+        info["weight_versions"][0]["end"] = len(info["output_token_logprobs"])
+        return response
+
+    async def teacher_post(url, payload, **kwargs):
+        tokens = payload["input_ids"][prompt_length:]
+        return {"meta_info": {"input_token_logprobs": [[None, 0], *[[-0.2, token] for token in tokens]]}}
+
+    monkeypatch.setattr(single_turn, "post", student_post)
+    monkeypatch.setattr(opd, "_post_json", teacher_post)
+    generated = await replay._generate(candidate)
+
+    assert len(requests) == 1
+    request = requests[0]
+    assert request["sampling_params"]["max_new_tokens"] == expected
+    assert len(request["input_ids"]) == prompt_length
+    assert len(request["input_ids"]) + request["sampling_params"]["max_new_tokens"] <= 131072
+    assert (
+        request["sampling_params"]["sampling_seed"]
+        == generated.metadata["swe_sampling_seed"]
+        == args.rollout_seed
+        == 1729
+    )
+    assert generated is candidate and generated.max_response_len == expected
+    assert replay.native_state.sampling_params["max_new_tokens"] == 16384
+    assert "sampling_seed" not in replay.native_state.sampling_params
+    assert request["sampling_params"] == {
+        **replay.native_state.sampling_params,
+        "max_new_tokens": expected,
+        "sampling_seed": args.rollout_seed,
+    }

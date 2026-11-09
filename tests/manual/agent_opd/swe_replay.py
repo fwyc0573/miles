@@ -328,13 +328,7 @@ class SweReplay(BaseRolloutFn):
 
         if self.native_state is None:
             self.native_state = GenerateState(self.args)
-        prompt_length = sample.metadata["source"]["prompt_token_count"]
-        remaining = self.args.swe_context_tokens - prompt_length
-        if remaining <= 0:
-            raise ValueError("Prompt consumes the complete context budget")
-        sample.max_response_len = remaining
-        params = {**self.native_state.sampling_params, "max_new_tokens": remaining,
-                  "sampling_seed": self.args.rollout_seed}
+        params = {**self.native_state.sampling_params, "sampling_seed": self.args.rollout_seed}
         sample.metadata["swe_sampling_seed"] = params["sampling_seed"]
         generated = await generate_and_rm(self.native_state, sample, params, evaluation=False)
         if not isinstance(generated, Sample):

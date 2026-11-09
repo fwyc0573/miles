@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-09 | Record the isolated D34 source correction, RED/GREEN evidence, CPU consumer checks and limits. |
 | 2026-11-09 | Extend the existing parity checker with optional native limits, accepted-factory/request verification and original-source worker invocation. |
+| 2026-11-09 | Remove the replay budget override and prove the real source-to-request generation path RED/GREEN with preserved seed. |
 
 # Capacity Input Lengths Test Report
 
@@ -280,4 +281,104 @@ Run from `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity` ins
 
 Expected worker evidence: `h800-d34-input-parity.json` status PASS; configuration limits 131072/114688/16384; accepted request budget <=16384 and consistent with remaining context; real request prompt hash/count and accepted UID/slot; saved `h800-d34-input-config.json` with original posttrain paths, the genuine in-place filter reference, `visual_filter_verified=true` and `native_source_injected_for_test=false`. The checker constructs payloads but intentionally does not send HTTP requests.
 
-Primary-owned original-source/Qwen parity remains pending this invocation. Local fixture success does not verify the original data, genuine full-source receipt on the current worker, production tokenizer, remote mounts, generation, GPU capacity, parent integration or upstream acceptance. No platform/auth/cloud/network/GPU operation was performed, and no GPU wait or submission is needed for this handoff. The follow-up checkpoint found D1–D7 CLEAR; the implementation/fixture deliverable is complete and remaining native evidence is primary-owned.
+At the checker handoff, primary-owned original-source/Qwen parity was pending that invocation. Current native preflight results belong in the primary-owned `test_report_2026-11-09_native_preflight.md`; this section is the historical checker-phase record, not its current status. Local fixture success does not verify the original data, genuine full-source receipt on the current worker, production tokenizer, remote mounts, generation, GPU capacity, parent integration or upstream acceptance. No platform/auth/cloud/network/GPU operation was performed, and no GPU wait or submission was needed for that handoff. The checker-phase checkpoint found D1–D7 CLEAR; the implementation/fixture deliverable was complete and remaining native evidence was primary-owned.
+
+## Authorized P1 Replay Follow-up — D33/D34
+
+Task ID remains `profile-capacity-input-lengths-20261109`. This follow-up owns only `tests/manual/agent_opd/swe_replay.py`, the directly relevant existing `tests/fast/rollout/test_sample_max_response_len.py`, and this report. Primary-owned config, preflight, task records, evidence and other code were not edited. There was no parent/root checkout edit, platform/GPU/network/SSH/authentication operation or formal-profile integration. D1/D22 remain blocked independently.
+
+### Cause, Correction and Real Caller Path
+
+The previous source/factory parity and `generate_and_rm()` tests did not execute `SweReplay._generate`. That reachable method replaced both the source's `sample.max_response_len` and the run's `max_new_tokens` with all remaining context. Raising both bypassed the native sample-cap check: the actual 4366-token-length case requested 126706 rather than 16384.
+
+The fix removes that duplicate formula, its guard and the sample mutation. `_generate` now copies the real `GenerateState.sampling_params` and adds only the existing `rollout_seed`; its seed metadata, real generation/reward call, result type check and postprocessor remain unchanged. The existing native sample-cap application and request context clamp are the only consumers; no replacement guard, fallback or knob was introduced.
+
+Read-only caller inspection established the selected route:
+
+`run_swe_opd._training_args` (Qwen hook and explicit lengths) -> `SweReplay.__call__` / `acquire_bank` -> `SweReplay._generate` -> real `GenerateState` -> real `generate_and_rm` -> `apply_sample_max_response_len` -> `qwen_alignment.generate` -> native `single_turn.generate` -> `compute_request_payload` -> student POST boundary.
+
+The new regression starts with a real `NativeSWEDataSource.get_samples()` result from the existing synthetic source fixture and directly executes real `SweReplay._generate` through that actual request builder. It also completes native response assembly, Qwen prompt/completion validation, native teacher scoring and postprocessing. Only the external loader fixture, tokenizer/model-asset I/O and student/teacher POST boundaries are substituted. No budget consumer, GenerateState construction, generation function, sample-cap merge, payload builder or reward consumer is mocked.
+
+The focused audit found no other budget-widening override on this selected route. `GenerateState` owns the configured run maximum, `generate_and_rm` applies the sample maximum, Qwen forwards it without a cap override, and the native endpoint builder only lowers it to available context. Native partial-rollout subtraction is unchanged and is not exercised by these fresh source samples. No unrelated code was changed.
+
+### RED/GREEN Observations
+
+All runs used the existing CPU Python 3.12.13 environment. Temporary fixture files and teacher receipts stayed under the supplied approved basetemp; the final affected run also explicitly set `TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode`. The reused typed config represents an isolated smoke prerequisite, not a formal run or a Megatron/GPU simulation.
+
+| Encoded prompt count | Source prompt limit | Source budget before replay | Old actual request budget | Fixed actual request budget | Seed |
+| --- | --- | --- | --- | --- | --- |
+| 4366 | 114688 | 16384 | 126706 — RED | 16384 — GREEN | 1729 |
+| 114687 | 114688 | 16384 | 16385 — RED | 16384 — GREEN | 1729 |
+| 114688 | 114688 | 16384 | 16384 — already passed | 16384 — GREEN | 1729 |
+| 131071 | None | 1 | 1 — already passed | 1 — GREEN | 1729 |
+
+The 4366 case reproduces the reported actual prompt length using the existing character-tokenizer fixture; it is not a local copy/tokenization of the real original prompt. The None case uses the already-supported historical native optional prompt state to reach the remaining-context edge. It does not change the D34 run's explicit 114688 prompt cap.
+
+The test asserts captured request budgets, source-sample budget preservation, total context <=131072, the original request/metadata seed 1729, all other sampling parameters unchanged, and the shared GenerateState default remaining 16384 without a per-request seed mutation.
+
+| Run/check | Actual result | Verdict |
+| --- | --- | --- |
+| Focused regression before source change | 2 failed, 2 passed, 18 existing warnings, 2.98 s; assertions `126706 == 16384` and `16385 == 16384` failed at the actual POST payload | Expected RED |
+| Same regression after minimal replay correction | 4 passed, 18 existing warnings, 2.86 s | PASS |
+| One final affected suite after formatting only new test code | 62 passed, 18 existing warnings, 4.12 s; no deselection or skip | PASS |
+| Ruff for both changed Python files | All checks passed; existing config deprecation warning only | PASS |
+| Black for changed test file | Initial new-test formatting corrected with scoped patches; final file unchanged | PASS; production replay full-file formatting not run or claimed |
+| Python compile for both changed files | Both compiled successfully | PASS |
+| Repository config-access checker | Test clean; replay retains four pre-existing diagnostics at 105,107,426,449, matching HEAD at 105,107,432,455 after six-line removal | Baseline limitation, no new violations; initial full check failed and was not suppressed or cosmetically fixed |
+| Scoped/cached diff checks | No whitespace errors; only owned files staged | PASS |
+
+Exact test and lint commands, all from the isolated capacity worktree:
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -o addopts= -p no:cacheprovider -q tests/fast/rollout/test_sample_max_response_len.py::test_swe_replay_preserves_source_budget_in_native_request --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/capacity-swe-replay-budget-red
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -o addopts= -p no:cacheprovider -q tests/fast/rollout/test_sample_max_response_len.py::test_swe_replay_preserves_source_budget_in_native_request --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/capacity-swe-replay-budget-green
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -o addopts= -p no:cacheprovider -q tests/fast/rollout/test_sample_max_response_len.py tests/fast/test_swe_replay.py --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/capacity-swe-replay-budget-affected
+PYTHONPATH=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-review-lint/packages /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m ruff check --no-cache tests/manual/agent_opd/swe_replay.py tests/fast/rollout/test_sample_max_response_len.py
+BLACK_CACHE_DIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode/black-cache-capacity-swe-replay PYTHONPATH=/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-review-lint/packages /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m black --check --diff tests/fast/rollout/test_sample_max_response_len.py
+git diff --check -- tests/manual/agent_opd/swe_replay.py tests/fast/rollout/test_sample_max_response_len.py
+```
+
+The initial full config-access check failed on baseline replay diagnostics before checking the test file:
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
+from pathlib import Path
+from tools.lint_config_attribute_access import _violations
+for path in (Path('tests/manual/agent_opd/swe_replay.py'), Path('tests/fast/rollout/test_sample_max_response_len.py')):
+    compile(path.read_text(), str(path), 'exec')
+    issues = _violations(path)
+    print(path, 'PASS' if not issues else issues)
+    assert not issues
+PY
+```
+
+Exact baseline comparison and completed syntax/test-access checks:
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
+from pathlib import Path
+from subprocess import check_output
+from tools.lint_config_attribute_access import _violations
+source = Path('tests/manual/agent_opd/swe_replay.py')
+test = Path('tests/fast/rollout/test_sample_max_response_len.py')
+baseline = Path('/data/ycfeng/tmp/opencode-v2-tmp/opencode/capacity-swe-replay-budget-baseline.py')
+baseline.write_bytes(check_output(['git', 'show', 'HEAD:tests/manual/agent_opd/swe_replay.py']))
+for path in (source, test):
+    compile(path.read_text(), str(path), 'exec')
+    print('Compile PASS:', path)
+current = _violations(source)
+original = _violations(baseline)
+for name, issues in (('Current replay', current), ('HEAD baseline', original)):
+    print(name, issues)
+assert len(current) == len(original) == 4
+assert [item.split(': ', 1)[1] for item in current] == [item.split(': ', 1)[1] for item in original]
+assert not _violations(test)
+print('PASS: no new config-access violations; four replay baseline violations retained; test clean')
+PY
+```
+
+### Acceptance, Checkpoint and Limits
+
+The scoped P1 code repair is complete: the old greater-than-16K request is reproduced through the real replay-to-payload route, and the corrected route preserves both budget owners, seed and remaining context. The checkpoint found D1–D7 CLEAR, no additional S1–S6 blocker in this slice, and no need to broaden work; only report/commit handoff remained after the verified deliverable. The four unrelated baseline config-access diagnostics are a primary note, not additional fixes.
+
+No C1 timeout test file was collected: `test_qwen35_sample_lifecycle.py` supplied only its existing response helper. No sockets, real HTTP request, dataset/model download, original source scan, Ray/training process, GPU run, upstream merge or formal200-update profile integration was performed. The direct `_generate` regression does not prove full bank acquisition, optimizer execution, worker deployment or 256-turn capacity acceptance; those remain primary-owned prerequisites. The final affected suite passed once and was not repeatedly broadened after success.
