@@ -251,11 +251,11 @@ def _training_args(args, run: Path) -> str:
 
 
 def _runtime_env(config) -> dict[str, str]:
-    # All inherited platform NCCL values survive unchanged. The existing
-    # deterministic-channel validator rejects conflicts rather than overwriting.
+    # Platform NCCL values stay in each raylet's inherited node environment.
+    # Only explicit job-wide controls from _training_env may override them.
     inherited = {
         key: value for key, value in os.environ.items()
-        if key.startswith("NCCL_") or key in {
+        if key in {
             "TMPDIR", "TORCH_EXTENSIONS_DIR", "TORCHINDUCTOR_CACHE_DIR", "TRITON_CACHE_DIR",
             "FLASHINFER_WORKSPACE_BASE", "XDG_CACHE_HOME", "CUDA_CACHE_PATH", "RAY_TMPDIR",
             "PYTHONDONTWRITEBYTECODE", "HF_HUB_OFFLINE", "TOKENIZERS_PARALLELISM", "MILES_NODE_EXTERNAL_IP",

@@ -433,11 +433,21 @@ def test_platform_nccl_values_are_preserved_and_channel_conflicts_rejected(monke
     }.items():
         monkeypatch.setenv(key, value)
     env = launcher._runtime_env(ExecuteTrainConfig())
-    assert env["NCCL_SOCKET_IFNAME"] == "platform-nic" and env["NCCL_IB_HCA"] == "platform-hca"
-    assert env["NCCL_NVLS_ENABLE"] == "0" and env["NCCL_MIN_NCHANNELS"] == env["NCCL_MAX_NCHANNELS"] == "8"
+    assert "NCCL_SOCKET_IFNAME" not in env and "NCCL_IB_HCA" not in env
+    effective = {**os.environ, **env}
+    assert effective["NCCL_SOCKET_IFNAME"] == "platform-nic" and effective["NCCL_IB_HCA"] == "platform-hca"
+    assert effective["NCCL_NVLS_ENABLE"] == "0" and effective["NCCL_MIN_NCHANNELS"] == effective["NCCL_MAX_NCHANNELS"] == "8"
     monkeypatch.setenv("NCCL_MAX_NCHANNELS", "16")
     with pytest.raises(ValueError, match="conflicts"):
         launcher._runtime_env(ExecuteTrainConfig())
+
+
+def test_explicit_nccl_overrides_remain_job_wide(monkeypatch):
+    monkeypatch.setenv("NCCL_SOCKET_IFNAME", "platform-nic")
+    monkeypatch.setenv("NCCL_IB_HCA", "platform-hca")
+    override = {"NCCL_SOCKET_IFNAME": "=eth0", "NCCL_IB_HCA": "=mlx5_0"}
+    env = launcher._runtime_env(ExecuteTrainConfig(extra_env_vars=json.dumps(override)))
+    assert {key: env[key] for key in override} == override
 
 
 def _population(tmp_path, monkeypatch):
