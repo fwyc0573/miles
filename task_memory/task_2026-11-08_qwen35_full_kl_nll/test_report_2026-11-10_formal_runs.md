@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Diagnose partial placement from exact replica/Pod events and separate Ray startup deadline from acquisition/D19. |
 | 2026-11-10 | Inspect first native worker receipts: rank0 eight H800 and ready teacher four H800; remaining ranks/engine startup unverified. |
 | 2026-11-10 | Record A/full submission and exact platform identity/resource readback; first-update, B and terminal acceptance remain pending. |
 
@@ -22,6 +23,16 @@ Configuration:`formal_config.json`. Both cells use full mode,200 successful upda
 - First successful optimizer ACK, actual GPU identity, per-turn/profile native consistency and terminal acceptance: **PENDING**. B is not yet submitted.
 - Subsequent worker inspection: `student-node-0.json` confirms eight NVIDIA H800,81,559MiB each,driver570.124.06 on`gpu-h800-0180.host.platform.shaipower.com`; `teacher-ready.json` confirms four matching H800 and ready27B model endpoint. Both pin the configured image and model paths; selected fields are retained in[the startup receipt](evidence/formal-A-worker-startup-20261110.json). Student ranks1–3, all-engine readiness and first ACK are not yet verified. These are partial startup observations, not a claim that all36 devices or training are ready.
 - A separate read-only first-update observer is running as local shell`sh_1c16ff2bb0017aVjX6GHz8NQ1s`. Once per60 seconds it reads only the first newline-complete native update and the two profile-file sizes from this exact training directory through the approved SSH cloud mount. It writes`evidence/formal-A-first-update-notification-20261110.json`and exits when a successful native record appears, prompting D16 inspection before B. Its observation window is9,000 seconds (three configured startup windows plus the configured request timeout); observer errors/timeouts do not stop or modify native training. This is a notification, not an auxiliary PASS gate or a replacement for native/profile inspection.
+
+### Partial placement observation — 18:22Z
+
+At18:16:21Z, A still had three active student replicas plus the active teacher and one Starting student ([readback](evidence/formal-A-startup-progress-20261110.json)). Native worker receipts additionally confirm eight H800 each for ranks1 and3, so28 actual GPUs are now evidenced. The remaining replica is`exp-1110-014836-849060-student-c81e728d`, UID`5d991bd1-2888-4dab-a3a7-55f279bd8b73`. Its18:17:46Z status is`PodScheduled=False`, `Unschedulable`, no IP, and its bounded log API response is200 with empty data ([replica evidence](evidence/formal-A-student2-startup-20261110.json)).
+
+Exact-name Events read at18:22:21Z returned10 records with complete pagination, all`FailedScheduling`; the latest Pod/Replica events are18:21:47Z. They report167 nodes with insufficient GPU, plus CPU/memory shortages and node-affinity exclusions. These categories overlap and are not a capacity total. The actual Pod UID is`5f341f32-8467-4c1b-95af-cc730699f68d`, distinct from its owning Replica UID. Current status remains unscheduled; evidence:[events](evidence/formal-A-student2-scheduling-events-20261110.json).
+
+The rank0 cloud log records Ray start at17:53:51Z and connection at17:53:53Z. Local`head.json`mtime is17:53:53.051Z. Read-only code investigation`profile-formal-startup-deadline-20261110`locates the independent cluster-complete1800-second wait at`rjob_warmup.py:180–206`, so its expiry is approximately18:23:53Z (monotonic clock; wall-clock estimate only). The rollout acquisition1800-second clock has not begun. This is a resource-placement/startup blocker, not D6 acquisition failure or evidence of OOM. The earlier18:22Z snapshot does not yet establish terminal failure.
+
+Existing mechanisms tolerate a late worker only within this startup window; no live timeout/config alteration was made. If native startup times out, retain this attempt separately and perform fresh admission for any subsequent attempt. D19's specific more-GPU response to first-update rollout/teacher throughput does not apply to a worker that never starts. `gang_start` is not an established fix: the handbook records cross-task ConfigMap injection and prior single-node teacher failures, so it was not changed speculatively.
 
 ### Exact submission
 

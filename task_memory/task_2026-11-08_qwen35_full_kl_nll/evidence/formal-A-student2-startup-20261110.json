@@ -1,0 +1,26 @@
+{
+  "observed_at": "2026-11-09T18:17:46.162545+00:00",
+  "replica": "exp-1110-014836-849060-student-c81e728d",
+  "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73",
+  "created_at": "2026-11-09T17:48:39Z",
+  "status": {
+    "conditions": [
+      {
+        "type": "PodScheduled",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-09T17:48:39Z",
+        "reason": "Unschedulable",
+        "message": "0/4551 nodes are available: 118 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group."
+      }
+    ],
+    "qosClass": "Guaranteed",
+    "phase": "Starting"
+  },
+  "startup_annotations": {},
+  "log_response": {
+    "status": "Success",
+    "code": 200,
+    "data": []
+  }
+}

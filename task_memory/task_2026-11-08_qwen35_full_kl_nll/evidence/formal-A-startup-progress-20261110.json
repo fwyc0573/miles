@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-11-09T18:16:21.844739+00:00",
+  "job": "exp-1110-014836-849060",
+  "uid": "ccc4c4e4-3945-4159-8021-e0f0b17008f5",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 1,
+        "active": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1110-014836-849060-student-eccbc87e",
+        "ip": "10.191.5.44",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-c4ca4238",
+        "ip": "10.191.5.56",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "ip": "",
+        "phase": "Starting"
+      },
+      {
+        "name": "exp-1110-014836-849060-student-cfcd2084",
+        "ip": "10.191.8.63",
+        "phase": "Running"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1110-014836-849060-teacher-cfcd2084",
+        "ip": "100.99.211.93",
+        "phase": "Running"
+      }
+    ]
+  }
+}

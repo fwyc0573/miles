@@ -1,0 +1,232 @@
+{
+  "observed_at": "2026-11-09T18:22:21.270209+00:00",
+  "replica": "exp-1110-014836-849060-student-c81e728d",
+  "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73",
+  "status": {
+    "conditions": [
+      {
+        "type": "PodScheduled",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-09T17:48:39Z",
+        "reason": "Unschedulable",
+        "message": "0/4551 nodes are available: 119 Insufficient memory, 153 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 53 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group."
+      }
+    ],
+    "qosClass": "Guaranteed",
+    "phase": "Starting"
+  },
+  "events": [
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 118 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "1645028724",
+        "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73"
+      },
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "first_timestamp": "2026-11-09 18:15:46+00:00",
+      "last_timestamp": "2026-11-09 18:15:46+00:00",
+      "event_time": null,
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 117 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "45579674015",
+        "uid": "5f341f32-8467-4c1b-95af-cc730699f68d"
+      },
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "first_timestamp": null,
+      "last_timestamp": null,
+      "event_time": "2026-11-09 18:13:46.837705+00:00",
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 118 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "45579735198",
+        "uid": "5f341f32-8467-4c1b-95af-cc730699f68d"
+      },
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "first_timestamp": null,
+      "last_timestamp": null,
+      "event_time": "2026-11-09 18:15:46.873473+00:00",
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 119 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "45579800532",
+        "uid": "5f341f32-8467-4c1b-95af-cc730699f68d"
+      },
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "first_timestamp": null,
+      "last_timestamp": null,
+      "event_time": "2026-11-09 18:17:46.969933+00:00",
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 120 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "45579884586",
+        "uid": "5f341f32-8467-4c1b-95af-cc730699f68d"
+      },
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "first_timestamp": null,
+      "last_timestamp": null,
+      "event_time": "2026-11-09 18:19:47.038299+00:00",
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 119 Insufficient memory, 153 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 53 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "v1",
+        "field_path": null,
+        "kind": "Pod",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "45579945684",
+        "uid": "5f341f32-8467-4c1b-95af-cc730699f68d"
+      },
+      "source": {
+        "component": null,
+        "host": null
+      },
+      "first_timestamp": null,
+      "last_timestamp": null,
+      "event_time": "2026-11-09 18:21:47.426943+00:00",
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 120 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "1645045126",
+        "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73"
+      },
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "first_timestamp": "2026-11-09 18:19:47+00:00",
+      "last_timestamp": "2026-11-09 18:19:47+00:00",
+      "event_time": null,
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 119 Insufficient memory, 153 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 53 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "1645047869",
+        "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73"
+      },
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "first_timestamp": "2026-11-09 18:21:47+00:00",
+      "last_timestamp": "2026-11-09 18:21:47+00:00",
+      "event_time": null,
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 119 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "1645032260",
+        "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73"
+      },
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "first_timestamp": "2026-11-09 18:17:46+00:00",
+      "last_timestamp": "2026-11-09 18:17:46+00:00",
+      "event_time": null,
+      "count": null
+    },
+    {
+      "reason": "FailedScheduling",
+      "message": "0/4551 nodes are available: 117 Insufficient memory, 154 Insufficient cpu, 167 Insufficient nvidia.com/gpu, 4384 node(s) didn't match Pod's node affinity/selector. preemption: 0/4551 nodes are available: 164 Insufficient nvidia.com/gpu, 25 Insufficient memory, 3 No preemption victims found for incoming pod, 4384 Preemption is not helpful for scheduling, 54 Insufficient cpu. add into backoff, co-scheduling: can not find pod related pod group.",
+      "involved_object": {
+        "api_version": "rjob.brainpp.cn/v1alpha1",
+        "field_path": null,
+        "kind": "Replica",
+        "name": "exp-1110-014836-849060-student-c81e728d",
+        "namespace": "shai-core",
+        "resource_version": "1645025710",
+        "uid": "5d991bd1-2888-4dab-a3a7-55f279bd8b73"
+      },
+      "source": {
+        "component": "rjob-controller",
+        "host": null
+      },
+      "first_timestamp": "2026-11-09 18:13:46+00:00",
+      "last_timestamp": "2026-11-09 18:13:46+00:00",
+      "event_time": null,
+      "count": null
+    }
+  ],
+  "complete_pagination": true
+}
