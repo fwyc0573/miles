@@ -1,0 +1,31 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-10 | Record D35 merge preflight and the input-interface reconciliation boundary. |
+
+# Verified H800 branch integration
+
+## Scope
+
+D35 adopts the completed H800 D34 capacity result for this task's D1/D22 prerequisite. Merge the verified `agent-opd-h800-capacity` branch into `agent-opd-image`, preserving this task's accepted input contract and profile module. The upstream task keeps its own acceptance records and runs.
+
+## Preflight
+
+```bash
+git merge-tree 20d0b3f4 agent-opd-image agent-opd-h800-capacity \
+  > /data/ycfeng/tmp/agent-opd-image/merge-tree-profile-20261110.txt
+git diff agent-opd-image agent-opd-h800-capacity -- \
+  tests/manual/agent_opd/swe_inputs.py tests/manual/agent_opd/check_swe_inputs.py \
+  > /data/ycfeng/tmp/agent-opd-image/profile-input-branches-20261110.diff
+```
+
+The installed Git does not support `merge-tree --write-tree`; that attempted read-only command returned `fatal: unknown rev --write-tree`. The supported three-tree invocation succeeded without changing either index or worktree. It identifies conflicts in `swe_inputs.py` and `check_swe_inputs.py` only.
+
+The parent adapter/checker own the verified module pins, explicit prompt limit, source-kind registry, audited visual exclusions, native block mixer, 32×8 order and per-bank finished-conversation report. The candidate adapter uses an older single-loader interface and separate visual receipt. Keep the parent's accepted source contract; the merged native launcher and affected tests must consume that interface. Do not add a second compatibility constructor or rewrite historical source receipts. Native replay's verified response-budget preservation and network/session/scoring fixes remain required.
+
+Existing tracked modifications before this step were task-owned documentation. They are being committed by their owners before merge. Untracked `.cortexkit/` remains untouched. The preparation branch's accepted artifacts are separately archived before consolidation.
+
+## Verification state
+
+Preflight: PASS. Actual merge, reconciled caller checks and Ticket02/03 integration are pending. CPU test interpreter is `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python` (Python 3.12.13); torch, pytest, Ray and SGLang are available. Native profile acceptance remains at A's first formal successful update under D16, not an additional GPU smoke.
