@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record explicit personal50-H200 ceiling for the selected isolated D13 A submission;leave originalD9/formal policies unchanged. |
 | 2026-11-09 | Record explicit A expansion selection: one18-H200 mixed-rollout smoke, necessary argument/startup repairs, and unchanged scientific limits. |
 | 2026-11-09 | Record D13 conditional extra rollout capacity and finite timeouts for KV-pressure/HTTP503 retry blockage. |
 | 2026-11-09 | Record D12 approval for one isolated routing-only A/r256 capacity experiment; formal profiles remain unchanged. |
@@ -218,6 +219,10 @@ The interrupted resource question was reissued at the user's request, “再次�
 User selected: **“A 额外8卡 (Recommended)”**.
 
 Selected scope: one new isolated A/r256 smoke with18H200 total: trainer8 shares its cards with the first8 rollout GPUs, another8 rollout GPUs are dedicated, and the frozen teacher retains2 GPUs. Sixteen rollout GPUs supply8 TP2 services at concurrency1. This explicitly permits expansion for the captured queue/HOL even though generationKV/503 was not confirmed. Repair the existing explicit-rollout argument overwrite and two-node startup/lifecycle boundaries; verify native mixed CUDA IPC/NCCL weight synchronization. Acquisition costs at most9GPU-hours, plus startup and two successful updates. Preserve2bank uses, the accepted inputs/models/seeds, TP2/DP4/CP1,128K,n1,231/256 within1800s, and all scientific parameters. The existing3600s generation retry-chain guard and1800s bank deadline have passed fault injection; no second timeout implementation is needed. No teacher-envelope, concurrency1→2, formal-profile change or further GPU experiment is approved. Fresh D9/H200 admission is required before submission.
+
+### D13 admission follow-up — [Original Request / Follow-up Answer] 2026-11-09
+
+After the final31+18=49 non-preemptible H200 admission hold,the user explicitly answered:`允许提高到50卡内`. This authorizes the selected single18-H200 experiment under a personal aggregate50 ceiling including other tasks. Use the existing policy input mechanism through a D13-only policy file;leave originalD9 policy and formal profiles unchanged. The expired64 window is not reactivated. No job stop,preemption substitution,teacher-envelope orconcurrency change is authorized.
 
 ## Documentation acceptance criteria
 

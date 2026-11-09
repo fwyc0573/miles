@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record explicit personal50 authorization and existing-policy boundary verification;production/runtime source is unchanged. |
 | 2026-11-09 | Record selected D13 A implementation, combined CPU verification, scoped configuration errors and remaining native/admission limits. |
 
 # D13 A rollout expansion: CPU integration
@@ -69,3 +70,15 @@ Actual:PASS;existing top-levelRuff configuration deprecation remains unrelated.
 4. Verify231/256 within1800s,then original native scoring/backward,two optimizer acknowledgements,second scoring and HF exports using retained native tensors. Keep unsuccessful or missing stages explicitly unverified.
 
 Acquisition allocation is at most9 GPU-hours (18 GPUs×0.5h),plus authorized startup and two-update cost. CPU success alone closes none of Ticket02's native capacity gates.
+
+## User-resolved personal50 admission
+
+After the31+18=49 hold,the user explicitly permitted `允许提高到50卡内` for the selected experiment. The candidate now points to `deepswe_capacity_expanded_gpu_policy.json`:the existing policy schema with personal50 and the original already-expired window metadata. CurrentUTC must select personal scope,include other tasks and keep preemptibleFalse. OriginalD9/formal files are unchanged. No admission code or new timeout implementation is added.
+
+Existing budget regression:10 PASS,exit0.
+
+```bash
+TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest -q tests/fast/test_rjob_budget.py --basetemp=/data/ycfeng/tmp/pytest-d13-personal50 --junitxml=task_memory/task_2026-11-08_qwen35_swe_full_r256/evidence/d13-personal50-budget-regression.xml > /data/ycfeng/tmp/qwen35-swe-personal50-budget-regression-20261109.log 2>&1
+```
+
+Additional direct checks use the unchanged `policy_admission_snapshot` plus existing `_client`/`_job` fixtures from `tests/fast/test_rjob_budget.py`,with an other-personal-task row and awareUTC2026-11-09. Committed31+18=49 and32+18=50 admit;33+18=51 denies. All three retain personal scope,ceiling50 and preemptibleFalse. Evidence:`evidence/d13-personal50-boundaries.json`. A JSON comparison against52e84dea confirms the only candidate change is `gpu_policy`;the old expired timestamp is unchanged. Live admission remains to run under the existing submission lock.

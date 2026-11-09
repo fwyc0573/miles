@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Resolve the selected D13 A admission ceiling to user-authorized personal50;require fresh native admission and preserve formal policies. |
 | 2026-11-09 | Execute the selected18-H200 mixed-rollout preparation in parallel; record the current admission constraint and baseline23/400. |
 | 2026-11-09 | Close retained-log RCA,verify the existing timeout guard, and update baseline10/400; retain the rollout-only topology decision before new execution. |
 | 2026-11-09 | Add D13 finite-timeout and conditional rollout-only expansion investigation; preserve the training topology and acquisition contract. |
@@ -23,6 +24,8 @@
 **Phase: IMPLEMENTATION_IN_PROGRESS.** Documentation landing is complete and the user authorized parallel execution. Runtime acceptance remains outstanding.
 
 ## Scope and ownership
+
+- D13 final admission follow-up:the user explicitly raises this isolated experiment's personal non-preemptible H200 ceiling to50 including other tasks. Route the candidate through `deepswe_capacity_expanded_gpu_policy.json` using unchanged native admission logic. Leave originalD9/formal policies unchanged;refresh counts and require committed+18<=50 immediately before submission.
 
 The protocol is owned by [spec.md](spec.md); raw requests and actual answers are in [requirements.md](requirements.md). This plan owns dependencies and verification strategy rather than maintaining another parameter table.
 

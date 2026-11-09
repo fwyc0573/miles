@@ -1,0 +1,95 @@
+[
+  {
+    "observed_at": "2026-11-09T06:35:29.403604+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H200",
+    "nonterminal_jobs": [
+      {
+        "name": "other-personal-task",
+        "phase": "Running",
+        "roles": {
+          "0": 31
+        },
+        "gpus": 31
+      }
+    ],
+    "committed_gpus": 31,
+    "requested_gpus": 18,
+    "ceiling_gpus": 50,
+    "admitted": true,
+    "scope": "personal",
+    "policy": {
+      "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+      "task_annotation": "miles.ycfeng/task",
+      "personal_nonpreemptible_gpus": 50,
+      "temporary_task_allocation": {
+        "expires_at": "2026-11-08T21:00:00+00:00",
+        "nonpreemptible_gpus": 64
+      }
+    },
+    "evaluated_at": "2026-11-09T00:00:00+00:00",
+    "preemptible": false
+  },
+  {
+    "observed_at": "2026-11-09T06:35:29.403658+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H200",
+    "nonterminal_jobs": [
+      {
+        "name": "other-personal-task",
+        "phase": "Running",
+        "roles": {
+          "0": 32
+        },
+        "gpus": 32
+      }
+    ],
+    "committed_gpus": 32,
+    "requested_gpus": 18,
+    "ceiling_gpus": 50,
+    "admitted": true,
+    "scope": "personal",
+    "policy": {
+      "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+      "task_annotation": "miles.ycfeng/task",
+      "personal_nonpreemptible_gpus": 50,
+      "temporary_task_allocation": {
+        "expires_at": "2026-11-08T21:00:00+00:00",
+        "nonpreemptible_gpus": 64
+      }
+    },
+    "evaluated_at": "2026-11-09T00:00:00+00:00",
+    "preemptible": false
+  },
+  {
+    "observed_at": "2026-11-09T06:35:29.403683+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H200",
+    "nonterminal_jobs": [
+      {
+        "name": "other-personal-task",
+        "phase": "Running",
+        "roles": {
+          "0": 33
+        },
+        "gpus": 33
+      }
+    ],
+    "committed_gpus": 33,
+    "requested_gpus": 18,
+    "ceiling_gpus": 50,
+    "admitted": false,
+    "scope": "personal",
+    "policy": {
+      "task_id": "task_2026-11-08_qwen35_swe_full_r256",
+      "task_annotation": "miles.ycfeng/task",
+      "personal_nonpreemptible_gpus": 50,
+      "temporary_task_allocation": {
+        "expires_at": "2026-11-08T21:00:00+00:00",
+        "nonpreemptible_gpus": 64
+      }
+    },
+    "evaluated_at": "2026-11-09T00:00:00+00:00",
+    "preemptible": false
+  }
+]

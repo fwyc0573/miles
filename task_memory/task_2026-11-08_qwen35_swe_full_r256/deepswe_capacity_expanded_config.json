@@ -18,7 +18,7 @@
   "teacher_dist_port": 29501,
   "charged_group": "step_main",
   "gpu_tag": "H200",
-  "gpu_policy": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/gpu_policy.json",
+  "gpu_policy": "/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_gpu_policy.json",
   "creator": "i-fengyicheng",
   "admission_lock": "/data/ycfeng/tmp/qwen35-swe-admission.lock",
   "api_timeout_seconds": 20,

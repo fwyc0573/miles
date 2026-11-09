@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record user-authorized personal50-H200 ceiling and isolated policy input;refresh admission before the one18-card submission. |
 | 2026-11-09 | Record A expansion approval, mixed-argument85/launcher25 PASS, parallel worker repair and current GPU admission hold; observe baseline23/400 with4 missing infra failures. |
 | 2026-11-09 | Accept existing-timeout fault injection:93+8 regressions and primary5-case rerun; retain failed capacity and resource-choice frontier. |
 | 2026-11-09 | Complete retained-log RCA; record supported mixed-layout options,correct UTC window status, and advance baseline10/400. |
@@ -162,6 +163,8 @@ The chronological entries below describe their then-current data and acceptance 
 - Formal evaluation inputs/config were prepared without enqueuing a point. Before-run traceability inspection found a small accounting gap between never-started and infrastructure-failed slots plus missing per-attempt finish timestamps; the03 owner is adding these at existing durable boundaries, preserving the400-slot denominator and original deadline. The final async native check reuses explicit qualification points: the current formal-only notification guard cannot exercise a3-update smoke, so the existing qualification mode is being wired through the same notifier/watcher and a test-only first-child failure injection. Formal guards stay unchanged; no formal training or baseline starts from these preparations.
 
 ## pending
+
+- D13 admission decision resolved after commit52e84dea:the user explicitly permits personal non-preemptible H200 aggregate<=50 for this isolated18-card run,including other tasks. Parent creates a scoped existing-schema50 policy and points only the new candidate at it;originalD9/formal files remain unchanged. The existing schema requires historicalwindow metadata,so its original expired timestamp is retained;currentUTC selects personal50 and does not reactivate64 or task filtering. Fresh real admission and the single native submission remain to execute;no extra resources beyond the approved18,no stop/preemption/concurrency/envelope change.
 
 - completed02 D13 implementation-phase review:`ses_e411974f8ffet8IZR86PtH3Gkg` inspects the13-file fixed diff and returnsGO/no actionableP1–P3 finding. GPU submission remainsHOLD;CPU/native boundary and graph-getter limitation are explicit. Fresh final personal readback now counts31 non-preemptible H200;requested18 would total49,so the32 check denies although originalD9's56 admits. At least17 existing H200 must leave before the approved18-card non-preemptible submission fits32. No other job was stopped,no preemption substituted,and no expanded GPU submitted. Evidence:`admission-deepswe-expanded-preflight-final-20261109.json`,`checkpoint_d13_expansion_preflight_review.md`.
 
