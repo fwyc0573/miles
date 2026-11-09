@@ -1,11 +1,15 @@
 """`Sample.max_response_len` lowers `max_new_tokens` for that sample only, in both rollout paths."""
 
+import json
 from contextlib import nullcontext
+from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 from tests.fast.ray.rollout.conftest import make_args
 from tests.fast.rollout.inference_rollout.conftest import make_state
+from tests.manual.agent_opd.check_swe_inputs import _CharacterTokenizer, _fixture_population
+from tests.manual.agent_opd.swe_inputs import NativeSWEDataSource, file_sha256
 
 from miles.rollout import sglang_rollout
 from miles.rollout.base_types import GenerateFnOutput
@@ -89,3 +93,161 @@ def test_the_budget_survives_retry_and_serialization():
 
     assert sample.max_response_len == 40
     assert Sample.from_dict(sample.to_dict()).max_response_len == 40
+
+
+class _NativeTurns:
+    """External loader boundary with deterministic turn identities, not a loader replica."""
+
+    def __init__(self, population):
+        path = population.filelist[0]
+        self.items = iter(enumerate(json.loads(Path(path).read_text())))
+        self.path = path
+        self.cursor = SimpleNamespace(epoch=0)
+        self.emitted_turns = 0
+
+    def __next__(self):
+        index, conversation = next(self.items)
+        conversation[-1]["ground_truth"] = {
+            "source_item_index": index,
+            "source_row_index": index,
+            "source_message_count": 2,
+            "assistant_turn_index": 1,
+            "assistant_turn_ordinal": 1,
+            "num_context_messages": 1,
+            "data_path": self.path,
+        }
+        self.emitted_turns += 1
+        return {"conversation": conversation}
+
+    def close(self):
+        pass
+
+
+@pytest.fixture
+def native_swe_source(tmp_path):
+    sources = []
+
+    def build(lengths, *, prompt_limit=114688, response_limit=16384):
+        tokenizer = _CharacterTokenizer()
+        empty_prompt = [{"role": "user", "content": ""}]
+        overhead = len(tokenizer.apply_chat_template(empty_prompt))
+        conversations = [
+            [
+                {"role": "user", "content": "x" * (length - overhead)},
+                {"role": "assistant", "content": "historical target"},
+            ]
+            for length in lengths
+        ]
+        population = _fixture_population(tmp_path / f"source-{len(sources)}", [conversations])
+        loader = tmp_path / "loader.py"
+        loader.write_text("# No native import is needed with the injected external source.\n")
+        for name in ("tokenizer.json", "tokenizer_config.json", "template.jinja"):
+            (tmp_path / name).write_text("fixture")
+        args = SimpleNamespace(
+            n_samples_per_prompt=1,
+            rollout_max_context_len=131072,
+            rollout_max_prompt_len=prompt_limit,
+            rollout_max_response_len=response_limit,
+            apply_chat_template_kwargs={"preserve_thinking": True, "enable_thinking": True},
+            swe_skip_masked_assistant_turns=False,
+            swe_visual_filter_receipt=None,
+            swe_native_loader_path=str(loader),
+            swe_native_loader_sha256=file_sha256(loader),
+            swe_source_root=str(Path(population.filelist[0]).parent),
+            swe_source_manifest=str(Path(population.filelist[0]).parent / "COPY_COMPLETE.json"),
+            hf_checkpoint=str(tmp_path),
+            chat_template_path=str(tmp_path / "template.jinja"),
+        )
+        source = NativeSWEDataSource(
+            args,
+            tokenizer=tokenizer,
+            population=population,
+            native_source=_NativeTurns(population),
+        )
+        sources.append(source)
+        return source
+
+    yield build
+    for source in sources:
+        source.close()
+
+
+async def test_native_swe_prompt_limit_preserves_slots_and_generation_budget(native_swe_source, caplog, tmp_path):
+    source = native_swe_source([64, 114689, 114688, 128])
+    with caplog.at_level("INFO"):
+        samples = [group[0] for group in source.get_samples(3)]
+    assert [sample.metadata["source"]["prompt_token_count"] for sample in samples] == [64, 114688, 128]
+    assert [sample.metadata["source"]["source_item_index"] for sample in samples] == [0, 2, 3]
+    assert [sample.index for sample in samples] == [0, 1, 2]
+    assert [sample.group_index for sample in samples] == [0, 1, 2]
+    assert [sample.max_seq_len for sample in samples] == [131072] * 3
+    assert [sample.max_response_len for sample in samples] == [16384] * 3
+    assert [len(sample.prompt) for sample in samples] == [64, 114688, 128]
+    assert source.skipped_overlength == 1
+    assert source.native.emitted_turns == 4
+    rejects = [
+        json.loads(record.message.split(" ", 1)[1])
+        for record in caplog.records
+        if record.message.startswith("NATIVE_SWE_INPUT_REJECT ")
+    ]
+    assert len(rejects) == 1
+    assert rejects[0]["reason"] == "prompt_above_prompt_limit"
+    assert rejects[0]["source"]["prompt_token_count"] == 114689
+    assert rejects[0]["rollout_max_prompt_len"] == 114688
+    assert rejects[0]["rollout_max_context_len"] == 131072
+
+    generate = _RecordingGenerate()
+    run_params = {"temperature": 1.0, "max_new_tokens": 16384}
+    for sample in samples:
+        await common.generate_and_rm(make_state(generate), sample, sampling_params=run_params, evaluation=True)
+    assert generate.max_new_tokens == [16384] * 3
+    assert run_params == {"temperature": 1.0, "max_new_tokens": 16384}
+
+    source.save(tmp_path / "receipt")
+    receipt = json.loads((tmp_path / "receipt" / "native_swe_inputs.json").read_text())
+    assert receipt["accepted_turns"] == 3 and receipt["skipped_overlength"] == 1
+    assert receipt["identity"]["rollout_max_context_len"] == 131072
+    assert receipt["identity"]["rollout_max_prompt_len"] == 114688
+    assert receipt["identity"]["rollout_max_response_len"] == 16384
+    assert receipt["identity"]["length_reject"] == (
+        "prompt_token_count >= rollout_max_context_len or prompt_token_count > rollout_max_prompt_len (when set)"
+    )
+    assert receipt["identity"]["generation_budget"] == (
+        "min(rollout_max_response_len, rollout_max_context_len - prompt_token_count)"
+    )
+
+
+@pytest.mark.parametrize("response_limit,expected", [(16384, [16383, 1, 16384]), (131072, [16383, 1, 131008])])
+async def test_native_swe_unset_prompt_limit_keeps_remaining_context_budget(
+    native_swe_source,
+    caplog,
+    response_limit,
+    expected,
+):
+    source = native_swe_source([114689, 131071, 131072, 64], prompt_limit=None, response_limit=response_limit)
+    with caplog.at_level("INFO"):
+        samples = [group[0] for group in source.get_samples(3)]
+    assert [sample.metadata["source"]["source_item_index"] for sample in samples] == [0, 1, 3]
+    assert [sample.metadata["source"]["prompt_token_count"] for sample in samples] == [114689, 131071, 64]
+    assert [sample.index for sample in samples] == [0, 1, 2]
+    assert [sample.group_index for sample in samples] == [0, 1, 2]
+    assert [sample.max_seq_len for sample in samples] == [131072] * 3
+    assert [sample.max_response_len for sample in samples] == expected
+    assert source.skipped_overlength == 1
+    assert source.identity["rollout_max_prompt_len"] is None
+    rejects = [
+        json.loads(record.message.split(" ", 1)[1])
+        for record in caplog.records
+        if record.message.startswith("NATIVE_SWE_INPUT_REJECT ")
+    ]
+    assert len(rejects) == 1
+    assert rejects[0]["reason"] == "prompt_at_or_above_context_limit"
+    assert rejects[0]["source"]["prompt_token_count"] == 131072
+    assert rejects[0]["rollout_max_prompt_len"] is None
+
+    generate = _RecordingGenerate()
+    run_params = {"temperature": 1.0, "max_new_tokens": response_limit}
+    for sample in samples:
+        await common.generate_and_rm(make_state(generate), sample, sampling_params=run_params, evaluation=True)
+    assert generate.max_new_tokens == expected
+    assert run_params == {"temperature": 1.0, "max_new_tokens": response_limit}

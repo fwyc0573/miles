@@ -160,7 +160,8 @@ class NativeSWEDataSource(DataSource):
     """One independent native cursor per instance; only accepted turns get slots.
 
     Args use the existing Miles fields hf_checkpoint, chat_template_path,
-    apply_chat_template_kwargs, rollout_max_context_len and n_samples_per_prompt. The custom
+    apply_chat_template_kwargs, rollout_max_context_len, rollout_max_prompt_len,
+    rollout_max_response_len and n_samples_per_prompt. The custom
     data_source_path config adds swe_source_root, swe_source_manifest,
     swe_native_loader_path and swe_native_loader_sha256. The optional native
     mask policy requires swe_skip_masked_assistant_turns and a verified
@@ -174,8 +175,8 @@ class NativeSWEDataSource(DataSource):
             raise ValueError("Native SWE inputs require n_samples_per_prompt=1")
         if args.rollout_max_context_len is None or args.rollout_max_context_len <= 0:
             raise ValueError("Native SWE rollout_max_context_len must be set and positive")
-        if args.rollout_max_response_len < args.rollout_max_context_len:
-            raise ValueError("Native SWE remaining-context generation requires rollout_max_response_len >= rollout_max_context_len")
+        if args.rollout_max_response_len is None or args.rollout_max_response_len <= 0:
+            raise ValueError("Native SWE rollout_max_response_len must be set and positive")
         kwargs = dict(args.apply_chat_template_kwargs)
         if kwargs.get("preserve_thinking") is not True or kwargs.get("enable_thinking") is not True:
             raise ValueError("Native Qwen SWE inputs require preserve_thinking=true and enable_thinking=true")
@@ -205,6 +206,8 @@ class NativeSWEDataSource(DataSource):
         )
         self.template_kwargs = kwargs
         self.context_tokens = args.rollout_max_context_len
+        self.prompt_tokens = args.rollout_max_prompt_len
+        self.response_tokens = args.rollout_max_response_len
         self.sample_index = 0
         self.skipped_overlength = 0
         self.identity = {
@@ -220,13 +223,14 @@ class NativeSWEDataSource(DataSource):
             "chat_template_sha256": file_sha256(Path(args.chat_template_path)),
             "chat_template_kwargs": kwargs,
             "rollout_max_context_len": self.context_tokens,
-            "rollout_max_response_len": args.rollout_max_response_len,
+            "rollout_max_prompt_len": self.prompt_tokens,
+            "rollout_max_response_len": self.response_tokens,
             "n_samples_per_prompt": 1,
             "domain": "reasoning", "source_group": "swe", "reward_fn_type": "noop",
             "source_load_path": None, "source_load_safetensors": None,
             "shuffle": False, "deduplicate": False, "epoch_wrap": True,
-            "length_reject": "prompt_token_count >= rollout_max_context_len",
-            "generation_budget": "rollout_max_context_len - prompt_token_count",
+            "length_reject": "prompt_token_count >= rollout_max_context_len or prompt_token_count > rollout_max_prompt_len (when set)",
+            "generation_budget": "min(rollout_max_response_len, rollout_max_context_len - prompt_token_count)",
             "tools_rendering_difference": "Step caller omits system.tools; Qwen passes system.tools explicitly",
             "resume_supported": False,
         }
@@ -265,15 +269,30 @@ class NativeSWEDataSource(DataSource):
             source = native_source_identity(item, self._files[item["conversation"][-1]["ground_truth"]["data_path"]],
                                             self.native.cursor.epoch)
             source.update(prompt_token_count=len(prompt_ids), prompt_sha256=token_hash(prompt_ids))
-            if len(prompt_ids) >= self.context_tokens:
+            if len(prompt_ids) >= self.context_tokens or (
+                self.prompt_tokens is not None and len(prompt_ids) > self.prompt_tokens
+            ):
                 self.skipped_overlength += 1
-                logger.info("NATIVE_SWE_INPUT_REJECT %s", json.dumps({
-                    "source": source, "reason": "prompt_at_or_above_context_limit", "rollout_max_context_len": self.context_tokens,
-                }))
+                logger.info(
+                    "NATIVE_SWE_INPUT_REJECT %s",
+                    json.dumps(
+                        {
+                            "source": source,
+                            "reason": (
+                                "prompt_at_or_above_context_limit"
+                                if len(prompt_ids) >= self.context_tokens
+                                else "prompt_above_prompt_limit"
+                            ),
+                            "rollout_max_context_len": self.context_tokens,
+                            "rollout_max_prompt_len": self.prompt_tokens,
+                        }
+                    ),
+                )
                 continue
             sample = Sample(
                 index=self.sample_index, group_index=self.sample_index, prompt=prompt,
-                max_seq_len=self.context_tokens, max_response_len=self.context_tokens - len(prompt_ids),
+                max_seq_len=self.context_tokens,
+                max_response_len=min(self.response_tokens, self.context_tokens - len(prompt_ids)),
                 metadata={
                     "source": source, "history": history, "tools": tools,
                     "thinking_enabled": True, "chat_template_kwargs": dict(self.template_kwargs),
