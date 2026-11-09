@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Close the CPU/static NCCL repair and separate H800 D34 runtime readiness from upstream D11 acceptance. |
 | 2026-11-09 | Add the native startup RCA and user-authorized session cloud cleanup. |
 | 2026-11-09 | Plan isolated H800 resource preparation and verification. |
 | 2026-11-09 | Add the independently owned native launcher length slice and CPU acceptance checks. |
@@ -21,11 +22,11 @@ Acceptance: unlimited policies do not impose a manufactured count ceiling or for
 
 6. Repair mixed-engine lifecycle coverage, prove the CPU regression RED→GREEN, inspect the exact pinned receiver contract and review the fixed diff.
 7. Apply D34 to the existing native capacity source without changing its sequential sampling. Prepare genuine native visual receipts against original posttrain paths; validate the ordinary source factory and candidate H800 payload before submission.
-8. Submit the A/r256 H800 capacity prerequisite through the existing personal Python backend; verify creator, local NFS source, actual workers/topology, weight publication, bank admission and two successful updates. Record native evidence before any parent merge; retain a failed/partial verdict if those conditions are not met.
+8. Submit the A/r256 H800 D34 capacity/readiness run through the existing personal Python backend; verify creator, local NFS source, actual workers/topology, weight publication, bank admission and two successful updates. Record native evidence before any parent merge; retain a failed/partial verdict if those conditions are not met. This H800 result does not accept upstream's unchanged D11 input-length contract.
 
 Updated execution frontier: `{6, source part of7, native receipts in7}` run independently; `{1, 2, 3, 5, 6, 7} -> 8`; `{8 accepted, parent gate acceptance} -> 4`. Step8 is the upstream-native prerequisite, not parent Ticket02/03 implementation or a formal profile run.
 
 9. Diagnose the first native startup exception from the terminal H800 attempt. Establish a production-path CPU discriminator, correct only the confirmed cause, and verify affected checks before any fresh native attempt. Preserve node-local platform network values; no timeout, retry, or transport workaround is authorized.
 10. In parallel with9, inventory session-owned cloud smoke/temporary outputs, retain exact diagnostic evidence locally, and remove only obsolete terminal-job outputs authorized by the latest request. Verify backup content, deleted paths and logical byte counts. Preserve source assets, live/formal/evaluation artifacts and shared trash; report physical reclamation as unverified unless measured.
 
-Current dependency: `8 failed -> {9, 10}`; `{9 verified, fresh admission} -> affected native verification -> 8 acceptance -> 4`. Cleanup is independent of the code diagnosis and is not an acceptance gate.
+Current dependency: `8 failed -> {9, 10}`; `{9 verified, fresh admission} -> affected native verification -> 8 acceptance`; `{8 accepted, separately recorded upstream D1/D22 acceptance} -> 4`. Cleanup is independent of the code diagnosis and is not an acceptance gate. Collect node/runtime/environment evidence through existing receipts and event reporting; auxiliary inspection gaps stay non-blocking and are marked unverified.

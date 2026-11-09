@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record cf98293a CPU/static repair acceptance and freeze a separate-output H800 D34 native retry candidate. |
 | 2026-11-09 | Record terminal startup failure, node-network discriminator and cloud cleanup steering. |
 | 2026-11-09 | Record the36-H800 submission, personal admission, platform role/resource policy and initial worker GPU evidence. |
 | 2026-11-09 | Open the H800 resource-preparation slice from upstream c52991ac. |
@@ -132,3 +133,16 @@
 - Retained a restricted local raw archive at`/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz` (3,911,955 bytes), verified all167 file sizes and hashes, rechecked unchanged cloud contents, and deleted only that terminal smoke root at10:53:11Z. Independent readback finds the task's cloud parent empty. Source assets, other tasks and shared trash were untouched. Logical bytes removed:15,325,989; physical OSS reclamation remains unverified.
 - Exact commands, archive verification and scope limits:`test_report_2026-11-09_cloud_cleanup.md`; receipts:`evidence/cloud-cleanup-{inventory,backup,result}-20261109.json`. Selected first native failures are preserved locally in`evidence/h800-first-native-failure-20261109.json`; raw code diagnosis can continue from the retained head log and archive.
 - Local record checks: `git diff --check` PASS; selected28 task Markdown/top-level JSON files contain neither personal credential value and all JSON parses; backup/result receipts agree on167 files and15,325,989 bytes. No GPU check was rerun for this file cleanup. The updated`checkpoint_2026-11-09_native_preflight.md` maps Plan8 toFAILED, Plan9 toTODO and Plan10 toPASS, with no remaining route drift after correcting stale live-launcher records.
+
+### completed: Plan9 CPU/static node-local NCCL repair
+
+- `cf98293a` removes the head-inherited `NCCL_*` broadcast from `_runtime_env`; existing explicit deterministic/config controls and each node's raylet environment remain intact. Real launcher→Ray submission→native spec/manager→CommandActor→subprocess regression reproduces the heterogeneous rank2 socket/HCA overwrite before the fix and preserves native node values afterwards. Report:`test_report_2026-11-09_node_local_network.md`, RED1failed/2passed→GREEN3passed, final affected529passed/12skipped/1known-baseline parser case deselected. Native NCCL2.30.7 is not verified by the local2.28.9 discriminator.
+- Fixed complete four-file diff`d91be845..cf98293a`, artifact`/data/ycfeng/tmp/agent-opd-image/cf98293a-fixed-review.diff`, was reviewed by`profile-h800-node-network-review-20261109` (`ses_e3ffdba19ffe6ry9e4fP59h2Sc`): Standards/Spec No Findings. The reviewer did not rerun tests; native engine environments, TP4 initialization, initial weight publication and capacity acceptance remain unverified.
+- Original config is preserved in the previous commits and failed-job receipts. Current `h800_capacity_config.json` changes exactly`phase`, `run_root`, `shared_dir` for a new native attempt. All scientific/resource fields are unchanged. Real submission dry-run passes36GPU allocation; actual train CLI argv remains131072/114688/16384, TP4,32rollout GPUs,256slots,1800seconds,2ACK budget/2bank uses. Head NIC/HCA values are absent from the produced job env. Evidence:`evidence/h800-network-fixed-{submission,native-argv}-dry-run-20261109.json`.
+- The first argv-inspection command incorrectly treated successful textual CLI output as JSON. Correct inspection uses`shlex.split`; no RJob was created and no product behavior changed. Exact commands and verification limits:`test_report_2026-11-09_network_fixed_prelaunch.md`.
+
+### in-progress: fresh H800 D34 native verification
+
+- At11:19Z the upstream local coordination check still found no new capacity job, but its18-H200 rerun is now approved in`23b29f66`. Upstream has not recorded the parent's112K/16K budgets; its D11 acceptance is separate. The H800 owner will verify its own D34 hardware/runtime contract without stopping or holding the other owner's job or claiming that a differently filtered bank accepts D11.
+- New output root:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109`; selected local evidence:`evidence/h800-capacity-112k-network-fixed`. Fresh personal Python admission and actual native submission are still pending; no job is inferred from dry-run.
+- Next: keep the ordinary launcher alive; inspect new job creator/source/all36devices, new runtime env, node platform values and available native event reports, all8TP4 engines and initial weights; then require231/256within1800s and the real two optimizer ACKs/second scoring/two sealed-bank uses. Auxiliary inspection failures are soft-only and marked unverified; they do not cancel or block healthy training. Parent D1/D22 remain unchanged and unmet.

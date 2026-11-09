@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record verified node-local NCCL correction and distinguish D34 H800 readiness from upstream's frozen D11 capacity acceptance. |
 | 2026-11-09 | Record session-owned smoke and temporary cloud-artifact cleanup authorization. |
 | 2026-11-09 | Record the isolated resource-preparation slice for parent task D33. |
 | 2026-11-09 | Record the independently configured 128K context, 112K prompt and 16K response follow-up. |
@@ -43,6 +44,12 @@ Task ID: `profile-length-launcher-20261109`. The previous admission commit `1ae9
 The upstream attempt `exp-1109-144110-764758` failed before generation during initial weight publication. Within the parent's continuing D33/D34 execution authorization, this isolated branch owns the minimal mixed-engine session correction and the old native SWE source's prompt/completion budget consumer. Neither change implements the parent's per-turn profile hooks or merges upstream into the parent.
 
 The prepared A/r256 capacity configuration requests36 H800/codesign: one8-GPU TP4/DP2 trainer colocated with twoTP4 engines, three additional8-GPU nodes providing six dedicatedTP4 engines, and a separate4-GPU TP4 teacher. Its acceptance remains at least231 of256 within1800 seconds, two successful optimizer ACKs, second-student scoring and two uses of the same bank. The original source sequence, mask policy, models, seeds and loss parameters remain the upstream prerequisite's contract; parent formal32×8 interleaving and200-update runs are separate gated work.
+
+### Native retry coordination and contract boundary
+
+As of2026-11-09T11:19Z, upstream `agent-opd` at`23b29f66` has approval for one original18-H200 session-repair rerun but no new submitted job or capacity acceptance. Its recorded source-length contract has not adopted parent D34. This task's36-H800 run verifies the parent's explicitly approved H800 and128K/112K/16K configuration; it is not acceptance of the unchanged upstream D11 contract. The two owners retain separate jobs and evidence. Neither task may infer the other's acceptance from submission, CPU tests or a result under different input budgets. Parent D1/D22 remain blocked until the upstream owner records acceptance under its authoritative contract; any later contract reconciliation requires an explicit recorded decision, not a relabeled receipt.
+
+The first H800 failure's confirmed code defect is head-inherited NCCL environment serialization. Commit`cf98293a` removes that override while retaining node-local platform values and explicit existing deterministic/config controls. The next native attempt changes only the output identity/path fields in the H800 config; topology, source inputs, length budgets, seeds, loss, teacher envelope and native timeouts remain unchanged. All auxiliary environment/evidence checks are soft-only; missing inspection data is reported as unverified and cannot stop healthy training.
 
 D25 is enforced by reading original posttrain sources in place. The existing genuine native baseline/visual/filter APIs must produce fresh receipts for those exact paths and metadata; existing receipts for copied sources must not be relabeled. D10 is enforced with the existing `save_interval=None` mechanism; no HF or evaluation is requested. The scoring observer remains soft-only, and all cloud writes remain under `/mnt/codesign-exp/ycfeng`.
 
