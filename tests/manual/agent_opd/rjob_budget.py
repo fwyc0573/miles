@@ -51,10 +51,11 @@ def committed_jobs(items: list[dict], *, creator: str, gpu_tag: str, task_annota
 
 
 def admission_snapshot(
-    client, *, creator: str, gpu_tag: str, requested_gpus: int, ceiling: int, timeout: float,
+    client, *, creator: str, gpu_tag: str, requested_gpus: int, ceiling: int | None, timeout: float,
     task_annotation: tuple | None = None,
 ) -> dict:
-    if requested_gpus < 0 or ceiling < 0 or timeout <= 0:
+    """Read every inventory page; an explicit None ceiling means no limit."""
+    if requested_gpus < 0 or (ceiling is not None and ceiling < 0) or timeout <= 0:
         raise ValueError("Invalid admission request, ceiling or API timeout")
     jobs, continuation = [], None
     while True:
@@ -71,7 +72,7 @@ def admission_snapshot(
         "observed_at": datetime.now(timezone.utc).isoformat(),
         "creator": creator, "gpu_tag": gpu_tag, "nonterminal_jobs": jobs,
         "committed_gpus": committed, "requested_gpus": requested_gpus, "ceiling_gpus": ceiling,
-        "admitted": committed + requested_gpus <= ceiling,
+        "admitted": ceiling is None or committed + requested_gpus <= ceiling,
     }
 
 
@@ -81,6 +82,7 @@ def policy_admission_snapshot(client, *, policy: dict, creator: str, gpu_tag: st
 
     The expiry controls new submissions only. Already admitted jobs continue;
     a job crossing the task ceiling is submitted wholly as preemptible.
+    An explicit None in the selected policy ceiling imposes no GPU-count limit.
     """
     fixed_time = now is not None
     now = datetime.now(timezone.utc) if now is None else now
@@ -118,7 +120,9 @@ def validate_allocation(allocation: dict, *, requested_gpus: int, expected: dict
             or not allocation.get("job_id") or admission.get("job") != allocation["job_id"]
             or type(admission.get("requested_gpus")) is not int or admission["requested_gpus"] < requested_gpus
             or type(admission.get("committed_gpus")) is not int or admission["committed_gpus"] < 0
-            or type(admission.get("ceiling_gpus")) is not int or admission["ceiling_gpus"] < 0
+            or "ceiling_gpus" not in admission
+            or (admission["ceiling_gpus"] is not None
+                and (type(admission["ceiling_gpus"]) is not int or admission["ceiling_gpus"] < 0))
             or type(admission.get("preemptible")) is not bool
             or admission.get("creator") != expected["creator"] or admission.get("gpu_tag") != expected["gpu_tag"]):
         raise ValueError("Evaluation requires a matching submitted GPU admission receipt")
@@ -133,7 +137,7 @@ def validate_allocation(allocation: dict, *, requested_gpus: int, expected: dict
     task_scope = observed < expires
     expected_scope = "task" if task_scope else "personal"
     ceiling = window["nonpreemptible_gpus"] if task_scope else policy["personal_nonpreemptible_gpus"]
-    over_limit = admission["committed_gpus"] + admission["requested_gpus"] > ceiling
+    over_limit = ceiling is not None and admission["committed_gpus"] + admission["requested_gpus"] > ceiling
     if (admission.get("scope") != expected_scope or admission["ceiling_gpus"] != ceiling
             or admission["preemptible"] != (task_scope and over_limit) or (not task_scope and over_limit)):
         raise ValueError("GPU admission receipt violates its recorded allocation policy")

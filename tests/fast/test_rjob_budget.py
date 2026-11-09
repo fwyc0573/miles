@@ -1,5 +1,6 @@
 """Admission regressions for pending roles, pagination and hardware identity."""
 
+import json
 from datetime import datetime, timezone
 from types import SimpleNamespace
 
@@ -49,8 +50,8 @@ def test_native_replica_and_init_gpu_requests_are_counted():
     assert committed_jobs([_job("cpu", "Pending", roles=(0,), hardware="generic")], creator="owner", gpu_tag="H200") == []
 
 
-@pytest.mark.parametrize("requested,admitted", [(16, True), (17, False)])
-def test_all_pages_contribute_to_the_ceiling(requested, admitted):
+@pytest.mark.parametrize("requested,ceiling,admitted", [(16, 56, True), (17, 56, False), (160, None, True)])
+def test_all_pages_contribute_to_the_ceiling(requested, ceiling, admitted):
     calls = []
 
     def listing(**kwargs):
@@ -62,8 +63,10 @@ def test_all_pages_contribute_to_the_ceiling(requested, admitted):
 
     client = SimpleNamespace(api=SimpleNamespace(list_namespaced_custom_object=listing),
                              group="native", version="v1", namespace="test", plural="rjobs")
-    result = admission_snapshot(client, creator="owner", gpu_tag="H200", requested_gpus=requested, ceiling=56, timeout=20)
+    result = admission_snapshot(client, creator="owner", gpu_tag="H200", requested_gpus=requested,
+                                ceiling=ceiling, timeout=20)
     assert result["committed_gpus"] == 40
+    assert result["ceiling_gpus"] == ceiling
     assert result["admitted"] is admitted
     assert len(calls) == 2 and all(call["_request_timeout"] == 20 for call in calls)
 
@@ -104,17 +107,23 @@ def test_task_window_ignores_other_tasks_and_selects_overflow_preemption(request
     validate_allocation({"job_id": "new-eval", "admission": receipt}, requested_gpus=requested, expected=IDENTITY)
 
 
+@pytest.mark.parametrize("task_ceiling", [64, None])
 @pytest.mark.parametrize("other_gpus,admitted", [(40, True), (72, False)])
-def test_exact_expiry_restores_personal_admission(other_gpus, admitted):
+def test_exact_expiry_restores_personal_admission(other_gpus, admitted, task_ceiling):
+    policy = POLICY | {"temporary_task_allocation": POLICY["temporary_task_allocation"] | {
+        "nonpreemptible_gpus": task_ceiling,
+    }}
     jobs = [_job("other-task", "Running", roles=(other_gpus,)), _owned(_job("swe", "Running"))]
-    receipt = policy_admission_snapshot(_client(jobs), policy=POLICY, creator="owner", gpu_tag="H200",
+    receipt = policy_admission_snapshot(_client(jobs), policy=policy, creator="owner", gpu_tag="H200",
                                         requested_gpus=1, timeout=20, now=AT_EXPIRY)
     assert receipt["scope"] == "personal" and receipt["ceiling_gpus"] == 56
     assert receipt["admitted"] is admitted and receipt["preemptible"] is False
     assert receipt["committed_gpus"] == other_gpus + 10
 
 
-def test_inventory_read_crossing_expiry_rechecks_personal_jobs(monkeypatch):
+@pytest.mark.parametrize("task_ceiling", [64, None])
+@pytest.mark.parametrize("personal_ceiling", [56, None])
+def test_inventory_read_crossing_expiry_rechecks_personal_jobs(monkeypatch, task_ceiling, personal_ceiling):
     from tests.manual.agent_opd import rjob_budget
 
     class Clock(datetime):
@@ -134,9 +143,14 @@ def test_inventory_read_crossing_expiry_rechecks_personal_jobs(monkeypatch):
     monkeypatch.setattr(rjob_budget, "datetime", Clock)
     client = _client([])
     client.api.list_namespaced_custom_object = listing
-    receipt = policy_admission_snapshot(client, policy=POLICY, creator="owner", gpu_tag="H200",
+    policy = POLICY | {"personal_nonpreemptible_gpus": personal_ceiling,
+                       "temporary_task_allocation": POLICY["temporary_task_allocation"] | {
+                           "nonpreemptible_gpus": task_ceiling,
+                       }}
+    receipt = policy_admission_snapshot(client, policy=policy, creator="owner", gpu_tag="H200",
                                         requested_gpus=1, timeout=20)
-    assert receipt["scope"] == "personal" and not receipt["admitted"]
+    assert receipt["scope"] == "personal" and receipt["admitted"] is (personal_ceiling is None)
+    assert receipt["ceiling_gpus"] == personal_ceiling and receipt["preemptible"] is False
     assert receipt["committed_gpus"] == 72 and len(calls) == 2
 
 
@@ -147,10 +161,86 @@ def test_allocation_validates_job_resources_policy_and_preemption():
     allocation = {"job_id": "gpu-eval", "admission": receipt}
     validate_allocation(allocation, requested_gpus=2, expected=IDENTITY)
     for changes in ({"job": "other-job"}, {"submitted": False}, {"requested_gpus": 1},
-                    {"preemptible": True}, {"ceiling_gpus": 65}, {"scope": "personal"},
+                    {"preemptible": True}, {"ceiling_gpus": 65}, {"ceiling_gpus": None}, {"scope": "personal"},
                     {"creator": "other-owner"}, {"gpu_tag": "H800"}, {"policy": POLICY | {"task_id": "other"}}):
         with pytest.raises(ValueError):
             validate_allocation(allocation | {"admission": receipt | changes}, requested_gpus=2, expected=IDENTITY)
     # No current-clock expiry check: the user's admitted jobs may finish later.
     expired_receipt = receipt | {"evaluated_at": AT_EXPIRY.isoformat(), "ceiling_gpus": 56, "scope": "personal"}
     validate_allocation(allocation | {"admission": expired_receipt}, requested_gpus=2, expected=IDENTITY)
+
+
+@pytest.mark.parametrize("now,task_ceiling,personal_ceiling,committed,preemptible", [
+    (BEFORE_EXPIRY, None, 56, 80, False),
+    (BEFORE_EXPIRY, None, None, 80, False),
+    (BEFORE_EXPIRY, 64, None, 80, True),
+    (AT_EXPIRY, 64, None, 152, False),
+    (AT_EXPIRY, None, None, 152, False),
+])
+def test_explicit_unlimited_policy_preserves_scope_and_fresh_inventory(
+    now, task_ceiling, personal_ceiling, committed, preemptible,
+):
+    policy = POLICY | {"personal_nonpreemptible_gpus": personal_ceiling,
+                       "temporary_task_allocation": POLICY["temporary_task_allocation"] | {
+                           "nonpreemptible_gpus": task_ceiling,
+                       }}
+    jobs = [_job("other-task", "Running", hardware="H800", roles=(72,)),
+            _owned(_job("training", "Running", hardware="H800", roles=(64,))),
+            _owned(_job("queued", "Pending", hardware="H800", roles=(16,)))]
+    calls = []
+
+    def listing(**kwargs):
+        calls.append(kwargs)
+        return {"items": jobs, "metadata": {}}
+
+    client = _client([])
+    client.api.list_namespaced_custom_object = listing
+    for added_gpus in (0, 8):
+        if added_gpus:
+            jobs.append(_owned(_job("new-queued", "Pending", hardware="H800", roles=(added_gpus,))))
+        receipt = policy_admission_snapshot(client, policy=policy, creator="owner", gpu_tag="H800",
+                                            requested_gpus=160, timeout=20, now=now)
+        assert receipt["committed_gpus"] == committed + added_gpus
+        assert receipt["admitted"] is True and receipt["preemptible"] is preemptible
+        assert receipt["scope"] == ("task" if now < AT_EXPIRY else "personal")
+        assert receipt["ceiling_gpus"] == (task_ceiling if now < AT_EXPIRY else personal_ceiling)
+        receipt.update(submitted=True, job="h800-eval")
+        validate_allocation({"job_id": "h800-eval", "admission": receipt}, requested_gpus=160,
+                            expected=IDENTITY | {"gpu_tag": "H800"})
+    assert len(calls) == 2 and all(call["_request_timeout"] == 20 for call in calls)
+
+
+@pytest.mark.parametrize("now", [BEFORE_EXPIRY, AT_EXPIRY])
+def test_unlimited_allocation_requires_explicit_ceiling_and_matching_receipt(now):
+    policy = POLICY | {"personal_nonpreemptible_gpus": None,
+                       "temporary_task_allocation": POLICY["temporary_task_allocation"] | {
+                           "nonpreemptible_gpus": None,
+                       }}
+    receipt = policy_admission_snapshot(_client([]), policy=policy, creator="owner", gpu_tag="H200",
+                                        requested_gpus=160, timeout=20, now=now)
+    receipt.update(submitted=True, job="gpu-eval")
+    receipt = json.loads(json.dumps(receipt))
+    allocation = {"job_id": "gpu-eval", "admission": receipt}
+    validate_allocation(allocation, requested_gpus=160, expected=IDENTITY)
+    for changes in ({"job": "other-job"}, {"submitted": False}, {"requested_gpus": 159},
+                    {"committed_gpus": -1}, {"preemptible": True}, {"ceiling_gpus": 128},
+                    {"ceiling_gpus": -1}, {"ceiling_gpus": True}, {"ceiling_gpus": 1.5},
+                    {"scope": "personal" if now < AT_EXPIRY else "task"}, {"creator": "other-owner"},
+                    {"gpu_tag": "H800"}, {"policy": policy | {"task_id": "other"}}, {"policy": POLICY}):
+        with pytest.raises(ValueError):
+            validate_allocation(allocation | {"admission": receipt | changes}, requested_gpus=160, expected=IDENTITY)
+    with pytest.raises(ValueError):
+        validate_allocation(allocation | {"admission": {k: v for k, v in receipt.items() if k != "ceiling_gpus"}},
+                            requested_gpus=160, expected=IDENTITY)
+
+
+@pytest.mark.parametrize("now", [BEFORE_EXPIRY, AT_EXPIRY])
+def test_missing_policy_ceiling_is_not_unlimited(now):
+    policy = POLICY | {"temporary_task_allocation": dict(POLICY["temporary_task_allocation"])}
+    if now < AT_EXPIRY:
+        del policy["temporary_task_allocation"]["nonpreemptible_gpus"]
+    else:
+        del policy["personal_nonpreemptible_gpus"]
+    with pytest.raises(KeyError):
+        policy_admission_snapshot(_client([]), policy=policy, creator="owner", gpu_tag="H200",
+                                  requested_gpus=160, timeout=20, now=now)
