@@ -1,0 +1,159 @@
+{
+  "job": "exp-1109-181120-274261",
+  "checked_at": "2026-11-09T10:17:01.516750+00:00",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "student": {
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "student": {
+      "task_fields": {
+        "updatePolicy": "None",
+        "replicas": 4,
+        "selector": {
+          "matchLabels": {
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "rjob.brainpp.cn/rjob-name": "exp-1109-181120-274261",
+            "rjob.brainpp.cn/rjob-task-type": "student"
+          }
+        },
+        "rootfsSource": {
+          "metadata": {
+            "creationTimestamp": null
+          },
+          "kind": "image"
+        },
+        "maxWaitDuration": "0s",
+        "maxRunningDuration": "0s",
+        "positiveTags": [
+          "H800"
+        ],
+        "qos": {
+          "gpuQos": "guaranteed",
+          "localStorageQos": "guaranteed"
+        }
+      },
+      "labels": {
+        "brainpp.cn/restartable": "false",
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+        "kubebrain.brainpp.cn/creator-type": "user",
+        "kubebrain.brainpp.cn/extraresourceid": "",
+        "kubebrain.brainpp.cn/extraresourcetype": "",
+        "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "logs.monitoring.basemind.com/collect": "true",
+        "privatemachine.brainpp.cn/privatemachine": "group",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign",
+        "rjob.brainpp.cn/is-critical-task": "yes",
+        "rjob.brainpp.cn/rjob-name": "exp-1109-181120-274261",
+        "rjob.brainpp.cn/rjob-task-id": "exp-1109-181120-274261-student",
+        "rjob.brainpp.cn/rjob-task-type": "student",
+        "rjob.brainpp.cn/task-fail-policy": "any",
+        "stepmind.com/gang-group": "true",
+        "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+        "workspace.brainpp.cn/workspace-namspace": "shai-core"
+      },
+      "annotations": {},
+      "annotation_keys": [
+        "kubebrain.brainpp.cn/auto-port-num",
+        "kubebrain.brainpp.cn/filestore-volume",
+        "miles.ycfeng/task",
+        "mount.brainpp.cn/juicefs",
+        "stepboard.stepfun.com/enabled",
+        "stepboard.stepfun.com/exp",
+        "stepboard.stepfun.com/project",
+        "stepboard.stepfun.com/steptron_commit"
+      ],
+      "spec_keys": [
+        "volumes",
+        "containers",
+        "restartPolicy",
+        "dnsPolicy",
+        "hostNetwork",
+        "securityContext",
+        "imagePullSecrets",
+        "affinity"
+      ]
+    },
+    "teacher": {
+      "task_fields": {
+        "updatePolicy": "None",
+        "replicas": 1,
+        "selector": {
+          "matchLabels": {
+            "kubebrain.brainpp.cn/resourcetype": "rjob",
+            "rjob.brainpp.cn/rjob-name": "exp-1109-181120-274261",
+            "rjob.brainpp.cn/rjob-task-type": "teacher"
+          }
+        },
+        "rootfsSource": {
+          "metadata": {
+            "creationTimestamp": null
+          },
+          "kind": "image"
+        },
+        "maxWaitDuration": "0s",
+        "maxRunningDuration": "0s",
+        "positiveTags": [
+          "H800"
+        ],
+        "qos": {
+          "gpuQos": "guaranteed",
+          "localStorageQos": "guaranteed"
+        }
+      },
+      "labels": {
+        "brainpp.cn/restartable": "false",
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+        "kubebrain.brainpp.cn/creator-type": "user",
+        "kubebrain.brainpp.cn/extraresourceid": "",
+        "kubebrain.brainpp.cn/extraresourcetype": "",
+        "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "logs.monitoring.basemind.com/collect": "true",
+        "privatemachine.brainpp.cn/privatemachine": "group",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign",
+        "rjob.brainpp.cn/rjob-name": "exp-1109-181120-274261",
+        "rjob.brainpp.cn/rjob-task-id": "exp-1109-181120-274261-teacher",
+        "rjob.brainpp.cn/rjob-task-type": "teacher",
+        "rjob.brainpp.cn/task-fail-policy": "any",
+        "stepmind.com/gang-group": "true",
+        "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+        "workspace.brainpp.cn/workspace-namspace": "shai-core"
+      },
+      "annotations": {},
+      "annotation_keys": [
+        "kubebrain.brainpp.cn/auto-port-num",
+        "kubebrain.brainpp.cn/filestore-volume",
+        "miles.ycfeng/task",
+        "mount.brainpp.cn/juicefs",
+        "stepboard.stepfun.com/enabled",
+        "stepboard.stepfun.com/exp",
+        "stepboard.stepfun.com/project",
+        "stepboard.stepfun.com/steptron_commit"
+      ],
+      "spec_keys": [
+        "volumes",
+        "containers",
+        "restartPolicy",
+        "securityContext",
+        "imagePullSecrets",
+        "affinity"
+      ]
+    }
+  }
+}

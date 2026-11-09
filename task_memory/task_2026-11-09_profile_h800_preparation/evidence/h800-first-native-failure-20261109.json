@@ -1,0 +1,465 @@
+{
+  "captured_at": "2026-11-09T10:54:36.276876+00:00",
+  "job": "exp-1109-181120-274261",
+  "uid": "8af62b65-5176-472a-bb2d-86ab35776203",
+  "source_log": "/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-head.log",
+  "source_sha256": "b62e7ca9888a8c9129f81a2377c4b95e22aa84ddb8dfdaad8bee4980e5243b7a",
+  "first_native_failure_at": "2026-11-09T10:28:57Z",
+  "first_native_failure": "SGLang TP4 ncclGetUniqueId returned invalid usage on student rank2 / 10.191.5.7",
+  "later_assertion": "matches=[] after engine loss",
+  "cause_status": "node-local environment propagation under CPU diagnosis; not yet native-verified",
+  "selected_lines": [
+    {
+      "line": 2157,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7) [2026-11-09 10:28:57 TP0] Scheduler hit an exception: Traceback (most recent call last):"
+    },
+    {
+      "line": 2158,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py\", line 6392, in run_scheduler_process"
+    },
+    {
+      "line": 2159,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     scheduler = Scheduler(server_args, port_args)"
+    },
+    {
+      "line": 2160,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2161,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py\", line 542, in __init__"
+    },
+    {
+      "line": 2162,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     bootstrap.init_parallel_runtime("
+    },
+    {
+      "line": 2163,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/bootstrap.py\", line 152, in init_parallel_runtime"
+    },
+    {
+      "line": 2164,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     _init_parallel_groups("
+    },
+    {
+      "line": 2165,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/bootstrap.py\", line 333, in _init_parallel_groups"
+    },
+    {
+      "line": 2166,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     initialize_model_parallel("
+    },
+    {
+      "line": 2167,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 2686, in initialize_model_parallel"
+    },
+    {
+      "line": 2168,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     _TP = init_model_parallel_group("
+    },
+    {
+      "line": 2169,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)           ^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2170,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 2186, in init_model_parallel_group"
+    },
+    {
+      "line": 2171,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     return GroupCoordinator("
+    },
+    {
+      "line": 2172,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)            ^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2173,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 464, in __init__"
+    },
+    {
+      "line": 2174,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     self.pynccl_comm = PyNcclCommunicator("
+    },
+    {
+      "line": 2175,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)                        ^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2176,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl.py\", line 91, in __init__"
+    },
+    {
+      "line": 2177,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     self.unique_id = self.nccl.ncclGetUniqueId()"
+    },
+    {
+      "line": 2178,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2179,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl_wrapper.py\", line 492, in ncclGetUniqueId"
+    },
+    {
+      "line": 2180,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     self.NCCL_CHECK(self._funcs[\"ncclGetUniqueId\"](ctypes.byref(unique_id)))"
+    },
+    {
+      "line": 2181,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl_wrapper.py\", line 474, in NCCL_CHECK"
+    },
+    {
+      "line": 2182,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7)     raise RuntimeError(f\"NCCL error: {error_str}\")"
+    },
+    {
+      "line": 2183,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7) RuntimeError: NCCL error: invalid usage (run with NCCL_DEBUG=WARN for details)"
+    },
+    {
+      "line": 2184,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7) "
+    },
+    {
+      "line": 2185,
+      "text": "(CommandActor pid=1878, ip=10.191.5.7) [2026-11-09 10:28:57] Received sigquit from a child process. It usually means the child failed."
+    },
+    {
+      "line": 2213,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7) [2026-11-09 10:28:57 TP0] Scheduler hit an exception: Traceback (most recent call last):"
+    },
+    {
+      "line": 2214,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py\", line 6392, in run_scheduler_process"
+    },
+    {
+      "line": 2215,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     scheduler = Scheduler(server_args, port_args)"
+    },
+    {
+      "line": 2216,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2217,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py\", line 542, in __init__"
+    },
+    {
+      "line": 2218,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     bootstrap.init_parallel_runtime("
+    },
+    {
+      "line": 2219,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/bootstrap.py\", line 152, in init_parallel_runtime"
+    },
+    {
+      "line": 2220,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     _init_parallel_groups("
+    },
+    {
+      "line": 2221,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/bootstrap.py\", line 333, in _init_parallel_groups"
+    },
+    {
+      "line": 2222,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     initialize_model_parallel("
+    },
+    {
+      "line": 2223,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 2686, in initialize_model_parallel"
+    },
+    {
+      "line": 2224,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     _TP = init_model_parallel_group("
+    },
+    {
+      "line": 2225,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)           ^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2226,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 2186, in init_model_parallel_group"
+    },
+    {
+      "line": 2227,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     return GroupCoordinator("
+    },
+    {
+      "line": 2228,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)            ^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2229,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/parallel_state.py\", line 464, in __init__"
+    },
+    {
+      "line": 2230,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     self.pynccl_comm = PyNcclCommunicator("
+    },
+    {
+      "line": 2231,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)                        ^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2232,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl.py\", line 91, in __init__"
+    },
+    {
+      "line": 2233,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     self.unique_id = self.nccl.ncclGetUniqueId()"
+    },
+    {
+      "line": 2234,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2235,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl_wrapper.py\", line 492, in ncclGetUniqueId"
+    },
+    {
+      "line": 2236,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     self.NCCL_CHECK(self._funcs[\"ncclGetUniqueId\"](ctypes.byref(unique_id)))"
+    },
+    {
+      "line": 2237,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)   File \"/sgl-workspace/sglang/python/sglang/srt/distributed/device_communicators/pynccl_wrapper.py\", line 474, in NCCL_CHECK"
+    },
+    {
+      "line": 2238,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7)     raise RuntimeError(f\"NCCL error: {error_str}\")"
+    },
+    {
+      "line": 2239,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7) RuntimeError: NCCL error: invalid usage (run with NCCL_DEBUG=WARN for details)"
+    },
+    {
+      "line": 2240,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7) [2026-11-09 10:28:57] Received sigquit from a child process. It usually means the child failed."
+    },
+    {
+      "line": 2241,
+      "text": "(CommandActor pid=1879, ip=10.191.5.7) [2026-11-09 10:28:57] kill_process_tree called: parent_pid=2023, include_parent=True, pid=2023"
+    },
+    {
+      "line": 2272,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.142 inference_controller] _client.py:1740 - HTTP Request: POST http://10.191.1.9:20069/gate/activate \"HTTP/1.1 200 OK\""
+    },
+    {
+      "line": 2273,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.143 inference_controller] server_cell.py:307 - Cell inference-engine-all-0-1-00000 init start old="
+    },
+    {
+      "line": 2274,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.143 inference_controller] server_cell.py:310 - Cell inference-engine-all-0-1-00000 init end new=addr_info=CellAddrInfo(server_url='http://10.191.1.9:20035', bootstrap_port=None, gate_url='http://10.191.1.9:20069') start_time=4666195.559803566"
+    },
+    {
+      "line": 2275,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.158 inference_controller] _client.py:1740 - HTTP Request: POST http://10.191.1.9:20034/gate/activate \"HTTP/1.1 200 OK\""
+    },
+    {
+      "line": 2276,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.158 inference_controller] server_cell.py:307 - Cell inference-engine-all-0-1-00001 init start old="
+    },
+    {
+      "line": 2277,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.158 inference_controller] server_cell.py:310 - Cell inference-engine-all-0-1-00001 init end new=addr_info=CellAddrInfo(server_url='http://10.191.1.9:20000', bootstrap_port=None, gate_url='http://10.191.1.9:20034') start_time=4666195.5753018"
+    },
+    {
+      "line": 2278,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.163 inference_controller] server_cell.py:307 - Cell inference-engine-all-0-1-00002 dispose start old="
+    },
+    {
+      "line": 2279,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.163 inference_controller] server_cell.py:310 - Cell inference-engine-all-0-1-00002 dispose end new="
+    },
+    {
+      "line": 2280,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) [2026-11-09 10:29:11.163 inference_controller] polling_reconcile_loop.py:44 - Reconciling cell inference-engine-all-0-1-00002 failed; continuing with the other cells"
+    },
+    {
+      "line": 2281,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) Traceback (most recent call last):"
+    },
+    {
+      "line": 2282,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/workers/polling_reconcile_loop.py\", line 42, in _poll_once"
+    },
+    {
+      "line": 2283,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     await reconcile(cell_id, observed_info)"
+    },
+    {
+      "line": 2284,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/opt/sglang/lib/python3.12/site-packages/ray/util/tracing/tracing_helper.py\", line 520, in _resume_span"
+    },
+    {
+      "line": 2285,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     return await method(self, *_args, **_kwargs)"
+    },
+    {
+      "line": 2286,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2287,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/context_lock.py\", line 162, in wrapper"
+    },
+    {
+      "line": 2288,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     return await fn(self, *args, **kwargs)"
+    },
+    {
+      "line": 2289,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2290,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/ray/rollout/inference_controller.py\", line 448, in _reconcile"
+    },
+    {
+      "line": 2291,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     await apply_cell_observation("
+    },
+    {
+      "line": 2292,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/workers/worker_provider/utils.py\", line 25, in apply_cell_observation"
+    },
+    {
+      "line": 2293,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     await add(cell_id, observed)"
+    },
+    {
+      "line": 2294,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/ray/rollout/inference_controller.py\", line 443, in _add"
+    },
+    {
+      "line": 2295,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     await self.servers[observed_cell_meta.model_id].add_cell(observed_cell_meta)"
+    },
+    {
+      "line": 2296,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/context_lock.py\", line 212, in wrapper"
+    },
+    {
+      "line": 2297,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     return await fn(self, *args, **kwargs)"
+    },
+    {
+      "line": 2298,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2299,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/ray/rollout/rollout_server.py\", line 136, in add_cell"
+    },
+    {
+      "line": 2300,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     await cell.init()"
+    },
+    {
+      "line": 2301,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/ray/rollout/server_cell.py\", line 176, in init"
+    },
+    {
+      "line": 2302,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     addr_info = await self._compute_addr_info()"
+    },
+    {
+      "line": 2303,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2304,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/ray/rollout/server_cell.py\", line 288, in _compute_addr_info"
+    },
+    {
+      "line": 2305,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     master_addrs = await self.provider.get_addrs(worker_name=self.meta.worker_name)"
+    },
+    {
+      "line": 2306,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2307,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/workers/worker_provider/ray.py\", line 40, in get_addrs"
+    },
+    {
+      "line": 2308,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     return await self._worker_manager_handle.get_worker_addrs.remote(worker_name)"
+    },
+    {
+      "line": 2309,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2310,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) ray.exceptions.RayTaskError(AssertionError): ray::RayWorkerManager.get_worker_addrs() (pid=1889, ip=10.191.7.15, actor_id=4da631941ab3f9ef3d65777b03000000, repr=<miles.utils.workers.ray_worker_manager.RayWorkerManager object at 0x7f6fcefa15e0>)"
+    },
+    {
+      "line": 2311,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 449, in result"
+    },
+    {
+      "line": 2312,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     return self.__get_result()"
+    },
+    {
+      "line": 2313,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2314,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py\", line 401, in __get_result"
+    },
+    {
+      "line": 2315,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     raise self._exception"
+    },
+    {
+      "line": 2316,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2317,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2318,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2319,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/workers/ray_worker_manager.py\", line 123, in get_worker_addrs"
+    },
+    {
+      "line": 2320,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     addrs = self._find_actor(worker_name).self_addrs"
+    },
+    {
+      "line": 2321,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2322,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2323,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)   File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/utils/workers/ray_worker_manager.py\", line 177, in _find_actor"
+    },
+    {
+      "line": 2324,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)     assert len(matches) == 1, f\"{matches=}\""
+    },
+    {
+      "line": 2325,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15)            ^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "line": 2326,
+      "text": "(InferenceController pid=1971, ip=10.191.7.15) AssertionError: matches=[]"
+    }
+  ]
+}

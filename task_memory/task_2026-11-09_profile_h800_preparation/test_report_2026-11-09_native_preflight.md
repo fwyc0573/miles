@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Preserve the first native startup failure and link the verified cloud cleanup/retention record. |
+| 2026-11-09 | Record actual H800 submission, resource policy, initial Starting state and28 devices observed before trainer-head startup. |
 | 2026-11-09 | Record the candidate H800 payload, genuine in-place visual receipts and successful pinned-image D34 source/request parity. |
 
 # H800 Capacity Prerequisite Preflight
@@ -19,7 +21,7 @@ CPU preflight passes for the candidate36-H800 A/r256 prerequisite. The review's 
 | Native visual exclusion |Genuine complete filter for original paths |9254 conversations;102 exclusions,10008 excluded eligible targets; all8 files scanned, no filter failure codes | PASS |
 | Actual Qwen/source parity |Real native prefix conversion, source identity and16K native request budget |9 selected prefixes pass;5 eligible requests each capped16384;4 oversized prefixes skipped; actual registry factory/request pass | PASS |
 | Replay-to-request budget |Real SweReplay preserves16K |`0e7e0df3` removes both overrides; real replay/request regression RED126706/16385→GREEN16384/16384; remaining1 and seed preserved;62 affected PASS | PASS |
-| Native GPU/runtime |Actual H800, synchronization,231/256 admission, two ACKs and second scoring |Not submitted at this checkpoint | NOT VERIFIED |
+| Native GPU/runtime |Actual H800, synchronization,231/256 admission, two ACKs and second scoring |Submitted`exp-1109-181120-274261`; Starting,28/36 GPU identities observed; business acceptance pending | IN PROGRESS |
 
 ## Local resource and argument checks
 
@@ -85,3 +87,33 @@ The nine selected prefixes are not a whole-corpus Qwen length census. Synthetic 
 Reviewer`profile-h800-prelaunch-review-20261109` identified one P1 at`swe_replay.py:331–337`: the replay path replaced the source sample cap and generation sampling cap with total remaining context. The source parity check did not traverse that caller. Fix`0e7e0df3` preserves the existing sample/default budgets and adds only the original seed. The real replay→request regression failed with126706/16385 before the fix and produces16384/16384 after it, also preserving a one-token remainder and seed1729. The62 affected checks pass; physical POST and tokenizer are fixtures, with exact commands and baseline lint limits in`test_report_2026-11-09_capacity_input_lengths.md`.
 
 The same reviewer inspected the fix, regression and report and closed P1 with no remaining findings. Other configuration/role/resource/source/soft-gate conclusions remain unchanged. This permits moving to the authorized native prerequisite, not declaring CUDA/NCCL or capacity acceptance.
+
+## Native submission and startup
+
+Frozen code/config commit:`a470c841`. After the runbook's existing personal proxy/auth initialization, the primary ran the following from`/data/ycfeng`, with`STEPMIND_BACKEND=rjob`, `PYTHONNOUSERSITE=1`, no bytecode writes and `PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity:/data/ycfeng/steptron`:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.submit_swe_opd \
+  --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/h800_capacity_config.json \
+  --pair A --protocol r256 \
+  --receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/evidence/admission-h800-capacity-20261109.json \
+  > /data/ycfeng/tmp/agent-opd-image/qwen35-h800-capacity-20261109.log 2>&1
+```
+
+The local launcher was background shell`sh_1bfca68aa001JWOGKI0d7wkd99`; it subsequently exited1 after the terminal native failure recorded below. Job`exp-1109-181120-274261`, UID`8af62b65-5176-472a-bb2d-86ab35776203`, was submitted at10:11:20Z. Fresh serialized admission observed24 other committed H800 GPUs and requested36, under the explicitly absent personal ceiling. The requested allocation is non-preemptible; this is not a claim about free cluster capacity.
+
+API readbacks at10:15:10Z and10:17:01Z initially report Pending. They verify creator`i-fengyicheng`, student4×8 and teacher1×4, H800 positive tags for both roles, codesign and preemptible=no labels, the current-host NFS source and exact pinned image. Student replicas have both native RDMA resource limits. The student task is critical; the teacher is serving-only. At10:20:53Z, phase becomes Starting with three active/one pending student and one active teacher; no system stop reason is set.
+
+Worker node receipts at10:23:50Z identify student ranks1,2,3 and teacher rank0, totaling28 real H800 devices. Each reports81559MiB and driver570.124.06; teacher-ready is present. Trainer-head node receipt, complete eight-engine construction, initial weights, bank admission and optimizer outcomes are not yet observed. The native capacity gate remains unaccepted.
+
+Retained evidence: `evidence/admission-h800-capacity-20261109.json`, `h800-native-startup-20261109.json`, `h800-native-resource-policy-20261109.json`, `h800-native-resume-20261109T102053Z.json`, and`h800-worker-gpu-readback-20261109.json`. The live shared directory is`evidence/h800-capacity-112k/r256/exp-1109-181120-274261/A/`. Business output root:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-20261109/r256/student/A`.
+
+A targeted trainer-head log read at10:29:21Z confirms native worker-init began10:25:03Z and reported Ready to go10:25:05Z. NODE_RANK0, NODE_COUNT4, H800, eight CUDA device IDs and platform RoCE/NCCL variables are present. The collected tail has no application failure traceback; it ends after platform initialization. This is not an application-health or capacity verdict. Retained excerpt:`evidence/h800-trainer-head-startup-log-20261109.json`.
+
+## Terminal native result
+
+**FAILED / capacity unaccepted:** platform finishTime10:29:35Z, one failed student plus three stopped students and one stopped teacher; system reason`Some critical tasks failed.` Readback:`evidence/h800-native-terminal-20261109.json`. The earlier platform tail did not contain the actual driver failure; full business log collection resolved that coverage gap.
+
+Application records confirm head node0 publication10:25:19Z and four-node/32-student-GPU Ray registration10:26:12Z. The first native errors are at10:28:57Z: two TP4 engines on student rank2/10.191.5.7 fail in SGLang`PyNcclCommunicator` → `ncclGetUniqueId()` with`invalid usage`. Later engine loss, `matches=[]`, driver exit1 and platform supervision are downstream events. Initial weight synchronization, acquisition and optimizer updates were not reached. Selected lines:`evidence/h800-first-native-failure-20261109.json`; native platform network differences:`evidence/h800-native-node-network-20261109.json`. The underlying environment-propagation cause is under CPU diagnosis; no OOM or external-stop cause is inferred from generic Ray/SIGTERM text.
+
+The full restricted head log is retained at`/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-head.log`. Following the user's cleanup instruction, all167 obsolete cloud files from this exact terminal smoke were locally backed up, content-verified and removed; the historical cloud root above is no longer live. See`test_report_2026-11-09_cloud_cleanup.md` for the exact archive and deletion receipts. All local acceptance/RCA records remain available; D1/D22 remains blocked.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Add the native startup RCA and user-authorized session cloud cleanup. |
 | 2026-11-09 | Plan isolated H800 resource preparation and verification. |
 | 2026-11-09 | Add the independently owned native launcher length slice and CPU acceptance checks. |
 | 2026-11-09 | Add native synchronization/source-consumer repairs and in-place receipt preparation to the H800 capacity prerequisite. |
@@ -23,3 +24,8 @@ Acceptance: unlimited policies do not impose a manufactured count ceiling or for
 8. Submit the A/r256 H800 capacity prerequisite through the existing personal Python backend; verify creator, local NFS source, actual workers/topology, weight publication, bank admission and two successful updates. Record native evidence before any parent merge; retain a failed/partial verdict if those conditions are not met.
 
 Updated execution frontier: `{6, source part of7, native receipts in7}` run independently; `{1, 2, 3, 5, 6, 7} -> 8`; `{8 accepted, parent gate acceptance} -> 4`. Step8 is the upstream-native prerequisite, not parent Ticket02/03 implementation or a formal profile run.
+
+9. Diagnose the first native startup exception from the terminal H800 attempt. Establish a production-path CPU discriminator, correct only the confirmed cause, and verify affected checks before any fresh native attempt. Preserve node-local platform network values; no timeout, retry, or transport workaround is authorized.
+10. In parallel with9, inventory session-owned cloud smoke/temporary outputs, retain exact diagnostic evidence locally, and remove only obsolete terminal-job outputs authorized by the latest request. Verify backup content, deleted paths and logical byte counts. Preserve source assets, live/formal/evaluation artifacts and shared trash; report physical reclamation as unverified unless measured.
+
+Current dependency: `8 failed -> {9, 10}`; `{9 verified, fresh admission} -> affected native verification -> 8 acceptance -> 4`. Cleanup is independent of the code diagnosis and is not an acceptance gate.

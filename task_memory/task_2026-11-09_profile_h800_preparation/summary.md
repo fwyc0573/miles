@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record terminal native startup failure and verified session-owned cloud cleanup; keep capacity open. |
+| 2026-11-09 | Record the frozen preflight delivery and active36-H800 capacity prerequisite; acceptance remains pending. |
 | 2026-11-09 | Archive the verified, scoped nullable GPU admission implementation. |
 | 2026-11-09 | Add the verified explicit native launcher length contract and integration limits. |
 | 2026-11-09 | Record completed mixed-session/source repairs, candidate H800 topology and genuine in-place native receipts; keep real input/GPU acceptance open. |
@@ -49,11 +51,15 @@ Paths are relative to `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-
 
 ## Open and Primary-Owned Work
 
-- The subsequent primary stage added the36-H800/codesign configuration and validated its real resource builder, argv and eight-engine native group resolution. No H800 job is submitted yet.
+- The primary froze the36-H800/codesign configuration and accepted CPU preflight at`a470c841`, then submitted`exp-1109-181120-274261` at10:11:20Z. Actual platform resources, non-preemption, codesign, H800 tags, personal creator and current-host source are verified. The job subsequently Failed10:29:35Z before weight publication or bank acquisition. Ray registered four nodes/32 student GPUs, but two TP4 engines on student rank2 first failed in`ncclGetUniqueId()` at10:28:57Z; the later`matches=[]` and supervision errors followed engine loss. Node-local network propagation is under production-path CPU diagnosis. Native capacity remains unaccepted.
 - The old source constructor restriction is removed in`82915613`; the existing real-factory parity tool accepts D34 budgets in`8d517b48`. Original-source pinned-image parity passed in`exp-1109-172310-849823` (Succeeded09:28:42Z), including the normal native factory and actual16K request budget. Earlier worker PYTHONPATH and local quoting failures are retained in`test_report_2026-11-09_native_preflight.md`; neither reached training.
 - Native baseline/visual/filter receipts for original posttrain paths completed in CPU job`exp-1109-164358-350923`:9254 conversations,102 excluded visual conversations,10008 excluded targets. Retained files are`evidence/native-visual-in-place/{baseline,visual,filter,runtime}.json`; these are native exclusion evidence, not full112K Qwen length statistics.
 - The session correction is reviewed and CPU-verified; subsequent`422a613d` matches upstream`864cac87` byte-for-byte and passes37 directly affected checks. Pinned-image source inspection confirms the absent-session400 guard, but native CUDA/NCCL synchronization and capacity acceptance remain open.
 - Prelaunch review's P1 replay-budget override is closed by`0e7e0df3`:62 affected checks pass, including the actual replay-to-request budget regression. The actual submitting Python3.10 environment's36-GPU dry-run passes. Native GPU execution is the remaining prerequisite step.
 - Parent branch integration remains subject to the parent task's source-input, scientific, formal-run and merge gates. This scoped change grants no additional platform authorization.
+
+The historical launcher`sh_1bfca68aa001JWOGKI0d7wkd99` exited1 after native failure. No replacement GPU attempt has been submitted. Exact submission and terminal evidence remain in`test_report_2026-11-09_native_preflight.md`, `evidence/admission-h800-capacity-20261109.json` and`evidence/h800-native-terminal-20261109.json`.
+
+At the user's request, obsolete cloud duplicates from this terminal smoke were removed after a byte/hash-verified local backup:167 files /15,325,989 logical bytes, with no generated weights or checkpoints. The task cloud root is now empty. Raw evidence remains in the restricted local archive`/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz`; selected failure lines and structured receipts remain in the task directory. See`test_report_2026-11-09_cloud_cleanup.md` and`evidence/cloud-cleanup-{inventory,backup,result}-20261109.json`. Source assets, other tasks and shared trash were untouched; physical OSS reclamation was not measured.
 - The initial preparation `requirements.md` and `plan.md` were excluded from the admission commit; this follow-up explicitly authorized their update and inclusion. Archived config JSON and historical Qwen35 preparation constants remain unchanged.
 - Concurrent unowned multi-node edits to `run_qwen35_opd.py` and `qwen35_pair_worker.py` are preserved and excluded from the launcher length delivery commit; their correctness belongs to their owner.

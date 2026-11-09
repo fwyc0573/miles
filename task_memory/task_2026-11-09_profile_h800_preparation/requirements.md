@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record session-owned smoke and temporary cloud-artifact cleanup authorization. |
 | 2026-11-09 | Record the isolated resource-preparation slice for parent task D33. |
 | 2026-11-09 | Record the independently configured 128K context, 112K prompt and 16K response follow-up. |
 | 2026-11-09 | Own the failed upstream synchronization prerequisite, D34 source-consumer correction and in-place native receipts before H800 capacity execution. |
@@ -44,3 +45,9 @@ The upstream attempt `exp-1109-144110-764758` failed before generation during in
 The prepared A/r256 capacity configuration requests36 H800/codesign: one8-GPU TP4/DP2 trainer colocated with twoTP4 engines, three additional8-GPU nodes providing six dedicatedTP4 engines, and a separate4-GPU TP4 teacher. Its acceptance remains at least231 of256 within1800 seconds, two successful optimizer ACKs, second-student scoring and two uses of the same bank. The original source sequence, mask policy, models, seeds and loss parameters remain the upstream prerequisite's contract; parent formal32×8 interleaving and200-update runs are separate gated work.
 
 D25 is enforced by reading original posttrain sources in place. The existing genuine native baseline/visual/filter APIs must produce fresh receipts for those exact paths and metadata; existing receipts for copied sources must not be relabeled. D10 is enforced with the existing `save_interval=None` mechanism; no HF or evaluation is requested. The scoring observer remains soft-only, and all cloud writes remain under `/mnt/codesign-exp/ycfeng`.
+
+## [Original Request] Cloud cleanup, 2026-11-09
+
+> 及时清理本session中smoke、临时产物等残留在 codesign oss上的大文件，施放空间
+
+Remove obsolete outputs of this session's terminal smoke and temporary jobs after retaining the evidence needed for diagnosis and acceptance. Verify exact ownership, terminal status, paths, and retained evidence first. Do not delete source models, source datasets, formal/evaluation artifacts, live-job inputs or outputs, another task's files, or the shared volume trash. Record deleted paths and measured logical bytes; do not equate unlinking with verified physical OSS reclamation.
