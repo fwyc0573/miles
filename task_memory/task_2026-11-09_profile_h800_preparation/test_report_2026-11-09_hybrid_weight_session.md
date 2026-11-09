@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-09 | Record the CPU RED/GREEN regression, minimal mixed-session correction, verification and native limits. |
+| 2026-11-09 | Record independent review, exact pinned-image receiver evidence, and alignment with upstream864cac87 followed by37 affected passing checks. |
 
 # Hybrid Weight-Update Session Test Report
 
@@ -89,3 +90,19 @@ The Black recheck explicitly places its cache under the approved temporary root;
 This CPU correction establishes the source-level mixed-session defect and its regression, not the root cause of native job `exp-1109-144110-764758`. Native SGLang `0.5.24.dev80+g056f871`, its first 400 response body and trainer stack readback remain primary-owned evidence work and were not duplicated during implementation. The tests do not validate native session rejection, native actor outputs, communication progress, optimizer/rollout execution or the upstream 256-turn business criterion.
 
 D1/D22 acceptance remains blocked until the primary's native evidence and acceptance work complete. This commit is an isolated preparation deliverable, not authorization for parent integration or GPU execution.
+
+## Primary follow-up: pinned receiver and canonical upstream repair
+
+The initial scoped delivery is commit`7689fbec`. Reviewer`profile-hybrid-session-review-20261109` inspected its exact diff against`46e7b292`, both relevant consumers and the real regression: no findings; Standards and source/CPU Spec PASS. The reviewer did not execute tests or access the platform.
+
+Primary CPU RJob`exp-1109-161858-331786` succeeded at08:19:13Z with2CPU/0GPU, creator`i-fengyicheng`, exact image`sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805`, and Python3.12.16. It read installed SGLang`0.5.24.dev80+g056f871`: scheduler`update_weights_from_distributed` lines266–319 refuses a missing session before entering tensor receive; HTTP handler1537–1552 maps failure to400. Durable receipts are in the parent's`task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-weight-session-source{,-job}-20261109.json`. This closes the receiver-version uncertainty, not the original missing HTTP response body or stalled trainer program counter.
+
+Upstream independently committed`864cac87`. Before H800 execution, primary aligned the protocol's full receiver collection and local IPC-only prefix with that exact implementation. Byte comparison with`git show 864cac87:miles/backends/training_utils/weight_update/protocols/cuda_ipc.py` passed; the worktree blob is`fa8d01b1b4bacd9edfe7b4f287f5391c136ed7bc`. Two existing test assertions now expect the complete receiver collection; their physical distributed partition and sparse IPC-map assertions remain intact.
+
+The first affected run exposed precisely those stale assertions:3 failed,34 passed. After the assertion updates, this exact command passed37 tests in1.84s with only the same two SWIG warnings:
+
+```bash
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -o addopts= -p no:cacheprovider -q tests/fast/backends/training_utils/weight_update/test_dist_weight_update_lifecycle.py tests/fast/backends/training_utils/weight_update/test_cuda_ipc.py
+```
+
+Ruff passed for the aligned protocol and affected IPC test. Black left the protocol unchanged. Native CUDA/NCCL synchronization and256-turn acceptance remain unverified.
