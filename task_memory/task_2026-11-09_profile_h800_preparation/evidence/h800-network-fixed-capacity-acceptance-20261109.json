@@ -1,0 +1,48 @@
+{
+  "job": "exp-1109-192340-580111",
+  "job_uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "source_artifacts": [
+    "h800-network-fixed-acquisition-progress-20261109.json",
+    "h800-network-fixed-native-capacity-final-20261109.json",
+    "h800-network-fixed-native-terminal-20261109.json",
+    "h800-network-fixed-version-one-checksum-check-20261109.json"
+  ],
+  "platform_and_five_replicas": "Succeeded",
+  "successful_updates": 2,
+  "native_skipped_updates": 0,
+  "same_bank_visits": [
+    1,
+    2
+  ],
+  "current_weight_versions": [
+    0,
+    1
+  ],
+  "actual_turns_each_update": [
+    256,
+    256
+  ],
+  "bank_membership_each_update": "verified",
+  "scoring_ranks": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "student_passes_each_rank": 2,
+  "microbatches_per_pass_per_rank": 88,
+  "second_scoring_after_first_ack": true,
+  "scoring_source_and_lifetime": "verified; no prior full output remains alive",
+  "full_logits_bytes": 16273899520,
+  "full_logits_gib": 15.15625,
+  "maximum_scoring_pytorch_allocated_gib": 28.892457962036133,
+  "text_weight_equality": "1644 checksums match across eight engines at versions0 and1; same972 changed checksums",
+  "vision_scope": "Excluded by existing visual skip-list and original-source visual filtering; whole-model equality is not claimed. Placeholder cause remains inferred.",
+  "effective_engine_nic_hca": "UNVERIFIED: not exposed by native server_info",
+  "status": "PASS_H800_D34_NATIVE_CAPACITY",
+  "upstream_D11_D1_D22": "Not accepted or waived by this different-budget result"
+}

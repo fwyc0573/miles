@@ -1,0 +1,23 @@
+{
+  "job": "exp-1109-192340-580111",
+  "uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "student": {
+        "succeeded": 4,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T12:37:30Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "system_stop_reason": null,
+  "native_execution_succeeded": true
+}

@@ -1,0 +1,418 @@
+{
+  "observed_at": "2026-11-09T11:39:09.570570+00:00",
+  "job": "exp-1109-192340-580111",
+  "bytes": 1299557,
+  "tail_is_full_file": true,
+  "traceback_count": 9,
+  "weight_update_matching_lines": 32,
+  "selected_lines": [
+    {
+      "tail_line": 641,
+      "text": "  log_inference_engine_weight_checksums ........... True"
+    },
+    {
+      "tail_line": 1225,
+      "text": "  save_local_weight_checksum ...................... False"
+    },
+    {
+      "tail_line": 1901,
+      "text": "  update_weights_interval ......................... 1"
+    },
+    {
+      "tail_line": 1902,
+      "text": "  update_weights_timeout .......................... 600.0"
+    },
+    {
+      "tail_line": 2332,
+      "text": "(CommandActor pid=7708) [2026-11-09 11:34:19] INFO:     Application startup complete."
+    },
+    {
+      "tail_line": 2333,
+      "text": "(CommandActor pid=7708) [2026-11-09 11:34:19] INFO:     Uvicorn running on http://10.191.5.38:20035 (Press CTRL+C to quit)"
+    },
+    {
+      "tail_line": 2334,
+      "text": "(CommandActor pid=7708) [2026-11-09 11:34:19] post-warmup freeze_gc failed"
+    },
+    {
+      "tail_line": 2335,
+      "text": "(CommandActor pid=7708) Traceback (most recent call last):"
+    },
+    {
+      "tail_line": 2336,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 239, in _new_conn"
+    },
+    {
+      "tail_line": 2337,
+      "text": "(CommandActor pid=7708)     sock = connection.create_connection("
+    },
+    {
+      "tail_line": 2338,
+      "text": "(CommandActor pid=7708)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2339,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 85, in create_connection"
+    },
+    {
+      "tail_line": 2340,
+      "text": "(CommandActor pid=7708)     raise err"
+    },
+    {
+      "tail_line": 2341,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 73, in create_connection"
+    },
+    {
+      "tail_line": 2342,
+      "text": "(CommandActor pid=7708)     sock.connect(sa)"
+    },
+    {
+      "tail_line": 2343,
+      "text": "(CommandActor pid=7708) ConnectionRefusedError: [Errno 111] Connection refused"
+    },
+    {
+      "tail_line": 2344,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2345,
+      "text": "(CommandActor pid=7708) The above exception was the direct cause of the following exception:"
+    },
+    {
+      "tail_line": 2346,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2347,
+      "text": "(CommandActor pid=7708) Traceback (most recent call last):"
+    },
+    {
+      "tail_line": 2348,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connectionpool.py\", line 793, in urlopen"
+    },
+    {
+      "tail_line": 2349,
+      "text": "(CommandActor pid=7708)     response = self._make_request("
+    },
+    {
+      "tail_line": 2350,
+      "text": "(CommandActor pid=7708)                ^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2351,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connectionpool.py\", line 499, in _make_request"
+    },
+    {
+      "tail_line": 2352,
+      "text": "(CommandActor pid=7708)     conn.request("
+    },
+    {
+      "tail_line": 2353,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 567, in request"
+    },
+    {
+      "tail_line": 2354,
+      "text": "(CommandActor pid=7708)     self.endheaders()"
+    },
+    {
+      "tail_line": 2355,
+      "text": "(CommandActor pid=7708)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/http/client.py\", line 1381, in endheaders"
+    },
+    {
+      "tail_line": 2356,
+      "text": "(CommandActor pid=7708)     self._send_output(message_body, encode_chunked=encode_chunked)"
+    },
+    {
+      "tail_line": 2357,
+      "text": "(CommandActor pid=7708)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/http/client.py\", line 1141, in _send_output"
+    },
+    {
+      "tail_line": 2358,
+      "text": "(CommandActor pid=7708)     self.send(msg)"
+    },
+    {
+      "tail_line": 2359,
+      "text": "(CommandActor pid=7708)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/http/client.py\", line 1085, in send"
+    },
+    {
+      "tail_line": 2360,
+      "text": "(CommandActor pid=7708)     self.connect()"
+    },
+    {
+      "tail_line": 2361,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 398, in connect"
+    },
+    {
+      "tail_line": 2362,
+      "text": "(CommandActor pid=7708)     self.sock = self._new_conn()"
+    },
+    {
+      "tail_line": 2363,
+      "text": "(CommandActor pid=7708)                 ^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2364,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 254, in _new_conn"
+    },
+    {
+      "tail_line": 2365,
+      "text": "(CommandActor pid=7708)     raise NewConnectionError("
+    },
+    {
+      "tail_line": 2366,
+      "text": "(CommandActor pid=7708) urllib3.exceptions.NewConnectionError: HTTPConnection(host='10.191.5.38', port=20035): Failed to establish a new connection: [Errno 111] Connection refused"
+    },
+    {
+      "tail_line": 2367,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2368,
+      "text": "(CommandActor pid=7708) The above exception was the direct cause of the following exception:"
+    },
+    {
+      "tail_line": 2369,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2370,
+      "text": "(CommandActor pid=7708) Traceback (most recent call last):"
+    },
+    {
+      "tail_line": 2371,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 696, in send"
+    },
+    {
+      "tail_line": 2372,
+      "text": "(CommandActor pid=7708)     resp = conn.urlopen("
+    },
+    {
+      "tail_line": 2373,
+      "text": "(CommandActor pid=7708)            ^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2374,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connectionpool.py\", line 847, in urlopen"
+    },
+    {
+      "tail_line": 2375,
+      "text": "(CommandActor pid=7708)     retries = retries.increment("
+    },
+    {
+      "tail_line": 2376,
+      "text": "(CommandActor pid=7708)               ^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2377,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/retry.py\", line 555, in increment"
+    },
+    {
+      "tail_line": 2378,
+      "text": "(CommandActor pid=7708)     raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]"
+    },
+    {
+      "tail_line": 2379,
+      "text": "(CommandActor pid=7708)     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2380,
+      "text": "(CommandActor pid=7708) urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.191.5.38', port=20035): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.5.38', port=20035): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+    },
+    {
+      "tail_line": 2381,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2382,
+      "text": "(CommandActor pid=7708) During handling of the above exception, another exception occurred:"
+    },
+    {
+      "tail_line": 2383,
+      "text": "(CommandActor pid=7708) "
+    },
+    {
+      "tail_line": 2384,
+      "text": "(CommandActor pid=7708) Traceback (most recent call last):"
+    },
+    {
+      "tail_line": 2385,
+      "text": "(CommandActor pid=7708)   File \"/sgl-workspace/sglang/python/sglang/srt/entrypoints/http_server.py\", line 2606, in _freeze_gc_after_server_warmup"
+    },
+    {
+      "tail_line": 2386,
+      "text": "(CommandActor pid=7708)     res = requests.post("
+    },
+    {
+      "tail_line": 2387,
+      "text": "(CommandActor pid=7708)           ^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2388,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/api.py\", line 134, in post"
+    },
+    {
+      "tail_line": 2389,
+      "text": "(CommandActor pid=7708)     return request(\"post\", url, data=data, json=json, **kwargs)"
+    },
+    {
+      "tail_line": 2390,
+      "text": "(CommandActor pid=7708)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2391,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/api.py\", line 71, in request"
+    },
+    {
+      "tail_line": 2392,
+      "text": "(CommandActor pid=7708)     return session.request(method=method, url=url, **kwargs)"
+    },
+    {
+      "tail_line": 2393,
+      "text": "(CommandActor pid=7708)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2394,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 651, in request"
+    },
+    {
+      "tail_line": 2395,
+      "text": "(CommandActor pid=7708)     resp = self.send(prep, **send_kwargs)"
+    },
+    {
+      "tail_line": 2396,
+      "text": "(CommandActor pid=7708)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2397,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 784, in send"
+    },
+    {
+      "tail_line": 2398,
+      "text": "(CommandActor pid=7708)     r = adapter.send(request, **kwargs)"
+    },
+    {
+      "tail_line": 2399,
+      "text": "(CommandActor pid=7708)         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    },
+    {
+      "tail_line": 2400,
+      "text": "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 729, in send"
+    },
+    {
+      "tail_line": 2401,
+      "text": "(CommandActor pid=7708)     raise ConnectionError(e, request=request)"
+    },
+    {
+      "tail_line": 2403,
+      "text": "(CommandActor pid=7708) [2026-11-09 11:34:19] The server is fired up and ready to roll!"
+    },
+    {
+      "tail_line": 2512,
+      "text": "(CommandActor pid=1907, ip=10.191.4.29) [2026-11-09 11:34:23] The server is fired up and ready to roll! [repeated 5x across cluster]"
+    },
+    {
+      "tail_line": 2882,
+      "text": "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 11:36:41] The server is fired up and ready to roll!"
+    },
+    {
+      "tail_line": 2909,
+      "text": "(CommandActor pid=1884, ip=10.191.1.46) [2026-11-09 11:36:41] The server is fired up and ready to roll!"
+    },
+    {
+      "tail_line": 2987,
+      "text": "(TrainerController pid=7710) [2026-11-09 11:37:18.596 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout="
+    },
+    {
+      "tail_line": 2988,
+      "text": "(TrainerController pid=7710) [2026-11-09 11:37:18.597 trainer_controller_actor] cell.py:253 - ft op=execute phase=start cell=trainer-engine-actor-00000 fn=update_weights n_actors=8"
+    },
+    {
+      "tail_line": 2990,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:18.596 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start"
+    },
+    {
+      "tail_line": 2991,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:18.596 actor_cell00000_rank00000] timer.py:33 - Timer update_weights start"
+    },
+    {
+      "tail_line": 2993,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:18.691 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before update_weights: {'gpu': '6', 'total_GB': 79.19, 'free_GB': 73.03, 'used_GB': 6.15, 'allocated_GB': 7.85, 'reserved_GB': 7.93}"
+    },
+    {
+      "tail_line": 2995,
+      "text": "(CommandActor pid=7708) [2026-11-09 11:37:18] INFO:     10.191.1.46:52704 - \"POST /begin_weight_update HTTP/1.1\" 200 OK"
+    },
+    {
+      "tail_line": 3000,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:18.735 actor_cell00000_rank00000] timer.py:33 - Timer update_weights_implementation start"
+    },
+    {
+      "tail_line": 3009,
+      "text": "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 11:37:19] INFO:     10.191.1.46:54728 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    },
+    {
+      "tail_line": 3012,
+      "text": "(CommandActor pid=7707) [2026-11-09 11:37:21] INFO:     10.191.1.46:41996 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    },
+    {
+      "tail_line": 3023,
+      "text": "(CommandActor pid=7707) [2026-11-09 11:37:21] INFO:     10.191.1.46:41996 - \"POST /end_weight_update HTTP/1.1\" 200 OK"
+    },
+    {
+      "tail_line": 3037,
+      "text": "[miles] Update weights: 16it [00:03, 10.39it/s][2026-11-09 11:37:21.962 actor_cell00000_rank00000] timer.py:44 - Timer update_weights_implementation end (elapsed: 3.2s)"
+    },
+    {
+      "tail_line": 3040,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:22.002 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage after update_weights: {'gpu': '6', 'total_GB': 79.19, 'free_GB': 65.8, 'used_GB': 13.39, 'allocated_GB': 7.85, 'reserved_GB': 15.1}"
+    },
+    {
+      "tail_line": 3044,
+      "text": "(TrainerController pid=7710) [2026-11-09 11:37:22.414 trainer_controller_actor] cell.py:264 - ft op=execute phase=end cell=trainer-engine-actor-00000 fn=update_weights ok=true elapsed_s=3.8"
+    },
+    {
+      "tail_line": 3050,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:22.410 actor_cell00000_rank00000] timer.py:44 - Timer update_weights end (elapsed: 3.8s)"
+    },
+    {
+      "tail_line": 3051,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) [2026-11-09 11:37:22.411 actor_cell00000_rank00000] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=3.8"
+    },
+    {
+      "tail_line": 3061,
+      "text": "(MegatronTrainRayActor pid=2019, ip=10.191.1.46) [2026-11-09 11:37:18.597 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3063,
+      "text": "(MegatronTrainRayActor pid=2019, ip=10.191.1.46) [2026-11-09 11:37:18.691 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before update_weights: {'gpu': '3', 'total_GB': 79.19, 'free_GB': 73.1, 'used_GB': 6.09, 'allocated_GB': 7.84, 'reserved_GB': 7.9} [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3076,
+      "text": "(CommandActor pid=7707) [2026-11-09 11:37:18] INFO:     10.191.1.46:41996 - \"POST /begin_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3077,
+      "text": "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 11:37:21] INFO:     10.191.1.46:54728 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK [repeated 31x across cluster]"
+    },
+    {
+      "tail_line": 3078,
+      "text": "(CommandActor pid=1893, ip=10.191.9.58) [2026-11-09 11:37:21] INFO:     10.191.1.46:48274 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK [repeated 95x across cluster]"
+    },
+    {
+      "tail_line": 3089,
+      "text": "(MegatronTrainRayActor pid=2019, ip=10.191.1.46) [2026-11-09 11:37:22.002 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage after update_weights: {'gpu': '3', 'total_GB': 79.19, 'free_GB': 66.15, 'used_GB': 13.04, 'allocated_GB': 7.84, 'reserved_GB': 15.07} [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3094,
+      "text": "(MegatronTrainRayActor pid=2019, ip=10.191.1.46) [2026-11-09 11:37:22.387 actor_cell00000_rank00007] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=3.8 [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3096,
+      "text": "(CommandActor pid=1906, ip=10.191.4.29) [2026-11-09 11:37:21] INFO:     10.191.1.46:46528 - \"POST /end_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    },
+    {
+      "tail_line": 3133,
+      "text": "[2026-11-09 11:37:27.670 main] logger.py:85 - audit op=event event=InferenceEngineWeightChecksumEvent rollout_id=-1 trainer_model_id= weight_version=0 debug_trainer_load_state_timestamp=1794223949.8224354 debug_weight_update_id=35650d9b307d4bb1afb0a864b4efae94 type=inference_engine_weight_checksum engine_snapshots=\"<list len=8>\""
+    }
+  ]
+}

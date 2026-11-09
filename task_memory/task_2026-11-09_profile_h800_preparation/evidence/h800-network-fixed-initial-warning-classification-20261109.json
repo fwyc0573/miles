@@ -1,0 +1,141 @@
+{
+  "job": "exp-1109-192340-580111",
+  "tracebacks": [
+    {
+      "line": 2335,
+      "near_before": [
+        "(CommandActor pid=7708) [2026-11-09 11:34:19] INFO:     Uvicorn running on http://10.191.5.38:20035 (Press CTRL+C to quit)",
+        "(CommandActor pid=7708) [2026-11-09 11:34:19] post-warmup freeze_gc failed"
+      ],
+      "files": [
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 239, in _new_conn",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 85, in create_connection",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 73, in create_connection"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=7708) ConnectionRefusedError: [Errno 111] Connection refused"
+      ]
+    },
+    {
+      "line": 2347,
+      "near_before": [
+        "(CommandActor pid=7708) The above exception was the direct cause of the following exception:",
+        "(CommandActor pid=7708) "
+      ],
+      "files": [
+        "(CommandActor pid=7708)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/http/client.py\", line 1085, in send",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 398, in connect",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 254, in _new_conn"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=7708) urllib3.exceptions.NewConnectionError: HTTPConnection(host='10.191.5.38', port=20035): Failed to establish a new connection: [Errno 111] Connection refused"
+      ]
+    },
+    {
+      "line": 2370,
+      "near_before": [
+        "(CommandActor pid=7708) The above exception was the direct cause of the following exception:",
+        "(CommandActor pid=7708) "
+      ],
+      "files": [
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 696, in send",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connectionpool.py\", line 847, in urlopen",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/retry.py\", line 555, in increment"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=7708) urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.191.5.38', port=20035): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.5.38', port=20035): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+      ]
+    },
+    {
+      "line": 2384,
+      "near_before": [
+        "(CommandActor pid=7708) During handling of the above exception, another exception occurred:",
+        "(CommandActor pid=7708) "
+      ],
+      "files": [
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 651, in request",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 784, in send",
+        "(CommandActor pid=7708)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 729, in send"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=7708) requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.191.5.38', port=20035): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.5.38', port=20035): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+      ]
+    },
+    {
+      "line": 2462,
+      "near_before": [
+        "(CommandActor pid=1894, ip=10.191.9.58) [2026-11-09 11:34:23] INFO:     Uvicorn running on http://10.191.9.58:20069 (Press CTRL+C to quit) [repeated 5x across cluster]",
+        "(CommandActor pid=1893, ip=10.191.9.58) [2026-11-09 11:34:23] post-warmup freeze_gc failed [repeated 4x across cluster]"
+      ],
+      "files": [
+        "(CommandActor pid=1893, ip=10.191.9.58)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/retry.py\", line 555, in increment [repeated 4x across cluster]",
+        "(CommandActor pid=1893, ip=10.191.9.58)   File \"/sgl-workspace/sglang/python/sglang/srt/entrypoints/http_server.py\", line 2606, in _freeze_gc_after_server_warmup [repeated 4x across cluster]",
+        "(CommandActor pid=1893, ip=10.191.9.58)   File \"/opt/sglang/lib/python3.12/site-packages/requests/api.py\", line 134, in post [repeated 4x across cluster]"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=1893, ip=10.191.9.58) urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.191.9.58', port=20000): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.9.58', port=20000): Failed to establish a new connection: [Errno 111] Connection refused\")) [repeated 4x across cluster]",
+        "(CommandActor pid=1893, ip=10.191.9.58) requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.191.9.58', port=20000): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.9.58', port=20000): Failed to establish a new connection: [Errno 111] Connection refused\")) [repeated 4x across cluster]"
+      ]
+    },
+    {
+      "line": 2814,
+      "near_before": [
+        "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 11:36:41] INFO:     Uvicorn running on http://10.191.1.46:20057 (Press CTRL+C to quit)",
+        "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 11:36:41] post-warmup freeze_gc failed"
+      ],
+      "files": [
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 239, in _new_conn",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 85, in create_connection",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/connection.py\", line 73, in create_connection"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=1883, ip=10.191.1.46) ConnectionRefusedError: [Errno 111] Connection refused"
+      ]
+    },
+    {
+      "line": 2826,
+      "near_before": [
+        "(CommandActor pid=1883, ip=10.191.1.46) The above exception was the direct cause of the following exception:",
+        "(CommandActor pid=1883, ip=10.191.1.46) "
+      ],
+      "files": [
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/python/cpython-3.12.16-linux-x86_64-gnu/lib/python3.12/http/client.py\", line 1085, in send",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 398, in connect",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connection.py\", line 254, in _new_conn"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=1883, ip=10.191.1.46) urllib3.exceptions.NewConnectionError: HTTPConnection(host='10.191.1.46', port=20057): Failed to establish a new connection: [Errno 111] Connection refused"
+      ]
+    },
+    {
+      "line": 2849,
+      "near_before": [
+        "(CommandActor pid=1883, ip=10.191.1.46) The above exception was the direct cause of the following exception:",
+        "(CommandActor pid=1883, ip=10.191.1.46) "
+      ],
+      "files": [
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 696, in send",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/connectionpool.py\", line 847, in urlopen",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/urllib3/util/retry.py\", line 555, in increment"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=1883, ip=10.191.1.46) urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='10.191.1.46', port=20057): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.1.46', port=20057): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+      ]
+    },
+    {
+      "line": 2863,
+      "near_before": [
+        "(CommandActor pid=1883, ip=10.191.1.46) During handling of the above exception, another exception occurred:",
+        "(CommandActor pid=1883, ip=10.191.1.46) "
+      ],
+      "files": [
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 651, in request",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/requests/sessions.py\", line 784, in send",
+        "(CommandActor pid=1883, ip=10.191.1.46)   File \"/opt/sglang/lib/python3.12/site-packages/requests/adapters.py\", line 729, in send"
+      ],
+      "exception_endings": [
+        "(CommandActor pid=1883, ip=10.191.1.46) requests.exceptions.ConnectionError: HTTPConnectionPool(host='10.191.1.46', port=20057): Max retries exceeded with url: /freeze_gc (Caused by NewConnectionError(\"HTTPConnection(host='10.191.1.46', port=20057): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+      ]
+    }
+  ]
+}

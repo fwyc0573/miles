@@ -1,0 +1,620 @@
+{
+  "observed_at": "2026-11-09T12:41:40.558854+00:00",
+  "run_directory": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109/r256/student/A/exp-1109-192340-580111",
+  "updates": [
+    {
+      "cell": "A/r256",
+      "attempt": "exp-1109-192340-580111",
+      "attempted_rollout_id": 0,
+      "run_kind": "smoke",
+      "protocol": "r256",
+      "bank": 0,
+      "bank_visit": 1,
+      "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "generation_weight_versions": [
+        {
+          "spans": [
+            {
+              "version": "0",
+              "abs_start": 114416,
+              "abs_end": 114588
+            }
+          ],
+          "prefill_spans": [
+            {
+              "version": "0",
+              "abs_start": 0,
+              "abs_end": 114416
+            }
+          ],
+          "output_start": 114416,
+          "prompt_tokens": 114416
+        }
+      ],
+      "current_weight_version": 0,
+      "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+      "kl_direction": "student_minus_teacher",
+      "kl_before_tis_numerator": 15984.899008578934,
+      "kl_before_tis_denominator": 128547,
+      "kl_before_tis": 0.1243506189065395,
+      "original_tokens": 128547,
+      "surviving_tokens": 116264,
+      "tis_retention": 0.9044474005616623,
+      "nonfinite_tokens": 0.0,
+      "token_rejected_tokens": 0.0,
+      "answer_rejected_tokens": 12283.0,
+      "diagnostics_verified": true,
+      "unverified_diagnostics": [],
+      "mask_evidence_verified": true,
+      "retained_weight": 1,
+      "effective_weight_sum": 116264,
+      "loss": 0.1105311405748954,
+      "lr": [
+        2e-06,
+        2e-06
+      ],
+      "timestamp": 1794226968.9307168,
+      "successful_updates": 1,
+      "actual_turns": 256,
+      "expected_bank_turns": 256,
+      "expected_bank_tokens": 128547,
+      "bank_membership_verified": true,
+      "update_successful": true,
+      "native_attempted_count": 1,
+      "native_skipped_count": 0,
+      "update": 1
+    },
+    {
+      "cell": "A/r256",
+      "attempt": "exp-1109-192340-580111",
+      "attempted_rollout_id": 1,
+      "run_kind": "smoke",
+      "protocol": "r256",
+      "bank": 0,
+      "bank_visit": 2,
+      "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "generation_weight_versions": [
+        {
+          "spans": [
+            {
+              "version": "0",
+              "abs_start": 114416,
+              "abs_end": 114588
+            }
+          ],
+          "prefill_spans": [
+            {
+              "version": "0",
+              "abs_start": 0,
+              "abs_end": 114416
+            }
+          ],
+          "output_start": 114416,
+          "prompt_tokens": 114416
+        }
+      ],
+      "current_weight_version": 1,
+      "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+      "kl_direction": "student_minus_teacher",
+      "kl_before_tis_numerator": 15639.3778940548,
+      "kl_before_tis_denominator": 128547,
+      "kl_before_tis": 0.12166272175978281,
+      "original_tokens": 128547,
+      "surviving_tokens": 122215,
+      "tis_retention": 0.9507417520439995,
+      "nonfinite_tokens": 0.0,
+      "token_rejected_tokens": 32.0,
+      "answer_rejected_tokens": 6304.0,
+      "diagnostics_verified": true,
+      "unverified_diagnostics": [],
+      "mask_evidence_verified": true,
+      "retained_weight": 1,
+      "effective_weight_sum": 122215,
+      "loss": 0.11583159087760461,
+      "lr": [
+        2e-06,
+        2e-06
+      ],
+      "timestamp": 1794227779.6973712,
+      "successful_updates": 2,
+      "actual_turns": 256,
+      "expected_bank_turns": 256,
+      "expected_bank_tokens": 128547,
+      "bank_membership_verified": true,
+      "update_successful": true,
+      "native_attempted_count": 2,
+      "native_skipped_count": 0,
+      "update": 2
+    }
+  ],
+  "memory_files": [
+    {
+      "filename": "rank_0.jsonl",
+      "bytes": 274507,
+      "groups": [
+        {
+          "rank": 0,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.9504132,
+          "maximum_timestamp": 1794226250.6222157,
+          "maximum_allocated_bytes": 26406088192,
+          "maximum_reserved_bytes": 46672117760,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 0,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227026.2606006,
+          "maximum_timestamp": 1794227145.1962967,
+          "maximum_allocated_bytes": 31023040512,
+          "maximum_reserved_bytes": 62828576768,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_1.jsonl",
+      "bytes": 274534,
+      "groups": [
+        {
+          "rank": 1,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.949915,
+          "maximum_timestamp": 1794226250.6341448,
+          "maximum_allocated_bytes": 26406088192,
+          "maximum_reserved_bytes": 46672117760,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 1,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227025.3769822,
+          "maximum_timestamp": 1794227145.19109,
+          "maximum_allocated_bytes": 31023040512,
+          "maximum_reserved_bytes": 62828576768,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_2.jsonl",
+      "bytes": 274514,
+      "groups": [
+        {
+          "rank": 2,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.9777122,
+          "maximum_timestamp": 1794226250.6230922,
+          "maximum_allocated_bytes": 26406088192,
+          "maximum_reserved_bytes": 46672117760,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 2,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227025.3363216,
+          "maximum_timestamp": 1794227145.1899018,
+          "maximum_allocated_bytes": 31023040512,
+          "maximum_reserved_bytes": 62828576768,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_3.jsonl",
+      "bytes": 274517,
+      "groups": [
+        {
+          "rank": 3,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.949544,
+          "maximum_timestamp": 1794226250.6226606,
+          "maximum_allocated_bytes": 26406088192,
+          "maximum_reserved_bytes": 46672117760,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 3,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227025.33684,
+          "maximum_timestamp": 1794227145.190547,
+          "maximum_allocated_bytes": 31023040512,
+          "maximum_reserved_bytes": 62828576768,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_4.jsonl",
+      "bytes": 274602,
+      "groups": [
+        {
+          "rank": 4,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.9483626,
+          "maximum_timestamp": 1794226249.4311004,
+          "maximum_allocated_bytes": 26401426432,
+          "maximum_reserved_bytes": 60341354496,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 4,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227027.9467432,
+          "maximum_timestamp": 1794227146.2791178,
+          "maximum_allocated_bytes": 31015797248,
+          "maximum_reserved_bytes": 76493619200,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_5.jsonl",
+      "bytes": 274605,
+      "groups": [
+        {
+          "rank": 5,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.9490533,
+          "maximum_timestamp": 1794226249.1322823,
+          "maximum_allocated_bytes": 26401426432,
+          "maximum_reserved_bytes": 60341354496,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 5,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227028.809681,
+          "maximum_timestamp": 1794227146.2715886,
+          "maximum_allocated_bytes": 31015797248,
+          "maximum_reserved_bytes": 76493619200,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_6.jsonl",
+      "bytes": 274615,
+      "groups": [
+        {
+          "rank": 6,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.9461083,
+          "maximum_timestamp": 1794226249.1332226,
+          "maximum_allocated_bytes": 26401426432,
+          "maximum_reserved_bytes": 60341354496,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 6,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227028.0348625,
+          "maximum_timestamp": 1794227146.271142,
+          "maximum_allocated_bytes": 31015797248,
+          "maximum_reserved_bytes": 76493619200,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    },
+    {
+      "filename": "rank_7.jsonl",
+      "bytes": 274610,
+      "groups": [
+        {
+          "rank": 7,
+          "store_prefix": "",
+          "scoring_pass_index": 0,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794225907.947898,
+          "maximum_timestamp": 1794226249.452081,
+          "maximum_allocated_bytes": 26401426432,
+          "maximum_reserved_bytes": 60341354496,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        },
+        {
+          "rank": 7,
+          "store_prefix": "",
+          "scoring_pass_index": 1,
+          "events": {
+            "source_identity": 1,
+            "forward_enter": 88,
+            "projection_enter": 88,
+            "forward_exit": 88
+          },
+          "source_verified": [
+            true
+          ],
+          "prior_output_alive": {
+            "False": 264
+          },
+          "maximum_full_output_storage_bytes": 16273899520,
+          "minimum_timestamp": 1794227027.8574607,
+          "maximum_timestamp": 1794227146.2706807,
+          "maximum_allocated_bytes": 31015797248,
+          "maximum_reserved_bytes": 76493619200,
+          "microbatch_index_range": [
+            0,
+            87
+          ],
+          "distinct_microbatch_indices": 88
+        }
+      ],
+      "unverified": []
+    }
+  ]
+}

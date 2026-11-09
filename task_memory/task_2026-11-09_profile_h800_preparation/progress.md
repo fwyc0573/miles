@@ -2,6 +2,10 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Close terminal review P3 and selected offline evidence delivery; reference parent D35 with merge still primary-owned and pending. |
+| 2026-11-09 | Accept complete H800 D34 capacity and clean both terminal smoke roots; preserve unresolved upstream contract dependency. |
+| 2026-11-09 | Accept the independent D34 bank admission: 256 valid slots in 1633.3 seconds; continue to native training checks. |
+| 2026-11-09 | Record successful native eight-engine initialization and initial weight synchronization; keep bank/training acceptance open. |
 | 2026-11-09 | Record fresh admission and actual network-fixed H800 job exp-1109-192340-580111, with initial platform Starting readback. |
 | 2026-11-09 | Record cf98293a CPU/static repair acceptance and freeze a separate-output H800 D34 native retry candidate. |
 | 2026-11-09 | Record terminal startup failure, node-network discriminator and cloud cleanup steering. |
@@ -30,9 +34,15 @@
 
 - Admission slice final status: **completed**, commit `1ae93261` on branch `agent-opd-h800-capacity`. Only its two owned Python files and progress/test-report/summary were included. Initial untracked `requirements.md` and `plan.md` were preserved and excluded from that earlier commit; the new launcher follow-up explicitly authorizes updating and committing those primary-created records.
 
-## pending
+## Current frontier, 2026-11-10
 
-- Current primary frontier: diagnose the terminal H800 startup failure, verify the scoped correction, and clean obsolete session-owned cloud outputs. Original-source D34 parity and the first H800 submission are complete; native capacity and consolidation onto the parent remain blocked by D1/D22.
+- H800 D34 native capacity and both terminal-smoke cleanups are **completed**. Parent D35 explicitly adopts this accepted H800 result for parent D1/D22 and authorizes merge/T02/T03. Parent merge and Ticket02/03 remain **pending, primary-owned**, not completed here; upstream old-D11 acceptance is unchanged.
+- `profile-h800-archive-close-20261110`: **completed** scoped archive verification and documentation, delivered by the associated Git commit (identity in Git history and the handoff). The existing offline checker, scoped Ruff/Black/isort and diff checks pass. All 21 explicitly selected files pass literal credential/private-key and size checks; 12 JSON receipts parse, maximum file 104231 bytes. The 73 untracked local evidence files/3832196 bytes and both complete raw archives are preserved. No platform, network, SSH, GPU operation or further cleanup occurred. Exact selection, commands and review limits: `test_report_2026-11-10_h800_archive_close.md`.
+- Reviewer `profile-h800-terminal-acceptance-review-20261109` reported P3 for the stale frontier above and **No other findings**, as supplied by the primary's delegation. P3 is corrected here and in the current plan/checkpoint/summary. The supplied result is not a new review; receipt-only verification does not prove final NIC/HCA, whole-model/cryptographic provenance, physical OSS reclamation or formal-run trend coverage.
+
+## Historical timeline, 2026-11-09
+
+All subsequent Nov9 pending/in-progress labels and next actions record the state at that observation. They are not the current frontier; terminal completion entries and the Nov10 parent-only D35 decision supersede them without changing the upstream owner's contract or the original receipts.
 
 ## completed: profile-length-launcher-20261109
 
@@ -92,7 +102,7 @@
 2. 本地 dry-run 和 native argv 已通过，但不是完整 native input 或 GPU 执行验证。
 3. parent input/checker/audit 与新 H800 config 是整体验证依赖；不能通过 runtime monkeypatch 消除该依赖。
 
-## Current primary execution: native capacity prerequisite
+## Historical primary execution, 2026-11-09: native capacity prerequisite
 
 ### completed
 
@@ -150,4 +160,24 @@
 - New ordinary launcher owner:`sh_1c00ca257001FAmkzN0D28AQ9j`, log`/data/ycfeng/tmp/agent-opd-image/qwen35-h800-network-fixed-20261109.log`. Keep it alive throughout the workload. The older launcher exited1 and remains historical; no other owner's job was stopped orheld.
 - At11:33:03Z, all five node receipts verify36 actual H800 GPUs,81559MiB each with driver570.124.06: four distinct student hosts with8 GPUs each and one teacher with4. Each receipt matches the job, pair, exact image and original model path. Evidence:`evidence/h800-network-fixed-worker-gpu-readback-20261109.json`. This completes worker hardware observation only; native engine initialization, weights and capacity remain open.
 - Independent parent D34 source audit `exp-1109-154414-275606` is still Running at11:32:18Z. Its final-file progress reports `scanned=9200`, `renders=51549`, elapsed13382s at11:28:18Z. Missing final output files at this point do not imply a failed audit; the ordinary worker is making progress. Parent evidence:`evidence/source-audit-112k-runtime-20261109.json`; no final source-length statistics or parity acceptance is claimed yet.
-- Next: keep the ordinary launcher alive; inspect new job creator/source/all36devices, new runtime env, node platform values and available native event reports, all8TP4 engines and initial weights; then require231/256within1800s and the real two optimizer ACKs/second scoring/two sealed-bank uses. Auxiliary inspection failures are soft-only and marked unverified; they do not cancel or block healthy training. Parent D1/D22 remain unchanged and unmet.
+- At 11:39:09Z, the complete 1,299,557-byte native head log confirms all eight engines ready by 11:36:41Z. Initial `update_weights` starts at 11:37:18.596Z and the eight-actor cell finishes `ok=true`, `elapsed_s=3.8` at 11:37:22.414Z. Begin/end session and distributed/tensor transfers return HTTP200; the native checksum event contains eight engine snapshots at weight version 0. Exact evidence: `evidence/h800-network-fixed-initial-sync-20261109.json`. Snapshot contents and the later changed-weight synchronization have not yet been independently verified.
+- New tracebacks were inspected rather than treated as another NCCL failure: all nine headers in the captured stream belong to native post-warmup `/freeze_gc` connection-refused chains, including Ray-deduplicated messages. Servers subsequently report ready and initial synchronization succeeds. Evidence: `evidence/h800-network-fixed-initial-warning-classification-20261109.json`. No retry, source patch or stop was applied for this warning.
+- Native source preparation is active: oversized candidate prompts are rejected against the configured context/prompt budgets. These rejection records are not successful generated/scored slots. Evidence: `evidence/h800-network-fixed-first-runtime-20261109.json`.
+- Self-check after the native initialization milestone: Plan8 remains TODO, now at bank admission/training rather than startup; the parent and independent CPU source audit are still separate. All seven drift patterns are CLEAR. Corrected the stale Step8 scope phrase in `plan.md` under S5 without changing acceptance or authorization.
+- Bank admission PASS: bounded read-only snapshot at 12:06:07Z finds `acquisition_sealed`, 256/256 completed slots, no invalid/missing/pending slots, and membership exactly 0–255. Native start/deadline/end timestamps are 1794224248.9532301 / 1794226048.953265 / 1794225882.2394156, yielding 1633.2862 seconds, below 1800. All 256 persisted samples retain `max_response_len=16384`. Evidence: `evidence/h800-network-fixed-acquisition-progress-20261109.json`. The journal is 594,158,701 bytes; it was read as a streaming snapshot and sample bodies were not duplicated into the local summary. This is the independent D34 bank, not the upstream frozen D11 acceptance artifact.
+- Self-check after bank admission: Plan8 remains TODO at student scoring/backward/two optimizer ACKs and second scoring; startup and bank admission are now observed PASS. Keep the native launcher and healthy workload running. No auxiliary hard gate or unrelated fix is introduced; D1–D7 remain CLEAR.
+- Next: obtain two optimizer ACKs, second-student scoring and two uses of this sealed bank. Later weight versions/consistency and effective engine environments remain unverified until captured. Auxiliary inspection failures cannot stop healthy training. Parent D1/D22 remain separate and unchanged.
+
+### completed: Plan8 H800 D34 native capacity
+
+- `exp-1109-192340-580111` and all five replicas are terminal Succeeded; the ordinary launcher exited successfully. Native bank 0 has 256 valid trajectories in 1633.2862 seconds, with two verified memberships/visits and two successful, unskipped optimizer ACKs. Every training rank 0–7 completes student scoring passes 0 and 1, each 88 microbatches; pass 1 uses updated weights after ACK1. Source identity and previous-output lifetime checks pass without observer-unverified events. The actual 128K TP4 logits tensor is 15.15625 GiB/rank; maximum observed scoring PyTorch allocation is 28.89246 GiB, not whole-device or backward usage.
+- Existing checksum events verify all 1644 text hashes equal across eight engines at versions 0/1, with the same 972 changed hashes. The frozen 1188 visual hashes differ only by offload topology and are excluded by the existing recipe, not a new exception. Read-only scope verification found no actionable text-path defect. Final NIC/HCA values are not exposed by server-info and remain unverified; placeholder provenance is not cryptographic. No auxiliary finding changed or stopped training.
+- Evidence: `evidence/h800-network-fixed-{native-capacity-final,native-terminal,version-one-checksum-check,capacity-acceptance}-20261109.json`; full checks and limits in `test_report_2026-11-09_network_fixed_prelaunch.md`. Status: **PASS_H800_D34_NATIVE_CAPACITY**, separate from frozen upstream D11 and parent D1/D22. No parent merge, Ticket02/03 integration, or formal A/B run occurred.
+- The independent 112K full-source audit is accepted in parent commit `a404850c`: job/replica Succeeded; 512 parity and 2048 interleaved draws PASS; source bytes unchanged. 37.1927% of eligible turns are overlength; the 32×8/200-update simulation has span median 5/p90 7/max 9 and 0/869 conversations at least 11 updates. This is not runtime trend coverage. Pre-length median remains 90, so the frozen D26 adjustment condition is not triggered.
+
+### completed: Plan10 second terminal-smoke cleanup
+
+- Inventory: 412 files, 2136889910 logical bytes. Verified every file against `/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-192340-580111-cloud-raw.tar.gz` (458427717 bytes), then rehashed all cloud files before exact-root removal at 12:50:11Z. Independent readback finds the task cloud parent empty. Archive and cleanup receipts: `evidence/cloud-cleanup-network-fixed-{inventory,backup,result}-20261109.json`.
+- The first streaming verifier reopened a member and failed; one stream per member corrected it. Ordinary unlink was denied before any removal by root:root mode0755; after confirming all 412 files remained, the exact approved path was removed with `sudo -n`, without permission changes. Source assets, other tasks and shared trash were untouched.
+- Cumulative session cleanup: 579 files, **2152215899 logical bytes**. Physical OSS reclamation remains unverified. Retained raw archives and selected acceptance evidence support later diagnosis without retaining duplicate cloud smoke outputs.
+- Historical next step, Nov9 (superseded for the parent by D35): reconcile the separately frozen upstream D1/D22 dependency before any parent integration. The latest root branch then inspected was `34242784`, with session24 H200 admission support and no newer native acceptance in those records. The upstream contract is not relabeled by the Nov10 parent-only decision.

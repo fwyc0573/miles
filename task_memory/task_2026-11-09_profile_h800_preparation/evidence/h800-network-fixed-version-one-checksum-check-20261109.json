@@ -1,0 +1,61 @@
+{
+  "source": "task_memory/task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-version-one-weight-events-20261109.json",
+  "method": "Compare native tensor_checksums for nonvisual tensors across all eight engines at versions0 and1. Preserve and disclose visual mismatches; do not use pseudo-hash-1 as weight proof.",
+  "versions": [
+    {
+      "version": 0,
+      "timestamp": "2026-11-09T11:37:27.641866Z",
+      "engines": 8,
+      "text_tensor_checksums_per_engine": 1644,
+      "all_text_tensor_checksums_equal": true,
+      "visual_difference_counts_against_colocated_first_engine": {
+        "inference-engine-all-0-0-00000": 0,
+        "inference-engine-all-0-0-00001": 0,
+        "inference-engine-all-0-1-00000": 1188,
+        "inference-engine-all-0-1-00001": 1188,
+        "inference-engine-all-0-1-00002": 1188,
+        "inference-engine-all-0-1-00003": 1188,
+        "inference-engine-all-0-1-00004": 1188,
+        "inference-engine-all-0-1-00005": 1188
+      }
+    },
+    {
+      "version": 1,
+      "timestamp": "2026-11-09T12:23:09.631024Z",
+      "engines": 8,
+      "text_tensor_checksums_per_engine": 1644,
+      "all_text_tensor_checksums_equal": true,
+      "visual_difference_counts_against_colocated_first_engine": {
+        "inference-engine-all-0-0-00000": 0,
+        "inference-engine-all-0-0-00001": 0,
+        "inference-engine-all-0-1-00000": 1188,
+        "inference-engine-all-0-1-00001": 1188,
+        "inference-engine-all-0-1-00002": 1188,
+        "inference-engine-all-0-1-00003": 1188,
+        "inference-engine-all-0-1-00004": 1188,
+        "inference-engine-all-0-1-00005": 1188
+      }
+    }
+  ],
+  "changed_text_tensor_checksums_by_engine": {
+    "inference-engine-all-0-0-00000": 972,
+    "inference-engine-all-0-0-00001": 972,
+    "inference-engine-all-0-1-00000": 972,
+    "inference-engine-all-0-1-00001": 972,
+    "inference-engine-all-0-1-00002": 972,
+    "inference-engine-all-0-1-00003": 972,
+    "inference-engine-all-0-1-00004": 972,
+    "inference-engine-all-0-1-00005": 972
+  },
+  "identical_changed_tensor_sets": true,
+  "changed_tensor_examples": [
+    "rank0/model.embed_tokens.weight",
+    "rank0/model.layers.0.linear_attn.A_log",
+    "rank0/model.layers.0.linear_attn.conv1d.weight",
+    "rank0/model.layers.0.linear_attn.in_proj_ba.weight",
+    "rank0/model.layers.0.linear_attn.in_proj_qkvz.weight"
+  ],
+  "effective_per_engine_nic_hca": "UNVERIFIED: native server_info does not expose NCCL socket or HCA environment fields.",
+  "text_only_status": "PASS",
+  "whole_model_equality_status": "NOT_EQUAL:1188 visual tensor checksums differ between colocated and dedicated groups. Source explanation pending."
+}

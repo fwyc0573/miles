@@ -1,0 +1,16 @@
+{
+  "removed_at": "2026-11-09T12:50:11.549894+00:00",
+  "remote_root": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109",
+  "worker_root": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109",
+  "job": "exp-1109-192340-580111",
+  "job_uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "removed_files": 412,
+  "removed_logical_bytes": 2136889910,
+  "all_cloud_files_reverified_before_unlink": true,
+  "root_exists_after": false,
+  "remaining_task_roots": [],
+  "physical_oss_reclamation": "UNVERIFIED",
+  "source_assets_other_tasks_shared_trash": "untouched",
+  "prior_unlink_error": "PermissionError before any file was removed; all412 files remained. Parent student/A was root:root mode0755. Retried exact-root unlink with sudo -n, without chmod or chown.",
+  "status": "PASS"
+}

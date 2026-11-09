@@ -2,11 +2,12 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Verify and remove 412 files/2.14 GB from the successful H800 smoke; cumulative logical cleanup is 2.15 GB. |
 | 2026-11-09 | Verify and remove obsolete cloud duplicates from the terminal session-owned H800 smoke. |
 
 # Session Cloud Cleanup Verification
 
-## Scope and result
+## First failed smoke: scope and result
 
 **PASS:** removed 167 files / **15,325,989 logical bytes** from the terminal smoke root:
 
@@ -64,4 +65,34 @@ Independent post-delete SSH/Python check inspected the exact parent directory: `
 
 ## Limits and continuing work
 
-The measured reduction is in visible logical file bytes. JuiceFS trash/garbage collection can delay physical OSS reclamation; no physical-capacity reduction is claimed. Raw diagnostics remain locally available while the native node-network RCA proceeds. D1/D22 remains unmet; cleanup does not accept capacity or authorize parent integration.
+The measured reduction is in visible logical file bytes. JuiceFS trash/garbage collection can delay physical OSS reclamation; no physical-capacity reduction is claimed. Raw diagnostics remain locally available. Cleanup does not itself accept capacity or authorize parent integration.
+
+## Successful network-fixed smoke, 12:50Z
+
+After `exp-1109-192340-580111`, UID `28536e46-208d-4635-b648-27c782a09c9b`, and all five replicas reached Succeeded, the native capacity verdict was independently checked. The exact output root `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109` contained **412 files/2136889910 logical bytes**. Large files were the 594158701-byte bank journal, two 319318921-byte rollout dumps, two 276248662-byte trajectory journals and native training dumps. They are generated smoke artifacts, not source models/datasets or formal/evaluation outputs.
+
+The same restricted transfer mechanism retained the complete root:
+
+```bash
+ssh -o BatchMode=yes -o ConnectTimeout=10 shai-ycfeng \
+  'test "$(id -un)" = i-fengyicheng && timeout 300s tar -C /mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109 -czf - .' \
+  > /data/ycfeng/tmp/agent-opd-image/h800-exp-1109-192340-580111-cloud-raw.tar.gz
+```
+
+The local shell used noclobber and umask077. Archive size is **458427717 bytes**, SHA256 `1bda816ef0f16138c3376c947a2031f88eb92e046b860f4dfba185b02f8bd1c5`. Python streaming verification requires exact member paths and lengths and rehashes each member; all 412 files match the inventory. Nothing was extracted. The first verifier mistakenly reopened a member per block and raised `tarfile.StreamError`; retaining one member stream fixed that verifier. No cloud deletion had occurred.
+
+The entire cloud tree was rehashed against inventory before unlink. Ordinary unlink was denied before the first file: `student/A` was root:root mode0755. A separate read verified all 412 files remained and noninteractive sudo was available. The same literal-root, resolve-path, regular-file, membership, size/mtime and hash checks then ran through `timeout 60s sudo -n python3 -B -c`; only the verified files were unlinked and their empty directories removed. No chmod/chown or broader recursive delete was used. Removal finished at **12:50:11Z**. Independent personal-user SSH/Python readback confirms `remaining_children=[]` and the exact smoke root absent.
+
+Receipts: `evidence/cloud-cleanup-network-fixed-{inventory,backup,result}-20261109.json`. Original bank, trajectories, training dumps, event checksums and logs remain in the complete local archive. Selected native capacity/terminal evidence remains in this task; the archive is not committed to Git.
+
+| Check | Expected | Actual | Verdict |
+| --- | --- | --- | --- |
+| Terminal ownership | Same admitted UID; all replicas terminal | Succeeded; four student replicas and teacher | PASS |
+| Complete local retention | Every file matches size/hash | 412/412, 2136889910 bytes | PASS |
+| Pre-unlink drift | No linked, changed, extra or missing file | Exact membership, mtime/size and hashes unchanged | PASS |
+| Authorized removal | Exact terminal smoke root only | 412 files removed; root absent | PASS |
+| Independent readback | Task cloud parent empty | Empty | PASS |
+| Protected content | Sources, other tasks, shared trash untouched | No modification outside exact root | PASS |
+| Physical OSS reclamation | Storage-level measurement required | Not measured | UNVERIFIED |
+
+**Cumulative session cleanup: 579 files/2152215899 logical bytes (2.15 GB decimal).** This is verified namespace reduction, not a claim that OSS garbage collection has reclaimed that physical capacity. Both raw archives remain under `/data/ycfeng/tmp/agent-opd-image`.

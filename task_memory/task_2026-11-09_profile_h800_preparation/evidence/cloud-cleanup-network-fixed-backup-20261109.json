@@ -1,0 +1,15 @@
+{
+  "verified_at": "2026-11-09T12:47:55.789181+00:00",
+  "job": "exp-1109-192340-580111",
+  "job_uid": "28536e46-208d-4635-b648-27c782a09c9b",
+  "remote_root": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109",
+  "archive_path": "/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-192340-580111-cloud-raw.tar.gz",
+  "archive_bytes": 458427717,
+  "archive_sha256": "1bda816ef0f16138c3376c947a2031f88eb92e046b860f4dfba185b02f8bd1c5",
+  "file_count": 412,
+  "logical_bytes": 2136889910,
+  "all_member_sizes_and_sha256_equal_inventory": true,
+  "no_extraction_performed": true,
+  "prior_verifier_error": "StreamError caused by re-opening the same tar member inside the block-reading lambda. Corrected to one extractfile stream per member; no cloud deletion occurred on the error.",
+  "status": "PASS"
+}

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Reference parent-only D35 adoption of accepted H800 D34 evidence; scope archive closure without changing upstream D11. |
 | 2026-11-09 | Record verified node-local NCCL correction and distinguish D34 H800 readiness from upstream's frozen D11 capacity acceptance. |
 | 2026-11-09 | Record session-owned smoke and temporary cloud-artifact cleanup authorization. |
 | 2026-11-09 | Record the isolated resource-preparation slice for parent task D33. |
@@ -45,7 +46,7 @@ The upstream attempt `exp-1109-144110-764758` failed before generation during in
 
 The prepared A/r256 capacity configuration requests36 H800/codesign: one8-GPU TP4/DP2 trainer colocated with twoTP4 engines, three additional8-GPU nodes providing six dedicatedTP4 engines, and a separate4-GPU TP4 teacher. Its acceptance remains at least231 of256 within1800 seconds, two successful optimizer ACKs, second-student scoring and two uses of the same bank. The original source sequence, mask policy, models, seeds and loss parameters remain the upstream prerequisite's contract; parent formal32×8 interleaving and200-update runs are separate gated work.
 
-### Native retry coordination and contract boundary
+### Native retry coordination and contract boundary (Nov9 historical state)
 
 As of2026-11-09T11:19Z, upstream `agent-opd` at`23b29f66` has approval for one original18-H200 session-repair rerun but no new submitted job or capacity acceptance. Its recorded source-length contract has not adopted parent D34. This task's36-H800 run verifies the parent's explicitly approved H800 and128K/112K/16K configuration; it is not acceptance of the unchanged upstream D11 contract. The two owners retain separate jobs and evidence. Neither task may infer the other's acceptance from submission, CPU tests or a result under different input budgets. Parent D1/D22 remain blocked until the upstream owner records acceptance under its authoritative contract; any later contract reconciliation requires an explicit recorded decision, not a relabeled receipt.
 
@@ -58,3 +59,17 @@ D25 is enforced by reading original posttrain sources in place. The existing gen
 > 及时清理本session中smoke、临时产物等残留在 codesign oss上的大文件，施放空间
 
 Remove obsolete outputs of this session's terminal smoke and temporary jobs after retaining the evidence needed for diagnosis and acceptance. Verify exact ownership, terminal status, paths, and retained evidence first. Do not delete source models, source datasets, formal/evaluation artifacts, live-job inputs or outputs, another task's files, or the shared volume trash. Record deleted paths and measured logical bytes; do not equate unlinking with verified physical OSS reclamation.
+
+## [Original Request] Archive closure and parent D35 reference, 2026-11-10
+
+> Current user explicitly adopted completed H800 D34 capacity for parent full_kl_nll D1/D22 and authorized merge/T02/T03, choosing '采用 H800 结果'. Record date Nov10 decision as parent-only D35 reference, do not change upstream old-D11 contract.
+>
+> Fix reviewer P3: progress.md current frontier lines36–38 still wrongly claims startup/cleanup pending and capacity blocked. Update current scope in prep plan/checkpoint/summary: native accepted; parent merge now approved and primary-owned, not done. Preserve historical timeline as history.
+>
+> Commit selected decisive receipts needed by reports/checker, owned docs, new offline checker only; preserve other modifications. No platform/network/SSH/GPU operations or new framework/tests; no cleanup beyond already done. Finish this step; do not merge parent yourself.
+
+Task ID: `profile-h800-archive-close-20261110`. Ownership is limited to this preparation task directory and `tests/manual/agent_opd/check_h800_capacity_evidence.py`.
+
+Parent D35 is a reference to the primary's authoritative decision record in the parent requirements path above, supplied explicitly in this delegation. It adopts this completed H800 D34 result for the parent D1/D22 prerequisite and approves primary-owned merge/T02/T03 work. Adoption is not merge completion or formal-run acceptance. The upstream owner's frozen D11 contract and original Nov9 receipts remain unchanged. Nov9 blocked-state entries below the current frontier in `progress.md` are historical, superseded for the parent by D35.
+
+Acceptance: fix the stale current frontier; record the terminal review outcome and its limits; retain only decisive, credential-scanned, small evidence in Git; run the existing offline checker and scoped diff/lint checks; commit only owned files and leave parent integration to the primary.
