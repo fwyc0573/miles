@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record SDK and authenticated platform-document findings for the pending placement decision; distinguish verified mechanisms from untested options and avoid treating a waiting-time upper bound as measured GPU cost. |
 | 2026-11-10 | Close the second pre-training A failure with five complete receipts; pause submissions at PLACEMENT_BLOCKED pending a strategy decision, without claiming complete stop-audit closure. |
 | 2026-11-10 | Record first A terminal/native failure and incomplete stop audit; retain snapshots and separately document unchanged freshly admitted retry and read-only observer replacement. |
 | 2026-11-10 | Diagnose partial placement from exact replica/Pod events and separate Ray startup deadline from acquisition/D19. |
@@ -102,9 +103,23 @@ RCA collector root:`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-placement-failu
 
 ### Current route — PLACEMENT_BLOCKED
 
-Both formal A attempts failed before acquisition/training with0 updates. Primary has paused submission; **no third attempt, chosen placement/startup strategy or new approval is recorded**. Primary independently inspects native SDK mechanisms and authoritative Lark documentation; its SDK task is`ses_e3e4c91c2ffeH93O77e3RX5SB1`. This documentation slice does not duplicate that investigation or invent its result.
+Both formal A attempts failed before acquisition/training with0 updates. Primary has paused submission; **no third attempt, chosen placement/startup strategy or new approval is recorded**. The local SDK investigation `profile-placement-route-20261110` (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and the authenticated document reads below are complete. The remaining blocker is the resource/startup strategy decision, not an unfinished CPU integration.
 
 Repeated startup failures justify stopping unchanged retries. Next action is an explicit evidence-backed placement/startup strategy decision with applicable authority and unresolved choices, not GPU smoke, another unchanged submission or a throughput/science workaround. T02/T03 CPU readiness and configuration remain unchanged. D16/native profile/02 GPU, B and200-update native/profile acceptance remain pending; any future run needs its own attempt identity, fresh admission and actual startup/success evidence. Both failed attempts and all formal cloud outputs are protected, separate and outside smoke cleanup authority.
+
+### Placement options and verified limits
+
+- Local SDK `brainpp/rjob/struct.py:1208,1231,1437-1438` defines `gang_group` for tasks with `gang_start=True`. The existing submission already carries the group label while both tasks disable gang start. That label alone did not prevent partial placement. The local SDK has no separately exposed all-or-none allocation field; exact PodGroup/controller behavior remains unverified.
+- `Task.gang_start` is distinct from application readiness. The handbook's server-admission experiment showed that enabling it on the student can inject a teacher ConfigMap reference too, despite disabling it on the teacher. A previous job failed on the absent teacher ConfigMap. Blindly enabling it is not an accepted repair.
+- Existing `RJobWorkers.get_all_ips()` delegates to a default-task helper (`stepmind_control.py:264-300,367-369`). Its default task name and root replica count do not match this two-task/four-student configuration, so it cannot be used unchanged as a placement barrier. A new launcher-side coordinator could use the existing personal client without giving credentials to workers, but its release/cancellation/waiting policy would need design and verification. Delaying application startup can avoid spending the application deadline during placement; it cannot create the missing physical resources and may prolong partial GPU occupation.
+- The authenticated [scheduler guide](https://wvixbzgc0u7.feishu.cn/wiki/LvJ8wKacWi4AyakWVPYccszVnVf), document `Ppr9dqgL4o5OyBxJkHpcVYnEnic` revision3, distinguishes resource shortage and missing PodGroup from workload failure. The [multi-task investigation](https://wvixbzgc0u7.feishu.cn/wiki/NpOWwvm5NiIecnk3YExc2qhnnQg), document `MJz1dpkhaoKBmZxyhU6cYA8Hnkb` revision689, reports multi-task gang-start problems and leaves cross-task support unresolved. These documents support the diagnosis and the need to verify platform behavior; they do not prove a working atomic-placement configuration.
+- Full successful JSON responses are retained at `/data/ycfeng/tmp/agent-opd-image/formal-scheduling-doc-20261110.json` and `formal-multitask-doc-20261110.json`. Exact reads used `/data/ycfeng/stepcode-codex-home/bin/lark-cli docs +fetch --as user --doc <linked-url> --scope keyword --keyword 'gang|group|调度' --context-after 1 --doc-format markdown` for the scheduler guide; the multi-task keyword was `gang|group|同时|调度`. Both returned `ok=true`; local response parsing confirmed document IDs and revisions. No external write was performed.
+
+Pending user choices: keep the accepted 36-GPU configuration and await a better placement opportunity; authorize validation of native gang-start/teacher ConfigMap behavior before another launch; or explicitly reduce to three student nodes plus the teacher (28 GPUs, six TP4 rollout engines), whose acquisition throughput is unverified. The last choice changes execution topology, not automatically the frozen data, lengths or scientific objective. No option has been applied. Keep the 1800-second acquisition and 600-second weight-sync deadlines unchanged.
+
+Cost boundary: both attempts had staggered replica starts. Multiplying 28 GPUs by the entire job lifetime is only an upper bound, not measured allocation time or billed GPU-hours. No measured 33-GPU-hour claim is made. Any longer placement wait would retain already allocated workers until the missing resources arrive or the attempt is canceled.
+
+Local route-record verification: `python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll` passed with31 documents,141 links,42 anchors andzero errors. Scoped `git diff --check` passed for this report, progress and summary. No runtime code/config change or GPU test accompanied this assessment.
 
 ## B/full
 

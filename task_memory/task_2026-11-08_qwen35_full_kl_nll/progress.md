@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Complete placement-route investigation; retain verified SDK/platform-document limits and await the resource/startup choice before further submission. |
 | 2026-11-10 | Record second A FAILED0 updates and all-replica terminal evidence; pause at PLACEMENT_BLOCKED, retain partial RCA and append a bounded strategy-decision checkpoint. |
 | 2026-11-10 | Retain first A FAILED0 updates and partial RCA; synchronize unchanged fresh retry, intentional local observer cleanup and bounded failure-route checkpoint. |
 | 2026-11-10 | Record A/full actual submission and first worker evidence; native first-update inspection remains pending. |
@@ -342,7 +343,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 - Current frontier: **PLACEMENT_BLOCKED**. Both A attempts areterminal Failed before acquisition/training with0 updates each; the second Failed19:03:12Z andall five replicas were confirmed terminal at19:06:54Z. Primary haspaused submission: no third attempt, selected placement/startup strategy or new approval isrecorded. Historical admission/Starting snapshots are not current native execution orsuccessful ACK evidence. See[the formal report's current route](test_report_2026-11-10_formal_runs.md#current-route--placement_blocked).
 
-- Primary independently investigates native SDK mechanisms (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) andauthoritative Lark docs. Next action is an explicit evidence-backed placement/startup strategy decision with applicable authority andunresolved choices. This documentation slice doesnot duplicate exploration, inspect platform/cloud/network orinfer a solution/approval. Repeated startup failures justify stopping unchanged retries, not a GPU smoke or throughput/science workaround.
+- Primary completed the native SDK investigation (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated Lark document reads. Findings and options are in [the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits). No proven atomic-placement switch is available from these checks; gang-start has a known cross-task ConfigMap issue. Next action is the explicit resource/startup choice. No third submission, timeout change or topology change has occurred.
 - Failed-attempt launcher/log/observer identities remain historical evidence inthe same report; their current local process state isnot independently verified here. No observer notification substitutes for ACK/D16 orproves a GPU stop. T02/T03 CPU andconfig readiness remain unchanged; no third job isclaimed. Stop-audit UNKNOWN andall protected formal outputs remain explicit, without result splicing orsmoke cleanup.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
@@ -373,7 +374,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Primary/04: finish independent SDK/authoritative-document investigation andrecord an explicit evidence-backed placement/startup strategy decision, including applicable authority andunresolved choices. Submissions remain paused; no third attempt orchosen solution isrecorded. Do not repeat unchanged submission, addGPU smoke oralter science/configuration as a throughput workaround. Partial stop-audit gaps remain open inthe existing formal report.
+1. Primary/04: obtain and record the pending resource/startup decision using the completed SDK/platform-document assessment. Submissions remain paused. Keep the 36-GPU layout while waiting, validate native gang-start before applying it, or explicitly authorize a smaller topology with new throughput acceptance; none is selected yet. Partial stop-audit gaps remain open in the existing formal report.
 2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
 3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
