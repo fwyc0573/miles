@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record final accepted CPU integration15186817, explicit profile configurationec002ea8 and lifecycle verification before launch; move to A admission and append the exact four-section milestone checkpoint. |
 | 2026-11-10 | Record02 trainer CPU-ready6129aefe,clean completed phase reviews,committed formal correction and staged03 delivery;preserve pending primary integration/GPU/S7 acceptance and append the four-section milestone checkpoint. |
 | 2026-11-10 | Record actual merge55fba827, resolved prep references and scoped verification; move implementation to02 and append the four-section post-merge checkpoint without rewriting earlier snapshots. |
 | 2026-11-10 | Record D35 parent-only capacity adoption and pending candidate consolidation; move the frontier to merge→02 CPU→03 integration, preserve historical observations and add a scoped checkpoint. |
@@ -36,6 +37,21 @@
 # Progress
 
 ## completed
+
+- Final CPU-readiness document verification under system Python3.10.6:31 documents/6 tickets/121 links/40 anchors,01→02→03→04→05→06 DAG,unchanged51,200/cell/102,400 total/81-turn estimate,zero errors. Nine-owned-document scoped whitespace PASS. A one-off read-only assertion checks the exact four checkpoint sections,all D1–D7/S1–S6 rows,11/11 checked03 CPU criteria,02 downstream S7 checked/GPU unchecked,all8 A and9 B formal criteria unchecked,and the pre-launch lifecycle evidence link; PASS. Six unique backticked prep paths resolve; Markdown references are separately checked by the retained docchecker. The first docchecker run had two dependency-text mismatches because `and02`/`for04` and a Chinese-adjacent04 lacked the existing `\b0\d\b` boundary; restoring explicit numbered references/spacing passed without changing checker code or dependency semantics. No business/lifecycle/GPU check was rerun, and no code/config/proof report or new task file was written.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/02-per-turn-sums.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/03-distillation-profile.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md
+```
+
+- Final CPU readiness accepted before formal A launch:02 trainer `6129aefe` and03 integration `15186817` are primary accepted. [Integration evidence](test_report_2026-11-10_profile_integration.md) records201 PASS in67.48s through the real `SweReplay.on_train_result` path, including successful/skipped ACKs, canonical bank/source/finished identity, native counters and permanent S7 suppression. All03 module/CPU integration criteria and02 downstream S7 CPU criteria are checked;02 GPU acceptance is still unchecked and reserved for04's first actual formal successful update.
+- Explicit formal profile configuration `ec002ea8` is committed. The final A/B submission and native-argv dry-runs repeated4/4 PASS: each of13 valued flags once, profile-enabled once, no HF save/evaluation; full still visits200 distinct banks once each with configured `bank_uses=50`. Exact commands and preparation/native limits remain in [the existing formal configuration report](test_report_2026-11-10_formal_configuration.md). Neither dry-runs nor readiness records are launch receipts.
+- **Before-launch lifecycle inspection recorded now, before formal admission/launch:** primary loaded `before-steptron-run` and inspected existing `qwen_alignment`/`swe_replay` sample, retry, teacher, cancellation and evidence-sink boundaries rather than adding instrumentation. Its16 targeted CPU cases PASS in2.63s with18 existing warnings: cancellation/draining, repeated503 sharing one deadline, failure followed by success, late/invalid slots, teacher success/error/cancelled receipts and soft sink failures. Python3.12.13; real asyncio deadlines/scheduling execute while network/GPU calls are mocked. The exact command and inspected boundary details are in [Pre-formal sample lifecycle check](test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check). Formal per-sample failure counts and post-run RCA still require actual job evidence. No lifecycle test or platform action was rerun by this documentation slice.
+- T03 review was Spec-pending at delegation. The inspected primary-owned [review record](review.md#ticket03-phase-review--2026-11-10) now explicitly records Standards/Spec No findings; this is observed completion, not anticipation. The review remains primary-owned and is not edited here; CPU review does not certify formal GPU/profile output.
+- Current-state synchronization is limited to requirements phase, spec S0 status, plan/progress/summary and tickets02–05.03 is done for its CPU criteria;04 is ready for fresh formal admission but not launched;05 still waits for A's first actual successful ACK, completed inspection and fresh resources, not A200 or auxiliary profile PASS. Historical checkpoints/reports remain dated evidence; no further historical cleanup or new task file is added.
+
+### Historical trainer CPU milestone — before03 acceptance15186817
 
 - Scoped milestone-document verification (systemPython3.10.6):30 documents/6 tickets/107 links/35 anchors,valid01→02→03→04→05→06 DAG,unchanged51,200/cell/102,400 total/81-turn estimate,zero errors. Scoped whitespace PASS. One-off local text assertions PASS:trainer consistency checked,downstream S7/GPU unchecked,and the appended exact four-section checkpoint covers allD1–D7/S1–S6. No CPU/Gloo/formal test was rerun and no code/config/proof report was edited. The30-file checker scope includes the primary's staged03 report,which is excluded from this seven-document commit.
 
@@ -186,10 +202,10 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Formal preparation`4863e68e`and correction`059a6a75`express full A/B with accepted H800/D34/loss-masked32×8 settings;initial argument-only`bank_uses=1`checks remain historical in`test_report_2026-11-10_formal_configuration.md`. Profile configuration/final launch checks and B native TP4/EP1 load/memory/throughput remain pending;completed read-only mapping supports feasibility,not native acceptance. Neither04 nor05 is launched.
+- Current frontier: primary's fresh read-only A admission and formal attempt freeze/submission.02 `6129aefe`,03 `15186817`, explicit profile configuration `ec002ea8`, final4/4 dry-runs and the before-launch lifecycle inspection are complete. No fresh live admission receipt or formal A/B launch is accepted by this documentation checkpoint.
 
-- Current frontier:primary acceptance/commit of03 delivery from`profile-t03-integration-20261110`,session`ses_e3ea12276ffeR5IWKB9CfabC5k`. Its staged[profile integration report](test_report_2026-11-10_profile_integration.md)records CPU-ready/201 PASS;no primary acceptance is yet recorded at this checkpoint,so remaining ticket03 conditions are not checked from staging alone.02 CPU-ready prerequisite is accepted at`6129aefe`;the existing ACK contract remains owned by[the consumer API](test_report_2026-11-10_per_turn_sums.md#t03-consumer-api).
-- Pure03 module and01 input,including112K audit,retain CPU acceptance.02 GPU/full-ticket acceptance remains at A's first formal successful update underD16,no additional GPU smoke.04/05 still have no formal attempt or first-update profile evidence. B admission remains authorized after A's actual first successful ACK/inspection and fresh resources while A continues;not after A200 updates,nor after another user approval.
+-02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
+- B's four-H800 TP4/EP1 teacher remains feasible, not native load/memory/throughput verified.05 admission remains authorized after A's actual first successful ACK, completed inspection and fresh resources while A continues; neither A200 updates, auxiliary profile PASS nor another user approval is required.
 - Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
 
 ### Historical preparation snapshots — 2026-11-09 before D35
@@ -216,9 +232,9 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1.03 owner:complete bank identity/native-count/finished/skipped/S7 propagation and verify the real`SweReplay.on_train_result`CPU path against the02 ACK API.02 trainer checks and pure03 module tests do not accept the full integration path.
-2. Primary:accept/commit the staged03 delivery and complete final profile configuration/native launch checks;status-only update`requirements.md`phase from02 to the current03 frontier. Formal correction and T02 review receipts are complete,not remaining blockers. This delegation owns neither configuration,proof reports,nor requirements phase;no extra review/user approval edge is added.
-3.04 after{01 accepted,02 CPU-ready accepted,03 integration CPU-ready};freeze/verify formal identity/configuration,then A's firstformal successful ACK/inspection provides02 GPU/profile evidence underD16.05 may admit concurrently with continuing A after that inspection and fresh resources underS8;06 after{04,05}terminal evidence. No extra GPU smoke,native B verification or200-update formal result is inferred from CPU feasibility.
+1. Primary/04: finish fresh live resource admission and formal identity/configuration/input/model freezing, then submit A through the existing approved mechanism. CPU integration, explicit profile configuration and before-run lifecycle checks are complete; no new review/user approval or GPU smoke gate is introduced.
+2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
+3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109
@@ -384,7 +400,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 1｜BLOCKED/FAILED/SKIPPED 3｜TODO 2
+**历史汇总（02 trainer CPU milestone，03验收之前）：** PASS 1｜BLOCKED/FAILED/SKIPPED 3｜TODO 2
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -434,3 +450,65 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1.02 trainer CPU-ready已接受；全ticket仍缺下游S7/GPU证据，combined criterion未被错误整项勾选。
 2.03已stage201-PASS交付，仍待primary验收/提交；两个T02 reviews已0/0完成，requirements phase文字待primary同步。本slice局部patch重试已纠正，没有停住业务主线。
 3. formal`bank_uses=50`已真实RED/GREEN且full仍每bank一次；B TP4/EP1只是可行性，不是native验收，原A首ACK后并行准入不变。
+
+## Final CPU readiness checkpoint — profile-d35-records-20261110
+
+## 1. 规划完成情况
+
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 2｜TODO 2
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+|01 | PASS | D34输入/原位112K审计已接受，未重开。 |
+|02 | TODO | Trainer及下游S7 CPU已接受；仅正式A首个actual successful update的GPU验收仍未完成。 |
+|03 | PASS | Primary接受 `15186817`；201 PASS覆盖全部CPU/module/真实consumer/S7条件，ticket done不代表正式GPU验收。 |
+|04 | TODO | CPU、显式profile配置 `ec002ea8` 和启动前lifecycle检查完成；可进入fresh admission，尚未launch。 |
+|05 | BLOCKED | 等A首次actual successful ACK、完成inspection和fresh资源准入，不等A200/profile PASS。 |
+|06 | BLOCKED | 等两个formal cell终态及native/profile完整或不完整判定。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进；CPU代码、测试和配置milestone直接推进formal主线。
+**检测窗口：** 上次02 CPU milestone checkpoint至03 primary接受 `15186817`、final配置 `ec002ea8` 和本次启动前记录｜**当前前沿：**04 fresh admission / A首个actual update。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR |201-case真实路径及16-case lifecycle检查直接验收接入/启动准备；不新增工具或重复GPU smoke。 |
+| D2 细节反复重试 | CLEAR | 本窗口按实际字面原文做小范围状态更新，无反复修复；旧checkpoint的patch重试HIT保留为历史。 |
+| D3 支线问题修补 | CLEAR | 仅更新指定当前状态，不修历史artifact、Python/config/proof reports。 |
+| D4 可并行任务停滞 | CLEAR | Review、配置、lifecycle和primary只读admission独立推进；B仍在A首ACK检查后可并行，无A200等待。 |
+| D5 超范围镀金 | CLEAR | 不增机制、验收、审批或任务文件；只按已接受证据完成现有CPU条目。 |
+| D6 分析空转 | CLEAR | 接受CPU证据后立即转fresh formal admission，不重做capacity/source audit或无关研究。 |
+| D7 路线违背 | CLEAR |02 GPU仍未勾选；D16在A首actual update，S7是soft gate，B不依赖profile PASS或A完成。 |
+
+| 文档模式 | 判定 | 依据 |
+| --- | --- | --- |
+| S1 依赖错误 | CLEAR |03的CPU依赖已满足并done；04不等待自己才能提供的02 GPU证据；05只等首ACK/inspection/fresh资源。 |
+| S2 无法执行的待办 | CLEAR | Fresh admission/submit、D16 GPU检查、B准入和终态/RCA均明确由primary及04/05/06负责。 |
+| S3 不可能的标准 | CLEAR | 原CPU条件已实际通过；native及200-update条件留给实际run，B TP4/EP1可行性不冒认native验证。 |
+| S4 模糊标准 | CLEAR |03所有CPU条目有201-case真实路径证据；formal依据actual ACK、成对文件、实测计数与明确完整性判定。 |
+| S5 文档落后 | FOUND → CORRECTED | Requirements phase、spec S0和当前plan/progress/summary/tickets02–05原有staged03/wait02状态已同步；旧报告/历史checkpoint不改写。 |
+| S6 范围或验收变更 | CLEAR | 仅完成已有03 CPU及02下游S7 CPU条目；02 GPU与04/05全部formal条件仍未勾选，不放宽scope。 |
+
+**归因：** S5来自已接受milestone后的状态同步，不是新业务缺陷；已在本授权范围纠正。Review在请求时Spec-pending，但实际读取的primary记录已为No findings；不以预判完成review。
+
+## 3. 纠正建议
+
+**分支：** B：先同步已接受事实，已完成；不改行为规格或formal准入。
+
+**文档更新（已执行）：**
+1. Requirements只更新phase、spec只更新S0当前状态；plan/progress/summary与tickets02–05记录03 done CPU、02下游S7 CPU已接受但GPU未完成、04 ready/not launched及05实际准入边界。
+2. 在launch前记录primary已完成的lifecycle检查及既有report/精确命令链接；保留mock与实际GPU/RCA限制，不新建报告或重复检查。
+
+**需停止的偏离行为：** 无新命中；不扩展历史清理、额外review、工具或GPU smoke。
+
+**接下去的路线：**
+1. Primary/04：fresh只读资源准入 → 冻结attempt/源代码/解析配置/输入/模型identity → A正式提交。完成标志：实际准入与提交receipt，不能由dry-run代替。
+2. Primary/02/04：A首actual successful ACK → 完成并记录D16 inspection/GPU verdict。完成标志：实际bank/uid/token/行数、stage timing、两个profile文件及复算值；辅助unverified按S7隔离，不停止healthy native training。
+3. Primary/05：上述ACK/inspection完成后fresh资源准入，可与继续运行的A并行。完成标志：B自己的submit/native首update/终态证据；不加A200/profile-PASS/用户审批gate。随后两cell各自200-update与profile完整性/RCA →06。
+
+## 4. 最值得关注的 3 点
+
+1.03已primary接受并完成全部CPU条件；02仅GPU验收未完成，CPU/dry-run不代表native acceptance。
+2. Before-run lifecycle检查和报告链接已在launch前记录；fresh admission/actual A launch、实际sample失败和RCA仍未验证。
+3. B等A首次actual ACK和完成inspection/fresh资源，不等A200或profile PASS；S7失败只标未验证并停止profile派生，healthy训练继续。
