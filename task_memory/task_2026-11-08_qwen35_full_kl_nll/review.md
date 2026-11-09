@@ -2,8 +2,23 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record separate Standards and Spec phase reviews of Ticket02 commit6129aefe; neither axis has findings, GPU/profile acceptance remains pending. |
 | 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
+
+# Ticket02 phase review — 2026-11-10
+
+Scope: immutable`git diff 4863e68e...6129aefe`, one commit and eight changed files. Complete diff artifact:`/data/ycfeng/tmp/agent-opd-image/t02-per-turn-fixed-review-20261110.diff`; both refs are committed. Reviewers inspected this entire diff and relevant native scoring, scheduling, metadata and ACK dependencies. Concurrent Ticket03 changes were excluded. Tests were not independently rerun by the reviewers.
+
+## Standards
+
+Reviewer:`ses_e3ea07cacffe3xcqCOUT4dnitM`, task`profile-t02-standards-review-20261110`. **No findings.** Necessary native tensor reuse and compact loss/ACK transport provide the required capability without a new forward. Estimator configuration retains a single native owner; nullable source metadata is preserved without mutation. Rank-local auxiliary failures become error payloads before the collective. No actionable documented-standard violation or baseline smell was identified.
+
+## Spec
+
+Reviewer:`ses_e3ea07d9cffe9mQZOCTx7gD5RV`, task`profile-t02-spec-review-20261110`. **No findings.** Native pre-TIS RKL, held pre-optimizer student NLL, original masks, CP reduction and one TP/PP contribution match S3. Native sample-index transport maps to canonical source UIDs; macros derive from the same rows; count/UID/CP inconsistencies mark auxiliary evidence unverified without skipping collectives or changing mandatory D7 handling. Rows remain in the ACK and are excluded from trainer JSONL/stdout.
+
+**Summary:** Standards0 / Spec0 actionable findings. CPU implementation-ready is supported by static review and the recorded110-case run plus79 final affected checks ([report](test_report_2026-11-10_per_turn_sums.md)); this is not Ticket02 GPU acceptance. Native128K`bshd`, actual NCCL overhead and256-turn runtime cost remain unmeasured. Ticket03 rollout persistence, permanent suppression after failure and formal A-first-update checks remain separate acceptance work.
 
 # Branch-base review
 
