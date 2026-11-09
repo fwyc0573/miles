@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="0.267" timestamp="2026-11-09T13:39:22.690422+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_swe_launcher" name="test_expanded_student_bootstrap_transports_node_preflight" time="0.004"><failure message="AttributeError: 'types.SimpleNamespace' object has no attribute 'student_nodes'">tmp_path = PosixPath('/data/ycfeng/tmp/t02-d13-node-source-red/test_expanded_student_bootstra0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fd8bc2fff80&gt;
+
+    def test_expanded_student_bootstrap_transports_node_preflight(tmp_path, monkeypatch):
+        task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+        config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
+        config["startup_timeout"] = config["pairs"]["A"]["startup_timeout"]
+        calls = []
+        monkeypatch.setattr(run_swe_opd.native, "_run", lambda args, **kwargs: calls.append((args, kwargs)))
+        run_swe_opd._train(config, "A", "http://teacher/generate")
+        args, callbacks = calls[0]
+&gt;       assert args.student_nodes == 2 and args.gpus_per_node == 8
+               ^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'student_nodes'
+
+tests/fast/test_swe_launcher.py:187: AttributeError</failure></testcase><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[1-0]" time="0.002"><failure message="AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'">tmp_path = PosixPath('/data/ycfeng/tmp/t02-d13-node-source-red/test_scoring_source_preflight_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fd8bc32e600&gt;
+nodes = 1, rank = 0
+
+    @pytest.mark.parametrize("nodes,rank", [(1, 0), (2, 0), (2, 1)])
+    def test_scoring_source_preflight_runs_in_each_container(tmp_path, monkeypatch, nodes, rank):
+        from types import SimpleNamespace
+    
+        config = {"image": "pinned-image", "training": {"release_scoring_output": True}}
+        args = SimpleNamespace(swe_config=config, student_nodes=nodes, megatron_path=str(tmp_path / "Megatron-LM"))
+        calls = []
+        source = {"source_sha256": "verified-source"}
+        monkeypatch.setattr(
+            run_swe_opd.megatron_scoring_lifetime, "prepare_source",
+            lambda path, **kwargs: calls.append((path, kwargs)) or source,
+        )
+&gt;       receipt = run_swe_opd._prepare_node(args, tmp_path / "run", rank)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'
+
+tests/fast/test_swe_launcher.py:204: AttributeError</failure></testcase><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[2-0]" time="0.002"><failure message="AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'">tmp_path = PosixPath('/data/ycfeng/tmp/t02-d13-node-source-red/test_scoring_source_preflight_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fd8bc2ffbc0&gt;
+nodes = 2, rank = 0
+
+    @pytest.mark.parametrize("nodes,rank", [(1, 0), (2, 0), (2, 1)])
+    def test_scoring_source_preflight_runs_in_each_container(tmp_path, monkeypatch, nodes, rank):
+        from types import SimpleNamespace
+    
+        config = {"image": "pinned-image", "training": {"release_scoring_output": True}}
+        args = SimpleNamespace(swe_config=config, student_nodes=nodes, megatron_path=str(tmp_path / "Megatron-LM"))
+        calls = []
+        source = {"source_sha256": "verified-source"}
+        monkeypatch.setattr(
+            run_swe_opd.megatron_scoring_lifetime, "prepare_source",
+            lambda path, **kwargs: calls.append((path, kwargs)) or source,
+        )
+&gt;       receipt = run_swe_opd._prepare_node(args, tmp_path / "run", rank)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'
+
+tests/fast/test_swe_launcher.py:204: AttributeError</failure></testcase><testcase classname="tests.fast.test_swe_launcher" name="test_scoring_source_preflight_runs_in_each_container[2-1]" time="0.002"><failure message="AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'">tmp_path = PosixPath('/data/ycfeng/tmp/t02-d13-node-source-red/test_scoring_source_preflight_2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7fd8bc2ff890&gt;
+nodes = 2, rank = 1
+
+    @pytest.mark.parametrize("nodes,rank", [(1, 0), (2, 0), (2, 1)])
+    def test_scoring_source_preflight_runs_in_each_container(tmp_path, monkeypatch, nodes, rank):
+        from types import SimpleNamespace
+    
+        config = {"image": "pinned-image", "training": {"release_scoring_output": True}}
+        args = SimpleNamespace(swe_config=config, student_nodes=nodes, megatron_path=str(tmp_path / "Megatron-LM"))
+        calls = []
+        source = {"source_sha256": "verified-source"}
+        monkeypatch.setattr(
+            run_swe_opd.megatron_scoring_lifetime, "prepare_source",
+            lambda path, **kwargs: calls.append((path, kwargs)) or source,
+        )
+&gt;       receipt = run_swe_opd._prepare_node(args, tmp_path / "run", rank)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'tests.manual.agent_opd.run_swe_opd' has no attribute '_prepare_node'
+
+tests/fast/test_swe_launcher.py:204: AttributeError</failure></testcase></testsuite></testsuites>

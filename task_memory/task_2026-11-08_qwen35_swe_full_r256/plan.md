@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Execute the selected18-H200 mixed-rollout preparation in parallel; record the current admission constraint and baseline23/400. |
 | 2026-11-09 | Close retained-log RCA,verify the existing timeout guard, and update baseline10/400; retain the rollout-only topology decision before new execution. |
 | 2026-11-09 | Add D13 finite-timeout and conditional rollout-only expansion investigation; preserve the training topology and acquisition contract. |
 | 2026-11-09 | Continue scoped retained-log RCA and independent baseline9/400; keep additional GPU experiments approval-dependent. |
@@ -69,4 +70,8 @@ Ticket08's edges refer to its stated capability slices:01 original-model/task id
 
 ## Current frontier
 
-01 and03 are accepted; small-run RKL/TIS/PPO reconstruction passes.02's acquisitions remain failed206/224 and227/256 before scoring. Retained-log RCA is complete; further identical-log collection cannot recover unrecorded request-level timings. Verify the already-selected Qwen retry deadline instead of adding shared HTTP code. D13 allows conditional rollout expansion; current captured failure is one-engine queue/HOL,not demonstrated generation503. Native18-GPU mixed placement can double engines4→8 without changing trainer8,but a legacy argument override prevents reaching it;26-GPU fully disaggregated placement also doubles engines but uses16 extraGPUs. A scoped choice precedes implementation/submission; no D12 retry,concurrency or teacher-envelope change is implied. Chosen supported topology -> CPU transport/lifecycle checks -> fresh admission -> native acquisition/scoring/ACK/lifetime acceptance.08 independently continues with10/400 persisted outcomes and no full avg@4. Formal profiles,science and231/1800 contract remain unchanged;04–07 are blocked on02 and unstarted.
+01 and03 are accepted; small-run RKL/TIS/PPO reconstruction passes.02's acquisitions remain failed206/224 and227/256 before scoring. D13 explicitly selects one new18-H200 A/r256 mixed-rollout smoke despite unconfirmed generationKV/503. The existing timeout guard is verified; no duplicate shared HTTP mechanism is needed. Formal profiles,teacher envelope,concurrency1,science and231/1800 remain unchanged;04–07 are blocked on02 and unstarted.08 independently continues with23/400 persisted outcomes (9true,14false),4 infrastructure-failed missing slots,and no full avg@4; the original72h deadline remains.
+
+Preparation graph: selected scope -> {native argument default repair, two-node worker lifecycle repair, parent profile/CLI/source-preflight integration} -> combined CPU contract/phase review -> fresh D9/H200 admission -> one native18-H200 acquisition/scoring/backward/two-ACK/second-scoring/source-lifetime verification ->02 acceptance decision. The argument owner is `T02-D13-MIXED-ARGS`/`ses_e41449368ffe60SW5yDWEPstjQ`; the worker owner is `T02-D13-MULTINODE-WORKER`/`ses_e41449341ffeyPdv5aSUrf7Wud`; the parent owns configuration, node-local dependency integration, platform operations and final acceptance. No additional tickets or GPU retries are introduced.
+
+Initial preflight at2026-11-09T05:17UTC finds23 personal nonterminal non-preemptible H200s. D9 has reverted to the56 personal ceiling and admits23+18; the separate conservative32-H200 check does not admit41. New GPU submission is held while authorized CPU work continues. Do not stop unrelated jobs or substitute preemption; use a fresh observation and applicable approval before launch. Evidence: `evidence/admission-deepswe-expanded-preflight-20261109.json`.

@@ -470,6 +470,7 @@ def test_student_preflight_precedes_training_preparation(tmp_path, monkeypatch):
     args = SimpleNamespace(
         swe_config={"training": {"release_scoring_output": True}, "image": "fixture-image"},
         megatron_path="fixture-megatron",
+        student_nodes=1,
         pair="A",
         teacher_url="fixture-teacher",
     )
@@ -481,6 +482,7 @@ def test_student_preflight_precedes_training_preparation(tmp_path, monkeypatch):
 
     monkeypatch.setattr(run_swe_opd, "_training_args", training)
     monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "fixture")
+    run_swe_opd._prepare_node(args, tmp_path, 0)
     with pytest.raises(RuntimeError, match="stop before native launch"):
         run_swe_opd._prepare_training(args, tmp_path)
     assert calls == ["preflight", "training_args"]

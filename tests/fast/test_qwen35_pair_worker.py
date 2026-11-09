@@ -10,6 +10,8 @@ from types import SimpleNamespace
 
 import pytest
 from tests.manual.agent_opd import qwen35_pair_worker as worker
+from tests.manual.agent_opd import rjob_warmup as rendezvous
+from tests.manual.agent_opd import run_qwen35_opd as native
 from tests.manual.agent_opd import submit_qwen35 as submitter
 
 
@@ -384,3 +386,326 @@ def test_real_cpu_child_failure_is_recorded_and_auxiliary_tail_failure_is_soft(c
     (directory / "student-tail.log").mkdir()
     assert worker._run_student(config, "A", 0, directory, tmp_path / "local") == 17
     assert json.loads((directory / "student-finished.json").read_text())["returncode"] == 17
+
+
+@pytest.mark.parametrize("returncode", [0, 17, -15])
+def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+    monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+    process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
+    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
+    assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
+    assert not (directory / "student-finished.json").exists()
+    status = json.loads((directory / "student-status-1.json").read_text())
+    assert status["returncode"] == returncode and status["rank"] == 1
+
+
+def test_two_node_student_allocation_uses_configured_replicas(config, monkeypatch):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
+    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
+    monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "10.0.0.8")
+    monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H800, memory, driver\n" * 8)
+    assert worker._allocation(1, "student", config, "A")["nodes"] == 2
+
+
+@pytest.fixture
+def student_node(tmp_path, monkeypatch):
+    args = SimpleNamespace(
+        pair="A", student=tmp_path / "student", teacher=tmp_path / "teacher", student_nodes=2,
+        output_root=tmp_path / "artifacts", shared_dir=tmp_path / "rendezvous", local_root=tmp_path / "local",
+        gpu_type="H200", gpus_per_node=8, startup_timeout=3, megatron_path="/root/Megatron-LM", num_rollout=2,
+    )
+    records, cloud = args.shared_dir / "A" / "test-job", args.output_root / "A" / "test-job"
+    events, submissions = [], []
+    clock = SimpleNamespace(now=0, on_sleep=lambda: None)
+    monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", "0")
+    monkeypatch.setenv("PORT_AUTO0", "20000")
+    monkeypatch.setenv("PORT_AUTO1", "20001")
+    monkeypatch.setattr(native, "_check_tokenizers", lambda *args: events.append("tokenizers"))
+    monkeypatch.setattr(native, "_record_memory", lambda path, stopped: path.write_text('{"counters": {}}\n'))
+    monkeypatch.setattr(native.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H200, memory, driver\n" * 8)
+
+    def command(argv, **kwargs):
+        events.append(("ray", argv))
+        return SimpleNamespace(returncode=0)
+
+    def backend(config):
+        return SimpleNamespace(execute_train=lambda **kwargs: submissions.append((config.num_nodes, kwargs)))
+
+    def sleep(seconds):
+        clock.now += seconds
+        clock.on_sleep()
+
+    monkeypatch.setattr(native.subprocess, "run", command)
+    monkeypatch.setattr(native.U.ExecuteTrainConfig, "create_backend", backend)
+    monkeypatch.setattr(rendezvous.ray, "init", lambda **kwargs: events.append("ray-init"))
+    monkeypatch.setattr(rendezvous.ray, "shutdown", lambda: events.append("ray-shutdown"))
+    monkeypatch.setattr(rendezvous.ray, "nodes", lambda: [
+        {"Alive": True, "Resources": {"GPU": 8}, "NodeManagerAddress": f"10.0.0.{rank + 7}", "NodeID": str(rank)}
+        for rank in range(int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]))
+    ])
+    monkeypatch.setattr(rendezvous.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(rendezvous.time, "sleep", sleep)
+
+    def prepare(args, run):
+        events.append("prepare-driver")
+        return "--actor-num-nodes 1 --actor-num-gpus-per-node 8", {"megatron_model_type": "qwen3.5-4B", "final_hf": None}
+
+    return SimpleNamespace(
+        args=args, records=records, cloud=cloud, events=events, submissions=submissions, clock=clock, prepare=prepare,
+    )
+
+
+def test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes(student_node):
+    node = student_node
+    native._run(node.args, prepare_training=node.prepare)
+    assert len(node.submissions) == 1 and node.submissions[0][0] == 1
+    assert node.submissions[0][1]["num_gpus_per_node"] == 8
+    assert "MILES_NODE_EXTERNAL_IP" not in node.submissions[0][1]["extra_env_vars"]
+    assert len(json.loads((node.records / "cluster.json").read_text())["nodes"]) == 2
+    assert json.loads((node.records / "finished.json").read_text())["status"] == "native_execution_succeeded"
+
+
+@pytest.mark.parametrize("status", ["native_execution_succeeded", "failed"])
+def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
+    node = student_node
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+    node.records.mkdir(parents=True)
+    node.cloud.mkdir(parents=True)
+    (node.cloud / "head-owned").write_text("preserved")
+    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+    rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+    completion = {"status": status, "rank": 0, "sentinel": "only the driver wrote this"}
+
+    def finish():
+        if node.clock.now == 2:
+            rendezvous._write_json(node.records / "finished.json", completion)
+
+    node.clock.on_sleep = finish
+    if status == "failed":
+        with pytest.raises(RuntimeError, match="driver replica failed"):
+            native._run(node.args, prepare_training=node.prepare)
+    else:
+        native._run(node.args, prepare_training=node.prepare)
+    assert node.clock.now == 2 and node.submissions == [] and "prepare-driver" not in node.events
+    assert (node.cloud / "head-owned").read_text() == "preserved"
+    assert json.loads((node.records / "finished.json").read_text()) == completion
+    assert not (node.records / "training.json").exists() and not (node.records / "launch.json").exists()
+    starts = [argv for name, argv in (event for event in node.events if isinstance(event, tuple)) if "start" in argv]
+    assert len(starts) == 1 and "--head" not in starts[0] and "--address" in starts[0]
+
+
+def test_two_node_native_peer_missing_ray_head_times_out_before_driver(student_node, monkeypatch):
+    node = student_node
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+    node.records.mkdir(parents=True)
+    node.cloud.mkdir(parents=True)
+    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+    with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
+        native._run(node.args, prepare_training=node.prepare)
+    assert node.clock.now == 3 and node.submissions == []
+    assert not (node.records / "finished.json").exists()
+
+
+@pytest.mark.parametrize("error", [RuntimeError("driver failed"), SystemExit(143)])
+def test_two_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
+    node = student_node
+
+    def fail(*args):
+        raise error
+
+    with pytest.raises(type(error)):
+        native._run(node.args, prepare_training=fail)
+    assert json.loads((node.records / "finished.json").read_text())["status"] == "failed"
+    assert node.submissions == []
+
+
+@pytest.mark.parametrize("rank", [0, 1])
+def test_two_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
+    node = student_node
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
+    if rank:
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+        rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+        rendezvous._write_json(node.records / "finished.json", {"status": "native_execution_succeeded"})
+    prepared = []
+
+    def prepare_node(args, run, node_rank):
+        assert args.megatron_path == "/root/Megatron-LM" and run == node.cloud and node_rank == rank
+        assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
+        archive = run / "megatron_scoring_lifetime" / "source" / f"rank-{node_rank}"
+        archive.mkdir(parents=True)
+        (archive / "source-prepared").write_text("pinned container source prepared")
+        prepared.append(archive)
+        return {"archive_dir": str(archive)}
+
+    native._run(node.args, prepare_training=node.prepare, prepare_node=prepare_node)
+    assert len(prepared) == 1 and prepared[0].name == f"rank-{rank}"
+    if rank:
+        assert node.submissions == [] and "prepare-driver" not in node.events
+
+
+def test_two_node_native_peer_source_rejection_prevents_ray_join(student_node, monkeypatch):
+    node = student_node
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+    node.records.mkdir(parents=True)
+    node.cloud.mkdir(parents=True)
+    rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+
+    def reject(*args):
+        raise ValueError("Unrecognized scoring schedule")
+
+    with pytest.raises(ValueError, match="Unrecognized scoring schedule"):
+        native._run(node.args, prepare_training=node.prepare, prepare_node=reject)
+    assert node.submissions == []
+    assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
+    assert not (node.records / "finished.json").exists()
+
+
+def test_two_node_native_failed_local_initialization_preserves_preexisting_directory(student_node):
+    node = student_node
+    local = node.args.local_root / "qo-test-job"
+    local.mkdir(parents=True)
+    sentinel = local / "user-owned"
+    sentinel.write_text("do not remove")
+    with pytest.raises(FileExistsError):
+        native._run(node.args, prepare_training=node.prepare)
+    assert sentinel.read_text() == "do not remove"
+
+
+@pytest.mark.parametrize("rank", [0, 1])
+def test_two_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, rank):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+    monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+    clock = SimpleNamespace(now=0)
+    child = SimpleNamespace(returncode=None, poll=lambda: None)
+    child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
+    stopped = []
+
+    def sleep(seconds):
+        clock.now += seconds
+        marker = "student-finished.json" if rank else "student-status-1.json"
+        worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+
+    def stop(process):
+        stopped.append(process)
+        process.returncode = -15
+
+    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(worker.time, "sleep", sleep)
+    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: child)
+    monkeypatch.setattr(worker, "_stop_child", stop)
+    with pytest.raises(RuntimeError, match="student.*replica.*failed"):
+        worker._run_student(config, "A", rank, directory, tmp_path / "local")
+    assert clock.now == 1 and stopped == [child]
+    result = json.loads((directory / "student-finished.json").read_text())
+    assert result["rank"] == 0
+    if rank:
+        assert result["returncode"] == 17
+
+
+def test_two_node_role_peer_absent_teacher_readiness_is_bounded_without_global_completion(config, tmp_path, monkeypatch):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    config["startup_timeout"] = 3
+    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+    (directory / "teacher-ready.json").unlink()
+    clock = SimpleNamespace(now=0)
+    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(worker.time, "sleep", lambda seconds: setattr(clock, "now", clock.now + seconds))
+    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: pytest.fail("Teacher was not ready"))
+    with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
+        worker._run_student(config, "A", 1, directory, tmp_path / "local")
+    assert clock.now == 3 and not (directory / "student-finished.json").exists()
+
+
+def test_two_node_student_command_transports_only_ray_node_count(config, tmp_path):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
+    args = native._parser().parse_args(argv[4:])
+    assert args.student_nodes == 2 and args.gpus_per_node == 8 and args.tensor_model_parallel_size == 2
+    train = native._training_args(args, tmp_path / "run")
+    assert "--actor-num-nodes 1" in train and "--actor-num-gpus-per-node 8" in train
+
+
+def test_single_node_native_default_retains_driver_and_record_paths(student_node, monkeypatch):
+    node = student_node
+    del node.args.student_nodes
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "1")
+    native._run(node.args, prepare_training=node.prepare)
+    assert node.submissions[0][0] == 1
+    assert (node.records / "launch.json").exists() and (node.records / "training.json").exists()
+    assert not (node.records / "finished.json").exists() and not (node.records / "run-ready.json").exists()
+
+
+def test_two_node_native_sigterm_stops_driver_and_publishes_failure(student_node, monkeypatch):
+    node = student_node
+    previous = signal.getsignal(signal.SIGTERM)
+    monkeypatch.setattr(native.U.ExecuteTrainConfig, "create_backend", lambda config: SimpleNamespace(
+        execute_train=lambda **kwargs: os.kill(os.getpid(), signal.SIGTERM),
+    ))
+    with pytest.raises(SystemExit) as caught:
+        native._run(node.args, prepare_training=node.prepare)
+    assert caught.value.code == 143 and signal.getsignal(signal.SIGTERM) == previous
+    assert json.loads((node.records / "finished.json").read_text())["error_type"] == "SystemExit"
+    assert not (node.args.local_root / "qo-test-job").exists()
+
+
+@pytest.mark.parametrize("rank", [0, 1])
+def test_two_node_role_real_child_is_cancelled_after_other_replica_failure(config, tmp_path, monkeypatch, rank):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+    Path(config["repo"]).mkdir()
+    marker = "student-finished.json" if rank else "student-status-1.json"
+    worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+    with pytest.raises(RuntimeError, match="student.*replica.*failed"):
+        worker._run_student(
+            config, "A", rank, directory, tmp_path / "local",
+            command_builder=lambda *args: [sys.executable, "-B", "-c", "import time; time.sleep(60)"],
+        )
+    own = json.loads((directory / f"student-status-{rank}.json").read_text())
+    assert own["returncode"] == -signal.SIGTERM
+    assert json.loads((directory / "student-finished.json").read_text())["rank"] == 0
+
+
+def test_two_node_teacher_ignores_helper_completion_until_driver_finishes(config, tmp_path, monkeypatch):
+    config["pairs"]["A"]["student"]["nodes"] = 2
+    directory, ready = _execution(config, tmp_path, monkeypatch, "teacher")
+    clock = SimpleNamespace(now=0)
+    process = SimpleNamespace(poll=lambda: None)
+    stopped = []
+
+    def sleep(seconds):
+        clock.now += seconds
+        if clock.now == 1:
+            worker._write_json(directory / "student-status-1.json", {"status": "native_execution_succeeded", "rank": 1})
+        else:
+            assert not stopped and not (directory / "student-finished.json").exists()
+            worker._write_json(directory / "student-finished.json", {"status": "native_execution_succeeded", "rank": 0})
+
+    monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+    monkeypatch.setattr(worker.time, "sleep", sleep)
+    monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
+    monkeypatch.setattr(worker, "_wait_teacher_ready", lambda *args: ready["model_info"])
+    monkeypatch.setattr(worker, "_stop_child", stopped.append)
+    assert worker._run_teacher(config, "A", 0, directory, tmp_path / "local") == 0
+    assert clock.now == 2 and stopped == [process]
+
+
+def test_two_node_native_existing_run_does_not_overwrite_driver_records(student_node):
+    node = student_node
+    node.records.mkdir(parents=True)
+    node.cloud.mkdir(parents=True)
+    original = {"status": "native_execution_succeeded", "sentinel": "another attempt owns these records"}
+    for name in ("training.json", "finished.json"):
+        rendezvous._write_json(node.records / name, original)
+    with pytest.raises(FileExistsError):
+        native._run(node.args, prepare_training=node.prepare)
+    assert json.loads((node.records / "training.json").read_text()) == original
+    assert json.loads((node.records / "finished.json").read_text()) == original

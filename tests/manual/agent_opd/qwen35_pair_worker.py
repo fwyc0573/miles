@@ -85,12 +85,20 @@ def _load_config(path: Path, pair: str) -> dict:
         raise ValueError("Teacher node count must be positive")
     if teacher["tp_size"] != teacher["nodes"] * teacher["gpus_per_node"]:
         raise ValueError("Teacher TP must span exactly its separately allocated GPUs")
+    _student_nodes(config, pair)
     return config
+
+
+def _student_nodes(config: dict, pair: str) -> int:
+    nodes = config["pairs"][pair]["student"].get("nodes", 1)
+    if type(nodes) is not int or nodes not in (1, 2):
+        raise ValueError("Student allocation requires one or two nodes")
+    return nodes
 
 
 def _allocation(rank: int, role: str, config: dict, pair: str) -> dict:
     model = config["pairs"][pair][role]
-    nodes = model["nodes"] if role == "teacher" else 1
+    nodes = model["nodes"] if role == "teacher" else _student_nodes(config, pair)
     if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
         raise ValueError(f"Platform replica rank/count differs from the {role} allocation")
     rows = _gpu_devices(config["gpu_tag"], model["gpus_per_node"])
@@ -119,6 +127,7 @@ def _teacher_command(config: dict, pair: str, rank: int, head: dict) -> list[str
 
 def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[str]:
     student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+    nodes = _student_nodes(config, pair)
     # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
     return [
         sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
@@ -134,7 +143,7 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
         "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
         "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
         "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
-    ]
+    ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
 
 
 def _check_server(process: subprocess.Popen) -> None:
@@ -213,6 +222,22 @@ def _log_tail(source: Path, destination: Path) -> None:
         print("QWEN35_LOG_TAIL_UNVERIFIED", str(destination), type(error).__name__, str(error), flush=True)
 
 
+def _wait_student_child(process: subprocess.Popen, rank: int, directory: Path, timeout: int) -> int:
+    marker = directory / ("student-status-1.json" if rank == 0 else "student-finished.json")
+    while True:
+        code = process.poll()
+        if marker.exists():
+            result = json.loads(marker.read_text())
+            if result["status"] == "failed":
+                raise RuntimeError(f"The other student replica failed: {result}")
+            if rank != 0 and code is None:
+                # The driver has finished; bound helper drain with the existing startup budget.
+                return process.wait(timeout=timeout)
+        if code is not None:
+            return code
+        time.sleep(1)
+
+
 def _run_teacher(config: dict, pair: str, rank: int, directory: Path, local: Path) -> int:
     process = None
     log_path = Path(config["run_root"]) / "teacher" / pair / directory.parent.name / f"rank-{rank}.log"
@@ -270,24 +295,32 @@ def _run_student(
     config: dict, pair: str, rank: int, directory: Path, local: Path, *, command_builder=None,
 ) -> int:
     process = None
-    log_path = Path(config["run_root"]) / "student" / pair / f"{directory.parent.name}.log"
-    result = {"status": "failed", "job": directory.parent.name, "pair": pair, "returncode": None}
+    nodes = _student_nodes(config, pair)
+    suffix = "" if nodes == 1 else f"-rank-{rank}"
+    log_path = Path(config["run_root"]) / "student" / pair / f"{directory.parent.name}{suffix}.log"
+    result = {"status": "failed", "job": directory.parent.name, "pair": pair, "rank": rank, "returncode": None}
     try:
         _worker_environment(local)
         evidence = _allocation(rank, "student", config, pair)
-        _record_receipt(directory / "student-node.json", evidence)
+        _record_receipt(directory / ("student-node.json" if nodes == 1 else f"student-node-{rank}.json"), evidence)
         ready = _wait_file(directory / "teacher-ready.json", time.monotonic() + config["startup_timeout"])
         if (ready["status"], ready["job"], ready["pair"], ready["model_info"]["model_path"]) != (
             "ready", result["job"], pair, config["pairs"][pair]["teacher"]["path"],
         ) or ready["url"] != f"http://{ready['ip']}:{config['teacher_port']}/generate":
             raise ValueError("Teacher readiness identity/endpoint differs from the current job/pair/source")
         command = (command_builder or _student_command)(config, pair, ready, local)
-        _record_receipt(directory / "student-launch.json", {**evidence, "argv": command, "teacher_url": ready["url"]})
+        _record_receipt(
+            directory / ("student-launch.json" if nodes == 1 else f"student-launch-{rank}.json"),
+            {**evidence, "argv": command, "teacher_url": ready["url"]},
+        )
         # Do not create the job directory: the native CLI owns its exist_ok=False output creation.
         log_path.parent.mkdir(parents=True, exist_ok=True)
         with log_path.open("x") as log:
             process = subprocess.Popen(command, cwd=config["repo"], stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
-            result["returncode"] = process.wait()
+            result["returncode"] = (
+                process.wait() if nodes == 1
+                else _wait_student_child(process, rank, directory, config["startup_timeout"])
+            )
         result["status"] = "native_execution_succeeded" if result["returncode"] == 0 else "failed"
         return result["returncode"]
     except BaseException as error:
@@ -299,10 +332,15 @@ def _run_student(
                 _stop_child(process)
                 result["returncode"] = process.returncode
         finally:
-            # Required lifecycle marker, including validation, readiness and native execution errors.
-            _write_json(directory / "student-finished.json", result)
+            try:
+                if nodes != 1:
+                    _write_json(directory / f"student-status-{rank}.json", result)
+            finally:
+                # Only the driver owner may release the teacher, including on failure.
+                if rank == 0:
+                    _write_json(directory / "student-finished.json", result)
         if process is not None:
-            _log_tail(log_path, directory / "student-tail.log")
+            _log_tail(log_path, directory / ("student-tail.log" if nodes == 1 else f"student-tail-{rank}.log"))
 
 
 def _terminate(signum, frame) -> None:

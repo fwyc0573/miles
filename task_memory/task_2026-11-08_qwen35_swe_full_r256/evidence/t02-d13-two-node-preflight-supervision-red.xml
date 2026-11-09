@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="7" time="0.425" timestamp="2026-11-09T13:22:44.026285+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_prepares_each_container_source_before_ray_join[0]" time="0.004"><failure message="TypeError: _run() got an unexpected keyword argument 'prepare_node'">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f7af51f2200&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f7af51f3240&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f7af522f8c0&gt;
+rank = 0
+
+    @pytest.mark.parametrize("rank", [0, 1])
+    def test_two_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
+        if rank:
+            node.records.mkdir(parents=True)
+            node.cloud.mkdir(parents=True)
+            rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+            rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+            rendezvous._write_json(node.records / "finished.json", {"status": "native_execution_succeeded"})
+        prepared = []
+    
+        def prepare_node(args, run, node_rank):
+            assert args.megatron_path == "/root/Megatron-LM" and run == node.cloud and node_rank == rank
+            assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
+            archive = run / "megatron_scoring_lifetime" / "source" / f"rank-{node_rank}"
+            archive.mkdir(parents=True)
+            (archive / "source-prepared").write_text("pinned container source prepared")
+            prepared.append(archive)
+            return {"archive_dir": str(archive)}
+    
+&gt;       native._run(node.args, prepare_training=node.prepare, prepare_node=prepare_node)
+E       TypeError: _run() got an unexpected keyword argument 'prepare_node'
+
+tests/fast/test_qwen35_pair_worker.py:547: TypeError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_prepares_each_container_source_before_ray_join[1]" time="0.003"><failure message="TypeError: _run() got an unexpected keyword argument 'prepare_node'">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f7af51f1260&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f7af51ad1c0&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f7af52036e0&gt;
+rank = 1
+
+    @pytest.mark.parametrize("rank", [0, 1])
+    def test_two_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
+        if rank:
+            node.records.mkdir(parents=True)
+            node.cloud.mkdir(parents=True)
+            rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+            rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+            rendezvous._write_json(node.records / "finished.json", {"status": "native_execution_succeeded"})
+        prepared = []
+    
+        def prepare_node(args, run, node_rank):
+            assert args.megatron_path == "/root/Megatron-LM" and run == node.cloud and node_rank == rank
+            assert not any(isinstance(event, tuple) and "start" in event[1] for event in node.events)
+            archive = run / "megatron_scoring_lifetime" / "source" / f"rank-{node_rank}"
+            archive.mkdir(parents=True)
+            (archive / "source-prepared").write_text("pinned container source prepared")
+            prepared.append(archive)
+            return {"archive_dir": str(archive)}
+    
+&gt;       native._run(node.args, prepare_training=node.prepare, prepare_node=prepare_node)
+E       TypeError: _run() got an unexpected keyword argument 'prepare_node'
+
+tests/fast/test_qwen35_pair_worker.py:547: TypeError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_source_rejection_prevents_ray_join" time="0.003"><failure message="TypeError: _run() got an unexpected keyword argument 'prepare_node'">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f7af51f3380&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f7af51ae700&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f7af5202c30&gt;
+
+    def test_two_node_native_peer_source_rejection_prevents_ray_join(student_node, monkeypatch):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        rendezvous._write_json(node.records / "run-ready.json", {"job": "test-job", "pair": "A", "run_dir": str(node.cloud)})
+    
+        def reject(*args):
+            raise ValueError("Unrecognized scoring schedule")
+    
+        with pytest.raises(ValueError, match="Unrecognized scoring schedule"):
+&gt;           native._run(node.args, prepare_training=node.prepare, prepare_node=reject)
+E           TypeError: _run() got an unexpected keyword argument 'prepare_node'
+
+tests/fast/test_qwen35_pair_worker.py:564: TypeError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_failed_local_initialization_preserves_preexisting_directory" time="0.006"><failure message="FileNotFoundError: [Errno 2] No such file or directory: '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_native_failed_lo0/local/qo-test-job/user-owned'">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f7af51f3060&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f7af51acfe0&gt;)
+
+    def test_two_node_native_failed_local_initialization_preserves_preexisting_directory(student_node):
+        node = student_node
+        local = node.args.local_root / "qo-test-job"
+        local.mkdir(parents=True)
+        sentinel = local / "user-owned"
+        sentinel.write_text("do not remove")
+        with pytest.raises(FileExistsError):
+            native._run(node.args, prepare_training=node.prepare)
+&gt;       assert sentinel.read_text() == "do not remove"
+               ^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_pair_worker.py:578: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../envs/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_native_failed_lo0/local/qo-test-job/user-owned')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+&gt;       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_native_failed_lo0/local/qo-test-job/user-owned'
+
+../../envs/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/pathlib.py:1013: FileNotFoundError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_propagates_other_replica_failure_without_waiting_for_child[0]" time="0.004"><failure message="Failed: An unsupervised child wait would hang">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates_0/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates_0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f7af5203950&gt;
+rank = 0
+
+    @pytest.mark.parametrize("rank", [0, 1])
+    def test_two_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, rank):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+        monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+        clock = SimpleNamespace(now=0)
+        child = SimpleNamespace(returncode=None, poll=lambda: None)
+        child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
+        stopped = []
+    
+        def sleep(seconds):
+            clock.now += seconds
+            marker = "student-finished.json" if rank else "student-status-1.json"
+            worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+    
+        def stop(process):
+            stopped.append(process)
+            process.returncode = -15
+    
+        monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+        monkeypatch.setattr(worker.time, "sleep", sleep)
+        monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: child)
+        monkeypatch.setattr(worker, "_stop_child", stop)
+        with pytest.raises(RuntimeError, match="student.*replica.*failed"):
+&gt;           worker._run_student(config, "A", rank, directory, tmp_path / "local")
+
+tests/fast/test_qwen35_pair_worker.py:605: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/manual/agent_opd/qwen35_pair_worker.py:303: in _run_student
+    result["returncode"] = process.wait()
+                           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: An unsupervised child wait would hang
+
+tests/fast/test_qwen35_pair_worker.py:588: Failed</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_propagates_other_replica_failure_without_waiting_for_child[1]" time="0.003"><failure message="Failed: An unsupervised child wait would hang">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates_1/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3958/test_two_node_role_propagates_1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f7af5202990&gt;
+rank = 1
+
+    @pytest.mark.parametrize("rank", [0, 1])
+    def test_two_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, rank):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        directory, _ = _execution(config, tmp_path, monkeypatch, "student")
+        monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+        clock = SimpleNamespace(now=0)
+        child = SimpleNamespace(returncode=None, poll=lambda: None)
+        child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
+        stopped = []
+    
+        def sleep(seconds):
+            clock.now += seconds
+            marker = "student-finished.json" if rank else "student-status-1.json"
+            worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+    
+        def stop(process):
+            stopped.append(process)
+            process.returncode = -15
+    
+        monkeypatch.setattr(worker.time, "monotonic", lambda: clock.now)
+        monkeypatch.setattr(worker.time, "sleep", sleep)
+        monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: child)
+        monkeypatch.setattr(worker, "_stop_child", stop)
+        with pytest.raises(RuntimeError, match="student.*replica.*failed"):
+&gt;           worker._run_student(config, "A", rank, directory, tmp_path / "local")
+
+tests/fast/test_qwen35_pair_worker.py:605: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/manual/agent_opd/qwen35_pair_worker.py:303: in _run_student
+    result["returncode"] = process.wait()
+                           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+&gt;   child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: An unsupervised child wait would hang
+
+tests/fast/test_qwen35_pair_worker.py:588: Failed</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_role_peer_absent_teacher_readiness_is_bounded_without_global_completion" time="0.003" /></testsuite></testsuites>

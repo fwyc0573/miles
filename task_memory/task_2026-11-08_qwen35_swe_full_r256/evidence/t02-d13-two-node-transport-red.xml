@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.282" timestamp="2026-11-09T13:24:54.825535+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_student_command_transports_only_ray_node_count" time="0.005"><failure message="AssertionError: assert (1 == 2)&#10; +  where 1 = Namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3961/test_two_node_student_command_0/.../pytest-3961/test_two_node_student_command_0'), megatron_path='/root/Megatron-LM', startup_timeout=1800, dry_run=False).student_nodes">config = {'image': 'parent-pinned-image', 'repo': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3961/test_two_node_student_command...on_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3961/test_two_node_student_command_0/cloud/ycfeng/population', ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3961/test_two_node_student_command_0')
+
+    def test_two_node_student_command_transports_only_ray_node_count(config, tmp_path):
+        config["pairs"]["A"]["student"]["nodes"] = 2
+        argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
+        args = native._parser().parse_args(argv[4:])
+&gt;       assert args.student_nodes == 2 and args.gpus_per_node == 8 and args.tensor_model_parallel_size == 2
+E       AssertionError: assert (1 == 2)
+E        +  where 1 = Namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3961/test_two_node_student_command_0/.../pytest-3961/test_two_node_student_command_0'), megatron_path='/root/Megatron-LM', startup_timeout=1800, dry_run=False).student_nodes
+
+tests/fast/test_qwen35_pair_worker.py:631: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.259" timestamp="2026-11-09T13:26:06.462367+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_swe_launcher" name="test_expanded_rollout_recipe_preserves_eight_gpu_training" time="0.007"><failure message="AssertionError: assert 0 == 1&#10; +  where 0 = &lt;built-in method count of list object at 0x7f6efd7afac0&gt;('--rollout-num-gpus')&#10; +    where &lt;built-in method count of list object at 0x7f6efd7afac0&gt; = ['--hf-checkpoint', '/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd...cfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a', '--megatron-to-hf-mode', 'raw', ...].count">tmp_path = PosixPath('/data/ycfeng/tmp/t02-d13-expanded-launcher-red/test_expanded_rollout_recipe_p0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f6efd5800e0&gt;
+
+    def test_expanded_rollout_recipe_preserves_eight_gpu_training(tmp_path, monkeypatch):
+        from miles.utils.args import custom_function
+        from miles.utils.arguments import get_miles_extra_args_provider
+    
+        task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+        config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
+        config["protocol"] = "r256"
+        argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "expanded"))
+        for flag, value in {
+            "--actor-num-nodes": "1",
+            "--actor-num-gpus-per-node": "8",
+            "--tensor-model-parallel-size": "2",
+            "--context-parallel-size": "1",
+            "--rollout-num-gpus": "16",
+            "--sglang-config": config["sglang_config"],
+        }.items():
+&gt;           assert argv.count(flag) == 1
+E           AssertionError: assert 0 == 1
+E            +  where 0 = &lt;built-in method count of list object at 0x7f6efd7afac0&gt;('--rollout-num-gpus')
+E            +    where &lt;built-in method count of list object at 0x7f6efd7afac0&gt; = ['--hf-checkpoint', '/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd...cfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a', '--megatron-to-hf-mode', 'raw', ...].count
+
+tests/fast/test_swe_launcher.py:195: AssertionError</failure></testcase></testsuite></testsuites>

@@ -529,7 +529,7 @@ def _write_teacher_ready(run_dir):
                "max_running_requests": 1, "chunked_prefill_size": 8192}
     teacher = {"path": "/models/frozen-teacher", "nodes": 1, "tp_size": 8, "mem_fraction_static": 0.7,
                "max_running_requests": 1, "chunked_prefill_size": 8192}
-    config = {"pairs": {"A": {"student": student, "teacher": teacher}}, "run_root": str(root),
+    config = {"pairs": {"A": {"student": student, "teacher": teacher}}, "run_root": str(root), "gpu_tag": "H200",
               "shared_dir": str(root / "shared"), "population_dir": str(root / "population"),
               "teacher_port": 30000, "teacher_dist_port": 29500, "context_tokens": CONTEXT_TOKENS,
               "startup_timeout": 1800, "request_timeout": 60, "num_rollout": 100}

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record explicit A expansion selection: one18-H200 mixed-rollout smoke, necessary argument/startup repairs, and unchanged scientific limits. |
 | 2026-11-09 | Record D13 conditional extra rollout capacity and finite timeouts for KV-pressure/HTTP503 retry blockage. |
 | 2026-11-09 | Record D12 approval for one isolated routing-only A/r256 capacity experiment; formal profiles remain unchanged. |
 | 2026-11-08 | Record D11: replace GLM-5.2 training inputs with the eight SWE-1003/0913 DeepSWE resolved sources; reopen input acceptance. |
@@ -209,6 +210,14 @@ This authorizes one isolated A/r256 smoke with256 requested candidates,2 success
 User: “- 补充：已有debug发现 推理服务在 KV cache 占用超过 80% 时返回 HTTP 503，client，对 503 无限重试。重采样一旦卡住，其他 rank 会一直等下去。因此，如果出现类似情况，允许你额外扩展rollout集群规模（例如添加8卡）避免相关问题 + 设定合理的timeout时间，防止干等阻塞。”
 
 The reported prior debugging result is a KV-pressure/HTTP503 retry mechanism; it is not yet a confirmed cause of the current D12 failure. Diagnose actual generation versus startup-health503 responses, the client retry/cancellation path, and native rollout-only placement before execution. This approval allows reasonable finite timeouts and, for a confirmed similar blockage, additional rollout capacity such as8 GPUs. Added rollout resources must not implicitly increase training DP or change the objective,optimizer,sampling,128K,n1,231/256 threshold or1800-second acquisition deadline. Reuse native timeout/placement mechanisms; D9 admission and applicable H200 non-preemptible limits still apply. Do not change concurrency1→2 or silently relax other frozen parameters under this approval. Any selected expanded allocation records its actual GPU count and added cost; no expanded job has been submitted.
+
+### D13 selected execution — [Original Request / Follow-up Answer] 2026-11-09
+
+The interrupted resource question was reissued at the user's request, “再次提交问题”. Question: “是否把扩容授权用于这次队首阻塞，并执行一次新的隔离A/r256容量smoke？上次227/256失败未见生成503，27个未完成请求集中在一个服务队列。两种方案均保留训练8卡（TP2/DP4）、128K、n1、服务并发1及231/256 within1800s，正式四cell配置不变。执行前会重新核对代码状态、当前额度和H200限制。”
+
+User selected: **“A 额外8卡 (Recommended)”**.
+
+Selected scope: one new isolated A/r256 smoke with18H200 total: trainer8 shares its cards with the first8 rollout GPUs, another8 rollout GPUs are dedicated, and the frozen teacher retains2 GPUs. Sixteen rollout GPUs supply8 TP2 services at concurrency1. This explicitly permits expansion for the captured queue/HOL even though generationKV/503 was not confirmed. Repair the existing explicit-rollout argument overwrite and two-node startup/lifecycle boundaries; verify native mixed CUDA IPC/NCCL weight synchronization. Acquisition costs at most9GPU-hours, plus startup and two successful updates. Preserve2bank uses, the accepted inputs/models/seeds, TP2/DP4/CP1,128K,n1,231/256 within1800s, and all scientific parameters. The existing3600s generation retry-chain guard and1800s bank deadline have passed fault injection; no second timeout implementation is needed. No teacher-envelope, concurrency1→2, formal-profile change or further GPU experiment is approved. Fresh D9/H200 admission is required before submission.
 
 ## Documentation acceptance criteria
 

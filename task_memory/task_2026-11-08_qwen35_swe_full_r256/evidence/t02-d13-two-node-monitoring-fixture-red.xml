@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="16" skipped="0" tests="16" time="3.638" timestamp="2026-11-09T13:48:33.500142+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_monitoring" name="test_native_nested_teacher_response_is_separate_diagnostic_with_bound_launch" time="2.700"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_native_nested_teacher_res0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+
+    def test_native_nested_teacher_response_is_separate_diagnostic_with_bound_launch(tmp_path, native_fixture, native_teacher_samples):
+        samples, requests = native_teacher_samples
+        root = tmp_path / "student" / "A" / "teacher-job"
+        (root / "rollout_data").mkdir(parents=True)
+        (root / "train_data").mkdir()
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:555: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_native_nested_teacher_res0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_native_nested_teacher_res0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8[0]" time="0.004"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+prefix_position = 0
+
+    @pytest.mark.parametrize("prefix_position", [0, 1])
+    def test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, prefix_position):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:587: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8[1]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+prefix_position = 1
+
+    @pytest.mark.parametrize("prefix_position", [0, 1])
+    def test_teacher_prefix_token_corruption_is_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, prefix_position):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:587: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_prefix_token_corr1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[token_ids-teacher_input_token_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'token_ids', code = 'teacher_input_token_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[missing_field-teacher_scores_missing]" time="0.048"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'missing_field', code = 'teacher_scores_missing'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[short_array-teacher_input_score_coverage_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp2')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'short_array', code = 'teacher_input_score_coverage_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp2/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp2/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[missing_value-missing_valid_token]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp3')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'missing_value', code = 'missing_valid_token'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp3/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp3/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[nonfinite-nonfinite_valid_token]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp4')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'nonfinite', code = 'nonfinite_valid_token'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp4/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp4/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[sample_endpoint-teacher_sample_endpoint_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp5')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'sample_endpoint', code = 'teacher_sample_endpoint_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp5/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp5/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[unbound-teacher_identity_unbound]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp6')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'unbound', code = 'teacher_identity_unbound'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp6/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp6/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[ready_url-teacher_endpoint_identity_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp7')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'ready_url', code = 'teacher_endpoint_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp7/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp7/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[ready_model-teacher_model_identity_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp8')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'ready_model', code = 'teacher_model_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp8/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp8/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[server_model-teacher_model_identity_mismatch]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp9')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'server_model', code = 'teacher_model_identity_mismatch'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp9/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp9/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_faults_are_incomplete_without_changing_d8[deterministic-teacher_probability_contract_unestablished]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp10')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+fault = 'deterministic', code = 'teacher_probability_contract_unestablished'
+
+    @pytest.mark.parametrize("fault,code", [
+        ("token_ids", "teacher_input_token_mismatch"),
+        ("missing_field", "teacher_scores_missing"),
+        ("short_array", "teacher_input_score_coverage_mismatch"),
+        ("missing_value", "missing_valid_token"),
+        ("nonfinite", "nonfinite_valid_token"),
+        ("sample_endpoint", "teacher_sample_endpoint_mismatch"),
+        ("unbound", "teacher_identity_unbound"),
+        ("ready_url", "teacher_endpoint_identity_mismatch"),
+        ("ready_model", "teacher_model_identity_mismatch"),
+        ("server_model", "teacher_model_identity_mismatch"),
+        ("deterministic", "teacher_probability_contract_unestablished"),
+    ])
+    def test_teacher_faults_are_incomplete_without_changing_d8(tmp_path, native_fixture, native_teacher_samples, fault, code):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       ready = _write_teacher_ready(root)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:629: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp10/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_faults_are_incomp10/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_masked_corruption_is_incomplete_with_original_denominator[False]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption0')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+missing = False
+
+    @pytest.mark.parametrize("missing", [False, True])
+    def test_teacher_masked_corruption_is_incomplete_with_original_denominator(tmp_path, native_fixture, native_teacher_samples, missing):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:679: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption0/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption0/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase><testcase classname="tests.fast.test_qwen35_monitoring" name="test_teacher_masked_corruption_is_incomplete_with_original_denominator[True]" time="0.003"><failure message="KeyError: 'gpu_tag'">tmp_path = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption1')
+native_fixture = ({'status': 'passed', 'length_strata': [{'name': 'short', 'lower_exclusive': 0, 'upper_inclusive': 32768}, {'name': 'm... 'loss_mask': [1, 1], ...}, {'index': 5, 'tokens': [17, 31, 32], 'response_length': 2, 'loss_mask': [1, 1], ...}, ...])
+native_teacher_samples = ([{'group_index': None, 'index': 0, 'lineage': None, 'rollout_id': None, ...}, {'group_index': None, 'index': 1, 'line...re': 0, 'max_new_tokens': 0, 'skip_special_tokens': False}, 'return_logprob': True, 'logprob_start_len': 0}, 60), ...])
+missing = True
+
+    @pytest.mark.parametrize("missing", [False, True])
+    def test_teacher_masked_corruption_is_incomplete_with_original_denominator(tmp_path, native_fixture, native_teacher_samples, missing):
+        root = tmp_path / "student" / "A" / "teacher-job"
+        root.mkdir(parents=True)
+&gt;       contract = inspector._teacher_contract(root, _write_teacher_ready(root))
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_qwen35_monitoring.py:679: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_qwen35_monitoring.py:541: in _write_teacher_ready
+    "argv": worker._student_command(config, "A", ready, root / "local")}
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'pairs': {'A': {'student': {'path': '/models/student', 'gpus_per_node': 8, 'engine_gpus': 4, 'tp_size': 2, ...}, 'tea...d', 'population_dir': '/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption1/population', ...}
+pair = 'A'
+ready = {'job': 'teacher-job', 'pair': 'A', 'rank': 0, 'ip': '127.0.0.1', ...}
+local = PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3967/test_teacher_masked_corruption1/local')
+
+    def _student_command(config: dict, pair: str, ready: dict, local: Path) -&gt; list[str]:
+        student, teacher = config["pairs"][pair]["student"], config["pairs"][pair]["teacher"]
+        nodes = _student_nodes(config, pair)
+        # The native CLI owns job scoping; another job directory exceeds Ray's Unix socket path limit.
+        return [
+            sys.executable, "-B", "-m", "tests.manual.agent_opd.run_qwen35_opd", "--pair", pair,
+            "--student", student["path"], "--teacher", teacher["path"], "--teacher-url", ready["url"],
+            "--population-dir", config["population_dir"], "--output-root", str(Path(config["run_root"]) / "student"),
+            "--shared-dir", str(Path(config["shared_dir"]) / "student"), "--local-root", str(local.parent),
+&gt;           "--gpu-type", config["gpu_tag"],
+                          ^^^^^^^^^^^^^^^^^
+            "--gpus-per-node", str(student["gpus_per_node"]), "--student-engine-gpus", str(student["engine_gpus"]),
+            "--tensor-model-parallel-size", str(student["tp_size"]),
+            "--max-tokens-per-gpu", str(student["max_tokens_per_gpu"]),
+            "--sglang-mem-fraction-static", str(student["mem_fraction_static"]),
+            "--sglang-max-running-requests", str(student["max_running_requests"]),
+            "--sglang-chunked-prefill-size", str(student["chunked_prefill_size"]),
+            "--sglang-router-request-timeout-secs", str(config["request_timeout"]),
+            "--startup-timeout", str(config["startup_timeout"]), "--num-rollout", str(config["num_rollout"]),
+        ] + (["--student-nodes", str(nodes)] if nodes != 1 else [])
+E       KeyError: 'gpu_tag'
+
+tests/manual/agent_opd/qwen35_pair_worker.py:137: KeyError</failure></testcase></testsuite></testsuites>

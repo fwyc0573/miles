@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.303" timestamp="2026-11-09T13:27:34.626185+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_existing_run_does_not_overwrite_driver_records" time="0.006"><failure message="AssertionError: assert {'status': 'f...est-job', ...} == {'status': 'n...hese records'}&#10;  &#10;  Differing items:&#10;  {'status': 'failed'} != {'status': 'native_execution_succeeded'}&#10;  Left contains 6 more items:&#10;  {'error_type': 'FileExistsError',&#10;   'pair': 'A',&#10;   'rank': 0,...&#10;  &#10;  ...Full output truncated (17 lines hidden), use '-vv' to show">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3963/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f27cbee6ca0&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f27cbbcc040&gt;)
+
+    def test_two_node_native_existing_run_does_not_overwrite_driver_records(student_node):
+        node = student_node
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        original = {"status": "native_execution_succeeded", "sentinel": "another attempt owns these records"}
+        for name in ("training.json", "finished.json"):
+            rendezvous._write_json(node.records / name, original)
+        with pytest.raises(FileExistsError):
+            native._run(node.args, prepare_training=node.prepare)
+&gt;       assert json.loads((node.records / "training.json").read_text()) == original
+E       AssertionError: assert {'status': 'f...est-job', ...} == {'status': 'n...hese records'}
+E         
+E         Differing items:
+E         {'status': 'failed'} != {'status': 'native_execution_succeeded'}
+E         Left contains 6 more items:
+E         {'error_type': 'FileExistsError',
+E          'pair': 'A',
+E          'rank': 0,...
+E         
+E         ...Full output truncated (17 lines hidden), use '-vv' to show
+
+tests/fast/test_qwen35_pair_worker.py:709: AssertionError</failure></testcase></testsuite></testsuites>

@@ -176,9 +176,76 @@ def test_native_router_policy_preserves_default_and_typed_transport(tmp_path, mo
     assert parse_router_args_argv(router_args_to_argv(router)).policy == expected
 
 
+def test_expanded_student_bootstrap_transports_node_preflight(tmp_path, monkeypatch):
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
+    config["startup_timeout"] = config["pairs"]["A"]["startup_timeout"]
+    calls = []
+    monkeypatch.setattr(run_swe_opd.native, "_run", lambda args, **kwargs: calls.append((args, kwargs)))
+    run_swe_opd._train(config, "A", "http://teacher/generate")
+    args, callbacks = calls[0]
+    assert args.student_nodes == 2 and args.gpus_per_node == 8
+    assert callbacks["prepare_training"] is run_swe_opd._prepare_training
+    assert callbacks["prepare_node"] is run_swe_opd._prepare_node
+
+
+@pytest.mark.parametrize("nodes,rank", [(1, 0), (2, 0), (2, 1)])
+def test_scoring_source_preflight_runs_in_each_container(tmp_path, monkeypatch, nodes, rank):
+    from types import SimpleNamespace
+
+    config = {"image": "pinned-image", "training": {"release_scoring_output": True}}
+    args = SimpleNamespace(swe_config=config, student_nodes=nodes, megatron_path=str(tmp_path / "Megatron-LM"))
+    calls = []
+    source = {"source_sha256": "verified-source"}
+    monkeypatch.setattr(
+        run_swe_opd.megatron_scoring_lifetime, "prepare_source",
+        lambda path, **kwargs: calls.append((path, kwargs)) or source,
+    )
+    receipt = run_swe_opd._prepare_node(args, tmp_path / "run", rank)
+    archive = tmp_path / "run/megatron_scoring_lifetime/source"
+    if nodes == 2:
+        archive /= f"rank-{rank}"
+    assert calls == [(Path(args.megatron_path), {"image": "pinned-image", "release": True, "archive_dir": archive})]
+    assert receipt == {"megatron_scoring_lifetime": source}
+
+
+def test_expanded_rollout_recipe_preserves_eight_gpu_training(tmp_path, monkeypatch):
+    from miles.utils.args import custom_function
+    from miles.utils.arguments import get_miles_extra_args_provider
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_swe_full_r256"
+    config = json.loads((task / "deepswe_capacity_expanded_config.json").read_text())
+    config["protocol"] = "r256"
+    argv = shlex.split(run_swe_opd._training_args(config, "A", "http://teacher/generate", tmp_path, "expanded"))
+    for flag, value in {
+        "--actor-num-nodes": "1",
+        "--actor-num-gpus-per-node": "8",
+        "--tensor-model-parallel-size": "2",
+        "--context-parallel-size": "1",
+        "--rollout-num-gpus": "16",
+        "--sglang-config": config["sglang_config"],
+    }.items():
+        assert argv.count(flag) == 1
+        assert argv[argv.index(flag) + 1] == value
+    monkeypatch.setattr(sys, "argv", ["train.py", *argv])
+    parser = argparse.ArgumentParser()
+    get_miles_extra_args_provider()(parser)
+    parsed, unknown = parser.parse_known_args(argv)
+    assert "--rollout-num-gpus" not in unknown and "--sglang-config" not in unknown
+    custom_function.resolve_custom_function_configs(parsed)
+    assert parsed.rollout_num_gpus == 16
+    assert parsed.sglang_config == config["sglang_config"]
+    assert config["pairs"]["A"]["student"]["nodes"] == 2
+
+
 @pytest.mark.parametrize(
     "profile",
-    ["deepswe_capacity_smoke_config.json", "deepswe_capacity_round_robin_config.json", "deepswe_formal_config.json"],
+    [
+        "deepswe_capacity_smoke_config.json",
+        "deepswe_capacity_round_robin_config.json",
+        "deepswe_capacity_expanded_config.json",
+        "deepswe_formal_config.json",
+    ],
 )
 async def test_native_recipe_timeout_reaches_the_typed_qwen_generation_hook(tmp_path, monkeypatch, profile):
     import asyncio

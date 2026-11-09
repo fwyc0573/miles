@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="0.417" timestamp="2026-11-09T13:20:38.354679+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes" time="0.004"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f245063e840&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f245063ef20&gt;)
+
+    def test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes(student_node):
+        node = student_node
+&gt;       native._run(node.args, prepare_training=node.prepare)
+
+tests/fast/test_qwen35_pair_worker.py:465: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_head_allo0/...d_allo0/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function student_node.&lt;locals&gt;.prepare at 0x7f245063ef20&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files[native_execution_succeeded]" time="0.003"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...g_shared_files.&lt;locals&gt;.finish at 0x7f2450914400&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450914220&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f2450645580&gt;
+status = 'native_execution_succeeded'
+
+    @pytest.mark.parametrize("status", ["native_execution_succeeded", "failed"])
+    def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        (node.cloud / "head-owned").write_text("preserved")
+        rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+        completion = {"status": status, "rank": 0, "sentinel": "only the driver wrote this"}
+    
+        def finish():
+            if node.clock.now == 2:
+                rendezvous._write_json(node.records / "finished.json", completion)
+    
+        node.clock.on_sleep = finish
+        if status == "failed":
+            with pytest.raises(RuntimeError, match="driver replica failed"):
+                native._run(node.args, prepare_training=node.prepare)
+        else:
+&gt;           native._run(node.args, prepare_training=node.prepare)
+
+tests/fast/test_qwen35_pair_worker.py:491: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_peer_join0/...r_join0/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450914220&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files[failed]" time="0.003"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...g_shared_files.&lt;locals&gt;.finish at 0x7f2450914720&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450915940&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f2450645220&gt;
+status = 'failed'
+
+    @pytest.mark.parametrize("status", ["native_execution_succeeded", "failed"])
+    def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        (node.cloud / "head-owned").write_text("preserved")
+        rendezvous._write_json(node.records / "head.json", {"ip": "10.0.0.7", "port": 20000, "dashboard_port": 20001})
+        completion = {"status": status, "rank": 0, "sentinel": "only the driver wrote this"}
+    
+        def finish():
+            if node.clock.now == 2:
+                rendezvous._write_json(node.records / "finished.json", completion)
+    
+        node.clock.on_sleep = finish
+        if status == "failed":
+            with pytest.raises(RuntimeError, match="driver replica failed"):
+&gt;               native._run(node.args, prepare_training=node.prepare)
+
+tests/fast/test_qwen35_pair_worker.py:489: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_peer_join1/...r_join1/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450915940&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_peer_missing_ray_head_times_out_before_driver" time="0.003"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f24509158a0&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450916480&gt;)
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f2450646a50&gt;
+
+    def test_two_node_native_peer_missing_ray_head_times_out_before_driver(student_node, monkeypatch):
+        node = student_node
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+        node.records.mkdir(parents=True)
+        node.cloud.mkdir(parents=True)
+        with pytest.raises(TimeoutError, match="RJob rendezvous did not publish"):
+&gt;           native._run(node.args, prepare_training=node.prepare)
+
+tests/fast/test_qwen35_pair_worker.py:506: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_peer_miss0/...r_miss0/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450916480&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_failure_or_cancellation_publishes_completion[error0]" time="0.002"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f2450915bc0&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450916520&gt;)
+error = RuntimeError('driver failed')
+
+    @pytest.mark.parametrize("error", [RuntimeError("driver failed"), SystemExit(143)])
+    def test_two_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
+        node = student_node
+    
+        def fail(*args):
+            raise error
+    
+        with pytest.raises(type(error)):
+&gt;           native._run(node.args, prepare_training=fail)
+
+tests/fast/test_qwen35_pair_worker.py:519: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_head_fail0/...d_fail0/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function test_two_node_native_head_failure_or_cancellation_publishes_completion.&lt;locals&gt;.fail at 0x7f245063eca0&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase><testcase classname="tests.fast.test_qwen35_pair_worker" name="test_two_node_native_head_failure_or_cancellation_publishes_completion[error1]" time="0.002"><failure message="ValueError: This Qwen worker supports one student node; the teacher must be separately allocated">student_node = namespace(args=namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_nat...student_node.&lt;locals&gt;.&lt;lambda&gt; at 0x7f2450914e00&gt;), prepare=&lt;function student_node.&lt;locals&gt;.prepare at 0x7f2450916ca0&gt;)
+error = SystemExit(143)
+
+    @pytest.mark.parametrize("error", [RuntimeError("driver failed"), SystemExit(143)])
+    def test_two_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
+        node = student_node
+    
+        def fail(*args):
+            raise error
+    
+        with pytest.raises(type(error)):
+&gt;           native._run(node.args, prepare_training=fail)
+
+tests/fast/test_qwen35_pair_worker.py:519: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = namespace(pair='A', student=PosixPath('/data/ycfeng/tmp/pytest-of-brainpp/pytest-3956/test_two_node_native_head_fail1/...d_fail1/local'), gpu_type='H200', gpus_per_node=8, startup_timeout=3, megatron_path='/root/Megatron-LM', num_rollout=2)
+prepare_training = &lt;function test_two_node_native_head_failure_or_cancellation_publishes_completion.&lt;locals&gt;.fail at 0x7f24509171a0&gt;
+
+    def _run(args, *, prepare_training=_prepare_training) -&gt; None:
+        if int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != 1:
+&gt;           raise ValueError("This Qwen worker supports one student node; the teacher must be separately allocated")
+E           ValueError: This Qwen worker supports one student node; the teacher must be separately allocated
+
+tests/manual/agent_opd/run_qwen35_opd.py:313: ValueError</failure></testcase></testsuite></testsuites>

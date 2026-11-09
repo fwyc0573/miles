@@ -128,6 +128,9 @@ def _training_args(config: dict, pair: str, teacher_url: str, run: Path, attempt
             arguments[f"swe_{name}"] = inputs[name]
     if "router_policy" in config:
         arguments["router_policy"] = config["router_policy"]
+    for name in ("rollout_num_gpus", "sglang_config"):
+        if name in config:
+            arguments[name] = config[name]
     if "release_scoring_output" in train:
         arguments.update(
             custom_megatron_before_log_prob_hook_path=(
@@ -151,15 +154,21 @@ def _student_command(config: dict, pair: str, ready: dict, local: Path) -> list[
             "--protocol", config["protocol"], "--role", "train", "--teacher-url", ready["url"]]
 
 
+def _prepare_node(args, run: Path, rank: int) -> dict | None:
+    config = args.swe_config
+    if "release_scoring_output" not in config["training"]:
+        return None
+    archive = run / "megatron_scoring_lifetime" / "source"
+    if args.student_nodes != 1:
+        archive /= f"rank-{rank}"
+    return {"megatron_scoring_lifetime": megatron_scoring_lifetime.prepare_source(
+        Path(args.megatron_path), image=config["image"], release=config["training"]["release_scoring_output"],
+        archive_dir=archive,
+    )}
+
+
 def _prepare_training(args, run: Path) -> tuple[str, dict]:
     config = args.swe_config
-    scoring_source = None
-    if "release_scoring_output" in config["training"]:
-        # Patch the student dependency before the native worker starts Ray or submits its driver.
-        scoring_source = megatron_scoring_lifetime.prepare_source(
-            Path(args.megatron_path), image=config["image"], release=config["training"]["release_scoring_output"],
-            archive_dir=run / "megatron_scoring_lifetime" / "source",
-        )
     train_args = _training_args(config, args.pair, args.teacher_url, run, os.environ["KUBEBRAIN_RJOB_NAME"])
     recipe = DenseArgs(model_name=native._PAIRS[args.pair][0]).recipe
     git = ["git", "-c", f"safe.directory={U.repo_base_dir}", "-C", str(U.repo_base_dir)]
@@ -173,8 +182,6 @@ def _prepare_training(args, run: Path) -> tuple[str, dict]:
         "resolved_experiment": config, "final_hf": None,
         "update_accounting": "Native successful optimizer acknowledgements; checkpoint mapping is recorded at export.",
     }
-    if scoring_source is not None:
-        receipt["megatron_scoring_lifetime"] = scoring_source
     return train_args, receipt
 
 
@@ -185,10 +192,11 @@ def _train(config: dict, pair: str, teacher_url: str) -> None:
         teacher_url=teacher_url, output_root=Path(config["run_root"]) / "student",
         shared_dir=Path(config["shared_dir"]) / "student", local_root=Path(config["worker_local_root"]),
         gpu_type=config["gpu_tag"], gpus_per_node=allocation["student"]["gpus_per_node"],
+        student_nodes=allocation["student"]["nodes"],
         startup_timeout=config["startup_timeout"], megatron_path=config["megatron_path"],
         num_rollout=config["training"]["successful_updates"], swe_config=config,
     )
-    native._run(args, prepare_training=_prepare_training)
+    native._run(args, prepare_training=_prepare_training, prepare_node=_prepare_node)
 
 
 def main() -> int:
