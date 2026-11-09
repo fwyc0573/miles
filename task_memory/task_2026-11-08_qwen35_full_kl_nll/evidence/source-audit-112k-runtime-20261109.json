@@ -1,0 +1,72 @@
+{
+  "observed_at": "2026-11-09T11:32:18.413986+00:00",
+  "job": "exp-1109-154414-275606",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [audit]",
+    "taskStatuses": {
+      "audit": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "audit": [
+      {
+        "name": "exp-1109-154414-275606-cfcd2084",
+        "ip": "10.191.5.65",
+        "phase": "Running"
+      }
+    ]
+  },
+  "filtered_tail": [
+    "[2026-11-09T15:55:51+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=400 file=0 renders=2487 elapsed_s=636",
+    "[2026-11-09T16:00:48+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=600 file=0 renders=3641 elapsed_s=932",
+    "[2026-11-09T16:06:22+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=800 file=0 renders=4941 elapsed_s=1266",
+    "[2026-11-09T16:11:23+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=1000 file=1 renders=6111 elapsed_s=1568",
+    "[2026-11-09T16:16:25+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=1200 file=1 renders=7293 elapsed_s=1869",
+    "[2026-11-09T16:21:41+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=1400 file=1 renders=8523 elapsed_s=2185",
+    "[2026-11-09T16:26:48+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=1600 file=1 renders=9749 elapsed_s=2492",
+    "[2026-11-09T16:31:46+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=1800 file=1 renders=10928 elapsed_s=2790",
+    "[2026-11-09T16:36:32+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=2000 file=2 renders=12056 elapsed_s=3076",
+    "[2026-11-09T16:41:36+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=2200 file=2 renders=13249 elapsed_s=3380",
+    "[2026-11-09T16:46:54+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=2400 file=2 renders=14485 elapsed_s=3699",
+    "[2026-11-09T16:51:54+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=2600 file=2 renders=15664 elapsed_s=3999",
+    "[2026-11-09T16:56:55+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=2800 file=2 renders=16840 elapsed_s=4300",
+    "[2026-11-09T17:02:31+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=3000 file=3 renders=18138 elapsed_s=4636",
+    "[2026-11-09T17:07:26+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=3200 file=3 renders=19293 elapsed_s=4931",
+    "[2026-11-09T17:12:41+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=3400 file=3 renders=20509 elapsed_s=5245",
+    "[2026-11-09T17:18:05+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=3600 file=3 renders=21754 elapsed_s=5570",
+    "[2026-11-09T17:22:52+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=3800 file=4 renders=22845 elapsed_s=5856",
+    "[2026-11-09T17:27:52+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=4000 file=4 renders=24008 elapsed_s=6157",
+    "[2026-11-09T17:33:00+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=4200 file=4 renders=25222 elapsed_s=6464",
+    "[2026-11-09T17:38:18+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=4400 file=4 renders=26453 elapsed_s=6783",
+    "[2026-11-09T17:42:23+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=4600 file=5 renders=27429 elapsed_s=7028",
+    "[2026-11-09T17:47:18+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=4800 file=5 renders=28590 elapsed_s=7323",
+    "[2026-11-09T17:51:22+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=5000 file=5 renders=29570 elapsed_s=7567",
+    "[2026-11-09T17:55:21+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=5200 file=5 renders=30520 elapsed_s=7805",
+    "[2026-11-09T17:59:22+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=5400 file=5 renders=31475 elapsed_s=8046",
+    "[2026-11-09T18:03:25+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=5600 file=5 renders=32441 elapsed_s=8290",
+    "[2026-11-09T18:08:08+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=5800 file=5 renders=33575 elapsed_s=8572",
+    "[2026-11-09T18:12:43+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=6000 file=5 renders=34647 elapsed_s=8848",
+    "[2026-11-09T18:16:52+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=6200 file=5 renders=35582 elapsed_s=9097",
+    "[2026-11-09T18:21:02+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=6400 file=5 renders=36505 elapsed_s=9347",
+    "[2026-11-09T18:25:27+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=6600 file=6 renders=37461 elapsed_s=9612",
+    "[2026-11-09T18:30:15+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=6800 file=6 renders=38500 elapsed_s=9899",
+    "[2026-11-09T18:35:25+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=7000 file=6 renders=39645 elapsed_s=10210",
+    "[2026-11-09T18:40:06+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=7200 file=6 renders=40678 elapsed_s=10491",
+    "[2026-11-09T18:44:27+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=7400 file=6 renders=41641 elapsed_s=10751",
+    "[2026-11-09T18:48:59+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=7600 file=6 renders=42655 elapsed_s=11024",
+    "[2026-11-09T18:53:40+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=7800 file=6 renders=43702 elapsed_s=11305",
+    "[2026-11-09T18:58:28+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=8000 file=6 renders=44794 elapsed_s=11592",
+    "[2026-11-09T19:02:53+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=8200 file=6 renders=45766 elapsed_s=11857",
+    "[2026-11-09T19:07:30+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=8400 file=6 renders=46778 elapsed_s=12134",
+    "[2026-11-09T19:12:58+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=8600 file=7 renders=47952 elapsed_s=12463",
+    "[2026-11-09T19:18:17+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=8800 file=7 renders=49155 elapsed_s=12781",
+    "[2026-11-09T19:23:25+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=9000 file=7 renders=50380 elapsed_s=13089",
+    "[2026-11-09T19:28:18+08:00] exp-1109-154414-275606-cfcd2084 >> [SWE1003_AUDIT] scanned=9200 file=7 renders=51549 elapsed_s=13382"
+  ]
+}

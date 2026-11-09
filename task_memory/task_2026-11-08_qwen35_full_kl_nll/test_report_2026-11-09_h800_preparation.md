@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Record first H800 terminal failure/cleanup, reviewed node-network correction and submitted network-fixed H800 retry; distinguish upstream D11 acceptance. |
+| 2026-11-09 | Record actual36-H800 submission, Starting state and initial worker GPU identities. |
 | 2026-11-09 | Record the reviewed session repair, pinned receiver evidence, native in-place receipts and source parity launch status. |
 | 2026-11-09 | Record exact upstream terminal/timeout evidence and failed audit-query coverage; synchronization diagnosis is pending. |
 | 2026-11-09 | Record D33 documentation checks, live resource inspection and isolated admission preparation. |
@@ -21,7 +23,7 @@ D33 authorizes H800/codesign execution with no task GPU-count cap. Parent Ticket
 | Fresh personal H800 commitments | Query actual nonterminal non-preemptible jobs using Python API | At07:13:27Z:24 GPUs across three other jobs | RECORDED |
 | Upstream native gate | Actual capacity evidence, not submission/startup alone | `exp-1109-144110-764758`: Failed at07:47:18Z; initial weight synchronization timed out after600s, before rollout collection | FAILED / GATE NOT MET |
 | Unlimited allocation | No manufactured numeric ceiling | Candidate`gpu_policy.json` has explicitnull; isolated`1ae93261` passes25 budget+4 consumer checks | CPU PASS |
-| H800 payload/runtime | Configuration validated, then actual H800 runtime evidence | No H800 payload accepted or job submitted yet | PENDING |
+| H800 payload/runtime | Configuration validated, then actual H800 runtime evidence | First`exp-1109-181120-274261` Failed10:29:35Z; correctednetworkretry`exp-1109-192340-580111` submitted11:23:40Z andStarting; businessgatepending | IN PROGRESS |
 
 Commands:
 
@@ -104,3 +106,23 @@ Native in-place receipt job`exp-1109-164358-350923` ran the unchanged baseline/v
 The original-source D34 parity job`exp-1109-170837-174061` failed before importing the checker because`spawn_tasks()` overrides`PYTHONPATH` with the mount root (`steptron/utils/stepmind.py:917`). A local quoting mistake in the next launcher produced no RJob. The corrected worker shell explicitly exports the project path, as the production submitter already does; its command is retained under preparation`evidence/native-inputs-in-place-d34/worker-command.json`. Retry`exp-1109-172310-849823` Succeeded09:28:42Z: all9 selected prefix checks and the real registry factory/request pass, first prompt4366 and request cap16384. Personal creator, exact image,0GPU and local NFS source were verified by API. Full commands/results are in the preparation task's`test_report_2026-11-09_native_preflight.md`. The new H800 native capacity run is pending; no parent merge or Ticket02/03 implementation has begun.
 
 Prelaunch review found that the later`SweReplay._generate` caller still expanded the response budget. `0e7e0df3` removes that override, preserving the source and GenerateState limits while adding only the seed. Real replay→request regressions observe RED126706/16385 versus GREEN16384/16384;62 affected checks pass. The same reviewer closed P1 with no remaining findings. A final dry-run using the actual Python3.10.6 StepMind submission environment passes36-GPU role/RDMA/null-policy checks. No source re-audit or GPU acceptance is inferred from this caller correction.
+
+## Historical first H800 attempt
+
+The isolated configuration/source were frozen at`a470c841`, then the existing Python submitter created`exp-1109-181120-274261` at10:11:20Z. Fresh admission observed24 other H800 GPUs and requested36 with no count ceiling. Actual platform metadata verifies creator`i-fengyicheng`, H800/codesign, non-preemption, student4×8/teacher1×4, both student RDMA resources, exact image and NFS`100.96.128.195:/data/ycfeng:/data/ycfeng`. Earlier Pending state advanced to Starting at10:20:53Z; three student replicas and the teacher run while trainer-head startup remains pending. Four worker receipts expose28 actual H800 devices,81559MiB each, driver570.124.06; teacher-ready is published.
+
+That launcher `sh_1bfca68aa001JWOGKI0d7wkd99` exited1 after the job Failed at10:29:35Z. Full native logs reveal two TP4 engines on rank2 first failed `ncclGetUniqueId` with invalid usage at10:28:57Z; later `matches=[]` errors and critical-failure cleanup followed. Ray registered4 nodes/32 student GPUs, but initial weights, bank acquisition and optimizer updates were not reached. Exact terminal and selected failure evidence is retained in preparation `evidence/h800-native-terminal-20261109.json` and `evidence/h800-first-native-failure-20261109.json`.
+
+## Network-fixed H800 D34 native verification
+
+Confirmed code behavior: head-inherited NCCL values in the job runtime env replaced rank2's local platform NIC/HCA selection (`ens20np0` versus `ens22np0`). Isolated `cf98293a` removes this inherited broadcast without new timeout or transport workarounds. The real caller-to-final-subprocess CPU regression is RED1 failed/2 passed→GREEN3 passed; related checks record529 passed/12 skipped/1 known-baseline parser case deselected. Review of the complete four-file diff `d91be845..cf98293a` returned No Findings. Native NCCL2.30.7 and effective engine environments are still unverified. Exact commands/limits: preparation `test_report_2026-11-09_node_local_network.md`.
+
+After freeze `ebc0e6a0`, ordinary personal Python submission from `/data/ycfeng` created `exp-1109-192340-580111` at11:23:40Z. Fresh admission counts24 other H800+36 requested, with the explicit null personal ceiling and no preemption. Initial exact-job API read reports Starting, UID `28536e46-208d-4635-b648-27c782a09c9b`, creator `i-fengyicheng`, current-host source `100.96.128.195:/data/ycfeng:/data/ycfeng`, student4×8/teacher1×4, H800/codesign. Actual worker GPU observations,8 engines, weights and capacity outcomes are pending. Ordinary launcher `sh_1c00ca257001FAmkzN0D28AQ9j` remains responsible for job lifetime; log `/data/ycfeng/tmp/agent-opd-image/qwen35-h800-network-fixed-20261109.log`. The config changes only `phase`, `run_root`, `shared_dir`; lengths, seeds, models, loss, topology and native timeouts are unchanged. Cloud output root: `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109`.
+
+Authoritative exact commands and filtered receipts are in preparation `test_report_2026-11-09_network_fixed_prelaunch.md`, `evidence/admission-h800-network-fixed-20261109.json`, `evidence/h800-network-fixed-native-startup-20261109.json`. Auxiliary environment/evidence checks remain soft-only; missing data is marked unverified and cannot stop healthy training.
+
+At11:33:03Z all five current node receipts confirm36 actual H800 GPUs, matching the configured image and original model paths. Four student hosts have8 devices each; teacher has4,81559MiB/device anddriver570.124.06. Preparation `evidence/h800-network-fixed-worker-gpu-readback-20261109.json` retains the validated records. Hardware observation does not establish8 healthy engines, effective process environment, weight synchronization or successful training.
+
+Coordination at11:19Z: upstream `23b29f66` approves the original18-H200 retry, but no new job or acceptance is recorded. It has not adopted the parent D34 budget in its authoritative requirements. The H800112K/16K readiness run and upstream frozen D11 acceptance therefore stay separate; H800 results will not automatically satisfy D1/D22. Parent merge,02/03 integration and formal runs remain blocked; no other owner's job was stopped or held.
+
+User-authorized cleanup removed the first terminal H800 smoke's167 cloud duplicates/15,325,989 logical bytes only after complete byte/hash-verified local retention. Original source assets, other tasks and shared trash were untouched. Raw archive: `/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz`; the exact report and receipts are in the preparation task. Physical OSS reclamation was not measured; the new live job's root is protected from cleanup.
