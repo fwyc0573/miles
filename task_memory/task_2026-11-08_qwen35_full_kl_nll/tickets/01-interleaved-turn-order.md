@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Close D34 from completed112K original-source audit/parity and terminal API receipt; distinguish current length/span limits from retained historical128K evidence. |
 | 2026-11-09 | Reopen the length-policy slice forD34:112K inclusive prompt budget and16K completion within128K context; keep prior source evidence. |
 | 2026-11-09 | Accept items5–6 from the completed real-source CPU audit,512 native parity draws and2,048 interleaved draws; retain32×8 and disclose measured length/span limits. |
 | 2026-11-09 | Record the primary's running in-place CPU audit/parity job without claiming acceptance; separate exact-text proxy coverage from native SWE identity and ideal trend estimates. |
@@ -18,7 +19,7 @@
 
 **Blocked by:** 文档冻结；D23–D27 已写入 spec。
 
-**Status:** in-progress — D23–D27 source audit/parity previously accepted ([test report](../test_report_2026-11-09_source_audit.md)); D34 reopens only the changed length-policy implementation and verification below. D1/D22 remain separate prerequisites for02/03 integration.
+**Status:** done — D23–D27 historical128K source audit/parity retained ([historical report](../test_report_2026-11-09_source_audit.md)); D34 implementation, boundaries, actual native request construction and completed original-source112K audit/parity accepted ([current report](../test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit)). D1/D22 remain separate prerequisites for02/03 integration; this is CPU input acceptance, not native capacity/trend acceptance.
 
 ### 已完成：interleaved 顺序（GLM 固定副本，turn source 为 `OnlineTrajectoryTurnSource`）
 
@@ -43,4 +44,4 @@ These checks were accepted under the pre-D34 prompt policy. Source identities, n
 
 - [x] Use existing native prompt/response/context fields:114688 inclusive prompt tokens,16384 maximum completion tokens,131072 total context. Reject over-budget prompts before allocating slots, retaining native draw order and finished-conversation reporting; do not truncate messages.
 - [x] Verify both prompt-boundary cases and the actual generation payload: exact112K accepted,+1 rejected, short and boundary prompts both capped at16K, total stays within128K. Existing mask/visual/order checks remain valid. See`test_report_2026-11-09_length_budgets.md`in the parent task directory.
-- [ ] Run the in-place CPU audit/parity with the updated config; inspect112K rejection/span figures and keep old128K outputs separately. Source hashes/raw counts/visual exclusions must remain consistent; new figures are not inferred from the old audit.
+- [x] Run the in-place CPU audit/parity with the updated config; inspect112K rejection/span figures and keep old128K outputs separately. Job/replica `exp-1109-154414-275606` Succeeded at11:47:11Z, confirmed by the primary's personal `get_rjob_client()` / API receipt at11:52:22Z. All8 source SHA/bytes/raw counts/visual exclusions match;512 native parity and2,048 interleaved raw draws PASS. Current112K rejects323,121/868,775 turns (37.1927%);32×8 simulation accepts51,200 from84,229 draws, covers869 conversations with span median5/P90 7/max9;0/869 span≥11 updates. Median23 conversations/update is not task coverage. Pre-length eligible median90 retains D26's32×8; post-length median absent/unverified. Native task identity stays UNVERIFIED/null and955 prompt groups remain proxies. Simulated spans do not verify runtime trend. Exact commands, environment, expected/actual values and limits are in the current report; historical128K artifacts remain unchanged.

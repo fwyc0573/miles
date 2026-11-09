@@ -2,13 +2,16 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Identify this report as historical128K prompt evidence; link the completed D34 original-source112K re-audit without rewriting prior results. |
 | 2026-11-09 | Accept Ticket01 in-place source audit and parity from the completed CPU job; refresh the upstream execution blocker. |
 
 # In-place SWE-1003 source audit and execution readiness
 
+**Historical pre-D34 report:** all length-rejection, scheduling and runtime-status values below describe the original128K prompt policy and its dated inspections. Current D34 uses112K prompts/16K completions within128K context; its completed original-source re-audit and terminal receipt are accepted in [the length-budget report](test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit). Source hashes, raw counts and visual exclusions match that re-audit. Do not reuse the historical rejection/span values as current112K results.
+
 ## Run and evidence
 
-- Configuration and exact launch command: `source_audit_config.json` and `test_report_2026-11-09_review_execution.md`, section In-place CPU RJob.
+- Historical exact launch command: `test_report_2026-11-09_review_execution.md`, section In-place CPU RJob; the bound historical configuration is retained in `evidence/source-audit-20261109/`. The maintained `source_audit_config.json` now selects D34 and a separate output directory, not this run's original policy.
 - Job: `exp-1109-031258-820360`; personal creator `i-fengyicheng`, 8 CPU, 0 GPU, 32000 Mi memory, pinned image and current-host NFS source verified by the admission receipt.
 - Python 3.12.13, transformers 5.19.0, mounted environment `/data/ycfeng/envs/miles-agent-opd-cpu`; no conda activation. Query client: `/data/ycfeng/tmp/stepmind-env/bin/python`, Python 3.10.6, runbook section2 personal-auth/proxy initialization.
 - At `2026-11-09T05:11:30Z`, direct personal `get_rjob_client()` queries confirmed job and exact replica `exp-1109-031258-820360-cfcd2084` both **Succeeded**. Job finish time: `2026-11-09T00:24:08Z` (08:24:08 HKT). The replica log includes `SWE1003_IN_PLACE_AUDIT_AND_PARITY_PASS`; no stop annotations. Filtered receipt: `evidence/source-audit-terminal-20261109.json`. A separate container exit-code field was not returned by this filtered inspection and is not claimed.
@@ -21,7 +24,7 @@ Artifacts under `evidence/source-audit-20261109/`:
 3. `parity/input-parity.json`: exact executed argv and each check's result.
 4. `parity/input-config.json` and `parity/input-source-manifest.json`: bound input identities and verified source bytes.
 
-## Acceptance results
+## Historical128K acceptance results
 
 | Check | Expected / passing condition | Observed | Verdict |
 | --- | --- | --- | --- |
@@ -36,7 +39,7 @@ Artifacts under `evidence/source-audit-20261109/`:
 
 The `parity/input-source-manifest.json` records eight locally verified files and16,559,540,463 bytes. Its `counts_independently_recomputed_in_this_check=false` is intentional: counts come from the full source audit, not a second count scan in parity.
 
-## Measured scheduling behavior
+## Historical128K measured scheduling behavior
 
 Both simulations fill200 updates ×256 accepted turns =51,200 and have zero repeated turns, cursor epoch0. They model source order and length rejection only, not generation failures or optimizer success.
 

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept the completed D34 original-source112K audit/parity; record successful H800 initial synchronization separately from still-unaccepted upstream capacity and parent integration. |
 | 2026-11-09 | Supersede first H800 startup with terminal failure, reviewed node-local NCCL correction and new network-fixed H800 job Starting; preserve separate upstream D11 gate. |
 | 2026-11-09 | Record submitted H800 prerequisite exp-1109-181120-274261 and initial Starting/worker evidence; D1/D22 stay unaccepted. |
 | 2026-11-09 | Record the reviewed hybrid-session repair, exact pinned receiver contract and in-place native source preparation for the isolated H800 prerequisite. |
@@ -33,6 +34,10 @@
 
 ## completed
 
+- D34 original-source CPU re-audit accepted for task`profile-source-audit-112k-records-20261109`: the primary's direct personal `get_rjob_client()` / API read at11:52:22.402210Z confirms`exp-1109-154414-275606`, UID`6e08e161-435d-4195-bcd4-88d40d291eac`, creator`i-fengyicheng`, job/audit replica Succeeded, finish11:47:11Z. The first terminal import of nonexistent `get_client` failed locally before any request; reading `stepmind.py:744` corrected the method, with no audit failure/relaunch. Terminal receipt:`evidence/source-audit-112k-terminal-20261109.json`.
+- Ticket01's D34 slice is done: all8 original file SHA/bytes/counts/visual indices match historical128K evidence;16,559,540,463 bytes,9,254 source/9,152 trainable conversations,868,775 pre-length eligible turns,102 visual conversations/10,008 eligible turns excluded. Current112K rejects323,121 turns (37.1927%) across6,257 conversations.512 native parity and2,048 interleaved raw draws PASS; inclusive112K/+1skip/zero consumed-slot and real4,366-token→16,384-token native request construction PASS. Current32×8 simulation:51,200 accepted/84,229 draws/33,029 rejected,869 conversations,span median5/P90 7/max9;0/869 span≥11 updates,median23 conversations/update (not tasks). D26's pre-length eligible median90 retains32×8; post-length median remains absent/unverified. Native SWE identity stays UNVERIFIED/null;955 first-prompt groups are proxies. Full commands/environment/limits are owned by`test_report_2026-11-09_length_budgets.md`; old128K report/receipts remain explicitly historical. This is input acceptance only, not native trend/capacity or02/03 integration.
+- Scoped local record checks: systemPython3.10.6, JSON syntax/identity/count/budget/parity/terminal reconciliation PASS for five business JSONs plus the terminal receipt, credential-pattern matches0, no original-source file opened. First local assertion misread `local_verified_files` as integer8; field-type inspection showed a list, and `len(...)==8` passed. Existing document checker and its temporary original were inspected and `cmp` passed. This was a local readback correction, not an audit/runtime defect. No code/platform operations or new test machinery.
+- Final scoped document verification: `python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll` reports24 documents/6 tickets/82 links/28 anchors,valid DAG and51,200-per-cell/102,400-total/81 arithmetic,zero errors; `git diff --check` PASS. `cmp tests/manual/agent_opd/check_profile_docs.py /data/ycfeng/tmp/agent-opd-image/check_docs.py` PASS; explicit recursive credential-key/value scan on six selected JSONs PASS withzero matches and no credential output. Commit scope is the seven owned documents plus five new business JSONs and their terminal receipt; primary-owned H800 report edits and `.cortexkit/` are untouched.
 - Isolated prerequisite repairs:`7689fbec` fixes mixed-engine lifecycle coverage; reviewer`profile-hybrid-session-review-20261109` found no defects. Follow-up`422a613d` matches upstream`864cac87` and passes37 directly affected checks. Exact pinned-image CPU probe`exp-1109-161858-331786` succeeded and confirms the receiver rejects absent-session distributed writes before receive; receipts are`evidence/native-weight-session-source{,-job}-20261109.json`. Original HTTP body and stalled program counter are still unavailable; native rerun remains required.
 - The H800 preparation's old sequential source now supports D34 (`82915613`,39 affected PASS), and its parity checker consumes those budgets (`8d517b48`,19 checks PASS). Fresh genuine native exclusion receipts from original posttrain paths completed in`exp-1109-164358-350923`, excluding102 conversations/10008 targets from9254 originals. This is independent prerequisite input preparation, not parent Ticket02/03 integration or the full112K distribution audit.
 - D33/D34 fixed-diff phase review completed by`profile-h800-length-review-20261109` (`ses_e40bbe487ffeqJc4LSyAlspkFg`): parent`2d695ba0..438d25fc` andpreparation`c52991ac..46e7b292`, no new actionable findings. Scope andnative/integration limitations are in`review.md`; this does not mark a GPU run accepted.
@@ -156,14 +161,13 @@
 
 ## in-progress
 
-- D34 in-place CPU audit`exp-1109-154414-275606` submitted andRunning at07:45:51Z;8CPU/0GPU, creator/image/current-host NFS source and actual131072/114688/16384 worker argv verified. Launcher`sh_1bf43bd8e0011S3o8uZqd0btZi` remains alive; business outputs and terminal receipt pending. Full details:`test_report_2026-11-09_length_budgets.md`.
 - failed upstream prerequisite, refreshed07:56:39Z: capacity job`exp-1109-144110-764758` finishedFailed at07:47:18Z. Initial`update_weights` began07:34:31Z and timed out at07:44:31Z after600s; the fatal stack is`train.py:169`, before rollout collection and optimizer updates. Student exited1; other roles were stopped after critical failure. This supersedes the07:45:51Z Running snapshot. Underlying synchronization cause remainsUNKNOWN; no OOM or manual-stop cause is inferred. Evidence:`evidence/upstream-weight-sync-timeout-20261109.json`; command/query limits:`test_report_2026-11-09_h800_preparation.md`.
 - Historical first H800 attempt: `exp-1109-181120-274261`, submitted at10:11:20Z after freeze `a470c841`, Failed at10:29:35Z before weight publication or acquisition. The full log supersedes initial startup tails: two TP4 engines on rank2 first failed `ncclGetUniqueId` with invalid usage; subsequent `matches=[]` and supervision failures followed. Ray registered4 nodes/32 student GPUs. The head's serialized `ens20np0`/HCA values overwrote rank2's platform `ens22np0`. Isolated `cf98293a` removes that inherited NCCL broadcast; the real caller-to-subprocess regression is RED/GREEN, with529 affected tests passed,12 skipped and1 known-baseline parser case deselected. Complete fixed-diff review returned No Findings; native NCCL2.30.7 remains unverified.
-- In-progress H800 D34 runtime verification: `exp-1109-192340-580111`, submitted at11:23:40Z from the current host after freeze `ebc0e6a0` and fresh personal admission, requesting36 non-preemptible H800/codesign GPUs. Initial exact-job API read reports Starting, creator `i-fengyicheng`, source `100.96.128.195:/data/ycfeng:/data/ycfeng`, student4×8/teacher1×4. These are platform resources, not yet actual worker GPU observations or business acceptance. Ordinary launcher: `sh_1c00ca257001FAmkzN0D28AQ9j`; log `/data/ycfeng/tmp/agent-opd-image/qwen35-h800-network-fixed-20261109.log`; cloud root `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109`. Authoritative current receipts/report are in the isolated preparation task: `evidence/admission-h800-network-fixed-20261109.json`, `evidence/h800-network-fixed-native-startup-20261109.json`, `test_report_2026-11-09_network_fixed_prelaunch.md`. Keep this launcher alive; the first attempt's launcher exited1.
+- In-progress H800 D34 runtime verification: `exp-1109-192340-580111`, submitted at11:23:40Z from the current host after freeze `ebc0e6a0` and fresh personal admission,36 non-preemptible H800/codesign GPUs, creator `i-fengyicheng`, source `100.96.128.195:/data/ycfeng:/data/ycfeng`, student4×8/teacher1×4. Initial Starting is superseded by worker receipts confirming36 actual H800 GPUs at11:33:03Z, all8 rollout engines ready by11:36:41Z and successful initial8-actor `update_weights` from11:37:18.596Z to11:37:22.414Z (`ok=true`,elapsed_s3.8). Native bank/optimizer and representative capacity acceptance remain pending. Ordinary launcher: `sh_1c00ca257001FAmkzN0D28AQ9j`; log `/data/ycfeng/tmp/agent-opd-image/qwen35-h800-network-fixed-20261109.log`; cloud root `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109`. Authoritative receipts/report remain in the isolated preparation task, including `evidence/h800-network-fixed-initial-sync-20261109.json` and `test_report_2026-11-09_network_fixed_prelaunch.md`. Keep this launcher alive; the first attempt's launcher exited1.
 - Gate boundary: upstream `agent-opd` at `23b29f66` has an approved original18-H200 retry but no new submission or acceptance as of11:19Z. It has not recorded this parent's112K/16K budget. Our H800 D34 readiness and upstream frozen D11 acceptance are separate; neither result may be relabeled as acceptance of the other. D1/D22 remain blocked until the upstream owner records authoritative acceptance. The parent's full D34 source audit is independent. No other job was stopped or held.
-- Latest runtime observations: at11:33:03Z all five H800 retry node receipts confirm36 actual H800 GPUs with the exact configured image/models; native engine/weight/capacity checks remain pending. At11:32:18Z independent CPU audit `exp-1109-154414-275606` is still Running; its latest final-file log reports `scanned=9200`, `renders=51549`, elapsed13382s. Artifact `evidence/source-audit-112k-runtime-20261109.json` retains the bounded filtered readback. The final audit and parity results are not accepted yet.
+- Latest retained H800 synchronization observation (`2026-11-09T11:39:09.570570Z`): begin/end/tensor/distributed weight-update endpoints return HTTP200; initial8-actor sync completes in3.8s. `InferenceEngineWeightChecksumEvent` at11:37:27.670Z reports `weight_version=0` and `engine_snapshots=<list len=8>`; checksum contents and later changed-weight consistency remain unverified. Evidence:`/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/task_memory/task_2026-11-09_profile_h800_preparation/evidence/h800-network-fixed-initial-sync-20261109.json`. This is initial synchronization underD34, not upstream frozenD11 acceptance or a successful native optimizer update. The CPU audit's11:32:18Z Running snapshot in`evidence/source-audit-112k-runtime-20261109.json` is historical and superseded by the accepted11:47:11Z terminal result above.
 - Session cloud cleanup: the first terminal smoke's167 cloud duplicates/15,325,989 logical bytes were removed after a byte/hash-verified local backup; source assets, other tasks and shared trash were untouched. Raw diagnostic archive: `/data/ycfeng/tmp/agent-opd-image/h800-exp-1109-181120-274261-cloud-raw.tar.gz`; selected evidence and the exact cleanup report remain in the preparation task. Physical OSS reclamation was not measured. The new live output root is not a cleanup candidate.
-- D34 steering:128K training/rollout total,112K inclusive prompt budget,16K completion cap. Input adapter/checker changes delegated to`profile-length-inputs-20261109` (`ses_e40c9ced3ffeuhJ4fOwvF1d5vS`); audit/submitter/synthetic commands to`profile-length-audit-20261109` (`ses_e40c9927efferVhKwq9xSHQCwk`); isolated upstream-based launcher wiring to`profile-length-launcher-20261109` (`ses_e40d1c58dffeRxbihEEvr5yxwj`). New source audit outputs go to`evidence/source-audit-112k-20261109`, preserving prior128K evidence. No running job configuration is changed.
+- D34 implementation history:128K training/rollout total,112K inclusive prompt budget,16K completion cap. Input adapter/checker changes were delegated to`profile-length-inputs-20261109` (`ses_e40c9ced3ffeuhJ4fOwvF1d5vS`); audit/submitter/synthetic commands to`profile-length-audit-20261109` (`ses_e40c9927efferVhKwq9xSHQCwk`); isolated upstream-based launcher wiring to`profile-length-launcher-20261109` (`ses_e40d1c58dffeRxbihEEvr5yxwj`). These CPU implementations and the original-source re-audit are complete; outputs are in`evidence/source-audit-112k-20261109`, preserving prior128K evidence. No running job configuration was changed.
 - D33 execution: H800/codesign, no task GPU-count cap. Inspecting existing launch/config support and H800 memory sizing; no premature merge or02/03 implementation. Fresh direct personal API read at07:13:27Z:24 non-preemptible H800 GPUs committed across other jobs; upstream capacity job`exp-1109-144110-764758` is nowStarting,18 H200 GPUs. Receipt:`evidence/h800-resource-readback-20261109.json`. This is startup, not native acceptance.
 - Local readback first failed with`ModuleNotFoundError: No module named 'tests.manual'`: importing Steptron prepends`third_party/super_agent/tests`, shadowing Miles' tests package. Importing the existing Miles budget reader before Steptron, as the established submitter already does, resolved it. No environment or launcher code changed.
 - Resource preparation is isolated in`/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity`, branch`agent-opd-h800-capacity` fromupstream`c52991ac`; parent integration remains gated. The existing admission field supports explicit`null` underD33 (`1ae93261`). The candidate`h800_gpu_policy.json` uses no count ceiling; its expired temporary-window entry selects the unlimited personal branch. Preparation records and candidate configs live in that worktree's`task_memory/task_2026-11-09_profile_h800_preparation/` and will be consolidated with code.
@@ -172,8 +176,8 @@
 ### Latest completed work
 
 - Standards/Spec review of`20d0b3f4...0e94c522` and repairs are complete. Reviewer sessions:`ses_e4373800affezhqaC06Ftzyn1p` and`ses_e43738006ffeim4QCGXqygBMha`; all findings closed.
-- Ticket01 is done. CPU job`exp-1109-031258-820360` finished at2026-11-09T00:24:08Z. Direct personal Python query at05:11:30Z confirmed job/replica Succeeded and worker completion marker. Actual source identities/counts,512 native parity draws and2,048 interleaved draws were inspected. Results and limits: [source test report](test_report_2026-11-09_source_audit.md); terminal receipt:`evidence/source-audit-terminal-20261109.json`.
-- D26: eligible-turn median90 before length filtering, retain32×8. Length audit rejects27.51% of eligible turns;32×8 simulated span median7, with17/745 conversations spanning≥11updates. This is not measured runtime trend coverage. Source first-message`preserve_thinking` is absent in all9,254 conversations; the existing Qwen config explicitly sets it true. Native task identity remainsunverified/null. Updated specS2 and01 acceptance without changing scientific parameters.
+- Historical pre-D34 Ticket01 acceptance: CPU job`exp-1109-031258-820360` finished at2026-11-09T00:24:08Z. Direct personal Python query at05:11:30Z confirmed job/replica Succeeded and worker completion marker. Original source identities/counts,512 native parity draws and2,048 interleaved draws were inspected. Historical128K results and limits: [source test report](test_report_2026-11-09_source_audit.md); terminal receipt:`evidence/source-audit-terminal-20261109.json`. Current112K acceptance is recorded under completed above.
+- Historical128K D26/source result: eligible-turn median90 before length filtering retained32×8;27.51% rejection,32×8 simulated span median7 and17/745≥11updates applied only to the old prompt threshold, not current112K. Neither audit measures runtime trend coverage. Source first-message`preserve_thinking` is absent in all9,254 conversations; the Qwen config explicitly sets it true. Native task identity remainsunverified/null. Current rejection/span values are in the D34 acceptance above; scientific parameters remain unchanged.
 - Repairs implemented: native module cache requires matching verified code and object identity; audit exact-text grouping is separate from task identity; historical profile entry/ratio queries and partial-write isolation are verified. Final affected fast suite:15/15 PASS. Complete synthetic worker audit → parity PASS; retained changed-identity fixture audit/check PASS. Task document links/DAG/arithmetic: zero errors. Commands and evidence: [test report](test_report_2026-11-09_review_execution.md).
 - Repair milestone committed as `a0b0d113`. Independent Spec remediation review closed all five findings with zero new actionable findings. Standards remediation review closed all four original findings; its last P3 (temporary-only document checker) was fixed by retaining the script byte-for-byte under `tests/manual/agent_opd/check_profile_docs.py`, with `cmp` and the retained check passing (73 links/22 anchors/0 errors). All review findings are closed. No new experiment choices or upstream edits were made.
 
@@ -182,3 +186,55 @@
 1. Upstream-owned acquisition/capacity repair: obtain≥231 valid slots within1800s and accepted representative256-turn training, including two successful optimizer updates/second scoring. Its rollout topology decision remains upstream-owned.
 2. Only after that acceptance, merge`agent-opd` and implement02 plus03 integration (D1/D22).
 3.04 after{01 accepted,02 CPU-ready,03 integration CPU-ready};05 after04's actual first-update inspection;06 after{04,05}terminal evidence.
+
+## Scoped checkpoint — profile-source-audit-112k-records-20261109
+
+### 1. 规划完成情况
+
+**汇总：** PASS1｜BLOCKED/FAILED/SKIPPED5｜TODO0
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+|01含D34 | PASS | 原位112K审计、parity、终态与本轮指定文档已核对。 |
+|02 | BLOCKED | D1/D22未验收、未合并。 |
+|03剩余接入 | BLOCKED | CPU模块已完成；接入仍依赖02。 |
+|04 | BLOCKED |02/03接入未就绪；无正式update。 |
+|05 | BLOCKED | 接入未就绪；A真实首update/inspection缺失。 |
+|06 | BLOCKED | 正式cell证据尚无。 |
+
+### 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 本次文档/evidence委派开始至112K验收记录完成｜**当前前沿：** 主agent的隔离H800 D34 native验证与上游owner的冻结D11验收；本委派只交付文档/证据。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+|D1工具打磨 | CLEAR | 复用现有文档checker；仅JSON readback，无新增测试框架。 |
+|D2细节反复重试 | CLEAR | 单次本地字段类型错误经实际结构核对修正，不改参数/业务。 |
+|D3支线问题修补 | CLEAR | 仅指定文档与新审计证据；H800只读已提供receipt。 |
+|D4可并行任务停滞 | CLEAR | CPU证据收口与主agent H800工作独立；本委派明确禁止再委派。 |
+|D5超范围镀金 | CLEAR | D34要求重验新阈值；未更改32×8或引入新blocker。 |
+|D6分析空转 | CLEAR | 证据核对已转成01 done和指定记录更新。 |
+|D7路线违背 | CLEAR | 无merge/代码/平台操作；D1/D22、D11与D34分开。 |
+
+**文档检查：** S1/S2/S3/S4/S6未发现新增缺陷。S5：`tickets/04-a-full.md:18`与`tickets/05-b-full.md:18`仍称01因D34重开，已被01当前done状态取代；两票不在本委派编辑范围，交主agent修正。指定七份文档中的旧128K/current112K混淆已修正。
+**归因：** 无执行偏离；剩余S5为外部ownership的状态文字，实际02/03及正式cell阻塞不变。
+
+### 3. 纠正建议
+
+**分支：** B：先由主agent修正剩余S5，不改变验收条件。
+
+**文档更新（先执行）：**
+1. `tickets/04-a-full.md:18`、`tickets/05-b-full.md:18`：把01 reopened子句改为01 accepted；保留所有02/03、D1/D22和A首update阻塞（可直接执行，交主agent；本委派不编辑）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 主agent继续隔离H800 D34验证；完成标志是实际native bank/scoring/optimizer证据，不能只用initial sync。
+2. 并行：上游owner取得冻结D11自身验收；只有权威D1/D22验收后才merge→02 CPU→03接入→04。
+
+### 4. 最值得关注的 3 点
+
+1. 112K源审计已完成，01不再等待CPU结果；历史128K产物完整保留。
+2. 过滤后每conversation中位数未验证；模拟跨度不等于native trend；D26继续32×8。
+3. 36实际H800/all8 engines/initial sync3.8s不等于上游D11、native optimizer或正式cell验收。

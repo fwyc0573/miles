@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-09 | Accept D34 original-source112K audit; record current rejection/span figures separately from historical128K results and retain the pre-length D26 criterion/runtime limits. |
 | 2026-11-09 | Apply D34 prompt112K/completion16K within total128K; mark old128K prompt statistics as historical and require the new threshold checks. |
 | 2026-11-09 | Apply D33 H800/codesign execution with no task GPU-count cap; require hardware sizing from evidence and retain the existing execution gates. |
 | 2026-11-09 | Replace pending source estimates with the accepted in-place audit; retain32×8 and distinguish raw eligible counts, length rejection and simulated span coverage. |
@@ -125,13 +126,13 @@
    - `source_assistant_turn_ordinal`、`context_masked_assistant_count` 和 native 的 `target_policy`（数据源第 3 条）；data source 的 identity 另记 turn source 名称、视觉排除名单的 sha256 和源文件 manifest 的 sha256。
    - data source 另外报告每次取数（一个 bank）中取完最后一个 turn 的 conversation，包括最后一个 turn 因超长被拒绝的情况。这个报告供 `alive` 使用（S4）。
 5. **cell 之间相互独立**：每个 cell 有自己的 data source 和 cursor，都从文件开头开始，源取数序列相同；生成结果和最终有效 bank membership 不保证相同，按各 cell 的实际 receipt 记录。
-6. **估算与原位审计（2026-11-09，历史128K prompt结果见 [测试报告](test_report_2026-11-09_source_audit.md)；D34的112K阈值重验尚待完成）**：
+6. **估算与原位审计（2026-11-09，D34原位112K重验已完成，见 [当前测试报告](test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit)；历史128K prompt结果保留在 [历史测试报告](test_report_2026-11-09_source_audit.md)）**：
    - 理想情况下（每个 update 恰好接收该 conversation 的一个完整 8-turn block，无 rejection / 失败 / skip），有 n 个 training turn 的 conversation 跨约 ceil(n / 8) 个 update，training turn 数不少于 81 对应约 11 个 update。这是 D26 的估算阈值，不是实际 trend 的必要或充分条件。
    - 实际 trend 需要固定且为正的 conversation baseline，以及 latest update `u_c` 之前存在一个 update `≤ u_c − k` 的条目（S4）。bank membership 会变化，跨度 11 不等于必须出现 11 次；少于 81 个 turn 也可能满足参考距离，多于 81 个 turn 也可能因缺失或截断的运行没有 trend。以实际 observation 和 successful update ID 判定。
-    - 全源9,254个conversation，排除102个视觉conversation后剩9,152个、868,775个loss-mask-eligible turn；长度过滤前每个conversation的eligible turn中位数90、P90为153，因此D26不要求调整32×8。这些源计数不受D34影响。旧128K prompt规则拒绝239,015个turn（27.51%），只保留为历史结果；新112K规则的拒绝数量和模拟覆盖由重验给出，不能沿用旧数值或把过滤前中位数当成过滤后分布。
-    - 200个update ×256个接受turn共51,200个。旧128K prompt规则下，32×8模拟需71,737次原始取数，覆盖745个conversation；每update覆盖conversation中位数25，conversation跨度中位数7、P90为9，仅17/745跨至少11个update。1×8模拟覆盖735个conversation，跨度中位数1。两者均零重复、epoch0。以上不是D34下的结果，且模拟不包含生成失败或optimizer skip；实际trend覆盖仍由profile runtime evidence判定。
+     - 原位重验的8个文件SHA/字节数、源计数和视觉排除名单与历史128K审计相同，共16,559,540,463 bytes。全源9,254个conversation，排除102个视觉conversation/10,008个eligible turn后剩9,152个、868,775个loss-mask-eligible turn。长度过滤前每个conversation的eligible turn中位数90、P90为153，因此D26不要求调整32×8。当前112K prompt规则拒绝323,121个turn（37.1927%），涉及6,257个conversation；剩545,654个长度接受turn。长度过滤后的每conversation turn中位数未保留/未验证，不能用过滤前中位数代替，也不增加新的D26 blocker。
+     - 当前112K规则下，200个模拟update ×256个接受turn共51,200个。32×8需84,229次原始取数，拒绝33,029次，覆盖869个conversation；每update覆盖conversation中位数23（不是任务数），conversation跨度中位数5、P90为7、最大9，0/869跨至少11个update。1×8需85,171次取数、拒绝33,971次，覆盖863个conversation，跨度中位数1、P90和最大值均为2。两者均零重复、epoch0。模拟只反映长度过滤和顺序，不包含生成/teacher失败、TIS或optimizer skip；没有RKL observation或baseline，不能表述为native runtime trend覆盖。旧128K的拒绝率和跨度只作为历史证据，不适用于当前112K。
     - 首条源消息均没有`preserve_thinking`，`reasoning_effort`均为null；Qwen配置显式设置`preserve_thinking=true`、`enable_thinking=true`。native任务身份仍为unverified/null，955个首条问题文本分组只作为proxy。以上均已在正式cell之前记录；没有变更渲染或采样参数。
-    - 若后续核验表明每个conversation的training turn数中位数明显低于81，仍须带着数字和保持M × block = 256的方案回来找用户（D26）。
+     - D26已记录的反馈条件是长度过滤前eligible turn中位数明显低于81时，带着数字和保持M × block = 256的方案回来找用户；当前中位数90，不触发该条件。实际baseline/trend覆盖仍等待正式cell的runtime evidence。
 7. **已知后果**：
    - 起始阶段 32 个 conversation 同时从 turn 1 开始，预计前若干 update 的 prompt 较短；进度错开后长度分布可能改变，但是否在 10–20 个 update 后稳定由实际长度和阶段耗时检验。第一个 update 不能代表长期吞吐，前约 20 个 update 的耗时仍按 S8 报告。
    - 同一 block 内的连续 turn 共享前缀，prefix cache 大部分仍然有效；block 的第一个 turn 能否命中上一个 update 留下的缓存，取决于缓存是否被换出。

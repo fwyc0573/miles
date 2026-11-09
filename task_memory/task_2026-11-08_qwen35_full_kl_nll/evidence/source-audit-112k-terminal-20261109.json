@@ -1,0 +1,33 @@
+{
+  "observed_at": "2026-11-09T11:52:22.402210+00:00",
+  "job": "exp-1109-154414-275606",
+  "uid": "6e08e161-435d-4195-bcd4-88d40d291eac",
+  "creator_fields": {
+    "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+    "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+    "kubebrain.brainpp.cn/creator-type": "user",
+    "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign"
+  },
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "audit": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T11:47:11Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "audit": [
+      {
+        "name": "exp-1109-154414-275606-cfcd2084",
+        "ip": "10.191.5.65",
+        "phase": "Succeeded"
+      }
+    ]
+  }
+}
