@@ -91,8 +91,8 @@ def _load_config(path: Path, pair: str) -> dict:
 
 def _student_nodes(config: dict, pair: str) -> int:
     nodes = config["pairs"][pair]["student"].get("nodes", 1)
-    if type(nodes) is not int or nodes not in (1, 2):
-        raise ValueError("Student allocation requires one or two nodes")
+    if type(nodes) is not int or nodes <= 0:
+        raise ValueError("Student allocation requires a positive integer node count")
     return nodes
 
 
@@ -222,17 +222,21 @@ def _log_tail(source: Path, destination: Path) -> None:
         print("QWEN35_LOG_TAIL_UNVERIFIED", str(destination), type(error).__name__, str(error), flush=True)
 
 
-def _wait_student_child(process: subprocess.Popen, rank: int, directory: Path, timeout: int) -> int:
-    marker = directory / ("student-status-1.json" if rank == 0 else "student-finished.json")
+def _wait_student_child(process: subprocess.Popen, rank: int, directory: Path, timeout: int, nodes: int) -> int:
+    markers = (
+        [directory / f"student-status-{peer}.json" for peer in range(1, nodes)]
+        if rank == 0 else [directory / "student-finished.json"]
+    )
     while True:
         code = process.poll()
-        if marker.exists():
-            result = json.loads(marker.read_text())
-            if result["status"] == "failed":
-                raise RuntimeError(f"The other student replica failed: {result}")
-            if rank != 0 and code is None:
-                # The driver has finished; bound helper drain with the existing startup budget.
-                return process.wait(timeout=timeout)
+        for marker in markers:
+            if marker.exists():
+                result = json.loads(marker.read_text())
+                if result["status"] == "failed":
+                    raise RuntimeError(f"The other student replica failed: {result}")
+                if rank != 0 and code is None:
+                    # The driver has finished; bound helper drain with the existing startup budget.
+                    return process.wait(timeout=timeout)
         if code is not None:
             return code
         time.sleep(1)
@@ -319,7 +323,7 @@ def _run_student(
             process = subprocess.Popen(command, cwd=config["repo"], stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
             result["returncode"] = (
                 process.wait() if nodes == 1
-                else _wait_student_child(process, rank, directory, config["startup_timeout"])
+                else _wait_student_child(process, rank, directory, config["startup_timeout"], nodes)
             )
         result["status"] = "native_execution_succeeded" if result["returncode"] == 0 else "failed"
         return result["returncode"]

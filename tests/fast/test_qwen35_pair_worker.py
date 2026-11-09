@@ -2,6 +2,7 @@
 
 import json
 import os
+import shlex
 import signal
 import subprocess
 import sys
@@ -388,46 +389,56 @@ def test_real_cpu_child_failure_is_recorded_and_auxiliary_tail_failure_is_soft(c
     assert json.loads((directory / "student-finished.json").read_text())["returncode"] == 17
 
 
+@pytest.mark.parametrize("nodes,rank", [(2, 1), (4, 1), (4, 2), (4, 3)])
 @pytest.mark.parametrize("returncode", [0, 17, -15])
-def test_two_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, returncode):
-    config["pairs"]["A"]["student"]["nodes"] = 2
+def test_multi_node_student_peer_never_publishes_driver_completion(config, tmp_path, monkeypatch, nodes, rank, returncode):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
     directory, _ = _execution(config, tmp_path, monkeypatch, "student")
-    monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+    monkeypatch.setattr(worker, "_allocation", lambda rank, *args: {"rank": rank, "nodes": nodes, "ip": "10.0.0.8"})
     process = SimpleNamespace(wait=lambda: returncode, poll=lambda: returncode, returncode=returncode)
     monkeypatch.setattr(worker.subprocess, "Popen", lambda *args, **kwargs: process)
-    assert worker._run_student(config, "A", 1, directory, tmp_path / "local") == returncode
+    assert worker._run_student(config, "A", rank, directory, tmp_path / "local") == returncode
     assert not (directory / "student-finished.json").exists()
-    status = json.loads((directory / "student-status-1.json").read_text())
-    assert status["returncode"] == returncode and status["rank"] == 1
+    status = json.loads((directory / f"student-status-{rank}.json").read_text())
+    assert status["returncode"] == returncode and status["rank"] == rank
 
 
-def test_two_node_student_allocation_uses_configured_replicas(config, monkeypatch):
-    config["pairs"]["A"]["student"]["nodes"] = 2
-    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
+@pytest.mark.parametrize("nodes", [1, 2, 3, 4, 5])
+def test_student_allocation_uses_configured_positive_replica_count(config, monkeypatch, nodes):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", str(nodes))
     monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
     monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "10.0.0.8")
     monkeypatch.setattr(worker.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H800, memory, driver\n" * 8)
-    assert worker._allocation(1, "student", config, "A")["nodes"] == 2
+    for rank in range(nodes):
+        evidence = worker._allocation(rank, "student", config, "A")
+        assert evidence["nodes"] == nodes and evidence["rank"] == rank and len(evidence["gpu_devices"]) == 8
+    with pytest.raises(ValueError, match="replica rank/count"):
+        worker._allocation(nodes, "student", config, "A")
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", str(nodes + 1))
+    with pytest.raises(ValueError, match="replica rank/count"):
+        worker._allocation(0, "student", config, "A")
 
 
-@pytest.fixture
-def student_node(tmp_path, monkeypatch):
+@pytest.fixture(params=[(2, "H200"), (4, "H800")], ids=["two-node-H200", "four-node-H800"])
+def student_node(tmp_path, monkeypatch, request):
+    nodes, gpu_tag = request.param
     args = SimpleNamespace(
-        pair="A", student=tmp_path / "student", teacher=tmp_path / "teacher", student_nodes=2,
+        pair="A", student=tmp_path / "student", teacher=tmp_path / "teacher", student_nodes=nodes,
         output_root=tmp_path / "artifacts", shared_dir=tmp_path / "rendezvous", local_root=tmp_path / "local",
-        gpu_type="H200", gpus_per_node=8, startup_timeout=3, megatron_path="/root/Megatron-LM", num_rollout=2,
+        gpu_type=gpu_tag, gpus_per_node=8, startup_timeout=3, megatron_path="/root/Megatron-LM", num_rollout=2,
     )
     records, cloud = args.shared_dir / "A" / "test-job", args.output_root / "A" / "test-job"
     events, submissions = [], []
     clock = SimpleNamespace(now=0, on_sleep=lambda: None)
     monkeypatch.setenv("KUBEBRAIN_RJOB_NAME", "test-job")
-    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", "2")
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", str(nodes))
     monkeypatch.setenv("KUBEBRAIN_REPLICA", "0")
     monkeypatch.setenv("PORT_AUTO0", "20000")
     monkeypatch.setenv("PORT_AUTO1", "20001")
     monkeypatch.setattr(native, "_check_tokenizers", lambda *args: events.append("tokenizers"))
     monkeypatch.setattr(native, "_record_memory", lambda path, stopped: path.write_text('{"counters": {}}\n'))
-    monkeypatch.setattr(native.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H200, memory, driver\n" * 8)
+    monkeypatch.setattr(native.subprocess, "check_output", lambda *args, **kwargs: f"NVIDIA {gpu_tag}, memory, driver\n" * 8)
 
     def command(argv, **kwargs):
         events.append(("ray", argv))
@@ -460,20 +471,25 @@ def student_node(tmp_path, monkeypatch):
     )
 
 
-def test_two_node_native_head_allocates_ray_only_not_more_trainer_nodes(student_node):
+def test_multi_node_native_head_allocates_ray_only_not_more_trainer_nodes(student_node):
     node = student_node
     native._run(node.args, prepare_training=node.prepare)
     assert len(node.submissions) == 1 and node.submissions[0][0] == 1
     assert node.submissions[0][1]["num_gpus_per_node"] == 8
     assert "MILES_NODE_EXTERNAL_IP" not in node.submissions[0][1]["extra_env_vars"]
-    assert len(json.loads((node.records / "cluster.json").read_text())["nodes"]) == 2
+    cluster = json.loads((node.records / "cluster.json").read_text())["nodes"]
+    assert len(cluster) == node.args.student_nodes and sum(rank["gpus"] for rank in cluster) == node.args.student_nodes * 8
+    assert all(rank["gpus"] == 8 for rank in cluster)
+    starts = [event[1] for event in node.events if isinstance(event, tuple) and "start" in event[1]]
+    assert len(starts) == 1 and "--head" in starts[0] and starts[0][starts[0].index("--num-gpus") + 1] == "8"
     assert json.loads((node.records / "finished.json").read_text())["status"] == "native_execution_succeeded"
 
 
 @pytest.mark.parametrize("status", ["native_execution_succeeded", "failed"])
-def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
+def test_multi_node_native_peer_joins_until_driver_finishes_without_owning_shared_files(student_node, monkeypatch, status):
     node = student_node
-    monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
+    rank = node.args.student_nodes - 1
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
     node.records.mkdir(parents=True)
     node.cloud.mkdir(parents=True)
     (node.cloud / "head-owned").write_text("preserved")
@@ -497,9 +513,12 @@ def test_two_node_native_peer_joins_until_driver_finishes_without_owning_shared_
     assert not (node.records / "training.json").exists() and not (node.records / "launch.json").exists()
     starts = [argv for name, argv in (event for event in node.events if isinstance(event, tuple)) if "start" in argv]
     assert len(starts) == 1 and "--head" not in starts[0] and "--address" in starts[0]
+    assert starts[0][starts[0].index("--num-gpus") + 1] == "8"
+    own = json.loads((node.records / f"training-{rank}.json").read_text())
+    assert own["rank"] == rank and own["status"] == status
 
 
-def test_two_node_native_peer_missing_ray_head_times_out_before_driver(student_node, monkeypatch):
+def test_multi_node_native_peer_missing_ray_head_times_out_before_driver(student_node, monkeypatch):
     node = student_node
     monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
     node.records.mkdir(parents=True)
@@ -512,7 +531,7 @@ def test_two_node_native_peer_missing_ray_head_times_out_before_driver(student_n
 
 
 @pytest.mark.parametrize("error", [RuntimeError("driver failed"), SystemExit(143)])
-def test_two_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
+def test_multi_node_native_head_failure_or_cancellation_publishes_completion(student_node, error):
     node = student_node
 
     def fail(*args):
@@ -525,7 +544,7 @@ def test_two_node_native_head_failure_or_cancellation_publishes_completion(stude
 
 
 @pytest.mark.parametrize("rank", [0, 1])
-def test_two_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
+def test_multi_node_native_prepares_each_container_source_before_ray_join(student_node, monkeypatch, rank):
     node = student_node
     monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
     if rank:
@@ -551,7 +570,7 @@ def test_two_node_native_prepares_each_container_source_before_ray_join(student_
         assert node.submissions == [] and "prepare-driver" not in node.events
 
 
-def test_two_node_native_peer_source_rejection_prevents_ray_join(student_node, monkeypatch):
+def test_multi_node_native_peer_source_rejection_prevents_ray_join(student_node, monkeypatch):
     node = student_node
     monkeypatch.setenv("KUBEBRAIN_REPLICA", "1")
     node.records.mkdir(parents=True)
@@ -568,7 +587,7 @@ def test_two_node_native_peer_source_rejection_prevents_ray_join(student_node, m
     assert not (node.records / "finished.json").exists()
 
 
-def test_two_node_native_failed_local_initialization_preserves_preexisting_directory(student_node):
+def test_multi_node_native_failed_local_initialization_preserves_preexisting_directory(student_node):
     node = student_node
     local = node.args.local_root / "qo-test-job"
     local.mkdir(parents=True)
@@ -579,11 +598,11 @@ def test_two_node_native_failed_local_initialization_preserves_preexisting_direc
     assert sentinel.read_text() == "do not remove"
 
 
-@pytest.mark.parametrize("rank", [0, 1])
-def test_two_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, rank):
-    config["pairs"]["A"]["student"]["nodes"] = 2
+@pytest.mark.parametrize("nodes,rank,failed_rank", [(2, 0, 1), (2, 1, 0), (4, 0, 1), (4, 0, 2), (4, 0, 3), (4, 1, 0), (4, 2, 0), (4, 3, 0)])
+def test_multi_node_role_propagates_other_replica_failure_without_waiting_for_child(config, tmp_path, monkeypatch, nodes, rank, failed_rank):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
     directory, _ = _execution(config, tmp_path, monkeypatch, "student")
-    monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": 2, "ip": "10.0.0.8"})
+    monkeypatch.setattr(worker, "_allocation", lambda *args: {"rank": rank, "nodes": nodes, "ip": "10.0.0.8"})
     clock = SimpleNamespace(now=0)
     child = SimpleNamespace(returncode=None, poll=lambda: None)
     child.wait = lambda: pytest.fail("An unsupervised child wait would hang")
@@ -591,8 +610,8 @@ def test_two_node_role_propagates_other_replica_failure_without_waiting_for_chil
 
     def sleep(seconds):
         clock.now += seconds
-        marker = "student-finished.json" if rank else "student-status-1.json"
-        worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+        marker = "student-finished.json" if rank else f"student-status-{failed_rank}.json"
+        worker._write_json(directory / marker, {"status": "failed", "rank": failed_rank, "returncode": 17})
 
     def stop(process):
         stopped.append(process)
@@ -625,13 +644,17 @@ def test_two_node_role_peer_absent_teacher_readiness_is_bounded_without_global_c
     assert clock.now == 3 and not (directory / "student-finished.json").exists()
 
 
-def test_two_node_student_command_transports_only_ray_node_count(config, tmp_path):
-    config["pairs"]["A"]["student"]["nodes"] = 2
+@pytest.mark.parametrize("nodes", [1, 2, 3, 4, 5])
+def test_student_command_transports_only_ray_node_count(config, tmp_path, nodes):
+    config["pairs"]["A"]["student"].update(nodes=nodes, tp_size=4, engine_gpus=4)
     argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
     args = native._parser().parse_args(argv[4:])
-    assert args.student_nodes == 2 and args.gpus_per_node == 8 and args.tensor_model_parallel_size == 2
+    assert args.student_nodes == nodes and args.gpus_per_node == 8 and args.tensor_model_parallel_size == 4
     train = native._training_args(args, tmp_path / "run")
     assert "--actor-num-nodes 1" in train and "--actor-num-gpus-per-node 8" in train
+    assert "--tensor-model-parallel-size 4" in train and "--context-parallel-size 1" in train
+    assert args.gpus_per_node // args.tensor_model_parallel_size == 2
+    assert ("--student-nodes" in argv) == (nodes != 1)
 
 
 def test_single_node_native_default_retains_driver_and_record_paths(student_node, monkeypatch):
@@ -644,7 +667,7 @@ def test_single_node_native_default_retains_driver_and_record_paths(student_node
     assert not (node.records / "finished.json").exists() and not (node.records / "run-ready.json").exists()
 
 
-def test_two_node_native_sigterm_stops_driver_and_publishes_failure(student_node, monkeypatch):
+def test_multi_node_native_sigterm_stops_driver_and_publishes_failure(student_node, monkeypatch):
     node = student_node
     previous = signal.getsignal(signal.SIGTERM)
     monkeypatch.setattr(native.U.ExecuteTrainConfig, "create_backend", lambda config: SimpleNamespace(
@@ -657,13 +680,13 @@ def test_two_node_native_sigterm_stops_driver_and_publishes_failure(student_node
     assert not (node.args.local_root / "qo-test-job").exists()
 
 
-@pytest.mark.parametrize("rank", [0, 1])
-def test_two_node_role_real_child_is_cancelled_after_other_replica_failure(config, tmp_path, monkeypatch, rank):
-    config["pairs"]["A"]["student"]["nodes"] = 2
+@pytest.mark.parametrize("nodes,rank,failed_rank", [(2, 0, 1), (2, 1, 0), (4, 0, 2), (4, 0, 3), (4, 3, 0)])
+def test_multi_node_role_real_child_is_cancelled_after_other_replica_failure(config, tmp_path, monkeypatch, nodes, rank, failed_rank):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
     directory, _ = _execution(config, tmp_path, monkeypatch, "student")
     Path(config["repo"]).mkdir()
-    marker = "student-finished.json" if rank else "student-status-1.json"
-    worker._write_json(directory / marker, {"status": "failed", "rank": 1 - rank, "returncode": 17})
+    marker = "student-finished.json" if rank else f"student-status-{failed_rank}.json"
+    worker._write_json(directory / marker, {"status": "failed", "rank": failed_rank, "returncode": 17})
     with pytest.raises(RuntimeError, match="student.*replica.*failed"):
         worker._run_student(
             config, "A", rank, directory, tmp_path / "local",
@@ -674,8 +697,9 @@ def test_two_node_role_real_child_is_cancelled_after_other_replica_failure(confi
     assert json.loads((directory / "student-finished.json").read_text())["rank"] == 0
 
 
-def test_two_node_teacher_ignores_helper_completion_until_driver_finishes(config, tmp_path, monkeypatch):
-    config["pairs"]["A"]["student"]["nodes"] = 2
+@pytest.mark.parametrize("nodes", [2, 4])
+def test_multi_node_teacher_ignores_peer_completion_until_driver_finishes(config, tmp_path, monkeypatch, nodes):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
     directory, ready = _execution(config, tmp_path, monkeypatch, "teacher")
     clock = SimpleNamespace(now=0)
     process = SimpleNamespace(poll=lambda: None)
@@ -684,7 +708,8 @@ def test_two_node_teacher_ignores_helper_completion_until_driver_finishes(config
     def sleep(seconds):
         clock.now += seconds
         if clock.now == 1:
-            worker._write_json(directory / "student-status-1.json", {"status": "native_execution_succeeded", "rank": 1})
+            for rank in range(1, nodes):
+                worker._write_json(directory / f"student-status-{rank}.json", {"status": "native_execution_succeeded", "rank": rank})
         else:
             assert not stopped and not (directory / "student-finished.json").exists()
             worker._write_json(directory / "student-finished.json", {"status": "native_execution_succeeded", "rank": 0})
@@ -698,7 +723,7 @@ def test_two_node_teacher_ignores_helper_completion_until_driver_finishes(config
     assert clock.now == 2 and stopped == [process]
 
 
-def test_two_node_native_existing_run_does_not_overwrite_driver_records(student_node):
+def test_multi_node_native_existing_run_does_not_overwrite_driver_records(student_node):
     node = student_node
     node.records.mkdir(parents=True)
     node.cloud.mkdir(parents=True)
@@ -709,3 +734,124 @@ def test_two_node_native_existing_run_does_not_overwrite_driver_records(student_
         native._run(node.args, prepare_training=node.prepare)
     assert json.loads((node.records / "training.json").read_text()) == original
     assert json.loads((node.records / "finished.json").read_text()) == original
+
+
+@pytest.mark.parametrize("nodes", [0, -1, True, 4.0, "4", None])
+def test_student_node_config_requires_positive_integer(config, tmp_path, nodes):
+    config["pairs"]["A"]["student"]["nodes"] = nodes
+    path = tmp_path / "pair-config.json"
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="positive integer node count"):
+        worker._load_config(path, "A")
+
+
+@pytest.mark.parametrize("nodes", [0, -1])
+def test_native_cli_rejects_nonpositive_student_nodes(config, tmp_path, monkeypatch, nodes):
+    config["pairs"]["A"]["student"]["nodes"] = 1
+    argv = worker._student_command(config, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
+    args = native._parser().parse_args([*argv[4:], "--student-nodes", str(nodes)])
+    monkeypatch.setattr(native, "_PERSONAL_ROOT", Path(config["population_dir"]).parent)
+    monkeypatch.setattr(native, "_READ_ONLY_MODELS", {Path(config["pairs"]["A"]["teacher"]["path"])})
+    with pytest.raises(ValueError, match="student_nodes must be positive"):
+        native._validate_args(args)
+
+
+@pytest.mark.parametrize("nodes,total,rank", [(0, 0, 0), (True, 1, 0), (4.0, 4, 0), (4, 3, 0), (4, 4, -1), (4, 4, 4)])
+def test_native_allocation_rejects_invalid_count_or_rank_before_startup(student_node, monkeypatch, nodes, total, rank):
+    node = student_node
+    node.args.student_nodes = nodes
+    monkeypatch.setenv("KUBEBRAIN_REPLICA_TOTAL", str(total))
+    monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
+    with pytest.raises(ValueError, match="replica rank/count"):
+        native._run(node.args, prepare_training=node.prepare)
+    assert node.events == node.submissions == [] and not node.cloud.exists()
+
+
+def test_multi_node_native_each_rank_registers_eight_gpus_and_only_head_submits(student_node, monkeypatch):
+    node = student_node
+    prepared = []
+    monkeypatch.setattr(rendezvous.socket, "gethostbyname", lambda hostname: f"10.0.0.{int(os.environ['KUBEBRAIN_REPLICA']) + 7}")
+    platform = {"NCCL_SOCKET_IFNAME": "platform-nic", "NCCL_IB_HCA": "platform-hca", "UCX_TLS": "rc"}
+    for key, value in platform.items():
+        monkeypatch.setenv(key, value)
+
+    def prepare_node(args, run, rank):
+        assert "tokenizers" in node.events and run == node.cloud
+        assert all(os.environ[key] == value for key, value in platform.items())
+        assert len([event for event in node.events if isinstance(event, tuple) and "start" in event[1]]) == rank
+        prepared.append(rank)
+        return {"prepared_rank": rank}
+
+    for rank in range(node.args.student_nodes):
+        monkeypatch.setenv("KUBEBRAIN_REPLICA", str(rank))
+        native._run(node.args, prepare_training=node.prepare, prepare_node=prepare_node)
+        assert not (node.args.local_root / "qo-test-job").exists()
+        own = node.records / ("training.json" if rank == 0 else f"training-{rank}.json")
+        assert json.loads(own.read_text())["status"] == "native_execution_succeeded"
+    assert prepared == list(range(node.args.student_nodes))
+    assert len(node.submissions) == node.events.count("prepare-driver") == 1
+    assert node.submissions[0][0] == 1
+    starts = [event[1] for event in node.events if isinstance(event, tuple) and "start" in event[1]]
+    assert len(starts) == node.args.student_nodes and sum("--head" in argv for argv in starts) == 1
+    for rank, argv in enumerate(starts):
+        assert argv[argv.index("--num-gpus") + 1] == "8"
+        assert argv[argv.index("--node-ip-address") + 1] == f"10.0.0.{rank + 7}"
+        if rank:
+            assert argv[argv.index("--address") + 1] == "10.0.0.7:20000"
+    assert json.loads((node.records / "finished.json").read_text())["rank"] == 0
+
+
+def test_multi_node_head_waits_for_exact_node_and_gpu_totals_before_submit(student_node, monkeypatch):
+    node = student_node
+    snapshots = []
+    for count, deficit in ((node.args.student_nodes - 1, 0), (node.args.student_nodes + 1, 0), (node.args.student_nodes, 1), (node.args.student_nodes, 0)):
+        snapshots.append([
+            {"Alive": True, "Resources": {"GPU": 8 - (deficit if rank == 0 else 0)},
+             "NodeManagerAddress": f"10.0.0.{rank + 7}", "NodeID": str(rank)}
+            for rank in range(count)
+        ])
+    node.args.startup_timeout = 10
+    monkeypatch.setattr(rendezvous.ray, "nodes", lambda: snapshots[min(node.clock.now // 2, 3)])
+    native._run(node.args, prepare_training=node.prepare)
+    assert node.clock.now == 6 and len(node.submissions) == 1
+    cluster = json.loads((node.records / "cluster.json").read_text())["nodes"]
+    assert len(cluster) == node.args.student_nodes and sum(rank["gpus"] for rank in cluster) == node.args.student_nodes * 8
+
+
+def test_multi_node_head_incomplete_cluster_times_out_without_trainer_submit(student_node, monkeypatch):
+    node = student_node
+    monkeypatch.setattr(rendezvous.ray, "nodes", lambda: [
+        {"Alive": True, "Resources": {"GPU": 8}, "NodeManagerAddress": f"10.0.0.{rank + 7}", "NodeID": str(rank)}
+        for rank in range(node.args.student_nodes - 1)
+    ])
+    with pytest.raises(TimeoutError, match="Ray did not register"):
+        native._run(node.args, prepare_training=node.prepare)
+    assert node.submissions == [] and not (node.records / "cluster.json").exists()
+    assert json.loads((node.records / "finished.json").read_text())["status"] == "failed"
+
+
+def test_four_node_preparation_argv_and_resource_count(config, tmp_path, monkeypatch):
+    selected = config["pairs"]["A"]
+    selected["student"].update(nodes=4, tp_size=4, engine_gpus=4)
+    selected["teacher"].update(nodes=1, gpus_per_node=4, tp_size=4)
+    config["rdma_resources"] = ["fixture-rdma:1"]
+    for role in ("student", "teacher"):
+        selected[role].update(cpu_per_node=64, memory_gb_per_node=512, host_network=True, gang_start=True)
+    path = tmp_path / "pair-config.json"
+    path.write_text(json.dumps(config))
+    resolved = worker._load_config(path, "A")
+    tasks = submitter._task_specs(resolved, "A")
+    assert tasks["student"]["replica"] == 4 and tasks["student"]["gpu"] == 8
+    assert tasks["teacher"]["replica"] == 1 and tasks["teacher"]["gpu"] == 4
+    assert sum(task["replica"] * task["gpu"] for task in tasks.values()) == 36
+    assert tasks["student"]["custom_resources"] == config["rdma_resources"]
+    argv = worker._student_command(resolved, "A", {"url": "http://teacher:30000/generate"}, tmp_path / "local")
+    args = native._parser().parse_args(argv[4:])
+    monkeypatch.setattr(native, "_PERSONAL_ROOT", Path(config["population_dir"]).parent)
+    monkeypatch.setattr(native, "_READ_ONLY_MODELS", {Path(selected["teacher"]["path"])})
+    native._validate_args(args)
+    train = shlex.split(native._training_args(args, tmp_path / "run"))
+    assert args.student_nodes == 4 and args.student_engine_gpus == 4
+    for flag, value in (("--actor-num-nodes", "1"), ("--actor-num-gpus-per-node", "8"),
+                        ("--tensor-model-parallel-size", "4"), ("--context-parallel-size", "1")):
+        assert train[train.index(flag) + 1] == value

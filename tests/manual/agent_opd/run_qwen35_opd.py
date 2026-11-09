@@ -87,7 +87,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--teacher-url", required=True, help="Full native teacher /generate URL")
     parser.add_argument("--gpu-type", required=True, help="Expected GPU model from the parent allocation")
     parser.add_argument("--gpus-per-node", type=int, required=True)
-    parser.add_argument("--student-nodes", type=int, choices=(1, 2), default=1, help="Ray allocation; trainer remains one node")
+    parser.add_argument("--student-nodes", type=int, default=1, help="Positive Ray node count; trainer remains one node")
     parser.add_argument("--student-engine-gpus", type=int, required=True)
     parser.add_argument("--tensor-model-parallel-size", type=int, help="Defaults to the dense student recipe's TP")
     parser.add_argument("--max-tokens-per-gpu", type=int, required=True)
@@ -126,7 +126,7 @@ def _validate_args(args) -> None:
     if args.tensor_model_parallel_size is None:
         args.tensor_model_parallel_size = recipe.tensor_model_parallel_size
     for name in (
-        "gpus_per_node", "student_engine_gpus", "tensor_model_parallel_size", "max_tokens_per_gpu",
+        "gpus_per_node", "student_nodes", "student_engine_gpus", "tensor_model_parallel_size", "max_tokens_per_gpu",
         "sglang_max_running_requests", "sglang_chunked_prefill_size", "sglang_router_request_timeout_secs",
         "startup_timeout",
     ):
@@ -317,7 +317,7 @@ def _terminate(signum, frame) -> None:
 
 
 def _wait_driver(records: Path) -> dict:
-    # The role wrapper supervises both children and cancels peers on driver exit.
+    # The role wrapper supervises each child and cancels peers on driver exit.
     # Healthy training has no guessed wall-clock limit; startup waits remain bounded.
     completion = records / "finished.json"
     while not completion.exists():
@@ -354,7 +354,7 @@ def _run(args, *, prepare_training=_prepare_training, prepare_node=None) -> None
     """
     nodes = getattr(args, "student_nodes", 1)
     rank = int(os.environ["KUBEBRAIN_REPLICA"])
-    if type(nodes) is not int or nodes not in (1, 2) or int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
+    if type(nodes) is not int or nodes <= 0 or int(os.environ["KUBEBRAIN_REPLICA_TOTAL"]) != nodes or not 0 <= rank < nodes:
         raise ValueError("Platform replica rank/count differs from the student Ray allocation")
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
     cloud = args.output_root / args.pair / job
@@ -395,7 +395,7 @@ def _run(args, *, prepare_training=_prepare_training, prepare_node=None) -> None
         config = U.ExecuteTrainConfig(num_nodes=1, output_dir=str(cloud), run_id=job)
         env = _runtime_env(config)
         if nodes != 1:
-            # Each raylet inherits its own node address; a job-wide override would alias both nodes to the head.
+            # Each raylet inherits its own node address; a job-wide override would alias all nodes to the head.
             env.pop("MILES_NODE_EXTERNAL_IP")
         receipt.update(gpu_devices=gpu_rows, runtime_env=env, student_ray_nodes=nodes, trainer_nodes=1)
         if node_preflight is not None:
