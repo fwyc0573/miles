@@ -48,7 +48,7 @@
     "successful_updates": 200,
     "bank_slots": 256,
     "bank_min_fraction": 0.9,
-    "bank_uses": 1,
+    "bank_uses": 50,
     "acquisition_seconds": 1800,
     "save_interval": null,
     "seed": 1234,
