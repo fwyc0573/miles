@@ -6,6 +6,7 @@
 | 2026-11-11 | Record the CPU-ready scope fix, two-axis review, actual eight-H800 probe allocation and recovered supervision without resubmission. |
 | 2026-11-11 | Record the completed historical comparison and H800 cold/warm results; retain the formal hold after measured warm-state probability drift. |
 | 2026-11-11 | Confirm hidden canonical KV reuse and an intermediate-checkpoint rounding path; defer the possibly redundant coarse-barrier experiment and prepare selected-FP32 snapshot wiring. |
+| 2026-11-11 | Close the normal-eager WAR publisher source chain; both snapshot source reviews returned No findings and integrated CPU checks passed202. Native parity remains pending. |
 
 # Comparative workflow RCA
 
@@ -107,6 +108,14 @@ TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-
 ```
 
 These checks establish payload and diagnostic environment/receipt contracts, not deployed flag application or repaired native scoring. The existing global document checker has2 unresolved relative links inside the frozen candidate snapshot, not maintained task documents; neither snapshot nor checker was modified to hide that limitation. Formal04/05 remain paused. Numerical acceptance must use each case's retained cold reference, not a contaminated warm-full result.
+
+### Source candidate review and native experiment readiness
+
+Candidate `d7e7e301` passed independent Standards and Spec source reviews on the fixed `ab3f47d5 → d7e7e301` artifacts: both **No findings**. The reviewers inspected three repository files, the six qualified native seams and the generated two-file28-line patch. Their conclusions accept only the source phase, not deployed identity, CUDA compilation/stores, donor fidelity, performance, historical causality or formal readiness. Review artifacts: `evidence/selected-fp32-review-20261111/`.
+
+Native0GPU source jobs `exp-1111-045750-493777` and `exp-1111-052149-761200` succeeded and retained25 runner/worker and9 runner-utils files respectively. The actual publisher body closes the static WAR chain: `runner_utils/shared_read_event.py:29–30` returns for every contract other than `PRE_REPLAY`, so `UNKNOWN` publishes no event. With initial None mailbox, per-round consumption/clear and no other publisher on the normal eager path, baseline already selects whole-forward `wait_stream`. The coarse variant is redundant on that path and remains unsubmitted. R1's actual runner/contract/mailbox branch was not recorded, so this source conclusion is not retrospective runtime proof and does not exclude other races.
+
+The existing probe now records all four warm-to-independent-cold comparisons with matching pair/repetition/UID/index. The controller passes the isolated selected-FP32 input into the worker; both actual controller dry-runs passed. Primary joined CPU verification is **202 PASS in7.26s**. Exact commands and limits are in `test_report_2026-11-11_fp32_probe_integration.md`. All56 requests and32 flushes per pair, model/BF16/cache/concurrency/chunk settings and scientific parameters are unchanged. The next decisive evidence is actual H800 source preparation and same-input native warm probabilities; no fixed-run numerical or performance PASS is claimed.
 
 ## Feedback loop and verification limits
 

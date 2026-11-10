@@ -68,6 +68,39 @@ def test_h200_config_is_rejected_before_submission(tmp_path, monkeypatch):
 
 
 @pytest.mark.parametrize("pair", ["A", "B"])
+@pytest.mark.parametrize("selected", [None, False, True])
+def test_snapshot_variant_reaches_worker_while_baseline_command_stays_unchanged(
+        tmp_path, monkeypatch, capsys, pair, selected):
+    repo, config = _configuration(tmp_path, monkeypatch)
+    probe = json.loads(config.read_text())
+    if selected is not None:
+        probe["selected_fp32_snapshots"] = selected
+        config.write_text(json.dumps(probe))
+    monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config), "--pair", pair,
+                                     "--receipt", str(repo / "receipt.json"), "--dry-run"])
+    assert submission.main() == 0
+    record = json.loads(capsys.readouterr().out)
+    argv = shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1])
+    assert argv[argv.index("--config") + 1] == str(config if selected is True else repo / "formal.json")
+    assert record["requested_gpus"] == 4 and list(record["tasks"]) == ["probe"]
+    assert record["envs"] == {"PYTHONPATH": str(tmp_path)}
+    assert not (repo / "receipt.json").exists()
+
+
+@pytest.mark.parametrize("selected", [0, 1, "true", None, {}, []])
+def test_invalid_snapshot_selection_is_rejected_before_submission(tmp_path, monkeypatch, selected):
+    repo, config = _configuration(tmp_path, monkeypatch)
+    probe = json.loads(config.read_text())
+    probe["selected_fp32_snapshots"] = selected
+    config.write_text(json.dumps(probe))
+    monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config), "--pair", "A",
+                                     "--receipt", str(repo / "receipt.json"), "--dry-run"])
+    with pytest.raises(ValueError, match="selected_fp32_snapshots must be a JSON boolean"):
+        submission.main()
+    assert not (repo / "receipt.json").exists()
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
 def test_probe_envs_change_only_native_environment_not_worker_command(tmp_path, monkeypatch, capsys, pair):
     repo, config = _configuration(tmp_path, monkeypatch)
     monkeypatch.setenv("SGLANG_FORCE_COARSE_WAR_BARRIER", "ambient-not-configured")

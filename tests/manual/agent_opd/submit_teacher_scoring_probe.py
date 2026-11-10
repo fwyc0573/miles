@@ -25,8 +25,13 @@ def main():
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
     repo = Path(__file__).resolve().parents[3]
-    probe = json.loads(args.config.resolve(strict=True).read_text())
+    probe_path = args.config.resolve(strict=True)
+    probe = json.loads(probe_path.read_text())
+    selected_fp32 = probe.get("selected_fp32_snapshots", False)
+    if type(selected_fp32) is not bool:
+        raise ValueError("selected_fp32_snapshots must be a JSON boolean")
     formal_path = (repo / probe["formal_config"]).resolve(strict=True)
+    worker_config = probe_path if selected_fp32 else formal_path
     config = json.loads(formal_path.read_text())
     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
         raise ValueError("The scoring probe requires H800/codesign")
@@ -38,11 +43,11 @@ def main():
     samples = (repo / probe["samples"]).resolve(strict=True)
     receipt_path = args.receipt.resolve()
     output = repo / probe["output_parent"] / args.pair / receipt_path.stem
-    for path in (repo, formal_path, samples, receipt_path, output):
+    for path in (repo, formal_path, worker_config, samples, receipt_path, output):
         if not path.is_relative_to(mount):
             raise ValueError("Probe inputs, output and receipt must be under local_mount")
     argv = [config["worker_python"], "-u", "-B", "-m", "tests.manual.agent_opd.probe_teacher_scoring",
-            "--config", str(formal_path), "--pair", args.pair, "--samples", str(samples),
+             "--config", str(worker_config), "--pair", args.pair, "--samples", str(samples),
             "--output-dir", str(output), "--repeats", str(probe["repeats"]),
             "--request-timeout", str(probe["request_timeout_seconds"])]
     script = (

@@ -8,10 +8,17 @@ never changes production payloads. Run from the configured repository:
         --config FORMAL_CONFIG --pair A --samples FIXED_SAMPLES.json \
         --output-dir NEW_OUTPUT_DIR --repeats 2 --request-timeout 3600
 
+An isolated probe JSON may also be passed as --config; its formal_config keeps
+the engine settings, and selected_fp32_snapshots selects source preparation.
+Only true calls the qualified preparer before runtime inspection/server start.
+Its retained receipt is source evidence, not measured CUDA snapshot behavior.
+
 Cold comparisons flush before each request. Separate warm passes flush once
 before each mode's ordered sample stream. Mode order alternates by repetition
 and, for cold comparisons, sample position. Numerical errors are observations,
-not tolerance-based acceptance. Worker-local raw bodies/caches are not archived.
+not tolerance-based acceptance. Warm results also reference this run's matching
+independent cold requests; warm-full is not a cold oracle. Worker-local raw
+bodies/caches are not archived.
 """
 
 import argparse
@@ -116,6 +123,16 @@ def _load_config(path, pair, output):
     from tests.manual.agent_opd.run_qwen35_opd import _PERSONAL_ROOT, _READ_ONLY_MODELS
 
     config = json.loads(path.read_text())
+    selected_fp32 = config.get("selected_fp32_snapshots", False)
+    if type(selected_fp32) is not bool:
+        raise ValueError("selected_fp32_snapshots must be a JSON boolean")
+    config_paths = [path.resolve()]
+    if "formal_config" in config:
+        formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
+        config_paths.append(formal_path)
+        config = json.loads(formal_path.read_text())
+        # The probe input selects the experiment; formal engine parameters stay unchanged.
+        config["selected_fp32_snapshots"] = selected_fp32
     teacher = config["pairs"][pair]["teacher"]
     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
         raise ValueError("This dedicated probe requires H800/codesign")
@@ -144,7 +161,7 @@ def _load_config(path, pair, output):
     mount, local = Path(config["local_mount"]).resolve(), Path(config["worker_local_root"]).resolve()
     if not mount.is_absolute() or mount.is_relative_to("/mnt") or local.is_relative_to("/mnt"):
         raise ValueError("Workspace and worker_local_root must be local, not cloud paths")
-    for item in (path.resolve(), Path(config["repo"]).resolve()):
+    for item in (*config_paths, Path(config["repo"]).resolve()):
         if not item.is_relative_to(mount):
             raise ValueError("Config and repo must resolve under local_mount")
     if output.is_relative_to("/mnt"):
@@ -323,12 +340,22 @@ def _mode_order(repetition, sample_position=0):
     return _MODES if (repetition + sample_position) % 2 == 0 else tuple(reversed(_MODES))
 
 
-def _record_comparison(output, identity, results, sample, pair):
+def _record_comparison(output, identity, results, sample, pair, cold_results=None):
     full, full_id = results["full_input"]
     response, response_id = results["response_only"]
-    record = {**identity, "source_uid": sample["source_uid"], "sample_index": sample["sample_index"],
+    record = {**identity, "pair": pair, "source_uid": sample["source_uid"], "sample_index": sample["sample_index"],
               "full_request_id": full_id, "response_request_id": response_id,
-              "full_vs_response_only": _comparison(full, response), "historical_expected": None}
+              "full_vs_response_only": _comparison(full, response), "cold_reference": None, "historical_expected": None}
+    if cold_results is not None:
+        cold_full, cold_full_id = cold_results["full_input"]
+        cold_response, cold_response_id = cold_results["response_only"]
+        record["cold_reference"] = {
+            "full_request_id": cold_full_id, "response_request_id": cold_response_id,
+            "cold_full_vs_warm_full": _comparison(cold_full, full),
+            "cold_full_vs_warm_response_only": _comparison(cold_full, response),
+            "cold_response_only_vs_warm_full": _comparison(cold_response, full),
+            "cold_response_only_vs_warm_response_only": _comparison(cold_response, response),
+        }
     if pair == "A" and sample.get("expected_teacher_log_probs") is not None:
         expected = {"token_ids": sample["tokens"][-sample["response_length"]:],
                     "log_probs": sample["expected_teacher_log_probs"]}
@@ -344,6 +371,7 @@ async def _benchmark(args, fixture, url, output, local):
     info = _parse(await _http("GET", server_request["endpoint"], None, args.request_timeout, server_request), server_request)
     _write(output / "server_info.json", {"http": server_request, "get_server_info": info})
     cache_observations = {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
+    cold_results = {}
     for repetition in range(args.repeats):
         for position, sample in enumerate(fixture["samples"]):
             identity = {"phase": "cold", "repetition": repetition, "sample_position": position}
@@ -354,6 +382,7 @@ async def _benchmark(args, fixture, url, output, local):
                 results[mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity,
                                                "cold_flushed" if cache == "flushed" else "cache_undefined")
             _record_comparison(output, identity, results, sample, args.pair)
+            cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])] = results
     for repetition in range(args.repeats):
         results = [{} for _ in fixture["samples"]]
         for mode in _mode_order(repetition):
@@ -366,7 +395,8 @@ async def _benchmark(args, fixture, url, output, local):
                 results[position][mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity, state)
         for position, sample in enumerate(fixture["samples"]):
             identity = {"phase": "warm_stream", "repetition": repetition, "sample_position": position}
-            _record_comparison(output, identity, results[position], sample, args.pair)
+            _record_comparison(output, identity, results[position], sample, args.pair,
+                               cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])])
     return cache_observations
 
 
@@ -418,7 +448,8 @@ def _run(args):
               "fixture": _file_identity(args.samples), "config": _file_identity(args.config),
               "expected_scoring_requests": 4 * len(fixture["samples"]) * args.repeats,
               "method": {"cold": "Flush before each mode/sample request; alternate order by repetition+sample position",
-                         "warm_stream": "Flush once per mode stream; fixed sample order; alternate mode order by repetition",
+                          "warm_stream": "Flush once per mode stream; fixed sample order; alternate mode order by repetition",
+                          "cold_reference": "Both independently flushed modes from this run, matched by pair/repetition/source_uid/sample_index; warm-full is descriptive, not a cold oracle",
                          "requests": "Sequential, same input IDs, native zero-generation payload; one aiohttp session per request",
                          "order_limit": "One repetition cannot balance both first-mode positions for each individual sample",
                          "timing": "perf_counter; headers include request serialization/server work; decoded body read, JSON parse and native tail validation measured separately",
@@ -427,10 +458,19 @@ def _run(args):
         _worker_environment(local)
         local_created = True
         (output / "completion_scores").mkdir()
+        if config.get("selected_fp32_snapshots", False):
+            from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
+
+            root = Path(importlib.util.find_spec("sglang").origin).parent
+            result["source_preflight"] = snapshots.prepare_source(
+                root, image=config["image"], selected_fp32=True, archive_dir=output / "source_preflight")
         result["runtime"] = _runtime(config, args.pair)
         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
             "tests/manual/agent_opd/qwen35_pair_worker.py", "tests/manual/agent_opd/probe_teacher_scoring.py")}
+        if config.get("selected_fp32_snapshots", False):
+            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_snapshots.py"] = _file_identity(
+                Path(snapshots.__file__))
         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
         result["argv"] = command
         _write(output / "preload.json", result)
