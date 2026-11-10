@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record e2feca95/145 CPU and175-file source archive; advance selected-FP32 candidate/source-fidelity route, defer env1, distinguish current hypothesis-driven work from historical D2. |
 | 2026-11-11 | Record completed actual comparison/native teacher probes and CPU/cold-only acceptance; warm probability drift keeps formal hold, with launcher/source failures distinct. |
 | 2026-11-11 | Record D40 workflow RCA/formal hold, native bank6 attribution and configuration-only review; preserve the D39 preparation snapshot and parallel RCA ownership. |
 | 2026-11-11 | Record D39 H800-only parallel preparation, correctedH200 terminal6/profile2 and question-only356 proposal; preserve historical snapshots and append the four-section status checkpoint. |
@@ -55,6 +56,15 @@
 
 ## completed
 
+- **FP32 source-candidate phase record verification — TaskID`profile-workflow-rca-records-20261111`: scoped PASS; known2 frozen links deferred.** Run at repository root `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, systemPython3.10.6. Expected raw/decision/all six-ticket checkbox/science/strategy/history preservation and exact four-section3/2/1 checkpoint; read-only assertions PASS, currentD1–D7 CLEAR/BranchB-S5, previousD2 retained. Existing docchecker reads51documents/6tickets/316links/83anchors,2 errors only in the immutable candidate copy's adjacentrequirements/RCA-report links; no owned error, no artifact/checker exclusion or mutation. Scoped whitespace PASS; no business test/source candidate inspection/native GPU/platform/delegation by this docs agent. Candidate remains unreviewed/source-only, no newer GPU or perf/cause PASS. Exact documentation commands:
+
+```bash
+python3 --version
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,summary.md,spec.md,progress.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+- Primary`e2feca95`archives13 files/R1 comparison/isolated submit-env-runtime contracts. [Reported joint checks](test_report_2026-11-11_workflow_rca.md#hidden-reuse-event-coverage-and-a-concrete-precision-candidate)are145PASS/5.06s/Python3.12.13/pytest9.1.1/20existingwarnings; no business rerun by this docs agent and no newerGPU run. Supplemental0GPUr3`exp-1111-042450-358109`Succeeded175runtime/attention/GDN sources; requestedrunner.py absent documented, actualmodel_runner.py retained. Later38source hashes matchedA GPUdonor; prior37-filefailedcollector remains a separate historical attempt.
 - **Completed-comparison/cold-warm records verification — TaskID`profile-workflow-rca-records-20261111`: scoped PASS, global link limitation recorded.** Repository root `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, systemPython3.10.6. Scoped whitespace/raw/decision/all six-ticket checkbox/science/strategy/history checks PASS; latest checkpoint is exactly four sections/PASS3-BLOCKED2-TODO1, transcribed primary D2 HIT and corrected current-stateS5. Global existing docchecker initially reads49documents/6tickets/306links/73anchors, then49/6/307/73 after this verification note; both runs report2 relative-link errors only in the immutable copied candidate`evidence/teacher-scoring-scope-review-20261111/candidate/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_teacher_scoring_scope.md`: missing adjacent`requirements.md#workflowparameter-rca--original-request-2026-11-11` and`test_report_2026-11-11_workflow_rca.md`. Original task targets exist; this agent does not modify frozen evidence, create dependencies or change/exclude the checker. Primary was notified. No owned-document link error or new decision/tolerance/cache/science change; no business rerun/platform/GPU/delegation. Exact commands:
 
 ```bash
@@ -148,6 +158,15 @@ PY
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 
 ## Current execution — workflow RCA
+
+- **D40 / FP32_SNAPSHOT_SOURCE_FIDELITY_CANDIDATE; formal04/05 BLOCKED.** Currentnative generalagent`ses_e38c8a3aaffeEB3Bh3WxPzEoyE`/TaskID`profile-native-mamba-fp32-snapshots-20261111`prepares three CPU-only files connecting existing selectedFP32 snapshot support throughTriton; candidate not reviewed/deployed/native/performance/historical-causePASS. Archive145CPU/source contracts do not transfer acceptance to it. Next realsourceidentity/donor/runtime snapshot fidelity and H800 probability comparison use correspondingcoldreferences, thenfresh04+05 admission concurrently whenplacementpermits→each200/profile/terminal→06.
+- **Mechanisms, not closed cause:** [matchedsourceinspection](test_report_2026-11-11_workflow_rca.md#hidden-reuse-event-coverage-and-a-concrete-precision-candidate)shows canonicalKV rebind duringunfinishedchunks evenwhenfullcached0, not proof thatKV iswrong/order-race. FP32accumulator→intermediateh k.dtype(BF16)→temporalFP32 addsprior-rounding; selectedFP32 write capability alreadyexists butforwardingchainunwired. Nativegrid/cache/state/dtypes/donor mustberuntimeverified; thispathalone doesnotexplainwarmfull. Normalh/output/finalstate/tolerance/cachepolicy/globaldtype/backend/science remainunchanged; interval256decode-only, notprefillgrid/no8192proposal.
+- **Deferredcontrol:** GDN EXTEND shared-readcontractUNKNOWN mayalreadytakewholeforwardstreamfallback. Prepared`SGLANG_FORCE_COARSE_WAR_BARRIER=1`variant isDECLARED_DEFERRED/notsubmitted, actualeventpublication/branchunrecorded; unchangedoutputcannotexcludeordering. No redundant8GPU experiment, missing-eventproof or newnativePASS. Frozenartifact's2linkerrorsremainknownmetadata, notmainlinebug; neitherartifactnorcheckerchanged/excluded.
+- **Window/state boundaries:** latestroute is source/hypothesis-driven after`49809c0f→e2feca95`, notrepetitionofearlierSDK/import/120sD2mistakes. R1cold14/14,warm4/14, completedhistoricalcomparison andsix-fileNo findings stayacceptedonlypriorCPU/coldscope; no newerGPUresult/fix/causal/perfacceptance. D39/D16/02/03/commoncycle/06CPU, fixed256/32×8/D34/231/1800s/600s/200/S7/raw/checklists/historyremain; no B A200gate, newdecision/tolerance/cache/interval/globaldtype/backend/scopechange.
+
+### Completed cold/warm milestone — historical before e2feca95
+
+The following completed-comparison/warm-state and failed37-file-source wording is its earlier snapshot; current source progression and source-fidelity route above supersede it without rewriting historical D2 or outcomes.
 
 - **D40 / MAMBA_WARM_STATE_RCA, formal04/05 remain BLOCKED:** historical actual comparison, scoped CPU correction and both teacher-only H800 experiments have completed. [Authoritative primary report](test_report_2026-11-11_workflow_rca.md) owns the source/timing/numerical aggregation. Current parallel work is native Mamba tracking/cache or other warm-state causal RCA ‖ complete probability/raw-range/request-time aggregation, retaining separate cold references. A causal correction and H800 cold/warm revalidation precede fresh formal admission; not a new decision or profile auxiliary gate.
 - **Cold PASS / warm blocker:** each7-sample×2-repeat stream gives14 cold pairs exact for both models, IDs/finite/raw ranges pass; warm only4/14 exact each, maxabsA0.2006068229675293/B1.0602149963378906. Warm full-input cached0 itself differs from cold-full at samples2/3, so response-only reuse is not the only possible cause and warm full-input is not a numerical oracle. Checkpoint alignment remains a hypothesis; do not label tolerable roundoff, relax tolerance, disable cache arbitrarily or accept uniform/full-bank speedup. Probe A/B jobs are not formal A/B and their counters do not replace200 updates.
@@ -1560,3 +1579,61 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1. Cold各14/14精确已接受；warm各4/14，full-input cached0也偏离cold，formal继续BLOCKED，CPU/review/Succeeded不足以接受。
 2. 历史965.962/955.973s已实际查实，但196.956B/56H200/1024async-staleness5与当前18physical/fresh256不同，无同配置速度比。
 3. D2辅助执行失误需复用既有路径；各4H800probe自然Succeeded且未重提/stop，0GPU复制37files后的断言失败单独保留，不改tolerance/缓存绕过真实warm问题。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 source/order | PASS | 原位输入/D34审计已接受，32×8不变。 |
+| 02 per-turn sums | PASS | D16实际测量/canonical/rebuild和CPU/S7已接受。 |
+| 03 profile/integration | PASS | CPU模块、实际consumer和边界验收已接受。 |
+| 04 A/full | BLOCKED | 现有selectedFP32支持接线候选未review/native通过；source身份及真实warm概率待验证。 |
+| 05 B/full | BLOCKED | 同一native概率前置未完成，B未开始；无A200/profile gate。 |
+| 06 final report | TODO | CPU slice已接受，等待各A/B真实200/native/profile/terminal数据。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。当前source/hypothesis-driven路线与早先D2执行失误分开，旧HIT不改写。
+**检测窗口：** 前次`49809c0f`checkpoint之后至`e2feca95`archive/source/145CPU节点及本次状态同步（TaskID`profile-workflow-rca-records-20261111`）｜**当前前沿：**04/05 selectedFP32源码候选、source identity/donor/runtime fidelity和对应cold-reference H800复验准备。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | e2feca95/R1归档及isolated submit-env-runtime契约、145CPU检查直接支持下一native验证；不扩通用harness。2冻结artifact链接问题已暂缓。 |
+| D2 细节反复重试 | CLEAR | 本窗口按matched source/明确rounding路径收窄假设；env1可能与现有fallback重复而主动DEFERRED，无新GPU重试。旧SDK/import/120sD2保留为先前执行窗口。 |
+| D3 支线问题修补 | CLEAR | KV重绑定、GDN read事件和FP32 snapshots直接关联04/05 warm概率blocker，归D40；不修无主支线。 |
+| D4 可并行任务停滞 | CLEAR | native generalagent准备CPU源码候选；primary并行完成source/runtime/event归档和145CPU验证。真实native观察准备独立推进，deferred无差异control不是假edge。 |
+| D5 超范围镀金 | CLEAR | 只接通已存在selectedFP32能力；不改normalh/output/finalstate、全局dtype/backend/cachepolicy/tolerance/interval或science，无8192proposal。 |
+| D6 分析空转 | CLEAR | 新源证据确认canonical rebind和中间BF16rounding路径，已形成具体source candidate；不宣称causal/native/perf PASS。 |
+| D7 路线违背 | CLEAR | D39 H800-only、正式暂停/固定256/32×8/200/S7保持；source0GPU不是新H200/GPU run，无新decision。 |
+
+**文档检查：**
+- S1 CLEAR：候选/source身份与native观察准备可并行；B无A200/profile/32-H200假edge，warm正确性前置仍真实。
+- S2 CLEAR：source-fidelity/native概率blocker由04/05、native generalagent和primary承接，不新增ticket。
+- S3 CLEAR：既有概率/输入/200标准可判定；需要native source/runtime证据不是不可达标准。
+- S4 CLEAR：对应cold-reference概率和实际snapshot/donor/runtime验证区分done；CPU/归档/No findings不代替native PASS。
+- S5 HIT → corrected：requirements current、plan phase/04-05/frontier、summary/spec S0/S8/progress/04-05仍停留generic cache/tracking/37文件source状态；本轮同步e2feca95/175source/env1DEFERRED/CPU-only selectedFP32候选及未接受边界。
+- S6 CLEAR：04/05正式cell/共同native前置与06CPU/final-data拆分仍合理，未改变criteria或重复owner。
+**归因：** 当前D1–D7均CLEAR；S5为近期状态滞后，不是native因果证明或新执行偏离。早先primary D2HIT保留在其原窗口。
+
+## 3. 纠正建议
+
+**分支：** B：先纠正S5当前事实，已授权状态修改不改变scope/criteria/decision。
+
+**文档更新（先执行）：**
+1. requirements current/history、plan/progress/summary/spec S0/S8及04/05：同步145CPU/source175归档、现有FP32能力接线候选、实际source/donor/runtime/cold验证边界（可直接执行，已完成）。
+2. review：记录候选未review/native/perf/causal通过；固定六文件scoring No findings仍仅原范围。env1Deferred/ordering未排除、decode256非prefillgrid、不改artifact/checker（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 并行：native agent接通现有selectedFP32 snapshots ‖ primary准备匹配source/donor/runtime grid/dtype/snapshot及对应cold reference观察；完成标志：bounded候选及真实identity可检查，不是提前宣布fix。
+2. 对实际候选diff/source身份进行review，并在H800记录donor/runtime/snapshot fidelity与cold-reference概率；完成标志：既有数值/输入/range要求实测通过，normalh/output/finalstate不变。不能用污染warmfull、tolerance放宽或未改变control的env1结果替代。
+3. verified correction之后freshH800 admission，04+05实际资源允许则并发、各自独立初始化/200/native/profile/terminal→06；B不加A200gate，不改变science/S7或later-update自动重投权限。
+
+## 4. 最值得关注的 3 点
+
+1. SelectedFP32 source候选仍CPU-only/未review/native/perf/历史cause通过；已有能力接线不等于当前fork实际运行正确。
+2. Cached0full有canonical rebind；UNKNOWN GDN可能已coarsefallback，env1DEFERRED、ordering未排除。必须用对应cold reference和实际runtime/donor证明。
+3. 本窗口145CPU和175-source归档已完成，无新GPU run；formal04/05仍BLOCKED/06等真实200数据，旧D2/旧失败/旧profile前缀各自保留。

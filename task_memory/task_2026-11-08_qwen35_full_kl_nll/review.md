@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record unreviewed selected-FP32 source-fidelity candidate after e2feca95; preserve six-file scoring No findings and native/ordering/performance acceptance limits. |
 | 2026-11-11 | Record immutable scoring-scope review/135 CPU and native cold pass, with measured warm/full-input drift limiting acceptance; preserve earlier phase reviews. |
 | 2026-11-11 | Record H800-only configuration52a02b6f phase Standards/Spec No findings from immutable artifacts; D40 workflow/throughput acceptance remains on hold. |
 | 2026-11-10 | Record independent read-only native lifecycle follow-up: first-two-update path verified,200-update and historical allocation-owner limits retained. |
@@ -14,7 +15,19 @@
 | 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
 
+# FP32 snapshot source-fidelity candidate — 2026-11-11
+
+**Status: CPU-only SOURCE-FIXCANDIDATE, not yet reviewed/deployed/native/performance/historical-cause PASS.** Native generalagent`ses_e38c8a3aaffeEB3Bh3WxPzEoyE`,TaskID`profile-native-mamba-fp32-snapshots-20261111`,prepares three new files connecting existing selectedFP32 snapshot support through the Triton capability/forwarding chain. This documentation reviewer does not inspect or modify those candidate modules/report, query the agent or award a review result. Earlier six-file scoring-fix No findings below remains unchanged and does not transfer to this candidate.
+
+Primary archive`e2feca95`(13 files) records145 joinedCPU PASS/5.06s/Python3.12.13/pytest9.1.1/20existingwarnings, covering isolated submit/environment/runtime receipt contracts, not candidate/native parity. Later38 selected sources match the measured A donor hashes;0GPUr3`exp-1111-042450-358109`Succeeded175runtime/attention/GDN files, absentrequestedrunner.py documented/model_runner.py retained. No newerGPU run or fabricated source file. [Primary source conclusions](test_report_2026-11-11_workflow_rca.md#hidden-reuse-event-coverage-and-a-concrete-precision-candidate)remain authoritative.
+
+**Inspected mechanisms and limits:** canonical KV rows can rebind during unfinished chunks even whencached0; warmfull is not a cold oracle, but wrongKV/order-race is not proven. GDN EXTEND shared-read contractUNKNOWN may already fall back to full-stream waiting; preparedcoarseenv1 is DECLARED_DEFERRED/not submitted, unchanged output cannot exclude ordering. Concrete rounding path: FP32 accumulator→intermediateh k.dtype(BF16)→temporalFP32; selectedFP32 snapshots are supported beneath the unwired Triton chain. Native runtime resolved grid/cache/state/dtypes/donor provenance and actual snapshot/probability fidelity remain unverified; this is not historical-cause proof. Interval256decode-only is notprefillgrid/no8192proposal.
+
+**Next review/acceptance:** fix candidate source identity and review its actual bounded diff; H800 must verify actual donor/runtime snapshot fidelity and probabilities against each corresponding retained cold reference, not warmfull. Preserve normalh/output/finalstate, cachepolicy, globaldtype, interval, backend, tolerance and science. Formal04/05 remainBLOCKED/06finaldatawaiting, B noA200gate; two frozen-artifact link errors are deferred documentation limitations, not the native bug, and neither checker nor artifact is changed/excluded.
+
 # Teacher scoring scope and native cold/warm follow-up — 2026-11-11
+
+Historical fixed-six-file scoring-scope appendix; its No-findings/CPU/cold results remain accepted only for that artifact. Current unreviewed snapshot-source candidate and new source observations are above.
 
 Component: shared sampled-token probability-range owner, native student-prefill reuse and SWE teacher caller. Immutable [comparison](evidence/teacher-scoring-scope-review-20261111/comparison.json)/[diff](evidence/teacher-scoring-scope-review-20261111/change.diff) fix`59d61941→7d993848`across exactly six listed files. Complete token inputs remain conditioning inputs; response length selects`P-1`with one preceding placeholder and unchanged response extraction. Existing full-input/top-k/per-position defaults and optional student scoring are not additionally enabled. No concurrency/timeout/oversampling/async-stale-weight change is introduced.
 

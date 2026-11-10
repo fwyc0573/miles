@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record selected-FP32 source-fidelity preparation and145 CPU/source archive; native probabilities require corresponding cold references, env1 deferred and science/checklists unchanged. |
 | 2026-11-11 | Record completed comparison/CPU-cold semantics and warm-state numerical blocker; keep formal hold, exact probabilities and all scientific/checklist criteria unchanged. |
 | 2026-11-11 | Record D40 formal hold and workflow/parameter RCA inside04/05; configuration review is not throughput acceptance, fixed science and D39 hardware stay unchanged. |
 | 2026-11-11 | Apply D39 H800-only fresh independent execution without a personal cap; synchronize H200 terminal6/profile2, preserve science and leave356-candidate selection unapproved. |
@@ -63,7 +64,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D40）**：**MAMBA_WARM_STATE_RCA；正式04/05仍BLOCKED**。[历史实际比较和H800 teacher-only对照](test_report_2026-11-11_workflow_rca.md)已完成；各4卡/56requests作业自然Succeeded，cold各14/14精确，warm各仅4/14精确。Scope7d993848/135 CPU/[两轴No findings](review.md#teacher-scoring-scope-and-native-coldwarm-follow-up--2026-11-11)仅接受CPU/cold语义，不是全部native workflow。Warm full-input即使cached0也在samples2/3偏离cold，不能当oracle、称roundoff、改tolerance或任意禁cache。当前并行Mamba tracking/cache源码RCA与完整数值/range/耗时聚合，因果修正及H800复验前不恢复formal。历史median965.962（含cold0）/955.973（1–9）实际查实，但196.956B/56H200/1024async/staleness5对比当前旧18physicalH200/fresh256/bank6无完整cycle不可给同工作量加速比。D39/fixed256/32×8/D34/200/231/1800s/600s/S7及D16/02/03/common-cycle/06CPU/checkbox均保持；无A200/profile新gate、新decision ID或oversampling/stale-weight批准。旧H2006/profile2独立；probeB不是formalB。[Current progress](progress.md#current-execution--workflow-rca)。
+**当前状态（2026-11-11，D40）**：**FP32_SNAPSHOT_SOURCE_FIDELITY_CANDIDATE；formal04/05仍BLOCKED**。[新source证据](test_report_2026-11-11_workflow_rca.md#hidden-reuse-event-coverage-and-a-concrete-precision-candidate)记录e2feca95/145CPU PASS及175-source0GPUr3Succeeded，无新GPUrun。Cached0full仍可能canonical KV rebind，不是cold oracle；GDN shared-read UNKNOWN可能已coarsefallback，env1 DECLARED_DEFERRED/未提交，不能用unchanged output排除ordering。FP32 accumulator→intermediateh k.dtype(BF16)→temporalFP32是具体源码rounding candidate；底层selectedFP32能力已有但Triton forwarding未接通。现有能力接线候选仅CPU/source preparation，未review/native/perf/historicalcause PASS。实际source身份、donor/runtime grid/dtype/snapshot fidelity和H800概率需对对应cold reference验证；不改normalh/output/finalstate全局行为。Interval256是decode-only非prefill grid，不提8192；不改tolerance/cachepolicy/globaldtype/backend/science/criteria。D39/D16/02/03/commoncycle/06CPU/fixed256/32×8/D34/231/1800s/600s/200/S7/history及B无A200gate保持。[Candidate limits](review.md#fp32-snapshot-source-fidelity-candidate--2026-11-11)/[Current progress](progress.md#current-execution--workflow-rca)。
 
 ## S1. 目标与实验矩阵
 
@@ -295,7 +296,7 @@ NLL_i = nll_sum_i / tokens_i
 
 ## S8. GPU 与执行（D16、D19、D33、D39、D40）
 
-- **当前D40 warm-state RCA hold**：历史比较、scope7d993848/CPU135与H800 cold概率语义通过；两模型warm response/full-input均有状态相关数值偏差，formal继续暂停。04/05内并行Mamba tracking/cache源码RCA和数值/raw-range/耗时聚合，保留各自cold reference；因果修正及H800 cold/warm复验后才推进preflight/admission。不以roundoff、tolerance放宽、忽略warm或任意禁cache替代修复。CPU/cold/配置No findings不解除hold；native概率正确性前置不是profile辅助硬gate。D39硬件/普通in-scope CPU edits及bounded H800验证保持，无oversampling、stale-weight redesign或新decision。
+- **当前D40 source-fidelity candidate hold**：已有selectedFP32 snapshot能力接线候选仅CPU preparation；145CPU/env/archive或175源码不是native修复/causal/perf通过。04/05内并行候选/source身份及实际donor/runtime fidelity准备，H800概率对对应cold reference复验后再formal。Warmfull有hidden canonical rebind不作oracle；env1已DEFERRED，ordering未排除。候选不变全局h/output/finalstate/dtype/backend/cachepolicy/interval/tolerance；decode256不是prefill grid且无8192proposal。D39/固定science/S7及B无A200gate保持，native正确性hold不是profile辅助gate，也不增加scope/decision。
 - **当前D39**：本session后续GPU执行仅H800/codesign，无个人H800 count cap，正式A/B非抢占。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；fresh资源核验/准入和实际调度仍必须记录。D37/H200、旧32-H200上限及已完成D38 H200 probe均为历史，不授权新H200工作。Primary独占平台操作和live提交/status；不停止其他task作业腾资源，准备文件不证明queue/available capacity。
 - **当前准备布局**：沿用D35接受的36-H800 sizing basis，A/B各student4节点×8+teacher4，合计72可并行请求但不保证placement。Config agent维护H800 formal配置和新dated paths；B native能力仍需实际验证。两个新attempt从同一原始Qwen3.5-4B初始化，不使用formal checkpoint/resume。历史H20018/cell配置/证据不覆盖或拼接新run。D34、global batch/source32×8/256、200 full、231/1800s及600s initial sync不变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
