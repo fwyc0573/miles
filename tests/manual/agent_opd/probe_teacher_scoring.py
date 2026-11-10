@@ -287,7 +287,13 @@ async def _http(method, url, payload, timeout, record):
                 finally:
                     record["body_read_seconds"] = time.perf_counter() - reading
                 record["body_bytes"] = len(raw)
-                response.raise_for_status()
+                try:
+                    response.raise_for_status()
+                except aiohttp.ClientResponseError:
+                    record["http_error_body"] = {
+                        "response_text": raw.decode(errors="replace"), "encoding": "utf-8 with replacement",
+                        "provenance": "aiohttp response.read(), before raise_for_status()"}
+                    raise
                 return raw
     finally:
         record["http_elapsed_seconds"] = time.perf_counter() - started

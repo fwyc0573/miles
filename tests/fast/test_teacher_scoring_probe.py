@@ -224,6 +224,7 @@ def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, 
     assert record["http_time_to_headers_seconds"] == 2 and record["body_read_seconds"] == 3
     assert record["http_elapsed_seconds"] == 5 and record["json_parse_seconds"] == 7
     assert record["validation_seconds"] == 11 and record["body_bytes"] == len(raw)
+    assert "http_error_body" not in record
     start = probe._payload(sample, mode)["logprob_start_len"]
     assert record["response_count"] == 2 and record["logprob_start_len"] == start
     assert record["input_token_logprobs_count"] == record["expected_input_token_logprobs_count"] == len(sample["tokens"]) - start
@@ -243,6 +244,7 @@ def test_flush_real_http_failures_propagate_and_record_diagnostics(tmp_path, mon
     assert error.value.status == status
     record = json.loads(path.read_text())
     assert record["status"] == "failed" and record["http_status"] == status
+    assert record["http_error_body"]["response_text"] == "native cache failure"
 
 
 @pytest.mark.parametrize("status", [404, 405, 501])
@@ -273,6 +275,9 @@ def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_
     record = json.loads((output / "requests.jsonl").read_text())
     assert record["status"] == "failed" and record["token_ids_match"] is False
     assert record["native_request_id"] == ("native-rid-validation-failed" if failure == "ids" else None)
+    if failure == "http":
+        assert isinstance(error.value, aiohttp.ClientResponseError) and error.value.status == 503
+        assert record["http_error_body"]["response_text"] == raw.decode(errors="replace")
     assert not list((output / "completion_scores").iterdir())
     if failure == "json":
         assert "json_parse_seconds" in record
@@ -474,9 +479,12 @@ def snapshot_source(tmp_path, monkeypatch):
     root = tmp_path / "native-sglang"
     manifest = snapshots.source_manifest()
     for relative in manifest["files"]:
+        source = retained / relative
+        if not source.is_file():
+            pytest.skip(f"Required retained native source unavailable: {source}")
         target = root / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((retained / relative).read_bytes())
+        target.write_bytes(source.read_bytes())
     monkeypatch.setattr(snapshots.importlib.metadata, "version", lambda name: manifest["distribution_version"])
     return root, snapshots
 
@@ -538,11 +546,15 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
 
         retained = Path(__file__).resolve().parents[2] / (
             "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111")
+        override = os.environ.get("MILES_PINNED_SGLANG_SOURCE")
         for relative, identity in metadata.source_manifest()["files"].items():
             target = root / relative
             if not target.exists():
+                source = (Path(override) if override else retained / identity["native_source_job"] / "source") / relative
+                if not source.is_file():
+                    pytest.skip(f"Required retained native source unavailable: {source}")
                 target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes((retained / identity["native_source_job"] / "source" / relative).read_bytes())
+                target.write_bytes(source.read_bytes())
     config["image"] = snapshots.source_manifest()["image"]
     path.write_text(json.dumps(config))
     wrapper = {"formal_config": str(path)}
@@ -687,6 +699,47 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         assert not receipts and not (output / "source_preflight").exists()
         assert {relative: (root / relative).read_bytes() for relative in before} == before
     assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
+
+
+@pytest.mark.parametrize("override_available", [True, False])
+def test_diagnostic_source_fixture_override_without_local_evidence_or_explicit_skip(
+        worker_config, sample, tmp_path, monkeypatch, override_available):
+    from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+
+    evidence = Path(__file__).resolve().parents[2] / (
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111")
+    existing_override = os.environ.get("MILES_PINNED_SGLANG_SOURCE")
+    pristine = tmp_path / "pristine"
+    original = {}
+    for relative, identity in metadata.source_manifest()["files"].items():
+        retained = Path(existing_override) if existing_override else evidence / identity["native_source_job"] / "source"
+        source = retained / relative
+        if not source.is_file():
+            pytest.skip(f"Required retained native source unavailable: {source}")
+        original[relative] = source.read_bytes()
+        target = pristine / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(original[relative])
+    monkeypatch.setenv("MILES_PINNED_SGLANG_SOURCE", str(pristine))
+    copied = snapshot_source.__wrapped__(tmp_path, monkeypatch)
+    assert copied[0] != pristine
+    fake_repo = tmp_path / "repo-without-evidence"
+    monkeypatch.setitem(globals(), "__file__", str(fake_repo / "tests/fast/test_teacher_scoring_probe.py"))
+    assert not (fake_repo / "task_memory").exists()
+    if not override_available:
+        monkeypatch.delenv("MILES_PINNED_SGLANG_SOURCE")
+        with pytest.raises(pytest.skip.Exception, match="retained native SGLang C3 source is not available"):
+            snapshot_source.__wrapped__(tmp_path / "missing-base", monkeypatch)
+    try:
+        if override_available:
+            test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+                worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
+        else:
+            with pytest.raises(pytest.skip.Exception, match="Required retained native source unavailable"):
+                test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+                    worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
+    finally:
+        assert {relative: (pristine / relative).read_bytes() for relative in original} == original
 
 
 @pytest.mark.parametrize("failure", ["image", "source"])
@@ -950,7 +1003,12 @@ def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retai
             assert receipt["server_info"] == json.loads(json.dumps(server_info)) and receipt["response_text"]
         if failure == "http":
             assert receipt["http"]["http_status"] == 503
+            assert receipt["error_type"] == "ClientResponseError"
+            assert receipt["http"]["http_error_body"] == {
+                "response_text": json.dumps(server_info), "encoding": "utf-8 with replacement",
+                "provenance": "aiohttp response.read(), before raise_for_status()"}
     else:
+        assert "http_error_body" not in receipt["http"]
         assert receipt["dp_size"] == 1 and receipt["tp_size"] == 4 and len(receipt["dp_responses"]) == 1
         assert receipt["dp_responses"][0]["row_count"] == 1
         assert receipt["dp_responses"][0]["rank"]["dp_rank"] is None

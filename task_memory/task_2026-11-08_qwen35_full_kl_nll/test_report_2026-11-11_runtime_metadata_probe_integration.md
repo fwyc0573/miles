@@ -5,6 +5,7 @@
 | 2026-11-11 | Record the first4 diagnostic integration, real source-preparer ordering, joined CPU checks, independent readback failures and pending native acceptance. |
 | 2026-11-11 | Add explicit retained native RID associations, a reordered real-schema regression, failed-validation retention and306-pass joined follow-up verification. |
 | 2026-11-11 | Accept native single-DP absent-controller rank without relabeling it; retain strict rank checks and record RED/GREEN plus330-pass joined verification. |
+| 2026-11-11 | Repair both phase-review P2s: reuse pristine-source override/explicit skips and retain failure-only HTTP body provenance; record4-case RED,14-case GREEN and332-pass joined verification. |
 
 # Runtime metadata teacher-probe integration
 
@@ -154,6 +155,38 @@ TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-
 
 Expected: no regression in receipts/RID association, scoring, submission or native preparer contracts; baseline56/32 and diagnostic16/10 remain unchanged. Observed **330 passed,20 existing warnings,27.16s; PASS**, including all131 probe tests; no test failure or skip. Only the existing probe/test/report changed. Native source/recorder, config, flags, payload, requests and flushes remain untouched; no polling, GPU/platform/auth action, Tensor read, event, wait or synchronization occurred. Native first4 acceptance remains PENDING. The two phase reviewers' prior pinned range is not treated as acceptance of this repair; final re-review must inspect the fixed artifacts.
 
+## Phase-review P2 follow-up to67ac0d7f
+
+The primary supplied two phase-review findings from reviewers `ses_e385140f8ffekze1xWJqdjXsEo` and `ses_e385140d9ffei45dl7LAKl9vfw`. This section records their scoped repairs and CPU verification, not a final re-review verdict.
+
+**Standards cause and contract:** the diagnostic extra-native-file branch read only task-local C1/C2/C3 paths, unlike the existing `snapshot_source` fixture's `MILES_PINNED_SGLANG_SOURCE` override. It now reads every extra file from that same pristine override when set; otherwise it uses the existing per-file retained evidence path. A missing required file explicitly skips with its exact path rather than raising incidental `FileNotFoundError` or substituting the host package. The base snapshot fixture applies the same per-file explicit-skip convention. All source bytes are copied to the isolated test temporary root; real preparation changes only that copy, never the override/pristine package.
+
+The new regression builds the complete pristine source set required by both preparers from retained native bytes (or the existing override), supplies it through the existing override, and hides local evidence behind a nonexistent test repository path. It executes both real preparers through the existing worker-ordering test and checks every pristine byte remains unchanged. Its no-override case explicitly checks both missing-base and missing-extra evidence raise the established pytest skip, not an incidental file error. No new source selector, fixture host fallback or native source edit was introduced.
+
+**Spec cause and contract:** `_http` already read the response body, then `raise_for_status()` raised before returning it. The collector's `raw` therefore remained None on503, losing the readback body. `_http` now retains the already-read text only when that same call raises `aiohttp.ClientResponseError`, then bare re-raises the original exception. The passed HTTP record receives `http_error_body={response_text, encoding, provenance}`; the existing final collector receipt retains it at `runtime_metadata.json.http.http_error_body` alongside HTTP status, body byte count/timing, exception type and reason. Encoding is explicitly `utf-8 with replacement`; provenance is `aiohttp response.read(), before raise_for_status()`, not an assertion of raw compressed wire bytes.
+
+No successful HTTP request receives this extra full-body field. The normal scoring payload, exception propagation, existing unsupported-flush handling, collector's independent failure result, scoring-file retention and one final readback are unchanged. There is no fallback, retry, error suppression, extra file/request/flush or new body read. The existing A/B first4 tests assert exact503 content, status503 and `ClientResponseError`, after16 scoring requests/10 flushes with every previously written scoring file unchanged. Existing request/flush tests also assert the original exceptions still propagate; success tests reject extra body dumps.
+
+Same Python3.12.13/pytest9.1.1 CPU environment and temporary storage as above:
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'diagnostic_source_fixture_override or first4_16_requests' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-review-p2-red-20261111
+```
+
+Expected: reproduce exactly both reported gaps. Observed **4 failed,10 passed,119 deselected,4 existing warnings,3.11s; expected RED**: override/no-evidence cases raised `FileNotFoundError`, and both A/B503 cases lacked `http_error_body`.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'diagnostic_source_fixture_override or first4_16_requests' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-review-p2-green-20261111
+```
+
+Expected: real preparation succeeds from pristine override without local evidence, missing evidence skips explicitly, and503 body/status/error remain retained without changing scoring or counts. Observed **14 passed,119 deselected,4 existing warnings,3.18s; PASS**.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-review-p2-joined-20261111
+```
+
+Expected: original scientific/request/FP32/metadata contracts unchanged. Observed **332 passed,20 existing warnings,27.75s; PASS**, including all133 probe tests; no suite failure or skip. The missing-evidence regression explicitly catches and verifies the expected skip. Only the existing probe/test/report changed; native recorder/source, flags/config/payload/math, baseline56/32 and diagnostic16/10 remain untouched. No GPU/platform operations or reviewer resumption occurred. Immutable fixed-artifact re-review and native acceptance remain PENDING.
+
 ## Verification limits and next dependency
 
 All HTTP/GPU-inspection/engine-startup operations in integration tests are CPU mocks; existing cleanup checks start only their owned CPU child. First4 mock HTTP bodies contain only the completion tail needed for request/identity/readback contracts; they do not certify native full-input score ranges or probability vectors. `collected` means structurally present CPU metadata, never native PASS, device-store completion, physical slot content, causal proof or numerical parity. DP respondents do not expose independent receipts from all TP ranks.
@@ -162,7 +195,7 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 6｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
+**汇总：** PASS 8｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -171,22 +204,24 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 | post-loop 既有 endpoint 与失败证据 | PASS | DP-only coverage；缺失/malformed 独立失败，scoring 文件保留。 |
 | 明确 native RID 关联 | PASS | 真实 response ID 关联到 pair/repetition/phase/mode/UID/index；乱序与 failed validation 回归通过。 |
 | native DP1 absent-controller receipt | PASS | 仅DP=1接受显式None，raw/observation保持None，其余rank与非法值仍严格拒绝。 |
-| joined CPU 验证 | PASS | 最新330 passed，20 existing warnings，27.16s。 |
+| Standards P2：pristine override 与显式 skip | PASS | 无 local evidence 的真实 preparer 回归通过，pristine bytes未变；缺失路径显式skip。 |
+| Spec P2：HTTP failure body provenance | PASS | 503 body/status/exception保留，原样re-raise；success不附加完整body。 |
+| joined CPU 验证 | PASS | 最新332 passed，20 existing warnings，27.75s。 |
 | 实际 H800 first4 重现与 runtime metadata | BLOCKED | 本 subagent 无 GPU/platform 权限；native 仍 PENDING。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** single-DP receiver follow-up 请求至330项 joined CPU 完成｜**当前前沿：** 提交三个 owned files 供 final re-review；primary 独立决定后续 native 验证。
+**检测窗口：** 两个phase-review P2 follow-up 请求至332项 joined CPU 完成｜**当前前沿：** 提交三个 owned files 供 immutable re-review；primary 独立决定后续 native 验证。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 只补充本次 DP1/strict-rank 合约回归；joined 完成后停止扩展。 |
-| D2 细节反复重试 | CLEAR | 先去掉 synthetic attention-rank confound，再qualified RED→一次receiver修复→GREEN；无行为修复循环。 |
+| D1 工具打磨 | CLEAR | 只补充两个明确P2的回归及required joined检查，完成后停止扩展。 |
+| D2 细节反复重试 | CLEAR | 对应4-case RED→两项定点修复→14-case GREEN；没有失败修复循环。 |
 | D3 支线问题修补 | CLEAR | follow-up 只编辑三个授权旧文件，未修改 recorder、launcher、配置或原始 fixtures。 |
 | D4 可并行任务停滞 | CLEAR | source 已就绪；本 follow-up 无可独立启动的 native 工作，也无 delegation 权限。 |
-| D5 超范围镀金 | CLEAR | 仅支持源码明确的DP1 native None；无 blanket default 或其他rank放宽。 |
-| D6 分析空转 | CLEAR | pinned C3定义/publication直接支撑最小receiver修复和回归。 |
+| D5 超范围镀金 | CLEAR | 复用现有override/receipt；failure-only body，不加selector/retry/fallback或normal body dump。 |
+| D6 分析空转 | CLEAR | 两个具体review findings直接对应真实代码路径、RED与修复。 |
 | D7 路线违背 | CLEAR | 无 GPU/platform/auth/SSH/delegation；原生验收未冒充完成。 |
 
 **文档检查：** 当前 scoped assignment 下 S1–S6 均未发现明显缺陷；父任务 formal hold 保持不变。
@@ -199,11 +234,11 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 交付 single-DP receiver fix 与本报告 → 完成标志：只提交三个 owned files，保留其他 agent 的修改，供 fixed-artifact re-review。
+1. 交付两个P2 repairs与本报告 → 完成标志：只提交三个 owned files，保留其他 agent 的修改，供两位reviewers的immutable follow-up。
 2. primary 后续 native 验证 → 完成标志：按真实 RID 关联 H800 metadata 与评分 identity，first4 与旧 FP32 repetition0 比较且sample2/3 drift 保留；不以 CPU 或缺失 trace 替代。
 
 ## 4. 最值得关注的 3 点
 
-1. single-DP repair 已通过330项 joined 检查；raw native None被保留，没有新的 native PASS。
-2. None只在显式DP1 case接受，其他rank typing与DP bounds/uniqueness不放宽；RID join不依赖顺序。
+1. 两个P2 repairs已通过332项 joined检查；pristine override无local evidence可用，503 content不再丢失。
+2. HTTPerror仍原样传播、scoring文件保留，success不dump额外body；RID/DP1契约保持不变。
 3. first4 尚未获原生重现验收，且未覆盖 dropped1024-hit groups；formal hold 不变。
