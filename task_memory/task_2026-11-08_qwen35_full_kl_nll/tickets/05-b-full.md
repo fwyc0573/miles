@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Hold formal B under shared D40 workflow RCA/fix verification; preserve satisfied A-inspection and all final checkboxes without a new A200/profile gate. |
 | 2026-11-11 | Apply D39 parallel H800 B preparation, removing superseded32-H200 gate; preserve completed D16/common-cycle and all final criteria. |
 | 2026-11-10 | Record accepted actual A profileprefix2 without a new B gate; keep fresh-resource-only blocking and all criteria unchanged. |
 | 2026-11-10 | Accept common first native cycle from corrected A; B remains blocked only by fresh18-H200 resources within32, without A200/profile-PASS gate, stop-A authority or checkbox change. |
@@ -27,9 +28,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection及common native cycle已核验。D39下B可与A并行prelaunch，仍需新H800配置/source/model preflight与fresh admission/placement；没有A200/profile-PASS或32-H200依赖，也不授权停止其他task腾资源。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection及common native cycle已核验。D40暂停全部正式A/B，先完成本ticket与04共有的workflow/参数RCA、evidence-backed fix及验证；之后各自fresh H800 admission/placement。没有A200/profile-PASS或32-H200依赖，也不授权停止其他task腾资源。
 
-**Status:** TODO / H800_PREPARATION; B not started. D39 selects fresh independent non-preemptible H800/codesign B, planned36 GPUs including4-H800 teacher, in parallel with A preparation; no personal H800 count cap or32-H200 budget applies. [D16 A-firstACK/inspection](../test_report_2026-11-10_d16_first_update.md)and common cycle remain satisfied; [historical profileprefix2](../test_report_2026-11-10_corrected_profile_prefix.md) adds no new gate. Corrected H200 A is terminal native6/200/profile2 INCOMPLETE, not a result to resume/splice into B. NewB uses the same original student initialization/newdated paths, noformal checkpoint/resume; native teacher/runtime/200/profile/terminal still require actual evidence. Planned A36+B36=72 is not placement proof. **All criteria/checkboxes, fixed256/32×8,D34 and soft profiles remain unchanged;356/first256 is not approved, no extra probe or later-update auto-loop.**
+**Status:** BLOCKED / WORKFLOW_RCA D40; B not started. CPU benchmark preparation and historical actual-config/data/resource/flag/async-buffer-versus-fresh analysis run in parallel within04/05; formal submission awaits an evidence-backed fix and bounded H800 verification. [Configuration phase](../review.md#h800-only-configuration-phase-review--2026-11-11) No findings is not workflow/throughput acceptance. [D16 A-firstACK/inspection](../test_report_2026-11-10_d16_first_update.md)and common cycle stay satisfied, not reset byD40; no A200/profile-PASS/32-H200 gate. D39 B36H800/codesign/non-preemptible/no personal cap/original init/newdated paths remain, but fresh admission/actual placement and independent200/native/profile/terminal evidence are still needed. All oldnative6/profile2/other failed outcomes remain protected and unspliced. Fixed256/32×8/D34/231/1800s/600s/200/S7/checklists remain;356/first256 and stale-weight async redesign are not approved. No benchmark result or later-update auto-loop is invented. [Current RCA](../progress.md#current-execution--workflow-rca).
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

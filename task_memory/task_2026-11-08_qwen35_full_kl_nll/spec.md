@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record D40 formal hold and workflow/parameter RCA inside04/05; configuration review is not throughput acceptance, fixed science and D39 hardware stay unchanged. |
 | 2026-11-11 | Apply D39 H800-only fresh independent execution without a personal cap; synchronize H200 terminal6/profile2, preserve science and leave356-candidate selection unapproved. |
 | 2026-11-10 | Accept D16/Ticket02 actual GPU evidence; record terminal1/200 native host-memory failure and unresolved allocation mechanism without changing behavior or science. |
 | 2026-11-10 | Update current S0 status with actual H200 submission/workers/Ray and joined CPU tools; do not promote startup/fixtures to ACK/D16 or final acceptance. |
@@ -61,7 +62,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D39）**：**H800_PREPARATION**。后续只用H800/codesign，无个人H800数量上限；primary准备A/B各36卡、可实际准入时72卡并行，尚未提交或保证placement。新attempt从同一原始模型初始化，不resume formal checkpoint。Corrected H200已[Failed且全replica终态](evidence/h200-before-h800-only-20261111.json)，[native6/200](evidence/h200-final-native-before-h800-only-20261111.json) INCOMPLETE；仅[profile前缀2](test_report_2026-11-10_corrected_profile_prefix.md) accepted。bank6为225<231/1800s的采集吞吐失败，不是新OOM。D16/02/03/common-cycle及06 CPU接受保持；B无需A200/profile PASS或旧32-H200条件，但需fresh H800 preflight/admission。旧owner/backup-byte/cgroup-peak未证明。固定256/32×8及全部science/S7/checkbox保持，356取first256只记问题、不采纳。详细状态由[H800 current progress](progress.md#current-execution--h800-only)维护；无新GPU smoke/辅助硬gate或H200 stop需求。
+**当前状态（2026-11-11，D40）**：**WORKFLOW_RCA；正式A/B提交暂停**。04/05内并行开展CPU benchmark实现和Oct6实际历史配置/样本/资源/flags对比，核验async buffer与当前fresh-weight语义后诊断、修复并以bounded H800 verification验收；不新建ticket。配置52a02b6f/4 dry PASS/[两轴phase No findings](review.md#h800-only-configuration-phase-review--2026-11-11)不等于workflow/吞吐接受。Bank6 [native timeline/attribution](test_report_2026-11-11_h800_only.md#native-generationteacher-timeline-addressing-the-rollout-tail-hypothesis)证明本bank deadline-critical teacher path，不证明global dominance、isolated GPU time或fix。D39 H800/codesign-only/无个人cap、fresh original init、固定256/32×8/D34/200/231/1800s/600s及S7保持。D16/02/03/common-cycle/06 CPU接受和B的A-inspection已满足；无A200/profile PASS/32-H200门槛，但两cell均需D40 RCA/fix验证及fresh admission。Oversampling/stale-weight async redesign未批准；D40性能RCA不是新增model-quality benchmark。旧失败/仅profile2/未证明owner等历史边界不变。[Current progress](progress.md#current-execution--workflow-rca)维护实际状态；无当前H800作业或虚构benchmark结果。
 
 ## S1. 目标与实验矩阵
 
@@ -291,12 +292,13 @@ NLL_i = nll_sum_i / tokens_i
 - native 训练、通信和 I/O 的故障处理不变，D6、D7 的停止规则不变。
 - profile 不参与任何训练控制。
 
-## S8. GPU 与执行（D16、D19、D33、D39）
+## S8. GPU 与执行（D16、D19、D33、D39、D40）
 
+- **当前D40 workflow RCA hold**：primary暂停全部正式A/B提交；04/05内并行CPU benchmark实现与实际历史配置/样本/资源/flags/async-buffer-vs-fresh语义核验，完成evidence-backed修复及bounded H800-only验证后再推进正式preflight/admission。普通in-scope CPU edits和bounded H800验证已授权，不等于oversampling、stale-weight async redesign或model-quality评测批准。配置phase No findings/125flags/4dry PASS不能解除该hold；它是明确的native workflow前置，不是profile辅助硬gate。
 - **当前D39**：本session后续GPU执行仅H800/codesign，无个人H800 count cap，正式A/B非抢占。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；fresh资源核验/准入和实际调度仍必须记录。D37/H200、旧32-H200上限及已完成D38 H200 probe均为历史，不授权新H200工作。Primary独占平台操作和live提交/status；不停止其他task作业腾资源，准备文件不证明queue/available capacity。
 - **当前准备布局**：沿用D35接受的36-H800 sizing basis，A/B各student4节点×8+teacher4，合计72可并行请求但不保证placement。Config agent维护H800 formal配置和新dated paths；B native能力仍需实际验证。两个新attempt从同一原始Qwen3.5-4B初始化，不使用formal checkpoint/resume。历史H20018/cell配置/证据不覆盖或拼接新run。D34、global batch/source32×8/256、200 full、231/1800s及600s initial sync不变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
-- **启动顺序与资源**（D16/D39）：A实际首次successful optimizer ACK与profile/identity/耗时inspection及common native cycle已由保留证据接受，B逻辑前置无需重置。当前A/B H800 prelaunch可并行，各自fresh admission/placement后独立执行；无A200/profile-PASS或32-H200 gate。辅助失败报告unverified、healthy training继续，不单独阻止B；各新run的native failure/真实资源不足仍须处理。无个人count cap和计划72卡不等于physical placement。
+- **启动顺序与资源**（D16/D39/D40）：A实际首次successful optimizer ACK与profile/identity/耗时inspection及common native cycle已由保留证据接受，B逻辑前置无需重置。D40 RCA/fix验证先行；之后A/B prelaunch/fresh admission可并行，各自实际placement后独立执行，无A200/profile-PASS或32-H200 gate。辅助失败报告unverified、healthy training继续，不单独阻止B；各新run的native failure/真实资源不足仍须处理。无个人count cap和计划72卡不等于physical placement。
 - **吞吐判断**：第一个 update 的 prompt 长度不一定代表后续分布（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
 - **D19，当前资源按D39/S8**：第一个update若因rollout或teacher打分太慢违反D6，按D6结束该attempt，保留既有新attempt relaunch授权；资源必须H800/codesign、非抢占并重新核验准入，无个人H800 cap。D6截止时间/最低条数不变；startup placement失败不当作D19吞吐失败，无新增GPU smoke。D39 continuation是新独立attempt授权，不是later-update故障后的无限自动retry授权。
 - 第一个之后的 update 若因吞吐违反 D6，按 D6 结束该 attempt 并报告；D19 不覆盖这种情况，是否重启由用户决定。

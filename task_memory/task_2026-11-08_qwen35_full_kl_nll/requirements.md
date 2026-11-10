@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record D40 workflow/parameter RCA and earlier questions; formal A/B remain paused despite configuration-phase acceptance, with D39 hardware and fixed science retained. |
 | 2026-11-11 | Record D39 H800-only execution without a personal GPU cap, independent A/B preparation and terminal H200 native6/profile2; retain the356-candidate question without protocol approval. |
 | 2026-11-10 | Accept actual corrected-A profile prefix2; distinguish before-optimizer record timestamps from ACK publication, retaining all full-run/resource criteria. |
 | 2026-11-10 | Record corrected A native2/200 and the accepted first post-update offload/restore/next-train cycle; detailed profile verification remains pending and B waits only for fresh resources. |
@@ -64,7 +65,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **H800_PREPARATION / D39**. Subsequent GPU execution in this session is H800/codesign only, without a personal H800 count cap; D39 supersedes the D37 H200 route and old32-H200 restriction. Primary is preparing fresh independent non-preemptible A/B attempts at36 H800 each,72 if placed concurrently, from the same original model initialization, not formal checkpoints/resume; no new submission or physical placement is confirmed. [H200 terminal evidence](evidence/h200-before-h800-only-20261111.json) closes corrected`exp-1110-165312-132926`Failed with all3 replicas terminal; [native evidence](evidence/h200-final-native-before-h800-only-20261111.json) records6 successful IDs1..6, while only [actual profileprefix2](test_report_2026-11-10_corrected_profile_prefix.md) is accepted. Its bank6 acquisition failure leaves6/200 INCOMPLETE; it is not a new OOM or six-profile acceptance. D16/02/03/common-cycle inspection and06 CPU readiness remain accepted; B has no A200/profile-PASS or32-H200 dependency, but needs fresh H800 preflight/admission. Fixed256 candidates/32×8,D34,200 successful updates,231/1800s,600s sync and soft profiles remain unchanged. The356/first256 question is not selection-policy approval. Current details: [H800 execution](progress.md#current-execution--h800-only). Old attempts and all checkbox states remain distinct/protected; no H200 stop is required for this terminal task.
+- Current phase: **D40 / WORKFLOW_RCA; formal A/B submissions paused**. Tickets04/05 own comparison with the actual historical run, evidence-backed workflow/parameter diagnosis and fix verification under D39 H800/codesign-only rules. CPU benchmark implementation and historical comparative analysis proceed in parallel; no H800 job or completed throughput fix is recorded. Configuration52a02b6f and both phase reviews are accepted, not workflow/native-throughput acceptance. Bank6 evidence establishes its deadline-critical teacher path, not global bottleneck/GPU-time dominance. Actual historical samples/resources/flags and async-buffer versus current fresh-weight semantics must be checked before comparability claims. Ordinary in-scope CPU edits and bounded H800 verification are authorized; oversampling or async stale-weight redesign is not. Fixed256/32×8,D34,200 successes,231/1800s,600s sync and soft profiles remain, as do D16/02/03/common-cycle and06 CPU acceptance. B has no A200/profile-PASS or32-H200 gate; both formal cells await D40 RCA/fix verification and fresh H800 admission. [Current execution](progress.md#current-execution--workflow-rca). Old attempts remain distinct/protected; the closed H200 task needs no stop.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -369,3 +370,22 @@ The alternative was the existing disk-offload mechanism with its added I/O and u
 > 我对这里的问题感到疑惑，我们可否生成超出256个需求的设定（例如要求生成356个），只取先返回的256个？当前是否只是生成256个然后等待返回？
 
 **Primary explanation, not user approval:** the current protocol allocates256 candidates, waits until all finish or the1800-second acquisition deadline, and trains only when at least231 valid candidates are available; otherwise the attempt fails. Drawing356 and choosing the first256 changes selection policy and can bias membership toward faster completions while increasing teacher-queue load. Selection policy must be confirmed before any such change; this question does not alter fixed256/32×8 or authorize an oversubscription experiment.
+
+### Earlier bottleneck challenges — [Original Request / Questions only] 2026-11-11
+
+> 我不理解为什么 “刚失败那批的 31 个未完成请求全部已进入 teacher 阶段” 却还是timeout了？进入teacher后是什么导致了timeout？难道不是凑齐256即可吗？
+
+> 我认为你的分析存在漏洞，难道整个flow中卡住的环节是 teacher 评分吗（耗时最久）？我认为大概率是 rollout；请你确认，如果是的话，应该考虑我提的方案
+
+> 这里需要确认的是 rollout 是否在等待个别服务返回拖累了整体flow？我并不理解的是，teacher 评分是prefill环节，不应该存在卡顿情况，难道有什么特殊响应需要处理（是否存在其他开销）？还是说确实为计算负载太大，需要排队等待？
+
+**[Primary clarification; not protocol approval]:** an end-stage label alone does not prove the global bottleneck. Retained native bank6 events establish256 successful generations completed by1150.88955s, teacher-start gap≤0.010996s,31 teacher requests pending at1800s, queue peak128 and21,561,962 logged new tokens/0 cached tokens. This identifies the deadline-critical teacher path for that bank, not isolated GPU time, global teacher/rollout dominance or a completed fix. The questions do not approve356 candidates, first-finished selection or stale-weight async semantics.
+
+### Workflow/parameter RCA — [Original Request] 2026-11-11
+
+> 你查看/data/ycfeng/steptron/task_memory/task_2026-10-06_mopd_step_timeline中的运行测试信息，其1个step的耗时明显短于当前，我认为当前workflow中必然存在着问题（或者是参数设定问题），请你rca并修复
+
+- **D40:** compare the actual historical run with current actual samples, resources, native flags and async-buffer versus fresh-weight semantics; diagnose and fix evidence-backed workflow/parameter defects within04/05, not a new ticket. Ordinary in-scope CPU edits and bounded H800-only verification underD39 are authorized. Technical performance RCA is not a new model-quality benchmark.
+- Primary pauses all formal A/B submissions pending RCA/fix verification; no current H800 job. CPU benchmark implementation and historical comparative analysis proceed independently in parallel. Configuration52a02b6f/four dry runs/two No-findings phase reviews do not release this hold.
+- Oct6`tl-1007b`median966s,48 H200 train+8 rollout, teacher on48 train GPUs and an async buffer are preliminary supplied context, not a comparable baseline until actual configuration/data/flags are read and aligned. No fabricated benchmark result or causal fix is accepted.
+- Fixed256 candidates/32×8,D34 context/response budgets,231/1800s,600s sync,200 successful updates, fresh original initialization and soft profiles remain unchanged unless the user makes a new explicit decision. Neither oversampling nor async stale-weight redesign is implicitly approved. B retains its already-satisfied A-firstACK/inspection edge and no A200/profile-PASS gate; both cells still require RCA/fix verification and fresh H800 admission. No unapproved later-update auto-loop is added.

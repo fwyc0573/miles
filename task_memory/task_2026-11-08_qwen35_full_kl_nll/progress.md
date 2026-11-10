@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record D40 workflow RCA/formal hold, native bank6 attribution and configuration-only review; preserve the D39 preparation snapshot and parallel RCA ownership. |
 | 2026-11-11 | Record D39 H800-only parallel preparation, correctedH200 terminal6/profile2 and question-only356 proposal; preserve historical snapshots and append the four-section status checkpoint. |
 | 2026-11-10 | Verify corrected A updates1/2 and intervening native lifecycle; continue to200 with B resource-blocked, and label old failure snapshots as historical. |
 | 2026-11-10 | Record corrected A submission/actual18H200, completed fix reviews and native observation; checkpoint the six-ticket execution frontier. |
@@ -52,6 +53,13 @@
 # Progress
 
 ## completed
+
+- **D40 documentation verification — TaskID`profile-workflow-rca-records-20261111`: PASS.** Run from `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image` under system Python3.10.6. Expected: local links/DAG/arithmetic valid, zero scoped whitespace errors, unchanged original requests/science/checklists/history. Actual:46 documents,6 tickets,285 links,69 anchors,0 errors; scoped diff clean. Read-only assertions pass: four exact new raw questions/request, priorD35–D39 content preserved, all six tickets' checkbox rows unchanged (including17 A/B rows), S1–S7/S9 and verification strategy unchanged, old progress/review/history retained, latest checkpoint exactly four sections/PASS3-BLOCKED2-TODO1/D1–D7 CLEAR/S5 corrected. No business benchmark/test/GPU operation was run. One exact-context patch mismatch and one new heading-anchor typo were corrected; these were documentation iterations, not native failures. No unowned report-anchor error remains.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,summary.md,spec.md,progress.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
 
 - D39 records verification (`profile-h800-only-records-20261111`, seven owned docs, repository root, local Python3.10.6): existing docchecker expected0 errors and actual PASS with45 documents/6 tickets/274 links/57 anchors, unchanged51,200-per-cell/102,400-total/81 arithmetic. Scoped whitespace PASS. Doc-only guard PASS: old raw requests/D35–D38/history unchanged, exact D39/356 question recorded, all six-ticket checkbox rows including17 A/B unchanged, S2–S7/S9/scientific verification strategy unchanged, old checkpoints preserved, latest exact four sections with3 PASS/0 BLOCKED/3 TODO/BranchB/D1–D7 CLEAR and only correctedS5. Local receipt extraction initially used the wrong latency key; corrected to `elapsed_seconds` and `stage=teacher_request`, excluding225 validation events. The supplied472.5644s is the sorted upper-middle P50 over256 request ends, not Python's average-of-middle-values convention. This reader correction did not change native status/data or trigger runtime work. No new report, code/config/evidence write, business test, platform/SSH/network/delegation or GPU operation. Exact commands:
 
@@ -129,7 +137,16 @@ PY
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 
+## Current execution — workflow RCA
+
+- **D40 / WORKFLOW_RCA; formal A/B submissions paused:** the [exact RCA request and earlier questions](requirements.md#workflowparameter-rca--original-request-2026-11-11) place workflow/parameter comparison, diagnosis and evidence-backed fix inside04/05. Primary runs CPU benchmark implementation and historical comparative analysis in parallel; no current H800 job, completed benchmark result or throughput fix is supplied here. D39 H800/codesign-only/no-personal-cap/original-init rules remain. After RCA/fix verification, formal A/B still require separate fresh admission/placement;36+36/72 is not physical proof. This explicit native-workflow hold is not a profile auxiliary hardgate or an A200/profile-PASS/32-H200 prerequisite.
+- **Actual bank6 evidence, limited claim:** [512 native generate events/256 completions](evidence/h200-bank6-native-stage-timeline-20261111.json) and [attribution](evidence/h200-bank6-stage-attribution-20261111.json) establish all generation completed by1150.88955s, teacher-start gap max0.010996s,31 teacher requests pending at1800s, queue peak128 and21,561,962 logged new tokens/0 cached. This establishes the deadline-critical teacher path for this bank, not isolated GPU compute, global teacher/rollout dominance or a fix. The [primary's existing report](test_report_2026-11-11_h800_only.md) owns detailed timing/queue/accounting. End-stage labels alone were insufficient; challenges are retained as questions, not oversampling or stale-weight async approval.
+- **Configuration phase complete, formal acceptance held:**52a02b6f retains36 H800/cell; [immutable diff](evidence/h800-only-20261111/verified3/config.diff)/[comparison](evidence/h800-only-20261111/verified3/comparison.json) change onlyphase/run_root/shared_dir, record4 dry-run PASS and125 native flags equal except output root. [Standards/Spec](review.md#h800-only-configuration-phase-review--2026-11-11) both No findings; no workflow/throughput/placement acceptance follows. Oct6tl-1007b median966s/48 H200 train+8 rollout/teacher on48 train GPUs/async buffer are preliminary context until actual samples/config/flags/resources and current fresh-weight semantics are aligned. No not-yet-written RCA report is linked.
+- **Next action and unchanged limits:** parallel CPU benchmark preparation ‖ historical actual-config/comparative analysis → evidence-backed fix → bounded H800-only verification → fresh formal admission/native observations → each200/profile/terminal →06 final. Fixed256/32×8,D34,231/1800s,600s sync,200 success/no HF/eval/S7 remain. D16/02/03/common-cycle/06 CPU remain accepted; historicalH200 native6/profile2 INCOMPLETE/oldH800 failures are protected and unspliced, no H200 stop needed. Ordinary in-scope CPU edits/bounded H800 checks are authorized byD40, not executed by this docs agent; no async stale-weight redesign, selection-policy change, auxiliary hardgate or later-update auto-loop is approved.
+
 ## Current execution — H800 only
+
+Historical D39 preparation snapshot before D40. Its prelaunch route below is retained as then-current history; the workflow-RCA/formal hold above is authoritative now.
 
 - **D39 / H800_PREPARATION,2026-11-11:** the exact H800-only request and356-candidate question are recorded in [requirements](requirements.md#h800-only-continuation--original-request-2026-11-11). Subsequent GPU execution is H800/codesign only with no personal H800 count cap, replacing D37/H200 and the old32-H200 constraint. Primary/config agent prepare fresh independent non-preemptible A/B at36 H800 each,72 concurrent if actually admitted/placed, with newdated paths and the same original model initialization; noformal checkpoint/resume, new submission or resource guarantee is recorded here. D16/02/03/common-cycle and06 CPU acceptance remain. B's A-firstACK/inspection is satisfied; A/B may prelaunch in parallel and each needs fresh H800 admission, not A200/profile PASS or an H20032 gate.
 - **Historical correctedH200 final disposition:** [API receipt](evidence/h200-before-h800-only-20261111.json) confirms`exp-1110-165312-132926`Failed/all3 terminal; rank0 Failed, peer/teacher Stopped, so this task needs no H200 stop. [Native readback](evidence/h200-final-native-before-h800-only-20261111.json) contains successful IDs1..6, but only [actual profileprefix2](test_report_2026-11-10_corrected_profile_prefix.md) has accepted canonical/original-file rebuild. Additional profile-file rows are not verification of ranges3..6. [Bank6 stages](evidence/h200-bank6-stage-evidence-20261111.json) show225 valid versus231 at1800.02583s,31 pending slots and31 cancelled teacher requests; retained teacher-request upper-middle P50=472.5644s/max915.0356s. This is acquisition throughput, not another host OOM. Checkpoint directory entries are empty; no old full-model owner/backup-byte/cgroup-peak or200-stability proof is added. Native6/profile2/200 remains INCOMPLETE; all previous H8000/H2001/200 outcomes stay distinct/protected.
@@ -1407,3 +1424,61 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1. D39只有H800/codesign、无个人count cap；36+36/72是准备计划，当前没有新提交或placement保证。
 2. H200已Failed/native6/200，只有profileprefix2接受；bank6是225<231的采集失败，不是OOM，无H200 stop需求或计数拼接。
 3. 固定256/32×8保持；356取first256只是问题，未授权selection bias/teacher queue变化。B无A200/profile PASS或32-H200 gate，06最终数据仍未完成。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 source/order | PASS | D34原位长度/source/parity验收已记录，固定32×8不变。 |
+| 02 per-turn sums | PASS | CPU/S7及实际D16 GPU/pair rebuild已接受。 |
+| 03 profile/integration | PASS | module/201-case CPU集成接受；native-cycle前置保持。 |
+| 04 A/full | BLOCKED | D40 workflow/parameter RCA/fix验证前暂停正式提交；配置phase接受不等于吞吐通过。 |
+| 05 B/full | BLOCKED | 同D40 native hold；A-inspection已满足，无A200/profile/32-H200 gate。 |
+| 06 final report | TODO | CPU slice接受，等待各新A/B实际200/native/profile/terminal数据。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进；S5当前路线文字已纠正，RCA本身是新明确主线。
+**检测窗口：** 前次D39 checkpoint及最近配置phase PASS至D40和bank6实际timeline记录（TaskID`profile-workflow-rca-records-20261111`）｜**当前前沿：**04/05内并行CPU benchmark实现与实际历史比较；正式A/B暂停。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 本轮仅8份指定记录/既有docchecker；benchmark准备是用户要求的RCA证据，不扩通用工具。 |
+| D2 细节反复重试 | CLEAR | 无GPU重投；一次patch上下文不匹配经实际行读取修正，未轮换native参数/无later-update loop。 |
+| D3 支线问题修补 | CLEAR | Bank6归因与历史比较由D40明确纳入04/05，不新建无主支线。 |
+| D4 可并行任务停滞 | CLEAR | CPU benchmark实现‖历史配置/样本/flags比较明确并行；正式暂停来自用户native RCA前置而非假A200 edge。 |
+| D5 超范围镀金 | CLEAR | 只有已有配置review/有限stage证据；不批准356、async stale-weight redesign或quality benchmark。 |
+| D6 分析空转 | CLEAR | 新512-event/timeline与用户D40使04/05转RCA hold；尚无benchmark结果，不捏造fix。 |
+| D7 路线违背 | CLEAR | D40/RCA优先，D39 H800-only及固定science/S7保持；无平台或新提交。 |
+
+**文档检查：**
+- S1 CLEAR：benchmark实现/历史比较并行，native RCA hold有明确依赖；06 CPU/final和B逻辑edge保持。
+- S2 CLEAR：workflow/parameter blocker由04/05及primary/相应实现分析owners承担，不新增ticket。
+- S3 CLEAR：200/profile/固定输入标准未冲突；baseline是否可比待实际配置，而非先宣告同等。
+- S4 CLEAR：完成需实际对齐证据、evidence-backed fix及bounded H800验证；不以笼统“更快”或No findings作验收。
+- S5 HIT → corrected：原requirements phase/plan44/57/58/96/spec S0/S8/04/05/progress current仍是H800 preparation→launch，违背D40 pause；本轮8docs记录新scope/hold及phase-only review边界。
+- S6 CLEAR：04/05仍各自可完成的正式cell，共有RCA工程前置；06 CPU/report拆分不改。
+**归因：** 无执行D命中；直接照旧docs会绕过D40，归因S5已修正。
+
+## 3. 纠正建议
+
+**分支：** B：spec/tickets存在S5，先更新当前路线再继续。
+
+**文档更新（先执行）：**
+1. requirements current/D40及原问答，plan04/05依赖，spec S0/S8，progress current，summary/tickets04/05：记录正式暂停、并行RCA、固定science/未批准策略及有限teacher-path证据（可直接执行，已完成）。
+2. review配置phase：记录52a02b6f immutable artifacts/两轴No findings并明确不是workflow/吞吐接受；不链接未生成RCA报告（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 并行04/05 CPU benchmark实现 ‖ Oct6实际配置/样本/资源/flags/async-buffer-vs-fresh比较 → 完成标志：可复现证据与可比性/非可比性明确，无虚构耗时或全局瓶颈结论。
+2. Primary依据证据诊断/修复现有workflow/参数缺陷，进行bounded H800-only验证 → 完成标志：修复机制与实际结果核验；若需要oversampling/stale-weight redesign等science变化，先另取明确决定。
+3. D40 RCA/fix验证之后才推进独立A/B preflight/fresh admission/native观察，至各200/profile/terminal及06最终报告；不因配置review直接launch、不增加A200/profile或32-H200 gate，不无限auto retry。
+
+## 4. 最值得关注的 3 点
+
+1. 正式A/B暂停、当前无H800任务；配置4dry/125flags/两轴No findings只是phase证据，不能越过D40。
+2. 本bank全部generation1150.88955s已完成，deadline剩31teacher pending/queue128；只确认关键teacher路径，不证明GPU时间或全局dominance/fix。
+3. Oct6 median966/resource/async差异须读实际配置才可比较；固定256/32×8/200及S7保留，356/first256与stale-weight redesign未批准。
