@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record source/integration reviews,202 CPU/two dry-runs, submitted native A/B probes Pending placement and static normal WAR closure; preserve native limits and append a current phase checkpoint. |
 | 2026-11-11 | Record e2feca95/145 CPU and175-file source archive; advance selected-FP32 candidate/source-fidelity route, defer env1, distinguish current hypothesis-driven work from historical D2. |
 | 2026-11-11 | Record completed actual comparison/native teacher probes and CPU/cold-only acceptance; warm probability drift keeps formal hold, with launcher/source failures distinct. |
 | 2026-11-11 | Record D40 workflow RCA/formal hold, native bank6 attribution and configuration-only review; preserve the D39 preparation snapshot and parallel RCA ownership. |
@@ -55,6 +56,14 @@
 # Progress
 
 ## completed
+
+- **Native FP32 frontier records verification — 2026-11-11, TaskID`profile-fp32-native-frontier-records-20261111`:** local systemPython3.10.6, commands from repository root. Raw/all decisions/history, six-ticket checkbox rows(A8+B9=17), scientific S1–S7/S9, actualverification-strategy span and historical review/progress PASS; exact-four checkpoint3PASS/2BLOCKED/1TODO. Local metadata patches/guard initially assumed stale headers/overwide tails; actual file headings settled the check without historical or scientific changes, and its doc-only D2 is recorded below. No business tests/native calls or candidate/report/evidence edits.
+  - Existing globaldocchecker at this snapshot:57documents/6tickets/350links/89anchors,20errors/all frozen review-copy dependencies,0owned errors. Breakdown: previous2scoring-scope links+4selected-source-candidate links+14integration base/candidate links; no checker/artifact exclusion/mutation, no native/fix verdict inferred. Scoped whitespace PASS; source/integrationCPU/native facts are retained primary results, not rerun here.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,summary.md,spec.md,progress.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
 
 - **FP32 source-candidate phase record verification — TaskID`profile-workflow-rca-records-20261111`: scoped PASS; known2 frozen links deferred.** Run at repository root `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, systemPython3.10.6. Expected raw/decision/all six-ticket checkbox/science/strategy/history preservation and exact four-section3/2/1 checkpoint; read-only assertions PASS, currentD1–D7 CLEAR/BranchB-S5, previousD2 retained. Existing docchecker reads51documents/6tickets/316links/83anchors,2 errors only in the immutable candidate copy's adjacentrequirements/RCA-report links; no owned error, no artifact/checker exclusion or mutation. Scoped whitespace PASS; no business test/source candidate inspection/native GPU/platform/delegation by this docs agent. Candidate remains unreviewed/source-only, no newer GPU or perf/cause PASS. Exact documentation commands:
 
@@ -159,10 +168,10 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / FP32_SNAPSHOT_SOURCE_FIDELITY_CANDIDATE; formal04/05 BLOCKED.** Currentnative generalagent`ses_e38c8a3aaffeEB3Bh3WxPzEoyE`/TaskID`profile-native-mamba-fp32-snapshots-20261111`prepares three CPU-only files connecting existing selectedFP32 snapshot support throughTriton; candidate not reviewed/deployed/native/performance/historical-causePASS. Archive145CPU/source contracts do not transfer acceptance to it. Next realsourceidentity/donor/runtime snapshot fidelity and H800 probability comparison use correspondingcoldreferences, thenfresh04+05 admission concurrently whenplacementpermits→each200/profile/terminal→06.
-- **Mechanisms, not closed cause:** [matchedsourceinspection](test_report_2026-11-11_workflow_rca.md#hidden-reuse-event-coverage-and-a-concrete-precision-candidate)shows canonicalKV rebind duringunfinishedchunks evenwhenfullcached0, not proof thatKV iswrong/order-race. FP32accumulator→intermediateh k.dtype(BF16)→temporalFP32 addsprior-rounding; selectedFP32 write capability alreadyexists butforwardingchainunwired. Nativegrid/cache/state/dtypes/donor mustberuntimeverified; thispathalone doesnotexplainwarmfull. Normalh/output/finalstate/tolerance/cachepolicy/globaldtype/backend/science remainunchanged; interval256decode-only, notprefillgrid/no8192proposal.
-- **Deferredcontrol:** GDN EXTEND shared-readcontractUNKNOWN mayalreadytakewholeforwardstreamfallback. Prepared`SGLANG_FORCE_COARSE_WAR_BARRIER=1`variant isDECLARED_DEFERRED/notsubmitted, actualeventpublication/branchunrecorded; unchangedoutputcannotexcludeordering. No redundant8GPU experiment, missing-eventproof or newnativePASS. Frozenartifact's2linkerrorsremainknownmetadata, notmainlinebug; neitherartifactnorcheckerchanged/excluded.
-- **Window/state boundaries:** latestroute is source/hypothesis-driven after`49809c0f→e2feca95`, notrepetitionofearlierSDK/import/120sD2mistakes. R1cold14/14,warm4/14, completedhistoricalcomparison andsix-fileNo findings stayacceptedonlypriorCPU/coldscope; no newerGPUresult/fix/causal/perfacceptance. D39/D16/02/03/commoncycle/06CPU, fixed256/32×8/D34/231/1800s/600s/200/S7/raw/checklists/historyremain; no B A200gate, newdecision/tolerance/cache/interval/globaldtype/backend/scopechange.
+- **D40 / NATIVE_FP32_H800_VALIDATION_PENDING_PLACEMENT; formal04/05 BLOCKED.** Source`d7e7e301`and integration`f992159c`each passed both immutable review axes, source-only; reviewers did notreruntests. [202 primary joinedCPU PASS/7.26s and two controller dry-runs](test_report_2026-11-11_fp32_probe_integration.md#primary-end-to-end-controller-integration)do notprove native. Teacher-only A`exp-1111-053300-533764`/B`exp-1111-053259-677817`submitted eachrequested4nonpreemptibleH800/codesign; [startupA](evidence/teacher-scoring-fp32-probe-20261111/startup-A-r1.json)/[startupB](evidence/teacher-scoring-fp32-probe-20261111/startup-B-r1.json)bothPending/replicas[], noactualdevices/preload/source-preflight/CUDA/probPASS. Existing background outerlaunchers have no120sdeadline, noresubmit/stop. Native placement/source/donor/runtime/stores/correspondingcoldprobabilities are the frontier; source/engine/model/cache/dtype/science/56requests/32flushes unchanged.
+- **Static closure, runtime still open:** [primary C4/C5 conclusions](test_report_2026-11-11_workflow_rca.md#source-candidate-review-and-native-experiment-readiness)retain25+9 sourcefiles andclose normalEAGER EXTEND UNKNOWN→nonPRE_REPLAY publisherreturn→noevent→None mailbox→wait_stream. This isstaticnormalpath, notR1actualWARbranch/race exclusion. Env1remainsUNSUBMITTED/redundantthere; warmfullcanonicalrebind remainscontaminated/notcoldoracle. Actualdonor/runtimegrid/dtypes/selectedFP32stores/probabilities needH800; ordinaryoutput/h/finalstate/policy/backend/globaldtype/tolerance/interval remainunchanged, decode256nonprefillgrid/no8192proposal.
+- **Independent preparation/metadata limits:** delegatedoperator-semantics CUDA worker remainsCPU-only/notready/submitted/PASS; intendedrealcheck comparesselectedFP32stores withnativeprefixfinalstate andunchangedordinaryoutput/h/final. Originaladmission probe_configmetadatawrong afterchdirre-resolution, actualworker--configabsolute/correct; helpermetadatafix22CPU PASS/0.42s underverification, originalR1receiptsUNMODIFIED/supplementpending. Notactualinput change/nativefailure/resubmit/stop, notmainlineharness-polish gate. Reports/evidence/code/config/platform ownedbyprimary/agents, notthisdocscope.
+- **Accepted history and next route:** previousR1cold14/14/warm4/14, scoped135/e2feca95145CPU, historicalcomparison/oldD2/H2006-profile2/D16/02/03/commoncycle/06CPU remainindependent. SourcephaseNo findings/202CPU/admissiondo notacceptCUDA/perf/cause/new200. Afterverifiednativefidelity, freshformal04+05H800admission/concurrencywhenplacementpermits→each200/profile/terminal→06; noA200/profile/old32H200gate, scientificchange/newdecision orlater-updateautoloop. Knownfrozenartifactlinksdeferred/noartifactorcheckerchange; recordactualdoccheckercounts, no owned-link masking.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -1637,3 +1646,61 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1. SelectedFP32 source候选仍CPU-only/未review/native/perf/历史cause通过；已有能力接线不等于当前fork实际运行正确。
 2. Cached0full有canonical rebind；UNKNOWN GDN可能已coarsefallback，env1DEFERRED、ordering未排除。必须用对应cold reference和实际runtime/donor证明。
 3. 本窗口145CPU和175-source归档已完成，无新GPU run；formal04/05仍BLOCKED/06等真实200数据，旧D2/旧失败/旧profile前缀各自保留。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 source/order | PASS | 原位输入/D34审计已接受，固定32×8不变。 |
+| 02 per-turn sums | PASS | D16真实counts/canonical/paired rebuild及CPU/S7已接受。 |
+| 03 profile/integration | PASS | CPU模块、实际consumer/S7边界已接受。 |
+| 04 A/full | BLOCKED | Source/integration已review；A teacher-only native probe已提交Pending，无实际GPU/preflight/CUDA/probability通过。 |
+| 05 B/full | BLOCKED | B teacher-only probe同样Pending；正式B未开始，B的旧A inspection条件已满足、无A200 gate。 |
+| 06 final report | TODO | CPU slice已接受，等待各正式A/B真实200/native/profile/terminal数据。 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D2（仅本次doc-only保存检查的重复假定）；native source/integration/提交路线按hypothesis推进，无新的GPU重复实验。旧D2仍保留原窗口。
+**检测窗口：** 前次`ab3f47d5`checkpoint之后至`d7e7e301→f992159c`source/integration/202CPU/两dry-run及保留的A/B submitted-Pending节点（TaskID`profile-fp32-native-frontier-records-20261111`）｜**当前前沿：**04/05现有nativeGPU验证等待placement，及独立CPU operator-worker准备。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | source/integration/202CPU/两dry-run服务实际native验证；22CPU metadata修复只纠正可达receipt错误，workercommand本已正确，不扩harness或冻结artifact修复。 |
+| D2 细节反复重试 | HIT | 本次doc-only guard重复使用过宽strategy范围/不存在的历史标题，完整保存检查多次未结束；已改为实际标题/固定科学段，一次核验后停止。Native C4/C5/source路线无新GPU重复、env1仍UNSUBMITTED，无stop/resubmit。 |
+| D3 支线问题修补 | CLEAR | source/donor/selectedstore/probability与CUDA operator语义均承接04/05 D40正确性前置，未新开ticket或无主支线。 |
+| D4 可并行任务停滞 | CLEAR | source/integration两phase均落地并完成两轴review；A/B probe并发提交，Pending是实际placement边界。CPU operator准备独立，B未被A200假edge阻塞。 |
+| D5 超范围镀金 | CLEAR | 只验证已有FP32 snapshot能力；正常output/h/finalstate、source/engine/model/cache/dtype、56requests/32flushes、固定science/tolerance/backend/interval未变。 |
+| D6 分析空转 | CLEAR | 新25+9源码收窄正常UNKNOWN发布链，candidate/integration实际review通过并提交nativejob；当前瓶颈是placement/真实验证，不是重复源码探索。 |
+| D7 路线违背 | CLEAR | D39非抢占H800/codesign和D40formal hold保持；source review/CPU/submitted不充作nativePASS，无新decision、H200或scope/scientific变更。 |
+
+**文档检查：**
+- S1 CLEAR：source/integration完成不取消native正确性前置；现有probe观察与CPU operator准备可并行，B无A200/profile/32-H200假edge。
+- S2 CLEAR：native placement/source-preflight/donor/runtime/probability由04/05和primary承接，metadata补正有owner、不阻塞正确workerinput。
+- S3 CLEAR：真实GPU/stores/cold-reference/200标准仍可验证；Pending不等于通过或不可达。
+- S4 CLEAR：阶段边界及固定数值/原始输入/200/profile/terminal标准明确，不以No findings/CPU/SDK状态代替。
+- S5 HIT → corrected：requirements current、plan phase/04-05/frontier、summary/spec S0/S8/progress/review/04-05仍写未review/未接线/UNKNOWN可能fallback；本轮同步d7/f992两轴review、202CPU/两dry-run、submitted/Pending及静态normal wait_stream边界。
+- S6 CLEAR：04/05共同native前置与正式cell/06最终报告拆分保持，不改ticket名或checkbox/criteria。
+**归因：** D2为本次doc-only执行偏离：读取实际文档标题即可避免，不由nativeS5状态滞后导致。其余D1/D3–D7 CLEAR，S5已修当前阶段。旧D2/旧native失败/旧profile前缀不重写。
+
+## 3. 纠正建议
+
+**分支：** B：先修正S5当前状态，已授权状态更新不变scope/criteria/decision。
+
+**文档更新（先执行）：**
+1. requirements/plan/progress/summary/spec S0/S8/04-05：同步source/integration reviewed、nativeA/B submitted但Pending/no replicas及当前真实验证前沿；实际文件仍04-a-full.md/05-b-full.md，不创建新名字（可直接执行，已完成）。
+2. review：记录两phase两轴No findings的source-only范围、reviewers未reruntests、202CPU/两dry-run与native差别；C4/C5静态路径不扩为R1 runtime/race证明，metadata原receipt不改（可直接执行，已完成）。
+
+**需停止的偏离行为：** D2停止按旧/猜测标题重跑保存guard；只用实际稳定边界核验已授权status diff，完成后结束文档工具迭代，不改原历史或native流程。
+
+**接下去的路线：**
+1. 并行：primary持续观察既有A/B nativeprobe等待实际placement/设备/模型/source-preflight ‖ CPU-only operator-worker准备；完成标志：真实source/donor/runtime/stores可检查，不是requested GPU或SDK Pending。
+2. 实际H800比较selectedFP32stores与nativeprefix状态、正常output/h/finalstate，完成对应cold-reference概率/rawrange/ID核验；R1 WAR运行branch仍需真实证据，不能用污染warmfull或静态env1无差异结果排除race。补正receiptmetadata作为旁路auditing，不改变workerinput/原receipt或重提。
+3. Native fidelity实际通过后，再freshH800 formal04+05 admission并发（placement允许）、原始初始化/各自200/native/profile/terminal→06；不加A200/profile gate、放宽tolerance/cache/science或later-update自动重投。
+
+## 4. 最值得关注的 3 点
+
+1. Source/integration两轴review与202CPU/两dry-run已完成，nativeA/B已submitted但启动snapshot仍Pending/replicas[]；实际4H800/preload/source-preflight/CUDA/probability均未通过。
+2. C4/C5只闭合normalEAGER静态wait_stream路径；env1仍UNSUBMITTED、R1真实WAR/race未排除。用对应cold references而非已污染warmfull。
+3. Receipt原probe_configmetadata错误不等于实际input错误，workerabsolutecommand正确；22CPU/补充待核、operator-worker CPU未ready/submitted/PASS。Formal04/05仍BLOCKED/06等200，冻结artifact缺链只作为已知限制。
