@@ -1,0 +1,18 @@
+{
+  "pair": "B",
+  "job": "exp-1111-053259-677817",
+  "creator": "i-fengyicheng",
+  "job_status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "probe": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": [],
+  "scope": "One-time startup/source verification; no new job or stop action, not native numerical acceptance"
+}

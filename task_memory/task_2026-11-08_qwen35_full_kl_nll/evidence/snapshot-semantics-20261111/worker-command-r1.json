@@ -1,0 +1,12 @@
+{
+  "command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\ndestination=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/\"$KUBEBRAIN_RJOB_NAME\"\nexec timeout --signal=TERM --kill-after=90s 3600s /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.probe_mamba_fp32_snapshots --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_semantics_config.json --image artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805 --output-dir \"$destination\" > /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/worker-r1.log 2>&1'",
+  "gpu": 1,
+  "cpu": 8,
+  "mem_gb": 64,
+  "resource_derivation": "One formal teacher GPU share of CPU/memory; dedicated operator-only replica",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "formal_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+  "operator_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_semantics_config.json",
+  "worker_seconds": 3600,
+  "local_mount": "/data/ycfeng"
+}

@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-11 | Prepare the isolated native CUDA worker and operator-input config; verify syntax/help/config only. GPU semantics remain UNVERIFIED for PRIMARY execution. |
 | 2026-11-11 | Primary independently validated the operator config and inspected native calls/cache placement before freezing the worker for H800 execution. |
+| 2026-11-11 | Submit one independent H800 operator worker; deployed source, compilation and numerical verdict remain pending. |
 
 # Native selected-FP32 snapshot semantics preparation
 
@@ -153,6 +154,8 @@ The worker reuses `_worker_environment` for fresh worker-local compilation cache
 It emits one JSON verdict on stdout and retains the same `verdict.json` under the supplied task evidence directory, with failed check names and original exceptions/tracebacks/subprocess outputs. Source receipts and exact candidate bytes stay under `source_preflight/` there. Raw small CPU tensors are initially saved at `<formal worker_local_root>/mamba-snapshots-<job>/tensors.pt`; compiled binaries stay in the sibling worker-local `triton/` cache. They are not copied to cloud storage. No cleanup or platform control is performed by the worker. On failure it exits1, but this independent probe is not called by or connected to training.
 
 PRIMARY must record actual job/hardware/terminal state and inspect numerical verdicts before claiming CUDA acceptance. Operator PASS alone cannot release full-model warm probability, donor/runtime, race, throughput or formal04/05 requirements.
+
+PRIMARY submitted **exp-1111-055011-398371**, creator `i-fengyicheng`, non-preemptible1H800/codesign through the existing personal `RJobBackend`. CPU/memory are8/64GB, derived from one GPU's share of the formal teacher's32CPU/256GB on4GPUs. The existing teacher-probe3600s worker budget and90s cleanup grace bound the worker; the outer launcher has no timeout and remains alive. Fresh locked inventory was82 committed personal H800 with no personal ceiling; admission is not physical allocation proof. Evidence: `evidence/snapshot-semantics-20261111/{worker-command-r1.json,admission-r1.json}`. No deployed source, actual hardware, compilation or numeric verdict was observed yet.
 
 ## 1. 规划完成情况
 

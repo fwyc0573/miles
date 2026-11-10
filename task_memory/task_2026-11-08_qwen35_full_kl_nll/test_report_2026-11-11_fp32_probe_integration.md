@@ -134,7 +134,7 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
+**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -142,23 +142,23 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 | 独立 cold 对照 | PASS | A/B 各56 requests/32 flushes，身份和独立模式匹配。 |
 | 隔离配置 | PASS | 仅boolean和output_parent差异。 |
 | CPU验证与报告 | PASS | 55 focused/165 joined PASS、AST3.10与diff检查。 |
-| Native GPU验证 | SKIPPED | 明确CPU-only，未执行。 |
+| Native GPU验证 | TODO | A/B已提交且首次检查Pending；独立1卡operator验证已提交，尚无native结果。 |
 | Submit helper转发 | PASS | PRIMARY完成true variant路径转发及12个CPU检查。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 本次委派开始至PRIMARY联合CPU验证｜**当前前沿：** 组合review与真实H800验证；helper接入已完成。
+**检测窗口：** f992159c联合CPU验证至三项H800提交｜**当前前沿：** 真实H800部署、snapshot stores和概率验证；两条integration review均No findings。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 仅验收所需fixture，无额外instrumentation。 |
-| D2 细节反复重试 | CLEAR | 一次joined隔离假设错误已诊断并修正。 |
-| D3 支线问题修补 | CLEAR | 仅四个指定文件。 |
-| D4 可并行任务停滞 | CLEAR | 本任务禁止delegation；PRIMARY并行范围未触碰。 |
-| D5 超范围镀金 | CLEAR | 无新framework/flag/cache/barrier/interval策略。 |
-| D6 分析空转 | CLEAR | 已交付并完成CPU验收。 |
-| D7 路线违背 | CLEAR | 无GPU/native接受结论，无stage/commit。 |
+| D1 工具打磨 | CLEAR | cb386e74仅修复实际CLI receipt路径；119bb871仅验证既有FP32 stores验收。 |
+| D2 细节反复重试 | CLEAR | 路径错误先明确chdir原因，再做一次RED/GREEN；无native重复提交。 |
+| D3 支线问题修补 | CLEAR | 修复证据身份和native snapshot验证均服务D40前沿。 |
+| D4 可并行任务停滞 | CLEAR | 两组概率对照、1卡operator验证并行提交；records同步独立进行。 |
+| D5 超范围镀金 | CLEAR | 无新cache/barrier/interval策略；56/32及科学参数不变。 |
+| D6 分析空转 | CLEAR | 源码和集成均交付，下一证据由实际H800执行产生。 |
+| D7 路线违背 | CLEAR | 全部新GPU请求H800/codesign；formal仍暂停，env1未提交。 |
 
 **文档检查：** 共享spec/tickets的S1–S6未发现本任务范围内缺陷；JSON历史格式歧义已单独交给PRIMARY。
 **归因：** 无。
@@ -167,7 +167,7 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 
 **分支：** A：spec/tickets合理，无需改动。
 **需停止的偏离行为：** 无。
-**接下去的路线：** PRIMARY完成组合review和真实H800验证，不从CPU receipt推断native验收。
+**接下去的路线：** A/B各4卡概率对照与1卡native operator验证并行等待执行；完成标志是实际source/hardware/terminal收据、FP32 stores及cold-reference概率结果，不从CPU或排队状态推断native验收。
 
 ## 4. 最值得关注的 3 点
 

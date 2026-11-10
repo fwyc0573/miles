@@ -1,0 +1,26 @@
+{
+  "scope": "Admission metadata correction only, derived from original absolute worker argv. Original receipts are retained unchanged; actual worker config/source/numerical acceptance remains independent.",
+  "cause": "Relative CLI --config was resolved again after controller changed cwd to local_mount. The existing absolute worker_config was correct. Reuse precomputed probe_path for future receipts.",
+  "records": [
+    {
+      "pair": "A",
+      "job": "exp-1111-053300-533764",
+      "original_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/admission-A-r1.json",
+      "original_receipt_sha256": "82dda9ce7ba051379063991db2d366d13579aa184fe9c99d65707fc22a51d79c",
+      "original_probe_config": "/data/ycfeng/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+      "worker_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+      "worker_config_sha256": "32708010a8d7dc436faea058b862b0e241252ca74daca35db08c4e35850a6fa9",
+      "worker_command_unchanged": true
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-053259-677817",
+      "original_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/admission-B-r1.json",
+      "original_receipt_sha256": "4454a6391fb50a1d962dd74addddd05cd8735461567542d358b9273dcecb1d08",
+      "original_probe_config": "/data/ycfeng/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+      "worker_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+      "worker_config_sha256": "32708010a8d7dc436faea058b862b0e241252ca74daca35db08c4e35850a6fa9",
+      "worker_command_unchanged": true
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "observed_at": "2026-11-10T21:50:11.386401+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H800",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1111-023630-717448",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-053259-677817",
+      "phase": "Pending",
+      "roles": {
+        "probe": 4
+      },
+      "gpus": 4
+    },
+    {
+      "name": "exp-1111-052116-955488",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-051455-890411",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-052117-150427",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-020531-143592",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-052516-766330",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-053300-533764",
+      "phase": "Pending",
+      "roles": {
+        "probe": 4
+      },
+      "gpus": 4
+    },
+    {
+      "name": "exp-1111-041931-399185",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-052516-649198",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-052516-803745",
+      "phase": "Pending",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    }
+  ],
+  "committed_gpus": 82,
+  "requested_gpus": 1,
+  "ceiling_gpus": null,
+  "admitted": true,
+  "scope": "personal",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": null,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": null
+    }
+  },
+  "evaluated_at": "2026-11-10T21:50:11.386401+00:00",
+  "preemptible": false,
+  "submitted": true,
+  "operator_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_semantics_config.json",
+  "worker_command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\ndestination=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/\"$KUBEBRAIN_RJOB_NAME\"\nexec timeout --signal=TERM --kill-after=90s 3600s /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.probe_mamba_fp32_snapshots --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_semantics_config.json --image artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805 --output-dir \"$destination\" > /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/worker-r1.log 2>&1'",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "job": "exp-1111-055011-398371",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}
