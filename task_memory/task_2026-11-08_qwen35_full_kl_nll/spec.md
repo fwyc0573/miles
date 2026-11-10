@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record completed comparison/CPU-cold semantics and warm-state numerical blocker; keep formal hold, exact probabilities and all scientific/checklist criteria unchanged. |
 | 2026-11-11 | Record D40 formal hold and workflow/parameter RCA inside04/05; configuration review is not throughput acceptance, fixed science and D39 hardware stay unchanged. |
 | 2026-11-11 | Apply D39 H800-only fresh independent execution without a personal cap; synchronize H200 terminal6/profile2, preserve science and leave356-candidate selection unapproved. |
 | 2026-11-10 | Accept D16/Ticket02 actual GPU evidence; record terminal1/200 native host-memory failure and unresolved allocation mechanism without changing behavior or science. |
@@ -62,7 +63,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D40）**：**WORKFLOW_RCA；正式A/B提交暂停**。04/05内并行开展CPU benchmark实现和Oct6实际历史配置/样本/资源/flags对比，核验async buffer与当前fresh-weight语义后诊断、修复并以bounded H800 verification验收；不新建ticket。配置52a02b6f/4 dry PASS/[两轴phase No findings](review.md#h800-only-configuration-phase-review--2026-11-11)不等于workflow/吞吐接受。Bank6 [native timeline/attribution](test_report_2026-11-11_h800_only.md#native-generationteacher-timeline-addressing-the-rollout-tail-hypothesis)证明本bank deadline-critical teacher path，不证明global dominance、isolated GPU time或fix。D39 H800/codesign-only/无个人cap、fresh original init、固定256/32×8/D34/200/231/1800s/600s及S7保持。D16/02/03/common-cycle/06 CPU接受和B的A-inspection已满足；无A200/profile PASS/32-H200门槛，但两cell均需D40 RCA/fix验证及fresh admission。Oversampling/stale-weight async redesign未批准；D40性能RCA不是新增model-quality benchmark。旧失败/仅profile2/未证明owner等历史边界不变。[Current progress](progress.md#current-execution--workflow-rca)维护实际状态；无当前H800作业或虚构benchmark结果。
+**当前状态（2026-11-11，D40）**：**MAMBA_WARM_STATE_RCA；正式04/05仍BLOCKED**。[历史实际比较和H800 teacher-only对照](test_report_2026-11-11_workflow_rca.md)已完成；各4卡/56requests作业自然Succeeded，cold各14/14精确，warm各仅4/14精确。Scope7d993848/135 CPU/[两轴No findings](review.md#teacher-scoring-scope-and-native-coldwarm-follow-up--2026-11-11)仅接受CPU/cold语义，不是全部native workflow。Warm full-input即使cached0也在samples2/3偏离cold，不能当oracle、称roundoff、改tolerance或任意禁cache。当前并行Mamba tracking/cache源码RCA与完整数值/range/耗时聚合，因果修正及H800复验前不恢复formal。历史median965.962（含cold0）/955.973（1–9）实际查实，但196.956B/56H200/1024async/staleness5对比当前旧18physicalH200/fresh256/bank6无完整cycle不可给同工作量加速比。D39/fixed256/32×8/D34/200/231/1800s/600s/S7及D16/02/03/common-cycle/06CPU/checkbox均保持；无A200/profile新gate、新decision ID或oversampling/stale-weight批准。旧H2006/profile2独立；probeB不是formalB。[Current progress](progress.md#current-execution--workflow-rca)。
 
 ## S1. 目标与实验矩阵
 
@@ -294,7 +295,7 @@ NLL_i = nll_sum_i / tokens_i
 
 ## S8. GPU 与执行（D16、D19、D33、D39、D40）
 
-- **当前D40 workflow RCA hold**：primary暂停全部正式A/B提交；04/05内并行CPU benchmark实现与实际历史配置/样本/资源/flags/async-buffer-vs-fresh语义核验，完成evidence-backed修复及bounded H800-only验证后再推进正式preflight/admission。普通in-scope CPU edits和bounded H800验证已授权，不等于oversampling、stale-weight async redesign或model-quality评测批准。配置phase No findings/125flags/4dry PASS不能解除该hold；它是明确的native workflow前置，不是profile辅助硬gate。
+- **当前D40 warm-state RCA hold**：历史比较、scope7d993848/CPU135与H800 cold概率语义通过；两模型warm response/full-input均有状态相关数值偏差，formal继续暂停。04/05内并行Mamba tracking/cache源码RCA和数值/raw-range/耗时聚合，保留各自cold reference；因果修正及H800 cold/warm复验后才推进preflight/admission。不以roundoff、tolerance放宽、忽略warm或任意禁cache替代修复。CPU/cold/配置No findings不解除hold；native概率正确性前置不是profile辅助硬gate。D39硬件/普通in-scope CPU edits及bounded H800验证保持，无oversampling、stale-weight redesign或新decision。
 - **当前D39**：本session后续GPU执行仅H800/codesign，无个人H800 count cap，正式A/B非抢占。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；fresh资源核验/准入和实际调度仍必须记录。D37/H200、旧32-H200上限及已完成D38 H200 probe均为历史，不授权新H200工作。Primary独占平台操作和live提交/status；不停止其他task作业腾资源，准备文件不证明queue/available capacity。
 - **当前准备布局**：沿用D35接受的36-H800 sizing basis，A/B各student4节点×8+teacher4，合计72可并行请求但不保证placement。Config agent维护H800 formal配置和新dated paths；B native能力仍需实际验证。两个新attempt从同一原始Qwen3.5-4B初始化，不使用formal checkpoint/resume。历史H20018/cell配置/证据不覆盖或拼接新run。D34、global batch/source32×8/256、200 full、231/1800s及600s initial sync不变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。

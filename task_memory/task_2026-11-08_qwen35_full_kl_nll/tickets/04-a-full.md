@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record A teacher-only native cold pass and warm-state probability blocker after completed comparison; formal A remains blocked with all checkboxes unchanged. |
 | 2026-11-11 | Hold formal A under D40 workflow/parameter RCA; parallel benchmark/history preparation and phase-only config review do not change acceptance checkboxes. |
 | 2026-11-11 | Apply D39 H800 A preparation from original initialization; retain terminal H2006/profile2, all prior evidence and every checkbox. |
 | 2026-11-10 | Accept actual profileprefix2 and original-file rebuild; distinguish record/ACK timestamps, retaining every full-run checkbox. |
@@ -31,9 +32,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/common-cycle已接受；D40 workflow/参数RCA、evidence-backed fix及验证未完成，primary暂停正式A/B提交。之后仍需H800 source/model final preflight与fresh admission/placement。配置phase已接受不是throughput接受；200/profile最终criterion仍需新attempt独立证据，旧6/200不resume/拼接。
+**Blocked by:** 01、02、03 及D16/common-cycle已接受；D40历史对比/CPU及cold语义通过，但实际warm-state概率差异未完成因果RCA/修正/H800复验，formal暂停。之后仍需final preflight/fresh admission及独立200/profile证据。Teacher-only probe的Succeeded不是formal验收，旧6/200不resume/拼接。
 
-**Status:** BLOCKED / WORKFLOW_RCA D40; formal A paused, no current H800 job. This ticket shares native workflow/parameter RCA with05: actual historical samples/resources/config/flags/async-buffer versus fresh-weight semantics, parallel CPU benchmark implementation and historical analysis, evidence-backed fix then bounded H800 verification. [Config52a02b6f phase reviews](../review.md#h800-only-configuration-phase-review--2026-11-11) are No findings,4 dry PASS/125 native flags unchanged except output root; not workflow/throughput acceptance. [Bank6 attribution](../evidence/h200-bank6-stage-attribution-20261111.json) shows all256 generations done by1150.88955s,teacher-start gap≤0.010996s and31teacher pending at1800: this bank's deadline-critical teacher path, not global/GPU-time dominance or fix. Oct6 baseline remains noncomparable until actual data/config/flags/resources/fresh semantics are checked. D39 H800/codesign non-preemptible36/cell/no cap/original init remains conditional on fresh placement afterRCA. Fixed256/32×8/D34/200/231/1800s/600s/S7 and every checkbox remain; oversampling/async stale-weight redesign unapproved. Protected oldnative6/profile2 and other failed attempts remain separate; no H200 stop or later-update auto-loop. [Current workflow RCA](../progress.md#current-execution--workflow-rca).
+**Status:** BLOCKED / MAMBA_WARM_STATE_RCA D40; formal A paused. [Completed probe](../test_report_2026-11-11_workflow_rca.md#completed-native-h800-experiment-and-new-correctness-blocker)A`exp-1111-033133-704472`is teacher-only,4 actual H800/56 requests/Succeeded after read-only outer-timeout recovery, not formal A. Cold14/14 exact, warm4/14/maxabs0.2006068229675293; warm full-input cached0 also differs from cold at samples2/3, so no warm oracle/roundoff/tolerance/cache-disable fix. Scope7d993848/135 CPU/two reviews accepts CPU/cold only. Historical replacement comparison completed:965.962 outer/955.973steady,196.956B/56H200/1024async-staleness5 versus current old18physicalH200/fresh256/bank6without completecycle; no same-work speed ratio. Parallel cache/tracking RCA and numerical/timing aggregation must yield causal correction/H800 revalidation beforefresh formal. D39/fixed256/32×8/D34/200/231/1800s/600s/S7/checkboxes remain; oldnative6/profile2 independent, no newdecision/oversampling/stale redesign or later-update auto-loop. [Current RCA](../progress.md#current-execution--workflow-rca).
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record immutable scoring-scope review/135 CPU and native cold pass, with measured warm/full-input drift limiting acceptance; preserve earlier phase reviews. |
 | 2026-11-11 | Record H800-only configuration52a02b6f phase Standards/Spec No findings from immutable artifacts; D40 workflow/throughput acceptance remains on hold. |
 | 2026-11-10 | Record independent read-only native lifecycle follow-up: first-two-update path verified,200-update and historical allocation-owner limits retained. |
 | 2026-11-10 | Complete immutable optimizer-initialization review atd2b3af8c: Standards0/Spec0 after one test naming Nit; native formal verification remains outstanding. |
@@ -13,7 +14,24 @@
 | 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
 
+# Teacher scoring scope and native cold/warm follow-up — 2026-11-11
+
+Component: shared sampled-token probability-range owner, native student-prefill reuse and SWE teacher caller. Immutable [comparison](evidence/teacher-scoring-scope-review-20261111/comparison.json)/[diff](evidence/teacher-scoring-scope-review-20261111/change.diff) fix`59d61941→7d993848`across exactly six listed files. Complete token inputs remain conditioning inputs; response length selects`P-1`with one preceding placeholder and unchanged response extraction. Existing full-input/top-k/per-position defaults and optional student scoring are not additionally enabled. No concurrency/timeout/oversampling/async-stale-weight change is introduced.
+
+| Axis | Reviewer evidence | Result / scope |
+| --- | --- | --- |
+| Standards | Primary-supplied completed immutable scope review, linked in[the RCA report](test_report_2026-11-11_workflow_rca.md#cpu-implementation-and-fixed-image-source-verification) | No findings; CPU/shared-range scope only |
+| Spec | Primary-supplied completed immutable scope review on the same fixed artifact | No findings; no full native workflow acceptance |
+
+Primary joint CPU command records135 PASS,20 warnings,4.21s; expanded351 PASS/12 CUDA skips/4 original-production failures remains a separate non-all-green result. These are retained reported results, not reruns by this docs reviewer. [Scope report](test_report_2026-11-11_teacher_scoring_scope.md) owns RED/GREEN details.
+
+**Native follow-up and blocking finding:** [A terminal](evidence/teacher-scoring-probe-20261111/supervision-A-r1-terminal.json)`exp-1111-033133-704472`/[B terminal](evidence/teacher-scoring-probe-20261111/supervision-B-r1-terminal.json)`exp-1111-033134-236473`each naturally Succeeded on4 actual H800,56 retained scoring requests. The outer120s supervision timeout did not resubmit/stop or change native bounds; read-only recovery supervises the original jobs. Cold full-input/response-only each14/14 exact,IDs/finite/raw ranges pass. Warm each4/14 exact, maxabsA0.2006068229675293/B1.0602149963378906; full-input warm cached0 also differs from cold-full at samples2/3. ID/finite/cold success does not close probability correctness; full-input warm is not an independent oracle.
+
+**Current acceptance:** CPU/cold semantics only. Formal04/05 remain blocked on Mamba tracking/cache or other warm-state causal RCA/correction/H800 revalidation. Checkpoint alignment is only a hypothesis; no roundoff/tolerance relaxation/arbitrary cache-disable fix or uniform/full-bank speedup is accepted. Historical comparison is complete but resource/model/async differences preclude an equal-workload ratio. The0GPU source job`exp-1111-035902-035439`retained37files before a bad filename assertion; it remains Failed and is not GPU failure or complete source verification. Primary owns [full results/source limits](test_report_2026-11-11_workflow_rca.md#completed-native-h800-experiment-and-new-correctness-blocker); this record changes no code, data, criteria or decision IDs.
+
 # H800-only configuration phase review — 2026-11-11
+
+Historical configuration-phase snapshot before the scoring-scope CPU/cold and completed native warm checks. Its No-findings result remains accepted for configuration only; current warm-state limits are above.
 
 Scope: configuration-only change52a02b6f against baseline6b450939, retained immutable [config.diff](evidence/h800-only-20261111/verified3/config.diff) and [comparison.json](evidence/h800-only-20261111/verified3/comparison.json). The only changed identities are`phase`, `run_root` and`shared_dir`; hardware/scientific/runtime settings retain the existing36-H800/cell configuration. The supplied comparison records4 submission/native-argv dry-run exits PASS and125 native flags equal except output root,200 distinct banks/one visit each/600s sync/profile enabled. This documentation agent reads retained artifacts and transcribes completed reviewer results; it does not rerun tests, query reviewers or access the platform.
 

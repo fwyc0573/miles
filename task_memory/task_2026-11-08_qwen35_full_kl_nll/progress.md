@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record completed actual comparison/native teacher probes and CPU/cold-only acceptance; warm probability drift keeps formal hold, with launcher/source failures distinct. |
 | 2026-11-11 | Record D40 workflow RCA/formal hold, native bank6 attribution and configuration-only review; preserve the D39 preparation snapshot and parallel RCA ownership. |
 | 2026-11-11 | Record D39 H800-only parallel preparation, correctedH200 terminal6/profile2 and question-only356 proposal; preserve historical snapshots and append the four-section status checkpoint. |
 | 2026-11-10 | Verify corrected A updates1/2 and intervening native lifecycle; continue to200 with B resource-blocked, and label old failure snapshots as historical. |
@@ -54,6 +55,15 @@
 
 ## completed
 
+- **Completed-comparison/cold-warm records verification — TaskID`profile-workflow-rca-records-20261111`: scoped PASS, global link limitation recorded.** Repository root `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, systemPython3.10.6. Scoped whitespace/raw/decision/all six-ticket checkbox/science/strategy/history checks PASS; latest checkpoint is exactly four sections/PASS3-BLOCKED2-TODO1, transcribed primary D2 HIT and corrected current-stateS5. Global existing docchecker initially reads49documents/6tickets/306links/73anchors, then49/6/307/73 after this verification note; both runs report2 relative-link errors only in the immutable copied candidate`evidence/teacher-scoring-scope-review-20261111/candidate/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_teacher_scoring_scope.md`: missing adjacent`requirements.md#workflowparameter-rca--original-request-2026-11-11` and`test_report_2026-11-11_workflow_rca.md`. Original task targets exist; this agent does not modify frozen evidence, create dependencies or change/exclude the checker. Primary was notified. No owned-document link error or new decision/tolerance/cache/science change; no business rerun/platform/GPU/delegation. Exact commands:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,summary.md,spec.md,progress.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+- Primary's historical replacement TaskID`profile-steptron-baseline-rca-20261111`completed after the first API reasoning-text transport-error subtask. [Actual comparison](test_report_2026-11-11_workflow_rca.md#evidence-already-available):10 outersteps median965.962s includescold0;steps1–9 median955.973,Step3p6 total196.956B,48 H200 trainer/teacher+8 separate rollout,1024 async/staleness5. Current oldbank6 has18 physical colocated H200/fresh256 and no completecycle, so no equal-workload speed ratio. No baseline edit or new comparison was performed by this records agent.
+- Scope7d993848/shared-range correction records135 joined CPU PASS and[two immutable No-findings reviews](review.md#teacher-scoring-scope-and-native-coldwarm-follow-up--2026-11-11), accepted only CPU/cold. Teacher-only native [A terminal](evidence/teacher-scoring-probe-20261111/supervision-A-r1-terminal.json)/[B terminal](evidence/teacher-scoring-probe-20261111/supervision-B-r1-terminal.json)each Succeeded,4actual H800/56requests. Cold14/14 exact per model; warm4/14 exact/maxabsA0.2006068229675293/B1.0602149963378906. Full-input warm cached0 also diverges at samples2/3. This completes the experiment, not correctness/throughput/formal acceptance; 04/05 remain BLOCKED.
 - **D40 documentation verification — TaskID`profile-workflow-rca-records-20261111`: PASS.** Run from `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image` under system Python3.10.6. Expected: local links/DAG/arithmetic valid, zero scoped whitespace errors, unchanged original requests/science/checklists/history. Actual:46 documents,6 tickets,285 links,69 anchors,0 errors; scoped diff clean. Read-only assertions pass: four exact new raw questions/request, priorD35–D39 content preserved, all six tickets' checkbox rows unchanged (including17 A/B rows), S1–S7/S9 and verification strategy unchanged, old progress/review/history retained, latest checkpoint exactly four sections/PASS3-BLOCKED2-TODO1/D1–D7 CLEAR/S5 corrected. No business benchmark/test/GPU operation was run. One exact-context patch mismatch and one new heading-anchor typo were corrected; these were documentation iterations, not native failures. No unowned report-anchor error remains.
 
 ```bash
@@ -138,6 +148,15 @@ PY
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 
 ## Current execution — workflow RCA
+
+- **D40 / MAMBA_WARM_STATE_RCA, formal04/05 remain BLOCKED:** historical actual comparison, scoped CPU correction and both teacher-only H800 experiments have completed. [Authoritative primary report](test_report_2026-11-11_workflow_rca.md) owns the source/timing/numerical aggregation. Current parallel work is native Mamba tracking/cache or other warm-state causal RCA ‖ complete probability/raw-range/request-time aggregation, retaining separate cold references. A causal correction and H800 cold/warm revalidation precede fresh formal admission; not a new decision or profile auxiliary gate.
+- **Cold PASS / warm blocker:** each7-sample×2-repeat stream gives14 cold pairs exact for both models, IDs/finite/raw ranges pass; warm only4/14 exact each, maxabsA0.2006068229675293/B1.0602149963378906. Warm full-input cached0 itself differs from cold-full at samples2/3, so response-only reuse is not the only possible cause and warm full-input is not a numerical oracle. Checkpoint alignment remains a hypothesis; do not label tolerable roundoff, relax tolerance, disable cache arbitrarily or accept uniform/full-bank speedup. Probe A/B jobs are not formal A/B and their counters do not replace200 updates.
+- **Execution/auxiliary limits:** probes`exp-1111-033133-704472`/`exp-1111-033134-236473`each4actual H800/56requests naturally Succeeded. Outer120s launcher supervision failed; read-only recovery used the original jobs, no resubmission/stop/model-worker timeout change. Follow-up0GPU`exp-1111-035902-035439`copied37files before erroneous`mamba_radix_cache.py`assertion; source identity against actual manifests remains required, job Failed is not GPU failure or complete source acceptance. Primary's reported D2 execution detours stay distinct from the model warm-state RED evidence.
+- **Completed comparison / unchanged science:** actual medians965.962(cold0 included)/955.973(steps1–9),196.956B/56H200/1024async-staleness5 versus currentold18physicalH200/fresh256/incompletebank6 preclude an apples-to-apples ratio; active params/historical cache hits remain unverified. D39H800-only/original-init/fixed256/32×8/D34/200/231/1800s/600s/S7/checklists and D16/02/03/common-cycle/06 CPU remain. Formal B not started, no A200/profile/32-H200 gate, no oversampling/stale-weight redesign/extra decision/old counter splicing/later-update auto-loop. Reports/evidence/code/config/platform remain primary-owned and untouched by this docs agent.
+
+### Initial D40 recording snapshot — historical
+
+The initial parallel benchmark/history-preparation/no-native-result state below predates the completed comparison and probe results; the current warm-state frontier above supersedes it without rewriting that snapshot.
 
 - **D40 / WORKFLOW_RCA; formal A/B submissions paused:** the [exact RCA request and earlier questions](requirements.md#workflowparameter-rca--original-request-2026-11-11) place workflow/parameter comparison, diagnosis and evidence-backed fix inside04/05. Primary runs CPU benchmark implementation and historical comparative analysis in parallel; no current H800 job, completed benchmark result or throughput fix is supplied here. D39 H800/codesign-only/no-personal-cap/original-init rules remain. After RCA/fix verification, formal A/B still require separate fresh admission/placement;36+36/72 is not physical proof. This explicit native-workflow hold is not a profile auxiliary hardgate or an A200/profile-PASS/32-H200 prerequisite.
 - **Actual bank6 evidence, limited claim:** [512 native generate events/256 completions](evidence/h200-bank6-native-stage-timeline-20261111.json) and [attribution](evidence/h200-bank6-stage-attribution-20261111.json) establish all generation completed by1150.88955s, teacher-start gap max0.010996s,31 teacher requests pending at1800s, queue peak128 and21,561,962 logged new tokens/0 cached. This establishes the deadline-critical teacher path for this bank, not isolated GPU compute, global teacher/rollout dominance or a fix. The [primary's existing report](test_report_2026-11-11_h800_only.md) owns detailed timing/queue/accounting. End-stage labels alone were insufficient; challenges are retained as questions, not oversampling or stale-weight async approval.
@@ -1482,3 +1501,62 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1. 正式A/B暂停、当前无H800任务；配置4dry/125flags/两轴No findings只是phase证据，不能越过D40。
 2. 本bank全部generation1150.88955s已完成，deadline剩31teacher pending/queue128；只确认关键teacher路径，不证明GPU时间或全局dominance/fix。
 3. Oct6 median966/resource/async差异须读实际配置才可比较；固定256/32×8/200及S7保留，356/first256与stale-weight redesign未批准。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 source/order | PASS | D34原位输入/parity已接受，固定32×8不变。 |
+| 02 per-turn sums | PASS | D16实际GPU/canonical/rebuild和CPU/S7已接受。 |
+| 03 profile/integration | PASS | 模块/CPU集成与既有边界已接受。 |
+| 04 A/full | BLOCKED | CPU/cold已过；实际warm-state概率差异待因果RCA/修正/H800复验，formal未恢复。 |
+| 05 B/full | BLOCKED | 同warm blocker；teacher-only B Succeeded不是formalB，A-inspection已满足。 |
+| 06 final report | TODO | CPU slice接受，等待各formal真实200/native/profile/terminal。 |
+
+## 2. 偏离检测
+
+**结论：** 已偏离：命中D2（primary执行窗口）；原生实验/历史比较完成，warm数值发现真实阻塞。当前状态S5已纠正。
+**检测窗口：** 前次`15982f81`D40 checkpoint及最近CPU/cold PASS至历史比较与各56原生请求完成（TaskID`profile-workflow-rca-records-20261111`）｜**当前前沿：**04/05 native Mamba tracking/cache因果RCA及修正，数值/耗时聚合并行。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 固定fixture/probe验证D40真实阻塞；完成后不扩通用harness，本委派只8docs/既有检查。 |
+| D2 细节反复重试 | HIT | Primary RCA报告记录SDK猜参、NFS/editable源路径、outer120s和已知import顺序反复打断验证；不是预先写明的模型假设测试。辅助问题与warm概率RED分开。 |
+| D3 支线问题修补 | CLEAR | Warm-state/cache问题直接阻塞04/05，归D40，不开无主支线。 |
+| D4 可并行任务停滞 | CLEAR | 两模型nativeprobe及替代历史分析均完成；下一步源码RCA‖数值聚合明确并行。 |
+| D5 超范围镀金 | CLEAR | 未引入356、额外student评分、超时延长、async stale weight或tolerance/cache-disable修补。 |
+| D6 分析空转 | CLEAR | 多余评分range已修复/CPU冷态验收，实际warm数据揭示新阻塞；不是无输出分析。 |
+| D7 路线违背 | CLEAR | D39 H800-only及正式暂停保持，0GPU source失败不是新H200/GPU执行。 |
+
+**文档检查：**
+- S1 CLEAR：源码RCA/数值聚合并行，formal因native概率而hold；B无A200/profile/32-H200假edge。
+- S2 CLEAR：Warm causal blocker由04/05及primary承接，source/分析owners明确，不新增ticket。
+- S3 CLEAR：既有输入/概率/200标准保持可判定；不通过放宽误差规避失败。
+- S4 CLEAR：需因果修正及H800 cold/warm实测，No findings/Succeeded不能单独判done。
+- S5 HIT → corrected：旧requirements phase/plan45,73,99/summary/spec S0/S8/04,05/progress current仍说比较/probe未完成或无native结果；本轮改为完成/cold接受/warm阻塞，并保留旧snapshot。
+- S6 CLEAR：04/05仍是独立formalcell，已有共同RCA前置；06CPU/finaldata拆分不变。
+**归因：** D2为执行偏离：既有API/NFS/import/监督规则未及时复用；不是S5导致的模型偏差。S5当前状态已修正，无范围/criteria/decision变化。
+
+## 3. 纠正建议
+
+**分支：** B：S5当前结果滞后，先做已授权状态同步再推进。
+
+**文档更新（先执行）：**
+1. requirements current/history、plan/summary/spec S0/S8、04/05/progress：记录已完成历史比较/CPU-cold范围与实际warm RED，正式继续BLOCKED；保留raw/checkbox/science/历史（可直接执行，已完成）。
+2. review：限定两轴No findings为7d993848 CPU/cold范围，记录native warm/failure与auxiliary监督边界，不宣告全workflow接受（可直接执行，已完成）。
+
+**需停止的偏离行为：**
+- D2：停止逐错误猜SDK/路径或无条件重提；复用已验证SDK/NFS入口、Miles优先import和无outer120s监督。两个nativejob已自然Succeeded，不重启旧模型或用collector失败作GPU失败。
+
+**接下去的路线：**
+1. 并行native Mamba tracking/cache源码RCA ‖完整数值/raw-range/request-time聚合 → 完成标志：复现并限定warm原因，保留full/response各自cold reference及实际缓存证据。
+2. Primary依据因果证据作最小修正/可证伪实验，H800 cold/warm复验 → 概率/range保持既有要求且实际多余工作核验；不能称roundoff、放宽tolerance或任意禁cache。
+3. 修正复验后再恢复各formal独立preflight/fresh admission/native观察，仍需231/1800s及200/profile/terminal；不加A200/profile或later-update无限loop。
+
+## 4. 最值得关注的 3 点
+
+1. Cold各14/14精确已接受；warm各4/14，full-input cached0也偏离cold，formal继续BLOCKED，CPU/review/Succeeded不足以接受。
+2. 历史965.962/955.973s已实际查实，但196.956B/56H200/1024async-staleness5与当前18physical/fresh256不同，无同配置速度比。
+3. D2辅助执行失误需复用既有路径；各4H800probe自然Succeeded且未重提/stop，0GPU复制37files后的断言失败单独保留，不改tolerance/缓存绕过真实warm问题。

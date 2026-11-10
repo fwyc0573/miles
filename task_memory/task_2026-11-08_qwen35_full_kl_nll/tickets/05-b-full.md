@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record B teacher-only cold pass/warm blocker and completed historical comparison; formal B not started, no new A200/profile dependency or checkbox change. |
 | 2026-11-11 | Hold formal B under shared D40 workflow RCA/fix verification; preserve satisfied A-inspection and all final checkboxes without a new A200/profile gate. |
 | 2026-11-11 | Apply D39 parallel H800 B preparation, removing superseded32-H200 gate; preserve completed D16/common-cycle and all final criteria. |
 | 2026-11-10 | Record accepted actual A profileprefix2 without a new B gate; keep fresh-resource-only blocking and all criteria unchanged. |
@@ -28,9 +29,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection及common native cycle已核验。D40暂停全部正式A/B，先完成本ticket与04共有的workflow/参数RCA、evidence-backed fix及验证；之后各自fresh H800 admission/placement。没有A200/profile-PASS或32-H200依赖，也不授权停止其他task腾资源。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection/common cycle已核验。D40历史对比/CPU/cold通过后，实际warm概率差异仍需本ticket与04共有的因果RCA/修正/H800复验，之后fresh H800 admission。无A200/profile/32-H200 gate，也不授权stop其他task。
 
-**Status:** BLOCKED / WORKFLOW_RCA D40; B not started. CPU benchmark preparation and historical actual-config/data/resource/flag/async-buffer-versus-fresh analysis run in parallel within04/05; formal submission awaits an evidence-backed fix and bounded H800 verification. [Configuration phase](../review.md#h800-only-configuration-phase-review--2026-11-11) No findings is not workflow/throughput acceptance. [D16 A-firstACK/inspection](../test_report_2026-11-10_d16_first_update.md)and common cycle stay satisfied, not reset byD40; no A200/profile-PASS/32-H200 gate. D39 B36H800/codesign/non-preemptible/no personal cap/original init/newdated paths remain, but fresh admission/actual placement and independent200/native/profile/terminal evidence are still needed. All oldnative6/profile2/other failed outcomes remain protected and unspliced. Fixed256/32×8/D34/231/1800s/600s/200/S7/checklists remain;356/first256 and stale-weight async redesign are not approved. No benchmark result or later-update auto-loop is invented. [Current RCA](../progress.md#current-execution--workflow-rca).
+**Status:** BLOCKED / MAMBA_WARM_STATE_RCA D40; formal B not started. Teacher-only[probe B](../test_report_2026-11-11_workflow_rca.md#completed-native-h800-experiment-and-new-correctness-blocker)`exp-1111-033134-236473`naturally Succeeded,4actual H800/56requests; cold14/14 exact but warm4/14/maxabs1.0602149963378906 and full-input warm cached0 drift. CPU135/two immutable reviews accept only scope/cold, not formal/throughput. Historical actual comparison completed with different196.956B/56H200/async1024-staleness5 versus currentold18physical/fresh256/incompletebank6: no apples-to-apples ratio. Shared causal warm-state/cache/tracking correction and H800 revalidation remain; no tolerated roundoff, tolerance relaxation or arbitrary cache-disable fix. [D16 A-inspection](../test_report_2026-11-10_d16_first_update.md)/common-cycle remain satisfied; no A200/profile/32-H200 gate. D39 original-init/fixedscience/S7/checklists/old independentnative6-profile2 remain; freshformal admission and own200/terminal/profile still required, no newdecision/oversampling/async redesign or later-update auto-loop. [Current RCA](../progress.md#current-execution--workflow-rca).
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
