@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Synchronize current D37 H200/parallel CPU state and18+18>32 resource constraint; preserve the primary's newest checkpoint and all final criteria, without new chronology. |
 | 2026-11-10 | Apply selected D36 wait route to current records; preserve exact primary Q/A and all historical failures, append a resource-evidence checkpoint without new operational facts. |
 | 2026-11-10 | Complete placement-route investigation; retain verified SDK/platform-document limits and await the resource/startup choice before further submission. |
 | 2026-11-10 | Record second A FAILED0 updates and all-replica terminal evidence; pause at PLACEMENT_BLOCKED, retain partial RCA and append a bounded strategy-decision checkpoint. |
@@ -42,6 +43,13 @@
 # Progress
 
 ## completed
+
+- D37 current-state synchronization (`profile-d37-parallel-records-20261110`): applied the primary's existing D2/D4/S1/S5 route corrections without adding or rewriting its checkpoint/06 split. Last checked docchecker snapshot PASS:33 documents,6 tickets,141 links,44 anchors,0 errors; DAG and51,200-per-cell/102,400-total/81-turn arithmetic unchanged. Scoped whitespace PASS. Inspected zero-context diffs: requirements changes only current phase, raw D36/D37 untouched;04/05 final checkboxes and the newest checkpoint unchanged. Only seven owned docs are committed; primary reports/configs/evidence and concurrent code/test work are excluded. Actual CPU tool results and H200 runtime acceptance remain unfinished; no platform/network/SSH/GPU/delegation or new code/config/test changes. Commands:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md
+```
 
 - D36 docs-only verification (system Python3.10.6): existing docchecker PASS with31 documents/6 tickets/148 links/48 anchors, zero errors and unchanged ticket DAG/51,200-per-cell/102,400-total/81-turn arithmetic. Scoped whitespace PASS. Local read-only assertions PASS: spec S1–S9 unchanged, all8 A/9 B acceptance rows unchanged and unchecked, pre-D36 raw history unchanged, exact selection/option description preserved. The initial/current requirements diff also retains the primary's full D36 text without rewriting it. Only seven owned docs are included; primary's moving formal report/new operational evidence and other working changes are excluded. No platform/network/SSH/GPU/delegation or code/config/test changes. Exact commands:
 
@@ -370,13 +378,14 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Current frontier: **PLACEMENT_BLOCKED, D36 selected: retain36-H800 and wait for improved placement**. Both previous A attempts remain terminal0 updates; no third A job has been submitted. Primary rechecks current resource/scheduling conditions and owns timestamped readback, improvement assessment and operational evidence. Results are not supplied by this documentation slice: waiting duration is unknown and no queue membership, current availability or atomic placement is established. A new independent attempt requires evidence of better placement conditions plus fresh admission, with the accepted configuration unchanged. Historical admission/Starting snapshots are not current worker/engine/ACK proof; past evidence remains in[the formal report](test_report_2026-11-10_formal_runs.md#current-route--placement_blocked), which primary maintains.
+- Current frontier: **D37 H200_PREPARATION + PARALLEL_CPU**. Raw requests/D37 and the06 dependency split are committed`f15b1303`; H200 preparation`d822174c`uses18 H200/cell on step_main, student2×8+teacher2, train1 node/TP2 and16 rollout GPUs/eight TP2 engines split4+4. Policy ceiling32 personal non-preemptible GPUs;05:50:32Z2+18=20 is preliminary budget evidence, not actual submission/queue/physical availability. Primary exclusively owns live platform/submission/status and[the formal report](test_report_2026-11-10_formal_runs.md); this docs update makes no third-attempt inference and is not a launch blocker.
+- Parallel CPU: independent agents implement offline inspector and S9 reporter, with a separate H200 configuration reviewer. Their readiness/results and CPU CLI join remain unfinished until accepted returns. Do not poll/read/edit their implementation or tests, duplicate their work, or wait for full04/05 runtime evidence to prepare06. The primary's newest four-section checkpoint and06 split remain unchanged.
 
-- Historical assessment before D36: primary completed the native SDK investigation (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated Lark document reads; prior findings/options remain in [the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits). Those checks did not establish a working atomic-placement switch and recorded the gang-start ConfigMap interaction. The previously pending route choice is now resolved by D36, not selection of gang-start or another configuration. Primary's current resource inspection and separate read-only SDK API lookup proceed independently; this slice does not duplicate them or read their moving report for new facts.
+- Historical pre-D36 SDK/Lark assessment remains in[the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits); its atomic-placement/ConfigMap limits, D36 choice and both oldH800 FAILED0 attempts retain their original evidence. D37 supersedes current hardware waiting, not that history. Old H800 configuration is untouched; newH200 startup/runtime acceptance is not supplied by historical capacity.
 - Failed-attempt launcher/log/observer identities remain historical evidence inthe same report; their current local process state isnot independently verified here. No observer notification substitutes for ACK/D16 orproves a GPU stop. T02/T03 CPU andconfig readiness remain unchanged; no third job isclaimed. Stop-audit UNKNOWN andall protected formal outputs remain explicit, without result splicing orsmoke cleanup.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
-- B's four-H800 TP4/EP1 teacher remains feasible, not native load/memory/throughput verified.05 admission remains authorized after A's actual first successful ACK, completed inspection and fresh resources while A continues; neither A200 updates, auxiliary profile PASS nor another user approval is required.
+- Current B config uses2-H200 TP2 teacher and18 H200 total, not native accepted. Existing A actual firstACK/inspection remains necessary; A18+B18>32 makes allocation release/fresh admission an additional resource condition, not an A200/profile-PASS/extra-approval gate. Historical four-H800 TP4/EP1 feasibility is not current hardware.
 - Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
 
 ### Historical preparation snapshots — 2026-11-09 before D35
@@ -403,9 +412,9 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Primary/04: follow selected D36. Record current resource/scheduling readback and whether there is evidence of a better placement opportunity for the accepted36-H800/codesign non-preemptible layout. If the shortage persists, continue waiting; if it improves and fresh admission passes, freeze a new independent identity and launch unchanged configuration. No third job/queue membership/current availability is established here; no gang-start,28-GPU,timeout,credential or GPU-smoke alternative is selected. Waiting duration is unknown. Primary owns the moving operational report/evidence; stop-audit UNKNOWN stays open.
+1. Primary/04: handle D37 H200 live admission/submission and native startup/ACK evidence with committed18-GPU configuration; preparation and preliminary budget do not prove actual placement. Independent inspector/reporter implementations and H200 configuration review continue in parallel; their accepted CPU outputs/join remain pending. Docs synchronization does not block launch, and this agent does not touch/poll those scopes.
 2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
-3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
+3. Primary/05: after A's actual first ACK/inspection, wait for allocation release as needed and perform fresh18-H200 admission under32; A18+B18 cannot retain full allocation concurrently. Do not turn that resource wait into A200/profile-PASS/extra-approval criteria.04/05 each still need200 actual ACKs/paired-profile disposition.06 CPU implementation/join proceeds now, while actual final measurements wait for retained runtime evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109

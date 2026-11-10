@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Align current S0/S8 with D37 H200 execution and parallel CPU preparation; retain historical H800 evidence, science and final criteria. |
 | 2026-11-10 | Update only S0 current phase for selected D36: retain36-H800 and wait for improved placement evidence; science, native gates and configuration remain unchanged. |
 | 2026-11-10 | Update only S0 current status after the second pre-training A failure: placement blocked, submissions paused, strategy undecided; retain all scientific/native gates. |
 | 2026-11-10 | Synchronize only S0 current execution: retain first formal A failure separately and record unchanged freshly admitted retry; preserve all scientific and native acceptance gates. |
@@ -40,7 +41,7 @@
 | full 定义：200 个 successful optimizer update，每个 update 256 个候选 slot，update u 使用 bank u−1，跳过的 update 不计数、不换 bank | S2 |
 | 优化参数、D4 两层 binary TIS、实际 loss、D2 的 KL 定义（TIS 前，原始 target tokens，更新前的当前 student） | S4 |
 | D6 采集规则（1800 s 内至少 231/256）、D7 零 survivor 停止、故障隔离 | S5 |
-| GPU提交机制（StepMind Python `RJobBackend`）；硬件和额度改由本task的D33规定 | S7 |
+| GPU提交机制（StepMind Python `RJobBackend`）；当前硬件和额度按D37/S8，历史D33不作为当前H800选择 | S7 |
 | train seed 1234、rollout base seed 1729 | S3 第 5 条 |
 
 **不继承**：11 个 GLM-5.2 源文件及其固定副本和 manifest（本 task 改用 SWE-1003 0913 数据，D23–D25，见 S2）、r256 cell、HF 导出（D10）、benchmark 与基线、权重删除流程、四 cell 对比。
@@ -57,7 +58,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前合并及CPU接入状态（2026-11-10，D35，已完成；D36路线已选择）**：用户接受本轮36-H800、128K/112K/16K容量结果作为本task的D1/D22依据；原始问答与边界见[requirements D35](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)。实际合并`55fba827`、02 CPU-ready`6129aefe`和03 CPU接入`15186817`均已接受，见[合并报告](test_report_2026-11-10_input_merge.md)及[接入报告](test_report_2026-11-10_profile_integration.md)。显式配置`ec002ea8`及启动前lifecycle检查见[formal配置报告](test_report_2026-11-10_formal_configuration.md)。两次A/full `exp-1110-014836-849060`和 `exp-1110-022844-821769`均在acquisition/training前因placement/native startup失败，分别18:24:34Z、19:03:12Z Failed，各0 successful updates；第二次缺失rank3，19:06:54Z已核对全部五replica终态。Literal "two-node"错误保留，actual configured student nodes=4；不是OOM或D6/D19吞吐失败。当前前沿 **PLACEMENT_BLOCKED，D36保持36卡等待已选择**，原始问答见[requirements D36](requirements.md#placement-route-after-two-startup-failures--original-request--follow-up-question-and-answer-2026-11-10)：保留4×8-H800 student和4-H800 teacher、codesign、非抢占及已验收配置；primary重新读取当前resource/scheduling条件，只有改善机会证据和fresh准入后才启动新的独立attempt。等待时长未知，无第三次提交；这不是队列成员或当前资源可用的证明。不选择gang-start、28GPU缩减、timeout变更、新worker凭据、GPU smoke或投机重试。Primary维护当前只读检查/运行报告及operational evidence，本slice不获取其moving report中的新事实或重复SDK lookup。两attempt及partial RCA见[历史formal报告](test_report_2026-11-10_formal_runs.md)，审计stop actor/time仍UNKNOWN。正式逐turn/profile验收仍在未来A首个actual successful update；05等待其ACK、完成inspection和fresh资源准入，不等A200或辅助PASS。全部formal attempt独立保留、不拼接、cloud输出受保护，不适用smoke清理权限。
+**当前合并/CPU接入与执行状态（2026-11-10，D37）**：D35接受的历史36-H800容量仍是本task的D1/D22依据，见[原始决定](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)；合并`55fba827`、02 CPU-ready`6129aefe`和03接入`15186817`保持接受。两次H800 formal attempt均FAILED0；其冻结配置、literal "two-node"诊断（当时实际四student节点）及partial RCA独立保留，不因切换改写。[D37](requirements.md#h200-switch--original-request-2026-11-10)已取代当前D36/H800等待路线：当前为 **H200_PREPARATION + PARALLEL_CPU**，独立inspector/reporter实现和配置review正在推进，CPU结果/join未验收。配置`d822174c`使用18 H200/cell、step_main、student2×8+teacher2；training1节点/TP2，16 rollout GPUs形成八个TP2 engines、节点间4+4。05:50:32Z2+18=20只表示初步budget核对，不证明submission/queue/物理capacity；primary owns[实时formal报告](test_report_2026-11-10_formal_runs.md)及配置报告/evidence。当前32个人非抢占上限使A18+B18不能同时保持完整allocation；B仍需真实首ACK/inspection，再等release/fresh资源，不增加A200/profile-PASS门槛。D34、32×8/full/200 updates、231/1800s、600s sync、S7及D16不变，无新GPU smoke；所有正式artifact独立受保护。
 
 ## S1. 目标与实验矩阵
 
@@ -289,12 +290,12 @@ NLL_i = nll_sum_i / tokens_i
 
 ## S8. GPU 与执行（D16、D19、D33）
 
-- **D33**：本task后续作业使用H800/codesign，无用户设定的GPU数量上限。使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`；提交前核对作业和配额，平台决定排队与调度。正式cell保持非抢占，不停止其他task作业来腾资源。
-- **布局**：D35接受的容量依据为36-H800布局，配置和实测范围见[S0当前gate](#s0-复用与改动范围)及其报告；formal配置继续使用现有trainer/rollout/teacher机制并冻结各cell实际布局。历史H200的8 student +2 teacher估算不能当成H800容量证明；已验收的容量smoke不代替B teacher或32×8/profile正式路径的验收。global batch、上下文和验收阈值不因硬件迁移而改变。
+- **当前D37**：后续blocked formal执行切换到H200/step_main，使用个人认证、本机挂载源和既有StepMind Python `RJobBackend`。当前`h200_gpu_policy.json`设个人非抢占上限32；fresh核对额度/资源，平台决定调度，不停止其他task作业腾资源。历史D33/H800和D36等待决定保持原文，但不是当前hardware选择。Primary独占平台操作和live提交/status；准备文件不证明queue或available capacity。
+- **当前布局**：`formal_h200_config.json`（`d822174c`）为18 H200/cell，student2节点×8+teacher2，training1节点/TP2，16 rollout GPUs/八个TP2 engines在两student节点4+4分布。独立H200配置不覆盖旧H800 formal配置。D35历史36-H800容量接受仍成立，但不证明当前H200或B native runtime。D34长度、global batch/source32×8、200 full、231/1800s及600s initial sync不因硬件切换改变。
 - **挂载**（D25）：正式 cell 的作业除个人云端根目录外，另挂载 posttrain 卷 `juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain`，只读使用，直接读取 S2 的源文件。
-- **启动顺序**（D16）：先启动 A；在它实际完成第一个 successful native optimizer update 后，完成 profile、identity 和各阶段耗时检查并记录结果，再启动 B。profile 辅助检查失败时报告 unverified，健康训练继续，不能单凭该 verdict 阻止 B；A 尚未完成真实 successful update、native 失败或资源准入不满足时仍不能启动 B。
+- **启动顺序与资源**（D16/D37）：A实际完成第一个successful native optimizer update后，完成profile、identity和各阶段耗时检查，再为B做fresh资源准入。当前A18+B18=36>32；A仍持18卡时B需等allocation释放并重新核对个人committed+18≤32。这是资源条件，不是A200完成或profile PASS逻辑门槛。辅助失败报告unverified、healthy training继续，不单独阻止B；native first-update未成功、native failure或资源不足仍阻塞。初步budget snapshot不等于physical placement。
 - **吞吐判断**：第一个 update 的 prompt 长度不一定代表后续分布（S2 取数顺序第 7 条），所以 A 和 B 都逐个 update 记录各阶段耗时，并在约第 20 个 update 时再汇报一次耗时趋势。
-- **D19，经D33更新资源限制**：第一个update若因rollout或teacher打分太慢违反D6，按D6结束该attempt，然后增加GPU作为新attempt重启，不再另行询问。正式cell保持非抢占；D6的截止时间和最低条数不变。
+- **D19，当前资源按D37/S8**：第一个update若因rollout或teacher打分太慢违反D6，按D6结束该attempt，保留既有新attempt relaunch授权，但任何增加GPU的配置都须符合当前H200非抢占上限及fresh准入；不继承D33/H800无上限作为当前例外。D6截止时间/最低条数和正式非抢占性质不变；startup placement失败不当作D19吞吐失败，无新增GPU smoke。
 - 第一个之后的 update 若因吞吐违反 D6，按 D6 结束该 attempt 并报告；D19 不覆盖这种情况，是否重启由用户决定。
 
 ## S9. 验证与交付
