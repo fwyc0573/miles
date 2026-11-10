@@ -1,0 +1,2086 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json
+new file mode 100644
+index 00000000..b2664ba9
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json
+@@ -0,0 +1,4 @@
++{
++  "source_fixture": "evidence/teacher-scoring-probe-20261111/retained-cases.json",
++  "sample_count": 4
++}
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json
+new file mode 100644
+index 00000000..a642d4ba
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json
+@@ -0,0 +1,14 @@
++{
++  "task_id": "profile-mamba-live-metadata-integration-20261111",
++  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
++  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
++  "pairs": ["A", "B"],
++  "repeats": 1,
++  "request_timeout_seconds": 3600,
++  "worker_seconds": 3600,
++  "child_cleanup_grace_seconds": 90,
++  "selected_fp32_snapshots": true,
++  "mamba_runtime_metadata": true,
++  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native",
++  "acceptance": "Candidate minimized reproduction only: original first four fixtures, one repetition, 16 scoring requests and 10 flushes per pair. Preserve teacher model, source mounts, engine argv, cache, concurrency, chunk8192, BF16, deterministic inference and budgets. Prepare actual selected-FP32 source before the CPU-only metadata overlay; collect the existing server-info endpoint once after all scoring requests. Missing or malformed metadata is an independent probe failure, not scoring acceptance. Native H800 acceptance remains pending until first4 vectors compare to existing FP32 repetition0 and reproduce sample2/3 drift. Dropped 1024-hit boundary groups are not covered. No automatic tolerance or performance PASS; formal submission stays paused."
++}
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md
+new file mode 100644
+index 00000000..887d5ef3
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md
+@@ -0,0 +1,164 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-11 | Add source-qualified diagnostic preparation, CPU binding results, receipt limits and scoped progress checkpoint. |
++
++# Mamba runtime metadata source preparation
++
++TaskID: `profile-mamba-live-metadata-source-20261111`.
++
++**Outcome: CPU/source preparation PASS; actual runtime, CUDA completion and warm parity UNVERIFIED.** Only the two assigned Python files and this report are changed. No GPU, platform, authentication, SSH or delegation operation was performed. Formal source/math, configuration, cache policy, intervals, precision, concurrency and scientific criteria are unchanged.
++
++## Deliverables and API
++
++- `tests/manual/agent_opd/sglang_mamba_runtime_metadata.py`
++- `tests/fast/test_sglang_mamba_runtime_metadata.py`
++- This report.
++
++Frozen API:
++
++```python
++prepare_runtime_metadata(
++    native_sglang_package_root: Path, *, image: str, archive_dir: Path
++) -> dict
++```
++
++Call after the existing `sglang_mamba_snapshots.prepare_source(selected_fp32=True)`, before attention imports/server startup. This module imports no SGLang/torch. Image, distribution version and selected-FP32 source identities come from the existing math-patch owner. Fifteen retained native files are qualified before any dependency/archive write; eight existing files receive diagnostic inserts and `srt/mamba_runtime_metadata.py` is created. C1/C2/C3 evidence roots supply the exact files; unrelated C4/C5 synchronization source is not edited. Missing/changed source, unprepared math sources, mismatched image/version, unknown existing recorder and conflicting archives are rejected before dependency writes. Repeating only this API is idempotent. Do not rerun the selected-FP32 preparer against an already instrumented package.
++
++Qualification hashes are owned by `source_manifest()` and the existing snapshot manifest, not independently copied into this report. The native diff contains only recorder imports, CPU tuple appends and one addition to the existing readback Dict. Removing those diagnostic AST nodes restores each complete native AST exactly. Existing tensor indexing/casts/copies, native conditionals, kwargs, returns, allocators, resolvers and cache decisions are preserved.
++
++## Receipt coverage and limits
++
++| Native seam | Receipt and observed locals |
++| --- | --- |
++| C2 `schedule_batch.py` chosen extend boundary | `scheduler_track_boundary`: actual RID, prefix/extend/end lengths, cache/state chunk sizes, checkpoint grid, chosen mask/boundary/track length and post-choice ping-pong indices. No resolver is called again. |
++| C3 hybrid physical translation and CPU-plan binding | `translated_track_metadata` records tensor metadata only. `prefill_track_plan` records the actual returned plan: CPU mask, prefix/extend/track lengths, tracked/final/unaligned/h/recompute rows, h source and chunk indices, chunk size and RIDs. The plan is not rebuilt for diagnostics. |
++| C3 GDN allocation and dispatcher | `gdn_snapshot_allocation` records actual mask, h-source metadata, capability, selected kernel, allocated-buffer identity/dtype/shape/stride, temporal metadata, layer and RIDs. `gdn_extend_dispatch` records the actual chosen kernel/arguments without changing them. Buffer object IDs link allocation and dispatch. Optional CPU lengths remain `None` when unavailable. |
++| C3 hybrid snapshot copy | `snapshot_store_enqueued` distinguishes the actual `h_track_buf`, per-chunk h, recompute and final-state branches. Actual source/temporal dtypes and source/destination tensor metadata are observed; the existing cast is untouched. No source is labeled FP32 merely because the experiment requested it. |
++| C1 Mamba component and C2 runner | Selected/skipped COW match, actual clear/COW copy branches, actual finished checkpoint choice or unfinished donation return, cache length, keep/ping-pong indices, inserted-slot metadata and new/fill-existing/retain-existing node branches with `mamba_exist`. Caller-selected donor returns are not resolved again. |
++| C3 tree overlap and C2 canonical adoption | `duplicate_kv_release_queued` records actual CPU absolute interval/full-only subdivision and node. `kv_allocator_release_returned` follows actual native allocator calls. Checkpoint begin/returned receipts associate RID with intervening insert/node/release receipts. `canonical_kv_rebind_enqueued` follows the actual request-row write and records its selected node and absolute interval. NodeIds returned outside TreeCore are recorded directly, not dereferenced as nodes. |
++| C2 existing internal-state controller | Add `mamba_runtime_metadata` to the existing Dict, before its unchanged `msgspec_to_builtins` return. No new endpoint, request type or collective. |
++
++The generated recorder accumulates immutable CPU tuples in process memory. Each row is `(sequence, event, ((field, value), ...))`; JSON/msgspec conversion may represent tuples as arrays. Tensor metadata is `(object_id, dtype, shape, stride, device)`. It retains no device tensor references and reads no tensor numeric contents. No new `.item()`, `.cpu()`, `.tolist()`, events, waits, synchronization, collectives, clocks, request-path logging or request-path file I/O is introduced.
++
++The existing internal-state Dict drain returns process ID, actual published DP/TP/PP/attention ranks, schema and rows, and clears only that process's buffer. The caller must drain after all scoring requests; integration/JSON collection is owned by the integration agent. Existing DP readback does **not** gather all TP shards. `physical_slot_values=UNMEASURED` and `device_store_completion=UNMEASURED` are explicit. Host enqueue/allocator return, object identity and CPU row plans do not prove device completion, physical slot values, donor contents, all-TP coherence, ordering/race exclusion or model probability parity. Synthetic/capture RIDs can be `None`; missing CPU plans are not fabricated.
++
++## CPU validation
++
++Environment: repository root `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, Linux; `/data/ycfeng/envs/frontier-py310/bin/python`, Python 3.10.6, pytest 9.1.1. No conda activation. Standard-library source preparation and metadata-only tensor stand-ins are used; neither host nor worker SGLang is imported. The pinned distribution version is mocked only in CPU qualification tests, not asserted as the host's installed version. Native source bytes and all expected hashes are real retained evidence. Source-dependent CI cases explicitly skip when evidence is absent instead of using an older host package. The fast CPU file fits the 30-second budget and needs no additional CI declaration.
++
++Exact final test command:
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 \
++  /data/ycfeng/envs/frontier-py310/bin/python -m pytest \
++  --noconftest -p no:cacheprovider -o addopts='' -q \
++  tests/fast/test_sglang_mamba_runtime_metadata.py \
++  tests/fast/test_sglang_mamba_snapshots.py
++```
++
++Expected: all source checks, actual retained Python bindings and diagnostic invariance checks pass without numeric device reads. Actual: **75 PASS / 16.67 seconds** (50 new runtime-metadata cases + 25 existing selected-FP32 cases), no skipped cases. Existing environment warning: `PytestConfigWarning: Unknown config option: asyncio_mode` because this isolated pytest environment does not load pytest-asyncio. `--noconftest` avoids unrelated rollout fixtures and is not a full repository-suite run.
++
++Coverage includes all allocation mask/row/capability outcomes, present/absent optional CPU lengths, real retained CPU plan mapping, actual dispatch argument identities, all four store branches, boundary/branch-point/ping-pong choices, selected COW and existing-node retention, actual clear/COW branches, finished and unfinished donor return bindings, duplicate release interval subdivisions, canonical request-row rebind, existing Dict readback and process-local drain. Resolver/copy/allocator counts confirm diagnostics do not call them again. Metadata-only stand-ins trap tensor iteration, value-dependent bool and numeric device reads. Complete native AST restoration checks cover all eight edited files, including untouched return/kwargs/decision paths.
++
++Initial iteration: **38 PASS / 4 FAIL**, all four failures were test-slice `StopIteration`, not native execution failures. The test selected the first `is_target_verify` else instead of the distinct actual allocation branch. Inspection selected the else containing the real `h_track_buf` assignment; no native decision was replaced. Corrected 42-case run passed before the final coverage additions. No repeated native-fix loop or GPU retry occurred.
++
++```bash
++/data/ycfeng/tmp/opencode-v2-tmp/opencode/qwen-review-lint/packages/bin/ruff check \
++  tests/manual/agent_opd/sglang_mamba_runtime_metadata.py \
++  tests/fast/test_sglang_mamba_runtime_metadata.py
++git diff --check -- \
++  tests/manual/agent_opd/sglang_mamba_runtime_metadata.py \
++  tests/fast/test_sglang_mamba_runtime_metadata.py \
++  task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md
++```
++
++Ruff: **PASS**, with existing deprecated top-level lint-settings warning. Scoped whitespace check: **PASS**. No broader business/runtime result is inferred.
++
++## Exact CPU source artifacts
++
++Final scratch artifact root: `/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-mamba-runtime-metadata-20261111-final-cybayqik`.
++
++- `runtime/before/` and `runtime/after/`: exact post-selected-FP32 baseline and diagnostic candidate, including empty-before/new-after recorder.
++- `runtime/runtime_metadata.diff`: all nine native changed-file sections.
++- `runtime/source_manifest.json`: image/version and before/after SHA256 identities.
++- `runtime/preflight.jsonl`: exact CPU preparation receipt, explicitly runtime/CUDA unverified.
++- `selected-fp32/`: the unchanged existing preparer's source archive.
++
++These paths are local CPU evidence, not worker deployment evidence. Native changed files are `srt/layers/attention/linear/gdn_backend.py`, `srt/layers/attention/hybrid_linear_attn_backend.py`, `srt/managers/schedule_batch.py`, `srt/mem_cache/unified_cache/components/mamba.py`, `srt/model_executor/model_runner.py`, `srt/mem_cache/unified_cache/unified_tree_core.py`, `srt/mem_cache/unified_radix_cache.py`, `srt/managers/scheduler_components/internal_state.py`, and new `srt/mamba_runtime_metadata.py`.
++
++Exact artifact-generation command (the version mock is confined to this CPU harness):
++
++```bash
++PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/frontier-py310/bin/python - <<'PY'
++from pathlib import Path
++from tempfile import mkdtemp
++from unittest.mock import patch
++import json
++from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++base = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111')
++artifact = Path(mkdtemp(prefix='profile-mamba-runtime-metadata-20261111-final-', dir='/data/ycfeng/tmp/opencode-v2-tmp/opencode'))
++root = artifact / 'sglang'
++for relative, identity in metadata.source_manifest()['files'].items():
++    content = (base / identity['native_source_job'] / 'source' / relative).read_bytes()
++    expected = snapshots.source_manifest()['files'].get(relative, {}).get('before_sha256', identity['before_sha256'])
++    assert metadata._sha256(content) == expected, relative
++    target = root / relative
++    target.parent.mkdir(parents=True, exist_ok=True)
++    target.write_bytes(content)
++with patch('importlib.metadata.version', return_value=snapshots.source_manifest()['distribution_version']):
++    snapshots.prepare_source(root, image=metadata.source_manifest()['image'], selected_fp32=True, archive_dir=artifact / 'selected-fp32')
++    receipt = metadata.prepare_runtime_metadata(root, image=metadata.source_manifest()['image'], archive_dir=artifact / 'runtime')
++print(json.dumps({'artifact_dir': str(artifact), 'changed_files': receipt['changed_files'], 'source_files_qualified': len(receipt['files']) - 1, 'native_runtime': 'UNVERIFIED', 'diff': str(artifact / 'runtime/runtime_metadata.diff'), 'receipt': str(artifact / 'runtime/preflight.jsonl')}, indent=2))
++PY
++```
++
++Actual: fifteen pre-existing files qualified, eight existing diagnostic-only patches plus one recorder created, exact diff/manifest/receipt written. No package source identity was replaced with synthetic content.
++
++## 1. 规划完成情况
++
++**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| 本分工：native source qualification 和冻结 API | PASS | 15 个真实源文件先核验；保留 math owner 和 API。 |
++| 本分工：实际 locals 的 CPU receipts 和现有 Dict drain | PASS | 八个文件仅诊断插入；完整 AST 去除诊断后相同。 |
++| 本分工：CPU bindings、exact archive 和报告 | PASS | 新增 50 项及既有 25 项全部通过，真实 before/after/diff/receipt 保留。 |
++| 集成代理：caller、JSON 和评分后 readback | TODO | 本分工不修改调用方；需要集成代理确认实际收集。 |
++| 父任务 04/05：实际 runtime coherence 和 warm correctness | BLOCKED | plan 当前记录 full-model warm FAIL；本次 CPU 准备不能解除 formal hold。 |
++
++## 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** 本分工 source qualification 开始至 CPU deliverable 完成｜**当前前沿：** caller 集成、实际 runtime metadata 收集；formal04/05仍受正确性阻塞。
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | 仅实现明确要求的 receipts 和必要 CPU 检查，达标后停止扩展。 |
++| D2 细节反复重试 | CLEAR | 一次 AST 测试定位错误已据实际 source 修正；无 native retry loop。 |
++| D3 支线问题修补 | CLEAR | 没有修改环境告警、全局文档或其他文件。 |
++| D4 可并行任务停滞 | NO DATA | 父会话负责其他独立分工；本分工明确禁止 delegation。 |
++| D5 超范围镀金 | CLEAR | 无新 endpoint、通用框架、配置 knob 或兼容路径。 |
++| D6 分析空转 | CLEAR | source 检查直接形成已验证 deliverable。 |
++| D7 路线违背 | CLEAR | CPU-only 和三文件 ownership 遵守；无 GPU 操作或科学条件改变。 |
++
++**文档检查：** S1–S6 在本分工未发现明显缺陷；requirements D40、plan 当前 warm FAIL 和04/05保持，不把 CPU PASS 当成整体完成。
++**归因：** 无。
++
++## 3. 纠正建议
++
++**分支：** A：spec/tickets 合理，无需改动。
++
++**需停止的偏离行为：** 无。
++
++**接下去的路线：**
++1. 集成代理接入冻结 API，在 selected-FP32 prepare 后、startup 前调用，并在评分结束后经现有 Dict 收集 receipts → 完成标志：actual caller/JSON/drain integration 证据明确，不声称 all-TP coverage。
++2. 父会话按已有授权决定实际验证，核对 allocation/store/donor/node/duplicate-release/canonical-rebind receipts → 完成标志：实际 worker evidence 与仍未测的 physical values、GPU completion、warm parity 分开记录；formal hold 不由本报告解除。
++
++## 4. 最值得关注的 3 点
++
++1. 所有新增 native writes 都先受真实 source hashes 限制，selected-FP32 math 不被重复实现或更改。
++2. 现有 readback 只 drain 响应 scheduler 进程；TP 缺片、physical values 和 GPU 完成状态不能从 CPU tuples 推断。
++3. 本分工 CPU deliverable 已达标，caller/实际 runtime/warm correctness 仍未验收；04/05保持 BLOCKED。
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md
+new file mode 100644
+index 00000000..f3bd47f0
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md
+@@ -0,0 +1,140 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-11 | Record the first4 diagnostic integration, real source-preparer ordering, joined CPU checks, independent readback failures and pending native acceptance. |
++
++# Runtime metadata teacher-probe integration
++
++TaskID: `profile-mamba-live-metadata-integration-20261111`.
++
++## Outcome and scope
++
++**CPU integration PASS; native H800 reproduction PENDING.** Only the worker probe, its existing CPU test file, the new diagnostic config, one dedicated first4 manifest and this report are owned by this integration slice. Source preparation and its native recorder remain independently owned; no recorder, source patching, launcher wrapper, GPU/platform/auth/SSH operation or delegation was added here. Existing submission tests exercise only mocks or `--dry-run` construction; no platform client was called.
++
++Deliverables:
++
++- `tests/manual/agent_opd/probe_teacher_scoring.py`: strict opt-in `mamba_runtime_metadata` JSON boolean, requiring `selected_fp32_snapshots=true`; original-fixture prefix manifest support; separately retained source receipts; one post-loop readback through the existing server-info endpoint; independent probe failure after scoring if readback fails.
++- `tests/fast/test_teacher_scoring_probe.py`: configuration/identity/command preservation, actual preparer receipts and ordering, baseline56/32 with no extra metadata fetch, diagnostic16/10, DP-only readback coverage, malformed/missing metadata and retained scoring files after failures.
++- `task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json`: A/B, four H800 per teacher, first four exact existing fixtures, one repetition, isolated output. The formal config continues to own all teacher weights, mounts, engine arguments and budgets.
++- `task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json`: only `source_fixture` and `sample_count=4`, passed through the existing `--samples` argument. No token copy, index renumbering or second subset selector.
++
++The original fixture remains `evidence/teacher-scoring-probe-20261111/retained-cases.json`, SHA256 `c45424e8106c2beb7500acacb68aa0939da0088c926af8012dd9fbd780f0ffc9`, 3,703,152 bytes. Its first four sample indices remain1693/1694/1695/1696 with their original full UIDs, input tokens, response lengths734/246/431/290 and assistant-turn ordinals57/58/59/60. Baseline7×2 remains56 scoring requests/32 flushes per pair; diagnostic4×1 is16/10. Cache behavior, concurrency1, chunk8192, BF16, deterministic inference, model paths, two source-volume mounts, worker/request3600s and cleanup90s remain unchanged.
++
++## API, receipts and source evidence
++
++The worker calls the source owner's real API in this order:
++
++```python
++snapshots.prepare_source(root, image=config["image"], selected_fp32=True,
++                         archive_dir=output / "source_preflight")
++metadata.prepare_runtime_metadata(root, image=config["image"],
++                                  archive_dir=output / "runtime_metadata_source_preflight")
++# _runtime inspection, teacher command/startup, all scoring loops, readback
++```
++
++`source_preflight` and `runtime_metadata_source_preflight` remain separate in preload/result and in their respective `preflight.jsonl` archives. Both source modules have independent identities in `native_scoring_sources`. CPU tests run both real preparers on copied hash-qualified retained sources; they do not change host-installed SGLang or import new attention modules before preparation.
++
++Joined dependency snapshot:
++
++| Independently owned file | SHA256 |
++| --- | --- |
++| `tests/manual/agent_opd/sglang_mamba_runtime_metadata.py` | `c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1` |
++| `tests/fast/test_sglang_mamba_runtime_metadata.py` | `04553316d4cab17b7ba91ef8cceb682606aa699c27e92ff921b0885475062c70` |
++
++Actual retained source establishes the endpoint and envelope, rather than a guessed TP-shard layout:
++
++- C2 `evidence/native-sglang-cache-source-20261111/exp-1111-040603-422872/source/srt/entrypoints/http_server.py:854–889`: `/get_server_info` delegates to `/server_info`; the response contains `internal_states`, explicitly one entry per DP.
++- Same C2 `srt/managers/io_struct.py:2442–2450`: `GetInternalStateReqOutput.internal_state` is a Dict; `srt/managers/scheduler_components/internal_state.py:45–63` builds that payload. The source owner adds the recorder readback at this existing seam.
++- C3 source qualification and the source-owner CPU tests verify the overlay before application; the joined integration tests preserve its actual receipt instead of recreating source edits.
++- Actual existing A FP32 `evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/server_info.json` reports DP1/TP4/PP1 and exactly one `internal_states` entry. This verifies the original response shape, not new runtime metadata.
++
++After all scoring requests, the diagnostic performs one `GET /get_server_info`, retaining one `runtime_metadata.json`. It validates one response per reported DP, individual process/rank metadata, schema `mamba-runtime-metadata-v1`, and nonempty ordered CPU rows. It does not assume DP list order or all-TP coverage. Full valid JSON response evidence is retained; malformed readback also retains exact response text when available. HTTP timeout/error, missing key, empty rows, malformed schema/rank/row and duplicate/out-of-range DP ranks never count as collected metadata.
++
++The result references this receipt without duplicating the trace. A readback failure raises an independent probe `RuntimeError`, leaves `native_measurements_completed=true` for already-finished scoring, retains scoring files/cache observations and performs ordinary child cleanup. It never changes training, requests, numerical acceptance or performance acceptance. Absent/false diagnostic configuration performs no overlay or post-loop HTTP request and retains the original benchmark path.
++
++## Commands, environment and observed checks
++
++Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`. CPU interpreter: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python3.12.13, pytest9.1.1. Controller-only source/identity reads used `/usr/bin/python3`, Python3.10.6. No conda activation. Temporary test artifacts stayed under `/data/ycfeng/tmp/opencode-v2-tmp/opencode/`; bytecode and pytest cache writes were disabled.
++
++Initial config/prefix regression:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-config-prefix-20261111
++```
++
++Expected: preserve original behavior, validate diagnostic selection, select exact first4 and preserve A/B allocation/argv. Observed **79 passed,4 warnings,1.82s; PASS**.
++
++Focused complete integration:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-probe-focused-20261111
++```
++
++Expected: both real preparation receipts in order, no pre-preparation attention imports, original commands/scoring counts, post-loop-only metadata collection, honest failures and scoring retention. Observed **105 passed,4 warnings,4.77s; PASS**.
++
++Actual joined CPU verification, including the independently owned native-source preparer tests:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-probe-joined-20261111
++```
++
++Expected: no regressions in native scoring, original submission/FP32 snapshot behavior, qualified metadata source and integration. Observed **304 passed,20 existing warnings,26.75s; PASS**. Warnings concern existing SWIG, deprecated Torch JIT/datetime APIs, and unsupported CPU AWQ/GGUF; no test failure or skip occurred.
++
++```bash
++git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md
++```
++
++Expected/observed: no scoped whitespace errors; PASS. Required CPU checks have passed; no unrelated edits are staged.
++
++## Verification limits and next dependency
++
++All HTTP/GPU-inspection/engine-startup operations in integration tests are CPU mocks; existing cleanup checks start only their owned CPU child. First4 mock HTTP bodies contain only the completion tail needed for request/identity/readback contracts; they do not certify native full-input score ranges or probability vectors. `collected` means structurally present CPU metadata, never native PASS, device-store completion, physical slot content, causal proof or numerical parity. DP respondents do not expose independent receipts from all TP ranks.
++
++The first4 reduction is a candidate minimized reproduction, not accepted until actual A/B four-H800 first4 vectors are compared with the existing FP32 repetition0 vectors and still reproduce sample2/3 drift. It does not cover dropped1024-hit boundary groups. Existing R2 evidence remains cold14/14 exact and warm4/14 exact, max absolute A0.24439287185668945/B0.43827223777770996, with warm-full sample2/3 deviations unchanged; those are prior observations, not this diagnostic's results. Source/operator44/44 and matching after-hashes do not measure live model donor/dtype paths. Native metadata, first4 reproduction, numerical/performance/cause acceptance and formal release remain **PENDING**; only the primary owns any later approved native execution.
++
++## 1. 规划完成情况
++
++**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| 独立 diagnostic 配置与原始 first4 manifest | PASS | 原 UID/index/token 不变，16 scoring/10 flush；baseline56/32 不变。 |
++| 真实 preparer 接线与独立 receipts | PASS | selected-FP32 后、runtime/attention/teacher 前，两个实际 CPU receipts 分开保留。 |
++| post-loop 既有 endpoint 与失败证据 | PASS | DP-only coverage；缺失/malformed 独立失败，scoring 文件保留。 |
++| joined CPU 验证 | PASS | 304 passed，20 existing warnings，26.75s。 |
++| 实际 H800 first4 重现与 runtime metadata | BLOCKED | 本 subagent 无 GPU/platform 权限；native 仍 PENDING。 |
++
++## 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** 本次 scoped integration 开始至 joined CPU 完成｜**当前前沿：** 交付已验证的 CPU candidate；primary 独立决定后续 native 验证。
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | 仅执行本次所需合约检查；joined 完成后停止扩展。 |
++| D2 细节反复重试 | CLEAR | config、focused、joined 三个阶段均通过；没有失败修复循环。 |
++| D3 支线问题修补 | CLEAR | 只编辑五个授权文件，未修改 recorder、launcher 或原始 fixtures。 |
++| D4 可并行任务停滞 | CLEAR | source agent 独立准备模块；本 slice 同时完成配置/subset/readback。 |
++| D5 超范围镀金 | CLEAR | 一个 manifest prefix 机制、一个 diagnostic boolean、一次 post-loop fetch。 |
++| D6 分析空转 | CLEAR | retained endpoint/DP 证据直接用于接线和已通过的测试。 |
++| D7 路线违背 | CLEAR | 无 GPU/platform/auth/SSH/delegation；原生验收未冒充完成。 |
++
++**文档检查：** 当前 scoped assignment 下 S1–S6 均未发现明显缺陷；父任务 formal hold 保持不变。
++**归因：** 无。
++
++## 3. 纠正建议
++
++**分支：** A：spec/tickets 合理，无需改动。
++
++**需停止的偏离行为：** 无。
++
++**接下去的路线：**
++1. 交付 scoped candidate 与本报告 → 完成标志：只提交 owned files，保留其他 agent 的修改。
++2. primary 后续 native 验证 → 完成标志：实际 H800 first4 与旧 FP32 repetition0 比较、sample2/3 drift 保留、真实 DP metadata receipt 可读；不以 CPU 或缺失 trace 替代。
++
++## 4. 最值得关注的 3 点
++
++1. CPU 接线已通过304项 joined 检查；没有任何新的 native PASS。
++2. server-info 仅覆盖每个 DP 的 responding process，不覆盖全部 TP ranks，也不测设备写完成。
++3. first4 尚未获原生重现验收，且未覆盖 dropped1024-hit groups；formal hold 不变。
+diff --git a/tests/fast/test_sglang_mamba_runtime_metadata.py b/tests/fast/test_sglang_mamba_runtime_metadata.py
+new file mode 100644
+index 00000000..949adfcf
+--- /dev/null
++++ b/tests/fast/test_sglang_mamba_runtime_metadata.py
+@@ -0,0 +1,628 @@
++"""CPU bindings of retained native source, with forbidden device reads trapped.
++
++Source-dependent cases skip if retained evidence is unavailable, never replacing
++it with host SGLang. Stand-ins check call/branch preservation, not CUDA math.
++MILES_PINNED_SGLANG_SOURCE can supply one combined pristine native package.
++"""
++
++import ast
++import copy
++import json
++import os
++from pathlib import Path
++from types import SimpleNamespace
++
++import pytest
++
++from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++
++_EVIDENCE = (
++    Path(__file__).resolve().parents[2]
++    / "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
++)
++
++
++@pytest.fixture
++def native_root(tmp_path, monkeypatch):
++    root = tmp_path / "sglang"
++    source = os.environ.get("MILES_PINNED_SGLANG_SOURCE")
++    for relative, identity in metadata.source_manifest()["files"].items():
++        retained = Path(source) if source else _EVIDENCE / identity["native_source_job"] / "source"
++        path = retained / relative
++        if not path.is_file():
++            pytest.skip(f"Required retained native source unavailable: {path}")
++        content = path.read_bytes()
++        expected = snapshots.source_manifest()["files"].get(relative, {}).get(
++            "before_sha256", identity["before_sha256"]
++        )
++        assert metadata._sha256(content) == expected, path
++        target = root / relative
++        target.parent.mkdir(parents=True, exist_ok=True)
++        target.write_bytes(content)
++    monkeypatch.setattr(metadata.importlib.metadata, "version", lambda name: snapshots.source_manifest()["distribution_version"])
++    snapshots.prepare_source(root, image=snapshots.source_manifest()["image"], selected_fp32=True,
++                             archive_dir=tmp_path / "selected-fp32")
++    return root
++
++
++def _prepare(root, archive):
++    return metadata.prepare_runtime_metadata(root, image=metadata.source_manifest()["image"], archive_dir=archive)
++
++
++def _contents(root):
++    return {str(path.relative_to(root)): path.read_bytes() for path in root.rglob("*.py")}
++
++
++def _recorder(root=None):
++    namespace = {}
++    source = (root / metadata._RECORDER).read_bytes() if root is not None else metadata._RECORDER_SOURCE
++    exec(compile(source, "qualified-runtime-metadata.py", "exec"), namespace)
++    return namespace
++
++
++def _drain(recorder):
++    return recorder["drain"](SimpleNamespace(dp_rank=1, tp_rank=2, pp_rank=0, attn_dp_rank=1, attn_tp_rank=0))
++
++
++def _events(recorder):
++    return [(event, dict(fields)) for _, event, fields in _drain(recorder)["rows"]]
++
++
++class _Tensor:
++    """Metadata-only tensor; only native call sites may index/cast/mutate it."""
++
++    def __init__(self, shape=(2,), dtype="int64", device="cuda:2"):
++        self.shape, self.dtype, self.device = tuple(shape), dtype, device
++        self.writes = []
++        self.casts = []
++
++    def __len__(self):
++        return self.shape[0]
++
++    def stride(self):
++        strides, product = [], 1
++        for dim in reversed(self.shape):
++            strides.insert(0, product)
++            product *= dim
++        return tuple(strides)
++
++    def numel(self):
++        product = 1
++        for dim in self.shape:
++            product *= dim
++        return product
++
++    def __getitem__(self, index):
++        if isinstance(index, _Tensor):
++            shape = (index.shape[0], *self.shape[1:])
++        elif isinstance(index, slice):
++            shape = (len(range(*index.indices(self.shape[0]))), *self.shape[1:])
++        elif isinstance(index, tuple):
++            return self[index[-1]]
++        else:
++            shape = self.shape[1:]
++        return _Tensor(shape, self.dtype, self.device)
++
++    def __setitem__(self, index, value):
++        self.writes.append((index, value))
++
++    def to(self, dtype, copy=False):
++        self.casts.append((dtype, copy))
++        return _Tensor(self.shape, dtype, self.device)
++
++    def squeeze(self, axis):
++        return _Tensor(self.shape[:axis] + self.shape[axis + 1:], self.dtype, self.device)
++
++    def unsqueeze(self, axis):
++        return _Tensor(self.shape + (1,), self.dtype, self.device)
++
++    def clone(self):
++        return _Tensor(self.shape, self.dtype, self.device)
++
++    def index_select(self, axis, indices):
++        assert axis == 0
++        return _Tensor((len(indices), *self.shape[1:]), self.dtype, self.device)
++
++    def __iter__(self):
++        raise AssertionError("Device tensor values must not be iterated")
++
++    def item(self):
++        raise AssertionError("Device scalar read is forbidden")
++
++    def cpu(self):
++        raise AssertionError("Device transfer is forbidden")
++
++    def tolist(self):
++        raise AssertionError("Device content conversion is forbidden")
++
++    def __bool__(self):
++        raise AssertionError("Device value-dependent bool is forbidden")
++
++
++def _method(root, relative, name):
++    tree = ast.parse((root / relative).read_bytes())
++    return copy.deepcopy(next(node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == name))
++
++
++def _bind(root, relative, name, recorder, **namespace):
++    node = _method(root, relative, name)
++    node.decorator_list = []
++    scope = {"_mamba_record": recorder["record"], "_mamba_tensor": recorder["tensor_metadata"], **namespace}
++    future = ast.parse("from __future__ import annotations").body
++    exec(compile(ast.Module(body=future + [node], type_ignores=[]), str(root / relative), "exec"), scope)
++    return scope[name]
++
++
++def _slice(root, relative, name, start, stop, recorder, **scope):
++    """Execute exact retained statements, supplying unrelated upstream locals."""
++    node = _method(root, relative, name)
++    statements = node.body
++    if name == "forward_extend":
++        statements = next(node.orelse for node in statements if isinstance(node, ast.If)
++                          and any(start(statement) for statement in node.orelse))
++    a = next(i for i, statement in enumerate(statements) if start(statement))
++    b = next(i for i, statement in enumerate(statements[a:], a) if stop(statement))
++    node.name, node.args, node.decorator_list = "bound_slice", ast.arguments(
++        posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[]
++    ), []
++    node.body, node.returns = statements[a:b + 1], None
++    namespace = {"_mamba_record": recorder["record"], "_mamba_tensor": recorder["tensor_metadata"], **scope}
++    future = ast.parse("from __future__ import annotations").body
++    exec(compile(ast.fix_missing_locations(ast.Module(body=future + [node], type_ignores=[])), "native-chosen-locals.py", "exec"), namespace)
++    return namespace["bound_slice"]
++
++
++def test_exact_source_archive_and_idempotence(native_root, tmp_path):
++    before = _contents(native_root)
++    archive = tmp_path / "runtime"
++    receipt = _prepare(native_root, archive)
++    after = _contents(native_root)
++    assert set(receipt["changed_files"]) == set(metadata._EDITS) | {metadata._RECORDER}
++    assert receipt["diagnostic_only"] and receipt["cuda_semantics"] == "UNVERIFIED"
++    assert receipt["physical_slot_values"] == "UNMEASURED"
++    assert receipt["readback_key"] == "mamba_runtime_metadata"
++    for relative in after:
++        assert (archive / "before" / relative).read_bytes() == before.get(relative, b"")
++        assert (archive / "after" / relative).read_bytes() == after[relative]
++        assert receipt["files"][relative]["after_sha256"] == metadata._sha256(after[relative])
++    for relative in snapshots.source_manifest()["files"]:
++        if relative not in metadata._EDITS:
++            assert after[relative] == before[relative], "diagnostics must not change the selected-FP32 math patch"
++    assert (archive / "runtime_metadata.diff").read_text().count("--- a/") == 9
++    assert not _prepare(native_root, archive)["patch_applied"]
++    assert _contents(native_root) == after
++    assert len((archive / "preflight.jsonl").read_text().splitlines()) == 2
++    assert not _prepare(native_root, tmp_path / "fresh-archive")["patch_applied"]
++
++
++@pytest.mark.parametrize("relative", list(metadata.source_manifest()["files"]) + [metadata._RECORDER])
++def test_changed_sources_rejected_before_any_writes(native_root, tmp_path, relative):
++    path = native_root / relative
++    path.parent.mkdir(parents=True, exist_ok=True)
++    path.write_bytes((path.read_bytes() if path.exists() else b"") + b"\n# unsupported source\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="Unrecognized runtime metadata"):
++        _prepare(native_root, tmp_path / "runtime")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "runtime").exists()
++
++
++def test_missing_required_source_names_path_and_hash(native_root, tmp_path):
++    # A renamed test-local source makes the required path absent, not substituted.
++    relative = "srt/runtime_context.py"
++    path = native_root / relative
++    path.rename(path.with_suffix(".absent"))
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match=f"runtime_context.py; sha256={metadata._ADDITIONAL[relative][1]}"):
++        _prepare(native_root, tmp_path / "runtime")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "runtime").exists()
++
++
++@pytest.mark.parametrize("identity", ["image", "version", "unprepared", "archive"])
++def test_preflight_rejects_wrong_preconditions(native_root, tmp_path, monkeypatch, identity):
++    image = metadata.source_manifest()["image"]
++    archive = tmp_path / "runtime"
++    if identity == "image":
++        image = "unqualified"
++    elif identity == "version":
++        monkeypatch.setattr(metadata.importlib.metadata, "version", lambda name: "0.5.23")
++    elif identity == "unprepared":
++        path = native_root / snapshots._TRITON
++        path.write_bytes(snapshots._rewrite(snapshots._TRITON, path.read_bytes(), reverse=True))
++    else:
++        archive.mkdir()
++        (archive / "runtime_metadata.diff").write_text("other evidence\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="qualified pinned image|identity differs|Unrecognized|archive differs"):
++        metadata.prepare_runtime_metadata(native_root, image=image, archive_dir=archive)
++    assert _contents(native_root) == before
++    assert not (archive / "source_manifest.json").exists()
++
++
++def test_diagnostic_ast_removal_restores_entire_native_ast(native_root, tmp_path):
++    before = _contents(native_root)
++    _prepare(native_root, tmp_path / "runtime")
++
++    class RemoveDiagnostics(ast.NodeTransformer):
++        def visit_ImportFrom(self, node):
++            return None if node.module == "sglang.srt.mamba_runtime_metadata" else node
++
++        def visit_Expr(self, node):
++            if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "_mamba_record":
++                return None
++            return self.generic_visit(node)
++
++        def visit_Assign(self, node):
++            if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "_mamba_drain":
++                return None
++            return self.generic_visit(node)
++
++    for relative in metadata._EDITS:
++        original = ast.parse(before[relative])
++        candidate = RemoveDiagnostics().visit(ast.parse((native_root / relative).read_bytes()))
++        assert ast.dump(candidate) == ast.dump(original), relative
++    recorder = ast.parse(metadata._RECORDER_SOURCE)
++    calls = [node for node in ast.walk(recorder) if isinstance(node, ast.Call)]
++    assert {node.func.attr for node in calls if isinstance(node.func, ast.Attribute)} == {"stride", "append", "clear", "getpid"}
++    assert {node.module for node in ast.walk(recorder) if isinstance(node, ast.ImportFrom)} == set()
++
++
++def test_recorder_is_cpu_only_and_drain_is_process_local():
++    recorder = _recorder()
++    tensor = _Tensor((2, 3, 4), "float32")
++    observed = recorder["tensor_metadata"](tensor)
++    assert observed == (id(tensor), "float32", (2, 3, 4), (12, 4, 1), "cuda:2")
++    recorder["record"]("chosen", (("tensor", observed),))
++    response = _drain(recorder)
++    assert response["rank"]["tp_rank"] == 2
++    assert response["coverage"] == "responding scheduler process only; no all-TP gather"
++    assert response["physical_slot_values"] == "UNMEASURED"
++    assert response["rows"] == ((1, "chosen", (("tensor", observed),)),)
++    assert _drain(recorder)["rows"] == ()
++    recorder["record"]("later", ())
++    assert _drain(recorder)["rows"][0][0] == 2
++    json.dumps(response, allow_nan=False)
++    assert not tensor.writes and not tensor.casts
++
++
++@pytest.mark.parametrize("mask,h_rows,capability", [(False, 0, True), (True, 0, True), (True, 1, False), (True, 1, True)])
++@pytest.mark.parametrize("cpu_lens", [True, False])
++def test_live_allocation_dispatch_and_selected_store_bindings(native_root, tmp_path, mask, h_rows, capability, cpu_lens):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder, launches, allocations = _recorder(native_root), [], []
++
++    class Kernel:
++        supports_track_state_snapshot = capability
++
++        def extend(self, *args, **kwargs):
++            launches.append((args, kwargs))
++            return object(), None, _Tensor((1, 3, 2, 4, 4), "bfloat16")
++
++    kernel = Kernel()
++    dispatch = _bind(native_root, metadata._GDN, "extend", recorder)
++    dispatcher = SimpleNamespace(extend_kernel=kernel)
++    dispatcher.extend = lambda **kwargs: dispatch(dispatcher, **kwargs)
++    batch = SimpleNamespace(rids=["request-A"], extend_prefix_lens_cpu=[64], extend_seq_lens_cpu=[65], extend_prefix_lens=_Tensor())
++    if not cpu_lens:
++        batch.extend_prefix_lens_cpu = batch.extend_seq_lens_cpu = None
++    forward = SimpleNamespace(
++        has_mamba_track_mask=mask, track_ssm_h_src=_Tensor((h_rows,)), track_chunk_idx=_Tensor((1,), "int32"),
++        state_checkpoint_cu_starts=None, num_state_checkpoints=0, state_checkpoint_every_n_tokens=None,
++        track_ssm_h_dst=_Tensor((h_rows,)), track_ssm_h_batch_src=_Tensor((h_rows,)),
++        track_ssm_recompute_dst=None, track_ssm_final_src=_Tensor((0,)),
++    )
++    temporal = _Tensor((4, 2, 4, 4), "bfloat16")
++
++    def empty(shape, dtype, device):
++        result = _Tensor(shape, dtype, device)
++        allocations.append(result)
++        return result
++
++    scope = dict(
++        self=SimpleNamespace(kernel_dispatcher=dispatcher), forward_batch=batch, forward_metadata=forward,
++        layer=SimpleNamespace(layer_id=7), torch=SimpleNamespace(empty=empty, float32="float32"),
++        cache_indices=_Tensor((1,)), ssm_states=temporal, ssm_states_contig=temporal,
++        state_cache_indices=_Tensor((1,)), query_start_loc=_Tensor((2,)), needs_state_gather=False,
++        query=_Tensor(), key=_Tensor(), value=_Tensor(), g=_Tensor(), beta=_Tensor(), kwargs={},
++    )
++    run = _slice(native_root, metadata._GDN, "forward_extend",
++                 lambda node: isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == "h_track_buf" for target in node.targets),
++                 lambda node: isinstance(node, ast.Assign) and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Attribute) and node.value.func.attr == "extend",
++                 recorder, **scope)
++    run()
++    rows = _events(recorder)
++    allocated = bool(mask and h_rows and capability)
++    assert bool(allocations) == allocated
++    assert [event for event, _ in rows] == ["gdn_snapshot_allocation", "gdn_extend_dispatch"]
++    assert rows[0][1]["allocated"] is allocated and rows[0][1]["rids"] == ("request-A",)
++    assert rows[0][1]["prefix_lens"] == ((64,) if cpu_lens else None)
++    if allocated:
++        assert rows[0][1]["track_state"][1] == "float32"
++        assert rows[0][1]["track_state"][0] == rows[1][1]["track_state"][0]
++    args, kwargs = launches[0]
++    assert len(args) == 5 and kwargs["ssm_states"] is temporal
++    assert kwargs["track_state"] is (allocations[0] if allocated else None)
++    assert kwargs["track_chunk_idx"] is (forward.track_chunk_idx if allocated else None)
++    assert kwargs["layer_id"] == 7
++    assert kwargs["state_checkpoint_cu_starts"] is None
++    assert not temporal.writes and not temporal.casts
++    if mask and h_rows:
++        store = _bind(native_root, metadata._HYBRID, "_track_mamba_state_extend", recorder)
++        store(None, batch, _Tensor((1, 3, 2, 4, 4), "bfloat16"), temporal, forward,
++              h_track_buf=allocations[0] if allocated else None)
++        events = _events(recorder)
++        assert events[0][0] == "snapshot_store_enqueued"
++        assert events[0][1]["source"] == ("h_track_buf" if allocated else "per_chunk_h")
++        assert events[0][1]["temporal"][1] == "bfloat16"
++        assert len(temporal.writes) == 1 and temporal.writes[0][1].dtype == "bfloat16"
++
++
++@pytest.mark.parametrize("mamba2", [False, True])
++def test_actual_cpu_plan_mapping_does_not_read_slots(native_root, tmp_path, mamba2):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder = _recorder(native_root)
++    plan_module = {}
++    exec(compile((native_root / "srt/layers/attention/mamba/prefill_track_metadata.py").read_bytes(), "native-prefill-plan.py", "exec"), plan_module)
++    mamba2_type = type("Mamba2AttnBackend", (), {})
++    backend = mamba2_type() if mamba2 else SimpleNamespace()
++    backend.mamba_chunk_size = 64
++    transfers = []
++
++    def to_device(values, dtype="int64"):
++        transfers.append((tuple(values), dtype))
++        return _Tensor((len(values),), dtype)
++
++    backend._track_indices_to_device = to_device
++    batch = SimpleNamespace(
++        rids=["a", "b", "c"], mamba_prefill_track_mask_cpu=[True, True, False],
++        mamba_track_seqlens_cpu=[129, 64, -1], extend_seq_lens_cpu=[130, 64, 2],
++        extend_prefix_lens_cpu=[0, 0, 0], mamba_track_indices=_Tensor((3,)),
++    )
++    mapping = _bind(native_root, metadata._HYBRID, "_init_track_ssm_indices_from_cpu", recorder,
++                    Mamba2AttnBackend=mamba2_type, build_prefill_track_plan=plan_module["build_prefill_track_plan"],
++                    torch=SimpleNamespace(int32="int32"))
++    result = mapping(backend, _Tensor((3,)), batch)
++    rows = _events(recorder)
++    assert len(rows) == 1 and rows[0][0] == "prefill_track_plan"
++    observed = rows[0][1]
++    assert observed["tracked_rows"] == (0, 1) and observed["final_rows"] == (1,)
++    assert observed["h_src"] == (2,) and observed["chunk_indices"] == (2, -1, -1)
++    assert observed["mask"] == (True, True, False) and observed["mamba2"] is mamba2
++    assert len(result) == 9 and result[0].dtype == "int32"
++    assert observed["track_indices"][0] == id(batch.mamba_track_indices)
++    assert transfers.count(((2, -1, -1), "int32")) == 1
++
++
++@pytest.mark.parametrize("extend_len,branch", [(65, None), (130, None), (130, 64)])
++def test_actual_boundary_and_pingpong_choices(native_root, tmp_path, extend_len, branch):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder = _recorder(native_root)
++    kv = SimpleNamespace(mamba_next_track_idx=0, mamba_last_track_idx=1, mamba_last_track_seqlen=None)
++    req = SimpleNamespace(rid="boundary", prefix_len=0, extend_len=extend_len, extend_end=extend_len, kv=kv,
++                          mamba_branching_seqlen=branch)
++    swaps = []
++
++    def other(index):
++        swaps.append(index)
++        return 1 - index
++
++    backend = SimpleNamespace(model_config=SimpleNamespace(hf_text_config=SimpleNamespace(mamba_chunk_size=64)),
++                              tree_cache=SimpleNamespace(page_size=1), req_to_token_pool=SimpleNamespace(get_mamba_ping_pong_other_idx=other))
++    boundary = _bind(native_root, metadata._SCHEDULE, "_mamba_radix_cache_v2_req_prepare_for_extend", recorder,
++                     mamba_cache_chunk_size=lambda: 64, mamba_checkpoint_grid=lambda page_size: 128,
++                     get_parallel=lambda: SimpleNamespace(dcp_enabled=False),
++                     get_exec=lambda: SimpleNamespace(mamba=SimpleNamespace(enable_mamba_extra_buffer_lazy=False)),
++                     _MambaRadixCacheV2TrackEntry=lambda **kwargs: kwargs)
++    result = boundary(backend, req)
++    row = _events(recorder)[0][1]
++    assert result["track_mask"] is (extend_len >= 128)
++    assert row["mask"] == result["track_mask"] and row["track_seqlen"] == result["track_seqlen"]
++    assert row["track_position"] == result["track_position"] == 0
++    assert len(swaps) == int(result["track_mask"]), "recorder must not recompute the ping-pong resolver"
++    assert row["last_track_idx"] == kv.mamba_last_track_idx and row["next_track_idx"] == kv.mamba_next_track_idx
++    if branch is not None:
++        assert row["aligned_seqlen"] == branch and row["track_seqlen"] == branch + 1
++
++
++def test_actual_cow_match_and_existing_node_retention(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder = _recorder(native_root)
++    source, candidate = _Tensor((1,)), _Tensor((1,))
++    req = SimpleNamespace(rid="cow", kv=SimpleNamespace(holds_mamba=True, mamba_pool_idx=_Tensor(())))
++    result = SimpleNamespace(best_match_node=42, mamba_exist=False)
++    backend = SimpleNamespace(component_type=0, tree_core=SimpleNamespace(get_component_device_value=lambda node, component: source))
++    match = _bind(native_root, metadata._MAMBA, "finalize_match_result_in_cache", recorder)
++    assert match(backend, SimpleNamespace(cow_mamba=True, req=req), result) is result
++    assert req.kv.mamba_cow_src_index is source and req.kv.mamba_needs_clear is False
++    assert _events(recorder)[0][1]["node_id"] == 42
++    existing = _Tensor((1,))
++    node = SimpleNamespace(id=43, component_data=[SimpleNamespace(value=existing)])
++    backend.tree_core = SimpleNamespace(lru_lists=[SimpleNamespace(reset_node_mru=lambda node: None)])
++    commit = _bind(native_root, metadata._MAMBA, "commit_insert_component_data", recorder, get_and_increase_time_counter=lambda: 8)
++    commit(backend, node, False, SimpleNamespace(mamba_value=candidate), result, [])
++    assert node.component_data[0].value is existing and result.mamba_exist is True
++    row = _events(recorder)[0][1]
++    assert row["branch"] == "retain_existing_state" and row["mamba_exist"] is True
++    assert row["existing_value"][0] == id(existing) and row["candidate_value"][0] == id(candidate)
++
++
++@pytest.mark.parametrize("clear,cow,int8", [(True, False, False), (False, True, False), (False, True, True), (True, True, False)])
++def test_actual_deferred_clear_and_cow_calls_unchanged(native_root, tmp_path, clear, cow, int8):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder, calls, translations = _recorder(native_root), [], []
++    pool_type = type("HybridReqToTokenPool", (), {})
++    pool = pool_type()
++
++    def translate(indices):
++        translations.append(indices)
++        return indices
++
++    pool.translate_mamba_indices = translate
++    pool.mamba_pool = SimpleNamespace(clear_slots=lambda indices: calls.append(("clear", indices)))
++    pool.copy_mamba_state = lambda src, dst: calls.append(("copy", src, dst))
++    pool.mamba_ckpt_pool = SimpleNamespace(load_to_active=lambda *args: calls.append(("load_int8", *args))) if int8 else None
++    batch = SimpleNamespace(rids=["cow-batch"], forward_mode=SimpleNamespace(is_extend=lambda: True, is_target_verify=lambda: False, is_draft_extend_v2=lambda: False),
++                            mamba_clear_indices=_Tensor((1,)) if clear else None,
++                            mamba_cow_src_indices=_Tensor((1,)) if cow else None,
++                            mamba_cow_dst_indices=_Tensor((1,)) if cow else None)
++    run = _bind(native_root, metadata._RUNNER, "_maybe_execute_deferred_mamba_cow_and_clear", recorder, HybridReqToTokenPool=pool_type)
++    run(SimpleNamespace(req_to_token_pool=pool, is_draft_worker=False), batch)
++    assert [call[0] for call in calls] == (["clear"] if clear else []) + (["load_int8" if int8 else "copy"] if cow else [])
++    assert len(translations) == int(clear) + (2 if cow and not int8 else 0)
++    rows = _events(recorder)
++    assert len(rows) == int(clear) + int(cow)
++    assert all(row[1]["rids"] == ("cow-batch",) for row in rows)
++    assert batch.mamba_clear_indices is batch.mamba_cow_src_indices is batch.mamba_cow_dst_indices is None
++
++
++def test_finished_donor_uses_already_chosen_checkpoint_once(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder, selections = _recorder(native_root), []
++    backend_type = type("Backend", (), {"int8_ckpt_pool": None})
++    backend = backend_type()
++    backend.cache = SimpleNamespace(enable_mamba_extra_buffer=True)
++
++    def checkpoint(req, length):
++        selections.append((req, length))
++        return 128, 1
++
++    backend._select_finished_checkpoint = checkpoint
++    req = SimpleNamespace(rid="donor", kv=SimpleNamespace(mamba_last_track_seqlen=256,
++                          mamba_prev_track_seqlen=128, mamba_ping_pong_track_buffer=_Tensor((2,))))
++    params = SimpleNamespace(mamba_keep_idx=None, mamba_value=None)
++    prepare = _bind(native_root, metadata._MAMBA, "prepare_for_caching_req", recorder)
++    assert prepare(backend, req, params, 200, True) == 128
++    assert len(selections) == 1 and params.mamba_keep_idx == 1
++    row = _events(recorder)[0][1]
++    assert row["keep_idx"] == 1 and row["cache_len"] == 128 and row["token_ids_len"] == 200
++    assert row["insert_value"][0] == id(params.mamba_value)
++
++
++def test_live_tracking_slot_donation_return_is_observed_without_resolving_it_again(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder, donations, allocations = _recorder(native_root), [], []
++    backend_type = type("Backend", (), {"int8_ckpt_pool": None})
++    backend = backend_type()
++    donated, replacement = _Tensor((1,)), _Tensor((1,))
++
++    def donate(req, new_slot):
++        donations.append((req, new_slot))
++        return donated
++
++    def allocate(req):
++        allocations.append(req)
++        return replacement
++
++    backend.cache = SimpleNamespace(enable_mamba_extra_buffer=True,
++                                    req_to_token_pool=SimpleNamespace(donate_mamba_ping_pong_slot=donate))
++    backend._alloc_mamba_slot = allocate
++    req = SimpleNamespace(rid="live-donor", kv=SimpleNamespace(mamba_last_track_seqlen=128,
++                          mamba_last_track_idx=0, mamba_next_track_idx=1))
++    params = SimpleNamespace(mamba_value=None)
++    prepare = _bind(native_root, metadata._MAMBA, "prepare_for_caching_req", recorder)
++    assert prepare(backend, req, params, 130, False) == 128
++    assert donations == [(req, replacement)] and allocations == [req]
++    assert params.mamba_value is donated
++    row = _events(recorder)[0][1]
++    assert row["insert_value"][0] == id(donated) and row["cache_len"] == 128
++    assert (row["last_track_idx"], row["next_track_idx"]) == (0, 1)
++
++
++@pytest.mark.parametrize("branch", ["final", "recompute"])
++def test_other_actual_store_branches_only_append_metadata(native_root, tmp_path, branch):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder = _recorder(native_root)
++    store = _bind(native_root, metadata._HYBRID, "_track_mamba_state_extend", recorder)
++    state = _Tensor((4, 2, 4, 4), "float32")
++    forward = SimpleNamespace(has_mamba_track_mask=True, track_ssm_h_src=_Tensor((0,)),
++                              track_ssm_recompute_dst=_Tensor((1,)) if branch == "recompute" else None,
++                              track_ssm_final_src=_Tensor((1,)) if branch == "final" else _Tensor((0,)),
++                              track_ssm_final_dst=_Tensor((1,)))
++    store(None, SimpleNamespace(rids=["other-store"]), None, state, forward,
++          track_states=_Tensor((1, 1, 2, 4, 4), "bfloat16") if branch == "recompute" else None)
++    row = _events(recorder)[0][1]
++    assert row["source"] == ("final_state" if branch == "final" else "recompute")
++    assert row["temporal"][1] == "float32" and len(state.writes) == 1
++
++
++def test_already_instrumented_source_change_is_rejected(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "runtime")
++    path = native_root / metadata._GDN
++    path.write_bytes(path.read_bytes() + b"\n# unexpected post-preparation edit\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="Unrecognized runtime metadata source"):
++        _prepare(native_root, tmp_path / "different-archive")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "different-archive").exists()
++
++
++@pytest.mark.parametrize("swa_floor", [0, 12])
++def test_duplicate_release_intervals_and_canonical_rebind(native_root, tmp_path, swa_floor):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder, frees = _recorder(native_root), []
++    full = type("FreeDeviceKV", (), {"__init__": lambda self, indices: setattr(self, "indices", indices)})
++    full_only = type("FreeDeviceKVFullOnly", (), {"__init__": lambda self, indices: setattr(self, "indices", indices)})
++    component = SimpleNamespace(update_component_on_insert_overlap=lambda **kwargs: kwargs["prefix_len"])
++    state = SimpleNamespace(overlap_node=SimpleNamespace(id=42), overlap_prefix_len=8, value=_Tensor((8,)),
++                            total_prefix_length=4, params=SimpleNamespace(prev_prefix_len=6, get_evicted_seqlen=lambda component: swa_floor),
++                            result=SimpleNamespace(mamba_exist=True), pending_actions=[])
++    tree = SimpleNamespace(components=[component], _finish_insert_walk_node=lambda *args: None)
++    overlap = _bind(native_root, metadata._TREE, "_insert_overlap_step", recorder, FreeDeviceKV=full,
++                    FreeDeviceKVFullOnly=full_only, ComponentType=SimpleNamespace(SWA=1))
++    overlap(tree, state)
++    queued = _events(recorder)[0][1]
++    assert (queued["absolute_start"], queued["absolute_end"]) == (6, 12)
++    assert queued["full_only_end"] == (12 if swa_floor else 6)
++    allocator = SimpleNamespace(free_segment=lambda indices, start_pos: frees.append(("all", len(indices), start_pos)),
++                                free_full_segment=lambda indices, start_pos: frees.append(("full", len(indices), start_pos)))
++    apply = _bind(native_root, metadata._CACHE, "_apply_cache_action", recorder, ComponentAction=type("ComponentAction", (), {}),
++                  FreeDeviceKV=full, FreeDeviceKVFullOnly=full_only)
++    for action in state.pending_actions:
++        apply(SimpleNamespace(token_to_kv_pool_allocator=allocator), action)
++    assert frees == [("full" if swa_floor else "all", 6, 0)]
++    assert _events(recorder)[0][0] == "kv_allocator_release_returned"
++    writes, resolutions = [], []
++    canonical = _Tensor((12,))
++
++    def path_indices(node_id):
++        resolutions.append(node_id)
++        return canonical
++
++    cache = SimpleNamespace(page_size=1, path_device_indices=path_indices,
++                            req_to_token_pool=SimpleNamespace(write=lambda target, values: writes.append((target, values))))
++    req = SimpleNamespace(rid="rebind", kv=SimpleNamespace(req_pool_idx=3, cache_protected_len=6))
++    run = _slice(native_root, metadata._CACHE, "checkpoint_into_tree",
++                 lambda node: isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name) and node.targets[0].id == "new_last_node",
++                 lambda node: isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "_mamba_record"
++                 and node.value.args[0].value == "canonical_kv_rebind_enqueued",
++                 recorder, self=cache, req=req, result=SimpleNamespace(last_device_node=42, prefix_len=12, mamba_exist=True), page_aligned_len=12)
++    run()
++    assert resolutions == [42] and len(writes) == 1
++    assert writes[0][0] == (3, slice(6, 12)) and len(writes[0][1]) == 6
++    row = _events(recorder)[0][1]
++    assert row["node_id"] == 42 and row["mamba_exist"] is True
++    assert (row["absolute_start"], row["absolute_end"]) == (6, 12)
++
++
++def test_existing_internal_state_dict_drains_only_responding_process(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "runtime")
++    recorder = _recorder(native_root)
++    recorder["record"]("selected", (("rids", ("a",)),))
++    parallel = SimpleNamespace(dp_rank=0, tp_rank=0, pp_rank=0, attn_dp_rank=0, attn_tp_rank=0)
++    controller = SimpleNamespace(**{name: lambda state: None for name in (
++        "_add_topology", "_add_memory_usage", "_add_disaggregation", "_add_elastic_ep", "_add_speculative",
++        "_add_step_times", "_add_rust_server", "_add_env_vars"
++    )})
++    get_state = _bind(native_root, metadata._INTERNAL, "get_internal_state", recorder,
++                      get_context=lambda: SimpleNamespace(resolved_server_args_dict=lambda: {"unchanged": 7, "custom_sigquit_handler": object()}),
++                      get_parallel=lambda: parallel, _mamba_drain=recorder["drain"], msgspec_to_builtins=lambda state: state,
++                      GetInternalStateReqOutput=lambda **kwargs: kwargs)
++    response = get_state(controller, object())["internal_state"]
++    assert response["unchanged"] == 7 and "custom_sigquit_handler" not in response
++    assert response["mamba_runtime_metadata"]["rows"][0][1] == "selected"
++    assert response["mamba_runtime_metadata"]["rank"]["tp_rank"] == 0
++    assert get_state(controller, object())["internal_state"]["mamba_runtime_metadata"]["rows"] == ()
++    json.dumps(response, allow_nan=False)
+diff --git a/tests/fast/test_teacher_scoring_probe.py b/tests/fast/test_teacher_scoring_probe.py
+index db4e1f9e..49eb4f49 100644
+--- a/tests/fast/test_teacher_scoring_probe.py
++++ b/tests/fast/test_teacher_scoring_probe.py
+@@ -4,6 +4,7 @@ import asyncio
+ import json
+ import math
+ import os
++import shlex
+ import signal
+ import subprocess
+ import sys
+@@ -121,6 +122,31 @@ def test_fixture_keeps_order_and_rejects_duplicate_or_bad_input(sample, tmp_path
+             probe._load_samples(path, 10)
+ 
+ 
++def test_sample_manifest_keeps_exact_original_prefix_and_provenance(sample, tmp_path):
++    source = tmp_path / "original.json"
++    fixture = {"job": "historical-A-job", "samples": [{**sample, "sample_index": index} for index in range(7)]}
++    source.write_text(json.dumps(fixture))
++    before = source.read_bytes()
++    path = tmp_path / "first4.json"
++    path.write_text(json.dumps({"source_fixture": source.name, "sample_count": 4}))
++    selected = probe._load_samples(path, 10)
++    assert selected["samples"] == fixture["samples"][:4]
++    assert selected["sample_manifest"] == {
++        "source_fixture": probe._file_identity(source), "sample_count": 4,
++        "original_sample_count": 7, "selection": "Original fixture prefix, unchanged identities"}
++    assert source.read_bytes() == before and probe._load_samples(source, 10) == fixture
++
++
++@pytest.mark.parametrize("count", [0, -1, True, "4", None, 8])
++def test_sample_manifest_rejects_invalid_prefix_count(sample, tmp_path, count):
++    source = tmp_path / "original.json"
++    source.write_text(json.dumps({"job": "historical-A-job", "samples": [sample] * 7}))
++    path = tmp_path / "manifest.json"
++    path.write_text(json.dumps({"source_fixture": source.name, "sample_count": count}))
++    with pytest.raises(ValueError, match="Sample manifest sample_count"):
++        probe._load_samples(path, 10)
++
++
+ class _Response:
+     def __init__(self, raw, status, clock):
+         self.raw, self.status, self.clock = raw, status, clock
+@@ -342,6 +368,8 @@ def test_warm_scores_use_same_run_cold_references_not_contaminated_warm_full(sam
+     assert len(rows) == len({row["request_id"] for row in rows}) == 56
+     assert sum(url.endswith("/generate") for _, url, _ in calls) == 56
+     assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 32
++    assert sum(url.endswith("/get_server_info") for _, url, _ in calls) == 1
++    assert not (output / "runtime_metadata.json").exists()
+     by_id = {row["request_id"]: row for row in rows}
+     comparisons = [json.loads(line) for line in (output / "comparisons.jsonl").read_text().splitlines()]
+     assert len(comparisons) == 28
+@@ -464,18 +492,62 @@ def test_snapshot_selection_rejects_non_boolean_json_before_worker_start(worker_
+     assert json.loads(path.read_text()).get("selected_fp32_snapshots") is None
+ 
+ 
++@pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
++@pytest.mark.parametrize("probe_input", [False, True])
++def test_runtime_metadata_selection_rejects_non_boolean_before_worker_start(worker_config, tmp_path, value, probe_input):
++    path, config, _ = worker_config
++    invalid = {"formal_config": str(path)} if probe_input else config
++    invalid.update(selected_fp32_snapshots=True, mamba_runtime_metadata=value)
++    path = tmp_path / "invalid-metadata.json"
++    path.write_text(json.dumps(invalid))
++    with pytest.raises(ValueError, match="mamba_runtime_metadata must be a JSON boolean"):
++        probe._load_config(path, "A", tmp_path / "new-output")
++
++
+ @pytest.mark.parametrize("selected", [None, False, True])
++def test_runtime_metadata_requires_selected_fp32_and_preserves_formal_engine_config(worker_config, tmp_path, selected):
++    path, config, _ = worker_config
++    wrapper = {"formal_config": str(path), "mamba_runtime_metadata": True}
++    if selected is not None:
++        wrapper["selected_fp32_snapshots"] = selected
++    wrapper_path = tmp_path / "probe.json"
++    wrapper_path.write_text(json.dumps(wrapper))
++    if selected is not True:
++        with pytest.raises(ValueError, match="requires selected_fp32_snapshots=true"):
++            probe._load_config(wrapper_path, "A", tmp_path / "new-output")
++    else:
++        loaded = probe._load_config(wrapper_path, "A", tmp_path / "new-output")
++        assert loaded == {**config, "selected_fp32_snapshots": True, "mamba_runtime_metadata": True,
++                          "startup_timeout": 17.0}
++    assert json.loads(path.read_text()) == config
++
++
++@pytest.mark.parametrize("selected,diagnostic,readback_status", [
++    (None, None, None), (False, False, None), (True, None, None), (True, False, None),
++    (True, True, "collected"), (True, True, "failed")])
+ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+-        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected):
++        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status):
+     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+ 
+     path, config, model = worker_config
+     root, snapshots = snapshot_source
++    if diagnostic:
++        from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++
++        retained = Path(__file__).resolve().parents[2] / (
++            "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111")
++        for relative, identity in metadata.source_manifest()["files"].items():
++            target = root / relative
++            if not target.exists():
++                target.parent.mkdir(parents=True, exist_ok=True)
++                target.write_bytes((retained / identity["native_source_job"] / "source" / relative).read_bytes())
+     config["image"] = snapshots.source_manifest()["image"]
+     path.write_text(json.dumps(config))
+     wrapper = {"formal_config": str(path)}
+     if selected is not None:
+         wrapper["selected_fp32_snapshots"] = selected
++    if diagnostic is not None:
++        wrapper["mamba_runtime_metadata"] = diagnostic
+     wrapper_path = tmp_path / "probe.json"
+     wrapper_path.write_text(json.dumps(wrapper))
+     samples = tmp_path / "samples.json"
+@@ -489,7 +561,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+                        "KUBEBRAIN_REPLICA_TOTAL": "1", "NCCL_FROM_PLATFORM": "preserved",
+                        "CUDA_VISIBLE_DEVICES": "0,1,2,3", "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items():
+         monkeypatch.setenv(key, value)
+-    events, receipts = [], []
++    events, receipts, metadata_receipts = [], [], []
+     original_prepare = snapshots.prepare_source
+     before = {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
+     # Other CPU tests may already import host attention; this worker path must not add imports before preparation.
+@@ -504,6 +576,19 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+         return receipts[-1]
+ 
+     monkeypatch.setattr(snapshots, "prepare_source", prepare)
++    if diagnostic:
++        original_metadata_prepare = metadata.prepare_runtime_metadata
++
++        def prepare_metadata(root_arg, **kwargs):
++            assert root_arg == root and kwargs == {"image": config["image"],
++                                                    "archive_dir": output / "runtime_metadata_source_preflight"}
++            assert events == ["prepared"]
++            assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
++            metadata_receipts.append(original_metadata_prepare(root_arg, **kwargs))
++            events.append("metadata_prepared")
++            return metadata_receipts[-1]
++
++        monkeypatch.setattr(metadata, "prepare_runtime_metadata", prepare_metadata)
+ 
+     def find_spec(name):
+         assert name == "sglang" and selected is True
+@@ -518,7 +603,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+     monkeypatch.setattr(warmup, "_worker_environment", environment)
+ 
+     def runtime(*args):
+-        assert events == (["prepared"] if selected is True else [])
++        assert events == (["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
+         events.append("runtime")
+         return {"scope": "CPU mock; native CUDA unverified"}
+ 
+@@ -537,6 +622,15 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+             assert preload["native_scoring_sources"][source] == probe._file_identity(Path(snapshots.__file__))
+         else:
+             assert "source_preflight" not in preload
++        metadata_source = "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py"
++        assert (metadata_source in preload["native_scoring_sources"]) == bool(diagnostic)
++        if diagnostic:
++            assert preload["runtime_metadata_source_preflight"] == metadata_receipts[0]
++            assert metadata_receipts[0]["selected_fp32_precondition"] is True
++            assert metadata_receipts[0]["runtime_semantics"].startswith("UNVERIFIED")
++            assert preload["native_scoring_sources"][metadata_source] == probe._file_identity(Path(metadata.__file__))
++        else:
++            assert "runtime_metadata_source_preflight" not in preload
+         assert all(os.environ[key] == value for key, value in {
+             "NCCL_FROM_PLATFORM": "preserved", "CUDA_VISIBLE_DEVICES": "0,1,2,3",
+             "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items())
+@@ -553,10 +647,35 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+         return {"scope": "CPU mock; no requests made"}
+ 
+     monkeypatch.setattr(probe, "_benchmark", benchmark)
+-    probe._run(args)
++
++    async def readback(url, timeout, destination):
++        assert diagnostic is True and events[-1] == "benchmark"
++        assert (url, timeout, destination) == ("http://192.0.2.10:30000", 17, output)
++        events.append("metadata_readback")
++        return {"status": readback_status, "reason": "CPU fault injection: metadata missing", "scope": "CPU mock; no native readback"}
++
++    monkeypatch.setattr(probe, "_collect_runtime_metadata", readback)
++    if readback_status == "failed":
++        with pytest.raises(RuntimeError, match="Scoring completed; independent runtime metadata readback failed"):
++            probe._run(args)
++    else:
++        probe._run(args)
+     result = json.loads((output / "result.json").read_text())
+-    assert result["status"] == "measurements_completed"
+-    assert events == (["prepared"] if selected is True else []) + ["runtime", "teacher", "benchmark"]
++    assert result["status"] == ("failed" if readback_status == "failed" else "measurements_completed")
++    assert result["native_measurements_completed"] is True and result["cleanup_completed"] is True
++    if readback_status == "failed":
++        assert result["error_type"] == "RuntimeError" and result["runtime_metadata"]["status"] == "failed"
++        assert result["cache_observations"] == {"scope": "CPU mock; no requests made"}
++        assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
++    assert events == ((["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
++                      + ["runtime", "teacher", "benchmark"] + (["metadata_readback"] if diagnostic else []))
++    if diagnostic:
++        assert result["runtime_metadata_source_preflight"] == metadata_receipts[0]
++        assert json.loads((output / "runtime_metadata_source_preflight/preflight.jsonl").read_text()) == metadata_receipts[0]
++        assert result["source_preflight"] != result["runtime_metadata_source_preflight"]
++    else:
++        assert not metadata_receipts and not (output / "runtime_metadata_source_preflight").exists()
++        assert "runtime_metadata" not in result
+     if selected is True:
+         assert result["source_preflight"] == receipts[0]
+         assert receipts[0]["changed_files"] == ["kernels/ops/attention/fla/chunk.py",
+@@ -630,6 +749,186 @@ def test_fp32_variant_changes_only_selection_and_isolated_output():
+         assert formal["pairs"][pair]["teacher"]["chunked_prefill_size"] == 8192
+ 
+ 
++@pytest.mark.parametrize("pair", ["A", "B"])
++def test_runtime_metadata_config_uses_first4_once_and_exact_teacher_allocation_and_argv(tmp_path, monkeypatch, capsys, pair):
++    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
++
++    repo = Path(__file__).resolve().parents[2]
++    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
++    base_path = task / "teacher_scoring_fp32_probe_config.json"
++    diagnostic_path = task / "teacher_scoring_runtime_metadata_probe_config.json"
++    base, diagnostic = (json.loads(path.read_text()) for path in (base_path, diagnostic_path))
++    allowed = {"task_id", "samples", "repeats", "mamba_runtime_metadata", "output_parent", "acceptance"}
++    assert {key: value for key, value in diagnostic.items() if key not in allowed} == {
++        key: value for key, value in base.items() if key not in allowed}
++    assert diagnostic["selected_fp32_snapshots"] is True and diagnostic["mamba_runtime_metadata"] is True
++    assert diagnostic["repeats"] == 1 and diagnostic["pairs"] == ["A", "B"]
++    assert diagnostic["output_parent"] != base["output_parent"] and diagnostic.get("envs", {}) == {}
++    formal = json.loads((repo / diagnostic["formal_config"]).read_text())
++    original_path = repo / base["samples"]
++    original_before = original_path.read_bytes()
++    fixture = probe._load_samples(repo / diagnostic["samples"], formal["context_tokens"])
++    assert fixture["samples"] == json.loads(original_before)["samples"][:4]
++    assert [sample["sample_index"] for sample in fixture["samples"]] == [1693, 1694, 1695, 1696]
++    assert 4 * len(fixture["samples"]) * diagnostic["repeats"] == 16
++    assert 2 * (len(fixture["samples"]) + 1) * diagnostic["repeats"] == 10
++    assert "1024-hit" in diagnostic["acceptance"] and "pending" in diagnostic["acceptance"]
++    monkeypatch.setattr(sys, "executable", formal["worker_python"])
++    output = repo / diagnostic["output_parent"] / pair / "cpu-construction-only"
++    loaded = probe._load_config(diagnostic_path, pair, output)
++    head = {"ip": "192.0.2.10"}
++    argv = paired._teacher_command(loaded, pair, 0, head)
++    assert argv == paired._teacher_command(formal, pair, 0, head)
++    assert argv[argv.index("--dtype") + 1] == "bfloat16"
++    assert argv[argv.index("--chunked-prefill-size") + 1] == "8192"
++    assert argv[argv.index("--max-running-requests") + 1] == "1"
++    assert "--enable-deterministic-inference" in argv and "--disable-cuda-graph" in argv
++    assert "--disable-radix-cache" not in argv
++    constructions = []
++    for config_path in (base_path, diagnostic_path):
++        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config_path), "--pair", pair,
++                                          "--receipt", str(task / "cpu-construction-only.json"), "--dry-run"])
++        assert submission.main() == 0
++        constructions.append(json.loads(capsys.readouterr().out))
++    base_launch, diagnostic_launch = constructions
++    assert diagnostic_launch["requested_gpus"] == 4
++    assert {key: value for key, value in diagnostic_launch.items() if key not in ("worker_command", "output")} == {
++        key: value for key, value in base_launch.items() if key not in ("worker_command", "output")}
++    assert diagnostic_launch["mounts"] == formal["mounts"]
++    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
++    for option, expected in (("--config", str(diagnostic_path)), ("--samples", str(repo / diagnostic["samples"])),
++                             ("--repeats", "1"), ("--request-timeout", "3600")):
++        assert commands[1][commands[1].index(option) + 1] == expected
++    normalized = []
++    for command in commands:
++        for option in ("--config", "--samples", "--output-dir", "--repeats"):
++            command[command.index(option) + 1] = option
++        normalized.append(command)
++    assert normalized[0] == normalized[1]
++    assert original_path.read_bytes() == original_before and not (task / "cpu-construction-only.json").exists()
++
++
++def _cpu_metadata(dp_rank=0, tp_rank=0):
++    from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++
++    namespace = {}
++    exec(compile(metadata._RECORDER_SOURCE, "qualified-recorder-cpu-contract", "exec"), namespace)
++    namespace["record"]("cpu_test_only", (("rids", ("cpu-request",)), ("source", "CPU; no native execution")))
++    rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=dp_rank, attn_tp_rank=tp_rank)
++    return namespace["drain"](rank)
++
++
++@pytest.mark.parametrize("pair", ["A", "B"])
++@pytest.mark.parametrize("failure", [None, "missing", "empty", "json", "http", "timeout"])
++def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retains_scores(
++        tmp_path, monkeypatch, pair, failure):
++    repo = Path(__file__).resolve().parents[2]
++    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
++    fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
++    by_length = {len(sample["tokens"]): sample for sample in fixture["samples"]}
++    metadata = _cpu_metadata()
++    if failure == "empty":
++        metadata["rows"] = []
++    server_info = {"dp_size": 1, "tp_size": 4, "pp_size": 1,
++                   "internal_states": [{} if failure == "missing" else {"mamba_runtime_metadata": metadata}]}
++    info_calls, scoring_calls = [], []
++
++    def response(method, url, kwargs):
++        if url.endswith("/get_server_info"):
++            info_calls.append(len(scoring_calls))
++            if len(info_calls) == 1:
++                return b'{"version":"CPU mock, not native"}', 200
++            assert len(scoring_calls) == 16
++            if failure == "timeout":
++                raise asyncio.TimeoutError("CPU fault injection: post-loop readback deadline")
++            return b"{invalid JSON" if failure == "json" else json.dumps(server_info).encode(), 503 if failure == "http" else 200
++        if url.endswith("/flush_cache"):
++            return b"Cache flushed", 200
++        assert url.endswith("/generate") and method == "POST"
++        payload = kwargs["json"]
++        sample = by_length[len(payload["input_ids"])]
++        assert payload["input_ids"] == sample["tokens"]
++        assert payload["sampling_params"]["max_new_tokens"] == 0
++        scoring_calls.append(payload)
++        # Only the completion tail matters to this HTTP/identity CPU contract.
++        tail = [[None, sample["tokens"][payload["logprob_start_len"]], None]] + [
++            [-0.125, token, None] for token in sample["tokens"][-sample["response_length"]:]]
++        return json.dumps({"text": "", "output_ids": [], "meta_info": {
++            "input_token_logprobs": tail, "output_token_logprobs": []}}).encode(), 200
++
++    _, calls, _ = _mock_http(monkeypatch, response)
++    output, local = _output(tmp_path)
++    args = SimpleNamespace(repeats=1, request_timeout=17, pair=pair)
++    cache = asyncio.run(probe._benchmark(args, fixture, "mock://teacher", output, local))
++    before = {path.relative_to(output): path.read_bytes() for path in output.rglob("*") if path.is_file()}
++    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
++    assert cache == {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
++    assert info_calls == [0, 16]
++    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 10
++    assert sum(url.endswith("/generate") for _, url, _ in calls) == 16
++    assert calls[-1] == ("GET", "mock://teacher/get_server_info", {})
++    assert {path.relative_to(output): path.read_bytes() for path in output.rglob("*")
++            if path.is_file() and path.name != "runtime_metadata.json"} == before
++    rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
++    assert len(rows) == 16 and all(row["status"] == "scored" for row in rows)
++    assert {(row["source_uid"], row["sample_index"]) for row in rows} == {
++        (sample["source_uid"], sample["sample_index"]) for sample in fixture["samples"]}
++    assert all(row["repetition"] == 0 and row["sample_position"] in range(4) for row in rows)
++    assert len(list((output / "completion_scores").iterdir())) == 16
++    assert receipt == json.loads((output / "runtime_metadata.json").read_text())
++    assert "no all-TP gather" in receipt["coverage"] and receipt["runtime_semantics"].startswith("UNVERIFIED")
++    assert receipt["status"] == ("failed" if failure else "collected")
++    if failure:
++        assert receipt["reason"] and receipt["error_type"]
++        if failure in ("missing", "empty"):
++            assert receipt["server_info"] == json.loads(json.dumps(server_info)) and receipt["response_text"]
++        if failure == "http":
++            assert receipt["http"]["http_status"] == 503
++    else:
++        assert receipt["dp_size"] == 1 and receipt["tp_size"] == 4 and len(receipt["dp_responses"]) == 1
++        assert receipt["dp_responses"][0]["row_count"] == 1
++
++
++def test_metadata_dp_responses_keep_individual_ranks_without_assuming_tp_shards():
++    info = json.loads(json.dumps({"dp_size": 2, "tp_size": 4, "pp_size": 1,
++        "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=rank)} for rank in (1, 0)]}))
++    observations = probe._runtime_metadata_states(info)
++    assert [item["rank"]["dp_rank"] for item in observations] == [1, 0]
++    assert len(observations) == 2 and all(item["rank"]["tp_rank"] == 0 for item in observations)
++    info["internal_states"][1]["mamba_runtime_metadata"]["rank"]["dp_rank"] = 1
++    with pytest.raises(ValueError, match="duplicate or out-of-range dp_rank"):
++        probe._runtime_metadata_states(info)
++
++
++@pytest.mark.parametrize("failure", ["object", "topology", "tp_shards", "schema", "process", "rank", "rows", "row", "sequence", "field"])
++def test_runtime_metadata_malformed_payload_never_counts_as_collected(failure):
++    info = json.loads(json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1,
++                                 "internal_states": [{"mamba_runtime_metadata": _cpu_metadata()}]}))
++    metadata = info["internal_states"][0]["mamba_runtime_metadata"]
++    if failure == "object":
++        info = []
++    elif failure == "topology":
++        info["dp_size"] = True
++    elif failure == "tp_shards":
++        info["internal_states"] *= 4
++    elif failure == "schema":
++        metadata["schema"] = "unknown"
++    elif failure == "process":
++        metadata["process_id"] = None
++    elif failure == "rank":
++        metadata["rank"]["tp_rank"] = "0"
++    elif failure == "rows":
++        metadata["rows"] = {}
++    elif failure == "row":
++        metadata["rows"][0] = {}
++    elif failure == "sequence":
++        metadata["rows"][0][0] = 0
++    else:
++        metadata["rows"][0][2] = [["missing-value"]]
++    with pytest.raises(ValueError):
++        probe._runtime_metadata_states(info)
++
++
+ @pytest.mark.parametrize("war_barrier", [None, "0", "1"])
+ def test_preload_hashes_and_actual_war_barrier_env_are_not_native_gpu_evidence(worker_config, monkeypatch, war_barrier):
+     path, config, model = worker_config
+diff --git a/tests/manual/agent_opd/probe_teacher_scoring.py b/tests/manual/agent_opd/probe_teacher_scoring.py
+index b1ba60a7..cef45790 100644
+--- a/tests/manual/agent_opd/probe_teacher_scoring.py
++++ b/tests/manual/agent_opd/probe_teacher_scoring.py
+@@ -12,6 +12,10 @@ An isolated probe JSON may also be passed as --config; its formal_config keeps
+ the engine settings, and selected_fp32_snapshots selects source preparation.
+ Only true calls the qualified preparer before runtime inspection/server start.
+ Its retained receipt is source evidence, not measured CUDA snapshot behavior.
++An opt-in mamba_runtime_metadata overlay follows selected-FP32 preparation and
++reads the existing server-info endpoint once after all scoring requests. A
++sample manifest may reference the original fixture and its first sample_count
++entries without copying tokens or changing their source identities.
+ 
+ Cold comparisons flush before each request. Separate warm passes flush once
+ before each mode's ordered sample stream. Mode order alternates by repetition
+@@ -95,6 +99,20 @@ def _file_identity(path):
+ 
+ def _load_samples(path, context_tokens):
+     fixture = json.loads(path.read_text())
++    manifest = None
++    if "source_fixture" in fixture:
++        source = fixture["source_fixture"]
++        count = fixture["sample_count"]
++        if not isinstance(source, str) or not source:
++            raise ValueError("Sample manifest source_fixture must be a nonempty path")
++        if type(count) is not int or count <= 0:
++            raise ValueError("Sample manifest sample_count must be a positive integer")
++        source = (path.parent / source).resolve(strict=True)
++        fixture = json.loads(source.read_text())
++        if count > len(fixture["samples"]):
++            raise ValueError("Sample manifest sample_count exceeds the original fixture")
++        manifest = {"source_fixture": _file_identity(source), "sample_count": count,
++                    "original_sample_count": len(fixture["samples"]), "selection": "Original fixture prefix, unchanged identities"}
+     if not isinstance(fixture["job"], str) or not fixture["job"] or not fixture["samples"]:
+         raise ValueError("Fixture requires a historical job and nonempty samples")
+     identities = set()
+@@ -115,7 +133,7 @@ def _load_samples(path, context_tokens):
+         if expected is not None and (not isinstance(expected, list) or len(expected) != response
+                                     or any(type(x) not in (int, float) or not math.isfinite(x) for x in expected)):
+             raise ValueError(f"Sample {identity} historical log probabilities must be finite and completion-aligned")
+-    return fixture
++    return {**fixture, "samples": fixture["samples"][:count], "sample_manifest": manifest} if manifest else fixture
+ 
+ 
+ def _load_config(path, pair, output):
+@@ -126,6 +144,11 @@ def _load_config(path, pair, output):
+     selected_fp32 = config.get("selected_fp32_snapshots", False)
+     if type(selected_fp32) is not bool:
+         raise ValueError("selected_fp32_snapshots must be a JSON boolean")
++    runtime_metadata = config.get("mamba_runtime_metadata", False)
++    if type(runtime_metadata) is not bool:
++        raise ValueError("mamba_runtime_metadata must be a JSON boolean")
++    if runtime_metadata and not selected_fp32:
++        raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
+     config_paths = [path.resolve()]
+     if "formal_config" in config:
+         formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
+@@ -133,6 +156,8 @@ def _load_config(path, pair, output):
+         config = json.loads(formal_path.read_text())
+         # The probe input selects the experiment; formal engine parameters stay unchanged.
+         config["selected_fp32_snapshots"] = selected_fp32
++        if runtime_metadata:
++            config["mamba_runtime_metadata"] = True
+     teacher = config["pairs"][pair]["teacher"]
+     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
+         raise ValueError("This dedicated probe requires H800/codesign")
+@@ -400,6 +425,73 @@ async def _benchmark(args, fixture, url, output, local):
+     return cache_observations
+ 
+ 
++def _runtime_metadata_states(info):
++    if not isinstance(info, dict):
++        raise ValueError("Server-info response must be an object")
++    for name in ("dp_size", "tp_size", "pp_size"):
++        if type(info.get(name)) is not int or info[name] <= 0:
++            raise ValueError(f"Server-info {name} must be a positive integer")
++    states = info.get("internal_states")
++    if not isinstance(states, list) or len(states) != info["dp_size"]:
++        raise ValueError("Server-info internal_states must contain one response per DP, not per TP rank")
++    ranks, observations = set(), []
++    for index, state in enumerate(states):
++        if not isinstance(state, dict) or "mamba_runtime_metadata" not in state:
++            raise ValueError(f"DP response {index} is missing mamba_runtime_metadata")
++        metadata = state["mamba_runtime_metadata"]
++        if not isinstance(metadata, dict) or metadata.get("schema") != "mamba-runtime-metadata-v1":
++            raise ValueError(f"DP response {index} has malformed mamba_runtime_metadata schema")
++        if type(metadata.get("process_id")) is not int or metadata["process_id"] <= 0:
++            raise ValueError(f"DP response {index} has malformed metadata process_id")
++        rank = metadata.get("rank")
++        if (not isinstance(rank, dict) or any(type(rank.get(name)) is not int or rank[name] < 0
++                for name in ("dp_rank", "tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank"))):
++            raise ValueError(f"DP response {index} has malformed metadata rank")
++        dp_rank = rank["dp_rank"]
++        if dp_rank >= info["dp_size"] or dp_rank in ranks:
++            raise ValueError(f"DP response {index} has duplicate or out-of-range dp_rank")
++        ranks.add(dp_rank)
++        rows = metadata.get("rows")
++        if not isinstance(rows, list) or not rows:
++            raise ValueError(f"DP response {index} has missing or empty runtime metadata rows")
++        sequence = 0
++        for row in rows:
++            if (not isinstance(row, list) or len(row) != 3 or type(row[0]) is not int or row[0] <= sequence
++                    or not isinstance(row[1], str) or not row[1] or not isinstance(row[2], list)
++                    or any(not isinstance(field, list) or len(field) != 2 or not isinstance(field[0], str)
++                           or not field[0] for field in row[2])):
++                raise ValueError(f"DP response {index} has malformed runtime metadata row")
++            sequence = row[0]
++        observations.append({"state_index": index, "process_id": metadata["process_id"], "rank": rank,
++                             "row_count": len(rows)})
++    return observations
++
++
++async def _collect_runtime_metadata(url, timeout, output):
++    # The retained native /get_server_info alias delegates to /server_info.
++    # Its internal_states list covers DP respondents, never all TP processes.
++    http = {"endpoint": url + "/get_server_info"}
++    record = {"status": "failed", "http": http,
++              "coverage": "One responding scheduler process per DP; no all-TP gather or independent TP-rank verification",
++              "runtime_semantics": "UNVERIFIED; CPU host-enqueue receipts do not prove device completion or numerical parity"}
++    raw = None
++    try:
++        raw = await _http("GET", http["endpoint"], None, timeout, http)
++        info = _parse(raw, http)
++        # Retain malformed readback as exact text if it cannot be strict JSON.
++        json.dumps(info, allow_nan=False)
++        record["server_info"] = info
++        record["dp_responses"] = _runtime_metadata_states(info)
++        record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
++    except Exception as error:
++        record.update(error_type=type(error).__name__, reason=str(error))
++        if raw is not None:
++            record["response_text"] = raw.decode(errors="replace")
++    finally:
++        _write(output / "runtime_metadata.json", record)
++    return record
++
++
+ def _runtime(config, pair):
+     root = Path(importlib.util.find_spec("sglang").origin).parent
+     sources = {name: _file_identity(root / name) for name in _SGLANG_SOURCES}
+@@ -454,6 +546,8 @@ def _run(args):
+                          "order_limit": "One repetition cannot balance both first-mode positions for each individual sample",
+                          "timing": "perf_counter; headers include request serialization/server work; decoded body read, JSON parse and native tail validation measured separately",
+                          "acceptance": "No performance PASS or numerical tolerance; primary judges observed differences"}}
++    if "sample_manifest" in fixture:
++        result["sample_manifest"] = fixture["sample_manifest"]
+     try:
+         _worker_environment(local)
+         local_created = True
+@@ -464,6 +558,11 @@ def _run(args):
+             root = Path(importlib.util.find_spec("sglang").origin).parent
+             result["source_preflight"] = snapshots.prepare_source(
+                 root, image=config["image"], selected_fp32=True, archive_dir=output / "source_preflight")
++        if config.get("mamba_runtime_metadata", False):
++            from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++
++            result["runtime_metadata_source_preflight"] = metadata.prepare_runtime_metadata(
++                root, image=config["image"], archive_dir=output / "runtime_metadata_source_preflight")
+         result["runtime"] = _runtime(config, args.pair)
+         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
+             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
+@@ -471,6 +570,9 @@ def _run(args):
+         if config.get("selected_fp32_snapshots", False):
+             result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_snapshots.py"] = _file_identity(
+                 Path(snapshots.__file__))
++        if config.get("mamba_runtime_metadata", False):
++            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_runtime_metadata.py"] = _file_identity(
++                Path(metadata.__file__))
+         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
+         result["argv"] = command
+         _write(output / "preload.json", result)
+@@ -485,6 +587,12 @@ def _run(args):
+                 raise RuntimeError("Dedicated teacher readiness was interrupted")
+             result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local))
+             paired._check_server(process)
++            if config.get("mamba_runtime_metadata", False):
++                result["native_measurements_completed"] = True
++                receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output))
++                result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
++                if receipt["status"] != "collected":
++                    raise RuntimeError(f"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}")
+         result.update(status="measurements_completed", native_measurements_completed=True)
+     except BaseException as error:
+         result.update(error_type=type(error).__name__, reason=str(error))
+diff --git a/tests/manual/agent_opd/sglang_mamba_runtime_metadata.py b/tests/manual/agent_opd/sglang_mamba_runtime_metadata.py
+new file mode 100644
+index 00000000..34e4a349
+--- /dev/null
++++ b/tests/manual/agent_opd/sglang_mamba_runtime_metadata.py
+@@ -0,0 +1,519 @@
++"""Prepare CPU-only receipts in the retained native SGLang diagnostic package.
++
++Call after ``sglang_mamba_snapshots.prepare_source(selected_fp32=True)`` and
++before attention imports/server startup. Formal launchers never import this
++module. The recorder observes chosen locals, never tensor contents or decisions.
++The existing internal-state response drains only its own process, not all TP
++shards. Source qualification and CPU binding checks are not CUDA acceptance.
++"""
++
++import ast
++import difflib
++import hashlib
++import importlib.metadata
++import json
++from pathlib import Path
++
++from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++
++_SCHEDULE = "srt/managers/schedule_batch.py"
++_GDN = "srt/layers/attention/linear/gdn_backend.py"
++_HYBRID = "srt/layers/attention/hybrid_linear_attn_backend.py"
++_MAMBA = "srt/mem_cache/unified_cache/components/mamba.py"
++_RUNNER = "srt/model_executor/model_runner.py"
++_TREE = "srt/mem_cache/unified_cache/unified_tree_core.py"
++_CACHE = "srt/mem_cache/unified_radix_cache.py"
++_INTERNAL = "srt/managers/scheduler_components/internal_state.py"
++_RECORDER = "srt/mamba_runtime_metadata.py"
++_ADDITIONAL = {
++    _SCHEDULE: ("exp-1111-040603-422872", "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d"),
++    _MAMBA: ("exp-1111-035902-035439", "22c0f2f5ec8c217c7b9bccd8753e8e5bf3914fd3c0d3ae52e64bfb7bd31df584"),
++    _RUNNER: ("exp-1111-040603-422872", "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3"),
++    _TREE: ("exp-1111-042450-358109", "4948b7861488a51fce728a4ada6c40c875519b8cecc07aae4d9d6bec8b6a7e47"),
++    _CACHE: ("exp-1111-040603-422872", "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3"),
++    _INTERNAL: ("exp-1111-040603-422872", "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184"),
++    "srt/layers/attention/mamba/prefill_track_metadata.py": (
++        "exp-1111-042450-358109", "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a"
++    ),
++    "srt/model_executor/forward_batch_info.py": (
++        "exp-1111-035902-035439", "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56"
++    ),
++    "srt/runtime_context.py": (
++        "exp-1111-042450-358109", "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e"
++    ),
++}
++
++# This code is installed only in a hash-qualified, disposable diagnostic package.
++# No imports of torch/SGLang, tensor value reads, clocks, I/O, or synchronization.
++_RECORDER_SOURCE = '''"""Process-local CPU receipts; device values and completion remain unmeasured."""
++
++import os
++
++_rows = []
++_sequence = 0
++
++
++def tensor_metadata(tensor):
++    if tensor is None:
++        return None
++    return (id(tensor), str(tensor.dtype), tuple(tensor.shape),
++            tuple(tensor.stride()), str(tensor.device))
++
++
++def record(event, fields):
++    global _sequence
++    _sequence += 1
++    _rows.append((_sequence, event, fields))
++
++
++def drain(parallel):
++    rows = tuple(_rows)
++    _rows.clear()
++    return {
++        "schema": "mamba-runtime-metadata-v1",
++        "process_id": os.getpid(),
++        "rank": {name: getattr(parallel, name) for name in (
++            "dp_rank", "tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank")},
++        "coverage": "responding scheduler process only; no all-TP gather",
++        "physical_slot_values": "UNMEASURED",
++        "tensor_metadata_fields": ("object_id", "dtype", "shape", "stride", "device"),
++        "device_store_completion": "UNMEASURED; receipts follow host enqueue only",
++        "rows": rows,
++    }
++'''
++
++_IMPORT = (
++    "from sglang.srt.mamba_runtime_metadata import (\n"
++    "    record as _mamba_record,\n"
++    "    tensor_metadata as _mamba_tensor,\n"
++    ")\n"
++)
++
++
++def _receipt(event: str, fields: tuple[tuple[str, str], ...], indent: int) -> str:
++    """Emit one CPU tuple append, using expressions from the inspected scope."""
++    pad = " " * indent
++    lines = [f'{pad}_mamba_record("{event}", (\n']
++    lines.extend(f'{pad}    ("{name}", {expression}),\n' for name, expression in fields)
++    lines.append(f"{pad}))\n")
++    return "".join(lines)
++
++
++_RID = ("rids", "tuple(forward_batch.rids) if forward_batch.rids is not None else None")
++_STATE = ("temporal", "_mamba_tensor(ssm_states)")
++_REQ = (("rid", "req.rid"),)
++
++# Anchors contain the original operation unchanged. Every edit only inserts a
++# recorder import or CPU metadata append; no native algorithm is reproduced.
++_EDITS = {
++    _SCHEDULE: (
++        ("import torch\n", "import torch\n\nfrom sglang.srt.mamba_runtime_metadata import record as _mamba_record\n"),
++        (
++            "        return _MambaRadixCacheV2TrackEntry(\n",
++            _receipt("scheduler_track_boundary", _REQ + (
++                ("prefix_len", "prefix_len"), ("seq_end", "seq_end"),
++                ("extend_len", "req.extend_len"), ("cache_chunk_size", "cache_chunk_size"),
++                ("state_chunk_size", "state_chunk_size"), ("checkpoint_grid", "checkpoint_grid"),
++                ("mask", "mask"), ("track_position", "track_position"),
++                ("track_seqlen", "mamba_track_seqlen"),
++                ("aligned_seqlen", "mamba_track_seqlen_aligned"),
++                ("last_track_idx", "req.kv.mamba_last_track_idx"),
++                ("next_track_idx", "req.kv.mamba_next_track_idx"),
++                ("branching_seqlen", "req.mamba_branching_seqlen"),
++                ("last_track_seqlen", "req.kv.mamba_last_track_seqlen"),
++            ), 8) + "        return _MambaRadixCacheV2TrackEntry(\n",
++        ),
++    ),
++    _GDN: (
++        ("from sglang.srt.layers.radix_linear_attention import RadixLinearAttention\n",
++         _IMPORT + "from sglang.srt.layers.radix_linear_attention import RadixLinearAttention\n"),
++        (
++            "        return self.extend_kernel.extend(\n",
++            _receipt("gdn_extend_dispatch", (
++                ("kernel", "type(self.extend_kernel).__name__"),
++                ("layer_id", 'kwargs.get("layer_id")'),
++                ("track_state", '_mamba_tensor(kwargs.get("track_state"))'),
++                ("track_chunk_idx", '_mamba_tensor(kwargs.get("track_chunk_idx"))'),
++                _STATE, ("cache_indices", "_mamba_tensor(cache_indices)"),
++                ("query_start_loc", "_mamba_tensor(query_start_loc)"),
++            ), 8) + "        return self.extend_kernel.extend(\n",
++        ),
++        (
++            "            core_attn_out, last_recurrent_state, h = self.kernel_dispatcher.extend(\n",
++            _receipt("gdn_snapshot_allocation", (
++                _RID, ("layer_id", "layer.layer_id"),
++                ("has_mamba_track_mask", "forward_metadata.has_mamba_track_mask"),
++                ("h_src", "_mamba_tensor(forward_metadata.track_ssm_h_src)"),
++                ("snapshot_capability", "self.kernel_dispatcher.extend_kernel.supports_track_state_snapshot"),
++                ("kernel", "type(self.kernel_dispatcher.extend_kernel).__name__"),
++                ("allocated", "h_track_buf is not None"),
++                ("track_state", "_mamba_tensor(h_track_buf)"),
++                ("track_chunk_idx", "_mamba_tensor(forward_metadata.track_chunk_idx)"),
++                _STATE, ("cache_indices", "_mamba_tensor(cache_indices)"),
++                ("needs_state_gather", "needs_state_gather"),
++                ("prefix_lens", "tuple(forward_batch.extend_prefix_lens_cpu) if forward_batch.extend_prefix_lens_cpu is not None else None"),
++                ("extend_lens", "tuple(forward_batch.extend_seq_lens_cpu) if forward_batch.extend_seq_lens_cpu is not None else None"),
++            ), 12) + "            core_attn_out, last_recurrent_state, h = self.kernel_dispatcher.extend(\n",
++        ),
++    ),
++    _HYBRID: (
++        ("from sglang.srt.environ import envs\n", "from sglang.srt.environ import envs\n" + _IMPORT),
++        (
++            "        # Resolve the tracked-row selection once per forward\n",
++            _receipt("translated_track_metadata", (
++                _RID, ("cache_indices", "_mamba_tensor(mamba_cache_indices)"),
++                ("track_indices", "_mamba_tensor(forward_batch.mamba_track_indices)"),
++            ), 8) + "        # Resolve the tracked-row selection once per forward\n",
++        ),
++        (
++            "        to_device = self._track_indices_to_device\n",
++            _receipt("prefill_track_plan", (
++                _RID, ("chunk_size", "self.mamba_chunk_size"), ("mamba2", "is_mamba2"),
++                ("mask", "tuple(forward_batch.mamba_prefill_track_mask_cpu)"),
++                ("track_lens", "tuple(forward_batch.mamba_track_seqlens_cpu)"),
++                ("extend_lens", "tuple(forward_batch.extend_seq_lens_cpu)"),
++                ("prefix_lens", "tuple(forward_batch.extend_prefix_lens_cpu)"),
++                *((name, f"tuple(plan.{name})") for name in (
++                    "tracked_rows", "final_rows", "unaligned_rows", "h_rows", "h_src",
++                    "recompute_rows", "recompute_end_locs", "chunk_indices"
++                )),
++                ("cache_indices", "_mamba_tensor(mamba_cache_indices)"),
++                ("track_indices", "_mamba_tensor(forward_batch.mamba_track_indices)"),
++            ), 8) + "        to_device = self._track_indices_to_device\n",
++        ),
++        (
++            "                    ].to(ssm_states.dtype, copy=False)\n                else:\n",
++            "                    ].to(ssm_states.dtype, copy=False)\n" + _receipt("snapshot_store_enqueued", (
++                _RID, _STATE, ("source", '"h_track_buf"'),
++                ("track_state", "_mamba_tensor(h_track_buf)"),
++                ("source_rows", "_mamba_tensor(forward_metadata.track_ssm_h_batch_src)"),
++                ("destination_slots", "_mamba_tensor(forward_metadata.track_ssm_h_dst)"),
++            ), 20) + "                else:\n",
++        ),
++        (
++            "                    ].to(ssm_states.dtype, copy=False)\n            if (\n",
++            "                    ].to(ssm_states.dtype, copy=False)\n" + _receipt("snapshot_store_enqueued", (
++                _RID, _STATE, ("source", '"per_chunk_h"'),
++                ("h", "_mamba_tensor(h)"),
++                ("source_rows", "_mamba_tensor(forward_metadata.track_ssm_h_src)"),
++                ("destination_slots", "_mamba_tensor(forward_metadata.track_ssm_h_dst)"),
++            ), 20) + "            if (\n",
++        ),
++        (
++            "                    track_states.squeeze(0).to(ssm_states.dtype, copy=False)\n                )\n",
++            "                    track_states.squeeze(0).to(ssm_states.dtype, copy=False)\n                )\n"
++            + _receipt("snapshot_store_enqueued", (
++                _RID, _STATE, ("source", '"recompute"'),
++                ("track_states", "_mamba_tensor(track_states)"),
++                ("destination_slots", "_mamba_tensor(forward_metadata.track_ssm_recompute_dst)"),
++            ), 16),
++        ),
++        (
++            "                    forward_metadata.track_ssm_final_src\n                ]\n",
++            "                    forward_metadata.track_ssm_final_src\n                ]\n" + _receipt("snapshot_store_enqueued", (
++                _RID, _STATE, ("source", '"final_state"'),
++                ("source_slots", "_mamba_tensor(forward_metadata.track_ssm_final_src)"),
++                ("destination_slots", "_mamba_tensor(forward_metadata.track_ssm_final_dst)"),
++            ), 16),
++        ),
++    ),
++    _MAMBA: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "        if not params.cow_mamba:\n            return result\n",
++            "        if not params.cow_mamba:\n" + _receipt("cow_match_skipped", (
++                ("reason", '"cow_not_requested"'), ("node_id", "result.best_match_node"),
++            ), 12) + "            return result\n",
++        ),
++        (
++            "        if src_index is None:\n            return result\n",
++            "        if src_index is None:\n" + _receipt("cow_match_skipped", (
++                ("reason", '"no_device_state"'), ("node_id", "result.best_match_node"),
++            ), 12) + "            return result\n",
++        ),
++        (
++            "        req.kv.mamba_needs_clear = False\n        return result\n",
++            "        req.kv.mamba_needs_clear = False\n" + _receipt("cow_match_selected", _REQ + (
++                ("node_id", "result.best_match_node"),
++                ("source_slot", "_mamba_tensor(src_index)"),
++                ("destination_slot", "_mamba_tensor(req.kv.mamba_pool_idx)"),
++                ("needs_clear", "req.kv.mamba_needs_clear"),
++            ), 8) + "        return result\n",
++        ),
++        (
++            "            node.component_data[self.component_type].value = params.mamba_value\n",
++            "            node.component_data[self.component_type].value = params.mamba_value\n"
++            + _receipt("mamba_node_commit", (
++                ("node_id", "node.id"), ("branch", '"new_leaf"'),
++                ("value", "_mamba_tensor(params.mamba_value)"), ("mamba_exist", "result.mamba_exist"),
++            ), 12),
++        ),
++        (
++            "                node.id, self.component_type, params.mamba_value\n            )\n",
++            "                node.id, self.component_type, params.mamba_value\n            )\n"
++            + _receipt("mamba_node_commit", (
++                ("node_id", "node.id"), ("branch", '"fill_absent_state"'),
++                ("value", "_mamba_tensor(params.mamba_value)"), ("mamba_exist", "result.mamba_exist"),
++            ), 12),
++        ),
++        (
++            "        result.mamba_exist = True\n",
++            "        result.mamba_exist = True\n" + _receipt("mamba_node_commit", (
++                ("node_id", "node.id"), ("branch", '"retain_existing_state"'),
++                ("existing_value", "_mamba_tensor(node.component_data[self.component_type].value)"),
++                ("candidate_value", "_mamba_tensor(params.mamba_value)"),
++                ("mamba_exist", "result.mamba_exist"),
++            ), 8),
++        ),
++        (
++            "                if checkpoint is None:\n                    return 0\n",
++            "                if checkpoint is None:\n" + _receipt("mamba_donor_skipped", _REQ + (
++                ("reason", '"no_finished_checkpoint"'), ("token_ids_len", "token_ids_len"),
++                ("last_track_seqlen", "req.kv.mamba_last_track_seqlen"),
++                ("previous_track_seqlen", "req.kv.mamba_prev_track_seqlen"),
++            ), 20) + "                    return 0\n",
++        ),
++        (
++            "                insert_params.mamba_value = active_value\n            return cache_len\n",
++            "                insert_params.mamba_value = active_value\n" + _receipt("mamba_donor_prepared", _REQ + (
++                ("is_finished", "is_finished"), ("cache_len", "cache_len"),
++                ("token_ids_len", "token_ids_len"), ("keep_idx", "insert_params.mamba_keep_idx"),
++                ("active_value", "_mamba_tensor(active_value)"),
++                ("insert_value", "_mamba_tensor(insert_params.mamba_value)"),
++            ), 12) + "            return cache_len\n",
++        ),
++        (
++            "            insert_params.mamba_value = mamba_value_donated\n            return cache_len\n",
++            "            insert_params.mamba_value = mamba_value_donated\n" + _receipt("mamba_donor_prepared", _REQ + (
++                ("is_finished", "is_finished"), ("cache_len", "cache_len"),
++                ("token_ids_len", "token_ids_len"),
++                ("insert_value", "_mamba_tensor(mamba_value_donated)"),
++                ("last_track_idx", "req.kv.mamba_last_track_idx"),
++                ("next_track_idx", "req.kv.mamba_next_track_idx"),
++            ), 12) + "            return cache_len\n",
++        ),
++    ),
++    _RUNNER: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "                pool.translate_mamba_indices(forward_batch.mamba_clear_indices)\n            )\n",
++            "                pool.translate_mamba_indices(forward_batch.mamba_clear_indices)\n            )\n"
++            + _receipt("mamba_clear_enqueued", (
++                _RID, ("clear_indices", "_mamba_tensor(forward_batch.mamba_clear_indices)"),
++            ), 12),
++        ),
++        (
++            "                    forward_batch.mamba_cow_dst_indices,\n                )\n",
++            "                    forward_batch.mamba_cow_dst_indices,\n                )\n" + _receipt("mamba_cow_enqueued", (
++                _RID, ("branch", '"int8_checkpoint"'),
++                ("source_slots", "_mamba_tensor(forward_batch.mamba_cow_src_indices)"),
++                ("destination_slots", "_mamba_tensor(forward_batch.mamba_cow_dst_indices)"),
++            ), 16),
++        ),
++        (
++            "                    pool.translate_mamba_indices(forward_batch.mamba_cow_dst_indices),\n                )\n",
++            "                    pool.translate_mamba_indices(forward_batch.mamba_cow_dst_indices),\n                )\n"
++            + _receipt("mamba_cow_enqueued", (
++                _RID, ("branch", '"active_state_copy"'),
++                ("source_slots", "_mamba_tensor(forward_batch.mamba_cow_src_indices)"),
++                ("destination_slots", "_mamba_tensor(forward_batch.mamba_cow_dst_indices)"),
++            ), 16),
++        ),
++    ),
++    _TREE: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "                state.pending_actions.append(FreeDeviceKV([dup[swa_already_freed:]]))\n",
++            "                state.pending_actions.append(FreeDeviceKV([dup[swa_already_freed:]]))\n"
++            + _receipt("duplicate_kv_release_queued", (
++                ("node_id", "node.id"), ("absolute_start", "abs_start"),
++                ("absolute_end", "state.total_prefix_length + consumed_from"),
++                ("full_only_end", "abs_start + swa_already_freed"),
++                ("duplicate_indices", "_mamba_tensor(dup)"),
++                ("mamba_exist", "state.result.mamba_exist"),
++            ), 12),
++        ),
++    ),
++    _CACHE: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "        result = self.insert(insert_params)\n",
++            _receipt("checkpoint_insert_begin", _REQ + (
++                ("page_aligned_len", "page_aligned_len"),
++                ("protected_len", "req.kv.cache_protected_len"),
++                ("insert_value", "_mamba_tensor(insert_params.mamba_value)"),
++            ), 8) + "        result = self.insert(insert_params)\n" + _receipt("checkpoint_insert_returned", _REQ + (
++                ("mamba_exist", "result.mamba_exist"),
++                ("rotation_tail_declined", "result.rotation_tail_declined"),
++                ("node_id", "result.last_device_node"), ("prefix_len", "result.prefix_len"),
++            ), 8),
++        ),
++        (
++            "            new_indices[req.kv.cache_protected_len :],\n        )\n",
++            "            new_indices[req.kv.cache_protected_len :],\n        )\n"
++            + _receipt("canonical_kv_rebind_enqueued", _REQ + (
++                ("node_id", "new_last_node"), ("prefix_len", "new_prefix_len"),
++                ("absolute_start", "req.kv.cache_protected_len"),
++                ("absolute_end", "len(new_indices)"), ("page_aligned_len", "page_aligned_len"),
++                ("canonical_indices", "_mamba_tensor(new_indices)"),
++                ("mamba_exist", "result.mamba_exist"),
++            ), 8),
++        ),
++        (
++            "                self.token_to_kv_pool_allocator.free_segment(indices, start_pos=0)\n",
++            "                self.token_to_kv_pool_allocator.free_segment(indices, start_pos=0)\n"
++            + _receipt("kv_allocator_release_returned", (
++                ("branch", '"full_and_swa"'), ("indices", "_mamba_tensor(indices)"),
++            ), 16),
++        ),
++        (
++            "                self.token_to_kv_pool_allocator.free_full_segment(indices, start_pos=0)\n",
++            "                self.token_to_kv_pool_allocator.free_full_segment(indices, start_pos=0)\n"
++            + _receipt("kv_allocator_release_returned", (
++                ("branch", '"full_only"'), ("indices", "_mamba_tensor(indices)"),
++            ), 16),
++        ),
++    ),
++    _INTERNAL: (
++        (
++            "from sglang.srt.disaggregation.utils import DisaggregationMode\n",
++            "from sglang.srt.disaggregation.utils import DisaggregationMode\n"
++            "from sglang.srt.mamba_runtime_metadata import drain as _mamba_drain\n",
++        ),
++        (
++            '        state.pop("custom_sigquit_handler", None)\n',
++            '        state.pop("custom_sigquit_handler", None)\n'
++            '        state["mamba_runtime_metadata"] = _mamba_drain(get_parallel())\n',
++        ),
++    ),
++}
++
++
++def source_manifest() -> dict:
++    """Reuse the selected-FP32 owner's package identity and math-source hashes."""
++    owner = snapshots.source_manifest()
++    files = {
++        relative: {"before_sha256": identity["after_sha256"], "native_source_job": owner["native_source_job"]}
++        for relative, identity in owner["files"].items()
++    }
++    files.update({relative: {"before_sha256": digest, "native_source_job": job}
++                  for relative, (job, digest) in _ADDITIONAL.items()})
++    return {"image": owner["image"], "distribution_version": owner["distribution_version"], "files": files}
++
++
++def _sha256(content: bytes) -> str:
++    return hashlib.sha256(content).hexdigest()
++
++
++def _rewrite(relative: str, content: bytes, *, reverse: bool = False) -> bytes:
++    text = content.decode()
++    edits = _EDITS.get(relative, ())
++    for before, after in reversed(edits) if reverse else edits:
++        old, new = (after, before) if reverse else (before, after)
++        old, new = "\n" + old, "\n" + new
++        if text.count(old) != 1:
++            raise ValueError(f"Runtime metadata source seam differs: {relative}")
++        text = text.replace(old, new)
++    return text.encode()
++
++
++def _sources(root: Path, manifest: dict) -> tuple[dict, dict, dict]:
++    current, original, candidate = {}, {}, {}
++    for relative, identity in manifest["files"].items():
++        path = root / relative
++        if not path.is_file():
++            raise ValueError(f"Required runtime metadata source absent: {path}; sha256={identity['before_sha256']}")
++        content = path.read_bytes()
++        baseline = content
++        if _sha256(content) != identity["before_sha256"]:
++            if relative not in _EDITS:
++                raise ValueError(f"Unrecognized runtime metadata source: {path}; sha256={_sha256(content)}")
++            try:
++                baseline = _rewrite(relative, content, reverse=True)
++            except ValueError as error:
++                raise ValueError(f"Unrecognized runtime metadata source: {path}; sha256={_sha256(content)}") from error
++        if _sha256(baseline) != identity["before_sha256"]:
++            raise ValueError(f"Unrecognized runtime metadata source: {path}; sha256={_sha256(content)}")
++        rewritten = _rewrite(relative, baseline)
++        if content not in (baseline, rewritten):
++            raise ValueError(f"Unrecognized runtime metadata source: {path}; sha256={_sha256(content)}")
++        ast.parse(rewritten, filename=str(path))
++        current[relative], original[relative], candidate[relative] = content, baseline, rewritten
++    recorder = root / _RECORDER
++    content = recorder.read_bytes() if recorder.exists() else b""
++    expected = _RECORDER_SOURCE.encode()
++    if content not in (b"", expected) or (recorder.exists() and not content):
++        raise ValueError(f"Unrecognized runtime metadata recorder: {recorder}; sha256={_sha256(content)}")
++    ast.parse(expected, filename=str(recorder))
++    current[_RECORDER], original[_RECORDER], candidate[_RECORDER] = content, b"", expected
++    return current, original, candidate
++
++
++def _archive(archive: Path, original: dict, candidate: dict, manifest: dict) -> None:
++    artifacts = {"source_manifest.json": (json.dumps(manifest, indent=2) + "\n").encode()}
++    diff = []
++    for relative in original:
++        artifacts[f"before/{relative}"], artifacts[f"after/{relative}"] = original[relative], candidate[relative]
++        diff.extend(difflib.unified_diff(
++            original[relative].decode().splitlines(keepends=True),
++            candidate[relative].decode().splitlines(keepends=True),
++            fromfile=f"a/{relative}", tofile=f"b/{relative}",
++        ))
++    artifacts["runtime_metadata.diff"] = "".join(diff).encode()
++    for relative, content in artifacts.items():
++        path = archive / relative
++        if path.exists() and path.read_bytes() != content:
++            raise ValueError(f"Runtime metadata archive differs: {path}")
++    for relative, content in artifacts.items():
++        path = archive / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        if not path.exists():
++            path.write_bytes(content)
++
++
++def prepare_runtime_metadata(native_sglang_package_root: Path, *, image: str, archive_dir: Path) -> dict:
++    """Qualify every source before writes; archive exact diagnostic-only edits.
++
++    Requires already-selected-FP32 sources. Repeating this function is idempotent;
++    do not rerun the math preparer on an already instrumented diagnostic package.
++    Missing/changed source, wrong image/version, or archive conflicts fail before
++    source writes. No host SGLang import, model load, or GPU operation occurs.
++    """
++    manifest = source_manifest()
++    if image != manifest["image"]:
++        raise ValueError("Runtime metadata requires the qualified pinned image")
++    version = importlib.metadata.version("sglang")
++    if version != manifest["distribution_version"]:
++        raise ValueError(f"Runtime metadata dependency identity differs: version={version}")
++    root, archive = native_sglang_package_root.resolve(), archive_dir.resolve()
++    current, original, candidate = _sources(root, manifest)
++    manifest["files"] = {
++        relative: {
++            **manifest["files"].get(relative, {"created": True}),
++            "before_sha256": _sha256(original[relative]), "after_sha256": _sha256(candidate[relative]),
++        } for relative in candidate
++    }
++    _archive(archive, original, candidate, manifest)
++    changed = [relative for relative in candidate if current[relative] != candidate[relative]]
++    for relative in changed:
++        path = root / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_bytes(candidate[relative])
++    observed = {relative: _sha256((root / relative).read_bytes()) for relative in candidate}
++    if observed != {relative: _sha256(content) for relative, content in candidate.items()}:
++        raise ValueError("Runtime metadata dependency changed during preflight")
++    receipt = {
++        **manifest, "sglang_path": str(root), "archive_dir": str(archive),
++        "observed_before_sha256": {relative: _sha256(content) for relative, content in current.items()},
++        "observed_after_sha256": observed, "changed_files": changed, "patch_applied": bool(changed),
++        "diagnostic_only": True, "selected_fp32_precondition": True,
++        "readback_key": "mamba_runtime_metadata",
++        "readback": "existing /server_info internal_state Dict; drains responding process only",
++        "coverage": "no all-TP gather; DP responses retain individual process/rank receipts",
++        "physical_slot_values": "UNMEASURED", "cuda_semantics": "UNVERIFIED",
++        "runtime_semantics": "UNVERIFIED; host-enqueue receipts do not prove device completion or parity",
++    }
++    with (archive / "preflight.jsonl").open("a") as stream:
++        stream.write(json.dumps(receipt, allow_nan=False) + "\n")
++    return receipt

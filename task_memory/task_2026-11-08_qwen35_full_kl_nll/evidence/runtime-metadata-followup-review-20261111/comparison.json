@@ -1,0 +1,89 @@
+{
+  "base": "5f6dfaaa0cbd60812668abe3485c0a518befa1b9",
+  "initial": "9ee5f50489777542ed7e1459f21c2fc039df4743",
+  "final": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff",
+  "patches": [
+    {
+      "name": "original.diff",
+      "from": "5f6dfaaa0cbd60812668abe3485c0a518befa1b9",
+      "to": "9ee5f50489777542ed7e1459f21c2fc039df4743",
+      "sha256": "d9059871e8e83e562eb987470d003f57891f1ee1092441a17af6799393a29460",
+      "bytes": 129999
+    },
+    {
+      "name": "revised.diff",
+      "from": "5f6dfaaa0cbd60812668abe3485c0a518befa1b9",
+      "to": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff",
+      "sha256": "52d5d63ee3b452c53e99049f5a78dd6e3ace1dde318f85941dd5e2a5d3400404",
+      "bytes": 165792
+    },
+    {
+      "name": "followup.diff",
+      "from": "9ee5f50489777542ed7e1459f21c2fc039df4743",
+      "to": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff",
+      "sha256": "26e5eed85324abc1b8ee856a4a9a9493f98613bac5f64b933b37b93965d3b7c6",
+      "bytes": 47916
+    }
+  ],
+  "changed_files": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "tests/manual/agent_opd/probe_teacher_scoring.py"
+  ],
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "sha256": "4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7",
+      "bytes": 37760,
+      "unchanged_from_initial": false,
+      "fixed_blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/runtime-metadata-followup-review-20261111/blobs/4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7.txt"
+    },
+    {
+      "path": "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py",
+      "sha256": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1",
+      "bytes": 27623,
+      "unchanged_from_initial": true
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "sha256": "cd1e1d40dd6ff49256870f7a9a22dfa7326a3b13d2ec721f7d747d7ae53285ee",
+      "bytes": 67724,
+      "unchanged_from_initial": false,
+      "fixed_blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/runtime-metadata-followup-review-20261111/blobs/cd1e1d40dd6ff49256870f7a9a22dfa7326a3b13d2ec721f7d747d7ae53285ee.txt"
+    },
+    {
+      "path": "tests/fast/test_sglang_mamba_runtime_metadata.py",
+      "sha256": "04553316d4cab17b7ba91ef8cceb682606aa699c27e92ff921b0885475062c70",
+      "bytes": 33268,
+      "unchanged_from_initial": true
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json",
+      "sha256": "66d2c57dab56bebf2bad9326155d2c08f5cb83d5ae5a6057b4f7afb66729aa62",
+      "bytes": 1377,
+      "unchanged_from_initial": true
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
+      "sha256": "89519dd56ec07ce01f8ee18ff71b2ccfb3170698b29d9b5f4e0fe70c83c9a3e1",
+      "bytes": 107,
+      "unchanged_from_initial": true
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md",
+      "sha256": "4fca4d57d70a939fbebcdb9e3d46938ffe6d1feee3d45187bf5ddcb717fa3766",
+      "bytes": 30486,
+      "unchanged_from_initial": false,
+      "fixed_blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/runtime-metadata-followup-review-20261111/blobs/4fca4d57d70a939fbebcdb9e3d46938ffe6d1feee3d45187bf5ddcb717fa3766.txt"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md",
+      "sha256": "a8746056f23d9122284fb002482cc2032f493ab9bcecc83a64e7d6f4b50189c6",
+      "bytes": 15591,
+      "unchanged_from_initial": true
+    }
+  ],
+  "original_artifacts": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/runtime-metadata-review-20261111",
+  "native_overlay_unchanged": true,
+  "scope": "RID/DP1 receiver, pinned-source fixture override and failure-body preservation; original eight-file source/integration scope and native insertion artifacts remain the comparison context. No native GPU executed."
+}
