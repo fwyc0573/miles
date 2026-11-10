@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close both runtime-metadata P2 findings on fixed5f6dfaaa→4f1139b0 with dual No findings/332 CPU; submitted A/B still lack native equivalence acceptance. |
 | 2026-11-11 | Record pending runtime-metadata phase/follow-up reviews and CPU-only first-four/RID preparation; preserve prior No-findings scopes and native/minimization limits. |
 | 2026-11-11 | Separate accepted bounded operator/source numerical scope from measured full-model warm FAIL; retain phase reviews and read-only next analysis without another selected fix. |
 | 2026-11-11 | Record source d7e7e301 and integration f992159c two-axis No findings, source-only; native A/B probes Pending placement and numerical/source-preflight acceptance remains open. |
@@ -20,13 +21,20 @@
 
 # Runtime metadata preparation phase — 2026-11-11
 
-**Status: REVIEW_PENDING / CPU_PREPARATION_ONLY.** Primary records source`9ee5f504`, caller/config/first-four manifest`a0772615` and RID receipt`79c5d0f8`,306 CPU tests/no payload change. Source-phase review on pinned`5f6dfaaa→9ee5f504` and pending follow-up are in progress, not No findings. This docs agent transcribes supplied status, does not query reviewers/rerun CPU tests, and edits no code/config/report/evidence.
+**Status: CPU_AND_FIXED_REVIEW_ACCEPTED / NATIVE_PENDING.** RID`79c5d0f8`, raw DP1 None receiver`67ac0d7f` and P2 repair`4f1139b0` preserve source/payload/contracts. Primary reports332 CPU PASS/20 existing warnings/27.75s and14 affected GREEN. Both reviewers accept the fixed`5f6dfaaa→4f1139b0`diff with No findings; this docs agent transcribes completed artifacts, does not query reviewers/rerun tests, and edits no code/config/report/evidence. Earlier pending-review/330-test wording remains a historical pre-repair snapshot in primary5170a86d progress/checkpoint, not current status.
 
-**Current limits:** [Config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json) declare16 requests/10 flushes/one rep as a minimization candidate only; no metadata GPU submitted. Native vectors must match original FP32 repetition0/sample2/3 drift, with dropped1024-hit groups unverified. C3 binding permits raw`dp_rank=None` for DP1 without a DP controller (`runtime_context.py:230–240/1588`); receiver correction is underway without fabricating a rank or replacing raw None. Retained`meta_info.id` plus`native_request_id`/pair gives identity join, not chronology. One post-scoring`/get_server_info`covers DP responders, not all TP. No cache/dtype/concurrency/budget/tolerance/rootfix/scientific decision change. Existing bounded CUDA/model-warm observations below remain independent; formal04/05 BLOCKED/06waiting200, no B A200gate.
+| Axis | Reviewer / task | Fixed result |
+| --- | --- | --- |
+| Standards | `ses_e385140f8ffekze1xWJqdjXsEo`, `profile-runtime-metadata-standards-review-20261111` | No findings; fixture override P2 closed |
+| Spec | `ses_e385140d9ffei45dl7LAKl9vfw`, `profile-runtime-metadata-spec-review-20261111` | No findings; retained HTTP failure body P2 closed |
+
+Immutable [comparison](evidence/runtime-metadata-followup-review-20261111/comparison.json)and original/revised/followup diff triple preserve the inspected artifacts. The[primary repair report](test_report_2026-11-11_runtime_metadata_probe_integration.md#phase-review-p2-follow-up-to67ac0d7f)owns qualified RED/14 GREEN/332 joined commands and body-provenance/override/strict-rank limits; these are not GPU or model-probability results.
+
+**Current limits:** metadata A`exp-1111-073826-369716`/B`exp-1111-073825-734134`submitted4 requested nonpreemptible H800 each;[SDK snapshot](evidence/teacher-scoring-runtime-metadata-probe-20261111/initial-platform.json)is only A Starting/B Running, not actualGPU/source/runtime/vector acceptance. [Config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json)remain16 requests/10 flushes/one rep pending original FP32 repetition0/sample2/3 drift equivalence; dropped1024-hit groups unverified. Raw DP1 None is now CPU-accepted/preserved; RID/pair joins are identity-only, and server-info covers DP not all TP. [Source coverage](test_report_2026-11-11_mamba_runtime_metadata_source.md#receipt-coverage-and-limits)leaves release/skipped-COW aggregate, while native RID boundary/plan/donor/rebind rows support the next bounded diagnostic without extra recorder changes. No native cause/race/slot/completion/full-model/scientific acceptance follows; formal04/05 BLOCKED/06waiting200, no B A200gate or budget/cache/dtype/concurrency/tolerance change.
 
 # FP32 snapshot source-fidelity candidate — 2026-11-11
 
-Historical source/CUDA/model observation snapshot before runtime metadata preparation; its phase reviews and numerical limits remain unchanged. Current metadata review is pending above, not covered by these earlier No findings.
+Historical source/CUDA/model observation snapshot before runtime metadata preparation; its phase reviews and numerical limits remain unchanged. Current fixed metadata review is accepted above only for CPU/source, not covered by these earlier No findings or accepted as native equivalence.
 
 **Status: SOURCE/CUDA_BOUNDED_SCOPE_ACCEPTED; FULL_MODEL_WARM_FAIL.** Immutable No findings for source`ab3f47d5→d7e7e301`(three repository files plus two-native-file28-line patch) and integration`d7e7e301→f992159c`(seven files) retain their original source-phase scope; reviewers did not rerun tests. Primary now accepts actual deployed source/variant identity and equal-length same-candidate CUDA numerical semantics, but actual-model warm probabilities still FAIL. This record transcribes existing reports, not an independent code/test/native rerun or overall RCA/fix acceptance. Earlier fixed-six-file scoring reviews retain their own scope.
 

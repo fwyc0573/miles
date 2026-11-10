@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept CPU332/fixed dual review and record metadata B submitted with initial Running snapshot; retain formal block, satisfied A edge and every checkbox. |
 | 2026-11-11 | Advance shared B blocker to CPU metadata/first-four minimization with pending review/native equivalence; preserve satisfied A edge and every final checkbox. |
 | 2026-11-11 | Record actual B source/cold success and full-model warm FAIL; preserve satisfied A edge, no A200 gate and every final checkbox. |
 | 2026-11-11 | Record source/integration reviews and submitted B teacher-only FP32 probe Pending placement; retain formal hold, satisfied A edge and all checkbox states. |
@@ -33,9 +34,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection/common cycle已核验。Warm FAIL仍需CPU metadata/first4 candidate的review/合法raw DP1 None receiver修正/native equivalence及causal RCA，之后required correctness/fresh formal admission/本cell200。无A200/profile/32-H200 gate或stop权限，没有新metadata GPU/rootfix。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection/common cycle已核验，CPU332及固定双review也已接受。Metadata B已提交，native actualGPU/source/vectors/first4等价及warm causal correctness仍待，之后required correctness/fresh formal admission/本cell200。无A200/profile/32-H200 gate或stop权限，不把SDK Running当native/rootfix接受。
 
-**Status:** BLOCKED formal / RUNTIME_METADATA_CPU_PREPARATION D40; formal B not started. CPU`9ee5f504/a0772615/79c5d0f8`/306 tests prepare metadata/caller/RID only, reviews and receiver correction pending, no new metadata GPU. [First4 config](../teacher_scoring_runtime_metadata_probe_config.json)/[manifest](../teacher_scoring_runtime_metadata_first4_manifest.json) are16 requests/10 flushes/1rep minimization candidate pending original FP32 rep0/sample2/3 H800 vector equivalence; dropped1024-hit groups unverified. Preserve raw DP1 None; RID/pair identifies requests without chronology; one server-info read covers DP responders, not all TP. Previous [model warm FAIL](../test_report_2026-11-11_fp32_teacher_scoring_results.md)/[44 numerical CUDA scope](../test_report_2026-11-11_snapshot_semantics.md) remain independent, no root fix. Aedge/D16/commoncycle satisfied; no A200/profile/32-H200 gate/stop authority or science/cache/dtype/concurrency/budget/tolerance/checkbox change. Env1 DEFERRED and old6/profile2 remain separate. [Current RCA](../progress.md#current-execution--workflow-rca).
+**Status:** BLOCKED formal / RUNTIME_METADATA_PROBES_SUBMITTED D40; formal B not started. CPU332/14 GREEN and fixed dual No findings accepted; metadata B`exp-1111-073825-734134`submitted4 requested nonpreemptible H800 via personal/local NFS. [Initial SDK](../evidence/teacher-scoring-runtime-metadata-probe-20261111/initial-platform.json)only Running at23:40:44Z; actualGPU/source/runtime/vectors not accepted. [Config](../teacher_scoring_runtime_metadata_probe_config.json)/[manifest](../teacher_scoring_runtime_metadata_first4_manifest.json)remain16 requests/10 flushes/1rep pending original FP32 rep0/sample2/3 vector equivalence; dropped1024-hit unverified. Raw None/RID identity/DP-only server-info preserved; release/skipped-COW aggregate and existing RID boundary/plan/donor/rebind suffice without new recorder paths. [Old warm FAIL](../test_report_2026-11-11_fp32_teacher_scoring_results.md)/[CUDA scope](../test_report_2026-11-11_snapshot_semantics.md)remain independent. Aedge/D16/commoncycle satisfied; no rootfix/A200/profile/32-H200 gate/stop authority/science/cache/dtype/concurrency/budget/tolerance/checkbox change. Env1 DEFERRED and old6/profile2 separate. [Current RCA](../progress.md#current-execution--workflow-rca).
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
