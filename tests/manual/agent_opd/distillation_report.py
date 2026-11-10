@@ -73,11 +73,11 @@ def _baseline_status(profile: DistillationProfile | None) -> str:
     return "POSITIVE" if profile.baseline > 0 else "NONPOSITIVE"
 
 
-def _milestone(profile, update_id, *, verified_updates, observed_updates):
+def _milestone(profile, update_id, *, verified_updates, observed_update_ids):
     if update_id > verified_updates:
         return {
             "update_id": update_id,
-            "status": "UNVERIFIED" if update_id <= observed_updates else "NOT_OBSERVED",
+            "status": "UNVERIFIED" if update_id in observed_update_ids else "NOT_OBSERVED",
             "rkl": None, "nll": None, "remaining_gap": None,
         }
     row = profile.update(update_id)
@@ -125,6 +125,7 @@ def build_report(
     The profile must be the inspector's queryable, verified prefix, not failed runtime memory.
     Hand-built CPU fixtures should identify their synthetic job/cell and pass that limitation here;
     this function never promotes input numbers to formal results or recomputes inspection verdicts.
+    Native observed_successful_update_ids is mandatory; its progress count is not an ID range.
     """
     expected = receipt["expected_updates"]
     if type(expected) is not int or expected < 1:
@@ -132,6 +133,7 @@ def build_report(
     if any(type(update) is not int or update < 1 for update in milestones) or list(milestones) != sorted(set(milestones)):
         raise ValueError("Milestones must be strictly increasing positive integers")
     verified = receipt["profile"]["verified_updates"]
+    observed_update_ids = receipt["native"]["observed_successful_update_ids"]
     if profile is None:
         if verified != 0:
             raise ValueError("A nonempty verified prefix requires the inspector's queryable profile")
@@ -167,7 +169,7 @@ def build_report(
             "recovery_gap": summary["recovery_gap"] if summary is not None else None,
             "milestones": [
                 _milestone(profile, update, verified_updates=verified,
-                           observed_updates=receipt["native"]["observed_successful_updates"])
+                           observed_update_ids=observed_update_ids)
                 for update in milestones
             ],
         },

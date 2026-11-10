@@ -16,8 +16,8 @@ from tests.manual.agent_opd.distillation_report import (
 )
 
 
-def _receipt(verified, *, expected=200, observed=None, native_complete=False, profile_complete=False):
-    observed = verified if observed is None else observed
+def _receipt(verified, *, observed_update_ids, expected=200, native_complete=False, profile_complete=False):
+    observed = len(observed_update_ids)
     return {
         "job": "synthetic-cpu-report-fixture",
         "expected_updates": expected,
@@ -28,6 +28,7 @@ def _receipt(verified, *, expected=200, observed=None, native_complete=False, pr
         },
         "native": {
             "observed_successful_updates": observed,
+            "observed_successful_update_ids": list(observed_update_ids),
             "successful_updates": observed,
             "terminal_phase": "Succeeded" if native_complete else None,
             "complete": native_complete,
@@ -74,7 +75,7 @@ def _milestone_profile(updates):
 
 def test_s9_milestones_fixed_baseline_and_earliest_best():
     profile = _milestone_profile(200)
-    receipt = _receipt(200, native_complete=True, profile_complete=True)
+    receipt = _receipt(200, observed_update_ids=list(range(1, 201)), native_complete=True, profile_complete=True)
     before = copy.deepcopy(receipt)
     report = build_report(receipt, profile, cell="synthetic/full", limitations=("Synthetic CPU readiness only.",))
     assert receipt == before
@@ -114,7 +115,8 @@ def test_sparse_history_baseline_window_and_nonpositive_conversation_populations
     _record(profile, 3, [("g", 3, 1.0, 9.0, 2)])
     _record(profile, 4, [("s", 1, 3.0, 2.0, 1)])
     _record(profile, 5, [("g", 4, 1.0, 7.0, 1)], finished=("g",))
-    report = build_report(_receipt(5), profile, cell="synthetic/sparse", milestones=(1, 2, 5, 10))
+    report = build_report(_receipt(5, observed_update_ids=[1, 2, 3, 4, 5]), profile,
+                          cell="synthetic/sparse", milestones=(1, 2, 5, 10))
     macro, stats = report["macro"], report["conversations"]
     assert macro["baseline"] == {"value": 2.0, "status": "POSITIVE"}  # (token-weighted 5 + -1) / 2
     assert [row["remaining_gap"] for row in macro["milestones"]] == [2.5, -0.5, 0.5, None]
@@ -140,7 +142,8 @@ def test_nonpositive_macro_baseline_does_not_hide_raw_metrics(baseline):
     profile = _profile(baseline_updates=1, baseline_turns=2, trend_window=1)
     _record(profile, 1, [("g", 1, baseline, 2.0, 1), ("g", 2, baseline, 4.0, 1)])
     _record(profile, 2, [("g", 3, 1.0, 5.0, 1)])
-    report = build_report(_receipt(2), profile, cell="synthetic/nonpositive", milestones=(1, 2))
+    report = build_report(_receipt(2, observed_update_ids=[1, 2]), profile,
+                          cell="synthetic/nonpositive", milestones=(1, 2))
     macro = report["macro"]
     assert macro["baseline"] == {"value": baseline, "status": "NONPOSITIVE"}
     assert macro["milestones"][0]["rkl"] == baseline
@@ -155,7 +158,7 @@ def test_nonpositive_macro_baseline_does_not_hide_raw_metrics(baseline):
 
 @pytest.mark.parametrize("profile", [None, _profile()])
 def test_empty_verified_prefix_never_fills_milestones(profile):
-    receipt = _receipt(0)
+    receipt = _receipt(0, observed_update_ids=[])
     receipt["native"].update(successful_updates=None, terminal_phase="Failed", error="startup failed")
     receipt["profile"]["error"] = "no paired profile records"
     report = build_report(receipt, profile, cell="synthetic/empty")
@@ -173,7 +176,7 @@ def test_empty_verified_prefix_never_fills_milestones(profile):
 
 def test_native200_success_with_partial_profile_stays_incomplete():
     profile = _milestone_profile(3)
-    receipt = _receipt(3, observed=200, native_complete=True)
+    receipt = _receipt(3, observed_update_ids=list(range(1, 201)), native_complete=True)
     receipt["profile"]["error"] = "injected partial write at update 4"
     report = build_report(receipt, profile, cell="synthetic/partial")
     assert report["disposition"] == {
@@ -193,6 +196,27 @@ def test_native200_success_with_partial_profile_stays_incomplete():
     assert "These are not counts for unverified later training." in markdown
 
 
+def test_sparse_native_ack_ids_distinguish_unverified_from_not_observed():
+    profile = _milestone_profile(4)
+    receipt = _receipt(4, observed_update_ids=[1, 2, 3, 4, *range(6, 201)])
+    receipt["native"].update(successful_updates=None, terminal_phase="Succeeded", error="retained ACK5 missing")
+    receipt["profile"]["error"] = "native ACK5 unavailable; verified profile prefix ends at update4"
+    report = build_report(receipt, profile, cell="synthetic/missing-ack5", milestones=(1, 5, 200, 201))
+    rows = {row["update_id"]: row for row in report["macro"]["milestones"]}
+    assert rows[200]["status"] == "UNVERIFIED"  # ACK200 exists even though only 199 ACKs were retained.
+    assert rows[5]["status"] == rows[201]["status"] == "NOT_OBSERVED"
+    assert rows[1]["status"] == "VERIFIED" and rows[1]["rkl"] == 2.0
+    for update in (5, 200, 201):
+        assert rows[update]["rkl"] is rows[update]["nll"] is rows[update]["remaining_gap"] is None
+    assert report["inspection"]["native"]["observed_successful_updates"] == 199
+    assert report["inspection"]["native"]["observed_successful_update_ids"] == receipt["native"]["observed_successful_update_ids"]
+    markdown = render_markdown(report)
+    assert "Observed successful updates: 199" in markdown
+    assert "| 200 | UNVERIFIED | null | null | null |" in markdown
+    assert "| 5 | NOT_OBSERVED | null | null | null |" in markdown
+    assert "| 201 | NOT_OBSERVED | null | null | null |" in markdown
+
+
 def test_quantile_convention_omits_none_without_omitting_zero():
     summary = quantile_summary([None, 30.0, 0.0, None, 20.0, 10.0])
     assert (summary["defined_count"], summary["undefined_count"]) == (4, 2)
@@ -206,7 +230,7 @@ def test_quantile_convention_omits_none_without_omitting_zero():
 
 
 def test_json_markdown_paths_and_no_overwrite(tmp_path):
-    receipt = _receipt(0)
+    receipt = _receipt(0, observed_update_ids=[])
     receipt["job"] = "synthetic|cpu"
     receipt["native"]["error"] = "line1|detail\nline2"
     report = build_report(receipt, None, cell="synthetic/full", limitations=("Synthetic CPU readiness only.",))
@@ -228,15 +252,15 @@ def test_json_markdown_paths_and_no_overwrite(tmp_path):
 @pytest.mark.parametrize("milestones", [(0, 1), (2, 1), (1, 1), (True,), (1.5,)])
 def test_milestone_inputs_are_explicit_and_ordered(milestones):
     with pytest.raises(ValueError, match="strictly increasing positive integers"):
-        build_report(_receipt(0), None, cell="synthetic", milestones=milestones)
+        build_report(_receipt(0, observed_update_ids=[]), None, cell="synthetic", milestones=milestones)
 
 
 def test_nonqueryable_or_mismatched_prefix_is_rejected():
     with pytest.raises(ValueError, match="nonempty verified prefix"):
-        build_report(_receipt(1), None, cell="synthetic")
+        build_report(_receipt(1, observed_update_ids=[1]), None, cell="synthetic")
     profile = _milestone_profile(1)
     with pytest.raises(ValueError, match="exactly the inspector's"):
-        build_report(_receipt(2), profile, cell="synthetic")
+        build_report(_receipt(2, observed_update_ids=[1, 2]), profile, cell="synthetic")
     profile.invalidate(2, "synthetic failure; runtime memory is not an offline verified prefix")
     with pytest.raises(ValueError, match="exactly the inspector's"):
-        build_report(_receipt(1), profile, cell="synthetic")
+        build_report(_receipt(1, observed_update_ids=[1]), profile, cell="synthetic")
