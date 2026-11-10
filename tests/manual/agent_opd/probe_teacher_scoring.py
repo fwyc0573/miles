@@ -335,7 +335,7 @@ async def _request(url, sample, mode, timeout, output, local, identity, cache_st
     record.update({key: None for key in ("http_time_to_headers_seconds", "http_elapsed_seconds", "body_read_seconds",
                                         "http_status", "body_bytes", "json_parse_seconds", "validation_seconds",
                                         "returned_completion_count", "input_token_logprobs_count",
-                                        "first_input_token_logprob", "first_input_token_id")})
+                                        "first_input_token_logprob", "first_input_token_id", "native_request_id")})
     started = time.perf_counter()
     try:
         raw = await _http("POST", url + "/generate", payload, timeout, record)
@@ -345,11 +345,16 @@ async def _request(url, sample, mode, timeout, output, local, identity, cache_st
         body = _parse(raw, record)
         validating = time.perf_counter()
         try:
+            meta = body.get("meta_info") if isinstance(body, dict) else None
+            if isinstance(meta, dict):
+                # This is the native req.rid used by ForwardBatch, not our filename identity.
+                record["native_request_id"] = _meta_summary(meta.get("id"))
             vector = _scores(body, sample, record)
         finally:
             record["validation_seconds"] = time.perf_counter() - validating
         destination = output / "completion_scores" / f"{request_id}.json"
         _write(destination, {**identity, "request_id": request_id, "mode": mode,
+                             "native_request_id": record["native_request_id"],
                              "source_uid": sample["source_uid"], "sample_index": sample["sample_index"], **vector})
         record.update(status="scored", completion_scores=str(destination))
         return vector, request_id
@@ -399,7 +404,7 @@ async def _benchmark(args, fixture, url, output, local):
     cold_results = {}
     for repetition in range(args.repeats):
         for position, sample in enumerate(fixture["samples"]):
-            identity = {"phase": "cold", "repetition": repetition, "sample_position": position}
+            identity = {"pair": args.pair, "phase": "cold", "repetition": repetition, "sample_position": position}
             results = {}
             for mode in _mode_order(repetition, position):
                 cache = await _flush(url, args.request_timeout, output / "cache.jsonl", {**identity, "mode": mode})
@@ -415,11 +420,11 @@ async def _benchmark(args, fixture, url, output, local):
             cache = await _flush(url, args.request_timeout, output / "cache.jsonl", stream_id)
             cache_observations["warm_stream_initial_flush_verified"] &= cache == "flushed"
             for position, sample in enumerate(fixture["samples"]):
-                identity = {"phase": "warm_stream", "repetition": repetition, "sample_position": position}
+                identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
                 state = ("stream_first_after_flush" if position == 0 else "ordered_stream_after_flush") if cache == "flushed" else "cache_undefined"
                 results[position][mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity, state)
         for position, sample in enumerate(fixture["samples"]):
-            identity = {"phase": "warm_stream", "repetition": repetition, "sample_position": position}
+            identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
             _record_comparison(output, identity, results[position], sample, args.pair,
                                cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])])
     return cache_observations

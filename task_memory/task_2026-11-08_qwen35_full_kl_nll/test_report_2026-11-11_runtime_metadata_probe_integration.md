@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-11 | Record the first4 diagnostic integration, real source-preparer ordering, joined CPU checks, independent readback failures and pending native acceptance. |
+| 2026-11-11 | Add explicit retained native RID associations, a reordered real-schema regression, failed-validation retention and306-pass joined follow-up verification. |
 
 # Runtime metadata teacher-probe integration
 
@@ -87,6 +88,43 @@ git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/t
 
 Expected/observed: no scoped whitespace errors; PASS. Required CPU checks have passed; no unrelated edits are staged.
 
+## Native RID association follow-up
+
+**Verified cause:** the local `request_id` is a synthetic filename identity (`phase-rN-sN-mode`), not the native scheduler RID. The original request JSONL already retained `meta_info.id` through `_meta_summary`, so the response ID was not wholly lost. However, neither request nor completion receipts exposed a top-level native RID association, completion receipts omitted the native ID entirely, and their benchmark identity lacked the pair. Raw native responses remain worker-temporary; chronological request or metadata row counts are not a substitute for the explicit association.
+
+The locally retained actual A FP32 receipt at `evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/requests.jsonl` confirms this narrower gap: its first `cold-r0-s0-full_input` request has a native string at `meta_info.id`, but no top-level `native_request_id` or `pair`; the corresponding completion receipt also has neither field. This read-only inspection did not change the historical artifacts.
+
+Native RID equivalence is source-backed:
+
+- C1 `evidence/native-sglang-cache-source-20261111/exp-1111-035902-035439/source/srt/model_executor/forward_batch_info.py:1103` constructs `ForwardBatch.rids=[req.rid for req in batch.reqs]`.
+- C2 `exp-1111-040603-422872/source/srt/managers/scheduler_components/output_streamer.py:488` emits `req.rid`; `srt/managers/tokenizer_manager.py:2727–2740` uses that same received RID as response `meta_info.id`.
+
+**Exact identity contract:** within a run's isolated output directory, join native metadata `rids` to request/completion receipts by `(pair, native_request_id)`, where `native_request_id` is the actual returned `meta_info.id`, never the synthetic `request_id` or a sequence number. Both receipts retain `pair`, `repetition`, `phase`, `mode`, original `source_uid`, original `sample_index` and `sample_position` alongside the native ID. The synthetic `request_id` remains unchanged for filenames and existing numerical comparisons. Repeated native metadata rows with the same RID associate with the same scoring request regardless of row/receipt order; they are not additional scoring requests.
+
+The ID is captured before `_scores` validation, so a known native RID remains in the failed request receipt even when token/logprob validation raises. A failed validation does not produce a completion receipt. If an HTTP/timeout/JSON failure prevents observing the response ID, `native_request_id=null` records that it is unknown; no synthetic ID, chronological association or success claim is substituted. Native response strings are used directly; there is no injected payload `rid`, new config selector, extra request/flush, new metadata recorder, Tensor read, CUDA event, wait or synchronization. Baseline and diagnostic payloads, teacher flags and counts remain unchanged; only receipt fields are additive.
+
+The new focused regression executes the real `_request`/receipt path for both pairs and uses the source owner's actual `mamba-runtime-metadata-v1` recorder schema. It returns two successful requests and one token-ID validation failure with arbitrary native RIDs unrelated to filenames, reorders native `rids`, reverses request receipt lookup order and joins by native ID. It also checks the original payload exactly, retained failed-request identity and matching completion identity. Existing first4 tests additionally verify that the actual benchmark path propagates pair and native ID to all16 requests/completions, still with10 flushes.
+
+Same environment as above. The deterministic retention regression was run before the fix:
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k native_response_rids -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-rid-red-20261111
+```
+
+Expected: expose the missing native RID association. Observed **2 failed,105 deselected,2 existing warnings,0.90s; expected RED**, both at `KeyError: 'native_request_id'`. The concrete missing-field failure and inspected native RID path identify a receipt-retention defect; no alternative CUDA/runtime hypotheses or temporary debug instrumentation were needed.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'native_response_rids or request_failures' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-rid-green-20261111
+```
+
+Expected: exact RID associations survive reordered metadata and validation failures; unobserved IDs remain null. Observed **6 passed,101 deselected,2 existing warnings,0.74s; PASS**.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-rid-joined-20261111
+```
+
+Expected: native scoring/submission/source integration unchanged, baseline56/32 and diagnostic16/10 preserved. Observed **306 passed,20 existing warnings,25.54s; PASS**, including all107 probe tests. No test failure or skip occurred. Follow-up owns only the two existing probe/test files and this existing report; no native execution occurred. These CPU joins do not prove that an H800 diagnostic has complete runtime RID coverage or reproduced the drift.
+
 ## Verification limits and next dependency
 
 All HTTP/GPU-inspection/engine-startup operations in integration tests are CPU mocks; existing cleanup checks start only their owned CPU child. First4 mock HTTP bodies contain only the completion tail needed for request/identity/readback contracts; they do not certify native full-input score ranges or probability vectors. `collected` means structurally present CPU metadata, never native PASS, device-store completion, physical slot content, causal proof or numerical parity. DP respondents do not expose independent receipts from all TP ranks.
@@ -95,29 +133,30 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
+**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | 独立 diagnostic 配置与原始 first4 manifest | PASS | 原 UID/index/token 不变，16 scoring/10 flush；baseline56/32 不变。 |
 | 真实 preparer 接线与独立 receipts | PASS | selected-FP32 后、runtime/attention/teacher 前，两个实际 CPU receipts 分开保留。 |
 | post-loop 既有 endpoint 与失败证据 | PASS | DP-only coverage；缺失/malformed 独立失败，scoring 文件保留。 |
-| joined CPU 验证 | PASS | 304 passed，20 existing warnings，26.75s。 |
+| 明确 native RID 关联 | PASS | 真实 response ID 关联到 pair/repetition/phase/mode/UID/index；乱序与 failed validation 回归通过。 |
+| joined CPU 验证 | PASS | follow-up306 passed，20 existing warnings，25.54s。 |
 | 实际 H800 first4 重现与 runtime metadata | BLOCKED | 本 subagent 无 GPU/platform 权限；native 仍 PENDING。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 本次 scoped integration 开始至 joined CPU 完成｜**当前前沿：** 交付已验证的 CPU candidate；primary 独立决定后续 native 验证。
+**检测窗口：** RID follow-up 请求至306项 joined CPU 完成｜**当前前沿：** 提交三个 owned follow-up files；primary 独立决定后续 native 验证。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 仅执行本次所需合约检查；joined 完成后停止扩展。 |
-| D2 细节反复重试 | CLEAR | config、focused、joined 三个阶段均通过；没有失败修复循环。 |
-| D3 支线问题修补 | CLEAR | 只编辑五个授权文件，未修改 recorder、launcher 或原始 fixtures。 |
-| D4 可并行任务停滞 | CLEAR | source agent 独立准备模块；本 slice 同时完成配置/subset/readback。 |
-| D5 超范围镀金 | CLEAR | 一个 manifest prefix 机制、一个 diagnostic boolean、一次 post-loop fetch。 |
-| D6 分析空转 | CLEAR | retained endpoint/DP 证据直接用于接线和已通过的测试。 |
+| D1 工具打磨 | CLEAR | 只补充必需 RID 合约回归；joined 完成后停止扩展。 |
+| D2 细节反复重试 | CLEAR | 一次预期 RED、一次修复后 GREEN；没有失败修复循环。 |
+| D3 支线问题修补 | CLEAR | follow-up 只编辑三个授权旧文件，未修改 recorder、launcher、配置或原始 fixtures。 |
+| D4 可并行任务停滞 | CLEAR | source 已就绪；本 follow-up 无可独立启动的 native 工作，也无 delegation 权限。 |
+| D5 超范围镀金 | CLEAR | 只添加明确 receipt identity；无新 selector、payload RID 或请求/flush。 |
+| D6 分析空转 | CLEAR | 真实 retained ID 与 native source 直接支撑最小修复和回归。 |
 | D7 路线违背 | CLEAR | 无 GPU/platform/auth/SSH/delegation；原生验收未冒充完成。 |
 
 **文档检查：** 当前 scoped assignment 下 S1–S6 均未发现明显缺陷；父任务 formal hold 保持不变。
@@ -130,11 +169,11 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 交付 scoped candidate 与本报告 → 完成标志：只提交 owned files，保留其他 agent 的修改。
-2. primary 后续 native 验证 → 完成标志：实际 H800 first4 与旧 FP32 repetition0 比较、sample2/3 drift 保留、真实 DP metadata receipt 可读；不以 CPU 或缺失 trace 替代。
+1. 交付 RID follow-up 与本报告 → 完成标志：只提交三个 owned files，保留其他 agent 的修改。
+2. primary 后续 native 验证 → 完成标志：按真实 RID 关联 H800 metadata 与评分 identity，first4 与旧 FP32 repetition0 比较且sample2/3 drift 保留；不以 CPU 或缺失 trace 替代。
 
 ## 4. 最值得关注的 3 点
 
-1. CPU 接线已通过304项 joined 检查；没有任何新的 native PASS。
-2. server-info 仅覆盖每个 DP 的 responding process，不覆盖全部 TP ranks，也不测设备写完成。
+1. RID follow-up 已通过306项 joined 检查；known RID 在 failed validation 中保留，没有新的 native PASS。
+2. RID join 不依赖行顺序；server-info 仍只覆盖每个 DP responding process，不覆盖全部 TP ranks或设备写完成。
 3. first4 尚未获原生重现验收，且未覆盖 dropped1024-hit groups；formal hold 不变。

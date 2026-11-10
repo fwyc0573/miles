@@ -256,6 +256,7 @@ def test_flush_unsupported_is_explicitly_cache_undefined(tmp_path, monkeypatch, 
 @pytest.mark.parametrize("failure", ["timeout", "http", "json", "ids"])
 def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_path, monkeypatch, failure):
     body = _body(sample, "full_input")
+    body["meta_info"]["id"] = "native-rid-validation-failed"
     if failure == "ids":
         body["meta_info"]["input_token_logprobs"][0][:2] = [float("nan"), float("inf")]
         body["meta_info"]["input_token_logprobs"][-1][1] = float("nan")
@@ -271,6 +272,7 @@ def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_
                                   {"phase": "cold", "repetition": 0, "sample_position": 0}, "cold_flushed"))
     record = json.loads((output / "requests.jsonl").read_text())
     assert record["status"] == "failed" and record["token_ids_match"] is False
+    assert record["native_request_id"] == ("native-rid-validation-failed" if failure == "ids" else None)
     assert not list((output / "completion_scores").iterdir())
     if failure == "json":
         assert "json_parse_seconds" in record
@@ -808,14 +810,73 @@ def test_runtime_metadata_config_uses_first4_once_and_exact_teacher_allocation_a
     assert original_path.read_bytes() == original_before and not (task / "cpu-construction-only.json").exists()
 
 
-def _cpu_metadata(dp_rank=0, tp_rank=0):
+def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
     from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
 
     namespace = {}
     exec(compile(metadata._RECORDER_SOURCE, "qualified-recorder-cpu-contract", "exec"), namespace)
-    namespace["record"]("cpu_test_only", (("rids", ("cpu-request",)), ("source", "CPU; no native execution")))
+    namespace["record"]("cpu_test_only", (("rids", rids), ("source", "CPU; no native execution")))
     rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=dp_rank, attn_tp_rank=tp_rank)
     return namespace["drain"](rank)
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+def test_native_response_rids_join_retained_identities_independent_of_metadata_order(sample, tmp_path, monkeypatch, pair):
+    cases = [
+        ("native-rid-zeta", sample, "full_input", "cold", 0),
+        ("native-rid-alpha", {**sample, "source_uid": "conversation-2:turn-3", "sample_index": 8},
+         "response_only", "warm_stream", 1),
+        ("native-rid-failed", {**sample, "source_uid": "conversation-3:turn-4", "sample_index": 9},
+         "response_only", "cold", 2),
+    ]
+    generated = []
+    native_order = (cases[1][0], cases[2][0], cases[0][0])
+    info = {"dp_size": 1, "tp_size": 4, "pp_size": 1,
+            "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(rids=native_order)}]}
+
+    def response(method, url, kwargs):
+        if url.endswith("/get_server_info"):
+            return json.dumps(info).encode(), 200
+        native_rid, item, mode, _, _ = cases[len(generated)]
+        assert (method, url) == ("POST", "mock://teacher/generate")
+        assert kwargs["json"] == probe._payload(item, mode) and "rid" not in kwargs["json"]
+        generated.append(native_rid)
+        body = _body(item, mode)
+        body["meta_info"]["id"] = native_rid
+        if native_rid == "native-rid-failed":
+            body["meta_info"]["input_token_logprobs"][-1][1] = 999
+        return json.dumps(body).encode(), 200
+
+    _, calls, _ = _mock_http(monkeypatch, response)
+    output, local = _output(tmp_path)
+    expected = {}
+    for position, (native_rid, item, mode, phase, repetition) in enumerate(cases):
+        identity = {"pair": pair, "phase": phase, "repetition": repetition, "sample_position": position}
+        expected[native_rid] = {**identity, "mode": mode, "source_uid": item["source_uid"], "sample_index": item["sample_index"]}
+        request = probe._request("mock://teacher", item, mode, 17, output, local, identity, "CPU test")
+        if native_rid == "native-rid-failed":
+            with pytest.raises(ValueError, match="completion IDs differ"):
+                asyncio.run(request)
+        else:
+            asyncio.run(request)
+    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
+    assert receipt["status"] == "collected" and len(calls) == 4
+    requests = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+    by_rid = {row["native_request_id"]: row for row in reversed(requests)}
+    assert set(by_rid) == set(expected)
+    metadata = receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]
+    retained_rids = dict(metadata["rows"][0][2])["rids"]
+    assert retained_rids == list(native_order) != generated
+    for native_rid in retained_rids:
+        row = by_rid[native_rid]
+        assert {key: row[key] for key in expected[native_rid]} == expected[native_rid]
+        assert row["request_id"] != row["native_request_id"] == row["meta_info"]["id"]
+        if row["status"] == "scored":
+            completion = json.loads(Path(row["completion_scores"]).read_text())
+            assert completion["native_request_id"] == native_rid
+            assert {key: completion[key] for key in expected[native_rid]} == expected[native_rid]
+        else:
+            assert native_rid == "native-rid-failed" and "completion_scores" not in row
 
 
 @pytest.mark.parametrize("pair", ["A", "B"])
@@ -854,6 +915,7 @@ def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retai
         tail = [[None, sample["tokens"][payload["logprob_start_len"]], None]] + [
             [-0.125, token, None] for token in sample["tokens"][-sample["response_length"]:]]
         return json.dumps({"text": "", "output_ids": [], "meta_info": {
+            "id": f"cpu-native-{pair}-{len(scoring_calls)}",
             "input_token_logprobs": tail, "output_token_logprobs": []}}).encode(), 200
 
     _, calls, _ = _mock_http(monkeypatch, response)
@@ -871,6 +933,10 @@ def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retai
             if path.is_file() and path.name != "runtime_metadata.json"} == before
     rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
     assert len(rows) == 16 and all(row["status"] == "scored" for row in rows)
+    assert all(row["pair"] == pair and row["native_request_id"] == row["meta_info"]["id"] for row in rows)
+    for row in rows:
+        completion = json.loads(Path(row["completion_scores"]).read_text())
+        assert completion["pair"] == pair and completion["native_request_id"] == row["native_request_id"]
     assert {(row["source_uid"], row["sample_index"]) for row in rows} == {
         (sample["source_uid"], sample["sample_index"]) for sample in fixture["samples"]}
     assert all(row["repetition"] == 0 and row["sample_position"] in range(4) for row in rows)
