@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Apply D39 H800 A preparation from original initialization; retain terminal H2006/profile2, all prior evidence and every checkbox. |
 | 2026-11-10 | Accept actual profileprefix2 and original-file rebuild; distinguish record/ACK timestamps, retaining every full-run checkbox. |
 | 2026-11-10 | Record actual native IDs1/2 and accepted first corrected offload/restore/next-train cycle; keep detailed profile/200 verification pending and every checkbox unchanged. |
 | 2026-11-10 | Record reviewed correction and independent corrected A executing/worker-ready; retain all checkbox states and pending native lifecycle/ACK/200 proof. |
@@ -29,9 +30,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16已接受；corrected A native IDs1/2、first native cycle及actual profileprefix2已核验。当前无native执行前置blocker或辅助hardgate；200/profile最终criterion仍需本attempt完整实际证据，非提前done。
+**Blocked by:** 01、02、03 及D16/common-cycle已接受；新H800 attempt仍需配置/source/model preflight、fresh admission/实际placement。当前prelaunch准备可推进；200/profile最终criterion需新attempt完整证据，旧6/200不resume/拼接。
 
-**Status:** TODO / EXECUTING2/200; first native cycle and actual profileprefix2 verified. For independent`exp-1110-165312-132926`,the [accepted report](../test_report_2026-11-10_corrected_profile_prefix.md) and [delivery verification](../evidence/formal-H200-A-r2-first-two-20261110/delivery-verification.json) verify512 canonical observations and exact original-file rebuild. [Native lifecycle](../evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json)crosses the prior offload failure point/next-train; record timestamps are before optimizer, while successful ACK is added/published after optimizer. Prefix2 is accepted, not200 stability or old full-model owner/backup-byte/cgroup-peak proof; the run remains2/200 INCOMPLETE with no accepted terminal result. Continue own200 native/profile verification; old[D16/Failed1/200](../test_report_2026-11-10_d16_first_update.md)/H8000 attempts stay distinct/protected. Observer-only bounds do not change worker timeout or gate healthy training. **D37/S8 overrides historical D33/H800 resource wording; every checkbox/science criterion stays unchanged, no new code/config/timeouts/HF/eval/probe or stop-A authority.**
+**Status:** TODO / H800_PREPARATION, no new submission. D39 permits non-preemptible H800/codesign only, no personal count cap; primary prepares36 H800 for fresh A from original initialization, newdated paths, noformal checkpoint/resume. Historical correctedH200`exp-1110-165312-132926`is [Failed/all3 terminal](../evidence/h200-before-h800-only-20261111.json), [native6/200](../evidence/h200-final-native-before-h800-only-20261111.json) INCOMPLETE, while only [profileprefix2](../test_report_2026-11-10_corrected_profile_prefix.md) is accepted. [Bank6 stages](../evidence/h200-bank6-stage-evidence-20261111.json)show acquisition225<231/1800s,31 pending/cancelled teacher requests, not OOM. No H200 stop is required; oldH8000/H2001/200/H2006/200 attempts stay separate/protected. Actual resource placement, newA200/profile/terminal and old allocation owner/backup-byte/cgroup-peak proof remain unaccepted. **D39/S8 is current; fixed256/32×8,D34,200/231/1800s/600s sync, soft profiles and every checkbox remain unchanged. The356-candidate question is not protocol approval; no new probe or later-update auto-retry loop.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

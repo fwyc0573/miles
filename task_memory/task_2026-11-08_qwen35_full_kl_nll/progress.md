@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record D39 H800-only parallel preparation, correctedH200 terminal6/profile2 and question-only356 proposal; preserve historical snapshots and append the four-section status checkpoint. |
 | 2026-11-10 | Verify corrected A updates1/2 and intervening native lifecycle; continue to200 with B resource-blocked, and label old failure snapshots as historical. |
 | 2026-11-10 | Record corrected A submission/actual18H200, completed fix reviews and native observation; checkpoint the six-ticket execution frontier. |
 | 2026-11-10 | Record the delivered native initialization fix, frozen review artifacts and unchanged formal lifecycle preparation; current personal resource check admits18 GPUs. |
@@ -52,6 +53,44 @@
 
 ## completed
 
+- D39 records verification (`profile-h800-only-records-20261111`, seven owned docs, repository root, local Python3.10.6): existing docchecker expected0 errors and actual PASS with45 documents/6 tickets/274 links/57 anchors, unchanged51,200-per-cell/102,400-total/81 arithmetic. Scoped whitespace PASS. Doc-only guard PASS: old raw requests/D35–D38/history unchanged, exact D39/356 question recorded, all six-ticket checkbox rows including17 A/B unchanged, S2–S7/S9/scientific verification strategy unchanged, old checkpoints preserved, latest exact four sections with3 PASS/0 BLOCKED/3 TODO/BranchB/D1–D7 CLEAR and only correctedS5. Local receipt extraction initially used the wrong latency key; corrected to `elapsed_seconds` and `stage=teacher_request`, excluding225 validation events. The supplied472.5644s is the sorted upper-middle P50 over256 request ends, not Python's average-of-middle-values convention. This reader correction did not change native status/data or trigger runtime work. No new report, code/config/evidence write, business test, platform/SSH/network/delegation or GPU operation. Exact commands:
+
+```bash
+python3 --version
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,summary.md,spec.md,progress.md,tickets/04-a-full.md,tickets/05-b-full.md}
+python3 -B - <<'PY'
+from pathlib import Path
+import re
+import subprocess
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
+def before(path):
+    return subprocess.check_output(['git', 'show', f'HEAD:{path}'], text=True)
+req = root / 'requirements.md'
+row = '| 2026-11-11 | Record D39 H800-only execution without a personal GPU cap, independent A/B preparation and terminal H200 native6/profile2; retain the356-candidate question without protocol approval. |\n'
+current = req.read_text().replace(row, '', 1).split('\n### H800-only continuation', 1)[0]
+normalize = lambda text: re.sub(r'^- Current phase:.*$', '<CURRENT_PHASE>', text, flags=re.M)
+assert normalize(current) == normalize(before(req))
+assert '> 当前session的执行只允许使用h800的gpus（无限制），继续' in req.read_text()
+assert '> 我对这里的问题感到疑惑，我们可否生成超出256个需求的设定（例如要求生成356个），只取先返回的256个？当前是否只是生成256个然后等待返回？' in req.read_text()
+for path in sorted((root / 'tickets').glob('*.md')):
+    assert re.findall(r'^- \[[ x]\].*$', path.read_text(), re.M) == re.findall(r'^- \[[ x]\].*$', before(path), re.M)
+spec = root / 'spec.md'
+assert spec.read_text().split('## S2.', 1)[1].split('## S8.', 1)[0] == before(spec).split('## S2.', 1)[1].split('## S8.', 1)[0]
+assert spec.read_text().split('## S9.', 1)[1] == before(spec).split('## S9.', 1)[1]
+plan = root / 'plan.md'
+assert plan.read_text().split('## Verification strategy', 1)[1].split('## Current frontier', 1)[0] == before(plan).split('## Verification strategy', 1)[1].split('## Current frontier', 1)[0]
+progress = root / 'progress.md'
+assert progress.read_text().split('\n## Scoped checkpoint', 1)[1].startswith(before(progress).split('\n## Scoped checkpoint', 1)[1])
+latest = progress.read_text().rsplit('\n## 1. 规划完成情况', 1)[1]
+assert re.findall(r'^## ([234])\.', latest, re.M) == ['2', '3', '4']
+assert latest.count('| CLEAR |') == 7 and all(f'| D{i} ' in latest for i in range(1, 8))
+assert 'PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 3' in latest and '**分支：** B' in latest
+assert all(f'- S{i} CLEAR' in latest for i in (1, 2, 3, 4, 6)) and '- S5 HIT' in latest
+print('PASS: raw/history, D39/question, all six-ticket checkbox rows, scientific sections/strategy, historical checkpoints and exact four-section D39 checkpoint.')
+PY
+```
+
 - D16-state documentation verification (`profile-d37-parallel-records-20261110`, ten owned docs; local Python3.10.6): docchecker PASS,36 documents/6 tickets/179 links/47 anchors/0 errors; arithmetic unchanged. Scoped whitespace and doc-only assertions PASS: requirements phase line62 only/raw unchanged, exactly the02 GPU/04 D16/05 A-prerequisite toggles, unchanged scientific criteria/old checkpoints, final06 four unchecked and exact new four sections with3 PASS/2 BLOCKED/1 TODO/D1–D7/S1–S6 CLEAR/BranchA. Prior authorized spec/Ticket05 changes preserved/integrated. No business suite, native reconstruction, GPU/platform/SSH query, code/config/evidence/report edit or extra delegation by this agent. Commands:
 
 ```bash
@@ -89,7 +128,16 @@ PY
 
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
+
+## Current execution — H800 only
+
+- **D39 / H800_PREPARATION,2026-11-11:** the exact H800-only request and356-candidate question are recorded in [requirements](requirements.md#h800-only-continuation--original-request-2026-11-11). Subsequent GPU execution is H800/codesign only with no personal H800 count cap, replacing D37/H200 and the old32-H200 constraint. Primary/config agent prepare fresh independent non-preemptible A/B at36 H800 each,72 concurrent if actually admitted/placed, with newdated paths and the same original model initialization; noformal checkpoint/resume, new submission or resource guarantee is recorded here. D16/02/03/common-cycle and06 CPU acceptance remain. B's A-firstACK/inspection is satisfied; A/B may prelaunch in parallel and each needs fresh H800 admission, not A200/profile PASS or an H20032 gate.
+- **Historical correctedH200 final disposition:** [API receipt](evidence/h200-before-h800-only-20261111.json) confirms`exp-1110-165312-132926`Failed/all3 terminal; rank0 Failed, peer/teacher Stopped, so this task needs no H200 stop. [Native readback](evidence/h200-final-native-before-h800-only-20261111.json) contains successful IDs1..6, but only [actual profileprefix2](test_report_2026-11-10_corrected_profile_prefix.md) has accepted canonical/original-file rebuild. Additional profile-file rows are not verification of ranges3..6. [Bank6 stages](evidence/h200-bank6-stage-evidence-20261111.json) show225 valid versus231 at1800.02583s,31 pending slots and31 cancelled teacher requests; retained teacher-request upper-middle P50=472.5644s/max915.0356s. This is acquisition throughput, not another host OOM. Checkpoint directory entries are empty; no old full-model owner/backup-byte/cgroup-peak or200-stability proof is added. Native6/profile2/200 remains INCOMPLETE; all previous H8000/H2001/200 outcomes stay distinct/protected.
+- **Protocol/next action:** fixed256 candidates/32×8,D34,200 successes,231/1800s,600s sync and soft profiles remain unchanged. The356/first256 proposal is a question only: completion-time membership bias and teacher queue require explicit selection-policy confirmation before changing the protocol. Primary advances parallel A/B prelaunch → fresh admission/placement → native observations → each200/profile/terminal →06 final. No GPU probe, H200 control, speculative automatic later-update retry loop, science change or auxiliary hardgate is authorized by this documentation slice. Reports/evidence/configuration remain primary/config-agent owned; no platform/SSH/network/delegation calls here.
+
 ## Current execution — corrected H200 A
+
+Historical H200 execution snapshot before D39 and terminal readback. Its then-current observations/launcher wording remain unchanged below; current preparation is the H800-only section above.
 
 - **D38 current action: corrected formal A is EXECUTING,2/200.** The diagnostic is accepted in`9b56d69a`; the native initialization fix`edd3be00`and naming follow-up`d2b3af8c`have18 CPU PASS/20 SKIP and completed Standards0/Spec0[review](review.md#optimizer-initialization-phase-review--2026-11-10). Independent A/full`exp-1110-165312-132926`has[successful updates1/2](evidence/formal-H200-A-r2-second-update-notification-20261110.json),zero skips,banks0/1 each visited once. The[actual train→offload→weight-sync→restore→next-train sequence and second offload/sync](test_report_2026-11-10_h200_host_memory.md#corrected-formal-lifecycle--first-two-updates)are verified. The former failure point is crossed;200-update stability/terminal/profile acceptance remain open. The old1/200 failed attempt is separate; its specific allocation owner remains unproven.
 - **D38 admission update,07:51:57Z:** [fresh personal receipt](evidence/tms-allocator-20261110/admission.json) records32 committed H200 plus1 requested against32, admitted=false, submitted=false. The local launcher exited at its admission guard and created no RJob. A read-only capacity watcher runs at60-second intervals and notifies the primary when admission is available; actual submission must re-read under the existing admission lock. The independent optimizer-wrapper/seam lookup continues. This is a personal-admission wait, separate from the prior H800 physical-placement failures.
@@ -1301,3 +1349,61 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1.此前失败的offload路径已跨过两次；当前2/200，不是200-update稳定性验收。
 2.两bank均256/256，采集517.845137s/1409.974001s，逐turn画像重建及RKL/NLL绝对/相对误差均为0。
 3.B只剩资源准入约束；原始失败attempt仍独立，历史allocation owner和当前cgroup峰值未证明。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 3
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01输入 | PASS | D34原始源审计/native parity已接受 |
+| 02逐turn统计 | PASS | D16真实GPU/UID/mask/宏均值/重建已接受 |
+| 03画像集成 | PASS | CPU/真实consumer/S7与prefix2重建已接受 |
+| 04 A/full | TODO | D39新H800 prelaunch；历史H200Failed6/200不能拼接成新结果 |
+| 05 B/full | TODO | A检查/common-cycle已满足；H800 prelaunch可并行，fresh准入待核对 |
+| 06报告 | TODO | CPU切片已接受，实际完整A/B最终数据未齐 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进；当前状态S5已直接修正。
+**检测窗口：** 上一correctedH200/prefix2 checkpoint及最近PASS至D39与Nov11终态记录（TaskID`profile-h800-only-records-20261111`）｜**当前前沿：**04/05并行H800 prelaunch/admission，06等待实际最终数据。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅读取三份retained receipt/七份状态记录，复用现有docchecker；stage类型/耗时口径核对后停止，无新harness或smoke |
+| D2 细节反复重试 | CLEAR | H200同一attempt推进到6后bank6失败；未自动重投，D39明确授权新硬件独立执行 |
+| D3 支线问题修补 | CLEAR | D39、终态/采集判定和未采纳的候选问题均为用户指定记录，无runtime旁支 |
+| D4 可并行任务停滞 | CLEAR | 历史H200有32卡冲突；D39已移除旧边并安排A/B并行prelaunch，当前共享配置由config agent处理 |
+| D5 超范围镀金 | CLEAR | 未增加候选数、checkpoint resume、画像功能、GPU probe或新控制路径 |
+| D6 分析空转 | CLEAR | 新终态/六次native和D39明确决定已转为H800准备路线，没有继续研究旧owner |
+| D7 路线违背 | CLEAR | 最新D39替代D37；后续仅H800，固定science与soft profiles不变，无新H200操作 |
+
+**文档检查：**
+- S1 CLEAR：05不再被旧32-H200/A200/profile-PASS边串行；D16检查已满足，freshH800准入仍需实际证据。
+- S2 CLEAR：primary/config agent拥有04/05准备、准入与native观测；06拥有实际最终报告，配置/证据不归本slice。
+- S3 CLEAR：独立200 successful/profile/terminal可验证；计划72不是placement保证，未把未提交当成功。
+- S4 CLEAR：231/1800s、200配对记录及17项final checkbox判定保持，356问题未变成criterion。
+- S5 HIT（已修正）：原`requirements.md`phase、`plan.md`current/05、`summary.md`、`spec.md`S0/S8及04/05仍写H200执行/32 cap，`progress.md`current仍写2/200 Running；与D39和Failed6/200 receipt冲突。
+- S6 CLEAR：01/02/03已完成；06 CPU准备与04/05完整数据接受继续分开，无新票或重叠slice。
+**归因：** 无D命中；S5是后续用户决定/终态到达后的状态维护缺陷，不是新的执行偏离。
+
+## 3. 纠正建议
+
+**分支：** B：先更新当前状态/资源路线，保持原科学与验收条件。
+
+**文档更新（先执行）：**
+1. `requirements.md`：追加D39原文及问题-only356，替换phase；保留全部旧Q/A和D35–D38（可直接执行，已完成）。
+2. `plan.md`/`spec.md`S0/S8/`summary.md`/`progress.md`/04/05：当前H800-only并行准备、H200终态native6/profile2、fresh独立初始化/no resume，移除旧32-H200边并保留checkbox（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. 并行04 A prelaunch ‖05 B prelaunch：primary/config agent核对H800源代码/配置/输入/模型identity及新dated paths → 完成标志：各自ready receipt，仍不等于提交/placement。
+2. Primary对各cell fresh个人H800准入并按实际placement提交新独立非抢占attempt → 完成标志：身份/挂载/实际worker/teacher/engines与native ACK观测；不由本docs执行。
+3. 各run逐update观察并保留native/profile/采集证据 →200 actual successful updates、完整配对/rebuild/终态后06最终报告。后来update采集失败按D6终止/报告，再做有证据的路线评估，不自动无限relaunch。
+
+## 4. 最值得关注的 3 点
+
+1. D39只有H800/codesign、无个人count cap；36+36/72是准备计划，当前没有新提交或placement保证。
+2. H200已Failed/native6/200，只有profileprefix2接受；bank6是225<231的采集失败，不是OOM，无H200 stop需求或计数拼接。
+3. 固定256/32×8保持；356取first256只是问题，未授权selection bias/teacher queue变化。B无A200/profile PASS或32-H200 gate，06最终数据仍未完成。

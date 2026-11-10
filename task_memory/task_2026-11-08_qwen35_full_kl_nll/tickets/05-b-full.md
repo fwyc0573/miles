@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Apply D39 parallel H800 B preparation, removing superseded32-H200 gate; preserve completed D16/common-cycle and all final criteria. |
 | 2026-11-10 | Record accepted actual A profileprefix2 without a new B gate; keep fresh-resource-only blocking and all criteria unchanged. |
 | 2026-11-10 | Accept common first native cycle from corrected A; B remains blocked only by fresh18-H200 resources within32, without A200/profile-PASS gate, stop-A authority or checkbox change. |
 | 2026-11-10 | Record implemented/reviewed correction and new A execution; B still waits for common native verification/fresh resources, not a new logical A200/profile-PASS gate. |
@@ -26,9 +27,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection由D16满足，common native cycle也已核验。唯一剩余提交blocker是fresh18-H200资源准入≤32（A18+B18>32）；不是A200/profile-PASS逻辑门槛，也不授权停A腾卡。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection及common native cycle已核验。D39下B可与A并行prelaunch，仍需新H800配置/source/model preflight与fresh admission/placement；没有A200/profile-PASS或32-H200依赖，也不授权停止其他task腾资源。
 
-**Status:** BLOCKED — fresh resources only; B not started. Corrected A`exp-1110-165312-132926`has[native IDs1/2](../evidence/formal-H200-A-r2-second-update-notification-20261110.json),the accepted first native cycle and [accepted actual profileprefix2](../test_report_2026-11-10_corrected_profile_prefix.md), still2/200 INCOMPLETE. Existing[A-firstACK/inspection D16](../test_report_2026-11-10_d16_first_update.md)remains satisfied, not reset/spliced. Fresh18 H200 within32 remains; A18+B18>32 forbids simultaneous full allocations, not a logical A200/profile-PASS condition or authority to stop healthy A. Prefix2 acceptance adds no B/auxiliary training gate and does not prove200 stability, old full-model owner, backup bytes or cgroup peak. D37/S8 overrides historical D33/H800 wording; all B native/profile/200 criteria/checkboxes stay unchanged. Primary owns operations/target10 observer, no code/config/worker-timeout/HF/eval/additional probe changes.
+**Status:** TODO / H800_PREPARATION; B not started. D39 selects fresh independent non-preemptible H800/codesign B, planned36 GPUs including4-H800 teacher, in parallel with A preparation; no personal H800 count cap or32-H200 budget applies. [D16 A-firstACK/inspection](../test_report_2026-11-10_d16_first_update.md)and common cycle remain satisfied; [historical profileprefix2](../test_report_2026-11-10_corrected_profile_prefix.md) adds no new gate. Corrected H200 A is terminal native6/200/profile2 INCOMPLETE, not a result to resume/splice into B. NewB uses the same original student initialization/newdated paths, noformal checkpoint/resume; native teacher/runtime/200/profile/terminal still require actual evidence. Planned A36+B36=72 is not placement proof. **All criteria/checkboxes, fixed256/32×8,D34 and soft profiles remain unchanged;356/first256 is not approved, no extra probe or later-update auto-loop.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
