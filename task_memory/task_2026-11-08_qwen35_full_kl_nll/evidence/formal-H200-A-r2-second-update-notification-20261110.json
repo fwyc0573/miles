@@ -1,0 +1,162 @@
+{
+  "settings": {
+    "job": "exp-1110-165312-132926",
+    "run_dir": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926",
+    "interval_seconds": 60,
+    "deadline_seconds": 9000,
+    "target_successful_update": 2
+  },
+  "observed_at": "2026-11-10T09:51:14.170001+00:00",
+  "status": "second_native_successful_update_observed",
+  "observed_successful_update_ids": [
+    1,
+    2
+  ],
+  "native_rows": [
+    {
+      "cell": "A/full",
+      "attempt": "exp-1110-165312-132926",
+      "attempted_rollout_id": 0,
+      "run_kind": "formal",
+      "protocol": "full",
+      "bank": 0,
+      "bank_visit": 1,
+      "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "generation_weight_versions": [
+        {
+          "spans": [
+            {
+              "version": "0",
+              "abs_start": 47878,
+              "abs_end": 48078
+            }
+          ],
+          "prefill_spans": [
+            {
+              "version": "0",
+              "abs_start": 0,
+              "abs_end": 47878
+            }
+          ],
+          "output_start": 47878,
+          "prompt_tokens": 47878
+        }
+      ],
+      "current_weight_version": 0,
+      "turn_sums_verified": true,
+      "unverified_turn_sums": [],
+      "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+      "kl_before_tis_numerator": 3213.814534504751,
+      "nll_before_tis_numerator": 19820.859087655524,
+      "kl_direction": "student_minus_teacher",
+      "kl_before_tis_denominator": 35509,
+      "kl_before_tis": 0.09050704144033206,
+      "nll_before_tis": 0.5581925452041884,
+      "nll_before_tis_denominator": 35509,
+      "original_tokens": 35509,
+      "surviving_tokens": 28598,
+      "tis_retention": 0.8053732856458926,
+      "nonfinite_tokens": 0.0,
+      "token_rejected_tokens": 0.0,
+      "answer_rejected_tokens": 6911.0,
+      "diagnostics_verified": true,
+      "unverified_diagnostics": [],
+      "mask_evidence_verified": true,
+      "retained_weight": 1,
+      "effective_weight_sum": 28598,
+      "loss": 0.07406502011197694,
+      "lr": [
+        2e-06,
+        2e-06
+      ],
+      "timestamp": 1794302508.1406574,
+      "successful_updates": 1,
+      "actual_turns": 256,
+      "expected_bank_turns": 256,
+      "expected_bank_tokens": 35509,
+      "bank_membership_verified": true,
+      "update_successful": true,
+      "native_attempted_count": 1,
+      "native_skipped_count": 0,
+      "update": 1
+    },
+    {
+      "cell": "A/full",
+      "attempt": "exp-1110-165312-132926",
+      "attempted_rollout_id": 1,
+      "run_kind": "formal",
+      "protocol": "full",
+      "bank": 1,
+      "bank_visit": 1,
+      "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "generation_weight_versions": [
+        {
+          "spans": [
+            {
+              "version": "1",
+              "abs_start": 85887,
+              "abs_end": 85955
+            }
+          ],
+          "prefill_spans": [
+            {
+              "version": "1",
+              "abs_start": 0,
+              "abs_end": 85887
+            }
+          ],
+          "output_start": 85887,
+          "prompt_tokens": 85887
+        }
+      ],
+      "current_weight_version": 1,
+      "turn_sums_verified": true,
+      "unverified_turn_sums": [],
+      "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+      "kl_before_tis_numerator": 20707.046249945928,
+      "nll_before_tis_numerator": 145353.02631683814,
+      "kl_direction": "student_minus_teacher",
+      "kl_before_tis_denominator": 184306,
+      "kl_before_tis": 0.11235144949131297,
+      "nll_before_tis": 0.7886505394118376,
+      "nll_before_tis_denominator": 184306,
+      "original_tokens": 184306,
+      "surviving_tokens": 177185,
+      "tis_retention": 0.9613631677753302,
+      "nonfinite_tokens": 0.0,
+      "token_rejected_tokens": 1.0,
+      "answer_rejected_tokens": 7120.0,
+      "diagnostics_verified": true,
+      "unverified_diagnostics": [],
+      "mask_evidence_verified": true,
+      "retained_weight": 1,
+      "effective_weight_sum": 177185,
+      "loss": 0.10830922603197106,
+      "lr": [
+        2e-06,
+        2e-06
+      ],
+      "timestamp": 1794304208.6404946,
+      "successful_updates": 2,
+      "actual_turns": 256,
+      "expected_bank_turns": 256,
+      "expected_bank_tokens": 184306,
+      "bank_membership_verified": true,
+      "update_successful": true,
+      "native_attempted_count": 2,
+      "native_skipped_count": 0,
+      "update": 2
+    }
+  ],
+  "native_failure": null,
+  "profile_files": {
+    "updates.jsonl": {
+      "exists": true,
+      "bytes": 1344
+    },
+    "observations.jsonl": {
+      "exists": true,
+      "bytes": 68707
+    }
+  }
+}

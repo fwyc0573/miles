@@ -1,0 +1,70 @@
+{
+  "job": "exp-1110-165312-132926",
+  "observed_at": "2026-11-10T10:01:09.363152+00:00",
+  "uid": "d780103e-a643-444d-a6a1-d21c75ad53b0",
+  "creator": "i-fengyicheng",
+  "preemptible": "no",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [student,teacher]",
+    "taskStatuses": {
+      "student": {
+        "active": 2,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "exp-1110-165312-132926-student-cfcd2084": {
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "student",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "restartCount": 0,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-10T08:53:24Z"
+            }
+          }
+        }
+      ]
+    },
+    "exp-1110-165312-132926-student-c4ca4238": {
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "student",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "restartCount": 0,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-10T09:00:20Z"
+            }
+          }
+        }
+      ]
+    },
+    "exp-1110-165312-132926-teacher-cfcd2084": {
+      "phase": "Running",
+      "containers": [
+        {
+          "name": "teacher",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "restartCount": 0,
+          "state": {
+            "running": {
+              "startedAt": "2026-11-10T08:53:44Z"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

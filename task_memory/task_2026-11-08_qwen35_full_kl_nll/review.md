@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record independent read-only native lifecycle follow-up: first-two-update path verified,200-update and historical allocation-owner limits retained. |
 | 2026-11-10 | Complete immutable optimizer-initialization review atd2b3af8c: Standards0/Spec0 after one test naming Nit; native formal verification remains outstanding. |
 | 2026-11-10 | Close all offline review findings after219489ef,12 affected tests and2 prefix-zero joined CLI checks. |
 | 2026-11-10 | Record repair69/27/postfix CLI4 PASS and Standards closure; latest Spec leaves one zero-prefix firstACK auxiliary-cause P2 fixing, distinct from accepted real D16 prefix1. |
@@ -23,7 +24,13 @@ Reviewer:`ses_e3ea07cacffe3xcqCOUT4dnitM`,task`profile-optimizer-init-standards-
 
 Reviewer:`ses_e3ea07d9cffe9mQZOCTx7gD5RV`,task`profile-optimizer-init-spec-review-20261110`. **No findings.** The shared load seam restores checkpoint/scheduler/actor weights and clears caches before initialization, then actor/critic proceed to their first sleep/forward. Actual reload prohibits`offload_train`, so its behavior is unaffected. Direct/chained native callback handling, stub/absent callback/PyTorch exclusions and explicit reset semantics are preserved; streaming ownership remains separate. Native errors propagate and no profile hard gate or new offload route was introduced.
 
-**Summary:** Standards0 / Spec0 remaining findings. The[implementation report](test_report_2026-11-10_optimizer_state_initialization.md)records18 CPU PASS/20 SKIP and the follow-up AST-equivalence check; these are supplied evidence rather than independent reviewer runs. Actual distributed wrappers, loaded native FusedAdam checkpoint behavior, pinned chunked-offloader dynamics and corrected formal train→sleep→restore/weight-update→next-train remain unverified. The controlled D38 diagnostic does not identify the old full-model allocation owner. This review supports proceeding to the authorized native formal verification, not accepting200 updates or closing the native RCA.
+**Original review summary:** Standards0 / Spec0 remaining findings. The[implementation report](test_report_2026-11-10_optimizer_state_initialization.md)records18 CPU PASS/20 SKIP and the follow-up AST-equivalence check; these are supplied evidence rather than independent reviewer runs. At this prelaunch review, actual distributed wrappers, loaded native FusedAdam checkpoint behavior, pinned chunked-offloader dynamics and corrected formal train→sleep→restore/weight-update→next-train remained unverified. The controlled D38 diagnostic did not identify the old full-model allocation owner. This review supported proceeding to the authorized native formal verification, not accepting200 updates or closing the native RCA.
+
+### Native lifecycle follow-up
+
+Component: corrected formal CPU-offload path. Read-only analyzer`ses_e3bd6ec45ffeH9aMKOG7Uk3ohO`,task`profile-h200-post-update-host-oom-20261110`,inspected the[first-two lifecycle extract](evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json),[ACK notification](evidence/formal-H200-A-r2-second-update-notification-20261110.json),old failure log and memory/controller source. **The specific previously failing lifecycle is verified; no new native blocker requiring interruption was found.** Actual sequence is train1→offload→sync→restore→train2,followed by a second successful offload/sync and version2 generation. Both controller sync calls gather8 actors and return`ok=true`;two distinct banks each have one successful,unskipped update.
+
+The analyzer did not rerun training or access the platform. The primary separately obtained[Running/restart0 API evidence](evidence/formal-H200-A-r2-two-update-readback-20261110.json). [Detailed times and memory limits](test_report_2026-11-10_h200_host_memory.md#corrected-formal-lifecycle--first-two-updates)preserve Ray deduplication limits,stage-matched comparisons and the distinction between node-global CPU used and cgroup peak. Fresh formal execution now supplies real distributed-path evidence;loaded-checkpoint semantics,unselected offload paths,historical allocation ownership,actual backup bytes and final200-update stability are not accepted by this follow-up. No code change or additional GPU probe resulted from it.
 
 # Offline review repair state — 2026-11-10
 

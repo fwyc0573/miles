@@ -1,0 +1,33 @@
+{
+  "job": "exp-1110-165312-132926",
+  "observed_at": "2026-11-10T09:54:56.550810+00:00",
+  "source": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926",
+  "local_archive": "/data/ycfeng/tmp/agent-opd-image/formal-H200-A-r2-first-two-20261110.tar",
+  "files": {
+    "training/updates.jsonl": {
+      "bytes": 3129,
+      "sha256": "8b2477aa9f3a2b7a9c5b81c313d0ffaca6d03f28d724be4f3238e4cde7960686"
+    },
+    "training/optimizer_attempts.jsonl": {
+      "bytes": 3103,
+      "sha256": "0786e8ae3edf604a15c329ffb7681c745bc4e082be7a9655b4e1d77f0a924cd4"
+    },
+    "training/bank_0.jsonl": {
+      "bytes": 70797558,
+      "sha256": "f01ce2ef648d938903a59f89b741b83b4d276e74fcd1e78ab35848efd5c879c8"
+    },
+    "training/bank_1.jsonl": {
+      "bytes": 278378782,
+      "sha256": "e9ed1be537bf1bb7cfa48b9e2a5255187aa9a265cd6251c703a5b1df3b7a4eca"
+    },
+    "training/distillation_profile/updates.jsonl": {
+      "bytes": 1344,
+      "sha256": "1d094dad17235087fd73883cbdee693230a0e2def780a12958e2915824b7f389"
+    },
+    "training/distillation_profile/observations.jsonl": {
+      "bytes": 68707,
+      "sha256": "2e862ec795b39528f2b77b289d3c47e83909a64ef8238336dfdb52c53d4db65d"
+    }
+  },
+  "scope": "Exact file snapshots through the second successful update; live files may subsequently append."
+}

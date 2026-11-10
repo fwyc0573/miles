@@ -1,0 +1,150 @@
+{
+  "task_id": "profile-corrected-A-first-two-profile-20261110",
+  "job": "exp-1110-165312-132926",
+  "retention_observed_at": "2026-11-10T09:54:56.550810+00:00",
+  "input_fingerprints_before": {
+    "training/updates.jsonl": {
+      "bytes": 3129,
+      "sha256": "8b2477aa9f3a2b7a9c5b81c313d0ffaca6d03f28d724be4f3238e4cde7960686"
+    },
+    "training/optimizer_attempts.jsonl": {
+      "bytes": 3103,
+      "sha256": "0786e8ae3edf604a15c329ffb7681c745bc4e082be7a9655b4e1d77f0a924cd4"
+    },
+    "training/bank_0.jsonl": {
+      "bytes": 70797558,
+      "sha256": "f01ce2ef648d938903a59f89b741b83b4d276e74fcd1e78ab35848efd5c879c8"
+    },
+    "training/bank_1.jsonl": {
+      "bytes": 278378782,
+      "sha256": "e9ed1be537bf1bb7cfa48b9e2a5255187aa9a265cd6251c703a5b1df3b7a4eca"
+    },
+    "training/distillation_profile/updates.jsonl": {
+      "bytes": 1344,
+      "sha256": "1d094dad17235087fd73883cbdee693230a0e2def780a12958e2915824b7f389"
+    },
+    "training/distillation_profile/observations.jsonl": {
+      "bytes": 68707,
+      "sha256": "2e862ec795b39528f2b77b289d3c47e83909a64ef8238336dfdb52c53d4db65d"
+    }
+  },
+  "retention_fingerprint_before": {
+    "bytes": 1359,
+    "sha256": "ef8d4e6704be403dd07ad32f9dc560cbfae8a37a9a72ea748e6b53bd15c37223"
+  },
+  "input_retention_manifest_match": true,
+  "direct_original_file_rebuild": {
+    "summary_exact_equal": true,
+    "observations_exact_equal": true,
+    "updates": 2,
+    "observations": 512
+  },
+  "inspection": {
+    "job": "exp-1110-165312-132926",
+    "expected_updates": 200,
+    "paths": {
+      "training_dir": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/training",
+      "profile_dir": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/training/distillation_profile",
+      "terminal": null
+    },
+    "native": {
+      "observed_successful_updates": 2,
+      "observed_successful_update_ids": [
+        1,
+        2
+      ],
+      "successful_updates": 2,
+      "terminal_phase": null,
+      "complete": false,
+      "error": "No terminal receipt supplied; native completion is unverified",
+      "terminal_error": "No terminal receipt supplied; native completion is unverified",
+      "terminal_job_verified": false,
+      "terminal_uid": null,
+      "ack_identity": {
+        "cell": "A/full",
+        "attempt": "exp-1110-165312-132926",
+        "protocol": "full",
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "run_kind": "formal"
+      },
+      "count_scope": "retained_successful_ack_sequence"
+    },
+    "profile": {
+      "verified_updates": 2,
+      "first_unverified_update": 3,
+      "unverified_ranges": [
+        [
+          3,
+          200
+        ]
+      ],
+      "complete": false,
+      "error": "Verified profile prefix ends at 2; expected 200 updates",
+      "canonical_uid_verified_updates": 2,
+      "identity_scope": "sealed_bank_source_uid_group_turn_and_original_mask",
+      "missing_pair_ranges": [
+        [
+          3,
+          200
+        ]
+      ],
+      "read_errors": {
+        "native_updates": null,
+        "profile_updates": null,
+        "profile_observations": null
+      },
+      "retained_update_rows": 2,
+      "retained_observation_rows": 2
+    }
+  },
+  "report_outputs": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/profile-report-prefix.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/profile-report-prefix.md"
+  ],
+  "environment": {
+    "executable": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+    "python": "3.12.13 (main, May 10 2026, 19:30:01) [Clang 22.1.3 ]",
+    "platform": "Linux-5.10.25-nvidia-gpu-x86_64-with-glibc2.35",
+    "conda_prefix": null,
+    "cwd": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+    "tmpdir": "/data/ycfeng/tmp/opencode-v2-tmp/opencode",
+    "RLIMIT_AS_bytes": [
+      32212254720,
+      32212254720
+    ]
+  },
+  "elapsed_seconds": 3.173605169169605,
+  "peak_rss_kib": 39708,
+  "input_fingerprints_after": {
+    "training/updates.jsonl": {
+      "bytes": 3129,
+      "sha256": "8b2477aa9f3a2b7a9c5b81c313d0ffaca6d03f28d724be4f3238e4cde7960686"
+    },
+    "training/optimizer_attempts.jsonl": {
+      "bytes": 3103,
+      "sha256": "0786e8ae3edf604a15c329ffb7681c745bc4e082be7a9655b4e1d77f0a924cd4"
+    },
+    "training/bank_0.jsonl": {
+      "bytes": 70797558,
+      "sha256": "f01ce2ef648d938903a59f89b741b83b4d276e74fcd1e78ab35848efd5c879c8"
+    },
+    "training/bank_1.jsonl": {
+      "bytes": 278378782,
+      "sha256": "e9ed1be537bf1bb7cfa48b9e2a5255187aa9a265cd6251c703a5b1df3b7a4eca"
+    },
+    "training/distillation_profile/updates.jsonl": {
+      "bytes": 1344,
+      "sha256": "1d094dad17235087fd73883cbdee693230a0e2def780a12958e2915824b7f389"
+    },
+    "training/distillation_profile/observations.jsonl": {
+      "bytes": 68707,
+      "sha256": "2e862ec795b39528f2b77b289d3c47e83909a64ef8238336dfdb52c53d4db65d"
+    }
+  },
+  "retention_fingerprint_after": {
+    "bytes": 1359,
+    "sha256": "ef8d4e6704be403dd07ad32f9dc560cbfae8a37a9a72ea748e6b53bd15c37223"
+  },
+  "input_bytes_preserved": true,
+  "total_raw_bytes": 349252623
+}

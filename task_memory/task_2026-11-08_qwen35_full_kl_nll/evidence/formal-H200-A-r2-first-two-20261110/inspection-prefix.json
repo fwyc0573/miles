@@ -1,0 +1,58 @@
+{
+  "job": "exp-1110-165312-132926",
+  "expected_updates": 200,
+  "paths": {
+    "training_dir": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/training",
+    "profile_dir": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-H200-A-r2-first-two-20261110/training/distillation_profile",
+    "terminal": null
+  },
+  "native": {
+    "observed_successful_updates": 2,
+    "observed_successful_update_ids": [
+      1,
+      2
+    ],
+    "successful_updates": 2,
+    "terminal_phase": null,
+    "complete": false,
+    "error": "No terminal receipt supplied; native completion is unverified",
+    "terminal_error": "No terminal receipt supplied; native completion is unverified",
+    "terminal_job_verified": false,
+    "terminal_uid": null,
+    "ack_identity": {
+      "cell": "A/full",
+      "attempt": "exp-1110-165312-132926",
+      "protocol": "full",
+      "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "run_kind": "formal"
+    },
+    "count_scope": "retained_successful_ack_sequence"
+  },
+  "profile": {
+    "verified_updates": 2,
+    "first_unverified_update": 3,
+    "unverified_ranges": [
+      [
+        3,
+        200
+      ]
+    ],
+    "complete": false,
+    "error": "Verified profile prefix ends at 2; expected 200 updates",
+    "canonical_uid_verified_updates": 2,
+    "identity_scope": "sealed_bank_source_uid_group_turn_and_original_mask",
+    "missing_pair_ranges": [
+      [
+        3,
+        200
+      ]
+    ],
+    "read_errors": {
+      "native_updates": null,
+      "profile_updates": null,
+      "profile_observations": null
+    },
+    "retained_update_rows": 2,
+    "retained_observation_rows": 2
+  }
+}

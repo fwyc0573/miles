@@ -1,0 +1,788 @@
+{
+  "job": "exp-1110-165312-132926",
+  "log": "/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926-rank-0.log",
+  "log_bytes": 2066300,
+  "selected_lines": [
+    [
+      1825,
+      "  swe_successful_updates .......................... 200"
+    ],
+    [
+      1905,
+      "  update_weights_interval ......................... 1"
+    ],
+    [
+      1906,
+      "  update_weights_timeout .......................... 600.0"
+    ],
+    [
+      2517,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) [2026-11-10 09:05:51.310 rollout_executor] rollout_executor.py:159 - import path='tests.manual.agent_opd.swe_replay.SweReplay' config=SweReplayConfig(swe_cell='A/full', swe_attempt='exp-1110-165312-132926', swe_protocol='full', swe_evidence_dir='/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926/training', swe_teacher_identity='/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model', swe_run_kind='formal', swe_bank_slots=256, swe_bank_min_fraction=0.9, swe_acquisition_seconds=1800.0, swe_bank_uses=50, swe_successful_updates=200, swe_context_tokens=131072, swe_profile_enabled=True, swe_profile_trend_window=10, swe_profile_baseline_updates=10, swe_profile_baseline_turns=8) as generate_rollout function."
+    ],
+    [
+      2518,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) [2026-11-10 09:05:51.310 rollout_executor] rollout_executor.py:160 - import path='tests.manual.agent_opd.swe_replay.SweReplay' config=SweReplayConfig(swe_cell='A/full', swe_attempt='exp-1110-165312-132926', swe_protocol='full', swe_evidence_dir='/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926/training', swe_teacher_identity='/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model', swe_run_kind='formal', swe_bank_slots=256, swe_bank_min_fraction=0.9, swe_acquisition_seconds=1800.0, swe_bank_uses=50, swe_successful_updates=200, swe_context_tokens=131072, swe_profile_enabled=True, swe_profile_trend_window=10, swe_profile_baseline_updates=10, swe_profile_baseline_turns=8) as eval_generate_rollout function."
+    ],
+    [
+      2593,
+      "(MegatronTrainRayActor pid=9071) [2026-11-10 09:08:39.223 actor_cell00000_rank00005] memory_utils.py:41 - [Rank 5] Memory-Usage before offload model: {'gpu': '5', 'total_GB': 139.81, 'free_GB': 119.45, 'used_GB': 20.37, 'allocated_GB': 17.66, 'reserved_GB': 17.71}"
+    ],
+    [
+      2594,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:08:41.650 actor_cell00000_rank00006] memory_utils.py:41 - [Rank 6] Memory-Usage after offload model: {'gpu': '6', 'total_GB': 139.81, 'free_GB': 137.38, 'used_GB': 2.43, 'allocated_GB': 17.64, 'reserved_GB': 17.67}"
+    ],
+    [
+      2637,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:08:39.347 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before offload model: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 119.53, 'used_GB': 20.28, 'allocated_GB': 17.66, 'reserved_GB': 17.71} [repeated 7x across cluster]"
+    ],
+    [
+      2640,
+      "(MegatronTrainRayActor pid=9071) [2026-11-10 09:08:41.804 actor_cell00000_rank00005] memory_utils.py:41 - [Rank 5] Memory-Usage after offload model: {'gpu': '5', 'total_GB': 139.81, 'free_GB': 137.38, 'used_GB': 2.43, 'allocated_GB': 17.66, 'reserved_GB': 17.71} [repeated 7x across cluster]"
+    ],
+    [
+      2941,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:46.637 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start"
+    ],
+    [
+      2942,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:46.637 actor_cell00000_rank00000] timer.py:33 - Timer update_weights start"
+    ],
+    [
+      2952,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:09:46.635 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout="
+    ],
+    [
+      2953,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:09:46.635 trainer_controller_actor] cell.py:253 - ft op=execute phase=start cell=trainer-engine-actor-00000 fn=update_weights n_actors=8"
+    ],
+    [
+      2955,
+      "(CommandActor pid=8732) [2026-11-10 09:09:46] INFO:     10.204.8.36:45734 - \"POST /begin_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      2958,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:46.680 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 131.47, 'used_GB': 8.34, 'allocated_GB': 17.66, 'reserved_GB': 17.71}"
+    ],
+    [
+      2959,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:46.720 actor_cell00000_rank00000] timer.py:33 - Timer update_weights_implementation start"
+    ],
+    [
+      2961,
+      "[miles] Update weights: 0it [00:00, ?it/s]"
+    ],
+    [
+      2963,
+      "Update weights:   0%|          | 0/16 [00:00<?, ?it/s]\u001b[A"
+    ],
+    [
+      2967,
+      "(CommandActor pid=8732) [2026-11-10 09:09:47] INFO:     10.204.8.36:45734 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    ],
+    [
+      2970,
+      "Update weights:   6%|\u258b         | 1/16 [00:00<00:06,  2.50it/s]\u001b[A"
+    ],
+    [
+      2972,
+      "[miles] Update weights: 1it [00:00,  2.33it/s]"
+    ],
+    [
+      2974,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:09:47] INFO:     10.204.8.36:45562 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      2975,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:09:47] INFO:     10.204.8.36:45562 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      2977,
+      "Update weights:  12%|\u2588\u258e        | 2/16 [00:01<00:08,  1.71it/s]\u001b[A"
+    ],
+    [
+      2979,
+      "Update weights:  44%|\u2588\u2588\u2588\u2588\u258d     | 7/16 [00:01<00:01,  7.59it/s]\u001b[A"
+    ],
+    [
+      2981,
+      "Update weights:  75%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c  | 12/16 [00:01<00:00, 13.60it/s]\u001b[A"
+    ],
+    [
+      2982,
+      "(CommandActor pid=8732) [2026-11-10 09:09:48] INFO:     10.204.8.36:45734 - \"POST /end_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      2987,
+      "Update weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 16/16 [00:01<00:00, 11.06it/s]"
+    ],
+    [
+      2989,
+      "[miles] Update weights: 16it [00:01, 17.87it/s][2026-11-10 09:09:48.182 actor_cell00000_rank00000] timer.py:44 - Timer update_weights_implementation end (elapsed: 1.5s)"
+    ],
+    [
+      2995,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:48.221 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage after update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 122.73, 'used_GB': 17.09, 'allocated_GB': 17.66, 'reserved_GB': 26.5}"
+    ],
+    [
+      2996,
+      "(MegatronTrainRayActor pid=9068) [2026-11-10 09:09:48.521 actor_cell00000_rank00002] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.9"
+    ],
+    [
+      2999,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:09:48.549 trainer_controller_actor] cell.py:264 - ft op=execute phase=end cell=trainer-engine-actor-00000 fn=update_weights ok=true elapsed_s=1.9"
+    ],
+    [
+      3001,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:09:48.533 actor_cell00000_rank00000] timer.py:44 - Timer update_weights end (elapsed: 1.9s)"
+    ],
+    [
+      3010,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:09:46.637 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start [repeated 7x across cluster]"
+    ],
+    [
+      3013,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:09:46.680 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 131.5, 'used_GB': 8.31, 'allocated_GB': 17.64, 'reserved_GB': 17.67} [repeated 7x across cluster]"
+    ],
+    [
+      3015,
+      "[miles] Update weights: 0it [00:00, ?it/s] [repeated 7x across cluster]"
+    ],
+    [
+      3018,
+      "[miles] Update weights: 16it [00:01, 10.67it/s] [repeated 32x across cluster]"
+    ],
+    [
+      3030,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:09:46] INFO:     10.204.8.36:51566 - \"POST /begin_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      3032,
+      "(CommandActor pid=8732) [2026-11-10 09:09:48] INFO:     10.204.8.36:45734 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK [repeated 63x across cluster]"
+    ],
+    [
+      3038,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:09:48] INFO:     10.204.8.36:51566 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK [repeated 62x across cluster]"
+    ],
+    [
+      3077,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:09:48.221 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage after update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 122.76, 'used_GB': 17.05, 'allocated_GB': 17.64, 'reserved_GB': 26.46} [repeated 7x across cluster]"
+    ],
+    [
+      3078,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:09:48.547 actor_cell00000_rank00007] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.9 [repeated 7x across cluster]"
+    ],
+    [
+      3092,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:09:48] INFO:     10.204.8.36:51566 - \"POST /end_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      3841,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:18:37.590 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=wake_up phase=start"
+    ],
+    [
+      3842,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:18:37.590 actor_cell00000_rank00000] timer.py:33 - Timer wake_up start"
+    ],
+    [
+      3843,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:18:37.591 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before wake_up model: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 136.61, 'used_GB': 3.21, 'allocated_GB': 17.66, 'reserved_GB': 17.71}"
+    ],
+    [
+      3853,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:18:39.532 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage after wake_up model: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 119.25, 'used_GB': 20.56, 'allocated_GB': 17.64, 'reserved_GB': 17.67}"
+    ],
+    [
+      3854,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:18:39.533 actor_cell00000_rank00007] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=wake_up phase=end ok=true elapsed_s=1.9"
+    ],
+    [
+      3859,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:18:40.106 actor_cell00000_rank00000] timer.py:44 - Timer wake_up end (elapsed: 2.5s)"
+    ],
+    [
+      3893,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:18:37.591 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=wake_up phase=start [repeated 7x across cluster]"
+    ],
+    [
+      3894,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:18:37.592 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before wake_up model: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 136.91, 'used_GB': 2.9, 'allocated_GB': 17.64, 'reserved_GB': 17.67} [repeated 7x across cluster]"
+    ],
+    [
+      3896,
+      "(MegatronTrainRayActor pid=9070) [2026-11-10 09:18:40.139 actor_cell00000_rank00004] memory_utils.py:41 - [Rank 4] Memory-Usage after wake_up model: {'gpu': '4', 'total_GB': 139.81, 'free_GB': 119.14, 'used_GB': 20.67, 'allocated_GB': 17.66, 'reserved_GB': 17.71} [repeated 7x across cluster]"
+    ],
+    [
+      3897,
+      "(MegatronTrainRayActor pid=9070) [2026-11-10 09:18:40.139 actor_cell00000_rank00004] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=wake_up phase=end ok=true elapsed_s=2.5 [repeated 7x across cluster]"
+    ],
+    [
+      4062,
+      "(MegatronTrainRayActor pid=9066) SWE_NATIVE_UPDATE {\"cell\": \"A/full\", \"attempt\": \"exp-1110-165312-132926\", \"attempted_rollout_id\": 0, \"run_kind\": \"formal\", \"protocol\": \"full\", \"bank\": 0, \"bank_visit\": 1, \"teacher_identity\": \"/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model\", \"generation_weight_versions\": [{\"spans\": [{\"version\": \"0\", \"abs_start\": 47878, \"abs_end\": 48078}], \"prefill_spans\": [{\"version\": \"0\", \"abs_start\": 0, \"abs_end\": 47878}], \"output_start\": 47878, \"prompt_tokens\": 47878}], \"current_weight_version\": 0, \"turn_sums_verified\": true, \"unverified_turn_sums\": [], \"kl_estimator\": \"sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens\", \"kl_before_tis_numerator\": 3213.814534504751, \"nll_before_tis_numerator\": 19820.859087655524, \"kl_direction\": \"student_minus_teacher\", \"kl_before_tis_denominator\": 35509, \"kl_before_tis\": 0.09050704144033206, \"nll_before_tis\": 0.5581925452041884, \"nll_before_tis_denominator\": 35509, \"original_tokens\": 35509, \"surviving_tokens\": 28598, \"tis_retention\": 0.8053732856458926, \"nonfinite_tokens\": 0.0, \"token_rejected_tokens\": 0.0, \"answer_rejected_tokens\": 6911.0, \"diagnostics_verified\": true, \"unverified_diagnostics\": [], \"mask_evidence_verified\": true, \"retained_weight\": 1, \"effective_weight_sum\": 28598, \"loss\": 0.07406502011197694, \"lr\": [2e-06, 2e-06], \"timestamp\": 1794302508.1406574, \"successful_updates\": 1, \"actual_turns\": 256, \"expected_bank_turns\": 256, \"expected_bank_tokens\": 35509, \"bank_membership_verified\": true, \"update_successful\": true, \"native_attempted_count\": 1, \"native_skipped_count\": 0}"
+    ],
+    [
+      4076,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:21:48.646 actor_cell00000_rank00000] perf.py:64 - perf 0: {'perf/sleep_time': 3.0684542655944824, 'perf/update_weights_implementation_time': 1.4615693092346191, 'perf/finalize_and_resume_engines_time': 0.038443565368652344, 'perf/update_weights_time': 1.8964219093322754, 'perf/wake_up_time': 2.516113042831421, 'perf/data_preprocess_time': 0.07825827598571777, 'perf/train_wait_time': 598.4794323444366, 'perf/log_probs_time': 65.97440218925476, 'perf/actor_train_time': 112.6493718624115, 'perf/train_time': 188.28323221206665, 'perf/log_probs_tflops': 61.19848391417665, 'perf/actor_train_tflops': 107.52479106739946, 'perf/actor_train_tok_per_s': 29436.852999501607, 'perf/mfu_peak_tflops': 989.0, 'perf/actor_train_mfu': 0.10872071897613697, 'perf/step_time': 786.7626645565033, 'perf/wait_time_ratio': 0.7606861119697367}"
+    ],
+    [
+      4083,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:21:50.378 actor_cell00000_rank00006] memory_utils.py:41 - [Rank 6] Memory-Usage before offload model: {'gpu': '6', 'total_GB': 139.81, 'free_GB': 84.38, 'used_GB': 55.43, 'allocated_GB': 19.08, 'reserved_GB': 51.75}"
+    ],
+    [
+      4084,
+      "(MegatronTrainRayActor pid=9069) [2026-11-10 09:21:59.751 actor_cell00000_rank00003] memory_utils.py:41 - [Rank 3] Memory-Usage after offload model: {'gpu': '3', 'total_GB': 139.81, 'free_GB': 136.67, 'used_GB': 3.14, 'allocated_GB': 19.11, 'reserved_GB': 34.46}"
+    ],
+    [
+      4091,
+      "(MegatronTrainRayActor pid=9069) [2026-11-10 09:21:50.697 actor_cell00000_rank00003] memory_utils.py:41 - [Rank 3] Memory-Usage before offload model: {'gpu': '3', 'total_GB': 139.81, 'free_GB': 101.6, 'used_GB': 38.22, 'allocated_GB': 19.11, 'reserved_GB': 34.46} [repeated 7x across cluster]"
+    ],
+    [
+      4094,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:22:06.664 actor_cell00000_rank00006] memory_utils.py:41 - [Rank 6] Memory-Usage after offload model: {'gpu': '6', 'total_GB': 139.81, 'free_GB': 136.63, 'used_GB': 3.18, 'allocated_GB': 19.08, 'reserved_GB': 51.75} [repeated 2x across cluster]"
+    ],
+    [
+      4096,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:07.797 actor_cell00000_rank00000] log_utils.py:456 - [CPU memory] after_offload_train: 84.73 GB (rollout_id=0, step=0)"
+    ],
+    [
+      4104,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:08.242 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start"
+    ],
+    [
+      4105,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:08.243 actor_cell00000_rank00000] timer.py:33 - Timer update_weights start"
+    ],
+    [
+      4107,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:08.245 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 131.98, 'used_GB': 7.84, 'allocated_GB': 19.11, 'reserved_GB': 52.36}"
+    ],
+    [
+      4114,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:22:08.241 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout=0"
+    ],
+    [
+      4115,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:22:08.241 trainer_controller_actor] cell.py:253 - ft op=execute phase=start cell=trainer-engine-actor-00000 fn=update_weights n_actors=8"
+    ],
+    [
+      4117,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /begin_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      4118,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:08.321 actor_cell00000_rank00000] timer.py:33 - Timer update_weights_implementation start"
+    ],
+    [
+      4120,
+      "[miles] Update weights: 0it [00:00, ?it/s]"
+    ],
+    [
+      4122,
+      "Update weights:   0%|          | 0/16 [00:00<?, ?it/s]\u001b[A"
+    ],
+    [
+      4123,
+      "(CommandActor pid=8731) [2026-11-10 09:22:08] INFO:     10.204.8.36:35314 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    ],
+    [
+      4126,
+      "Update weights:   6%|\u258b         | 1/16 [00:00<00:02,  5.89it/s]\u001b[A"
+    ],
+    [
+      4128,
+      "[miles] Update weights: 1it [00:00,  5.51it/s]"
+    ],
+    [
+      4129,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      4130,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      4131,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      4132,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      4135,
+      "Update weights:  31%|\u2588\u2588\u2588\u258f      | 5/16 [00:00<00:00, 20.26it/s]\u001b[A"
+    ],
+    [
+      4137,
+      "Update weights:  62%|\u2588\u2588\u2588\u2588\u2588\u2588\u258e   | 10/16 [00:00<00:00, 29.32it/s]\u001b[A"
+    ],
+    [
+      4139,
+      "Update weights:  94%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258d| 15/16 [00:00<00:00, 35.52it/s]\u001b[A"
+    ],
+    [
+      4140,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:46110 - \"POST /end_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      4148,
+      "Update weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 16/16 [00:00<00:00, 29.77it/s]"
+    ],
+    [
+      4150,
+      "[miles] Update weights: 16it [00:00, 35.69it/s][2026-11-10 09:22:08.872 actor_cell00000_rank00000] timer.py:44 - Timer update_weights_implementation end (elapsed: 0.6s)"
+    ],
+    [
+      4153,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:08.912 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage after update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 123.11, 'used_GB': 16.7, 'allocated_GB': 19.11, 'reserved_GB': 61.15}"
+    ],
+    [
+      4155,
+      "[miles] Update weights: 16it [00:00, 35.69it/s]"
+    ],
+    [
+      4156,
+      "[miles] Update weights: 16it [00:00, 27.07it/s]"
+    ],
+    [
+      4157,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:09.439 actor_cell00000_rank00000] timer.py:44 - Timer update_weights end (elapsed: 1.2s)"
+    ],
+    [
+      4158,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:22:09.440 actor_cell00000_rank00000] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.2"
+    ],
+    [
+      4161,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:22:09.441 trainer_controller_actor] cell.py:264 - ft op=execute phase=end cell=trainer-engine-actor-00000 fn=update_weights ok=true elapsed_s=1.2"
+    ],
+    [
+      4183,
+      "(CommandActor pid=8733) [2026-11-10 09:22:08] INFO:     10.204.8.36:57426 - \"POST /begin_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      4184,
+      "(CommandActor pid=8732) [2026-11-10 09:22:08] INFO:     10.204.8.36:47700 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK [repeated 63x across cluster]"
+    ],
+    [
+      4185,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:22:08] INFO:     10.204.8.36:55856 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK [repeated 60x across cluster]"
+    ],
+    [
+      4186,
+      "(CommandActor pid=8733) [2026-11-10 09:22:08] INFO:     10.204.8.36:57426 - \"POST /end_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      4446,
+      "(MegatronTrainRayActor pid=9070) [2026-11-10 09:22:08.100 actor_cell00000_rank00004] memory_utils.py:41 - [Rank 4] Memory-Usage after offload model: {'gpu': '4', 'total_GB': 139.81, 'free_GB': 136.64, 'used_GB': 3.17, 'allocated_GB': 19.11, 'reserved_GB': 51.29} [repeated 5x across cluster]"
+    ],
+    [
+      4449,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:22:08.244 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start [repeated 7x across cluster]"
+    ],
+    [
+      4451,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:22:08.246 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 132.28, 'used_GB': 7.53, 'allocated_GB': 19.08, 'reserved_GB': 51.75} [repeated 7x across cluster]"
+    ],
+    [
+      4455,
+      "[miles] Update weights: 0it [00:00, ?it/s] [repeated 7x across cluster]"
+    ],
+    [
+      4457,
+      "[miles] Update weights: 16it [00:00, 27.07it/s] [repeated 32x across cluster]"
+    ],
+    [
+      4460,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:22:08.913 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage after update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 123.42, 'used_GB': 16.39, 'allocated_GB': 19.08, 'reserved_GB': 60.54} [repeated 7x across cluster]"
+    ],
+    [
+      4461,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:22:09.419 actor_cell00000_rank00007] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.2 [repeated 7x across cluster]"
+    ],
+    [
+      5646,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:45:52.749 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=wake_up phase=start"
+    ],
+    [
+      5647,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:45:52.749 actor_cell00000_rank00000] timer.py:33 - Timer wake_up start"
+    ],
+    [
+      5648,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:45:52.750 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before wake_up model: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 136.4, 'used_GB': 3.41, 'allocated_GB': 19.11, 'reserved_GB': 52.36}"
+    ],
+    [
+      5654,
+      "(MegatronTrainRayActor pid=9069) [2026-11-10 09:46:00.721 actor_cell00000_rank00003] memory_utils.py:41 - [Rank 3] Memory-Usage after wake_up model: {'gpu': '3', 'total_GB': 139.81, 'free_GB': 102.25, 'used_GB': 37.56, 'allocated_GB': 19.11, 'reserved_GB': 34.46}"
+    ],
+    [
+      5655,
+      "(MegatronTrainRayActor pid=9069) [2026-11-10 09:46:00.721 actor_cell00000_rank00003] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=wake_up phase=end ok=true elapsed_s=8.0"
+    ],
+    [
+      5659,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:45:52.750 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=wake_up phase=start [repeated 7x across cluster]"
+    ],
+    [
+      5660,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:45:52.751 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before wake_up model: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 136.72, 'used_GB': 3.1, 'allocated_GB': 19.08, 'reserved_GB': 51.75} [repeated 7x across cluster]"
+    ],
+    [
+      5663,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:46:02.130 actor_cell00000_rank00000] timer.py:44 - Timer wake_up end (elapsed: 9.4s)"
+    ],
+    [
+      5676,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:46:03.283 actor_cell00000_rank00006] memory_utils.py:41 - [Rank 6] Memory-Usage after wake_up model: {'gpu': '6', 'total_GB': 139.81, 'free_GB': 84.96, 'used_GB': 54.86, 'allocated_GB': 19.08, 'reserved_GB': 51.75} [repeated 7x across cluster]"
+    ],
+    [
+      5677,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:46:03.283 actor_cell00000_rank00006] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=wake_up phase=end ok=true elapsed_s=10.5 [repeated 7x across cluster]"
+    ],
+    [
+      5697,
+      "(MegatronTrainRayActor pid=9066) SWE_NATIVE_UPDATE {\"cell\": \"A/full\", \"attempt\": \"exp-1110-165312-132926\", \"attempted_rollout_id\": 1, \"run_kind\": \"formal\", \"protocol\": \"full\", \"bank\": 1, \"bank_visit\": 1, \"teacher_identity\": \"/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model\", \"generation_weight_versions\": [{\"spans\": [{\"version\": \"1\", \"abs_start\": 85887, \"abs_end\": 85955}], \"prefill_spans\": [{\"version\": \"1\", \"abs_start\": 0, \"abs_end\": 85887}], \"output_start\": 85887, \"prompt_tokens\": 85887}], \"current_weight_version\": 1, \"turn_sums_verified\": true, \"unverified_turn_sums\": [], \"kl_estimator\": \"sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens\", \"kl_before_tis_numerator\": 20707.046249945928, \"nll_before_tis_numerator\": 145353.02631683814, \"kl_direction\": \"student_minus_teacher\", \"kl_before_tis_denominator\": 184306, \"kl_before_tis\": 0.11235144949131297, \"nll_before_tis\": 0.7886505394118376, \"nll_before_tis_denominator\": 184306, \"original_tokens\": 184306, \"surviving_tokens\": 177185, \"tis_retention\": 0.9613631677753302, \"nonfinite_tokens\": 0.0, \"token_rejected_tokens\": 1.0, \"answer_rejected_tokens\": 7120.0, \"diagnostics_verified\": true, \"unverified_diagnostics\": [], \"mask_evidence_verified\": true, \"retained_weight\": 1, \"effective_weight_sum\": 177185, \"loss\": 0.10830922603197106, \"lr\": [2e-06, 2e-06], \"timestamp\": 1794304208.6404946, \"successful_updates\": 2, \"actual_turns\": 256, \"expected_bank_turns\": 256, \"expected_bank_tokens\": 184306, \"bank_membership_verified\": true, \"update_successful\": true, \"native_attempted_count\": 2, \"native_skipped_count\": 0}"
+    ],
+    [
+      5711,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:09.134 actor_cell00000_rank00000] perf.py:64 - perf 1: {'perf/sleep_time': 18.190115928649902, 'perf/update_weights_implementation_time': 0.5513036251068115, 'perf/finalize_and_resume_engines_time': 0.039716482162475586, 'perf/update_weights_time': 1.1967129707336426, 'perf/wake_up_time': 9.381510257720947, 'perf/data_preprocess_time': 0.24893498420715332, 'perf/train_wait_time': 1453.91153049469, 'perf/log_probs_time': 63.95197772979736, 'perf/actor_train_time': 180.1600570678711, 'perf/train_time': 246.57494044303894, 'perf/log_probs_tflops': 212.53202369986244, 'perf/actor_train_tflops': 226.3294672703499, 'perf/actor_train_tok_per_s': 52714.82566428244, 'perf/mfu_peak_tflops': 989.0, 'perf/actor_train_mfu': 0.22884678187093013, 'perf/step_time': 1700.4864709377289, 'perf/wait_time_ratio': 0.8549974112366411}"
+    ],
+    [
+      5718,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:12.352 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before offload model: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 83.48, 'used_GB': 56.33, 'allocated_GB': 19.31, 'reserved_GB': 52.37}"
+    ],
+    [
+      5719,
+      "(MegatronTrainRayActor pid=9069) [2026-11-10 09:50:20.733 actor_cell00000_rank00003] memory_utils.py:41 - [Rank 3] Memory-Usage after offload model: {'gpu': '3', 'total_GB': 139.81, 'free_GB': 136.67, 'used_GB': 3.14, 'allocated_GB': 19.33, 'reserved_GB': 34.47}"
+    ],
+    [
+      5726,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:50:12.352 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before offload model: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 84.53, 'used_GB': 55.28, 'allocated_GB': 19.31, 'reserved_GB': 51.75} [repeated 7x across cluster]"
+    ],
+    [
+      5727,
+      "(MegatronTrainRayActor pid=9072) [2026-11-10 09:50:27.741 actor_cell00000_rank00006] memory_utils.py:41 - [Rank 6] Memory-Usage after offload model: {'gpu': '6', 'total_GB': 139.81, 'free_GB': 136.64, 'used_GB': 3.17, 'allocated_GB': 19.31, 'reserved_GB': 51.76} [repeated 2x across cluster]"
+    ],
+    [
+      5730,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:29.811 actor_cell00000_rank00000] log_utils.py:456 - [CPU memory] after_offload_train: 80.68 GB (rollout_id=1, step=1)"
+    ],
+    [
+      5734,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:30.003 actor_cell00000_rank00000] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start"
+    ],
+    [
+      5735,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:30.003 actor_cell00000_rank00000] timer.py:33 - Timer update_weights start"
+    ],
+    [
+      5737,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:30.005 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage before update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 131.98, 'used_GB': 7.83, 'allocated_GB': 19.31, 'reserved_GB': 52.37}"
+    ],
+    [
+      5745,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:50:30] INFO:     10.204.8.36:53242 - \"POST /begin_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      5749,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:50:30.001 trainer_controller_actor] group.py:469 - ft op=update_weights phase=start rollout=1"
+    ],
+    [
+      5750,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:50:30.001 trainer_controller_actor] cell.py:253 - ft op=execute phase=start cell=trainer-engine-actor-00000 fn=update_weights n_actors=8"
+    ],
+    [
+      5751,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:30.060 actor_cell00000_rank00000] timer.py:33 - Timer update_weights_implementation start"
+    ],
+    [
+      5753,
+      "[miles] Update weights: 0it [00:00, ?it/s]"
+    ],
+    [
+      5755,
+      "Update weights:   0%|          | 0/16 [00:00<?, ?it/s]\u001b[A"
+    ],
+    [
+      5756,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:50:30] INFO:     10.204.8.36:53242 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK"
+    ],
+    [
+      5757,
+      "(CommandActor pid=8732) [2026-11-10 09:50:30] INFO:     10.204.8.36:38244 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    ],
+    [
+      5758,
+      "(CommandActor pid=8732) [2026-11-10 09:50:30] INFO:     10.204.8.36:38244 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    ],
+    [
+      5759,
+      "(CommandActor pid=8732) [2026-11-10 09:50:30] INFO:     10.204.8.36:38244 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK"
+    ],
+    [
+      5762,
+      "Update weights:   6%|\u258b         | 1/16 [00:00<00:02,  5.65it/s]\u001b[A"
+    ],
+    [
+      5763,
+      "[miles] Update weights: 1it [00:00,  4.63it/s]"
+    ],
+    [
+      5765,
+      "[miles] Update weights: 1it [00:00,  4.63it/s]"
+    ],
+    [
+      5768,
+      "Update weights:  31%|\u2588\u2588\u2588\u258f      | 5/16 [00:00<00:00, 20.24it/s]\u001b[A"
+    ],
+    [
+      5769,
+      "[miles] Update weights: 6it [00:00, 21.35it/s]"
+    ],
+    [
+      5772,
+      "Update weights:  62%|\u2588\u2588\u2588\u2588\u2588\u2588\u258e   | 10/16 [00:00<00:00, 29.52it/s]\u001b[A"
+    ],
+    [
+      5773,
+      "[miles] Update weights: 11it [00:00, 29.19it/s]"
+    ],
+    [
+      5774,
+      "(CommandActor pid=8732) [2026-11-10 09:50:30] INFO:     10.204.8.36:38244 - \"POST /end_weight_update HTTP/1.1\" 200 OK"
+    ],
+    [
+      5783,
+      "Update weights:  94%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258d| 15/16 [00:00<00:00, 35.07it/s]\u001b[A"
+    ],
+    [
+      5784,
+      "Update weights: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 16/16 [00:00<00:00, 29.45it/s]"
+    ],
+    [
+      5786,
+      "[miles] Update weights: 16it [00:00, 35.37it/s][2026-11-10 09:50:30.617 actor_cell00000_rank00000] timer.py:44 - Timer update_weights_implementation end (elapsed: 0.6s)"
+    ],
+    [
+      5789,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:30.656 actor_cell00000_rank00000] memory_utils.py:41 - [Rank 0] Memory-Usage after update_weights: {'gpu': '0', 'total_GB': 139.81, 'free_GB': 123.11, 'used_GB': 16.7, 'allocated_GB': 19.31, 'reserved_GB': 61.16}"
+    ],
+    [
+      5791,
+      "[miles] Update weights: 16it [00:00, 35.34it/s]"
+    ],
+    [
+      5792,
+      "[miles] Update weights: 16it [00:00, 26.86it/s]"
+    ],
+    [
+      5793,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:31.172 actor_cell00000_rank00000] timer.py:44 - Timer update_weights end (elapsed: 1.2s)"
+    ],
+    [
+      5794,
+      "(MegatronTrainRayActor pid=9066) [2026-11-10 09:50:31.172 actor_cell00000_rank00000] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.2"
+    ],
+    [
+      5795,
+      "(TrainerController pid=1844, ip=10.204.13.90) [2026-11-10 09:50:31.177 trainer_controller_actor] cell.py:264 - ft op=execute phase=end cell=trainer-engine-actor-00000 fn=update_weights ok=true elapsed_s=1.2"
+    ],
+    [
+      5819,
+      "(CommandActor pid=8733) [2026-11-10 09:50:30] INFO:     10.204.8.36:59512 - \"POST /begin_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      5820,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:50:30] INFO:     10.204.8.36:41330 - \"POST /update_weights_from_distributed HTTP/1.1\" 200 OK [repeated 63x across cluster]"
+    ],
+    [
+      5821,
+      "(CommandActor pid=8733) [2026-11-10 09:50:30] INFO:     10.204.8.36:59514 - \"POST /update_weights_from_tensor HTTP/1.1\" 200 OK [repeated 61x across cluster]"
+    ],
+    [
+      5822,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:50:30] INFO:     10.204.8.36:41330 - \"POST /end_weight_update HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    ],
+    [
+      6085,
+      "(MegatronTrainRayActor pid=9070) [2026-11-10 09:50:29.866 actor_cell00000_rank00004] memory_utils.py:41 - [Rank 4] Memory-Usage after offload model: {'gpu': '4', 'total_GB': 139.81, 'free_GB': 136.64, 'used_GB': 3.17, 'allocated_GB': 19.35, 'reserved_GB': 51.3} [repeated 5x across cluster]"
+    ],
+    [
+      6087,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:50:30.004 actor_cell00000_rank00007] structured_log.py:24 - actor cls=MegatronTrainRayActor fn=update_weights phase=start [repeated 7x across cluster]"
+    ],
+    [
+      6089,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:50:30.006 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage before update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 132.29, 'used_GB': 7.52, 'allocated_GB': 19.31, 'reserved_GB': 51.75} [repeated 7x across cluster]"
+    ],
+    [
+      6094,
+      "[miles] Update weights: 0it [00:00, ?it/s] [repeated 7x across cluster]"
+    ],
+    [
+      6096,
+      "[miles] Update weights: 16it [00:00, 26.86it/s] [repeated 27x across cluster]"
+    ],
+    [
+      6099,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:50:30.656 actor_cell00000_rank00007] memory_utils.py:41 - [Rank 7] Memory-Usage after update_weights: {'gpu': '7', 'total_GB': 139.81, 'free_GB': 123.42, 'used_GB': 16.39, 'allocated_GB': 19.31, 'reserved_GB': 60.54} [repeated 7x across cluster]"
+    ],
+    [
+      6100,
+      "(MegatronTrainRayActor pid=9073) [2026-11-10 09:50:31.175 actor_cell00000_rank00007] structured_log.py:28 - actor cls=MegatronTrainRayActor fn=update_weights phase=end ok=true elapsed_s=1.2 [repeated 7x across cluster]"
+    ]
+  ],
+  "tail": [
+    [
+      6224,
+      "(CommandActor pid=8733) [2026-11-10 09:53:38 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 24, #pending-token: 1300936, cuda graph: False, input throughput (token/s): 106080.02"
+    ],
+    [
+      6225,
+      "(CommandActor pid=8733) [2026-11-10 09:53:38 TP0] Prefill batch, #new-seq: 1, #new-token: 4923, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 24, #pending-token: 1296013, cuda graph: False, input throughput (token/s): 127029.66"
+    ],
+    [
+      6226,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:53:39 TP0] Decode batch, #running-req: 1, #full token: 46752, full token usage: 0.01, mamba num: 4, mamba usage: 0.00, cuda graph: False, gen throughput (token/s): 27.77, #queue-req: 28 [repeated 28x across cluster]"
+    ],
+    [
+      6227,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"1e9801b7feed4d2e9bcb1d6dfbeef135\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:19:57\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:19\", \"sample_index\": 671, \"sample_group_index\": 671, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304286.3492985, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304422.3116958, \"elapsed_secs\": 135.96241913549602, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 70501, \"abs_end\": 71061}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 70501}], \"output_start\": 70501, \"prompt_tokens\": 70501}]}"
+    ],
+    [
+      6228,
+      "(CommandActor pid=8730) [2026-11-10 09:53:43 TP0] Prefill batch, #new-seq: 1, #new-token: 4487, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 16, #pending-token: 1012433, cuda graph: False, input throughput (token/s): 115784.38 [repeated 9x across cluster]"
+    ],
+    [
+      6229,
+      "(CommandActor pid=1841, ip=10.204.13.90) [2026-11-10 09:53:44 TP0] Decode batch, #running-req: 1, #full token: 32911, full token usage: 0.01, mamba num: 4, mamba usage: 0.00, cuda graph: False, gen throughput (token/s): 27.97, #queue-req: 26 [repeated 26x across cluster]"
+    ],
+    [
+      6230,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:53:49 TP0] Decode batch, #running-req: 1, #full token: 47032, full token usage: 0.01, mamba num: 4, mamba usage: 0.00, cuda graph: False, gen throughput (token/s): 27.62, #queue-req: 28 [repeated 29x across cluster]"
+    ],
+    [
+      6231,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"07f34b49066e40249f2c44a7beb5c3c7\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:63\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 542, \"sample_group_index\": 542, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304264.6956615, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304431.863407, \"elapsed_secs\": 167.1677626594901, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 64783, \"abs_end\": 65558}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 64783}], \"output_start\": 64783, \"prompt_tokens\": 64783}]}"
+    ],
+    [
+      6232,
+      "(CommandActor pid=8730) [2026-11-10 09:53:42] INFO:     10.204.13.90:45532 - \"POST /generate HTTP/1.1\" 200 OK"
+    ],
+    [
+      6233,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:51] INFO:     10.204.13.90:39424 - \"POST /generate HTTP/1.1\" 200 OK"
+    ],
+    [
+      6234,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 1024, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1532525, cuda graph: False, input throughput (token/s): 288.56"
+    ],
+    [
+      6235,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1524333, cuda graph: False, input throughput (token/s): 79768.46"
+    ],
+    [
+      6236,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1516141, cuda graph: False, input throughput (token/s): 74573.26"
+    ],
+    [
+      6237,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1507949, cuda graph: False, input throughput (token/s): 70511.18"
+    ],
+    [
+      6238,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1499757, cuda graph: False, input throughput (token/s): 66643.61"
+    ],
+    [
+      6239,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1491565, cuda graph: False, input throughput (token/s): 63011.56"
+    ],
+    [
+      6240,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1483373, cuda graph: False, input throughput (token/s): 59867.91"
+    ],
+    [
+      6241,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1475181, cuda graph: False, input throughput (token/s): 87538.37"
+    ],
+    [
+      6242,
+      "(CommandActor pid=1843, ip=10.204.13.90) [2026-11-10 09:53:52 TP0] Prefill batch, #new-seq: 1, #new-token: 4588, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1470593, cuda graph: False, input throughput (token/s): 121829.32"
+    ],
+    [
+      6243,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"890b1f4a888b4e76ae7a2288df1e0181\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3:51\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:3\", \"sample_index\": 537, \"sample_group_index\": 537, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304263.8412194, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304433.7161138, \"elapsed_secs\": 169.87491611763835, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 45506, \"abs_end\": 47142}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 45506}], \"output_start\": 45506, \"prompt_tokens\": 45506}]}"
+    ],
+    [
+      6244,
+      "(CommandActor pid=8732) [2026-11-10 09:53:54 TP0] Decode batch, #running-req: 1, #full token: 32990, full token usage: 0.01, mamba num: 4, mamba usage: 0.00, cuda graph: False, gen throughput (token/s): 27.11, #queue-req: 29 [repeated 26x across cluster]"
+    ],
+    [
+      6245,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:53:54 TP0] Prefill batch, #new-seq: 1, #new-token: 6519, #cached-token: 0, full token usage: 0.01, mamba usage: 0.00, #running-req: 0, #queue-req: 27, #pending-token: 1556279, cuda graph: False, input throughput (token/s): 173457.49 [repeated 4x across cluster]"
+    ],
+    [
+      6246,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"789e90dd39de4f1f9ffa289d7963fcdd\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10:53\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10\", \"sample_index\": 597, \"sample_group_index\": 597, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304274.3477244, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304439.5172954, \"elapsed_secs\": 165.16958879679441, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 32569, \"abs_end\": 34122}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 32569}], \"output_start\": 32569, \"prompt_tokens\": 32569}]}"
+    ],
+    [
+      6247,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:53:53] INFO:     10.204.13.90:34412 - \"POST /generate HTTP/1.1\" 200 OK"
+    ],
+    [
+      6248,
+      "(CommandActor pid=1842, ip=10.204.13.90) [2026-11-10 09:53:59] INFO:     10.204.13.90:37166 - \"POST /generate HTTP/1.1\" 200 OK"
+    ],
+    [
+      6249,
+      "(CommandActor pid=8733) [2026-11-10 09:53:59 TP0] Decode batch, #running-req: 1, #full token: 39285, full token usage: 0.01, mamba num: 4, mamba usage: 0.00, cuda graph: False, gen throughput (token/s): 26.96, #queue-req: 24 [repeated 28x across cluster]"
+    ],
+    [
+      6250,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"bef00927d10743889281ee3cad7925aa\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10:49\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10\", \"sample_index\": 595, \"sample_group_index\": 595, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304274.119112, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304440.5952716, \"elapsed_secs\": 166.47617886029184, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 32119, \"abs_end\": 32300}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 32119}], \"output_start\": 32119, \"prompt_tokens\": 32119}]}"
+    ],
+    [
+      6251,
+      "(RolloutExecutor pid=1837, ip=10.204.13.90) QWEN35_SAMPLE_ATTEMPT {\"attempt_id\": \"e947960a8c6a4e8281dafbf64925bbaf\", \"stage\": \"generate\", \"event\": \"end\", \"status\": \"succeeded\", \"source_uid\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10:42\", \"source_group_id\": \"00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:10\", \"sample_index\": 592, \"sample_group_index\": 592, \"rollout_id\": null, \"lineage\": null, \"started_at\": 1794304273.7895062, \"sample_status\": \"completed\", \"error_type\": null, \"phase\": \"completion_validation\", \"ended_at\": 1794304442.3979058, \"elapsed_secs\": 168.60842225328088, \"weight_versions\": [{\"spans\": [{\"version\": \"2\", \"abs_start\": 29705, \"abs_end\": 33191}], \"prefill_spans\": [{\"version\": \"2\", \"abs_start\": 0, \"abs_end\": 29705}], \"output_start\": 29705, \"prompt_tokens\": 29705}]}"
+    ],
+    [
+      6252,
+      "(CommandActor pid=1840, ip=10.204.13.90) [2026-11-10 09:54:00 TP0] Prefill batch, #new-seq: 1, #new-token: 8057, #cached-token: 0, full token usage: 0.02, mamba usage: 0.00, #running-req: 0, #queue-req: 26, #pending-token: 1495422, cuda graph: False, input throughput (token/s): 203974.16 [repeated 2x across cluster]"
+    ],
+    [
+      6253,
+      "(CommandActor pid=8732) [2026-11-10 09:54:03] INFO:     10.204.13.90:52414 - \"GET /health HTTP/1.1\" 200 OK"
+    ]
+  ],
+  "files": {
+    "training/updates.jsonl": {
+      "exists": true,
+      "bytes": 3129
+    },
+    "training/optimizer_attempts.jsonl": {
+      "exists": true,
+      "bytes": 3103
+    },
+    "training/bank_0.jsonl": {
+      "exists": true,
+      "bytes": 70797558
+    },
+    "training/bank_1.jsonl": {
+      "exists": true,
+      "bytes": 278378782
+    },
+    "training/teacher_stages.jsonl": {
+      "exists": true,
+      "bytes": 1392252
+    },
+    "training/distillation_profile/updates.jsonl": {
+      "exists": true,
+      "bytes": 1344
+    },
+    "training/distillation_profile/observations.jsonl": {
+      "exists": true,
+      "bytes": 68707
+    }
+  },
+  "observed_at": "2026-11-10T09:54:09.369097+00:00"
+}

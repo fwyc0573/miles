@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept the corrected attempt's first-two-update native lifecycle; retain stage-matched memory comparisons and long-run/attribution limits. |
 | 2026-11-10 | Add controlled native allocation-order evidence from the successful D38 diagnostic and retain the full-model attribution boundary. |
 | 2026-11-10 | Record the post-update host-memory failure, pinned TMS source inspection and D38 diagnostic authorization. |
 
@@ -54,4 +55,81 @@ The existing disk-offload alternative was not selected. Formal artifacts remain 
 
 Job`exp-1110-160647-698733`and its one H200 replica succeeded, exit0/restart0,container72s. The full[native diagnostic report](test_report_2026-11-10_allocator_probe.md#native-result--pass) and[independent verification](evidence/tms-allocator-20261110/native-verification.json) confirm that late64MiB Adam moments occupy active blocks within the released1GiB transient segment, retaining896MiB inactive; early initialization gives the same moments independent64MiB segments. Equal live allocation produces1090 versus194MiB reserved and approximately1090 versus194MiB pause RSS increase. Both native pause/resume/state/step checks pass.
 
-The evidence supports correcting optimizer-state allocation timing through the existing native callback. It does not establish which allocation owned the old full-model segment. A dedicated implementation owner is making the minimal timing correction and checking restored states; acceptance of the full-workload repair still needs the actual formal offload and subsequent training path.
+This diagnostic supported correcting optimizer-state allocation timing through the existing native callback. It did not establish which allocation owned the old full-model segment. The subsequent implementation and formal validation are recorded below.
+
+## Corrected formal lifecycle — first two updates
+
+**PASS for the previously failing lifecycle, as of09:54:09Z; formal completion remains2/200.** Correction`edd3be00`and naming follow-up`d2b3af8c`passed the[fixed-diff reviews](review.md#optimizer-initialization-phase-review--2026-11-10). Independent corrected attempt`exp-1110-165312-132926`uses the same18-H200 configuration and CPU offload route. The[successful ACK notification](evidence/formal-H200-A-r2-second-update-notification-20261110.json)contains updates1/2,zero skipped updates,banks0/1 each visited once,and256 turns per update. These are separate from the old failed attempt's1/200.
+
+The[retained lifecycle extract](evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json)contains original cloud-log line numbers and message timestamps. The primary inspected these records; read-only follow-up `profile-h200-post-update-host-oom-20261110` independently confirmed the following sequence without changing the run:
+
+| Stage | UTC observation | Evidence |
+| --- | --- | --- |
+| Train1 | Successful ACK retained; before-optimizer timestamp09:21:48.140657; train timer188.283s | Notification72–81; lifecycle219–224 |
+| Post-update1 offload | Visible before09:21:50.378 through last visible after09:22:08.100 | Lifecycle227–244,375–376 |
+| Weight sync1 | Controller09:22:08.241→09:22:09.441;8 actors;`ok=true`;1.200s | Lifecycle259–264,355–356 |
+| Restore for train2 | Rank0 timer09:45:52.749→09:46:02.130;9.381s. Rank6 ends09:46:03.283,reported10.5s | Lifecycle403–440 |
+| Train2 | Successful ACK retained; before-optimizer timestamp09:50:08.640495; train timer246.575s | Notification139–148; lifecycle443–448 |
+| Post-update2 offload | Visible09:50:12.352→09:50:29.866; followed by sync | Lifecycle451–468,607–608 |
+| Weight sync2 | Controller09:50:30.001→09:50:31.177;8 actors;`ok=true`;1.176s | Lifecycle487–492,587–588 |
+| Continued generation | Subsequent successful samples carry weight version2 | Lifecycle649–650,745–746 |
+
+Controller success is emitted after gathering all actors (`miles/ray/train/cell.py:252–274`); this establishes group-level return, not a complete per-rank timing record. Ray deduplication delays repeated messages and does not expose hidden rank values. The visible offload intervals are not eight-rank barrier timers. `perf1.sleep_time=18.190s`belongs to the first post-update sleep, because the performance logger resets timers; it is not a measurement of the second sleep. The native receipt timestamps are1700.500s apart, but `swe_training.py:281–321`captures them before the optimizer and`:347–365`publishes success afterward. Thus they are not exact ACK-publication times. The primary corrected this interpretation from the lifecycle follow-up using the independently inspected receipt writer.
+
+### Memory observations and comparison limits
+
+GPU values below are allocated/reserved **GiB**, despite the log's`GB`labels (`miles/utils/memory_utils.py:18–32`). A dash means that stage/rank was not retained independently.
+
+| Rank/PID | Update1 before→after offload | Update2 before→after offload |
+| --- | --- | --- |
+| 0/9066 | —→— |19.31/52.37→— |
+| 3/9069 |19.11/34.46→19.11/34.46 |—→19.33/34.47 |
+| 4/9070 |—→19.11/51.29 |—→19.35/51.30 |
+| 6/9072 |19.08/51.75→19.08/51.75 |—→19.31/51.76 |
+| 7/9073 |—→— |19.31/51.75→— |
+
+- The shown ranks3/4/6 have post-offload device usage3.14–3.18GiB. Their post-offload reserved counters differ by only0.01GiB between the two visits; this is two observations, not a long-run growth bound or proof that inactive space is gone.
+- Same-stage descriptive comparisons to the old log are mixed: rank3 after-offload reserved50.94→34.46GiB (−16.48GiB),rank6 before-offload47.82→51.75GiB (+3.93GiB). Old log anchors4170,4173,4180. Different attempt inputs prevent treating these as a controlled causal comparison.
+- Old rank4 was captured **before** offload at19.09/79.93GiB; the new rank4 value19.11/51.29GiB is **after** offload. No same-stage reduction is claimed from that pair.
+- Rank0's CPU logger prints84.73 and80.68 decimalGB. As established above, these are`psutil.virtual_memory().used / 1e9`, not trainer RSS,Ray cgroup peak or measured TMS backup bytes. Current cgroup peak and exact full-model allocation ownership remain unverified.
+
+The[subsequent personal API readback](evidence/formal-H200-A-r2-two-update-readback-20261110.json)shows the job and all three replicas Running,non-preemptible,zero container restarts. No new native blocker requiring interruption was found. The main launcher remains active, with a read-only observer now targeting update10. Final200-update stability,terminal status and complete profile acceptance remain open. The separate[first-two canonical/profile verification](test_report_2026-11-10_corrected_profile_prefix.md)is accepted:512 observations,exact original-file rebuild,zero absolute/relative RKL/NLL errors and both acquisitions within1800s. That prefix does not establish long-run memory behavior.
+
+### Evidence collection
+
+The main session read only this attempt's exact personal cloud log via`ssh -o BatchMode=yes -o ConnectTimeout=10 shai-ycfeng 'test "$(id -un)" = i-fengyicheng && python3 -B -'`, with a60-second local timeout. It streamed the log once, retaining157 lines matching memory/sleep/wake/weight-update/native-success events and the last30 lines. Line numbers and file size are preserved in the lifecycle JSON. No cloud file was written or altered.
+
+Six exact canonical/native/profile files were copied through a read-only tar stream, totaling349,252,623 bytes. [Retention manifest](evidence/formal-H200-A-r2-first-two-20261110/retention.json)records each retained size/SHA256 and source path; the temporary transfer archive is`/data/ycfeng/tmp/agent-opd-image/formal-H200-A-r2-first-two-20261110.tar`. The large bank snapshots remain untracked; formal cloud artifacts remain protected. These copies support the existing offline inspector, not another GPU run or an auxiliary hard gate.
+
+### Primary delivery verification
+
+Local Python3.10.6 verification passed:9 delivered output fingerprints match,18 curated files parse/scan cleanly,credential-value/private-key-block matches0,native/profile verified counts2 with full-completefalse,and runtime/config diff from`d2b3af8c`empty. Scoped whitespace also passes. Exact command from the worktree root:
+
+```bash
+python3 -B - <<'PY'
+import hashlib,json,re,subprocess,sys
+from pathlib import Path
+root=Path('task_memory/task_2026-11-08_qwen35_full_kl_nll');snap=root/'evidence/formal-H200-A-r2-first-two-20261110';delivery=json.loads((snap/'delivery-verification.json').read_text());retention=json.loads((snap/'retention.json').read_text())
+assert delivery['verdict']=='PASS' and delivery['input_fingerprints']==retention['files']
+files=[Path(name) for name in delivery['outputs']]
+for path in files:
+ raw=path.read_bytes();expected=delivery['outputs'][str(path)]
+ assert len(raw)==expected['bytes'] and hashlib.sha256(raw).hexdigest()==expected['sha256'],path
+receipt=json.loads((snap/'inspection-prefix.json').read_text())
+assert receipt['native']['observed_successful_update_ids']==[1,2] and receipt['profile']['verified_updates']==2
+assert not receipt['native']['complete'] and not receipt['profile']['complete'] and receipt['expected_updates']==200
+assert delivery['actual_errors_all_zero'] and delivery['original_rebuild_exact_match']
+files += [snap/'retention.json',snap/'delivery-verification.json']
+files += [root/'evidence'/name for name in ('formal-H200-A-r2-second-update-notification-20261110.json','formal-H200-A-r2-first-two-lifecycle-20261110.json','formal-H200-A-r2-two-update-readback-20261110.json')]
+files += [root/name for name in ('progress.md','review.md','test_report_2026-11-10_formal_runs.md','test_report_2026-11-10_h200_host_memory.md')]
+secrets=[(Path('/data/ycfeng/tmp/brainctl-auth-i-fengyicheng')/name).read_text().strip() for name in ('accesskey_id','accesskey_secret')];assert all(secrets)
+for path in files:
+ text=path.read_text()
+ if path.suffix=='.json':json.loads(text,parse_constant=lambda value:(_ for _ in ()).throw(ValueError(value)))
+ assert not any(secret in text for secret in secrets),path
+ assert not re.search(r'-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----\r?\n[A-Za-z0-9+/=]',text),path
+assert not subprocess.check_output(['git','diff','d2b3af8c','--','miles','tests/manual/agent_opd',str(root/'formal_h200_config.json'),str(root/'h200_gpu_policy.json')])
+subprocess.run(['git','diff','--check','--',*[str(path) for path in files]],check=True)
+print(json.dumps({'python':sys.version.split()[0],'verdict':'PASS','delivery_hashes':len(delivery['outputs']),'curated_files':len(files),'native_updates':2,'verified_profile_updates':2,'formal_complete':False,'credential_value_or_private_key_matches':0,'runtime_config_diff':'empty','scope_diff_check':'PASS'}))
+PY
+```

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Verify corrected H200 A's first two unskipped updates and native offload/sync/restore continuation; keep final200/profile acceptance open. |
 | 2026-11-10 | Record corrected H200 A/full submission, immutable fix reviews, actual18-GPU startup and bounded initial offload observation. |
 | 2026-11-10 | Accept the actual first-update D16/Ticket02 checks; record subsequent Ray host-memory failure and1/200 incomplete formal result. |
 | 2026-11-10 | Confirm all18 actual H200, teacher readiness, two-node Ray registration and first-bank acquisition; retain the nonblocking startup GC exception context separately from optimizer acceptance. |
@@ -175,7 +176,7 @@ After the successful training outcomes, Ray's host-memory monitor killed a train
 
 ### Preparation and exact submission
 
-The D38 controlled diagnostic is accepted in`9b56d69a`; production correction`edd3be00`and test naming follow-up`d2b3af8c`have18 CPU PASS/20 SKIP (missing Megatron) and completed[Standards0/Spec0 review](review.md#optimizer-initialization-phase-review--2026-11-10). Corrected native formal behavior remains to be measured. The historical failed full-model allocation owner is still unknown.
+The D38 controlled diagnostic is accepted in`9b56d69a`; production correction`edd3be00`and test naming follow-up`d2b3af8c`have18 CPU PASS/20 SKIP (missing Megatron) and completed[Standards0/Spec0 review](review.md#optimizer-initialization-phase-review--2026-11-10). Corrected native behavior has now crossed the original failure point: [updates1/2](evidence/formal-H200-A-r2-second-update-notification-20261110.json)are successful/unskipped,banks0/1 are each used once,and the[offload/sync/restore/next-train path](test_report_2026-11-10_h200_host_memory.md#corrected-formal-lifecycle--first-two-updates)plus second offload/sync are verified. Final200-update stability and complete profile acceptance remain open. The historical failed full-model allocation owner is still unknown.
 
 The selected `formal_h200_config.json` continues to request18H200/step_main,TP2/DP4 trainer,eightTP2 rollout engines,27B TP2 teacher,full200 updates,32×8 input,D34 length budgets and profile10/10/8. The previous16-case sample-lifecycle evidence is reused: a diff from`ec002ea8`shows no selected source/replay/training/TIS/launcher changes, and the only runtime changes are the two reviewed Megatron modules. Immediately before launch, the runtime/config diff against`d2b3af8c0984cac09ca97765a8be294a8e46d9f9`passed before the submission command was reached.
 
@@ -196,7 +197,9 @@ Local submission used `/data/ycfeng`,Python3.10.6/brainpp2.8.6, `STEPMIND_BACKEN
 
 Durable run directory:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926`; native/profile records are under`training/`. The rank0 log is its sibling`exp-1110-165312-132926-rank-0.log`. Local worker records are under`evidence/formal-h200-112k-20261110/full/exp-1110-165312-132926/A/`, with run/cluster/preflight records under`full/student/A/exp-1110-165312-132926/`.
 
-The read-only second-update-or-failure observer`sh_1c4b06aab001hJGPq4T0kNXC9q`uses60-second checks and the existing config-derived9000-second window, then writes`evidence/formal-H200-A-r2-second-update-notification-20261110.json`. It reads only this run through`shai-ycfeng`as`i-fengyicheng`. Its errors are auxiliary; it has no RJob control path. Pending: actual successful updates, post-update offload/weight update/next train, host-memory and native terminal evidence, plus200-update/profile completeness. The old1/200 record is not concatenated with this attempt.
+The read-only second-update observer`sh_1c4b06aab001hJGPq4T0kNXC9q`completed at09:51:14Z with IDs1/2. Its[notification](evidence/formal-H200-A-r2-second-update-notification-20261110.json),[actual lifecycle](evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json)and[Running/restart0 readback](evidence/formal-H200-A-r2-two-update-readback-20261110.json)verify forward progress through the former failure point. The next observer`sh_1c4e5d4b8001cyfpLSD8VocKmj`targets update10/native failure,interval60s,and a43200s observation bound derived from8 remaining updates times`startup_timeout+request_timeout`; it changes no native timeout and has no RJob control path.
+
+The[first-two profile report](test_report_2026-11-10_corrected_profile_prefix.md)accepts512 canonical observations and exact original-file rebuild. Both256/256 banks meet1800s acquisition (517.845137s/1409.974001s);every sample's decode/prefill spans carry version0/1 respectively. RKL/NLL versus native absolute and relative errors are all0. All32 conversations have positive N8 baselines;macroB10 and k10 remain immature. Current accepted prefix is2/200,both native/profile completefalse;the snapshot's missing[3,200]range is future coverage,not an observed auxiliary fault. B now awaits only fresh18-card resource admission under32;A18+B18 does not fit. Final200/profile/terminal acceptance and host cgroup peak remain outstanding. The old1/200 record is not concatenated with this attempt.
 
 ## Local record verification
 

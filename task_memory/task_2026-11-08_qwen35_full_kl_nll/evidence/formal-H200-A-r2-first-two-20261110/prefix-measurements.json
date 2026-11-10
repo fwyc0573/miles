@@ -1,0 +1,273 @@
+{
+  "task_id": "profile-corrected-A-first-two-profile-20261110",
+  "job": "exp-1110-165312-132926",
+  "optimizer_attempts_exact_match_successful_updates_minus_update_field": true,
+  "updates": [
+    {
+      "update_id": 1,
+      "bank": 0,
+      "bank_visit": 1,
+      "actual_turns": 256,
+      "original_tokens": 35509,
+      "surviving_tokens": 28598,
+      "tis_retention": 0.8053732856458926,
+      "current_weight_version": 0,
+      "native_attempted_count": 1,
+      "native_skipped_count": 0,
+      "replay_number_counts": {
+        "0": 256
+      },
+      "new_conversations": 32,
+      "finished_conversations": [],
+      "metrics": {
+        "rkl": {
+          "profile_recomputed": 0.09050704144033206,
+          "native": 0.09050704144033206,
+          "absolute_error": 0.0,
+          "relative_error": 0.0,
+          "relative_error_percent": 0.0,
+          "profile_sum": 3213.814534504751,
+          "native_numerator": 3213.814534504751,
+          "native_denominator": 35509,
+          "persisted_macro_exact_equal": true,
+          "numerator_exact_equal": true,
+          "pass_math_isclose": true
+        },
+        "nll": {
+          "profile_recomputed": 0.5581925452041884,
+          "native": 0.5581925452041884,
+          "absolute_error": 0.0,
+          "relative_error": 0.0,
+          "relative_error_percent": 0.0,
+          "profile_sum": 19820.859087655524,
+          "native_numerator": 19820.859087655524,
+          "native_denominator": 35509,
+          "persisted_macro_exact_equal": true,
+          "numerator_exact_equal": true,
+          "pass_math_isclose": true
+        }
+      }
+    },
+    {
+      "update_id": 2,
+      "bank": 1,
+      "bank_visit": 1,
+      "actual_turns": 256,
+      "original_tokens": 184306,
+      "surviving_tokens": 177185,
+      "tis_retention": 0.9613631677753302,
+      "current_weight_version": 1,
+      "native_attempted_count": 2,
+      "native_skipped_count": 0,
+      "replay_number_counts": {
+        "0": 256
+      },
+      "new_conversations": 0,
+      "finished_conversations": [],
+      "metrics": {
+        "rkl": {
+          "profile_recomputed": 0.11235144949131297,
+          "native": 0.11235144949131297,
+          "absolute_error": 0.0,
+          "relative_error": 0.0,
+          "relative_error_percent": 0.0,
+          "profile_sum": 20707.046249945928,
+          "native_numerator": 20707.046249945928,
+          "native_denominator": 184306,
+          "persisted_macro_exact_equal": true,
+          "numerator_exact_equal": true,
+          "pass_math_isclose": true
+        },
+        "nll": {
+          "profile_recomputed": 0.7886505394118376,
+          "native": 0.7886505394118376,
+          "absolute_error": 0.0,
+          "relative_error": 0.0,
+          "relative_error_percent": 0.0,
+          "profile_sum": 145353.02631683814,
+          "native_numerator": 145353.02631683814,
+          "native_denominator": 184306,
+          "persisted_macro_exact_equal": true,
+          "numerator_exact_equal": true,
+          "pass_math_isclose": true
+        }
+      }
+    }
+  ],
+  "banks": [
+    {
+      "bank": 0,
+      "event_counts": {
+        "acquisition_start": 1,
+        "slot_finished": 256,
+        "acquisition_sealed": 1
+      },
+      "candidate_slots": 256,
+      "actual_turns": 256,
+      "missing_slots": [],
+      "pending_slots": [],
+      "started_at": 1794301794.7310216,
+      "sealed_at": 1794302312.5761585,
+      "started_at_utc": "2026-11-10T09:09:54.731022+00:00",
+      "sealed_at_utc": "2026-11-10T09:18:32.576159+00:00",
+      "acquisition_seconds": 517.8451368808746,
+      "deadline_at": 1794303594.7310479,
+      "deadline_seconds_from_start": 1800.0000262260437,
+      "sealed_before_deadline": true,
+      "elapsed_seconds_min_max": [
+        47.54436802864075,
+        517.8179564476013
+      ],
+      "native_measurement_timestamp": 1794302508.1406574,
+      "acquisition_start_to_native_measurement_seconds": 713.4096357822418,
+      "sealed_to_native_measurement_seconds": 195.5644989013672,
+      "target_tokens": 35509,
+      "response_tokens": 35509,
+      "prompt_tokens_min_max": [
+        2362,
+        55049
+      ],
+      "response_tokens_min_max": [
+        34,
+        8690
+      ],
+      "all_original_masks_all_ones": true,
+      "conversations": 32,
+      "turns_per_conversation_histogram": {
+        "8": 32
+      },
+      "per_conversation_training_turn_range": [
+        [
+          1,
+          8
+        ]
+      ],
+      "sample_weight_versions_present": 256,
+      "sample_prefill_spans_present": 256,
+      "calls_per_sample_histogram": {
+        "1": 256
+      },
+      "sample_version_set_counts": {
+        "0": 256
+      },
+      "decode_span_version_counts": {
+        "0": 256
+      },
+      "prefill_span_version_counts": {
+        "0": 256
+      },
+      "decode_token_version_counts": {
+        "0": 35509
+      },
+      "prefill_token_version_counts": {
+        "0": 3280534
+      },
+      "native_generation_weight_versions_scope": "metadata of the first native train-data sample only; not a bank-wide aggregate",
+      "native_first_sample_generation_receipt_exact_match": false,
+      "teacher_alignment_metadata_pass_count": 256,
+      "sample_acquisition_metadata_pass_count": 256,
+      "target_policies": [
+        "assistant_with_scalar_integer_loss_mask_one_v1"
+      ],
+      "epochs": [
+        0
+      ],
+      "per_sample_training_current_weight_version_field_present": false
+    },
+    {
+      "bank": 1,
+      "event_counts": {
+        "acquisition_start": 1,
+        "slot_finished": 256,
+        "acquisition_sealed": 1
+      },
+      "candidate_slots": 256,
+      "actual_turns": 256,
+      "missing_slots": [],
+      "pending_slots": [],
+      "started_at": 1794302529.6763701,
+      "sealed_at": 1794303939.650371,
+      "started_at_utc": "2026-11-10T09:22:09.676370+00:00",
+      "sealed_at_utc": "2026-11-10T09:45:39.650371+00:00",
+      "acquisition_seconds": 1409.9740009307861,
+      "deadline_at": 1794304329.6764138,
+      "deadline_seconds_from_start": 1800.0000436306,
+      "sealed_before_deadline": true,
+      "elapsed_seconds_min_max": [
+        50.48916172981262,
+        1409.9277420043945
+      ],
+      "native_measurement_timestamp": 1794304208.6404946,
+      "acquisition_start_to_native_measurement_seconds": 1678.9641244411469,
+      "sealed_to_native_measurement_seconds": 268.9901235103607,
+      "target_tokens": 184306,
+      "response_tokens": 184306,
+      "prompt_tokens_min_max": [
+        7282,
+        86644
+      ],
+      "response_tokens_min_max": [
+        37,
+        9534
+      ],
+      "all_original_masks_all_ones": true,
+      "conversations": 32,
+      "turns_per_conversation_histogram": {
+        "8": 32
+      },
+      "per_conversation_training_turn_range": [
+        [
+          9,
+          16
+        ]
+      ],
+      "sample_weight_versions_present": 256,
+      "sample_prefill_spans_present": 256,
+      "calls_per_sample_histogram": {
+        "1": 256
+      },
+      "sample_version_set_counts": {
+        "1": 256
+      },
+      "decode_span_version_counts": {
+        "1": 256
+      },
+      "prefill_span_version_counts": {
+        "1": 256
+      },
+      "decode_token_version_counts": {
+        "1": 184306
+      },
+      "prefill_token_version_counts": {
+        "1": 9312800
+      },
+      "native_generation_weight_versions_scope": "metadata of the first native train-data sample only; not a bank-wide aggregate",
+      "native_first_sample_generation_receipt_exact_match": false,
+      "teacher_alignment_metadata_pass_count": 256,
+      "sample_acquisition_metadata_pass_count": 256,
+      "target_policies": [
+        "assistant_with_scalar_integer_loss_mask_one_v1"
+      ],
+      "epochs": [
+        0
+      ],
+      "per_sample_training_current_weight_version_field_present": false
+    }
+  ],
+  "cross_bank": {
+    "distinct_banks_used_once": true,
+    "uid_intersection_count": 0,
+    "group_turn_intersection_count": 0,
+    "union_uid_count": 512
+  },
+  "limits": [
+    "Per-sample generation decode/prefill versions are retained in sample.weight_versions, not inferred from bank or update number.",
+    "Native current_weight_version is the rollout input scalar copied to training metadata; retained pre-materialization bank samples do not contain that scalar.",
+    "Native record timestamp is taken at before_optimizer and the success receipt is published after_optimizer; derived intervals are not optimizer/scoring duration or ACK completion time.",
+    "Separate teacher request/stage timings, trainer log-prob/train/offload timings, whole-model checksum equality and terminal success are unverified by these six raw files.",
+    "B10 and k10 are immature at update2; N8 is already complete and positive for all32 conversations. This is not mature run/trend or200-update evidence."
+  ],
+  "elapsed_seconds": 5.631639575585723,
+  "peak_rss_kib": 39224,
+  "verdict": "PASS"
+}

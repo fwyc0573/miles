@@ -1,0 +1,65 @@
+{
+  "task_id": "profile-corrected-A-first-two-profile-20261110",
+  "banks": [
+    {
+      "bank": 0,
+      "completed_samples_checked": 256,
+      "native_generation_receipt_exact_matches": [
+        {
+          "slot": 119,
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:14:22",
+          "group_id": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:14",
+          "assistant_turn_ordinal": 8,
+          "prompt_tokens": 47878,
+          "response_length": 200
+        }
+      ],
+      "native_generation_receipt_match_count": 1,
+      "canonical_slot_zero_matches_native_generation_receipt": false,
+      "per_sample_current_weight_version_count": 0,
+      "retained_train_metadata_field_counts": {
+        "current_weight_version": 0,
+        "generation_weight_versions": 0
+      },
+      "samples_missing_decode_spans": 0,
+      "samples_missing_prefill_spans": 0,
+      "verdict": "PASS"
+    },
+    {
+      "bank": 1,
+      "completed_samples_checked": 256,
+      "native_generation_receipt_exact_matches": [
+        {
+          "slot": 118,
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:14:36",
+          "group_id": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:14",
+          "assistant_turn_ordinal": 15,
+          "prompt_tokens": 85887,
+          "response_length": 68
+        }
+      ],
+      "native_generation_receipt_match_count": 1,
+      "canonical_slot_zero_matches_native_generation_receipt": false,
+      "per_sample_current_weight_version_count": 0,
+      "retained_train_metadata_field_counts": {
+        "current_weight_version": 0,
+        "generation_weight_versions": 0
+      },
+      "samples_missing_decode_spans": 0,
+      "samples_missing_prefill_spans": 0,
+      "verdict": "PASS"
+    }
+  ],
+  "provenance": {
+    "retained_per_sample_generation_fields": "bank_N.jsonl slot_finished.sample.weight_versions[*].spans[*].{version,abs_start,abs_end} and prefill_spans[*].{version,abs_start,abs_end}",
+    "serialization_owner": "miles/utils/types.py:23-43,312-318 (WeightVersionsPerCall and Sample.to_dict)",
+    "native_metadata_copy": "tests/manual/agent_opd/swe_replay.py:119-137 (CanonicalTrajectory.materialize copies sample.weight_versions to train_metadata.generation_weight_versions)",
+    "native_rollout_input_scalar": "tests/manual/agent_opd/swe_replay.py:423-429 (sets train_metadata.current_weight_version from RolloutFnTrainInput.weight_version)",
+    "native_single_sample_selector": "tests/manual/agent_opd/swe_training.py:277,302-303 (reads data_iterator[0].rollout_data[metadata][0]; not an aggregate over all samples)",
+    "current_training_scalar_evidence_limit": "Only the native receipt scalar0/1 is retained; pre-materialization bank samples lack current_weight_version and generation_weight_versions in train_metadata. The generation span receipts are available for all256 samples in each bank.",
+    "initial_comparison_limit": "prefix-measurements.json native_first_sample_generation_receipt_exact_match compares against canonical slot0. Both false values are the observed outcome of that unsupported slot0 assumption, not a native/profile defect. This new receipt checks all actual retained samples and finds one exact matching native-generation receipt per bank. Native train-data order itself is not retained."
+  },
+  "elapsed_seconds": 2.4980510901659727,
+  "peak_rss_kib": 32764,
+  "verdict": "PASS"
+}
