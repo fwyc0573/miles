@@ -24,19 +24,28 @@ def sample():
 def _body(sample, mode):
     start = probe._payload(sample, mode)["logprob_start_len"]
     entries = [[-0.5 if token == 13 else -0.25, token, None] for token in sample["tokens"]]
-    entries[0][0] = None
+    entries[start][0] = None
     return {"text": "", "output_ids": [], "meta_info": {
         "input_token_logprobs": entries[start:], "output_token_logprobs": [],
         "cached_tokens": start, "e2e_latency": 12.5, "nested": {"observed_duration": 3.5}}}
 
 
 @pytest.mark.parametrize("prompt,response", [(1, 1), (1, 3), (3, 1), (3, 2)])
-def test_real_native_payload_and_placeholder_tail_boundaries(sample, prompt, response):
+def test_real_native_payload_and_placeholder_tail_boundaries(sample, prompt, response, monkeypatch):
     from miles.rollout import on_policy_distillation as native
 
+    owner, calls = native._score_payload, []
+
+    def score_payload(tokens, **kwargs):
+        calls.append((tokens, kwargs))
+        return owner(tokens, **kwargs)
+
+    monkeypatch.setattr(native, "_score_payload", score_payload)
     sample.update(tokens=list(range(prompt + response)), response_length=response)
     full, short = (probe._payload(sample, mode) for mode in probe._MODES)
-    assert full == native._score_payload(sample["tokens"])
+    assert calls == [(sample["tokens"], {}), (sample["tokens"], {"response_length": response})]
+    assert full == owner(sample["tokens"])
+    assert short == owner(sample["tokens"], response_length=response)
     assert full["sampling_params"]["max_new_tokens"] == 0 and full["return_logprob"] is True
     assert full["logprob_start_len"] == 0
     assert {**short, "logprob_start_len": 0} == full
@@ -50,6 +59,10 @@ def test_real_native_payload_and_placeholder_tail_boundaries(sample, prompt, res
         assert record["token_ids_match"] and record["finite_log_probs"]
         assert record["meta_info"]["e2e_latency"] == 12.5
         assert record["meta_info"]["input_token_logprobs"] == {"omitted_array_length": len(body["meta_info"]["input_token_logprobs"])}
+        start = probe._payload(sample, mode)["logprob_start_len"]
+        assert record["input_token_logprobs_count"] == prompt + response - start
+        assert record["first_input_token_logprob"] is None
+        assert record["first_input_token_id"] == sample["tokens"][start]
 
 
 @pytest.mark.parametrize("failure", ["ids", "missing", "short", "nonfinite", "null", "generation"])
@@ -160,8 +173,9 @@ def _output(tmp_path):
     return output, local
 
 
-def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, tmp_path, monkeypatch):
-    raw = json.dumps(_body(sample, "full_input")).encode()
+@pytest.mark.parametrize("mode", probe._MODES)
+def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, tmp_path, monkeypatch, mode):
+    raw = json.dumps(_body(sample, mode)).encode()
     clock, calls, timeouts = _mock_http(monkeypatch, lambda *args: (raw, 200))
     original_parse, original_scores = probe.json.loads, probe._scores
 
@@ -176,18 +190,22 @@ def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, 
     monkeypatch.setattr(probe.json, "loads", loads)
     monkeypatch.setattr(probe, "_scores", scores)
     output, local = _output(tmp_path)
-    vector, request_id = asyncio.run(probe._request("mock://teacher", sample, "full_input", 19, output, local,
+    vector, request_id = asyncio.run(probe._request("mock://teacher", sample, mode, 19, output, local,
                                                   {"phase": "cold", "repetition": 0, "sample_position": 0}, "cold_flushed"))
     record = original_parse((output / "requests.jsonl").read_text())
-    assert record["request_id"] == request_id == "cold-r0-s0-full_input"
+    assert record["request_id"] == request_id == f"cold-r0-s0-{mode}"
     assert vector["token_ids"] == [13, 14] and record["status"] == "scored"
     assert record["http_time_to_headers_seconds"] == 2 and record["body_read_seconds"] == 3
     assert record["http_elapsed_seconds"] == 5 and record["json_parse_seconds"] == 7
     assert record["validation_seconds"] == 11 and record["body_bytes"] == len(raw)
-    assert record["response_count"] == 2 and record["logprob_start_len"] == 0
+    start = probe._payload(sample, mode)["logprob_start_len"]
+    assert record["response_count"] == 2 and record["logprob_start_len"] == start
+    assert record["input_token_logprobs_count"] == record["expected_input_token_logprobs_count"] == len(sample["tokens"]) - start
+    assert record["first_input_token_id"] == record["first_requested_input_token_id"] == sample["tokens"][start]
+    assert record["first_input_token_logprob"] is None
     assert record["cache_state"] == "cold_flushed" and timeouts == [19]
     assert (local / f"{request_id}.json").read_bytes() == raw
-    assert calls[0][2]["json"] == probe._payload(sample, "full_input")
+    assert calls[0][2]["json"] == probe._payload(sample, mode)
 
 
 @pytest.mark.parametrize("status", [400, 500])
@@ -213,7 +231,8 @@ def test_flush_unsupported_is_explicitly_cache_undefined(tmp_path, monkeypatch, 
 def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_path, monkeypatch, failure):
     body = _body(sample, "full_input")
     if failure == "ids":
-        body["meta_info"]["input_token_logprobs"][-1][1] = 999
+        body["meta_info"]["input_token_logprobs"][0][:2] = [float("nan"), float("inf")]
+        body["meta_info"]["input_token_logprobs"][-1][1] = float("nan")
     raw = b"{invalid JSON" if failure == "json" else json.dumps(body).encode()
     _mock_http(monkeypatch, lambda *args: (raw, 503 if failure == "http" else 200))
     if failure == "timeout":
@@ -221,7 +240,7 @@ def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_
             raise asyncio.TimeoutError("bounded HTTP timeout")
         monkeypatch.setattr(probe, "_http", fail)
     output, local = _output(tmp_path)
-    with pytest.raises((asyncio.TimeoutError, aiohttp.ClientResponseError, ValueError)):
+    with pytest.raises((asyncio.TimeoutError, aiohttp.ClientResponseError, ValueError)) as error:
         asyncio.run(probe._request("mock://teacher", sample, "full_input", 17, output, local,
                                   {"phase": "cold", "repetition": 0, "sample_position": 0}, "cold_flushed"))
     record = json.loads((output / "requests.jsonl").read_text())
@@ -231,6 +250,11 @@ def test_request_failures_remain_failures_and_are_not_parity_passes(sample, tmp_
         assert "json_parse_seconds" in record
     if failure == "ids":
         assert "validation_seconds" in record and (local / "cold-r0-s0-full_input.json").exists()
+        assert str(error.value) == "Teacher completion IDs differ from fixed tokens or scores are nonfinite"
+        assert record["first_input_token_logprob"] == {"nonfinite": "nan"}
+        assert record["first_input_token_id"] == {"nonfinite": "inf"}
+        assert record["completion_token_id_mismatches"][-1]["actual"] == {"nonfinite": "nan"}
+        assert record["input_token_logprobs_count"] == len(sample["tokens"])
 
 
 @pytest.mark.parametrize("cache_status", [200, 404])

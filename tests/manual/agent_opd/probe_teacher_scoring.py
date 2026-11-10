@@ -162,11 +162,9 @@ def _payload(sample, mode):
 
     if mode not in _MODES:
         raise ValueError(f"Unknown probe mode: {mode}")
-    payload = _score_payload(sample["tokens"])
     if mode == "response_only":
-        # Probe-only override: preserve the preceding position for native [1:] trimming.
-        payload["logprob_start_len"] = len(sample["tokens"]) - sample["response_length"] - 1
-    return payload
+        return _score_payload(sample["tokens"], response_length=sample["response_length"])
+    return _score_payload(sample["tokens"])
 
 
 def _meta_summary(value):
@@ -185,6 +183,12 @@ def _scores(body, sample, record):
     record.update(token_ids_match=False, finite_log_probs=False)
     meta = body["meta_info"]
     record["meta_info"] = _meta_summary(meta)
+    raw_scores = meta.get("input_token_logprobs")
+    record["input_token_logprobs_count"] = len(raw_scores) if isinstance(raw_scores, list) else None
+    record.update(first_input_token_logprob=None, first_input_token_id=None)
+    if isinstance(raw_scores, list) and raw_scores and isinstance(raw_scores[0], list) and len(raw_scores[0]) >= 2:
+        record["first_input_token_logprob"] = _meta_summary(raw_scores[0][0])
+        record["first_input_token_id"] = _meta_summary(raw_scores[0][1])
     scores = _trim_input_field(meta, "input_token_logprobs", sample["response_length"])
     ids = [item[1] for item in scores]
     values = [float(item[0]) for item in scores]
@@ -192,7 +196,7 @@ def _scores(body, sample, record):
     record["token_ids_match"] = ids == sample["tokens"][-sample["response_length"]:]
     record["finite_log_probs"] = all(math.isfinite(value) for value in values)
     record["completion_token_id_mismatches"] = [
-        {"position": position, "expected": expected, "actual": actual}
+        {"position": position, "expected": expected, "actual": _meta_summary(actual)}
         for position, (expected, actual) in enumerate(zip(sample["tokens"][-sample["response_length"]:], ids))
         if expected != actual
     ]
@@ -282,11 +286,14 @@ async def _request(url, sample, mode, timeout, output, local, identity, cache_st
               "sample_index": sample["sample_index"], "input_count": len(sample["tokens"]),
               "prompt_count": len(sample["tokens"]) - sample["response_length"],
               "response_count": sample["response_length"], "logprob_start_len": payload["logprob_start_len"],
+              "expected_input_token_logprobs_count": len(sample["tokens"]) - payload["logprob_start_len"],
+              "first_requested_input_token_id": sample["tokens"][payload["logprob_start_len"]],
               "cache_state": cache_state, "status": "failed", "started_at": time.time(),
               "token_ids_match": False, "finite_log_probs": False}
     record.update({key: None for key in ("http_time_to_headers_seconds", "http_elapsed_seconds", "body_read_seconds",
                                         "http_status", "body_bytes", "json_parse_seconds", "validation_seconds",
-                                        "returned_completion_count")})
+                                        "returned_completion_count", "input_token_logprobs_count",
+                                        "first_input_token_logprob", "first_input_token_id")})
     started = time.perf_counter()
     try:
         raw = await _http("POST", url + "/generate", payload, timeout, record)
