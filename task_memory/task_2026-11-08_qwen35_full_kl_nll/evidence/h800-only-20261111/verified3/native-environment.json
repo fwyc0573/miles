@@ -1,0 +1,18 @@
+{
+  "PYTHONUNBUFFERED": "1",
+  "CUDA_DEVICE_MAX_CONNECTIONS": "1",
+  "LD_LIBRARY_PATH": "/usr/local/nvidia/lib64",
+  "TMPDIR": "/data/ycfeng/tmp",
+  "PYTHONDONTWRITEBYTECODE": "1",
+  "TORCHINDUCTOR_CACHE_DIR": "/data/ycfeng/tmp/torchinductor_brainpp",
+  "TRITON_CACHE_DIR": "/home/brainpp/.cache/sglang/triton",
+  "CUDA_CACHE_PATH": "/home/brainpp/.cache/sglang/nv",
+  "FLASHINFER_WORKSPACE_BASE": "/home/brainpp/.cache/sglang",
+  "NVTE_ALLOW_NONDETERMINISTIC_ALGO": "0",
+  "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+  "SGLANG_DETERMINISTIC_NCCL_NCHANNELS": "8",
+  "NCCL_MIN_NCHANNELS": "8",
+  "NCCL_MAX_NCHANNELS": "8",
+  "no_proxy": "*",
+  "NO_PROXY": "*"
+}

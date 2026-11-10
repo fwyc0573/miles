@@ -1,0 +1,155 @@
+{
+  "task_id": "profile-h800-only-config-20261111",
+  "baseline_commit": "6b450939305f3c3ae2cdbffea9d4a705dcfac5e6",
+  "status": "PASS",
+  "python": "3.12.13 (main, May 10 2026, 19:30:01) [Clang 22.1.3 ]",
+  "working_directory": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+  "changed_fields": {
+    "shared_dir": {
+      "before": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110",
+      "after": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-only-112k-20261111"
+    },
+    "phase": {
+      "before": "full-kl-nll-h800-112k",
+      "after": "full-kl-nll-h800-only-20261111"
+    },
+    "run_root": {
+      "before": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110",
+      "after": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-only-112k-20261111"
+    }
+  },
+  "commands_and_checks": [
+    {
+      "pair": "A",
+      "entry": "submission",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.submit_swe_opd",
+        "--config",
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+        "--pair",
+        "A",
+        "--protocol",
+        "full",
+        "--receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/verified3/A-unused-receipt.json",
+        "--dry-run"
+      ],
+      "returncode": 0
+    },
+    {
+      "pair": "A",
+      "entry": "native-argv",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.run_swe_opd",
+        "--config",
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+        "--pair",
+        "A",
+        "--protocol",
+        "full",
+        "--role",
+        "train",
+        "--dry-run"
+      ],
+      "returncode": 0
+    },
+    {
+      "pair": "A",
+      "entry": "comparison-and-real-formal-contract",
+      "flag_count": 125,
+      "all_flags_equal_except_output_root": true,
+      "formal_contract": {
+        "budget": 200,
+        "initial_successful": 0,
+        "start_rollout_id": 0,
+        "bank_uses_field": 50,
+        "effective_bank_uses": 1,
+        "successful_bank_visits": 200,
+        "distinct_banks": 200,
+        "all_visits": 1,
+        "initial_weight_sync_timeout": 600.0,
+        "profile_enabled": true
+      }
+    },
+    {
+      "pair": "B",
+      "entry": "submission",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.submit_swe_opd",
+        "--config",
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+        "--pair",
+        "B",
+        "--protocol",
+        "full",
+        "--receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/verified3/B-unused-receipt.json",
+        "--dry-run"
+      ],
+      "returncode": 0
+    },
+    {
+      "pair": "B",
+      "entry": "native-argv",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.run_swe_opd",
+        "--config",
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+        "--pair",
+        "B",
+        "--protocol",
+        "full",
+        "--role",
+        "train",
+        "--dry-run"
+      ],
+      "returncode": 0
+    },
+    {
+      "pair": "B",
+      "entry": "comparison-and-real-formal-contract",
+      "flag_count": 125,
+      "all_flags_equal_except_output_root": true,
+      "formal_contract": {
+        "budget": 200,
+        "initial_successful": 0,
+        "start_rollout_id": 0,
+        "bank_uses_field": 50,
+        "effective_bank_uses": 1,
+        "successful_bank_visits": 200,
+        "distinct_banks": 200,
+        "all_visits": 1,
+        "initial_weight_sync_timeout": 600.0,
+        "profile_enabled": true
+      }
+    }
+  ],
+  "combined_requested_gpus": 72,
+  "hardware": "H800",
+  "charged_group": "codesign",
+  "no_host_nccl_nic_hca_forwarding": true,
+  "runtime_unchanged_paths": [
+    "tests/manual/agent_opd/qwen_alignment.py",
+    "tests/manual/agent_opd/swe_replay.py",
+    "tests/manual/agent_opd/swe_inputs.py",
+    "tests/manual/agent_opd/swe_training.py",
+    "tests/manual/agent_opd/distillation_profile.py",
+    "tests/manual/agent_opd/run_swe_opd.py",
+    "tests/manual/agent_opd/run_qwen35_opd.py",
+    "tests/manual/agent_opd/qwen35_pair_worker.py"
+  ],
+  "lifecycle_evidence_reused": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_formal_configuration.md",
+  "limits": "CPU post-parse schema/driver validation; no native GPU parser, platform admission, mounts, assets, or training"
+}

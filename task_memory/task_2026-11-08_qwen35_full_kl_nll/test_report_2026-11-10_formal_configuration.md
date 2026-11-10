@@ -2,12 +2,15 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Prepare independent H800-only A/B output identities; verify all four CPU dry-runs, frozen configuration/flags, real formal driver and node-local NCCL environment without changing runtime or science. |
 | 2026-11-10 | Add D37 H200 A/B configuration checks and18-GPU resource preparation; retain the historical H800 configuration and first attempts. |
 | 2026-11-10 | Enable the verified Ticket03 profile path and confirm both final A/B launch command/config outputs; preserve native first-update acceptance. |
 | 2026-11-10 | Correct the inherited formal bank_uses validation field after native-contract RED/GREEN; confirm full still uses200 distinct banks once each and record B teacher feasibility limits. |
 | 2026-11-10 | Prepare the formal A/B configuration and verify dry-run resource and native argument output; profile integration remains pending. |
 
 # Formal H800 configuration
+
+The sections dated 2026-11-10 below retain their historical configuration and admission context. The current H800-only candidate and its verification are recorded in the final 2026-11-11 section; the separate H200 configuration and every historical attempt remain unchanged.
 
 ## Scope and state
 
@@ -98,3 +101,66 @@ At128K/TP2 the single bf16 logits tensor is30.3125GiB/rank rather than the H800 
 ### H200 prelaunch review
 
 `profile-h200-prelaunch-review-20261110` reviewed the fixed four-file comparison `f15b1303..d822174c` and returned **No findings** on Standards and Spec. The reviewer inspected the existing consumers, YAML, policy, D37 and supplied dry-run evidence without rerunning tests or accessing the platform. Native acceptance remains pending. Immediately before submission, `git diff --exit-code d822174c -- miles` plus the explicit source/launcher/replay/training/profile/config/policy paths returned0: concurrent offline reporting work did not change the selected runtime. `before-steptron-run` reuses the inspected lifecycle boundaries and16-case evidence above; the H200 configuration changes hardware allocation and output roots only.
+
+## H800-only independent attempts — 2026-11-11
+
+TaskID: `profile-h800-only-config-20261111`. New explicit user instruction: **“当前session的执行只允许使用h800的gpus（无限制），继续”**. This configuration-only slice owns `formal_config.json`, this report and small evidence under `evidence/h800-only-20261111/`; the primary owns all operational actions, current main documents, review and launch. No GPU, platform, SSH, network or service action was performed here.
+
+### Frozen candidate and concurrency
+
+Compared with `6b450939305f3c3ae2cdbffea9d4a705dcfac5e6`, exactly three top-level fields changed:
+
+| Field | New value |
+| --- | --- |
+| `phase` | `full-kl-nll-h800-only-20261111` |
+| `run_root` | `/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-only-112k-20261111` |
+| `shared_dir` | `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-only-112k-20261111` |
+
+All other science, source, model, image, mount, topology, timeout, sampling, profile, TIS and HF fields are equal to that fixed baseline. A and B retain four eight-H800 student/rollout replicas plus one four-H800 teacher each: 36 per pair, 72 combined, `charged_group=codesign`. The unchanged YAML supplies two colocated plus six dedicated TP4 engines. D16 and the common native cycle have already been accepted; A/B may therefore seek fresh admission concurrently, subject to actual platform placement. This is not a quota or placement receipt, and it introduces no A200/profile-PASS gate or GPU smoke.
+
+The existing unchanged `gpu_policy.json` has `personal_nonpreemptible_gpus=null`. Its expired temporary window also has a null ceiling. `rjob_budget.py:53–76,79–111` explicitly treats a selected `None` ceiling as unlimited while still reading fresh personal inventory; after expiry, `preemptible=false`. `submit_swe_opd.py:92–115` consumes the existing policy, H800 tag and codesign group. No flag, policy field, consumer, fallback or runtime implementation was added.
+
+Both cells start independent attempts from the original model, with native successful counter 0 and rollout ID 0. The new output roots do not merge H800/H200 counters, profiles or checkpoints. The native driver rejects a nonzero start, and `SweReplay.load` does not provide state restoration. No native resume was assumed.
+
+### Exact CPU verification
+
+Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`. Python: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, version **3.12.13**. Final one-shot evidence command:
+
+```bash
+env -u NCCL_SOCKET_IFNAME -u NCCL_IB_HCA PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/validate_configuration.py
+```
+
+The script executed the existing submission and native-argv entrypoints for each `PAIR=A,B`, using the following command forms. Exact expanded command arrays, exits and checks are retained in `evidence/h800-only-20261111/verified3/comparison.json`; stdout/stderr are `verified3/{A,B}-{submission,native-argv}.{stdout,stderr}`. Evidence files use exclusive creation and are not regenerated over existing output.
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.submit_swe_opd --config task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json --pair "$PAIR" --protocol full --receipt "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/verified3/${PAIR}-unused-receipt.json" --dry-run
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.run_swe_opd --config task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json --pair "$PAIR" --protocol full --role train --dry-run
+```
+
+| Check / passing condition | Observed | Result |
+| --- | --- | --- |
+| Four existing CPU entrypoints exit 0; no submission | 4/4 exit 0; both `submitted=false`, 36 GPUs, student4×8/teacher1×4 | PASS |
+| Fixed-baseline JSON equality outside three authorized fields | Exactly `phase`, `run_root`, `shared_dir` differ | PASS |
+| Complete native flag multiset equals baseline after output-root normalization; each flag occurs once | All 125 flags per pair equal, including 128K/112K/16K,32×8,formal200,bank_uses50,profile10/10/8 | PASS |
+| Saving/checkpoint/evaluation/resume/sync-timeout overrides remain absent | No save interval, post-save hook, evaluation configuration, load, checkpoint step, start-rollout or update-weights-timeout flag | PASS |
+| Actual post-parse `training_protocol` accepts the emitted formal contract | Both real `OrchestratorConfig` JSON transport/custom views return driver budget200, counter0, start0; profile enabled | PASS |
+| Real full-mode schedule has 200 independent banks and one successful visit each | Both schedules produce `(bank,visit)=(0,1)…(199,1)`; config field50, effective uses1 | PASS |
+| Native weight-sync timeout remains the existing default | 600 seconds; no explicit override | PASS |
+| Native runtime environment does not forward host NIC/HCA | Injected host `NCCL_SOCKET_IFNAME`/`NCCL_IB_HCA` absent from `_runtime_env`→`train_env_vars`; CUDA connections1; native deterministic channels8 retained | PASS |
+| Selected sample lifecycle/runtime unchanged versus baseline | Scoped `git diff --exit-code 6b450939 --` across eight inspected lifecycle/launcher files returns0 | PASS |
+
+Immutable final review inputs: `verified3/baseline_config.json`, `verified3/candidate_config.json`, `verified3/config.diff`, `verified3/comparison.json` and `verified3/native-environment.json`. The CPU contract check reuses `_typed_swe_config`, applies the emitted fields actually read by `training_protocol` and the actual `SweReplayConfig`, then runs the real schemas, transport, custom view and driver. It is not a GPU Megatron parser, full native worker or model-asset validation. Lifecycle/source/scoring/profile code did not change; the already recorded16-case sample lifecycle evidence is reused without another business suite or source scan. Formal startup, B's H800 TP4/EP1 teacher feasibility, live admission and actual A/B200 results remain native-run work for the primary.
+
+### Local verification history and limits
+
+The first wrapper command above was interrupted by the tool's120-second total limit after A submission output had been retained. A standalone native dry-run with a15-second repeating `faulthandler` diagnostic then exited0 with no timeout traceback; the initial delay's cause is not established. Subsequent wrappers used a300-second tool limit only; no worker/model timeout changed. Diagnostic outputs are `A-native-import-diagnostic.{stdout,stderr}`, and its exact command is retained in `validation_history.json`.
+
+Two later failures were confined to this new evidence script: `AttributeError: 'dict' object has no attribute 'path'` arose from treating `model_dump` output as a typed hook, then `AllConfig` rejected the pre-parse string `check_weight_update_skip_list='visual'`. The script now reads hooks from the typed fixture and applies only the emitted fields consumed by the formal contract, rather than treating unrelated CLI values as resolved schema values. Historical partial evidence stays under the root, `verified/` and `verified2/`; only `verified3/` is final PASS. The final wrapper exits0. Native-argv checks retain the existing optional `deep_ep is not installed` warning. No observed script failure changed application behavior or invalidated the already accepted D16/common-cycle evidence.
+
+The scoped `check-progress` checkpoint is `evidence/h800-only-20261111/checkpoint.md`. It closes this CPU candidate milestone, stops verification broadening, and routes review/live admission/launch back to the primary. Current `requirements.md`, `plan.md` and04/05 status still describe the prior H200 route at inspection time; their synchronization is outside this slice and remains primary-owned, with old attempts and acceptance criteria protected.
+
+Final artifact checks: scoped `git diff --check -- formal_config.json test_report_2026-11-10_formal_configuration.md evidence/h800-only-20261111` (all paths prefixed with this task directory) exited0; `git diff --cached --name-only` was empty before staging. The following exact artifact-only command exited0: **11 JSON files parse, 103156 evidence bytes** before the final small report/checkpoint edits. No additional business tests were run.
+
+```bash
+/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'import json,pathlib; p=pathlib.Path("task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111"); files=list(p.rglob("*.json")); [json.loads(f.read_text()) for f in files]; print("JSON artifacts:",len(files),"PASS; evidence bytes:",sum(f.stat().st_size for f in p.rglob("*") if f.is_file()))'
+```

@@ -1,0 +1,21 @@
+{
+  "task_id": "profile-h800-only-config-20261111",
+  "command": "env -u NCCL_SOCKET_IFNAME -u NCCL_IB_HCA PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/validate_configuration.py",
+  "attempts": [
+    {"output": ".", "tool_timeout_ms": 120000, "result": "Tool total timeout after A submission output; native argv had not been retained"},
+    {"output": "verified", "tool_timeout_ms": 300000, "exit_code": 1, "error": "AttributeError: 'dict' object has no attribute 'path'", "cause": "Evidence script treated serialized hook payload as a typed hook"},
+    {"output": "verified2", "tool_timeout_ms": 300000, "exit_code": 1, "error": "AllConfig.check_weight_update_skip_list: Input should be a valid list; input_value='visual'", "cause": "Evidence script copied an unrelated pre-parse CLI value into a resolved schema"},
+    {"output": "verified3", "tool_timeout_ms": 300000, "exit_code": 0, "result": "PASS: four CPU dry-runs, all125 flags per pair, real formal driver, full200-bank schedule and native environment"}
+  ],
+  "diagnostic": {
+    "command": "env -u NCCL_SOCKET_IFNAME -u NCCL_IB_HCA PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'import faulthandler,runpy,sys; faulthandler.dump_traceback_later(15, repeat=True); sys.argv=[\"run_swe_opd\", \"--config\", \"task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json\", \"--pair\", \"A\", \"--protocol\", \"full\", \"--role\", \"train\", \"--dry-run\"]; runpy.run_module(\"tests.manual.agent_opd.run_swe_opd\", run_name=\"__main__\")' > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/A-native-import-diagnostic.stdout 2> task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/h800-only-20261111/A-native-import-diagnostic.stderr",
+    "tool_timeout_ms": 70000,
+    "exit_code": 0,
+    "traceback_emitted": false,
+    "warning": "WARNING:root:deep_ep is not installed, some functionalities may be limited.",
+    "initial_timeout_cause": "unverified"
+  },
+  "runtime_edits": false,
+  "platform_or_gpu_operations": false,
+  "final_evidence": "verified3/comparison.json"
+}
