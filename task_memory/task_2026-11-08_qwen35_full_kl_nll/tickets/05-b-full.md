@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record controlled D38 evidence and the common native correction in progress; retain B's completed A-inspection edge and remaining resource/runtime work. |
 | 2026-11-10 | Accept A firstACK/inspection prerequisite; block B on the common native host-memory fault and fresh admission, not A200/profile PASS. |
 | 2026-11-10 | Reflect actual A H200/Ray startup and joined CPU readiness while retaining B's real ACK/inspection/resource blockers and all final criteria. |
 | 2026-11-10 | Align current B context with18-H200/cell and32-GPU admission: actual A ACK/inspection remain logical prerequisites, while allocation release is a separate resource requirement. |
@@ -24,7 +25,7 @@
 
 **Blocked by:** 01、02、03 已接受；04 实际firstACK/inspection由D16满足。共同native host-memory fault尚未解决，且需fresh18-H200准入/资源≤32；这不是A200或profile-PASS逻辑门槛。
 
-**Status:** BLOCKED — common native fault and fresh admission; no B submitted. A firstACK/inspection is now[PASS](../test_report_2026-11-10_d16_first_update.md), but A subsequentlyFailed1/200 and all replicas terminated. Known shared TMS sleep/offload host-memory fault still needs mechanism verification/fix; no selected runtime/configuration change. Existing18-H200/step_main/2-H200 TP2 teacher and32 nonpreemptible ceiling remain, current availability requires fresh readback. The A prerequisite row alone is newly checked; B native/profile/200 final acceptance remains unchecked. **D37/S8/historical H800/science/S7 and independent artifacts are unchanged; no A200/profile-PASS gate or extraordinary GPU run.**
+**Status:** BLOCKED — common native correction and fresh admission; no B submitted. A firstACK/inspection is[PASS](../test_report_2026-11-10_d16_first_update.md). [D38 controlled diagnostic](../test_report_2026-11-10_allocator_probe.md#native-result--pass)supports the targeted state-initialization timing correction now in progress; the corrected full-workload path is not yet verified. B retains18 H200/step_main,2-H200 TP2 teacher and fresh admission within32 nonpreemptible GPUs. Its A-inspection criterion is already satisfied; native/profile/200 final acceptance remains pending, without an A200/profile-PASS prerequisite.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

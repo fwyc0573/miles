@@ -1,0 +1,28 @@
+{
+  "job": "exp-1110-160647-698733",
+  "uid": "6b639f1e-a005-4bad-92d4-1330e851ba0a",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "default": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T08:08:18Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "default": [
+      {
+        "name": "exp-1110-160647-698733-cfcd2084",
+        "ip": "10.204.12.67",
+        "phase": "Running"
+      }
+    ]
+  },
+  "observed_at": "2026-11-10T08:08:19.205962+00:00"
+}

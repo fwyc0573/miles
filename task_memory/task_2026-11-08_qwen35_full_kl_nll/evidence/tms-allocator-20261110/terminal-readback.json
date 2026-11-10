@@ -1,0 +1,120 @@
+{
+  "job": "exp-1110-160647-698733",
+  "uid": "6b639f1e-a005-4bad-92d4-1330e851ba0a",
+  "creator": "i-fengyicheng",
+  "preemptible": "no",
+  "created_at": "2026-11-10T08:06:47Z",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "default": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T08:08:18Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "task": {
+    "replicas": 1,
+    "positive_tags": [
+      "H200"
+    ],
+    "containers": [
+      {
+        "name": "default",
+        "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+        "resources": {
+          "limits": {
+            "cpu": "4",
+            "memory": "16000Mi",
+            "nvidia.com/gpu": "1"
+          },
+          "requests": {
+            "cpu": "4",
+            "memory": "16000Mi",
+            "nvidia.com/gpu": "1"
+          }
+        }
+      }
+    ]
+  },
+  "source_mount_readbacks": {
+    "job": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+    "task": null,
+    "template": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+    "replica": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+  },
+  "replica": {
+    "name": "exp-1110-160647-698733-cfcd2084",
+    "uid": "b27fe1cd-6eab-4470-b40c-d00b95a4d947",
+    "status": {
+      "conditions": [
+        {
+          "type": "Initialized",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T08:07:01Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "Ready",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T08:08:17Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "ContainersReady",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T08:08:17Z",
+          "reason": "PodCompleted"
+        },
+        {
+          "type": "PodScheduled",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-10T08:06:52Z"
+        }
+      ],
+      "hostIP": "10.204.12.67",
+      "podIP": "10.204.12.67",
+      "podIPs": [
+        {
+          "ip": "10.204.12.67"
+        }
+      ],
+      "startTime": "2026-11-10T08:07:01Z",
+      "containerStatuses": [
+        {
+          "name": "default",
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "reason": "Completed",
+              "startedAt": "2026-11-10T08:07:04Z",
+              "finishedAt": "2026-11-10T08:08:16Z",
+              "containerID": "containerd://5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd"
+            }
+          },
+          "lastState": {},
+          "ready": false,
+          "restartCount": 0,
+          "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "containerID": "containerd://5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+          "started": false
+        }
+      ],
+      "qosClass": "Guaranteed",
+      "phase": "Succeeded",
+      "nodeName": "gpu-h200-0375.lgcm.sh.istep.fun",
+      "finishTimestamp": "2026-11-10T08:08:18Z"
+    }
+  },
+  "replica_source": "RJobClient._get_replica_kapis exact-name historical read",
+  "observed_at": "2026-11-10T08:13:27.919537+00:00"
+}

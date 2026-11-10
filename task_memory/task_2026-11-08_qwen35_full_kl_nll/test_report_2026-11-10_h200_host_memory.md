@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Add controlled native allocation-order evidence from the successful D38 diagnostic and retain the full-model attribution boundary. |
 | 2026-11-10 | Record the post-update host-memory failure, pinned TMS source inspection and D38 diagnostic authorization. |
 
 # H200 post-update host-memory investigation
@@ -41,10 +42,16 @@ Observed environment: Python3.12.16, `torch-memory-saver==0.0.10`, the same immu
 
 This confirms the installed version and available interfaces. It does not measure native CPU backup bytes, disk offload correctness, page-cache behavior or the available storage on a subsequently allocated H200 worker. The source copies remain locally under the manifest's explicit paths. The CPU worker's `/var/tmp` had2,748,533,202,944 available bytes at capture; that is not a placement or disk-space promise for another worker.
 
-## Next authorized experiment
+## D38 diagnostic: prelaunch record
 
-[D38](requirements.md#host-memory-diagnostic-route--original-request-2026-11-10) authorizes one H200 allocator/TMS diagnostic with a600-second worker-script limit, startup separate. A separate implementation owner is preparing a controlled comparison of allocation ordering, allocator segment/block ownership and pause/resume observations. The primary owns submission and result acceptance. The diagnostic has not yet been submitted at this checkpoint.
+[D38](requirements.md#host-memory-diagnostic-route--original-request-2026-11-10) authorized one H200 allocator/TMS diagnostic with a600-second worker-script limit, startup separate. At the prelaunch checkpoint, a separate implementation owner was preparing the comparison and the diagnostic had not been submitted. The primary owns submission and result acceptance.
 
 Acceptance will distinguish successful execution and roundtrip checks from support for the allocation-retention hypothesis. Controlled behavior alone will not be called proof of the old full-model run's specific allocation owner. Any correction must subsequently pass the actual train → sleep → weight-update → next-train path, with optimizer progression and native business outputs inspected.
 
 The existing disk-offload alternative was not selected. Formal artifacts remain protected, and the two earlier H800 zero-update attempts remain separate. Audited platform stop-request actor/time are still UNKNOWN because those two bounded audit reads failed; the native memory-monitor evidence is retained independently.
+
+## Controlled native result
+
+Job`exp-1110-160647-698733`and its one H200 replica succeeded, exit0/restart0,container72s. The full[native diagnostic report](test_report_2026-11-10_allocator_probe.md#native-result--pass) and[independent verification](evidence/tms-allocator-20261110/native-verification.json) confirm that late64MiB Adam moments occupy active blocks within the released1GiB transient segment, retaining896MiB inactive; early initialization gives the same moments independent64MiB segments. Equal live allocation produces1090 versus194MiB reserved and approximately1090 versus194MiB pause RSS increase. Both native pause/resume/state/step checks pass.
+
+The evidence supports correcting optimizer-state allocation timing through the existing native callback. It does not establish which allocation owned the old full-model segment. A dedicated implementation owner is making the minimal timing correction and checking restored states; acceptance of the full-workload repair still needs the actual formal offload and subsequent training path.

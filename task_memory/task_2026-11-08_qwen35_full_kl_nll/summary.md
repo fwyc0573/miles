@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record controlled D38 diagnostic PASS and advance the frontier to native initialization timing and formal verification. |
 | 2026-11-10 | Close offline CPU acceptance and record the D38 single-H200 diagnostic route. |
 | 2026-11-10 | Accept D16/Ticket02 real GPU evidence; archive native terminal1/200 host-memory failure, unresolved mechanism/fix and one remaining offline Spec edge. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and initial CPU join; archive open offline review repairs without claiming fix or native/final completion. |
@@ -23,7 +24,7 @@
 
 # D16 accepted — native host-memory failure blocks formal completion
 
-Current frontier is **D38 single-H200 allocator/TMS diagnostic→evidence-backed correction→formal continuation**. [D16 actual first-update proof](test_report_2026-11-10_d16_first_update.md)accepts Ticket02;01/02/03 are done. A is terminalFailed1/200 after native Ray host-memory pressure during TMS sleep/offload. The controlled diagnostic must not be presented as proof of the failed full-model allocation owner. B's A-firstACK/inspection edge is satisfied, but common fault/fresh resources remain. The independent offline CPU slice is accepted with all review findings closed;06 final criteria still need actual completed A/B records. Historical attempts and scientific criteria remain unchanged. Detailed current proof/state is in[progress](progress.md#in-progress).
+Current frontier is **native optimizer-state initialization timing→formal verification/continuation**. D38's controlled one-H200 diagnostic passed: job/replicaSucceeded,72-second container run, exact896MiB extra inactive retention from late moments occupying the old transient segment, and all backup/restore/native-step checks pass. This does not identify the old full-model allocation owner. [D16 actual first-update proof](test_report_2026-11-10_d16_first_update.md)accepts Ticket02;01/02/03 are done. Formal A remains terminalFailed1/200. B's A-firstACK/inspection edge is satisfied, with common fault/fresh resources outstanding. The offline CPU slice is accepted;06 final criteria still need actual completed A/B records. Detailed current evidence is in[progress](progress.md#in-progress).
 
 Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all original findings, including the retained unchanged document checker. T02 phase reviews remain Standards0/Spec0; at this checkpoint the primary-owned [review](review.md) also records T03 Standards/Spec No findings. These are inspected review records, not independent test reruns or formal GPU certification.
 

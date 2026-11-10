@@ -1,0 +1,149 @@
+{
+  "observed_at": "2026-11-10T08:06:47.680854+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H200",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1110-154712-705102",
+      "phase": "Running",
+      "roles": {
+        "shard4": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-966190",
+      "phase": "Running",
+      "roles": {
+        "shard13": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-956076",
+      "phase": "Running",
+      "roles": {
+        "shard9": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-676387",
+      "phase": "Running",
+      "roles": {
+        "shard3": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-977620",
+      "phase": "Running",
+      "roles": {
+        "shard10": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-904811",
+      "phase": "Running",
+      "roles": {
+        "shard7": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-725144",
+      "phase": "Running",
+      "roles": {
+        "shard5": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-772097",
+      "phase": "Running",
+      "roles": {
+        "shard2": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-997575",
+      "phase": "Running",
+      "roles": {
+        "shard11": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-711567",
+      "phase": "Running",
+      "roles": {
+        "shard1": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154713-163191",
+      "phase": "Running",
+      "roles": {
+        "shard14": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154713-203392",
+      "phase": "Running",
+      "roles": {
+        "shard15": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-948752",
+      "phase": "Running",
+      "roles": {
+        "shard6": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1110-154712-911061",
+      "phase": "Running",
+      "roles": {
+        "shard12": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1108-215214-032806",
+      "phase": "Running",
+      "roles": {
+        "evaluation": 2
+      },
+      "gpus": 2
+    }
+  ],
+  "committed_gpus": 30,
+  "requested_gpus": 1,
+  "ceiling_gpus": 32,
+  "admitted": true,
+  "scope": "personal",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": 32,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": 32
+    }
+  },
+  "evaluated_at": "2026-11-10T08:06:47.680854+00:00",
+  "preemptible": false,
+  "config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/allocator_probe_config.json",
+  "submitted": true,
+  "worker_command": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/worker-command.json",
+  "code_revision": "3945e0a9a64fdb7e5e426b9d8f9b44c1cb57af6e",
+  "job": "exp-1110-160647-698733",
+  "source_mount_submitted": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}

@@ -2,15 +2,16 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept the72-second single-H200 diagnostic: exact segment ownership, backup/resume checks and terminal identity; assign the native initialization-timing correction. |
 | 2026-11-10 | Record the first personal-admission rejection at32/32; no diagnostic RJob or native result exists. |
 | 2026-11-10 | Primary prelaunch inspection selects1H200,4 CPUs,mem_gb16,1024/64MiB cases and a600-second whole-worker command limit. |
 | 2026-11-10 | Prepare the D38 one-H200 allocator-order diagnostic and record CPU validation only; native execution remains pending with the primary agent. |
 
-# Allocator/TMS probe: CPU preparation
+# Allocator/TMS probe
 
 ## Result and ownership
 
-**CPU preparation PASS; GPU execution PENDING.** TaskID: `profile-h200-allocator-probe-20261110`.
+**CPU preparation PASS; controlled GPU diagnostic PASS.** TaskID: `profile-h200-allocator-probe-20261110`. The complete formal workload's allocation owner and the forthcoming correction still require native formal evidence.
 
 Owned deliverables:
 
@@ -118,7 +119,7 @@ export TORCH_EXTENSIONS_DIR="$WORKER_LOCAL_ROOT/torch-extensions"
 
 Outputs: `late_moments.json`, `early_moments.json`, and `summary.json`; raw stdout belongs to the existing launcher log. No large memory-history snapshot or model artifact is written.
 
-### Native acceptance predicates — not yet evaluated
+### Native acceptance predicates — recorded before execution
 
 1. Both subprocesses execute independently with the expected image/TMS identity and one actual H200.
 2. Both produce all required phases, before-pause segment/block state and exact requested state bytes.
@@ -139,3 +140,28 @@ At07:51:57Z the primary's fresh personal admission found32 committed H200, reque
 A subsequent exact-job metadata read confirmed all16 counted jobs carry `preemptible=no`, totaling32 GPUs: [filtered label evidence](evidence/tms-allocator-20261110/blocked-preemption-labels.json). The wait is therefore applicable to the non-preemptible ceiling.
 
 [The fully rendered worker command](evidence/tms-allocator-20261110/worker-command.json) retains the selected inputs, image and proposed local mount. This is preparation evidence, not a submission receipt. A separate read-only capacity notifier queries the existing policy helper every60 seconds; its log is `/data/ycfeng/tmp/agent-opd-image/tms-allocator-d38-admission-watch-20261110.log`. Once notified, the primary must re-read admission under the existing lock before the one authorized submission. No native result or formal fix is accepted here.
+
+## Native result — PASS
+
+After the capacity notification, the primary immediately re-read admission under the existing lock:30 committed H200 +1 requested≤32. [Submitted receipt](evidence/tms-allocator-20261110/admission-submitted.json) binds the one diagnostic job **`exp-1110-160647-698733`**, creator`i-fengyicheng`, non-preemptible, H200/step_main. The command was reused unchanged from the frozen preflight record; only its submitted receipt is new. Launcher log: `/data/ycfeng/tmp/agent-opd-image/tms-allocator-d38-admitted-launch-20261110.log`.
+
+[Exact terminal readback](evidence/tms-allocator-20261110/terminal-readback.json) confirms job and replica **Succeeded**, container exit0/restart0. The container ran08:07:04Z–08:08:16Z, **72 seconds**, within600 seconds. The two case subprocesses total69.486946 seconds. The task requests one GPU,4 CPUs and16000Mi memory. The actual imageID matches the pinned digest and job/template/replica all name the local NFS source`100.96.128.195:/data/ycfeng:/data/ycfeng`. The first `infos` receipt still said Running; it is retained as an earlier observation, superseded for terminal acceptance by the exact replica's Completed/exit0 record.
+
+Observed runtime: Python3.12.16, PyTorch2.14.1+cu130, CUDA13.0, TMS0.0.10 and the expected preload ELF hash. Both cases saw the same single NVIDIA H200,143771MiB. Native allocator overrides were absent; the existing train-memory margin was1073741824 bytes. The actual optimizer was `transformer_engine.pytorch.optimizers.fused_adam.FusedAdam`; factory source SHA256=`2bad8558ca6b818406186fd9df6b052bb77ae82c9336d340e1c6e3ed71d9e66a`, factory line451, callback line589.
+
+The primary read[the complete worker log](evidence/tms-allocator-20261110/exp-1110-160647-698733.worker.log): both passed-case records and final complete summary are present, with no traceback. Its warnings concern `torch.jit.script` deprecation and an unavailable, unused Transformer Engine Jax extension; the exercised optimizer is the verified PyTorch extension.
+
+| Observation | Late moment initialization | Early moment initialization |
+| --- | ---: | ---: |
+| Two moment tensors,bytes | 134217728 | 134217728 |
+| CUDA allocated before pause,bytes | 201327104 | 201327104 |
+| CUDA reserved before pause,MiB | 1090 | 194 |
+| Inactive split before pause,MiB | 897.999512 | 1.999512 |
+| Process RSS increase at pause,MiB | 1089.871094 | 194.011719 |
+| Cgroup increase at pause,MiB | 1094.738281 | 194.863281 |
+| All CPU backup values/GPU values/pointers | PASS | PASS |
+| Native FusedAdam step | 1,finite parameter | 1,finite parameter |
+
+The primary independently joined actual tensor ranges to allocator segments and active blocks in[the case summaries](evidence/tms-allocator-20261110/exp-1110-160647-698733/summary.json). Both late moments occupy64MiB blocks inside the same remembered1GiB transient segment, leaving **896MiB inactive** in that segment. The early moments each have their own64MiB segment with no inactive remainder. Allocated bytes are identical; the reserved/inactive-split difference is exactly896MiB. The observed difference between process-RSS pause deltas is939376640 bytes. [Independent verification](evidence/tms-allocator-20261110/native-verification.json): **PASS**.
+
+This supports the tested allocation-order retention mechanism and an earlier native-state initialization correction. It does not identify the failed full-model process's actual allocation owner. Native backup-byte counters remain unavailable; RSS/cgroup changes remain measured host observations. No new GPU diagnostic was launched. The correction is assigned under`profile-native-optimizer-init-fix-20261110`, preserving restored states and native failure handling; actual formal train→sleep→weight-update→next-train acceptance remains outstanding.

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D38 diagnostic PASS,72-second terminal completion and observed896MiB allocation-retention difference; start the targeted native correction. |
 | 2026-11-10 | Record D38 admission blocked at32/32 with no RJob created; start read-only capacity notification and checkpoint the accepted CPU deliverables. |
 | 2026-11-10 | Close offline CPU acceptance and record D38 single-H200 diagnostic preparation. |
 | 2026-11-10 | Accept actual D16/Ticket02; record terminal1/200 native host-memory blocker, pinned-source limits and one independent Spec edge, with the primary's four-section milestone checkpoint. |
@@ -85,8 +86,9 @@ PY
 
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
-- **D38 current action:** user selected one H200 allocator/TMS diagnostic, worker script≤600s with startup separate. Script`dd15bcb6`and16 CPU checks are ready; primary inspected the complete script, native environment owner and actual receipt inputs, selecting[1024/64MiB and1GPU/4CPU/mem_gb16](allocator_probe_config.json). [Prelaunch report](test_report_2026-11-10_allocator_probe.md). Fresh admission and submission are next; no new formal attempt has been submitted. Native source0-GPU jobexp-1110-144951-170247 succeeded and pinned TMS0.0.10/native exports, without exercising CUDA pause/resume. See[the investigation](test_report_2026-11-10_h200_host_memory.md) and[raw authorization](requirements.md#host-memory-diagnostic-route--original-request-2026-11-10). The actual failed full-model allocation owner remains unproven.
+- **D38 current action:** the one authorized GPU diagnostic is **PASS**, job`exp-1110-160647-698733`,actual1H200,container72s,job/replicaSucceeded,exit0/restart0. Actual late moments pin896MiB inactive in the former1GiB transient segment; early moments use independent64MiB segments. All backups/restores/pointers and both native steps passed. [Native report](test_report_2026-11-10_allocator_probe.md#native-result--pass) and[independent verification](evidence/tms-allocator-20261110/native-verification.json). The same agent now owns the existing-native-API initialization-timing correction (`profile-native-optimizer-init-fix-20261110`,session`ses_e3b8dbc18ffeMrAuj6pxwzSicY`), focused CPU regressions and its report. The failed full-model allocation owner remains unproven, and no corrected formal attempt has yet run.
 - **D38 admission update,07:51:57Z:** [fresh personal receipt](evidence/tms-allocator-20261110/admission.json) records32 committed H200 plus1 requested against32, admitted=false, submitted=false. The local launcher exited at its admission guard and created no RJob. A read-only capacity watcher runs at60-second intervals and notifies the primary when admission is available; actual submission must re-read under the existing admission lock. The independent optimizer-wrapper/seam lookup continues. This is a personal-admission wait, separate from the prior H800 physical-placement failures.
+- **D38 execution update,08:06:47Z–08:08:18Z:** the watcher completed and fresh locked admission found30+1≤32. The primary submitted before further archiving, applying the previous D1 correction. [Submission](evidence/tms-allocator-20261110/admission-submitted.json),[terminal](evidence/tms-allocator-20261110/terminal-readback.json). The earlier rejected admission remains historical; no capacity watcher or diagnostic GPU job remains active.
 
 ### Historical5b6f38b8 milestone — before D16 acceptance
 
@@ -1130,3 +1132,54 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1.01/02/03 and the offline CPU slice are accepted; formal A is still1/200 and B has not started.
 2.The diagnostic is prepared but has no RJob ID because personal admission is32/32; the watcher holds no GPU.
 3.A controlled allocation effect would not identify the old full-model allocation owner by itself.
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED2｜TODO1。检查时间：D38 native verification完成后，2026-11-10。
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01输入 | PASS | D34原始源审计已验收 |
+| 02逐turn统计 | PASS | D16真实首次更新验证 |
+| 03画像集成 | PASS | CPU/真实consumer/S7已验收 |
+| 04 A/full | BLOCKED | formal失败1/200；D38诊断PASS，native修复在执行 |
+| 05 B/full | BLOCKED | A检查已满足；common fix及新准入待完成 |
+| 06报告 | TODO | CPU已接受，实际A/B最终数据未齐 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进；发现并修正当前状态文字S5。
+**检测窗口：** `3945e0a9`准入等待checkpoint至今｜**当前前沿：**04的native修复；并行归档D38证据。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1工具打磨 | CLEAR | 通知到达后先带锁提交，再处理归档；此前执行顺序问题已纠正 |
+| D2细节反复重试 | CLEAR | 只有一次真实GPU诊断，两组均完成；此前是提交前准入拒绝 |
+| D3支线问题修补 | CLEAR | 所有新检查指向04共同故障及其证据 |
+| D4可并行任务停滞 | CLEAR | 修复agent与主agent证据接受/记录并行；B受共同故障及资源限制 |
+| D5超范围镀金 | CLEAR | 使用现有native初始化接口；无新GPU诊断、配置路线或画像功能 |
+| D6分析空转 | CLEAR | 已得到真实段归属、72秒末态及明确修复方向 |
+| D7路线违背 | CLEAR | 执行的是D38授权的1H200/600秒诊断及后续修复 |
+
+**文档检查：** S5：`plan.md`phase及重复frontier、04/05当前状态仍写offline修复未完或未选native方向，与已接受CPU证据和D38结果冲突；本轮已直接同步。S1–S4/S6未发现新缺陷。
+**归因：** 无新的D命中；S5是当前状态维护缺陷。
+
+## 3. 纠正建议
+
+**分支：** B：先同步状态文档；不改变scope、验收条件或用户决定。
+
+**文档更新（先执行）：**
+1.`plan.md`phase/frontier：CPU已接受，D38已完成，native初始化修复执行中（可直接执行；已完成）。
+2.`tickets/04-a-full.md`及`05-b-full.md`status：记录controlled诊断PASS及剩余native验证/准入，保留所有验收checkbox（可直接执行；已完成）。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1.04共同故障：最小native初始化修复→CPU ordering/loaded-state回归及review通过→fresh admission→实际formal offload和后续训练检查。
+2.并行：修复agent实现 ‖ 主agent保存已完成的D38证据。正式04/05仍以各200次真实成功更新和完整画像记录为完成标志。
+
+## 4. 最值得关注的 3 点
+
+1.唯一诊断RJob及replica已Succeeded，container72秒；额外896MiB保留块由真实指针/segment/block证据确认。
+2.这证明受控分配顺序机制；原失败整模型的具体分配owner仍未知，修复的formal路径尚未验证。
+3.正式A仍1/200、B未启动；原有B检查条件已满足，CPU报告无需继续扩展。

@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "job": "exp-1110-160647-698733",
+  "observed_at": "2026-11-10T08:15:42.552857+00:00",
+  "container_seconds": 72.0,
+  "case_seconds_sum": 69.48694606497884,
+  "cases": {
+    "late_moments": {
+      "moments": {
+        "exp_avg": {
+          "pointer": 13421772800,
+          "segment_address": 13421772800,
+          "segment_total_bytes": 1073741824,
+          "active_block_bytes": 67108864,
+          "inactive_segment_bytes": 939524096
+        },
+        "exp_avg_sq": {
+          "pointer": 13488881664,
+          "segment_address": 13421772800,
+          "segment_total_bytes": 1073741824,
+          "active_block_bytes": 67108864,
+          "inactive_segment_bytes": 939524096
+        }
+      },
+      "allocated_bytes": 201327104,
+      "reserved_bytes": 1142947840,
+      "inactive_split_bytes": 941620736,
+      "rss_pause_delta_bytes": 1142812672,
+      "elapsed_seconds": 36.62408075481653
+    },
+    "early_moments": {
+      "moments": {
+        "exp_avg": {
+          "pointer": 140303260450816,
+          "segment_address": 140303260450816,
+          "segment_total_bytes": 67108864,
+          "active_block_bytes": 67108864,
+          "inactive_segment_bytes": 0
+        },
+        "exp_avg_sq": {
+          "pointer": 140303327559680,
+          "segment_address": 140303327559680,
+          "segment_total_bytes": 67108864,
+          "active_block_bytes": 67108864,
+          "inactive_segment_bytes": 0
+        }
+      },
+      "allocated_bytes": 201327104,
+      "reserved_bytes": 203423744,
+      "inactive_split_bytes": 2096640,
+      "rss_pause_delta_bytes": 203436032,
+      "elapsed_seconds": 32.862865310162306
+    }
+  },
+  "extra_retained_segment_bytes": 939524096,
+  "rss_pause_delta_difference_bytes": 939376640,
+  "formal_allocation_owner_proven": false,
+  "native_backup_byte_counter_available": false,
+  "limits": [
+    "Segment ownership is verified for the controlled cases only.",
+    "RSS deltas are observed host changes, not a native backup-byte counter.",
+    "First infos receipt said Running; exact-name historical replica subsequently proves Completed exit0/restart0."
+  ]
+}

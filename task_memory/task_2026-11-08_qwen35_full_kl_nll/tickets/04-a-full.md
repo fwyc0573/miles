@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D38 controlled diagnostic PASS and the in-progress native state-initialization correction; formal verification remains blocked. |
 | 2026-11-10 | Accept the D16 first-update row; current A failed natively after1/200, blocking continuation/fresh attempts while allocation mechanism and fix remain unresolved. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and open offline review repairs; retain real ACK/D16 and every final checkbox as incomplete. |
 | 2026-11-10 | Update current context to D37 H200 preparation plus parallel inspector implementation; retain all unchecked criteria and historical H800 evidence. |
@@ -27,7 +28,7 @@
 
 **Blocked by:** 01、02、03 已接受，实际firstACK/D16已完成；当前共同native host-memory fault需分配机制核验、证据支持的fix和fresh formal准入，尚未选择/完成。独立offline最后edge修复不作为native辅助hardgate。
 
-**Status:** BLOCKED / current attemptFailed1/200 INCOMPLETE, not RUNNING. [D16](../test_report_2026-11-10_d16_first_update.md)accepts actual first-update measurement and Ticket02, followed by native Ray host-memory kill during TMS sleep/offload at06:29:33Z;[06:39 terminal readback](../evidence/formal-H200-A-terminal-readback-20261110.json)has all3 replicas terminal. No second bank or new formal attempt. Allocation/retention cause remains under investigation; no runtime/configuration fix selected.0GPU pinned-source/exports do not prove disk-offload runtime/H200 space. Only the D16 row below is newly checked; full200/profile acceptance remains pending. **D37/S8 resource context, raw historical attempts and science remain unchanged/protected.**
+**Status:** BLOCKED / current formal attemptFailed1/200 INCOMPLETE. [D16](../test_report_2026-11-10_d16_first_update.md)accepts first-update measurement and Ticket02; the subsequent native host-memory failure remains in[the terminal evidence](../evidence/formal-H200-A-terminal-readback-20261110.json). [D38 controlled diagnostic](../test_report_2026-11-10_allocator_probe.md#native-result--pass)now passes with actual segment ownership and pause/resume/native-step checks. An existing-native-API state-initialization timing correction is in progress; the old full-model owner and corrected formal path remain unverified. No new formal attempt has run. Full200/profile criteria below remain pending.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

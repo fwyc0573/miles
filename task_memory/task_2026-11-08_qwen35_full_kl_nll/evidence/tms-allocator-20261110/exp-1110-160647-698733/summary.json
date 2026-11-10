@@ -1,0 +1,1240 @@
+{
+  "status": "complete",
+  "cases": {
+    "late_moments": {
+      "case": "late_moments",
+      "pid": 109,
+      "status": "passed",
+      "phases": {
+        "baseline": {
+          "monotonic_seconds": 19867718.631329898,
+          "cuda": {
+            "allocated_bytes": 0,
+            "reserved_bytes": 0,
+            "inactive_split_bytes": 0,
+            "device_free_bytes": 149568880640,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 667533312,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 1745481728,
+              "stat": {
+                "cache": 1220874240,
+                "rss": 377344000,
+                "rss_huge": 0,
+                "shmem": 8396800,
+                "mapped_file": 256540672,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 734677,
+                "pgpgout": 344487,
+                "pgfault": 671849,
+                "pgmajfault": 3169,
+                "inactive_anon": 385638400,
+                "active_anon": 53248,
+                "inactive_file": 644087808,
+                "active_file": 568389632,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1220874240,
+                "total_rss": 377344000,
+                "total_rss_huge": 0,
+                "total_shmem": 8396800,
+                "total_mapped_file": 256540672,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 734677,
+                "total_pgpgout": 344487,
+                "total_pgfault": 671849,
+                "total_pgmajfault": 3169,
+                "total_inactive_anon": 385638400,
+                "total_active_anon": 53248,
+                "total_inactive_file": 644087808,
+                "total_active_file": 568389632,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "transient_released": {
+          "monotonic_seconds": 19867732.978856377,
+          "cuda": {
+            "allocated_bytes": 67109376,
+            "reserved_bytes": 1142947840,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 148329463808,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1454813184,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2756104192,
+              "stat": {
+                "cache": 1807572992,
+                "rss": 789098496,
+                "rss_huge": 0,
+                "shmem": 10493952,
+                "mapped_file": 631238656,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1009779,
+                "pgpgout": 375826,
+                "pgfault": 883071,
+                "pgmajfault": 5026,
+                "inactive_anon": 799539200,
+                "active_anon": 53248,
+                "inactive_file": 1178230784,
+                "active_file": 618811392,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1807572992,
+                "total_rss": 789098496,
+                "total_rss_huge": 0,
+                "total_shmem": 10493952,
+                "total_mapped_file": 631238656,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1009779,
+                "total_pgpgout": 375826,
+                "total_pgfault": 883071,
+                "total_pgmajfault": 5026,
+                "total_inactive_anon": 799539200,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1178230784,
+                "total_active_file": 618811392,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "before_cleanup": {
+          "monotonic_seconds": 19867733.026938487,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1142947840,
+            "inactive_split_bytes": 941620736,
+            "device_free_bytes": 148329463808,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1494917120,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2798034944,
+              "stat": {
+                "cache": 1823350784,
+                "rss": 815288320,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 645595136,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1020027,
+                "pgpgout": 375828,
+                "pgfault": 892341,
+                "pgmajfault": 5044,
+                "inactive_anon": 836427776,
+                "active_anon": 53248,
+                "inactive_file": 1183289344,
+                "active_file": 618815488,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1823350784,
+                "total_rss": 815288320,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 645595136,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1020027,
+                "total_pgpgout": 375828,
+                "total_pgfault": 892341,
+                "total_pgmajfault": 5044,
+                "total_inactive_anon": 836427776,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1183289344,
+                "total_active_file": 618815488,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "before_pause": {
+          "monotonic_seconds": 19867733.31471038,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1142947840,
+            "inactive_split_bytes": 941620736,
+            "device_free_bytes": 148329463808,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1495334912,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2798026752,
+              "stat": {
+                "cache": 1823354880,
+                "rss": 815308800,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 645595136,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1020035,
+                "pgpgout": 375830,
+                "pgfault": 892351,
+                "pgmajfault": 5044,
+                "inactive_anon": 836497408,
+                "active_anon": 53248,
+                "inactive_file": 1183293440,
+                "active_file": 618815488,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1823354880,
+                "total_rss": 815308800,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 645595136,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1020035,
+                "total_pgpgout": 375830,
+                "total_pgfault": 892351,
+                "total_pgmajfault": 5044,
+                "total_inactive_anon": 836497408,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1183293440,
+                "total_active_file": 618815488,
+                "total_unevictable": 0
+              }
+            }
+          },
+          "segments": [
+            {
+              "device": 0,
+              "address": 12918456320,
+              "total_size": 67108864,
+              "allocated_size": 67108864,
+              "active_size": 67108864,
+              "stream": 0,
+              "segment_type": "large",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 12918456320,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                }
+              ]
+            },
+            {
+              "device": 0,
+              "address": 13421772800,
+              "total_size": 1073741824,
+              "allocated_size": 134217728,
+              "active_size": 134217728,
+              "stream": 0,
+              "segment_type": "large",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 13421772800,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                },
+                {
+                  "address": 13488881664,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                },
+                {
+                  "address": 13555990528,
+                  "size": 939524096,
+                  "requested_size": 1073741824,
+                  "state": "inactive"
+                }
+              ]
+            },
+            {
+              "device": 0,
+              "address": 139971736371200,
+              "total_size": 2097152,
+              "allocated_size": 512,
+              "active_size": 512,
+              "stream": 0,
+              "segment_type": "small",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 139971736371200,
+                  "size": 512,
+                  "requested_size": 4,
+                  "state": "active_allocated"
+                },
+                {
+                  "address": 139971736371712,
+                  "size": 2096640,
+                  "requested_size": 4,
+                  "state": "inactive"
+                }
+              ]
+            }
+          ]
+        },
+        "paused": {
+          "monotonic_seconds": 19867733.7886166,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1142947840,
+            "inactive_split_bytes": 941620736,
+            "device_free_bytes": 149470314496,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 2638147584,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 3945943040,
+              "stat": {
+                "cache": 2966306816,
+                "rss": 815321088,
+                "rss_huge": 0,
+                "shmem": 1164193792,
+                "mapped_file": 1788608512,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1299082,
+                "pgpgout": 375833,
+                "pgfault": 1171401,
+                "pgmajfault": 5044,
+                "inactive_anon": 1979441152,
+                "active_anon": 53248,
+                "inactive_file": 1183297536,
+                "active_file": 618815488,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 2966306816,
+                "total_rss": 815321088,
+                "total_rss_huge": 0,
+                "total_shmem": 1164193792,
+                "total_mapped_file": 1788608512,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1299082,
+                "total_pgpgout": 375833,
+                "total_pgfault": 1171401,
+                "total_pgmajfault": 5044,
+                "total_inactive_anon": 1979441152,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1183297536,
+                "total_active_file": 618815488,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "after_resume": {
+          "monotonic_seconds": 19867734.07201123,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1142947840,
+            "inactive_split_bytes": 941620736,
+            "device_free_bytes": 148327366656,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1496862720,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2801250304,
+              "stat": {
+                "cache": 1823625216,
+                "rss": 816107520,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 646324224,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1299343,
+                "pgpgout": 654877,
+                "pgfault": 1171625,
+                "pgmajfault": 5045,
+                "inactive_anon": 837263360,
+                "active_anon": 53248,
+                "inactive_file": 1183539200,
+                "active_file": 618840064,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1823625216,
+                "total_rss": 816107520,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 646324224,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1299343,
+                "total_pgpgout": 654877,
+                "total_pgfault": 1171625,
+                "total_pgmajfault": 5045,
+                "total_inactive_anon": 837263360,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1183539200,
+                "total_active_file": 618840064,
+                "total_unevictable": 0
+              }
+            }
+          }
+        }
+      },
+      "inputs": {
+        "transient_bytes": 1073741824,
+        "moment_bytes_each": 67108864
+      },
+      "limits": [
+        "Allocation-order mechanism test, not a full-model OOM reproduction or formal root-cause proof.",
+        "Moments are initialized by native init_state_fn, not lazily by a full training backward/step.",
+        "FP32 master shard and moments use the formal default-tag CPU-backup context.",
+        "No BF16 DDP param buffer is allocated; formal offload disables param/grad buffer backups.",
+        "Native byte counters unavailable; CUDA segment sizes and host deltas are not measured TMS backup bytes.",
+        "VmLck may not account for CUDA-pinned pages; cgroup readings include other processes and file cache."
+      ],
+      "image_from_launch_receipt": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "identity": {
+        "python": "3.12.16",
+        "torch": "2.14.1+cu130",
+        "cuda": "13.0",
+        "tms_version": "0.0.10",
+        "preload_elf": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver_hook_mode_preload_cu13.abi3.so",
+        "preload_sha256": "99bbe5e2df91c5f9e5cd0a65e3947ceb3304bbb6a2b6ad539f00326cc583dcd4",
+        "tms_entrypoint": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/entrypoint.py",
+        "tms_entrypoint_sha256": "7ca49e33bba6866738ddbcb92c6c99d100504db2540afb71f0840a69159aa132",
+        "nvidia_smi_argv": [
+          "nvidia-smi",
+          "--query-gpu=name,uuid,memory.total",
+          "--format=csv,noheader,nounits"
+        ],
+        "nvidia_smi": [
+          "NVIDIA H200, GPU-7b700c0f-023c-75e7-7f9b-fe49a1cbea77, 143771"
+        ],
+        "tms_flags": {
+          "interesting_region": true,
+          "enable_cpu_backup": true,
+          "enable_disk_backup": false,
+          "cpu_backup_backend": "pinned",
+          "current_tag": "default",
+          "retain_cpu_backup": false
+        },
+        "allocator_env": {
+          "PYTORCH_ALLOC_CONF": null,
+          "PYTORCH_CUDA_ALLOC_CONF": null,
+          "PYTORCH_NO_CUDA_MEMORY_CACHING": null
+        },
+        "tms_env": {
+          "TMS_INIT_ENABLE": "1",
+          "TMS_INIT_ENABLE_CPU_BACKUP": "1"
+        },
+        "worker_local_caches": {
+          "TMPDIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/tmp",
+          "TRITON_CACHE_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/triton",
+          "TORCHINDUCTOR_CACHE_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/inductor",
+          "CUDA_CACHE_PATH": "/var/tmp/tms-allocator-exp-1110-160647-698733/cuda",
+          "TORCH_EXTENSIONS_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/torch-extensions"
+        },
+        "native_byte_counters": {
+          "allocated_bytes": null,
+          "backup_bytes": null,
+          "status": "unavailable: retained CUDA Python API exposes no total-byte counter; no guessed symbols called"
+        },
+        "train_memory_margin_bytes": 1073741824
+      },
+      "optimizer": {
+        "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+        "factory": "_get_megatron_optimizer_based_on_param_groups",
+        "init_state_fn": "_get_megatron_optimizer_based_on_param_groups.<locals>.init_state_fn",
+        "source_path": "/root/Megatron-LM/megatron/core/optimizer/__init__.py",
+        "source_sha256": "2bad8558ca6b818406186fd9df6b052bb77ae82c9336d340e1c6e3ed71d9e66a",
+        "factory_first_line": 451,
+        "initialization_first_line": 589,
+        "uses_precision_aware_optimizer": false,
+        "optimizer_cpu_offload": false
+      },
+      "transient_range": {
+        "start": 13421772800,
+        "end": 14495514624,
+        "bytes": 1073741824,
+        "dtype": "torch.bfloat16",
+        "shape": [
+          536870912
+        ]
+      },
+      "persistent_ranges": {
+        "master_parameter": {
+          "start": 12918456320,
+          "end": 12985565184,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "exp_avg": {
+          "start": 13421772800,
+          "end": 13488881664,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "exp_avg_sq": {
+          "start": 13488881664,
+          "end": 13555990528,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "optimizer_dummy_overflow": {
+          "start": 139971736371200,
+          "end": 139971736371204,
+          "bytes": 4,
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ]
+        }
+      },
+      "moment_state_bytes": 134217728,
+      "optimizer_scratch_ranges": {
+        "dummy_overflow": {
+          "start": 139971736371200,
+          "end": 139971736371204,
+          "bytes": 4,
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ]
+        }
+      },
+      "cpu_backup_exact": {
+        "master_parameter": true,
+        "exp_avg": true,
+        "exp_avg_sq": true,
+        "optimizer_dummy_overflow": true
+      },
+      "roundtrip_exact": {
+        "master_parameter": true,
+        "exp_avg": true,
+        "exp_avg_sq": true,
+        "optimizer_dummy_overflow": true
+      },
+      "roundtrip_pointers_unchanged": true,
+      "gpu_release_observed": true,
+      "native_step": {
+        "step": 1,
+        "parameter_finite": true
+      },
+      "returncode": 0,
+      "elapsed_seconds": 36.62408075481653,
+      "subprocess_argv": [
+        "/opt/sglang/bin/python3",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_tms_allocator.py",
+        "--launch-receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json",
+        "--native-source-receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/source.json",
+        "--transient-mib",
+        "1024",
+        "--moment-mib",
+        "64",
+        "--output-dir",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/exp-1110-160647-698733",
+        "--case",
+        "late_moments"
+      ]
+    },
+    "early_moments": {
+      "case": "early_moments",
+      "pid": 134,
+      "status": "passed",
+      "phases": {
+        "baseline": {
+          "monotonic_seconds": 19867752.99259888,
+          "cuda": {
+            "allocated_bytes": 0,
+            "reserved_bytes": 0,
+            "inactive_split_bytes": 0,
+            "device_free_bytes": 149568880640,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 667717632,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2487377920,
+              "stat": {
+                "cache": 1953488896,
+                "rss": 377384960,
+                "rss_huge": 0,
+                "shmem": 8396800,
+                "mapped_file": 256663552,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1622749,
+                "pgpgout": 1053688,
+                "pgfault": 1687061,
+                "pgmajfault": 5756,
+                "inactive_anon": 385679360,
+                "active_anon": 53248,
+                "inactive_file": 1151365120,
+                "active_file": 793726976,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1953488896,
+                "total_rss": 377384960,
+                "total_rss_huge": 0,
+                "total_shmem": 8396800,
+                "total_mapped_file": 256663552,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1622749,
+                "total_pgpgout": 1053688,
+                "total_pgfault": 1687061,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 385679360,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1151365120,
+                "total_active_file": 793726976,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "transient_released": {
+          "monotonic_seconds": 19867766.68294488,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1277165568,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 148195246080,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1498398720,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2941779968,
+              "stat": {
+                "cache": 1966342144,
+                "rss": 815566848,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 648683520,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1766050,
+                "pgpgout": 1086873,
+                "pgfault": 1915229,
+                "pgmajfault": 5756,
+                "inactive_anon": 836665344,
+                "active_anon": 53248,
+                "inactive_file": 1090592768,
+                "active_file": 854503424,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1966342144,
+                "total_rss": 815566848,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 648683520,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1766050,
+                "total_pgpgout": 1086873,
+                "total_pgfault": 1915229,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 836665344,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1090592768,
+                "total_active_file": 854503424,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "before_cleanup": {
+          "monotonic_seconds": 19867766.695351068,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 1277165568,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 148195246080,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1498398720,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2941898752,
+              "stat": {
+                "cache": 1966342144,
+                "rss": 815595520,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 648941568,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1766059,
+                "pgpgout": 1086875,
+                "pgfault": 1915261,
+                "pgmajfault": 5756,
+                "inactive_anon": 836734976,
+                "active_anon": 53248,
+                "inactive_file": 1090592768,
+                "active_file": 854503424,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1966342144,
+                "total_rss": 815595520,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 648941568,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1766059,
+                "total_pgpgout": 1086875,
+                "total_pgfault": 1915261,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 836734976,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1090592768,
+                "total_active_file": 854503424,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "before_pause": {
+          "monotonic_seconds": 19867766.919277105,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 203423744,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 149268987904,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1498738688,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2941620224,
+              "stat": {
+                "cache": 1966346240,
+                "rss": 815607808,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 648941568,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1766065,
+                "pgpgout": 1086877,
+                "pgfault": 1955042,
+                "pgmajfault": 5756,
+                "inactive_anon": 836788224,
+                "active_anon": 53248,
+                "inactive_file": 1090592768,
+                "active_file": 854507520,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1966346240,
+                "total_rss": 815607808,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 648941568,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1766065,
+                "total_pgpgout": 1086877,
+                "total_pgfault": 1955042,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 836788224,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1090592768,
+                "total_active_file": 854507520,
+                "total_unevictable": 0
+              }
+            }
+          },
+          "segments": [
+            {
+              "device": 0,
+              "address": 12918456320,
+              "total_size": 67108864,
+              "allocated_size": 67108864,
+              "active_size": 67108864,
+              "stream": 0,
+              "segment_type": "large",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 12918456320,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                }
+              ]
+            },
+            {
+              "device": 0,
+              "address": 140303254159360,
+              "total_size": 2097152,
+              "allocated_size": 512,
+              "active_size": 512,
+              "stream": 0,
+              "segment_type": "small",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 140303254159360,
+                  "size": 512,
+                  "requested_size": 4,
+                  "state": "active_allocated"
+                },
+                {
+                  "address": 140303254159872,
+                  "size": 2096640,
+                  "requested_size": 4,
+                  "state": "inactive"
+                }
+              ]
+            },
+            {
+              "device": 0,
+              "address": 140303260450816,
+              "total_size": 67108864,
+              "allocated_size": 67108864,
+              "active_size": 67108864,
+              "stream": 0,
+              "segment_type": "large",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 140303260450816,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                }
+              ]
+            },
+            {
+              "device": 0,
+              "address": 140303327559680,
+              "total_size": 67108864,
+              "allocated_size": 67108864,
+              "active_size": 67108864,
+              "stream": 0,
+              "segment_type": "large",
+              "segment_pool_id": [
+                0,
+                0
+              ],
+              "blocks": [
+                {
+                  "address": 140303327559680,
+                  "size": 67108864,
+                  "requested_size": 67108864,
+                  "state": "active_allocated"
+                }
+              ]
+            }
+          ]
+        },
+        "paused": {
+          "monotonic_seconds": 19867767.01556964,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 203423744,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 149472411648,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1702174720,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 3145949184,
+              "stat": {
+                "cache": 2169774080,
+                "rss": 815607808,
+                "rss_huge": 0,
+                "shmem": 224669696,
+                "mapped_file": 852430848,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1815733,
+                "pgpgout": 1086880,
+                "pgfault": 2004712,
+                "pgmajfault": 5756,
+                "inactive_anon": 1040199680,
+                "active_anon": 53248,
+                "inactive_file": 1090596864,
+                "active_file": 854507520,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 2169774080,
+                "total_rss": 815607808,
+                "total_rss_huge": 0,
+                "total_shmem": 224669696,
+                "total_mapped_file": 852430848,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1815733,
+                "total_pgpgout": 1086880,
+                "total_pgfault": 2004712,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 1040199680,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1090596864,
+                "total_active_file": 854507520,
+                "total_unevictable": 0
+              }
+            }
+          }
+        },
+        "after_resume": {
+          "monotonic_seconds": 19867767.13389724,
+          "cuda": {
+            "allocated_bytes": 201327104,
+            "reserved_bytes": 203423744,
+            "inactive_split_bytes": 2096640,
+            "device_free_bytes": 149268987904,
+            "device_total_bytes": 150121545728
+          },
+          "host": {
+            "rss_bytes": 1500274688,
+            "locked_bytes": 0,
+            "cgroup": {
+              "directory": "/sys/fs/cgroup/memory",
+              "membership": "/kubepods/pod3462651b-c427-4d40-be2f-b0aae7e9eacc/5c116c2511ccbb850dfc295ff3a88fc602e6e151ecf965c16f580eff4626b9cd",
+              "current_bytes": 2943029248,
+              "stat": {
+                "cache": 1966354432,
+                "rss": 816390144,
+                "rss_huge": 0,
+                "shmem": 21245952,
+                "mapped_file": 649736192,
+                "dirty": 0,
+                "writeback": 0,
+                "swap": 0,
+                "pgpgin": 1815929,
+                "pgpgout": 1136548,
+                "pgfault": 2004933,
+                "pgmajfault": 5756,
+                "inactive_anon": 837545984,
+                "active_anon": 53248,
+                "inactive_file": 1090600960,
+                "active_file": 854507520,
+                "unevictable": 0,
+                "hierarchical_memory_limit": 16777216000,
+                "hierarchical_memsw_limit": 16777216000,
+                "total_cache": 1966354432,
+                "total_rss": 816390144,
+                "total_rss_huge": 0,
+                "total_shmem": 21245952,
+                "total_mapped_file": 649736192,
+                "total_dirty": 0,
+                "total_writeback": 0,
+                "total_swap": 0,
+                "total_pgpgin": 1815929,
+                "total_pgpgout": 1136548,
+                "total_pgfault": 2004933,
+                "total_pgmajfault": 5756,
+                "total_inactive_anon": 837545984,
+                "total_active_anon": 53248,
+                "total_inactive_file": 1090600960,
+                "total_active_file": 854507520,
+                "total_unevictable": 0
+              }
+            }
+          }
+        }
+      },
+      "inputs": {
+        "transient_bytes": 1073741824,
+        "moment_bytes_each": 67108864
+      },
+      "limits": [
+        "Allocation-order mechanism test, not a full-model OOM reproduction or formal root-cause proof.",
+        "Moments are initialized by native init_state_fn, not lazily by a full training backward/step.",
+        "FP32 master shard and moments use the formal default-tag CPU-backup context.",
+        "No BF16 DDP param buffer is allocated; formal offload disables param/grad buffer backups.",
+        "Native byte counters unavailable; CUDA segment sizes and host deltas are not measured TMS backup bytes.",
+        "VmLck may not account for CUDA-pinned pages; cgroup readings include other processes and file cache."
+      ],
+      "image_from_launch_receipt": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "identity": {
+        "python": "3.12.16",
+        "torch": "2.14.1+cu130",
+        "cuda": "13.0",
+        "tms_version": "0.0.10",
+        "preload_elf": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver_hook_mode_preload_cu13.abi3.so",
+        "preload_sha256": "99bbe5e2df91c5f9e5cd0a65e3947ceb3304bbb6a2b6ad539f00326cc583dcd4",
+        "tms_entrypoint": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/entrypoint.py",
+        "tms_entrypoint_sha256": "7ca49e33bba6866738ddbcb92c6c99d100504db2540afb71f0840a69159aa132",
+        "nvidia_smi_argv": [
+          "nvidia-smi",
+          "--query-gpu=name,uuid,memory.total",
+          "--format=csv,noheader,nounits"
+        ],
+        "nvidia_smi": [
+          "NVIDIA H200, GPU-7b700c0f-023c-75e7-7f9b-fe49a1cbea77, 143771"
+        ],
+        "tms_flags": {
+          "interesting_region": true,
+          "enable_cpu_backup": true,
+          "enable_disk_backup": false,
+          "cpu_backup_backend": "pinned",
+          "current_tag": "default",
+          "retain_cpu_backup": false
+        },
+        "allocator_env": {
+          "PYTORCH_ALLOC_CONF": null,
+          "PYTORCH_CUDA_ALLOC_CONF": null,
+          "PYTORCH_NO_CUDA_MEMORY_CACHING": null
+        },
+        "tms_env": {
+          "TMS_INIT_ENABLE": "1",
+          "TMS_INIT_ENABLE_CPU_BACKUP": "1"
+        },
+        "worker_local_caches": {
+          "TMPDIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/tmp",
+          "TRITON_CACHE_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/triton",
+          "TORCHINDUCTOR_CACHE_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/inductor",
+          "CUDA_CACHE_PATH": "/var/tmp/tms-allocator-exp-1110-160647-698733/cuda",
+          "TORCH_EXTENSIONS_DIR": "/var/tmp/tms-allocator-exp-1110-160647-698733/torch-extensions"
+        },
+        "native_byte_counters": {
+          "allocated_bytes": null,
+          "backup_bytes": null,
+          "status": "unavailable: retained CUDA Python API exposes no total-byte counter; no guessed symbols called"
+        },
+        "train_memory_margin_bytes": 1073741824
+      },
+      "optimizer": {
+        "class": "transformer_engine.pytorch.optimizers.fused_adam.FusedAdam",
+        "factory": "_get_megatron_optimizer_based_on_param_groups",
+        "init_state_fn": "_get_megatron_optimizer_based_on_param_groups.<locals>.init_state_fn",
+        "source_path": "/root/Megatron-LM/megatron/core/optimizer/__init__.py",
+        "source_sha256": "2bad8558ca6b818406186fd9df6b052bb77ae82c9336d340e1c6e3ed71d9e66a",
+        "factory_first_line": 451,
+        "initialization_first_line": 589,
+        "uses_precision_aware_optimizer": false,
+        "optimizer_cpu_offload": false
+      },
+      "transient_range": {
+        "start": 13421772800,
+        "end": 14495514624,
+        "bytes": 1073741824,
+        "dtype": "torch.bfloat16",
+        "shape": [
+          536870912
+        ]
+      },
+      "persistent_ranges": {
+        "master_parameter": {
+          "start": 12918456320,
+          "end": 12985565184,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "exp_avg": {
+          "start": 140303260450816,
+          "end": 140303327559680,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "exp_avg_sq": {
+          "start": 140303327559680,
+          "end": 140303394668544,
+          "bytes": 67108864,
+          "dtype": "torch.float32",
+          "shape": [
+            16777216
+          ]
+        },
+        "optimizer_dummy_overflow": {
+          "start": 140303254159360,
+          "end": 140303254159364,
+          "bytes": 4,
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ]
+        }
+      },
+      "moment_state_bytes": 134217728,
+      "optimizer_scratch_ranges": {
+        "dummy_overflow": {
+          "start": 140303254159360,
+          "end": 140303254159364,
+          "bytes": 4,
+          "dtype": "torch.int32",
+          "shape": [
+            1
+          ]
+        }
+      },
+      "cpu_backup_exact": {
+        "master_parameter": true,
+        "exp_avg": true,
+        "exp_avg_sq": true,
+        "optimizer_dummy_overflow": true
+      },
+      "roundtrip_exact": {
+        "master_parameter": true,
+        "exp_avg": true,
+        "exp_avg_sq": true,
+        "optimizer_dummy_overflow": true
+      },
+      "roundtrip_pointers_unchanged": true,
+      "gpu_release_observed": true,
+      "native_step": {
+        "step": 1,
+        "parameter_finite": true
+      },
+      "returncode": 0,
+      "elapsed_seconds": 32.862865310162306,
+      "subprocess_argv": [
+        "/opt/sglang/bin/python3",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_tms_allocator.py",
+        "--launch-receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json",
+        "--native-source-receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/source.json",
+        "--transient-mib",
+        "1024",
+        "--moment-mib",
+        "64",
+        "--output-dir",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/exp-1110-160647-698733",
+        "--case",
+        "early_moments"
+      ]
+    }
+  },
+  "formal_run_root_cause_proven": false,
+  "comparison": {
+    "status": "complete",
+    "formal_run_root_cause_proven": false,
+    "cases": {
+      "late_moments": {
+        "reserved_bytes_before_pause": 1142947840,
+        "inactive_split_bytes_before_pause": 941620736,
+        "moments_in_former_transient_range": [
+          "exp_avg",
+          "exp_avg_sq"
+        ],
+        "rss_pause_delta_bytes": 1142812672,
+        "cgroup_pause_delta_bytes": 1147916288
+      },
+      "early_moments": {
+        "reserved_bytes_before_pause": 203423744,
+        "inactive_split_bytes_before_pause": 2096640,
+        "moments_in_former_transient_range": [],
+        "rss_pause_delta_bytes": 203436032,
+        "cgroup_pause_delta_bytes": 204328960
+      }
+    },
+    "same_moment_state_bytes": true,
+    "allocator_order_effect_observed": true,
+    "late_init_rss_pause_delta_larger": true,
+    "late_init_cgroup_pause_delta_larger": true
+  }
+}
