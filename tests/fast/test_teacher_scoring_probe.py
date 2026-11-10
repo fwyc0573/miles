@@ -4,6 +4,7 @@ import asyncio
 import json
 import math
 import os
+import shlex
 import signal
 import subprocess
 import sys
@@ -119,6 +120,31 @@ def test_fixture_keeps_order_and_rejects_duplicate_or_bad_input(sample, tmp_path
         path.write_text(json.dumps({"job": "historical-A-job", "samples": [{**sample, **update}]}))
         with pytest.raises(ValueError):
             probe._load_samples(path, 10)
+
+
+def test_sample_manifest_keeps_exact_original_prefix_and_provenance(sample, tmp_path):
+    source = tmp_path / "original.json"
+    fixture = {"job": "historical-A-job", "samples": [{**sample, "sample_index": index} for index in range(7)]}
+    source.write_text(json.dumps(fixture))
+    before = source.read_bytes()
+    path = tmp_path / "first4.json"
+    path.write_text(json.dumps({"source_fixture": source.name, "sample_count": 4}))
+    selected = probe._load_samples(path, 10)
+    assert selected["samples"] == fixture["samples"][:4]
+    assert selected["sample_manifest"] == {
+        "source_fixture": probe._file_identity(source), "sample_count": 4,
+        "original_sample_count": 7, "selection": "Original fixture prefix, unchanged identities"}
+    assert source.read_bytes() == before and probe._load_samples(source, 10) == fixture
+
+
+@pytest.mark.parametrize("count", [0, -1, True, "4", None, 8])
+def test_sample_manifest_rejects_invalid_prefix_count(sample, tmp_path, count):
+    source = tmp_path / "original.json"
+    source.write_text(json.dumps({"job": "historical-A-job", "samples": [sample] * 7}))
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps({"source_fixture": source.name, "sample_count": count}))
+    with pytest.raises(ValueError, match="Sample manifest sample_count"):
+        probe._load_samples(path, 10)
 
 
 class _Response:
@@ -342,6 +368,8 @@ def test_warm_scores_use_same_run_cold_references_not_contaminated_warm_full(sam
     assert len(rows) == len({row["request_id"] for row in rows}) == 56
     assert sum(url.endswith("/generate") for _, url, _ in calls) == 56
     assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 32
+    assert sum(url.endswith("/get_server_info") for _, url, _ in calls) == 1
+    assert not (output / "runtime_metadata.json").exists()
     by_id = {row["request_id"]: row for row in rows}
     comparisons = [json.loads(line) for line in (output / "comparisons.jsonl").read_text().splitlines()]
     assert len(comparisons) == 28
@@ -464,18 +492,62 @@ def test_snapshot_selection_rejects_non_boolean_json_before_worker_start(worker_
     assert json.loads(path.read_text()).get("selected_fp32_snapshots") is None
 
 
+@pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
+@pytest.mark.parametrize("probe_input", [False, True])
+def test_runtime_metadata_selection_rejects_non_boolean_before_worker_start(worker_config, tmp_path, value, probe_input):
+    path, config, _ = worker_config
+    invalid = {"formal_config": str(path)} if probe_input else config
+    invalid.update(selected_fp32_snapshots=True, mamba_runtime_metadata=value)
+    path = tmp_path / "invalid-metadata.json"
+    path.write_text(json.dumps(invalid))
+    with pytest.raises(ValueError, match="mamba_runtime_metadata must be a JSON boolean"):
+        probe._load_config(path, "A", tmp_path / "new-output")
+
+
 @pytest.mark.parametrize("selected", [None, False, True])
+def test_runtime_metadata_requires_selected_fp32_and_preserves_formal_engine_config(worker_config, tmp_path, selected):
+    path, config, _ = worker_config
+    wrapper = {"formal_config": str(path), "mamba_runtime_metadata": True}
+    if selected is not None:
+        wrapper["selected_fp32_snapshots"] = selected
+    wrapper_path = tmp_path / "probe.json"
+    wrapper_path.write_text(json.dumps(wrapper))
+    if selected is not True:
+        with pytest.raises(ValueError, match="requires selected_fp32_snapshots=true"):
+            probe._load_config(wrapper_path, "A", tmp_path / "new-output")
+    else:
+        loaded = probe._load_config(wrapper_path, "A", tmp_path / "new-output")
+        assert loaded == {**config, "selected_fp32_snapshots": True, "mamba_runtime_metadata": True,
+                          "startup_timeout": 17.0}
+    assert json.loads(path.read_text()) == config
+
+
+@pytest.mark.parametrize("selected,diagnostic,readback_status", [
+    (None, None, None), (False, False, None), (True, None, None), (True, False, None),
+    (True, True, "collected"), (True, True, "failed")])
 def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
-        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected):
+        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status):
     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
 
     path, config, model = worker_config
     root, snapshots = snapshot_source
+    if diagnostic:
+        from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+
+        retained = Path(__file__).resolve().parents[2] / (
+            "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111")
+        for relative, identity in metadata.source_manifest()["files"].items():
+            target = root / relative
+            if not target.exists():
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes((retained / identity["native_source_job"] / "source" / relative).read_bytes())
     config["image"] = snapshots.source_manifest()["image"]
     path.write_text(json.dumps(config))
     wrapper = {"formal_config": str(path)}
     if selected is not None:
         wrapper["selected_fp32_snapshots"] = selected
+    if diagnostic is not None:
+        wrapper["mamba_runtime_metadata"] = diagnostic
     wrapper_path = tmp_path / "probe.json"
     wrapper_path.write_text(json.dumps(wrapper))
     samples = tmp_path / "samples.json"
@@ -489,7 +561,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
                        "KUBEBRAIN_REPLICA_TOTAL": "1", "NCCL_FROM_PLATFORM": "preserved",
                        "CUDA_VISIBLE_DEVICES": "0,1,2,3", "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items():
         monkeypatch.setenv(key, value)
-    events, receipts = [], []
+    events, receipts, metadata_receipts = [], [], []
     original_prepare = snapshots.prepare_source
     before = {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
     # Other CPU tests may already import host attention; this worker path must not add imports before preparation.
@@ -504,6 +576,19 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         return receipts[-1]
 
     monkeypatch.setattr(snapshots, "prepare_source", prepare)
+    if diagnostic:
+        original_metadata_prepare = metadata.prepare_runtime_metadata
+
+        def prepare_metadata(root_arg, **kwargs):
+            assert root_arg == root and kwargs == {"image": config["image"],
+                                                    "archive_dir": output / "runtime_metadata_source_preflight"}
+            assert events == ["prepared"]
+            assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
+            metadata_receipts.append(original_metadata_prepare(root_arg, **kwargs))
+            events.append("metadata_prepared")
+            return metadata_receipts[-1]
+
+        monkeypatch.setattr(metadata, "prepare_runtime_metadata", prepare_metadata)
 
     def find_spec(name):
         assert name == "sglang" and selected is True
@@ -518,7 +603,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
     monkeypatch.setattr(warmup, "_worker_environment", environment)
 
     def runtime(*args):
-        assert events == (["prepared"] if selected is True else [])
+        assert events == (["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
         events.append("runtime")
         return {"scope": "CPU mock; native CUDA unverified"}
 
@@ -537,6 +622,15 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
             assert preload["native_scoring_sources"][source] == probe._file_identity(Path(snapshots.__file__))
         else:
             assert "source_preflight" not in preload
+        metadata_source = "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py"
+        assert (metadata_source in preload["native_scoring_sources"]) == bool(diagnostic)
+        if diagnostic:
+            assert preload["runtime_metadata_source_preflight"] == metadata_receipts[0]
+            assert metadata_receipts[0]["selected_fp32_precondition"] is True
+            assert metadata_receipts[0]["runtime_semantics"].startswith("UNVERIFIED")
+            assert preload["native_scoring_sources"][metadata_source] == probe._file_identity(Path(metadata.__file__))
+        else:
+            assert "runtime_metadata_source_preflight" not in preload
         assert all(os.environ[key] == value for key, value in {
             "NCCL_FROM_PLATFORM": "preserved", "CUDA_VISIBLE_DEVICES": "0,1,2,3",
             "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items())
@@ -553,10 +647,35 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         return {"scope": "CPU mock; no requests made"}
 
     monkeypatch.setattr(probe, "_benchmark", benchmark)
-    probe._run(args)
+
+    async def readback(url, timeout, destination):
+        assert diagnostic is True and events[-1] == "benchmark"
+        assert (url, timeout, destination) == ("http://192.0.2.10:30000", 17, output)
+        events.append("metadata_readback")
+        return {"status": readback_status, "reason": "CPU fault injection: metadata missing", "scope": "CPU mock; no native readback"}
+
+    monkeypatch.setattr(probe, "_collect_runtime_metadata", readback)
+    if readback_status == "failed":
+        with pytest.raises(RuntimeError, match="Scoring completed; independent runtime metadata readback failed"):
+            probe._run(args)
+    else:
+        probe._run(args)
     result = json.loads((output / "result.json").read_text())
-    assert result["status"] == "measurements_completed"
-    assert events == (["prepared"] if selected is True else []) + ["runtime", "teacher", "benchmark"]
+    assert result["status"] == ("failed" if readback_status == "failed" else "measurements_completed")
+    assert result["native_measurements_completed"] is True and result["cleanup_completed"] is True
+    if readback_status == "failed":
+        assert result["error_type"] == "RuntimeError" and result["runtime_metadata"]["status"] == "failed"
+        assert result["cache_observations"] == {"scope": "CPU mock; no requests made"}
+        assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
+    assert events == ((["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
+                      + ["runtime", "teacher", "benchmark"] + (["metadata_readback"] if diagnostic else []))
+    if diagnostic:
+        assert result["runtime_metadata_source_preflight"] == metadata_receipts[0]
+        assert json.loads((output / "runtime_metadata_source_preflight/preflight.jsonl").read_text()) == metadata_receipts[0]
+        assert result["source_preflight"] != result["runtime_metadata_source_preflight"]
+    else:
+        assert not metadata_receipts and not (output / "runtime_metadata_source_preflight").exists()
+        assert "runtime_metadata" not in result
     if selected is True:
         assert result["source_preflight"] == receipts[0]
         assert receipts[0]["changed_files"] == ["kernels/ops/attention/fla/chunk.py",
@@ -628,6 +747,186 @@ def test_fp32_variant_changes_only_selection_and_isolated_output():
     for pair in variant["pairs"]:
         assert formal["pairs"][pair]["teacher"]["max_running_requests"] == 1
         assert formal["pairs"][pair]["teacher"]["chunked_prefill_size"] == 8192
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+def test_runtime_metadata_config_uses_first4_once_and_exact_teacher_allocation_and_argv(tmp_path, monkeypatch, capsys, pair):
+    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
+
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    base_path = task / "teacher_scoring_fp32_probe_config.json"
+    diagnostic_path = task / "teacher_scoring_runtime_metadata_probe_config.json"
+    base, diagnostic = (json.loads(path.read_text()) for path in (base_path, diagnostic_path))
+    allowed = {"task_id", "samples", "repeats", "mamba_runtime_metadata", "output_parent", "acceptance"}
+    assert {key: value for key, value in diagnostic.items() if key not in allowed} == {
+        key: value for key, value in base.items() if key not in allowed}
+    assert diagnostic["selected_fp32_snapshots"] is True and diagnostic["mamba_runtime_metadata"] is True
+    assert diagnostic["repeats"] == 1 and diagnostic["pairs"] == ["A", "B"]
+    assert diagnostic["output_parent"] != base["output_parent"] and diagnostic.get("envs", {}) == {}
+    formal = json.loads((repo / diagnostic["formal_config"]).read_text())
+    original_path = repo / base["samples"]
+    original_before = original_path.read_bytes()
+    fixture = probe._load_samples(repo / diagnostic["samples"], formal["context_tokens"])
+    assert fixture["samples"] == json.loads(original_before)["samples"][:4]
+    assert [sample["sample_index"] for sample in fixture["samples"]] == [1693, 1694, 1695, 1696]
+    assert 4 * len(fixture["samples"]) * diagnostic["repeats"] == 16
+    assert 2 * (len(fixture["samples"]) + 1) * diagnostic["repeats"] == 10
+    assert "1024-hit" in diagnostic["acceptance"] and "pending" in diagnostic["acceptance"]
+    monkeypatch.setattr(sys, "executable", formal["worker_python"])
+    output = repo / diagnostic["output_parent"] / pair / "cpu-construction-only"
+    loaded = probe._load_config(diagnostic_path, pair, output)
+    head = {"ip": "192.0.2.10"}
+    argv = paired._teacher_command(loaded, pair, 0, head)
+    assert argv == paired._teacher_command(formal, pair, 0, head)
+    assert argv[argv.index("--dtype") + 1] == "bfloat16"
+    assert argv[argv.index("--chunked-prefill-size") + 1] == "8192"
+    assert argv[argv.index("--max-running-requests") + 1] == "1"
+    assert "--enable-deterministic-inference" in argv and "--disable-cuda-graph" in argv
+    assert "--disable-radix-cache" not in argv
+    constructions = []
+    for config_path in (base_path, diagnostic_path):
+        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config_path), "--pair", pair,
+                                          "--receipt", str(task / "cpu-construction-only.json"), "--dry-run"])
+        assert submission.main() == 0
+        constructions.append(json.loads(capsys.readouterr().out))
+    base_launch, diagnostic_launch = constructions
+    assert diagnostic_launch["requested_gpus"] == 4
+    assert {key: value for key, value in diagnostic_launch.items() if key not in ("worker_command", "output")} == {
+        key: value for key, value in base_launch.items() if key not in ("worker_command", "output")}
+    assert diagnostic_launch["mounts"] == formal["mounts"]
+    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
+    for option, expected in (("--config", str(diagnostic_path)), ("--samples", str(repo / diagnostic["samples"])),
+                             ("--repeats", "1"), ("--request-timeout", "3600")):
+        assert commands[1][commands[1].index(option) + 1] == expected
+    normalized = []
+    for command in commands:
+        for option in ("--config", "--samples", "--output-dir", "--repeats"):
+            command[command.index(option) + 1] = option
+        normalized.append(command)
+    assert normalized[0] == normalized[1]
+    assert original_path.read_bytes() == original_before and not (task / "cpu-construction-only.json").exists()
+
+
+def _cpu_metadata(dp_rank=0, tp_rank=0):
+    from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+
+    namespace = {}
+    exec(compile(metadata._RECORDER_SOURCE, "qualified-recorder-cpu-contract", "exec"), namespace)
+    namespace["record"]("cpu_test_only", (("rids", ("cpu-request",)), ("source", "CPU; no native execution")))
+    rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=dp_rank, attn_tp_rank=tp_rank)
+    return namespace["drain"](rank)
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+@pytest.mark.parametrize("failure", [None, "missing", "empty", "json", "http", "timeout"])
+def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retains_scores(
+        tmp_path, monkeypatch, pair, failure):
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+    by_length = {len(sample["tokens"]): sample for sample in fixture["samples"]}
+    metadata = _cpu_metadata()
+    if failure == "empty":
+        metadata["rows"] = []
+    server_info = {"dp_size": 1, "tp_size": 4, "pp_size": 1,
+                   "internal_states": [{} if failure == "missing" else {"mamba_runtime_metadata": metadata}]}
+    info_calls, scoring_calls = [], []
+
+    def response(method, url, kwargs):
+        if url.endswith("/get_server_info"):
+            info_calls.append(len(scoring_calls))
+            if len(info_calls) == 1:
+                return b'{"version":"CPU mock, not native"}', 200
+            assert len(scoring_calls) == 16
+            if failure == "timeout":
+                raise asyncio.TimeoutError("CPU fault injection: post-loop readback deadline")
+            return b"{invalid JSON" if failure == "json" else json.dumps(server_info).encode(), 503 if failure == "http" else 200
+        if url.endswith("/flush_cache"):
+            return b"Cache flushed", 200
+        assert url.endswith("/generate") and method == "POST"
+        payload = kwargs["json"]
+        sample = by_length[len(payload["input_ids"])]
+        assert payload["input_ids"] == sample["tokens"]
+        assert payload["sampling_params"]["max_new_tokens"] == 0
+        scoring_calls.append(payload)
+        # Only the completion tail matters to this HTTP/identity CPU contract.
+        tail = [[None, sample["tokens"][payload["logprob_start_len"]], None]] + [
+            [-0.125, token, None] for token in sample["tokens"][-sample["response_length"]:]]
+        return json.dumps({"text": "", "output_ids": [], "meta_info": {
+            "input_token_logprobs": tail, "output_token_logprobs": []}}).encode(), 200
+
+    _, calls, _ = _mock_http(monkeypatch, response)
+    output, local = _output(tmp_path)
+    args = SimpleNamespace(repeats=1, request_timeout=17, pair=pair)
+    cache = asyncio.run(probe._benchmark(args, fixture, "mock://teacher", output, local))
+    before = {path.relative_to(output): path.read_bytes() for path in output.rglob("*") if path.is_file()}
+    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
+    assert cache == {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
+    assert info_calls == [0, 16]
+    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 10
+    assert sum(url.endswith("/generate") for _, url, _ in calls) == 16
+    assert calls[-1] == ("GET", "mock://teacher/get_server_info", {})
+    assert {path.relative_to(output): path.read_bytes() for path in output.rglob("*")
+            if path.is_file() and path.name != "runtime_metadata.json"} == before
+    rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+    assert len(rows) == 16 and all(row["status"] == "scored" for row in rows)
+    assert {(row["source_uid"], row["sample_index"]) for row in rows} == {
+        (sample["source_uid"], sample["sample_index"]) for sample in fixture["samples"]}
+    assert all(row["repetition"] == 0 and row["sample_position"] in range(4) for row in rows)
+    assert len(list((output / "completion_scores").iterdir())) == 16
+    assert receipt == json.loads((output / "runtime_metadata.json").read_text())
+    assert "no all-TP gather" in receipt["coverage"] and receipt["runtime_semantics"].startswith("UNVERIFIED")
+    assert receipt["status"] == ("failed" if failure else "collected")
+    if failure:
+        assert receipt["reason"] and receipt["error_type"]
+        if failure in ("missing", "empty"):
+            assert receipt["server_info"] == json.loads(json.dumps(server_info)) and receipt["response_text"]
+        if failure == "http":
+            assert receipt["http"]["http_status"] == 503
+    else:
+        assert receipt["dp_size"] == 1 and receipt["tp_size"] == 4 and len(receipt["dp_responses"]) == 1
+        assert receipt["dp_responses"][0]["row_count"] == 1
+
+
+def test_metadata_dp_responses_keep_individual_ranks_without_assuming_tp_shards():
+    info = json.loads(json.dumps({"dp_size": 2, "tp_size": 4, "pp_size": 1,
+        "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=rank)} for rank in (1, 0)]}))
+    observations = probe._runtime_metadata_states(info)
+    assert [item["rank"]["dp_rank"] for item in observations] == [1, 0]
+    assert len(observations) == 2 and all(item["rank"]["tp_rank"] == 0 for item in observations)
+    info["internal_states"][1]["mamba_runtime_metadata"]["rank"]["dp_rank"] = 1
+    with pytest.raises(ValueError, match="duplicate or out-of-range dp_rank"):
+        probe._runtime_metadata_states(info)
+
+
+@pytest.mark.parametrize("failure", ["object", "topology", "tp_shards", "schema", "process", "rank", "rows", "row", "sequence", "field"])
+def test_runtime_metadata_malformed_payload_never_counts_as_collected(failure):
+    info = json.loads(json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1,
+                                 "internal_states": [{"mamba_runtime_metadata": _cpu_metadata()}]}))
+    metadata = info["internal_states"][0]["mamba_runtime_metadata"]
+    if failure == "object":
+        info = []
+    elif failure == "topology":
+        info["dp_size"] = True
+    elif failure == "tp_shards":
+        info["internal_states"] *= 4
+    elif failure == "schema":
+        metadata["schema"] = "unknown"
+    elif failure == "process":
+        metadata["process_id"] = None
+    elif failure == "rank":
+        metadata["rank"]["tp_rank"] = "0"
+    elif failure == "rows":
+        metadata["rows"] = {}
+    elif failure == "row":
+        metadata["rows"][0] = {}
+    elif failure == "sequence":
+        metadata["rows"][0][0] = 0
+    else:
+        metadata["rows"][0][2] = [["missing-value"]]
+    with pytest.raises(ValueError):
+        probe._runtime_metadata_states(info)
 
 
 @pytest.mark.parametrize("war_barrier", [None, "0", "1"])

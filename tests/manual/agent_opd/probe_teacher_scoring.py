@@ -12,6 +12,10 @@ An isolated probe JSON may also be passed as --config; its formal_config keeps
 the engine settings, and selected_fp32_snapshots selects source preparation.
 Only true calls the qualified preparer before runtime inspection/server start.
 Its retained receipt is source evidence, not measured CUDA snapshot behavior.
+An opt-in mamba_runtime_metadata overlay follows selected-FP32 preparation and
+reads the existing server-info endpoint once after all scoring requests. A
+sample manifest may reference the original fixture and its first sample_count
+entries without copying tokens or changing their source identities.
 
 Cold comparisons flush before each request. Separate warm passes flush once
 before each mode's ordered sample stream. Mode order alternates by repetition
@@ -95,6 +99,20 @@ def _file_identity(path):
 
 def _load_samples(path, context_tokens):
     fixture = json.loads(path.read_text())
+    manifest = None
+    if "source_fixture" in fixture:
+        source = fixture["source_fixture"]
+        count = fixture["sample_count"]
+        if not isinstance(source, str) or not source:
+            raise ValueError("Sample manifest source_fixture must be a nonempty path")
+        if type(count) is not int or count <= 0:
+            raise ValueError("Sample manifest sample_count must be a positive integer")
+        source = (path.parent / source).resolve(strict=True)
+        fixture = json.loads(source.read_text())
+        if count > len(fixture["samples"]):
+            raise ValueError("Sample manifest sample_count exceeds the original fixture")
+        manifest = {"source_fixture": _file_identity(source), "sample_count": count,
+                    "original_sample_count": len(fixture["samples"]), "selection": "Original fixture prefix, unchanged identities"}
     if not isinstance(fixture["job"], str) or not fixture["job"] or not fixture["samples"]:
         raise ValueError("Fixture requires a historical job and nonempty samples")
     identities = set()
@@ -115,7 +133,7 @@ def _load_samples(path, context_tokens):
         if expected is not None and (not isinstance(expected, list) or len(expected) != response
                                     or any(type(x) not in (int, float) or not math.isfinite(x) for x in expected)):
             raise ValueError(f"Sample {identity} historical log probabilities must be finite and completion-aligned")
-    return fixture
+    return {**fixture, "samples": fixture["samples"][:count], "sample_manifest": manifest} if manifest else fixture
 
 
 def _load_config(path, pair, output):
@@ -126,6 +144,11 @@ def _load_config(path, pair, output):
     selected_fp32 = config.get("selected_fp32_snapshots", False)
     if type(selected_fp32) is not bool:
         raise ValueError("selected_fp32_snapshots must be a JSON boolean")
+    runtime_metadata = config.get("mamba_runtime_metadata", False)
+    if type(runtime_metadata) is not bool:
+        raise ValueError("mamba_runtime_metadata must be a JSON boolean")
+    if runtime_metadata and not selected_fp32:
+        raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
     config_paths = [path.resolve()]
     if "formal_config" in config:
         formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
@@ -133,6 +156,8 @@ def _load_config(path, pair, output):
         config = json.loads(formal_path.read_text())
         # The probe input selects the experiment; formal engine parameters stay unchanged.
         config["selected_fp32_snapshots"] = selected_fp32
+        if runtime_metadata:
+            config["mamba_runtime_metadata"] = True
     teacher = config["pairs"][pair]["teacher"]
     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
         raise ValueError("This dedicated probe requires H800/codesign")
@@ -400,6 +425,73 @@ async def _benchmark(args, fixture, url, output, local):
     return cache_observations
 
 
+def _runtime_metadata_states(info):
+    if not isinstance(info, dict):
+        raise ValueError("Server-info response must be an object")
+    for name in ("dp_size", "tp_size", "pp_size"):
+        if type(info.get(name)) is not int or info[name] <= 0:
+            raise ValueError(f"Server-info {name} must be a positive integer")
+    states = info.get("internal_states")
+    if not isinstance(states, list) or len(states) != info["dp_size"]:
+        raise ValueError("Server-info internal_states must contain one response per DP, not per TP rank")
+    ranks, observations = set(), []
+    for index, state in enumerate(states):
+        if not isinstance(state, dict) or "mamba_runtime_metadata" not in state:
+            raise ValueError(f"DP response {index} is missing mamba_runtime_metadata")
+        metadata = state["mamba_runtime_metadata"]
+        if not isinstance(metadata, dict) or metadata.get("schema") != "mamba-runtime-metadata-v1":
+            raise ValueError(f"DP response {index} has malformed mamba_runtime_metadata schema")
+        if type(metadata.get("process_id")) is not int or metadata["process_id"] <= 0:
+            raise ValueError(f"DP response {index} has malformed metadata process_id")
+        rank = metadata.get("rank")
+        if (not isinstance(rank, dict) or any(type(rank.get(name)) is not int or rank[name] < 0
+                for name in ("dp_rank", "tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank"))):
+            raise ValueError(f"DP response {index} has malformed metadata rank")
+        dp_rank = rank["dp_rank"]
+        if dp_rank >= info["dp_size"] or dp_rank in ranks:
+            raise ValueError(f"DP response {index} has duplicate or out-of-range dp_rank")
+        ranks.add(dp_rank)
+        rows = metadata.get("rows")
+        if not isinstance(rows, list) or not rows:
+            raise ValueError(f"DP response {index} has missing or empty runtime metadata rows")
+        sequence = 0
+        for row in rows:
+            if (not isinstance(row, list) or len(row) != 3 or type(row[0]) is not int or row[0] <= sequence
+                    or not isinstance(row[1], str) or not row[1] or not isinstance(row[2], list)
+                    or any(not isinstance(field, list) or len(field) != 2 or not isinstance(field[0], str)
+                           or not field[0] for field in row[2])):
+                raise ValueError(f"DP response {index} has malformed runtime metadata row")
+            sequence = row[0]
+        observations.append({"state_index": index, "process_id": metadata["process_id"], "rank": rank,
+                             "row_count": len(rows)})
+    return observations
+
+
+async def _collect_runtime_metadata(url, timeout, output):
+    # The retained native /get_server_info alias delegates to /server_info.
+    # Its internal_states list covers DP respondents, never all TP processes.
+    http = {"endpoint": url + "/get_server_info"}
+    record = {"status": "failed", "http": http,
+              "coverage": "One responding scheduler process per DP; no all-TP gather or independent TP-rank verification",
+              "runtime_semantics": "UNVERIFIED; CPU host-enqueue receipts do not prove device completion or numerical parity"}
+    raw = None
+    try:
+        raw = await _http("GET", http["endpoint"], None, timeout, http)
+        info = _parse(raw, http)
+        # Retain malformed readback as exact text if it cannot be strict JSON.
+        json.dumps(info, allow_nan=False)
+        record["server_info"] = info
+        record["dp_responses"] = _runtime_metadata_states(info)
+        record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
+    except Exception as error:
+        record.update(error_type=type(error).__name__, reason=str(error))
+        if raw is not None:
+            record["response_text"] = raw.decode(errors="replace")
+    finally:
+        _write(output / "runtime_metadata.json", record)
+    return record
+
+
 def _runtime(config, pair):
     root = Path(importlib.util.find_spec("sglang").origin).parent
     sources = {name: _file_identity(root / name) for name in _SGLANG_SOURCES}
@@ -454,6 +546,8 @@ def _run(args):
                          "order_limit": "One repetition cannot balance both first-mode positions for each individual sample",
                          "timing": "perf_counter; headers include request serialization/server work; decoded body read, JSON parse and native tail validation measured separately",
                          "acceptance": "No performance PASS or numerical tolerance; primary judges observed differences"}}
+    if "sample_manifest" in fixture:
+        result["sample_manifest"] = fixture["sample_manifest"]
     try:
         _worker_environment(local)
         local_created = True
@@ -464,6 +558,11 @@ def _run(args):
             root = Path(importlib.util.find_spec("sglang").origin).parent
             result["source_preflight"] = snapshots.prepare_source(
                 root, image=config["image"], selected_fp32=True, archive_dir=output / "source_preflight")
+        if config.get("mamba_runtime_metadata", False):
+            from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+
+            result["runtime_metadata_source_preflight"] = metadata.prepare_runtime_metadata(
+                root, image=config["image"], archive_dir=output / "runtime_metadata_source_preflight")
         result["runtime"] = _runtime(config, args.pair)
         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
@@ -471,6 +570,9 @@ def _run(args):
         if config.get("selected_fp32_snapshots", False):
             result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_snapshots.py"] = _file_identity(
                 Path(snapshots.__file__))
+        if config.get("mamba_runtime_metadata", False):
+            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_runtime_metadata.py"] = _file_identity(
+                Path(metadata.__file__))
         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
         result["argv"] = command
         _write(output / "preload.json", result)
@@ -485,6 +587,12 @@ def _run(args):
                 raise RuntimeError("Dedicated teacher readiness was interrupted")
             result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local))
             paired._check_server(process)
+            if config.get("mamba_runtime_metadata", False):
+                result["native_measurements_completed"] = True
+                receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output))
+                result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
+                if receipt["status"] != "collected":
+                    raise RuntimeError(f"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}")
         result.update(status="measurements_completed", native_measurements_completed=True)
     except BaseException as error:
         result.update(error_type=type(error).__name__, reason=str(error))
