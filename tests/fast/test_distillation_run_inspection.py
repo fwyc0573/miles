@@ -3,6 +3,9 @@
 import json
 import subprocess
 import sys
+import tempfile
+from pathlib import Path
+
 import pytest
 
 from tests.fast.test_distillation_profile import UPDATES, _bank, _profile, _sums
@@ -33,9 +36,9 @@ def _bank_evidence(path, turns):
     slots = [{"slot": index, "source_uid": turn[0]} for index, turn in enumerate(turns)]
     slots.append({"slot": len(turns), "source_uid": "failed-candidate"})
     rows = [{"event": "acquisition_start", "slots": slots}]
-    for slot, (uid, group, turn, _, _, tokens) in enumerate(turns):
+    for slot, (uid, source_conversation_id, turn, _, _, tokens) in enumerate(turns):
         rows.append({"event": "slot_finished", "slot": slot, "source_uid": uid, "status": "completed",
-                     "error": None, "sample": {"metadata": {"source": {"uid": uid, "group_id": group,
+                     "error": None, "sample": {"metadata": {"source": {"uid": uid, "group_id": source_conversation_id,
                                                                             "assistant_turn_ordinal": turn}},
                                                 "loss_mask": [1] * tokens, "response_length": tokens}})
     rows.append({"event": "slot_finished", "slot": len(turns), "source_uid": "failed-candidate",
@@ -79,12 +82,47 @@ def _inspect(training, terminal=None, expected=4):
     return inspect_run(training, job=JOB, expected_updates=expected, terminal_path=terminal)
 
 
+def test_inspection_uses_writable_tmpdir_without_host_path(tmp_path, monkeypatch):
+    training, terminal, _ = _run(tmp_path, count=1)
+    temporary_root = tmp_path / "alternate-temporary-root"
+    temporary_root.mkdir()
+    monkeypatch.setenv("TMPDIR", str(temporary_root))
+    monkeypatch.setattr(tempfile, "tempdir", None)
+    create_directory = tempfile.mkdtemp
+
+    def configured_root_only(suffix=None, prefix=None, dir=None):
+        parent = Path(dir if dir is not None else tempfile.gettempdir())
+        if parent != temporary_root:
+            raise PermissionError("Temporary writes outside the configured root are unavailable")
+        return create_directory(suffix=suffix, prefix=prefix, dir=dir)
+
+    monkeypatch.setattr(tempfile, "mkdtemp", configured_root_only)
+    receipt, profile = _inspect(training, terminal, expected=1)
+    assert receipt["profile"]["complete"] and profile.latest_update == 1
+    assert profile.update(1).rkl == 0.75
+
+
+def test_temporary_directory_creation_error_is_an_honest_profile_verdict(tmp_path, monkeypatch):
+    training, terminal, _ = _run(tmp_path, count=1)
+
+    def unavailable_directory(*args, **kwargs):
+        raise OSError("Synthetic temporary-directory creation failure")
+
+    monkeypatch.setattr(tempfile, "mkdtemp", unavailable_directory)
+    receipt, profile = _inspect(training, terminal, expected=1)
+    assert receipt["native"]["complete"]
+    assert not receipt["profile"]["complete"] and receipt["profile"]["verified_updates"] == 0
+    assert "Synthetic temporary-directory creation failure" in receipt["profile"]["error"]
+    assert receipt["profile"]["unverified_ranges"] == [[1, 1]] and profile is None
+
+
 def test_hand_computed_uneven_turns_skipped_ack_and_read_only_rebuild(tmp_path):
     training, terminal, original = _run(tmp_path, skipped=True)
     before = {path: path.read_bytes() for path in training.rglob("*") if path.is_file()}
     receipt, profile = _inspect(training, terminal)
     assert receipt["native"]["complete"] is True
     assert receipt["native"]["observed_successful_updates"] == receipt["native"]["successful_updates"] == 4
+    assert receipt["native"]["observed_successful_update_ids"] == [1, 2, 3, 4]
     assert receipt["profile"]["verified_updates"] == receipt["profile"]["canonical_uid_verified_updates"] == 4
     assert receipt["profile"]["complete"] is True
     assert receipt["profile"]["first_unverified_update"] is None
@@ -116,6 +154,33 @@ def test_synthetic_200_update_readiness(tmp_path):
     assert receipt["native"]["complete"] and receipt["profile"]["complete"]
     assert receipt["native"]["ack_identity"]["run_kind"] == "smoke"
     assert profile.summary() == original.summary() and profile.latest_update == 200
+
+
+@pytest.mark.parametrize("include_terminal", [False, True])
+def test_native_update_201_is_an_unverified_tail_of_a_200_update_profile(tmp_path, include_terminal):
+    training, terminal, _ = _run(tmp_path, count=200)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native.append({**native[-1], "update": 201, "successful_updates": 201,
+                   "native_attempted_count": 201, "attempted_rollout_id": 200, "bank": 200})
+    _write_rows(native_path, native)
+    receipt, profile = _inspect(training, terminal if include_terminal else None, expected=200)
+    assert receipt["native"]["observed_successful_updates"] == 201
+    assert not receipt["profile"]["complete"]
+    assert receipt["profile"]["verified_updates"] == profile.latest_update == 200
+    assert receipt["profile"]["first_unverified_update"] == 201
+    assert receipt["profile"]["unverified_ranges"] == [[201, 201]]
+    assert profile.update(200).rkl == 1.0
+    with pytest.raises(IndexError):
+        profile.update(201)
+
+
+def test_complete_profile_does_not_require_a_terminal_receipt(tmp_path):
+    training, _, _ = _run(tmp_path, count=200)
+    receipt, profile = _inspect(training, expected=200)
+    assert receipt["profile"]["complete"] and profile.latest_update == 200
+    assert receipt["profile"]["unverified_ranges"] == []
+    assert not receipt["native"]["complete"] and receipt["native"]["terminal_phase"] is None
 
 
 def test_first_update_live_inspection_needs_no_terminal(tmp_path):
@@ -150,6 +215,26 @@ def test_native_success_with_partial_profile_returns_only_clean_prefix(tmp_path,
     assert path.read_bytes() == before
     with pytest.raises((ValueError, json.JSONDecodeError)):
         DistillationProfile.rebuild(training / "distillation_profile")
+
+
+def test_missing_profile_tail_preserves_next_native_auxiliary_error(tmp_path):
+    training, terminal, _ = _run(tmp_path)
+    for name in (UPDATES_FILE, OBSERVATIONS_FILE):
+        path = training / "distillation_profile" / name
+        _write_rows(path, _rows(path)[:1])
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native[1].update(turn_sums_verified=False, unverified_turn_sums=["Missing CP partial for a native sample"],
+                     kl_estimator=None, kl_before_tis=None, nll_before_tis=None,
+                     kl_before_tis_numerator=None, nll_before_tis_numerator=None)
+    _write_rows(native_path, native)
+    receipt, profile = _inspect(training, terminal)
+    assert receipt["native"]["complete"] and receipt["native"]["successful_updates"] == 4
+    assert "Missing CP partial for a native sample" in receipt["profile"]["error"]
+    assert receipt["profile"]["first_unverified_update"] == 2
+    assert receipt["profile"]["unverified_ranges"] == [[2, 4]]
+    assert profile.latest_update == 1 and profile.baseline is None
+    assert profile.summary()["rkl"] == 0.75
 
 
 @pytest.mark.parametrize("field,value", [
@@ -227,15 +312,47 @@ def test_bad_native_sequence_keeps_observed_count_but_not_proven_total(tmp_path,
     _write_rows(path, rows)
     receipt, profile = _inspect(training, terminal)
     assert receipt["native"]["observed_successful_updates"] == (3 if field == "update_successful" else 4)
+    assert receipt["native"]["observed_successful_update_ids"] == ([1, 3, 4] if field == "update_successful" else [1, 2, 3, 4])
     assert receipt["native"]["successful_updates"] is None and not receipt["native"]["complete"]
     assert "Native update 2" in receipt["native"]["error"]
     assert receipt["profile"]["verified_updates"] == profile.latest_update == 1
+
+
+def test_missing_middle_native_ack_retains_observed_update_200_identity(tmp_path):
+    training, terminal, _ = _run(tmp_path, count=200)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native.pop(4)
+    _write_rows(native_path, native)
+    receipt, profile = _inspect(training, terminal, expected=200)
+    observed_ids = receipt["native"]["observed_successful_update_ids"]
+    assert observed_ids[:5] == [1, 2, 3, 4, 6]
+    assert 5 not in observed_ids and observed_ids[-1] == 200 and len(observed_ids) == 199
+    assert receipt["native"]["observed_successful_updates"] == 199
+    assert receipt["native"]["successful_updates"] is None and not receipt["native"]["complete"]
+    assert receipt["profile"]["verified_updates"] == profile.latest_update == 4
+    assert receipt["profile"]["first_unverified_update"] == 5
+    assert receipt["profile"]["unverified_ranges"] == [[5, 200]]
+
+
+@pytest.mark.parametrize("update_id", [True, 1.0, "1", 0, -1])
+def test_observed_successful_ids_exclude_invalid_ids_without_changing_row_count(tmp_path, update_id):
+    training, terminal, _ = _run(tmp_path)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native[0]["update"] = update_id
+    _write_rows(native_path, native)
+    receipt, profile = _inspect(training, terminal)
+    assert receipt["native"]["observed_successful_update_ids"] == [2, 3, 4]
+    assert receipt["native"]["observed_successful_updates"] == 4
+    assert receipt["native"]["successful_updates"] is None and profile is None
 
 
 def test_missing_native_profile_and_failed_before_start_do_not_prove_zero(tmp_path):
     terminal = _terminal(tmp_path / "failed.json", phase="Failed")
     receipt, profile = _inspect(tmp_path / "not-retained", terminal, expected=200)
     assert receipt["native"]["observed_successful_updates"] == 0
+    assert receipt["native"]["observed_successful_update_ids"] == []
     assert receipt["native"]["successful_updates"] is None
     assert receipt["native"]["terminal_phase"] == "Failed" and receipt["native"]["terminal_job_verified"]
     assert not receipt["native"]["complete"] and not receipt["profile"]["complete"]

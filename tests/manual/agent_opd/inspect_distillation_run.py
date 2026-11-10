@@ -155,7 +155,8 @@ def _canonical_bank(path: Path) -> tuple[dict, dict]:
             or type(sealed["actual_turns"]) is not int or sealed["actual_turns"] != len(completed)
             or sealed["missing_slots"] != sorted(set(slots) - completed.keys())):
         raise ValueError(f"{path}: sealed membership differs from canonical completed slots")
-    bank = {uid: (group, turn) for uid, group, turn, _ in (completed[slot] for slot in membership)}
+    bank = {uid: (source_conversation_id, turn)
+            for uid, source_conversation_id, turn, _ in (completed[slot] for slot in membership)}
     counts = {uid: tokens for uid, _, _, tokens in (completed[slot] for slot in membership)}
     return bank, counts
 
@@ -170,16 +171,17 @@ def _verify_update(profile: DistillationProfile, native: dict, summary: dict, ob
         raise ValueError("Profile conversation/turn/replay identities must be integers")
     sums = [TurnSums(uid, rkl, nll, tokens) for uid, _, _, _, rkl, nll, tokens in rows]
     old_count = profile.conversation_count
-    groups = [profile.conversation(c_id).group_id for c_id in range(old_count)]
-    for c_id, group in observations["new_conversations"]:
-        if type(c_id) is not int or c_id != len(groups) or group in groups:
+    source_conversation_ids = [profile.conversation(c_id).group_id for c_id in range(old_count)]
+    for c_id, source_conversation_id in observations["new_conversations"]:
+        if (type(c_id) is not int or c_id != len(source_conversation_ids)
+                or source_conversation_id in source_conversation_ids):
             raise ValueError("Invalid new conversation mapping")
-        groups.append(group)
+        source_conversation_ids.append(source_conversation_id)
     finished = observations["finished"]
-    if any(type(c_id) is not int or not 0 <= c_id < len(groups) for c_id in finished):
+    if any(type(c_id) is not int or not 0 <= c_id < len(source_conversation_ids) for c_id in finished):
         raise ValueError("Invalid finished conversation identity")
     offset = sum(profile.update(u).turns for u in range(1, profile.latest_update + 1))
-    profile.record_update(update_id, sums, bank, [groups[c_id] for c_id in finished],
+    profile.record_update(update_id, sums, bank, [source_conversation_ids[c_id] for c_id in finished],
                           native_record=native, bank_token_counts=counts)
     if profile.unverified_from is not None:
         raise ValueError(profile.unverified_reason)
@@ -212,9 +214,9 @@ def _profile_prefix(training_dir: Path, native: list[dict], summaries: list[dict
         return 0, None, "No complete native/profile pair available; values and UID identity are unverified"
     # A first pass uses record_update validation. Only accepted original pairs enter
     # a temporary prefix; rebuild performs the second pass and returns clean state.
-    with tempfile.TemporaryDirectory(prefix="distillation-inspection-", dir="/data/ycfeng/tmp") as temporary:
-        directory = Path(temporary)
-        try:
+    try:
+        with tempfile.TemporaryDirectory(prefix="distillation-inspection-") as temporary:
+            directory = Path(temporary)
             first = summaries[0]
             profile = DistillationProfile(estimator=first["estimator"], trend_window=first["trend_window"],
                                           baseline_updates=first["baseline_updates"],
@@ -232,8 +234,8 @@ def _profile_prefix(training_dir: Path, native: list[dict], summaries: list[dict
                 verified += 1
             rebuilt = DistillationProfile.rebuild(directory) if verified else None
             return verified, rebuilt, error
-        except (OSError, ValueError, KeyError, TypeError, IndexError, OverflowError) as failure:
-            return 0, None, f"Prefix rebuild unavailable: {type(failure).__name__}: {failure}"
+    except (OSError, ValueError, KeyError, TypeError, IndexError, OverflowError) as failure:
+        return 0, None, f"Prefix rebuild unavailable: {type(failure).__name__}: {failure}"
 
 
 def _missing_pairs(summaries: list[dict], observations: list[dict], horizon: int) -> list[list[int]]:
@@ -269,6 +271,8 @@ def inspect_run(training_dir: Path, *, job: str, expected_updates: int,
     native_rows, sequence_error = _native_prefix(rows, job)
     native_error = sequence_error or read_error
     observed = sum(row.get("update_successful") is True for row in rows)
+    observed_ids = [row["update"] for row in rows if row.get("update_successful") is True
+                    and type(row.get("update")) is int and row["update"] > 0]
     successful = len(native_rows) if native_rows and native_error is None else None
     if len(rows) > expected_updates:
         native_error = native_error or "Native ACK count exceeds expected update budget"
@@ -288,19 +292,25 @@ def inspect_run(training_dir: Path, *, job: str, expected_updates: int,
     summaries, summaries_error = _read_rows(profile_dir / UPDATES_FILE, expected_updates + 1)
     observations, observations_error = _read_rows(profile_dir / OBSERVATIONS_FILE, expected_updates + 1)
     verified, profile, profile_error = _profile_prefix(training_dir, native_rows[:expected_updates], summaries, observations)
-    profile_error = profile_error or sequence_error or read_error or summaries_error or observations_error
+    if profile_error is None and verified < len(native_rows):
+        next_ack = native_rows[verified]
+        if next_ack.get("turn_sums_verified") is False and next_ack.get("unverified_turn_sums"):
+            profile_error = (f"Profile update {next_ack['successful_updates']}: "
+                             f"Native turn sums unverified: {next_ack['unverified_turn_sums']}")
+    profile_error = profile_error or native_error or summaries_error or observations_error
     if not profile_error and (len(summaries) != verified or len(observations) != verified):
         profile_error = "Unpaired or extra profile records beyond the verified native prefix"
     if not profile_error and verified < expected_updates:
         profile_error = f"Verified profile prefix ends at {verified}; expected {expected_updates} updates"
-    complete = verified == expected_updates and profile_error is None
     horizon = max(expected_updates, len(rows), len(summaries), len(observations))
     first_unverified = verified + 1 if verified < horizon else None
+    complete = verified == expected_updates and first_unverified is None and profile_error is None
     receipt = {
         "job": job, "expected_updates": expected_updates,
         "paths": {"training_dir": str(training_dir), "profile_dir": str(profile_dir),
                   "terminal": str(terminal_path) if terminal_path is not None else None},
-        "native": {"observed_successful_updates": observed, "successful_updates": successful,
+        "native": {"observed_successful_updates": observed, "observed_successful_update_ids": observed_ids,
+                   "successful_updates": successful,
                    "terminal_phase": phase, "complete": native_complete,
                    "error": native_error or terminal_error,
                    "terminal_error": terminal_error,
