@@ -1,0 +1,9 @@
+{
+  "base": "9b56d69ae23745a9e4a703ce50bccbf02594a13d",
+  "head": "edd3be001eca13905ed7004fad474e55951f4856",
+  "diff_command": [
+    "git",
+    "diff",
+    "9b56d69ae23745a9e4a703ce50bccbf02594a13d...edd3be001eca13905ed7004fad474e55951f4856"
+  ]
+}

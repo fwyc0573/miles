@@ -1,0 +1,46 @@
+{
+  "job": "exp-1110-165312-132926",
+  "uid": "d780103e-a643-444d-a6a1-d21c75ad53b0",
+  "creator": "i-fengyicheng",
+  "preemptible": "no",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 1,
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1110-165312-132926-student-cfcd2084",
+        "ip": "10.204.8.36",
+        "phase": "Running"
+      },
+      {
+        "name": "exp-1110-165312-132926-student-c4ca4238",
+        "ip": "10.204.13.90",
+        "phase": "Starting"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1110-165312-132926-teacher-cfcd2084",
+        "ip": "100.101.128.175",
+        "phase": "Running"
+      }
+    ]
+  },
+  "observed_at": "2026-11-10T08:55:43.417620+00:00"
+}

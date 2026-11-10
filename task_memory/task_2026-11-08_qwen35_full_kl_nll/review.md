@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Complete immutable optimizer-initialization review atd2b3af8c: Standards0/Spec0 after one test naming Nit; native formal verification remains outstanding. |
 | 2026-11-10 | Close all offline review findings after219489ef,12 affected tests and2 prefix-zero joined CLI checks. |
 | 2026-11-10 | Record repair69/27/postfix CLI4 PASS and Standards closure; latest Spec leaves one zero-prefix firstACK auxiliary-cause P2 fixing, distinct from accepted real D16 prefix1. |
 | 2026-11-10 | Transcribe the fixed six-path offline review: Standards1 material+1 nit, Spec4, deduplicated4 functional+1 nit; parallel repairs/regression/re-review remain open. |
@@ -9,6 +10,20 @@
 | 2026-11-10 | Record separate Standards and Spec phase reviews of Ticket02 commit6129aefe; neither axis has findings, GPU/profile acceptance remains pending. |
 | 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
+
+# Optimizer initialization phase review — 2026-11-10
+
+Scope: fixed`git diff 9b56d69ae23745a9e4a703ce50bccbf02594a13d...d2b3af8c0984cac09ca97765a8be294a8e46d9f9`. The five-file change contains`edd3be00`and the naming follow-up`d2b3af8c`. Exact[revised diff](evidence/optimizer-init-review-20261110/revised.diff),[comparison](evidence/optimizer-init-review-20261110/revised-comparison.json),commit list and original/follow-up artifacts are retained together. Both reviewers read the immutable artifacts and applicable task/native contracts. They performed no tests or platform operations.
+
+## Standards
+
+Reviewer:`ses_e3ea07cacffe3xcqCOUT4dnitM`,task`profile-optimizer-init-standards-review-20261110`. **No findings.** The sole P3 naming Nit in the new test callback is closed: local`param_group`preserves the upstream`optimizer.param_groups`API. The initial missing-diff coverage gap is also closed. Native state allocation remains owned by the existing callback; reset reuses that entry. No actionable violation, duplicate production moment initialization or unsupported generic fallback remains.
+
+## Spec
+
+Reviewer:`ses_e3ea07d9cffe9mQZOCTx7gD5RV`,task`profile-optimizer-init-spec-review-20261110`. **No findings.** The shared load seam restores checkpoint/scheduler/actor weights and clears caches before initialization, then actor/critic proceed to their first sleep/forward. Actual reload prohibits`offload_train`, so its behavior is unaffected. Direct/chained native callback handling, stub/absent callback/PyTorch exclusions and explicit reset semantics are preserved; streaming ownership remains separate. Native errors propagate and no profile hard gate or new offload route was introduced.
+
+**Summary:** Standards0 / Spec0 remaining findings. The[implementation report](test_report_2026-11-10_optimizer_state_initialization.md)records18 CPU PASS/20 SKIP and the follow-up AST-equivalence check; these are supplied evidence rather than independent reviewer runs. Actual distributed wrappers, loaded native FusedAdam checkpoint behavior, pinned chunked-offloader dynamics and corrected formal train→sleep→restore/weight-update→next-train remain unverified. The controlled D38 diagnostic does not identify the old full-model allocation owner. This review supports proceeding to the authorized native formal verification, not accepting200 updates or closing the native RCA.
 
 # Offline review repair state — 2026-11-10
 

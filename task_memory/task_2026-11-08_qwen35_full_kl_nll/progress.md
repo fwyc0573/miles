@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record corrected A submission/actual18H200, completed fix reviews and native observation; checkpoint the six-ticket execution frontier. |
+| 2026-11-10 | Record the delivered native initialization fix, frozen review artifacts and unchanged formal lifecycle preparation; current personal resource check admits18 GPUs. |
 | 2026-11-10 | Record D38 diagnostic PASS,72-second terminal completion and observed896MiB allocation-retention difference; start the targeted native correction. |
 | 2026-11-10 | Record D38 admission blocked at32/32 with no RJob created; start read-only capacity notification and checkpoint the accepted CPU deliverables. |
 | 2026-11-10 | Close offline CPU acceptance and record D38 single-H200 diagnostic preparation. |
@@ -86,9 +88,14 @@ PY
 
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
-- **D38 current action:** the one authorized GPU diagnostic is **PASS**, job`exp-1110-160647-698733`,actual1H200,container72s,job/replicaSucceeded,exit0/restart0. Actual late moments pin896MiB inactive in the former1GiB transient segment; early moments use independent64MiB segments. All backups/restores/pointers and both native steps passed. [Native report](test_report_2026-11-10_allocator_probe.md#native-result--pass) and[independent verification](evidence/tms-allocator-20261110/native-verification.json). The same agent now owns the existing-native-API initialization-timing correction (`profile-native-optimizer-init-fix-20261110`,session`ses_e3b8dbc18ffeMrAuj6pxwzSicY`), focused CPU regressions and its report. The failed full-model allocation owner remains unproven, and no corrected formal attempt has yet run.
+- **D38 current action: corrected formal A is EXECUTING.** The diagnostic is accepted in`9b56d69a`; the native initialization fix`edd3be00`and naming follow-up`d2b3af8c`have18 CPU PASS/20 SKIP and completed Standards0/Spec0[review](review.md#optimizer-initialization-phase-review--2026-11-10). New independent A/full`exp-1110-165312-132926`was submitted08:53:12Z, with[locked admission](evidence/admission-formal-H200-A-r2-20261110.json)10+18≤32. [Actual startup verification](evidence/formal-H200-A-r2-worker-startup-20261110.json)confirms all three replicas Running,18H200,imageIDs/restart0/local mounts,teacher-ready and16GPU Ray membership. Native update/post-update offload and200-update acceptance remain pending; the old1/200 failed attempt is separate and the historical allocation owner remains unproven.
 - **D38 admission update,07:51:57Z:** [fresh personal receipt](evidence/tms-allocator-20261110/admission.json) records32 committed H200 plus1 requested against32, admitted=false, submitted=false. The local launcher exited at its admission guard and created no RJob. A read-only capacity watcher runs at60-second intervals and notifies the primary when admission is available; actual submission must re-read under the existing admission lock. The independent optimizer-wrapper/seam lookup continues. This is a personal-admission wait, separate from the prior H800 physical-placement failures.
 - **D38 execution update,08:06:47Z–08:08:18Z:** the watcher completed and fresh locked admission found30+1≤32. The primary submitted before further archiving, applying the previous D1 correction. [Submission](evidence/tms-allocator-20261110/admission-submitted.json),[terminal](evidence/tms-allocator-20261110/terminal-readback.json). The earlier rejected admission remains historical; no capacity watcher or diagnostic GPU job remains active.
+- **Corrected formal preparation, completed before submission:** `edd3be00`delivers the native callback at the shared restore/cache-clear seam;[implementation report](test_report_2026-11-10_optimizer_state_initialization.md)records18 CPU PASS/20 SKIP (Megatron unavailable). `d2b3af8c`fixes the sole Standards naming Nit, with AST-equivalent local rename. Both reviewers completed the[frozen revised diff](evidence/optimizer-init-review-20261110/revised.diff)and[comparison](evidence/optimizer-init-review-20261110/revised-comparison.json), with no remaining findings; neither reran tests or performed native operations.
+- **Before formal A-r2:** `formal_h200_config.json` remains the accepted18-H200/step_main configuration. `git diff ec002ea8...edd3be00 -- tests/manual/agent_opd/{swe_inputs.py,swe_replay.py,swe_training.py,swe_tis.py,run_swe_opd.py}` returned no diff; the broader runtime changed-file check names only the two intended Megatron modules, with other changes confined to offline tools/probe. The[16-case lifecycle proof](test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check)therefore remains applicable: UID/run/version/stage/timing/status references, bounded timeout/cancellation and a later successful sample, disjoint invalid/missing/pending accounting, and soft auxiliary sinks. The correction preserves native systemic error handling. No lifecycle metadata or configuration additions are required. [Resource preparation at08:47:54Z](evidence/formal-H200-A-r2-resource-preflight-20261110.json)records2+18≤32, non-preemptible,submitted=false; final submission must re-read inside the existing lock. After review, launch one independent corrected A/full attempt and inspect actual train→sleep→weight-update→next-train plus host-memory evidence. The old formal1/200 record stays separate; B's A-inspection edge is already satisfied.
+- **Live observation:** launcher`sh_1c4a93c91001D1z45VYtwEYn2M`stays alive; exact command and log are in[the formal report](test_report_2026-11-10_formal_runs.md#corrected-h200-afull--exp-1110-165312-132926--executing). Read-only observer`sh_1c4b06aab001hJGPq4T0kNXC9q`waits for native update2 or retained native failure, using the existing60-second interval/config-derived9000-second bound; it cannot control the RJob. [09:09:38Z bounded log snapshot](evidence/formal-H200-A-r2-startup-context-20261110.json)shows initial trainer offload returning around09:08:41Z, representative17.66GiB allocated/17.71GiB reserved beforehand, with bank0/ACK not yet observed. The remaining colocated engines were warming up (4/8 ready); captured`freeze_gc`connection refusals are followed by server readiness, with Triton compilation and detokenizer warmup warnings still present. This is not post-update offload or first-sync acceptance.
+
+- **Record closure:** `2f1df5da`commits the five agent-owned phase/plan/summary/ticket documents, preserving17 checkbox rows/raw/history. Primary metadata verification passes13 retained files, exact frozen diff,10+18≤32,and18 actual H200/image/mount/restart identities;[exact commands](test_report_2026-11-10_formal_runs.md#corrected-h200-startup-metadata-verification). Final combined docchecker is39 documents/230 links/58 anchors/zero errors; transient anchor/dependency-description errors were repaired. The six-ticket checkpoint below recordsPASS3/BLOCKED1/TODO2. Runtime/configuration and the live RJob are unchanged by these record updates.
 
 ### Historical5b6f38b8 milestone — before D16 acceptance
 
@@ -1183,3 +1190,51 @@ Branch A. Correct D1 by putting fresh locked admission/submission first when not
 1.唯一诊断RJob及replica已Succeeded，container72秒；额外896MiB保留块由真实指针/segment/block证据确认。
 2.这证明受控分配顺序机制；原失败整模型的具体分配owner仍未知，修复的formal路径尚未验证。
 3.正式A仍1/200、B未启动；原有B检查条件已满足，CPU报告无需继续扩展。
+
+## 1. 规划完成情况
+
+**汇总：** PASS3｜BLOCKED/FAILED/SKIPPED1｜TODO2。检查时间：corrected A提交/真实硬件核对后，2026-11-10。
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01输入 | PASS | D34源审计和native parity已接受 |
+| 02逐turn统计 | PASS | D16原生首更新/UID/mask/重建已接受 |
+| 03画像集成 | PASS | CPU、真实consumer及S7已接受 |
+| 04 A/full | TODO | corrected A执行中；18实际H200已核对，后续更新/200/profile待验收 |
+| 05 B/full | BLOCKED | D16条件已满足；共同修复验证与新18卡准入仍待完成 |
+| 06报告 | TODO | CPU切片已接受，实际最终数据尚未齐全 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** `9b56d69a`诊断接受checkpoint至今｜**当前前沿：**04原生修复验证；05受共同修复/资源约束，06等真实最终数据。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1工具打磨 | CLEAR | `edd3be00`/`d2b3af8c`及两轴review完成后直接提交；当前只保留必要启动证据 |
+| D2细节反复重试 | CLEAR | D38先验证分配顺序机制，再用最小native修复进行一次独立formal验证 |
+| D3支线问题修补 | CLEAR | 所有改动/检查均对应04的共同内存故障与必要记录 |
+| D4可并行任务停滞 | CLEAR | GPU运行/只读观察与记录agent并行；06 CPU已完成，18+18超过32 |
+| D5超范围镀金 | CLEAR | 无额外GPU probe、offload路线、配置变化或画像功能 |
+| D6分析空转 | CLEAR | 已形成修复、review、真实提交和18GPU启动结果 |
+| D7路线违背 | CLEAR | 保持D37/D38、原长度/训练参数和soft gates，未拼接旧失败计数 |
+
+**文档检查：** S1–S6均未发现当前缺陷；`2f1df5da`已同步五份状态文档并保留17项checkbox/raw/history。联合检查期间的plan/ticket描述不一致由该记录切片修复，主会话的`a-full`链接已改为实际`afull`anchor。历史记录继续按原时间保留。
+**归因：** 无。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无需改动。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1.04：观察新的原生ACK及train→sleep→restore/weight-update→next-train，核对host-memory；继续至同一attempt的200成功更新、终态及完整画像。
+2.05：共同修复经原生路径验证且fresh准入满足32卡上限后运行B；保持已满足的D16条件，不增加A200/profile-PASS逻辑门。
+3.并行：主会话只读观察/必要证据保留；06复用已接受的检查/报告入口，在实际数据到达后计算，最终按各cell真实200次更新验收。
+
+## 4. 最值得关注的 3 点
+
+1.新A`exp-1110-165312-132926`已真实运行；初始化后的offload返回不等于训练更新后的故障路径已修复。
+2.历史A的1/200失败与新attempt各自保留；D16和01/02/03接受状态不受计数拼接影响。
+3.B尚未启动；原逻辑前置已满足，当前仍受共同修复验证和18+18>32资源条件约束。

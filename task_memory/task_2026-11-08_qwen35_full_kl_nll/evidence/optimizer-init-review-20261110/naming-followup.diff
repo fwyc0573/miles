@@ -1,0 +1,38 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_optimizer_state_initialization.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_optimizer_state_initialization.md
+index efebd86d..4effbf50 100644
+--- a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_optimizer_state_initialization.md
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_optimizer_state_initialization.md
+@@ -2,6 +2,7 @@
+ 
+ | Date | Change |
+ | --- | --- |
++| 2026-11-10 | Resolve the Standards naming Nit with a local `param_group` rename; verify AST equivalence under that rename. |
+ | 2026-11-10 | Implement early native optimizer-state initialization and record CPU ordering/restoration regressions under D38. |
+ 
+ # Native optimizer-state initialization
+@@ -70,6 +71,10 @@ A first expanded run also selected `test_optimizer_state_reset.py` and exited2 a
+ 
+ `ruff`, `black` and `isort` are unavailable on PATH and in the CPU environment; no package installation or lint claim was made. A separate pre-test availability attempt to import Megatron with `/data/ycfeng/envs/verl-agent-opd-megatron-sglang/bin/python -B` under `timeout 60s` exited124 without output. No repeated import diagnosis was attempted.
+ 
++### Standards naming correction
++
++The Standards reviewer identified one manual naming Nit in the new test callback: local `group` conflicted with `.agents/rules/pool-cell-worker-names.md`. It is now `param_group`; the upstream `optimizer.param_groups` API is retained. A system-Python3.10.6 AST comparison against `git show edd3be00:tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py`, transforming only `ast.Name.id` from `group` to `param_group`, produced an identical tree. In-memory compilation and scoped `git diff --check` passed. This cosmetic follow-up does not claim another CPU or native run.
++
+ ## Remaining limits and handoff
+ 
+ The primary must verify the corrected real training path with its pinned Megatron image, TP2/DP4 native FusedAdam and TMS offload: initialization before first transient use, loaded-state semantics where applicable, actual train -> sleep -> restore/weight-update -> next train, and native terminal/host-memory evidence. This implementation did not execute real distributed wrappers, a native loaded FusedAdam checkpoint, or the full model. The accepted controlled diagnostic establishes the allocation-order mechanism, not that these moments owned the retained segment in the historical formal failure.
+diff --git a/tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py b/tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py
+index 7b4aa465..82825a18 100644
+--- a/tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py
++++ b/tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py
+@@ -39,8 +39,8 @@ def _native_adam_wrapper(*, events, model):
+         assert optimizer is inner and optimizer_config is config
+         assert model.tag == "actor" and model.cache_cleared
+         events.append("initialize")
+-        for group in optimizer.param_groups:
+-            for parameter in group["params"]:
++        for param_group in optimizer.param_groups:
++            for parameter in param_group["params"]:
+                 if not optimizer.state[parameter]:
+                     # The external callback owns state allocation; Miles must not replace it.
+                     optimizer.state[parameter] = {

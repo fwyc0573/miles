@@ -1,0 +1,10 @@
+{
+  "base": "9b56d69ae23745a9e4a703ce50bccbf02594a13d",
+  "head": "d2b3af8c0984cac09ca97765a8be294a8e46d9f9",
+  "diff_command": [
+    "git",
+    "diff",
+    "9b56d69ae23745a9e4a703ce50bccbf02594a13d...d2b3af8c0984cac09ca97765a8be294a8e46d9f9"
+  ],
+  "verification": "AST equivalent after only group\u2192param_group identifier rename; compile and scoped diff PASS"
+}

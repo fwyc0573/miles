@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record corrected H200 A/full submission, immutable fix reviews, actual18-GPU startup and bounded initial offload observation. |
 | 2026-11-10 | Accept the actual first-update D16/Ticket02 checks; record subsequent Ray host-memory failure and1/200 incomplete formal result. |
 | 2026-11-10 | Confirm all18 actual H200, teacher readiness, two-node Ray registration and first-bank acquisition; retain the nonblocking startup GC exception context separately from optimizer acceptance. |
 | 2026-11-10 | Submit independent D37 H200 A after clean configuration review/fresh admission; all three replicas have assigned nodes, first ACK remains pending. |
@@ -170,6 +171,33 @@ The[first-update verification](evidence/d16-H200-A-20261110/first-update-verific
 
 After the successful training outcomes, Ray's host-memory monitor killed a trainer worker during post-update offload. The job finished Failed at06:29:33Z; the[06:39:22Z terminal readback](evidence/formal-H200-A-terminal-readback-20261110.json) confirms all three replicas terminal. The formal result is1/200, not COMPLETE; no second bank was present in the captured snapshot. The underlying memory-retention cause is being diagnosed before another affected launch. Six RCA queries succeeded; both audit reads failed, leaving audited stop actor/time UNKNOWN. All formal cloud outputs remain protected.
 
+## Corrected H200 A/full — exp-1110-165312-132926 — EXECUTING
+
+### Preparation and exact submission
+
+The D38 controlled diagnostic is accepted in`9b56d69a`; production correction`edd3be00`and test naming follow-up`d2b3af8c`have18 CPU PASS/20 SKIP (missing Megatron) and completed[Standards0/Spec0 review](review.md#optimizer-initialization-phase-review--2026-11-10). Corrected native formal behavior remains to be measured. The historical failed full-model allocation owner is still unknown.
+
+The selected `formal_h200_config.json` continues to request18H200/step_main,TP2/DP4 trainer,eightTP2 rollout engines,27B TP2 teacher,full200 updates,32×8 input,D34 length budgets and profile10/10/8. The previous16-case sample-lifecycle evidence is reused: a diff from`ec002ea8`shows no selected source/replay/training/TIS/launcher changes, and the only runtime changes are the two reviewed Megatron modules. Immediately before launch, the runtime/config diff against`d2b3af8c0984cac09ca97765a8be294a8e46d9f9`passed before the submission command was reached.
+
+Local submission used `/data/ycfeng`,Python3.10.6/brainpp2.8.6, `STEPMIND_BACKEND=rjob`, `PYTHONPATH=<repo>:/data/ycfeng/steptron`, existing personal auth and handbook proxy initialization. Exact entry:
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.submit_swe_opd --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_h200_config.json --pair A --protocol full --receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-H200-A-r2-20261110.json > /data/ycfeng/tmp/agent-opd-image/formal-H200-A-r2-20261110.log 2>&1
+```
+
+[Preflight inventory](evidence/formal-H200-A-r2-resource-preflight-20261110.json)at08:47:54Z was2+18≤32. The real[locked admission](evidence/admission-formal-H200-A-r2-20261110.json)at08:53:12.122165Z correctly re-read10 committed +18 requested≤32, non-preemptible, creator`i-fengyicheng`,submitted=true. Local source:`100.96.128.195:/data/ycfeng:/data/ycfeng`. Launcher`sh_1c4a93c91001D1z45VYtwEYn2M`remains active throughout the run.
+
+### Startup observations
+
+- The[08:55:43Z API snapshot](evidence/formal-H200-A-r2-startup-readback-20261110.json)was Starting, with two Running replicas and one Starting replica, all with assigned addresses.
+- Subsequent[worker/API verification](evidence/formal-H200-A-r2-worker-startup-20261110.json)confirms all three Running,exact imageIDs,restart0,matching local mounts and18 actual H200 devices. Student nodes are`gpu-h200-0024`and`gpu-h200-0882`,eight cards each; the teacher has two. The teacher-ready receipt and two-node16GPU Ray cluster are present.
+- The[09:09:38Z snapshot](evidence/formal-H200-A-r2-startup-context-20261110.json)retains at most the final2MiB of the exact rank0 log plus selected complete bank/native records. Initial trainer offload returned around09:08:41Z. Shown before-offload readings are17.66GiB allocated and17.71GiB reserved; after-offload driver-reported device usage is2.43GiB on the shown ranks. These readings describe initial state handling, not the former post-update failure point or a host-memory peak.
+- At that snapshot,bank0 and native ACKs were not present; the controller was waiting for four remaining colocated engines. `freeze_gc`connection-refused tracebacks were followed by server-ready messages, as in the earlier H200 startup. Serving-time Triton compilation and detokenizer heartbeat warnings remain startup observations, not an accepted first-sync/acquisition result.
+
+Durable run directory:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926`; native/profile records are under`training/`. The rank0 log is its sibling`exp-1110-165312-132926-rank-0.log`. Local worker records are under`evidence/formal-h200-112k-20261110/full/exp-1110-165312-132926/A/`, with run/cluster/preflight records under`full/student/A/exp-1110-165312-132926/`.
+
+The read-only second-update-or-failure observer`sh_1c4b06aab001hJGPq4T0kNXC9q`uses60-second checks and the existing config-derived9000-second window, then writes`evidence/formal-H200-A-r2-second-update-notification-20261110.json`. It reads only this run through`shai-ycfeng`as`i-fengyicheng`. Its errors are auxiliary; it has no RJob control path. Pending: actual successful updates, post-update offload/weight update/next train, host-memory and native terminal evidence, plus200-update/profile completeness. The old1/200 record is not concatenated with this attempt.
+
 ## Local record verification
 
 ### Historical first-submission verification
@@ -183,6 +211,51 @@ System Python3.10.6; retained docchecker PASS:31 documents,6 tickets,135 links,3
 ### Second-failure documentation/evidence verification
 
 System Python3.10.6; retained docchecker PASS:31 documents,6 tickets,139 links,40 anchors,zero errors,unchanged ticket DAG andarithmetic. Five selected new JSONs parse andidentity assertions PASS for retry job/UID,transitional versus final state,all five terminal replicas,rank3/scheduling times,literal error/four configured nodes/native timestamp,three events andRCA6/8/zero DeepScan/audit UNKNOWN. Seven-owned-document plusfive-approved-JSON scoped whitespace PASS. Exact local commands arein`progress.md`; JSON content isunchanged andother work/live/raw artifacts remain excluded. No code/config change,business-test rerun,platform/SSH/Lark/network/GPU operation,raw-cloud read oradditional delegation occurred. This documentation closure doesnot select a placement solution,approve another attempt orclose the UNKNOWN stop-audit gap.
+
+### Corrected H200 startup metadata verification
+
+Primary local verification (Python3.10.6): **PASS** for10+18≤32 admission,three Running/image/mount/restart identities,18 actual H200,exact reviewed diff,current runtime/config unchanged,and13 retained files parsed/scanned with zero credential-value/private-key matches. This verifies the captured startup records, not later runtime completion. Exact command:
+
+```bash
+python3 -B - <<'PY'
+import json,subprocess
+from pathlib import Path
+root=Path('task_memory/task_2026-11-08_qwen35_full_kl_nll');e=root/'evidence';cfg=json.loads((root/'formal_h200_config.json').read_text());a=json.loads((e/'admission-formal-H200-A-r2-20261110.json').read_text());w=json.loads((e/'formal-H200-A-r2-worker-startup-20261110.json').read_text())
+assert a['job']==w['job']=='exp-1110-165312-132926'
+assert (a['committed_gpus'],a['requested_gpus'],a['ceiling_gpus'])==(10,18,32)
+assert a['submitted'] and a['admitted'] and not a['preemptible'] and a['creator']=='i-fengyicheng'
+assert len(w['replicas'])==3 and sum(len(v['gpu_devices']) for v in w['nodes'].values())==18
+for replica in w['replicas'].values():
+ assert replica['phase']=='Running' and replica['source_mount']==a['source_mount']
+ for container in replica['containers']:
+  assert container['imageID']==cfg['image'] and container['restartCount']==0 and 'running' in container['state']
+for node in w['nodes'].values():
+ assert node['job']==a['job'] and node['image']==cfg['image'] and all('H200' in value for value in node['gpu_devices'])
+review=e/'optimizer-init-review-20261110';base='9b56d69ae23745a9e4a703ce50bccbf02594a13d';tip='d2b3af8c0984cac09ca97765a8be294a8e46d9f9'
+assert (review/'revised.diff').read_bytes()==subprocess.check_output(['git','diff',base+'...'+tip])
+assert not subprocess.check_output(['git','diff',tip,'--','miles','tests/manual/agent_opd',str(root/'formal_h200_config.json'),str(root/'h200_gpu_policy.json')])
+files=list(review.iterdir())+[e/name for name in ('admission-formal-H200-A-r2-20261110.json','formal-H200-A-r2-resource-preflight-20261110.json','formal-H200-A-r2-startup-readback-20261110.json','formal-H200-A-r2-worker-startup-20261110.json','formal-H200-A-r2-startup-context-20261110.json')]
+for path in files:
+ content=path.read_text()
+ if path.suffix=='.json':json.loads(content)
+ for key in ('accesskey_id','accesskey_secret'):
+  secret=(Path('/data/ycfeng/tmp/brainctl-auth-i-fengyicheng')/key).read_text().strip();assert secret not in content
+ assert '-----BEGIN PRIVATE KEY-----' not in content
+print('PASS: admission 10+18<=32; 3 running/image/mount/restart identities; 18 actual H200; exact immutable diff; runtime/config unchanged; '+str(len(files))+' retained files parsed/scanned.')
+PY
+```
+
+Scoped whitespace check also passed:
+
+```bash
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/review.md task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_formal_runs.md
+```
+
+The final combined document check after`2f1df5da`and primary updates passed:39 documents,6 tickets,230 links,58 anchors,zero errors;51,200/102,400 turn arithmetic and81-turn trend threshold unchanged. Its initial run exposed an incorrect`a-full`anchor and a concurrent plan/ticket dependency-description mismatch; both were corrected before this PASS. The records agent separately verified17 unchanged acceptance checkbox rows and raw/history preservation across its five-file commit. Exact checker:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+```
 
 ## Completion criteria
 
