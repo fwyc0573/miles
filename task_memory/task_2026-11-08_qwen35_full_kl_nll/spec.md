@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record bounded source/CUDA PASS and completed model warm FAIL; retain all scientific criteria and read-only runtime/coherence RCA before formal readiness. |
 | 2026-11-11 | Record reviewed source/integration and submitted H800 probes Pending placement; preserve actual numerical, scientific and final acceptance requirements. |
 | 2026-11-11 | Record selected-FP32 source-fidelity preparation and145 CPU/source archive; native probabilities require corresponding cold references, env1 deferred and science/checklists unchanged. |
 | 2026-11-11 | Record completed comparison/CPU-cold semantics and warm-state numerical blocker; keep formal hold, exact probabilities and all scientific/checklist criteria unchanged. |
@@ -65,7 +66,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D40）**：**NATIVE_FP32_H800_VALIDATION_PENDING_PLACEMENT；formal04/05仍BLOCKED**。Source`d7e7e301`/integration`f992159c`各两轴immutable review完成、仅source scope；202CPU/两controller dry-run不验收部署/数值。Teacher-only A/B已提交各requested4非抢占H800/codesign，startup均Pending/replicas[]，无实际GPU/preload/source-preflight/CUDA/probPASS。实际source/donor/runtime/selectedstore及概率需对应coldreference，不用污染warmfull。C4/C5闭合static normalEAGER UNKNOWN→nonPRE_REPLAY return/noevent/mailboxNone/wait_stream，env1UNSUBMITTED，R1 actualWAR/race未排除。Operator worker仅CPU准备未ready/submitted；receiptmetadata22CPU/supplement待核不重写原件，正确workerabsolute--config不变。D39/D34/science/S7/D16/02/03/06/history及B无A200gate保持；无tolerance/cachepolicy/interval/globaldtype/backend/scope变化，decode256非prefillgrid/无8192proposal。[Integration](test_report_2026-11-11_fp32_probe_integration.md#primary-end-to-end-controller-integration)/[Review limits](review.md#fp32-snapshot-source-fidelity-candidate--2026-11-11)/[Current](progress.md#current-execution--workflow-rca)。
+**当前状态（2026-11-11，D40）**：**SOURCE_CUDA_SCOPE_PASS / FULL_MODEL_WARM_FAIL；formal04/05仍BLOCKED**。Actual1-H800 operator44/44通过，八个selected FP32 snapshots对native-prefix state误差0，ordinary output/BF16 h/FP32 final数值完全不变；scope是同一qualified candidate的equal-length off/on，不是untouched-code GPU A/B/live-varlen donor/race/full-model/historicalcause，也无单独bytewise记录。实际A/B各4H800/Succeeded，source/variant identity通过、cold14/14 exact，但三类warm比较均FAIL且两repetitions一致。下一步只读actual conditional snapshot path/mapping/canonical-KV coherence及最小现有CPU metadata seam；尚未选择下一fix/GPU实验。Env1 DEFERRED，R1 actualWAR/race未排除；warmfull不作oracle。D39/D34/science/S7/D16/02/03/06/history及B无A200gate保持；无tolerance/cache-disable/precision-policy/interval/concurrency/budgets变化，decode256非prefillgrid/无8192proposal。[Operator scope](test_report_2026-11-11_snapshot_semantics.md)/[Model results](test_report_2026-11-11_fp32_teacher_scoring_results.md)/[Current](progress.md#current-execution--workflow-rca)。
 
 ## S1. 目标与实验矩阵
 
