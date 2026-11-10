@@ -119,7 +119,8 @@ def test_probe_envs_change_only_native_environment_not_worker_command(tmp_path, 
 
 
 @pytest.mark.parametrize("envs", [{}, {"SGLANG_FORCE_COARSE_WAR_BARRIER": "1"}])
-def test_configured_envs_reach_resource_and_receipt_without_platform_calls(tmp_path, monkeypatch, envs):
+@pytest.mark.parametrize("relative_config", [False, True])
+def test_configured_envs_reach_resource_and_receipt_without_platform_calls(tmp_path, monkeypatch, envs, relative_config):
     repo, config = _configuration(tmp_path, monkeypatch)
     probe = json.loads(config.read_text())
     if envs:
@@ -135,7 +136,10 @@ def test_configured_envs_reach_resource_and_receipt_without_platform_calls(tmp_p
     monkeypatch.setenv("STEPMIND_BACKEND", "rjob")
     monkeypatch.setenv("BRAINPP_ACCESS_KEY", "fake-access-key")
     monkeypatch.setenv("BRAINPP_SECRET_KEY", "fake-secret-key")
-    monkeypatch.setattr(submission.os, "chdir", lambda *args: None)
+    if relative_config:
+        monkeypatch.chdir(repo)
+    else:
+        monkeypatch.setattr(submission.os, "chdir", lambda *args: None)
     monkeypatch.setattr(submission.socket, "gethostname", lambda: "mock-local-host")
     monkeypatch.setattr(submission.socket, "gethostbyname", lambda *args: "192.0.2.10")
     monkeypatch.setattr(submission, "policy_admission_snapshot", lambda *args, **kwargs: {
@@ -168,12 +172,14 @@ def test_configured_envs_reach_resource_and_receipt_without_platform_calls(tmp_p
         monkeypatch.setitem(sys.modules, name, module)
     monkeypatch.setattr(submission, "_job_succeeded", lambda *args: True)
     receipt = repo / "receipt.json"
-    monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config), "--pair", "A", "--receipt", str(receipt)])
+    monkeypatch.setattr(sys, "argv", ["submit", "--config", "probe.json" if relative_config else str(config),
+                                     "--pair", "A", "--receipt", str(receipt)])
     assert submission.main() == 0
     record = json.loads(receipt.read_text())
     assert len(resources) == 1 and record["submitted"] is True
     assert record["envs"] == {"PYTHONPATH": str(tmp_path), **envs}
     assert record["worker_command"] == resources[0][1]
+    assert record["probe_config"] == str(config)
     assert "fake-access-key" not in receipt.read_text() and "fake-secret-key" not in receipt.read_text()
 
 

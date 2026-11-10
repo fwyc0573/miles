@@ -89,7 +89,7 @@ def main():
                                              requested_gpus=requested, policy=policy,
                                              timeout=config["api_timeout_seconds"])
         snapshot.update(pair=args.pair, submitted=False, config=str(formal_path),
-                        probe_config=str(args.config.resolve()), output=str(output), worker_command=command,
+                        probe_config=str(probe_path), output=str(output), worker_command=command,
                         envs=dict(envs))
         if not snapshot["admitted"]:
             json.dump(snapshot, receipt, indent=2)

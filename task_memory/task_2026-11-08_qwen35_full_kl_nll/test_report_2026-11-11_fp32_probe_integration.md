@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-11 | Add the isolated FP32 probe configuration and CPU integration evidence; retain independent same-run cold references and native verification limits. |
 | 2026-11-11 | Primary completed controller forwarding,202 joined checks and both real controller dry-runs; native submission remains pending. |
+| 2026-11-11 | Both H800 probes submitted and await placement; preserve original admission receipts and correct controller-relative config metadata with a verified one-line follow-up. |
 
 # FP32 teacher-scoring probe integration — CPU only
 
@@ -54,6 +55,21 @@ PYTHONPATH="$PWD:/data/ycfeng/steptron" PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/t
 ```
 
 Observed per pair: submitted=false,4 H800/codesign,1 teacher task,32 CPU/256GB,1 replica, no NIC/RDMA override, original two volume mounts, source directory `/data/ycfeng`, and the worker command selects `teacher_scoring_fp32_probe_config.json`. Request/flush counts remain56/32. This verifies launch construction, not actual admission, allocation, preparation or CUDA correctness.
+
+### Native submission and controller receipt follow-up
+
+Both non-preemptible H800 probes are now submitted: A `exp-1111-053300-533764`, B `exp-1111-053259-677817`. The first read-only SDK startup check records **Pending for both**, no replicas and no preload. Admission allowed4 GPUs per pair under the null personal ceiling; this is not physical placement proof. Evidence: `evidence/teacher-scoring-fp32-probe-20261111/{admission-A-r1.json,admission-B-r1.json,startup-A-r1.json,startup-B-r1.json}`. Launchers remain alive without an outer timeout; no new submission or stop was used to inspect them.
+
+The admission receipt's `probe_config` exposed an existing controller bug: resolving the relative CLI path after `os.chdir(local_mount)` records `/data/ycfeng/task_memory/...` instead of the worktree path. The absolute worker argv was already correct, so neither job needs a restart. The fix reuses the existing precomputed `probe_path` for that single receipt field; request/source preparation, command, resources and GPU behavior are unchanged. Original JSON receipts remain untouched. `evidence/teacher-scoring-fp32-probe-20261111/admission-config-path-correction.json` records original receipt hashes and the correct config identity derived from each original worker argv, not from a guessed current directory.
+
+Regression verification on Python3.12.13/pytest9.1.1:
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_submission.py -q -k configured_envs -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/probe-config-receipt-red-20261111
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_submission.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/probe-config-receipt-green-20261111
+```
+
+Expected RED reproduced **2 failed/2 passed in0.38s**: both relative-path cases lost the repository component in `probe_config`. GREEN: **22 passed,2 existing SWIG warnings in0.42s**, including relative and absolute CLI paths under both configured-environment cases. These additional controller-only checks do not rerun or certify the native jobs.
 
 Python 3.10 syntax and exact JSON isolation command — **PASS: both Python ASTs and exact clone assertion**. This checks syntax using Python 3.12's `feature_version`, not execution under Python 3.10:
 
