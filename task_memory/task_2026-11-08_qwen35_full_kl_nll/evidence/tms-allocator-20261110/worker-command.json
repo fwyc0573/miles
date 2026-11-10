@@ -1,0 +1,22 @@
+{
+  "config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/allocator_probe_config.json",
+  "code_revision": "5ae8e726c000a314c7626e1011bf79a788ce1959",
+  "command": "bash -lc 'set -euo pipefail\nset -o noclobber\nexec timeout --signal=KILL 600s bash -lc '\"'\"'set -euo pipefail\nlocal_root=/var/tmp/tms-allocator-\"$KUBEBRAIN_RJOB_NAME\"\nmkdir -p \"$local_root\"/{tmp,triton,inductor,cuda,torch-extensions,cache}\nexport PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image:/root/Megatron-LM\nexport PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\nexport OMP_NUM_THREADS=4\nexport TMPDIR=\"$local_root/tmp\" TRITON_CACHE_DIR=\"$local_root/triton\" TORCHINDUCTOR_CACHE_DIR=\"$local_root/inductor\" CUDA_CACHE_PATH=\"$local_root/cuda\" TORCH_EXTENSIONS_DIR=\"$local_root/torch-extensions\" XDG_CACHE_HOME=\"$local_root/cache\"\n/opt/sglang/bin/python3 -u -B /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_tms_allocator.py --launch-receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json --native-source-receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/source.json --transient-mib 1024 --moment-mib 64 --output-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/\"$KUBEBRAIN_RJOB_NAME\"'\"'\"' > /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/\"$KUBEBRAIN_RJOB_NAME\".worker.log 2>&1'",
+  "inner_worker_script": "set -euo pipefail\nlocal_root=/var/tmp/tms-allocator-\"$KUBEBRAIN_RJOB_NAME\"\nmkdir -p \"$local_root\"/{tmp,triton,inductor,cuda,torch-extensions,cache}\nexport PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image:/root/Megatron-LM\nexport PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\nexport OMP_NUM_THREADS=4\nexport TMPDIR=\"$local_root/tmp\" TRITON_CACHE_DIR=\"$local_root/triton\" TORCHINDUCTOR_CACHE_DIR=\"$local_root/inductor\" CUDA_CACHE_PATH=\"$local_root/cuda\" TORCH_EXTENSIONS_DIR=\"$local_root/torch-extensions\" XDG_CACHE_HOME=\"$local_root/cache\"\n/opt/sglang/bin/python3 -u -B /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_tms_allocator.py --launch-receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json --native-source-receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/source.json --transient-mib 1024 --moment-mib 64 --output-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110/\"$KUBEBRAIN_RJOB_NAME\"",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "source_mount_submitted": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "gpu_tag": "H200",
+  "charged_group": "step_main",
+  "resource": {
+    "cpu": 4,
+    "gpu": 1,
+    "mem_gb": 16,
+    "replica": 1
+  },
+  "mounts": [
+    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp"
+  ],
+  "worker_seconds": 600,
+  "source_launch": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json",
+  "created_at": "2026-11-10T07:51:57.297897+00:00"
+}

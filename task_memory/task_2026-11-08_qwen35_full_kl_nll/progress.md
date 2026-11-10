@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D38 admission blocked at32/32 with no RJob created; start read-only capacity notification and checkpoint the accepted CPU deliverables. |
 | 2026-11-10 | Close offline CPU acceptance and record D38 single-H200 diagnostic preparation. |
 | 2026-11-10 | Accept actual D16/Ticket02; record terminal1/200 native host-memory blocker, pinned-source limits and one independent Spec edge, with the primary's four-section milestone checkpoint. |
 | 2026-11-10 | Record actual H200 first-bank/generation and delivered CPU CLI, transcribe open review repairs and the primary's four-section checkpoint; retain all native/final gates. |
@@ -85,6 +86,7 @@ PY
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 - **D38 current action:** user selected one H200 allocator/TMS diagnostic, worker script≤600s with startup separate. Script`dd15bcb6`and16 CPU checks are ready; primary inspected the complete script, native environment owner and actual receipt inputs, selecting[1024/64MiB and1GPU/4CPU/mem_gb16](allocator_probe_config.json). [Prelaunch report](test_report_2026-11-10_allocator_probe.md). Fresh admission and submission are next; no new formal attempt has been submitted. Native source0-GPU jobexp-1110-144951-170247 succeeded and pinned TMS0.0.10/native exports, without exercising CUDA pause/resume. See[the investigation](test_report_2026-11-10_h200_host_memory.md) and[raw authorization](requirements.md#host-memory-diagnostic-route--original-request-2026-11-10). The actual failed full-model allocation owner remains unproven.
+- **D38 admission update,07:51:57Z:** [fresh personal receipt](evidence/tms-allocator-20261110/admission.json) records32 committed H200 plus1 requested against32, admitted=false, submitted=false. The local launcher exited at its admission guard and created no RJob. A read-only capacity watcher runs at60-second intervals and notifies the primary when admission is available; actual submission must re-read under the existing admission lock. The independent optimizer-wrapper/seam lookup continues. This is a personal-admission wait, separate from the prior H800 physical-placement failures.
 
 ### Historical5b6f38b8 milestone — before D16 acceptance
 
@@ -1091,3 +1093,40 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1. D16真实首update/测量/paired rebuild PASS，02done；这不是A200完成，后续native故障另算。
 2. A已Failed1/200、全replica终止；共同host-memory fault阻塞04/05，分配/保留假设未验证，0GPU pinned exports不证明disk runtime/H200空间。
 3. CPU修复/postfix CLI及Standards已完成，Spec仅一P2 edge在修；B仍需common fix/fresh资源，06最终项未勾选。
+
+# Checkpoint — offline CPU accepted and D38 admission wait,2026-11-10
+
+## 1. 规划完成情况
+
+Window: previous D16/native-source checkpoint through`dd15bcb6`, final offline`219489ef`, primary joined checks and07:51:57Z admission. The primary performed this self-check against the requirements, plan, six tickets and retained artifacts.
+
+| Slice | State | Evidence |
+| --- | --- | --- |
+| 01 source audit | PASS | Accepted D34 audit and unchanged input contract |
+| 02 per-turn sums | PASS | Actual D16 UID/mask/token/macros and paired rebuild |
+| 03 profile integration | PASS | CPU integration plus actual first successful ACK |
+| 04 A formal | TODO | Failed1/200; D38 probe prepared, zero diagnostic RJobs submitted |
+| 05 B formal | BLOCKED | A inspection satisfied; common native fault and fresh resources remain |
+| 06 offline implementation | PASS | All review findings closed;69/27,CLI4,final12 and prefix-zero CLI2 checks |
+| 06 final measurements | TODO | Actual completed A/B records still required |
+
+## 2. 偏离检测
+
+- D1 HIT: after the probe code/CPU checks were ready, the primary placed35-file evidence archiving and document/whitespace checks before fresh admission. Those activities lengthened the submission path. Whether an earlier admission would have obtained a slot is unverified; the observed later admission is32/32.
+- D2 CLEAR: the diagnostic has no GPU retry; its first admission read rejected32+1>32 before submission.
+- D3 CLEAR: the new probe and wrapper lookup directly target the observed native failure.
+- D4 CLEAR: CPU reporting completed alongside native work; the wrapper lookup runs while capacity is unavailable.
+- D5 CLEAR: no model/training behavior change is selected; the diagnostic has explicit sizes, one GPU and a600-second script limit.
+- D6 CLEAR: version/source inspection led to a concrete controlled experiment; the current wait has an observed quota condition and a notifier.
+- D7 CLEAR: D38 is the user's selected route, and accepted scientific criteria remain intact.
+- S1–S6 CLEAR: dependencies distinguish CPU readiness, native repair and final data; owners/next actions are explicit; acceptance remains measurable; current summaries are synchronized; historical snapshots are retained. D1 is an execution-order issue; no spec/ticket behavior change is needed.
+
+## 3. 纠正建议
+
+Branch A. Correct D1 by putting fresh locked admission/submission first when notified; the probe code/config and command are already frozen. Further archiving/documentation follows while the worker runs. Submit exactly the authorized diagnostic, then inspect actual hardware, both case receipts, allocator ownership, backup/resume values and terminal status. Use those findings and the separate existing-API seam lookup to choose an evidence-backed correction. Native train→sleep→weight-update→next-train and final A/B acceptance remain required afterward.
+
+## 4. 最值得关注的 3 点
+
+1.01/02/03 and the offline CPU slice are accepted; formal A is still1/200 and B has not started.
+2.The diagnostic is prepared but has no RJob ID because personal admission is32/32; the watcher holds no GPU.
+3.A controlled allocation effect would not identify the old full-model allocation owner by itself.

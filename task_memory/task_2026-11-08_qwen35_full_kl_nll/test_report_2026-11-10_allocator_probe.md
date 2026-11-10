@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record the first personal-admission rejection at32/32; no diagnostic RJob or native result exists. |
 | 2026-11-10 | Primary prelaunch inspection selects1H200,4 CPUs,mem_gb16,1024/64MiB cases and a600-second whole-worker command limit. |
 | 2026-11-10 | Prepare the D38 one-H200 allocator-order diagnostic and record CPU validation only; native execution remains pending with the primary agent. |
 
@@ -130,3 +131,11 @@ Outputs: `late_moments.json`, `early_moments.json`, and `summary.json`; raw stdo
 The primary inspected the complete465-line probe and its CPU report after commit`dd15bcb6`, including native environment re-exec, nonzero state fills, master-parameter/default backup context, all phase measurements, independent cases and negative-result handling. The existing native environment owner at `miles/ray/specs/train.py:213–250` has the fields supplied by the probe. The actual retained launch supplies optimizer=adam,lr=2e-6,weight_decay=0.1,betas0.9/0.98,epsilon1e-8 and `/var/tmp` as its worker-local root. The source-receipt schema has all referenced installed-file/hash fields.
 
 [allocator_probe_config.json](allocator_probe_config.json) selects one GPU,4 CPUs,`mem_gb=16`,one replica,1024MiB transient and64MiB per moment. The pinned image, H200/step_main, creator, CUDA compat directory, local mount and personal32 policy are derived from the actual formal launch receipt. The worker will have a fresh `/var/tmp` cache tree and the existing personal cloud-volume mount; results go only to the supplied local evidence root. GNU `timeout --signal=KILL 600s` will wrap the entire inner worker shell, including its two child cases, to enforce D38's worker-script limit. No GPU output has yet been accepted at this prelaunch checkpoint.
+
+## Admission attempt — no RJob created
+
+At07:51:57Z the primary's fresh personal admission found32 committed H200, requested1, ceiling32. [The receipt](evidence/tms-allocator-20261110/admission.json) records admitted=false and submitted=false. The local launcher stopped before `RJobBackend.submit`; its log is `/data/ycfeng/tmp/agent-opd-image/tms-allocator-d38-launch-20261110.log` and the first exception is `RuntimeError: D38 personal admission unavailable; no job submitted`.
+
+A subsequent exact-job metadata read confirmed all16 counted jobs carry `preemptible=no`, totaling32 GPUs: [filtered label evidence](evidence/tms-allocator-20261110/blocked-preemption-labels.json). The wait is therefore applicable to the non-preemptible ceiling.
+
+[The fully rendered worker command](evidence/tms-allocator-20261110/worker-command.json) retains the selected inputs, image and proposed local mount. This is preparation evidence, not a submission receipt. A separate read-only capacity notifier queries the existing policy helper every60 seconds; its log is `/data/ycfeng/tmp/agent-opd-image/tms-allocator-d38-admission-watch-20261110.log`. Once notified, the primary must re-read admission under the existing lock before the one authorized submission. No native result or formal fix is accepted here.

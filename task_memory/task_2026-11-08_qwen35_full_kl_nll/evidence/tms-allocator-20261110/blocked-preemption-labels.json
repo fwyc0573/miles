@@ -1,0 +1,98 @@
+[
+  {
+    "job": "exp-1110-154712-705102",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-676387",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-911061",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-966190",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-904811",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-948752",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-997575",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154713-163191",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-819005",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-956076",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-725144",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1108-215214-032806",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154713-203392",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-711567",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-772097",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  },
+  {
+    "job": "exp-1110-154712-977620",
+    "gpus": 2,
+    "preemptible": "no",
+    "phase": "Running"
+  }
+]
