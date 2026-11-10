@@ -98,7 +98,20 @@ def _score_payload(
     token_ids: list[int] | None = None,
     token_ids_positions: list[list[int]] | None = None,
     extra_key: str | None = None,
+    *,
+    response_length: int | None = None,
 ) -> dict[str, Any]:
+    logprob_start_len = 0
+    if response_length is not None:
+        prompt_len = len(input_ids) - response_length
+        if response_length < 0 or prompt_len <= 0:
+            raise ValueError(
+                "Response scoring requires a nonnegative response_length and at least one prompt token: "
+                f"tokens={len(input_ids)}, response_length={response_length}"
+            )
+        # The first returned input position is a placeholder. Include the last
+        # prompt token so every response token, including the first, has a score.
+        logprob_start_len = prompt_len - 1
     payload = {
         "input_ids": input_ids,
         "sampling_params": {
@@ -107,7 +120,7 @@ def _score_payload(
             "skip_special_tokens": False,
         },
         "return_logprob": True,
-        "logprob_start_len": 0,
+        "logprob_start_len": logprob_start_len,
     }
     if top_k > 0:
         payload["top_logprobs_num"] = top_k

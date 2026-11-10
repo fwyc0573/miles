@@ -355,7 +355,9 @@ def test_native_rollout_plugin_bank_transitions_and_success_ack(tmp_path, protoc
     asyncio.run(run())
 
 
-@pytest.mark.parametrize("outcome", ["success", "request_error", "validation_error", "cancelled"])
+@pytest.mark.parametrize("outcome", [
+    "success", "request_error", "validation_error", "missing_first_score", "missing_field", "nonfinite_score", "cancelled",
+])
 @pytest.mark.parametrize("sink_failure", [False, True])
 def test_teacher_request_and_validation_stage_receipts(tmp_path, monkeypatch, outcome, sink_failure):
     from miles.rollout import on_policy_distillation as opd
@@ -371,7 +373,13 @@ def test_teacher_request_and_validation_stage_receipts(tmp_path, monkeypatch, ou
             raise OSError("teacher transport failed")
         if outcome == "cancelled":
             await asyncio.Event().wait()
-        return {"meta_info": {"input_token_logprobs": [[None, 10], [-1, 20], [-2, 99 if outcome == "validation_error" else 30]]}}
+        if outcome == "missing_field":
+            return {"meta_info": {}}
+        if outcome == "missing_first_score":
+            return {"meta_info": {"input_token_logprobs": [[None, 20], [-2, 30]]}}
+        if outcome == "nonfinite_score":
+            return {"meta_info": {"input_token_logprobs": [[None, 12], [float("nan"), 20], [-2, 30]]}}
+        return {"meta_info": {"input_token_logprobs": [[None, 12], [-1, 20], [-2, 99 if outcome == "validation_error" else 30]]}}
 
     monkeypatch.setattr(opd, "_post_json", post)
     if sink_failure:
@@ -380,6 +388,7 @@ def test_teacher_request_and_validation_stage_receipts(tmp_path, monkeypatch, ou
 
         monkeypatch.setattr(swe_replay, "append_record", unavailable)
     value = sample(0)
+    value.tokens = [10, 11, 12, 20, 30]
     value.metadata["swe_acquisition"] = {"deadline_at": 2e10, "slot": 0, "bank": 0}
     config = SimpleNamespace(rm_url="http://teacher/generate", sglang_router_request_timeout_secs=2,
                              swe_cell="A/r256", swe_attempt=outcome, swe_teacher_identity="A", swe_evidence_dir=str(tmp_path))
@@ -392,21 +401,81 @@ def test_teacher_request_and_validation_stage_receipts(tmp_path, monkeypatch, ou
         if outcome == "success":
             await task
         else:
-            with pytest.raises({"request_error": OSError, "validation_error": ValueError, "cancelled": asyncio.CancelledError}[outcome]):
+            error = {"request_error": OSError, "cancelled": asyncio.CancelledError}.get(outcome, ValueError)
+            with pytest.raises(error):
                 await task
 
     asyncio.run(run())
     import json
 
     assert len(calls) == 1
+    assert calls[0] == {
+        "input_ids": [10, 11, 12, 20, 30],
+        "sampling_params": {"temperature": 0, "max_new_tokens": 0, "skip_special_tokens": False},
+        "return_logprob": True,
+        "logprob_start_len": 2,
+    }
     if sink_failure:
         assert not (tmp_path / "teacher_stages.jsonl").exists()
         return
     records = [json.loads(line) for line in (tmp_path / "teacher_stages.jsonl").read_text().splitlines()]
     stages = ["teacher_request"] if outcome in ("request_error", "cancelled") else ["teacher_request", "teacher_validation"]
     assert [(record["stage"], record["event"]) for record in records] == [(stage, event) for stage in stages for event in ("start", "end")]
-    assert records[-1]["status"] == {"success": "success", "request_error": "error", "validation_error": "error", "cancelled": "cancelled"}[outcome]
+    assert records[-1]["status"] == {"success": "success", "cancelled": "cancelled"}.get(outcome, "error")
     assert all(record["source_uid"] == "uid-0" and "deadline_at" in record for record in records)
+
+
+@pytest.mark.parametrize("tokens,response_length,start,scored_items", [
+    ([10, 20], 1, 0, [[None, 10], [-1.0, 20]]),
+    ([10, 20, 30], 2, 0, [[None, 10], [-1.0, 20], [-2.0, 30]]),
+    ([10, 11, 12, 20], 1, 2, [[None, 12], [-1.0, 20]]),
+    ([10, 11, 12, 20, 30], 2, 2, [[None, 12], [-1.0, 20], [-2.0, 30]]),
+])
+def test_teacher_scoring_preserves_canonical_response_scores(tmp_path, monkeypatch, tokens, response_length, start, scored_items):
+    from miles.rollout import on_policy_distillation as opd
+
+    value = sample(0)
+    value.tokens = tokens
+    value.response_length = response_length
+    value.rollout_log_probs = [-0.5] * response_length
+    value.teacher_log_probs = None
+    value.loss_mask = [1] * response_length
+    value.kv_cache_namespace = "student-only"
+    response = {"meta_info": {"input_token_logprobs": scored_items}}
+    calls = []
+
+    async def post(url, payload, timeout_secs):
+        calls.append((url, payload, timeout_secs))
+        return response
+
+    monkeypatch.setattr(opd, "_post_json", post)
+    args = SimpleNamespace(rm_url="http://teacher/generate", sglang_router_request_timeout_secs=2,
+                           swe_cell="A/full", swe_attempt="scope", swe_teacher_identity="A", swe_evidence_dir=str(tmp_path))
+    value.reward = asyncio.run(score_teacher(args, value))
+    opd.post_process_rewards(SimpleNamespace(reward_key="teacher_response", opd_log_prob_top_k=0), [value])
+
+    assert calls == [("http://teacher/generate", {
+        "input_ids": tokens,
+        "sampling_params": {"temperature": 0, "max_new_tokens": 0, "skip_special_tokens": False},
+        "return_logprob": True,
+        "logprob_start_len": start,
+    }, 2)]
+    assert value.reward["teacher_response"] is response
+    assert len(scored_items) == response_length + 1
+    expected_scores = [-1.0] if response_length == 1 else [-1.0, -2.0]
+    assert value.teacher_log_probs.tolist() == expected_scores
+    assert value.metadata["teacher_scoring"] == {
+        "endpoint": "http://teacher/generate", "identity": "A", "scored_tokens": response_length, "token_ids_match": True,
+    }
+    canonical = CanonicalTrajectory.seal(0, value, "A")
+    assert canonical.tokens == tuple(tokens)
+    assert canonical.teacher_log_probs == tuple(expected_scores)
+
+
+def test_teacher_input_field_keeps_empty_response_trim_semantics():
+    from miles.rollout import on_policy_distillation as opd
+
+    assert opd._trim_input_field({"input_token_logprobs": [[None, 10], [-1.0, 20]]}, "input_token_logprobs", 0) == []
 
 
 def test_native_custom_schema_resolution_and_transport(monkeypatch):

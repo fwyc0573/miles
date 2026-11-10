@@ -5,6 +5,7 @@ from collections.abc import Mapping
 from typing import Any
 
 from miles.rollout.generate_utils.generate_endpoint_utils import compute_routing_headers, router_routes_by_key
+from miles.rollout.on_policy_distillation import _score_payload
 from miles.utils.http_utils import post
 from miles.utils.lora.utils import LORA_ADAPTER_NAME, lora_rollout_enabled
 from miles.utils.processing_utils import encode_image_for_rollout_engine
@@ -23,27 +24,16 @@ def _build_prefill_scoring_payload(
     sample: Sample,
     sampling_params: Mapping[str, Any],
 ) -> dict[str, Any]:
-    prompt_len = len(sample.tokens) - sample.response_length
-    if prompt_len <= 0:
+    try:
+        payload = _score_payload(sample.tokens, response_length=sample.response_length)
+    except ValueError as error:
         raise ValueError(
             "Cannot recompute rollout logprobs via prefill without at least one prompt token: "
             f"tokens={len(sample.tokens)}, response_length={sample.response_length}"
-        )
+        ) from error
 
-    payload = {
-        "input_ids": sample.tokens,
-        "sampling_params": {
-            **dict(sampling_params),
-            "max_new_tokens": 0,
-            "temperature": 0,
-            "skip_special_tokens": False,
-        },
-        "return_logprob": True,
-        # SGLang returns input_token_logprobs aligned to tokens from logprob_start_len,
-        # with the first value None. Start one token before the response so the
-        # returned tail contains every response-token logprob.
-        "logprob_start_len": prompt_len - 1,
-    }
+    # Preserve request sampling options, but scoring overrides generation settings.
+    payload["sampling_params"] = {**dict(sampling_params), **payload["sampling_params"]}
 
     if (lora_path := _lora_path_for_sample(args, sample)) is not None:
         payload["lora_path"] = lora_path
@@ -150,11 +140,11 @@ async def recompute_samples_rollout_logprobs_via_prefill(
     flush_url = url.rsplit("/", 1)[0] + "/flush_cache"
 
     if _can_batch_prefill_score(args, samples_to_score):
-        # A batch must share one logprob_start_len and one lora_path, so group by both.
+        # Equal prompt lengths share a logprob_start_len; adapters must also match.
         samples_by_batch_key: dict[tuple[int, str | None], list[Sample]] = defaultdict(list)
         for sample in samples_to_score:
             prompt_len = len(sample.tokens) - sample.response_length
-            samples_by_batch_key[(prompt_len - 1, _lora_path_for_sample(args, sample))].append(sample)
+            samples_by_batch_key[(prompt_len, _lora_path_for_sample(args, sample))].append(sample)
 
         for batch_samples in samples_by_batch_key.values():
             # SGLang can serve scoring requests from radix/KV cache. Flush before

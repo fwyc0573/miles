@@ -285,7 +285,9 @@ async def score_teacher(args, sample, **kwargs):
     deadlines = [value for value in (acquisition_deadline, time.time() + timeout if timeout is not None else None) if value is not None]
     request_deadline = min(deadlines) if deadlines else None
     with _teacher_stage(args, sample, "teacher_request", deadline_at=request_deadline):
-        response = await opd._post_json(args.rm_url, opd._score_payload(sample.tokens), timeout_secs=timeout)
+        response = await opd._post_json(
+            args.rm_url, opd._score_payload(sample.tokens, response_length=sample.response_length), timeout_secs=timeout,
+        )
     with _teacher_stage(args, sample, "teacher_validation", deadline_at=acquisition_deadline):
         scores = opd._trim_input_field(response["meta_info"], "input_token_logprobs", sample.response_length)
         if [item[1] for item in scores] != sample.tokens[-sample.response_length:]:
