@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive CPU runtime metadata/caller/RID preparation and pending native equivalence/review; preserve raw DP1 None, identity-only joins and unchanged formal warm blocker. |
 | 2026-11-11 | Archive accepted operator numerical scope and completed deployed-model probes; warm FAIL retains formal hold and read-only runtime/coherence analysis, with no selected next fix. |
 | 2026-11-11 | Record source/integration reviews and submitted H800 probes Pending placement; separate CPU/dry-run/metadata evidence from actual CUDA/probability acceptance. |
 | 2026-11-11 | Archive e2feca95/145 CPU and175 runtime sources; advance to unreviewed selected-FP32 source candidate with cold-reference native verification, env1 deferred and ordering unresolved. |
@@ -31,14 +32,15 @@
 | 2026-11-09 | Accept completed Ticket01 source audit/parity and refresh the remaining upstream-only integration gate. |
 | 2026-11-09 | Archive the review repair milestone and ongoing, prerequisite-limited execution. |
 
-# D40 source/CUDA scope accepted — full-model warm FAIL
+# D40 runtime metadata preparation — native equivalence pending
 
-Current frontier is **SOURCE_CUDA_SCOPE_PASS / FULL_MODEL_WARM_FAIL under D40**. The actual1-H800 operator passed44/44 CUDA checks: selected snapshots exactly match native-prefix FP32 state and ordinary output/BF16 h/FP32 final remain numerically exact within equal-length off/on of the same qualified candidate; no separate bytewise comparison, untouched-code GPU A/B, live-varlen donor, race, full-model or historical-cause acceptance follows. Deployed-model A`exp-1111-053300-533764` and B`exp-1111-053259-677817` each Succeeded on actual4 H800 with verified six after-hashes/config input and unchanged engine arguments except worker address. Cold14/14 is exact, but all three warm comparisons FAIL identically in both repetitions. Next is read-only actual conditional snapshot path/mapping/canonical-KV coherence and the smallest existing CPU-only runtime metadata seam; no next fix/GPU experiment is selected. Env1 stays DEFERRED, ordering unexcluded; tolerance/cache-disable/precision-policy/interval/concurrency/budgets/science and56 requests/32 flushes remain unchanged. Formal04/05 stay BLOCKED,06 waits actual200 data and B gains no A200 gate. [Operator scope](test_report_2026-11-11_snapshot_semantics.md)/[actual model results](test_report_2026-11-11_fp32_teacher_scoring_results.md)/[current](progress.md#current-execution--workflow-rca).
+Current frontier is **RUNTIME_METADATA_CPU_PREPARATION under D40**. Commits`9ee5f504/a0772615/79c5d0f8` prepare CPU metadata, the first-four caller/manifest and RID identity receipt with306 CPU tests and no payload change. Phase reviews on`5f6dfaaa→9ee5f504` and follow-up are pending; no metadata GPU has been submitted. The [config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json) declare16 requests/10 flushes/one repetition, only a minimization candidate until H800 vectors match original FP32 repetition0/sample2/3 drift; dropped1024-hit groups are unverified. DP1 without a controller legally yields raw`dp_rank=None`; receiver correction preserves it. Retained`meta_info.id` and top-level`native_request_id`/pair provide identity joins, not chronology. One server-info read after all scoring covers DP responders, not every TP. Prior bounded44 numerical CUDA PASS and both models' warm FAIL remain independent accepted observations, not a root fix. No cache/dtype/concurrency/budget/tolerance/scientific decision changes; formal04/05 remain BLOCKED,06 waits200 and B has no A200 gate. [Current execution](progress.md#current-execution--workflow-rca).
 
 Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all original findings, including the retained unchanged document checker. T02 phase reviews remain Standards0/Spec0; at this checkpoint the primary-owned [review](review.md) also records T03 Standards/Spec No findings. These are inspected review records, not independent test reruns or formal GPU certification.
 
 ## Deliverables
 
+- Runtime metadata CPU preparation`9ee5f504`, caller/first-four config`a0772615` and RID receipt`79c5d0f8`: `teacher_scoring_runtime_metadata_probe_config.json` and `teacher_scoring_runtime_metadata_first4_manifest.json`; these artifacts remain primary-owned, not edited/committed by this records slice. Review/native equivalence/receiver acceptance remain pending.
 - Task contract and execution graph: `spec.md`, `requirements.md`, `plan.md`, and `tickets/01-*.md` through `tickets/06-*.md` in this directory.
 - Review evidence: `review.md`, `checkpoint_2026-11-09_review.md`, and `test_report_2026-11-09_review_execution.md`.
 - Input fixes: `tests/manual/agent_opd/swe_inputs.py` verifies cached native code identity; `audit_swe1003_sources.py` reports exact-prompt groups without inventing SWE task identities.

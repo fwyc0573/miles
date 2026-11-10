@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Advance A's current RCA to CPU first-four metadata/receiver/review preparation; no metadata GPU or minimization acceptance, all final checkbox states preserved. |
 | 2026-11-11 | Record actual A source/cold success and full-model warm FAIL after bounded CUDA acceptance; retain formal hold and every acceptance checkbox. |
 | 2026-11-11 | Record source/integration reviews and submitted A teacher-only FP32 probe Pending placement; formal A remains blocked and acceptance checkboxes stay unchanged. |
 | 2026-11-11 | Advance A's current hold to unreviewed selected-FP32 source candidate/source identity/H800 cold-reference verification; retain all final checkbox states. |
@@ -35,9 +36,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/common-cycle已接受；source/CUDA bounded scope及A实际source/cold通过，但full-model warm FAIL。下一步actual conditional path/mapping/canonical-KV coherence只读RCA，尚未选下一fix/GPU实验；required correctness acceptance及fresh formal admission/独立200/profile仍需证据，不resume/拼接probe或旧6。
+**Blocked by:** 01、02、03 及D16/common-cycle已接受；source/CUDA及A cold通过，但warm FAIL未解。CPU metadata/first4 candidate已准备，phase review/合法raw DP1 None receiver修正/native equivalence仍待；required causal correctness及fresh formal admission/独立200/profile未接受，不resume/拼接probe或旧6。
 
-**Status:** BLOCKED formal / FULL_MODEL_WARM_FAIL D40. Teacher-only A`exp-1111-053300-533764`Succeeded on actual4 H800 with verified source/variant input and56 requests/cold14/14 exact. Warm full/response4/14 max0.24439287185668945; full/own-cold8/14 max0.17278575897216797; response/own-cold4/14 max0.2263340950012207, identical across repetitions. [Model results](../test_report_2026-11-11_fp32_teacher_scoring_results.md) are a warm FAIL, not formal progress. [Operator44/44](../test_report_2026-11-11_snapshot_semantics.md) accepts only same-candidate equal-length off/on selected-state/numerical-output scope, not untouched-code/live-varlen/race/full-model cause. Next is read-only actual snapshot conditional path/mapping/canonical-KV coherence and smallest existing CPU metadata seam; no next fix or GPU experiment. Env1 DEFERRED, warmfull notoracle, ordering unexcluded. Prior startup Pending/receipt corrections are historical; terminal collector image-KeyError was corrected without jobs affected. D39/D34/256/32×8/200/231/1800s/600s/S7/history/allcheckboxes/tolerance/cache/precision-policy/interval/concurrency/budgets remain; no A200 gate or auto-loop. [Current RCA](../progress.md#current-execution--workflow-rca).
+**Status:** BLOCKED formal / RUNTIME_METADATA_CPU_PREPARATION D40. CPU`9ee5f504/a0772615/79c5d0f8` records306 tests/no payload change; reviews and legal-None receiver correction remain pending, no new metadata GPU. [First4 config](../teacher_scoring_runtime_metadata_probe_config.json)/[manifest](../teacher_scoring_runtime_metadata_first4_manifest.json) declare16 requests/10 flushes/1rep only: H800 vectors must match original FP32 rep0/sample2/3 drift, with dropped1024-hit groups unverified. Raw DP1 None stays unchanged; RID+pair is identity, not chronology; one post-scoring server-info query is DP coverage, not all TP. Prior [actual model warm FAIL](../test_report_2026-11-11_fp32_teacher_scoring_results.md)/[44 numerical CUDA scope](../test_report_2026-11-11_snapshot_semantics.md) are retained, not a selected root fix. D39/D34/science/checkboxes/S7 and all budgets/cache/dtype/concurrency/tolerance remain; env1 DEFERRED, no new decision/A200 gate/auto-loop. [Current RCA](../progress.md#current-execution--workflow-rca).
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
