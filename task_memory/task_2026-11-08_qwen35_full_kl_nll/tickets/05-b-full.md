@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record implemented/reviewed correction and new A execution; B still waits for common native verification/fresh resources, not a new logical A200/profile-PASS gate. |
 | 2026-11-10 | Record controlled D38 evidence and the common native correction in progress; retain B's completed A-inspection edge and remaining resource/runtime work. |
 | 2026-11-10 | Accept A firstACK/inspection prerequisite; block B on the common native host-memory fault and fresh admission, not A200/profile PASS. |
 | 2026-11-10 | Reflect actual A H200/Ray startup and joined CPU readiness while retaining B's real ACK/inspection/resource blockers and all final criteria. |
@@ -23,9 +24,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 实际firstACK/inspection由D16满足。共同native host-memory fault尚未解决，且需fresh18-H200准入/资源≤32；这不是A200或profile-PASS逻辑门槛。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection由D16满足。Common correction已implemented/reviewed，但native verification及fresh18-H200资源≤32未完成；不是新A200/profile-PASS逻辑门槛。
 
-**Status:** BLOCKED — common native correction and fresh admission; no B submitted. A firstACK/inspection is[PASS](../test_report_2026-11-10_d16_first_update.md). [D38 controlled diagnostic](../test_report_2026-11-10_allocator_probe.md#native-result--pass)supports the targeted state-initialization timing correction now in progress; the corrected full-workload path is not yet verified. B retains18 H200/step_main,2-H200 TP2 teacher and fresh admission within32 nonpreemptible GPUs. Its A-inspection criterion is already satisfied; native/profile/200 final acceptance remains pending, without an A200/profile-PASS prerequisite.
+**Status:** BLOCKED — common fix verification and fresh admission; B not started. Correction`edd3be00`/`d2b3af8c`is committed with[immutable reviews No findings](../review.md#optimizer-initialization-phase-review--2026-11-10). Independent corrected A`exp-1110-165312-132926`is[worker-ready/executing](../evidence/formal-H200-A-r2-worker-startup-20261110.json), not the oldFailed1/200 result; no first/second ACK for this new attempt accepted yet. Existing[A-firstACK/inspection D16](../test_report_2026-11-10_d16_first_update.md)is satisfied, not reset or spliced. Common real train/sleep/restore/weight-update/next-train verification and fresh18H200 quota within32 remain; A18+B18cannot hold full allocation together, a resource condition not A200/profile-PASS gate. D38 controlled PASS is not old full-model owner/native repair acceptance. D37/S8 remains the resource authority over historical D33/H800 wording; all B native/profile/200 criteria and checkbox states stay unchanged. Primary owns observations, no additionalGPU probe/config/timeouts/HF/eval change.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

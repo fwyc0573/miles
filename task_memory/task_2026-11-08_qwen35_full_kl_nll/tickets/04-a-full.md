@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record reviewed correction and independent corrected A executing/worker-ready; retain all checkbox states and pending native lifecycle/ACK/200 proof. |
 | 2026-11-10 | Record D38 controlled diagnostic PASS and the in-progress native state-initialization correction; formal verification remains blocked. |
 | 2026-11-10 | Accept the D16 first-update row; current A failed natively after1/200, blocking continuation/fresh attempts while allocation mechanism and fix remain unresolved. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and open offline review repairs; retain real ACK/D16 and every final checkbox as incomplete. |
@@ -26,9 +27,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 已接受，实际firstACK/D16已完成；当前共同native host-memory fault需分配机制核验、证据支持的fix和fresh formal准入，尚未选择/完成。独立offline最后edge修复不作为native辅助hardgate。
+**Blocked by:** 01、02、03 及旧A的D16已接受；native correction/review及新A fresh准入/worker-startup已完成。当前执行真正native repair核验，未验收first/secondACK或full生命周期；200/profile仍需本attempt实际证据。Offline CPU已accepted，不再有旧Spec fix阻塞；辅助verdict不是native hardgate。
 
-**Status:** BLOCKED / current formal attemptFailed1/200 INCOMPLETE. [D16](../test_report_2026-11-10_d16_first_update.md)accepts first-update measurement and Ticket02; the subsequent native host-memory failure remains in[the terminal evidence](../evidence/formal-H200-A-terminal-readback-20261110.json). [D38 controlled diagnostic](../test_report_2026-11-10_allocator_probe.md#native-result--pass)now passes with actual segment ownership and pause/resume/native-step checks. An existing-native-API state-initialization timing correction is in progress; the old full-model owner and corrected formal path remain unverified. No new formal attempt has run. Full200/profile criteria below remain pending.
+**Status:** TODO / EXECUTING native repair verification. Independent corrected A`exp-1110-165312-132926`[submitted08:53:12Z](../evidence/admission-formal-H200-A-r2-20261110.json)through unchanged`formal_h200_config.json`,10+18≤32/personal nonpreemptible/local source;[09:06:11Z worker receipt](../evidence/formal-H200-A-r2-worker-startup-20261110.json)has all3 Running/imageIDs/restart0/source matched, actual18 H200, teacher-ready/Ray2×8. Correction`edd3be00`initializes native state after shared restoration/cache clear and before initial offload/forward;`d2b3af8c`closes test naming nit,18 CPU PASS/20 SKIP(no Megatron),[both immutable reviews No findings](../review.md#optimizer-initialization-phase-review--2026-11-10). First/second ACK for this new attempt not accepted; startup does not prove offload fix. Verify train→sleep→restore/weight-update→next-train and own200/paired-profile. Old[D16/Failed1/200](../test_report_2026-11-10_d16_first_update.md)and H8000 attempts remain distinct/protected; D38 probe does not identify old full-model owner. Primary's second-ACK-or-native-failure observer owns ongoing verification, not queried here. **D37/S8 remains the resource authority over historical D33/H800 wording; every checkbox is preserved, no config/timeouts/HF/eval/additional probe or acceptance change.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
