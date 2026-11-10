@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Correct the overbroad06 edge: run offline inspection and report implementation alongside04 resource waiting; retain04/05 runtime dependencies for actual data and final acceptance. |
 | 2026-11-10 | Apply selected D36: retain the accepted 36-H800 layout, wait for improved placement evidence and fresh resource admission; do not infer a third attempt or available resources. |
 | 2026-11-10 | Record both A attempts failed before training; pause submissions at PLACEMENT_BLOCKED pending an evidence-backed placement/startup strategy decision. |
 | 2026-11-10 | Retain failed first A attempt with zero updates and partial RCA; move current frontier to unchanged retry after fresh admission, without changing gates or adding a rerun loop. |
@@ -31,7 +32,7 @@
 
 # Plan
 
-**Phase: PLACEMENT_BLOCKED — D36 selected, waiting for improved placement conditions.** The user chose [D36: keep36 and wait](requirements.md#placement-route-after-two-startup-failures--original-request--follow-up-question-and-answer-2026-11-10). Keep the accepted 36-H800/codesign non-preemptible layout and unchanged configuration; primary rechecks current resource/scheduling conditions. Only evidence of a better placement opportunity plus fresh admission permits a new independent A attempt. Waiting duration is unknown; no third submission, queue membership or current availability is established. Both previous A attempts remain terminal with 0 updates, separately retained in [historical formal evidence](test_report_2026-11-10_formal_runs.md). CPU readiness stays accepted; D16/02 GPU, B and200-update native/profile acceptance remain pending. No gang-start,28-GPU,timeout,credential or GPU-smoke alternative is selected; stop-audit actor/time remain UNKNOWN.
+**Phase: H200_PREPARATION + PARALLEL_CPU.** The user authorized switching the blocked formal execution to H200 ([D37](requirements.md#h200-switch--original-request-2026-11-10)) and advancing independent planned work. Primary prepares the supported H200 layout and fresh resource admission while offline inspection and06 reporting implementation proceed in parallel. Preserve historical D36/H800 records and both failed0-update attempts. CPU readiness remains accepted; D16/02 GPU, B and200-update native/profile acceptance still require actual formal execution.
 
 ## Scope and ownership
 
@@ -44,9 +45,9 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
 | [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums: CPU implementation-ready, then GPU acceptance at A's first update | Satisfied: D35 capacity basis accepted and candidate merged as`55fba827`; no remaining merge blocker |
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
-| [04](tickets/04-a-full.md) | Both A attempts FAILED0 updates; D36 selected, waiting for improved36-H800 placement | Satisfied: 01 accepted, 02 CPU-ready, 03 CPU integration and D36 choice; pending current resource/scheduling readback, improvement evidence and fresh admission |
+| [04](tickets/04-a-full.md) | Prepare and launch an independent H200 A attempt under D37; offline inspection preparation in parallel | Satisfied:01,02 CPU,03 CPU and H200 authorization; pending H200 configuration/resource checks and fresh admission |
 | [05](tickets/05-b-full.md) | B/full native training and separately verified profile | Satisfied: 01 accepted, 02 CPU-ready, 03 CPU integration; pending: 04 actual first successful ACK, completed inspection and fresh resource admission |
-| [06](tickets/06-profile-report.md) | Final profile report and archive with explicit complete/incomplete disposition | 04, 05 terminal evidence and completion checks |
+| [06](tickets/06-profile-report.md) | Offline report implementation now; final A/B report and archive after runtime evidence | CPU implementation:03 CPU readiness (satisfied). Final measurements/acceptance:04,05 terminal evidence and completion checks |
 
 Dependency graph:
 
@@ -58,8 +59,11 @@ D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU i
 {01 accepted, 02 CPU implementation-ready, 03-integration CPU-ready, final formal configuration/lifecycle checks} -> 04 fresh admission -> 04 launch
 04 repeated pre-training placement/startup failures -> D36 selected: retain accepted 36-H800 layout and wait
 D36 -> primary current resource/scheduling readback -> improved placement evidence + fresh admission -> new independent 04 attempt (not submitted)
+D37 supersedes current H800 waiting -> H200 layout/resource verification + fresh admission -> independent 04 H200 attempt
 04 actual first successful update -> inspection completed -> {02 GPU acceptance evidence, 05 resource admission}
-{04 terminal evidence, 05 terminal evidence} -> 06
+03 CPU-ready -> {04/05 offline inspection preparation, 06 report computation preparation}
+{04/05 offline inspection preparation, 06 report computation preparation} -> CPU CLI integration check
+{04 terminal evidence, 05 terminal evidence, CPU report readiness} -> 06 actual reports and final acceptance
 ```
 
 Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code.02`6129aefe`and03`15186817`still satisfy the CPU dependencies; configuration, lifecycle checks and reviews remain complete. Both formal A failures are retained separately. D36 now selects waiting with the accepted36-H800 layout; further submission remains conditional on improved placement evidence and fresh admission. Upstream acceptance remains independent.
@@ -78,6 +82,8 @@ The table's 02/03 edges into formal cells are CPU readiness checkpoints, not ful
 Each ticket records commands and evidence in `progress.md` and a dated test report in this directory.
 
 ## Current frontier
+
+**Parallel CPU frontier (user follow-up2026-11-10):** while primary continues the D36 resource readback, implement the read-only native/profile inspection used by04/05 and the S9 report computation used by06. Their files and tests are disjoint; they reuse the accepted profile module without modifying training/runtime behavior. Join them with a CPU command-line check on retained failed-attempt evidence and hand-computed synthetic profiles. CPU readiness does not mark04/05/06 complete or supply formal metrics. This preparation was incorrectly serialized behind whole-run04/05 terminal evidence; that edge now applies only to actual reports and final acceptance.
 
 Ticket01 is accepted including D34: the original-source112K CPU audit,512 native parity draws and2,048 interleaved raw draws passed; job/replica Succeeded at11:47:11Z and source identities reconcile ([current length/source report](test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit)). The [historical128K report](test_report_2026-11-09_source_audit.md) retains its original policy and results. D26 keeps32×8 from the pre-length eligible median90; current simulated spans and absent post-length median are limitations, not a new blocker or native trend acceptance. The03 module retains D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)) and historical query/baseline/partial-write checks ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full CPU integration path are now accepted in [ticket03](tickets/03-distillation-profile.md), with [201-PASS evidence](test_report_2026-11-10_profile_integration.md); actual GPU/profile verification remains separate. Current state is owned by [progress](progress.md#in-progress).
 

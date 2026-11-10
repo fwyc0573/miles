@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record the selected D36 waiting route and fresh personal inventory; distinguish personal admission from shared resource availability. |
 | 2026-11-10 | Record SDK and authenticated platform-document findings for the pending placement decision; distinguish verified mechanisms from untested options and avoid treating a waiting-time upper bound as measured GPU cost. |
 | 2026-11-10 | Close the second pre-training A failure with five complete receipts; pause submissions at PLACEMENT_BLOCKED pending a strategy decision, without claiming complete stop-audit closure. |
 | 2026-11-10 | Record first A terminal/native failure and incomplete stop audit; retain snapshots and separately document unchanged freshly admitted retry and read-only observer replacement. |
@@ -103,9 +104,9 @@ RCA collector root:`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-placement-failu
 
 ### Current route — PLACEMENT_BLOCKED
 
-Both formal A attempts failed before acquisition/training with0 updates. Primary has paused submission; **no third attempt, chosen placement/startup strategy or new approval is recorded**. The local SDK investigation `profile-placement-route-20261110` (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and the authenticated document reads below are complete. The remaining blocker is the resource/startup strategy decision, not an unfinished CPU integration.
+Both formal A attempts failed before acquisition/training with0 updates. **D36 now selects keeping the accepted 36-H800 configuration and waiting for improved placement conditions.** No third attempt has been submitted. The local SDK investigation `profile-placement-route-20261110` (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated document reads below are complete. Current work is the fresh resource check under the selected route, not an unfinished CPU integration or an undecided topology.
 
-Repeated startup failures justify stopping unchanged retries. Next action is an explicit evidence-backed placement/startup strategy decision with applicable authority and unresolved choices, not GPU smoke, another unchanged submission or a throughput/science workaround. T02/T03 CPU readiness and configuration remain unchanged. D16/native profile/02 GPU, B and200-update native/profile acceptance remain pending; any future run needs its own attempt identity, fresh admission and actual startup/success evidence. Both failed attempts and all formal cloud outputs are protected, separate and outside smoke cleanup authority.
+Repeated startup failures justify stopping speculative unchanged retries. Under D36, recheck resource indicators and resume with a separate attempt when conditions improve. T02/T03 CPU readiness and configuration remain unchanged. D16/native profile/02 GPU, B and200-update native/profile acceptance remain pending; any future run needs its own attempt identity, fresh admission and actual startup/success evidence. Both failed attempts and all formal cloud outputs are protected, separate and outside smoke cleanup authority.
 
 ### Placement options and verified limits
 
@@ -115,15 +116,25 @@ Repeated startup failures justify stopping unchanged retries. Next action is an 
 - The authenticated [scheduler guide](https://wvixbzgc0u7.feishu.cn/wiki/LvJ8wKacWi4AyakWVPYccszVnVf), document `Ppr9dqgL4o5OyBxJkHpcVYnEnic` revision3, distinguishes resource shortage and missing PodGroup from workload failure. The [multi-task investigation](https://wvixbzgc0u7.feishu.cn/wiki/NpOWwvm5NiIecnk3YExc2qhnnQg), document `MJz1dpkhaoKBmZxyhU6cYA8Hnkb` revision689, reports multi-task gang-start problems and leaves cross-task support unresolved. These documents support the diagnosis and the need to verify platform behavior; they do not prove a working atomic-placement configuration.
 - Full successful JSON responses are retained at `/data/ycfeng/tmp/agent-opd-image/formal-scheduling-doc-20261110.json` and `formal-multitask-doc-20261110.json`. Exact reads used `/data/ycfeng/stepcode-codex-home/bin/lark-cli docs +fetch --as user --doc <linked-url> --scope keyword --keyword 'gang|group|调度' --context-after 1 --doc-format markdown` for the scheduler guide; the multi-task keyword was `gang|group|同时|调度`. Both returned `ok=true`; local response parsing confirmed document IDs and revisions. No external write was performed.
 
-Pending user choices: keep the accepted 36-GPU configuration and await a better placement opportunity; authorize validation of native gang-start/teacher ConfigMap behavior before another launch; or explicitly reduce to three student nodes plus the teacher (28 GPUs, six TP4 rollout engines), whose acquisition throughput is unverified. The last choice changes execution topology, not automatically the frozen data, lengths or scientific objective. No option has been applied. Keep the 1800-second acquisition and 600-second weight-sync deadlines unchanged.
+Options presented before D36 were: keep the accepted 36-GPU configuration and await a better placement opportunity; validate native gang-start/teacher ConfigMap behavior before another launch; or explicitly reduce to three student nodes plus the teacher (28 GPUs, six TP4 rollout engines), whose acquisition throughput is unverified. The user selected the first option. The alternatives have not been applied. The 1800-second acquisition and 600-second weight-sync deadlines remain unchanged.
 
 Cost boundary: both attempts had staggered replica starts. Multiplying 28 GPUs by the entire job lifetime is only an upper bound, not measured allocation time or billed GPU-hours. No measured 33-GPU-hour claim is made. Any longer placement wait would retain already allocated workers until the missing resources arrive or the attempt is canceled.
 
 Local route-record verification: `python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll` passed with31 documents,141 links,42 anchors andzero errors. Scoped `git diff --check` passed for this report, progress and summary. No runtime code/config change or GPU test accompanied this assessment.
 
+### D36 resource recheck — 2026-11-10T05:26Z
+
+The user selected **保持36卡等待 (Recommended)** after the interrupted question was asked again. The exact Q/A is in requirements D36. The config remains four eight-H800 student replicas and one four-H800 teacher, non-preemptible, with gang start disabled. There is no new queue membership or application-startup evidence.
+
+The [fresh personal inventory](evidence/formal-D36-personal-inventory-20261110.json), observed at05:26:04.168821Z, records no nonterminal H800 jobs for `i-fengyicheng`, committed0, requested36, personal ceilingnull and `admitted=true`. This was a direct read of `policy_admission_snapshot`, **not a submission**; `submitted=false`. These values establish the local personal policy allowance, not shared codesign headroom, available GPU nodes or atomic placement. Further read-only resource indicators are being checked before deciding whether conditions have improved.
+
+Exact inspection entry: from `/data/ycfeng`, initialize the handbook personal/proxy environment, set `PYTHONPATH` to this Miles worktree followed by `/data/ycfeng/steptron`, then run `timeout 60s /data/ycfeng/tmp/stepmind-env/bin/python -B -`. Import `tests.manual.agent_opd.rjob_budget.policy_admission_snapshot` before `steptron.utils.stepmind.get_rjob_client`; load the existing formal config/policy and call `policy_admission_snapshot(client, policy=policy, creator=config['creator'], gpu_tag=config['gpu_tag'], requested_gpus=36, timeout=config['api_timeout_seconds'])`. Save only the filtered snapshot with `submitted=False`; do not call the backend submitter.
+
+The initial one-off script imported Steptron first and failed before any API call with `ModuleNotFoundError: No module named 'tests.manual'`. A bounded `find_spec('tests')` check showed why: `steptron/__init__.py:10-17` prepends third-party trees, changing the selected package from this worktree's `tests/__init__.py` to `steptron/third_party/super_agent/tests/__init__.py`. Matching the existing submitter's Miles-first import order fixed this inspection; no repository code, config or environment installation changed. The corrected read above passed and produced the saved snapshot.
+
 ## B/full
 
-Not submitted. Neither failed A produced an ACK or satisfies B admission. Placement/startup strategy is unresolved; B still requires a future actual A first successful update, completed D16 inspection andfresh36-H800 admission, not A200 completion orauxiliary profile PASS. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported buthas no native H800 acceptance yet.
+Not submitted. Neither failed A produced an ACK or satisfies B admission. D36 selects waiting for improved placement conditions; B still requires a future actual A first successful update, completed D16 inspection andfresh36-H800 admission, not A200 completion orauxiliary profile PASS. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported buthas no native H800 acceptance yet.
 
 ## Local record verification
 

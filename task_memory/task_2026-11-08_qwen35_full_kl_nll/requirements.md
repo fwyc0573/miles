@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record the instruction to advance independent planned work while the selected 36-H800 placement route waits. |
 | 2026-11-10 | Record D36: keep the accepted 36-H800 layout, recheck resource conditions and wait for a better placement opportunity before another independent attempt. |
 | 2026-11-10 | Record formal A submission in the current phase; preserve all decisions and runtime acceptance criteria. |
 | 2026-11-10 | Update only the current phase after verified merge55fba827; keep raw D35 authorization and historical decisions unchanged. |
@@ -321,3 +322,16 @@ User selected **“保持36卡等待 (Recommended)”**, with the option descrip
 
 - **D36 retain the accepted layout and wait.** Keep four student nodes with eight H800 each plus the four-H800 teacher, `codesign`, non-preemptible. Recheck current resource and scheduling indicators after the wait. Resume through fresh admission and a new independent A attempt when there is evidence of a better placement opportunity; do not continue unchanged speculative retries while the same shortage remains.
 - The user did not select gang-start validation or the 28-GPU/six-engine topology. This decision does not change application startup, acquisition or weight-sync deadlines, scientific inputs, D33/D34 lengths, profile settings or B's D16 dependency. Resource quota/prediction observations are not proof that all five replicas can be placed atomically; preserve that distinction in any next launch record.
+
+### Parallel execution while waiting — [Original Request] 2026-11-10
+
+> 并行推进已规划的任务（根据依赖关系），不要卡死在一处
+
+Advance independent planned CPU deliverables while D36 resource inspection continues. In particular, the offline inspection/reporting implementation can be built and checked from retained and synthetic records after03 CPU readiness; only final A/B measurements and acceptance depend on04/05 runtime evidence. This does not waive A-before-B admission, change D36, or allow synthetic results to stand in for formal results.
+
+### H200 switch — [Original Request] 2026-11-10
+
+> 另外，允许你将当前在h800上的提交（阻塞）切换到h200上，继续
+
+- **D37 H200 execution authorization.** Switch subsequent blocked formal execution to H200 through the existing personal StepMind Python backend and the documented H200 quota group. This supersedes D36's current H800 waiting route and D33's H800 choice for these submissions; preserve both historical failed H800 attempts and their frozen configuration.
+- Select and verify a supported H200 allocation within the applicable non-preemptible GPU ceiling, using the existing launcher and model parallelism. Freeze the new configuration and attempt identity before submission. D35's accepted parent integration basis, D34 lengths, source32×8, full mode,200 successful updates,231/1800s admission,600s initial sync, profile soft gates and A-before-B dependency remain unchanged. Advance independent CPU inspection/reporting preparation in parallel.

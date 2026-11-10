@@ -1,0 +1,24 @@
+{
+  "observed_at": "2026-11-10T05:26:04.168821+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H800",
+  "nonterminal_jobs": [],
+  "committed_gpus": 0,
+  "requested_gpus": 36,
+  "ceiling_gpus": null,
+  "admitted": true,
+  "scope": "personal",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": null,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": null
+    }
+  },
+  "evaluated_at": "2026-11-10T05:26:04.168821+00:00",
+  "preemptible": false,
+  "submitted": false,
+  "purpose": "D36 read-only personal inventory; not shared quota availability or physical placement"
+}
