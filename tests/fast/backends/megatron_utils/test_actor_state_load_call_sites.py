@@ -117,3 +117,35 @@ class TestCheckpointSourceProvenance:
         ]
         [value] = [item.value for item in call.keywords if item.arg == "resume_from_ckpt"]
         assert ast.unparse(value) == "resume_from_ckpt"
+
+
+def test_optimizer_state_is_materialized_on_the_shared_load_path_before_first_use():
+    assert _functions_calling("initialize_optimizer_state", as_method=False) == [_CORE_METHOD]
+    assert any(
+        isinstance(node, ast.ImportFrom)
+        and node.module == "optimizer_utils"
+        and any(alias.name == "initialize_optimizer_state" for alias in node.names)
+        for node in ast.walk(ast.parse(_SOURCE.read_text()))
+    )
+    function = _function(_CORE_METHOD)
+    [initialize] = [
+        node
+        for node in ast.walk(function)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "initialize_optimizer_state"
+    ]
+    [cleanup] = [
+        node
+        for node in ast.walk(function)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id == "clear_memory"
+    ]
+    assert max(_method_call_lines(_CORE_METHOD, "_switch_model")) < cleanup.lineno < initialize.lineno
+    assert _INIT_METHOD in _functions_calling(_CORE_METHOD, as_method=True)
+    assert "load_state" in _functions_calling(_CORE_METHOD, as_method=True)
+    # Actor and critic have separate load/return branches; each sleeps after its own restoration.
+    loads = _method_call_lines(_INIT_METHOD, _CORE_METHOD)
+    sleeps = _method_call_lines(_INIT_METHOD, _SLEEP_METHOD)
+    assert len(loads) == len(sleeps) == 2
+    assert all(loaded < asleep for loaded, asleep in zip(loads, sleeps, strict=True))
+    assert _method_call_lines(_CORE_METHOD, "_compute_log_prob") == []

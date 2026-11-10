@@ -3,6 +3,18 @@ from megatron.core.optimizer import USING_PYTORCH_OPTIMIZER
 from megatron.core.optimizer.optimizer import ChainedOptimizer, MegatronOptimizer
 
 
+def initialize_optimizer_state(optimizer: MegatronOptimizer) -> None:
+    """Materialize native optimizer state without resetting checkpoint history."""
+    if USING_PYTORCH_OPTIMIZER:
+        return
+    if isinstance(optimizer, ChainedOptimizer):
+        for chained in optimizer.chained_optimizers:
+            initialize_optimizer_state(chained)
+        return
+    if not optimizer.is_stub_optimizer and optimizer.init_state_fn is not None:
+        optimizer.init_state_fn(optimizer.optimizer, optimizer.config)
+
+
 def reset_optimizer_state(
     optimizer: MegatronOptimizer, *, stream_optimizer_state_to_disk: bool, chunked_optimizer_state_offload: bool
 ) -> None:
@@ -29,8 +41,7 @@ def reset_optimizer_state(
         for param_group in inner.param_groups:
             param_group.pop("step", None)
 
-        if chained.init_state_fn is not None and not USING_PYTORCH_OPTIMIZER:
-            chained.init_state_fn(inner, chained.config)
+        initialize_optimizer_state(chained)
 
         chained.zero_grad(set_to_none=True)
 

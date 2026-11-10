@@ -95,7 +95,7 @@ from .model import (
     train,
 )
 from .named_weights import named_params_and_buffers
-from .optimizer_utils import reset_optimizer_state
+from .optimizer_utils import initialize_optimizer_state, reset_optimizer_state
 from .parallel import verify_megatron_parallel_state
 from .replay_utils import register_replay_list_moe
 
@@ -464,6 +464,10 @@ class MegatronTrainRayActor(TrainRayActor):
 
         # empty cache after initialization
         clear_memory()
+
+        if self.args.offload_train and not self.args.stream_optimizer_state_to_disk and self.optimizer is not None:
+            # Allocate persistent state before forwards can leave large cached segments for it to retain.
+            initialize_optimizer_state(self.optimizer)
 
         return load_output
 
