@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept actual profileprefix2 and original-file rebuild; distinguish record/ACK timestamps, retaining every full-run checkbox. |
 | 2026-11-10 | Record actual native IDs1/2 and accepted first corrected offload/restore/next-train cycle; keep detailed profile/200 verification pending and every checkbox unchanged. |
 | 2026-11-10 | Record reviewed correction and independent corrected A executing/worker-ready; retain all checkbox states and pending native lifecycle/ACK/200 proof. |
 | 2026-11-10 | Record D38 controlled diagnostic PASS and the in-progress native state-initialization correction; formal verification remains blocked. |
@@ -28,9 +29,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16已接受；corrected A native IDs1/2及first offload/restore/next-train cycle已核验。当前无native执行前置blocker；详细first-two profile/canonical/rebuild独立待验收，不控制healthy training。200/profile最终criterion仍需本attempt实际证据，非提前done。
+**Blocked by:** 01、02、03 及D16已接受；corrected A native IDs1/2、first native cycle及actual profileprefix2已核验。当前无native执行前置blocker或辅助hardgate；200/profile最终criterion仍需本attempt完整实际证据，非提前done。
 
-**Status:** TODO / EXECUTING2/200; first native cycle verified. For independent`exp-1110-165312-132926`,[notification](../evidence/formal-H200-A-r2-second-update-notification-20261110.json)has successful IDs1/2,0 skips,bank0/1 visit1/256 turns each/turn_sums_verified=true. [Retained lifecycle](../evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json)crosses prior post-update offload failure: train1 ACK→offload/weight update1 OK→wake/restore→train2 ACK→offload/weight update2 OK→third-bank generation withversion2. [Readback](../evidence/formal-H200-A-r2-two-update-readback-20261110.json)confirmsjob/all3 Running,nonpreemptible,restart0. Primary accepts this specific cycle, not200 stability, old full-model owner or backup-byte/cgroup-peak proof. Detailed two-update profile/canonical/rebuild remains independent/unaccepted and non-blocking. Continue own200 native/paired-profile verification; old[D16/Failed1/200](../test_report_2026-11-10_d16_first_update.md)/H8000 attempts stay distinct/protected. Primary's target10 observer/launcher continues, not queried here; observation43200s is not worker timeout. **D37/S8 overrides historical D33/H800 resource wording; every checkbox/science criterion stays unchanged, no new code/config/timeouts/HF/eval/probe or stop-A authority.**
+**Status:** TODO / EXECUTING2/200; first native cycle and actual profileprefix2 verified. For independent`exp-1110-165312-132926`,the [accepted report](../test_report_2026-11-10_corrected_profile_prefix.md) and [delivery verification](../evidence/formal-H200-A-r2-first-two-20261110/delivery-verification.json) verify512 canonical observations and exact original-file rebuild. [Native lifecycle](../evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json)crosses the prior offload failure point/next-train; record timestamps are before optimizer, while successful ACK is added/published after optimizer. Prefix2 is accepted, not200 stability or old full-model owner/backup-byte/cgroup-peak proof; the run remains2/200 INCOMPLETE with no accepted terminal result. Continue own200 native/profile verification; old[D16/Failed1/200](../test_report_2026-11-10_d16_first_update.md)/H8000 attempts stay distinct/protected. Observer-only bounds do not change worker timeout or gate healthy training. **D37/S8 overrides historical D33/H800 resource wording; every checkbox/science criterion stays unchanged, no new code/config/timeouts/HF/eval/probe or stop-A authority.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
