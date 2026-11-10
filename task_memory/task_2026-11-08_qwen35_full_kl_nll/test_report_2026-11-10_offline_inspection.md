@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Fix remaining Spec P2 for ACK1 invalidation before persistence; preserve actual read/validation failures; record 3 RED→GREEN cases and 12 affected PASS. |
 | 2026-11-10 | Fix accepted review findings P1/P2/P2/P2 and naming Nit P3; record sequential RED/GREEN evidence, mandatory observed update IDs and 69-PASS verification. |
 | 2026-11-10 | Implement bounded read-only native/profile prefix inspection; record CPU readiness, retained failed-attempt disposition and remaining formal acceptance. |
 
@@ -9,7 +10,7 @@
 
 TaskID: `profile-offline-inspection-20261110`.
 
-Outcome: **Accepted review fixes CPU-ready, 69 selected tests PASS in 2.55s**. Initial implementation passed57 tests in1.78s; the follow-up adds12 regression cases. This completes only the delegated offline entry and its tests, not formal native/profile acceptance. Ticket06 report computation belongs to another agent. No network, platform, SSH, GPU, delegation, training control or runtime/configuration edit was performed.
+Outcome: **Remaining prefix0 Spec P2 CPU-ready, 12 affected tests PASS in0.92s**. The preceding review fixes passed69 selected tests in2.55s; that full suite was not rerun for this narrowly scoped follow-up. Initial implementation passed57 tests in1.78s. This completes only the delegated offline entry and its tests, not a new formal native/profile acceptance. Ticket06 report computation belongs to another agent. No network, platform, SSH, GPU, delegation, training control or runtime/configuration edit was performed.
 
 ## Owned deliverables
 
@@ -43,6 +44,7 @@ inspect_run(
 - `verified_updates` requires complete paired rows, reproducible summaries, native counts/macros/estimator, and retained canonical bank UID/source-turn/mask evidence. Missing `bank_<id>.jsonl`, missing seal or mismatching UID/mask evidence ends the prefix; no UID verification is inferred from a native boolean alone.
 - Inclusive `unverified_ranges` covers everything after the verified prefix to the expected budget, including observed extra records. `missing_pair_ranges` separately identifies updates lacking either paired file row. `read_errors` preserves missing-file and malformed-tail evidence; `terminal_error` separately preserves terminal failure when native files are missing.
 - `profile.complete` requires no unverified tail. Native201/profile200 with expected200 retains a queryable prefix200, but complete=false and unverified201. Missing terminal evidence is solely a native completion concern and does not invalidate an otherwise complete profile. When the paired prefix ends without an earlier verification error, the next retained native ACK's known `unverified_turn_sums` reason is retained before a generic missing-tail explanation; no values are derived from that ACK.
+- Empty or missing first profile pairs are absence of a verification verdict, not an actual validation failure. This also permits the adjacent ACK1's known pre-persistence auxiliary reason to be retained for prefix0. Real prefix validation failures still take precedence; no later ACK search is added. Every existing `read_errors` entry remains separate and intact.
 - Return value two is a clean rebuilt profile of exactly the verified prefix, or `None` for zero verified updates. Error-tainted first-pass state is discarded. The returned object has no persistence directory and no runtime invalidation attached to later unverified updates.
 
 CLI: `python -m tests.manual.agent_opd.inspect_distillation_run --training-dir ... --job ... --expected-updates 200 [--terminal ...] [--output ...]`. Without `--output`, JSON is printed. Incomplete evidence returns a normal exit; it is not a native gate. Output cannot overwrite retained evidence inside `training_dir` or the supplied terminal.
@@ -190,6 +192,31 @@ profile: {
 
 Remaining limits: these are CPU/synthetic regression results, not formal GPU measurement acceptance. No fresh platform status or native business results were inspected. The reporter owner receives the mandatory field through the existing interface; its parallel integration is not reviewed or edited here. Missing/partial native receipts remain incapable of proving an exact final update count, and missing canonical bank evidence still ends UID verification. Native training control is untouched.
 
+## Remaining Spec P2 — ACK1 invalidation before persistence
+
+Source: the primary's follow-up: preserve the adjacent known native auxiliary reason for prefix0 over a generic no-paired-record placeholder, while preserving actual read/validation failures. Reviewed behavior in `24e8386f` returned a nonempty placeholder at entry lines213–214, so the existing `profile_error is None` condition at lines295–299 could not retain ACK1's concrete reason.
+
+Correction: `_profile_prefix` returns no validation error when no paired records exist. The existing adjacent-ACK selection and actual-validation-error precedence are unchanged. All measurements remain unverified: verified/canonical UID updates=0, returned profile=None, complete=false and unverified1–200. Native retained count remains1, not0. Reading/parsing errors remain in all original `read_errors` fields. No schema, reporter, runtime or platform change was made.
+
+Exact commands, using the existing Python3.12.13/pytest9.1.1 CPU environment:
+
+```bash
+env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q --tb=short tests/fast/test_distillation_run_inspection.py::test_unpersisted_first_profile_preserves_native_auxiliary_reason_and_read_errors -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-prefix0-pytest --basetemp=/data/ycfeng/tmp/offline-prefix0-red
+env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q --tb=short tests/fast/test_distillation_run_inspection.py::test_unpersisted_first_profile_preserves_native_auxiliary_reason_and_read_errors -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-prefix0-pytest --basetemp=/data/ycfeng/tmp/offline-prefix0-green
+env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q --tb=short tests/fast/test_distillation_run_inspection.py::test_unpersisted_first_profile_preserves_native_auxiliary_reason_and_read_errors tests/fast/test_distillation_run_inspection.py::test_actual_first_validation_error_is_not_replaced_by_adjacent_native_error tests/fast/test_distillation_run_inspection.py::test_actual_first_summary_validation_error_is_not_replaced_by_later_native_error tests/fast/test_distillation_run_inspection.py::test_missing_profile_tail_preserves_next_native_auxiliary_error tests/fast/test_distillation_run_inspection.py::test_temporary_directory_creation_error_is_an_honest_profile_verdict tests/fast/test_distillation_run_inspection.py::test_missing_first_bank_never_claims_uid_verification tests/fast/test_distillation_run_inspection.py::test_one_profile_file_only_cannot_supply_a_verified_first_update tests/fast/test_distillation_run_inspection.py::test_missing_native_profile_and_failed_before_start_do_not_prove_zero -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-prefix0-pytest --basetemp=/data/ycfeng/tmp/offline-prefix0-affected
+```
+
+| Check | Original failure / expected passing condition | Actual | Verdict |
+| --- | --- | --- | --- |
+| RED: empty, missing and I/O/parsing-damaged first files | Original placeholder drops `ACK1 missing CP partial before profile persistence` | 3 failed in0.79s; each receipt said `No complete native/profile pair available; values and UID identity are unverified` | EXPECTED RED |
+| GREEN: same3 cases | Retain ACK1 reason; no derived values; preserve native count1 and all read errors | 3 passed in1.43s; missing files retain both `FileNotFoundError` entries; actual directory/read failure and malformed JSON retain `IsADirectoryError` and `invalid JSON at line 1` | PASS |
+| Actual validation precedence | Paired first records with bank I/O/parsing failures must retain those real validation errors, not adjacent ACK1 metadata | Both `IsADirectoryError`/`JSONDecodeError` cases pass | PASS |
+| No arbitrary later replacement | Corrupt first summary plus later ACK2 error must retain summary failure | First-summary validation reason retained; later auxiliary reason absent | PASS |
+| Affected checks only | Six new cases plus existing prefix1, temporary construction, canonical bank and missing native/profile boundary checks | 12 passed in0.92s; two existing SWIG deprecation warnings | PASS |
+| Syntax / scoped whitespace | Both owned Python files parse; scoped diff clean | AST PASS2, whitespace PASS | PASS |
+
+The I/O/parsing cases use actual filesystem/JSON errors, not mocks. No full suite, reporter integration, GPU execution or native RCA was repeated. Per the primary's explicit follow-up, actual D16 prefix1 already passed through the joined CLI and independent canonical math; that evidence is reported by the primary, not reverified here. The subsequent native host OOM belongs to another owner and is not gated by this CPU fix. Ruff remains previously unavailable. API and receipt schema above are unchanged.
+
 ## Initial CPU-ready checkpoint (historical)
 
 ## 1. 规划完成情况
@@ -242,33 +269,30 @@ Remaining limits: these are CPU/synthetic regression results, not formal GPU mea
 2. 缺少canonical bank或native ACK时不推断UID/实际更新数；只返回真实验证前缀。
 3. Reporter接口已冻结；H200执行和真实A/B数据仍归primary推进。
 
-## Review follow-up checkpoint
+## Prefix0 Spec P2 follow-up checkpoint
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 6｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 0｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
-| P1临时目录及创建异常 | PASS | 替代TMPDIR和创建失败分别RED→GREEN |
-| P2首个辅助错误 | PASS | 真实模式的缺失profile尾部保留ACK2错误 |
-| P2未验证201完整性 | PASS | 保留可查询200，明确未验证201，terminal独立 |
-| P2观察到的update IDs | PASS | 缺失5但保留200及五类非法ID已覆盖 |
-| P3命名Nit | PASS | 指定locals改名，native group_id不变 |
-| 指定文件验证及报告 | PASS | 69 PASS/2.55s，AST和限定whitespace通过 |
-| Reporter消费新字段 | TODO | 平行owner负责，本slice未检查其结果 |
+| Prefix0相邻ACK1原因 | PASS | 空/缺失首对记录及实际读取错误分别RED→GREEN |
+| 所有读取错误保留 | PASS | FileNotFound、IsADirectory及invalid JSON证据均保留 |
+| 实际验证失败优先级 | PASS | Canonical bank I/O/解析及first-summary失败不被相邻或后续原因覆盖 |
+| 限定验证及报告 | PASS | 12 affected PASS/0.92s，AST和scoped whitespace通过 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 已接受review follow-up至本次GREEN验证｜**当前前沿：** 提交指定三文件并交回冻结schema。
+**检测窗口：** 剩余Spec P2 follow-up至本次12项GREEN验证｜**当前前沿：** 提交指定三文件，API/schema保持不变。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | 只补已接受缺陷的回归，GREEN后结束 |
 | D2 细节反复重试 | CLEAR | 每项已知原因先RED、再最小修复，无平台retry |
 | D3 支线问题修补 | CLEAR | 仅指定三文件 |
-| D4 可并行任务停滞 | CLEAR | 不等待reporter或GPU结果，不重复其工作 |
+| D4 可并行任务停滞 | CLEAR | 不等待或阻塞另一个owner的native OOM RCA |
 | D5 超范围镀金 | CLEAR | 无新框架、flags、数学实现或runtime gate |
 | D6 分析空转 | CLEAR | 用确定性CPU回归完成交付 |
 | D7 路线违背 | CLEAR | 不改训练控制及平台状态 |
@@ -283,11 +307,11 @@ Remaining limits: these are CPU/synthetic regression results, not formal GPU mea
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 提交指定三文件及交回schema/RED-GREEN证据 → 完成标志：commit只包含本slice文件。
-2. 并行owner继续reporter字段消费与GPU运行；本slice不添加控制动作或重复验收。
+1. 提交指定三文件及交回RED-GREEN证据 → 完成标志：commit只包含本slice文件。
+2. 另一owner继续native RCA；本slice不添加控制动作或重复D16验收。
 
 ## 4. 最值得关注的 3 点
 
-1. P1/P2/P2/P2和P3 Nit已按原始原因修复，69项CPU检查通过。
-2. 观察到的IDs和成功行数分别保留；不把缺失ACK5说成未到达200。
-3. 返回profile只含验证前缀；未验证尾部和辅助错误不会改变native训练。
+1. 空首对记录不再压过ACK1具体原因；12项受影响CPU检查通过。
+2. 实际I/O/解析/验证失败仍保留，全部prefix0测量保持未验证。
+3. D16实际prefix1通过由primary提供；native OOM RCA独立推进。

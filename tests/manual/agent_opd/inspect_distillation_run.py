@@ -211,7 +211,8 @@ def _verify_update(profile: DistillationProfile, native: dict, summary: dict, ob
 def _profile_prefix(training_dir: Path, native: list[dict], summaries: list[dict], observations: list[dict]):
     verified, error = 0, None
     if not native or not summaries or not observations:
-        return 0, None, "No complete native/profile pair available; values and UID identity are unverified"
+        # Absent pairs are not a validation failure that can supersede a known ACK error.
+        return 0, None, None
     # A first pass uses record_update validation. Only accepted original pairs enter
     # a temporary prefix; rebuild performs the second pass and returns clean state.
     try:

@@ -237,6 +237,80 @@ def test_missing_profile_tail_preserves_next_native_auxiliary_error(tmp_path):
     assert profile.summary()["rkl"] == 0.75
 
 
+@pytest.mark.parametrize("retained", ["empty", "missing", "read_errors"])
+def test_unpersisted_first_profile_preserves_native_auxiliary_reason_and_read_errors(tmp_path, retained):
+    training, _, _ = _run(tmp_path, count=1)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native[0].update(turn_sums_verified=False, unverified_turn_sums=["ACK1 missing CP partial before profile persistence"],
+                     kl_estimator=None, kl_before_tis=None, nll_before_tis=None,
+                     kl_before_tis_numerator=None, nll_before_tis_numerator=None)
+    _write_rows(native_path, native)
+    profile_dir = training / "distillation_profile"
+    for name in (UPDATES_FILE, OBSERVATIONS_FILE):
+        path = profile_dir / name
+        if retained == "empty":
+            path.write_text("")
+        else:
+            path.unlink()
+    if retained == "read_errors":
+        (profile_dir / UPDATES_FILE).mkdir()
+        (profile_dir / OBSERVATIONS_FILE).write_text('{"update_id":}\n')
+    receipt, profile = _inspect(training, expected=200)
+    assert "ACK1 missing CP partial before profile persistence" in receipt["profile"]["error"]
+    assert receipt["native"]["successful_updates"] == 1
+    assert receipt["native"]["observed_successful_update_ids"] == [1]
+    assert receipt["profile"]["verified_updates"] == receipt["profile"]["canonical_uid_verified_updates"] == 0
+    assert not receipt["profile"]["complete"] and profile is None
+    assert receipt["profile"]["unverified_ranges"] == receipt["profile"]["missing_pair_ranges"] == [[1, 200]]
+    read_errors = receipt["profile"]["read_errors"]
+    assert read_errors["native_updates"] is None
+    if retained == "empty":
+        assert read_errors["profile_updates"] is read_errors["profile_observations"] is None
+    elif retained == "missing":
+        assert "FileNotFoundError" in read_errors["profile_updates"]
+        assert "FileNotFoundError" in read_errors["profile_observations"]
+    else:
+        assert "IsADirectoryError" in read_errors["profile_updates"]
+        assert "invalid JSON at line 1" in read_errors["profile_observations"]
+
+
+@pytest.mark.parametrize("failure", ["io", "parsing"])
+def test_actual_first_validation_error_is_not_replaced_by_adjacent_native_error(tmp_path, failure):
+    training, _, _ = _run(tmp_path, count=1)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native[0].update(turn_sums_verified=False, unverified_turn_sums=["Adjacent ACK1 auxiliary reason"])
+    _write_rows(native_path, native)
+    bank_path = training / "bank_0.jsonl"
+    if failure == "io":
+        bank_path.unlink()
+        bank_path.mkdir()
+    else:
+        bank_path.write_text('{"event":}\n')
+    receipt, profile = _inspect(training, expected=200)
+    assert ("IsADirectoryError" if failure == "io" else "JSONDecodeError") in receipt["profile"]["error"]
+    assert "Adjacent ACK1 auxiliary reason" not in receipt["profile"]["error"]
+    assert receipt["profile"]["verified_updates"] == 0 and profile is None
+    assert receipt["profile"]["unverified_ranges"] == [[1, 200]]
+
+
+def test_actual_first_summary_validation_error_is_not_replaced_by_later_native_error(tmp_path):
+    training, terminal, _ = _run(tmp_path)
+    summary_path = training / "distillation_profile" / UPDATES_FILE
+    summaries = _rows(summary_path)
+    summaries[0]["rkl"] = 999
+    _write_rows(summary_path, summaries)
+    native_path = training / UPDATES_FILE
+    native = _rows(native_path)
+    native[1].update(turn_sums_verified=False, unverified_turn_sums=["Later ACK2 auxiliary reason"])
+    _write_rows(native_path, native)
+    receipt, profile = _inspect(training, terminal)
+    assert "summary does not reproduce" in receipt["profile"]["error"]
+    assert "Later ACK2 auxiliary reason" not in receipt["profile"]["error"]
+    assert receipt["profile"]["verified_updates"] == 0 and profile is None
+
+
 @pytest.mark.parametrize("field,value", [
     ("original_tokens", 999), ("actual_turns", 999), ("expected_bank_tokens", 999),
     ("kl_before_tis", 99.0), ("nll_before_tis", 99.0), ("kl_estimator", "wrong-estimator"),
