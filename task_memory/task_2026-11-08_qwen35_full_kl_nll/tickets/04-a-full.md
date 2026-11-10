@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record selected D36 wait route in current status only; resource improvement/readback and fresh admission remain pending, with no third attempt or acceptance change. |
 | 2026-11-10 | Record both attempts failed before training; block further submission pending a placement/startup strategy decision, without changing ticket acceptance or CPU readiness. |
 | 2026-11-10 | Retain first formal A FAILED0 updates separately and record freshly admitted unchanged retry; startup/first-update and all runtime criteria remain incomplete. |
 | 2026-11-10 | Record actual A/full submission and worker-startup evidence; leave runtime acceptance incomplete. |
@@ -21,9 +22,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready均已满足；两次placement/native startup失败后，当前等待primary的证据支持placement/startup策略决定，再考虑任何未来fresh live准入/提交。不是等待本cell才能提供的02 GPU acceptance。
+**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready及D36选择均已满足；仍等primary当前resource/scheduling读数、placement条件改善的证据和fresh live准入，再启动新独立attempt。不是等待本cell才能提供的02 GPU acceptance，也不是再等路线选择。
 
-**Status:** blocked — **PLACEMENT_BLOCKED**. First A `exp-1110-014836-849060` Failed18:24:34Z and unchanged retry `exp-1110-022844-821769` Failed19:03:12Z, both before acquisition/training with0 updates. Retry rank3 (`student-eccbc87e`) never scheduled; rank0/rank1 scheduled18:28:46Z and rank2 at18:38:11Z. Native rank0 TimeoutError19:02:35.748Z preceded peer/SIGTERM failures; literal "two-node" error preserved, actual configured student nodes=4. The19:06:54Z API read confirms all five replicas terminal. No third attempt; primary paused submission and independently investigates SDK/authoritative docs pending an explicit strategy decision. No eventual solution, new approval, code/config/science change orD19 throughput result is claimed. Separate failures, three rank3 events andpartial RCA are in[the formal execution report](../test_report_2026-11-10_formal_runs.md); audited stop actor/time remain UNKNOWN. Runtime criteria below remain unchecked, attempts are not spliced andformal outputs remain protected.
+**Status:** blocked — **PLACEMENT_BLOCKED, D36 selected: keep36 and wait**. First A `exp-1110-014836-849060` Failed18:24:34Z and unchanged retry `exp-1110-022844-821769` Failed19:03:12Z, both before acquisition/training with0 updates. Retry rank3 (`student-eccbc87e`) never scheduled; native rank0 TimeoutError19:02:35.748Z preceded peer/SIGTERM failures. Literal "two-node" error is preserved, actual configured student nodes=4; the19:06:54Z read confirms all five replicas terminal. [D36](../requirements.md#placement-route-after-two-startup-failures--original-request--follow-up-question-and-answer-2026-11-10) selects the accepted4×8-H800 student+4-H800 teacher/codesign/non-preemptible configuration and waiting for improved conditions. Primary owns current read-only resource/scheduling results and fresh admission; neither present availability nor queue membership is established here. Waiting duration is unknown and no third attempt has been submitted. No gang-start,28GPU,timeout,credential or GPU-smoke alternative is selected; no speculative retry while the same shortage remains. Separate failures andpartial RCA remain in[historical formal evidence](../test_report_2026-11-10_formal_runs.md), maintained by primary; stop actor/time remain UNKNOWN. Runtime criteria below stay unchecked, attempts are not spliced andformal outputs remain protected.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

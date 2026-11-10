@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Apply selected D36 wait route to current records; preserve exact primary Q/A and all historical failures, append a resource-evidence checkpoint without new operational facts. |
 | 2026-11-10 | Complete placement-route investigation; retain verified SDK/platform-document limits and await the resource/startup choice before further submission. |
 | 2026-11-10 | Record second A FAILED0 updates and all-replica terminal evidence; pause at PLACEMENT_BLOCKED, retain partial RCA and append a bounded strategy-decision checkpoint. |
 | 2026-11-10 | Retain first A FAILED0 updates and partial RCA; synchronize unchanged fresh retry, intentional local observer cleanup and bounded failure-route checkpoint. |
@@ -41,6 +42,34 @@
 # Progress
 
 ## completed
+
+- D36 docs-only verification (system Python3.10.6): existing docchecker PASS with31 documents/6 tickets/148 links/48 anchors, zero errors and unchanged ticket DAG/51,200-per-cell/102,400-total/81-turn arithmetic. Scoped whitespace PASS. Local read-only assertions PASS: spec S1–S9 unchanged, all8 A/9 B acceptance rows unchanged and unchecked, pre-D36 raw history unchanged, exact selection/option description preserved. The initial/current requirements diff also retains the primary's full D36 text without rewriting it. Only seven owned docs are included; primary's moving formal report/new operational evidence and other working changes are excluded. No platform/network/SSH/GPU/delegation or code/config/test changes. Exact commands:
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md
+python3 -B - <<'PY'
+import subprocess
+from pathlib import Path
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
+def at_head(name):
+    return subprocess.check_output(['git', 'show', 'HEAD:' + (root / name).as_posix()], text=True)
+spec = (root / 'spec.md').read_text()
+assert spec.split('## S1.', 1)[1] == at_head('spec.md').split('## S1.', 1)[1]
+for name, expected in [('tickets/04-a-full.md', 8), ('tickets/05-b-full.md', 9)]:
+    rows = [line for line in (root / name).read_text().splitlines() if line.startswith('- [')]
+    assert rows == [line for line in at_head(name).splitlines() if line.startswith('- [')]
+    assert len(rows) == expected and all(line.startswith('- [ ]') for line in rows)
+requirements = (root / 'requirements.md').read_text()
+assert requirements.split('## Interview decisions', 1)[1].split('\n### Placement route after two startup failures', 1)[0] == at_head('requirements.md').split('## Interview decisions', 1)[1]
+d36 = requirements.split('### Placement route after two startup failures', 1)[1]
+assert 'User selected **“保持36卡等待 (Recommended)”**, with the option description:' in d36
+assert '> 保留已验收配置，重新检查当前资源条件，条件改善后再启动独立 attempt；等待时间不确定。' in d36
+print('PASS: spec S1-S9 unchanged; all 8 A/9 B acceptance rows unchanged and unchecked; pre-D36 raw history unchanged; exact selection/description preserved')
+PY
+```
+
+- D36 route selection recorded: the primary's re-asked question, exact answer **“保持36卡等待 (Recommended)”** and option description remain unchanged in [requirements D36](requirements.md#placement-route-after-two-startup-failures--original-request--follow-up-question-and-answer-2026-11-10). Selection is complete, not resource admission or runtime acceptance. Keep the accepted36-H800/codesign non-preemptible layout and configuration; no gang-start,28-GPU,timeout,worker-credential or GPU-smoke alternative is selected. This docs-only milestone does not stage operational evidence or read the moving formal report for new facts.
 
 - Second-failure documentation/evidence verification (system Python3.10.6): docchecker PASS with31 documents/6 tickets/139 links/40 anchors,zero errors,unchanged01→02→03→04→05→06 DAG and51,200/cell/102,400 total/81-turn arithmetic. Local parse/identity assertions PASS for exactlyfive new approved JSONs: same retry job/UID, transitional Running/RJobStopping distinct from final Failed19:03:12Z,all five terminal replicas,rank3 unscheduled andother scheduling times,literal error/four-node config/native time,3 events andRCA6/8/zero DeepScan/audit UNKNOWN. Scoped whitespace PASS. Seven-owned-doc/five-selected-JSON scope only; no JSON changed,code/config/test implementation modified,platform/network/GPU call ornew report. Exact commands:
 
@@ -341,9 +370,9 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Current frontier: **PLACEMENT_BLOCKED**. Both A attempts areterminal Failed before acquisition/training with0 updates each; the second Failed19:03:12Z andall five replicas were confirmed terminal at19:06:54Z. Primary haspaused submission: no third attempt, selected placement/startup strategy or new approval isrecorded. Historical admission/Starting snapshots are not current native execution orsuccessful ACK evidence. See[the formal report's current route](test_report_2026-11-10_formal_runs.md#current-route--placement_blocked).
+- Current frontier: **PLACEMENT_BLOCKED, D36 selected: retain36-H800 and wait for improved placement**. Both previous A attempts remain terminal0 updates; no third A job has been submitted. Primary rechecks current resource/scheduling conditions and owns timestamped readback, improvement assessment and operational evidence. Results are not supplied by this documentation slice: waiting duration is unknown and no queue membership, current availability or atomic placement is established. A new independent attempt requires evidence of better placement conditions plus fresh admission, with the accepted configuration unchanged. Historical admission/Starting snapshots are not current worker/engine/ACK proof; past evidence remains in[the formal report](test_report_2026-11-10_formal_runs.md#current-route--placement_blocked), which primary maintains.
 
-- Primary completed the native SDK investigation (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated Lark document reads. Findings and options are in [the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits). No proven atomic-placement switch is available from these checks; gang-start has a known cross-task ConfigMap issue. Next action is the explicit resource/startup choice. No third submission, timeout change or topology change has occurred.
+- Historical assessment before D36: primary completed the native SDK investigation (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated Lark document reads; prior findings/options remain in [the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits). Those checks did not establish a working atomic-placement switch and recorded the gang-start ConfigMap interaction. The previously pending route choice is now resolved by D36, not selection of gang-start or another configuration. Primary's current resource inspection and separate read-only SDK API lookup proceed independently; this slice does not duplicate them or read their moving report for new facts.
 - Failed-attempt launcher/log/observer identities remain historical evidence inthe same report; their current local process state isnot independently verified here. No observer notification substitutes for ACK/D16 orproves a GPU stop. T02/T03 CPU andconfig readiness remain unchanged; no third job isclaimed. Stop-audit UNKNOWN andall protected formal outputs remain explicit, without result splicing orsmoke cleanup.
 
 -02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
@@ -374,7 +403,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Primary/04: obtain and record the pending resource/startup decision using the completed SDK/platform-document assessment. Submissions remain paused. Keep the 36-GPU layout while waiting, validate native gang-start before applying it, or explicitly authorize a smaller topology with new throughput acceptance; none is selected yet. Partial stop-audit gaps remain open in the existing formal report.
+1. Primary/04: follow selected D36. Record current resource/scheduling readback and whether there is evidence of a better placement opportunity for the accepted36-H800/codesign non-preemptible layout. If the shortage persists, continue waiting; if it improves and fresh admission passes, freeze a new independent identity and launch unchanged configuration. No third job/queue membership/current availability is established here; no gang-start,28-GPU,timeout,credential or GPU-smoke alternative is selected. Waiting duration is unknown. Primary owns the moving operational report/evidence; stop-audit UNKNOWN stays open.
 2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
 3. Primary/05: after A's actual first ACK and completed inspection, perform fresh B resource admission and run concurrently with continuing A if resources allow. Do not wait for A200 or require profile PASS.04/05 each need their own200 actual successful ACKs and separate complete/incomplete paired-profile disposition;06 follows terminal evidence.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
@@ -709,7 +738,7 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 2. 当前retry仅Starting/placement；新launcher/soft observer不证明actual GPU、全部engine或ACK。一次fresh提交后若再placement失败，重新评估路线。
 3. 6 RCA queries成功、2审计ReadTimeout；stop actor/time UNKNOWN、RCA未全关闭。Collector exit1/旧observer intentional SIGTERM不等于新GPU failure或GPU stop；formal outputs全保留。
 
-## Second formal A failure checkpoint — profile-d35-records-20261110
+## Historical second formal A failure checkpoint — before D36 selection
 
 ## 1. 规划完成情况
 
@@ -762,3 +791,57 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1. 两次formal A在training前FAILED，各0 updates；第二次缺rank3，19:06:54Z证实五replica全terminal。Literal "two-node"不改写，actual student nodes=4。
 2. 当前PLACEMENT_BLOCKED，第三次提交暂停；next是证据支持的placement/startup策略决定，不是GPU smoke、再次unchanged提交或科学/吞吐变更。
 3. RCA6成功/2审计ReadTimeout10s/0DeepScan，stop actor/time UNKNOWN；collector exit1不是新GPU失败。CPU readiness不变，D16/B/200-update仍pending，formal evidence受保护。
+
+## D36 selected-route checkpoint — profile-d35-records-20261110
+
+## 1. 规划完成情况
+
+**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 4｜TODO 0
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 输入 | PASS | D34审计/parity和科学输入不变。 |
+| 02 逐turn测量 | BLOCKED | CPU已接受；GPU仍缺A实际首ACK/D16，不重开CPU工作。 |
+| 03 Profile接入 | PASS | 15186817和201项CPU证据保持接受。 |
+| 04 A/full | BLOCKED | D36已选择保持36卡等待；当前resource读数/改善证据/fresh准入待primary记录，无第三job。 |
+| 05 B/full | BLOCKED | 仍等A实际首ACK、完成inspection和fresh资源，不等A200/profile PASS。 |
+| 06 终态报告 | BLOCKED | 两cell native/profile完整验收未到；两次FAILED0各自保留。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，路线选择已完成；执行仍因placement条件阻塞。
+**检测窗口：** 第二次A失败checkpoint/已完成SDK评估至D36原始选择及本次同步｜**当前前沿：**04保持36-H800等待、primary当前只读资源检查；文档同步与独立SDK API lookup并行。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 仅同步七份既有文档并运行原docchecker，不改工具/test或加GPU smoke。 |
+| D2 细节反复重试 | CLEAR | 两次失败后未提交第三次；D36要求改善证据后fresh准入，不继续同短缺下投机重试。 |
+| D3 支线问题修补 | CLEAR | 不修代码/config、历史artifact或moving运行报告，只更新04当前路线。 |
+| D4 可并行任务停滞 | CLEAR | 本slice与primary资源检查/独立SDK lookup不互等；B缺真实首ACK，非虚假串行。 |
+| D5 超范围镀金 | CLEAR | 不增gang-start、28GPU、timeout、凭据或验收功能；CPU acceptance不重开。 |
+| D6 分析空转 | CLEAR | 已有具体D36选择，下一产物是资源读数/改善判定；不重复SDK/Lark调查。 |
+| D7 路线违背 | CLEAR | 保留36-H800/codesign、D16/S7/B和science；等待不写成队列、资源就绪或launch。 |
+
+**文档检查：** S1依赖CLEAR（04资源条件真实，02不反向阻塞A，B首ACK/inspection不变）；S2 owner CLEAR（04/primary拥有readback/改善判断/fresh准入，moving报告归primary）；S3标准CLEAR（quota/prediction不要求或证明atomic placement，启动后另证实worker/engine/ACK）；S4边界CLEAR（D36等待时长未知，非完成期限；完成依据为改善记录、fresh准入及独立attempt receipt，native/profile验收不变）；S5 FOUND→CORRECTED（所属文档的“选择未定/再等策略决定”已按原始D36同步，历史snapshot明确保留）；S6 slice CLEAR（仅current docs，04/05 acceptance和spec科学内容不变）。平台新事实/primary moving report未检查，不推定其同步结果。
+**归因：** 无D模式HIT；S5为后续明确用户选择的状态同步。
+
+## 3. 纠正建议
+
+**分支：** B：先落实S5文档同步，已执行；D36已有明确授权，不新增决策或改科学/验收。
+
+**文档更新（先执行）：**
+1. Requirements仅current phase，保留primary新增的原始Q/A及D36逐字不变；plan/progress/summary/spec S0改为已选等待路线、资源尚未证明。（可直接执行，已完成）
+2. Tickets04/05仅current status/blocker context；全部原验收条目不变。Primary owns formal_runs报告/新operational evidence，本slice不改或获取其新事实。（可直接执行，已完成）
+
+**需停止的偏离行为：** 无；继续避免同短缺下投机重投，不把其他候选方案当已选择。
+
+**接下去的路线：**
+1. Primary/04：只读检查当前资源/调度条件，记录带时间的读数和相对先前短缺的改善判断 → 完成标志：可追溯结果已由primary落档；若无改善，继续D36等待，不提交。
+2. 并行：本次七份docs提交 ‖ primary当前只读检查/既有独立SDK lookup。只有改善机会证据加fresh admission后，才按原授权启动新独立36-H800 attempt；实际GPU/engine/ACK证据在启动后验证，不设置atomic-placement硬前置。
+3. A实际首ACK后完成D16/02 GPU检查，随后05 fresh资源准入并按原S8并行；两cell各自200 successful updates/paired profile后06。辅助profile失败仍soft，不加A200/PASS/额外approval门槛。
+
+## 4. 最值得关注的 3 点
+
+1. D36选择已完成；等待时长和当前资源可用性未知，无第三job/队列成员声明。
+2. 下一submission必须有改善机会证据与fresh准入，保持accepted36-H800/codesign；不选gang-start、28GPU、timeout、worker凭据或GPU smoke替代。
+3. 两次FAILED0和protected cloud证据独立保留；CPU-ready不变，D16/B/200-update仍未验收，stop-audit UNKNOWN不被本次选择关闭。

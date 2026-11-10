@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Add D36 A-wait context to current status only; B still requires actual A first ACK/inspection and fresh resources, with no changed acceptance or extra approval gate. |
 | 2026-11-10 | Record satisfied CPU/configuration prerequisites; B still waits for A's actual first ACK, completed inspection and fresh resources, not A completion or auxiliary PASS. |
 | 2026-11-10 | Record02 CPU readiness and B TP4/EP1 feasibility limits;retain authorized concurrent admission after A first ACK/inspection,not A completion or new approval. |
 | 2026-11-10 | Record merge55fba827 complete; preserve02/03 readiness,A first formal-update inspection and B native-runtime limitations. |
@@ -20,7 +21,7 @@
 
 **Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready均已满足；仍等 04 实际完成第一个successful native update / ACK，检查已完成并记录，且fresh资源准入满足。不要求A200updates完成或辅助profile verdict为PASS。
 
-**Status:** blocked on A's first actual formal successful ACK, completed inspection and fresh resource admission —01, D35 merge,02 CPU-ready `6129aefe` and03 integration `15186817` are accepted. Explicit formal profile configuration `ec002ea8` and all four final A/B dry-runs PASS ([formal configuration report](../test_report_2026-11-10_formal_configuration.md)); four-H800 TP4/EP1 is feasible, not native load/memory/throughput verified. Configured `bank_uses=50` preserves full mode's200 distinct banks once each. B may run concurrently with continuing A after its firstACK/inspection and fresh admission underS8; no A200-update completion, auxiliary profile PASS or new user approval gate is added. No formal B attempt has launched.
+**Status:** blocked on A's first actual formal successful ACK, completed inspection and fresh resource admission —01, D35 merge,02 CPU-ready `6129aefe` and03 integration `15186817` are accepted. [D36](../requirements.md#placement-route-after-two-startup-failures--original-request--follow-up-question-and-answer-2026-11-10) now selects keeping A's accepted36-H800 layout and waiting for improved placement; both previous A attempts remain terminal0 updates, with no third job or current availability established here. That selected route is not A's actual ACK/inspection and does not satisfy B's blockers. Explicit formal profile configuration `ec002ea8` and all four final A/B dry-runs PASS ([formal configuration report](../test_report_2026-11-10_formal_configuration.md)); four-H800 TP4/EP1 is feasible, not native load/memory/throughput verified. Configured `bank_uses=50` preserves full mode's200 distinct banks once each. B may run concurrently with continuing A after its firstACK/inspection and fresh admission underS8; no A200-update completion, auxiliary profile PASS or new user approval gate is added. No formal B attempt has launched.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
