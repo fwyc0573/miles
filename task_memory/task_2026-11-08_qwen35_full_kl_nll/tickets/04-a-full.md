@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record actual H200 first-bank/generation progress and open offline review repairs; retain real ACK/D16 and every final checkbox as incomplete. |
 | 2026-11-10 | Update current context to D37 H200 preparation plus parallel inspector implementation; retain all unchecked criteria and historical H800 evidence. |
 | 2026-11-10 | Record selected D36 wait route in current status only; resource improvement/readback and fresh admission remain pending, with no third attempt or acceptance change. |
 | 2026-11-10 | Record both attempts failed before training; block further submission pending a placement/startup strategy decision, without changing ticket acceptance or CPU readiness. |
@@ -23,9 +24,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready和D37 H200授权已满足；H200配置`d822174c`已提交，primary owns live资源准入/提交和native验证。新inspector CPU实现/join仍待agent结果，但不把本次docs同步或02 GPU验收变成A启动前置。
+**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready、D37/config review/admission/submission均已满足。当前native A已首bank采集/generation，仍需真实firstACK/D16；offline inspector/reporter review repairs并行，不作为native执行hardgate。
 
-**Status:** in progress — **D37 H200_PREPARATION + PARALLEL_CPU**. [D37](../requirements.md#h200-switch--original-request-2026-11-10)replaces current H800 waiting. Separate committed`formal_h200_config.json`/`h200_gpu_policy.json`use18 H200/step_main per cell (student2×8+teacher2), train1 node/TP2 and16 rollout GPUs/eight TP2 engines split4+4. Personal non-preemptible ceiling32;05:50:32Z2+18=20 is preliminary budget evidence only. Actual submission/status, allocation and native first ACK are owned by[primary's live report](../test_report_2026-11-10_formal_runs.md), not inferred here. Inspector implementation and H200 configuration review run independently, with readiness/results unfinished. Old H80036 capacity/frozen formal configuration and bothFAILED0 attempts remain historical/protected; stop-audit UNKNOWN stays open. D34,32×8/full/200/231-in1800s/600s sync and D16/S7 remain unchanged; no newGPU smoke. **Current resource context overrides the historical D33/H800 wording in the existing unchecked deployment row below; this edit leaves every checkbox/acceptance criterion unchanged.**
+**Status:** TODO / native first bank in progress. A`exp-1110-140032-491115`submitted14:00:32HKT with18 H200/step_main/nonpreemptible, all3 replicas assigned, actual18 GPUs/teacher ready/Ray2 nodes16GPU verified. The06:17:12Z[startup context](../evidence/formal-H200-A-startup-context-20261110.json)records bank0 start14:14:56.775HKT/1794291296.775030 and256 candidates; generation succeeded, and server-ready/HTTP200/generation follow the freeze_gc trace rather than a blocking native failure. No firstACK/D16/GPU-profile acceptance yet verified. Initial inspector57/reporter26 tests and CLI4 PASS are delivered; offline review deduplicates4 functional+1 local naming nit, all open/fixing ([review](../review.md#offline-inspectorreport-phase-review--2026-11-10)). Repairs/regression/re-review do not stop healthy native A or replace its acceptance. Primary owns watchers/platform/exact commands in[the formal report](../test_report_2026-11-10_formal_runs.md). **D37/S8 overrides historical D33/H800 deployment wording below; all final checkboxes/science remain unchanged and incomplete.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

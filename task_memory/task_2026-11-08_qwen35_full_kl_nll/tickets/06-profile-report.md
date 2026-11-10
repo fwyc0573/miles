@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record delivered CPU join plus open review repairs/regression/re-review; keep actual A/B report data and all four final criteria incomplete. |
 | 2026-11-10 | Separate independent CPU report preparation from actual A/B measurements and final acceptance, following the user's parallel-execution instruction. |
 | 2026-11-09 | Require honest complete/incomplete reporting, verified paired prefixes and non-causal interpretation of normalized gaps. |
 | 2026-11-08 | Draft the final report ticket. |
@@ -12,9 +13,9 @@
 
 **What to build:** 根据保留的文件，按 [spec S9](../spec.md#s9-验证与交付) 生成两个 cell 的报告，并写 `summary.md`。
 
-**Blocked by:** CPU 报告计算与离线核验准备仅依赖 03 CPU-ready（已满足），现在与 04 资源等待并行。正式数据填充与最终验收仍依赖 04、05 的终态证据及完成检查；failed / incomplete 结果可以归档，不代表完整cell验收通过。
+**Blocked by:** CPU dependency 03 已满足且initial CLI join PASS；offline inspector/reporter review findings open/fixing，需完成后的joined regression/re-review。正式数据/最终验收仍依赖 04、05 的真实native/terminal/profile证据；保留CPU准备与最终数据split，不能用fixtures或缺失记录填造结果。
 
-**Status:** in-progress — CPU implementation proceeds in parallel; actual A/B measurements and final acceptance remain blocked on04/05.
+**Status:** TODO — initial CPU join PASS; review repairs and final native report TODO. Inspector`a76fc527`57 tests/reporter`e6956e3c`26 tests/CLI4 PASS remain in[the actual proof report](../test_report_2026-11-10_offline_report_integration.md)and`evidence/offline-report-join-20261110.json`: hand4-update baseline0.59375, synthetic200 complete, synthetic native200/partial profile, retained first H800 Failed with actual count=null. Fixed six-path review`d822174c..a76fc527`found4 functional+1 naming nit, all open/fixing ([review](../review.md#offline-inspectorreport-phase-review--2026-11-10)). Inspector/reporter agents repair in parallel with native A, followed by joined regression/re-review; no fix result is assumed. A has actual18H200/Ray/first-bank generation, not firstACK/GPU-profile acceptance. Four final checkboxes remain unchanged and unchecked; CPU fixtures are not formal data.
 
 CPU 准备范围：复用已有 `DistillationProfile` 查询和重建语义，实现S9统计及报告输出；与04/05的只读native/profile核验入口组合检查。合成记录只验证手算值和完整/不完整处置，已保留的失败attempt只验证真实失败的归档路径。保留原始文件，不修改训练路径，不引入新的GPU smoke或辅助硬门。以下最终验收项需真实A/B数据，CPU通过后仍不勾选。
 

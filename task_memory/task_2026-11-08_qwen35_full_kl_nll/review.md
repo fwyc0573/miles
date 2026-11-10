@@ -2,10 +2,38 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Transcribe the fixed six-path offline review: Standards1 material+1 nit, Spec4, deduplicated4 functional+1 nit; parallel repairs/regression/re-review remain open. |
 | 2026-11-10 | Record Ticket03 fixed-diff Standards0/Spec0 review and explicit final profile configuration; A formal runtime acceptance remains pending. |
 | 2026-11-10 | Record separate Standards and Spec phase reviews of Ticket02 commit6129aefe; neither axis has findings, GPU/profile acceptance remains pending. |
 | 2026-11-09 | Complete fixed-diff D33/D34 preparation review across parent and isolated H800 worktrees; no new findings, runtime/integration gates retained. |
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
+
+# Offline inspector/report phase review — 2026-11-10
+
+Scope: fixed`git diff d822174c..a76fc527`, exactly six changed paths verified from Git. Primary coordinated separate Standards/Spec reviews; this documentation agent transcribes their supplied findings, not an independent code review/test rerun. Retained fixed diff: `evidence/offline-review-20261110/offline.diff`.
+
+```text
+tests/manual/agent_opd/inspect_distillation_run.py
+tests/manual/agent_opd/distillation_report.py
+tests/fast/test_distillation_run_inspection.py
+tests/fast/test_distillation_report.py
+test_report_2026-11-10_offline_inspection.md
+test_report_2026-11-10_report_computation.md
+```
+
+**Results:** Standards1 material finding (tempfile, P2)+1 local naming nit; Spec4 functional findings. Deduplicate the shared tempfile finding: **4 functional+1 nit**, not5 functional findings. Aggregate tempfile priority isP1; the other functional findings areP2. Initial57/26 tests andCLI4 PASS remain historical fixture results, not coverage of these missing cases or repair verification.
+
+| Finding | Priority | Required correction | State |
+| --- | --- | --- | --- |
+| Hardcoded tempfile directory | P1 aggregate; StandardsP2 | Use the supported temporary-storage selection rather than a literal directory. | OPEN / fixing |
+| Adjacent known native auxiliary failure is lost | P2 | Preserve and report the known neighboring native failure/evidence instead of dropping it. | OPEN / fixing |
+| Profile reported COMPLETE despite extra unverified native tail | P2 | Keep the verified prefix and mark the extra native range unverified/incomplete; do not promote profile completion. | OPEN / fixing |
+| Milestone selection uses ACK count instead of actual update IDs | P2 | Select by actual native update IDs; absent/unverified milestones remain explicit. | OPEN / fixing |
+| Local group/groups naming | Naming nit | Use the actual domain term for local identifiers; native serialized `group_id` stays unchanged. | OPEN / fixing |
+
+Primary has inspector and reporter agents repairing in parallel with native A. No finding is closed here: await their completion evidence, then joined regression and fixed-diff re-review. Exact agent receipts and per-item repair results are not supplied yet. No runtime/config/evidence change, GPU smoke, platform action or auxiliary native hard gate is authorized by this record. A's actual firstACK/D16 and final200-update/report acceptance remain separate.
+
+Initial CLI evidence uses the actual paths `test_report_2026-11-10_offline_report_integration.md` and `evidence/offline-report-join-20261110.json`; fixtures do not provide real A/B metrics. Native generation/first-bank progress can continue while these offline defects are repaired.
 
 # Ticket03 phase review — 2026-11-10
 
