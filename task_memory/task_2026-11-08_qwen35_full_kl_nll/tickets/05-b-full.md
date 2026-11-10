@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept common first native cycle from corrected A; B remains blocked only by fresh18-H200 resources within32, without A200/profile-PASS gate, stop-A authority or checkbox change. |
 | 2026-11-10 | Record implemented/reviewed correction and new A execution; B still waits for common native verification/fresh resources, not a new logical A200/profile-PASS gate. |
 | 2026-11-10 | Record controlled D38 evidence and the common native correction in progress; retain B's completed A-inspection edge and remaining resource/runtime work. |
 | 2026-11-10 | Accept A firstACK/inspection prerequisite; block B on the common native host-memory fault and fresh admission, not A200/profile PASS. |
@@ -24,9 +25,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection由D16满足。Common correction已implemented/reviewed，但native verification及fresh18-H200资源≤32未完成；不是新A200/profile-PASS逻辑门槛。
+**Blocked by:** 01、02、03 已接受；04 的firstA ACK/inspection由D16满足，common native cycle也已核验。唯一剩余提交blocker是fresh18-H200资源准入≤32（A18+B18>32）；不是A200/profile-PASS逻辑门槛，也不授权停A腾卡。
 
-**Status:** BLOCKED — common fix verification and fresh admission; B not started. Correction`edd3be00`/`d2b3af8c`is committed with[immutable reviews No findings](../review.md#optimizer-initialization-phase-review--2026-11-10). Independent corrected A`exp-1110-165312-132926`is[worker-ready/executing](../evidence/formal-H200-A-r2-worker-startup-20261110.json), not the oldFailed1/200 result; no first/second ACK for this new attempt accepted yet. Existing[A-firstACK/inspection D16](../test_report_2026-11-10_d16_first_update.md)is satisfied, not reset or spliced. Common real train/sleep/restore/weight-update/next-train verification and fresh18H200 quota within32 remain; A18+B18cannot hold full allocation together, a resource condition not A200/profile-PASS gate. D38 controlled PASS is not old full-model owner/native repair acceptance. D37/S8 remains the resource authority over historical D33/H800 wording; all B native/profile/200 criteria and checkbox states stay unchanged. Primary owns observations, no additionalGPU probe/config/timeouts/HF/eval change.
+**Status:** BLOCKED — fresh resources only; B not started. Corrected A`exp-1110-165312-132926`has[native IDs1/2](../evidence/formal-H200-A-r2-second-update-notification-20261110.json)and[accepted first offload/restore/next-train cycle](../evidence/formal-H200-A-r2-first-two-lifecycle-20261110.json), clearing common-cycle verification. Existing[A-firstACK/inspection D16](../test_report_2026-11-10_d16_first_update.md)remains satisfied, not reset/spliced. Fresh18 H200 within32 remains; A18+B18>32 forbids simultaneous full allocations, not a logical A200/profile-PASS condition or authority to stop healthy A. First-two detailed profile/canonical/rebuild is pending independently and does not control healthy training/B logical admission. Nativecycle does not prove200 stability, old full-model owner, backup bytes or cgroup peak. D37/S8 overrides historical D33/H800 wording; all B native/profile/200 criteria/checkboxes stay unchanged. Primary owns operations/target10 observer, no code/config/worker-timeout/HF/eval/additional probe changes.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
