@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Add D37 H200 A/B configuration checks and18-GPU resource preparation; retain the historical H800 configuration and first attempts. |
 | 2026-11-10 | Enable the verified Ticket03 profile path and confirm both final A/B launch command/config outputs; preserve native first-update acceptance. |
 | 2026-11-10 | Correct the inherited formal bank_uses validation field after native-contract RED/GREEN; confirm full still uses200 distinct banks once each and record B teacher feasibility limits. |
 | 2026-11-10 | Prepare the formal A/B configuration and verify dry-run resource and native argument output; profile integration remains pending. |
@@ -76,3 +77,20 @@ env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/y
 ```
 
 Observed: **16 passed in2.63s**,18 existing dependency/deprecation warnings. Assertions cover request cancellation/draining, repeated503 sharing one deadline, failure or timeout followed by a successful sample, late and invalid slot accounting, teacher success/error/cancelled terminal receipts, and sink failure isolation. Network/GPU calls are mocked; real asyncio deadlines, scheduling and lifecycle functions execute. This verifies preparation only. Formal failure counts and post-run sample RCA still depend on the actual jobs.
+
+## D37 H200 configuration preparation
+
+Current candidate: `formal_h200_config.json`; policy: `h200_gpu_policy.json`. The original H800 files remain unchanged for the two failed attempts. D37 authorizes H200 execution, and independent offline inspection/report preparation proceeds in parallel.
+
+Each cell requests18 H200 in `step_main`: two8-GPU student/rollout replicas plus one2-GPU teacher. The trainer stays single-node8 GPUs, TP2/DP4. Rollout remains eight TP2 engines (four colocated, four dedicated), using the existing `../task_2026-11-08_qwen35_swe_full_r256/deepswe_capacity_expanded_sglang.yaml`. This allocation is taken from the existing H200 expanded configuration; it does not infer readiness from the hardware label alone. The merged session-coverage/scoring-lifetime/node-local-network fixes remain enabled. A's27B and B's35B-A3B teachers use the existing TP2 path; the latter has historical H200100-update evidence referenced above. Current32×8/profile native results are still pending.
+
+The H200 policy preserves non-preemptible execution and enforces the applicable32-GPU ceiling through the existing personal inventory mechanism. The read at2026-11-10T05:50:32.887429Z found2 committed H200, so a proposed18-GPU A was within policy (20≤32); see `evidence/formal-H200-personal-preflight-20261110.json`. This is not a submission or a physical-placement guarantee. Submission rechecks inventory under the existing lock. Two18-GPU cells cannot run concurrently under32; B's ordinary fresh-resource check therefore waits for sufficient release, even after A's first-update inspection has completed. There is no new logical dependency on A200 or on a profile PASS verdict.
+
+Four dry-run commands used the same Python3.12.13 environment and command forms above, replacing the config with `formal_h200_config.json`, for each pair A/B and each submission/native entry. Raw stdout/stderr and the exact command arrays are retained under `/data/ycfeng/tmp/agent-opd-image/formal-h200-preflight-20261110/`; `summary.json` records all commands and assertions.
+
+- PASS4/4 exits0; submission output is `submitted=false`,18 GPUs, student2×8 and teacher1×2.
+- PASS: each of13 checked native flags occurs exactly once, including TP2, rollout16/engine2, context/seq131072, prompt114688, response16384, full,200 updates, bank_uses50 and profile10/10/8; profile-enabled occurs once. Saving/export/evaluation hooks remain absent.
+- PASS: parsed `inputs`, `training`, `profile`, `tis`, `checkpoint`, image, mounts, three length budgets, request timeout and per-pair startup timeout are equal to the frozen H800 configuration. Model sources are unchanged. Full remains200 distinct banks with one successful use each.
+- The existing16-case lifecycle evidence remains applicable: no lifecycle, retry, accounting, source, profile or auxiliary-failure handling code changed for this hardware switch. Native actor/engine startup and per-update measurements remain required; no additionalGPU smoke is introduced.
+
+At128K/TP2 the single bf16 logits tensor is30.3125GiB/rank rather than the H800 TP4 value15.15625GiB. This is tensor arithmetic, not current peak-memory acceptance. H200 placement, initial weight sync, acquisition and the first actual profile update must be observed in the formal run. No new runtime behavior or timeout adjustment is included in this candidate.
