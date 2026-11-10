@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Resolve the Standards naming Nit with a local `param_group` rename; verify AST equivalence under that rename. |
 | 2026-11-10 | Implement early native optimizer-state initialization and record CPU ordering/restoration regressions under D38. |
 
 # Native optimizer-state initialization
@@ -69,6 +70,10 @@ A first expanded run also selected `test_optimizer_state_reset.py` and exited2 a
 `git diff --check`: **PASS**, no output. Each of the four changed Python files was parsed with `ast.parse` and compiled with `compile(source, path, "exec")`: **PASS**. Both focused test files have no lines above119 characters. Commands used the system `python3 -B` and in-memory compilation, without writing bytecode.
 
 `ruff`, `black` and `isort` are unavailable on PATH and in the CPU environment; no package installation or lint claim was made. A separate pre-test availability attempt to import Megatron with `/data/ycfeng/envs/verl-agent-opd-megatron-sglang/bin/python -B` under `timeout 60s` exited124 without output. No repeated import diagnosis was attempted.
+
+### Standards naming correction
+
+The Standards reviewer identified one manual naming Nit in the new test callback: local `group` conflicted with `.agents/rules/pool-cell-worker-names.md`. It is now `param_group`; the upstream `optimizer.param_groups` API is retained. A system-Python3.10.6 AST comparison against `git show edd3be00:tests/fast/backends/megatron_utils/test_optimizer_state_initialization.py`, transforming only `ast.Name.id` from `group` to `param_group`, produced an identical tree. In-memory compilation and scoped `git diff --check` passed. This cosmetic follow-up does not claim another CPU or native run.
 
 ## Remaining limits and handoff
 

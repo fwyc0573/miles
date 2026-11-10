@@ -39,8 +39,8 @@ def _native_adam_wrapper(*, events, model):
         assert optimizer is inner and optimizer_config is config
         assert model.tag == "actor" and model.cache_cleared
         events.append("initialize")
-        for group in optimizer.param_groups:
-            for parameter in group["params"]:
+        for param_group in optimizer.param_groups:
+            for parameter in param_group["params"]:
                 if not optimizer.state[parameter]:
                     # The external callback owns state allocation; Miles must not replace it.
                     optimizer.state[parameter] = {
