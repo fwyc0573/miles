@@ -1,0 +1,132 @@
+{
+  "scope": "Exact SDK creator/current CR/historical replica and image verification; not numerical acceptance",
+  "records": [
+    {
+      "pair": "A",
+      "job": "exp-1111-053300-533764",
+      "creator": "i-fengyicheng",
+      "retained_terminal": {
+        "job": "exp-1111-053300-533764",
+        "uid": "cc60f417-c071-4e43-ad96-5ab2dade47c9",
+        "creator": "i-fengyicheng",
+        "status": {
+          "phase": "Succeeded",
+          "reason": "RJobSucceeded",
+          "message": "RJob succeeded",
+          "taskStatuses": {
+            "probe": {
+              "succeeded": 1,
+              "taskStage": "stepmind-task-stage-1"
+            }
+          },
+          "finishTime": "2026-11-10T22:04:57Z",
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "native_execution_succeeded": true
+      },
+      "current_status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "probe": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-10T22:04:57Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replicas": [
+        {
+          "name": "exp-1111-053300-533764-cfcd2084",
+          "task": "probe",
+          "phase": "Succeeded",
+          "nodeName": "gpu-h800-0039.host.platform.shaipower.com",
+          "hostIP": "10.191.6.43",
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "probe",
+              "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "restartCount": 0,
+              "state": {
+                "terminated": {
+                  "exitCode": 0,
+                  "reason": "Completed",
+                  "startedAt": "2026-11-10T21:56:15Z",
+                  "finishedAt": "2026-11-10T22:04:26Z",
+                  "containerID": "containerd://9d655d95995c3b82f981af2ccdbfd1eae95fd61b493706bfec22e058d7f0b791"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-053259-677817",
+      "creator": "i-fengyicheng",
+      "retained_terminal": {
+        "job": "exp-1111-053259-677817",
+        "uid": "f63613a2-2cdc-4872-b659-c9dc2f404a69",
+        "creator": "i-fengyicheng",
+        "status": {
+          "phase": "Succeeded",
+          "reason": "RJobSucceeded",
+          "message": "RJob succeeded",
+          "taskStatuses": {
+            "probe": {
+              "succeeded": 1,
+              "taskStage": "stepmind-task-stage-1"
+            }
+          },
+          "finishTime": "2026-11-10T22:04:25Z",
+          "taskStage": "stepmind-task-stage-1"
+        },
+        "native_execution_succeeded": true
+      },
+      "current_status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "probe": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-10T22:04:25Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replicas": [
+        {
+          "name": "exp-1111-053259-677817-cfcd2084",
+          "task": "probe",
+          "phase": "Succeeded",
+          "nodeName": "gpu-h800-0415.host.platform.shaipower.com",
+          "hostIP": "10.191.4.32",
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "probe",
+              "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "restartCount": 0,
+              "state": {
+                "terminated": {
+                  "exitCode": 0,
+                  "reason": "Completed",
+                  "startedAt": "2026-11-10T21:56:18Z",
+                  "finishedAt": "2026-11-10T22:03:40Z",
+                  "containerID": "containerd://656ea670808ba8a5dc6fdabaef78a32ab82189a21d3e4277f0a2d70ff0285922"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "iteration_note": "First read-only collector used nonexistent admission image field and raised KeyError before writing; use formal_config as the existing image owner. No jobs submitted/stopped or native results affected."
+}

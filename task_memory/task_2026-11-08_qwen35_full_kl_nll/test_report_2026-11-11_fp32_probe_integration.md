@@ -5,6 +5,7 @@
 | 2026-11-11 | Add the isolated FP32 probe configuration and CPU integration evidence; retain independent same-run cold references and native verification limits. |
 | 2026-11-11 | Primary completed controller forwarding,202 joined checks and both real controller dry-runs; native submission remains pending. |
 | 2026-11-11 | Both H800 probes submitted and await placement; preserve original admission receipts and correct controller-relative config metadata with a verified one-line follow-up. |
+| 2026-11-11 | Verify actual deployed source/config and native terminals; cold parity passes, warm acceptance fails, and the isolated operator's44 CUDA checks pass separately. |
 
 # FP32 teacher-scoring probe integration — CPU only
 
@@ -134,7 +135,7 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -142,22 +143,22 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 | 独立 cold 对照 | PASS | A/B 各56 requests/32 flushes，身份和独立模式匹配。 |
 | 隔离配置 | PASS | 仅boolean和output_parent差异。 |
 | CPU验证与报告 | PASS | 55 focused/165 joined PASS、AST3.10与diff检查。 |
-| Native GPU验证 | TODO | A/B已提交且首次检查Pending；独立1卡operator验证已提交，尚无native结果。 |
+| Native GPU验证 | FAILED | A/B native执行Succeeded，cold14/14 exact但warm仅4/14 exact；独立operator44/44 CUDA PASS不替代模型验收。 |
 | Submit helper转发 | PASS | PRIMARY完成true variant路径转发及12个CPU检查。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** f992159c联合CPU验证至三项H800提交｜**当前前沿：** 真实H800部署、snapshot stores和概率验证；两条integration review均No findings。
+**检测窗口：** 三项H800提交至实际source/terminal及概率核对｜**当前前沿：** 真实snapshot/store/donor选路与canonical KV一致性；不重复同配置提交。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
 | D1 工具打磨 | CLEAR | cb386e74仅修复实际CLI receipt路径；119bb871仅验证既有FP32 stores验收。 |
 | D2 细节反复重试 | CLEAR | 路径错误先明确chdir原因，再做一次RED/GREEN；无native重复提交。 |
 | D3 支线问题修补 | CLEAR | 修复证据身份和native snapshot验证均服务D40前沿。 |
-| D4 可并行任务停滞 | CLEAR | 两组概率对照、1卡operator验证并行提交；records同步独立进行。 |
+| D4 可并行任务停滞 | CLEAR | 三项GPU执行均完成；RCA、operator报告、模型结果核对和records独立并行推进。 |
 | D5 超范围镀金 | CLEAR | 无新cache/barrier/interval策略；56/32及科学参数不变。 |
-| D6 分析空转 | CLEAR | 源码和集成均交付，下一证据由实际H800执行产生。 |
+| D6 分析空转 | CLEAR | 实际H800结果否定完整修复结论；下一步只采集能区分候选原因的live metadata。 |
 | D7 路线违背 | CLEAR | 全部新GPU请求H800/codesign；formal仍暂停，env1未提交。 |
 
 **文档检查：** 共享spec/tickets的S1–S6未发现本任务范围内缺陷；JSON历史格式歧义已单独交给PRIMARY。
@@ -167,10 +168,18 @@ The requested JSON history wording conflicts with the stricter exact-two-differe
 
 **分支：** A：spec/tickets合理，无需改动。
 **需停止的偏离行为：** 无。
-**接下去的路线：** A/B各4卡概率对照与1卡native operator验证并行等待执行；完成标志是实际source/hardware/terminal收据、FP32 stores及cold-reference概率结果，不从CPU或排队状态推断native验收。
+**接下去的路线：** 用既有server-info/internal-state回读接口，在全部请求结束后取得CPU metadata；先验证first4 fixtures×1 repetition的16-request循环能复现，再定位snapshot activation/store/donor或canonical KV一致性。无新GPU同步、内容读取、cache/dtype/interval或容差变化；formal04/05保持暂停。
 
 ## 4. 最值得关注的 3 点
 
-1. Variant路径已由PRIMARY接通，真实worker应用及GPU结果仍未验证。
+1. 真实worker source/config已验证，但模型warm验收FAIL；operator CUDA PASS不是完整修复。
 2. Warm-full不是cold oracle，两个cold模式及其request IDs独立保留。
 3. CPU PASS不证明CUDA dtype、buffer、donor、概率、历史根因或performance。
+
+## Actual native phase outcome
+
+PRIMARY verified A`exp-1111-053300-533764`/B`exp-1111-053259-677817`: each4H800, actual image165ff0be, expected local NFS mount, creator`i-fengyicheng`, Completed/exit0/restart0. Both applied exactly two source files; all six after hashes match the separate44-check operator. Actual variant config path/sha256 matches the corrected receipt; teacher argv matches R1 except its new worker distribution address. Evidence: `evidence/teacher-scoring-fp32-probe-20261111/{deployed-source-verification.json,terminal-replica-verification.json}`. A first read-only terminal collector incorrectly used a nonexistent admission `image` field; it failed before writing and was corrected to the existing `formal_config` owner. No jobs or native outputs were affected.
+
+Both pairs completed56 requests/32 flushes. Cold14/14 exact; warm full-vs-response exact4/14 with max absolute errors A0.24439287185668945/B0.43827223777770996. The independent-cold checks also fail and both repetitions reproduce. Raw `accepted=null` is not PASS. Full verification, defined-relative/zero-reference errors and matched timing are in `test_report_2026-11-11_fp32_teacher_scoring_results.md`.
+
+The source-preflight `cuda_semantics=UNVERIFIED` label is deliberately retained as source-only history. The separate actual operator CUDA PASS proves exact numerical equality for its finite tensors, not an independently measured bytewise comparison or the model's live varlen donor path. The warm numerical cause remains unresolved; no new semantic fix has been selected.

@@ -1,0 +1,205 @@
+{
+  "verdict_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/exp-1111-055011-398371/verdict.json",
+  "status": "PASS",
+  "cuda_semantics": "PASS",
+  "failed_checks": [],
+  "checks": 44,
+  "all_checks_passed": true,
+  "runtime": {
+    "python": "3.12.16",
+    "torch": "2.14.1+cu130",
+    "triton": "3.8.0",
+    "cuda": "13.0",
+    "sglang": "0.5.24.dev80+g056f871",
+    "nvidia_smi_stdout": "NVIDIA H800, GPU-fcfb3306-0531-fdb4-7758-95949804ce8f, 81559, 570.124.06\n",
+    "device_capability": [
+      9,
+      0
+    ],
+    "worker_local_directory": "/var/tmp/mamba-snapshots-exp-1111-055011-398371"
+  },
+  "native_abi": {
+    "backend": "sglang.srt.layers.attention.linear.kernels.gdn_triton.TritonGDNKernel",
+    "supports_track_state_snapshot": true,
+    "extend_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, g: torch.Tensor, beta: torch.Tensor, *, ssm_states: torch.Tensor, cache_indices: torch.Tensor, query_start_loc: torch.Tensor, inplace_update: bool = True, **kwargs) -> tuple",
+    "chunk_signature": "(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor, g: torch.Tensor, beta: torch.Tensor, scale: float = None, initial_state: torch.Tensor = None, initial_state_indices: torch.Tensor = None, cu_seqlens: Optional[torch.LongTensor] = None, head_first: bool = False, use_qk_l2norm_in_kernel: bool = False, inplace_update: bool = True, track_state: Optional[torch.Tensor] = None, track_chunk_idx: Optional[torch.Tensor] = None)",
+    "fwd_h_signature": "(k: torch.Tensor, w: torch.Tensor, u: torch.Tensor, g: Optional[torch.Tensor] = None, gk: Optional[torch.Tensor] = None, initial_state: Optional[torch.Tensor] = None, initial_state_indices: Optional[torch.Tensor] = None, save_new_value: bool = True, cu_seqlens: Optional[torch.LongTensor] = None, chunk_indices: Optional[torch.LongTensor] = None, use_exp2: bool = False, inplace_update: bool = True, track_state: Optional[torch.Tensor] = None, track_chunk_idx: Optional[torch.Tensor] = None, chunk_offsets: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]",
+    "kernel_chunk_size": 64,
+    "prefill_checkpoint_grid": 64,
+    "snapshot_semantics": "h[c] is the FP32 state before chunk c, after c*kernel_chunk_size input tokens"
+  },
+  "lengths": [
+    192,
+    193
+  ],
+  "metadata": [
+    {
+      "length": 192,
+      "h": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          3,
+          3,
+          4,
+          128,
+          128
+        ],
+        "stride": [
+          196608,
+          65536,
+          16384,
+          128,
+          1
+        ],
+        "device": "cuda:0"
+      },
+      "state": {
+        "dtype": "torch.float32",
+        "shape": [
+          4,
+          4,
+          128,
+          128
+        ],
+        "stride": [
+          65536,
+          16384,
+          128,
+          1
+        ],
+        "device": "cuda:0"
+      },
+      "snapshots": [
+        {
+          "dtype": "torch.float32",
+          "shape": [
+            3,
+            4,
+            128,
+            128
+          ],
+          "stride": [
+            65536,
+            16384,
+            128,
+            1
+          ],
+          "device": "cuda:0"
+        },
+        {
+          "dtype": "torch.float32",
+          "shape": [
+            3,
+            4,
+            128,
+            128
+          ],
+          "stride": [
+            65536,
+            16384,
+            128,
+            1
+          ],
+          "device": "cuda:0"
+        }
+      ]
+    },
+    {
+      "length": 193,
+      "h": {
+        "dtype": "torch.bfloat16",
+        "shape": [
+          3,
+          4,
+          4,
+          128,
+          128
+        ],
+        "stride": [
+          262144,
+          65536,
+          16384,
+          128,
+          1
+        ],
+        "device": "cuda:0"
+      },
+      "state": {
+        "dtype": "torch.float32",
+        "shape": [
+          4,
+          4,
+          128,
+          128
+        ],
+        "stride": [
+          65536,
+          16384,
+          128,
+          1
+        ],
+        "device": "cuda:0"
+      },
+      "snapshots": [
+        {
+          "dtype": "torch.float32",
+          "shape": [
+            3,
+            4,
+            128,
+            128
+          ],
+          "stride": [
+            65536,
+            16384,
+            128,
+            1
+          ],
+          "device": "cuda:0"
+        },
+        {
+          "dtype": "torch.float32",
+          "shape": [
+            3,
+            4,
+            128,
+            128
+          ],
+          "stride": [
+            65536,
+            16384,
+            128,
+            1
+          ],
+          "device": "cuda:0"
+        }
+      ]
+    }
+  ],
+  "selected_snapshot_count": 8,
+  "native_prefix_max_absolute_error": 0.0,
+  "native_prefix_max_relative_error": 0.0,
+  "fp32_unrounded_elements": 524283,
+  "fp32_vs_bf16_max_absolute_error": 0.0039055347442626953,
+  "fp32_vs_bf16_max_relative_error": 0.0039061307907104492,
+  "compiled_cubin_count": 12,
+  "producer_ended": true,
+  "end_phase_sync": true,
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "container": {
+    "terminated": {
+      "exitCode": 0,
+      "reason": "Completed",
+      "startedAt": "2026-11-10T21:57:30Z",
+      "finishedAt": "2026-11-10T21:57:55Z",
+      "containerID": "containerd://c58c36224fd103619086d0a066acbbd1e67b5bb33788ed9811199415be5b9168"
+    }
+  },
+  "restarts": 0,
+  "limits": [
+    "Not untouched-code GPU A/B, full-model warm parity, throughput, or race exclusion",
+    "Equal-length operator ABI only; native varlen index preparation reads GPU contents",
+    "No zero-token forward: not a reachable teacher-scoring input contract",
+    "Independent probe verdict never gates or controls training"
+  ]
+}

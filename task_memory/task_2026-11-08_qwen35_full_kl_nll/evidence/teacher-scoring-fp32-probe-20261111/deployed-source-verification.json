@@ -1,0 +1,50 @@
+{
+  "scope": "Actual worker source/config and nvidia-smi identity before teacher startup; not model readiness, live donor/state buffers, full-model probability or performance acceptance. Container image IDs await native terminal receipts.",
+  "operator_cuda_semantics": "44/44 PASS in separate actual H800 worker; same six source-after hashes",
+  "records": [
+    {
+      "pair": "A",
+      "job": "exp-1111-053300-533764",
+      "preload": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/preload.json",
+      "source_after_matches_44_check_operator": true,
+      "actual_h800_count": 4,
+      "worker_config_identity": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+        "bytes": 891,
+        "sha256": "32708010a8d7dc436faea058b862b0e241252ca74daca35db08c4e35850a6fa9"
+      },
+      "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+      "engine_argv_matches_R1_except_worker_dist_address": true,
+      "selected_fp32": true,
+      "changed_files": [
+        "kernels/ops/attention/fla/chunk.py",
+        "srt/layers/attention/linear/kernels/gdn_triton.py"
+      ],
+      "source_cuda_semantics_label_unchanged": "UNVERIFIED",
+      "coarse_war_flag": null,
+      "model_numerical_acceptance": "PENDING"
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-053259-677817",
+      "preload": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/preload.json",
+      "source_after_matches_44_check_operator": true,
+      "actual_h800_count": 4,
+      "worker_config_identity": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+        "bytes": 891,
+        "sha256": "32708010a8d7dc436faea058b862b0e241252ca74daca35db08c4e35850a6fa9"
+      },
+      "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model",
+      "engine_argv_matches_R1_except_worker_dist_address": true,
+      "selected_fp32": true,
+      "changed_files": [
+        "kernels/ops/attention/fla/chunk.py",
+        "srt/layers/attention/linear/kernels/gdn_triton.py"
+      ],
+      "source_cuda_semantics_label_unchanged": "UNVERIFIED",
+      "coarse_war_flag": null,
+      "model_numerical_acceptance": "PENDING"
+    }
+  ]
+}
