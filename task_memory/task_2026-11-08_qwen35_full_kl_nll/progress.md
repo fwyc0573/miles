@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept actual D16/Ticket02; record terminal1/200 native host-memory blocker, pinned-source limits and one independent Spec edge, with the primary's four-section milestone checkpoint. |
 | 2026-11-10 | Record actual H200 first-bank/generation and delivered CPU CLI, transcribe open review repairs and the primary's four-section checkpoint; retain all native/final gates. |
 | 2026-11-10 | Synchronize current D37 H200/parallel CPU state and18+18>32 resource constraint; preserve the primary's newest checkpoint and all final criteria, without new chronology. |
 | 2026-11-10 | Apply selected D36 wait route to current records; preserve exact primary Q/A and all historical failures, append a resource-evidence checkpoint without new operational facts. |
@@ -44,6 +45,46 @@
 # Progress
 
 ## completed
+
+- D16-state documentation verification (`profile-d37-parallel-records-20261110`, ten owned docs; local Python3.10.6): docchecker PASS,36 documents/6 tickets/179 links/47 anchors/0 errors; arithmetic unchanged. Scoped whitespace and doc-only assertions PASS: requirements phase line62 only/raw unchanged, exactly the02 GPU/04 D16/05 A-prerequisite toggles, unchanged scientific criteria/old checkpoints, final06 four unchecked and exact new four sections with3 PASS/2 BLOCKED/1 TODO/D1–D7/S1–S6 CLEAR/BranchA. Prior authorized spec/Ticket05 changes preserved/integrated. No business suite, native reconstruction, GPU/platform/SSH query, code/config/evidence/report edit or extra delegation by this agent. Commands:
+
+```bash
+python3 --version
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md task_memory/task_2026-11-08_qwen35_full_kl_nll/review.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/02-per-turn-sums.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/06-profile-report.md
+python3 -B - <<'PY'
+from pathlib import Path
+import re
+import subprocess
+root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
+def baseline(path):
+    return subprocess.check_output(['git', 'show', f'HEAD:{path}'], text=True)
+req = root / 'requirements.md'
+assert [i for i, (a, b) in enumerate(zip(baseline(req).splitlines(), req.read_text().splitlines()), 1) if a != b] == [62]
+assert len(baseline(req).splitlines()) == len(req.read_text().splitlines())
+for name, checked in [('02-per-turn-sums.md', set(range(7))), ('04-a-full.md', {2}), ('05-b-full.md', {2}), ('06-profile-report.md', set())]:
+    path = root / 'tickets' / name
+    old = re.findall(r'^- \[[ x]\].*$', baseline(path), re.M)
+    current = re.findall(r'^- \[[ x]\].*$', path.read_text(), re.M)
+    assert current == [row[:3] + ('x' if i in checked else ' ') + row[4:] for i, row in enumerate(old)], name
+spec = root / 'spec.md'
+assert spec.read_text().split('## S1.', 1)[1] == baseline(spec).split('## S1.', 1)[1]
+progress = root / 'progress.md'
+old = baseline(progress)
+assert progress.read_text().split('\n## Scoped checkpoint', 1)[1].startswith(old.split('\n## Scoped checkpoint', 1)[1])
+latest = progress.read_text().rsplit('\n## 1. 规划完成情况', 1)[1]
+assert re.findall(r'^## ([234])\.', latest, re.M) == ['2', '3', '4']
+assert all(f'| D{i} ' in latest for i in range(1, 8)) and latest.count('| CLEAR |') == 7
+assert all(f'- S{i} CLEAR' in latest for i in range(1, 7))
+assert 'PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1' in latest and '**分支：** A' in latest
+print('PASS: phase-only/raw preservation; three authorized checkbox toggles; science/history unchanged; exact four-section 3/2/1 checkpoint with D1-D7/S1-S6 CLEAR.')
+PY
+```
+
+- D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
+- Independent CPU repair commits`24e8386f`/`d0f67887`record69/27 PASS and[postfix joined4 PASS](evidence/offline-report-join-review-fixed-20261110.json); Standards closed. Latest primary Spec re-review leaves oneP2 zero-prefix firstACK auxiliary-cause edge fixing by the assigned general agent; current state in[review](review.md#offline-review-repair-state--2026-11-10). No final06 criterion or last edge closure is claimed.
+
+### Historical5b6f38b8 milestone — before D16 acceptance
 
 - Scoped docs verification (`profile-d37-parallel-records-20261110`, latest seven-doc scope; local Python3.10.6): docchecker PASS with34 documents/6 tickets/153 links/44 anchors/0 errors;51,200-per-cell/102,400-total/81-turn arithmetic unchanged. Scoped whitespace PASS. Read-only assertions PASS: requirements differs only at phase line62; all8 A/9 B/4 final-report rows unchanged and unchecked; prior checkpoints unchanged; current checkpoint exactly four sections, D1–D7 CLEAR and totalsPASS2/BLOCKED1/TODO3. Initial06 dependency parsing failed because numeric references lacked word boundaries; explicit03/04/05 spacing fixed it without changing the user-approved CPU/final dependency split. Earlier authorized spec/Ticket05 edits, all code/config/report/evidence and other work remain outside this commit. Verification only; no business suite, native job, watcher or repair re-review was rerun. Commands:
 
@@ -412,14 +453,14 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## in-progress
 
-- Current frontier: **native A realfirstACK/D16, parallel inspector/reporter review repairs**. Actual18 H200/teacher/Ray and bank0 generation are evidenced; firstACK/GPU-profile still not verified. Primary owns launcher/watcher/platform and[operational commands](test_report_2026-11-10_formal_runs.md); this agent does not query them. Generation continues after the freeze_gc context; do not call it a native blocking failure.
-- Parallel CPU: initial implementation/CLI is delivered; fixed-diff offline findings are now open/fixing, not merely awaiting first review. Inspector repairs and reporter repairs proceed alongside native A, then joined regression and re-review. The CPU-versus-final06 dependency split and all final checkbox states remain unchanged. Earlier authorized spec/Ticket05 edits stay outside the latest seven-doc commit.
+- **Current authoritative state: D16 PASS / NATIVE_HOST_MEMORY_BLOCKED.** [Real first-update report](test_report_2026-11-10_d16_first_update.md)accepts02 and the A-firstACK/inspection dependency. A`exp-1110-140032-491115`thenFailed06:29:33Z during native TMS sleep/offload;[06:39:22 readback](evidence/formal-H200-A-terminal-readback-20261110.json)confirms all3 terminal, formal1/200 INCOMPLETE/no second bank/no new H200 or B. [Failure coverage](evidence/d16-H200-A-20261110/failure-and-coverage.json)separates Ray diagnostic from kill-scan and leaves allocation/retention cause and audited actor/time unresolved. Native mechanism verification/evidence-backed fix/fresh admission block04/05; B's logical A edge is satisfied, no A200/profile-PASS gate. CPU repairs/postfix CLI passed, Standards closed and one Spec zero-prefix cause edge remains fixing independently. No selected fix/runtime/config change, GPU smoke or auxiliary hardgate; all history/science/protected attempts remain.
+- Mechanism evidence only: source0GPU job`exp-1110-144951-170247`[Succeeded](evidence/native-tms-source-20261110/terminal.json);[source receipt](evidence/native-tms-source-20261110/source.json)pins TMS0.0.10/Python3.12.16 and binary disk exports. It proves neither disk-offload runtime nor H200 space. This doc agent does not read raw cloud/query platform or select the fix.
 
 - Historical pre-D36 SDK/Lark assessment remains in[the placement assessment](test_report_2026-11-10_formal_runs.md#placement-options-and-verified-limits); its atomic-placement/ConfigMap limits, D36 choice and both oldH800 FAILED0 attempts retain their original evidence. D37 supersedes current hardware waiting, not that history. Old H800 configuration is untouched; newH200 startup/runtime acceptance is not supplied by historical capacity.
 - Old H800 launcher/log/observer identities remain historical evidence; no observer substitutes for ACK/D16 or auditedGPU stop. The independent current H200 attempt is now actually submitted, not inferred from configuration. T02/T03 CPU readiness, historical failure diagnoses, stop-audit UNKNOWN and protected outputs remain unchanged; no result splicing/smoke cleanup.
 
--02 GPU/full-ticket acceptance remains at A's first actual formal successful ACK and completed D16 inspection: actual bank membership, token/row/uid consistency, collection/teacher/training timing and both profile files/recomputed values. Auxiliary profile errors report unverified and permanently stop profile updates, not healthy native training. No additional GPU smoke is required.
-- Current B config uses2-H200 TP2 teacher and18 H200 total, not native accepted. Existing A actual firstACK/inspection remains necessary; A18+B18>32 makes allocation release/fresh admission an additional resource condition, not an A200/profile-PASS/extra-approval gate. Historical four-H800 TP4/EP1 feasibility is not current hardware.
+-02 GPU/full-ticket is now PASS through D16; verified prefix1 does not prove200/profile completion or pure profile compute overhead. Native host-memory failure, not an auxiliary verdict, ended the attempt. S7/CPU fault handling stays unchanged, no extra smoke.
+- B remains configured18 H200/2-H200 TP2 teacher with32 nonpreemptible ceiling; A-firstACK/inspection is fulfilled, but common fault/fresh admission remain. Historical H800 feasibility is not B native acceptance; no A200/profile-PASS/extra-approval gate.
 - Historical upstream frozen-D11 failures and independent ownership are retained below. D35 replaces their former parent blocking edge, not their evidence or verdict; no upstream acceptance, platform operation or stop is performed by this documentation delegation.
 
 ### Historical preparation snapshots — 2026-11-09 before D35
@@ -446,9 +487,9 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 
 ## pending
 
-1. Parallel inspector fixes + reporter fixes + native A: retain all4 functional/1 nit OPEN until actual completion receipts. Then joined regression/re-review. Meanwhile primary continues realfirstACK/failure observation after first-bank generation; no docs/auxiliary/GPU-smoke hardgate or independent platform query.
-2. Primary/02/04: at A's first actual successful native ACK, complete and record D16 inspection and the02 GPU verdict. Profile auxiliary failure is reported separately underS7; healthy native training continues. Near update20, report stage-time trends; actual sample failures remain individually attributable and need post-run RCA.
-3. Primary/05: after actual A firstACK/inspection, wait for allocation release as needed and perform fresh18-H200 admission under32; A18+B18 cannot retain full allocation concurrently. No A200/profile-PASS/extra-approval logical gate. Each cell still needs200 actual nativeACKs/paired-profile disposition;06 CPU implementation/join is ready, actual final measurements remain pending.
+1. Primary/04/05: verify native allocation/retention mechanism, obtain evidence for a fix, then fresh independent formal attempts/admission. No selected fix/runtime/configuration change or another H200/B submission is recorded;0GPU source/exports are not runtime/space proof.
+2. Independent general agent/06: complete the one Spec zero-prefix auxiliary-cause edge and re-review, then accept the CPU slice.69/27/postfix4 PASS and Standards closure are already recorded; do not anticipate last closure or run extraGPU smoke.
+3. Final04/05/06: actual200-per-cell native/paired-profile evidence remains required. B's A-firstACK/inspection is already satisfied; common fault/fresh32-GPU quota remain, not A200/profile-PASS criteria. Protected failed attempts are separate and never spliced into a future200 result.
 4. Upstream may continue its own frozen-D11 acceptance independently; no parent action waits for it underD35 and no result is relabeled as upstreamPASS.
 
 ## Scoped checkpoint — profile-source-audit-112k-records-20261109
@@ -994,3 +1035,57 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md task_
 1. H200实际18GPU/teacher/Ray及首bank256候选/generation在推进；firstACK/D16/GPU-profile尚未验证。
 2. 初始CPU两slice/CLI4 PASS；review4 functional+1 nit仍open/fixing，joined regression/re-review尚未完成。
 3. B仍需A首ACK/完成inspection及fresh32-card资源；18+18超上限要release，不新增A200/profile-PASS门槛。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 输入 | PASS | 已接受的D34/source/parity证据不变。 |
+| 02 逐turn测量 | PASS | 既有CPU/S7加真实D16首ACK/paired rebuild，七项完成。 |
+| 03 Profile接入 | PASS | 已接受CPU接入/复核不变，D16现有实际前缀证据。 |
+| 04 A正式cell | BLOCKED | D16通过后native host-memory kill，当前Failed1/200；机制/fix/fresh尝试待定。 |
+| 05 B正式cell | BLOCKED | A首ACK/inspection满足；共同故障修复及freshquota未满足。 |
+| 06 最终报告 | TODO | CPU实现/postfix4例已ready；一个Spec edge及真实最终数据未完成。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 前次`5b6f38b8`checkpoint至本次真实D16 PASS/native终态与CPU修复节点（2026-11-10）｜**当前前沿：**04 native allocation机制核验；并行06最后offline fix/re-review。此前H800/D36及旧drift仅为历史。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 既有inspector/reporter支持D16/06；真实前缀核验与剩余edge直接服务前沿，无新smoke/aux gate。 |
+| D2 细节反复重试 | CLEAR | 新host-memory故障尚未反复换参数/重投；0GPU source核验不是又一个GPU重试。 |
+| D3 支线问题修补 | CLEAR | native故障属04/05，offline剩余cause edge属06，无无关修补。 |
+| D4 可并行任务停滞 | CLEAR | 两CPU修复69/27/postfix4已落地，D16同期推进；剩余edge与native机制可并行。 |
+| D5 超范围镀金 | CLEAR | 未增加core/runtime/science功能；来源核验不等于选择disk workaround。 |
+| D6 分析空转 | CLEAR | 核验形成D16 PASS、真实失败证据和版本钉住；下一步机制调查仍是native blocker。 |
+| D7 路线违背 | CLEAR | D37/S7/独立attempt沿原决定；无新H200/B、无辅助hardgate、无未批准science变更。 |
+
+**文档检查：**
+- S1 CLEAR：06 CPU与04/05 terminal数据split正确；B的A逻辑edge现已满足，fault/quota独立。
+- S2 CLEAR：native机制/fix归04 primary，最后offline edge归06已指派agent。
+- S3 CLEAR：200/profile目标不变；当前native故障是待修blocker，不把1/200当完成。
+- S4 CLEAR：实际200 ACK/paired files/明确INCOMPLETE仍可量测，不无限打磨。
+- S5 CLEAR：当前状态按retained D16/Failed及re-review同步，旧RUNNING/OPEN快照明确为历史。
+- S6 CLEAR：slice/ownership和原标准不改，CPU edge与native机制可独立核验。
+**归因：** 无；本窗口无执行HIT，未新增spec/ticket行为缺陷。
+
+## 3. 纠正建议
+
+**分支：** A：spec/tickets合理，无行为/标准改动；本次仅据实际证据同步状态和已覆盖checkbox。
+
+**需停止的偏离行为：** 无。
+
+**接下去的路线：**
+1. Primary/04：native allocation机制核验→证据支持的fix→fresh独立formal attempts → 完成标志：机制/fix有实际证据、资源准入与native运行验收；当前无fix选定，TMS exports不替代runtime/空间核验。
+2. 并行06：最后zero-prefix auxiliary-cause fix→re-review→CPU slice acceptance → 完成标志：completion/回归/复核落档，剩余P2关闭；不阻止native机制工作。
+3. 05及final06：共同fault解决后fresh准入，保留已满足A首ACK/inspection条件 → 完成标志：两cell各自200 actual updates及完整paired-profile/final报告；未完成范围诚实保留，失败attempt不拼接。非A200/profile-PASS gate。
+
+## 4. 最值得关注的 3 点
+
+1. D16真实首update/测量/paired rebuild PASS，02done；这不是A200完成，后续native故障另算。
+2. A已Failed1/200、全replica终止；共同host-memory fault阻塞04/05，分配/保留假设未验证，0GPU pinned exports不证明disk runtime/H200空间。
+3. CPU修复/postfix CLI及Standards已完成，Spec仅一P2 edge在修；B仍需common fix/fresh资源，06最终项未勾选。

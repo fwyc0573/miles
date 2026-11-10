@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept01/02/03 and D16; block formal04/05 on native host-memory fault/fresh admission, retaining independent final offline edge fix and unchanged scientific criteria. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and delivered CPU CLI; track open parallel review repairs before regression/re-review, retaining native/final gates. |
 | 2026-11-10 | Align remaining current D36 statements with D37 H200 preparation and parallel CPU work; record18-H200/cell and the32-GPU resource constraint without changing science or final criteria. |
 | 2026-11-10 | Correct the overbroad06 edge: run offline inspection and report implementation alongside04 resource waiting; retain04/05 runtime dependencies for actual data and final acceptance. |
@@ -34,7 +35,7 @@
 
 # Plan
 
-**Phase: D37 H200_EXECUTING; offline review repairs in parallel.** Actual A`exp-1110-140032-491115`has18 H200/teacher/Ray8+8 verified; the06:17:12Z[startup context](evidence/formal-H200-A-startup-context-20261110.json)records bank0 start14:14:56.775HKT/256 candidates and successful generation. freeze_gc context is followed by server ready/generation, not a native blocking failure. FirstACK/D16/profile acceptance are not yet verified. Inspector`a76fc527`57 tests/reporter`e6956e3c`26 tests and CLI4 PASS are delivered; fixed-diff reviews yielded4 functional+1 naming nit, open/fixing ([review](review.md#offline-inspectorreport-phase-review--2026-11-10)). Repair agents run alongside native A, then joined regression/re-review. CPU fixtures are not formal metrics; final04/05/06 criteria and32 non-preemptible resources are unchanged.
+**Phase: D16 PASS / NATIVE_HOST_MEMORY_BLOCKED.**01/02/03 are accepted from retained evidence; A is terminalFailed1/200 after post-update native TMS sleep/offload host-memory kill, not running. The common fault blocks04/05 while its allocation mechanism/fix and fresh admission remain unresolved. B's firstACK/inspection dependency is satisfied. The independent last offline Spec edge remains fixing; final200-per-cell/report criteria are unchanged. See[authoritative current state](progress.md#in-progress)and[real D16 proof](test_report_2026-11-10_d16_first_update.md); no new formal attempt or runtime/config change is selected.
 
 ## Scope and ownership
 
@@ -45,11 +46,11 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | Ticket | Deliverable | Blocked by |
 | --- | --- | --- |
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
-| [02](tickets/02-per-turn-sums.md) | Per-turn RKL/NLL sums: CPU implementation-ready, then GPU acceptance at A's first update | Satisfied: D35 capacity basis accepted and candidate merged as`55fba827`; no remaining merge blocker |
+| [02](tickets/02-per-turn-sums.md) | Done: CPU/S7 and actual first-update GPU measurement/persistence accepted by D16 | Satisfied: D35 merge, CPU checks and retained real firstACK/canonical bank/paired rebuild |
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
-| [04](tickets/04-a-full.md) | Executing18-H200 A, first bank/generation in progress; first ACK/D16 pending | Satisfied: 01, 02 CPU, 03 CPU, D37/configuration review/admission/submission; native A continues while offline inspector/reporter repairs run |
-| [05](tickets/05-b-full.md) | B/full native training and separately verified profile | Satisfied: 01 accepted, 02 CPU-ready, 03 CPU integration; pending: 04 actual first ACK/inspection and fresh18-H200 admission within32; allocation release needed while A holds18 |
-| [06](tickets/06-profile-report.md) | CPU join delivered; review repairs/regression/re-review and actual final report pending | CPU dependency 03 and initial CLI satisfied; final measurements still need 04, 05 native/terminal/profile evidence, not repaired fixtures alone |
+| [04](tickets/04-a-full.md) | BLOCKED: native host-memory fault after D16; current attemptFailed1/200 | 01, 02, 03 accepted; native allocation mechanism/fix and fresh formal admission pending |
+| [05](tickets/05-b-full.md) | BLOCKED: common native memory fault and fresh admission | 01, 02, 03 accepted; 04 firstACK/inspection satisfied, common fix and fresh18-H200 resources within32 still pending |
+| [06](tickets/06-profile-report.md) | TODO: CPU implementation ready, one Spec edge fix/re-review and final data pending | CPU dependency 03 satisfied; final measurements still need 04, 05 actual native/terminal/profile evidence |
 
 Dependency graph:
 
@@ -60,17 +61,17 @@ D23–D27 in the spec -> 01 revision: {adapter code + local checks, source audit
 D35 H800 capacity basis accepted -> candidate merge55fba827 verified -> 02 CPU implementation-ready6129aefe accepted -> 03-integration CPU-ready15186817 accepted
 {01 accepted, 02 CPU implementation-ready, 03-integration CPU-ready, final formal configuration/lifecycle checks} -> 04 fresh admission -> 04 launch
 historical 04 H800 startup failures -> historical D36 wait route (superseded for current execution by D37)
-D37 -> reviewed18-H200 configuration -> actual submission/18-H200/teacher/Ray verified -> bank0 acquisition/generation in progress -> real firstACK/D16 pending
-04 actual first successful update -> inspection completed -> {02 GPU acceptance evidence, 05 fresh resource admission}
+D37 -> actual H200 A firstACK + D16 PASS -> 02 done; 05 firstACK/inspection edge satisfied
+04 native host-memory failure after update1 -> allocation mechanism verification -> evidence-backed fix -> fresh independent formal attempts
 05 fresh resource admission requires personal committed H200 +18 <=32; A18+B18 cannot overlap while both retain full allocation
 03 CPU-ready -> {04/05 offline inspection preparation, 06 report computation preparation}
-{04/05 inspector a76fc527 delivered, 06 reporter e6956e3c delivered} -> initial CPU CLI4 PASS -> parallel review repairs -> joined regression + re-review
+{inspector24e8386f, reporterd0f67887} ->69/27 PASS + postfix CLI4 PASS -> Standards closed; Spec one zero-prefix edge -> fix + re-review -> CPU slice acceptance
 {04 terminal evidence, 05 terminal evidence, CPU report readiness} -> 06 actual reports and final acceptance
 ```
 
 Historical parallel work:01 and the pure03 module started after the freeze without touching uncommitted reused code.02`6129aefe`and03`15186817`still satisfy CPU dependencies; the earlier H800 configuration/lifecycle/review evidence remains historical. Both failed H800 formal attempts and D36's wait decision are retained separately. At the previous D37 checkpoint, H200 preparation plus independent CPU implementation replaced H800 waiting; actual H200 startup/CPU join now supersedes that preparation status. Upstream acceptance remains independent.
 
-The table's02/03 edges into formal cells are CPU readiness checkpoints, not full ticket closure;02 GPU verification cannot be a circular A-launch prerequisite. B requires A's actual first successful native update, completed inspection and fresh resource admission. With18 H200/cell and the32 ceiling, B must await allocation release while A still holds18; this is a resource constraint, not an A200-update or auxiliary-profile-PASS gate. S7 errors continue healthy training and are reported separately as incomplete profile acceptance. Failed/incomplete evidence permits honest06 reporting, not complete-cell acceptance.
+The original02/03 launch edges were CPU readiness checkpoints, not circular GPU prerequisites;02 is now fully accepted through D16. B's actual firstACK/inspection edge is satisfied, but the common native fault and fresh admission still block it.18 H200/cell/32 ceiling remain resource constraints, not A200/profile-PASS gates. S7 does not stop healthy training; this attempt failed natively. Failed/incomplete evidence permits honest06 reporting, not complete-cell acceptance.
 
 ## Verification strategy
 
@@ -85,13 +86,13 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-**Parallel CPU frontier (D37):** initial inspector57/reporter26 tests and CLI4 cases PASS remain recorded in[the joined report](test_report_2026-11-10_offline_report_integration.md)and`evidence/offline-report-join-20261110.json`. Standards1 material+1 nit/Spec4 deduplicate to4 functional+1 nit: tempfile directory, adjacent known native auxiliary failure, extra unverified native tail, actual update-ID milestones, local group/groups naming. All are open/fixing; inspector/reporter repairs run in parallel with native A, followed by joined regression/re-review. Existing fixture results do not prove fixes or final06/native acceptance. The CPU-versus-final-data dependency split remains unchanged; no extra execution gate.
+**Independent CPU frontier:** inspector`24e8386f`69 PASS/reporter`d0f67887`27 PASS and[postfix joined4 PASS](evidence/offline-report-join-review-fixed-20261110.json)are recorded in[the existing report](test_report_2026-11-10_offline_report_integration.md). Standards is closed; Spec has oneP2 zero-prefix firstACK auxiliary-cause edge fixing by the assigned general agent ([review](review.md#offline-review-repair-state--2026-11-10)). Finish that fix/re-review independently of native mechanism verification.06 implementation is ready, final report acceptance is not; the CPU/final-data split and criteria remain unchanged.
 
 Ticket01 is accepted including D34: the original-source112K CPU audit,512 native parity draws and2,048 interleaved raw draws passed; job/replica Succeeded at11:47:11Z and source identities reconcile ([current length/source report](test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit)). The [historical128K report](test_report_2026-11-09_source_audit.md) retains its original policy and results. D26 keeps32×8 from the pre-length eligible median90; current simulated spans and absent post-length median are limitations, not a new blocker or native trend acceptance. The03 module retains D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)) and historical query/baseline/partial-write checks ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full CPU integration path are now accepted in [ticket03](tickets/03-distillation-profile.md), with [201-PASS evidence](test_report_2026-11-10_profile_integration.md); actual GPU/profile verification remains separate. Current state is owned by [progress](progress.md#in-progress).
 
 The historical2026-11-09T07:56Z upstream refresh at `c52991ac` recorded capacity job`exp-1109-144110-764758` failing at initial trainer-to-rollout weight synchronization after600s, before rollout collection or optimizer updates. This failure remains unaccepted evidence, as do earlier acquisition227<231 and historical interrupted scoring. Those historical outcomes are not relabeled byD35; exact limits remain in [the H800 preparation report](test_report_2026-11-09_h800_preparation.md#upstream-prerequisite-failure-2026-11-09t0756z).
 
-Current frontier: **04 real firstACK/D16 plus parallel inspector/reporter repairs**. A`exp-1110-140032-491115`was submitted14:00:32HKT with18 H200/step_main, all3 assigned and actual workers/Ray verified. Bank0 acquisition began14:14:56.775HKT with256 candidates; generation succeeded, and the freeze_gc request context is non-blocking on this evidence. Primary owns actual monitoring/commands in[the formal report](test_report_2026-11-10_formal_runs.md); this agent does not query watchers/platform. Offline findings remain open until completion receipts, joined regression and re-review; native A continues independently. Actual firstACK triggers D16/02 GPU inspection, then B fresh resources after release within32. No A200/profile-PASS logical gate. Each cell's200 native ACKs/paired-profile disposition and actual final06 remain pending; historical H800 artifacts/science remain protected, no GPU smoke/auxiliary hardgate.
+Current frontier: **native allocation mechanism verification→evidence-backed fix→fresh formal attempts; independent last offline fix→re-review**. D16/02 are PASS; A is terminal1/200 INCOMPLETE, not running. Version-pinned0GPU TMS source/exports are evidence for the investigation, not disk-offload runtime or H200 space acceptance. No fix/configuration change, new H200 attempt or B is selected/submitted here. Both formal cells still need200 actual updates and final06 evidence; historical attempts stay separate/protected. Exact proof and current blocker are linked in[progress](progress.md#in-progress), without extra smoke/auxiliary hardgates or a new A200/profile-PASS gate.
 
 Historical H800 preparation`4863e68e`, correction`059a6a75`, profile configuration`ec002ea8`and its4/4 native-argv dry-runs remain in[the configuration report](test_report_2026-11-10_formal_configuration.md), not proof of current H200 runtime. The earlier16-case lifecycle inspection and exact mock limits remain in[its retained section](test_report_2026-11-10_formal_configuration.md#pre-formal-sample-lifecycle-check). D37's separate H200 configuration is committed without altering the old H800 file. Full still visits200 distinct banks once each with`bank_uses=50`. Current B teacher is configured2 H200/TP2, not native verified. B may follow ACK/inspection only when fresh resources fit the32 ceiling; do not replace that budget condition with A200/profile-PASS/extra-approval/GPU-smoke gates. Native acceptance and S7 isolation are unchanged.
 

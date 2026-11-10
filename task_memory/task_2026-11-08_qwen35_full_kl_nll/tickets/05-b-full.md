@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept A firstACK/inspection prerequisite; block B on the common native host-memory fault and fresh admission, not A200/profile PASS. |
+| 2026-11-10 | Reflect actual A H200/Ray startup and joined CPU readiness while retaining B's real ACK/inspection/resource blockers and all final criteria. |
 | 2026-11-10 | Align current B context with18-H200/cell and32-GPU admission: actual A ACK/inspection remain logical prerequisites, while allocation release is a separate resource requirement. |
 | 2026-11-10 | Add D36 A-wait context to current status only; B still requires actual A first ACK/inspection and fresh resources, with no changed acceptance or extra approval gate. |
 | 2026-11-10 | Record satisfied CPU/configuration prerequisites; B still waits for A's actual first ACK, completed inspection and fresh resources, not A completion or auxiliary PASS. |
@@ -20,13 +22,13 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01 accepted、02 CPU implementation-ready、03 integration CPU-ready均已满足；仍等 04 实际首个successful update/ACK及完成inspection，然后fresh18-H200准入。A仍持18卡时A18+B18>32，必须等allocation释放；这是资源条件，不是A200/profile PASS逻辑门槛。
+**Blocked by:** 01、02、03 已接受；04 实际firstACK/inspection由D16满足。共同native host-memory fault尚未解决，且需fresh18-H200准入/资源≤32；这不是A200或profile-PASS逻辑门槛。
 
-**Status:** pending actual A first ACK/inspection and fresh resources under **D37 H200_PREPARATION**. CPU prerequisites remain accepted; reporter/inspector preparation runs independently but its new CPU results/join are unfinished. [D37](../requirements.md#h200-switch--original-request-2026-11-10)and`d822174c`configure18 H200/cell on step_main, student2×8+teacher2, with a2-H200 TP2 B teacher not yet native accepted. Under the32 personal non-preemptible ceiling, A18+B18 cannot overlap at full allocation; even after A firstACK/inspection, B needs released allocation and fresh committed+18≤32 admission. No A200/profile-PASS/new-approval gate is added. Actual submission/status belongs to[the primary's live report](../test_report_2026-11-10_formal_runs.md), not a preparation/config inference. Old H800 formal configuration, capacity andFAILED0 attempts remain separate history. D34/science/S7 and200 distinct full banks with`bank_uses=50`are unchanged. **D37/S8 current resources supersede the historical D33/H800 wording in the existing unchecked deployment row; every checkbox/acceptance criterion below remains unchanged.**
+**Status:** BLOCKED — common native fault and fresh admission; no B submitted. A firstACK/inspection is now[PASS](../test_report_2026-11-10_d16_first_update.md), but A subsequentlyFailed1/200 and all replicas terminated. Known shared TMS sleep/offload host-memory fault still needs mechanism verification/fix; no selected runtime/configuration change. Existing18-H200/step_main/2-H200 TP2 teacher and32 nonpreemptible ceiling remain, current availability requires fresh readback. The A prerequisite row alone is newly checked; B native/profile/200 final acceptance remains unchecked. **D37/S8/historical H800/science/S7 and independent artifacts are unchanged; no A200/profile-PASS gate or extraordinary GPU run.**
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
-- [ ] 启动前核对 A 的实际 successful optimizer ACK 与已完成 inspection；A 的辅助 profile 失败须已报告并标 unverified，但不单独阻止 B。native first-update failure 和资源不足仍阻塞提交。
+- [x] 启动前核对 A 的实际 successful optimizer ACK 与已完成 inspection；A 的辅助 profile 失败须已报告并标 unverified，但不单独阻止 B。native first-update failure 和资源不足仍阻塞提交。
 - [ ] B 第一个 actual successful update 做与 04 相同的检查，记录 S3 / bank identity / profile 内容和各阶段耗时的实际 verdict；辅助失败按 S7 隔离。
 - [ ] 约第 20 个 update 时汇报各阶段耗时的趋势（S8）；第一个 update 因吞吐失败时按 D19 处理。
 - [ ] Native training 完成：200 个实际 successful optimizer update / ACK，训练侧 record 和 native counters 对应，按实际 bank membership 记录训练 turn 数。

@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept D16/Ticket02 actual GPU evidence; record terminal1/200 native host-memory failure and unresolved allocation mechanism without changing behavior or science. |
+| 2026-11-10 | Update current S0 status with actual H200 submission/workers/Ray and joined CPU tools; do not promote startup/fixtures to ACK/D16 or final acceptance. |
 | 2026-11-10 | Align current S0/S8 with D37 H200 execution and parallel CPU preparation; retain historical H800 evidence, science and final criteria. |
 | 2026-11-10 | Update only S0 current phase for selected D36: retain36-H800 and wait for improved placement evidence; science, native gates and configuration remain unchanged. |
 | 2026-11-10 | Update only S0 current status after the second pre-training A failure: placement blocked, submissions paused, strategy undecided; retain all scientific/native gates. |
@@ -58,7 +60,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前合并/CPU接入与执行状态（2026-11-10，D37）**：D35接受的历史36-H800容量仍是本task的D1/D22依据，见[原始决定](requirements.md#h800-capacity-adoption--original-request--follow-up-question-and-answer-2026-11-10)；合并`55fba827`、02 CPU-ready`6129aefe`和03接入`15186817`保持接受。两次H800 formal attempt均FAILED0；其冻结配置、literal "two-node"诊断（当时实际四student节点）及partial RCA独立保留，不因切换改写。[D37](requirements.md#h200-switch--original-request-2026-11-10)已取代当前D36/H800等待路线：当前为 **H200_PREPARATION + PARALLEL_CPU**，独立inspector/reporter实现和配置review正在推进，CPU结果/join未验收。配置`d822174c`使用18 H200/cell、step_main、student2×8+teacher2；training1节点/TP2，16 rollout GPUs形成八个TP2 engines、节点间4+4。05:50:32Z2+18=20只表示初步budget核对，不证明submission/queue/物理capacity；primary owns[实时formal报告](test_report_2026-11-10_formal_runs.md)及配置报告/evidence。当前32个人非抢占上限使A18+B18不能同时保持完整allocation；B仍需真实首ACK/inspection，再等release/fresh资源，不增加A200/profile-PASS门槛。D34、32×8/full/200 updates、231/1800s、600s sync、S7及D16不变，无新GPU smoke；所有正式artifact独立受保护。
+**当前状态（2026-11-10，D37）**：**D16 PASS / native host-memory blocker**。[实际首update核验](test_report_2026-11-10_d16_first_update.md)使02完成，01/03接受不变；A随后在TMS sleep/offload被Ray host-memory monitor终止，业务终态Failed、1/200 INCOMPLETE，全replica终止。B的A首ACK/inspection已满足，但共同故障修复及fresh资源仍未满足；不增加A200/profile-PASS门槛。分配/保留机制仍在调查，无fix/config/runtime变更已选择；0GPU TMS版本/exports不证明disk-offload运行或H200空间。Offline修复回归/CLI已PASS，Standards关闭，Spec剩一个P2零核验前缀丢失首ACK辅助原因的edge在修。06最终验收未完成。原始D35/D36/D37、历史H800、D34/science/S7、CPU与最终数据split及独立attempt产物保持；当前详细状态由[progress](progress.md#in-progress)和primary证据维护，无新GPU smoke/辅助硬gate。
 
 ## S1. 目标与实验矩阵
 

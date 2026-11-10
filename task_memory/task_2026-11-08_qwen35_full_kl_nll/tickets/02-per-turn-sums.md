@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept retained real D16 first-update GPU criterion; all CPU/S7 and GPU checks complete, ticket done without accepting the failed1/200 formal run. |
 | 2026-11-10 | Accept downstream S7 CPU evidence from15186817 while retaining A's first actual formal update as incomplete GPU acceptance. |
 | 2026-11-10 | Accept trainer CPU readiness at6129aefe; split achieved trainer consistency from pending downstream S7 without closing GPU acceptance or changing scope. |
 | 2026-11-10 | Record verified merge55fba827; unblock implementation while retaining incomplete CPU-ready and formal A-update acceptance. |
@@ -19,9 +20,9 @@
 
 **Blocked by:** 无剩余merge blocker；D35容量已接受，候选已由`55fba827`合并，second parent`0e6e8b1e`。合并前不得提前开工的历史要求已满足；验证见[input merge报告](../test_report_2026-11-10_input_merge.md#post-merge-verification-2026-11-10)。
 
-**Status:** CPU implementation-ready — primary accepted `6129aefe`; [per-turn sums report](../test_report_2026-11-10_per_turn_sums.md) records 110 combined PASS, 79 affected PASS after the final nullable-metadata edit, and 8-process Gloo 2CP×2TP×2PP/AdamW checks. Downstream S7 CPU checks are now accepted through Ticket03 `15186817` and its [201-PASS integration report](../test_report_2026-11-10_profile_integration.md). GPU acceptance remains at A's first actual formal successful update; the full ticket is not done. Ticket02 Standards/Spec reviews remain 0/0 findings ([review record](../review.md)); neither review nor CPU readiness substitutes for GPU evidence.
+**Status:** done / PASS. CPU trainer`6129aefe`and S7 integration`15186817`remain accepted; the actual A first successful update/canonical UID-mask binding, counts, macros and paired rebuild are now PASS in[the D16 report](../test_report_2026-11-10_d16_first_update.md)and[verification receipt](../evidence/d16-H200-A-20261110/first-update-verification.json). All seven criteria are covered. The subsequent native host-memory failure leaves formal A1/200 INCOMPLETE, not a failure of the verified measurement or evidence of200 completion. CPU reviews remain0/0; runtime/configuration/science unchanged.
 
-**Readiness checkpoints:** D35合并、trainer CPU检查及03下游S7 CPU接入已完成；04的CPU依赖已满足，可进入fresh formal admission，尚未launch。本ticket不是GPU accepted / done；GPU验收借用04的第一个actual formal successful update（D16），不新增smoke。辅助失败按S7报告，不单独停止healthy training或阻止05。
+**Readiness checkpoints:** CPU/S7及借用04实际首ACK的D16 GPU验收均完成，本票done。不新增smoke。B的A首ACK/inspection条件已满足，但共同native内存故障和fresh准入仍阻塞；辅助profile verdict不是新hardgate。
 
 - [x] 逐 turn 的和在 `swe_tis.token_sums` 已有的逐样本循环中计算：用 native `opd_reverse_kl` 和更新前的 student log-prob，乘以原始 mask。没有新增 forward。
 - [x] 同一样本的 CP 部分和相加，只取一个 TP/PP 副本参与，每个 update 汇总一次；record 中的行用 source uid 标识。
@@ -29,4 +30,4 @@
 - [x] Trainer一致性与传输：核对`Σ tokens == original_tokens`、行数`== actual_turns`、uid唯一与完整CP贡献；辅助不一致或准备异常通过既有ACK的`turn_sums_verified=False`和原因传给下游，不中断healthy native optimizer/collectives。逐turn行不重复写入训练侧的`updates.jsonl`。CPU证据见上述报告。
 - [x] 下游S7 CPU全链路（由03 `15186817` 接入验证，保留原一致性条件）：uid与实际bank一一对应；successful ACK携带未验证的turn sums或映射/计数失败时，profile从该update起未验证并停止后续追加/推导，训练继续。真实consumer、partial-file及后续healthy ACK故障注入见[接入报告](../test_report_2026-11-10_profile_integration.md#decisive-cpu-observations)；这项CPU验收不替代下一项formal GPU检查。
 - [x] 新增 fast CPU 测试：长短不一的样本、两个 rank 的 CP 切分下，sampled-token 的逐 turn 和相加等于原有标量；复用 TIS 测试仍全部通过。
-- [ ] GPU accepted（在 04 内，不是它的启动依赖）：A 第一个实际 successful native update 的 record 能关联 attempt、update、bank 与实际 uid；逐 turn sums 的宏观 RKL/NLL、token 数、行数及 bank 映射一致性通过，profile 中的对应值可复算。记录实测 verdict 与产物路径；失败或缺证据时本验收仍未完成，不宣称 ticket done。
+- [x] GPU accepted（在 04 内，不是它的启动依赖）：A 第一个实际 successful native update 的 record 能关联 attempt、update、bank 与实际 uid；逐 turn sums 的宏观 RKL/NLL、token 数、行数及 bank 映射一致性通过，profile 中的对应值可复算。记录实测 verdict 与产物路径；失败或缺证据时本验收仍未完成，不宣称 ticket done。
