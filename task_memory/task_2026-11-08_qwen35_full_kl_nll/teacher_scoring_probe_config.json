@@ -1,0 +1,12 @@
+{
+  "task_id": "profile-teacher-scoring-probe-20261111",
+  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/retained-cases.json",
+  "pairs": ["A", "B"],
+  "repeats": 2,
+  "request_timeout_seconds": 3600,
+  "worker_seconds": 3600,
+  "child_cleanup_grace_seconds": 90,
+  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/native",
+  "acceptance": "Record same-input response IDs, finite probabilities, exact and numerical differences, raw score range, cold and warm request timings, transferred bytes, cache counters and native source identity. No automatic numerical tolerance or performance PASS. Formal submission stays paused pending primary inspection."
+}

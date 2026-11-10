@@ -1,0 +1,95 @@
+{
+  "job": "exp-1111-033133-704472",
+  "pair": "A",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "probe": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T19:39:57Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "native_execution_succeeded": true,
+  "replicas": [
+    {
+      "name": "exp-1111-033133-704472-cfcd2084",
+      "info": {
+        "name": "exp-1111-033133-704472-cfcd2084",
+        "ip": "100.96.127.19",
+        "phase": "Succeeded"
+      },
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:35Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:39:56Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:39:56Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:35Z"
+          }
+        ],
+        "hostIP": "10.191.4.32",
+        "podIP": "100.96.127.19",
+        "podIPs": [
+          {
+            "ip": "100.96.127.19"
+          }
+        ],
+        "startTime": "2026-11-10T19:31:35Z",
+        "containerStatuses": [
+          {
+            "name": "probe",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-10T19:31:56Z",
+                "finishedAt": "2026-11-10T19:39:54Z",
+                "containerID": "containerd://d8ec2b425e421d52a12db747cd32064be575af090a7c82f4bdcf07c40c33cd14"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://d8ec2b425e421d52a12db747cd32064be575af090a7c82f4bdcf07c40c33cd14",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Succeeded",
+        "nodeName": "gpu-h800-0415.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-10T19:39:57Z"
+      },
+      "nfs_volumes": []
+    }
+  ],
+  "supervision": "read-only SDK client after outer launcher timeout; no new job or stop action"
+}

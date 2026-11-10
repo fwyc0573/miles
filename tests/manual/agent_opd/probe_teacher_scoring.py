@@ -390,6 +390,7 @@ def _runtime(config, pair):
             "gpu_devices": gpu, "model_path": str(model),
             "model_manifest_identity": {name: _file_identity(model / name) for name in ("config.json", "model.safetensors.index.json")},
             "checkpoint_identity_limit": "Mounted source path and manifest hashes; no whole-weight checksum",
+            "sglang_environment": {"SGLANG_FORCE_COARSE_WAR_BARRIER": os.environ.get("SGLANG_FORCE_COARSE_WAR_BARRIER")},
             "nccl_environment": {key: value for key, value in os.environ.items() if key.startswith("NCCL_")},
             "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES")}
 

@@ -347,13 +347,23 @@ def test_config_enforces_worker_hardware_and_reuses_model_whitelist(worker_confi
         probe._load_config(path, "A", output)
 
 
-def test_preload_hashes_are_actual_required_files_and_not_native_gpu_evidence(worker_config, monkeypatch):
+@pytest.mark.parametrize("war_barrier", [None, "0", "1"])
+def test_preload_hashes_and_actual_war_barrier_env_are_not_native_gpu_evidence(worker_config, monkeypatch, war_barrier):
     path, config, model = worker_config
     config = probe._load_config(path, "A", path.parent / "output")
+    config["envs"] = {"SGLANG_FORCE_COARSE_WAR_BARRIER": "not-the-runtime-value"}
+    if war_barrier is None:
+        monkeypatch.delenv("SGLANG_FORCE_COARSE_WAR_BARRIER", raising=False)
+    else:
+        monkeypatch.setenv("SGLANG_FORCE_COARSE_WAR_BARRIER", war_barrier)
+    monkeypatch.setenv("PROBE_TEST_SECRET", "do-not-record-this-secret")
     for name in ("config.json", "model.safetensors.index.json"):
         (model / name).write_text('{}')
     monkeypatch.setattr(probe.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H800, 80000 MiB, mock-driver\n" * 4)
     runtime = probe._runtime(config, "A")
+    serialized = json.loads(json.dumps(runtime))
+    assert serialized["sglang_environment"] == {"SGLANG_FORCE_COARSE_WAR_BARRIER": war_barrier}
+    assert "do-not-record-this-secret" not in json.dumps(runtime)
     assert set(probe._SGLANG_SOURCES).issubset(runtime["sglang_sources"])
     assert all(len(item["sha256"]) == 64 and item["bytes"] >= 0 for item in runtime["sglang_sources"].values())
     assert all(runtime["sglang_sources"][name]["bytes"] > 0 for name in probe._SGLANG_SOURCES)
