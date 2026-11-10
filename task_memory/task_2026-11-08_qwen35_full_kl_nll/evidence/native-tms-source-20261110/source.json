@@ -1,0 +1,139 @@
+{
+  "job": "exp-1110-144951-170247",
+  "replica": "0",
+  "hostname": "gpu-h200-0969.lgcm.sh.istep.fun",
+  "python": "3.12.16",
+  "tms_version": "0.0.10",
+  "files": [
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/__init__.py",
+      "relative_path": "torch_memory_saver/__init__.py",
+      "bytes": 154,
+      "sha256": "f6253f4254dee8ec4c479fceb524549afafa96dce4d78f468e88d8bc6ef8b1a8",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/__init__.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/binary_wrapper.py",
+      "relative_path": "torch_memory_saver/binary_wrapper.py",
+      "bytes": 3517,
+      "sha256": "706b4777947c50daa9a8998bb644ae19933dd3df46880d782417ec1bed5c912b",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/binary_wrapper.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/entrypoint.py",
+      "relative_path": "torch_memory_saver/entrypoint.py",
+      "bytes": 15596,
+      "sha256": "7ca49e33bba6866738ddbcb92c6c99d100504db2540afb71f0840a69159aa132",
+      "disk_functions": [
+        "set_disk_backup_dir"
+      ],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/entrypoint.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/hooks/__init__.py",
+      "relative_path": "torch_memory_saver/hooks/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/hooks/__init__.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/hooks/base.py",
+      "relative_path": "torch_memory_saver/hooks/base.py",
+      "bytes": 579,
+      "sha256": "7fc46ffd7c4dba953cd1d29652013e11ae69bb5a9aa17727ce5b59ac3cbdd216",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/hooks/base.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/hooks/mode_preload.py",
+      "relative_path": "torch_memory_saver/hooks/mode_preload.py",
+      "bytes": 2204,
+      "sha256": "126bebfde4589eed7b120e0fdcebc97f6e4d45bfb04d5184eaa53cecbef3bc55",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/hooks/mode_preload.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/hooks/mode_torch.py",
+      "relative_path": "torch_memory_saver/hooks/mode_torch.py",
+      "bytes": 944,
+      "sha256": "ef42737c518b2e92a105f9baa93c6f7ec3639775dfb6dadc751b9850a39d567f",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/hooks/mode_torch.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/testing_utils.py",
+      "relative_path": "torch_memory_saver/testing_utils.py",
+      "bytes": 1679,
+      "sha256": "e159957cf991bc8b13b24e8a54f10bf8d51a9c202b19a1bec6a977bc034c6329",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/testing_utils.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver/utils.py",
+      "relative_path": "torch_memory_saver/utils.py",
+      "bytes": 3762,
+      "sha256": "81dfba9873442e85f70b6977bdd24cd340b02353c916475e4ae9e8ef9c24735a",
+      "disk_functions": [],
+      "local_copy": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/python-source/torch_memory_saver/utils.py"
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver_hook_mode_preload_cu13.abi3.so",
+      "relative_path": "torch_memory_saver_hook_mode_preload_cu13.abi3.so",
+      "bytes": 1078648,
+      "sha256": "99bbe5e2df91c5f9e5cd0a65e3947ceb3304bbb6a2b6ad539f00326cc583dcd4",
+      "nm_returncode": 0,
+      "disk_symbols": [
+        "000000000000e9d0 T tms_get_enable_disk_backup",
+        "000000000000f010 T tms_set_disk_backup_dir",
+        "000000000000ed00 T tms_set_enable_disk_backup",
+        "000000000000b5b0 T _Z32compute_disk_backup_dir_from_envB5cxx11v",
+        "000000000000b6a0 T _Z33compute_disk_chunk_bytes_from_envv",
+        "000000000000bb50 T _ZN11DiskBackend15open_slot_file_ERK14DiskBackupSlot",
+        "000000000000be70 T _ZN11DiskBackend17create_slot_file_ER14DiskBackupSlotm",
+        "000000000000b7f0 T _ZN11DiskBackend19ensure_staging_buf_Ev",
+        "000000000000b9f0 T _ZN11DiskBackend27warn_once_if_not_real_disk_Ev",
+        "000000000000bd40 T _ZN11DiskBackend6onloadEPvmR14DiskBackupSlot",
+        "000000000000c760 T _ZN11DiskBackend7offloadEPvmR14DiskBackupSlot",
+        "000000000000bb10 T _ZN11DiskBackend7releaseER14DiskBackupSlot",
+        "000000000000b6e0 T _ZN11DiskBackendC1ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEm",
+        "000000000000b6e0 T _ZN11DiskBackendC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEm"
+      ],
+      "nm_error": ""
+    },
+    {
+      "installed_path": "/opt/sglang/lib/python3.12/site-packages/torch_memory_saver_hook_mode_torch_cu13.abi3.so",
+      "relative_path": "torch_memory_saver_hook_mode_torch_cu13.abi3.so",
+      "bytes": 1085096,
+      "sha256": "7a65bf68eb376d13d4ee28bdc123e88fd7abed556b40485ed98c67a408dde8fb",
+      "nm_returncode": 0,
+      "disk_symbols": [
+        "000000000000ed30 T tms_get_enable_disk_backup",
+        "000000000000f370 T tms_set_disk_backup_dir",
+        "000000000000f060 T tms_set_enable_disk_backup",
+        "000000000000b590 T _Z32compute_disk_backup_dir_from_envB5cxx11v",
+        "000000000000b680 T _Z33compute_disk_chunk_bytes_from_envv",
+        "000000000000bb30 T _ZN11DiskBackend15open_slot_file_ERK14DiskBackupSlot",
+        "000000000000be50 T _ZN11DiskBackend17create_slot_file_ER14DiskBackupSlotm",
+        "000000000000b7d0 T _ZN11DiskBackend19ensure_staging_buf_Ev",
+        "000000000000b9d0 T _ZN11DiskBackend27warn_once_if_not_real_disk_Ev",
+        "000000000000bd20 T _ZN11DiskBackend6onloadEPvmR14DiskBackupSlot",
+        "000000000000c740 T _ZN11DiskBackend7offloadEPvmR14DiskBackupSlot",
+        "000000000000baf0 T _ZN11DiskBackend7releaseER14DiskBackupSlot",
+        "000000000000b6c0 T _ZN11DiskBackendC1ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEm",
+        "000000000000b6c0 T _ZN11DiskBackendC2ENSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEm"
+      ],
+      "nm_error": ""
+    }
+  ],
+  "cpu_worker_var_tmp": {
+    "available_bytes": 2748533202944,
+    "total_bytes": 3838880616448
+  },
+  "limits": [
+    "CPU worker filesystem is not proof of H200 worker NVMe or available space.",
+    "No CUDA allocation, pause/resume, model load or disk-offload execution was performed."
+  ]
+}

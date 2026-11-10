@@ -1,0 +1,48 @@
+{
+  "observed_at": "2026-11-10T06:39:22.037951+00:00",
+  "job": "exp-1110-140032-491115",
+  "uid": "6d686513-19c8-4bf7-bd90-378abecabf3d",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T06:29:33Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  },
+  "replicas": {
+    "student": [
+      {
+        "name": "exp-1110-140032-491115-student-c4ca4238",
+        "ip": "10.204.8.49",
+        "phase": "Stopped"
+      },
+      {
+        "name": "exp-1110-140032-491115-student-cfcd2084",
+        "ip": "10.204.1.56",
+        "phase": "Failed"
+      }
+    ],
+    "teacher": [
+      {
+        "name": "exp-1110-140032-491115-teacher-cfcd2084",
+        "ip": "100.101.128.169",
+        "phase": "Stopped"
+      }
+    ]
+  }
+}

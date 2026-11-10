@@ -1,0 +1,28 @@
+{
+  "job": "exp-1110-144951-170247",
+  "uid": "d994d6bb-6ec0-4d17-a943-7e38b5340077",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "inspect": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T06:49:59Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "replicas": {
+    "inspect": [
+      {
+        "name": "exp-1110-144951-170247-cfcd2084",
+        "ip": "10.204.13.66",
+        "phase": "Succeeded"
+      }
+    ]
+  },
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+}

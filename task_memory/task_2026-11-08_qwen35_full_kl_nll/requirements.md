@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Record D38 authorization for one H200 allocator/TMS diagnostic with a600-second script limit and close the independent offline CPU acceptance. |
 | 2026-11-10 | Record the instruction to advance independent planned work while the selected 36-H800 placement route waits. |
 | 2026-11-10 | Record D36: keep the accepted 36-H800 layout, recheck resource conditions and wait for a better placement opportunity before another independent attempt. |
 | 2026-11-10 | Record formal A submission in the current phase; preserve all decisions and runtime acceptance criteria. |
@@ -59,7 +60,7 @@ The user invoked `grill-with-docs`, which loads `grilling` and `domain-modeling`
 
 ## Authority and document ownership
 
-- Current phase: **D16 PASS / NATIVE_HOST_MEMORY_BLOCKED**. Retained actual first-update proof in `test_report_2026-11-10_d16_first_update.md` accepts Ticket02;01/02/03 are done. A`exp-1110-140032-491115`subsequently Failed06:29:33Z during native TMS sleep/offload, all three replicas terminal at06:39:22Z; formal result1/200 INCOMPLETE, no second bank or new H200/B attempt. The common native memory fault and fresh admission block04/05, while A-firstACK/inspection is satisfied; no A200/profile-PASS gate. Allocation/retention cause remains under investigation, with no selected fix/runtime/configuration change. Zero-GPU TMS source inspection pins versions/exports only, not disk-offload runtime or H200 disk-space proof. Offline repair commits passed69/27 and joined4 cases; Standards closed, Spec oneP2 zero-prefix first-ACK auxiliary-cause edge remains fixing.06 final criteria stay incomplete. Raw D35/D36/D37, science, the CPU/final-data split and protected historical attempts remain unchanged; no GPU smoke, auxiliary hardgate or platform action by this documentation slice.
+- Current phase: **D16 PASS / NATIVE_HOST_MEMORY_REPAIR**. The actual first-update proof in `test_report_2026-11-10_d16_first_update.md` accepts Ticket02;01/02/03 are done. A`exp-1110-140032-491115`subsequently failed during native TMS sleep/offload; all replicas are terminal and its formal result is1/200 INCOMPLETE. D38 authorizes a single-H200 diagnostic before an evidence-backed correction and further formal execution; the old full-model allocation owner is not yet established. B's A-firstACK/inspection requirement is satisfied, with the common native fault and fresh resources still outstanding. The offline CPU slice is accepted after final219489ef repair,12 affected checks,2 prefix-zero joined CLI checks and both review axes closing all findings.06 final criteria still require actual A/B completion. Current operational evidence is in `progress.md`; scientific criteria and protected historical attempts remain unchanged.
 - The explicit request for tickets authorizes local `tickets/NN-slug.md` documents. No external issue is published.
 - Worktree: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`, branch `agent-opd-image`, created from `agent-opd` committed HEAD `20d0b3f4`.
 - The reused task `task_2026-11-08_qwen35_swe_full_r256` lives on `agent-opd` and keeps ownership of its own records, code and runs.
@@ -335,3 +336,18 @@ Advance independent planned CPU deliverables while D36 resource inspection conti
 
 - **D37 H200 execution authorization.** Switch subsequent blocked formal execution to H200 through the existing personal StepMind Python backend and the documented H200 quota group. This supersedes D36's current H800 waiting route and D33's H800 choice for these submissions; preserve both historical failed H800 attempts and their frozen configuration.
 - Select and verify a supported H200 allocation within the applicable non-preemptible GPU ceiling, using the existing launcher and model parallelism. Freeze the new configuration and attempt identity before submission. D35's accepted parent integration basis, D34 lengths, source32×8, full mode,200 successful updates,231/1800s admission,600s initial sync, profile soft gates and A-before-B dependency remain unchanged. Advance independent CPU inspection/reporting preparation in parallel.
+
+### Host-memory diagnostic route — [Original Request] 2026-11-10
+
+After the first H200 update passed D16 and the subsequent offload failed under Ray's host-memory monitor, the primary asked which route to take. The recommended choice was:
+
+> 1卡根因诊断 (Recommended)
+>
+> 授权1张H200定向复现分配器/TMS备份行为；脚本最多运行10分钟，启动时间另计。依据结果修复，再继续formal。
+
+The alternative was the existing disk-offload mechanism with its added I/O and unverified runtime effect. The user selected:
+
+> 1卡根因诊断 (Recommended)
+
+- **D38 targeted diagnostic authorization.** Run one H200 allocator/TMS diagnostic through the existing personal local StepMind backend, within the32-GPU non-preemptible ceiling. The worker script is limited to600 seconds; scheduling/startup time is separate. Compare controlled allocation ordering and retain allocator/block, host-memory and pause/resume evidence, then make an evidence-backed correction and continue formal execution.
+- This authorization is for the observed post-update native host-memory failure. A controlled allocator reproduction does not by itself establish which allocation pinned a segment in the failed full-model run. Preserve that evidence boundary when accepting a fix. The disk-offload alternative was not selected.

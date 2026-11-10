@@ -1,0 +1,74 @@
+{
+  "job": "exp-1110-140032-491115",
+  "native_first_update": {
+    "cell": "A/full",
+    "attempt": "exp-1110-140032-491115",
+    "attempted_rollout_id": 0,
+    "run_kind": "formal",
+    "protocol": "full",
+    "bank": 0,
+    "bank_visit": 1,
+    "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "generation_weight_versions": [
+      {
+        "spans": [
+          {
+            "version": "0",
+            "abs_start": 30663,
+            "abs_end": 39353
+          }
+        ],
+        "prefill_spans": [
+          {
+            "version": "0",
+            "abs_start": 0,
+            "abs_end": 30663
+          }
+        ],
+        "output_start": 30663,
+        "prompt_tokens": 30663
+      }
+    ],
+    "current_weight_version": 0,
+    "turn_sums_verified": true,
+    "unverified_turn_sums": [],
+    "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+    "kl_before_tis_numerator": 3393.9780913887316,
+    "nll_before_tis_numerator": 20000.222806594044,
+    "kl_direction": "student_minus_teacher",
+    "kl_before_tis_denominator": 37628,
+    "kl_before_tis": 0.09019820589424715,
+    "nll_before_tis": 0.5315250028328384,
+    "nll_before_tis_denominator": 37628,
+    "original_tokens": 37628,
+    "surviving_tokens": 30609,
+    "tis_retention": 0.8134633783352823,
+    "nonfinite_tokens": 0.0,
+    "token_rejected_tokens": 0.0,
+    "answer_rejected_tokens": 7019.0,
+    "diagnostics_verified": true,
+    "unverified_diagnostics": [],
+    "mask_evidence_verified": true,
+    "retained_weight": 1,
+    "effective_weight_sum": 30609,
+    "loss": 0.07339844477345209,
+    "lr": [
+      2e-06,
+      2e-06
+    ],
+    "timestamp": 1794292075.7301342,
+    "successful_updates": 1,
+    "actual_turns": 256,
+    "expected_bank_turns": 256,
+    "expected_bank_tokens": 37628,
+    "bank_membership_verified": true,
+    "update_successful": true,
+    "native_attempted_count": 1,
+    "native_skipped_count": 0,
+    "update": 1
+  },
+  "profile_files": {
+    "updates.jsonl": 672,
+    "observations.jsonl": 35354
+  }
+}

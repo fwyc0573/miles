@@ -1,0 +1,207 @@
+{
+  "cell": "A/full",
+  "inspection": {
+    "job": "exp-1110-140032-491115",
+    "expected_updates": 200,
+    "paths": {
+      "training_dir": "/data/ycfeng/tmp/agent-opd-image/d16-exp-1110-140032-491115/training",
+      "profile_dir": "/data/ycfeng/tmp/agent-opd-image/d16-exp-1110-140032-491115/training/distillation_profile",
+      "terminal": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-H200-A-20261110.terminal.json"
+    },
+    "native": {
+      "observed_successful_updates": 1,
+      "observed_successful_update_ids": [
+        1
+      ],
+      "successful_updates": 1,
+      "terminal_phase": "Failed",
+      "complete": false,
+      "error": "Native terminal phase is Failed: Tasks with failed status: [student]",
+      "terminal_error": "Native terminal phase is Failed: Tasks with failed status: [student]",
+      "terminal_job_verified": true,
+      "terminal_uid": "6d686513-19c8-4bf7-bd90-378abecabf3d",
+      "ack_identity": {
+        "cell": "A/full",
+        "attempt": "exp-1110-140032-491115",
+        "protocol": "full",
+        "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+        "run_kind": "formal"
+      },
+      "count_scope": "retained_successful_ack_sequence"
+    },
+    "profile": {
+      "verified_updates": 1,
+      "first_unverified_update": 2,
+      "unverified_ranges": [
+        [
+          2,
+          200
+        ]
+      ],
+      "complete": false,
+      "error": "Verified profile prefix ends at 1; expected 200 updates",
+      "canonical_uid_verified_updates": 1,
+      "identity_scope": "sealed_bank_source_uid_group_turn_and_original_mask",
+      "missing_pair_ranges": [
+        [
+          2,
+          200
+        ]
+      ],
+      "read_errors": {
+        "native_updates": null,
+        "profile_updates": null,
+        "profile_observations": null
+      },
+      "retained_update_rows": 1,
+      "retained_observation_rows": 1
+    }
+  },
+  "disposition": {
+    "native_training": "INCOMPLETE",
+    "profile": "INCOMPLETE / UNVERIFIED",
+    "overall": "INCOMPLETE"
+  },
+  "configuration": {
+    "estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+    "baseline_updates": 10,
+    "baseline_turns": 8,
+    "trend_window": 10
+  },
+  "macro": {
+    "as_of_update": 1,
+    "baseline": {
+      "value": null,
+      "status": "INCOMPLETE"
+    },
+    "latest": {
+      "update_id": 1,
+      "rkl": 0.09019820589424715,
+      "nll": 0.5315250028328384,
+      "tokens": 37628,
+      "turns": 256,
+      "conversations": 32,
+      "remaining_gap": null
+    },
+    "rkl_best": {
+      "update_id": 1,
+      "rkl": 0.09019820589424715,
+      "nll": 0.5315250028328384
+    },
+    "rkl_trend": null,
+    "recovery_gap": null,
+    "milestones": [
+      {
+        "update_id": 1,
+        "status": "VERIFIED",
+        "rkl": 0.09019820589424715,
+        "nll": 0.5315250028328384,
+        "remaining_gap": null
+      },
+      {
+        "update_id": 10,
+        "status": "NOT_OBSERVED",
+        "rkl": null,
+        "nll": null,
+        "remaining_gap": null
+      },
+      {
+        "update_id": 50,
+        "status": "NOT_OBSERVED",
+        "rkl": null,
+        "nll": null,
+        "remaining_gap": null
+      },
+      {
+        "update_id": 100,
+        "status": "NOT_OBSERVED",
+        "rkl": null,
+        "nll": null,
+        "remaining_gap": null
+      },
+      {
+        "update_id": 150,
+        "status": "NOT_OBSERVED",
+        "rkl": null,
+        "nll": null,
+        "remaining_gap": null
+      },
+      {
+        "update_id": 200,
+        "status": "NOT_OBSERVED",
+        "rkl": null,
+        "nll": null,
+        "remaining_gap": null
+      }
+    ]
+  },
+  "conversations": {
+    "scope": "VERIFIED_PREFIX",
+    "profile_available": true,
+    "as_of_update": 1,
+    "counts": {
+      "seen": 32,
+      "alive": 32,
+      "positive_baseline": 32,
+      "nonpositive_baseline": 0,
+      "defined_trend": 0,
+      "incomplete_baseline": 0
+    },
+    "distributions": {
+      "remaining_gap": {
+        "defined_count": 32,
+        "undefined_count": 0,
+        "quantiles": {
+          "p10": 1.0,
+          "p25": 1.0,
+          "p50": 1.0,
+          "p75": 1.0,
+          "p90": 1.0
+        }
+      },
+      "run_relative_gap": {
+        "defined_count": 0,
+        "undefined_count": 32,
+        "quantiles": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null
+        }
+      },
+      "rkl_trend": {
+        "defined_count": 0,
+        "undefined_count": 32,
+        "quantiles": {
+          "p10": null,
+          "p25": null,
+          "p50": null,
+          "p75": null,
+          "p90": null
+        }
+      },
+      "recovery_gap": {
+        "defined_count": 32,
+        "undefined_count": 0,
+        "quantiles": {
+          "p10": 0.0,
+          "p25": 0.0,
+          "p50": 0.0,
+          "p75": 0.0,
+          "p90": 0.0
+        }
+      }
+    }
+  },
+  "quantile_convention": "Equal weight per conversation; exclude None, never replace it with zero. Sort the n defined values; for probability p use h=(n-1)*p and linearly interpolate between floor(h) and ceil(h). One defined value supplies every quantile; no defined values gives null quantiles.",
+  "limitations": [
+    "All metrics describe the verified profile prefix, not any later unverified native updates. Unavailable milestones remain null; they are never extrapolated or filled from partial records.",
+    "RKL-best is the earliest minimum RKL, with NLL at that same update. NLL has no independent best, trend or recovery statistic.",
+    "Conversation distributions use each conversation's own latest entry. These entries can have different measurement updates; trend uses the latest reference at least k updates earlier.",
+    "Full-mode measurements mix training progress with turn position and actual turn/token membership. Later conversations measure their own baseline on a student trained longer.",
+    "Remaining gap is an RKL-to-baseline ratio, not the fraction still reducible. Model size alone does not prove a strictly positive minimum RKL.",
+    "Normalized gaps establish neither causal nor rank comparisons across teachers, models or runs. This report performs no benchmark evaluation.",
+    "The report does not independently verify source SWE instance/repository identity, exact-text proxy coverage or seed count. Consult the attempt's source and configuration evidence."
+  ]
+}

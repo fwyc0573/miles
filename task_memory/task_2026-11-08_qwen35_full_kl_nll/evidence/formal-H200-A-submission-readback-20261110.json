@@ -1,0 +1,276 @@
+{
+  "observed_at": "2026-11-10T06:02:27.594704+00:00",
+  "job": "exp-1110-140032-491115",
+  "uid": "6d686513-19c8-4bf7-bd90-378abecabf3d",
+  "created_at": "2026-11-10T06:00:32Z",
+  "labels": {
+    "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+    "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+    "kubebrain.brainpp.cn/creator-type": "user",
+    "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-step-main",
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "quotagroup.brainpp.cn/quotagroup": "step_main",
+    "rjob.brainpp.cn/group-share": "read",
+    "stepmind.com/gang-group": "true"
+  },
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [student]",
+    "taskStatuses": {
+      "student": {
+        "pending": 1,
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "student": {
+      "replicas": 2,
+      "positive_tags": [
+        "H200"
+      ],
+      "gpus_per_replica": 8,
+      "resources": [
+        {
+          "limits": {
+            "cpu": "64",
+            "mellanox.com/mlnx_rdma": "1",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8",
+            "rdma/mlnx_shared": "8"
+          },
+          "requests": {
+            "cpu": "64",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8"
+          }
+        }
+      ],
+      "images": [
+        "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "positive_tags": [
+        "H200"
+      ],
+      "gpus_per_replica": 2,
+      "resources": [
+        {
+          "limits": {
+            "cpu": "16",
+            "memory": "125Gi",
+            "nvidia.com/gpu": "2"
+          },
+          "requests": {
+            "cpu": "16",
+            "memory": "125Gi",
+            "nvidia.com/gpu": "2"
+          }
+        }
+      ],
+      "images": [
+        "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+      ]
+    }
+  },
+  "replicas": [
+    {
+      "role": "student",
+      "name": "exp-1110-140032-491115-student-cfcd2084",
+      "uid": "fd6d6ef7-a3c3-4b42-b224-c649092fdccf",
+      "ip": "10.204.1.56",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:44Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:44Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z"
+          }
+        ],
+        "hostIP": "10.204.1.56",
+        "podIP": "10.204.1.56",
+        "podIPs": [
+          {
+            "ip": "10.204.1.56"
+          }
+        ],
+        "startTime": "2026-11-10T06:00:34Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-10T06:00:44Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://1a9974be3f803d479d50fe0c7683cb06caf405b820f12d01c992140eb7b85b5b",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Running",
+        "nodeName": "gpu-h200-1192.lgcm.sh.istep.fun"
+      }
+    },
+    {
+      "role": "student",
+      "name": "exp-1110-140032-491115-student-c4ca4238",
+      "uid": "1a6512e8-9d15-4768-a28d-583affd8ac69",
+      "ip": "10.204.8.49",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z",
+            "reason": "ContainersNotReady",
+            "message": "containers with unready status: [student]"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z",
+            "reason": "ContainersNotReady",
+            "message": "containers with unready status: [student]"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:34Z"
+          }
+        ],
+        "hostIP": "10.204.8.49",
+        "podIP": "10.204.8.49",
+        "podIPs": [
+          {
+            "ip": "10.204.8.49"
+          }
+        ],
+        "startTime": "2026-11-10T06:00:34Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "waiting": {
+                "reason": "ContainerCreating"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "imageID": "",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Starting",
+        "nodeName": "gpu-h200-0057.lgcm.sh.istep.fun"
+      }
+    },
+    {
+      "role": "teacher",
+      "name": "exp-1110-140032-491115-teacher-cfcd2084",
+      "uid": "a70226d4-6d0c-42ca-95fe-23a31ae81e2f",
+      "ip": "100.101.128.169",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:43Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:01:00Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:01:00Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T06:00:33Z"
+          }
+        ],
+        "hostIP": "10.204.24.44",
+        "podIP": "100.101.128.169",
+        "podIPs": [
+          {
+            "ip": "100.101.128.169"
+          }
+        ],
+        "startTime": "2026-11-10T06:00:43Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-10T06:00:59Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://163db98e23bce29f55af58b1b493b0d08fd89390c14cc6262f0a5dd89c3a144f",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Running",
+        "nodeName": "gpu-h200-0638.lgcm.sh.istep.fun"
+      }
+    }
+  ]
+}

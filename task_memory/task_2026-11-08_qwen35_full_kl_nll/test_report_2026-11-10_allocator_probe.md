@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Primary prelaunch inspection selects1H200,4 CPUs,mem_gb16,1024/64MiB cases and a600-second whole-worker command limit. |
 | 2026-11-10 | Prepare the D38 one-H200 allocator-order diagnostic and record CPU validation only; native execution remains pending with the primary agent. |
 
 # Allocator/TMS probe: CPU preparation
@@ -123,3 +124,9 @@ Outputs: `late_moments.json`, `early_moments.json`, and `summary.json`; raw stdo
 3. Every persistent tensor's CPU backup and restored GPU value matches exactly; pointers are unchanged; device free bytes increase during pause on the isolated GPU; native FusedAdam step 1 completes with finite parameter values.
 4. The summary honestly reports an observed or unobserved ordering difference, or an incomplete diagnostic if either case fails. Successful exit is not proof of the formal root cause.
 5. The primary verifies actual elapsed worker-script time <=600s and terminal/native outputs, then appends native results here. No formal-run fix is accepted on CPU preparation alone.
+
+## Primary prelaunch inspection
+
+The primary inspected the complete465-line probe and its CPU report after commit`dd15bcb6`, including native environment re-exec, nonzero state fills, master-parameter/default backup context, all phase measurements, independent cases and negative-result handling. The existing native environment owner at `miles/ray/specs/train.py:213–250` has the fields supplied by the probe. The actual retained launch supplies optimizer=adam,lr=2e-6,weight_decay=0.1,betas0.9/0.98,epsilon1e-8 and `/var/tmp` as its worker-local root. The source-receipt schema has all referenced installed-file/hash fields.
+
+[allocator_probe_config.json](allocator_probe_config.json) selects one GPU,4 CPUs,`mem_gb=16`,one replica,1024MiB transient and64MiB per moment. The pinned image, H200/step_main, creator, CUDA compat directory, local mount and personal32 policy are derived from the actual formal launch receipt. The worker will have a fresh `/var/tmp` cache tree and the existing personal cloud-volume mount; results go only to the supplied local evidence root. GNU `timeout --signal=KILL 600s` will wrap the entire inner worker shell, including its two child cases, to enforce D38's worker-script limit. No GPU output has yet been accepted at this prelaunch checkpoint.

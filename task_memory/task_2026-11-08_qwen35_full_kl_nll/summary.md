@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Close offline CPU acceptance and record the D38 single-H200 diagnostic route. |
 | 2026-11-10 | Accept D16/Ticket02 real GPU evidence; archive native terminal1/200 host-memory failure, unresolved mechanism/fix and one remaining offline Spec edge. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and initial CPU join; archive open offline review repairs without claiming fix or native/final completion. |
 | 2026-11-10 | Align current summary with D37 H200 preparation and active independent CPU implementation;18-H200 cells share the32-GPU ceiling, while final acceptance remains pending. |
@@ -22,7 +23,7 @@
 
 # D16 accepted — native host-memory failure blocks formal completion
 
-Current frontier is **native allocation mechanism verification→evidence-backed fix→fresh formal attempts**, with the independent last offline edge fix/re-review. [D16 actual first-update proof](test_report_2026-11-10_d16_first_update.md)accepts Ticket02;01/02/03 are done. A is terminalFailed1/200 after native Ray host-memory kill during TMS sleep/offload; all replicas terminal, no second bank/new H200/B attempt. Allocation/retention cause remains under investigation and no fix/runtime/configuration change is selected. B's A-firstACK/inspection edge is satisfied, but common fault/fresh resources remain. CPU repair/postfix CLI passed; Standards closed, one Spec zero-prefix auxiliary-cause P2 fixing;06 final criteria incomplete. Historical H800/D36, science, independent protected attempts and CPU/final-data split are unchanged. Detailed current proof/state is in[progress](progress.md#in-progress), without newGPU smoke/auxiliary hardgates or an A200/profile-PASS gate.
+Current frontier is **D38 single-H200 allocator/TMS diagnostic→evidence-backed correction→formal continuation**. [D16 actual first-update proof](test_report_2026-11-10_d16_first_update.md)accepts Ticket02;01/02/03 are done. A is terminalFailed1/200 after native Ray host-memory pressure during TMS sleep/offload. The controlled diagnostic must not be presented as proof of the failed full-model allocation owner. B's A-firstACK/inspection edge is satisfied, but common fault/fresh resources remain. The independent offline CPU slice is accepted with all review findings closed;06 final criteria still need actual completed A/B records. Historical attempts and scientific criteria remain unchanged. Detailed current proof/state is in[progress](progress.md#in-progress).
 
 Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all original findings, including the retained unchanged document checker. T02 phase reviews remain Standards0/Spec0; at this checkpoint the primary-owned [review](review.md) also records T03 Standards/Spec No findings. These are inspected review records, not independent test reruns or formal GPU certification.
 
@@ -50,7 +51,7 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 
 - Actual D16 PASS: canonical/native identity, original mask counts, teacher alignment, pre-TIS RKL/pre-optimizer NLL and exact paired rebuild passed; actual values/times and verification limits are owned by[the primary report](test_report_2026-11-10_d16_first_update.md). This accepts02, not200-update completion or pure profile-compute overhead.
 - Native terminal result: A Failed06:29:33Z during TMS sleep/offload; all3 terminal at06:39:22Z. Ray diagnostic/kill-scan are separate memory readings, not one peak; allocation cause remains unknown. Six RCA reads succeeded/two audits timed out; audited stop actor/time remain UNKNOWN. No profile gate caused the failure.
-- CPU repairs: inspector69/reporter27 and postfix joined4 PASS; Standards closed, latest Spec oneP2 zero-prefix auxiliary-cause edge fixing. Prefix1 real D16 evidence is distinct from synthetic fixtures and this known zero-prefix error-reporting edge.
+- CPU repairs: inspector69/reporter27 and postfix joined4 PASS, followed by final219489ef with12 affected tests and2 zero-prefix joined CLI PASS. All Standards/Spec findings are closed. Actual prefix1 D16 evidence remains separate from synthetic fixtures and complete-run acceptance.
 - Historical startup snapshots before D16: actual18 H200/teacher/Ray and bank0 generation were positive pre-ACK evidence; the freeze_gc context was non-blocking. Initial57/26/CLI4 PASS and original review findings remain in their reports, not current repair/final acceptance.
 - Affected fast tests: 15 passed, including unknown native imports, changed pins, historical queries, baseline boundaries, and partial-write isolation.
 - Synthetic audit and native parity worker commands: PASS. Updated same-prompt/different-instance fixture: PASS; task identity/counts remain unverified/null.
@@ -74,7 +75,7 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 | 03 | Done: module and all CPU integration/S7 criteria accepted at15186817. |
 | 04 | BLOCKED: current attempt nativeFailed1/200 after accepted D16; allocation mechanism/fix and fresh attempts pending. |
 | 05 | BLOCKED: A firstACK/inspection satisfied; common native fault and fresh quota remain, no A200/profile-PASS gate. |
-| 06 | TODO: CPU implementation/postfix CLI ready, one Spec edge/final data pending; all four final criteria unchecked. |
+| 06 | TODO: CPU slice accepted; actual final data pending and all four final criteria unchecked. |
 
 The historical2026-11-09T07:56Z refresh at upstream`c52991ac` recorded expanded attempt`exp-1109-144110-764758` failing at07:47:18Z after initial weight synchronization timed out at600s, before rollout collection or optimizer updates. It remains unaccepted, as do earlier227/256 acquisition and historical partial scoring. The retained11:19Z upstream checkpoint (`23b29f66`) had an approved original18-H200 retry but no new submission/acceptance and no recorded adoption of this parent's112K/16K. Those are historical upstream facts, not current parent blockers underD35. The later parent authorization does not rewrite frozen-D11 provenance or certify upstream Ticket02.
 

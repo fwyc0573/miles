@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Close offline CPU acceptance and record D38 single-H200 diagnostic preparation. |
 | 2026-11-10 | Accept actual D16/Ticket02; record terminal1/200 native host-memory blocker, pinned-source limits and one independent Spec edge, with the primary's four-section milestone checkpoint. |
 | 2026-11-10 | Record actual H200 first-bank/generation and delivered CPU CLI, transcribe open review repairs and the primary's four-section checkpoint; retain all native/final gates. |
 | 2026-11-10 | Synchronize current D37 H200/parallel CPU state and18+18>32 resource constraint; preserve the primary's newest checkpoint and all final criteria, without new chronology. |
@@ -82,7 +83,8 @@ PY
 ```
 
 - D16/Ticket02 GPU accepted from retained real native/canonical/paired files; all CPU/S7 conditions were previously covered,02 done,03 unchanged. [Report](test_report_2026-11-10_d16_first_update.md),[verification](evidence/d16-H200-A-20261110/first-update-verification.json)and[actual report JSON](evidence/d16-H200-A-20261110/report.json)own measured values/times, exact rebuild and limits. This is not synthetic data and does not accept the subsequently failed1/200 formal run.
-- Independent CPU repair commits`24e8386f`/`d0f67887`record69/27 PASS and[postfix joined4 PASS](evidence/offline-report-join-review-fixed-20261110.json); Standards closed. Latest primary Spec re-review leaves oneP2 zero-prefix firstACK auxiliary-cause edge fixing by the assigned general agent; current state in[review](review.md#offline-review-repair-state--2026-11-10). No final06 criterion or last edge closure is claimed.
+- Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
+- **D38 current action:** user selected one H200 allocator/TMS diagnostic, worker script≤600s with startup separate. Script`dd15bcb6`and16 CPU checks are ready; primary inspected the complete script, native environment owner and actual receipt inputs, selecting[1024/64MiB and1GPU/4CPU/mem_gb16](allocator_probe_config.json). [Prelaunch report](test_report_2026-11-10_allocator_probe.md). Fresh admission and submission are next; no new formal attempt has been submitted. Native source0-GPU jobexp-1110-144951-170247 succeeded and pinned TMS0.0.10/native exports, without exercising CUDA pause/resume. See[the investigation](test_report_2026-11-10_h200_host_memory.md) and[raw authorization](requirements.md#host-memory-diagnostic-route--original-request-2026-11-10). The actual failed full-model allocation owner remains unproven.
 
 ### Historical5b6f38b8 milestone — before D16 acceptance
 

@@ -1,0 +1,24 @@
+{
+  "job": "exp-1110-022844-821769",
+  "uid": "a54101b9-6baf-4c84-a0c9-ac2897bded83",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 3,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-09T19:03:12Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "system_stop_reason": "Some critical tasks failed.",
+  "native_execution_succeeded": false
+}

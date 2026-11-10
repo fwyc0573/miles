@@ -1,0 +1,126 @@
+{
+  "status": "PASS",
+  "scope": "CPU joined CLI after inspector24e8386f and reporterd0f67887; no synthetic metrics are formal results",
+  "cases": [
+    {
+      "case": "hand-computed",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.distillation_report",
+        "--training-dir",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/hand-computed/training",
+        "--job",
+        "synthetic-offline-attempt",
+        "--cell",
+        "SYNTHETIC CPU / hand-computed",
+        "--expected-updates",
+        "200",
+        "--terminal-path",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/hand-computed/terminal.json",
+        "--output-prefix",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/hand-computed/report-review-fixed"
+      ],
+      "returncode": 0,
+      "disposition": {
+        "native_training": "INCOMPLETE",
+        "profile": "INCOMPLETE / UNVERIFIED",
+        "overall": "INCOMPLETE"
+      },
+      "verified_updates": 4,
+      "observed_id_count": 4,
+      "status": "PASS"
+    },
+    {
+      "case": "synthetic-complete",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.distillation_report",
+        "--training-dir",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-complete/training",
+        "--job",
+        "synthetic-offline-attempt",
+        "--cell",
+        "SYNTHETIC CPU / synthetic-complete",
+        "--expected-updates",
+        "200",
+        "--terminal-path",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-complete/terminal.json",
+        "--output-prefix",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-complete/report-review-fixed"
+      ],
+      "returncode": 0,
+      "disposition": {
+        "native_training": "COMPLETE",
+        "profile": "COMPLETE",
+        "overall": "COMPLETE"
+      },
+      "verified_updates": 200,
+      "observed_id_count": 200,
+      "status": "PASS"
+    },
+    {
+      "case": "synthetic-partial",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.distillation_report",
+        "--training-dir",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-partial/training",
+        "--job",
+        "synthetic-offline-attempt",
+        "--cell",
+        "SYNTHETIC CPU / synthetic-partial",
+        "--expected-updates",
+        "200",
+        "--terminal-path",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-partial/terminal.json",
+        "--output-prefix",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/synthetic-partial/report-review-fixed"
+      ],
+      "returncode": 0,
+      "disposition": {
+        "native_training": "COMPLETE",
+        "profile": "INCOMPLETE / UNVERIFIED",
+        "overall": "INCOMPLETE"
+      },
+      "verified_updates": 1,
+      "observed_id_count": 200,
+      "status": "PASS"
+    },
+    {
+      "case": "retained-failed-h800",
+      "command": [
+        "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.distillation_report",
+        "--training-dir",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/training",
+        "--job",
+        "exp-1110-014836-849060",
+        "--cell",
+        "A/full historical FAILED H800 attempt",
+        "--expected-updates",
+        "200",
+        "--terminal-path",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-A-20261110.terminal.json",
+        "--output-prefix",
+        "/data/ycfeng/tmp/agent-opd-image/joined-profile-report-20261110/retained-failed-h800/report-review-fixed"
+      ],
+      "returncode": 0,
+      "disposition": {
+        "native_training": "INCOMPLETE",
+        "profile": "INCOMPLETE / UNVERIFIED",
+        "overall": "INCOMPLETE"
+      },
+      "verified_updates": 0,
+      "observed_id_count": 0,
+      "status": "PASS"
+    }
+  ]
+}

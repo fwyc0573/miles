@@ -1,0 +1,61 @@
+{
+  "job": "exp-1110-140032-491115",
+  "native_successful_updates": 1,
+  "terminal": "Failed",
+  "terminal_at": "2026-11-10T06:29:33Z",
+  "direct_failure": "Ray host-memory monitor killed a trainer worker during post-update sleep/offload",
+  "node_ip": "10.204.1.56",
+  "ray_reported_node_usage_gib": 487.49,
+  "node_limit_bytes": 536870912000,
+  "kill_scan_usage_bytes": 510431268864,
+  "kill_threshold_bytes": 510027366400,
+  "memory_measurement_note": "The later487.49GiB diagnostic and initial kill-scan usage are distinct readings, not one peak measurement.",
+  "underlying_allocation_cause": "UNDER_INVESTIGATION",
+  "query_coverage": [
+    {
+      "query": "existing-deepscan",
+      "ok": true
+    },
+    {
+      "query": "incident-logs",
+      "ok": true
+    },
+    {
+      "query": "replica-audit",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=10.0)"
+      }
+    },
+    {
+      "query": "replica-historical-events",
+      "ok": true
+    },
+    {
+      "query": "replica-live-events",
+      "ok": true
+    },
+    {
+      "query": "rjob-audit",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=10.0)"
+      }
+    },
+    {
+      "query": "rjob-historical-events",
+      "ok": true
+    },
+    {
+      "query": "rjob-live-events",
+      "ok": true
+    }
+  ],
+  "audited_stop_actor": "UNKNOWN",
+  "audited_stop_request_time": "UNKNOWN",
+  "local_snapshot": "/data/ycfeng/tmp/agent-opd-image/d16-exp-1110-140032-491115",
+  "raw_collector_root": "/data/ycfeng/tmp/agent-opd-image/formal-H200-A-host-memory-failure-20261110",
+  "profile_retained_copy": "Byte comparisons PASS for native updates and both profile JSONL files; no formal cloud file removed"
+}

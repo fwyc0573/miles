@@ -1,0 +1,12 @@
+{
+  "launch_receipt": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/launch.json",
+  "native_source_receipt": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-tms-source-20261110/source.json",
+  "output_root": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/tms-allocator-20261110",
+  "cpu": 4,
+  "gpu": 1,
+  "mem_gb": 16,
+  "replica": 1,
+  "worker_seconds": 600,
+  "transient_mib": 1024,
+  "moment_mib": 64
+}

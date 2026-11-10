@@ -1,0 +1,78 @@
+{
+  "job": "exp-1110-140032-491115",
+  "D16_first_update_inspection": "PASS",
+  "ticket02_first_update_gpu": "PASS",
+  "full_run": "INCOMPLETE_NATIVE_FAILED_AFTER_UPDATE_1",
+  "native_successful_updates": 1,
+  "native_skipped_count": 0,
+  "canonical_bank": {
+    "bank": 0,
+    "valid": 256,
+    "missing": 0,
+    "pending": 0,
+    "uid_and_mask_binding": "PASS",
+    "acquisition_seconds": 529.2807991504669,
+    "response_tokens": 37628,
+    "max_prompt_tokens": 55049,
+    "max_response_tokens": 8690,
+    "teacher_request_success": 256,
+    "teacher_validation_success": 256
+  },
+  "profile": {
+    "verified_updates": 1,
+    "observations": 256,
+    "conversations": 32,
+    "replay_nums": [
+      0
+    ],
+    "rebuild": "PASS",
+    "summary": {
+      "update_id": 1,
+      "estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+      "rkl": 0.09019820589424715,
+      "nll": 0.5315250028328384,
+      "rkl_sum": 3393.9780913887316,
+      "nll_sum": 20000.222806594044,
+      "tokens": 37628,
+      "turns": 256,
+      "conversations": 32,
+      "rkl_best": {
+        "update_id": 1,
+        "rkl": 0.09019820589424715,
+        "nll": 0.5315250028328384
+      },
+      "baseline_updates": 10,
+      "baseline_turns": 8,
+      "baseline": null,
+      "remaining_gap": null,
+      "trend_window": 10,
+      "rkl_trend": null,
+      "recovery_gap": null,
+      "conversations_seen": 32,
+      "conversations_with_baseline": 32,
+      "conversations_with_nonpositive_baseline": 0,
+      "conversations_with_trend": 0,
+      "conversations_alive": 32
+    },
+    "rkl_abs_difference": 0.0,
+    "nll_abs_difference": 0.0
+  },
+  "timing": {
+    "initial_weight_sync_seconds": 1.8761975765228271,
+    "scoring_seconds": 81.96477198600769,
+    "actor_train_seconds": 153.8337013721466,
+    "train_seconds": 237.39034390449524,
+    "acquisition_start_to_ack_seconds": 778.9551038742065,
+    "teacher_request_wall_span_seconds": 486.13532042503357,
+    "teacher_request_mean_elapsed_seconds": 34.2994198728411,
+    "ack_record_to_profile_file_mtime_seconds": 1.4976847171783447
+  },
+  "limits": [
+    "Teacher request elapsed includes queue/network/service and overlaps other requests; it is not summed into a sequential training time.",
+    "ACK-to-profile file mtime includes rank completion/RPC/persistence; pure profile compute overhead was not instrumented.",
+    "Run baseline B10 and trend k10 are unavailable after only one update; no later metrics are inferred.",
+    "This prefix PASS does not accept the 200-update run or resolve the subsequent native host-memory failure."
+  ],
+  "snapshot_root": "/data/ycfeng/tmp/agent-opd-image/d16-exp-1110-140032-491115",
+  "manual_check_correction": "Initial audit assertion used assistant_turn_index; runtime contract swe_replay.py:368 uses assistant_turn_ordinal. Corrected audit only; inputs and runtime unchanged."
+}

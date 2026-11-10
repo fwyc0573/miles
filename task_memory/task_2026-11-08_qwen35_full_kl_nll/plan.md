@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept the independent offline CPU slice and record D38 as the next native diagnostic action. |
 | 2026-11-10 | Accept01/02/03 and D16; block formal04/05 on native host-memory fault/fresh admission, retaining independent final offline edge fix and unchanged scientific criteria. |
 | 2026-11-10 | Record actual H200 first-bank/generation progress and delivered CPU CLI; track open parallel review repairs before regression/re-review, retaining native/final gates. |
 | 2026-11-10 | Align remaining current D36 statements with D37 H200 preparation and parallel CPU work; record18-H200/cell and the32-GPU resource constraint without changing science or final criteria. |
@@ -50,7 +51,7 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
 | [04](tickets/04-a-full.md) | BLOCKED: native host-memory fault after D16; current attemptFailed1/200 | 01, 02, 03 accepted; native allocation mechanism/fix and fresh formal admission pending |
 | [05](tickets/05-b-full.md) | BLOCKED: common native memory fault and fresh admission | 01, 02, 03 accepted; 04 firstACK/inspection satisfied, common fix and fresh18-H200 resources within32 still pending |
-| [06](tickets/06-profile-report.md) | TODO: CPU implementation ready, one Spec edge fix/re-review and final data pending | CPU dependency 03 satisfied; final measurements still need 04, 05 actual native/terminal/profile evidence |
+| [06](tickets/06-profile-report.md) | TODO: CPU slice accepted, final data pending | CPU dependency 03 satisfied; final measurements still need 04, 05 actual native/terminal/profile evidence |
 
 Dependency graph:
 
@@ -65,7 +66,7 @@ D37 -> actual H200 A firstACK + D16 PASS -> 02 done; 05 firstACK/inspection edge
 04 native host-memory failure after update1 -> allocation mechanism verification -> evidence-backed fix -> fresh independent formal attempts
 05 fresh resource admission requires personal committed H200 +18 <=32; A18+B18 cannot overlap while both retain full allocation
 03 CPU-ready -> {04/05 offline inspection preparation, 06 report computation preparation}
-{inspector24e8386f, reporterd0f67887} ->69/27 PASS + postfix CLI4 PASS -> Standards closed; Spec one zero-prefix edge -> fix + re-review -> CPU slice acceptance
+{inspector24e8386f, reporterd0f67887} ->69/27 PASS + postfix CLI4 PASS ->219489ef +12 affected PASS +2 prefix-zero CLI PASS -> both review axes closed -> CPU slice accepted
 {04 terminal evidence, 05 terminal evidence, CPU report readiness} -> 06 actual reports and final acceptance
 ```
 
@@ -86,7 +87,7 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-**Independent CPU frontier:** inspector`24e8386f`69 PASS/reporter`d0f67887`27 PASS and[postfix joined4 PASS](evidence/offline-report-join-review-fixed-20261110.json)are recorded in[the existing report](test_report_2026-11-10_offline_report_integration.md). Standards is closed; Spec has oneP2 zero-prefix firstACK auxiliary-cause edge fixing by the assigned general agent ([review](review.md#offline-review-repair-state--2026-11-10)). Finish that fix/re-review independently of native mechanism verification.06 implementation is ready, final report acceptance is not; the CPU/final-data split and criteria remain unchanged.
+**Independent CPU slice accepted:** the final219489ef repair passed12 affected tests and2 joined prefix-zero CLI cases; both review axes are closed ([review](review.md#offline-review-repair-state--2026-11-10)).06 final report acceptance still requires the actual completed A/B records. **D38 native action:** prepare and execute the authorized single-H200 allocator/TMS diagnostic with a600-second script limit, retain its mechanism evidence, then make an evidence-backed correction and continue formal execution. See[the host-memory investigation](test_report_2026-11-10_h200_host_memory.md).
 
 Ticket01 is accepted including D34: the original-source112K CPU audit,512 native parity draws and2,048 interleaved raw draws passed; job/replica Succeeded at11:47:11Z and source identities reconcile ([current length/source report](test_report_2026-11-09_length_budgets.md#completed112k-original-source-audit)). The [historical128K report](test_report_2026-11-09_source_audit.md) retains its original policy and results. D26 keeps32×8 from the pre-length eligible median90; current simulated spans and absent post-length median are limitations, not a new blocker or native trend acceptance. The03 module retains D28–D32 CPU evidence ([test report](test_report_2026-11-08_profile_remaining_gap.md)) and historical query/baseline/partial-write checks ([review test report](test_report_2026-11-09_review_execution.md)). Native-count consistency and the full CPU integration path are now accepted in [ticket03](tickets/03-distillation-profile.md), with [201-PASS evidence](test_report_2026-11-10_profile_integration.md); actual GPU/profile verification remains separate. Current state is owned by [progress](progress.md#in-progress).
 

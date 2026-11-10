@@ -2,6 +2,9 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-10 | Accept the actual first-update D16/Ticket02 checks; record subsequent Ray host-memory failure and1/200 incomplete formal result. |
+| 2026-11-10 | Confirm all18 actual H200, teacher readiness, two-node Ray registration and first-bank acquisition; retain the nonblocking startup GC exception context separately from optimizer acceptance. |
+| 2026-11-10 | Submit independent D37 H200 A after clean configuration review/fresh admission; all three replicas have assigned nodes, first ACK remains pending. |
 | 2026-11-10 | Record the selected D36 waiting route and fresh personal inventory; distinguish personal admission from shared resource availability. |
 | 2026-11-10 | Record SDK and authenticated platform-document findings for the pending placement decision; distinguish verified mechanisms from untested options and avoid treating a waiting-time upper bound as measured GPU cost. |
 | 2026-11-10 | Close the second pre-training A failure with five complete receipts; pause submissions at PLACEMENT_BLOCKED pending a strategy decision, without claiming complete stop-audit closure. |
@@ -12,7 +15,7 @@
 
 # Formal A/B execution
 
-## Configuration and prerequisites
+## Historical H800 configuration and prerequisites
 
 The D35 consolidation is`55fba827`, per-turn CPU implementation is`6129aefe`, rollout/profile CPU integration is`15186817`, and explicit enabled formal configuration is`ec002ea8`. T02 and T03 each have Standards0/Spec0 reviews in[review.md](review.md). Launch code/config freeze HEAD:`606a9355`; no tracked changes under`miles/`, `tests/`or`scripts/`were present before submission. Task documents may progress independently.
 
@@ -102,9 +105,9 @@ Rank3[selected events](evidence/formal-A-r2-student3-events-20261110.json) conta
 
 RCA collector root:`/data/ycfeng/tmp/agent-opd-image/formal-A-r2-placement-failure-20261110`. The[coverage receipt](evidence/formal-A-r2-rca-query-coverage-20261110.json) records6 successful reads, both all-operation audits (`rjob-audit`, `replica-audit`) ReadTimeout10s andzero existing DeepScan flows. Collector exit1 is limited audit-query failure, not another GPU failure. Placement shortfall and native initiating error are established; audited stop actor/request time remain **UNKNOWN**, so no complete platform stop-audit closure is claimed.
 
-### Current route — PLACEMENT_BLOCKED
+### Historical D36 route — PLACEMENT_BLOCKED
 
-Both formal A attempts failed before acquisition/training with0 updates. **D36 now selects keeping the accepted 36-H800 configuration and waiting for improved placement conditions.** No third attempt has been submitted. The local SDK investigation `profile-placement-route-20261110` (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated document reads below are complete. Current work is the fresh resource check under the selected route, not an unfinished CPU integration or an undecided topology.
+Both formal A attempts failed before acquisition/training with0 updates. **D36 selected keeping the accepted36-H800 configuration and waiting for improved placement conditions; D37 subsequently authorized the H200 switch below.** At the D36 snapshot there was no third attempt. The local SDK investigation `profile-placement-route-20261110` (`ses_e3e4c91c2ffeH93O77e3RX5SB1`) and authenticated document reads below are complete. These are historical route records, not the current H200 job state.
 
 Repeated startup failures justify stopping speculative unchanged retries. Under D36, recheck resource indicators and resume with a separate attempt when conditions improve. T02/T03 CPU readiness and configuration remain unchanged. D16/native profile/02 GPU, B and200-update native/profile acceptance remain pending; any future run needs its own attempt identity, fresh admission and actual startup/success evidence. Both failed attempts and all formal cloud outputs are protected, separate and outside smoke cleanup authority.
 
@@ -134,7 +137,38 @@ The initial one-off script imported Steptron first and failed before any API cal
 
 ## B/full
 
-Not submitted. Neither failed A produced an ACK or satisfies B admission. D36 selects waiting for improved placement conditions; B still requires a future actual A first successful update, completed D16 inspection andfresh36-H800 admission, not A200 completion orauxiliary profile PASS. Its TP4/EP1 Qwen3.5-35B-A3B teacher is feasibility-supported buthas no native H800 acceptance yet.
+Not submitted. B uses D37's H200 configuration,18GPUs/TP2 teacher. The actual first-A-update and completed D16 inspection requirements are now satisfied by the H200 attempt below. The subsequent native host-memory failure requires resolution before another affected run, and B still needs fresh admission. Two18-GPU cells exceed32 non-preemptible GPUs; resource sequencing does not add an A200 or profile-PASS gate. Both zero-update H800 failures remain separate.
+
+## D37 H200 A/full — exp-1110-140032-491115 — FAILED after1 successful update
+
+- Submitted2026-11-10T06:00:32Z (14:00:32UTC+8) through the existing local StepMind Python backend. Config/policy freeze:`d822174c`; candidate `formal_h200_config.json`. Fixed-diff prelaunch review `profile-h200-prelaunch-review-20261110` returned Standards/Spec **No findings**. Four CPU dry-runs, unchanged science, selected runtime diff and retained lifecycle evidence are recorded in[the configuration report](test_report_2026-11-10_formal_configuration.md#d37-h200-configuration-preparation).
+- Fresh locked[admission](evidence/admission-formal-H200-A-20261110.json) at06:00:32.480291Z found2 committed H200, requested18, ceiling32, personal/admitted/submitted=true andpreemptible=false. Local source remains`100.96.128.195:/data/ycfeng:/data/ycfeng`. No unrelated job was stopped.
+- Exact personal API[readback](evidence/formal-H200-A-submission-readback-20261110.json) at06:02:27.594704Z confirms creator`i-fengyicheng`, quota group`step_main`, non-preemptible and18 requested H200. All three replicas have `PodScheduled=True`: student0 on`gpu-h200-1192`Running, student1 on`gpu-h200-0057`Starting/ContainerCreating, teacher on`gpu-h200-0638`Running. The overall job remainsStarting. This confirms assignment for this attempt, not yet workerGPU/engine or first-update acceptance.
+- Historical local launcher handle:`sh_1c40b2942001YJhTv6Bmxynsk5`; log:`/data/ycfeng/tmp/agent-opd-image/formal-H200-A-20261110.log`. It stayed alive during the workload and subsequently exited1. Exact invocation below used the same environment/interpreters/auth initialization documented above, from`/data/ycfeng`.
+
+```bash
+/data/ycfeng/tmp/stepmind-env/bin/python -u -B -m tests.manual.agent_opd.submit_swe_opd --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_h200_config.json --pair A --protocol full --receipt /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-H200-A-20261110.json > /data/ycfeng/tmp/agent-opd-image/formal-H200-A-20261110.log 2>&1
+```
+
+- Worker/local receipts:`evidence/formal-h200-112k-20261110/full/exp-1110-140032-491115/A/` and`full/student/A/exp-1110-140032-491115/`under that evidence root. Durable training:`/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-140032-491115/training/`; profile remains paired`distillation_profile/{updates,observations}.jsonl`there.
+- Read-only first-success/failure observer:`sh_1c40dff21001XSU7n1f5m5jH3g`, using the existing60-second check and config-derived9,000-second observation window. It checks retained native failure plus successful ACK, writes`evidence/formal-H200-A-first-update-notification-20261110.json`only on success, andcannot stop orchange the GPU job. Observer failures are auxiliary, not native failure.
+- First native ACK and D16/02 GPU consistency are now **PASS**; the verified first update remains independent of both H800 failures. The attempt failed afterward, so200-update native/profile acceptance remains incomplete. See the[first-update report](test_report_2026-11-10_d16_first_update.md). Offline tools were subsequently repaired at`24e8386f`/`d0f67887`; the[combined CLI check](test_report_2026-11-10_offline_report_integration.md) includes post-repair synthetic/retained checks and separately links actual first-update evidence.
+
+### Actual H200 startup and first bank
+
+The[worker startup receipt](evidence/formal-H200-A-worker-startup-20261110.json) joins the two student node receipts, teacher-ready receipt and Ray cluster receipt for this exact job. It confirms18 actual H200 devices, ready27B teacher and two alive Ray nodes with16 student/rollout GPUs. These observations supersede the earlier container-creation snapshot without changing its historical status. They do not prove a successful optimizer update.
+
+A bounded read of the rank0 cloud log at06:14:35Z retained[pre-acquisition startup context](evidence/formal-H200-A-initial-sync-20261110.json). Despite that receipt's filename, its captured engine-loading lines do not establish initial weight-sync duration. The later06:17:12Z[log and bank snapshot](evidence/formal-H200-A-startup-context-20261110.json) establishes `acquisition_start` at1794291296.7750304 (2026-11-10T06:14:56.775030Z), deadline1794293096.775094 and256 candidate slots. The same snapshot contains successful generation attempts and HTTP200 generation responses; final valid count, collection duration and first ACK remain unverified at this snapshot.
+
+The log shows a `/freeze_gc` connection rejection in pinned SGLang `_freeze_gc_after_server_warmup`, followed by server readiness, another successful freeze-GC response, and later successful generation. Thus the captured exception did not prevent this run from entering acquisition. No GC, timeout, network or training behavior was changed, and no job was stopped over this auxiliary startup observation.
+
+These are direct reads of the existing local worker receipts and the exact personal cloud log/bank, using `ssh shai-ycfeng` only as `i-fengyicheng`. Cloud input files were not changed. The rank0 log read was limited to its final2MiB; the bank read selected only its first complete record and candidate count. Evidence parsing uses complete newline-terminated JSON records.
+
+### First update accepted; subsequent native host-memory failure
+
+The[first-update verification](evidence/d16-H200-A-20261110/first-update-verification.json) confirms256 valid turns acquired in529.280799s, no missing/pending slots, one unskipped native ACK,37,628 original tokens and exact canonical UID/mask binding. The paired profile contains256 observations across32 conversations; RKL0.09019820589424715 and NLL0.5315250028328384 exactly match the native record, and offline rebuild reproduces its summary. Stage times and the manual ordinal-check correction are recorded in[the D16 report](test_report_2026-11-10_d16_first_update.md).
+
+After the successful training outcomes, Ray's host-memory monitor killed a trainer worker during post-update offload. The job finished Failed at06:29:33Z; the[06:39:22Z terminal readback](evidence/formal-H200-A-terminal-readback-20261110.json) confirms all three replicas terminal. The formal result is1/200, not COMPLETE; no second bank was present in the captured snapshot. The underlying memory-retention cause is being diagnosed before another affected launch. Six RCA queries succeeded; both audit reads failed, leaving audited stop actor/time UNKNOWN. All formal cloud outputs remain protected.
 
 ## Local record verification
 
