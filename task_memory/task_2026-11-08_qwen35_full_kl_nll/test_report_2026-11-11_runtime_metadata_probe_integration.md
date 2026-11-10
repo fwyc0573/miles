@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-11 | Record the first4 diagnostic integration, real source-preparer ordering, joined CPU checks, independent readback failures and pending native acceptance. |
 | 2026-11-11 | Add explicit retained native RID associations, a reordered real-schema regression, failed-validation retention and306-pass joined follow-up verification. |
+| 2026-11-11 | Accept native single-DP absent-controller rank without relabeling it; retain strict rank checks and record RED/GREEN plus330-pass joined verification. |
 
 # Runtime metadata teacher-probe integration
 
@@ -125,6 +126,34 @@ TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-
 
 Expected: native scoring/submission/source integration unchanged, baseline56/32 and diagnostic16/10 preserved. Observed **306 passed,20 existing warnings,25.54s; PASS**, including all107 probe tests. No test failure or skip occurred. Follow-up owns only the two existing probe/test files and this existing report; no native execution occurred. These CPU joins do not prove that an H800 diagnostic has complete runtime RID coverage or reproduced the drift.
 
+## Single-DP absent-controller receiver follow-up
+
+**Verified cause:** pinned C3 `evidence/native-sglang-cache-source-20261111/exp-1111-042450-358109/source/srt/runtime_context.py:230–240` defines `SpawnRanks.dp_rank: Optional[int]=None`, explicitly meaning no data-parallel controller. Publication at1588 copies this value verbatim. The native recorder correctly retains it, but the previous receiver required all five rank fields to be nonnegative integers. A healthy ordinary DP1 teacher could therefore finish16 scoring requests and then fail only the auxiliary readback.
+
+**Exact contract:** an explicitly present native `rank.dp_rank=None` is accepted only when reported `dp_size==1`. The receiver uses effective respondent0 solely for its bounds/uniqueness checks; it never writes0 into the raw metadata or returned observation rank. Missing `dp_rank` remains malformed, not an absent-controller default. DP>1 still requires explicit nonnegative integer DP ranks, rejects None/bools/negative/out-of-range/duplicates, and requires one response per DP. `tp_rank`, `pp_rank`, `attn_dp_rank` and `attn_tp_rank` still require nonnegative integers and reject None and bools. No other rank normalization or default was added.
+
+The CPU fixture now gives attention-DP its independently assigned integer0 instead of coupling it to optional controller-DP; this changes only the synthetic test rank object, not native source or metadata. Existing A/B first4 HTTP tests now use the actual recorder schema with `dp_rank=None` and integer attention ranks, finish16 requests/10 flushes and assert that both `server_info` and `dp_responses` retain JSON null. Added tests preserve raw input/observation rank, reject missing DP rank and strict invalid values, and retain the existing duplicate-DP check.
+
+Same CPU interpreter/environment as above. An initial fixture-preparation run used the following filter with `--basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-dp-none-red-20261111`: **3 failed,33 passed,95 deselected,2 warnings,3.46s**. Its old synthetic helper also set `attn_dp_rank=None`; that confound was corrected before the qualified RED run below, without changing the receiver or relaxing attention-rank typing.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'single_dp or other_rank_types or dp_rank_rejects or first4_16_requests' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-dp-none-red-qualified-20261111
+```
+
+Expected: reproduce rejection of a legitimate single respondent with native None while strict invalid cases remain rejected. Observed **3 failed,33 passed,95 deselected,2 existing warnings,2.97s; expected RED**. Both healthy A/B first4 cases ended with readback `failed` instead of `collected`; the direct case raised `ValueError: DP response 0 has malformed metadata rank` with all other rank fields integer0.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'single_dp or other_rank_types or dp_rank_rejects or first4_16_requests' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-dp-none-green-20261111
+```
+
+Expected: preserve native None, accept only the supported single-DP case, reject malformed ranks and preserve all scoring artifacts/counts. Observed **36 passed,95 deselected,2 existing warnings,2.71s; PASS**.
+
+```bash
+TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/runtime-metadata-dp-none-joined-20261111
+```
+
+Expected: no regression in receipts/RID association, scoring, submission or native preparer contracts; baseline56/32 and diagnostic16/10 remain unchanged. Observed **330 passed,20 existing warnings,27.16s; PASS**, including all131 probe tests; no test failure or skip. Only the existing probe/test/report changed. Native source/recorder, config, flags, payload, requests and flushes remain untouched; no polling, GPU/platform/auth action, Tensor read, event, wait or synchronization occurred. Native first4 acceptance remains PENDING. The two phase reviewers' prior pinned range is not treated as acceptance of this repair; final re-review must inspect the fixed artifacts.
+
 ## Verification limits and next dependency
 
 All HTTP/GPU-inspection/engine-startup operations in integration tests are CPU mocks; existing cleanup checks start only their owned CPU child. First4 mock HTTP bodies contain only the completion tail needed for request/identity/readback contracts; they do not certify native full-input score ranges or probability vectors. `collected` means structurally present CPU metadata, never native PASS, device-store completion, physical slot content, causal proof or numerical parity. DP respondents do not expose independent receipts from all TP ranks.
@@ -133,7 +162,7 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 
 ## 1. 规划完成情况
 
-**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
+**汇总：** PASS 6｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
@@ -141,22 +170,23 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 | 真实 preparer 接线与独立 receipts | PASS | selected-FP32 后、runtime/attention/teacher 前，两个实际 CPU receipts 分开保留。 |
 | post-loop 既有 endpoint 与失败证据 | PASS | DP-only coverage；缺失/malformed 独立失败，scoring 文件保留。 |
 | 明确 native RID 关联 | PASS | 真实 response ID 关联到 pair/repetition/phase/mode/UID/index；乱序与 failed validation 回归通过。 |
-| joined CPU 验证 | PASS | follow-up306 passed，20 existing warnings，25.54s。 |
+| native DP1 absent-controller receipt | PASS | 仅DP=1接受显式None，raw/observation保持None，其余rank与非法值仍严格拒绝。 |
+| joined CPU 验证 | PASS | 最新330 passed，20 existing warnings，27.16s。 |
 | 实际 H800 first4 重现与 runtime metadata | BLOCKED | 本 subagent 无 GPU/platform 权限；native 仍 PENDING。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** RID follow-up 请求至306项 joined CPU 完成｜**当前前沿：** 提交三个 owned follow-up files；primary 独立决定后续 native 验证。
+**检测窗口：** single-DP receiver follow-up 请求至330项 joined CPU 完成｜**当前前沿：** 提交三个 owned files 供 final re-review；primary 独立决定后续 native 验证。
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 只补充必需 RID 合约回归；joined 完成后停止扩展。 |
-| D2 细节反复重试 | CLEAR | 一次预期 RED、一次修复后 GREEN；没有失败修复循环。 |
+| D1 工具打磨 | CLEAR | 只补充本次 DP1/strict-rank 合约回归；joined 完成后停止扩展。 |
+| D2 细节反复重试 | CLEAR | 先去掉 synthetic attention-rank confound，再qualified RED→一次receiver修复→GREEN；无行为修复循环。 |
 | D3 支线问题修补 | CLEAR | follow-up 只编辑三个授权旧文件，未修改 recorder、launcher、配置或原始 fixtures。 |
 | D4 可并行任务停滞 | CLEAR | source 已就绪；本 follow-up 无可独立启动的 native 工作，也无 delegation 权限。 |
-| D5 超范围镀金 | CLEAR | 只添加明确 receipt identity；无新 selector、payload RID 或请求/flush。 |
-| D6 分析空转 | CLEAR | 真实 retained ID 与 native source 直接支撑最小修复和回归。 |
+| D5 超范围镀金 | CLEAR | 仅支持源码明确的DP1 native None；无 blanket default 或其他rank放宽。 |
+| D6 分析空转 | CLEAR | pinned C3定义/publication直接支撑最小receiver修复和回归。 |
 | D7 路线违背 | CLEAR | 无 GPU/platform/auth/SSH/delegation；原生验收未冒充完成。 |
 
 **文档检查：** 当前 scoped assignment 下 S1–S6 均未发现明显缺陷；父任务 formal hold 保持不变。
@@ -169,11 +199,11 @@ The first4 reduction is a candidate minimized reproduction, not accepted until a
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 交付 RID follow-up 与本报告 → 完成标志：只提交三个 owned files，保留其他 agent 的修改。
+1. 交付 single-DP receiver fix 与本报告 → 完成标志：只提交三个 owned files，保留其他 agent 的修改，供 fixed-artifact re-review。
 2. primary 后续 native 验证 → 完成标志：按真实 RID 关联 H800 metadata 与评分 identity，first4 与旧 FP32 repetition0 比较且sample2/3 drift 保留；不以 CPU 或缺失 trace 替代。
 
 ## 4. 最值得关注的 3 点
 
-1. RID follow-up 已通过306项 joined 检查；known RID 在 failed validation 中保留，没有新的 native PASS。
-2. RID join 不依赖行顺序；server-info 仍只覆盖每个 DP responding process，不覆盖全部 TP ranks或设备写完成。
+1. single-DP repair 已通过330项 joined 检查；raw native None被保留，没有新的 native PASS。
+2. None只在显式DP1 case接受，其他rank typing与DP bounds/uniqueness不放宽；RID join不依赖顺序。
 3. first4 尚未获原生重现验收，且未覆盖 dropped1024-hit groups；formal hold 不变。

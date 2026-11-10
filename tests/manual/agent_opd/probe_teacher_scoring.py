@@ -449,13 +449,18 @@ def _runtime_metadata_states(info):
         if type(metadata.get("process_id")) is not int or metadata["process_id"] <= 0:
             raise ValueError(f"DP response {index} has malformed metadata process_id")
         rank = metadata.get("rank")
-        if (not isinstance(rank, dict) or any(type(rank.get(name)) is not int or rank[name] < 0
-                for name in ("dp_rank", "tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank"))):
+        if (not isinstance(rank, dict) or "dp_rank" not in rank
+                or any(type(rank.get(name)) is not int or rank[name] < 0
+                       for name in ("tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank"))):
             raise ValueError(f"DP response {index} has malformed metadata rank")
         dp_rank = rank["dp_rank"]
-        if dp_rank >= info["dp_size"] or dp_rank in ranks:
+        # Native DP1 without a controller retains dp_rank=None in the receipt.
+        effective_dp_rank = 0 if dp_rank is None and info["dp_size"] == 1 else dp_rank
+        if type(effective_dp_rank) is not int or effective_dp_rank < 0:
+            raise ValueError(f"DP response {index} has malformed metadata rank")
+        if effective_dp_rank >= info["dp_size"] or effective_dp_rank in ranks:
             raise ValueError(f"DP response {index} has duplicate or out-of-range dp_rank")
-        ranks.add(dp_rank)
+        ranks.add(effective_dp_rank)
         rows = metadata.get("rows")
         if not isinstance(rows, list) or not rows:
             raise ValueError(f"DP response {index} has missing or empty runtime metadata rows")

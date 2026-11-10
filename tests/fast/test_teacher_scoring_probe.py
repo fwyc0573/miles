@@ -816,7 +816,7 @@ def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
     namespace = {}
     exec(compile(metadata._RECORDER_SOURCE, "qualified-recorder-cpu-contract", "exec"), namespace)
     namespace["record"]("cpu_test_only", (("rids", rids), ("source", "CPU; no native execution")))
-    rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=dp_rank, attn_tp_rank=tp_rank)
+    rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=0, attn_tp_rank=tp_rank)
     return namespace["drain"](rank)
 
 
@@ -887,7 +887,7 @@ def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retai
     task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
     fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
     by_length = {len(sample["tokens"]): sample for sample in fixture["samples"]}
-    metadata = _cpu_metadata()
+    metadata = _cpu_metadata(dp_rank=None)
     if failure == "empty":
         metadata["rows"] = []
     server_info = {"dp_size": 1, "tp_size": 4, "pp_size": 1,
@@ -953,6 +953,50 @@ def test_first4_16_requests_10_flushes_then_one_existing_endpoint_readback_retai
     else:
         assert receipt["dp_size"] == 1 and receipt["tp_size"] == 4 and len(receipt["dp_responses"]) == 1
         assert receipt["dp_responses"][0]["row_count"] == 1
+        assert receipt["dp_responses"][0]["rank"]["dp_rank"] is None
+        assert receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]["rank"]["dp_rank"] is None
+
+
+def test_metadata_single_dp_without_controller_preserves_native_none(tmp_path, monkeypatch):
+    info = json.loads(json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1,
+                                 "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=None)}]}))
+    before = json.dumps(info, sort_keys=True)
+    rank = info["internal_states"][0]["mamba_runtime_metadata"]["rank"]
+    assert probe._runtime_metadata_states(info)[0]["rank"] == rank and rank["dp_rank"] is None
+    _mock_http(monkeypatch, lambda *args: (json.dumps(info).encode(), 200))
+    output, _ = _output(tmp_path)
+    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
+    retained = json.loads((output / "runtime_metadata.json").read_text())
+    assert receipt["status"] == "collected" and retained == receipt
+    assert retained["dp_responses"][0]["rank"]["dp_rank"] is None
+    assert retained["server_info"] == info and json.dumps(info, sort_keys=True) == before
+
+
+@pytest.mark.parametrize("dp_size,value", [(1, True), (1, False), (1, -1), (1, 1), (2, None), (2, 2)])
+def test_metadata_dp_rank_rejects_invalid_values_and_none_with_multiple_dp(dp_size, value):
+    info = json.loads(json.dumps({"dp_size": dp_size, "tp_size": 4, "pp_size": 1,
+        "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=rank)} for rank in range(dp_size)]}))
+    info["internal_states"][0]["mamba_runtime_metadata"]["rank"]["dp_rank"] = value
+    with pytest.raises(ValueError, match="metadata rank|out-of-range dp_rank"):
+        probe._runtime_metadata_states(info)
+
+
+def test_metadata_single_dp_missing_rank_field_is_not_native_none():
+    info = json.loads(json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1,
+                                 "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=None)}]}))
+    del info["internal_states"][0]["mamba_runtime_metadata"]["rank"]["dp_rank"]
+    with pytest.raises(ValueError, match="metadata rank"):
+        probe._runtime_metadata_states(info)
+
+
+@pytest.mark.parametrize("name", ["tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank"])
+@pytest.mark.parametrize("value", [None, True, False, -1])
+def test_metadata_other_rank_types_remain_strict_with_single_dp_none(name, value):
+    info = json.loads(json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1,
+                                 "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(dp_rank=None)}]}))
+    info["internal_states"][0]["mamba_runtime_metadata"]["rank"][name] = value
+    with pytest.raises(ValueError, match="metadata rank"):
+        probe._runtime_metadata_states(info)
 
 
 def test_metadata_dp_responses_keep_individual_ranks_without_assuming_tp_shards():
