@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Source commit f8b6b43a and final exact A/B r3 dry-run PASS recorded; actual native interpretation remains pending. |
 | 2026-11-11 | Record independent frozen Standards/Spec findings and primary checksum/CPU source acceptance. |
 
 # Serving binding source review
@@ -29,6 +30,6 @@ Recorded results: producer54 whole/5 affected; consumer83 focused; composed303; 
 
 [checksum-verification.json](checksum-verification.json) is the independent primary check: five frozen/live review-input blobs and diff hash match;35 source/image/native pins equal baseline; selected R3 receipt SHA remains`91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7`; both retained ELF file hashes match that receipt. Generated runtime SHA is`7ed5b5fb56ef736afee2c9e9aefa7543a779e53f18b3cf3cf7c0943618816308`. No serving module was loaded by this checksum check.
 
-Primary **ACCEPTS the bounded CPU/source phase only**. The maintained test report subsequently receives completion-status updates; its frozen reviewed version is retained separately. The four code/test hashes remain the review inputs. Commit and final driver are the next step; actual serving SO/ABI/CUDA, active all16/6804, independent7955 physical/KV, root cause/fix/performance and formal200 remain unverified. File SHA is not a mapped-ELF hash; the bounded private-package/no-post-import-writer assumption remains explicit. Warm correctness still FAIL; formal04/05 HOLD and B's no-A200 edge remain.
+Primary **ACCEPTS the bounded CPU/source phase only**. The maintained test report subsequently receives completion-status updates; its frozen reviewed version is retained separately. The four code/test hashes remain the review inputs. Source/evidence committed as`f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d`; [final driver comparison](drivers/comparison.json) PASS: each prospective A/B r3 driver exactly matches the previous r3 JSON bytes, requests4 H800/codesign and returns submitted=false. Actual serving SO/ABI/CUDA, active all16/6804, independent7955 physical/KV, root cause/fix/performance and formal200 remain unverified. File SHA is not a mapped-ELF hash; the bounded private-package/no-post-import-writer assumption remains explicit. Warm correctness still FAIL; formal04/05 HOLD and B's no-A200 edge remain.
 
 Summary: Standards0 findings; Spec0 findings; no blocking source finding on either axis.

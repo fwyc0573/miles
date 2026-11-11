@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Source/evidence committed as f8b6b43a; A/B prospective-r3 dry-runs match the prior r3 JSON bytes exactly, with four H800/codesign each and submitted=false. |
 | 2026-11-11 | Primary accepts the bounded CPU/source candidate after both fixed review axes report No findings and independent five-blob/source/R3/ELF checksum PASS; commit/driver and actual native qualification remain separate. |
 | 2026-11-11 | Direct actual producer receipt to unmocked consumer contract regression passed24 cases/1.01s; source is CPU-ready for fixed reviews, with no native/GPU acceptance. |
 | 2026-11-11 | Producer delivered54 CPU PASS/19.35s; two-file composed run303 PASS/0 SKIP/34.27s. A single direct producer-output/consumer-input regression remains pending before freezing reviews. |
@@ -46,7 +47,7 @@ No adapter-initialization overlay is added: the current insert hook already rece
 | Readiness and seam investigation | Identify a concrete missing receipt and an existing instance-bearing hook. | PASS, as above. |
 | Producer CPU regression | One-time capture before RID selection; real file hash; exact exported/factory class ties; isolated failure; all existing EXTEND fault cases retained; whole-file fast budget under 30 seconds. | PASS:5 affected cases/1.90s; whole existing module54 PASS/19.35s/0 SKIP, run once by producer. |
 | Consumer CPU regression | Reject missing/path/SHA/PID/class/error mismatches after all16; retain initial/opt-out behavior and artifacts. | PASS:83 focused/0 SKIP/6.05s, followed by24 direct-contract/table cases/0 SKIP/1.01s; task `profile-kv-coherence-serving-binding-consumer-20261111`. |
-| Composed source/RPC binding, fixed review and driver | Existing chain/pins preserved; no missing-evidence skip counted as acceptance; unchanged H800 allocation/argv except new output. | Two-file run303 PASS/0 SKIP/34.27s, then24 direct-contract/table cases PASS/0 SKIP/1.01s. Both fixed review axes No findings; independent checksum PASS; bounded CPU/source primary ACCEPTED. Final driver remains PENDING. |
+| Composed source/RPC binding, fixed review and driver | Existing chain/pins preserved; no missing-evidence skip counted as acceptance; unchanged H800 allocation/argv except new output. | Two-file run303 PASS/0 SKIP/34.27s, then24 direct-contract/table cases PASS/0 SKIP/1.01s. Both fixed review axes No findings; independent checksum PASS; bounded CPU/source primary ACCEPTED and committed f8b6b43a. A/B final driver PASS, submitted=false. |
 | Actual serving native identity, active all16 vectors, physical 7955 and KV | Obtain separate native verdicts before interpreting any KV number. | NOT RUN; r3 GPU submission has not occurred. |
 
 ### Consumer delivery
@@ -70,6 +71,12 @@ The two-file run covers existing real source preparation and mocked runtime/read
 Primary also checked [joined/summary.json](evidence/kv-coherence-serving-binding-20261111/joined/summary.json) against JUnit XML:303 cases,0 failures/errors/skips; summed testcase times21.373s for54 collector cases and11.664s for249 teacher-probe cases. Both fixed review axes now report No findings; [source-review.md](evidence/kv-coherence-serving-binding-20261111/source-review.md) records their independent scopes. [checksum-verification.json](evidence/kv-coherence-serving-binding-20261111/checksum-verification.json) independently verifies the five review-input blobs/diff, unchanged35 source/image/native pins, selected R3 receipt and both retained ELF file hashes. Runtime SHA alone changes from the earlier generated source to `7ed5b5fb56ef736afee2c9e9aefa7543a779e53f18b3cf3cf7c0943618816308`. Primary accepts this bounded CPU/source candidate. These completion-status updates follow the frozen report review; the four code/test blobs remain identical to the review input. Previous49-test acceptance is not acceptance of this new receipt, and none of these CPU results establishes actual serving private-SO or CUDA qualification.
 
 ## Limits
+### Commit and final dry-run
+
+Source/evidence commit: `f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d`. The four source/test hashes still equal the frozen review inputs after commit. The selected three small pytest logs were explicitly staged despite the repository's log ignore rule. Stored raw unified-diff artifacts retain their mandatory single-space blank context lines and exact hashes; whitespace checking applies to source/docs/data, not to those serialized diff-context lines.
+
+The [driver comparison](evidence/kv-coherence-serving-binding-20261111/drivers/comparison.json) records both exact commands and source commit. Each command runs `python3 -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config <task>/teacher_scoring_kv_coherence_probe_config.json --pair A|B --receipt <task>/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-A|B-r3.json --dry-run`. A/B were checked independently in parallel, without platform/auth access. Both stdout JSON documents exactly match the earlier EXTEND-fix r3 driver bytes, including all allocation/argv/env/mount fields; each requests4 H800/codesign and returns`submitted=false`. JSON SHA256 A=`2af3be7caba5dca1e43c277b86046553ac0a7e691319ed73e559e23a0aaff23b`, B=`791bbee1a9863e0f68aa3af6cd6e1c378526ee8508c55fe77c79ec6ccb992dc7`. Prospective outputs remain`native/{A,B}/admission-{A,B}-r3`; no admission receipt, native business output or GPU job is created by these dry-runs.
+
 
 The SHA describes the file at the loaded module's resolved path, tied to the actual native class and serving PID. It is not an independent hash of mapped ELF pages. Its bounded interpretation relies on the fresh job-owned private package, verified artifact staging and the absence of a post-import file writer; hostile file replacement is not a supported scenario. Mock class/real-file CPU tests cannot prove native PyO3 ABI, serving module loading or CUDA execution.
 

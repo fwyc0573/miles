@@ -1,0 +1,55 @@
+{
+  "scope": "CPU dry-run only; no platform/auth/GPU/serving Rust binding execution",
+  "source_commit": "f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d",
+  "checks": [
+    {
+      "pair": "A",
+      "status": "PASS",
+      "submitted": false,
+      "requested_gpus": 4,
+      "gpu_tag": "H800",
+      "charged_group": "codesign",
+      "driver_sha256": "2af3be7caba5dca1e43c277b86046553ac0a7e691319ed73e559e23a0aaff23b",
+      "exact_previous_r3_driver_bytes": true,
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.submit_teacher_scoring_probe",
+        "--config",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_coherence_probe_config.json",
+        "--pair",
+        "A",
+        "--receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-A-r3.json",
+        "--dry-run"
+      ]
+    },
+    {
+      "pair": "B",
+      "status": "PASS",
+      "submitted": false,
+      "requested_gpus": 4,
+      "gpu_tag": "H800",
+      "charged_group": "codesign",
+      "driver_sha256": "791bbee1a9863e0f68aa3af6cd6e1c378526ee8508c55fe77c79ec6ccb992dc7",
+      "exact_previous_r3_driver_bytes": true,
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r3",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "tests.manual.agent_opd.submit_teacher_scoring_probe",
+        "--config",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_coherence_probe_config.json",
+        "--pair",
+        "B",
+        "--receipt",
+        "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-B-r3.json",
+        "--dry-run"
+      ]
+    }
+  ],
+  "existing_native_build_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json"
+}
