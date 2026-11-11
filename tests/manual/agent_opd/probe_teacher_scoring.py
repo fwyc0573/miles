@@ -170,6 +170,7 @@ def _load_config(path, pair, output):
         config["selected_fp32_snapshots"] = selected_fp32
         if runtime_metadata:
             config["mamba_runtime_metadata"] = True
+        config.pop("kv_store_stream_witness", None)
         if kv_store_stream_witness:
             config["kv_store_stream_witness"] = True
         if cache_salt_full_input:
