@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** `9da07919` accepts bounded original A/B all16/6804 EXACT and selected CPP controls only; warm1/4 FAIL and original capture FAIL/no KV are unchanged. `6119bee1` commits the existing resolved_dict CPU/source fix, with17 affected/69 composed zero-skip checks, both fixed axes No findings and primary checksum limits CLOSED. The [current frontier](plan.md#current-frontier) is fresh D40 A || B H800 r2, NOT SUBMITTED, with unchanged four-H800 allocation/args/environment and selected R3 receipt. New active-capture all16/source/private SO/stream S/independent7955/KV acceptance is UNVERIFIED. CPU source readiness is not teacher warm/root or formal acceptance; science/all53 checkboxes,source/R3 CPU/WIT,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain unchanged. Older pending-fix snapshots are historical.
+**Current execution:** Fresh D40 A/B r2 is SUBMITTED; both filtered Initial snapshots are Starting, not native capture PASS. Source6119bee1/data code,same R3 and16/10/first4/repetition0 stay frozen with four requested nonpreemptible H800 each. The [current frontier](plan.md#current-frontier) is actual physical GPU/source/private SO/S/OLD/7955/native vector/KV verification, still pending. Source CPU/review/checksum and9da07919 original bounded controls remain accepted; warm1/4 FAIL and original r1 capture FAIL/no KV persist. Science/all53 checkboxes,source/R3 CPU/WIT,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain unchanged. No new checkpoint, duplicate/retry/control authority or acceptance criterion is added for this Initial update.
 
 **Active CPU stage:** PREP17/17; actualGPU0 baseline/observer COMPILE+LOAD PASS, originalfixture constructor FAIL list/int64-buffer beforeinsert. Reuse-library replay unsubmitted. Alias/GIL/lifetime/Cargo/nativeCPU semantics pending; no numerical/H800/formal acceptance. Science and prior scope unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Update execution to actual submitted r2/Initial Starting without inferring native proof or changing scientific criteria and control permissions. |
 | 2026-11-11 | Close bounded control and committed CPU/source fix prerequisites; preserve unchanged native physical/KV criteria for fresh unsubmitted D40 r2. |
 | 2026-11-11 | Record original capture failure and source-only raw/resolved guard RCA in execution status; keep parity/fix/reviews/native acceptance pending and scientific criteria unchanged. |
 | 2026-11-11 | Record submitted bounded H800 diagnostics and Initial Running/Pending snapshot in execution status only; preserve scientific and native acceptance criteria. |
@@ -97,7 +98,7 @@
 
 ### D40 diagnostic namespace counterfactual preregistration
 
-**Current D40 qualification:** Bounded original controls and6119bee1 CPU/source fix/reviews/checksum boundaries are closed. The same six expectations and independent allocator/topology guards remain; no flags/fallback/backend/stream/sync/science/native Rust change is introduced. The [current frontier](plan.md#current-frontier) is unsubmitted fresh D40 A || B r2, A16/B10/four H800 each/same R3. Actual source/private SO/stream S, active-capture all16 vectors/6804 EXACT and independent7955 physical binding must qualify BEFORE KV numerical interpretation. Preserve A514.375/B321.625 MiB budgets and compact statistics/no raw KV archive. Original warm1/4 FAIL and capture FAIL/no KV remain; CPU/source/control acceptance is not teacher warm/root or formal readiness. Formal04/05 HOLD,06 waiting independent200,B no A200 edge and all scientific/checklist criteria are unchanged; no new gate/ticket or formal retry authority is added.
+**Current D40 qualification:** Closed source6119bee1 CPU/review/checksum and bounded original controls remain accepted. Fresh A || B r2 is actually SUBMITTED with Initial Starting only,A16/B10/four requested nonpreemptible H800 each/same R3 and unchanged16/10/first4/repetition0. Actual physical GPU/source/private SO/S/OLD,active-capture all16/6804 EXACT and independent7955 physical binding remain unaccepted and must qualify BEFORE KV interpretation. Preserve A514.375/B321.625 MiB budgets,compact statistics/no raw KV archive,warm1/4 FAIL,original r1 capture FAIL/no KV and all scientific/checklist criteria. Formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain; no new gate/ticket/duplicate/retry/control authority or full checkpoint is added until native verification.
 
 **Historical prerequisite snapshots:** The earlier current-status line in S0 and the Active paragraphs below retain prior SOURCE/WIT, failed R1 and design-stage evidence. They are not current R2 acceptance or blockers; the preregistered diagnostic/scientific criteria remain unchanged.
 

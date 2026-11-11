@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Bounded original A all16/6804 EXACT and selected CPP2704 controls are primary accepted at `9da07919`; warm1/4 FAIL and original capture FAIL/no KV remain. `6119bee1` commits the CPU/source fix with17 affected/69 composed zero-skip checks, both axes No findings and primary checksum limits CLOSED. Fresh D40 A/B r2 is NOT SUBMITTED; [current route](../plan.md#current-frontier) uses A16/B10/four H800 each/unchanged args and R3. New source/private SO/stream S/active-capture all16/independent7955/KV remain UNVERIFIED. Original b9/r1/source/R3 CPU/WIT and all science/checklists are preserved; formal A HOLD,06 waiting independent200 and B's no-A200 edge remain.
+**Current execution:** Fresh A r2 exp-1111-171524-888127 is SUBMITTED with filtered Initial Starting; B r2 is also Initial Starting. Frozen source6119bee1/data code,same R3 and16/10/first4/repetition0 remain, with four requested nonpreemptible H800 each. [Current route](../plan.md#current-frontier) is actual physical GPU/source/private SO/S/OLD/7955/native vector/KV verification, still unaccepted. Source CPU/review/checksum and9da07919 original A controls remain accepted; warm1/4 FAIL,original r1 capture FAIL/no KV and formal A HOLD persist. Science/all checklists,source/R3 CPU/WIT,06 waiting independent200 and B's no-A200 edge remain unchanged. No duplicate/retry/control authority or new full checkpoint is added for Initial state.
 
 **Historical prerequisite snapshots:** The earlier Active paragraphs below preserve their failed R1 and design-stage evidence, not current R2 acceptance or blockers.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record actual A r2 submission/Initial Starting with frozen inputs and pending native acceptance; retain formal hold and all checkboxes. |
 | 2026-11-11 | Close A bounded-control and committed CPU/source fix prerequisites; retain formal hold and unsubmitted fresh r2 physical/native/KV frontier. |
 | 2026-11-11 | Record A original terminal capture FAIL with completed scoring/cleanup and pending parity; retain minimal guard fix/review/native frontier and unchanged formal criteria. |
 | 2026-11-11 | Record A actual submission and Initial Running snapshot; preserve pending native acceptance, formal hold and every checkbox. |
@@ -66,7 +67,7 @@
 
 **Blocked by:** 01/02/03,D16/common-cycle,source/R3 CPU/WIT,bounded A controls and6119bee1 CPU/source fix/review/checksum prerequisites are accepted. Formal A remains blocked by fresh actual H800 source/private SO/S/7955 physical/KV qualification, measured teacher RCA/minimal fix/warm correctness and fresh independent A200, not controls or a pending source fix.
 
-**Status:** BLOCKED formal under D40. Original A controls are accepted at9da07919, including all16/6804 EXACT and selected CPP2704 only; warm1/4 FAIL and original capture FAIL/no KV remain immutable. Committed6119bee1 CPU/source fix/fixed reviews/checksum limits are closed. The [current route](../plan.md#current-frontier) is fresh D40 A || B r2, A16/B10/four H800 each/same R3; neither r2 is submitted. Verify actual source/private SO/S, active-capture all16 and independent7955 physical binding BEFORE KV interpretation → measured teacher RCA/minimal fix/warm correctness → fresh independent A || B200 →06. Formal hold/all checkboxes and B's no-A200 edge remain unchanged; CPU acceptance does not grant teacher warm/root, native capture or formal readiness. No new gate/ticket or formal retry authority is added.
+**Status:** BLOCKED formal under D40. Fresh A r2 exp-1111-171524-888127 is [submitted](../evidence/teacher-scoring-kv-coherence-probe-20261111/admission-A-r2.json) and [Initial Starting](../evidence/teacher-scoring-kv-coherence-probe-20261111/initial-platform-A-r2.json) only, four requested nonpreemptible H800/source6119bee1/same R3/16/10/first4/repetition0. Source CPU/review/checksum and original bounded A controls remain accepted; original warm1/4 FAIL/capture FAIL/no KV persist. Verify actual physical GPU/source/private SO/S/OLD,active-capture all16/6804 and independent7955 physical binding BEFORE KV interpretation → teacher RCA/minimal fix/warm correctness → fresh independent A || B200 →06. All checkboxes and B's no-A200 edge are unchanged. Initial Starting grants no capture PASS,duplicate/retry/control authority or formal readiness; retain the latest checkpoint until native verification.
 
 **Historical initial witness snapshot:** A exp-1111-113511-067358 was submitted/Running with requested4H800; that initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453、source/integration reviews and original3aba/403 failure evidence remain historical. Later bounded actual CPP/source acceptance is recorded above and does not splice formal counters.
 

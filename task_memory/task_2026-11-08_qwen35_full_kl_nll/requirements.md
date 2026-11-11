@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** `9da07919` accepts bounded original A/B controls: all16/6804 EXACT and selected CPP2704/1690 only. `6119bee1` commits the resolved-config CPU/source fix:17 affected/69 composed checks, zero skips, both fixed review axes No findings and primary checksum limits CLOSED. Warm1/4 FAIL and original capture FAIL/no KV remain; this is not teacher warm/root or native capture acceptance. Fresh D40 bounded H800 r2 is NOT SUBMITTED; primary will submit after this record synchronization is accepted. See the [current frontier](progress.md#current-execution--workflow-rca). Original r1/b9 evidence, accepted R3/source/WIT, raw decisions,science,all53 checkboxes,D39/D40/D10,HF/eval disabled,bank_uses=50,S7,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged.
+**Current execution:** Fresh D40 bounded H800 A/B r2 is SUBMITTED; both filtered Initial snapshots are Starting, not native capture PASS. Source6119bee1/data code remain frozen, with the same R3 receipt and16 requests/10 flushes/first4/repetition0. See the [current submission/frontier](progress.md#current-execution--workflow-rca). Source CPU/review/checksum prerequisites and9da07919 bounded original controls remain accepted; warm1/4 FAIL and original r1 capture FAIL/no KV persist. New physical GPU/source/private SO/S/OLD/7955/native vector/KV acceptance is pending. Raw decisions,science,all53 checkboxes,D39/D40/D10,HF/eval disabled,bank_uses=50,S7,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged. No duplicate/retry/control permission is added.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record actual r2 submission and Initial Starting snapshots only; preserve pending native acceptance, frozen inputs and all scientific decisions. |
 | 2026-11-11 | Record accepted bounded r1 controls and committed CPU/source fix6119bee1 with closed reviews/checksums; advance current frontier to unsubmitted D40 r2 without changing science. |
 | 2026-11-11 | Record both original H800 capture failures and completed scoring/cleanup, source-only raw/resolved guard RCA, and pending fix/control verification without changing science. |
 | 2026-11-11 | Record actual bounded H800 A/B submission and Initial Running/Pending snapshot; retain pending native acceptance and all scientific decisions. |

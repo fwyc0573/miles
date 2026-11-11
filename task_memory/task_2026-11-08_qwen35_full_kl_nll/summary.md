@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Bounded original A/B controls are primary accepted at `9da07919`: all16/6804 EXACT and selected CPP2704/1690 only. `6119bee1` commits the CPU/source guard correction with RED1 FAIL/GREEN1 PASS,17 affected/69 composed zero-skip checks, fixed axes No findings and closed primary checksum limits. The [current frontier](progress.md#current-execution--workflow-rca) is fresh D40 H800 A/B r2, NOT SUBMITTED; both controller dry-runs are submitted=false with unchanged protocol/args/environment/allocation and the same R3 receipt. Warm1/4 FAIL, original capture FAIL/no KV, new source/private SO/S/7955/native/KV UNVERIFIED and formal04/05 HOLD remain. Original b9/r1 raw/source baselines,source/R3 CPU/WIT,science/all53 checkboxes,06 waiting independent200 and B's no-A200 edge are preserved. Earlier pending-fix checkpoints remain historical.
+**Current execution:** Fresh D40 H800 A/B r2 is SUBMITTED, with both filtered Initial snapshots Starting only. Frozen source6119bee1/data code,same R3 and16/10/first4/repetition0 remain; each requests four nonpreemptible H800. The [current submission/frontier](progress.md#current-execution--workflow-rca) records exact jobs/receipts. Accepted source CPU/review/checksum and9da07919 bounded controls are unchanged; new physical GPU/source/private SO/S/OLD/7955/native vector/KV acceptance remains pending. Warm1/4 FAIL,original r1 capture FAIL/no KV,source/R3 CPU/WIT,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge persist. Previous checkpoints are historical; no new full checkpoint until native verification, and no duplicate/retry/control permission is added.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive actual r2 submission/Initial Starting only with frozen source and unchanged native/formal limits; retain the latest four-section checkpoint. |
 | 2026-11-11 | Archive accepted bounded controls and committed CPU/source guard fix with closed reviews/checksums; retain unsubmitted native r2, warm/capture failures and formal hold. |
 | 2026-11-11 | Archive original H800 capture FAIL, completed scoring/cleanup and source-only raw/resolved guard cause; retain pending parity, fix/reviews/native rerun and formal hold. |
 | 2026-11-11 | Archive actual authorized A/B submission and Initial A Running/B Pending snapshot without promoting input allocation to native or numerical acceptance. |
