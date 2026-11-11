@@ -1,0 +1,117 @@
+{
+  "head_bytes": 1908313,
+  "backward_context": [
+    {
+      "line": 4917,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) 2026-11-09 12:11:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `tilelang_group_reduce_vector_kernel` with `out_idx=None`"
+    },
+    {
+      "line": 4918,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) 2026-11-09 12:11:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `tilelang_group_reduce_vector_kernel`"
+    },
+    {
+      "line": 4919,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) 2026-11-09 12:11:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `tilelang_chunk_local_cumsum_kernel` with `out_idx=None`"
+    },
+    {
+      "line": 4920,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) 2026-11-09 12:11:59  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `tilelang_chunk_local_cumsum_kernel`"
+    },
+    {
+      "line": 4921,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) 2026-11-09 12:11:56  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `tilelang_fused_chunk_gdr_bwd_kernel` [repeated 7x across cluster]"
+    },
+    {
+      "line": 4922,
+      "text": "(CommandActor pid=1893, ip=10.191.9.58) [2026-11-09 12:11:54] INFO:     10.191.5.38:52952 - \"GET /health HTTP/1.1\" 200 OK [repeated 7x across cluster]"
+    },
+    {
+      "line": 4923,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead."
+    },
+    {
+      "line": 4924,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46)   return func(*args, **kwargs)"
+    },
+    {
+      "line": 4925,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead."
+    },
+    {
+      "line": 4926,
+      "text": "(MegatronTrainRayActor pid=2012, ip=10.191.1.46)   return func(*args, **kwargs)"
+    },
+    {
+      "line": 4927,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) [12:11:43] : Warning: T.vectorized loop over `j_t_vec` with extent 2 is lowered as a serial loop because TileLang could not find a valid vectorization plan. Scalar accumulator updates inside the loop are a common cause; move reductions to T.unroll or T.serial if this is intended. [repeated 28x across cluster]"
+    },
+    {
+      "line": 4928,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) /root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.)"
+    },
+    {
+      "line": 4929,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46)   Variable._execution_engine.run_backward("
+    },
+    {
+      "line": 4930,
+      "text": "(MegatronTrainRayActor pid=2018, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead. [repeated 7x across cluster]"
+    },
+    {
+      "line": 4931,
+      "text": "(MegatronTrainRayActor pid=2018, ip=10.191.1.46)   return func(*args, **kwargs) [repeated 14x across cluster]"
+    },
+    {
+      "line": 4932,
+      "text": "(MegatronTrainRayActor pid=2018, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead. [repeated 7x across cluster]"
+    },
+    {
+      "line": 4933,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/backends/training_utils/loss/objective.py:243: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor)."
+    },
+    {
+      "line": 4934,
+      "text": "(MegatronTrainRayActor pid=2016, ip=10.191.1.46)   torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),"
+    },
+    {
+      "line": 4935,
+      "text": "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.) [repeated 7x across cluster]"
+    },
+    {
+      "line": 4936,
+      "text": "(MegatronTrainRayActor pid=2015, ip=10.191.1.46)   Variable._execution_engine.run_backward( [repeated 7x across cluster]"
+    },
+    {
+      "line": 4937,
+      "text": "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead. [repeated 8x across cluster]"
+    },
+    {
+      "line": 4938,
+      "text": "(MegatronTrainRayActor pid=2015, ip=10.191.1.46)   return func(*args, **kwargs) [repeated 16x across cluster]"
+    },
+    {
+      "line": 4939,
+      "text": "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead. [repeated 8x across cluster]"
+    }
+  ],
+  "tail": [
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/backends/training_utils/loss/objective.py:243: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).",
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46)   torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device),",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /root/Megatron-LM/megatron/core/pipeline_parallel/schedules.py:220: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/input_buffer.cpp:310.) [repeated 7x across cluster]",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46)   Variable._execution_engine.run_backward( [repeated 7x across cluster]",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.reduce_scatter_tensor` is deprecated. Please use `torch.distributed.reduce_scatter_single` instead. [repeated 8x across cluster]",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46)   return func(*args, **kwargs) [repeated 16x across cluster]",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46) /opt/sglang/lib/python3.12/site-packages/torch/distributed/c10d_logger.py:83: FutureWarning: `torch.distributed.all_gather_into_tensor` is deprecated. Please use `torch.distributed.all_gather_single` instead. [repeated 8x across cluster]",
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-h800-capacity/miles/backends/training_utils/loss/objective.py:243: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor). [repeated 8x across cluster]",
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46)   torch.tensor(num_tokens if args.backend.calculate_per_token_loss else 1, device=logits.device), [repeated 8x across cluster]",
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46) 2026-11-09 12:11:57  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `tilelang_group_reduce_vector_kernel` with `out_idx=None` [repeated 7x across cluster]",
+    "(MegatronTrainRayActor pid=2018, ip=10.191.1.46) 2026-11-09 12:11:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `tilelang_group_reduce_vector_kernel` [repeated 7x across cluster]",
+    "(MegatronTrainRayActor pid=2018, ip=10.191.1.46) 2026-11-09 12:11:58  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:137): TileLang begins to compile kernel `tilelang_chunk_local_cumsum_kernel` with `out_idx=None` [repeated 7x across cluster]",
+    "(MegatronTrainRayActor pid=2018, ip=10.191.1.46) 2026-11-09 12:12:00  [TileLang:tilelang.jit.kernel:INFO] (kernel.py:145): TileLang completes to compile kernel `tilelang_chunk_local_cumsum_kernel` [repeated 7x across cluster]",
+    "(CommandActor pid=7707) [2026-11-09 12:12:54] INFO:     10.191.5.38:36354 - \"GET /health HTTP/1.1\" 200 OK",
+    "(CommandActor pid=1883, ip=10.191.1.46) [2026-11-09 12:12:54] INFO:     10.191.5.38:60560 - \"GET /health HTTP/1.1\" 200 OK",
+    "(CommandActor pid=7707) [2026-11-09 12:13:54] INFO:     10.191.5.38:36354 - \"GET /health HTTP/1.1\" 200 OK [repeated 7x across cluster]",
+    "(CommandActor pid=1907, ip=10.191.4.29) [2026-11-09 12:14:54] INFO:     10.191.5.38:53700 - \"GET /health HTTP/1.1\" 200 OK [repeated 8x across cluster]",
+    "(CommandActor pid=1907, ip=10.191.4.29) [2026-11-09 12:15:54] INFO:     10.191.5.38:53700 - \"GET /health HTTP/1.1\" 200 OK [repeated 8x across cluster]"
+  ]
+}

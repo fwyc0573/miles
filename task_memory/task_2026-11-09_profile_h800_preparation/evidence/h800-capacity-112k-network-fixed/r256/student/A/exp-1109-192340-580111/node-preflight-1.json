@@ -1,0 +1,17 @@
+{
+  "megatron_scoring_lifetime": {
+    "megatron_commit": "eb547f33e183479530cfb5428b7c665a110c785f",
+    "distribution_version": "0.19.0+eb547f33e",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "source_path": "megatron/core/pipeline_parallel/schedules.py",
+    "before_sha256": "968b3c2ab8e80b5d30992bb572bae8aa7cbc6b2fba7137d851bb71ee51bf489f",
+    "after_sha256": "8b0370c0d50a2463781ae3c622e30f923d096485aed3c0f8939be4cc13689081",
+    "patch_sha256": "265331b75aaa13716b06ab02b1c8474b7c59cb5c9d5441fab7bed59ccfeec399",
+    "megatron_path": "/root/Megatron-LM",
+    "release_scoring_output": true,
+    "observed_before_sha256": "968b3c2ab8e80b5d30992bb572bae8aa7cbc6b2fba7137d851bb71ee51bf489f",
+    "observed_after_sha256": "8b0370c0d50a2463781ae3c622e30f923d096485aed3c0f8939be4cc13689081",
+    "patch_applied": true,
+    "archive_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109/r256/student/A/exp-1109-192340-580111/megatron_scoring_lifetime/source/rank-1"
+  }
+}

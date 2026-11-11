@@ -1,0 +1,16 @@
+{
+  "branch": "agent-opd-h800-capacity",
+  "initial_head": "0e6e8b1e9298638fd72651869692a41cad703b71",
+  "initial_untracked_count": 73,
+  "initial_untracked_bytes": 3832196,
+  "selected_untracked_count": 75,
+  "selected_untracked_bytes": 251605,
+  "omitted_count": 1,
+  "omitted_bytes": 3584896,
+  "omissions_by_reason": {
+    "exceeds existing 1000KB new-file hook limit": 1
+  },
+  "required_pinned_source_count": 0,
+  "omitted_paths_inventory": "omitted_files.json.gz",
+  "max_added_file_bytes": 1024000
+}

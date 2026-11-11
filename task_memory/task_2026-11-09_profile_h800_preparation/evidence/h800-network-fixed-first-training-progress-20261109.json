@@ -1,0 +1,18 @@
+{
+  "observed_at": "2026-11-09T12:15:33.685717+00:00",
+  "job": "exp-1109-192340-580111",
+  "training_records": {
+    "updates.jsonl": {
+      "exists": false
+    },
+    "optimizer_attempts.jsonl": {
+      "exists": false
+    }
+  },
+  "head_log_bytes": 1908144,
+  "filtered_tail": [
+    "(RolloutExecutor pid=7701) [2026-11-09 12:05:03.977 rollout_executor] train_data_conversion.py:448 - Rollout-side DP schedule: num_samples=256, num_rollouts=[256], num_microbatches=[88]",
+    "(MegatronTrainRayActor pid=2016, ip=10.191.1.46)   Variable._execution_engine.run_backward(",
+    "(MegatronTrainRayActor pid=2015, ip=10.191.1.46)   Variable._execution_engine.run_backward( [repeated 7x across cluster]"
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "observed_at": "2026-11-09T12:26:21.529669+00:00",
+  "job": "exp-1109-192340-580111",
+  "native_records": {
+    "updates.jsonl": {
+      "exists": true,
+      "records": [
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1109-192340-580111",
+          "attempted_rollout_id": 0,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 1,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 114416,
+                  "abs_end": 114588
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 114416
+                }
+              ],
+              "output_start": 114416,
+              "prompt_tokens": 114416
+            }
+          ],
+          "current_weight_version": 0,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 15984.899008578934,
+          "kl_before_tis_denominator": 128547,
+          "kl_before_tis": 0.1243506189065395,
+          "original_tokens": 128547,
+          "surviving_tokens": 116264,
+          "tis_retention": 0.9044474005616623,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 0.0,
+          "answer_rejected_tokens": 12283.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 116264,
+          "loss": 0.1105311405748954,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794226968.9307168,
+          "successful_updates": 1,
+          "actual_turns": 256,
+          "expected_bank_turns": 256,
+          "expected_bank_tokens": 128547,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 1,
+          "native_skipped_count": 0,
+          "update": 1
+        }
+      ]
+    },
+    "optimizer_attempts.jsonl": {
+      "exists": true,
+      "records": [
+        {
+          "cell": "A/r256",
+          "attempt": "exp-1109-192340-580111",
+          "attempted_rollout_id": 0,
+          "run_kind": "smoke",
+          "protocol": "r256",
+          "bank": 0,
+          "bank_visit": 1,
+          "teacher_identity": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+          "generation_weight_versions": [
+            {
+              "spans": [
+                {
+                  "version": "0",
+                  "abs_start": 114416,
+                  "abs_end": 114588
+                }
+              ],
+              "prefill_spans": [
+                {
+                  "version": "0",
+                  "abs_start": 0,
+                  "abs_end": 114416
+                }
+              ],
+              "output_start": 114416,
+              "prompt_tokens": 114416
+            }
+          ],
+          "current_weight_version": 0,
+          "kl_estimator": "sampled_current_student_minus_frozen_teacher_on_original_behavior_tokens",
+          "kl_direction": "student_minus_teacher",
+          "kl_before_tis_numerator": 15984.899008578934,
+          "kl_before_tis_denominator": 128547,
+          "kl_before_tis": 0.1243506189065395,
+          "original_tokens": 128547,
+          "surviving_tokens": 116264,
+          "tis_retention": 0.9044474005616623,
+          "nonfinite_tokens": 0.0,
+          "token_rejected_tokens": 0.0,
+          "answer_rejected_tokens": 12283.0,
+          "diagnostics_verified": true,
+          "unverified_diagnostics": [],
+          "mask_evidence_verified": true,
+          "retained_weight": 1,
+          "effective_weight_sum": 116264,
+          "loss": 0.1105311405748954,
+          "lr": [
+            2e-06,
+            2e-06
+          ],
+          "timestamp": 1794226968.9307168,
+          "successful_updates": 1,
+          "actual_turns": 256,
+          "expected_bank_turns": 256,
+          "expected_bank_tokens": 128547,
+          "bank_membership_verified": true,
+          "update_successful": true,
+          "native_attempted_count": 1,
+          "native_skipped_count": 0
+        }
+      ]
+    }
+  },
+  "events_directory_exists": true,
+  "event_files": [
+    {
+      "filename": "actor_cell00000_rank00000.jsonl",
+      "bytes": 334711,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4,
+        "type:metric": 5
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00001.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00002.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00003.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00004.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00005.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00006.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "actor_cell00000_rank00007.jsonl",
+      "bytes": 331743,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 4
+      }
+    },
+    {
+      "filename": "inference_controller.jsonl",
+      "bytes": 499270,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 3,
+        "type:engine_env_report": 8
+      }
+    },
+    {
+      "filename": "main.jsonl",
+      "bytes": 3221241,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 3,
+        "type:inference_engine_weight_checksum": 2
+      }
+    },
+    {
+      "filename": "rollout_executor.jsonl",
+      "bytes": 269049,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 3,
+        "type:metric": 2
+      }
+    },
+    {
+      "filename": "trainer_controller_actor.jsonl",
+      "bytes": 259807,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 3,
+        "type:weight_update_result": 2,
+        "type:train_group_step_end": 1
+      }
+    },
+    {
+      "filename": "worker_manager.jsonl",
+      "bytes": 267241,
+      "top_level_shape": {
+        "timestamp": "str",
+        "source": "dict",
+        "type": "str",
+        "report": "dict"
+      },
+      "event_type_counts": {
+        "type:env_report": 3
+      }
+    }
+  ]
+}

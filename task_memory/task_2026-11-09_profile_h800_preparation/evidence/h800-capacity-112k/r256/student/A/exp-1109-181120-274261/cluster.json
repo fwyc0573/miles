@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "ip": "10.191.5.7",
+      "gpus": 8.0,
+      "node_id": "09aeba4196dade506c104f827658d47fbadfbaba50db5dce3937f2be"
+    },
+    {
+      "ip": "10.191.7.15",
+      "gpus": 8.0,
+      "node_id": "57498d82b4d861e36f7a4608bf4a41d05fe2e08938996ee0a8d1abaf"
+    },
+    {
+      "ip": "10.191.0.30",
+      "gpus": 8.0,
+      "node_id": "d28529a308edb8adaa1e8d35c07fad9a5914bc99a51623732b6ac843"
+    },
+    {
+      "ip": "10.191.1.9",
+      "gpus": 8.0,
+      "node_id": "a7dc44c8f11a4765bbafb3d3430ff579abaa116c3fd8660da87e1e75"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "status": "native_execution_succeeded",
+  "pair": "A",
+  "rank": 0,
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/capacity-h800-112k-network-fixed-20261109/r256/student/A/exp-1109-192340-580111",
+  "actual_updates": "See native events; not inferred from schedule",
+  "final_hf": null,
+  "qualification": "Unverified until native alignment, updates, export and reload evidence is inspected"
+}

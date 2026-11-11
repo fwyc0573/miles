@@ -1,0 +1,18 @@
+{
+  "samples": 202,
+  "max_sampled_usage_bytes": 26879004672,
+  "initial_counters": {
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes": "2129412096",
+    "/sys/fs/cgroup/memory/memory.max_usage_in_bytes": "2132201472",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes": "536870912000",
+    "/sys/fs/cgroup/memory/memory.failcnt": "0",
+    "/sys/fs/cgroup/memory/memory.oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+  },
+  "final_counters": {
+    "/sys/fs/cgroup/memory/memory.usage_in_bytes": "4282073088",
+    "/sys/fs/cgroup/memory/memory.max_usage_in_bytes": "26881462272",
+    "/sys/fs/cgroup/memory/memory.limit_in_bytes": "536870912000",
+    "/sys/fs/cgroup/memory/memory.failcnt": "0",
+    "/sys/fs/cgroup/memory/memory.oom_control": "oom_kill_disable 0\nunder_oom 0\noom_kill 0"
+  }
+}

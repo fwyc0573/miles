@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "job": "exp-1109-181120-274261",
+  "pair": "A",
+  "rank": 1,
+  "returncode": null,
+  "error_type": "RuntimeError",
+  "reason": "The other student replica failed: {'status': 'failed', 'job': 'exp-1109-181120-274261', 'pair': 'A', 'rank': 0, 'returncode': 1}"
+}

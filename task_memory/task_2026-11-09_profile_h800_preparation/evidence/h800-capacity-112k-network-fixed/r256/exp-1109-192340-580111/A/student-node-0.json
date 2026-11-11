@@ -1,0 +1,21 @@
+{
+  "job": "exp-1109-192340-580111",
+  "pair": "A",
+  "role": "student",
+  "rank": 0,
+  "nodes": 4,
+  "hostname": "gpu-h800-0090.host.platform.shaipower.com",
+  "ip": "10.191.5.38",
+  "gpu_devices": [
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06",
+    "NVIDIA H800, 81559 MiB, 570.124.06"
+  ],
+  "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+}
