@@ -1,0 +1,19 @@
+{
+  "job": "exp-1111-162637-872429",
+  "uid": "83dc1dc7-6830-443b-a8a4-6795cc385d34",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [probe]",
+    "taskStatuses": {
+      "probe": {
+        "failed": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T08:40:33Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "native_execution_succeeded": false
+}

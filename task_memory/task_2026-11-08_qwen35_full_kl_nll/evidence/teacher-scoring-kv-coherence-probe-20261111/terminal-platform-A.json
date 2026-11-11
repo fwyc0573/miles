@@ -1,0 +1,57 @@
+{
+  "job": "exp-1111-162637-295253",
+  "uid": "8f26af09-bb4b-4f67-b60b-f9d58aefaf44",
+  "creator": "i-fengyicheng",
+  "observed_at": "2026-11-11T08:38:00.940906+00:00",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [probe]",
+    "taskStatuses": {
+      "probe": {
+        "failed": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T08:33:20Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  },
+  "replicas": [
+    {
+      "name": "exp-1111-162637-295253-cfcd2084",
+      "uid": "97da309e-5695-4bd5-8af7-5aecf2bbffbf",
+      "owner_references": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1111-162637-295253",
+          "uid": "8f26af09-bb4b-4f67-b60b-f9d58aefaf44",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ],
+      "phase": "Failed",
+      "node": null,
+      "containers": [
+        {
+          "name": "probe",
+          "state": {
+            "terminated": {
+              "exitCode": 1,
+              "reason": "Error",
+              "message": "user command: exit status 1",
+              "startedAt": "2026-11-11T08:26:54Z",
+              "finishedAt": "2026-11-11T08:32:14Z",
+              "containerID": "containerd://4cf6d095a410e7aa95dd42ae324cb3489ed053b8f06e87977fda6542fafa8171"
+            }
+          },
+          "last_state": {},
+          "restart_count": 0
+        }
+      ]
+    }
+  ]
+}

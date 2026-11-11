@@ -1,0 +1,58 @@
+{
+  "job": "exp-1111-162637-872429",
+  "uid": "83dc1dc7-6830-443b-a8a4-6795cc385d34",
+  "creator": "i-fengyicheng",
+  "observed_at": "2026-11-11T08:43:33.750947+00:00",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [probe]",
+    "taskStatuses": {
+      "probe": {
+        "failed": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T08:40:33Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed.",
+    "stepmind.com/queue-reason": "Waiting in queue \"codesign-default\". Insufficient GPU quota. Request: task \"probe\" 4 GPU/replica x 1 replicas = 4 GPU (H800). Queue remaining: H800=3."
+  },
+  "replicas": [
+    {
+      "name": "exp-1111-162637-872429-cfcd2084",
+      "uid": "52624c00-c2cd-446e-95db-5222206d1860",
+      "owner_references": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1111-162637-872429",
+          "uid": "83dc1dc7-6830-443b-a8a4-6795cc385d34",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ],
+      "phase": "Failed",
+      "node": null,
+      "containers": [
+        {
+          "name": "probe",
+          "state": {
+            "terminated": {
+              "exitCode": 1,
+              "reason": "Error",
+              "message": "user command: exit status 1",
+              "startedAt": "2026-11-11T08:34:28Z",
+              "finishedAt": "2026-11-11T08:40:31Z",
+              "containerID": "containerd://06dd29c71d0b48efbd04b33c4ce7a0754fb6c17b4f262fd6fc03c5b76c1702ac"
+            }
+          },
+          "last_state": {},
+          "restart_count": 0
+        }
+      ]
+    }
+  ]
+}

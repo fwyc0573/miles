@@ -1,0 +1,128 @@
+{
+  "schema": "kv-coherence-native-B-verification-v1",
+  "task_id": "profile-kv-coherence-native-B-20261111",
+  "modification_history": [{"date": "2026-11-11", "change": "Retained B verification; first Failed attempt preserved."}],
+  "run_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1",
+  "baseline_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1",
+  "job": "exp-1111-162637-872429",
+  "uid": "83dc1dc7-6830-443b-a8a4-6795cc385d34",
+  "verdicts": {"scoring_equivalence": "PASS", "source_R3_linkage": "PASS", "CPP_TP0_witness": "PASS", "native_attempt": "FAIL", "readback": "FAIL", "warm_correctness": "FAIL", "original_OLD_S_7955_physical_KV": "UNVERIFIED", "root_fix_race_allTP_performance": "UNVERIFIED", "formal": "HOLD"},
+  "counts": {"requests_scored": 16, "completion_values": 6804, "flushes": 10, "retractions": 0, "identity_errors": 0, "comparison_groups": 8, "comparison_contracts": 24, "zero_reference_relative_undefined": 64, "source_archive_pairs": 97, "R3_composition": 35},
+  "completion_equivalence": {
+    "max_absolute_error": 0.0, "max_defined_relative_error": 0.0, "values_exact": true,
+    "case_columns": ["request_id", "native_request_id", "sample_position", "sample_index", "source_uid", "values", "relative_error_undefined_count"],
+    "cases": [
+      ["cold-r0-s0-full_input", "2bba3039be3f4afabe8d8d71c92a69f7", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s0-response_only", "ec6587d1f19a4f7896fd0ee5363c5fcb", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s1-response_only", "e9c90f5411424c979d3bb7a8007f6fb5", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s1-full_input", "2cac76c44def4df282ef706e0bbae5d0", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s2-full_input", "33a0dc78578f40eba3050e47a5c6de39", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s2-response_only", "536bf879f99d4c4db0fa46c59e3e1d71", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s3-response_only", "d55080898db3486cb4e1594fd780dc45", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["cold-r0-s3-full_input", "d60d1e541b0c4626bd7f03a615ff5d75", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["warm_stream-r0-s0-full_input", "3a934e8d2b1547ceb46637546c711ed7", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-full_input", "44de6c6081a94690ba33d5b4fd192521", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-full_input", "1ea9f38a0f0c43b99a869d1689f6fce9", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["warm_stream-r0-s3-full_input", "1a1fc46e960a45579680cf6423a9b975", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 5],
+      ["warm_stream-r0-s0-response_only", "8dc6211a14594f8c89af9941875b5a41", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-response_only", "65b972cd90e146c1908df6dd1ae889a8", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-response_only", "b603f93250dd4d11b5806889349924fb", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 3],
+      ["warm_stream-r0-s3-response_only", "1caae0831d6b4cfc9a2615045d27090b", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4]
+    ]
+  },
+  "raw_files": {
+    "result.json": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/result.json", "bytes": 88025, "sha256": "0a59617087c13526007efe6b016f253ee79cc1948dcfb795720d55607f53b897"},
+    "preload.json": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/preload.json", "bytes": 84647, "sha256": "9da257606010147c8841763b26162b87bbce64202cac892605e01c48e6aa190c"},
+    "requests.jsonl": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/requests.jsonl", "bytes": 33168, "sha256": "7e3063c67f0ceaa3bcec34b2b0908be360291b37afff7dbae028f4732f305643"},
+    "cache.jsonl": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/cache.jsonl", "bytes": 5720, "sha256": "4a9592e8e77c664b097c58a00e9b77c1936e5912ae25f25b21816dd647a92a29"},
+    "comparisons.jsonl": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/comparisons.jsonl", "bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"},
+    "server_info.json": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/server_info.json", "bytes": 978242, "sha256": "54912d19fdcedd88ecf521c9726cf7fb77f8a22ae41cc8e04d7e59d4b661f784"},
+    "runtime_metadata.json": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/runtime_metadata.json", "bytes": 53864798, "sha256": "5cf742ac132ff8acb0fb0d3eda8aad1fdfa63ca7fcf3db270483b3619283421b"},
+    "server.log": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/server.log", "bytes": 95841, "sha256": "7382d42a51b1238315a5976b70474561005ae6c81e6fd24642242af33d7a5039"}
+  },
+  "score_files": {
+    "cold-r0-s0-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s0-full_input.json", "bytes": 26249, "sha256": "5877ac102a0c5c7a64e906e1223dec9afff0d93f424fc980118b582064d079bf"},
+    "cold-r0-s0-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s0-response_only.json", "bytes": 26255, "sha256": "6f5142328844e64ff1c0cbd09886f3c90b0c2825b60da642e201594cf3d98bf4"},
+    "cold-r0-s1-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s1-response_only.json", "bytes": 8984, "sha256": "cd37d4d3be26bd5ddc2ba055056df76b292ade70b0681d4771c1f91d7a2796be"},
+    "cold-r0-s1-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s1-full_input.json", "bytes": 8978, "sha256": "3c413a8f97bf3d44dea6633f23bffa142e1037417304b0882f07e7685f69c012"},
+    "cold-r0-s2-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s2-full_input.json", "bytes": 16018, "sha256": "b6ced9a2a472d95838422be599bd8e0ff6564bc8d9a5e04ca6260a27606e3e55"},
+    "cold-r0-s2-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s2-response_only.json", "bytes": 16024, "sha256": "1e6f248c90f56d538c193978689fd418b6f814fa7e074f9205eb2b1fb7576351"},
+    "cold-r0-s3-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s3-response_only.json", "bytes": 10860, "sha256": "65080b6045304cc264d50fdc158f0e0de1ce8ef8bd5d17b9b6a1e293485c9ebb"},
+    "cold-r0-s3-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s3-full_input.json", "bytes": 10854, "sha256": "1537301bb6ef13ba5af203c89484884eeda920e75c40aae0147c221b1af5e151"},
+    "warm_stream-r0-s0-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s0-full_input.json", "bytes": 26263, "sha256": "97be34e2a292750c22ef8f52fce08187d1c0a3b6fee56030391d39a073c0627d"},
+    "warm_stream-r0-s1-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s1-full_input.json", "bytes": 8988, "sha256": "fa6fbae14244e7a6e89f79d3b4d46d15f8485750855d45e966b0f68897ee7923"},
+    "warm_stream-r0-s2-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s2-full_input.json", "bytes": 16033, "sha256": "991c750ecd136411f7174d454dc1a575a2e40773abc80e86ec47734a09395d0b"},
+    "warm_stream-r0-s3-full_input": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s3-full_input.json", "bytes": 10834, "sha256": "ff182c08e74ad931c30761a2745db94de26e5fef024713ce5d12ee1080f878bb"},
+    "warm_stream-r0-s0-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s0-response_only.json", "bytes": 26269, "sha256": "4879482fb110a487e705c97c4da9a72e0481deb05ed9dc755c8ab62d97a51d15"},
+    "warm_stream-r0-s1-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s1-response_only.json", "bytes": 8999, "sha256": "655ff0b90fe3911bc5dbb21c2697dd8118c4bfddc499d8a556f1965c29695373"},
+    "warm_stream-r0-s2-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s2-response_only.json", "bytes": 16080, "sha256": "9a9fd2b4e3b7c45d1ae4ecad01419d4cd5365c661c6367179c5bc7a6c4272426"},
+    "warm_stream-r0-s3-response_only": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s3-response_only.json", "bytes": 10857, "sha256": "8c6d8fa236c4cb594560218acf4343ce105ef830ebb5f3c486e22db9b2500c48"}
+  },
+  "baseline_receipts": {
+    "requests.jsonl": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1/requests.jsonl", "bytes": 32899, "sha256": "e927bdddd991161343c2d340fb04f83cec7a4bab37e4a2952b41461b4b7b4b26"},
+    "comparisons.jsonl": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1/comparisons.jsonl", "bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"}
+  },
+  "source_stages": {
+    "source_preflight": {
+      "archive_pairs": 6,
+      "manifest": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/source_preflight/source_manifest.json", "bytes": 1715, "sha256": "dd856add48fe221101c03b96fb018e8fc939362cc15415482cac6d5128370c6f"},
+      "receipt": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/source_preflight/preflight.jsonl", "bytes": 3588, "sha256": "907eeb4d21b877863f087924f6c2805a4982202d29771d349a9a654c52b78d55"}
+    },
+    "runtime_metadata_source_preflight": {
+      "archive_pairs": 16,
+      "manifest": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/runtime_metadata_source_preflight/source_manifest.json", "bytes": 4843, "sha256": "22aa07e3f10b9c9d8aec6f5fdc180076613d3014f6985542f0c8ea27bafcb3e9"},
+      "receipt": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/runtime_metadata_source_preflight/preflight.jsonl", "bytes": 9269, "sha256": "89aa42c6c785bb1f1e61befc3da3d2f9df4349cb6c9812cb27c3856273310e8a"}
+    },
+    "kv_store_stream_source_preflight": {
+      "archive_pairs": 35,
+      "manifest": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/kv_store_stream_source_preflight/source_manifest.json", "bytes": 13617, "sha256": "076b60a28b3c5de49154e42cdd8ede7f7f99091e4860293cbc61de2b5d4228d0"},
+      "receipt": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/kv_store_stream_source_preflight/preflight.jsonl", "bytes": 26187, "sha256": "f5231f7358b10df7d4782bd39c3cfaf31fa81d918b7f0ee51073a0bd28b17b68"}
+    },
+    "kv_coherence_source_preflight": {
+      "archive_pairs": 40,
+      "manifest": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/kv_coherence_source_preflight/source_manifest.json", "bytes": 7908, "sha256": "a3d47df04edcafc85127efbfa2d35d31c48fd5af8026c1ac194b46381c7c2481"},
+      "receipt": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1/kv_coherence_source_preflight/preflight.jsonl", "bytes": 18816, "sha256": "d12db0d0fd17f36b2a77d8ff28fe86cde0e1afae1c5dd93421b367416e8087d8"}
+    }
+  },
+  "frozen_native_scoring_commit": "b9e1ebb64725b0998aa6df57919bd8bfc6f2e9aa",
+  "frozen_rust_source_commit": "17cb6fc66fa8b5e866c0c83d5f5c93cf971ac898",
+  "frozen_rust_helper_sha256": "acf89c7425ba38a0a497adfd27cf2fe71979f77922d7af5f6b66a6685175442d",
+  "original_guard_helper_sha256": "084e8751af5de1c5063817c9a54bd2694e760ea9c7439f2599e6feba9cf24413",
+  "original_installed_runtime_sha256": "7bbc728555271a6c24441c2a359f5ba72ebdc86e7f401016d76767f8106468e8",
+  "R3": {
+    "build_receipt": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json", "bytes": 15835, "sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7"},
+    "qualification_receipt": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/qualification.json", "sha256": "2176426df8812b5e8bd146370e048fd399d46cad4cb4ccbcc917a16d68f63169", "bytes": 1495},
+    "observer_library": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so", "bytes": 3411248, "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba"},
+    "composition_count": 35,
+    "runtime_callback_execution_proven": false
+  },
+  "runtime": {
+    "verification_python": "3.10.6", "worker_python": "3.12.16", "worker_executable": "/opt/sglang/bin/python3", "torch": "2.14.1+cu130", "sglang": "0.5.24.dev80+g056f871",
+    "gpu_devices": ["NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06"],
+    "argv": ["/opt/sglang/bin/python3", "-B", "-m", "sglang.launch_server", "--model-path", "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model", "--host", "0.0.0.0", "--port", "30000", "--nnodes", "1", "--node-rank", "0", "--dist-init-addr", "100.99.5.8:29501", "--tp-size", "4", "--dtype", "bfloat16", "--context-length", "131072", "--mem-fraction-static", "0.85", "--max-running-requests", "1", "--chunked-prefill-size", "8192", "--disable-cuda-graph", "--enable-deterministic-inference", "--attention-backend", "fa3", "--linear-attn-prefill-backend", "triton"],
+    "seed": 253527101, "baseline_seed": 596871011,
+    "private_package_root": "/var/tmp/teacher-scoring-kv-ly3630ga/kv-coherence-runtime/sglang",
+    "runtime_source_archive_overlaps": 7
+  },
+  "CPP_witness": {
+    "process_id": 340, "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0},
+    "metadata_rows": 19713, "startup_rows": 353, "unique_identity_joins": 1690, "chunks": 169, "requests": 16,
+    "FULL_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39], "native_and_torch_stream": 1342830624, "device_completion": "UNVERIFIED"
+  },
+  "readback": {
+    "status": "FAIL", "http_status": 200, "initial_and_final_same_error": true,
+    "collector": {"schema": "kv-coherence-v1", "process_id": 340, "status": "unverified", "errors": [{"stage": "preallocation", "error_type": "ValueError", "message": "Collector actual graph/page/memory/cache config differs from qualified WIT"}], "numeric_acceptance": null, "reason": "Responding collector unavailable; no device readback"},
+    "topology_captured": false, "banks_captured": false, "KV_summaries": [], "native_measurements_completed": true, "cleanup_completed": true,
+    "result_reason": "Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Responding collector unavailable; no device readback"
+  },
+  "terminal_admission": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-B-r1.terminal.json", "bytes": 481, "sha256": "d59e410c90345a4d7bf4dbbc69fa4c84de1c2aa6c8da9e4c116bc8b78be6ce19"},
+  "terminal_platform": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/terminal-platform-B.json", "bytes": 1810, "sha256": "409babc9d0a901bf7d53ad503a111e7862a32a37ef29bc952264aaba8fd50e0b"},
+  "limits": [
+    "No platform/authentication/GPU/native execution; no staging/commit.",
+    "No original OLD callback, S stream,7955 binding, physical indices or numeric KV captured.",
+    "Staged ELF/hash and absent invalidation marker are not runtime physical proof.",
+    "Original source/CPU/WIT criteria and formal04/05 HOLD unchanged; B has no A200 gate.",
+    "First4/repetition0 only; no56-request/second-repetition/1024/global/all-TP/race/performance/root-fix acceptance.",
+    "Guard RCA and post-finish launcher JobStop evidence are independently primary/source-owned."
+  ]
+}

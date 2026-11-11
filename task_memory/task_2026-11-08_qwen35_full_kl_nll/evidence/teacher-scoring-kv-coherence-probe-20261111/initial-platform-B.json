@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-11-11T08:28:11.442786+00:00",
+  "pair": "B",
+  "job": "exp-1111-162637-872429",
+  "uid": "83dc1dc7-6830-443b-a8a4-6795cc385d34",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "probe": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "positive_tags": [
+    "H800"
+  ],
+  "preemptible": "no",
+  "replicas": 1,
+  "containers": [
+    {
+      "name": "probe",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "resources": {
+        "limits": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        },
+        "requests": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        }
+      }
+    }
+  ],
+  "acceptance_limit": "Initial platform/input allocation only; no physical H800, private library, CUDA stream, vector/index or numerical acceptance"
+}
