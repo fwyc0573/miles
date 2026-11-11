@@ -1,0 +1,53 @@
+{
+  "observed_at": "2026-11-11T11:50:33.301119+00:00",
+  "pair": "B",
+  "job": "exp-1111-194636-897299",
+  "uid": "8c094c1d-c90e-48e5-be55-76b40125d246",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Running",
+    "reason": "RJobRunning",
+    "message": "Tasks is running: [probe]",
+    "taskStatuses": {
+      "probe": {
+        "active": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "requested_gpu_tag": "H800",
+  "preemptible": "no",
+  "replicas": 1,
+  "node_selector": null,
+  "quota_labels": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "quotagroup.brainpp.cn/quotagroup": "codesign"
+  },
+  "containers": [
+    {
+      "name": "probe",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "resources": {
+        "limits": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        },
+        "requests": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        }
+      }
+    }
+  ],
+  "source_commit": "f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d",
+  "frontier_commit": "4f76ae4142a0ee7e8445021d7f9d221b8c5dd825",
+  "controller_environment": {
+    "python": "3.10.6",
+    "brainpp": "2.8.6"
+  },
+  "acceptance_limit": "Initial platform/input allocation only; no physical H800, serving library, CUDA stream, active vectors, index or numerical acceptance"
+}

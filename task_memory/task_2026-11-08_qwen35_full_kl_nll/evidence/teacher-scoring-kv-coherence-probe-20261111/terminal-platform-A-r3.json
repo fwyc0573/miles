@@ -1,0 +1,89 @@
+{
+  "observed_at": "2026-11-11T12:03:59.467310+00:00",
+  "pair": "A",
+  "job": "exp-1111-194637-456465",
+  "uid": "ea73209b-61cd-4b5d-9d6d-ce49621ffaa4",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "probe": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T11:56:55Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "sdk_terminal_status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "probe": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T11:56:55Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "positive_tags": [
+    "H800"
+  ],
+  "charged_group": "codesign",
+  "preemptible": "no",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "containers": [
+    {
+      "name": "probe",
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "resources": {
+        "limits": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        },
+        "requests": {
+          "cpu": "32",
+          "memory": "250Gi",
+          "nvidia.com/gpu": "4"
+        }
+      }
+    }
+  ],
+  "replicas": [
+    {
+      "name": "exp-1111-194637-456465-cfcd2084",
+      "uid": "2f228d21-1b67-4a3c-99a7-f25b413a8e9b",
+      "phase": "Succeeded",
+      "node_name": "gpu-h800-0246.host.platform.shaipower.com",
+      "owner_references": [
+        {
+          "kind": "RJob",
+          "name": "exp-1111-194637-456465",
+          "uid": "ea73209b-61cd-4b5d-9d6d-ce49621ffaa4",
+          "controller": true
+        }
+      ],
+      "containers": [
+        {
+          "name": "probe",
+          "restart_count": 0,
+          "terminated": {
+            "exitCode": 0,
+            "reason": "Completed",
+            "startedAt": "2026-11-11T11:51:24Z",
+            "finishedAt": "2026-11-11T11:56:52Z"
+          },
+          "last_state": {}
+        }
+      ]
+    }
+  ],
+  "source_commit": "f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d",
+  "acceptance_limit": "Terminal platform/container and source allocation only; no serving binding, CUDA stream, vector, physical index or numerical acceptance",
+  "collector_correction": "Original KeyError nodename came from spec lookup; observed KAPI nodeName belongs to status, not spec. No native/source/job change."
+}
