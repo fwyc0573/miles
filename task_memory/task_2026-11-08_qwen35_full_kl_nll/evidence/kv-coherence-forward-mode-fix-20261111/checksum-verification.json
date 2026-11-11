@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "scope": "selected artifact/source checksum only; no native or numeric acceptance",
+  "frozen_base": "4b56d995ab2d1391a52d1c2333d1b9d8c60478ef",
+  "review_artifact": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-forward-mode-review-20261111",
+  "frozen_files": [
+    {
+      "path": "tests/manual/agent_opd/sglang_kv_coherence.py",
+      "bytes": 38862,
+      "sha256": "762507650bad68655301edc6693d10096a6ab9e6a9fd8a77865fb1ca153f5000",
+      "base_sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43"
+    },
+    {
+      "path": "tests/fast/test_sglang_kv_coherence.py",
+      "bytes": 40544,
+      "sha256": "ecb323b90d5ab6ae2c9d0782abeaa6de643d1c5a4c54df35eab48966c0f1b78a",
+      "base_sha256": "cec800d69ca89a5fc3a8d403c884b13bfa9504bee4f84b77a66f9090f9680f92"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md",
+      "bytes": 57912,
+      "sha256": "01ad8ded72cbd6a82db66f66a74a24d95cb4bf6f5ced55952aa7ee81daa2eaae",
+      "base_sha256": "be6ebe33c23358cd5f6c64b11fe5877dc9f85c7edf00942df9ce0a3377469b9e"
+    }
+  ],
+  "frozen_patch_sha256": "ab06b36e734dfaf76a6f99b16e53cbe835bdad39aa635e511b17110c00149f7f",
+  "owner_sha256sums_checked": [
+    "source-and-tests.diff",
+    "forward-mode-patch.json",
+    "original-scenario-replay.json",
+    "replay-instructions.md"
+  ],
+  "source_identity_count": 35,
+  "source_manifest_changed_keys": [
+    "runtime_sha256"
+  ],
+  "runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed",
+  "preserved_RCA_and_R3": "PASS",
+  "all5501_621_rehash": false
+}

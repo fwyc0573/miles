@@ -1,0 +1,27 @@
+{
+  "task_id": "profile-kv-coherence-forward-mode-fix-20261111",
+  "scope": "CPU_SOURCE_REPLAY_ONLY",
+  "mode_column_captured": false,
+  "pairs": {
+    "A": {
+      "native_process_id": 340,
+      "recorded_null_seq": 184,
+      "recorded_business_seq": 566,
+      "mode_for_null_state": "DECODE supplied from accepted source/event inference, not captured native enum",
+      "absent_context_and_decode_and_business_extend": "PASS",
+      "same_null_fields_as_true_EXTEND": "FAIL_LOUD_EXPECTED",
+      "invalid_extend_error_count": 2,
+      "generated_runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed"
+    },
+    "B": {
+      "native_process_id": 347,
+      "recorded_null_seq": 118,
+      "recorded_business_seq": 368,
+      "mode_for_null_state": "DECODE supplied from accepted source/event inference, not captured native enum",
+      "absent_context_and_decode_and_business_extend": "PASS",
+      "same_null_fields_as_true_EXTEND": "FAIL_LOUD_EXPECTED",
+      "invalid_extend_error_count": 2,
+      "generated_runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed"
+    }
+  }
+}

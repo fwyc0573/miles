@@ -152,6 +152,8 @@ class Collector:
                 k.data_ptr(), v.data_ptr(), loc.data_ptr())
 
     def _targets(self, batch):
+        if not batch.forward_mode.is_extend():
+            return []
         return [row for row in writer_windows(batch.rids, batch.extend_prefix_lens_cpu,
                                               batch.extend_seq_lens_cpu, self.start, self.end)
                 if row[0] in self.by_rid]

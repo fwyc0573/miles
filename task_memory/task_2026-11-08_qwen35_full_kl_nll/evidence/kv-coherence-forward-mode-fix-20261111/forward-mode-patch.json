@@ -1,0 +1,36 @@
+{
+  "task_id": "profile-kv-coherence-forward-mode-fix-20261111",
+  "scope": "CPU_SOURCE_READY_ONLY",
+  "production_file": "tests/manual/agent_opd/sglang_kv_coherence.py",
+  "production_before_sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43",
+  "production_after_sha256": "762507650bad68655301edc6693d10096a6ab9e6a9fd8a77865fb1ca153f5000",
+  "sole_production_change": "Collector._targets: if not batch.forward_mode.is_extend(): return [] before host-lens access",
+  "tests_file": "tests/fast/test_sglang_kv_coherence.py",
+  "tests_sha256": "ecb323b90d5ab6ae2c9d0782abeaa6de643d1c5a4c54df35eab48966c0f1b78a",
+  "checks": {
+    "red": {"failed": 1, "seconds": 1.92},
+    "initial_green": {"passed": 9, "seconds": 13.42},
+    "initial_module": {"passed": 54, "seconds": 31.89},
+    "final_module": {"passed": 49, "failed": 0, "skipped": 0, "seconds": 19.77},
+    "six_malformed_extend_variants_retained_in_one_check": true,
+    "actual_retained_enum_and_context_executed": true,
+    "recorded_A_B_original_scenario_cpu_replay": "PASS with inferred DECODE; true EXTEND remains fail-loud",
+    "native_mode_column_captured": false
+  },
+  "source_preparation": {
+    "scope": "CPU_SOURCE_DI_ONLY",
+    "native_preparer_di_calls": 1,
+    "source_identity_count": 35,
+    "source_and_additional_native_pins_unchanged": true,
+    "before_generated_runtime_sha256": "7f7f7ff9f49a7461de8e1a4f26505dd64a3fd8a55fbc9d49189d88d9dd7fa6dd",
+    "after_generated_runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed"
+  },
+  "preserved": {
+    "RCA_replay_sha256": "a323aabfb2f6997c1bbcbb2598d3b0e2aace8710de2f645d7dd220ff3504cf7e",
+    "RCA_counts_sha256": "9f19d21b2a0297effed436eee33361be9af547bb1a74ab355b054e6345878fdf",
+    "R3_receipt_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+    "raw_r1_r2_and_runtime_and_native_library_modified": false
+  },
+  "native_gpu_capture_numerical_acceptance": "PENDING",
+  "stage_or_commit_performed": false
+}

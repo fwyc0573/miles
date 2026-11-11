@@ -1,0 +1,141 @@
+diff --git a/tests/fast/test_sglang_kv_coherence.py b/tests/fast/test_sglang_kv_coherence.py
+index abd30d8a..d92332c0 100644
+--- a/tests/fast/test_sglang_kv_coherence.py
++++ b/tests/fast/test_sglang_kv_coherence.py
+@@ -6,6 +6,8 @@ import json
+ import os
+ import sys
+ import subprocess
++from contextlib import nullcontext
++from enum import IntEnum, auto
+ from pathlib import Path
+ from types import ModuleType, SimpleNamespace
+ 
+@@ -145,7 +147,8 @@ def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
+     req = _req(rid)
+     collector.register(req)
+     loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
+-    batch = SimpleNamespace(rids=[rid], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4])
++    batch = SimpleNamespace(rids=[rid], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                            forward_mode=SimpleNamespace(is_extend=lambda: True))
+     for dense, (k, v) in enumerate(zip(pool.k_buffer, pool.v_buffer)):
+         collector.note_cpp(batch, k, v, loc, 17, 17)
+         collector.fresh(pool, dense, loc, batch, "cpp")
+@@ -212,7 +215,8 @@ def test_capture_faults_are_observable_and_do_not_throw_serving(monkeypatch, fau
+     else:
+         collector.banks[0]["fresh_layers"].clear()
+         loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
+-        batch = SimpleNamespace(rids=["rid"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4])
++        batch = SimpleNamespace(rids=["rid"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                                forward_mode=SimpleNamespace(is_extend=lambda: True))
+         if fault == "stream":
+             collector.note_cpp(batch, pool.k_buffer[0], pool.v_buffer[0], loc, 18, 17)
+         collector.fresh(pool, 0, loc, batch, "triton" if fault == "triton" else "cpp")
+@@ -244,6 +248,94 @@ def _bind(root, relative, name, namespace):
+     return namespace[name]
+ 
+ 
++@pytest.fixture
++def forward_mode():
++    relative = "srt/model_executor/forward_batch_info.py"
++    tree = ast.parse((_SOURCE / relative).read_bytes())
++    node = copy.deepcopy(next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "ForwardMode"))
++    namespace = {"IntEnum": IntEnum, "auto": auto}
++    module = ast.Module(body=ast.parse("from __future__ import annotations").body + [node], type_ignores=[])
++    exec(compile(module, relative, "exec"), namespace)
++    return namespace["ForwardMode"]
++
++
++@pytest.fixture
++def generated_callbacks(composed, tmp_path, monkeypatch):
++    _prepare_di(composed, tmp_path / "coherence", monkeypatch)
++    runtime = ModuleType("cpu_generated_kv_callbacks")
++    exec(compile((composed / coherence._RUNTIME).read_bytes(), coherence._RUNTIME, "exec"), vars(runtime))
++    toy, pool = _toy(monkeypatch)
++    collector = runtime.Collector.__new__(runtime.Collector)
++    vars(collector).update(vars(toy))
++    runtime._collector = collector
++    context = ModuleType("cpu_generated_forward_context")
++    monkeypatch.setitem(sys.modules, context.__name__, context)
++    exec(compile((composed / streams._CONTEXT).read_bytes(), streams._CONTEXT, "exec"), vars(context))
++    source = (composed / streams._STORE).read_text()
++    binding = next(line.strip() for line in source.splitlines() if line.strip().startswith("_kv_batch = "))
++
++    def capture(batch, loc=None):
++        assert not context.has_forward_context()
++        scope = (context.forward_context(context.ForwardContext(attn_backend=None), forward_batch=batch)
++                 if batch is not None else nullcontext())
++        with scope:
++            names = {"get_forward_context": context.get_forward_context, "has_forward_context": context.has_forward_context}
++            exec(binding, names)
++            assert names["_kv_batch"] is batch
++            k, v = pool.k_buffer[0], pool.v_buffer[0]
++            runtime.observe("note_cpp", names["_kv_batch"], k, v, loc, 17, 17)
++            pending = dict(collector.pending_cpp)
++            runtime.observe("fresh", pool, 0, loc, names["_kv_batch"], "cpp")
++        assert not context.has_forward_context()
++        return pending
++
++    return collector, pool, capture
++
++
++@pytest.mark.parametrize("mode,prefix,extend", [("DECODE", None, None), ("EXTEND", [0], [1])])
++def test_generated_callbacks_use_actual_mode_scope_and_restore_context(generated_callbacks, forward_mode, mode, prefix, extend):
++    collector, _, capture = generated_callbacks
++    assert not forward_mode.DECODE.is_extend() and forward_mode.EXTEND.is_extend()
++    batch = SimpleNamespace(rids=["ordinary-native-request"], extend_prefix_lens_cpu=prefix,
++                            extend_seq_lens_cpu=extend, forward_mode=forward_mode[mode],
++                            moe_num_token_non_padded=lambda: None)
++    capture(None)
++    capture(batch)
++    assert collector.errors == [], collector.errors
++    assert not collector.pending_cpp and not collector.by_rid
++
++
++def test_generated_extend_missing_or_malformed_metadata_still_invalidates_unselected_rid(
++        generated_callbacks, forward_mode):
++    collector, _, capture = generated_callbacks
++    for field, value in [("rids", None), ("extend_prefix_lens_cpu", None), ("extend_seq_lens_cpu", None),
++                         ("extend_prefix_lens_cpu", [None]), ("extend_seq_lens_cpu", [-1]), ("extend_seq_lens_cpu", [])]:
++        batch = SimpleNamespace(rids=["unselected-scoring-rid"], extend_prefix_lens_cpu=[0],
++                                extend_seq_lens_cpu=[1], forward_mode=forward_mode.EXTEND,
++                                moe_num_token_non_padded=lambda: None)
++        setattr(batch, field, value)
++        count = len(collector.errors)
++        capture(batch)
++        errors = collector.errors[count:]
++        assert [error["stage"] for error in errors] == ["note_cpp", "fresh"], (field, value, errors)
++        assert all(error["rid"] is None and error["message"] for error in errors)
++        assert not collector.by_rid and not collector.pending_cpp
++    assert len(collector.errors) == 12
++
++
++def test_generated_extend_target_consumes_unchanged_cpp_key(generated_callbacks, forward_mode):
++    collector, pool, capture = generated_callbacks
++    collector.register(_req("target"))
++    batch = SimpleNamespace(rids=["target"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                            forward_mode=forward_mode.EXTEND, moe_num_token_non_padded=lambda: None)
++    loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
++    key = collector._key(batch, pool.k_buffer[0], pool.v_buffer[0], loc)
++    assert capture(batch, loc) == {key: (17, 17)}
++    assert not collector.pending_cpp and not collector.errors
++    bank = collector.by_rid["target"]
++    assert bank["fresh_layers"] == {0} and torch.equal(bank["indices"]["writer"][0], loc)
++
++
+ def test_real_rpc_source_bindings_default_false_and_true_forwarding(composed, tmp_path, monkeypatch):
+     import asyncio
+     _prepare_di(composed, tmp_path / "coherence", monkeypatch)
+diff --git a/tests/manual/agent_opd/sglang_kv_coherence.py b/tests/manual/agent_opd/sglang_kv_coherence.py
+index 86312825..fe299a85 100644
+--- a/tests/manual/agent_opd/sglang_kv_coherence.py
++++ b/tests/manual/agent_opd/sglang_kv_coherence.py
+@@ -152,6 +152,8 @@ class Collector:
+                 k.data_ptr(), v.data_ptr(), loc.data_ptr())
+ 
+     def _targets(self, batch):
++        if not batch.forward_mode.is_extend():
++            return []
+         return [row for row in writer_windows(batch.rids, batch.extend_prefix_lens_cpu,
+                                               batch.extend_seq_lens_cpu, self.start, self.end)
+                 if row[0] in self.by_rid]

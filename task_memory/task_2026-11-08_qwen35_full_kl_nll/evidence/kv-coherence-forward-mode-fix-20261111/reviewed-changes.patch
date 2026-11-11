@@ -1,0 +1,202 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md
+index 1f35efbe..566ba8fb 100644
+--- a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md
+@@ -2,6 +2,7 @@
+ 
+ | Date | Change |
+ | --- | --- |
++| 2026-11-11 | Add the authorized centralized ForwardMode.is_extend scope check: real enum/context/generated seam RED1 then GREEN; final49 module PASS with all six malformed EXTEND variants retained. Original A/B scenario CPU replay and35/native-pin equality PASS; old RCA/raw/R3 and native acceptance boundaries preserved. |
+ | 2026-11-11 | Fix raw-versus-resolved startup guard through existing resolved_dict(): real generated initializer RED1/GREEN1,17 affected and69 focused composed CPU PASS; retain35 source/native pins and R3, record original terminal capture failures without granting parity/KV/CUDA acceptance. |
+ | 2026-11-11 | Link primary-accepted bounded R3 native CPU qualification through the sole config input;283 affected/joined CPU checks and both unchanged four-H800 controller dry-runs PASS. Actual CUDA/numerical acceptance remains pending. |
+ | 2026-11-11 | Record the closed Standards recheck and actual A/B CPU controller dry-runs; preserve the reopened native contention oracle and R3 release hold. |
+@@ -19,6 +20,48 @@ TaskID: `profile-kv-coherence-collector-implementation-20261111`.
+ 
+ The accepted `9d1d821f` source/provenance and `1d694444` selected CPP/WIT scope remain independent evidence. This task does not reinterpret either as a bundled native binary's source commit, original-tensor observer execution, CUDA stream proof or physical/numeric acceptance. Selected CPP WIT remains accepted; unselected prefix-valid Triton stays unverified and unsupported by this collector. A future CPP compilation qualification is not relabeled as a blocker of the previously accepted WIT. Warm FAIL and formal A/B HOLD remain unchanged.
+ 
++### Forward-mode observer scope correction — CPU source-ready, fixed reviews pending
++
++TaskID: `profile-kv-coherence-forward-mode-fix-20261111`. Primary accepted the [read-only r2 RCA](evidence/kv-coherence-batch-metadata-rca-20261111/rca.md) and explicitly chose the ordinary CPU edit. `Collector._targets()` now calls the existing `batch.forward_mode.is_extend()` before any `writer_windows`/host-lens access and returns an empty target list for non-EXTEND. These are the sole two added production lines (`sglang_kv_coherence.py:155-156`); subtracting them reproduces the previous collector bytes exactly. Caller classification, supported None batch, strict EXTEND validation, serving/cache/math/stream/wait/dtype/flags/model/Rust/argv/config, index/native-error/pending/numeric gates remain unchanged. No blanket None fallback or new supported mode is introduced.
++
++**Persistent regression before production fix:** the new `generated_callbacks` fixture composes real pinned source through the existing preparation fixture, executes the newly generated runtime and actual context class/publish/get/restore, and seeds its Collector using the existing small CPU toy state. `forward_mode` executes the exact retained ForwardMode enum class, not an always-false mode mock. DECODE and EXTEND use real enum members. Actual absence/restoration is checked; no always-present getter is injected. Portable older tensor tests receive the same mode API through a clearly local true-EXTEND unit seam.
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest 'tests/fast/test_sglang_kv_coherence.py::test_generated_callbacks_use_actual_mode_scope_and_restore_context[DECODE-None-None]' -q --tb=short -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-forward-mode-red-20261111
++```
++
++Observed before the production edit: exit1, **1 FAIL,2 unchanged warnings,1.92s**. The generated `observe -> note_cpp/fresh -> _targets` path appended the original two global RID=null errors for the DECODE-compatible nonemptyRID/nullLens state. The real enum predicate assertion and source/context setup passed, so this is the actual bug seam, not a missing mock attribute.
++
++After the two-line fix, the first focused GREEN command below returned exit0, **9 PASS,2 unchanged warnings,13.42s**. The six malformed EXTEND variants were initially six collected cases; each still fails through unchanged observe/invalidate even when RID is unselected. Valid target capture registers the exact existing key `(RID,prefix,extend,Kptr,Vptr,locptr)`, observes `(17,17)` as CPU fixture scalars, consumes it in FRESH, and records writer indices. This is not a native stream measurement.
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest 'tests/fast/test_sglang_kv_coherence.py::test_generated_callbacks_use_actual_mode_scope_and_restore_context[DECODE-None-None]' tests/fast/test_sglang_kv_coherence.py::test_generated_callbacks_use_actual_mode_scope_and_restore_context tests/fast/test_sglang_kv_coherence.py::test_generated_extend_missing_or_malformed_metadata_still_invalidates_unselected_rid tests/fast/test_sglang_kv_coherence.py::test_generated_extend_target_consumes_unchanged_cpp_key -q --tb=short -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-forward-mode-green-20261111
++```
++
++Initial whole-module check, simultaneously with source DI, returned **54 PASS,2 warnings,31.89s** under command `TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q --tb=short -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-forward-mode-module-20261111`. This exceeded the fast CPU budget. The six malformed-metadata variants were therefore retained as six independent per-variant assertions in one composed case, avoiding six repetitions of identical source composition. Errors are accumulated, not cleared; all12 expected stage errors remain asserted. No production edit, coverage reduction, retry or registry change was made for timing.
++
++Final affected whole module, including all existing composed source checks, returned exit0, **49 PASS,0 skip/FAIL,2 unchanged warnings,19.77s**:
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q --tb=short --durations=5 -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-forward-mode-final-20261111
++```
++
++No broad probe/5501/621 suite or rehash was run. Existing allocator/topology, original-tensor callback, physical/numeric drain/error isolation, source prep/RPC/private import checks remain covered by the affected module. Test scripts parse as Python3.10; host environment is unchanged CPU Python3.12.13/pytest9.1.1. No native build/load/submission/platform/auth/GPU operation, delegation, stage or commit occurred.
++
++Fresh selected source preparation returned exit0 and explicit `CPU_SOURCE_DI_ONLY ... production native/GPU qualification PENDING`:
++
++```bash
++PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-source-20261111/prepare_cpu_source_di.py --source task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source --output task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-forward-mode-fix-20261111/cpu-source-di
++```
++
++The35 source identities, additional native/R3 pins, image/version and composition equal the previous source manifest; only generated runtime SHA changes to `773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed`. Preparation uses one explicit native source DI call, not a fabricated compiled artifact or actual native acceptance. R3 receipt remains SHA256 `91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7`.
++
++The original-scenario A/B metadata was replayed against this new generated runtime through existing fixtures, without touching the frozen RCA script/runtime/results. Exact executed command and scope are owned by [replay-instructions.md](evidence/kv-coherence-forward-mode-fix-20261111/replay-instructions.md), with [original-scenario-replay.json](evidence/kv-coherence-forward-mode-fix-20261111/original-scenario-replay.json). A process340/null seq184/business566 and B347/null118/business368 are clean under absent context/inferred DECODE/valid EXTEND; identical null fields as true EXTEND still produce exactly two original errors per pair. WIT lacked a mode column; supplied DECODE is the accepted source/event inference, **not a captured native enum value**.
++
++Frozen checksum/diff artifacts are [forward-mode-patch.json](evidence/kv-coherence-forward-mode-fix-20261111/forward-mode-patch.json) and [source-and-tests.diff](evidence/kv-coherence-forward-mode-fix-20261111/source-and-tests.diff). Collector SHA256 `762507650bad68655301edc6693d10096a6ab9e6a9fd8a77865fb1ca153f5000`; fast test `ecb323b90d5ab6ae2c9d0782abeaa6de643d1c5a4c54df35eab48966c0f1b78a`. Preserved RCA replay SHA `a323aabfb2f6997c1bbcbb2598d3b0e2aace8710de2f645d7dd220ff3504cf7e` and counts SHA `9f19d21b2a0297effed436eee33361be9af547bb1a74ab355b054e6345878fdf` still match. JSON/AST/whitespace checks PASS. Old source/.so/hashes, r1/r2/R3/raw, eight master docs, README, probe and config are not edited.
++
++Self-check: the selected two-line fix and minimal verification are complete; the fast-budget correction preserved every requested fault assertion and stopped at19.77s. Fixed Standards/Spec reviews are primary pending. No graphs/gpu_only/spec/concurrency capability, native source/private-SO/S/GIL/all16 active capture,7955 physical/index/KV/root/scoring parity or formal acceptance is granted here; formal04/05 HOLD remains. Stop at this CPU source delivery, unstaged/uncommitted.
++
+ ### Resolved-config guard correction — frozen CPU source-ready patch
+ 
+ Follow-up TaskID: `profile-kv-coherence-resolved-config-fix-20261111`. This step edits only the collector source, its fast test file and this report; focused new evidence lives in [kv-coherence-resolved-config-fix-20261111](evidence/kv-coherence-resolved-config-fix-20261111/). Probe/config/native Rust/R3 receipt/eight shared documents/raw old attempts/README remain unchanged. Historical283 and407 results below are preserved, not replaced by this smaller verification window. No platform/auth/GPU operation, delegation, stage or commit was performed.
+diff --git a/tests/fast/test_sglang_kv_coherence.py b/tests/fast/test_sglang_kv_coherence.py
+index abd30d8a..d92332c0 100644
+--- a/tests/fast/test_sglang_kv_coherence.py
++++ b/tests/fast/test_sglang_kv_coherence.py
+@@ -6,6 +6,8 @@ import json
+ import os
+ import sys
+ import subprocess
++from contextlib import nullcontext
++from enum import IntEnum, auto
+ from pathlib import Path
+ from types import ModuleType, SimpleNamespace
+ 
+@@ -145,7 +147,8 @@ def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
+     req = _req(rid)
+     collector.register(req)
+     loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
+-    batch = SimpleNamespace(rids=[rid], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4])
++    batch = SimpleNamespace(rids=[rid], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                            forward_mode=SimpleNamespace(is_extend=lambda: True))
+     for dense, (k, v) in enumerate(zip(pool.k_buffer, pool.v_buffer)):
+         collector.note_cpp(batch, k, v, loc, 17, 17)
+         collector.fresh(pool, dense, loc, batch, "cpp")
+@@ -212,7 +215,8 @@ def test_capture_faults_are_observable_and_do_not_throw_serving(monkeypatch, fau
+     else:
+         collector.banks[0]["fresh_layers"].clear()
+         loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
+-        batch = SimpleNamespace(rids=["rid"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4])
++        batch = SimpleNamespace(rids=["rid"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                                forward_mode=SimpleNamespace(is_extend=lambda: True))
+         if fault == "stream":
+             collector.note_cpp(batch, pool.k_buffer[0], pool.v_buffer[0], loc, 18, 17)
+         collector.fresh(pool, 0, loc, batch, "triton" if fault == "triton" else "cpp")
+@@ -244,6 +248,94 @@ def _bind(root, relative, name, namespace):
+     return namespace[name]
+ 
+ 
++@pytest.fixture
++def forward_mode():
++    relative = "srt/model_executor/forward_batch_info.py"
++    tree = ast.parse((_SOURCE / relative).read_bytes())
++    node = copy.deepcopy(next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "ForwardMode"))
++    namespace = {"IntEnum": IntEnum, "auto": auto}
++    module = ast.Module(body=ast.parse("from __future__ import annotations").body + [node], type_ignores=[])
++    exec(compile(module, relative, "exec"), namespace)
++    return namespace["ForwardMode"]
++
++
++@pytest.fixture
++def generated_callbacks(composed, tmp_path, monkeypatch):
++    _prepare_di(composed, tmp_path / "coherence", monkeypatch)
++    runtime = ModuleType("cpu_generated_kv_callbacks")
++    exec(compile((composed / coherence._RUNTIME).read_bytes(), coherence._RUNTIME, "exec"), vars(runtime))
++    toy, pool = _toy(monkeypatch)
++    collector = runtime.Collector.__new__(runtime.Collector)
++    vars(collector).update(vars(toy))
++    runtime._collector = collector
++    context = ModuleType("cpu_generated_forward_context")
++    monkeypatch.setitem(sys.modules, context.__name__, context)
++    exec(compile((composed / streams._CONTEXT).read_bytes(), streams._CONTEXT, "exec"), vars(context))
++    source = (composed / streams._STORE).read_text()
++    binding = next(line.strip() for line in source.splitlines() if line.strip().startswith("_kv_batch = "))
++
++    def capture(batch, loc=None):
++        assert not context.has_forward_context()
++        scope = (context.forward_context(context.ForwardContext(attn_backend=None), forward_batch=batch)
++                 if batch is not None else nullcontext())
++        with scope:
++            names = {"get_forward_context": context.get_forward_context, "has_forward_context": context.has_forward_context}
++            exec(binding, names)
++            assert names["_kv_batch"] is batch
++            k, v = pool.k_buffer[0], pool.v_buffer[0]
++            runtime.observe("note_cpp", names["_kv_batch"], k, v, loc, 17, 17)
++            pending = dict(collector.pending_cpp)
++            runtime.observe("fresh", pool, 0, loc, names["_kv_batch"], "cpp")
++        assert not context.has_forward_context()
++        return pending
++
++    return collector, pool, capture
++
++
++@pytest.mark.parametrize("mode,prefix,extend", [("DECODE", None, None), ("EXTEND", [0], [1])])
++def test_generated_callbacks_use_actual_mode_scope_and_restore_context(generated_callbacks, forward_mode, mode, prefix, extend):
++    collector, _, capture = generated_callbacks
++    assert not forward_mode.DECODE.is_extend() and forward_mode.EXTEND.is_extend()
++    batch = SimpleNamespace(rids=["ordinary-native-request"], extend_prefix_lens_cpu=prefix,
++                            extend_seq_lens_cpu=extend, forward_mode=forward_mode[mode],
++                            moe_num_token_non_padded=lambda: None)
++    capture(None)
++    capture(batch)
++    assert collector.errors == [], collector.errors
++    assert not collector.pending_cpp and not collector.by_rid
++
++
++def test_generated_extend_missing_or_malformed_metadata_still_invalidates_unselected_rid(
++        generated_callbacks, forward_mode):
++    collector, _, capture = generated_callbacks
++    for field, value in [("rids", None), ("extend_prefix_lens_cpu", None), ("extend_seq_lens_cpu", None),
++                         ("extend_prefix_lens_cpu", [None]), ("extend_seq_lens_cpu", [-1]), ("extend_seq_lens_cpu", [])]:
++        batch = SimpleNamespace(rids=["unselected-scoring-rid"], extend_prefix_lens_cpu=[0],
++                                extend_seq_lens_cpu=[1], forward_mode=forward_mode.EXTEND,
++                                moe_num_token_non_padded=lambda: None)
++        setattr(batch, field, value)
++        count = len(collector.errors)
++        capture(batch)
++        errors = collector.errors[count:]
++        assert [error["stage"] for error in errors] == ["note_cpp", "fresh"], (field, value, errors)
++        assert all(error["rid"] is None and error["message"] for error in errors)
++        assert not collector.by_rid and not collector.pending_cpp
++    assert len(collector.errors) == 12
++
++
++def test_generated_extend_target_consumes_unchanged_cpp_key(generated_callbacks, forward_mode):
++    collector, pool, capture = generated_callbacks
++    collector.register(_req("target"))
++    batch = SimpleNamespace(rids=["target"], extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[4],
++                            forward_mode=forward_mode.EXTEND, moe_num_token_non_padded=lambda: None)
++    loc = torch.tensor([0, 1, 2, 3], dtype=torch.int64)
++    key = collector._key(batch, pool.k_buffer[0], pool.v_buffer[0], loc)
++    assert capture(batch, loc) == {key: (17, 17)}
++    assert not collector.pending_cpp and not collector.errors
++    bank = collector.by_rid["target"]
++    assert bank["fresh_layers"] == {0} and torch.equal(bank["indices"]["writer"][0], loc)
++
++
+ def test_real_rpc_source_bindings_default_false_and_true_forwarding(composed, tmp_path, monkeypatch):
+     import asyncio
+     _prepare_di(composed, tmp_path / "coherence", monkeypatch)
+diff --git a/tests/manual/agent_opd/sglang_kv_coherence.py b/tests/manual/agent_opd/sglang_kv_coherence.py
+index 86312825..fe299a85 100644
+--- a/tests/manual/agent_opd/sglang_kv_coherence.py
++++ b/tests/manual/agent_opd/sglang_kv_coherence.py
+@@ -152,6 +152,8 @@ class Collector:
+                 k.data_ptr(), v.data_ptr(), loc.data_ptr())
+ 
+     def _targets(self, batch):
++        if not batch.forward_mode.is_extend():
++            return []
+         return [row for row in writer_windows(batch.rids, batch.extend_prefix_lens_cpu,
+                                               batch.extend_seq_lens_cpu, self.start, self.end)
+                 if row[0] in self.by_rid]
