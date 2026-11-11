@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-11 | Record the fixed R2 two-axis source review, primary CPU acceptance and phase checkpoint. |
+| 2026-11-11 | Clarify the configured memory unit after initial API inspection: mem_gb64 produces64000Mi, not65536Mi. |
 
 # Packed-varlen source acceptance
 
@@ -28,7 +29,7 @@ Reviewer: `ses_e3516239bffeBOG44QH7ZJaXJa`, TaskID `profile-packed-varlen-source
 
 - [R2 checksum](primary-checksum-verification-r2.json): five frozen SHA256s, Python/JSON syntax, six unchanged native before/candidate identities; production probe and A/B configs unchanged by the fixture correction.
 - [Raw primary unit log](primary-r2-unit.log): `/usr/bin/python3`3.10.6, `timeout 60s`, `TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode`, `-B -m unittest tests.fast.test_mamba_fp32_snapshot_probe -v`; **7/7 PASS,0 SKIP,0.249s**. This is CPU/mock/source binding only. The closed32 suite was not rerun.
-- [Preparation record](preparation.json) retains the earlier32 checks, fixture RED/GREEN, source-only bindings and unchanged original44 receipt. [A](controller-dryrun-A.json)/[B](controller-dryrun-B.json) controller dry-runs are `submitted=false`, each H800/codesign/GPU1/CPU8/64GiB with the existing3600s+90s budget. No native run has occurred at this checkpoint.
+- [Preparation record](preparation.json) retains the earlier32 checks, fixture RED/GREEN, source-only bindings and unchanged original44 receipt. [A](controller-dryrun-A.json)/[B](controller-dryrun-B.json) controller dry-runs are `submitted=false`, each H800/codesign/GPU1/CPU8/`mem_gb=64` with the existing3600s+90s budget. The subsequent initial API reports memory64000Mi, not65536Mi. No native run had occurred at the CPU checkpoint; subsequent admissions are recorded separately.
 - CPU archive acceptance adds no claim about real model inputs/state, canonical-P publication, native replay fidelity, warm correctness, a causal fix or formal200.
 
 ## 1. 规划完成情况
