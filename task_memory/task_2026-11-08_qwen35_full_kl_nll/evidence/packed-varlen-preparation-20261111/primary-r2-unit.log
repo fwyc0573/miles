@@ -1,0 +1,12 @@
+test_actual_configs_and_cpu_only_cli (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_actual_single_request_specialization_source_binding_only (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_all_numeric_comparisons_are_post_producer_and_remain_mock (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_cross_length_comparisons_detect_changed_values_mock (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_equal_length_rng_order_remains_separate_mock (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_packed_rejections_and_old_live_row_constraint (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+test_single_draw_shared_prefixes_and_one_pool_clone_per_forward_mock (tests.fast.test_mamba_fp32_snapshot_probe.SnapshotProbePreparationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.249s
+
+OK

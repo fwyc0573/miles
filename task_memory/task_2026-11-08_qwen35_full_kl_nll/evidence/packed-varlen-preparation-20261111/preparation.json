@@ -1,0 +1,107 @@
+{
+  "task_id": "profile-native-packed-varlen-differential-preparation-20261111",
+  "phase": "CPU_SOURCE_PREPARATION_ONLY",
+  "native_packed_semantics": "UNVERIFIED",
+  "native_execution_performed": false,
+  "source_preparer_changed": false,
+  "primary_raw_tensors_copied": false,
+  "python": "3.10.6",
+  "numpy_mock_version": "1.24.3",
+  "cpu_unittest": {"passed": 7, "skipped": 0, "seconds": 0.402},
+  "final_cpu_unittest": {"passed": 7, "skipped": 0, "seconds": 0.332},
+  "reported_source_command_rerun": "PASS: expected source/config RED A/B; GREEN 126 byte-equal mock entries/11 RNG draws/six pins",
+  "cpu_pytest": {"python": "3.12.13", "pytest": "9.1.1", "passed": 32, "skipped": 0, "warnings": 2, "seconds": 2.39},
+  "portability_correction_r2": {
+    "scope": "Test fixtures, report and compact evidence only; producer/consumer, native configs and guards untouched",
+    "historical_combined_32_test_run_repeated": false,
+    "fixture_changes": "Default TemporaryDirectory obeys TMPDIR; exact operator config bytes copied; cloned formal changes only local_mount/repo",
+    "relocation_regression": "All three config CLIs at initial_checkout and relocated_checkout; original operator_inputs unchanged",
+    "valid_rejection_baseline": "Cloned packed config accepted before fourteen invalid mutations are tested",
+    "cpu_fixture_red": {
+      "python": "3.10.6", "tests_run": 7, "failed_test_methods": 2, "failure_records": 4,
+      "skipped": 0, "seconds": 0.191,
+      "mount_error": "Config and repository must use the formal local mount",
+      "temporary_directory_error": "Portable CPU fixture must not pass a host-specific TemporaryDirectory dir",
+      "interpretation": "Expected CPU fixture failure only; no native numerical RED"
+    },
+    "cpu_unittest_green": {"python": "3.10.6", "passed": 7, "skipped": 0, "seconds": 0.219},
+    "cpu_pytest_green": {"python": "3.12.13", "pytest": "9.1.1", "passed": 7, "skipped": 0, "warnings": 2, "seconds": 0.43},
+    "relocated_module_green": {"python": "3.10.6", "passed": 7, "skipped": 0, "seconds": 0.252, "out_of_mount_guard_still_rejects": true},
+    "commands": [
+      "TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B -m unittest tests.fast.test_mamba_fp32_snapshot_probe -v",
+      "TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_mamba_fp32_snapshot_probe.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/packed-varlen-portability-r2-20261111-pytest"
+    ],
+    "repro_wrapper_initial_failure": "unittest subtest records exposed runTest; map case.test_case to the parent test method for the expected-RED summary",
+    "production_probe_and_actual_ab_configs_hashes_unchanged": true,
+    "github_ci_executed": false,
+    "source_fixture_limit": "Retained C3 unavailable in CI may skip only the source-binding test; CPU CLI tests do not skip",
+    "native_packed_semantics": "UNVERIFIED"
+  },
+  "original_config_red": {
+    "A": "ValueError: This isolated native ABI probe requires Triton equal-length inputs",
+    "B": "ValueError: This isolated native ABI probe requires Triton equal-length inputs",
+    "interpretation": "Expected old config rejection only, not a native numeric RED"
+  },
+  "packed_config_green": ["A", "B"],
+  "equal_length_mock_byte_comparison": {
+    "original_worker_sha256": "a802b740dbb35ec4efacb771fb45f29c10b4f95b2d95de90b948f4cecbdf197d",
+    "tensor_entries": 126,
+    "rng_draw_calls": 11,
+    "passed": true,
+    "native_rng_values_verified": false
+  },
+  "source_pin_checks": {
+    "kernels/ops/attention/fla/chunk.py": {
+      "before_sha256": "0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85",
+      "candidate_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c"
+    },
+    "srt/layers/attention/linear/kernels/gdn_triton.py": {
+      "before_sha256": "ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a",
+      "candidate_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf"
+    },
+    "kernels/ops/attention/fla/chunk_delta_h.py": {
+      "before_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "candidate_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2"
+    },
+    "srt/layers/attention/linear/kernels/kernel_backend.py": {
+      "before_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "candidate_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505"
+    },
+    "srt/layers/attention/linear/gdn_backend.py": {
+      "before_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+      "candidate_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13"
+    },
+    "srt/layers/attention/hybrid_linear_attn_backend.py": {
+      "before_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
+      "candidate_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef"
+    }
+  },
+  "no_probe_producer_host_read_or_explicit_sync": true,
+  "native_index_preparation": "Existing prepare_chunk_indices internally calls .tolist(); no zero-CUDA-wait claim",
+  "source_binding_mock": {
+    "variants": ["A", "B"],
+    "outer_lengths": [7253, 8192],
+    "cu_seqlens": "Same non-null int32 [0,T] object reaches fwd_h launch",
+    "IS_VARLEN": true,
+    "cache_indices": [2],
+    "state_slots": 4,
+    "qk_heads": 4,
+    "value_heads": {"A": 12, "B": 8},
+    "key_dim": 128,
+    "value_dim": 128,
+    "h_chunk_rows": {"7253": 114, "8192": 128},
+    "native_tensor_values_verified": false
+  },
+  "original_44_receipt": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/snapshot-semantics-20261111/exp-1111-055011-398371/verdict.json",
+    "sha256": "4cca70f1a2573f764ba80b6ee17bf036a596a8357e0b4d791e928ed26e61a5c3",
+    "checks": 44,
+    "all_pass": true,
+    "gpu_rerun": false
+  },
+  "verification_script_initial_failure": {
+    "error": "AttributeError: 'dict' object has no attribute 'dtype'",
+    "cause": "The recursive byte-check script treated dict.values as a mock tensor field",
+    "correction": "Use isinstance(left, _MockTensor); no operator behavior changed"
+  }
+}

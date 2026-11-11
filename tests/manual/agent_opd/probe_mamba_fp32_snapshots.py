@@ -9,7 +9,8 @@ Run with the formal image's Python and environment, before attention imports:
 uses the qualified candidate twice (tracking off/on), not untouched-code GPU
 A/B. Native prefix forwards supply the FP32 oracle; no custom recurrence,
 tolerance, fallback, or mocked CUDA verdict is used. All producer forwards end
-before the single end-phase synchronization and tensor-content inspection.
+before the probe's single end-phase synchronization and numerical inspection.
+Packed calls retain native prepare_chunk_indices, which internally calls .tolist().
 """
 
 import argparse
@@ -37,8 +38,8 @@ def _load_config(path):
     formal = json.loads(formal_path.read_text())
     if formal["image"] != source_manifest()["image"] or formal["gpu_tag"] != "H800":
         raise ValueError("Require the qualified formal H800 image configuration")
-    if config["backend"] != "triton" or config["layout"] != "equal_length":
-        raise ValueError("This isolated native ABI probe requires Triton equal-length inputs")
+    if config["backend"] != "triton" or config["layout"] not in ("equal_length", "packed"):
+        raise ValueError("This isolated native ABI probe requires Triton equal-length or packed inputs")
     if config["qkv_dtype"] != "bfloat16" or config["state_dtype"] != "float32":
         raise ValueError("Require BF16 Q/K/V and FP32 temporal states")
     if config["gate_dtype"] != "float32" or config["index_dtype"] != "int32":
@@ -64,7 +65,10 @@ def _load_config(path):
     ):
         raise ValueError("cache_indices must supply one native slot or -1 per batch row")
     valid = [row for row in indices if row >= 0]
-    if len(valid) < 2 or len(set(valid)) != len(valid) or valid == sorted(valid):
+    if config["layout"] == "packed":
+        if config["batch_size"] != 1 or len(valid) != 1 or valid[0] == 0:
+            raise ValueError("Packed diagnostics require one live request in a nonzero state slot")
+    elif len(valid) < 2 or len(set(valid)) != len(valid) or valid == sorted(valid):
         raise ValueError("Require distinct, nonsequential state slots for at least two live rows")
     boundaries = config["boundary_tokens"]
     grid = math.lcm(config["mamba_cache_chunk_size"], config["tree_page_size"])
@@ -76,6 +80,12 @@ def _load_config(path):
         type(length) is not int or length <= max(boundaries) for length in config["sequence_lengths"]
     ):
         raise ValueError("Every nonempty sequence must extend beyond both interior checkpoints")
+    if config["layout"] == "packed":
+        if len(set(config["sequence_lengths"])) < 2:
+            raise ValueError("Packed diagnostics require at least two distinct outer lengths")
+        prefix = config["comparison_prefix_tokens"]
+        if type(prefix) is not int or not 0 < prefix <= min(config["sequence_lengths"]):
+            raise ValueError("comparison_prefix_tokens must be within every outer length")
     selected = set()
     for positions in config["track_chunk_indices"]:
         if len(positions) != len(indices):
@@ -131,27 +141,35 @@ def _check(report, name, passed, **evidence):
         report["failed_checks"].append(name)
 
 
+def _inputs(torch, config, length):
+    batch, heads = config["batch_size"], config["value_heads"]
+    q = torch.randn(batch, length, config["qk_heads"], config["key_dim"], device="cuda", dtype=torch.bfloat16)
+    k = torch.randn_like(q)
+    v = torch.randn(batch, length, heads, config["value_dim"], device="cuda", dtype=torch.bfloat16)
+    g = -torch.rand(batch, length, heads, device="cuda", dtype=torch.float32) * config["gate_scale"]
+    beta = torch.randn_like(g).sigmoid()
+    return dict(q=q, k=k, v=v, g=g, beta=beta)
+
+
 def _produce(torch, backend, config):
-    """Enqueue native forwards only; never read tensor contents or synchronize."""
+    """No probe-side tensor-content reads or waits; native packed index preparation is unchanged."""
     torch.manual_seed(config["seed"])
     batch, heads = config["batch_size"], config["value_heads"]
     key_dim, value_dim = config["key_dim"], config["value_dim"]
     initial = torch.randn(config["state_slots"], heads, value_dim, key_dim,
                           device="cuda", dtype=torch.float32) * config["initial_state_scale"]
     indices = torch.tensor(config["cache_indices"], device="cuda", dtype=torch.int32)
+    packed = config["layout"] == "packed"
+    shared = _inputs(torch, config, max(config["sequence_lengths"])) if packed else None
     cases = []
     for length in config["sequence_lengths"]:
-        q = torch.randn(batch, length, config["qk_heads"], key_dim, device="cuda", dtype=torch.bfloat16)
-        k = torch.randn_like(q)
-        v = torch.randn(batch, length, heads, value_dim, device="cuda", dtype=torch.bfloat16)
-        g = -torch.rand(batch, length, heads, device="cuda", dtype=torch.float32) * config["gate_scale"]
-        beta = torch.randn_like(g).sigmoid()
-        inputs = dict(q=q, k=k, v=v, g=g, beta=beta)
+        inputs = {name: tensor[:, :length] for name, tensor in shared.items()} if packed else _inputs(torch, config, length)
 
         def forward(tokens, positions=None):
             state = initial.clone()
             arguments = {name: tensor[:, :tokens].contiguous() for name, tensor in inputs.items()}
-            arguments.update(ssm_states=state, cache_indices=indices, query_start_loc=None, inplace_update=True)
+            query_start_loc = torch.tensor([0, tokens], device="cuda", dtype=torch.int32) if packed else None
+            arguments.update(ssm_states=state, cache_indices=indices, query_start_loc=query_start_loc, inplace_update=True)
             snapshot = None
             if positions is not None:
                 snapshot = torch.full((batch, heads, value_dim, key_dim), config["snapshot_sentinel"],
@@ -171,7 +189,7 @@ def _produce(torch, backend, config):
 
 
 def _inspect(torch, config, cases, local, report):
-    """All producers have ended; archive CPU tensors and collect numeric evidence."""
+    """All producers have ended; retain worker-local tensors and collect compact numeric evidence."""
     raw = {}
     report["cases"] = []
     witnesses = 0
@@ -181,7 +199,8 @@ def _inspect(torch, config, cases, local, report):
         rows = {"length": length, "input_metadata": {name: _metadata(t) for name, t in case["inputs"].items()},
                 "state_metadata": _metadata(ordinary["state"]), "index_metadata": _metadata(case["indices"]),
                 "output_metadata": _metadata(ordinary["output"]), "h_metadata": _metadata(ordinary["h"]),
-                "native_arguments": {"query_start_loc": None, "inplace_update": True,
+                "native_arguments": {"query_start_loc": _metadata(ordinary["arguments"]["query_start_loc"])
+                                     if config["layout"] == "packed" else None, "inplace_update": True,
                                      "cache_indices": config["cache_indices"], "head_first": False,
                                      "use_qk_l2norm_in_kernel": True,
                                      "scale": config["key_dim"] ** -0.5}, "tracked": []}
@@ -247,9 +266,62 @@ def _inspect(torch, config, cases, local, report):
                 _check(report, f"{label}/padded_row_{row}/zero_initial_h", comparison["exact"], **comparison)
         report["cases"].append(rows)
     _check(report, "fp32_store_not_bf16_roundtrip", witnesses > 0, unrounded_elements=witnesses)
+    if config["layout"] == "packed":
+        _inspect_packed(torch, config, cases, report)
     raw_path = local / "tensors.pt"
     torch.save(raw, raw_path)
     report["raw_small_tensors_worker_local"] = str(raw_path)
+
+
+def _inspect_packed(torch, config, cases, report):
+    """Post-producer comparisons of native arguments, shared prerequisites and outer-length results."""
+    report["packed_native_calls"] = []
+    for case in cases:
+        calls = [("ordinary", case["length"], case["ordinary"])]
+        calls += [(f"tracking_{number}", case["length"], tracked) for number, tracked in enumerate(case["tracked"])]
+        calls += [(f"prefix_{end}", end, prefix) for end, prefix in case["prefixes"].items()]
+        for name, tokens, call in calls:
+            label = f"length_{case['length']}/{name}"
+            arguments = call["arguments"]
+            cu_seqlens = arguments["query_start_loc"]
+            comparison = _compare(torch, cu_seqlens, torch.tensor([0, tokens], device="cuda", dtype=torch.int32))
+            _check(report, f"{label}/packed_cu_seqlens",
+                   cu_seqlens.dtype == torch.int32 and cu_seqlens.shape == (2,)
+                   and str(cu_seqlens.device).startswith("cuda") and comparison["exact"], **comparison)
+            for input_name, tensor in case["inputs"].items():
+                comparison = _compare(torch, arguments[input_name], tensor[:, :tokens])
+                _check(report, f"{label}/same_{input_name}_prefix", comparison["exact"] and comparison["finite"], **comparison)
+            comparison = _compare(torch, call["h"][0, 0], case["initial"][config["cache_indices"][0]].to(torch.bfloat16))
+            _check(report, f"{label}/same_initial_state", comparison["exact"] and comparison["finite"], **comparison)
+            report["packed_native_calls"].append({"length": case["length"], "call": name, "tokens": tokens,
+                                                 "cu_seqlens_values": cu_seqlens.tolist(),
+                                                 "argument_metadata": {key: _metadata(value) for key, value in arguments.items()
+                                                                       if isinstance(value, torch.Tensor)},
+                                                 "inplace_update": arguments["inplace_update"]})
+    report["cross_length"] = []
+    reference = cases[0]
+    for case in cases[1:]:
+        label = f"length_{reference['length']}_vs_{case['length']}"
+        common_tokens = min(reference["length"], case["length"])
+        comparisons = {}
+        for name in reference["inputs"]:
+            comparisons[f"same_{name}_prefix"] = _compare(torch, case["inputs"][name][:, :common_tokens],
+                                                          reference["inputs"][name][:, :common_tokens])
+        comparisons["same_initial_pool"] = _compare(torch, case["initial"], reference["initial"])
+        prefix_tokens = config["comparison_prefix_tokens"]
+        comparisons["core_attn_out_common_prefix"] = _compare(torch, case["ordinary"]["output"][:, :prefix_tokens],
+                                                              reference["ordinary"]["output"][:, :prefix_tokens])
+        common_h_rows = min(case["ordinary"]["h"].shape[1], reference["ordinary"]["h"].shape[1])
+        comparisons["common_h_rows"] = _compare(torch, case["ordinary"]["h"][:, :common_h_rows],
+                                                 reference["ordinary"]["h"][:, :common_h_rows])
+        for number, positions in enumerate(config["track_chunk_indices"]):
+            comparisons[f"selected_fp32_chunk_{positions[0]}"] = _compare(torch, case["tracked"][number]["snapshot"],
+                                                                          reference["tracked"][number]["snapshot"])
+        for name, comparison in comparisons.items():
+            _check(report, f"{label}/{name}", comparison["exact"] and comparison["finite"], **comparison)
+        report["cross_length"].append({"reference_length": reference["length"], "length": case["length"],
+                                       "shared_input_tokens": common_tokens, "comparison_prefix_tokens": prefix_tokens,
+                                       "common_h_rows": common_h_rows, "comparisons": comparisons})
 
 
 def _run(args, config, formal, formal_path, grid, report):
@@ -342,6 +414,12 @@ def main(argv=None):
     try:
         config, formal, formal_path, grid = _load_config(args.config.resolve(strict=True))
         report["operator_inputs"] = config
+        if config["layout"] == "packed":
+            report["task_id"] = "profile-native-packed-varlen-differential-preparation-20261111"
+            report["method"] = "Same qualified packed candidate, tracking-off/on, native own-prefix and cross-outer-length comparisons"
+            report["limitations"][1] = "Single-request packed IS_VARLEN=True specialization; native prepare_chunk_indices calls .tolist()"
+            report["limitations"].append("Synthetic operator comparisons test a kernel prediction, not actual 1693/1695 input/state equality or warm cause")
+            report["limitations"].append("Native own-prefix snapshots are not cached-donor references for requests with different tokens")
         if args.validate_config:
             report.update(status="CPU_CONFIG_PASS", prefill_checkpoint_grid=grid)
         else:

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "fixed_base": "ec532bc226159dfddb67902bcd299237d96a4300",
+  "candidate_files": 5,
+  "candidate_sha256": {
+    "tests/manual/agent_opd/probe_mamba_fp32_snapshots.py": "a2c57daccc671d26b1975bb3f8c23a3f8c8fe7d5bd856e0058832b2f35df9fba",
+    "tests/fast/test_mamba_fp32_snapshot_probe.py": "fdfbcf3892aa871d8c2703a82bfb068c114f3ddc01942c2ec53ef49dc188e849",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_A_config.json": "9b130869ecb6ec4fd091291939c553b8281619ed3e7716b0199d558758612d98",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_B_config.json": "950bce5c91a3e557e3125496e1687db69755656c72b1f46e32a547fd97632cfa",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_packed_varlen_preparation.md": "d4adc411e129788fa6eb498db618b9870991e197d16ed1f4a35d67e3790aaf52"
+  },
+  "source_pins": "six unchanged retained native before/candidate identities verified",
+  "config_arithmetic": "A/B packed shapes, nonzero slot, outer lengths, own7232 checkpoint and common6519 verified",
+  "review_artifact": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/packed-varlen-source-review-20261111",
+  "tests_rerun": false,
+  "native_executed": false
+}

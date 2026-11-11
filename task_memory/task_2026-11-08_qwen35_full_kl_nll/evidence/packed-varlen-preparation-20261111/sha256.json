@@ -1,0 +1,8 @@
+{
+  "tests/manual/agent_opd/probe_mamba_fp32_snapshots.py": "a2c57daccc671d26b1975bb3f8c23a3f8c8fe7d5bd856e0058832b2f35df9fba",
+  "tests/fast/test_mamba_fp32_snapshot_probe.py": "24d9aad6ef0fc54b5b2e553d0fbfece7ef7619252fe2b7bce0be2f76540bd670",
+  "task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_A_config.json": "9b130869ecb6ec4fd091291939c553b8281619ed3e7716b0199d558758612d98",
+  "task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_B_config.json": "950bce5c91a3e557e3125496e1687db69755656c72b1f46e32a547fd97632cfa",
+  "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_packed_varlen_preparation.md": "5f87d62ab432e253b75aa9f760d723b3cca8cd06374272026c65c86754bab520",
+  "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/preparation.json": "f3b3b387bfd4ad08bc1570dc9da7c9fd6add0f93003c387584cf45308321649a"
+}
