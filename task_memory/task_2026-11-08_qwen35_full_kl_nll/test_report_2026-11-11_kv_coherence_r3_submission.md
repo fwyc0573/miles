@@ -50,6 +50,8 @@ Both actual RJob records declare H800/codesign, one replica, CPU32, memory250Gi 
 
 The first metadata collector invocation failed with `KeyError: 'nodename'` at `<stdin>:35`: it read the Replica spec, while the observed KAPI field is `status.nodeName`. A bounded field-name inspection established the correct path; the collector was corrected and both filtered terminal receipts were then written successfully. This is a metadata-harness failure, not a native-job failure. No native/source/config/job behavior changed and no GPU job was resubmitted.
 
+The first local controls-archive format check raised `KeyError: 'pair'`: the A artifact exposes a root `pair` field while B identifies its pair through its `run` path and exact `job`. No files were staged by that failed check. The corrected archival check uses the existing root `job` field in both schemas, parses each JSON and checks acceptance labels, final newlines, trailing whitespace and the exact staged-file set. This is a local metadata-check error, not a native failure, and causes no probe/source change or rerun.
+
 ## Evidence
 
 All paths below are under `evidence/teacher-scoring-kv-coherence-probe-20261111/`:

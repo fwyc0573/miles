@@ -1,0 +1,204 @@
+{
+  "task_id": "profile-kv-coherence-native-B-r3-controls-20261111",
+  "modification_history": [{"date": "2026-11-11", "change": "Read-only B r3 controls, actual serving receipt and bounded observer/CPP scope; physical/KV interpretation pending independent owner."}, {"date": "2026-11-11", "change": "Record primary ACCEPTED bounded stage and terminal-only retained platform linkage; preserve all original measurements and limits without broad recomputation."}],
+  "primary_acceptance": {
+    "status": "ACCEPTED_BOUNDED_STAGE",
+    "authority": "Primary follow-up for profile-kv-coherence-native-B-r3-controls-20261111 on 2026-11-11",
+    "accepted_scope": ["bounded controls", "source composition and retained build linkage", "actual serving file/class/PID identity", "insert-OLD OS native thread/Torch S", "responding TP0 CPP-only joins", "error controls"],
+    "not_accepted": ["physical/KV interpretation", "F-S equivalence", "race", "allTP", "formal"],
+    "prior_artifact": {"bytes": 18452, "sha256": "f6b74702214ad660d41b9420c88ab93ecc458bd5ab3b34fe12036653c1bac795"},
+    "unchanged_bounded_sections_sha256": "37be007b1dbd48feae72a831e93997752ad26337ccd81f648b8901e4f72aaa60"
+  },
+  "run": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r3",
+  "baseline": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1",
+  "job": "exp-1111-194636-897299",
+  "uid": "8c094c1d-c90e-48e5-be55-76b40125d246",
+  "verdicts": {
+    "primary_bounded_stage": "ACCEPTED", "terminal_platform_binding": "PASS",
+    "controls": "PASS", "cold_agreement": "PASS", "warm_correctness": "FAIL",
+    "source_generated_runtime_composition_R3_two_ELFs": "PASS",
+    "actual_serving_binding_retained_receipt": "PASS",
+    "insert_OLD_callback_thread_Torch_S": "PASS",
+    "responding_TP0_CPP_joins": "PASS", "error_controls": "PASS",
+    "business_readback_cleanup": "PASS", "retained_terminal_admission": "PASS",
+    "independent_physical7955_complete_FRESH_OLD_KV_numerical_root": "UNVERIFIED; pending independent owner",
+    "mapped_ELF_allTP_Triton_race_GIL_device_completion": "UNVERIFIED", "formal": "HOLD"
+  },
+  "controls": {
+    "vectors": 16, "values": 6804, "max_absolute_error": 0.0, "max_defined_relative_error": 0.0,
+    "zero_reference_relative_undefined": 64, "identity_errors": 0, "scored": 16, "flushes": 10, "retractions": 0,
+    "comparison_groups": 8, "comparison_contracts": 24, "agreement": {"cold": 4, "warm_stream": 1},
+    "case_columns": ["request_id", "native_request_id", "sample_position", "sample_index", "source_uid", "values", "relative_error_undefined_count"],
+    "cases": [
+      ["cold-r0-s0-full_input", "ead63cf2abb04300a67ced2156dfe466", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s0-response_only", "4825e43732dd4bde8fb58a2d25ae77df", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s1-response_only", "58b0c4d0d84e4961b76b7b8048bcc15a", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s1-full_input", "2453d1faa56343efb098d29046dbc15b", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s2-full_input", "011d6bcddb7140a38a4667cbcb0fbf30", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s2-response_only", "69b21898e41c40579ff20b6a120a5bf9", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s3-response_only", "3eb1ed416a7248a9829ca5b01c501c54", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["cold-r0-s3-full_input", "9d509f5ec72e4fcb98d5f925df9cb66d", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["warm_stream-r0-s0-full_input", "f48f6a1953bb4cac91b2babb6abb5e4d", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-full_input", "207bda6c0a97403fb7592e59f6e62119", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-full_input", "ab9c724339da47169960dcd488c647cd", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["warm_stream-r0-s3-full_input", "fd1d1dc01d6b4075aaadebb5c9923214", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 5],
+      ["warm_stream-r0-s0-response_only", "f5475ca3af8b418abd52401ff23f9461", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-response_only", "a5556bfa4f38409eb88b4b2ba196866b", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-response_only", "0e103319db6a4119944d4a3e9a380cbf", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 3],
+      ["warm_stream-r0-s3-response_only", "da35deb80bc74a10b6bd23934c884bda", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4]
+    ]
+  },
+  "source": {
+    "commit": "f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d", "baseline_commit": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff",
+    "closure_commit": "c089f0b3", "submission_docs_commit": "4f76ae41", "active_identities": 8, "baseline_identities": 6,
+    "helper": {"bytes": 41066, "sha256": "6be5ef8642f33512fb463f30040247750b472716289eba0c139cb65e5d005721"},
+    "installed_runtime": {"bytes": 25034, "sha256": "7ed5b5fb56ef736afee2c9e9aefa7543a779e53f18b3cf3cf7c0943618816308"},
+    "stage_archives": {
+      "source_preflight": {"archive_pairs": 6, "manifest": {"bytes": 1715, "sha256": "dd856add48fe221101c03b96fb018e8fc939362cc15415482cac6d5128370c6f"}, "receipt": {"bytes": 3588, "sha256": "6d49161dcb9b52609203d5d84a58a794550c24ce030573aee4897f65e6610392"}},
+      "runtime_metadata_source_preflight": {"archive_pairs": 16, "manifest": {"bytes": 4843, "sha256": "22aa07e3f10b9c9d8aec6f5fdc180076613d3014f6985542f0c8ea27bafcb3e9"}, "receipt": {"bytes": 9269, "sha256": "1716bf90f6623d3166802675aed47faaef060fa63579c50bcc5d0259bb1e85bb"}},
+      "kv_store_stream_source_preflight": {"archive_pairs": 35, "manifest": {"bytes": 13617, "sha256": "076b60a28b3c5de49154e42cdd8ede7f7f99091e4860293cbc61de2b5d4228d0"}, "receipt": {"bytes": 26187, "sha256": "d496297dfb6b46ecd8a90be452179bbe8a4dbae00fdcb6f07e6805ca0b29017e"}},
+      "kv_coherence_source_preflight": {"archive_pairs": 40, "manifest": {"bytes": 7908, "sha256": "cc340f6a6a7f96a770c2e28922439d57f63ff0711b6cee52edf78dab310c3c81"}, "receipt": {"bytes": 18816, "sha256": "0e7012842fd63942fa699ac56b8858d5f002b33359bb22b2159abf47fefb3e47"}}
+    },
+    "archive_pairs": 97, "native_composition_identities": 35, "native_Rust_baseline_inputs": 22,
+    "native_Rust_observer_inputs": 22, "Python_build_input_pins": 3, "private_runtime_paths": 38, "runtime_archive_overlaps": 7
+  },
+  "R3": {
+    "build_receipt_path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+    "build_receipt": {"bytes": 15835, "sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7"},
+    "qualification_receipt": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/qualification.json", "sha256": "2176426df8812b5e8bd146370e048fd399d46cad4cb4ccbcc917a16d68f63169", "bytes": 1495},
+    "source_manifest": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/source-manifest.json", "sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3", "bytes": 6901},
+    "ELFs": {
+      "baseline": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so", "bytes": 3398568, "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa"},
+      "observer": {"path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so", "bytes": 3411248, "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba"}
+    },
+    "original_binary_source_commit": "UNVERIFIED"
+  },
+  "binding": {
+    "module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+    "module_file": "/var/tmp/teacher-scoring-kv-n9dc7xtg/kv-coherence-runtime/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so",
+    "module_sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba", "module_bytes": 3411248,
+    "class": "RustUnifiedTreeCoreBinding", "class_module": "builtins", "class_is_module_attribute": true,
+    "factory_class_matches": true, "process_id": 350
+  },
+  "observer": {
+    "process_id": 350, "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0},
+    "scope": "responding TP0 only; OS native thread measured inside Rust-entered Python callback, not independent Rust syscall receipt",
+    "thread_id": 350, "Torch_S": 532178656, "initial_status": "metadata_only", "reported_final_status": "captured", "completed_response_RIDs": 16,
+    "banks": [
+      {
+        "request_id": "cold-r0-s2-full_input", "rid": "011d6bcddb7140a38a4667cbcb0fbf30",
+        "insert": {"rid": "011d6bcddb7140a38a4667cbcb0fbf30", "P": 90112, "E": 98304, "protected_len": 90112, "page_aligned_len": 98304, "FULL_value": {"data_ptr": 140524206870528, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 350, "torch_current_raw_stream": 532178656},
+        "rebind": {"rid": "011d6bcddb7140a38a4667cbcb0fbf30", "P": 90112, "E": 98304, "Q": 90112, "node_id": 67, "rotation_tail_declined": false, "canonical_indices": {"data_ptr": 140463841476608, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}},
+        "fragments": []
+      },
+      {
+        "request_id": "warm_stream-r0-s2-full_input", "rid": "ab9c724339da47169960dcd488c647cd",
+        "insert": {"rid": "ab9c724339da47169960dcd488c647cd", "P": 90112, "E": 98304, "protected_len": 90112, "page_aligned_len": 98304, "FULL_value": {"data_ptr": 140524206874624, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 350, "torch_current_raw_stream": 532178656},
+        "rebind": {"rid": "ab9c724339da47169960dcd488c647cd", "P": 90112, "E": 98304, "Q": 98067, "node_id": 127, "rotation_tail_declined": false, "canonical_indices": {"data_ptr": 140463841476608, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}},
+        "fragments": [
+          {"rid": "ab9c724339da47169960dcd488c647cd", "P": 90112, "E": 98304, "node_id": 124, "cursor": 90112, "prefix_len": 6519, "lo": 90112, "hi": 96631, "original_FULL": {"data_ptr": 140524206670336, "shape": [6519], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 350, "torch_current_raw_stream": 532178656},
+          {"rid": "ab9c724339da47169960dcd488c647cd", "P": 90112, "E": 98304, "node_id": 125, "cursor": 96631, "prefix_len": 1436, "lo": 96631, "hi": 98067, "original_FULL": {"data_ptr": 140524206612480, "shape": [1673], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 350, "torch_current_raw_stream": 532178656}
+        ]
+      }
+    ],
+    "physical_KV_fields": "NOT INSPECTED; pending independent owner"
+  },
+  "errors": {
+    "initial_global_errors": 0, "final_global_errors": 0, "binding_error": null,
+    "independent_marker_matches": [], "independent_log_error_matches": [],
+    "existing_binding_consumer_rejections": [
+      {"field": "binding_error", "error": "DP response 0 KV coherence binding_error must be null: 'injected retained check'"},
+      {"field": "module_file", "error": "DP response 0 KV coherence native_binding.module_file differs from prepared binary_target"},
+      {"field": "module_sha256", "error": "DP response 0 KV coherence native_binding.module_sha256 differs from prepared compiled_sha256"},
+      {"field": "process_id", "error": "DP response 0 KV coherence native_binding.process_id differs from capture process_id"},
+      {"field": "class_is_module_attribute", "error": "DP response 0 KV coherence native_binding.class_is_module_attribute must be exactly true"},
+      {"field": "factory_class_matches", "error": "DP response 0 KV coherence native_binding.factory_class_matches must be exactly true"}
+    ],
+    "existing_marker_gate_rejection": "KV coherence UNVERIFIED: old_full_observer_invalidation_failed in native server output",
+    "existing_producer_error_predicate_rejects": true
+  },
+  "CPP": {
+    "process_id": 350, "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0},
+    "unique_joins": 1690, "explicit_chunks": 169, "response_bound_RIDs": 16, "FULL_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39],
+    "native_Torch_F": 531885904, "insert_OLD_Torch_S": 532178656, "F_equals_S": false,
+    "F_S_equivalence": "UNVERIFIED; different observed scalars", "metadata_rows": 19713, "startup_rows": 353,
+    "allTP_Triton_device_completion": "UNVERIFIED"
+  },
+  "runtime": {
+    "local_python": "3.10.6", "local_executable": "/usr/bin/python3", "worker_python": "3.12.16",
+    "worker_executable": "/opt/sglang/bin/python3", "torch": "2.14.1+cu130", "sglang": "0.5.24.dev80+g056f871",
+    "GPU_device_receipt": ["NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06"],
+    "argv": ["/opt/sglang/bin/python3", "-B", "-m", "sglang.launch_server", "--model-path", "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model", "--host", "0.0.0.0", "--port", "30000", "--nnodes", "1", "--node-rank", "0", "--dist-init-addr", "100.97.213.183:29501", "--tp-size", "4", "--dtype", "bfloat16", "--context-length", "131072", "--mem-fraction-static", "0.85", "--max-running-requests", "1", "--chunked-prefill-size", "8192", "--disable-cuda-graph", "--enable-deterministic-inference", "--attention-backend", "fa3", "--linear-attn-prefill-backend", "triton"],
+    "seed": 630625153, "baseline_seed": 596871011,
+    "private_package": {
+      "schema": "kv-coherence-package-v1", "source_package_root": "/sgl-workspace/sglang/python/sglang",
+      "package_root": "/var/tmp/teacher-scoring-kv-n9dc7xtg/kv-coherence-runtime/sglang", "worker_tmpdir": "/var/tmp/teacher-scoring-kv-n9dc7xtg",
+      "import_origin": "/var/tmp/teacher-scoring-kv-n9dc7xtg/kv-coherence-runtime/sglang/__init__.py",
+      "child_pythonpath": "/var/tmp/teacher-scoring-kv-n9dc7xtg/kv-coherence-runtime:/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+      "copy_scope": "whole runtime SGLang package; no subset verifier clone", "serving_native_origin_sha": "PENDING actual server/runtime attestation"
+    }
+  },
+  "business": {
+    "status": "measurements_completed", "readback_status": "collected", "http_status": 200,
+    "native_measurements_completed": true, "cleanup_completed": true, "server_alive_before_cleanup": true,
+    "shutdown_returncode": -9, "performance_accepted": false, "numerical_acceptance": null
+  },
+  "terminal_admission": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-B-r3.terminal.json",
+    "bytes": 470, "sha256": "c9e550d07acbbd58064f498b0a490738b7932782dc3b4daaa2562ebd72a019ef",
+    "details": {
+      "job": "exp-1111-194636-897299", "uid": "8c094c1d-c90e-48e5-be55-76b40125d246", "creator": "i-fengyicheng",
+      "status": {"phase": "Succeeded", "reason": "RJobSucceeded", "message": "RJob succeeded", "taskStatuses": {"probe": {"succeeded": 1, "taskStage": "stepmind-task-stage-1"}}, "finishTime": "2026-11-11T11:54:54Z", "taskStage": "stepmind-task-stage-1"},
+      "native_execution_succeeded": true
+    }
+  },
+  "terminal_platform": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/terminal-platform-B-r3.json",
+    "bytes": 2603,
+    "sha256": "f3fa51901e8eabf04ac8048252de1f7a7f5dc325d65dc2e0ed0805ab35832d24",
+    "status": "PASS retained primary receipt identity/allocation/owner/container linkage",
+    "snapshot_history": [{"stage": "initial_local_verification", "status": "UNVERIFIED; primary-filtered terminal platform receipt absent at snapshot"}],
+    "details": {
+      "observed_at": "2026-11-11T12:03:59.987988+00:00", "pair": "B",
+      "job": "exp-1111-194636-897299", "uid": "8c094c1d-c90e-48e5-be55-76b40125d246", "creator": "i-fengyicheng",
+      "status": {"phase": "Succeeded", "reason": "RJobSucceeded", "message": "RJob succeeded", "taskStatuses": {"probe": {"succeeded": 1, "taskStage": "stepmind-task-stage-1"}}, "finishTime": "2026-11-11T11:54:54Z", "taskStage": "stepmind-task-stage-1"},
+      "sdk_terminal_status": {"phase": "Succeeded", "reason": "RJobSucceeded", "message": "RJob succeeded", "taskStatuses": {"probe": {"succeeded": 1, "taskStage": "stepmind-task-stage-1"}}, "finishTime": "2026-11-11T11:54:54Z", "taskStage": "stepmind-task-stage-1"},
+      "positive_tags": ["H800"], "charged_group": "codesign", "preemptible": "no", "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [{"name": "probe", "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805", "resources": {"limits": {"cpu": "32", "memory": "250Gi", "nvidia.com/gpu": "4"}, "requests": {"cpu": "32", "memory": "250Gi", "nvidia.com/gpu": "4"}}}],
+      "replicas": [{
+        "name": "exp-1111-194636-897299-cfcd2084", "uid": "31f87bec-998c-4359-aba0-6e5dcc21c557", "phase": "Succeeded",
+        "node_name": "gpu-h800-0030.host.platform.shaipower.com",
+        "owner_references": [{"kind": "RJob", "name": "exp-1111-194636-897299", "uid": "8c094c1d-c90e-48e5-be55-76b40125d246", "controller": true}],
+        "containers": [{"name": "probe", "restart_count": 0, "terminated": {"exitCode": 0, "reason": "Completed", "startedAt": "2026-11-11T11:47:46Z", "finishedAt": "2026-11-11T11:54:52Z"}, "last_state": {}}]
+      }],
+      "source_commit": "f8b6b43a599502cb7ac7fac7231ecf9a5ae5523d",
+      "acceptance_limit": "Terminal platform/container and source allocation only; no serving binding, CUDA stream, vector, physical index or numerical acceptance",
+      "collector_correction": "Original KeyError nodename came from spec lookup; observed KAPI nodeName belongs to status, not spec. No native/source/job change."
+    }
+  },
+  "raw_files": {
+    "result.json": {"bytes": 122968, "sha256": "79833c62057ab52f96a610486a128452446017abe309999a3850ad6ce367d377"},
+    "preload.json": {"bytes": 84651, "sha256": "905124fdc69f9f2df6e6c037dce122bea0b789e662a820082a5fc54a7d961ce3"},
+    "requests.jsonl": {"bytes": 33157, "sha256": "98b70e9074b370715e350178c487774a9f13e7a2b81b87876f9a686232af14fd"},
+    "cache.jsonl": {"bytes": 5751, "sha256": "01c35ce92d270bac5a4eabc3cbd8161010c1cf1b6dcf80f9b88ae3b09f674c47"},
+    "comparisons.jsonl": {"bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"},
+    "server_info.json": {"bytes": 989367, "sha256": "6e6c0da1f3bfd33ef79534ca3f4c795b672fa6fc90028f25454047862cdca2ff"},
+    "runtime_metadata.json": {"bytes": 43537656, "sha256": "5a9ca78107b2ff7ff183182d9953e1e1ca70408a7f60d13371e05e304d301d59"},
+    "server.log": {"bytes": 97542, "sha256": "b46fd03156c3bc0004909565b9b9d7741beb87b4c33e57018cac75534faea7c7"}
+  },
+  "baseline_receipts": {
+    "result.json": {"bytes": 34566, "sha256": "60229d38b638fc6a151b3bd007e9b1c82a235918abf3e3967c4a1a7186439bf6"},
+    "requests.jsonl": {"bytes": 32899, "sha256": "e927bdddd991161343c2d340fb04f83cec7a4bab37e4a2952b41461b4b7b4b26"},
+    "comparisons.jsonl": {"bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"}
+  },
+  "config": {"bytes": 1827, "sha256": "ade24be3fd0034c60058a58a92fcba89c6729c2d09c4430ab8a4bf7fdf8c1ca7"},
+  "fixture": {"bytes": 107, "sha256": "89519dd56ec07ce01f8ee18ff71b2ccfb3170698b29d9b5f4e0fe70c83c9a3e1"},
+  "limits": [
+    "Only completed retained B r3 local evidence; no module imports/initializers/native execution/build/GPU/API/auth/SSH/cloud/delegation/source/config/tests/shared-doc/old-artifact edits or staging/commit.",
+    "Original baseline first4/repetition0 only; relative error undefined at reference0; warm correctness FAIL remains.",
+    "Binding SHA/size are resolved file bytes after import, not mapped ELF; file represents imported library at receipt time is a bounded assumption, no new buildID demand.",
+    "Responding PID350/TP0 only; callback OS native thread/Torch S and CPP native/Torch F are separate receipts, no CPP Triton/allTP/stream equivalence/device completion/race/GIL claim.",
+    "No physical/index/KV numerical metrics inspected or interpreted; physical7955/complete FRESH/OLD/KV/root scopes pending independent owner, not failures.",
+    "Primary owns terminal platform API/lifecycle and master status synchronization; formal04/05 HOLD, B noA200 dependency, history/raw/science unchanged."
+  ]
+}
