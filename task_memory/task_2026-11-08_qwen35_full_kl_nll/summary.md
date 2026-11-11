@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Serving binding is IN PROGRESS/not accepted: the live server lacks module identity despite PENDING/copied staging hashes. Primary-selected producer/consumer are RUNNING in parallel ordinary D40 CPU scope;new results and acceptance are pending. The [current frontier](progress.md#current-execution--workflow-rca) uses the existing actual tree_core insert and READY S/thread/PID capability without another stream probe,build or criterion. Old eeaaa4f6/49 PASS/19.77s/No findings,71c3560b closure,source/R3/WIT/controls and submitted=false drivers remain accepted baselines,not new receipt proof. r3 remains unsubmitted/no admission/business output. Native/7955/KV,warm FAIL,formal04/05 HOLD,06 own200,B no A200 edge,raw/science/six methods/all53 checkboxes are unchanged. Stop at this IN PROGRESS record,no native execution/new permission;earlier closure/failure checkpoints remain historical.
+**Current execution:** Serving-binding CPU/source is primary ACCEPTED/committed f8b6b43a and report/final-driver closure c089f0b3. Fixed Standards/Spec No findings and independent checksum PASS close this phase;A/B prospective r3 driver JSON exactly matches previous bytes,4 H800/codesign each,submitted=false. The [current frontier](progress.md#current-execution--workflow-rca) is record sync → primary existing D40 bounded r3 A || B decision/execution,not repeating CPU/reviews/driver qualification. r3 admission/business output or paid-running state is not claimed. SO/ABI/S/active16-6804/physical7955/KV/race/root/performance/formal200 remain UNVERIFIED. Mode49/source/R3/WIT/controls/full history/raw/science/six methods/all53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain;no new gate,auto-loop/formal release or permission. Earlier RUNNING snapshots are historical.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive committed accepted serving-binding CPU/source/fixed reviews/checksum/final-driver closure;advance only to primary existing-D40 native decision. |
 | 2026-11-11 | Archive the concrete live serving-binding gap and parallel CPU units IN PROGRESS while preserving old acceptance,history and native/formal limits. |
 | 2026-11-11 | Archive accepted committed harness CPU/source fix and qualified r3 driver closure; preserve native/physical/warm/formal limits and unsubmitted r3 state. |
 | 2026-11-11 | Archive combined r2 Failed/A-B bounded-control acceptance,metadata-only capture evidence and ongoing CPU RED RCA with no new approval or retry gate. |

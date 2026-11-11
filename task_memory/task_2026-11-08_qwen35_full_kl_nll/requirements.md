@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Serving binding is IN PROGRESS,not accepted: staged `serving_native_origin_sha=PENDING`/copied SHA does not identify the extension used by the live server. Primary selected parallel producer/consumer ordinary D40 CPU work; both are RUNNING with new results/counts pending. See the [current binding frontier](progress.md#current-execution--workflow-rca). The existing insert receives live self.tree_core before native insertion/bank selection; existing S/thread/PID receipt capability is READY,no additional stream probe. The original actual-source gate is preserved,not relaxed. eeaaa4f6/49 PASS/19.77s/No findings,71c3560b CPU-driver closure,source/R3/WIT/controls and dry-runs=false remain accepted baselines,not new receipt acceptance. r3 is unsubmitted;native/7955/KV,warm FAIL,formal04/05 HOLD,06 own200,B no A200 edge,raw/science/six methods/all53 checkboxes remain unchanged. No new criterion,ticket,approval or execution permission is inferred.
+**Current execution:** Serving-binding CPU/source is primary ACCEPTED and committed f8b6b43a; report/final-driver closure is committed c089f0b3. Both fixed axes report No findings and independent checksum PASS; qualified A/B r3 drivers match previous JSON bytes exactly,four H800/codesign each,submitted=false. See the [current native-decision frontier](progress.md#current-execution--workflow-rca). CPU/source/review/driver work is closed;do not repeat it or describe units as RUNNING. Primary now decides/executes existing authorized bounded D40 r3 A || B;no r3 admission/business output or actual GPU submission is claimed here. Actual SO/ABI/S/active16-6804/physical7955/KV/race/root/performance/formal200 remain UNVERIFIED. Old mode49/source/R3/WIT/controls,all raw/science/six methods/53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain. No criterion,ticket,approval gate,auto-loop or new permission is added.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close committed serving-binding CPU/source/fixed-review/checksum/final-driver records;advance to primary existing D40 native decision without claiming paid r3/native acceptance. |
 | 2026-11-11 | Record concrete missing live serving binding and two parallel CPU units IN PROGRESS; retain accepted mode-fix/driver baselines and original identity criterion. |
 | 2026-11-11 | Close accepted forward-mode harness CPU fix/reviews/checksums and qualified r3 driver records; preserve unsubmitted native r3 and all scientific/permission boundaries. |
 | 2026-11-11 | Combine r2 Failed/capture-metadata evidence with primary A/B bounded-control acceptance and ongoing CPU RED RCA; retain ordinary CPU authorization and all science. |
