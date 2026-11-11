@@ -1,0 +1,146 @@
+{
+  "schema": "kv-coherence-trajectory-source-rca-v1",
+  "task_id": "profile-kv-coherence-r3-trajectory-source-rca-20261111",
+  "date": "2026-11-11",
+  "status": "SOURCE_HANDOFF_RESOLVED_CAUSAL_ROOT_UNRESOLVED",
+  "primary_acceptance": {"status": "ACCEPTED_BOUNDED_SOURCE_HANDOFF_ONLY", "actual_after_source_ranges_inspected": ["unified_radix_cache.py:1305-1359", "components/mamba.py:785-791", "memory_pool.py:1813-1834", "gdn_backend.py:1209-1233"], "causal_root": "UNRESOLVED", "next_action": "Inspect existing packed-varlen operator differential seam in parallel with actual-value witness design; no new execution or measurement gate."},
+  "modification_history": [{"date": "2026-11-11", "change": "Record primary bounded source acceptance, shared-prefix distinction and next existing-operator inspection; no new execution."}, {"date": "2026-11-11", "change": "Created bounded source-backed state/handoff RCA; no runtime changes."}],
+  "report": "test_report_2026-11-11_kv_coherence_trajectory_source_rca.md",
+  "basis": {
+    "measurement_acceptance": "281e70f7",
+    "controls_acceptance": "4da",
+    "actual_source": "f8b6b43a",
+    "r3_receipt": "91458e",
+    "numeric_archive_acceptance": "e2ab706a",
+    "checkout_head": "e2ab706aa44f87326429eea72f9c14591a6eeb14",
+    "serving_observer_library_sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+    "source_identity_check": {"rust_files": 4, "unchanged_files": 5, "actual_after_files_per_pair": 7, "selected_fp32_after_files_per_pair": 2, "verdict": "PASS_SELECTIVE_RETAINED_MANIFEST_MATCH"},
+    "paths_relative_to_task_root": {
+      "N": "evidence/teacher-scoring-kv-coherence-probe-20261111/native",
+      "P": "evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3/kv_coherence_source_preflight/after",
+      "F": "evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3/source_preflight/after",
+      "S": "evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source",
+      "R": "evidence/native-rust-kv-observer-build-20261111/sources/observer",
+      "RB": "evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json"
+    },
+    "decisive_source_sha256": {
+      "P/srt/mem_cache/unified_radix_cache.py": "809101c0f9432fe2d06542f6e6f7b83b4445f3ad694d96264b3d92612c763d9a",
+      "P/srt/mem_cache/unified_cache/components/mamba.py": "ab8d467f61a0703b288e5d2f4239c0cd81c9890512c62b5f3e58c12bb441d404",
+      "P/srt/mem_cache/memory_pool.py": "45bb1e9fc217e05eca93679263ecef61a206668ed1feac1e9390fa36ec5df59d",
+      "P/srt/layers/attention/linear/gdn_backend.py": "7296198be4586f2c703e719bc40ac657d2f6a0682d7851f58669b6ba33487025",
+      "F/srt/layers/attention/linear/kernels/gdn_triton.py": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+      "R/src/unified_tree_core.rs": "152aa1e579f246d5b1beca04f4a80970e470a42eb94a8ed1e378fa0e1719fb0d",
+      "R/src/components/mamba.rs": "e49a2e4d654427a72ce667e8cf3015862673e1306d8f4908a8e006d13232634d"
+    }
+  },
+  "actual_options_both_pairs": {"chunked_prefill_size": 8192, "page_size": 1, "disable_cuda_graph": true, "enable_unified_memory": false, "enable_linear_replayssm": false, "mamba_max_states_per_path": -1, "mamba_track_interval": 256, "observed_gdn_checkpoint_grid": 64},
+  "requests": {
+    "A": {
+      "metadata": "N/A/admission-A-r3/runtime_metadata.json",
+      "requests": "N/A/admission-A-r3/requests.jsonl",
+      "result": "N/A/admission-A-r3/result.json",
+      "producer_1693": "47d212ce1665413cbf65acc5cd161c5b",
+      "producer_1694": "a5212a22128749d3a1fa27623f66fa68",
+      "target_1695": "d1f39efbb85546309cb149c82d6341e3",
+      "clear_sequences": [23671],
+      "cow_enqueued_count": 0,
+      "first_boundary": {"sequence": 23670, "prefix": 0, "extend": 8192},
+      "p_boundary": {"sequence": 25695, "prefix": 90112, "extend": 8192},
+      "e_donor": {"sequence": 25874, "cache_len": 98304, "finished": false, "last_track_idx": 1, "next_track_idx": 0},
+      "checkpoint_begin_sequence": 25875,
+      "checkpoint_return": {"sequence": 25878, "node": 127, "prefix_len": 98067, "mamba_exist": false},
+      "rebind": {"sequence": 25879, "metadata_line": 2265454, "absolute_start": 90112, "absolute_end": 98304, "node": 127},
+      "next_boundary": {"sequence": 25880, "metadata_line": 2265502, "prefix": 98304, "extend": 638},
+      "next_track_plan": {"sequence": 25882, "chunk_indices": [9], "h_src": [9], "track_endpoint": 98880},
+      "gdn_layers_observed": 48,
+      "physical_ssm_values": "UNMEASURED"
+    },
+    "B": {
+      "metadata": "N/B/admission-B-r3/runtime_metadata.json",
+      "requests": "N/B/admission-B-r3/requests.jsonl",
+      "result": "N/B/admission-B-r3/result.json",
+      "producer_1693": "f48f6a1953bb4cac91b2babb6abb5e4d",
+      "producer_1694": "207bda6c0a97403fb7592e59f6e62119",
+      "target_1695": "ab9c724339da47169960dcd488c647cd",
+      "clear_sequences": [15145],
+      "cow_enqueued_count": 0,
+      "first_boundary": {"sequence": 15144, "prefix": 0, "extend": 8192},
+      "p_boundary": {"sequence": 16443, "prefix": 90112, "extend": 8192},
+      "e_donor": {"sequence": 16556, "cache_len": 98304, "finished": false, "last_track_idx": 1, "next_track_idx": 0},
+      "checkpoint_begin_sequence": 16557,
+      "checkpoint_return": {"sequence": 16560, "node": 127, "prefix_len": 98067, "mamba_exist": false},
+      "rebind": {"sequence": 16561, "metadata_line": 1435684, "absolute_start": 90112, "absolute_end": 98304, "node": 127},
+      "next_boundary": {"sequence": 16562, "metadata_line": 1435732, "prefix": 98304, "extend": 638},
+      "next_track_plan": {"sequence": 16564, "chunk_indices": [9], "h_src": [9], "track_endpoint": 98880},
+      "gdn_layers_observed": 30,
+      "physical_ssm_values": "UNMEASURED"
+    }
+  },
+  "handoff": {
+    "classification": "SOURCE_BACKED",
+    "P": 90112,
+    "E": 98304,
+    "Q": 98067,
+    "old_rows": 7955,
+    "old_fragments": [
+      {"node_before_split": 124, "lo": 90112, "hi": 96631, "rows": 6519, "full_writer_request_sample": 1693, "prefix_node_mamba": "NONE", "original_child_mamba": {"node": 123, "request_sample": 1693, "endpoint": 97344}},
+      {"node_before_split": 125, "lo": 96631, "hi": 98067, "rows": 1436, "full_writer_request_sample": 1694, "prefix_after_split": 126, "prefix_node_mamba": "NONE", "original_child_mamba": {"node": 125, "request_sample": 1694, "endpoint": 98304}}
+    ],
+    "fresh_suffix": {"lo": 98067, "hi": 98304, "rows": 237, "leaf": 127, "full_writer_request_sample": 1695, "tree_mamba_donor_request_sample": 1695, "tree_mamba_endpoint": 98304},
+    "active_slot": {"seed": "request allocation then forward-stream conv+temporal clear", "canonical_cow": "NOT_OBSERVED", "checkpoint_active_slot_replacement": false, "checkpoint_active_conv_restore": false, "checkpoint_active_temporal_restore": false, "tracking_slot_replacement": true, "next_conv_source": "target request active slot", "next_temporal_source": "target request active slot", "values_equal_to_canonical_state": "UNMEASURED"},
+    "definition_limit": "Fresh identifies the request's continuing active state; its earlier FULL history was already canonicalized at unfinished checkpoints, not an isolated all-fresh trajectory."
+  },
+  "source_ledger": [
+    {"path": "P/srt/managers/schedule_batch.py", "lines": "1726-1729,1772-1791", "fact": "Admission match cap is zero for actual full-input logprob_start_len=0."},
+    {"path": "P/srt/mem_cache/memory_pool.py", "lines": "1157-1171,1603-1619,1633-1645,1813-1834", "fact": "Clear conv+temporal; keep continuing active slot; tracking donation replaces only ping-pong entry."},
+    {"path": "P/srt/model_executor/model_runner.py", "lines": "1958-1988", "fact": "Deferred state clear executes on the forward stream."},
+    {"path": "P/srt/mem_cache/unified_radix_cache.py", "lines": "668-694,1305-1359", "fact": "Pump real tree-core actions; rebind canonical FULL row and clean up without active Mamba restore."},
+    {"path": "P/srt/mem_cache/unified_cache/components/mamba.py", "lines": "201-245,643-746,785-791", "fact": "COW selection has explicit source metadata; checkpoint donates tracking state and frees unused donor only."},
+    {"path": "R/src/unified_tree_core.rs", "lines": "1989-1999,2084-2131,2290-2359", "fact": "Observe before split; free incoming duplicate FULL; split per-component canonical lists."},
+    {"path": "R/src/components/mamba.rs", "lines": "156-191,261-276", "fact": "Keep existing endpoint snapshot or install donated leaf snapshot; new split prefix gets no Mamba."},
+    {"path": "R/src/components/full.rs", "lines": "80-98", "fact": "Redistribute FULL head/tail on split."},
+    {"path": "R/src/node.rs", "lines": "605-622", "fact": "Copied FULL location head/tail retain underlying canonical KV locations."},
+    {"path": "S/srt/mem_cache/common.py", "lines": "271-280", "fact": "After unfinished checkpoint, next prefix advances to extend_end."},
+    {"path": "P/srt/layers/attention/hybrid_linear_attn_backend.py", "lines": "193-205,1047-1121", "fact": "Use active request mapping; selected/final snapshots write tracking destinations."},
+    {"path": "P/srt/layers/attention/linear/gdn_backend.py", "lines": "942-953,979-987,1035-1052,1075-1089,1209-1233", "fact": "Conv and recurrent extend consume active-slot state; no gather for observed case."},
+    {"path": "F/srt/layers/attention/linear/kernels/gdn_triton.py", "lines": "187-195,213-225", "fact": "Pass active initial_state_indices and cu_seqlens; default in-place active-state update."},
+    {"path": "S/srt/layers/attention/mamba/prefill_track_metadata.py", "lines": "34-56", "fact": "Observed row-zero selected chunks are 113 and 9; aligned E uses final state."},
+    {"path": "S/kernels/ops/attention/fla/chunk_delta_h.py", "lines": "88-99,137-164,188-207", "fact": "Live packed varlen offsets and selected FP32 chunk-entry write are reachable."},
+    {"path": "S/kernels/ops/attention/fla/index.py", "lines": "29-35", "fact": "Varlen chunk offsets are cumulative ceil(length/chunk_size)."}
+  ],
+  "hypotheses": [
+    {"id": "H1", "priority": 1, "structural_status": "SOURCE_BACKED", "causal_status": "UNMEASURED", "finding": "Canonical FULL rebind retains target active temporal+conv state; no numeric state comparison or business counterfactual proves causality."},
+    {"id": "H3", "priority": 2, "path_status": "OBSERVED", "causal_status": "UNMEASURED", "finding": "Actual competing extensions are 7253 and 8192 at P90112; same initial states/inputs and paired kernel outputs are absent."},
+    {"id": "H2", "priority": 3, "path_status": "SOURCE_BACKED_LIVE_VARLEN", "causal_status": "UNMEASURED", "narrow_falsification": "FALSIFIED: target sample 1695 admission is seeded from cached partial donor.", "finding": "Target starts cleared and E donor is final state. Original node123 partial donor index arithmetic is consistent, but live varlen values were not measured."},
+    {"id": "H4", "priority": 4, "causal_status": "UNMEASURED", "finding": "Actual duplicate frees target incoming FULL, not canonical FULL; historical writer-value overwrite remains untested, not universally excluded."}
+  ],
+  "consumed_numeric_evidence": {
+    "acceptance_reopened": false,
+    "A": {"nonexact_comparisons": "32/32", "unequal_elements": 32424908, "total_elements": 65167360, "maxabs": 59.03125, "max_layer": 63, "max_kind": "V", "first_locally_inspected_full_layer": 3, "local_maxabs_K": 0.125, "local_maxabs_V": 0.09375},
+    "B": {"nonexact_comparisons": "20/20", "unequal_elements": 22514691, "total_elements": 40729600, "maxabs": 16.3125, "max_layer": 27, "max_kind": "K", "first_locally_inspected_full_layer": 3, "local_maxabs_K": 0.359375, "local_maxabs_V": 0.25390625},
+    "earliest_global_layer_or_token": "NOT_ESTABLISHED",
+    "ssm_or_conv_values": "NOT_RETAINED_IN_COMPACT_KV_METRICS"
+  },
+  "prior_fp32_bounds": {"operator_commit": "d7e7e301", "operator_job": "055011-398371", "passes": "44/44", "coverage": "EQUAL_LENGTH_ONLY_NOT_LIVE_VARLEN", "selected_64_128_snapshots": 8, "fp32_prefix_match": "EXACT", "bf16_cast_unequal_elements": 524283, "bf16_cast_total_elements": 524288, "bf16_cast_maxabs": 0.0039055, "warm_failed_model_jobs": ["053300-533764", "053259-677817"], "tests_repeated": false},
+  "next_minimum_proof": {
+    "status": "PROPOSAL_ONLY_NOT_IMPLEMENTED_OR_RUN",
+    "prefix_reference_limit": {"actual_shared_start": 90112, "actual_shared_end": 96631, "actual_shared_rows": 6519, "own_prefix_reference_tokens": 7232, "own_prefix_reference_endpoint": 97344, "tokens_beyond_shared_prefix": 713, "reference_owner": "sample1693", "valid_same_key_restore_for_sample1695": false},
+    "first_seam": "Actual GDN layer0 before FULL L3, warm1693/1695 at prefix90112; actual outer lengths7253/8192.",
+    "necessary_evidence": ["Actual active temporal and conv at P for competing requests", "Actual paired common-prefix q,k,v,g,beta and conv input/output", "Actual selected FP32 snapshot at endpoint97344 and same-input/same-state packed-varlen exact-prefix reference"],
+    "counterfactual": "Compare selected chunk113 with exact-prefix final state after7232 tokens; compare common-prefix outputs under actual7253/8192 shapes, without dtype/compiler/backend change.",
+    "h1_effect_if_state_differs": "Only after observing distinct same-token P90112 states, compare restoring both conv+temporal from canonical node122 versus retaining target state, within unchanged first-four protocol.",
+    "invalid_fix": "Do not restore sample1694 node125 endpoint into sample1695: diverged tokens after98067. Prefix126 has no Mamba; leaf127 already holds sample1695's own donor.",
+    "h4_gap": "Needs historical canonical writer-time payload versus retained read for disputed rows; unavailable, no new collection authorized."
+  },
+  "verification": {
+    "python": "3.10.6 /usr/bin/python3, no conda/model imports",
+    "read_limits": "timeout60s and RLIMIT_AS30GiB",
+    "source_identity": "PASS",
+    "actual_target_path": "PASS",
+    "snapshot_path_arithmetic": "PASS_SOURCE_AND_TRACE_NOT_VALUES",
+    "causal_root": "UNRESOLVED",
+    "inspection_error": "One KeyError metadata_source_preflight; resolved using observed source_preflight/kv_coherence_source_preflight schema.",
+    "scope": "TWO_NEW_OWNED_ARTIFACTS_ONLY_NO_EXECUTION_OR_EDITS_OUTSIDE_SCOPE"
+  },
+  "preserved_bounds": ["Original physical-index, source, owner, lifetime and F-to-S readiness acceptance remains closed", "No new raw/archive/pointer/event/allTP/mappedELF/ABI/compiler/index-ownership gate", "Formal04/05 HOLD;06 each own200;B has no A200 dependency", "Science256/32x8/131072/114688/16384/231in1800/200/HFdisabled/50/softprofile unchanged", "Native r1/r2/r3 already executed:16 requests/10 flushes/cold4of4/warm1of4", "No further minimization at fixed-first-four qualification phase; no irreducibility claim", "No fix, causal root, earliest-global mismatch, universal race absence or formal200 acceptance"]
+}
