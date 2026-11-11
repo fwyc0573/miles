@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted; raw R2 PASS remains unchanged. Standards and Spec each retain the same OPEN P2: discarded Capture can hide callback assertion invalidations. Contended topology release is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 reuse without rebuilding and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. The [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) and [current route](progress.md#current-execution--workflow-rca) own the evidence and next actions. No H800 numeric or formal job has been submitted. Tickets 04/05 remain BLOCKED and 06 TODO; B does not wait for A200. Earlier Active/Current paragraphs below are historical snapshots.
+**Current execution:** Delivered fix17cb6fc6 has29/29 affected source checks and zero skips; both source-review axes close the original P2 with no new findings in the [persistent recheck](evidence/rust-kv-observer-source-review-20261111/recheck-17cb6fc6.md). Actual GPU0 R3 completed with SDK terminal PASS and new qualification receipt PASS, without extension rebuilding. Primary raw R3 CPU qualification acceptance remains PENDING; runtime release is not yet accepted. Accepted R2 serial CPU/compile-load, immutable prior receipts and collector CPU scope remain unchanged. The [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) owns raw verification and the [current route](progress.md#current-execution--workflow-rca) owns subsequent receipt linkage/H800 verification. No numeric H800 or new formal job was submitted. Tickets04/05 remain BLOCKED and06 TODO; B does not wait for A200. Earlier Active/Current paragraphs below are historical snapshots.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive source P2 closure and completed R3 SDK terminal/new receipt PASS while distinguishing pending primary raw acceptance from runtime or formal release. |
 | 2026-11-11 | Archive the accepted bounded R2 serial CPU scope, immutable receipts and shared OPEN P2; retain pending R3/rechecks, H800 verification and formal completion. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
