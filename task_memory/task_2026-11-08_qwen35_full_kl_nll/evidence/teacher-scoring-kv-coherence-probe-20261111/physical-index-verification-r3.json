@@ -1,0 +1,280 @@
+{
+  "schema": "kv-coherence-r3-physical-index-qualification-v1",
+  "task_id": "profile-kv-coherence-r3-physical-index-qualification-20261111",
+  "date": "2026-11-11",
+  "scope": "Read-only local qualification of physical/index/coverage metadata and frozen collector source for both completed r3 runs; no K/V metric values examined or interpreted.",
+  "scoped_compact_receipt_and_source_checks": "PASS",
+  "original_producer_lifetime_F_to_S_readiness": "PASS_SOURCE_BACKED",
+  "complete_numeric_measurement_prerequisites": "PRIMARY_ACCEPTED_SCOPED",
+  "complete_numeric_measurement_prerequisites_limit": "Original physical/producer/lifetime readiness is primary-accepted for the responding TP0/window/FULL-layer scope. Both A/B controls and baseline gates are already primary-accepted at4da5c3eb. No numerical interpretation, root fix, race exclusion or formal acceptance follows.",
+  "numeric_interpretation": "PENDING",
+  "primary_gates_not_accepted_by_this_artifact": [],
+  "primary_acceptance": {
+    "status": "ACCEPTED_SCOPED_MEASUREMENT_PREREQUISITES",
+    "date": "2026-11-11",
+    "A_and_B_control_archive": "4da5c3eb",
+    "basis": "Read both physical artifacts and independently read decisive retained scheduler/base-backend/installed-hybrid paths; consume prior accepted actual binding, callback/CPP, baseline, source and same-library CPU evidence.",
+    "scheduler_decisive_lines": [[2023,2038],[2122,2127],[3936,3944],[4696,4697]],
+    "base_backend_decisive_lines": [[195,233]],
+    "installed_hybrid_decisive_lines": [[1325,1328]],
+    "bounds": "Responding TP0 only, original7955 OLD rows, A16/B10 FULL layers; source-backed CUDA ordering/lifetime, not newly measured events/syscalls/descriptors.",
+    "numeric_values_inspected": false,
+    "formal04_05": "HOLD"
+  },
+  "environment": {
+    "workspace": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+    "local_python": "3.10.6",
+    "kernel": "Linux 5.10.25-nvidia-gpu",
+    "git_head_at_initial_inspection": "b4fd2039fa6b3586e4cf744ef4ff9663131bcc8a",
+    "inspected_source_commit": "f8b6b43a",
+    "native_runtime_receipt": {"python": "3.12.16", "torch": "2.14.1+cu130", "sglang": "0.5.24.dev80+g056f871"},
+    "execution": "Python standard-library JSON/text inspection only; no Torch/SGLang/native import or execution"
+  },
+  "source_checks": {
+    "collector_generator_sha256": "6be5ef8642f33512fb463f30040247750b472716289eba0c139cb65e5d005721",
+    "consumer_sha256": "19bf42be9802a9160dad9c80d4a7a2465c9af0c0c4fabf305283ce073bd812df",
+    "native_observer_generator_sha256": "acf89c7425ba38a0a497adfd27cf2fe71979f77922d7af5f6b66a6685175442d",
+    "live_files_equal_frozen_commit": true,
+    "A_and_B_installed_collector_equal_frozen_generator_output": true,
+    "installed_collector_sha256": "7ed5b5fb56ef736afee2c9e9aefa7543a779e53f18b3cf3cf7c0943618816308",
+    "build_receipt_reference_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+    "qualification_limit": "Original compact checks are unchanged. Follow-up consumes primary-provided run source/serving binding and accepted R3 CPU alias/lifetime qualification, and inspects the version-bound existing producer/dependency path. This is source-backed readiness, not a new GPU event/descriptor measurement."
+  },
+  "followup_history": {
+    "date": "2026-11-11",
+    "primary_decision": "Accept compact physical/source/FRESH-capture-gate findings; raw-index/archive/hash replay and paired GPU Rust descriptors/syscalls are intentional nonclaims, not additional blockers.",
+    "initial_snapshot": {
+      "compact_physical_source_checks": "PASS",
+      "raw_index_replay_separate_CPP_bytes_paired_GPU_descriptor": "Initially labeled UNVERIFIED; now NOT_CLAIMED under the original compact-only design, with the same absent fields retained below.",
+      "original_producer_lifetime_S_F_readiness": "Initially UNVERIFIED before tracing the retained selected scheduler path and consuming the accepted same-binary R3 CPU evidence."
+    },
+    "provided_acceptance": {
+      "B_baseline_controls": "PRIMARY_ACCEPTED all16/6804 exact; PID350/S532178656/F531885904",
+      "A_baseline_controls": "VERIFIER_REPORTS all16/6804 exact; PID333/S647954864/F642383120; primary reading",
+      "both_run_containers": "Owner-bound Completed0/restart0 provided by primary; not queried here",
+      "R3_CPU_alias_inline_callback_barrier_lifetime": "PRIMARY_ACCEPTED for the same 0dc763cc serving library"
+    }
+  },
+  "dependency_qualification": {
+    "status": "PASS_SOURCE_BACKED",
+    "real_unmet_original_readiness_criteria": [],
+    "new_instrumentation_or_replay_required": false,
+    "numeric_interpretation": "PENDING",
+    "source_archive": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source",
+    "source_archive_manifest": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source.json",
+    "source_version": "0.5.24.dev80+g056f871",
+    "source_binding_basis": "Scheduler and result processor bytes match both actual run source hashes; eager runner and selected hybrid/allocator match archived r3 preflight hashes. Unmodified transitive files match the retained original5501 manifest, same package version/configured image, and consumed primary source controls. No new per-file GPU hashing or container-image attestation is claimed for those transitive files.",
+    "R3_CPU_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+    "R3_CPU_receipt_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+    "same_CPU_and_GPU_serving_library_sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+    "selected_options_both_pairs": {
+      "disable_overlap_schedule": false, "enable_two_batch_overlap": false, "enable_single_batch_overlap": false,
+      "disable_cuda_graph": true, "attention_backend": "fa3", "disaggregation_mode": "null", "enable_pdmux": false,
+      "enable_mixed_chunk": false, "speculative_algorithm": null, "page_size": 1, "pp_size": 1, "attn_cp_size": 1,
+      "enable_unified_memory": false, "enable_memory_saver": false, "enable_hierarchical_cache": false,
+      "enable_unified_cache_external_linker": false, "enable_kv_cache_sharding": false, "enable_hisparse": false
+    },
+    "source_hashes": [
+      {"path":"srt/managers/scheduler.py","sha256":"54bbde812b4af9e01a00b62e12e95015fdb1c325b9e153706616ba59ea52b2a6","basis":"both actual run runtime.sglang_sources"},
+      {"path":"srt/managers/scheduler_components/batch_result_processor.py","sha256":"bbc670ed5b31781c43b911e5c85f2f51c2229f02e358ba14254d8169a3a755a2","basis":"both actual run runtime.sglang_sources"},
+      {"path":"srt/model_executor/runner/eager_runner.py","sha256":"6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591","basis":"both r3 observed_after_sha256"},
+      {"path":"srt/layers/attention/hybrid_linear_attn_backend.py","sha256":"fa1331457e307f5d172fd62730be0dd026a36a10a10319b7ec630e1d097c3d36","basis":"both r3 after source and observed_after_sha256"},
+      {"path":"srt/mem_cache/allocator/token.py","sha256":"ee09d0021b69b111e3262811e2fdaf2f495ecfc2cf6ed142070a7f7e95a030ec","basis":"both r3 observed_after_sha256"},
+      {"path":"srt/managers/utils.py","sha256":"f1e6e29365a988c00181813040bbd47571e000e508cf68d80b7ae58656bb61a2","basis":"version-bound original5501 manifest"},
+      {"path":"srt/mem_cache/allocation.py","sha256":"1dc7eada25c3f22763b4c0578aefeaf9792b068c6928b8837937b420ded7d5bc","basis":"version-bound original5501 manifest"},
+      {"path":"srt/mem_cache/common.py","sha256":"59e2b5ce9902f7633bdcad54bd57e2e98d546b0c97cfc2e9de560c511e13ad81","basis":"version-bound original5501 manifest"},
+      {"path":"srt/model_executor/runner_utils/shared_read_event.py","sha256":"244e6d8c74ac799f47428697f80c1fc3e1f1ea38a1821036e1be5e360efbd707","basis":"version-bound original5501 manifest"},
+      {"path":"srt/layers/attention/base_attn_backend.py","sha256":"dcc8fa43b664e72c1b68a73c6dbc6bcd52e6cb837145547cc794c742911f5f53","basis":"version-bound original5501 manifest"},
+      {"path":"srt/layers/attention/attention_registry.py","sha256":"065f329ad66dcffa56afdbd53ee4bf7e9aad15d695d399bcfa452a907ac5281d","basis":"version-bound original5501 manifest"},
+      {"path":"srt/model_executor/model_runner_components/attention_backend_setup.py","sha256":"e6db2f8136f45cabc4558dd26db54f3d3b887918b9302a74453f22346e285bb8","basis":"version-bound original5501 manifest"},
+      {"path":"srt/layers/attention/flashattention_backend.py","sha256":"a7b8d205742765e12bf0bad48b151007258736e31f6c97a03725cac6ca2c1d17","basis":"version-bound original5501 manifest"},
+      {"path":"kernels/ops/memory/common.py","sha256":"a2377e0d262b8a527475477a7e76a3dd137ff8cd589f9af0067f5c23378a6aa3","basis":"version-bound original5501 manifest"}
+    ],
+    "native_observer_source_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer",
+    "native_observer_source_hashes": {
+      "src/unified_tree_core.rs": "152aa1e579f246d5b1beca04f4a80970e470a42eb94a8ed1e378fa0e1719fb0d",
+      "src/python_bindings.rs": "1e4f7d60918e2d6f8cc110d59f2b1564c31801a73547027b22597ad3b9ecb0fe",
+      "src/node.rs": "826ef0bed6c15a53e67fff3b7dd0797dc945de73fb97d2af6df3588507ce111f"
+    },
+    "selected_checkpoint_route": "Prior event_loop_overlap iteration enqueues _apply_war_barrier on S after run_batch returns; next get_next_batch_to_run -> stash_chunked_request -> checkpoint_kv_cache -> checkpoint -> checkpoint_into_tree. Selected chunk checkpoints need not wait for their CPU result callback first.",
+    "F_to_S_readiness": "Selected FA3 inherits UNKNOWN for EXTEND; HybridLinear takes the latest child end, so no PRE_REPLAY early event is published. Existing _apply_war_barrier therefore executes S.wait_stream(F), covering the whole selected forward including immediate FRESH captures. This is source-backed CUDA dependency ordering, not serialized event timing.",
+    "result_event_host_sync": "Existing copy_stream.wait_stream(F) -> GenerationBatchResult.copy_to_cpu -> copy_done.record -> process_batch_result_prefill copy_done.synchronize. This additionally governs result callbacks/completed scoring responses, but is not substituted for the earlier chunk-stash S.wait(F).",
+    "original_index_producers": "Scheduler S prepares page1 allocator index views and request mapping. F waits S before eager input copies/store. At checkpoint S, actual mapping is copied to int64 InsertParams.value; Rust new-node/restoration/split index copies execute inline on the same caller S thread. A held Tensor alone is not the argument: the producing copies and OLD consumer share S, with prior F writes ordered through the native whole-forward barrier.",
+    "bridge_and_lifetime": "Accepted same-binary R3 CPU qualification establishes original owning Tensor alias and inline/barrier lifetime. Native observer borrows node.try_device_value(FULL) before split; bridge shallow_clone/pyobject_wrap creates an owner, not an index producer. Python selected view remains owned through index copy and all-layer OLD gather enqueue on S. No paired GPU Rust descriptor is required or claimed.",
+    "slot_reuse": "Duplicate frees occur after observer enqueue and update allocator index lists, not K/V payload. Subsequent physical writers run on F only after existing F.wait_stream(S), so release/reallocation cannot overwrite the selected physical payload ahead of the queued S OLD reads. Same-stream index allocation/use/release follows ordinary ATen allocator ordering; no new wait/event/record_stream is added.",
+    "complete_FRESH_gate": "captured drain legitimately establishes every required fresh layer once through the unchanged source gate. Immediate writer index copies and K/V gathers precede fresh_layers.add; drain rejects missing layers/errors/pending CPP witnesses. The serialized bank omits fresh_layers, as previously recorded; that intentional omission does not invalidate the source-backed gate.",
+    "post_loop_readiness": "Each selected RID has an actual later F chunk prefix98304/extend638; F waits prior S work, and its existing result-copy completion precedes successful scoring completion. The all16 completed-RID drain therefore follows the selected OLD work without a new synchronization.",
+    "later_same_RID_F_receipts": {
+      "A": [{"rid":"2743596029b34b6a93ede6fe881e55a4","prefix":98304,"extend":638,"first_CPP_seq":11816,"FULL_CPP_count":16},{"rid":"d1f39efbb85546309cb149c82d6341e3","prefix":98304,"extend":638,"first_CPP_seq":25892,"FULL_CPP_count":16}],
+      "B": [{"rid":"011d6bcddb7140a38a4667cbcb0fbf30","prefix":98304,"extend":638,"first_CPP_seq":7562,"FULL_CPP_count":10},{"rid":"ab9c724339da47169960dcd488c647cd","prefix":98304,"extend":638,"first_CPP_seq":16574,"FULL_CPP_count":10}]
+    },
+    "decisive_source_lines": {
+      "original_scheduler.py": [[2023,2038],[2122,2127],[3797,3801],[3936,3944],[4696,4697],[4756,4769],[5043,5067]],
+      "original_batch_result_processor.py": [[268,270],[394,401]],
+      "original_managers_utils.py": [[170,175],[232,234]],
+      "original_base_attn_backend.py": [[24,35],[195,200],[213,233]],
+      "r3_hybrid_linear_attn_backend.py": [[1325,1328]],
+      "original_shared_read_event.py": [[25,48]],
+      "r3_unified_radix_cache.py": [[668,686],[1185,1187],[1237,1252],[1434,1437]],
+      "R3_native_unified_tree_core.rs": [[1971,1995],[2466,2466],[2497,2497]],
+      "R3_native_python_bindings.rs": [[149,180],[1229,1240]],
+      "R3_native_node.rs": [[612,622]]
+    },
+    "measurement_bounds": "Actually recorded: run options/source hashes, same serving library, target CPP F scalars, insert/callback S scalars and OS threads, compact capture/index coverage, later same-RID chunks. Source-backed/consumed: event dependency semantics, native producer current-thread dispatch, same owning Tensor and allocator lifetime. No event timestamp, paired GPU syscall/descriptor, raw-index replay, all-TP or race-exclusion claim."
+  },
+  "window": {"P": 90112, "E": 98304, "rows": 8192, "warm_Q": 98067, "warm_old_rows": 7955, "warm_suffix_rows": 237},
+  "checks": {
+    "two_banks_actual_request_meta_completion_RID_join": "PASS",
+    "independent_insert_returned_rebind_RID_P_E_Q_join": "PASS",
+    "nonduplicated_original_OLD_fragment_coverage": "PASS",
+    "original_Rust_pre_split_observer_source_contract": "PASS",
+    "all_required_FULL_layers_and_K_V_descriptors": "PASS",
+    "writer_CPP_terminal_same_call_key_and_topology_join": "PASS",
+    "independent_frozen_writer_insert_OLD_rebind_exact_equality_receipts": "PASS",
+    "complete_FRESH_before_duplicate_release_source_and_capture_gate": "PASS",
+    "device_local_int64_and_backing_row_bounds": "PASS",
+    "empty_capture_errors_and_absent_native_invalidation_marker": "PASS",
+    "insert_callback_same_OS_thread_and_Torch_stream_receipts": "PASS",
+    "after_all_completed_RID_drain_identity_gate": "PASS",
+    "independent_local_replay_of_raw_indices_or_index_hashes": "NOT_CLAIMED",
+    "separately_frozen_CPP_index_bytes": "NOT_CLAIMED",
+    "independent_Rust_side_to_Python_pointer_alias_runtime_receipt": "NOT_CLAIMED",
+    "original_owning_Tensor_alias_inline_barrier_lifetime": "PASS_CONSUMED_SAME_BINARY_CPU_QUALIFICATION",
+    "original_index_producer_readiness_and_GPU_lifetime_ordering": "PASS_SOURCE_BACKED",
+    "native_S_F_dependency_acceptance": "PASS_SOURCE_BACKED"
+  },
+  "receipt_fields_present": {
+    "summary": ["schema", "process_id", "status", "topology", "errors", "native_binding", "binding_error", "completed_rids", "banks", "coverage", "numeric_acceptance", "interpretation"],
+    "bank_physical_scope": ["rid", "insert", "rebind", "fragments", "physical", "status", "logical_case"],
+    "physical": ["writer_equals_FULL_insert_all_layers", "original_OLD_equals_rebind", "rebind_suffix_equals_insert", "indices_in_bounds", "old_rows"],
+    "fragment": ["rid", "P", "E", "node_id", "cursor", "prefix_len", "lo", "hi", "original_FULL", "thread_id", "torch_current_raw_stream"],
+    "tensor_descriptor": ["data_ptr", "shape", "stride", "dtype", "device"],
+    "target_native_metadata": ["rids", "prefix_lens", "extend_lens", "k_cache_data_ptr", "v_cache_data_ptr", "writer_loc_data_ptr", "layer_id", "buffer_layer_idx", "pool_object_id", "writer_loc", "native_actual_stream", "torch_current_raw_stream", "launch_enqueued"]
+  },
+  "receipt_fields_not_retained": [
+    "Raw writer/insert/OLD/rebind index vectors or index-content hashes",
+    "Separate CPP index-content snapshot",
+    "fresh_layers and per-bank errors in the completed drained banks (present only in metadata-only output; successful drain requires their gates)",
+    "Per-layer OLD masks or per-layer index-equality booleans (OLD capture loops all FULL layers; writer equality is an all-layer aggregate)",
+    "Rust-side original tensor pointer descriptor paired with Python callback descriptor",
+    "Per-producer original-index stream/readiness or GPU completion/lifetime event receipts"
+  ],
+  "pairs": {
+    "A": {
+      "job": "exp-1111-194637-456465",
+      "user_supplied_terminal": "Succeeded 2026-11-11T11:56:55Z",
+      "native_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3",
+      "process_id": 333,
+      "response_scope": "responding TP0 only; no all-TP gather",
+      "summary_status": "captured",
+      "capture_errors": [],
+      "binding_error": null,
+      "native_invalidation_marker_matches": [],
+      "topology": {
+        "allocator_class": "TokenToKVPoolAllocator", "root_class": "HybridLinearKVPool", "writer_class": "MHATokenToKVPool",
+        "page_size": 1, "allocator_capacity": 1833688,
+        "root_object_id": 139957320177792, "writer_object_id": 139961402750208,
+        "FULL_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63],
+        "dense_layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        "each_K_and_V": {"shape": [1833689, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"},
+        "all_K_V_backing_pointer_joins": true,
+        "budget": {"payload_bytes": 536870912, "index_bytes": 2490368, "allocated_bytes": 539361280}
+      },
+      "banks": [
+        {
+          "rid": "2743596029b34b6a93ede6fe881e55a4", "phase_from_RID_join": "cold", "requests_line": 5,
+          "completion_identity_path": "completion_scores/cold-r0-s2-full_input.json",
+          "sample_index": 1695, "sample_position": 2, "repetition": 0, "input_count": 98942, "logprob_start_len": 0, "num_retractions": 0,
+          "P": 90112, "E": 98304, "Q": 90112, "old_rows": 0, "suffix_rows": 8192,
+          "checkpoint_begin_returned_rebind_seq": [11801, 11802, 11803],
+          "insert_thread_id": 333, "insert_Torch_S_scalar": 647954864, "target_CPP_Torch_F_scalar": 642383120,
+          "layer_CPP_terminal_seq_joins": [[3,11633,11634],[7,11644,11645],[11,11655,11656],[15,11666,11667],[19,11677,11678],[23,11688,11689],[27,11699,11700],[31,11710,11711],[35,11721,11722],[39,11732,11733],[43,11743,11744],[47,11754,11755],[51,11765,11766],[55,11776,11777],[59,11787,11788],[63,11798,11799]],
+          "fragments": [],
+          "physical": {"writer_equals_FULL_insert_all_layers": true, "original_OLD_equals_rebind": true, "rebind_suffix_equals_insert": true, "indices_in_bounds": true, "old_rows": 0},
+          "OLD_equality_limit": "Vacuous n=0 branch; no cold OLD payload or equality measurement exists."
+        },
+        {
+          "rid": "d1f39efbb85546309cb149c82d6341e3", "phase_from_RID_join": "warm_stream", "requests_line": 11,
+          "completion_identity_path": "completion_scores/warm_stream-r0-s2-full_input.json",
+          "sample_index": 1695, "sample_position": 2, "repetition": 0, "input_count": 98942, "logprob_start_len": 0, "num_retractions": 0,
+          "P": 90112, "E": 98304, "Q": 98067, "old_rows": 7955, "suffix_rows": 237,
+          "checkpoint_begin_returned_rebind_seq": [25875, 25878, 25879],
+          "insert_thread_id": 333, "insert_Torch_S_scalar": 647954864, "target_CPP_Torch_F_scalar": 642383120,
+          "layer_CPP_terminal_seq_joins": [[3,25707,25708],[7,25718,25719],[11,25729,25730],[15,25740,25741],[19,25751,25752],[23,25762,25763],[27,25773,25774],[31,25784,25785],[35,25795,25796],[39,25806,25807],[43,25817,25818],[47,25828,25829],[51,25839,25840],[55,25850,25851],[59,25861,25862],[63,25872,25873]],
+          "fragments": [
+            {"node_id":124,"cursor":90112,"prefix_len":6519,"lo":90112,"hi":96631,"original_FULL":{"data_ptr":139933133595648,"shape":[6519],"stride":[1],"dtype":"torch.int64","device":"cuda:0"},"thread_id":333,"torch_current_raw_stream":647954864},
+            {"node_id":125,"cursor":96631,"prefix_len":1436,"lo":96631,"hi":98067,"original_FULL":{"data_ptr":139933133654016,"shape":[1673],"stride":[1],"dtype":"torch.int64","device":"cuda:0"},"thread_id":333,"torch_current_raw_stream":647954864}
+          ],
+          "physical": {"writer_equals_FULL_insert_all_layers": true, "original_OLD_equals_rebind": true, "rebind_suffix_equals_insert": true, "indices_in_bounds": true, "old_rows": 7955}
+        }
+      ],
+      "decisive_lines": {"result_topology": [1432,2041], "result_cold_bank": [2074,2133], "result_warm_physical_scope": [2135,2230], "runtime_raw_capture": [2766649,2767449], "runtime_marker_receipt": [16,21], "requests_identity": [5,11]}
+    },
+    "B": {
+      "job": "exp-1111-194636-897299",
+      "user_supplied_terminal": "Succeeded 2026-11-11T11:54:54Z",
+      "native_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r3",
+      "process_id": 350,
+      "response_scope": "responding TP0 only; no all-TP gather",
+      "summary_status": "captured",
+      "capture_errors": [],
+      "binding_error": null,
+      "native_invalidation_marker_matches": [],
+      "topology": {
+        "allocator_class": "TokenToKVPoolAllocator", "root_class": "HybridLinearKVPool", "writer_class": "MHATokenToKVPool",
+        "page_size": 1, "allocator_capacity": 2752780,
+        "root_object_id": 140554511968464, "writer_object_id": 140554511972928,
+        "FULL_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39],
+        "dense_layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "each_K_and_V": {"shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"},
+        "all_K_V_backing_pointer_joins": true,
+        "budget": {"payload_bytes": 335544320, "index_bytes": 1703936, "allocated_bytes": 337248256}
+      },
+      "banks": [
+        {
+          "rid": "011d6bcddb7140a38a4667cbcb0fbf30", "phase_from_RID_join": "cold", "requests_line": 5,
+          "completion_identity_path": "completion_scores/cold-r0-s2-full_input.json",
+          "sample_index": 1695, "sample_position": 2, "repetition": 0, "input_count": 98942, "logprob_start_len": 0, "num_retractions": 0,
+          "P": 90112, "E": 98304, "Q": 90112, "old_rows": 0, "suffix_rows": 8192,
+          "checkpoint_begin_returned_rebind_seq": [7547, 7548, 7549],
+          "insert_thread_id": 350, "insert_Torch_S_scalar": 532178656, "target_CPP_Torch_F_scalar": 531885904,
+          "layer_CPP_terminal_seq_joins": [[3,7445,7446],[7,7456,7457],[11,7467,7468],[15,7478,7479],[19,7489,7490],[23,7500,7501],[27,7511,7512],[31,7522,7523],[35,7533,7534],[39,7544,7545]],
+          "fragments": [],
+          "physical": {"writer_equals_FULL_insert_all_layers": true, "original_OLD_equals_rebind": true, "rebind_suffix_equals_insert": true, "indices_in_bounds": true, "old_rows": 0},
+          "OLD_equality_limit": "Vacuous n=0 branch; no cold OLD payload or equality measurement exists."
+        },
+        {
+          "rid": "ab9c724339da47169960dcd488c647cd", "phase_from_RID_join": "warm_stream", "requests_line": 11,
+          "completion_identity_path": "completion_scores/warm_stream-r0-s2-full_input.json",
+          "sample_index": 1695, "sample_position": 2, "repetition": 0, "input_count": 98942, "logprob_start_len": 0, "num_retractions": 0,
+          "P": 90112, "E": 98304, "Q": 98067, "old_rows": 7955, "suffix_rows": 237,
+          "checkpoint_begin_returned_rebind_seq": [16557, 16560, 16561],
+          "insert_thread_id": 350, "insert_Torch_S_scalar": 532178656, "target_CPP_Torch_F_scalar": 531885904,
+          "layer_CPP_terminal_seq_joins": [[3,16455,16456],[7,16466,16467],[11,16477,16478],[15,16488,16489],[19,16499,16500],[23,16510,16511],[27,16521,16522],[31,16532,16533],[35,16543,16544],[39,16554,16555]],
+          "fragments": [
+            {"node_id":124,"cursor":90112,"prefix_len":6519,"lo":90112,"hi":96631,"original_FULL":{"data_ptr":140524206670336,"shape":[6519],"stride":[1],"dtype":"torch.int64","device":"cuda:0"},"thread_id":350,"torch_current_raw_stream":532178656},
+            {"node_id":125,"cursor":96631,"prefix_len":1436,"lo":96631,"hi":98067,"original_FULL":{"data_ptr":140524206612480,"shape":[1673],"stride":[1],"dtype":"torch.int64","device":"cuda:0"},"thread_id":350,"torch_current_raw_stream":532178656}
+          ],
+          "physical": {"writer_equals_FULL_insert_all_layers": true, "original_OLD_equals_rebind": true, "rebind_suffix_equals_insert": true, "indices_in_bounds": true, "old_rows": 7955}
+        }
+      ],
+      "decisive_lines": {"result_topology": [1432,1819], "result_cold_bank": [1852,1911], "result_warm_physical_scope": [1913,2008], "runtime_raw_capture": [1753315,1753893], "runtime_marker_receipt": [16,21], "requests_identity": [5,11]}
+    }
+  },
+  "interpretation_limits": [
+    "PASS denotes the agreed compact receipt/source physical checks and the follow-up original readiness proof, not raw-index replay or primary acceptance of A's overall baseline gate. Intentionally unmeasured raw/paired-descriptor fields are nonclaims, not added blockers.",
+    "CPP/terminal identity is a unique full RID/lens/Kptr/Vptr/locptr join, not adjacency or pointer equality across jobs, and not a separate CPP byte comparison.",
+    "Writer/insert, original OLD/rebind, and rebind-suffix/insert exact booleans come from independent device receipt copies followed by post-loop torch.equal; no tolerance or index-content hash is used.",
+    "Successful drain is source-backed evidence of all fresh layers captured once before insert/free; the final bank serialization drops fresh_layers. No explicit per-layer FRESH completion event is retained.",
+    "Source places the borrowed original FULL observer before split/restoration/free and shallow-wraps it. GPU metadata alone does not prove alias/readiness; accepted same-binary R3 CPU alias/lifetime qualification plus the version-bound S producer/native F-S dependency path closes the original criterion without new paired GPU descriptors.",
+    "F and S are distinct observed scalars. Their inequality is expected and neither failure nor readiness proof by itself; readiness follows the inspected existing dependency path. No race-exclusion or universal GPU-ordering claim is made.",
+    "Bounds check is 0 <= index < first K backing shape[0], including reserved slot zero; it does not prove nonzero allocator ownership, index uniqueness, or all-TP coverage.",
+    "Capture/native-marker absence is not a blanket assertion of no native errors, alias/GIL correctness, or CUDA completion.",
+    "Raw K/V metric values, baseline vectors, root-cause/fix/performance conclusions and formal acceptance were not inspected or inferred."
+  ],
+  "prohibited_actions_performed": [],
+  "owned_artifacts": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_r3_physical_indices.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/physical-index-verification-r3.json"
+  ]
+}
