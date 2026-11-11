@@ -1,7 +1,12 @@
 ## Modification History
 
+**Active d9751b80:** CPU-only inline Rust original-FULL pre-split design accepted; source/build/staging and collector/injection pending, no helper compile/alias/GIL/native or KV evidence accepted. One builder composed once; no raw archive/new retention flag, only compact after-all16 statistics/index summaries. Source/WIT accepted, warm/formal HOLD and all criteria unchanged; B does not wait A200.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Synchronize accepted CPP witness and Rust source provenance; actual original-tensor observer and numerical correctness remain blocked. |
+| 2026-11-11 | Record SOURCE/PROVENANCE closed and actualRust originalobserver/runtimeABI pending; preserve A514.375MiB two-bank budget and formal warm hold. |
 | 2026-11-11 | Verify already-aligned primary accepted native CPP/allocator witness; record1d69444a archive/closedBflag and qualified design frontier, preserving all final checkboxes. |
 | 2026-11-11 | Accept SOURCE79 CPU/fixed reviews only; retain integration opt-out P2/REAL joined pending and absent original global accessor/CPP–Triton native limits. |
 | 2026-11-11 | Correct missing global field and CPP/Triton coverage; record owner CPU delivery, partial integration and open opt-out P2 with native/formal hold. |
@@ -46,9 +51,11 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/commoncycle/native16/10/source79/integration709–266 CPU双review已接受；opt-out P2已关闭。Bounded A/B witness已submitted/Running，actualCUDA/source/compile/class/globalwriter/CPP–Triton scalar/all16/terminal及physical/numeric/RCA/fresh200仍pending。Historical CPU geometry不证明future RID carry，不resume或拼接旧probe/6。
+**Blocked by:** 01、02、03、D16/commoncycle、bounded actualCPP/H800/allocator/all16及9d1d821f SOURCE/PROVENANCE已接受。Actual Rust original-tensor pre-split observer、producer/thread/lifetime与production-ABI compile/runtime qualification仍待完成；physical/numeric RCA/correction/fresh200尚未接受。
 
-**Status:** BLOCKED formal / SOURCE_AND_INTEGRATION_CPU_ACCEPTED–BOUNDED_WITNESS_SUBMITTED_RUNNING D40。[Source79](../test_report_2026-11-11_kv_stream_witness_source.md)与[integration709/266](../test_report_2026-11-11_kv_stream_witness_integration.md) fixed双review No findings/P2关闭接受CPU/source/integration：192affected/453joined completeoverride PASS零SKIP，intentional missingoverride SKIP非PASS；runtime/server/readback为MOCKS，非8真实scoring。381/1SKIP/190–451/3aba原blocker保留。[A admission](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-A-r1.json) exp-1111-113511-067358 requested4nonpreemptibleH800，[初始CR](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/initial-platform-verification.json) Running/creator/image165/localNFS/limits4不等于actualCUDA/source/compile/class/scalars/globalwriter/all16/terminal。CPP scalar不能certify selectedTriton stream；无KV/CUDA commit_lens值/capture/fix/formal提交，16/10/native3600/90/D39/D34/S7/HF-eval禁用/bank_uses50/raw/checklist/Bedge不变。Nativewitness资格→独立numeric/RCA/fresh200→06，无A200 gate/fallback。[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / RUST_SOURCE_PROVENANCE_ACCEPTED–ORIGINAL_OBSERVER_PENDING D40。[Bounded A witness](../test_report_2026-11-11_kv_stream_witness_native_A_results.md) actual4H800/Completed0、all16 vectors及selectedCPP stream/class已接受，warm FAIL仍保留；unselectedKV-Triton不是PASS。[9d1 source report](../test_report_2026-11-11_rust_binding_source.md)621/621 replay、old5501 unchanged、三Rust trees相同、isolated crate无missing inputs已接受SOURCE/PROVENANCEONLY。ABI declared/loadonly、binarysourceCommit UNVERIFIED；Rust edit alone不会执行。Actual RustUnifiedTreeCore不走Pythoninsertwalk，需production-ABI-qualified original FULL tensor pre-split observer，sameS/RID/P/E；FRESH post-store/pre-free、FULL insert_params.value、wholeFULL7955/independentindices待实证。A two-bank514.375MiB、B321.625MiB，perBANK256/160及science/HFdisabled/50/Bedge/checkboxes保持。无implementation/GPU/numeric/root/perf/formal接受、backendflip/surrogate/newwait；06等own200。[Current](../progress.md#current-execution--workflow-rca)。
+
+**Historical initial witness snapshot:** A exp-1111-113511-067358 was submitted/Running with requested4H800; that initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453、source/integration reviews and original3aba/403 failure evidence remain historical. Later bounded actual CPP/source acceptance is recorded above and does not splice formal counters.
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

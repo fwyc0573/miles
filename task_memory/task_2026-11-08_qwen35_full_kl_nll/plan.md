@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Record source/provenance accepted9d1d821f and actual originalRust observer/runtimeABI pending; preserve CPP WIT and scientific/edge criteria. |
 | 2026-11-11 | Record accepted bounded actual native CPP/allocator/H800/source parity, dynamic16/10-layer design frontier and primary1d69444a archive/checkpoint; retain numerical/formal hold. |
 | 2026-11-11 | Correct absent global batch publication and accept79dba51b CPU/source review scope only; integration opt-out, real joined and native CPP/Triton coverage remain pending. |
 | 2026-11-11 | Advance from qualified static source to independent witness-only CPU preparation; preserve actual runtime/physical/numeric prerequisites and formal dependencies. |
@@ -132,6 +134,10 @@ The original02/03 CPU checkpoints,02/D16 and B's firstACK/inspection/common-cycl
 Each ticket records commands and evidence in `progress.md` and a dated test report in this directory.
 
 ## Current frontier
+
+**Active d9751b80:** CPU implementation design accepted, two source/build/staging and collector/injection tasks pending. Inline Rust original FULL borrow after prefix length/before split replaces lookup/concat. One builder composed once; force only isolated CPU prep before import, production serving ABI/never unchanged. No helper/compile/GIL/alias/native stream or numeric acceptance. After-all16 compact stats/index summaries, no raw KV archive/retention flag; raw-archive steering withdrawn before native submission. CPU/fixed reviews→approved16/10/all16 exact/7955 FULL/independent indices→RCA fix/warm correctness→freshA||B own200→06. Existing source/WIT accepted, formal HOLD/B edge/science unchanged.
+
+**Active d9751b80 route:** Rust inline pre-split FULL source-point design accepted for CPU implementation; source/build/staging and physical collector preparation run in parallel. Helper/compile/alias/GIL/native CUDA receipts and fixed reviews PENDING. One Rust builder, collector composes once. Then original16/10/all16 exact/FULL7955/indices qualification -> after-all compact numeric RCA/correctness -> fresh A||B own200 ->06. No native submission or raw KV archive/retention-only flag; raw-archive steering withdrawn before execution. Existing CPP/source acceptance, warm FAIL, formal HOLD and B edge preserved. Older frontier paragraphs below are historical milestones.
 
 **Current frontier:** source79/integration709–266 CPU/fixed dual reviews accepted; locked personalPython bounded A exp-1111-113511-067358/B exp-1111-113511-669312 submitted/initialCRRunning, requested4nonpreemptibleH800/image165/localNFS each. Source/integration preparers execute before MOCKED runtime/server in CPU proofs;192affected453joined positive zeroSKIP and intentional missingoverrideSKIP are not native eight-request/runtime proof. All actualCUDA/source/compile/class/CPP–Triton stream/scalars/globalwriter/all16 vectors/terminal checks remain pending. Run after selectedFP32/CPUmetadata, custom-op None/CPU tuples preserved; no KV/CUDA commit_lens values/capture/fix/formal or16/10/scientific changes. Nativewitness qualification precedes separate numeric/RCA/correction/fresh independent200→06. Original absent-field/3aba blocker and381/1SKIP/190–451/seed/H200/D39/S7/Bedge/HF-eval disabled/bank_uses50/checkboxes stay historical or satisfied, no A200 gate/newscientificfallback/unapprovedlaterloop. Documentation does not block running tests.
 

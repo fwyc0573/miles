@@ -1,7 +1,12 @@
 ## Modification History
 
+**Active d9751b80:** CPU-only inline Rust original-FULL pre-split design accepted; source/build/staging and collector/injection pending, no helper compile/alias/GIL/native or KV evidence accepted. One builder composed once; no raw archive/new retention flag, only compact after-all16 statistics/index summaries. Source/WIT accepted, warm/formal HOLD and all criteria unchanged; B does not wait A200.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Close stale WIT Running status; record accepted CPP witness/source provenance and pending actual Rust original-tensor observer. |
+| 2026-11-11 | Record acceptedRust provenance and pending originalobserver/ABI; preserve B321.625MiB/Bedge/noA200gate and formal hold. |
 | 2026-11-11 | Verify already-aligned bounded B native CPP/allocator/source acceptance; record1d69444a archive/closedreportflag and qualified design frontier without changing final criteria. |
 | 2026-11-11 | Accept SOURCE79 CPU/review only; integration P2/REAL joined and native CPP/Triton witness pending, satisfied A edge unchanged. |
 | 2026-11-11 | Correct global publication and CPP/Triton boundary; retain satisfied B edge with source/integration partial CPU and open opt-out P2. |
@@ -43,9 +48,11 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle/native16/10/source79/integration709–266 CPU双review/P2关闭已满足。Bounded B witness submitted/Running但actualCUDA/source/class/scalars/all16/terminal及physical/numeric/RCA/freshB200仍pending。无A200/profile/32-H200 gate/stop权限，CPP/source reviews非native接受。
+**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle及bounded actual CPP/H800/allocator/all16已满足。9d1d821f SOURCE/PROVENANCE已接受；actual Rust original-tensor observer/producer/thread/lifetime、production-ABI runtime qualification、physical/numeric RCA/correction/freshB200仍pending。无A200/profile/32-H200 gate或stop权限。
 
-**Status:** BLOCKED formal / SOURCE_AND_INTEGRATION_CPU_ACCEPTED–BOUNDED_WITNESS_SUBMITTED_RUNNING D40; formal B not started。[Source79](../test_report_2026-11-11_kv_stream_witness_source.md)/[integration709/266](../test_report_2026-11-11_kv_stream_witness_integration.md)固定双review No findings/P2关闭只接受CPU/source/integration；192affected/453joined positive completeoverride PASS零SKIP，intentional missingoverride SKIP非PASS，runtime/server/readback为MOCKS非真实scoring，381/1SKIP/190–451历史保留。[B admission](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-B-r1.json) exp-1111-113511-669312 requested4nonpreemptibleH800，[初始CR](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/initial-platform-verification.json) Running/creator/image165/localNFS/limits4不等于actualCUDA/source/compile/class/CPP–Triton scalar/globalwriter/all16/terminal。无KV/CUDA commit_lens值/capture/fix/formal提交；16/10/native3600/90/D39/D34/S7/HF-eval禁用/bank_uses50/Bedge/raw/checklists保持。Nativewitness资格后独立numeric/RCA/fresh200→06，无A200/profilegate/fallback。[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / RUST_SOURCE_PROVENANCE_ACCEPTED–ORIGINAL_OBSERVER_PENDING D40; formal B not started。[Bounded B witness](../test_report_2026-11-11_kv_stream_witness_native_B_results.md) actual4H800/Completed0、all16 vectors及selectedCPP stream/class已接受，warm FAIL保持。[9d1 source report](../test_report_2026-11-11_rust_binding_source.md)接受621/621 source replay、old5501 unchanged、三Rust trees相同及isolated crate source完整；仅SOURCE/PROVENANCE。ABI declared/loadonly、binary sourceCommit UNVERIFIED；Rust source edit alone不会执行。Actual RustUnifiedTreeCore不走Pythoninsertwalk；originalFULL pre-split observer sameS/RID/P/E、FRESH post-store/pre-free、FULL insert_params.value、wholeFULL7955及independent indices待qualification。Two-bankB321.625MiB/A514.375MiB、perBANK160/256及16/10/science/D39/S7/HFdisabled/50/Bedge不变。无implementation/GPU/numeric/root/perf/formal接受。[Current](../progress.md#current-execution--workflow-rca)。
+
+**Historical initial witness snapshot:** B exp-1111-113511-669312 was submitted/Running with requested4H800; this initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453及固定reviews保留；later bounded CPP acceptance不拼接formal counters。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

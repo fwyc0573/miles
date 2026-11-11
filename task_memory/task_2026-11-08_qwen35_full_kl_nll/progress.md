@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Record9d1d821f primarySOURCE/PROVENANCE acceptance and exact reviewer169 four-part source checkpoint; actualRust observer/producer/thread/lifetime remains blocked. |
 | 2026-11-11 | Record primary accepted bounded native A/B source/H800/CPP/allocator scope and1d69444a byte-exact archive; advance qualified dynamic physical/numeric design, retaining warm/formal holds. |
 | 2026-11-11 | Correct absent global batch accessor/CPP–Triton scope; accept79dba51b source CPU/fixed reviews only, keep integration opt-out/REAL joined pending and preserve prior source blockers. |
 | 2026-11-11 | Correct absent global ForwardContext batch field and CPP/Triton terminal scope; retain original source blocker, partial owner CPU delivery and open integration opt-out P2. |
@@ -188,6 +190,8 @@ PY
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 
 ## Current execution — workflow RCA
+
+**Active d9751b80 CPU-design milestone:** primary stdlib replay PASS19 contracts/11 Rust behavior files/5 fixtures; native source/build/staging and collector/injection implementations run independently, both pending delivery. Existing inline Rust pre-split original FULL borrow selected; lookup/concat withdrawn. Observer15-file slice does not cover parent/pool/readback4 APIs. One source builder, one composed prep afterFP32→CPUmetadata→KVWIT; no extra builder. Compile/alias/GIL/actualCUDA S/physical KV/numeric evidence pending. D7 raw-archive steering withdrawn before native submission: compact after-all16 layerwise scalar/index summaries only, no raw archive/flag/base64. Prior source/WIT accepted, warm FAIL/formal HOLD/B edge unchanged. Earlier current blocks below are historical source milestones, not helper/native acceptance.
 
 ### KV measurement design prerequisite checkpoint — 2026-11-11
 
@@ -2448,3 +2452,74 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. Source79/integration709–266 CPU/fixedSOURCE及FINALintegration双review全部接受；453positivezeroSKIP、intentionalmissingoverrideSKIP不当PASS，actualsource准备beforeMOCKED runtime/readback，不是GPU运行证明。
 2. A/B lockedpersonalPython admission/CRRunning只证submit/request4GPU/image165/creator/localNFS；actualCUDA/source/CPPcompile/class/CPP–Triton/scalars/all16/terminal全部pending。NoKVcopy/capture/formal。
 3. 原3aba blocker/zeroNativeEdits与D2 docs trace保留；unmodified globalbatch断言已纠正，sourcefield只是CPU阶段接受。Formal04/05 HOLD、06waiting200和原scientific/raw/checklists/Bedge全部不变。
+
+## 1. 规划完成情况
+
+**Checkpoint:** `profile-rust-native-frontier-progress-checkpoint-20261111`，primary reviewer169实际source/provenance窗口；本8-doc sync引用9d1d821f接受并修routineS5，不重新做source/GPU/数值测试。
+
+| Ticket | Status | Actual acceptance / remaining |
+| --- | --- | --- |
+|01|PASS|CPU顺序/输入已接受|
+|02|PASS|CPU/S7/D16首GPU接受|
+|03|PASS|CPU integration接受|
+|04|BLOCKED|CPP/H800/all16与RustSOURCE/PROVENANCE接受；actualoriginalRustobserver/producer/thread/lifetime pending|
+|05|BLOCKED|B满足D16/inspection/commoncycle；同Rustobserver/physicalnumeric/correctness/freshadmission pending，不等A200|
+|06|TODO|CPUreport准备接受，actualA/B200/finaldata缺失|
+
+**Totals:**3PASS/2BLOCKED/1TODO。Routeactualnativeobserver→helper/CPUcompile＋两fixedreviews→primaryapprovedoriginal16/10/all16EXACT/7955wholeFULL/independentindices→evidenceRCAfix/warmcorrectness→freshA||B own200→06。
+
+## 2. 主线执行漂移检查
+
+| Pattern | Verdict | Recorded evidence |
+| --- | --- | --- |
+|D1 tooling polish|CLEAR|已有source replay/manifest/CPP witness，不做新工具或collector扩展|
+|D2 repeated fixes|CLEAR|source0GPU一次retry成功，9d1accepted；不重跑闭合CPP/GPU，无laterupdateauto-loop|
+|D3 side quest|CLEAR|Rustactualobserver为D40旧KV因果测量必要前置|
+|D4 parallel idle|CLEAR|source/provenance归档落地，observer只读设计独立推进|
+|D5 extensions|CLEAR|source足够，5fixtures非dependencies/no额外gate或collector|
+|D6 analysis loop|CLEAR|621replay/三树相同/binaryunverified直接修正route，不宣称numericcause|
+|D7 scope drift|CLEAR|D39H800/原16/10/all16/science/HFdisabled/50/Bedge保持，无backendflip/surrogate|
+
+S1–S4/S6 CLEAR按primary169实际记录：scope/owners/deps/metrics及observablequalification既定。S5 HIT仅currentplan/ticket旧WITRunning/sourceMissing与新接受冲突；本sync current已纠正，原snapshot/histories不删。早期doc-onlyD2与旧native/source阶段记录独立保留，不转成GPU失败或篡改该source-phase结论。
+
+## 3. 文档问题与建议
+
+**Branch B / routineS5已应用:**9d1 SOURCE/PROVENANCE accepted但ABIdeclared/loadonly/nativebinarysourceCommitUNVERIFIED，Rusteditalone不执行。ActualoriginalpreSplitFULLtensor observer/producer/thread/lifetime＋productionABIcompile/runtimequalification pending。Pythoninsertwalk/HindexNoFinding仅历史scope，CPP/Cython/allocator/all16不reset。No numericcollector/GPU/code/root/perf/200接受，无新decision/criteria/gate。
+
+Scope checks：raw/decisions、六ticket checkbox(A/B17)、S1–S9、既有verification方法/history与两bank514.375/321.625保留；用existingdocchecker/scopedwhitespace，knownfrozenmissinglinks不修，不normalize原rawdiff，不编辑design/source/report/code/config。
+
+## 4. 最值得关注的 3 点
+
+1. 621/621 SOURCE/PROVENANCE已接受，不是binarysourceCommit/nativeRustobserver/数值接受；三Rust树相同不说明actual.so来源。
+2. 现只读actualRustoriginalobserver设计/生产ABIqualification，sameS/RID/P/E/FRESHpoststore/OLDpresplit/FULLinsertparams需要未来实证；无替代protocol/extra wait/backendflip。
+3. CPP/H800/all16/旧warmFAIL/HFdisabled/50/D39/Bedge保持；formal04/05HOLD、06等own200，不加BwaitA200或capture授权。
+
+## 1. 规划完成情况
+
+Checkpoint `profile-rust-observer-design-progress-checkpoint-20261111`，窗口9d1d821f→d9751b80及并行implementation。01/02/03 PASS；04/05 BLOCKED actual observer/physical/numeric correctness；06 TODO ownA/B200。合计3PASS/2BLOCKED/1TODO。CPU-only inline Rust原FULL pre-split design已接受；source/build/staging与collector/injection独立PENDING，未交付helper/compile/native receipt。
+
+## 2. 主线执行漂移检查
+
+| Pattern | Verdict | Actual evidence |
+| --- | --- | --- |
+| D1 | CLEAR | Frontier需要production-ABI observer/metric，不扩大工具 |
+| D2 | CLEAR | 本窗口未做native build/retry/GPU重跑 |
+| D3 | CLEAR | D40实际Rust backend主线，不做fallback |
+| D4 | CLEAR | source/build、collector/injection、primary准备三项并行且ownership独立 |
+| D5 | CLEAR | collector compose唯一builder，不新增rawarchive API |
+| D6 | CLEAR | 具体inline1984/1985 source-point design已交付，implementation启动 |
+| D7 | HIT—resolved | Primary曾steer large rawKV/cloudarchive，违背canonical147；native提交前立即撤回，未批准raw archive |
+
+S1–S4/S6 CLEAR（既有scope/owners/criteria/observablequalification）；S5 stale source/design/current claims已routine修正，不改scientific inputs。旧source/WIT/sourceABI scope和failure history保持。
+
+## 3. 文档问题与建议
+
+BranchB只更新current事实：inline1984 prefixlen后、1985 split前借node.try_device_value(FULL)，lookup/concat撤回。SameproductionABI helper固定prepare_source(root,image,archive_dir,build_receipt)/build_source(root,image,archive_dir)，唯一builder composed once；CPU隔离prep beforeimport可explicitforce，serve never/sameproductionmodule。kv_coherence_build_receipt仅flagTrue必要、false/absent opt-out，source/code/config不由docs修改。Observer15-file slice不覆盖另4candidate/pool/readback API。下一步CPUbuild/alias/GIL/nativeSstream证据与fixedreviews，primary-approved16/10 all16EXACT/7955wholeFULL/independentindices→causalfix/warmcorrectness→freshA||B own200→06。
+
+纠正D7：afterall16 bulkD2H/CPU layerwise metrics与compact scalar/indexcoverage摘要，禁止512/320MiB rawarchive、新artifact_dir flag、巨大JSON/base64。无KVnumericrun/CPUhelper/nativecompile/physicalreceipt接受，无新criteria/gate；B不等A200。Docs-only patch/guard上下文失误独立保留，不归为native失败。
+
+## 4. 最值得关注的 3 点
+
+1. d9751b80仅CPU implementation design接受，producerthread/GIL/pointeralias/actualCUDA Sscalar/helper/compile仍PENDING。
+2. D7 HIT已在任何native submission前resolved，保留compact after-allstats，不批准rawKV archive。
+3. Source/WIT已接受但warmFAIL/formal04/05HOLD、06等200；科学256/32x8/231/1800/50/S7/HFdisabled与两bank514.375/321.625不变。

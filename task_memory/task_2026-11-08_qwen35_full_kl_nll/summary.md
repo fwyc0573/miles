@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Record accepted621-source provenance archive9d1d821f and pending nativeRust originaltensor observer/ABI qualification without numerical/formal acceptance. |
 | 2026-11-11 | Archive primary accepted bounded A/B native H800/source/CPP and actual allocator witness; keep baseline warm failure and qualify dynamic physical/numeric design, not capture/formal. |
 | 2026-11-11 | Accept79dba51b CPU/source fixed reviews only; preserve absent original field/blocked source history and pending integration opt-out/real joined/native CPP–Triton validation. |
 | 2026-11-11 | Correct absent global writer accessor and CPP/Triton scope; record source owner CPU delivery, partial integration and open opt-out P2 without formal acceptance. |
@@ -80,6 +82,8 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 
 ## Observed validation
 
+- **Active d9751b80 CPU-design milestone:** inline original FULL Rust pre-split observer design accepted, not compiled/native helper or numerical acceptance. Source/build/staging and collector preparation parallel; one Rust builder. Producer/GIL/alias/CUDA stream and fixed reviews pending. After-all16 compact scalar/index summaries only; large raw-KV archive steering withdrawn before submission. Existing source/CPP witness acceptance, warm failure/formal HOLD, scientific inputs and B edge unchanged; B does not wait A200. Earlier source/design-pending observations remain historical.
+
 - **Latest primary archive and phase checkpoint:**1d69444a commits99 selected review/native reports/verification/filtered receipts;96 ordinaryfiles whitespacePASS. Three rawUnifiedDiff context-space/EOF findings are expected archive data: hash/Git-command/indexbytes identityPASS, no normalization/Gitconfig/checker/source/config changes. Authabsent/JSONfinitePASS; NFS businessoutputs remain untracked refs. B owner acceptanceflag closed2711, notpending. Primary `profile-kv-stream-witness-native-progress-checkpoint-20261111` completed four sections:3PASS/2BLOCKED/1TODO,D1–D7CLEAR,BranchB routineS5 currentlabels only; no new criterion/edge/scope/checkpoint loop.
 
 - Archived native namespace subset:12 controls/four warm-full comparisons exact, target8RIDs/100 triple equalities and169 chunks retain scope; undefined countsA1/1/1/3,B3/5/4/4 remain undefined.165 bindings do not turn65 shared-control geometry joins62PASS/3expectedFAIL into targets. Original false-global-FAIL artifacts remain;075e75ca CPU scope correction made no GPU rerun/tolerance/science change. Qualified report/inspection archive18dc354b is delivered, not root/performance/formal acceptance.
@@ -120,6 +124,8 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 - Second formal failure: missing rank3 `student-eccbc87e`; rank0/rank1 scheduled at18:28:46Z and rank2 at18:38:11Z. Native TimeoutError at19:02:35.748Z precedes peer/SIGTERM chronology; actual configured nodes=4 while the literal "two-node" error is preserved. The19:03:11Z readback was transitional Running/RJobStopping, not final Running acceptance;19:06:54Z confirms Failed19:03:12Z and all five replicas terminal. Three retained events are two FailedScheduling plus one SuccessfulDelete, with no continuation. RCA has6 successful reads/two all-operation ReadTimeout10s/zero existing DeepScan flows; collector exit1 is limited audit-query failure. Stop actor/time remain UNKNOWN. No code/config fix, business-test rerun or third submission is claimed.
 
 ## Execution and open work
+
+**Active d9751b80:** CPU-only Rust observer implementation design accepted. Native source/build/staging and collector/injection preparation are parallel, with no delivered helper, compilation, GIL/pointer/stream or numeric proof. Inline original FULL pre-split observer replaces withdrawn lookup/concat. One production-ABI builder; serving backend/policy unchanged. Proposed after-all16 compact layerwise scalar/index summaries replace withdrawn raw KV archive steering. Source/WIT accepted, warm FAIL/formal HOLD remain; B does not wait A200. Two opaque banks remain A514.375/B321.625MiB. No GPU run, root fix, performance or formal acceptance follows design approval.
 
 | Ticket | Status at this milestone |
 | --- | --- |

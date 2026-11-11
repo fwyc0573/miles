@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Record SOURCE/PROVENANCE accepted9d1d821f, actualRust originalobserver/compiledABI still pending; science/raw/checkboxes and acceptedCPP witness unchanged. |
 | 2026-11-11 | Accept selected actual native CPP/allocator/source/H800/all16 scope; retain unselected Triton, baseline warm failure and dynamic physical/numeric qualification limits. |
 | 2026-11-11 | Correct global-field absence/CPP–Triton boundary; source79 CPU/reviews accepted only, integration opt-out/real joined/native coverage pending, science unchanged. |
 | 2026-11-11 | Update only D40 execution scope to qualified static source and witness-only preparation; preserve scientific sections, original protocol and pending actual runtime/numeric evidence. |
@@ -79,6 +81,8 @@
 **当前状态（2026-11-11，D40）**：**BOUNDED_NATIVE_CPP_WITNESS_ACCEPTED / PHYSICAL_NUMERIC_DESIGN_QUALIFICATION；formal04/05 HOLD**。Primary接受[A](test_report_2026-11-11_kv_stream_witness_native_A_results.md)/[B](test_report_2026-11-11_kv_stream_witness_native_B_results.md)job/replicaSucceeded/Completed0/restart0、actual4H800 each、各16originalvectors/6804values精确；source35/fiveedits/caller266/helper79/math6/finalWIT匹配。A16FULLlayers/2704 CPPuniquejoins、B10/1690，各169chunks/16RIDs；actualCPPin-callstream==TorchF、TokenToKVPoolAllocator/page1CP1/graphs及alt-off实测，selectedCPP/allocator前置闭合。KVprefixTriton0 business/startup未选/streamUNVERIFIED，不是GDNprefillTriton。Owncold4/4/warm1/4 FAIL原样保留。WIT不授权KV/FULLindices/CUDAcommit_lens数值capture，nextdesign按actual16/10layers、K/V512bytes、2side8192bank256/160MiB且deriveextra banks，不固定A10。allTP/physicalSSM/KV/completion/race/56rep2/1024/freshcompile/binaryhash/CAPI-fallback/numeric/root/perf/formal未测或接受。1d69444a byteexactarchive/Bflag关闭、primary四节3/2/1 BranchB S5已确认；raw/science/CPU453/reviews/initialRunning/381skip/403/D39/D34/S7/HF-evaloff/bank_uses50/Bedge保持。qualified numericRCA/correction/fresh独立200→06，无A200gate，[Current](progress.md#current-execution--workflow-rca)。
 
 ### D40 diagnostic namespace counterfactual preregistration
+
+**Active d9751b80:** inline Rust original-FULL pre-split observer design accepted for CPU implementation only; lookup/concat withdrawn. Parallel source/build/staging and collector/injection pending. One existing builder composed once; no native compile/alias/GIL/CUDA/physical/numeric acceptance. Serving uses same production ABI/never policy; force only isolated CPU prep. Compact after-all16 scalar/index summaries, no raw KV archive/retention flag. Preserve science,16/10,B edge,source/WIT acceptance and warm/formal HOLD.
 
 This diagnostic is not a formal policy/fallback, a tolerance change or a claim of source/root-cause correction.
 

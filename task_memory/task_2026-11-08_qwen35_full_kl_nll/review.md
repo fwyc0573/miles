@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
+| 2026-11-11 | Record9d1d821f SOURCE/PROVENANCE-only acceptance, no binarycommit/nativeRust observer proof; primary reviewer169 current3/2/1 retained. |
 | 2026-11-11 | Accept bounded native A/B source/H800/selected CPP and allocator witness, not warm correctness/numeric values; retain reviewed CPU/history and byte-exact archive qualification. |
 | 2026-11-11 | Record79dba51b fixed SOURCE two-axis No findings/CPU acceptance only; integration P2 opt-out and real joined/fixed integration rechecks pending, native CPP/Triton scope unaccepted. |
 | 2026-11-11 | Correct global writer-access claim and CPP/Triton boundary; record owner-reported source CPU delivery and integration Standards0/Spec opt-out P2 open. |
@@ -29,6 +31,8 @@
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
 
 # Runtime metadata preparation phase — 2026-11-11
+
+**Active d9751b80 scope:** exact stdlib design/source contracts accepted for CPU implementation only. Two source/build/staging and collector/injection tasks pending; no helper compile, native pointer/GIL/stream, physical KV, cause or formal acceptance. Inline Rust original FULL borrow before split replaces lookup/concat. No extra matches/cache locks/backend flip; one builder composed once, production ABI/serving policy unchanged. D7 large raw-archive steering withdrawn before any native submission: retain compact after-all16 layerwise scalar/index summaries, no raw archive/flag. Existing source/WIT reviews remain scoped; future helper CPU/fixed reviews/native qualification still required.
 
 **Status: BOUNDED_NATIVE_CPP_WITNESS_ACCEPTED / PHYSICAL_NUMERIC_DESIGN_PENDING / ROOT_FORMAL_HOLD.** Primary accepts[A report](test_report_2026-11-11_kv_stream_witness_native_A_results.md)/[B report](test_report_2026-11-11_kv_stream_witness_native_B_results.md) and native-verification-{A,B}.json: eachactual4H800, job/replicaSucceeded/Completed0/restart0, all16 original vectors/6804 probabilitiesexact, source35before/after/caller266/helper79/fiveedits fixedGit, math6unchanged, finalWIT runner. ActualA16FULL layers/2704 CPPuniquejoins/B10/1690,169chunks/16RIDs each, nativeactualin-callstream==TorchF, TokenToKVPoolAllocator/page1CP1/graphsoff/alternateoff are accepted selectedbranch observations. KVprefixTriton0 business/startup is unselected/streamUNVERIFIED; GDNprefillTriton differs. Owncold4/4/warm1/4FAIL exactlybaseline, not repair. No physicalKV/SSM/indices/commit_lens/devicecompletion/race/allTP/56rep2/1024/freshcompile/binaryhash/CAPI-fallback/root/perf/formal acceptance. Dynamic design A16/B10/KV512bytes/2side8192bank256/160MiB is nextqualification, no captureauthorized byWIT. B ownerpendingacceptance flag closed2711/archived1d69444a. Source/integration fixed CPU/mocks/381skip/initialRunning/3aba/403/source reviews preserved below; D39/science/HF-eval off/bank_uses50/Bsatisfiededge unchanged.
 
