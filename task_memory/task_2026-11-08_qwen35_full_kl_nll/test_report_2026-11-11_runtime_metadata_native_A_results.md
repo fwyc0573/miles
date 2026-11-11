@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Name the JSON reader before calling it in the replay command so the documentation checker does not treat indexed Python calls as Markdown links. Affected replay PASS with unchanged measurements; doc checker retains60 known frozen-copy link errors,0 maintained-document errors and global exit1. |
 | 2026-11-11 | Pin scoring-caller replay to immutable4f1139b0 Git blobs; reference primary terminal container/source-annotation evidence without another platform call or measurement change. |
 | 2026-11-11 | Independently verify retained A-only native metadata, source identity and all first-four vectors on local CPU; retain warm FAIL and measurement limits. |
 
@@ -242,10 +243,11 @@ from pathlib import Path
 p=Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_native_A_results.md')
 code=p.read_text().split('```python\n',1)[1].split('\n```',1)[0]
 ns={};exec(compile(code.split('result, preload, terminal =',1)[0],str(p)+':affected-setup','exec'),ns)
-ns['result']=ns['read'](ns['run']/'result.json')
+read_json=ns['read']
+ns['result']=read_json(ns['run']/'result.json')
 affected='scoring_reference ='+code.split('scoring_reference =',1)[1].split('for relative in ("kernels/ops/attention/fla/chunk.py"',1)[0]
 exec(compile(affected,str(p)+':affected-caller-source','exec'),ns)
-a=ns['read'](ns['base']/'native-verification-A.json')
+a=read_json(ns['base']/'native-verification-A.json')
 assert a['native_code_identity']==ns['native_code_identity'] and a['primary_platform_evidence']==ns['primary_platform_evidence']
 keys=['checks','response_identities','error_columns','matched_vector_errors','own_comparisons','metadata']
 signature=ns['hashlib'].sha256(ns['json'].dumps({k:a[k] for k in keys},sort_keys=True,separators=(',',':')).encode()).hexdigest()
