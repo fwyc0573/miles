@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Fix17cb6fc6 is delivered with29/29 affected source checks and zero skips. Standards and Spec both close the original P2 with no new findings; see the [source recheck archive](evidence/rust-kv-observer-source-review-20261111/recheck-17cb6fc6.md). Actual GPU0 R3 has completed with SDK terminal PASS and a new qualification receipt PASS, without rebuilding the native extensions. Primary R3 raw CPU qualification acceptance is still PENDING, so runtime release is not yet accepted. R2 serial CPU/compile-load acceptance and immutable raw/root receipts remain unchanged. The [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) owns raw verification; the [current route](progress.md#current-execution--workflow-rca) owns next actions. No new numeric H800 or formal run was submitted. Tickets 04/05 remain BLOCKED and 06 TODO; B does not wait for A200. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw requests, science and checkboxes are unchanged.
+**Current execution:** Primary accepted actual bounded R3 serial CPU qualification and the repaired executed contended-getter oracle in `79ff8bcc`; the disposition is `ACCEPTED_BOUNDED_ACTUAL_SERIAL_CPU`, not GPU or general concurrency acceptance. Both source P2 rechecks are CLOSED with no new findings. The frozen collector/probe/tests/config in `b9e1ebb6` select the R3 receipt through the sole kv_coherence_build_receipt input; 283/283 affected/joined CPU checks and both unchanged four-H800 dry-runs PASS. See the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md), [collector preparation report](test_report_2026-11-11_kv_coherence_preparation.md) and [current route](progress.md#current-execution--workflow-rca). Diagnostic A/B admission receipts are not created and neither H800 diagnostic is submitted; primary will submit after this synchronization lands. R2 acceptance and immutable evidence remain preserved. Formal04/05 HOLD and06 pending actual independent200 remain; B does not wait for A200. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw requests, science and all53 checkboxes are unchanged.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record primary acceptance of actual bounded R3 CPU and fixed oracle, completed R3 collector linkage/283 checks, and the authorized unsubmitted H800 frontier; preserve all decisions. |
 | 2026-11-11 | Close the source P2 at17cb6fc6 and record actual R3 terminal/receipt PASS with primary raw acceptance pending; preserve all decisions and formal holds. |
 | 2026-11-11 | Preserve accepted R2 serial CPU evidence and immutable receipts; record the shared OPEN P2, pending R3 reuse/rechecks and unchanged H800/formal hold. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
