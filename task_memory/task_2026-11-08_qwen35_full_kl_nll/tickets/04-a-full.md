@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** A r2 exp-1111-171524-888127 is Failed/Error/exit1/restart0 after16 scores/10 flushes. Primary accepts A bounded16/6804 EXACT/selected CPP2704 controls and failed timeline only; both A/B controls are accepted after explicit B steering. A topology budget539361280/OLD7955 and224 global NoneType length errors are metadata-only,capture/physical/KV UNVERIFIED. [Current route](../plan.md#current-frontier) is actual RED-capable CPU RCA under the read-only batch-metadata owner,no established cause/production fix yet. D40 CPU work remains authorized,not a new user gate or GPU retry permission. Source6119/R3 CPU/CPP/WIT/r1 controls,warm1/4 FAIL,formal A HOLD,science/all checklists,06 waiting independent200 and B's no-A200 edge persist.
+**Current execution:** Primary accepts archived r2 RCA and committed `eeaaa4f6` harness CPU/source fix,RED1/GREEN9/final49 PASS/zero skip/19.77s,both fixed axes No findings and selected checksum closure. [Current route](../plan.md#current-frontier) stops at qualified A/B four-H800 r3 driver PASS/submitted=false; no r3 admission/business output exists. Startup DECODE is source/event inference,not native enum capture. Actual source/readback/private SO/S/7955/active all16/KV,teacher root/warm and formal acceptance remain unverified. Original D40 authorization,source/R3/WIT/A-B controls,warm FAIL,formal A HOLD,science/all checklists,06 own200 and B's no-A200 edge remain; no new submission/retry/formal permission is inferred.
 
 **Historical prerequisite snapshots:** The earlier Active paragraphs below preserve their failed R1 and design-stage evidence, not current R2 acceptance or blockers.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close A forward-mode harness CPU/source and qualified r3 driver records; retain native/physical/warm/formal hold and every checkbox. |
 | 2026-11-11 | Record A r2 Failed with bounded controls accepted and metadata-only capture; combine B steering in the same CPU RED RCA/current-state pass. |
 | 2026-11-11 | Record actual A r2 submission/Initial Starting with frozen inputs and pending native acceptance; retain formal hold and all checkboxes. |
 | 2026-11-11 | Close A bounded-control and committed CPU/source fix prerequisites; retain formal hold and unsubmitted fresh r2 physical/native/KV frontier. |
@@ -66,9 +67,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01/02/03,D16/common-cycle,source6119/R3 CPU/CPP/WIT/r1 and r2 bounded A controls remain accepted. Formal A is blocked by actual capture RED RCA/verified correction,complete native/physical7955/KV qualification,teacher warm/root correctness and fresh independent A200,not an invented CPU approval requirement.
+**Blocked by:** 01/02/03,D16/common-cycle,source/R3/WIT/r1-r2 controls and eeaaa4f6 harness CPU/source/review/checksum/qualified-driver records are accepted. Formal A still needs actual complete source/readback/private SO/S/active all16/physical7955/KV qualification,teacher root/warm correctness and fresh independent A200. No CPU redo,scope change or new user-approval gate is added.
 
-**Status:** BLOCKED formal under D40. A r2 is [terminal Failed](../evidence/teacher-scoring-kv-coherence-probe-20261111/terminal-platform-A-r2.json),while primary accepts bounded A controls only:16/6804 EXACT,24 undefined relative positions,194 archives/44 Rust/2 ELF/2704 selected CPP. Source6119 resolved-config fix remains accepted; topology539361280/OLD7955 and224 note_cpp/fresh errors do not qualify physical/KV capture. Actual RED-capable CPU RCA is ongoing,no production fix assigned; ordinary CPU authorization is unchanged and no GPU submission/retry is inferred. Then evidence-backed correction/verification and separately decided native/physical validation BEFORE KV interpretation → teacher RCA/minimal fix/warm correctness → fresh independent A || B200 →06. Warm1/4 FAIL,original r1 capture FAIL,all checkboxes and B's no-A200 edge remain unchanged;12-second audits leave gaps,not no-stop proof.
+**Status:** BLOCKED formal under D40. Accepted eeaaa4f6 harness CPU/source fix and qualified A/B r3 dry-runs close this record phase only; submitted=false,no r3 admission/business output or actual GPU submission. Stop at closure; primary may decide existing bounded D40 qualification within unchanged authorization after docs land,no new submission/retry/formal permission inferred. Actual source/readback/private SO/S/active all16/physical7955/KV remain unaccepted before numerical interpretation → teacher RCA/minimal fix/warm correctness → fresh independent A || B200 →06. A r2 failed capture and bounded16/6804/CPP2704 controls remain preserved; startup DECODE is inference,not native enum capture. Warm FAIL,all checkboxes and B's no-A200 edge remain unchanged; issues.md owns audit gaps.
 
 **Historical initial witness snapshot:** A exp-1111-113511-067358 was submitted/Running with requested4H800; that initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453、source/integration reviews and original3aba/403 failure evidence remain historical. Later bounded actual CPP/source acceptance is recorded above and does not splice formal counters.
 

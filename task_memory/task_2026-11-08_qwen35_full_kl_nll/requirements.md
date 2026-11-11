@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Both r2 diagnostics are Failed after16 scores/10 flushes, container Error/exit1/restart0. Primary accepts both A/B bounded controls after explicit B steering; platform acceptance covers failed status/timeline only, not native success. Topology/preallocation budgets and OLD7955 fragments are metadata only; global note_cpp/fresh NoneType length errors are A224/B140, with no physical/KV acceptance. See the [current failure/RCA frontier](progress.md#current-execution--workflow-rca). The read-only batch-metadata owner is building an actual RED-capable CPU repro; cause and production correction are not established or delegated. D40 ordinary CPU work remains authorized, not a new user-approval gate. Source6119/R3 CPU/CPP/WIT/r1 controls,warm1/4 FAIL,raw decisions,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged; no GPU retry permission is inferred.
+**Current execution:** `eeaaa4f6` commits the primary-accepted forward-mode harness CPU/source fix: RED1 FAIL, GREEN9 PASS, final49 PASS/zero skip in19.77s. Both fixed axes report No findings and the selected checksum limitation is closed. Qualified A/B r3 drivers PASS with submitted=false; no r3 admission/business output or GPU job exists. See the [CPU/driver record closure](progress.md#current-execution--workflow-rca). Startup DECODE in the accepted r2 RCA is source/event inference,not captured native enum evidence. This is not a teacher root fix: actual source/readback/private SO/S/7955/active all16/KV,warm correctness and formal acceptance remain unverified. Original D40 authorization,source/R3/WIT/controls,raw decisions,science/six methods/all53 checkboxes,formal04/05 HOLD,06 own200 and B's no-A200 edge are unchanged. Stop at CPU/qualified-driver closure; no submission/retry/formal permission is inferred.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close accepted forward-mode harness CPU fix/reviews/checksums and qualified r3 driver records; preserve unsubmitted native r3 and all scientific/permission boundaries. |
 | 2026-11-11 | Combine r2 Failed/capture-metadata evidence with primary A/B bounded-control acceptance and ongoing CPU RED RCA; retain ordinary CPU authorization and all science. |
 | 2026-11-11 | Record actual r2 submission and Initial Starting snapshots only; preserve pending native acceptance, frozen inputs and all scientific decisions. |
 | 2026-11-11 | Record accepted bounded r1 controls and committed CPU/source fix6119bee1 with closed reviews/checksums; advance current frontier to unsubmitted D40 r2 without changing science. |
