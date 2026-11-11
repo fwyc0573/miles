@@ -1,0 +1,112 @@
+{
+  "pair": "B",
+  "job": "exp-1111-171526-099435",
+  "queries": [
+    {
+      "query": "rjob-live-events",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.959553+00:00",
+      "finished_at": "2026-11-11T09:34:00.325797+00:00",
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true
+    },
+    {
+      "query": "replica-live-events",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.960636+00:00",
+      "finished_at": "2026-11-11T09:34:00.378012+00:00",
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true
+    },
+    {
+      "query": "rjob-historical-events",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.956683+00:00",
+      "finished_at": "2026-11-11T09:34:04.071767+00:00",
+      "ok": true,
+      "count": 3,
+      "pagination_complete": true
+    },
+    {
+      "query": "replica-historical-events",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.958332+00:00",
+      "finished_at": "2026-11-11T09:34:04.144481+00:00",
+      "ok": true,
+      "count": 2,
+      "pagination_complete": true
+    },
+    {
+      "query": "existing-deepscan",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.965570+00:00",
+      "finished_at": "2026-11-11T09:34:01.218126+00:00",
+      "ok": true,
+      "count": 0,
+      "pagination_complete": true
+    },
+    {
+      "query": "rjob-audit",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.962650+00:00",
+      "finished_at": "2026-11-11T09:34:13.256305+00:00",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=12.0)"
+      },
+      "count": null,
+      "pagination_complete": null
+    },
+    {
+      "query": "replica-audit",
+      "job": "exp-1111-171526-099435",
+      "replica": "exp-1111-171526-099435-cfcd2084",
+      "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+      "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+      "started_at": "2026-11-11T09:33:59.963781+00:00",
+      "finished_at": "2026-11-11T09:34:13.288968+00:00",
+      "ok": false,
+      "error": {
+        "type": "ReadTimeout",
+        "message": "HTTPSConnectionPool(host='platform.shaipower.com', port=443): Read timed out. (read timeout=12.0)"
+      },
+      "count": null,
+      "pagination_complete": null
+    }
+  ],
+  "conclusion": "Application readback verdict triggered exit1, as retained result and container state show. No inferred external stop actor; audit reads timed out; initial scheduling events are not termination/preemption evidence.",
+  "incident_logs": {
+    "query": "incident-logs",
+    "job": "exp-1111-171526-099435",
+    "replica": "exp-1111-171526-099435-cfcd2084",
+    "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+    "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+    "started_at": "2026-11-11T09:33:59.961228+00:00",
+    "finished_at": "2026-11-11T09:34:01.488879+00:00",
+    "ok": true,
+    "raw_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/rca-exp-1111-171526-099435-r2/incident-logs.json",
+    "http_status": 200,
+    "body_type": "dict"
+  }
+}

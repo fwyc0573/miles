@@ -1,0 +1,50 @@
+{
+  "task_id": "profile-kv-coherence-batch-metadata-rca-20261111",
+  "scope": "CPU_METADATA_REPLAY_ONLY",
+  "pair": "A",
+  "process_id": 340,
+  "null_wit_seq": 184,
+  "valid_wit_seq": 566,
+  "recorded_null_fields": {
+    "rids": [
+      "f4a4161dc7d34b3db69f486204a4234a"
+    ],
+    "prefix_lens": null,
+    "extend_lens": null
+  },
+  "absent_context_and_valid_metadata_pass": true,
+  "errors": [
+    {
+      "rid": null,
+      "P": 90112,
+      "E": 98304,
+      "stage": "note_cpp",
+      "message": "object of type 'NoneType' has no len()"
+    },
+    {
+      "rid": null,
+      "P": 90112,
+      "E": 98304,
+      "stage": "fresh",
+      "message": "object of type 'NoneType' has no len()"
+    }
+  ],
+  "null_site": [
+    {
+      "function": "main",
+      "line": 63,
+      "code": "collector._targets(batch)"
+    },
+    {
+      "function": "_targets",
+      "line": 137,
+      "code": "return [row for row in writer_windows(batch.rids, batch.extend_prefix_lens_cpu,"
+    },
+    {
+      "function": "writer_windows",
+      "line": 35,
+      "code": "if not (len(rids) == len(prefixes) == len(extends)):"
+    }
+  ],
+  "elapsed_seconds": 0.991
+}

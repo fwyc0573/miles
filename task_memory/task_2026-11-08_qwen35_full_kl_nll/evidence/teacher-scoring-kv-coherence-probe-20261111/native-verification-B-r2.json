@@ -1,0 +1,161 @@
+{
+  "task_id": "profile-kv-coherence-native-B-r2-20261111",
+  "modification_history": [{"date": "2026-11-11", "change": "Read-only retained B r2 controls; no collector RCA or native execution."}],
+  "run": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r2",
+  "baseline": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1",
+  "job": "exp-1111-171526-099435", "uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+  "verdicts": {"controls": "PASS", "source_R3_linkage": "PASS", "selected_CPP_TP0_joins": "PASS", "business_attempt": "FAIL", "collector_readback": "FAIL", "warm_correctness": "FAIL", "complete_fresh_OLD_physical7955_numeric_KV": "UNVERIFIED", "formal": "HOLD"},
+  "controls": {
+    "vectors": 16, "values": 6804, "max_absolute_error": 0.0, "max_defined_relative_error": 0.0, "zero_reference_relative_undefined": 64, "identity_errors": 0, "retractions": 0, "scored": 16, "flushes": 10, "comparison_groups": 8, "comparison_contracts": 24,
+    "case_columns": ["request_id", "native_request_id", "sample_position", "sample_index", "source_uid", "values", "relative_error_undefined_count"],
+    "cases": [
+      ["cold-r0-s0-full_input", "1c5fba72f243485a87d91f503c753eaf", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s0-response_only", "0394d42a0498479598f2a627871c8ad4", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["cold-r0-s1-response_only", "f81839e31d97469ba8bfee7fb6f1d3f6", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s1-full_input", "41180b1435eb4f689538deecba284d80", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["cold-r0-s2-full_input", "97eda4a0684a42f28c9f0a16b172c807", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s2-response_only", "540bc5fcd16a45d1986e521c95aaa010", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["cold-r0-s3-response_only", "c873d4982e2149f8af1009b3744d657b", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["cold-r0-s3-full_input", "adc89def352045a2acd61cc6e9052721", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4],
+      ["warm_stream-r0-s0-full_input", "55f54654f175457789835ba9bad8ac8d", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-full_input", "c64871e56a0f448f9d6e81eec57a0665", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-full_input", "564e4e7206a245c7aebd3b9e9c9b71ac", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 4],
+      ["warm_stream-r0-s3-full_input", "78e1d72b4fa54af5bcafa3fa9ffdc00c", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 5],
+      ["warm_stream-r0-s0-response_only", "1ed05fc99a8e438baf6e219a18913b49", 0, 1693, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123", 734, 3],
+      ["warm_stream-r0-s1-response_only", "150c0ff9edb34fc9ba1233a31d357781", 1, 1694, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125", 246, 5],
+      ["warm_stream-r0-s2-response_only", "3eab2a4afbb7412388f8714c7a874c7f", 2, 1695, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127", 431, 3],
+      ["warm_stream-r0-s3-response_only", "9954d6de5bab4e08bfd57d58c73545a5", 3, 1696, "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129", 290, 4]
+    ]
+  },
+  "source": {
+    "commit": "6119bee19eae6091ac757bbccbf9b168b5f508be", "baseline_commit": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff", "r2_identities": 8, "baseline_identities": 6,
+    "installed_runtime": {"bytes": 22778, "sha256": "7f7f7ff9f49a7461de8e1a4f26505dd64a3fd8a55fbc9d49189d88d9dd7fa6dd"},
+    "helper_git_bytes": 38793, "helper_git_sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43",
+    "stage_archives": {
+      "source_preflight": {"archive_pairs": 6, "manifest": {"bytes": 1715, "sha256": "dd856add48fe221101c03b96fb018e8fc939362cc15415482cac6d5128370c6f"}, "receipt": {"bytes": 3588, "sha256": "f49b28bbd0241bfede216e03507c12565746c6a68c7b7dd89eae60f328669c7f"}},
+      "runtime_metadata_source_preflight": {"archive_pairs": 16, "manifest": {"bytes": 4843, "sha256": "22aa07e3f10b9c9d8aec6f5fdc180076613d3014f6985542f0c8ea27bafcb3e9"}, "receipt": {"bytes": 9269, "sha256": "05a10b573f1b960aa2cec0ad6513e9b3b5efb6c18285ee718dd0383fdcec33ef"}},
+      "kv_store_stream_source_preflight": {"archive_pairs": 35, "manifest": {"bytes": 13617, "sha256": "076b60a28b3c5de49154e42cdd8ede7f7f99091e4860293cbc61de2b5d4228d0"}, "receipt": {"bytes": 26187, "sha256": "ea020952da1b23137a761837be82431a262cee708e49b541da7273901b6c12a4"}},
+      "kv_coherence_source_preflight": {"archive_pairs": 40, "manifest": {"bytes": 7908, "sha256": "800a6f0027b3f6d41fff09b795bcb216abc8d47e00bbfada2b8427d16cb20ac7"}, "receipt": {"bytes": 18816, "sha256": "ecf957446e68163d1dc7999c3fcae191ee001ecaf4554c871e01ef61d3558d1f"}}
+    },
+    "archive_pairs": 97, "runtime_private_source_paths": 38, "runtime_archive_hash_overlaps": 7
+  },
+  "R3": {
+    "build_receipt_path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+    "build_receipt": {"bytes": 15835, "sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7"},
+    "qualification_receipt_path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/qualification.json",
+    "qualification_receipt": {"bytes": 1495, "sha256": "2176426df8812b5e8bd146370e048fd399d46cad4cb4ccbcc917a16d68f63169"},
+    "ELF_path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+    "ELF": {"bytes": 3411248, "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba"},
+    "composition_identities": 35,
+    "private_binary_target": "/var/tmp/teacher-scoring-kv-v8uxgy6t/kv-coherence-runtime/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so",
+    "actual_private_module_mapping": "UNVERIFIED", "original_binary_source_commit": "UNVERIFIED"
+  },
+  "runtime": {
+    "local_python": "3.10.6", "worker_python": "3.12.16", "worker_executable": "/opt/sglang/bin/python3", "torch": "2.14.1+cu130", "sglang": "0.5.24.dev80+g056f871",
+    "gpu_devices": ["NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06"],
+    "argv": ["/opt/sglang/bin/python3", "-B", "-m", "sglang.launch_server", "--model-path", "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model", "--host", "0.0.0.0", "--port", "30000", "--nnodes", "1", "--node-rank", "0", "--dist-init-addr", "100.97.213.158:29501", "--tp-size", "4", "--dtype", "bfloat16", "--context-length", "131072", "--mem-fraction-static", "0.85", "--max-running-requests", "1", "--chunked-prefill-size", "8192", "--disable-cuda-graph", "--enable-deterministic-inference", "--attention-backend", "fa3", "--linear-attn-prefill-backend", "triton"],
+    "seed": 1013583994, "baseline_seed": 596871011,
+    "private_package": {"schema": "kv-coherence-package-v1", "source_package_root": "/sgl-workspace/sglang/python/sglang", "package_root": "/var/tmp/teacher-scoring-kv-v8uxgy6t/kv-coherence-runtime/sglang", "worker_tmpdir": "/var/tmp/teacher-scoring-kv-v8uxgy6t", "import_origin": "/var/tmp/teacher-scoring-kv-v8uxgy6t/kv-coherence-runtime/sglang/__init__.py", "child_pythonpath": "/var/tmp/teacher-scoring-kv-v8uxgy6t/kv-coherence-runtime:/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image", "copy_scope": "whole runtime SGLang package; no subset verifier clone", "serving_native_origin_sha": "PENDING actual server/runtime attestation"},
+    "model_manifest": {
+      "config.json": {"path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model/config.json", "bytes": 3544, "sha256": "5e4d7f74fec2f360eb9cfbfcd6ec0c4c76e684d3a11caaed259d9fd9bfbc7944"},
+      "model.safetensors.index.json": {"path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-35B-A3B/model/model.safetensors.index.json", "bytes": 187463, "sha256": "d8d0b7ca4e61ae107e3e87a3ff21136b3ac7c789e64bb24267227ca804e04205"}
+    }
+  },
+  "observations": {
+    "process_id": 347, "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0},
+    "initial_status": "metadata_only", "final_status": "unverified", "initial_final_topology_equal": true,
+    "topology": {
+      "root_object_id": 139702848440752, "writer_object_id": 139702840901312, "allocator_object_id": 139702846344992,
+      "allocator_class": "TokenToKVPoolAllocator", "root_class": "HybridLinearKVPool", "writer_class": "MHATokenToKVPool", "page_size": 1, "capacity": 2752780,
+      "mapping": [[3, 0], [7, 1], [11, 2], [15, 3], [19, 4], [23, 5], [27, 6], [31, 7], [35, 8], [39, 9]],
+      "buffers": [
+        {"layer_id": 3, "K": {"data_ptr": 139672974000128, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139674383424000, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 7, "K": {"data_ptr": 139669215903744, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139670625327616, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 11, "K": {"data_ptr": 139666363777024, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139667773200896, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 15, "K": {"data_ptr": 139663511650304, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139664921074176, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 19, "K": {"data_ptr": 139633581096960, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139634990520832, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 23, "K": {"data_ptr": 139630728970240, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139632138394112, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 27, "K": {"data_ptr": 139627876843520, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139629286267392, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 31, "K": {"data_ptr": 139625024716800, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139626434140672, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 35, "K": {"data_ptr": 139622172590080, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139623582013952, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}},
+        {"layer_id": 39, "K": {"data_ptr": 139619320463360, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}, "V": {"data_ptr": 139620729887232, "shape": [2752781, 1, 256], "stride": [256, 256, 1], "dtype": "torch.bfloat16", "device": "cuda:0"}}
+      ],
+      "budget": {"payload_bytes": 335544320, "index_bytes": 1703936, "allocated_bytes": 337248256}
+    },
+    "completed_response_bound_rids": 16,
+    "global_errors": {"count": 140, "stage_counts": {"note_cpp": 70, "fresh": 70}, "rid": null, "P": 90112, "E": 98304, "message": "object of type 'NoneType' has no len()", "initial_final_equal": true},
+    "banks": [
+      {
+        "request_id": "cold-r0-s2-full_input", "rid": "97eda4a0684a42f28c9f0a16b172c807",
+        "insert": {"rid": "97eda4a0684a42f28c9f0a16b172c807", "P": 90112, "E": 98304, "protected_len": 90112, "page_aligned_len": 98304, "FULL_value": {"data_ptr": 139677158789120, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 347, "torch_current_raw_stream": 1369454976},
+        "rebind": {"rid": "97eda4a0684a42f28c9f0a16b172c807", "P": 90112, "E": 98304, "Q": 90112, "node_id": 67, "rotation_tail_declined": false, "canonical_indices": {"data_ptr": 139611022032896, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}},
+        "fragments": [], "fresh_layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "errors": []
+      },
+      {
+        "request_id": "warm_stream-r0-s2-full_input", "rid": "564e4e7206a245c7aebd3b9e9c9b71ac",
+        "insert": {"rid": "564e4e7206a245c7aebd3b9e9c9b71ac", "P": 90112, "E": 98304, "protected_len": 90112, "page_aligned_len": 98304, "FULL_value": {"data_ptr": 139677158793216, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 347, "torch_current_raw_stream": 1369454976},
+        "rebind": {"rid": "564e4e7206a245c7aebd3b9e9c9b71ac", "P": 90112, "E": 98304, "Q": 98067, "node_id": 127, "rotation_tail_declined": false, "canonical_indices": {"data_ptr": 139611022032896, "shape": [98304], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}},
+        "fragments": [
+          {"rid": "564e4e7206a245c7aebd3b9e9c9b71ac", "P": 90112, "E": 98304, "node_id": 124, "cursor": 90112, "prefix_len": 6519, "lo": 90112, "hi": 96631, "original_FULL": {"data_ptr": 139677158588928, "shape": [6519], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 347, "torch_current_raw_stream": 1369454976},
+          {"rid": "564e4e7206a245c7aebd3b9e9c9b71ac", "P": 90112, "E": 98304, "node_id": 125, "cursor": 96631, "prefix_len": 1436, "lo": 96631, "hi": 98067, "original_FULL": {"data_ptr": 139677158531072, "shape": [1673], "stride": [1], "dtype": "torch.int64", "device": "cuda:0"}, "thread_id": 347, "torch_current_raw_stream": 1369454976}
+        ],
+        "fresh_layers": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], "errors": []
+      }
+    ],
+    "numeric_acceptance": null, "numeric_summaries": [], "invalidation_marker_matches": [],
+    "interpretation": "Observations only; no collector RCA, complete fresh capture or physical7955/numeric acceptance."
+  },
+  "CPP": {"process_id": 347, "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0}, "unique_joins": 1690, "explicit_chunks": 169, "response_bound_rids": 16, "FULL_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39], "CPP_native_Torch_stream": 1369149904, "OLD_insert_fragment_Torch_stream": 1369454976, "OLD_CPP_stream_equivalence": "UNVERIFIED", "metadata_rows": 19713, "startup_rows": 353, "device_completion": "UNVERIFIED"},
+  "raw_files": {
+    "result.json": {"bytes": 88036, "sha256": "541372fe6835f40aec2afc5a65c700c648a40b2d9b725597fd80d46e08c573d1"},
+    "preload.json": {"bytes": 84651, "sha256": "e42c9bbaea5c0bf88e871b7f1fdb2e902331078ad628462ba7fa460ba792f2ca"},
+    "requests.jsonl": {"bytes": 33165, "sha256": "4fabc3eb8f421dfe822321c9832004f7e7029fd7d34432178375f3b1a4d2fbcd"},
+    "cache.jsonl": {"bytes": 5758, "sha256": "5069fd459e764dba3aa84b8f4d008405b94ba93b6fbc046368cfa4e63cd393a7"},
+    "comparisons.jsonl": {"bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"},
+    "server_info.json": {"bytes": 1017949, "sha256": "af67abbf5efe68c7770197662ef84e9a1aa7e2a1811ed8e448aedda533b939f5"},
+    "runtime_metadata.json": {"bytes": 53931992, "sha256": "c6ffd809adc3337bdec1c625ceb9efba21cd59a92d1bd4c631845e265d4d2775"},
+    "server.log": {"bytes": 96456, "sha256": "0f6857b11dbf7a9261ec6ce37a7c13b1323aedd52b4bdc6a8ebf5ef29afc8231"}
+  },
+  "score_files": {
+    "cold-r0-s0-full_input": {"bytes": 26249, "sha256": "5b826011f6238b66bcd36d46f4f5f9faaa8d73eddfb01e627cc498fed235ff94"},
+    "cold-r0-s0-response_only": {"bytes": 26255, "sha256": "4890608914d2879078b1bef36c5a1b81576e2e193a1a04641af13da26d227aaa"},
+    "cold-r0-s1-response_only": {"bytes": 8984, "sha256": "c7719dbfa0fc15cca318c27f521c6f19aa93da6bc01d873ea2f131030195109c"},
+    "cold-r0-s1-full_input": {"bytes": 8978, "sha256": "abcf9feefd60a40afa3664a9f39348e294e8ca8914dd081cd290500538fd6a07"},
+    "cold-r0-s2-full_input": {"bytes": 16018, "sha256": "86b526c6a7cf7e8735dff94093a0a2982e8dd2a7d5dd618aee721d41d71e9462"},
+    "cold-r0-s2-response_only": {"bytes": 16024, "sha256": "0c03330198d8d69854b5a0ab174a9d18c2b1cafda9406bb9769c36687786b00f"},
+    "cold-r0-s3-response_only": {"bytes": 10860, "sha256": "7846145d993bd042078166a792c0f9a979b49bb36aca15435bc501102890e6c8"},
+    "cold-r0-s3-full_input": {"bytes": 10854, "sha256": "7253f5840688bb7e9564bed9a3b2fb0e103dcc39993e48cde0ae809cf8b212fe"},
+    "warm_stream-r0-s0-full_input": {"bytes": 26263, "sha256": "60528f1cdbcee5c2dbef4a52a77dd9449892dd7be3fb438564f1f5dd88c321a4"},
+    "warm_stream-r0-s1-full_input": {"bytes": 8988, "sha256": "6ee1edad86e0651372751612edbe78810f0c25b747a3d337911d51ff48d6b3f9"},
+    "warm_stream-r0-s2-full_input": {"bytes": 16033, "sha256": "e86d8431bf91581acfaf911ec1d7600f34d502800f92366797152710104961a8"},
+    "warm_stream-r0-s3-full_input": {"bytes": 10834, "sha256": "dea40b5e3f3a5539b8fb2f8fb09f92c51b075565312b8237c81c46998f2eb25e"},
+    "warm_stream-r0-s0-response_only": {"bytes": 26269, "sha256": "7bde42f89eece908ac6f8c0ca7727896278fc1b415af03ca3ca9cfbd1a9b6ab5"},
+    "warm_stream-r0-s1-response_only": {"bytes": 8999, "sha256": "a9cb223e63e8821b37f3985331840439c4b2c965154bbf4aa95a3d232ac9d5c0"},
+    "warm_stream-r0-s2-response_only": {"bytes": 16080, "sha256": "67ddcb7746908a36e6e7f7a0c213c9edab7ca8ce1f46fbc49a37f1d980db0956"},
+    "warm_stream-r0-s3-response_only": {"bytes": 10857, "sha256": "3c29f6918c2673a9163c4eac2aa8fddcc32c0778b20f24c8c4feb2b56df875d5"}
+  },
+  "baseline_receipts": {
+    "result.json": {"bytes": 34566, "sha256": "60229d38b638fc6a151b3bd007e9b1c82a235918abf3e3967c4a1a7186439bf6"},
+    "requests.jsonl": {"bytes": 32899, "sha256": "e927bdddd991161343c2d340fb04f83cec7a4bab37e4a2952b41461b4b7b4b26"},
+    "comparisons.jsonl": {"bytes": 8732, "sha256": "e95af072c6227437eba71eede585d5c5d0bfe3828d40c313903d73a68896adc4"}
+  },
+  "config": {"bytes": 1827, "sha256": "ade24be3fd0034c60058a58a92fcba89c6729c2d09c4430ab8a4bf7fdf8c1ca7"},
+  "fixture": {"bytes": 107, "sha256": "89519dd56ec07ce01f8ee18ff71b2ccfb3170698b29d9b5f4e0fe70c83c9a3e1"},
+  "source_fixture": {"bytes": 3703152, "sha256": "c45424e8106c2beb7500acacb68aa0939da0088c926af8012dd9fbd780f0ffc9"},
+  "failure": {"result_reason": "Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Candidate cardinality/capture errors/unconsumed CPP witness", "readback_status": "failed", "http_status": 200, "collector_reason": "Candidate cardinality/capture errors/unconsumed CPP witness", "native_measurements_completed": true, "cleanup_completed": true, "server_alive_before_cleanup": true, "shutdown_returncode": -9},
+  "terminal_admission": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/admission-B-r2.terminal.json", "bytes": 481, "sha256": "9de0d10317f73f9ca3045457f90d52381aa31e0b06647fdca81aaf026b27870a", "phase": "Failed", "finishTime": "2026-11-11T09:29:02Z"},
+  "terminal_platform": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/terminal-platform-B-r2.json",
+    "bytes": 1756, "sha256": "60d209d801d5be04c85f445a377c1b5067a755846cf4cd5cc390ab7ea1844758",
+    "status": "PASS retained primary receipt", "phase": "Failed", "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng", "preemptible": "no", "positive_tags": ["H800"],
+    "container": {"name": "probe", "state": {"terminated": {"exitCode": 1, "reason": "Error", "message": "user command: exit status 1", "startedAt": "2026-11-11T09:22:18Z", "finishedAt": "2026-11-11T09:29:00Z", "containerID": "containerd://6d7213a18f5f4c9aabf659826d581030162efe9fc0ff4477f7c9d46b7f0a97f9"}}, "last_state": {}, "restart_count": 0}
+  },
+  "limits": [
+    "Retained read-only B r2 only; no platform/auth/GPU/native/delegation/source/config/master-doc/old-report edits or staging/commit.",
+    "All16/6804 controls exact does not prove complete fresh/OLD capture or warm correctness.",
+    "Initializer/budget/banks/fragments are observation-only; no physical7955 or numeric KV interpretation.",
+    "Snapshot/private path and retained ELF hashes are not independent actual private-module/all-TP/alias/GIL/stream/device-completion attestation.",
+    "Original r1/r2 raw and prior source/CPU/WIT/R3 acceptance remain unchanged; formal HOLD and no B A200 gate.",
+    "Collector RCA/fix and separately filtered terminal-platform/lifecycle evidence are independently owned."
+  ]
+}

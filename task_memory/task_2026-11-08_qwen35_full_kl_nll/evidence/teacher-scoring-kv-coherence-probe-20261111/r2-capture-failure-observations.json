@@ -1,0 +1,163 @@
+{
+  "schema": "r2-capture-failure-observations-v1",
+  "pairs": [
+    {
+      "pair": "A",
+      "source_commit": "6119bee1",
+      "result_status": "failed",
+      "result_reason": "Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Candidate cardinality/capture errors/unconsumed CPP witness",
+      "native_measurements_completed": true,
+      "cleanup_completed": true,
+      "http_readback_status": {
+        "endpoint": "http://100.99.124.106:30000/get_server_info?kv_coherence_drain=true",
+        "http_time_to_headers_seconds": 4.1277549639344215,
+        "http_status": 200,
+        "body_read_seconds": 0.012378165498375893,
+        "body_bytes": 15188704,
+        "content_length_header": "15188704",
+        "content_encoding_header": null,
+        "http_elapsed_seconds": 4.1403513345867395,
+        "json_parse_seconds": 0.22740092501044273
+      },
+      "readback_status": "unverified",
+      "readback_reason": "Candidate cardinality/capture errors/unconsumed CPP witness",
+      "process_id": 340,
+      "completed_rid_count": 16,
+      "error_count": 224,
+      "error_patterns": [
+        {
+          "stage": "note_cpp",
+          "message": "object of type 'NoneType' has no len()",
+          "count": 112
+        },
+        {
+          "stage": "fresh",
+          "message": "object of type 'NoneType' has no len()",
+          "count": 112
+        }
+      ],
+      "topology": {
+        "allocator_class": "TokenToKVPoolAllocator",
+        "root_class": "HybridLinearKVPool",
+        "writer_class": "MHATokenToKVPool",
+        "page_size": 1,
+        "budget": {
+          "payload_bytes": 536870912,
+          "index_bytes": 2490368,
+          "allocated_bytes": 539361280
+        }
+      },
+      "full_layer_count": 16,
+      "banks": [
+        {
+          "rid": "1f661485b5f94854af8aca09c0277470",
+          "P": 90112,
+          "E": 98304,
+          "Q": 90112,
+          "old_fragment_count": 0,
+          "old_fragment_rows": 0,
+          "bank_error_count": 0,
+          "fresh_layer_entry_count": 16
+        },
+        {
+          "rid": "e33e75bf1e624269ac85bbde4022ac9e",
+          "P": 90112,
+          "E": 98304,
+          "Q": 98067,
+          "old_fragment_count": 2,
+          "old_fragment_rows": 7955,
+          "bank_error_count": 0,
+          "fresh_layer_entry_count": 16
+        }
+      ],
+      "numeric_acceptance": null,
+      "native_observer_error_markers": {
+        "marker": "old_full_observer_invalidation_failed",
+        "server_log": "/var/tmp/teacher-scoring-exp-1111-171524-888127-A/server.log",
+        "matches": [],
+        "status": "no_marker_observed",
+        "qualification_limit": "Marker absence does not prove native alias/GIL/CUDA qualification"
+      },
+      "limits": "Scoring completion and metadata observations only; no baseline/source/CPP/native/physical/numerical acceptance. fresh_layers enumerates entries, not proof of writer capture."
+    },
+    {
+      "pair": "B",
+      "source_commit": "6119bee1",
+      "result_status": "failed",
+      "result_reason": "Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Candidate cardinality/capture errors/unconsumed CPP witness",
+      "native_measurements_completed": true,
+      "cleanup_completed": true,
+      "http_readback_status": {
+        "endpoint": "http://100.97.213.158:30000/get_server_info?kv_coherence_drain=true",
+        "http_time_to_headers_seconds": 3.5127826742827892,
+        "http_status": 200,
+        "body_read_seconds": 0.008704159408807755,
+        "body_bytes": 9630513,
+        "content_length_header": "9630513",
+        "content_encoding_header": null,
+        "http_elapsed_seconds": 3.521716769784689,
+        "json_parse_seconds": 0.17283635959029198
+      },
+      "readback_status": "unverified",
+      "readback_reason": "Candidate cardinality/capture errors/unconsumed CPP witness",
+      "process_id": 347,
+      "completed_rid_count": 16,
+      "error_count": 140,
+      "error_patterns": [
+        {
+          "stage": "note_cpp",
+          "message": "object of type 'NoneType' has no len()",
+          "count": 70
+        },
+        {
+          "stage": "fresh",
+          "message": "object of type 'NoneType' has no len()",
+          "count": 70
+        }
+      ],
+      "topology": {
+        "allocator_class": "TokenToKVPoolAllocator",
+        "root_class": "HybridLinearKVPool",
+        "writer_class": "MHATokenToKVPool",
+        "page_size": 1,
+        "budget": {
+          "payload_bytes": 335544320,
+          "index_bytes": 1703936,
+          "allocated_bytes": 337248256
+        }
+      },
+      "full_layer_count": 10,
+      "banks": [
+        {
+          "rid": "97eda4a0684a42f28c9f0a16b172c807",
+          "P": 90112,
+          "E": 98304,
+          "Q": 90112,
+          "old_fragment_count": 0,
+          "old_fragment_rows": 0,
+          "bank_error_count": 0,
+          "fresh_layer_entry_count": 10
+        },
+        {
+          "rid": "564e4e7206a245c7aebd3b9e9c9b71ac",
+          "P": 90112,
+          "E": 98304,
+          "Q": 98067,
+          "old_fragment_count": 2,
+          "old_fragment_rows": 7955,
+          "bank_error_count": 0,
+          "fresh_layer_entry_count": 10
+        }
+      ],
+      "numeric_acceptance": null,
+      "native_observer_error_markers": {
+        "marker": "old_full_observer_invalidation_failed",
+        "server_log": "/var/tmp/teacher-scoring-exp-1111-171526-099435-B/server.log",
+        "matches": [],
+        "status": "no_marker_observed",
+        "qualification_limit": "Marker absence does not prove native alias/GIL/CUDA qualification"
+      },
+      "limits": "Scoring completion and metadata observations only; no baseline/source/CPP/native/physical/numerical acceptance. fresh_layers enumerates entries, not proof of writer capture."
+    }
+  ]
+}

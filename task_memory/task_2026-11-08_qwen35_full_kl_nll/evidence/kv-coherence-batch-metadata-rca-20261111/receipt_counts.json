@@ -1,0 +1,2732 @@
+{
+  "task_id": "profile-kv-coherence-batch-metadata-rca-20261111",
+  "scope": "READ_ONLY_RECEIPT_RCA",
+  "pairs": {
+    "A": {
+      "process_id": 340,
+      "topology": {
+        "root_object_id": 140105827107856,
+        "writer_object_id": 140105845573440,
+        "allocator_object_id": 140105823785072,
+        "allocator_class": "TokenToKVPoolAllocator",
+        "root_class": "HybridLinearKVPool",
+        "writer_class": "MHATokenToKVPool",
+        "page_size": 1,
+        "capacity": 1833688,
+        "mapping": [
+          [
+            3,
+            0
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            11,
+            2
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            19,
+            4
+          ],
+          [
+            23,
+            5
+          ],
+          [
+            27,
+            6
+          ],
+          [
+            31,
+            7
+          ],
+          [
+            35,
+            8
+          ],
+          [
+            39,
+            9
+          ],
+          [
+            43,
+            10
+          ],
+          [
+            47,
+            11
+          ],
+          [
+            51,
+            12
+          ],
+          [
+            55,
+            13
+          ],
+          [
+            59,
+            14
+          ],
+          [
+            63,
+            15
+          ]
+        ],
+        "buffers": [
+          {
+            "layer_id": 3,
+            "K": {
+              "data_ptr": 140077674004480,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140078612853248,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 7,
+            "K": {
+              "data_ptr": 140047709896704,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140048648745472,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 11,
+            "K": {
+              "data_ptr": 140045830848512,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140046769697280,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 15,
+            "K": {
+              "data_ptr": 140043951800320,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140044890649088,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 19,
+            "K": {
+              "data_ptr": 140042072752128,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140043011600896,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 23,
+            "K": {
+              "data_ptr": 140040193703936,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140041132552704,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 27,
+            "K": {
+              "data_ptr": 140038314655744,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140039253504512,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 31,
+            "K": {
+              "data_ptr": 140036435607552,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140037374456320,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 35,
+            "K": {
+              "data_ptr": 140034556559360,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140035495408128,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 39,
+            "K": {
+              "data_ptr": 140032677511168,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140033616359936,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 43,
+            "K": {
+              "data_ptr": 140030798462976,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140031737311744,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 47,
+            "K": {
+              "data_ptr": 140028919414784,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140029858263552,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 51,
+            "K": {
+              "data_ptr": 140027040366592,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140027979215360,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 55,
+            "K": {
+              "data_ptr": 140025161318400,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140026100167168,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 59,
+            "K": {
+              "data_ptr": 140023282270208,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140024221118976,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 63,
+            "K": {
+              "data_ptr": 140021403222016,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 140022342070784,
+              "shape": [
+                1833689,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          }
+        ],
+        "budget": {
+          "payload_bytes": 536870912,
+          "index_bytes": 2490368,
+          "allocated_bytes": 539361280
+        }
+      },
+      "startup_error_count": 224,
+      "final_error_count": 224,
+      "error_arrays_exact": true,
+      "all_error_rids_null": true,
+      "error_stages": {
+        "note_cpp": 112,
+        "fresh": 112
+      },
+      "completed_rid_count": 16,
+      "coverage": "responding TP0 only; no all-TP gather",
+      "status": "unverified",
+      "numeric_acceptance": null,
+      "banks": [
+        {
+          "rid": "1f661485b5f94854af8aca09c0277470",
+          "fresh_layers": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "bank_error_count": 0,
+          "original_fragments": [],
+          "insert_recorded": true,
+          "rebind_recorded": true
+        },
+        {
+          "rid": "e33e75bf1e624269ac85bbde4022ac9e",
+          "fresh_layers": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "bank_error_count": 0,
+          "original_fragments": [
+            {
+              "lo": 90112,
+              "hi": 96631,
+              "cursor": 90112,
+              "prefix_len": 6519
+            },
+            {
+              "lo": 96631,
+              "hi": 98067,
+              "cursor": 96631,
+              "prefix_len": 1436
+            }
+          ],
+          "insert_recorded": true,
+          "rebind_recorded": true
+        }
+      ],
+      "startup": {
+        "kv_store_stream": {
+          "count": 144,
+          "first_seq": 16,
+          "last_seq": 549,
+          "null_patterns": {
+            "NONE": 32,
+            "prefix_lens,extend_lens": 112
+          }
+        },
+        "kv_store_terminal": {
+          "count": 144,
+          "first_seq": 17,
+          "last_seq": 550,
+          "null_patterns": {
+            "NONE": 32,
+            "prefix_lens,extend_lens": 112
+          }
+        },
+        "unique_host_chunks": 2,
+        "scheduler_chunks": 2,
+        "host_keys_equal_scheduler": true
+      },
+      "business": {
+        "kv_store_stream": {
+          "count": 2704,
+          "first_seq": 566,
+          "last_seq": 31339,
+          "null_patterns": {
+            "NONE": 2704
+          }
+        },
+        "kv_store_terminal": {
+          "count": 2704,
+          "first_seq": 567,
+          "last_seq": 31340,
+          "null_patterns": {
+            "NONE": 2704
+          }
+        },
+        "unique_host_chunks": 169,
+        "scheduler_chunks": 169,
+        "host_keys_equal_scheduler": true
+      },
+      "business_join": {
+        "keys_exact": true,
+        "all_keys_one_each": true,
+        "native_stream_eq_torch": true,
+        "target_streams": 32,
+        "target_terminals": 32,
+        "target_key_counts_exact": true,
+        "first_target_stream_seq": 11633,
+        "first_target_terminal_seq": 11634
+      },
+      "selected_rows": {
+        "startup_null_stream": [
+          184,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1320220896
+            ],
+            [
+              "torch_current_raw_stream",
+              1320220896
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "f4a4161dc7d34b3db69f486204a4234a"
+              ]
+            ],
+            [
+              "prefix_lens",
+              null
+            ],
+            [
+              "extend_lens",
+              null
+            ],
+            [
+              "k_cache",
+              [
+                140104259887712,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140104259887472,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140106746163232,
+                "torch.int64",
+                [
+                  1
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              1833689
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "startup_null_terminal": [
+          185,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              140105845573440
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "f4a4161dc7d34b3db69f486204a4234a"
+              ]
+            ],
+            [
+              "prefix_lens",
+              null
+            ],
+            [
+              "extend_lens",
+              null
+            ],
+            [
+              "k_cache",
+              [
+                140105654994736,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140105654996016,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140106746163232,
+                "torch.int64",
+                [
+                  1
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ]
+          ]
+        ],
+        "business_first_stream": [
+          566,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1320220896
+            ],
+            [
+              "torch_current_raw_stream",
+              1320220896
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "69a1617525b7418b94f787c3f15c9f99"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                0
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                140104259195104,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140104259200624,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140105652600768,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              1833689
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "business_first_terminal": [
+          567,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              140105845573440
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "69a1617525b7418b94f787c3f15c9f99"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                0
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                140105654994736,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140105654996016,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140105652600768,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ]
+          ]
+        ],
+        "target_first_stream": [
+          11633,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1320220896
+            ],
+            [
+              "torch_current_raw_stream",
+              1320220896
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "1f661485b5f94854af8aca09c0277470"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                90112
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                140103316780880,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140103316782240,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140103780350256,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              1833689
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "target_first_terminal": [
+          11634,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              140105845573440
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "1f661485b5f94854af8aca09c0277470"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                90112
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                140105654994736,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              140077674004480
+            ],
+            [
+              "v_cache",
+              [
+                140105654996016,
+                "torch.bfloat16",
+                [
+                  1833689,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              140078612853248
+            ],
+            [
+              "writer_loc",
+              [
+                140103780350256,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              140089162203136
+            ]
+          ]
+        ]
+      }
+    },
+    "B": {
+      "process_id": 347,
+      "topology": {
+        "root_object_id": 139702848440752,
+        "writer_object_id": 139702840901312,
+        "allocator_object_id": 139702846344992,
+        "allocator_class": "TokenToKVPoolAllocator",
+        "root_class": "HybridLinearKVPool",
+        "writer_class": "MHATokenToKVPool",
+        "page_size": 1,
+        "capacity": 2752780,
+        "mapping": [
+          [
+            3,
+            0
+          ],
+          [
+            7,
+            1
+          ],
+          [
+            11,
+            2
+          ],
+          [
+            15,
+            3
+          ],
+          [
+            19,
+            4
+          ],
+          [
+            23,
+            5
+          ],
+          [
+            27,
+            6
+          ],
+          [
+            31,
+            7
+          ],
+          [
+            35,
+            8
+          ],
+          [
+            39,
+            9
+          ]
+        ],
+        "buffers": [
+          {
+            "layer_id": 3,
+            "K": {
+              "data_ptr": 139672974000128,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139674383424000,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 7,
+            "K": {
+              "data_ptr": 139669215903744,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139670625327616,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 11,
+            "K": {
+              "data_ptr": 139666363777024,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139667773200896,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 15,
+            "K": {
+              "data_ptr": 139663511650304,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139664921074176,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 19,
+            "K": {
+              "data_ptr": 139633581096960,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139634990520832,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 23,
+            "K": {
+              "data_ptr": 139630728970240,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139632138394112,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 27,
+            "K": {
+              "data_ptr": 139627876843520,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139629286267392,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 31,
+            "K": {
+              "data_ptr": 139625024716800,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139626434140672,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 35,
+            "K": {
+              "data_ptr": 139622172590080,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139623582013952,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          },
+          {
+            "layer_id": 39,
+            "K": {
+              "data_ptr": 139619320463360,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            },
+            "V": {
+              "data_ptr": 139620729887232,
+              "shape": [
+                2752781,
+                1,
+                256
+              ],
+              "stride": [
+                256,
+                256,
+                1
+              ],
+              "dtype": "torch.bfloat16",
+              "device": "cuda:0"
+            }
+          }
+        ],
+        "budget": {
+          "payload_bytes": 335544320,
+          "index_bytes": 1703936,
+          "allocated_bytes": 337248256
+        }
+      },
+      "startup_error_count": 140,
+      "final_error_count": 140,
+      "error_arrays_exact": true,
+      "all_error_rids_null": true,
+      "error_stages": {
+        "note_cpp": 70,
+        "fresh": 70
+      },
+      "completed_rid_count": 16,
+      "coverage": "responding TP0 only; no all-TP gather",
+      "status": "unverified",
+      "numeric_acceptance": null,
+      "banks": [
+        {
+          "rid": "97eda4a0684a42f28c9f0a16b172c807",
+          "fresh_layers": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "bank_error_count": 0,
+          "original_fragments": [],
+          "insert_recorded": true,
+          "rebind_recorded": true
+        },
+        {
+          "rid": "564e4e7206a245c7aebd3b9e9c9b71ac",
+          "fresh_layers": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "bank_error_count": 0,
+          "original_fragments": [
+            {
+              "lo": 90112,
+              "hi": 96631,
+              "cursor": 90112,
+              "prefix_len": 6519
+            },
+            {
+              "lo": 96631,
+              "hi": 98067,
+              "cursor": 96631,
+              "prefix_len": 1436
+            }
+          ],
+          "insert_recorded": true,
+          "rebind_recorded": true
+        }
+      ],
+      "startup": {
+        "kv_store_stream": {
+          "count": 90,
+          "first_seq": 16,
+          "last_seq": 351,
+          "null_patterns": {
+            "NONE": 20,
+            "prefix_lens,extend_lens": 70
+          }
+        },
+        "kv_store_terminal": {
+          "count": 90,
+          "first_seq": 17,
+          "last_seq": 352,
+          "null_patterns": {
+            "NONE": 20,
+            "prefix_lens,extend_lens": 70
+          }
+        },
+        "unique_host_chunks": 2,
+        "scheduler_chunks": 2,
+        "host_keys_equal_scheduler": true
+      },
+      "business": {
+        "kv_store_stream": {
+          "count": 1690,
+          "first_seq": 368,
+          "last_seq": 20059,
+          "null_patterns": {
+            "NONE": 1690
+          }
+        },
+        "kv_store_terminal": {
+          "count": 1690,
+          "first_seq": 369,
+          "last_seq": 20060,
+          "null_patterns": {
+            "NONE": 1690
+          }
+        },
+        "unique_host_chunks": 169,
+        "scheduler_chunks": 169,
+        "host_keys_equal_scheduler": true
+      },
+      "business_join": {
+        "keys_exact": true,
+        "all_keys_one_each": true,
+        "native_stream_eq_torch": true,
+        "target_streams": 20,
+        "target_terminals": 20,
+        "target_key_counts_exact": true,
+        "first_target_stream_seq": 7445,
+        "first_target_terminal_seq": 7446
+      },
+      "selected_rows": {
+        "startup_null_stream": [
+          118,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1369149904
+            ],
+            [
+              "torch_current_raw_stream",
+              1369149904
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "02bc86ba4f6d4b30b43a884c32a0e820"
+              ]
+            ],
+            [
+              "prefix_lens",
+              null
+            ],
+            [
+              "extend_lens",
+              null
+            ],
+            [
+              "k_cache",
+              [
+                139700524529328,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139700524522528,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139700524527568,
+                "torch.int64",
+                [
+                  1
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              2752781
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "startup_null_terminal": [
+          119,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              139702840901312
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "02bc86ba4f6d4b30b43a884c32a0e820"
+              ]
+            ],
+            [
+              "prefix_lens",
+              null
+            ],
+            [
+              "extend_lens",
+              null
+            ],
+            [
+              "k_cache",
+              [
+                139701496668128,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139701496669008,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139700524527568,
+                "torch.int64",
+                [
+                  1
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ]
+          ]
+        ],
+        "business_first_stream": [
+          368,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1369149904
+            ],
+            [
+              "torch_current_raw_stream",
+              1369149904
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "1c5fba72f243485a87d91f503c753eaf"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                0
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                139700524213232,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139700524211552,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139701495223296,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              2752781
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "business_first_terminal": [
+          369,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              139702840901312
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "1c5fba72f243485a87d91f503c753eaf"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                0
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                139701496668128,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139701496669008,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139701495223296,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ]
+          ]
+        ],
+        "target_first_stream": [
+          7445,
+          "kv_store_stream",
+          [
+            [
+              "store_kind",
+              "cpp_store_cache"
+            ],
+            [
+              "native_stream_scalar_observed",
+              true
+            ],
+            [
+              "native_actual_stream",
+              1369149904
+            ],
+            [
+              "torch_current_raw_stream",
+              1369149904
+            ],
+            [
+              "launch_enqueued",
+              true
+            ],
+            [
+              "device_store_completion",
+              "UNVERIFIED"
+            ],
+            [
+              "rids",
+              [
+                "97eda4a0684a42f28c9f0a16b172c807"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                90112
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                139700071827568,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139700071828368,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  256
+                ],
+                [
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139700076951456,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ],
+            [
+              "row_bytes",
+              512
+            ],
+            [
+              "v_row_bytes",
+              512
+            ],
+            [
+              "size_limit",
+              2752781
+            ],
+            [
+              "reserved_skip_index",
+              0
+            ]
+          ]
+        ],
+        "target_first_terminal": [
+          7446,
+          "kv_store_terminal",
+          [
+            [
+              "store_kind",
+              "mha_set_kv_buffer_impl"
+            ],
+            [
+              "native_stream_scalar_observed",
+              false
+            ],
+            [
+              "native_actual_stream",
+              null
+            ],
+            [
+              "stream_qualification",
+              "UNVERIFIED; CPP scalar is a separate in-call receipt"
+            ],
+            [
+              "pool_class",
+              [
+                "sglang.srt.mem_cache.memory_pool",
+                "MHATokenToKVPool"
+              ]
+            ],
+            [
+              "pool_object_id",
+              139702840901312
+            ],
+            [
+              "layer_id",
+              3
+            ],
+            [
+              "pool_layer_id",
+              0
+            ],
+            [
+              "buffer_layer_idx",
+              0
+            ],
+            [
+              "rids",
+              [
+                "97eda4a0684a42f28c9f0a16b172c807"
+              ]
+            ],
+            [
+              "prefix_lens",
+              [
+                90112
+              ]
+            ],
+            [
+              "extend_lens",
+              [
+                8192
+              ]
+            ],
+            [
+              "k_cache",
+              [
+                139701496668128,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "k_cache_data_ptr",
+              139672974000128
+            ],
+            [
+              "v_cache",
+              [
+                139701496669008,
+                "torch.bfloat16",
+                [
+                  2752781,
+                  1,
+                  256
+                ],
+                [
+                  256,
+                  256,
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "v_cache_data_ptr",
+              139674383424000
+            ],
+            [
+              "writer_loc",
+              [
+                139700076951456,
+                "torch.int64",
+                [
+                  8192
+                ],
+                [
+                  1
+                ],
+                "cuda:0"
+              ]
+            ],
+            [
+              "writer_loc_data_ptr",
+              139677134749696
+            ]
+          ]
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "scope": "CPU driver only; no GPU or native capture proof",
+  "checks": [
+    {
+      "pair": "A",
+      "status": "PASS",
+      "baseline_output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r1",
+      "candidate_output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3",
+      "driver_command_changed_only_output": true,
+      "allocation_unchanged": true,
+      "submitted": false,
+      "baseline_sha256": "2e391698f117334402549e58bb97f874a6b11ad1cdb95bfcd267b83fcc556b80",
+      "candidate_sha256": "2af3be7caba5dca1e43c277b86046553ac0a7e691319ed73e559e23a0aaff23b"
+    },
+    {
+      "pair": "B",
+      "status": "PASS",
+      "baseline_output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r1",
+      "candidate_output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r3",
+      "driver_command_changed_only_output": true,
+      "allocation_unchanged": true,
+      "submitted": false,
+      "baseline_sha256": "5525f6521ae3375c3287871b3822d37430ed6ab7cafefef38bc747cef3b2d81c",
+      "candidate_sha256": "791bbee1a9863e0f68aa3af6cd6e1c378526ee8508c55fe77c79ec6ccb992dc7"
+    }
+  ]
+}

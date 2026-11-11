@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-batch-metadata-rca-20261111/replay_batch_metadata.py", line 82, in <module>
+    main()
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-batch-metadata-rca-20261111/replay_batch_metadata.py", line 78, in main
+    assert collector.errors == [], "RED: valid published native batch with missing host lens poisons global diagnostic errors"
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RED: valid published native batch with missing host lens poisons global diagnostic errors

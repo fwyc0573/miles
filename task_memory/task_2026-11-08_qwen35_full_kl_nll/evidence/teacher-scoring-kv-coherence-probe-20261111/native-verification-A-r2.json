@@ -1,0 +1,146 @@
+{
+  "task_id": "profile-kv-coherence-native-A-r2-20261111",
+  "pair": "A",
+  "job": "exp-1111-171524-888127",
+  "verdicts": {
+    "retained_controls": "PASS",
+    "all16_6804_baseline_reproduction": "PASS",
+    "frozen_source_archive_r3_linkage": "PASS",
+    "selected_cpp_in_call_joins": "PASS",
+    "warm_correctness": "FAIL",
+    "auxiliary_capture_qualification": "FAIL",
+    "complete_fresh_capture": "UNVERIFIED",
+    "rust_old_physical_7955": "UNVERIFIED",
+    "observer_native_stream_and_callback_origin": "UNVERIFIED",
+    "kv_numeric_coherence": "UNVERIFIED",
+    "terminal_platform": "UNVERIFIED",
+    "formal04_05": "HOLD"
+  },
+  "local_environment": {"python": "3.12.13", "executable": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python", "conda_default_env": null, "timeout_seconds": 60, "address_space_limit_bytes": 32212254720},
+  "baseline": {"path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1", "job": "exp-1111-073826-369716", "source_commit": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff", "native_source_identities_verified": 6, "raw_results_git_objects": false},
+  "workload": {"requests": 16, "unique_native_rids": 16, "finite_vectors": 16, "values": 6804, "http200_flushes": 10, "log_flushes": 10, "retractions": 0, "generated_tokens": 0, "unchanged_comparisons": 8, "recomputed_groups": 40, "cold_exact": 4, "warm_exact": 1, "warm_different": 3},
+  "vector_errors": {"max_absolute_error": 0.0, "max_defined_relative_error": 0.0, "defined_relative_count": 6780, "zero_reference_relative_undefined": 24, "identity_shape_nonfinite_errors": 0, "tolerance": null},
+  "response_identities": [
+    {"request_id": "cold-r0-s0-full_input", "native_request_id": "69a1617525b7418b94f787c3f15c9f99", "sample_index": 1693, "values": 734},
+    {"request_id": "cold-r0-s0-response_only", "native_request_id": "d1686f2d0a37424ca777a9d5a81ed36a", "sample_index": 1693, "values": 734},
+    {"request_id": "cold-r0-s1-response_only", "native_request_id": "ca04096d43154e668d7d63e068c1a0ae", "sample_index": 1694, "values": 246},
+    {"request_id": "cold-r0-s1-full_input", "native_request_id": "e2246862f9d9435996776eb80fb2e843", "sample_index": 1694, "values": 246},
+    {"request_id": "cold-r0-s2-full_input", "native_request_id": "1f661485b5f94854af8aca09c0277470", "sample_index": 1695, "values": 431},
+    {"request_id": "cold-r0-s2-response_only", "native_request_id": "97c23a13600543d693afbd225026d7b0", "sample_index": 1695, "values": 431},
+    {"request_id": "cold-r0-s3-response_only", "native_request_id": "3ee129dfa00e41ac85e69ca0dcaa297b", "sample_index": 1696, "values": 290},
+    {"request_id": "cold-r0-s3-full_input", "native_request_id": "442464758a8f4ba580dcaa0ae5b0ef07", "sample_index": 1696, "values": 290},
+    {"request_id": "warm_stream-r0-s0-full_input", "native_request_id": "deb6b6ae2db441278b177d2a2e943aed", "sample_index": 1693, "values": 734},
+    {"request_id": "warm_stream-r0-s1-full_input", "native_request_id": "e54e929804c4464ab0a306fd84323641", "sample_index": 1694, "values": 246},
+    {"request_id": "warm_stream-r0-s2-full_input", "native_request_id": "e33e75bf1e624269ac85bbde4022ac9e", "sample_index": 1695, "values": 431},
+    {"request_id": "warm_stream-r0-s3-full_input", "native_request_id": "fa382c13e8e243fdbaf519cefb90a2c6", "sample_index": 1696, "values": 290},
+    {"request_id": "warm_stream-r0-s0-response_only", "native_request_id": "419d358bfd3a4a34a6e4474b61decaad", "sample_index": 1693, "values": 734},
+    {"request_id": "warm_stream-r0-s1-response_only", "native_request_id": "433c7e194d0a478386d0261d1bc9742a", "sample_index": 1694, "values": 246},
+    {"request_id": "warm_stream-r0-s2-response_only", "native_request_id": "4e801a15731843eb859e7b5673313ee3", "sample_index": 1695, "values": 431},
+    {"request_id": "warm_stream-r0-s3-response_only", "native_request_id": "1ca5bbe8280c43a5aede1b43c17ffaeb", "sample_index": 1696, "values": 290}
+  ],
+  "warm_errors": [
+    {"sample_index": 1693, "warm_full_vs_response": [0.0, 0.0, 1], "cold_full_vs_warm_full": [0.0, 0.0, 1], "cold_response_vs_warm_response": [0.0, 0.0, 1]},
+    {"sample_index": 1694, "warm_full_vs_response": [7.152048056013882e-07, 0.14285706500614642, 1], "cold_full_vs_warm_full": [2.3841676011215895e-07, 0.04545451786888886, 1], "cold_response_vs_warm_response": [7.152048056013882e-07, 0.14285706500614642, 1]},
+    {"sample_index": 1695, "warm_full_vs_response": [0.19622063636779785, 0.6111100632456284, 1], "cold_full_vs_warm_full": [0.17278575897216797, 0.2727263348137287, 1], "cold_response_vs_warm_response": [0.1781916618347168, 0.9333317481132808, 1]},
+    {"sample_index": 1696, "warm_full_vs_response": [0.24439287185668945, 1.3806473175677756, 3], "cold_full_vs_warm_full": [0.12412643432617188, 0.6187940669273067, 3], "cold_response_vs_warm_response": [0.1765437126159668, 1.0611983494486865, 3]}
+  ],
+  "source": {
+    "frozen_commit": "6119bee19eae6091ac757bbccbf9b168b5f508be",
+    "helper_sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43",
+    "native_scoring_source_sha256": {
+      "miles/rollout/on_policy_distillation.py": "42e1055fce349e30f2a52d37fa56388102ccc9b46d7ea6d37f087a85d91f82ef",
+      "tests/manual/agent_opd/swe_replay.py": "2ec0834f5eba14d6cac64ed3ce923be4a1369409e659af82115e9327824fa97d",
+      "tests/manual/agent_opd/qwen35_pair_worker.py": "7322d55b9ed206d2f48bc5c264b7403b83ff92cc580a141c6a8c95181faee74f",
+      "tests/manual/agent_opd/probe_teacher_scoring.py": "45715a95212cc034c0b19e363ba380de457778df48453a521d8f973b1e354601",
+      "tests/manual/agent_opd/sglang_mamba_snapshots.py": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774",
+      "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1",
+      "tests/manual/agent_opd/sglang_kv_streams.py": "6140cdc283c457938d34f06dc8adad3657465cbc800acf08c80cede6e378e51d",
+      "tests/manual/agent_opd/sglang_kv_coherence.py": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43"
+    },
+    "config_sha256": "ade24be3fd0034c60058a58a92fcba89c6729c2d09c4430ab8a4bf7fdf8c1ca7",
+    "archive_file_counts": {"source_preflight": 6, "runtime_metadata_source_preflight": 16, "kv_store_stream_source_preflight": 35, "kv_coherence_source_preflight": 40},
+    "archive_hash_checks": 194,
+    "runtime_overlap_hash_matches": 7,
+    "r3_build_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+    "r3_helper_sha256": "acf89c7425ba38a0a497adfd27cf2fe71979f77922d7af5f6b66a6685175442d",
+    "r3_source_commit": "17cb6fc66fa8b5e866c0c83d5f5c93cf971ac898",
+    "rust_source_checks": 44,
+    "elf_checks": 2,
+    "linked_receipts": 5,
+    "original_rust_r2_receipt_preserved": true,
+    "live_source_identity_gate": false,
+    "runtime_source_read": "Original frozen function; immutable Git self-source API binding",
+    "global_5501_621_rehash": false
+  },
+  "private_staging": {"package_root": "/var/tmp/teacher-scoring-kv-wc7xuicd/kv-coherence-runtime/sglang", "import_origin": "/var/tmp/teacher-scoring-kv-wc7xuicd/kv-coherence-runtime/sglang/__init__.py", "child_pythonpath": "/var/tmp/teacher-scoring-kv-wc7xuicd/kv-coherence-runtime:/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image", "production_module": "sglang.srt.mem_cache.rust_tree_core.mem_cache", "binary_target": "/var/tmp/teacher-scoring-kv-wc7xuicd/kv-coherence-runtime/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so", "compiled_sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba", "serving_native_origin_sha": "PENDING actual server/runtime attestation", "actual_gpu_callback_origin_and_sha": "UNVERIFIED; staging/metadata are not same-callback attestation", "original_binary_source_commit": "UNVERIFIED"},
+  "worker_runtime": {
+    "python": "3.12.16", "executable": "/opt/sglang/bin/python3", "sglang": "0.5.24.dev80+g056f871", "torch": "2.14.1+cu130",
+    "gpu_devices": ["NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06", "NVIDIA H800, 81559 MiB, 570.124.06"],
+    "configured_image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "model_manifest_identity": {
+      "config.json": {"path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model/config.json", "bytes": 4134, "sha256": "f8d190c5b89c1521220f935d2567a587d6e291ed69066a45a106560b05a2174c"},
+      "model.safetensors.index.json": {"path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model/model.safetensors.index.json", "bytes": 126601, "sha256": "b3737e9d00bda0e37f0b873629d98bf9b407bef35735b9193c23d9844bcc96a6"}
+    },
+    "sglang_environment": {"SGLANG_FORCE_COARSE_WAR_BARRIER": null}
+  },
+  "teacher_argv": ["/opt/sglang/bin/python3", "-B", "-m", "sglang.launch_server", "--model-path", "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model", "--host", "0.0.0.0", "--port", "30000", "--nnodes", "1", "--node-rank", "0", "--dist-init-addr", "100.99.124.106:29501", "--tp-size", "4", "--dtype", "bfloat16", "--context-length", "131072", "--mem-fraction-static", "0.85", "--max-running-requests", "1", "--chunked-prefill-size", "8192", "--disable-cuda-graph", "--enable-deterministic-inference", "--attention-backend", "fa3", "--linear-attn-prefill-backend", "triton"],
+  "selected_cpp": {
+    "status": "PASS_SELECTED_IN_CALL_ONLY", "process_id": 340,
+    "rank": {"dp_rank": null, "tp_rank": 0, "pp_rank": 0, "attn_dp_rank": 0, "attn_tp_rank": 0},
+    "startup_rows": 551, "post_rows": 30795, "unique_cpp_terminal_joins": 2704, "unique_chunk_scheduler_joins": 169, "missing_or_ambiguous_joins": 0,
+    "full_layers": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63], "response_rids": 16,
+    "cpp_native_scalar_values": [1320220896],
+    "join_fields": ["rids", "prefix_lens", "extend_lens", "k_cache_data_ptr", "v_cache_data_ptr", "writer_loc_data_ptr"],
+    "terminal_own_scalar_observed": false, "device_completion": "UNVERIFIED"
+  },
+  "capture_observations": {
+    "status": "FAILED_AUXILIARY_QUALIFICATION", "startup_status": "metadata_only", "post_status": "unverified", "runtime_metadata_bytes": 85129039, "server_info_bytes": 1583218, "http_status": 200, "process_id": 340,
+    "coverage": "responding TP0 only; no all-TP gather",
+    "settings": {"disable_cuda_graph": true, "page_size": 1, "enable_memory_saver": false, "enable_unified_memory": false, "enable_hierarchical_cache": false, "enable_unified_cache_external_linker": false},
+    "global_errors": 224, "error_stage_counts": {"note_cpp": 112, "fresh": 112},
+    "first_error": {"rid": null, "P": 90112, "E": 98304, "stage": "note_cpp", "message": "object of type 'NoneType' has no len()"},
+    "reason": "Candidate cardinality/capture errors/unconsumed CPP witness",
+    "initializer_stage_receipt": "UNVERIFIED; snapshot topology/budget only",
+    "topology": {"page_size": 1, "capacity": 1833688, "root_class": "HybridLinearKVPool", "writer_class": "MHATokenToKVPool", "allocator_class": "TokenToKVPoolAllocator", "mapping": [[3, 0], [7, 1], [11, 2], [15, 3], [19, 4], [23, 5], [27, 6], [31, 7], [35, 8], [39, 9], [43, 10], [47, 11], [51, 12], [55, 13], [59, 14], [63, 15]], "buffer_layers": 16, "budget": {"payload_bytes": 536870912, "index_bytes": 2490368, "allocated_bytes": 539361280}},
+    "completed_rid_labels": 16,
+    "banks": [
+      {"request_id": "cold-r0-s2-full_input", "rid": "1f661485b5f94854af8aca09c0277470", "P": 90112, "E": 98304, "Q": 90112, "fresh_layer_labels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "per_bank_errors": [], "fragments": []},
+      {"request_id": "warm_stream-r0-s2-full_input", "rid": "e33e75bf1e624269ac85bbde4022ac9e", "P": 90112, "E": 98304, "Q": 98067, "fresh_layer_labels": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "per_bank_errors": [],
+       "fragments": [
+         {"rid": "e33e75bf1e624269ac85bbde4022ac9e", "node_id": 124, "cursor": 90112, "prefix_len": 6519, "lo": 90112, "hi": 96631, "original_FULL_shape": [6519], "original_FULL_dtype": "torch.int64", "device": "cuda:0", "thread_id": 340, "torch_current_raw_stream": 1320513136},
+         {"rid": "e33e75bf1e624269ac85bbde4022ac9e", "node_id": 125, "cursor": 96631, "prefix_len": 1436, "lo": 96631, "hi": 98067, "original_FULL_shape": [1673], "original_FULL_dtype": "torch.int64", "device": "cuda:0", "thread_id": 340, "torch_current_raw_stream": 1320513136}
+       ]}
+    ],
+    "numeric_acceptance": null, "interpreted_summaries": 0, "physical_slot_values": "UNVERIFIED", "complete_fresh_capture": "UNVERIFIED"
+  },
+  "terminal_platform": {"status": "UNVERIFIED", "expected_primary_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/terminal-platform-A-r2.json", "receipt_used": false, "stop_inferred_from_cleanup": false, "result_status": "failed", "native_measurements_completed": true, "caller_cleanup_completed": true, "server_returncode_before_cleanup": null, "server_shutdown_returncode": -9},
+  "critical_input_sha256": {
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/result.json": "7a9e3aec5d2919115fb6c2507588b3a4b16de83577e340c8e98f54d8b68dc932",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/preload.json": "ae5bf67dd9b39bc7eacbcd5d77c0d62c9e013c5255adeb832b24f69fd96535c3",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/requests.jsonl": "fd943deb51fef47ce0b8a7b1e94a602f29e4a950f28a182bdec54e766aed6acf",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/cache.jsonl": "222b95edd6f15525a57a2021a0a3628d97e7835e3cccaea92c99a8cfc9d3c4bf",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/comparisons.jsonl": "aa96b5ee6675e34de31f16d5d72579b2f8216a2ac5509172762142223b694579",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/server_info.json": "8625e358fed5dc7db351a3d7259d7d2059828c47b2fbf1c7a7203994a3198567",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2/runtime_metadata.json": "ca1eb5f49c2186ee7641944d5a6e3bcb6a455a25f8f38c960a54ad2964fd45ab",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1/result.json": "c0847dbd57064e45687f8991ff9f8aea242ad5608dad377172d69f940b1597b1",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1/requests.jsonl": "afe7f479a0df51328b5342accbde989bb9635a111fa2f6a3c51e8ef97c961a55",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1/comparisons.jsonl": "aa96b5ee6675e34de31f16d5d72579b2f8216a2ac5509172762142223b694579",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7"
+  },
+  "original_a_r1_proofs_sha256": {
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_native_A_results.md": "40b91b7213c28ddc28408ba0574e4c43d8a08fe768305f6d1ade734d5471c714",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native-verification-A.json": "0a777800c9c3bd69710b770e5d70adc7315b973b43ade1199ebbc8f19536969b"
+  },
+  "limits": [
+    "Controls/source/selected CPP PASS is not overall KV diagnostic PASS",
+    "Global RID-null note_cpp/fresh errors prevent complete capture qualification; no RCA or fix here",
+    "Partial bank/fresh-layer/OLD fragment labels do not prove physical7955, zero-cold OLD, original slot equality, native observer S or KV numbers",
+    "One responding TP0 process only; no all-TP or device-completion acceptance",
+    "Private package/library staging and source inventories are not same-GPU-callback origin/SO-hash proof",
+    "Retained model manifests are not full-weight checksums; configured image is not terminal imageID proof",
+    "Terminal/platform verdict reserved for primary filtered receipt; cleanup does not establish stop",
+    "Original R2/CPU/WIT/r1 proofs, warm1/4 FAIL and formal HOLD remain preserved"
+  ],
+  "scoped_inputs_checked_unchanged": {"retained_files": 306, "immutable_git_blobs": 20}
+}
