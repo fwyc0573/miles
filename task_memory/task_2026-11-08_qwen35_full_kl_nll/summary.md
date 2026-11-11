@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Serving-binding CPU/source is primary ACCEPTED/committed f8b6b43a and report/final-driver closure c089f0b3. Fixed Standards/Spec No findings and independent checksum PASS close this phase;A/B prospective r3 driver JSON exactly matches previous bytes,4 H800/codesign each,submitted=false. The [current frontier](progress.md#current-execution--workflow-rca) is record sync → primary existing D40 bounded r3 A || B decision/execution,not repeating CPU/reviews/driver qualification. r3 admission/business output or paid-running state is not claimed. SO/ABI/S/active16-6804/physical7955/KV/race/root/performance/formal200 remain UNVERIFIED. Mode49/source/R3/WIT/controls/full history/raw/science/six methods/all53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain;no new gate,auto-loop/formal release or permission. Earlier RUNNING snapshots are historical.
+**Current execution:** Actual D40 bounded r3 A/B are SUBMITTED;first filtered Initial A Starting/B Running only. The [current submission/frontier](progress.md#current-execution--workflow-rca) records exact jobs/local receipts and requested4 nonpreemptible H800/codesign each,input not physical proof. Source f8b6b43a/closure c089f0b3/docs4f76ae41 and unchanged16 requests/10 flushes/first4rep0 remain. Actual serving binding/path/SHA/PID/ties,CUDA S/thread,active16-6804,independent7955 physical,complete FRESH/KV/formal200 remain UNVERIFIED. Accepted source/R3 CPU/mode49/WIT/controls,history/raw/science/six methods/53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain. Primary launchers are alive/background-managed,no duplicate/retry/stop/control authorization. Prior four-section checkpoint is preserved,next substantive checkpoint after native verification;no partial business/metrics or eventual state is inferred.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive actual bounded r3 submission and first Initial Starting/Running without native acceptance;preserve old CPU closure and checkpoint. |
 | 2026-11-11 | Archive committed accepted serving-binding CPU/source/fixed reviews/checksum/final-driver closure;advance only to primary existing-D40 native decision. |
 | 2026-11-11 | Archive the concrete live serving-binding gap and parallel CPU units IN PROGRESS while preserving old acceptance,history and native/formal limits. |
 | 2026-11-11 | Archive accepted committed harness CPU/source fix and qualified r3 driver closure; preserve native/physical/warm/formal limits and unsubmitted r3 state. |
