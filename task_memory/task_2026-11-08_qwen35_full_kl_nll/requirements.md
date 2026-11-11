@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** r3 A/B Succeeded,owner-bound Completed/exit0/restart0;platform archived10a607fc and primary bounded controls ACCEPTED4da5c3eb. Both all16/6804 EXACT,cold4/4,zero errors;warm1/4 FAIL unchanged. Actual serving private SO/file-class-PID/callback thread/S scope and primary's scoped compact physical source gate PASS are accepted,not full measurement/numeric acceptance. The [current frontier](progress.md#current-execution--workflow-rca) is original source-producer/lifetime/F→S ordering IN PROGRESS,then measurement acceptance/existing compact KV interpretation/RCA/minimal warm fix/fresh A || B200→06. F differs from S;scalar equality/readiness is not claimed. Old source/R3 CPU/alias/barrier lifetime/mode49/WIT/controls/history/raw/science/six methods/all53 checkboxes,formal04/05 HOLD,06 own200/B no A200 edge remain. No new gate,raw-index/hash archive,mapped-ELF/allTP/kernel-completion criterion,code change or retry. Independent fixed-bundle progress review is pending/non-blocking,not awaited.
+**Current execution:** Original producer/lifetime/F→S readiness and all scoped A/B measurement prerequisites are PRIMARY ACCEPTED281e70f7,source-backed,consuming already-accepted4da controls/same0dc serving library/R3 CPU alias lifetime. The [current frontier](progress.md#current-execution--workflow-rca) is existing compact warm OLD/FRESH7955×1×256 interpretation for A16/B10 FULL layers,NEXT/PENDING,no values read yet. S.wait(F) precedes selected next-loop stash;it need not first pass host-copy synchronize,and F!=S remains. No new collection/probe/descriptor/archive/allTP/mapped-ELF/global-race/event-timestamp gate. Fixed4da progress review returned PASS3/BLOCKED2/TODO1/D1–D7 CLEAR;667 corrected its routine S5 locations. Numerical/root/warm fix/performance/formal200 are not accepted;warm1/4 FAIL,formal04/05 HOLD,06 each own200/B no A200 edge,all source/R3/WIT/controls/history/raw/science/six methods/53 checkboxes remain. No new scope/approval/flags/tests/GPU permission.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close primary source-backed original ordering/measurement readiness at281e70f7;advance only existing compact numerical interpretation NEXT/PENDING and record returned fixed4da progress result. |
 | 2026-11-11 | Record successful r3/accepted bounded controls and scoped physical source gate;advance original ordering qualification without KV interpretation,new gates or resetting prior acceptance. |
 | 2026-11-11 | Record actual r3 submissions and first Initial A Starting/B Running as platform/input facts only;preserve native/formal limits and prior checkpoint. |
 | 2026-11-11 | Close committed serving-binding CPU/source/fixed-review/checksum/final-driver records;advance to primary existing D40 native decision without claiming paid r3/native acceptance. |
