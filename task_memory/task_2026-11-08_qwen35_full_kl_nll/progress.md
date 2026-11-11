@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept cache-salt CPU/fixed reviews and A execution terminal/B Running snapshot; record nonblocking local verification and pending inspector/numerical outcomes. |
 | 2026-11-11 | Advance routine D40 namespace implementation, preregister controls/isolation and retain pending native/fix status with a new four-section checkpoint. |
 | 2026-11-11 | Record actual metadata A/B terminal and first4 vector/identity verification; retain warm failure and append routine S5 checkpoint without changing protocol or final criteria. |
 | 2026-11-11 | Advance current frontier to CPU332/fixed dual-review acceptance and submitted metadata A/B with native vectors pending; retain the primary5170a86d checkpoint and append a status-only phase check. |
@@ -174,10 +175,10 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / CACHE_SALT_COUNTERFACTUAL_IMPLEMENTATION_IN_PROGRESS; formal04/05 BLOCKED.** Primary selected the bounded namespace diagnostic within existing D40; a separate implementation owner prepares four files. This record does not claim code/CPU/native GPU placement, control/isolation, source-fix/performance/root-cause acceptance before owner delivery. [Preregistration](spec.md#d40-diagnostic-namespace-counterfactual-preregistration) is the current diagnostic contract, not a formal cache policy or new scientific decision. No platform/job/observer query, stop/resubmission or business suite is run by this docs task; code/config/reports/evidence are outside its commit.
-- **Verified baseline and pending controls:** [A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md) use immutable qualified caller`4f1139b0`Git blobs, not pre-FP32/current implementation. Archive`92f3b9a0`contains156 selected files/6.95MB; raw runtime metadata/server logs remain retained locally. Pinned replay/link correction`5c6ebce5`passed and removed the two primary-report pseudo-links; original first4 native jobs/16 vectors remain accepted, not a warm fix. Counterfactual controls are eight unchanged response vectors including original warm drift and four baseline-exact salted cold-full vectors, before four salted warm-full comparisons with corresponding same-run cold. Preserve existing exact/error/undefined-zero-reference rules and report each case, not a generic warm count.
-- **Isolation and interpretation:** only full-input payload gains `pair + ':' + pre_send_probe_request_id`, unique/nonempty per request and retained as actually sent; response payload/native RID joins stay unchanged. Initialmatch0 was already present: compare initial prefix/chunks/tracking/full-chunk decomposition/retractions, not assumed extra initial recompute. Per RID require returned.prefix_len/rebind.start equal begin.protected_len and rebind.end equal begin.page_aligned_len; own protected prefix may grow, so all-zero/no-rebind/node/count substitutes are invalid. Control/isolation failure is inconclusive. All exact warm cases support shared cross-request path necessity only in this scope, not numerical KV–SSM causality. Actual B live FP32 donor96576/node145 and sample2/3 COW coexist with fresh recurrence/canonical-KV adoption, without physical/coherence proof.
-- **Limits/history/final acceptance:** cache ON, model/argv/RNG/input/science/FP32+metadata/dtype/concurrency/budgets/tolerance stay fixed; no core score_payload/runtime instrumentation/cache-off/WAR/formal fallback. TP0-only metadata, raw None/RID identity/aggregate events, physical-slot/device/all-TP/race/1024-hit limits remain. Earlier GPU/source/review/D16/commoncycle and H2006/profile2 stay separate historical evidence. Formal04/05 remainBLOCKED→required numerical acceptance/fresh H800 admission→each200/native/profile/terminal→06, without A200 gate or later-update auto-loop. Env1 DEFERRED; no implementation/native/sourcefix/performance/root-cause PASS is invented.
+- **D40 / CACHE_SALT_CPU_ACCEPTED_NATIVE_EXECUTING; formal04/05 BLOCKED.** Delivered0c606967 has primary24 affected/350 joined PASS/two real no-submit dryruns. Fixed Spec No findings and Standards one documentation Nit closed by864020c9/follow-up No findings accept CPU/source only; [comparison](evidence/cache-salt-review-20261111/comparison.json)/[followup](evidence/cache-salt-review-20261111/followup.json)/[fixed report](evidence/cache-salt-review-20261111/fixed-report.txt)retain scope. Canonical observations add no unchanged gate. No business suite/platform/observer operation is run by this docs slice; code/config/reports/evidence remain outside its commit.
+- **Locked native submissions, limited outcomes:** [A](evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.json)/[B](evidence/teacher-scoring-cache-salt-probe-20261111/admission-B-r1.json)submitted exp-1111-083634-351665/881422 requesting4 nonpreemptible H800 each, personal_i-fengyicheng, local source100.96.128.195:/data/ycfeng:/data/ycfeng, image165ff0be, null personal ceiling (admission68+4/72+4). [API snapshot](evidence/teacher-scoring-cache-salt-probe-20261111/initial-platform-verification.json)A Succeeded/B Running; [A terminal](evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.terminal.json)proves execution succeeded only, B terminal unreceived. API GPU4/memory250Gi are requested limits, not actual CUDA/source/vector acceptance. Original background launchers have no short outer timeout; native3600 bound unchanged. No stop/resubmission/new formal job.
+- **Numerical/isolation work in progress:** local A controls verifier reads only new A results; independent three-file CPU inspector preparation supplies conditional unique joins. Both are nonblocking GPU harnesses, no inspector/controls PASS claimed. Preregistered8 unsalted response controls including original drift plus4 baseline-exact salted cold controls precede4 warm-to-same-run-cold with existing exact/absolute-relative/undefined-zero rules. NativeRID geometry/independent inequality is evaluated separately, not count/order/node joins. Fullchunk/tracking/retraction differences are compared/reported, not must-unchanged; initialmatch0 already existed. Salt intervention/native IDs/immutable4f1139b0 baseline remain unchanged. Control/isolation failure is inconclusive; no KV–SSM causality from metadata or an all-exact warm result alone.
+- **Limits/history/formal acceptance:** actual source/CUDA/numerical/control/isolation/warm/fix/performance/root outcome remains PENDING. Original B donor96576/node145/COW/canonical adoption and TP0/rawNone/identity/aggregate/slots/device/allTP/race/1024 limits remain. Cache/model/argv/RNG/input/science/FP32+metadata/dtype/concurrency/budgets/tolerance stay fixed; no core payload/runtime instrumentation/cache-off/WAR/formal fallback change. Prior first4/source/CUDA/D16/commoncycle/H2006/profile2 remain independent historical scopes. Formal04/05held→required correctness/fresh H800 admission→each200/native/profile/terminal→06, no A200 gate or later-update auto-loop; env1 DEFERRED.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -2082,3 +2083,60 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. Routine D40 implementation is now selected/in progress, but code/CPU/nativeGPU/controls/isolation/sourcefix/perf/rootcausality are PENDING.
 2. Qualified immutable caller4f1139b0 baselines and original case/error rules prevent pre-FP32/current-code or generic warm-count reinterpretation; per-request protected prefix may grow despite initialmatch0.
 3. Actual B live donor96576/node145/COW/canonical adoption is metadata, not numerical coherence; formal04/05BLOCKED/06pending200 and TP0/1024/device/allTP/race limits remain.
+
+## 1. 规划完成情况
+
+**TaskID：** `profile-cache-salt-counterfactual-records-20261111`。**窗口：** 272c12dd preregistration/latest scoped first4 PASS→0c606967 CPU/source delivery、864020c9 fixed review closure、locked native A terminal/B Running snapshot。依据raw requirements、当前plan/六ticket、retained review/API/terminal receipts，不查询平台或本地numerical verifier。
+
+| Ticket | Status | 当前证据 / 未完成 |
+| --- | --- | --- |
+| 01 | PASS | 原source/order audit已接受 |
+| 02 | PASS | CPU/S7/D16 real GPU measurement已接受 |
+| 03 | PASS | 原module/integration接受 |
+| 04 | BLOCKED | namespace CPU/review接受、A native execution Succeeded；actual CUDA/source/numerical/controls/isolation及formal200未接受 |
+| 05 | BLOCKED | namespace CPU/review接受、B仅Running snapshot/B terminal未收到；shared正确性/freshformal admission/200未接受 |
+| 06 | TODO | CPU slice接受，最终A/B200/native/profile/terminal数据等待 |
+
+**合计：** PASS3/BLOCKED2/TODO1。**当前主线：** actual source/CUDA verification + A local numerical verifier/B outcome + parallel conditional-unique inspector prep→canonical8/4/4 comparisons and independent conditional perRID isolation→bounded interpretation/required correctness→parallel freshformal04+05 when placement permits→each200→06。CPU与execution terminal不等于numerical/root acceptance。
+
+## 2. 偏移检测
+
+| Pattern | Verdict | 当前窗口证据 |
+| --- | --- | --- |
+| D1 Tooling polish | CLEAR | 保留既有checker/60frozen errors；exact8 doc checks，不扩checker/recorders |
+| D2 Retry loop | CLEAR | implementation交付/两review闭环/native单次提交推进；无重投/stop或tolerance试错 |
+| D3 Side quest | CLEAR | CPU/source/controls/isolation均属于D40/04/05，未扩scope |
+| D4 Stalled parallel | CLEAR | A local verifier、B native outcome、CPU inspector prep独立推进；不串成额外GPU gate |
+| D5 Gold-plating | CLEAR | 唯一salt intervention保持；observations无额外unchanged gate |
+| D6 Analysis sprawl | CLEAR | source/CPU和actual terminal推进到数值/conditional joins，未把metadata分析抬成cause |
+| D7 Off-route | CLEAR | D39 H800/codesign/nonpreemptible、不新增formal/科学/stop/自动loop |
+
+| Spec check | Verdict | 证据 / 纠正 |
+| --- | --- | --- |
+| S1 Dependencies | CLEAR | CPU/native execution/数值/formal200独立；B无A200/profile gate |
+| S2 Ownership | CLEAR | code/report/evidence primary/owner；docs8；verifier与three-file prep独立 |
+| S3 Boundaries | CLEAR | source/CPU/terminal/API requested limits与actual CUDA/numerics分开 |
+| S4 Criteria | CLEAR | canonical8/4/4、conditional geometry/independent inequality、原errors/231/1800/32×8/D34/200不变 |
+| S5 Current state | HIT→纠正 | 八doc仍写implementation/codeCPU pending；已更新CPU/source接受、A execution terminal/B Running与pending分析 |
+| S6 Vertical slice | CLEAR | actual correctness在04/05，06最终200数据；不新增ticket |
+
+## 3. 路线纠正
+
+**Branch：** B：先完成routine S5 current-status correction（已完成）；不增加criterion/科学决定/checkbox。旧snapshot/raw/earlierD2保持。**停止行为：** 无；禁止RequestedGPU/250Gi或executionSucceeded推actualCUDA/numerical，禁止B terminal/CPU inspector提前PASS，禁止把fullchunk观察必须不变。
+
+1. Primary verifier只读新A local结果；B终态交付与independent conditional-unique CPU inspector prep并行，均nonblocking，不重投/stop。
+2. ActualCUDA/source/RID sent-salt/eight response/four cold controls→four warm-to-owncold原comparisons；geometry/inequality按conditional unique perRID独立验证，不count/order/zero/no-rebind捷径。
+3. 根据qualifiedcase/invalid-controls结果继续D40，不推根因/性能/fix；formal04/05held→required correctness/freshadmission→200→06，raw/science/checkbox/无A200gate均保持。
+
+**本次doc-only验证（repo root，非实现/CPU业务/native测试）：** exact8 paths/raw及所有decision、六ticket checkbox（A/B17）、S1–S9、六verification方法、旧checkpoint、最新exact4 sections/3PASS2BLOCKED1TODO/D1–D7 CLEAR及actual execution/API-limit/pending numerical/无unchanged gate检查PASS；scoped whitespace无错误。既有checker实际71文档/6tickets/453links/90anchors，exit1/60known frozen-copy缺相对依赖、owned0；未改checker/artifact，不扩大这些错误。一次patch上下文校验在写入前失败（无文件变更、无revert/reset），校正原文字后成功。Code/config/preparation report/evidence不stage，B terminal/inspector/numerical results不推定。精确命令：
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+## 4. 最值得关注的 3 点
+
+1. 0c606967/24affected350joined/two no-submit dryruns与864020c9闭Nit双review接受CPU/source；native数值尚未接受。
+2. A execution Succeeded、B snapshot Running/B终态未收到；4GPU/250Gi是APIlimits，actualCUDA/source/vector/controls/isolation PENDING。
+3. A local verification与three-file CPU inspector prep运行中、不先PASS且nonblocking；正式04/05BLOCKED06等200，无warm/root/perf接受或科学改变。
