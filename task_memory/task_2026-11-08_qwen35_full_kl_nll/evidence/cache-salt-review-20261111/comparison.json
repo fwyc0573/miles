@@ -1,0 +1,87 @@
+{
+  "base": "272c12dd1739afe53beb271bd07b50a7bed6f4b1",
+  "candidate": "0c6069678032930c79d5ed0f248164d3bdf78c06",
+  "diff_command": "git diff 272c12dd1739afe53beb271bd07b50a7bed6f4b1...0c6069678032930c79d5ed0f248164d3bdf78c06",
+  "commits": [
+    "0c606967 Prepare full-input cache-salt scoring counterfactual"
+  ],
+  "changed_files": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "tests/manual/agent_opd/probe_teacher_scoring.py"
+  ],
+  "diff_sha256": "f98b58e45ee4170febaf03907c458a5d0fe44dcd166a8864a1a2afe21f1f4ab1",
+  "blobs": [
+    {
+      "side": "base",
+      "original": "tests/fast/test_teacher_scoring_probe.py",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/base/tests/fast/test_teacher_scoring_probe.py.txt",
+      "bytes": 67724,
+      "sha256": "cd1e1d40dd6ff49256870f7a9a22dfa7326a3b13d2ec721f7d747d7ae53285ee"
+    },
+    {
+      "side": "base",
+      "original": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/base/tests/manual/agent_opd/probe_teacher_scoring.py.txt",
+      "bytes": 37760,
+      "sha256": "4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7"
+    },
+    {
+      "side": "candidate",
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/candidate/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json.txt",
+      "bytes": 1404,
+      "sha256": "2aa9d1aa00960c64ab6ad7757486c93fda9c5690f3e45da286846dff21219824"
+    },
+    {
+      "side": "candidate",
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/candidate/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md.txt",
+      "bytes": 19692,
+      "sha256": "1e10adc4c4bab151e9c0d000e999162804c25d5de074b0422824f058d9000cb3"
+    },
+    {
+      "side": "candidate",
+      "original": "tests/fast/test_teacher_scoring_probe.py",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/candidate/tests/fast/test_teacher_scoring_probe.py.txt",
+      "bytes": 80183,
+      "sha256": "051bf6b17e698bd3af44328e5b180c43ac18a769ff057f3ad13c0d83ae6e8816"
+    },
+    {
+      "side": "candidate",
+      "original": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/candidate/tests/manual/agent_opd/probe_teacher_scoring.py.txt",
+      "bytes": 38720,
+      "sha256": "31b18fc785d8b39601b77e84b5adadb6e1710aa0ec081a085aa3f90aef3dae72"
+    }
+  ],
+  "context": [
+    {
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/context/requirements.md.txt",
+      "sha256": "50357ccc9b3406d233b5f07bc8e449d4bed34de1a3e29d484b31cf152c106b32"
+    },
+    {
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/context/plan.md.txt",
+      "sha256": "79473ec922106c48702bdb4b7996d4cdcdb16f1553b5cf901381b9c7cbd577ef"
+    },
+    {
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/context/spec.md.txt",
+      "sha256": "3fe0def2364a7268f8b8b3c67c7ddd5805318edcc9e81b7279907c24edbe2f86"
+    },
+    {
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/04-a-full.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/context/tickets/04-a-full.md.txt",
+      "sha256": "ed8a96f93591d4d0f28f72824db5d7020d51793fc734f8fe42a931d04bc1916c"
+    },
+    {
+      "original": "task_memory/task_2026-11-08_qwen35_full_kl_nll/tickets/05-b-full.md",
+      "blob": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/cache-salt-review-20261111/context/tickets/05-b-full.md.txt",
+      "sha256": "abdf48104c5631fa9b0b8694fa2780d9f8aa71bffb01ab694c5222bd2634d783"
+    }
+  ],
+  "cpu_evidence_scope": "Owner-reported350PASS,24affectedPASS; reviewers do not independently execute."
+}

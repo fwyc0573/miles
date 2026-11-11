@@ -1,0 +1,19 @@
+{
+  "job": "exp-1111-083634-351665",
+  "uid": "6a9973b5-50e5-4b89-bba0-3dd28cd76e00",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "probe": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T00:40:58Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "native_execution_succeeded": true
+}

@@ -1,0 +1,9 @@
+{
+  "candidate": "864020c9c152c66dadc1ffb2eb4954276caf04fb",
+  "base": "0c6069678032930c79d5ed0f248164d3bdf78c06",
+  "changed_files": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md"
+  ],
+  "fixed_report_sha256": "25cc918263679bb27309ab5eccad8f083e357827615e06f4c2f27230c0bf5990",
+  "scope": "Documentation only; native implementation unchanged; remove extra unchanged-observations gate and reference canonical spec."
+}

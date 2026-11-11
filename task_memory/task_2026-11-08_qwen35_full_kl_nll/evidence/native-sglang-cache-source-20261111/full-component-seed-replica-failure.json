@@ -1,0 +1,489 @@
+[
+  {
+    "metadata": {
+      "name": "exp-1111-091407-113148-cfcd2084",
+      "namespace": "shai-core",
+      "uid": "ef3e3196-3b72-41e5-a7aa-0aaa2aa56ac8",
+      "resourceVersion": "1648927331",
+      "creationTimestamp": "2026-11-11T01:14:09Z",
+      "labels": {
+        "autoAddPrivateMachine": "true",
+        "brainpp.cn/restartable": "false",
+        "kubebrain.brainpp.cn/creator": "i-fengyicheng",
+        "kubebrain.brainpp.cn/creator-id": "e7163316ad76ba7266a33f9787afd70a",
+        "kubebrain.brainpp.cn/creator-type": "user",
+        "kubebrain.brainpp.cn/extraresourceid": "",
+        "kubebrain.brainpp.cn/extraresourcetype": "",
+        "kubebrain.brainpp.cn/lxcfs": "yes",
+        "kubebrain.brainpp.cn/real-creator-id": "group-shai-core-codesign",
+        "kubebrain.brainpp.cn/replica": "0",
+        "kubebrain.brainpp.cn/resourcetype": "rjob",
+        "logs.monitoring.basemind.com/collect": "true",
+        "privatemachine.brainpp.cn/privatemachine": "group",
+        "quotagroup.brainpp.cn/preemptible": "no",
+        "quotagroup.brainpp.cn/quotagroup": "codesign",
+        "rjob.brainpp.cn/generated-task-index": "0",
+        "rjob.brainpp.cn/is-critical-task": "yes",
+        "rjob.brainpp.cn/managed-by": "replica",
+        "rjob.brainpp.cn/rjob-name": "exp-1111-091407-113148",
+        "rjob.brainpp.cn/rjob-task-id": "exp-1111-091407-113148-source",
+        "rjob.brainpp.cn/rjob-task-type": "source",
+        "rjob.brainpp.cn/rjob-uid": "bada434e-18e6-4ca1-adcf-1ae89f8749de",
+        "rjob.brainpp.cn/task-fail-policy": "any",
+        "scheduling.kubebrain.brainpp.cn/podgroup_name": "exp-1111-091407-113148-source",
+        "scheduling.x-k8s.io/pod-group": "exp-1111-091407-113148-source",
+        "scheduling.x-k8s.io/pod-group-root": "exp-1111-091407-113148",
+        "stepmind.com/gang-group": "true",
+        "workspace.brainpp.cn/workspace": "ws-7fb014dfb4e3d7fe",
+        "workspace.brainpp.cn/workspace-namspace": "shai-core"
+      },
+      "annotations": {
+        "basemind.kubernetes.io/auto-port-enabled": "true",
+        "events.basemind.com/enabled": "true",
+        "events.basemind.com/kafka-topic": "events-g25-jobutils",
+        "kubebrain.brainpp.cn/auto-port-num": "2",
+        "kubebrain.brainpp.cn/command": "bash -lc cd /data/ycfeng && exec timeout 600 /opt/sglang/bin/python3 -B /data/ycfeng/tmp/opencode-v2-tmp/opencode/collect-full-component-seed-source-20261111-2419.py /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111 artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+        "kubebrain.brainpp.cn/filestore-volume": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+        "kubebrain.brainpp.cn/overlay2.size": "50g",
+        "kubebrain.brainpp.cn/preemptible.job": "no",
+        "kubebrain.brainpp.cn/showname": "by-profile-native-full-component-seed-source/2c1cb",
+        "mount.brainpp.cn/juicefs": "s3://oss.i.shaipower.com/tenant:/mnt/shared-storage/tenant",
+        "privatemachine.brainpp.cn/privatemachine": "project",
+        "rjob.brainpp.cn/labels": "",
+        "rjob.brainpp.cn/replica-pod-created": "2026-11-11T01:14:09.653119742Z",
+        "rjob.brainpp.cn/replica-running": "2026-11-11T01:14:14.256214849Z",
+        "rjob.brainpp.cn/replica-scheduled": "2026-11-11T01:14:10.666758104Z",
+        "stepboard.stepfun.com/enabled": "false",
+        "stepboard.stepfun.com/exp": "profile-native-full-component-seed-source",
+        "stepboard.stepfun.com/project": "default_project",
+        "stepboard.stepfun.com/steptron_commit": "UNKNOWN_COMMIT_ID"
+      },
+      "ownerReferences": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1111-091407-113148",
+          "uid": "bada434e-18e6-4ca1-adcf-1ae89f8749de",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ],
+      "finalizers": [
+        "rjob.brainpp.cn/replica-finalizer"
+      ]
+    },
+    "spec": {
+      "volumes": [
+        {
+          "name": "auth-info",
+          "secret": {
+            "secretName": "e7163316ad76ba7266a33f9787afd70a",
+            "items": [
+              {
+                "key": "accesskey_id",
+                "path": "accesskey_id"
+              },
+              {
+                "key": "accesskey_secret",
+                "path": "accesskey_secret"
+              }
+            ]
+          }
+        },
+        {
+          "name": "dshm",
+          "emptyDir": {
+            "medium": "Memory",
+            "sizeLimit": "6400Mi"
+          }
+        },
+        {
+          "name": "tmp-0",
+          "emptyDir": {
+            "medium": "Memory",
+            "sizeLimit": "8000Mi"
+          }
+        },
+        {
+          "name": "client-tools",
+          "hostPath": {
+            "path": "/opt/kubebrain/client-tools",
+            "type": "DirectoryOrCreate"
+          }
+        },
+        {
+          "name": "jobutils",
+          "hostPath": {
+            "path": "/opt/kubebrain/jobutils",
+            "type": "DirectoryOrCreate"
+          }
+        },
+        {
+          "name": "host-config",
+          "hostPath": {
+            "path": "/opt/kubebrain/host-config",
+            "type": "DirectoryOrCreate"
+          }
+        },
+        {
+          "name": "jobutil-config",
+          "configMap": {
+            "name": "rjob-exp-1111-091407-113148-config",
+            "items": [
+              {
+                "key": "config",
+                "path": "config"
+              }
+            ],
+            "defaultMode": 420
+          }
+        }
+      ],
+      "containers": [
+        {
+          "name": "source",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "command": [
+            "/kubebrain/worker-init",
+            "run",
+            "--enable-workspace-exporter",
+            "--enable-pid-monitor",
+            "--metrics-addr=",
+            "--",
+            "bash",
+            "-lc",
+            "cd /data/ycfeng && exec timeout 600 /opt/sglang/bin/python3 -B /data/ycfeng/tmp/opencode-v2-tmp/opencode/collect-full-component-seed-source-20261111-2419.py /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111 artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
+          ],
+          "ports": [
+            {
+              "name": "pidmonitor",
+              "containerPort": 0,
+              "protocol": "TCP"
+            },
+            {
+              "name": "auto0",
+              "containerPort": 0,
+              "protocol": "TCP"
+            },
+            {
+              "name": "auto1",
+              "containerPort": 0,
+              "protocol": "TCP"
+            }
+          ],
+          "envFrom": [
+            {
+              "configMapRef": {
+                "name": "exp-1111-091407-113148-source"
+              }
+            }
+          ],
+          "env": [
+            {
+              "name": "DISTRIBUTED_JOB",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "MC_DISABLE_METACACHE",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "EXP_ID",
+              "value": "profile-native-full-component-seed-source2c1cb/source"
+            },
+            {
+              "name": "PYTHONPATH",
+              "value": "."
+            },
+            {
+              "name": "ENABLE_SUBMODULE_COMMIT_CACHE",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_CLUSTER_ENTRY",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_WORKSPACE_NAME",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_NODE_NAME",
+              "valueFrom": {
+                "fieldRef": {
+                  "fieldPath": "spec.nodeName"
+                }
+              }
+            },
+            {
+              "name": "HOST_NETWORK",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_CLUSTER_ENTRY",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_QUOTA_GROUP",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_WORKSPACE_NAMESPACE",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_NAMESPACE",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "AWS_ACCESS_KEY_ID",
+              "valueFrom": {
+                "secretKeyRef": {
+                  "name": "e7163316ad76ba7266a33f9787afd70a",
+                  "key": "accesskey_id"
+                }
+              }
+            },
+            {
+              "name": "AWS_SECRET_ACCESS_KEY",
+              "valueFrom": {
+                "secretKeyRef": {
+                  "name": "e7163316ad76ba7266a33f9787afd70a",
+                  "key": "accesskey_secret"
+                }
+              }
+            },
+            {
+              "name": "TerminationGracePeriodSeconds",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_RJOB_NAME",
+              "value": "exp-1111-091407-113148"
+            },
+            {
+              "name": "BRAIN_USERNAME",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "RJOB_TASK_INDEX",
+              "value": "0"
+            },
+            {
+              "name": "KUBEBRAIN_REPLICA",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_REPLICA_TOTAL",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_HOSTNAME_PREFIX",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_RESOURCE_TYPE",
+              "value": "<REDACTED>"
+            },
+            {
+              "name": "KUBEBRAIN_REPLICA_NAME",
+              "value": "exp-1111-091407-113148-cfcd2084"
+            }
+          ],
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "8000Mi",
+              "nvidia.com/gpu": "0"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "8000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          },
+          "volumeMounts": [
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_id",
+              "subPath": "accesskey_id"
+            },
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_secret",
+              "subPath": "accesskey_secret"
+            },
+            {
+              "name": "dshm",
+              "mountPath": "/dev/shm"
+            },
+            {
+              "name": "tmp-0",
+              "mountPath": "/tmp"
+            },
+            {
+              "name": "client-tools",
+              "readOnly": true,
+              "mountPath": "/kubebrain",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutils",
+              "readOnly": true,
+              "mountPath": "/jobutils",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "host-config",
+              "readOnly": true,
+              "mountPath": "/host-config",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutil-config",
+              "readOnly": true,
+              "mountPath": "/jobutil"
+            }
+          ],
+          "imagePullPolicy": "IfNotPresent",
+          "securityContext": {
+            "capabilities": {
+              "add": [
+                "IPC_LOCK"
+              ]
+            }
+          }
+        }
+      ],
+      "restartPolicy": "Never",
+      "terminationGracePeriodSeconds": 30,
+      "dnsPolicy": "ClusterFirstWithHostNet",
+      "hostNetwork": true,
+      "securityContext": {},
+      "imagePullSecrets": [
+        {
+          "name": "e7163316ad76ba7266a33f9787afd70a"
+        }
+      ],
+      "hostname": "rjob-fae290822fddde0c-6e8510db31a284ab-0",
+      "subdomain": "i-fengyicheng",
+      "affinity": {
+        "nodeAffinity": {
+          "requiredDuringSchedulingIgnoredDuringExecution": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "node.stepfun.com/gpu_cast_type",
+                    "operator": "In",
+                    "values": [
+                      "H800"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "preferredDuringSchedulingIgnoredDuringExecution": [
+            {
+              "weight": 100,
+              "preference": {
+                "matchExpressions": [
+                  {
+                    "key": "MachineType",
+                    "operator": "NotIn",
+                    "values": [
+                      "GPU"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "dnsConfig": {
+        "options": [
+          {
+            "name": "ndots",
+            "value": "1"
+          }
+        ]
+      },
+      "enableServiceLinks": false,
+      "type": "source",
+      "selector": {
+        "matchLabels": {
+          "rjob.brainpp.cn/replica": "exp-1111-091407-113148-cfcd2084"
+        }
+      }
+    },
+    "status": {
+      "conditions": [
+        {
+          "type": "Initialized",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-11T01:14:09Z"
+        },
+        {
+          "type": "Ready",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-11T01:14:14Z",
+          "reason": "PodFailed"
+        },
+        {
+          "type": "ContainersReady",
+          "status": "False",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-11T01:14:14Z",
+          "reason": "PodFailed"
+        },
+        {
+          "type": "PodScheduled",
+          "status": "True",
+          "lastProbeTime": null,
+          "lastTransitionTime": "2026-11-11T01:14:09Z"
+        }
+      ],
+      "hostIP": "10.191.9.29",
+      "podIP": "10.191.9.29",
+      "podIPs": [
+        {
+          "ip": "10.191.9.29"
+        }
+      ],
+      "startTime": "2026-11-11T01:14:09Z",
+      "containerStatuses": [
+        {
+          "name": "source",
+          "state": {
+            "terminated": {
+              "exitCode": 1,
+              "reason": "Error",
+              "message": "user command: exit status 1",
+              "startedAt": "2026-11-11T01:14:12Z",
+              "finishedAt": "2026-11-11T01:14:13Z",
+              "containerID": "containerd://a14e1efc074619ef3413906e1fb9eea3fdaceba517700b5727c8776fc51cf428"
+            }
+          },
+          "lastState": {},
+          "ready": false,
+          "restartCount": 0,
+          "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+          "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "containerID": "containerd://a14e1efc074619ef3413906e1fb9eea3fdaceba517700b5727c8776fc51cf428",
+          "started": false
+        }
+      ],
+      "qosClass": "Guaranteed",
+      "phase": "Failed",
+      "nodeName": "gpu-h800-0204.host.platform.shaipower.com",
+      "finishTimestamp": "2026-11-11T01:14:15Z"
+    }
+  }
+]

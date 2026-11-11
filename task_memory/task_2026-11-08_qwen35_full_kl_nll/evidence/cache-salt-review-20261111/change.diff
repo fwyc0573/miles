@@ -1,0 +1,540 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json
+new file mode 100644
+index 00000000..202621e8
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json
+@@ -0,0 +1,15 @@
++{
++  "task_id": "profile-mamba-live-metadata-integration-20261111",
++  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
++  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
++  "pairs": ["A", "B"],
++  "repeats": 1,
++  "request_timeout_seconds": 3600,
++  "worker_seconds": 3600,
++  "child_cleanup_grace_seconds": 90,
++  "selected_fp32_snapshots": true,
++  "mamba_runtime_metadata": true,
++  "cache_salt_full_input": true,
++  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-cache-salt-probe-20261111/native",
++  "acceptance": "Candidate minimized reproduction only: original first four fixtures, one repetition, 16 scoring requests and 10 flushes per pair. Preserve teacher model, source mounts, engine argv, cache, concurrency, chunk8192, BF16, deterministic inference and budgets. Prepare actual selected-FP32 source before the CPU-only metadata overlay; collect the existing server-info endpoint once after all scoring requests. Missing or malformed metadata is an independent probe failure, not scoring acceptance. Native H800 acceptance remains pending until first4 vectors compare to existing FP32 repetition0 and reproduce sample2/3 drift. Dropped 1024-hit boundary groups are not covered. No automatic tolerance or performance PASS; formal submission stays paused."
++}
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md
+new file mode 100644
+index 00000000..8a0758b8
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md
+@@ -0,0 +1,161 @@
++# Cache-salt teacher-scoring probe preparation
++
++**Modification History**
++
++| Date | Change |
++| --- | --- |
++| 2026-11-11 | Record the scoped request, source qualification and first request-boundary RED/GREEN checkpoint. |
++| 2026-11-11 | Complete config/worker RED/GREEN,24 affected and350 joined CPU checks, real A/B controller dry-runs, syntax validation and the pre-commit checkpoint. |
++
++## 1. Plan completion
++
++TaskID: `profile-cache-salt-counterfactual-preparation-20261111`.
++
++**Original Request:** prepare only the CPU-ready first4/one-repetition diagnostic. Only full-input requests may add the existing native `cache_salt`, equal to pair plus the existing pre-send local request ID. Response-only requests, flags, inputs, scoring math, RNG, ordering,16 requests/10 flushes, selected-FP32/runtime-metadata preparation and teacher resources remain unchanged. Persist the salt directly from the sent payload, including failures; never replace native RID. Clone the current metadata config except the single boolean experiment and isolated output. Own only the existing probe/test plus this new report and the new cache-salt config. No source/submission/formal/core edits, delegation or GPU/platform/auth/SSH operations.
++
++The parent `requirements.md:75` and `plan.md:53` report A/B16/16 exact parity with original FP32 repetition0 first4, cold4/4 and warm1/4. Those are prior accepted parent observations, not measurements from this preparation. The direct assignment authorizes CPU preparation only; parent formal04/05 remain held.
++
++**Summary:** PASS 4 | BLOCKED 1 | TODO 1. This verification checkpoint precedes the scoped Git commit; the returned immutable commit is the final delivery evidence.
++
++| Subtask | Status | Evidence |
++| --- | --- | --- |
++| Full-only request salt and direct receipt/native RID contract | PASS | Sent salt is retained on success/HTTP/validation failure; native RID remains independent. |
++| Boolean config and exact isolated clone | PASS | Exact text/JSON clone apart from cache_salt_full_input=true and output_parent; both teacher argv unchanged. |
++| First4 structure, unsalted controls, failure preservation and worker wiring | PASS | A/B absent/False/True retain16 requests/10 flushes and exact order;8 controls/4 cold-full/4 warm-full. |
++| Real controller dry-run, syntax and joined CPU checks | PASS | A/B submitted=false;24 affected and350 joined PASS, valid syntax/JSON. |
++| Scoped four-file commit | TODO | Only after required verification. |
++| Future native acceptance | BLOCKED | Outside this assignment; no GPU execution authorized. |
++
++The agreed test seams are the existing `/generate` HTTP boundary and retained receipts, existing probe config/worker, and existing controller dry-run. External HTTP/startup/inspection are CPU mocks; core score construction and source preparers remain real where their retained inputs are available. No replacement recorder is implemented.
++
++**Owned deliverables:** `tests/manual/agent_opd/probe_teacher_scoring.py`, `tests/fast/test_teacher_scoring_probe.py`, `task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json` and this report. Owned code starts from4f1139b0; parent-only documentation/evidence changes are outside this slice.
++
++**Exact implementation contract:** `cache_salt_full_input` is one JSON boolean in the existing probe experiment map, validated before worker startup. True is passed through the existing formal-config wrapper and worker/benchmark to the request boundary. Absent/False sends no new keyword to legacy worker/benchmark collaborators and no salt in either payload. `_payload` and production `_score_payload` remain untouched. For True/full_input only, the existing request ID is computed before send and payload gains `cache_salt=f"{pair}:{request_id}"`; for example `A:cold-r2-s3-full_input`, never a server RID or UID/index. The existing request receipt stores `payload.get("cache_salt")` before HTTP, including failed requests; unsalted receipts have null. Native `meta_info.id`/native_request_id and completion identity handling are unchanged. No additional runtime instrumentation, HTTP, flush, file per request or loop/order change is introduced.
++
++The new config is byte-for-byte recoverable to the metadata config by removing only the boolean line and restoring output_parent. Inherited task_id/acceptance text is deliberately unchanged under the exact-clone request. The current counterfactual's acceptance protocol is the explicit scoped request recorded here, not a new interpretation of the inherited metadata-probe text.
++
++**Source qualification:** retained C1 root is `evidence/native-sglang-cache-source-20261111/exp-1111-040603-422872/source/`. `srt/managers/io_struct.py:377–378` declares the native cache namespace; `tokenizer_manager.py:1716` forwards it; `schedule_batch.py:1086,1172` retains it on Req. `srt/mem_cache/radix_cache.py:222–247` namespaces child keys by `(extra_key, cache_salt)`. `unified_radix_cache.py:1204–1209,1260–1265` passes the same namespace to checkpoint/prompt keys, covering the shared KV/Mamba tree rather than changing scoring parameters. C3 retains selected changed files rather than every C1 file; missing C3 copies of these unchanged files are not silently invented.
++
++`schedule_batch.py:1768–1777` already limits full-input lookup to0 because return_logprob is true and logprob_start_len is0. Salting does not justify a changed initial prefill schedule. `unified_radix_cache.py:1232–1238,1284–1298,1317` inserts page-aligned checkpoints, rebinds from the currently protected prefix and advances protection. Future per-RID ordinary checkpoints must satisfy returned.prefix_len==begin.protected_len, rebind.start==begin.protected_len and rebind.end==begin.page_aligned_len; the request's own protected prefix can grow. Do not require every prefix to be0 or prohibit rebinds.
++
++Pristine retained-source SHA256 values below are source qualification only, not live/salted-worker evidence:
++
++| Relative source under the C1 root | SHA256 |
++| --- | --- |
++| srt/managers/io_struct.py | 1f94aca08ed27f74280e87ec80999df32df3088be987ec1377ff2f572e13739b |
++| srt/managers/tokenizer_manager.py | 65a92c050d33a9749a5f7f76fe98dba85a7fcb89d2fb20eddb2e89e6ed648f06 |
++| srt/managers/schedule_batch.py | 455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d |
++| srt/mem_cache/radix_cache.py | eea7015fcf678167ac7296b08c8dc568ccbe42a4bb106da23b33a7c59debec01 |
++| srt/mem_cache/unified_radix_cache.py | 9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3 |
++
++**Environment:** Linux, `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`; CPU interpreter `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python3.12.13, pytest9.1.1. Temporary storage is under `/data/ycfeng/tmp/opencode-v2-tmp/opencode`; bytecode and pytest repository cache writes are disabled below.
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_full_input_is_pre_send' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-request-red-20261111
++```
++
++Expected RED: the dedicated probe cannot yet send the experiment. Observed1 failed/133 deselected/2 existing warnings/0.83s, `TypeError: _request() got an unexpected keyword argument 'cache_salt_full_input'`.
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_full_input_is_pre_send' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-request-green-20261111
++```
++
++Expected GREEN: sent full-input JSON gains only `cache_salt=A:cold-r2-s3-full_input`; retained native RID remains the independent response ID. Observed1 passed/133 deselected/2 existing warnings/0.77s; PASS.
++
++**Config cycle:**
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_config' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-config-red-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_config' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-config-green-20261111
++```
++
++Expected RED: missing variant and ignored non-boolean key. Observed7 failed/134 deselected/4 existing warnings/1.27s:2 FileNotFoundError cases and5 DID NOT RAISE ValueError cases. After the exact clone and boolean validation/forwarding, expected GREEN: A/B argv/allocation unchanged and variant passed by existing controller --config; observed7 passed/134 deselected/4 existing warnings/0.89s; PASS.
++
++**Worker/structure cycle:** the initial command below, with basetemp `cache-salt-worker-red-20261111`, failed collection (0 items/2 existing warnings/0.85s) because pytest9 rejects a parametrized argument with a default. Only that test confound was corrected: remove its default and pass None explicitly in the existing override regression's two direct calls. Production worker wiring was still unchanged before the qualified RED.
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_first4 or selected_source_preparation' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-worker-red-qualified-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt_first4 or selected_source_preparation' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-worker-green-20261111
++```
++
++Expected qualified RED: existing worker loses True and benchmark cannot accept the experiment; absent controls remain functional. Observed5 failed/9 passed/135 deselected/4 existing warnings/4.24s. Expected GREEN after one wiring change: unchanged real selected-FP32→metadata→runtime→teacher order/receipts/argv, correct8 full salts and8 controls,16/10 and native RID; observed14 passed/135 deselected/4 existing warnings/4.69s; PASS. The source fixture continues to honor MILES_PINNED_SGLANG_SOURCE and explicit missing-evidence skips, copying only to its isolated root.
++
++**Affected and joined checks:**
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'cache_salt or selected_source_preparation' -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-affected-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-joined-20261111
++```
++
++Expected: direct sent-salt retention on HTTP503/validation failures, no native RID overwrite, exact baseline absent/False/response-only JSON, original first4 identities/order, no extra request/flush, real source preparation and unchanged comparisons. Observed affected24 passed/127 deselected/4 existing warnings/4.97s; joined350 passed/20 existing warnings/31.67s, including all151 probe tests; PASS with no suite failure/skip. Existing baseline7×2 remains56 scoring requests/32 flushes. The macro deliberately injects one warm-full deviation despite salting and verifies existing max absolute0.125/relative1, accepted=None; it does not invent a numerical salt PASS. Existing zero-reference regression still verifies undefined relative errors. Reversed metadata RID order remains independent of retained request order.
++
++**Real standalone controller dry-runs:**
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json --pair A --receipt /data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-controller-A.json --dry-run
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json --pair B --receipt /data/ycfeng/tmp/opencode-v2-tmp/opencode/cache-salt-controller-B.json --dry-run
++```
++
++Expected: return0 before auth/client construction, submitted=false,4 H800/codesign per pair with identical native image/resources/mounts/source and variant worker --config. Observed both returned0/submitted=false,4 GPUs,32 CPUs,256GB,replica1, source_directory=/data/ycfeng, existing two cloud mounts and PYTHONPATH=/data/ycfeng; PASS. Both worker commands select the new absolute variant path, original first4 manifest, repeats1/request-timeout3600, worker budget3600/cleanup90. Output is isolated under `evidence/teacher-scoring-cache-salt-probe-20261111/native/{A,B}/cache-salt-controller-{A,B}`. No receipt/output directory, job or auth access is created by the dry-run. The config test also runs both base/variant through the real controller and proves only worker --config/--output-dir and output path differ; full teacher argv is equal to the formal owner, preserving model/BF16/chunk8192/cache-on/concurrency1/deterministic settings. The immutable image is still sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805.
++
++**Syntax/JSON and source-hash checks:**
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
++from pathlib import Path
++import json
++for path in (Path('tests/manual/agent_opd/probe_teacher_scoring.py'), Path('tests/fast/test_teacher_scoring_probe.py')):
++    compile(path.read_text(), str(path), 'exec')
++json.loads(Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json').read_text())
++print('PASS: both owned Python files compile and the new config is valid JSON; no bytecode written')
++PY
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
++from pathlib import Path
++import hashlib
++import json
++root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-040603-422872/source')
++files = ('srt/managers/io_struct.py', 'srt/managers/tokenizer_manager.py', 'srt/managers/schedule_batch.py', 'srt/mem_cache/radix_cache.py', 'srt/mem_cache/unified_radix_cache.py')
++print(json.dumps({name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in files}, indent=2))
++PY
++```
++
++Observed expected syntax/JSON PASS with no bytecode writes, and the five existing pristine source hashes shown above. Scoped code diff changes only boolean propagation, full-only native payload salt and its direct receipt field; source/submission/formal/core score/comparison/RNG paths are unchanged. No Tensor read, CUDA event/wait/sync, new runtime trace, polling or extra HTTP/cache flush was added.
++
++```bash
++git diff -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py
++git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md
++git diff --cached --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_cache_salt_probe_config.json task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_cache_salt_probe_preparation.md
++```
++
++Observed the scoped source/test diff described above and no whitespace errors in the worktree or staged four-file diff; PASS. The pre-commit parent HEAD is272c12dd; no unrelated native evidence is staged by this slice.
++
++**Future native contract:**8 response-only control vectors must be exact against the accepted unsalted baseline;4 salted cold-full vectors must also be baseline-exact. Initial/full-chunk/tracking/num_retractions must be unchanged. Compare4 warm-full vectors against their own cold-full using existing exact/absolute/relative/error-undefined-at-zero reporting, with no new tolerance. All warm-full exact would support cross-request sharing being necessary for the warm-full effect, not KV–SSM numerical causality. Partial/persisting drift or failed controls/isolation must be reported honestly. Trace covers TP0/DP1 only, not all TP; first4 does not cover dropped1024-hit groups. No native execution, performance, root-fix or formal acceptance is claimed.
++
++## 2. Drift detection
++
++**Verdict:** no drift detected. Window: first request checkpoint through350 joined checks and A/B standalone dry-runs. Frontier: scoped four-file commit/handoff only; native execution remains outside scope.
++
++| Pattern | Verdict | Evidence |
++| --- | --- | --- |
++| D1 Tooling polish | CLEAR | Only requested proportional regressions and affected/joined/dry-run/syntax checks; stop after they pass. |
++| D2 Retry loop | CLEAR | Three vertical RED/GREEN slices; one pytest fixture confound corrected before qualified worker RED. |
++| D3 Side quest | CLEAR | Only the four-file assignment is being edited. |
++| D4 Stalled frontier | CLEAR | Shared probe/test ownership and explicit no delegation require serial slices. |
++| D5 Gold-plating | CLEAR | One boolean/full-only native parameter; no CLI/registry/source recorder. |
++| D6 Analysis sprawl | CLEAR | Inspected source binds the requested parameter and rejects the initial-prefill assumption. |
++| D7 Off-route | CLEAR | No GPU/platform/auth/SSH/native execution or unrelated evidence edits. |
++
++**Spec checks:** S1–S6 show no defect in the direct scoped assignment. The inherited config task ID/acceptance text will remain untouched as explicitly requested; this report records the new preparation protocol, not a parent-doc update. Attribution: none.
++
++## 3. Route correction
++
++Branch A: scope and criteria are sound; no parent spec/ticket edits. Behaviors to stop: none.
++
++1. Commit only the four verified owned files and return the immutable preparation, preserving parent documents and unrelated untracked native evidence.
++2. Primary may later judge the precise native control/isolation/numerical contract after explicit authorization; do not launch it from this preparation or broaden the tests.
++
++## 4. Three points to watch
++
++1. CPU preparation is complete:24 affected/350 joined PASS and real A/B dry-runs preserve the worker variant and native allocation inputs.
++2. Salting changes cache namespace only; initial full-input prefix0 and the request's own growing checkpoint protection must not be misinterpreted.
++3. Native controls/isolation/warm-full comparison remain PENDING; source qualification and CPU mocks do not prove KV–SSM causality, numerical correction, performance or formal acceptance.
+diff --git a/tests/fast/test_teacher_scoring_probe.py b/tests/fast/test_teacher_scoring_probe.py
+index 1656a5b6..007325af 100644
+--- a/tests/fast/test_teacher_scoring_probe.py
++++ b/tests/fast/test_teacher_scoring_probe.py
+@@ -199,6 +199,49 @@ def _output(tmp_path):
+     return output, local
+ 
+ 
++def test_cache_salt_full_input_is_pre_send_identity_and_preserves_native_rid(sample, tmp_path, monkeypatch):
++    original = probe._payload(sample, "full_input")
++    body = _body(sample, "full_input")
++    body["meta_info"]["id"] = "native-rid-not-the-probe-id"
++    _, calls, _ = _mock_http(monkeypatch, lambda *args: (json.dumps(body).encode(), 200))
++    output, local = _output(tmp_path)
++    identity = {"pair": "A", "phase": "cold", "repetition": 2, "sample_position": 3}
++    vector, request_id = asyncio.run(probe._request(
++        "mock://teacher", sample, "full_input", 17, output, local, identity, "cold_flushed",
++        cache_salt_full_input=True))
++    assert calls == [("POST", "mock://teacher/generate", {
++        "json": {**original, "cache_salt": "A:cold-r2-s3-full_input"}})]
++    assert request_id == "cold-r2-s3-full_input" and "cache_salt" not in original
++    row = json.loads((output / "requests.jsonl").read_text())
++    completion = json.loads(Path(row["completion_scores"]).read_text())
++    assert row["cache_salt"] == calls[0][2]["json"]["cache_salt"]
++    assert row["native_request_id"] == completion["native_request_id"] == body["meta_info"]["id"]
++    assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
++    assert vector == {"token_ids": [13, 14], "log_probs": [-0.5, -0.25]}
++
++
++@pytest.mark.parametrize("failure", ["http", "validation"])
++def test_cache_salt_known_sent_value_is_retained_on_failure_without_native_rid_overwrite(
++        sample, tmp_path, monkeypatch, failure):
++    body = _body(sample, "full_input")
++    body["meta_info"]["id"] = "native-failed-rid-independent"
++    if failure == "validation":
++        body["meta_info"]["input_token_logprobs"][-1][1] = 999
++    _, calls, _ = _mock_http(monkeypatch, lambda *args: (json.dumps(body).encode(), 503 if failure == "http" else 200))
++    output, local = _output(tmp_path)
++    identity = {"pair": "B", "phase": "warm_stream", "repetition": 0, "sample_position": 2}
++    with pytest.raises(aiohttp.ClientResponseError if failure == "http" else ValueError):
++        asyncio.run(probe._request("mock://teacher", sample, "full_input", 17, output, local, identity,
++                                   "ordered_stream_after_flush", cache_salt_full_input=True))
++    row = json.loads((output / "requests.jsonl").read_text())
++    assert row["status"] == "failed" and len(calls) == 1
++    assert row["cache_salt"] == calls[0][2]["json"]["cache_salt"] == "B:warm_stream-r0-s2-full_input"
++    assert row["request_id"] == "warm_stream-r0-s2-full_input"
++    assert row["native_request_id"] == (None if failure == "http" else body["meta_info"]["id"])
++    assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
++    assert not list((output / "completion_scores").iterdir())
++
++
+ @pytest.mark.parametrize("mode", probe._MODES)
+ def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, tmp_path, monkeypatch, mode):
+     raw = json.dumps(_body(sample, mode)).encode()
+@@ -532,11 +575,13 @@ def test_runtime_metadata_requires_selected_fp32_and_preserves_formal_engine_con
+     assert json.loads(path.read_text()) == config
+ 
+ 
+-@pytest.mark.parametrize("selected,diagnostic,readback_status", [
+-    (None, None, None), (False, False, None), (True, None, None), (True, False, None),
+-    (True, True, "collected"), (True, True, "failed")])
++@pytest.mark.parametrize("selected,diagnostic,readback_status,cache_salt_full_input", [
++    (None, None, None, None), (False, False, None, None), (True, None, None, None), (True, False, None, None),
++    (True, True, "collected", None), (True, True, "failed", None),
++    (True, True, "collected", False), (True, True, "collected", True)])
+ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+-        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status):
++        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status,
++        cache_salt_full_input):
+     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+ 
+     path, config, model = worker_config
+@@ -562,6 +607,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+         wrapper["selected_fp32_snapshots"] = selected
+     if diagnostic is not None:
+         wrapper["mamba_runtime_metadata"] = diagnostic
++    if cache_salt_full_input is not None:
++        wrapper["cache_salt_full_input"] = cache_salt_full_input
+     wrapper_path = tmp_path / "probe.json"
+     wrapper_path.write_text(json.dumps(wrapper))
+     samples = tmp_path / "samples.json"
+@@ -656,7 +703,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
+     monkeypatch.setattr(paired, "_check_server", lambda *args: None)
+     monkeypatch.setattr(paired, "_stop_child", lambda *args: None)
+ 
+-    async def benchmark(*args):
++    async def benchmark(*args, **kwargs):
++        assert kwargs == ({"cache_salt_full_input": True} if cache_salt_full_input else {})
+         events.append("benchmark")
+         return {"scope": "CPU mock; no requests made"}
+ 
+@@ -733,11 +781,11 @@ def test_diagnostic_source_fixture_override_without_local_evidence_or_explicit_s
+     try:
+         if override_available:
+             test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+-                worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
++                worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected", None)
+         else:
+             with pytest.raises(pytest.skip.Exception, match="Required retained native source unavailable"):
+                 test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+-                    worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
++                    worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected", None)
+     finally:
+         assert {relative: (pristine / relative).read_bytes() for relative in original} == original
+ 
+@@ -863,6 +911,58 @@ def test_runtime_metadata_config_uses_first4_once_and_exact_teacher_allocation_a
+     assert original_path.read_bytes() == original_before and not (task / "cpu-construction-only.json").exists()
+ 
+ 
++@pytest.mark.parametrize("pair", ["A", "B"])
++def test_cache_salt_config_is_exact_isolated_clone_and_existing_dry_run_forwards_variant(monkeypatch, capsys, pair):
++    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
++
++    repo = Path(__file__).resolve().parents[2]
++    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
++    base_path = task / "teacher_scoring_runtime_metadata_probe_config.json"
++    variant_path = task / "teacher_scoring_cache_salt_probe_config.json"
++    base_text, variant_text = (path.read_text() for path in (base_path, variant_path))
++    base, variant = json.loads(base_text), json.loads(variant_text)
++    assert variant["cache_salt_full_input"] is True and variant["output_parent"] != base["output_parent"]
++    assert {key: value for key, value in variant.items() if key != "cache_salt_full_input"} == {
++        **base, "output_parent": variant["output_parent"]}
++    restored = variant_text.replace('  "cache_salt_full_input": true,\n', "", 1)
++    assert restored.replace(json.dumps(variant["output_parent"]), json.dumps(base["output_parent"]), 1) == base_text
++    assert variant["selected_fp32_snapshots"] and variant["mamba_runtime_metadata"]
++    assert variant["pairs"] == ["A", "B"] and variant["repeats"] == 1
++    formal = json.loads((repo / variant["formal_config"]).read_text())
++    monkeypatch.setattr(sys, "executable", formal["worker_python"])
++    configurations, constructions = [], []
++    receipt_path = task / "cpu-cache-salt-construction-only.json"
++    for path in (base_path, variant_path):
++        configurations.append(probe._load_config(path, pair, repo / variant["output_parent"] / pair / "cpu-only"))
++        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(path), "--pair", pair,
++                                          "--receipt", str(receipt_path), "--dry-run"])
++        assert submission.main() == 0
++        constructions.append(json.loads(capsys.readouterr().out))
++    assert configurations[1]["cache_salt_full_input"] is True
++    head = {"ip": "192.0.2.10"}
++    assert paired._teacher_command(configurations[0], pair, 0, head) == paired._teacher_command(
++        configurations[1], pair, 0, head) == paired._teacher_command(formal, pair, 0, head)
++    assert constructions[0]["requested_gpus"] == constructions[1]["requested_gpus"] == 4
++    assert constructions[0]["submitted"] is constructions[1]["submitted"] is False
++    assert {key: value for key, value in constructions[0].items() if key not in ("output", "worker_command")} == {
++        key: value for key, value in constructions[1].items() if key not in ("output", "worker_command")}
++    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
++    assert commands[1][commands[1].index("--config") + 1] == str(variant_path)
++    for command in commands:
++        for option in ("--config", "--output-dir"):
++            command[command.index(option) + 1] = option
++    assert commands[0] == commands[1] and not receipt_path.exists()
++
++
++@pytest.mark.parametrize("value", [None, 0, 1, "true", []])
++def test_cache_salt_config_requires_json_boolean(worker_config, tmp_path, value):
++    path, config, _ = worker_config
++    config["cache_salt_full_input"] = value
++    path.write_text(json.dumps(config))
++    with pytest.raises(ValueError, match="cache_salt_full_input must be a JSON boolean"):
++        probe._load_config(path, "A", tmp_path / "retained-new")
++
++
+ def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
+     from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+ 
+@@ -873,6 +973,93 @@ def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
+     return namespace["drain"](rank)
+ 
+ 
++@pytest.mark.parametrize("pair", ["A", "B"])
++@pytest.mark.parametrize("experiment", [None, False, True])
++def test_cache_salt_first4_preserves_16_requests_10_flushes_controls_order_and_comparisons(
++        tmp_path, monkeypatch, pair, experiment):
++    repo = Path(__file__).resolve().parents[2]
++    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
++    fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
++    order = [
++        ("cold", 0, "full_input"), ("cold", 0, "response_only"),
++        ("cold", 1, "response_only"), ("cold", 1, "full_input"),
++        ("cold", 2, "full_input"), ("cold", 2, "response_only"),
++        ("cold", 3, "response_only"), ("cold", 3, "full_input"),
++        ("warm_stream", 0, "full_input"), ("warm_stream", 1, "full_input"),
++        ("warm_stream", 2, "full_input"), ("warm_stream", 3, "full_input"),
++        ("warm_stream", 0, "response_only"), ("warm_stream", 1, "response_only"),
++        ("warm_stream", 2, "response_only"), ("warm_stream", 3, "response_only")]
++    sent, returned_rids, info_calls = [], [], []
++
++    def response(method, url, kwargs):
++        if url.endswith("/get_server_info"):
++            info_calls.append(len(sent))
++            info = ({"version": "CPU mock only"} if len(info_calls) == 1 else {
++                "dp_size": 1, "tp_size": 4, "pp_size": 1,
++                "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(
++                    dp_rank=None, rids=tuple(reversed(returned_rids)))}]})
++            return json.dumps(info).encode(), 200
++        if url.endswith("/flush_cache"):
++            assert kwargs == {}
++            return b"Cache flushed", 200
++        assert (method, url) == ("POST", "mock://teacher/generate")
++        phase, position, mode = order[len(sent)]
++        sample = fixture["samples"][position]
++        original = probe._payload(sample, mode)
++        expected = {**original, "cache_salt": f"{pair}:{phase}-r0-s{position}-full_input"} if (
++            experiment is True and mode == "full_input") else original
++        assert kwargs["json"] == expected
++        if mode == "response_only" or experiment is not True:
++            assert json.dumps(kwargs["json"]) == json.dumps(original)
++        sent.append(kwargs["json"])
++        returned_rids.append(f"cpu-native-{pair}-unrelated-{16 - len(sent)}")
++        value = -0.25 if (phase, position, mode) == ("warm_stream", 3, "full_input") else -0.125
++        tail = [[None, sample["tokens"][original["logprob_start_len"]], None]] + [
++            [value, token, None] for token in sample["tokens"][-sample["response_length"]:]]
++        return json.dumps({"text": "", "output_ids": [], "meta_info": {
++            "id": returned_rids[-1], "input_token_logprobs": tail, "output_token_logprobs": []}}).encode(), 200
++
++    _, calls, _ = _mock_http(monkeypatch, response)
++    output, local = _output(tmp_path)
++    args = SimpleNamespace(pair=pair, repeats=1, request_timeout=17)
++    options = {} if experiment is None else {"cache_salt_full_input": experiment}
++    cache = asyncio.run(probe._benchmark(args, fixture, "mock://teacher", output, local, **options))
++    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
++    assert cache == {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
++    assert info_calls == [0, 16] and calls[-1] == ("GET", "mock://teacher/get_server_info", {})
++    assert sum(url.endswith("/generate") for _, url, _ in calls) == 16
++    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 10
++    rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
++    assert [(row["phase"], row["sample_position"], row["mode"]) for row in rows] == order
++    assert [row["native_request_id"] for row in rows] == returned_rids
++    salts = []
++    for row, payload in zip(rows, sent):
++        sample = fixture["samples"][row["sample_position"]]
++        assert row["pair"] == pair and row["repetition"] == 0 and row["status"] == "scored"
++        assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
++        assert row["cache_salt"] == payload.get("cache_salt")
++        assert row["request_id"] == f"{row['phase']}-r0-s{row['sample_position']}-{row['mode']}"
++        assert row["native_request_id"] == row["meta_info"]["id"] != row["request_id"]
++        if row["cache_salt"] is not None:
++            assert row["cache_salt"] == f"{pair}:{row['request_id']}"
++            salts.append(row["cache_salt"])
++    assert len(salts) == len(set(salts)) == (8 if experiment is True else 0)
++    assert sum(row["mode"] == "response_only" and row["cache_salt"] is None for row in rows) == 8
++    assert sum(row["mode"] == "full_input" and row["phase"] == "cold" for row in rows) == 4
++    assert sum(row["mode"] == "full_input" and row["phase"] == "warm_stream" for row in rows) == 4
++    warm = [json.loads(line) for line in (output / "comparisons.jsonl").read_text().splitlines()
++            if json.loads(line)["phase"] == "warm_stream"]
++    assert len(warm) == 4
++    for row in warm:
++        comparison = row["cold_reference"]["cold_full_vs_warm_full"]
++        assert comparison["values_exact"] is (row["sample_position"] != 3)
++        assert comparison["max_absolute_error"] == (0.125 if row["sample_position"] == 3 else 0)
++        assert comparison["max_relative_error"] == (1 if row["sample_position"] == 3 else 0)
++        assert comparison["relative_error_undefined_count"] == 0 and comparison["accepted"] is None
++    metadata = receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]
++    assert receipt["status"] == "collected" and dict(metadata["rows"][0][2])["rids"] == list(reversed(returned_rids))
++
++
+ @pytest.mark.parametrize("pair", ["A", "B"])
+ def test_native_response_rids_join_retained_identities_independent_of_metadata_order(sample, tmp_path, monkeypatch, pair):
+     cases = [
+diff --git a/tests/manual/agent_opd/probe_teacher_scoring.py b/tests/manual/agent_opd/probe_teacher_scoring.py
+index 31206e54..2c4fb2c9 100644
+--- a/tests/manual/agent_opd/probe_teacher_scoring.py
++++ b/tests/manual/agent_opd/probe_teacher_scoring.py
+@@ -16,6 +16,8 @@ An opt-in mamba_runtime_metadata overlay follows selected-FP32 preparation and
+ reads the existing server-info endpoint once after all scoring requests. A
+ sample manifest may reference the original fixture and its first sample_count
+ entries without copying tokens or changing their source identities.
++The cache_salt_full_input experiment namespaces only full-input requests by pair
++and pre-send probe request ID; response-only requests remain unsalted controls.
+ 
+ Cold comparisons flush before each request. Separate warm passes flush once
+ before each mode's ordered sample stream. Mode order alternates by repetition
+@@ -149,6 +151,9 @@ def _load_config(path, pair, output):
+         raise ValueError("mamba_runtime_metadata must be a JSON boolean")
+     if runtime_metadata and not selected_fp32:
+         raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
++    cache_salt_full_input = config.get("cache_salt_full_input", False)
++    if type(cache_salt_full_input) is not bool:
++        raise ValueError("cache_salt_full_input must be a JSON boolean")
+     config_paths = [path.resolve()]
+     if "formal_config" in config:
+         formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
+@@ -158,6 +163,8 @@ def _load_config(path, pair, output):
+         config["selected_fp32_snapshots"] = selected_fp32
+         if runtime_metadata:
+             config["mamba_runtime_metadata"] = True
++        if cache_salt_full_input:
++            config["cache_salt_full_input"] = True
+     teacher = config["pairs"][pair]["teacher"]
+     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
+         raise ValueError("This dedicated probe requires H800/codesign")
+@@ -327,16 +334,19 @@ async def _flush(url, timeout, path, identity):
+     return record["status"]
+ 
+ 
+-async def _request(url, sample, mode, timeout, output, local, identity, cache_state):
+-    payload = _payload(sample, mode)
++async def _request(url, sample, mode, timeout, output, local, identity, cache_state, *, cache_salt_full_input=False):
+     request_id = f"{identity['phase']}-r{identity['repetition']}-s{identity['sample_position']}-{mode}"
++    payload = _payload(sample, mode)
++    if cache_salt_full_input and mode == "full_input":
++        payload["cache_salt"] = f"{identity['pair']}:{request_id}"
+     record = {**identity, "request_id": request_id, "mode": mode, "source_uid": sample["source_uid"],
+               "sample_index": sample["sample_index"], "input_count": len(sample["tokens"]),
+               "prompt_count": len(sample["tokens"]) - sample["response_length"],
+               "response_count": sample["response_length"], "logprob_start_len": payload["logprob_start_len"],
+               "expected_input_token_logprobs_count": len(sample["tokens"]) - payload["logprob_start_len"],
+               "first_requested_input_token_id": sample["tokens"][payload["logprob_start_len"]],
+-              "cache_state": cache_state, "status": "failed", "started_at": time.time(),
++              "cache_state": cache_state, "cache_salt": payload.get("cache_salt"),
++              "status": "failed", "started_at": time.time(),
+               "token_ids_match": False, "finite_log_probs": False}
+     record.update({key: None for key in ("http_time_to_headers_seconds", "http_elapsed_seconds", "body_read_seconds",
+                                         "http_status", "body_bytes", "json_parse_seconds", "validation_seconds",
+@@ -402,7 +412,8 @@ def _record_comparison(output, identity, results, sample, pair, cold_results=Non
+     _append(output / "comparisons.jsonl", record)
+ 
+ 
+-async def _benchmark(args, fixture, url, output, local):
++async def _benchmark(args, fixture, url, output, local, *, cache_salt_full_input=False):
++    request_options = {"cache_salt_full_input": True} if cache_salt_full_input else {}
+     server_request = {"endpoint": url + "/get_server_info"}
+     info = _parse(await _http("GET", server_request["endpoint"], None, args.request_timeout, server_request), server_request)
+     _write(output / "server_info.json", {"http": server_request, "get_server_info": info})
+@@ -416,7 +427,7 @@ async def _benchmark(args, fixture, url, output, local):
+                 cache = await _flush(url, args.request_timeout, output / "cache.jsonl", {**identity, "mode": mode})
+                 cache_observations["cold_cache_verified"] &= cache == "flushed"
+                 results[mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity,
+-                                               "cold_flushed" if cache == "flushed" else "cache_undefined")
++                                               "cold_flushed" if cache == "flushed" else "cache_undefined", **request_options)
+             _record_comparison(output, identity, results, sample, args.pair)
+             cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])] = results
+     for repetition in range(args.repeats):
+@@ -428,7 +439,8 @@ async def _benchmark(args, fixture, url, output, local):
+             for position, sample in enumerate(fixture["samples"]):
+                 identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
+                 state = ("stream_first_after_flush" if position == 0 else "ordered_stream_after_flush") if cache == "flushed" else "cache_undefined"
+-                results[position][mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity, state)
++                results[position][mode] = await _request(
++                    url, sample, mode, args.request_timeout, output, local, identity, state, **request_options)
+         for position, sample in enumerate(fixture["samples"]):
+             identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
+             _record_comparison(output, identity, results[position], sample, args.pair,
+@@ -601,7 +613,8 @@ def _run(args):
+                 config["startup_timeout"])
+             if result["model_info"] is None:
+                 raise RuntimeError("Dedicated teacher readiness was interrupted")
+-            result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local))
++            request_options = {"cache_salt_full_input": True} if config.get("cache_salt_full_input", False) else {}
++            result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local, **request_options))
+             paired._check_server(process)
+             if config.get("mamba_runtime_metadata", False):
+                 result["native_measurements_completed"] = True

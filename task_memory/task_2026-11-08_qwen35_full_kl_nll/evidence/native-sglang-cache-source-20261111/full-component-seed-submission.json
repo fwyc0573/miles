@@ -1,0 +1,9 @@
+{
+  "job": "exp-1111-091407-113148",
+  "creator": "i-fengyicheng",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "requested_gpus": 0,
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "command": "timeout 600 /opt/sglang/bin/python3 -B /data/ycfeng/tmp/opencode-v2-tmp/opencode/collect-full-component-seed-source-20261111-2419.py /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111 artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "submitted_at": "2026-11-11T01:14:07.255255+00:00"
+}

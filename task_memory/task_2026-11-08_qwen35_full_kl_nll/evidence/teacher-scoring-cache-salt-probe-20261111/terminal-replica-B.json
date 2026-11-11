@@ -1,0 +1,72 @@
+{
+  "collected_at": "2026-11-11T00:48:16.498554+00:00",
+  "pair": "B",
+  "job": "exp-1111-083634-881422",
+  "replica": "exp-1111-083634-881422-cfcd2084",
+  "creator": "i-fengyicheng",
+  "status": {
+    "conditions": [
+      {
+        "type": "Initialized",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-11T00:36:46Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "Ready",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-11T00:43:20Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "ContainersReady",
+        "status": "False",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-11T00:43:20Z",
+        "reason": "PodCompleted"
+      },
+      {
+        "type": "PodScheduled",
+        "status": "True",
+        "lastProbeTime": null,
+        "lastTransitionTime": "2026-11-11T00:36:46Z"
+      }
+    ],
+    "hostIP": "10.191.6.43",
+    "podIP": "100.96.65.111",
+    "podIPs": [
+      {
+        "ip": "100.96.65.111"
+      }
+    ],
+    "startTime": "2026-11-11T00:36:46Z",
+    "containerStatuses": [
+      {
+        "name": "probe",
+        "state": {
+          "terminated": {
+            "exitCode": 0,
+            "reason": "Completed",
+            "startedAt": "2026-11-11T00:36:57Z",
+            "finishedAt": "2026-11-11T00:43:19Z",
+            "containerID": "containerd://5ff494f6d281ddba20db401673f822d70aa19c9a647be1683c2950b1cf0dfba9"
+          }
+        },
+        "lastState": {},
+        "ready": false,
+        "restartCount": 0,
+        "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+        "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+        "containerID": "containerd://5ff494f6d281ddba20db401673f822d70aa19c9a647be1683c2950b1cf0dfba9",
+        "started": false
+      }
+    ],
+    "qosClass": "Guaranteed",
+    "phase": "Succeeded",
+    "nodeName": "gpu-h800-0039.host.platform.shaipower.com",
+    "finishTimestamp": "2026-11-11T00:43:21Z"
+  },
+  "scope": "Exact-name personal SDK terminal replica status only; no CUDA or numerical correctness inference."
+}

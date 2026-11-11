@@ -1,0 +1,66 @@
+{
+  "collected_at": "2026-11-11T00:41:12.535123+00:00",
+  "receipt_scope": "Requested allocation, image, creator, mounted local source contract and current placement only; actual worker CUDA identity and numerical acceptance pending.",
+  "jobs": [
+    {
+      "pair": "A",
+      "job": "exp-1111-083634-351665",
+      "uid": "6a9973b5-50e5-4b89-bba0-3dd28cd76e00",
+      "creator": "i-fengyicheng",
+      "phase": "Succeeded",
+      "preemptible": "no",
+      "source_annotations": {
+        "job": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+        "task": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      },
+      "containers": [
+        {
+          "name": "probe",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "limits": {
+            "cpu": "32",
+            "memory": "250Gi",
+            "nvidia.com/gpu": "4"
+          }
+        }
+      ],
+      "replicas": [
+        {
+          "name": "exp-1111-083634-351665-cfcd2084",
+          "ip": "100.102.169.70",
+          "status": null
+        }
+      ]
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-083634-881422",
+      "uid": "415d8bc2-e87e-442a-acac-a9363946329d",
+      "creator": "i-fengyicheng",
+      "phase": "Running",
+      "preemptible": "no",
+      "source_annotations": {
+        "job": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+        "task": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+      },
+      "containers": [
+        {
+          "name": "probe",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "limits": {
+            "cpu": "32",
+            "memory": "250Gi",
+            "nvidia.com/gpu": "4"
+          }
+        }
+      ],
+      "replicas": [
+        {
+          "name": "exp-1111-083634-881422-cfcd2084",
+          "ip": "100.96.65.111",
+          "status": null
+        }
+      ]
+    }
+  ]
+}
