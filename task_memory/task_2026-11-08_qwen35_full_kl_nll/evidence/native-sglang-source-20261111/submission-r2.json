@@ -1,0 +1,15 @@
+{
+  "job": "exp-1111-025238-968230",
+  "creator": "i-fengyicheng",
+  "resource": {
+    "cpu": 2,
+    "gpu": 0,
+    "mem_gb": 8,
+    "replica": 1,
+    "charged_group": "codesign",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "local_mount": "/data/ycfeng"
+  },
+  "query_source": "SDK client group/version/namespace/plural",
+  "submitted": true
+}

@@ -1,0 +1,731 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json
+new file mode 100644
+index 00000000..11f3e2f5
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json
+@@ -0,0 +1,13 @@
++{
++  "task_id": "profile-teacher-scoring-probe-20261111",
++  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
++  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/retained-cases.json",
++  "pairs": ["A", "B"],
++  "repeats": 2,
++  "request_timeout_seconds": 3600,
++  "worker_seconds": 3600,
++  "child_cleanup_grace_seconds": 90,
++  "selected_fp32_snapshots": true,
++  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native",
++  "acceptance": "Record same-input response IDs, finite probabilities, exact and numerical differences, raw score range, cold and warm request timings, transferred bytes, cache counters and native source identity. No automatic numerical tolerance or performance PASS. Formal submission stays paused pending primary inspection."
++}
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md
+new file mode 100644
+index 00000000..585797c0
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md
+@@ -0,0 +1,160 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-11 | Add the isolated FP32 probe configuration and CPU integration evidence; retain independent same-run cold references and native verification limits. |
++| 2026-11-11 | Primary completed controller forwarding,202 joined checks and both real controller dry-runs; native submission remains pending. |
++
++# FP32 teacher-scoring probe integration — CPU only
++
++TaskID: `profile-fp32-probe-integration-20261111`.
++
++## Deliverables and observed contracts
++
++- `tests/manual/agent_opd/probe_teacher_scoring.py`: the existing `--config` accepts the isolated probe JSON and reads its repository-relative `formal_config`. A malformed `selected_fp32_snapshots` fails with `ValueError: selected_fp32_snapshots must be a JSON boolean`. Absent/false selection never calls the preparer or changes dependency sources. The existing pinned worker Python and actual H800 allocation checks remain.
++- `_run` calls `prepare_source(Path(importlib.util.find_spec("sglang").origin).parent, image=config["image"], selected_fp32=True, archive_dir=output / "source_preflight")` before `_runtime` and teacher startup. The returned receipt is preserved unchanged as `source_preflight` in `preload.json` and `result.json`; its `cuda_semantics` remains `UNVERIFIED`. Only this experiment records the preparer module's actual file identity in `native_scoring_sources`.
++- Cold request vectors and IDs are retained in a simple per-run dictionary keyed by `(pair, repetition, source_uid, sample_index)`. Every warm comparison references both independent cold requests and reports all four cold-to-warm numerical comparisons. Existing `full_vs_response_only`, cold full-versus-response comparisons, token/length/finite contracts and A-only historical comparisons remain. There is no numerical tolerance, automatic acceptance, excluded case or additional request/flush.
++- `tests/fast/test_teacher_scoring_probe.py`: 20 additional CPU cases cover ordering and a real preparer receipt, absent/false selection, malformed booleans, qualified-image/source errors, unchanged native teacher argv/environment, and distinct cold vectors. The seven-case A/B HTTP fixtures each observe **56 scoring requests, 32 flushes and 28 comparison rows**. They include: correct warm response despite a drifting warm-full; two warm modes drifting together; and distinct cold modes with correct same-mode warm results. Matching uses repetition and sample identity, not token counts or request-count inference. B never uses historical A scores.
++- `teacher_scoring_fp32_probe_config.json`: exact text clone of `teacher_scoring_probe_config.json` after removing the new true boolean and restoring `output_parent`. Effective `envs={}`, image, model paths, BF16 teacher argv, cache parameters, concurrency, protocol, seven samples, repeats=2 and budgets remain unchanged. Modification history for the new configuration is recorded here rather than adding a third JSON difference.
++
++The preparation fixture copies the six qualified retained C3 files from `evidence/native-sglang-cache-source-20261111/exp-1111-042450-358109/source` into its temporary directory and executes the existing `prepare_source`. Package discovery/version are mocked; its actual returned receipt and archive are compared, including the two changed source files. These are source-preparation observations, not installed worker dependency verification or CUDA measurements. If retained source evidence is unavailable in another environment, the five source-dependent cases explicitly skip rather than substituting the older host package.
++
++## Commands and results
++
++Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`. CPU environment: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python **3.12.13**, pytest **9.1.1**. No GPU/platform/network/SSH/auth operation or delegation was executed. Native HTTP, GPU inspection and server startup are mocked; the pre-existing cleanup checks use only their owned CPU child.
++
++Final focused command — **PASS: 55 passed, 4 warnings, 1.46 seconds**:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/fp32-probe-focused-final-20261111
++```
++
++Final existing-related-suite command — **PASS: 165 passed, 20 warnings, 5.20 seconds** (the existing 145 checks plus 20 new cases):
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/fp32-probe-joined-fixed-20261111
++```
++
++Warnings are existing SWIG/datetime/Torch-JIT deprecations and CPU-only AWQ/GGUF support notices, not GPU measurements.
++
++### Primary end-to-end controller integration
++
++The controller now passes the isolated probe path as worker `--config` only for a true `selected_fp32_snapshots`, and checks that path under the existing local mount. Absent/false retains the original formal-config command. Six A/B selection cases and six malformed-selection cases passed; no extra GPU role, environment or workload parameter was added.
++
++Primary joined result: **202 passed,20 existing warnings in7.26s**, Python3.12.13/pytest9.1.1. Exact command:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/teacher-scoring-fp32-joined-primary-20261111
++```
++
++Both controller dry-runs also passed using the actual Python3.10 StepMind environment. For each pair, replace `A` below with `A` or `B` in both arguments:
++
++```bash
++PYTHONPATH="$PWD:/data/ycfeng/steptron" PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/tmp/stepmind-env/bin/python -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json --pair A --receipt task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/admission-A-r1.json --dry-run
++```
++
++Observed per pair: submitted=false,4 H800/codesign,1 teacher task,32 CPU/256GB,1 replica, no NIC/RDMA override, original two volume mounts, source directory `/data/ycfeng`, and the worker command selects `teacher_scoring_fp32_probe_config.json`. Request/flush counts remain56/32. This verifies launch construction, not actual admission, allocation, preparation or CUDA correctness.
++
++Python 3.10 syntax and exact JSON isolation command — **PASS: both Python ASTs and exact clone assertion**. This checks syntax using Python 3.12's `feature_version`, not execution under Python 3.10:
++
++```bash
++/data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
++import ast
++import json
++import sys
++from pathlib import Path
++paths = ['tests/manual/agent_opd/probe_teacher_scoring.py', 'tests/fast/test_teacher_scoring_probe.py']
++for relative in paths:
++    ast.parse(Path(relative).read_bytes(), filename=relative, feature_version=(3, 10))
++    print('AST_PY310 PASS', relative)
++root = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
++base_text = (root / 'teacher_scoring_probe_config.json').read_text()
++variant_text = (root / 'teacher_scoring_fp32_probe_config.json').read_text()
++base, variant = json.loads(base_text), json.loads(variant_text)
++restored = variant_text.replace('  "selected_fp32_snapshots": true,\n', '', 1)
++assert restored.replace(json.dumps(variant['output_parent']), json.dumps(base['output_parent']), 1) == base_text
++print('CONFIG_EXACT_CLONE PASS: only selected_fp32_snapshots and output_parent differ')
++print('PYTHON', sys.version)
++PY
++```
++
++Whitespace command — **PASS: exit 0, no diagnostics**:
++
++```bash
++git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md
++```
++
++The two new untracked files were also checked explicitly; both commands returned the expected no-index difference exit code **1**, with **no whitespace diagnostics**:
++
++```bash
++git diff --no-index --check /dev/null task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json
++git diff --no-index --check /dev/null task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md
++```
++
++### Iterations and corrected failure
++
++All focused iteration commands use the final focused command's interpreter, environment, test path and pytest options; only `--basetemp` and the listed `-k` change. The joined first attempt uses the final joined command's test list/options with the listed `--basetemp`.
++
++| Temporary-directory suffix under `/data/ycfeng/tmp/opencode-v2-tmp/opencode/` | Additional selection | Observed result |
++| --- | --- | --- |
++| `fp32-probe-cold-red-20261111` | `-k warm_scores_use_same_run` | Expected RED: 2 failed in 0.42s; missing `pair`/cold-reference output (`KeyError: 'pair'`). |
++| `fp32-probe-cold-green-20261111` | `-k 'warm_scores_use_same_run or fixed_case_identities or comparison_reports'` | PASS: 5 passed in 0.33s. |
++| `fp32-probe-source-red-20261111` | `-k selected_source_preparation` | Expected RED: 2 failed, 1 passed in 0.97s; worker did not yet accept probe JSON (`KeyError: 'pairs'`). |
++| `fp32-probe-source-green-20261111` | `-k selected_source_preparation` | PASS: 3 passed in 0.75s. |
++| `fp32-probe-focused-20261111` | None | PASS: 55 passed in 1.70s. |
++| `fp32-probe-joined-20261111` | Joined test list | FAIL: 164 passed, 1 failed in 5.28s; test assumed no attention modules existed anywhere in the shared pytest process. |
++
++The joined failure was diagnosed as a fixture assumption: preceding existing CPU tests already import host attention. The test now snapshots pre-existing attention modules and verifies that this probe adds none before preparation. No production behavior was changed for that failure. Both final focused and joined reruns pass.
++
++## Acceptance limits and PRIMARY handoff
++
++CPU deliverables are complete; no files were staged or committed. The source preparer, its tests/report, submit helper and shared task records were not edited by this task.
++
++**Helper integration:** this was outside the delegated four-file ownership at delivery. PRIMARY subsequently completed it as described above; it is no longer a blocker. Combined fixed-diff review and native H800 execution remain pending.
++
++No native H800 run, donor/state-buffer/dtype observation, kernel semantic verification, teacher probability acceptance, historical-cause attribution or performance PASS is claimed. The real worker must still use its pinned Python, native package origin, actual H800 allocation and this run's independent cold references. Receipt dtype/capability labels are not measured runtime buffers. Formal A/B remain blocked on the existing native acceptance requirements.
++
++The requested JSON history wording conflicts with the stricter exact-two-difference configuration contract; this report records the configuration's history without changing its machine input. PRIMARY can resolve that documentation-format ambiguity without changing the experiment.
++
++## 1. 规划完成情况
++
++**汇总：** PASS 5｜BLOCKED/FAILED/SKIPPED 1｜TODO 0
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| Source preparation 接入 | PASS | 真实 receipt、顺序、baseline、拒绝路径已验证。 |
++| 独立 cold 对照 | PASS | A/B 各56 requests/32 flushes，身份和独立模式匹配。 |
++| 隔离配置 | PASS | 仅boolean和output_parent差异。 |
++| CPU验证与报告 | PASS | 55 focused/165 joined PASS、AST3.10与diff检查。 |
++| Native GPU验证 | SKIPPED | 明确CPU-only，未执行。 |
++| Submit helper转发 | PASS | PRIMARY完成true variant路径转发及12个CPU检查。 |
++
++## 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** 本次委派开始至PRIMARY联合CPU验证｜**当前前沿：** 组合review与真实H800验证；helper接入已完成。
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | 仅验收所需fixture，无额外instrumentation。 |
++| D2 细节反复重试 | CLEAR | 一次joined隔离假设错误已诊断并修正。 |
++| D3 支线问题修补 | CLEAR | 仅四个指定文件。 |
++| D4 可并行任务停滞 | CLEAR | 本任务禁止delegation；PRIMARY并行范围未触碰。 |
++| D5 超范围镀金 | CLEAR | 无新framework/flag/cache/barrier/interval策略。 |
++| D6 分析空转 | CLEAR | 已交付并完成CPU验收。 |
++| D7 路线违背 | CLEAR | 无GPU/native接受结论，无stage/commit。 |
++
++**文档检查：** 共享spec/tickets的S1–S6未发现本任务范围内缺陷；JSON历史格式歧义已单独交给PRIMARY。
++**归因：** 无。
++
++## 3. 纠正建议
++
++**分支：** A：spec/tickets合理，无需改动。
++**需停止的偏离行为：** 无。
++**接下去的路线：** PRIMARY完成组合review和真实H800验证，不从CPU receipt推断native验收。
++
++## 4. 最值得关注的 3 点
++
++1. Variant路径已由PRIMARY接通，真实worker应用及GPU结果仍未验证。
++2. Warm-full不是cold oracle，两个cold模式及其request IDs独立保留。
++3. CPU PASS不证明CUDA dtype、buffer、donor、概率、历史根因或performance。
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md
+index 8bb1f3f4..d846f164 100644
+--- a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md
+@@ -6,6 +6,7 @@
+ | 2026-11-11 | Record the CPU-ready scope fix, two-axis review, actual eight-H800 probe allocation and recovered supervision without resubmission. |
+ | 2026-11-11 | Record the completed historical comparison and H800 cold/warm results; retain the formal hold after measured warm-state probability drift. |
+ | 2026-11-11 | Confirm hidden canonical KV reuse and an intermediate-checkpoint rounding path; defer the possibly redundant coarse-barrier experiment and prepare selected-FP32 snapshot wiring. |
++| 2026-11-11 | Close the normal-eager WAR publisher source chain; both snapshot source reviews returned No findings and integrated CPU checks passed202. Native parity remains pending. |
+ 
+ # Comparative workflow RCA
+ 
+@@ -108,6 +109,14 @@ TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-
+ 
+ These checks establish payload and diagnostic environment/receipt contracts, not deployed flag application or repaired native scoring. The existing global document checker has2 unresolved relative links inside the frozen candidate snapshot, not maintained task documents; neither snapshot nor checker was modified to hide that limitation. Formal04/05 remain paused. Numerical acceptance must use each case's retained cold reference, not a contaminated warm-full result.
+ 
++### Source candidate review and native experiment readiness
++
++Candidate `d7e7e301` passed independent Standards and Spec source reviews on the fixed `ab3f47d5 → d7e7e301` artifacts: both **No findings**. The reviewers inspected three repository files, the six qualified native seams and the generated two-file28-line patch. Their conclusions accept only the source phase, not deployed identity, CUDA compilation/stores, donor fidelity, performance, historical causality or formal readiness. Review artifacts: `evidence/selected-fp32-review-20261111/`.
++
++Native0GPU source jobs `exp-1111-045750-493777` and `exp-1111-052149-761200` succeeded and retained25 runner/worker and9 runner-utils files respectively. The actual publisher body closes the static WAR chain: `runner_utils/shared_read_event.py:29–30` returns for every contract other than `PRE_REPLAY`, so `UNKNOWN` publishes no event. With initial None mailbox, per-round consumption/clear and no other publisher on the normal eager path, baseline already selects whole-forward `wait_stream`. The coarse variant is redundant on that path and remains unsubmitted. R1's actual runner/contract/mailbox branch was not recorded, so this source conclusion is not retrospective runtime proof and does not exclude other races.
++
++The existing probe now records all four warm-to-independent-cold comparisons with matching pair/repetition/UID/index. The controller passes the isolated selected-FP32 input into the worker; both actual controller dry-runs passed. Primary joined CPU verification is **202 PASS in7.26s**. Exact commands and limits are in `test_report_2026-11-11_fp32_probe_integration.md`. All56 requests and32 flushes per pair, model/BF16/cache/concurrency/chunk settings and scientific parameters are unchanged. The next decisive evidence is actual H800 source preparation and same-input native warm probabilities; no fixed-run numerical or performance PASS is claimed.
++
+ ## Feedback loop and verification limits
+ 
+ The historical failing native scenario is the current RED evidence:225 valid outcomes versus231 required, despite256 completed generations. CPU tests can verify payload and trimming semantics but cannot price GPU prefill, KV reuse or service capacity. The planned bounded H800 probe uses retained generated-token fixtures and the formal teacher command; model loading is outside the steady-state request timing. Full-input and proposed response-only requests are measured on one loaded engine, with explicit cache-reset and warm-stream methods.
+diff --git a/tests/fast/test_teacher_scoring_probe.py b/tests/fast/test_teacher_scoring_probe.py
+index db1e097a..db4e1f9e 100644
+--- a/tests/fast/test_teacher_scoring_probe.py
++++ b/tests/fast/test_teacher_scoring_probe.py
+@@ -300,6 +300,91 @@ def test_fixed_case_identities_cold_order_balance_warm_prefix_stream_and_histori
+     assert json.loads((second / "comparisons.jsonl").read_text())["historical_expected"] is None
+ 
+ 
++@pytest.mark.parametrize("pair", ["A", "B"])
++def test_warm_scores_use_same_run_cold_references_not_contaminated_warm_full(sample, tmp_path, monkeypatch, pair):
++    samples = [{**sample, "source_uid": f"conversation-{position // 2}", "sample_index": position % 2,
++                "tokens": [10, 11, 12, 100 + position, 200 + position]} for position in range(7)]
++    fixture = {"job": "historical-A-job", "samples": samples}
++    references = {
++        (repetition, item["source_uid"], item["sample_index"], mode): [
++            -1.0 - position - (0.125 if position == 2 and mode == "response_only" else 0), -0.25 - repetition]
++        for repetition in range(2) for position, item in enumerate(samples) for mode in probe._MODES
++    }
++    current = {}
++    original_request = probe._request
++
++    async def request(url, item, mode, timeout, output, local, identity, cache_state):
++        current.update(sample=item, mode=mode, identity=identity)
++        return await original_request(url, item, mode, timeout, output, local, identity, cache_state)
++
++    def response(method, url, kwargs):
++        if url.endswith("/get_server_info"):
++            return b'{"version":"mock-not-native"}', 200
++        if url.endswith("/flush_cache"):
++            return b"Cache flushed", 200
++        item, mode, identity = current["sample"], current["mode"], current["identity"]
++        values = references[(identity["repetition"], item["source_uid"], item["sample_index"], mode)]
++        body = _body(item, mode)
++        # Case 0: warm response agrees with both cold modes, but not warm full.
++        # Case 1: both warm modes drift together, so warm parity is misleading.
++        drift = identity["phase"] == "warm_stream" and (
++            (identity["sample_position"] == 0 and mode == "full_input") or identity["sample_position"] == 1)
++        for entry, value in zip(body["meta_info"]["input_token_logprobs"][-2:], values):
++            entry[0] = value - (0.5 if drift else 0)
++        return json.dumps(body).encode(), 200
++
++    monkeypatch.setattr(probe, "_request", request)
++    _, calls, _ = _mock_http(monkeypatch, response)
++    output, local = _output(tmp_path)
++    args = SimpleNamespace(repeats=2, request_timeout=17, pair=pair)
++    asyncio.run(probe._benchmark(args, fixture, "mock://teacher", output, local))
++    rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
++    assert len(rows) == len({row["request_id"] for row in rows}) == 56
++    assert sum(url.endswith("/generate") for _, url, _ in calls) == 56
++    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 32
++    by_id = {row["request_id"]: row for row in rows}
++    comparisons = [json.loads(line) for line in (output / "comparisons.jsonl").read_text().splitlines()]
++    assert len(comparisons) == 28
++    for row in comparisons:
++        assert row["pair"] == pair
++        assert (row["historical_expected"] is None) == (pair == "B")
++        if row["phase"] == "cold":
++            assert row["full_vs_response_only"]["values_exact"] == (row["sample_position"] != 2)
++            if row["sample_position"] == 2:
++                assert row["full_vs_response_only"]["max_absolute_error"] == 0.125
++            assert row["cold_reference"] is None
++            continue
++        cold = row["cold_reference"]
++        for mode, key in (("full_input", "full_request_id"), ("response_only", "response_request_id")):
++            reference = by_id[cold[key]]
++            assert reference["phase"] == "cold" and reference["mode"] == mode
++            assert all(reference[key] == row[key] for key in ("repetition", "source_uid", "sample_index"))
++            vector = json.loads(Path(reference["completion_scores"]).read_text())
++            assert vector["log_probs"] == references[(row["repetition"], row["source_uid"], row["sample_index"], mode)]
++        errors = [cold[key] for key in (
++            "cold_full_vs_warm_full", "cold_full_vs_warm_response_only",
++            "cold_response_only_vs_warm_full", "cold_response_only_vs_warm_response_only")]
++        assert all(error["accepted"] is None and error["finite_log_probs"] and error["token_ids_match"]
++                   for error in errors)
++        if row["sample_position"] == 0:
++            assert row["full_vs_response_only"]["values_exact"] is False
++            assert cold["cold_full_vs_warm_full"]["max_absolute_error"] == 0.5
++            assert cold["cold_response_only_vs_warm_full"]["values_exact"] is False
++            assert cold["cold_full_vs_warm_response_only"]["values_exact"] is True
++            assert cold["cold_response_only_vs_warm_response_only"]["values_exact"] is True
++        elif row["sample_position"] == 1:
++            assert row["full_vs_response_only"]["values_exact"] is True
++            assert all(error["values_exact"] is False and error["max_absolute_error"] == 0.5 for error in errors)
++        elif row["sample_position"] == 2:
++            assert row["full_vs_response_only"]["values_exact"] is False
++            assert cold["cold_full_vs_warm_full"]["values_exact"] is True
++            assert cold["cold_response_only_vs_warm_response_only"]["values_exact"] is True
++            assert cold["cold_full_vs_warm_response_only"]["max_absolute_error"] == 0.125
++            assert cold["cold_response_only_vs_warm_full"]["max_absolute_error"] == 0.125
++        else:
++            assert all(error["values_exact"] is True for error in errors)
++
++
+ def test_cli_requires_explicit_positive_budget_and_help_has_no_worker_imports():
+     required = ["--config", "config.json", "--pair", "A", "--samples", "samples.json", "--output-dir", "new"]
+     for extra in ([], ["--repeats", "1"], ["--repeats", "0", "--request-timeout", "1"],
+@@ -347,6 +432,204 @@ def test_config_enforces_worker_hardware_and_reuses_model_whitelist(worker_confi
+         probe._load_config(path, "A", output)
+ 
+ 
++@pytest.fixture
++def snapshot_source(tmp_path, monkeypatch):
++    from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++    retained = Path(os.environ.get("MILES_PINNED_SGLANG_SOURCE", Path(__file__).resolve().parents[2]
++                    / "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
++                    / "exp-1111-042450-358109/source"))
++    if not retained.is_dir():
++        pytest.skip("Actual retained native SGLang C3 source is not available")
++    root = tmp_path / "native-sglang"
++    manifest = snapshots.source_manifest()
++    for relative in manifest["files"]:
++        target = root / relative
++        target.parent.mkdir(parents=True, exist_ok=True)
++        target.write_bytes((retained / relative).read_bytes())
++    monkeypatch.setattr(snapshots.importlib.metadata, "version", lambda name: manifest["distribution_version"])
++    return root, snapshots
++
++
++@pytest.mark.parametrize("selected", [0, 1, "true", None, {}, []])
++@pytest.mark.parametrize("probe_input", [False, True])
++def test_snapshot_selection_rejects_non_boolean_json_before_worker_start(worker_config, tmp_path, selected, probe_input):
++    path, config, _ = worker_config
++    value = {"formal_config": str(path)} if probe_input else config
++    value["selected_fp32_snapshots"] = selected
++    input_path = tmp_path / "invalid-selection.json"
++    input_path.write_text(json.dumps(value))
++    with pytest.raises(ValueError, match="selected_fp32_snapshots must be a JSON boolean"):
++        probe._load_config(input_path, "A", tmp_path / "new-output")
++    assert json.loads(path.read_text()).get("selected_fp32_snapshots") is None
++
++
++@pytest.mark.parametrize("selected", [None, False, True])
++def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
++        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected):
++    from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
++
++    path, config, model = worker_config
++    root, snapshots = snapshot_source
++    config["image"] = snapshots.source_manifest()["image"]
++    path.write_text(json.dumps(config))
++    wrapper = {"formal_config": str(path)}
++    if selected is not None:
++        wrapper["selected_fp32_snapshots"] = selected
++    wrapper_path = tmp_path / "probe.json"
++    wrapper_path.write_text(json.dumps(wrapper))
++    samples = tmp_path / "samples.json"
++    samples.write_text(json.dumps({"job": "historical-A-job", "samples": [sample]}))
++    output = tmp_path / "retained-new"
++    args = probe._parser().parse_args(["--config", str(wrapper_path if selected is not None else path),
++                                      "--pair", "A", "--samples", str(samples), "--output-dir", str(output),
++                                      "--repeats", "2", "--request-timeout", "17"])
++    monkeypatch.setattr(os, "environ", dict(os.environ))
++    for key, value in {"KUBEBRAIN_RJOB_NAME": "cpu-test-job", "KUBEBRAIN_REPLICA": "0",
++                       "KUBEBRAIN_REPLICA_TOTAL": "1", "NCCL_FROM_PLATFORM": "preserved",
++                       "CUDA_VISIBLE_DEVICES": "0,1,2,3", "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items():
++        monkeypatch.setenv(key, value)
++    events, receipts = [], []
++    original_prepare = snapshots.prepare_source
++    before = {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
++    # Other CPU tests may already import host attention; this worker path must not add imports before preparation.
++    attention_before = {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")}
++
++    def prepare(root_arg, **kwargs):
++        assert root_arg == root and kwargs == {"image": config["image"], "selected_fp32": True,
++                                               "archive_dir": output / "source_preflight"}
++        assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
++        receipts.append(original_prepare(root_arg, **kwargs))
++        events.append("prepared")
++        return receipts[-1]
++
++    monkeypatch.setattr(snapshots, "prepare_source", prepare)
++
++    def find_spec(name):
++        assert name == "sglang" and selected is True
++        return SimpleNamespace(origin=str(root / "__init__.py"))
++
++    monkeypatch.setattr(probe.importlib.util, "find_spec", find_spec)
++
++    def environment(local):
++        local.mkdir(parents=True)
++        monkeypatch.setenv("MILES_NODE_EXTERNAL_IP", "192.0.2.10")
++
++    monkeypatch.setattr(warmup, "_worker_environment", environment)
++
++    def runtime(*args):
++        assert events == (["prepared"] if selected is True else [])
++        events.append("runtime")
++        return {"scope": "CPU mock; native CUDA unverified"}
++
++    monkeypatch.setattr(probe, "_runtime", runtime)
++    native_command = paired._teacher_command(config, "A", 0, {"ip": "192.0.2.10"})
++
++    def launch(command, **kwargs):
++        assert command == native_command and kwargs["start_new_session"] is True
++        assert events[-1] == "runtime"
++        preload = json.loads((output / "preload.json").read_text())
++        source = "tests/manual/agent_opd/sglang_mamba_snapshots.py"
++        assert (source in preload["native_scoring_sources"]) == (selected is True)
++        if selected is True:
++            assert preload["source_preflight"] == receipts[0]
++            assert preload["source_preflight"]["cuda_semantics"] == "UNVERIFIED"
++            assert preload["native_scoring_sources"][source] == probe._file_identity(Path(snapshots.__file__))
++        else:
++            assert "source_preflight" not in preload
++        assert all(os.environ[key] == value for key, value in {
++            "NCCL_FROM_PLATFORM": "preserved", "CUDA_VISIBLE_DEVICES": "0,1,2,3",
++            "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items())
++        events.append("teacher")
++        return SimpleNamespace(poll=lambda: None)
++
++    monkeypatch.setattr(probe.subprocess, "Popen", launch)
++    monkeypatch.setattr(paired, "_wait_teacher_ready", lambda *args: {"model_path": str(model)})
++    monkeypatch.setattr(paired, "_check_server", lambda *args: None)
++    monkeypatch.setattr(paired, "_stop_child", lambda *args: None)
++
++    async def benchmark(*args):
++        events.append("benchmark")
++        return {"scope": "CPU mock; no requests made"}
++
++    monkeypatch.setattr(probe, "_benchmark", benchmark)
++    probe._run(args)
++    result = json.loads((output / "result.json").read_text())
++    assert result["status"] == "measurements_completed"
++    assert events == (["prepared"] if selected is True else []) + ["runtime", "teacher", "benchmark"]
++    if selected is True:
++        assert result["source_preflight"] == receipts[0]
++        assert receipts[0]["changed_files"] == ["kernels/ops/attention/fla/chunk.py",
++                                               "srt/layers/attention/linear/kernels/gdn_triton.py"]
++        assert json.loads((output / "source_preflight/preflight.jsonl").read_text()) == receipts[0]
++    else:
++        assert not receipts and not (output / "source_preflight").exists()
++        assert {relative: (root / relative).read_bytes() for relative in before} == before
++    assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
++
++
++@pytest.mark.parametrize("failure", ["image", "source"])
++def test_snapshot_source_error_stops_before_runtime_or_teacher_without_fallback(
++        worker_config, sample, tmp_path, monkeypatch, snapshot_source, failure):
++    from tests.manual.agent_opd import rjob_warmup as warmup
++
++    path, config, _ = worker_config
++    root, snapshots = snapshot_source
++    config["selected_fp32_snapshots"] = True
++    if failure == "source":
++        config["image"] = snapshots.source_manifest()["image"]
++        (root / "kernels/ops/attention/fla/chunk.py").write_bytes(b"unqualified source\n")
++    path.write_text(json.dumps(config))
++    samples = tmp_path / "samples.json"
++    samples.write_text(json.dumps({"job": "historical-A-job", "samples": [sample]}))
++    output = tmp_path / "failure-output"
++    args = SimpleNamespace(config=path, pair="A", samples=samples, output_dir=output, repeats=2, request_timeout=17)
++    monkeypatch.setattr(os, "environ", dict(os.environ))
++    for key, value in {"KUBEBRAIN_RJOB_NAME": "cpu-test-job", "KUBEBRAIN_REPLICA": "0",
++                       "KUBEBRAIN_REPLICA_TOTAL": "1"}.items():
++        monkeypatch.setenv(key, value)
++    monkeypatch.setattr(warmup, "_worker_environment", lambda local: local.mkdir(parents=True))
++    monkeypatch.setattr(probe.importlib.util, "find_spec", lambda name: SimpleNamespace(origin=str(root / "__init__.py")))
++
++    def unexpected(*args, **kwargs):
++        pytest.fail("Source preflight failure must not reach runtime or teacher startup")
++
++    monkeypatch.setattr(probe, "_runtime", unexpected)
++    monkeypatch.setattr(probe.subprocess, "Popen", unexpected)
++    before = {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
++    message = "qualified pinned image" if failure == "image" else "Unrecognized SGLang snapshot source"
++    with pytest.raises(ValueError, match=message):
++        probe._run(args)
++    result = json.loads((output / "result.json").read_text())
++    assert result["status"] == "failed" and result["error_type"] == "ValueError"
++    assert result["native_measurements_completed"] is False and result["cleanup_completed"] is True
++    assert "source_preflight" not in result and "runtime" not in result
++    assert not (output / "preload.json").exists() and not (output / "source_preflight").exists()
++    assert {relative: (root / relative).read_bytes() for relative in before} == before
++
++
++def test_fp32_variant_changes_only_selection_and_isolated_output():
++    repo = Path(__file__).resolve().parents[2]
++    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
++    base_text = (task / "teacher_scoring_probe_config.json").read_text()
++    variant_text = (task / "teacher_scoring_fp32_probe_config.json").read_text()
++    base, variant = json.loads(base_text), json.loads(variant_text)
++    assert "selected_fp32_snapshots" not in base and variant["selected_fp32_snapshots"] is True
++    assert variant["output_parent"] != base["output_parent"]
++    assert {key: value for key, value in variant.items() if key != "selected_fp32_snapshots"} == {
++        **base, "output_parent": variant["output_parent"]}
++    restored = variant_text.replace('  "selected_fp32_snapshots": true,\n', "", 1)
++    assert restored.replace(json.dumps(variant["output_parent"]), json.dumps(base["output_parent"]), 1) == base_text
++    assert variant.get("envs", {}) == {}
++    formal = json.loads((repo / variant["formal_config"]).read_text())
++    fixture = json.loads((repo / variant["samples"]).read_text())
++    assert len(fixture["samples"]) == 7 and variant["repeats"] == 2 and variant["pairs"] == ["A", "B"]
++    assert formal["gpu_tag"] == "H800" and formal["charged_group"] == "codesign"
++    for pair in variant["pairs"]:
++        assert formal["pairs"][pair]["teacher"]["max_running_requests"] == 1
++        assert formal["pairs"][pair]["teacher"]["chunked_prefill_size"] == 8192
++
++
+ @pytest.mark.parametrize("war_barrier", [None, "0", "1"])
+ def test_preload_hashes_and_actual_war_barrier_env_are_not_native_gpu_evidence(worker_config, monkeypatch, war_barrier):
+     path, config, model = worker_config
+@@ -368,6 +651,9 @@ def test_preload_hashes_and_actual_war_barrier_env_are_not_native_gpu_evidence(w
+     assert all(len(item["sha256"]) == 64 and item["bytes"] >= 0 for item in runtime["sglang_sources"].values())
+     assert all(runtime["sglang_sources"][name]["bytes"] > 0 for name in probe._SGLANG_SOURCES)
+     assert runtime["configured_image"] == config["image"] and "parent allocation input" in runtime["image_identity_limit"]
++    monkeypatch.setattr(probe.subprocess, "check_output", lambda *args, **kwargs: "NVIDIA H200, 140000 MiB, mock-driver\n" * 4)
++    with pytest.raises(ValueError, match="configured H800 teacher"):
++        probe._runtime(config, "A")
+     monkeypatch.setattr(probe, "_SGLANG_SOURCES", ("missing-native-source.py",))
+     with pytest.raises(FileNotFoundError):
+         probe._runtime(config, "A")
+diff --git a/tests/fast/test_teacher_scoring_submission.py b/tests/fast/test_teacher_scoring_submission.py
+index 33a179ec..d278a0c8 100644
+--- a/tests/fast/test_teacher_scoring_submission.py
++++ b/tests/fast/test_teacher_scoring_submission.py
+@@ -67,6 +67,39 @@ def test_h200_config_is_rejected_before_submission(tmp_path, monkeypatch):
+         submission.main()
+ 
+ 
++@pytest.mark.parametrize("pair", ["A", "B"])
++@pytest.mark.parametrize("selected", [None, False, True])
++def test_snapshot_variant_reaches_worker_while_baseline_command_stays_unchanged(
++        tmp_path, monkeypatch, capsys, pair, selected):
++    repo, config = _configuration(tmp_path, monkeypatch)
++    probe = json.loads(config.read_text())
++    if selected is not None:
++        probe["selected_fp32_snapshots"] = selected
++        config.write_text(json.dumps(probe))
++    monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config), "--pair", pair,
++                                     "--receipt", str(repo / "receipt.json"), "--dry-run"])
++    assert submission.main() == 0
++    record = json.loads(capsys.readouterr().out)
++    argv = shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1])
++    assert argv[argv.index("--config") + 1] == str(config if selected is True else repo / "formal.json")
++    assert record["requested_gpus"] == 4 and list(record["tasks"]) == ["probe"]
++    assert record["envs"] == {"PYTHONPATH": str(tmp_path)}
++    assert not (repo / "receipt.json").exists()
++
++
++@pytest.mark.parametrize("selected", [0, 1, "true", None, {}, []])
++def test_invalid_snapshot_selection_is_rejected_before_submission(tmp_path, monkeypatch, selected):
++    repo, config = _configuration(tmp_path, monkeypatch)
++    probe = json.loads(config.read_text())
++    probe["selected_fp32_snapshots"] = selected
++    config.write_text(json.dumps(probe))
++    monkeypatch.setattr(sys, "argv", ["submit", "--config", str(config), "--pair", "A",
++                                     "--receipt", str(repo / "receipt.json"), "--dry-run"])
++    with pytest.raises(ValueError, match="selected_fp32_snapshots must be a JSON boolean"):
++        submission.main()
++    assert not (repo / "receipt.json").exists()
++
++
+ @pytest.mark.parametrize("pair", ["A", "B"])
+ def test_probe_envs_change_only_native_environment_not_worker_command(tmp_path, monkeypatch, capsys, pair):
+     repo, config = _configuration(tmp_path, monkeypatch)
+diff --git a/tests/manual/agent_opd/probe_teacher_scoring.py b/tests/manual/agent_opd/probe_teacher_scoring.py
+index f6d88b10..b1ba60a7 100644
+--- a/tests/manual/agent_opd/probe_teacher_scoring.py
++++ b/tests/manual/agent_opd/probe_teacher_scoring.py
+@@ -8,10 +8,17 @@ never changes production payloads. Run from the configured repository:
+         --config FORMAL_CONFIG --pair A --samples FIXED_SAMPLES.json \
+         --output-dir NEW_OUTPUT_DIR --repeats 2 --request-timeout 3600
+ 
++An isolated probe JSON may also be passed as --config; its formal_config keeps
++the engine settings, and selected_fp32_snapshots selects source preparation.
++Only true calls the qualified preparer before runtime inspection/server start.
++Its retained receipt is source evidence, not measured CUDA snapshot behavior.
++
+ Cold comparisons flush before each request. Separate warm passes flush once
+ before each mode's ordered sample stream. Mode order alternates by repetition
+ and, for cold comparisons, sample position. Numerical errors are observations,
+-not tolerance-based acceptance. Worker-local raw bodies/caches are not archived.
++not tolerance-based acceptance. Warm results also reference this run's matching
++independent cold requests; warm-full is not a cold oracle. Worker-local raw
++bodies/caches are not archived.
+ """
+ 
+ import argparse
+@@ -116,6 +123,16 @@ def _load_config(path, pair, output):
+     from tests.manual.agent_opd.run_qwen35_opd import _PERSONAL_ROOT, _READ_ONLY_MODELS
+ 
+     config = json.loads(path.read_text())
++    selected_fp32 = config.get("selected_fp32_snapshots", False)
++    if type(selected_fp32) is not bool:
++        raise ValueError("selected_fp32_snapshots must be a JSON boolean")
++    config_paths = [path.resolve()]
++    if "formal_config" in config:
++        formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
++        config_paths.append(formal_path)
++        config = json.loads(formal_path.read_text())
++        # The probe input selects the experiment; formal engine parameters stay unchanged.
++        config["selected_fp32_snapshots"] = selected_fp32
+     teacher = config["pairs"][pair]["teacher"]
+     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
+         raise ValueError("This dedicated probe requires H800/codesign")
+@@ -144,7 +161,7 @@ def _load_config(path, pair, output):
+     mount, local = Path(config["local_mount"]).resolve(), Path(config["worker_local_root"]).resolve()
+     if not mount.is_absolute() or mount.is_relative_to("/mnt") or local.is_relative_to("/mnt"):
+         raise ValueError("Workspace and worker_local_root must be local, not cloud paths")
+-    for item in (path.resolve(), Path(config["repo"]).resolve()):
++    for item in (*config_paths, Path(config["repo"]).resolve()):
+         if not item.is_relative_to(mount):
+             raise ValueError("Config and repo must resolve under local_mount")
+     if output.is_relative_to("/mnt"):
+@@ -323,12 +340,22 @@ def _mode_order(repetition, sample_position=0):
+     return _MODES if (repetition + sample_position) % 2 == 0 else tuple(reversed(_MODES))
+ 
+ 
+-def _record_comparison(output, identity, results, sample, pair):
++def _record_comparison(output, identity, results, sample, pair, cold_results=None):
+     full, full_id = results["full_input"]
+     response, response_id = results["response_only"]
+-    record = {**identity, "source_uid": sample["source_uid"], "sample_index": sample["sample_index"],
++    record = {**identity, "pair": pair, "source_uid": sample["source_uid"], "sample_index": sample["sample_index"],
+               "full_request_id": full_id, "response_request_id": response_id,
+-              "full_vs_response_only": _comparison(full, response), "historical_expected": None}
++              "full_vs_response_only": _comparison(full, response), "cold_reference": None, "historical_expected": None}
++    if cold_results is not None:
++        cold_full, cold_full_id = cold_results["full_input"]
++        cold_response, cold_response_id = cold_results["response_only"]
++        record["cold_reference"] = {
++            "full_request_id": cold_full_id, "response_request_id": cold_response_id,
++            "cold_full_vs_warm_full": _comparison(cold_full, full),
++            "cold_full_vs_warm_response_only": _comparison(cold_full, response),
++            "cold_response_only_vs_warm_full": _comparison(cold_response, full),
++            "cold_response_only_vs_warm_response_only": _comparison(cold_response, response),
++        }
+     if pair == "A" and sample.get("expected_teacher_log_probs") is not None:
+         expected = {"token_ids": sample["tokens"][-sample["response_length"]:],
+                     "log_probs": sample["expected_teacher_log_probs"]}
+@@ -344,6 +371,7 @@ async def _benchmark(args, fixture, url, output, local):
+     info = _parse(await _http("GET", server_request["endpoint"], None, args.request_timeout, server_request), server_request)
+     _write(output / "server_info.json", {"http": server_request, "get_server_info": info})
+     cache_observations = {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
++    cold_results = {}
+     for repetition in range(args.repeats):
+         for position, sample in enumerate(fixture["samples"]):
+             identity = {"phase": "cold", "repetition": repetition, "sample_position": position}
+@@ -354,6 +382,7 @@ async def _benchmark(args, fixture, url, output, local):
+                 results[mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity,
+                                                "cold_flushed" if cache == "flushed" else "cache_undefined")
+             _record_comparison(output, identity, results, sample, args.pair)
++            cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])] = results
+     for repetition in range(args.repeats):
+         results = [{} for _ in fixture["samples"]]
+         for mode in _mode_order(repetition):
+@@ -366,7 +395,8 @@ async def _benchmark(args, fixture, url, output, local):
+                 results[position][mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity, state)
+         for position, sample in enumerate(fixture["samples"]):
+             identity = {"phase": "warm_stream", "repetition": repetition, "sample_position": position}
+-            _record_comparison(output, identity, results[position], sample, args.pair)
++            _record_comparison(output, identity, results[position], sample, args.pair,
++                               cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])])
+     return cache_observations
+ 
+ 
+@@ -418,7 +448,8 @@ def _run(args):
+               "fixture": _file_identity(args.samples), "config": _file_identity(args.config),
+               "expected_scoring_requests": 4 * len(fixture["samples"]) * args.repeats,
+               "method": {"cold": "Flush before each mode/sample request; alternate order by repetition+sample position",
+-                         "warm_stream": "Flush once per mode stream; fixed sample order; alternate mode order by repetition",
++                          "warm_stream": "Flush once per mode stream; fixed sample order; alternate mode order by repetition",
++                          "cold_reference": "Both independently flushed modes from this run, matched by pair/repetition/source_uid/sample_index; warm-full is descriptive, not a cold oracle",
+                          "requests": "Sequential, same input IDs, native zero-generation payload; one aiohttp session per request",
+                          "order_limit": "One repetition cannot balance both first-mode positions for each individual sample",
+                          "timing": "perf_counter; headers include request serialization/server work; decoded body read, JSON parse and native tail validation measured separately",
+@@ -427,10 +458,19 @@ def _run(args):
+         _worker_environment(local)
+         local_created = True
+         (output / "completion_scores").mkdir()
++        if config.get("selected_fp32_snapshots", False):
++            from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++            root = Path(importlib.util.find_spec("sglang").origin).parent
++            result["source_preflight"] = snapshots.prepare_source(
++                root, image=config["image"], selected_fp32=True, archive_dir=output / "source_preflight")
+         result["runtime"] = _runtime(config, args.pair)
+         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
+             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
+             "tests/manual/agent_opd/qwen35_pair_worker.py", "tests/manual/agent_opd/probe_teacher_scoring.py")}
++        if config.get("selected_fp32_snapshots", False):
++            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_snapshots.py"] = _file_identity(
++                Path(snapshots.__file__))
+         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
+         result["argv"] = command
+         _write(output / "preload.json", result)
+diff --git a/tests/manual/agent_opd/submit_teacher_scoring_probe.py b/tests/manual/agent_opd/submit_teacher_scoring_probe.py
+index a3960854..ba57e4c1 100644
+--- a/tests/manual/agent_opd/submit_teacher_scoring_probe.py
++++ b/tests/manual/agent_opd/submit_teacher_scoring_probe.py
+@@ -25,8 +25,13 @@ def main():
+     parser.add_argument("--dry-run", action="store_true")
+     args = parser.parse_args()
+     repo = Path(__file__).resolve().parents[3]
+-    probe = json.loads(args.config.resolve(strict=True).read_text())
++    probe_path = args.config.resolve(strict=True)
++    probe = json.loads(probe_path.read_text())
++    selected_fp32 = probe.get("selected_fp32_snapshots", False)
++    if type(selected_fp32) is not bool:
++        raise ValueError("selected_fp32_snapshots must be a JSON boolean")
+     formal_path = (repo / probe["formal_config"]).resolve(strict=True)
++    worker_config = probe_path if selected_fp32 else formal_path
+     config = json.loads(formal_path.read_text())
+     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
+         raise ValueError("The scoring probe requires H800/codesign")
+@@ -38,11 +43,11 @@ def main():
+     samples = (repo / probe["samples"]).resolve(strict=True)
+     receipt_path = args.receipt.resolve()
+     output = repo / probe["output_parent"] / args.pair / receipt_path.stem
+-    for path in (repo, formal_path, samples, receipt_path, output):
++    for path in (repo, formal_path, worker_config, samples, receipt_path, output):
+         if not path.is_relative_to(mount):
+             raise ValueError("Probe inputs, output and receipt must be under local_mount")
+     argv = [config["worker_python"], "-u", "-B", "-m", "tests.manual.agent_opd.probe_teacher_scoring",
+-            "--config", str(formal_path), "--pair", args.pair, "--samples", str(samples),
++             "--config", str(worker_config), "--pair", args.pair, "--samples", str(samples),
+             "--output-dir", str(output), "--repeats", str(probe["repeats"]),
+             "--request-timeout", str(probe["request_timeout_seconds"])]
+     script = (

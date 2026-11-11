@@ -641,7 +641,8 @@ def test_kv_stream_witness_probe_selection_overrides_inherited_formal_true(worke
     (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
 def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
         worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
-        inherited_witness=False, coherence_selection=None, coherence_failure=None):
+        inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None,
+        consumer_contract=False):
     from tests.manual import agent_opd
     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
 
@@ -659,16 +660,22 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         wrapper["kv_coherence_capture"] = coherence_selection
     if coherence_selection is True:
         wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+        wrapper["recurrent_sample_original_indices"] = [0, 2]
     wrapper_path = tmp_path / "probe.json"
     wrapper_path.write_text(json.dumps(wrapper))
     samples = tmp_path / "samples.json"
-    samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": [
-        {**sample, "sample_index": index} for index in range(count)]}))
+    fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+    if coherence_selection is True:
+        fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+    samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
     output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
     source_root = root
     real_popen = subprocess.Popen
     if coherence_selection is True:
-        from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+        if consumer_contract:
+            coherence_owner = SimpleNamespace(SCORING_REQUEST_COUNT=16)
+        else:
+            from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
         root.mkdir()
         (root / "__init__.py").write_text('SOURCE = "CPU whole-package fixture"\n')
         monkeypatch.setattr(sys, "path", list(sys.path))
@@ -713,10 +720,12 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         assert archive_dir == output / "kv_store_stream_source_preflight" and events == ["snapshots", "metadata"]
         return source_receipt("kv_streams", archive_dir)
 
-    def prepare_coherence(root_arg: Path, *, image: str, archive_dir: Path, build_receipt: Path) -> dict:
+    def prepare_coherence(root_arg: Path, *, image: str, archive_dir: Path, build_receipt: Path,
+                          recurrent_input_counts: list, recurrent_common_rows: int) -> dict:
         assert root_arg == root and image == config["image"]
         assert build_receipt == Path(config["repo"]) / "required-production-build.json"
         assert archive_dir == output / "kv_coherence_source_preflight" and events == ["snapshots", "metadata", "kv_streams"]
+        assert recurrent_input_counts == [5, 6] and recurrent_common_rows == 1
         return source_receipt("coherence", archive_dir)
 
     def prepare_package(root_arg: Path, *, worker_tmpdir: Path) -> dict:
@@ -725,13 +734,18 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         root = worker_tmpdir / "kv-coherence-runtime" / "sglang"
         # Parent runtime/preparers are DI mocks and conftest already imported SG.
         # Invoke the real copy/guard in a clean CPU child, never purge/reload parent.
-        code = ("import json\nfrom pathlib import Path\n"
-                "from tests.manual.agent_opd import sglang_kv_coherence as owner\n"
-                f"print(json.dumps(owner.prepare_package(Path({str(root_arg)!r}), worker_tmpdir=Path({str(worker_tmpdir)!r}))))\n")
-        with real_popen([sys.executable, "-B", "-c", code], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as child:
-            stdout, stderr = child.communicate(timeout=30)
-            assert child.returncode == 0, stderr.decode()
-        result = json.loads(stdout)
+        if consumer_contract:
+            shutil.copytree(root_arg, root)
+            result = {"package_root": str(root), "child_pythonpath": str(root.parent),
+                      "scope": "Injected CPU consumer contract; native package qualification remains closed"}
+        else:
+            code = ("import json\nfrom pathlib import Path\n"
+                    "from tests.manual.agent_opd import sglang_kv_coherence as owner\n"
+                    f"print(json.dumps(owner.prepare_package(Path({str(root_arg)!r}), worker_tmpdir=Path({str(worker_tmpdir)!r}))))\n")
+            with real_popen([sys.executable, "-B", "-c", code], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as child:
+                stdout, stderr = child.communicate(timeout=30)
+                assert child.returncode == 0, stderr.decode()
+            result = json.loads(stdout)
         sys.path.insert(0, str(root.parent))
         os.environ["PYTHONPATH"] = result["child_pythonpath"]
         assert result["package_root"] == str(root) and root != source_root
@@ -748,6 +762,7 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
             module.prepare_package = prepare_package
             if coherence_selection is True:
                 module.SCORING_REQUEST_COUNT = coherence_owner.SCORING_REQUEST_COUNT
+                module.WINDOW_START, module.WINDOW_END = 2, 6
         monkeypatch.setattr(agent_opd, name, module, raising=False)
         monkeypatch.setitem(sys.modules, f"tests.manual.agent_opd.{name}", module)
 
@@ -799,7 +814,18 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
     monkeypatch.setattr(paired, "_wait_teacher_ready", lambda *args: {"model_path": str(model)})
     monkeypatch.setattr(paired, "_check_server", lambda *args: None)
     monkeypatch.setattr(paired, "_stop_child", lambda *args: None)
-    before_readback = {}
+    before_readback, recurrent_readback = {}, {}
+    if recurrent_failure == "phase":
+        benchmark = probe._benchmark
+
+        async def inconsistent_phase(*args, **kwargs):
+            result = await benchmark(*args, **kwargs)
+            rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+            rows[0]["phase"] = "warm_stream"
+            (output / "requests.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
+            return result
+
+        monkeypatch.setattr(probe, "_benchmark", inconsistent_phase)
 
     def response(method, url, kwargs):
         assert events[-1] == "server"
@@ -826,16 +852,50 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
                                          "process_id": cpu_metadata["process_id"],
                                          "native_binding": None if coherence_failure == "native_binding" else binding,
                                          "binding_error": None,
-                                         "banks": [{"rid": "opaque", "physical": {"old_rows": 7955,
+                                          "banks": [{"rid": "opaque", "physical": {"old_rows": 7955,
                                              "writer_equals_FULL_insert_all_layers": True,
                                              "original_OLD_equals_rebind": True, "rebind_suffix_equals_insert": True,
-                                             "indices_in_bounds": True}, "metrics": [{"values_exact": True}]}]}
+                                              "indices_in_bounds": True}, "metrics": [{"values_exact": True}]}]}
+                rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+                workload = json.loads((output / "preload.json").read_text())["recurrent_workload"]
+                producer, forward_rows = _cpu_recurrent_evidence(rows, workload, metadata["process_id"])
+                metadata["rows"].extend(forward_rows)
+                if recurrent_failure == "missing":
+                    producer = None
+                elif recurrent_failure == "duplicate":
+                    producer["records"][0] = producer["records"][1]
+                elif recurrent_failure == "wrong_rid":
+                    producer["records"][0]["rid"] = "unrelated-native-rid"
+                elif recurrent_failure == "partial":
+                    producer["replays"] = []
+                elif recurrent_failure == "shape":
+                    producer["records"][0]["extend"] += 1
+                elif recurrent_failure == "process":
+                    producer["process_id"] += 1
+                elif recurrent_failure == "descriptors":
+                    producer["records"][0].pop("descriptors")
+                elif recurrent_failure == "forward_missing":
+                    metadata["rows"].pop()
+                elif recurrent_failure == "common_rows":
+                    producer["comparisons"][0]["common_rows"] += 1
+                elif recurrent_failure == "paired_missing":
+                    producer["comparisons"] = producer["comparisons"][:1]
+                elif recurrent_failure == "replay_missing":
+                    rid = producer["replays"][-1]["rid"]
+                    producer["replays"] = [replay for replay in producer["replays"] if replay["rid"] != rid]
+                elif recurrent_failure == "metadata_only":
+                    producer["status"] = "metadata_only"
+                if producer is not None:
+                    state["kv_coherence"]["recurrent_state"] = producer
+                    recurrent_readback.update(json.loads(json.dumps(producer)))
             return json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1, "internal_states": [state]}).encode(), 200
         mode = "full_input" if kwargs["json"]["logprob_start_len"] == 0 else "response_only"
-        assert kwargs["json"] == probe._payload(sample, mode) and "cache_salt" not in kwargs["json"]
+        item = next(item for item in fixture_samples if item["tokens"] == kwargs["json"]["input_ids"])
+        assert kwargs["json"] == probe._payload(item, mode) and "cache_salt" not in kwargs["json"]
         scoring_calls.append(kwargs["json"])
-        body = _body(sample, mode)
+        body = _body(item, mode)
         body["meta_info"]["id"] = f"native-rid-independent-{len(scoring_calls)}"
+        body["meta_info"]["num_retractions"] = 0
         return json.dumps(body).encode(), 200
 
     _, calls, _ = _mock_http(monkeypatch, response)
@@ -865,7 +925,8 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         probe._run(args)
     result = json.loads((output / "result.json").read_text())
     assert events == prepared + ["runtime", "server"]
-    assert len(imports) == (1 if selection is True else 0) + (2 if coherence_selection is True else 0)
+    coherence_imports = 3 + (0 if coherence_failure or failure else 1) if coherence_selection is True else 0
+    assert len(imports) == (1 if selection is True else 0) + coherence_imports
     assert len(scoring_calls) == result["expected_scoring_requests"] == (16 if diagnostic else 56)
     assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == (10 if diagnostic else 32)
     assert info_calls == ([0, 16] if diagnostic else [0])
@@ -890,6 +951,22 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         initial = json.loads((output / "server_info.json").read_text())["get_server_info"]
         assert initial["internal_states"][0]["kv_coherence"]["native_binding"] is None
         assert len(list((output / "completion_scores").glob("*.json"))) == 16
+        assert result["recurrent_workload"]["recurrent_input_counts"] == [5, 6]
+        assert result["recurrent_workload"]["recurrent_common_rows"] == 1
+        assert result["recurrent_state"]["status"] == ("UNVERIFIED" if recurrent_failure or coherence_failure or failure else "joined")
+        receipt = json.loads((output / "runtime_metadata.json").read_text())
+        if recurrent_readback:
+            raw_producer = receipt["server_info"]["internal_states"][0]["kv_coherence"]["recurrent_state"]
+            assert raw_producer == recurrent_readback
+            if not coherence_failure and not failure:
+                assert result["kv_coherence"]["summaries"][0]["recurrent_state"] == recurrent_readback
+        if not coherence_failure and not failure:
+            assert receipt["status"] == "collected" and result["kv_coherence"]["status"] == "collected"
+            assert result["kv_coherence"]["summaries"][0]["banks"][0]["physical"]["indices_in_bounds"] is True
+            if not recurrent_failure:
+                logical = result["recurrent_state"]["states"][0]["records"]
+                assert [(row["logical_case"]["sample_index"], row["logical_case"]["phase"]) for row in logical] == [
+                    (2, "warm_stream"), (0, "warm_stream"), (2, "cold"), (0, "cold")]
         if coherence_failure:
             assert not result["kv_coherence"]["summaries"]
             receipt = json.loads((output / "runtime_metadata.json").read_text())
@@ -980,6 +1057,8 @@ def test_coherence_serving_binding_consumes_actual_collector_receipt_cpu_only(tm
     collector.native_binding, collector.binding_error = None, None
     collector.by_rid, collector.summary, collector.topology = {}, None, {}
     collector.errors, collector.completed, collector.banks = [], set(), []
+    collector.recurrent = {"configured": False, "banks": [], "by_rid": {}, "errors": [],
+                           "summary": None, "staging": {}, "memory": {}}
 
     collector.insert(SimpleNamespace(rid="ordinary-cpu-request"), None, 0, core)
     receipt = collector.drain(False)
@@ -1015,7 +1094,8 @@ def test_coherence_boolean_validation(worker_config, tmp_path, value):
 def test_coherence_required_dependencies_before_runtime(worker_config, tmp_path, missing):
     path, config, _ = worker_config
     config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True,
-                  kv_coherence_capture=True, kv_coherence_build_receipt="required.json")
+                  kv_coherence_capture=True, kv_coherence_build_receipt="required.json",
+                  recurrent_sample_original_indices=[1693, 1695])
     config.pop(missing)
     path.write_text(json.dumps(config))
     with pytest.raises(ValueError, match="requires|required"):
@@ -1026,7 +1106,8 @@ def test_coherence_required_dependencies_before_runtime(worker_config, tmp_path,
 def test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt(worker_config, tmp_path, selection):
     path, config, _ = worker_config
     config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True,
-                  kv_coherence_capture=True, kv_coherence_build_receipt="formal-inherited.json")
+                  kv_coherence_capture=True, kv_coherence_build_receipt="formal-inherited.json",
+                  recurrent_sample_original_indices=[1693, 1695])
     path.write_text(json.dumps(config))
     before = path.read_bytes()
     wrapper = {"formal_config": str(path), "selected_fp32_snapshots": True,
@@ -1035,13 +1116,16 @@ def test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt(worker_conf
         wrapper["kv_coherence_capture"] = selection == "true"
     if selection == "true":
         wrapper["kv_coherence_build_receipt"] = "wrapper-owned.json"
+        wrapper["recurrent_sample_original_indices"] = [1, 3]
     input_path = tmp_path / "wrapper.json"
     input_path.write_text(json.dumps(wrapper))
     loaded = probe._load_config(path if selection == "direct" else input_path, "A", tmp_path / "new")
     assert bool(loaded.get("kv_coherence_capture")) == (selection in ("true", "direct"))
     assert ("kv_coherence_build_receipt" in loaded) == (selection in ("true", "direct"))
+    assert ("recurrent_sample_original_indices" in loaded) == (selection in ("true", "direct"))
     if selection in ("true", "direct"):
         assert loaded["kv_coherence_build_receipt"] == ("wrapper-owned.json" if selection == "true" else "formal-inherited.json")
+        assert loaded["recurrent_sample_original_indices"] == ([1, 3] if selection == "true" else [1693, 1695])
     assert path.read_bytes() == before
 
 
@@ -1658,7 +1742,8 @@ def test_coherence_variant_existing_controller_dry_run_and_unchanged_native_argv
     base_path, variant_path = (task / name for name in ("teacher_scoring_kv_stream_witness_probe_config.json",
                                                      "teacher_scoring_kv_coherence_probe_config.json"))
     base, variant = (json.loads(path.read_text()) for path in (base_path, variant_path))
-    allowed = {"task_id", "output_parent", "acceptance", "kv_coherence_capture", "kv_coherence_build_receipt"}
+    allowed = {"task_id", "output_parent", "acceptance", "kv_coherence_capture", "kv_coherence_build_receipt",
+               "recurrent_sample_original_indices"}
     assert {k: v for k, v in base.items() if k not in allowed} == {k: v for k, v in variant.items() if k not in allowed}
     assert variant["kv_coherence_capture"] is True and "kv_coherence_artifact_dir" not in variant
     formal = json.loads((repo / variant["formal_config"]).read_text())
@@ -1672,7 +1757,8 @@ def test_coherence_variant_existing_controller_dry_run_and_unchanged_native_argv
         assert submission.main() == 0
         constructions.append(json.loads(capsys.readouterr().out))
     assert configs[1] == {**configs[0], "kv_coherence_capture": True,
-                          "kv_coherence_build_receipt": variant["kv_coherence_build_receipt"]}
+                          "kv_coherence_build_receipt": variant["kv_coherence_build_receipt"],
+                          "recurrent_sample_original_indices": variant["recurrent_sample_original_indices"]}
     assert paired._teacher_command(configs[0], pair, 0, {"ip": "192.0.2.10"}) == paired._teacher_command(
         configs[1], pair, 0, {"ip": "192.0.2.10"})
     commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
@@ -2109,3 +2195,130 @@ def test_worker_failure_stops_only_its_real_cpu_child_and_archives_local_log(wor
     with pytest.raises(FileExistsError):
         probe._run(args)
     assert len(children) == 1 and json.loads((output / "result.json").read_text()) == record
+
+
+def _cpu_recurrent_evidence(requests, workload, process_id):
+    candidates = [row for row in requests if row["mode"] == "full_input"
+                  and row["sample_index"] in {item["sample_index"] for item in workload["samples"]}]
+    by_index = {item["sample_index"]: item for item in workload["samples"]}
+    records = [{"rid": row["native_request_id"], "P": workload["P"], "input_count": row["input_count"],
+                "extend": by_index[row["sample_index"]]["extend"],
+                "descriptors": {"scope": "Opaque CPU fixture descriptors; no native tensor values"},
+                "canonical_P": {"status": "unavailable", "reason": "No joined canonical-P publication"}}
+               for row in reversed(candidates)]
+    comparisons = [{"left_rid": a["rid"], "right_rid": b["rid"], "common_rows": workload["recurrent_common_rows"],
+                    "components": {"initial_temporal": {"values_exact": False, "max_absolute_difference": 0.125},
+                                   "canonical_P": {"status": "unavailable"}}}
+                   for index, a in enumerate(records) for b in records[index + 1:]]
+    replays = [{"rid": row["rid"], "kind": "control", "status": "captured",
+                "components": {"conv": {"values_exact": False}, "temporal": {"values_exact": True}}} for row in records]
+    producer = {"schema": "recurrent-state-v1", "process_id": process_id, "status": "captured", "records": records,
+                "comparisons": comparisons, "replays": replays, "coverage": "CPU fixture only", "errors": []}
+    forward = [[index, "gdn_snapshot_allocation", [["rids", [row["rid"]]], ["layer_id", 0],
+                ["prefix_lens", [row["P"]]], ["extend_lens", [row["extend"]]]]] for index, row in enumerate(records, 2)]
+    return producer, forward
+
+
+@pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                  "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+        worker_config, sample, tmp_path, monkeypatch, fault):
+    test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+        worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+        coherence_selection=True, recurrent_failure=fault, consumer_contract=True)
+
+
+def test_recurrent_consumer_does_not_weaken_original_native_error_marker_gate(worker_config, sample, tmp_path, monkeypatch):
+    test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+        worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+        coherence_selection=True, coherence_failure="native_marker", consumer_contract=True)
+
+
+@pytest.mark.parametrize("indices", [[1693, 1695], [1695, 1693]])
+def test_recurrent_workload_derives_actual_full_payload_lengths_and_token_common_prefix(monkeypatch, indices):
+    from miles.rollout import on_policy_distillation as native
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    config = json.loads((task / "teacher_scoring_kv_coherence_probe_config.json").read_text())
+    fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+    before = json.dumps(fixture)
+    payloads, original = [], native._score_payload
+
+    def payload(tokens, **kwargs):
+        assert kwargs == {}
+        result = original(tokens, **kwargs)
+        payloads.append(result)
+        return result
+
+    monkeypatch.setattr(native, "_score_payload", payload)
+    _cpu_coherence_contract(monkeypatch, window_start=90112, window_end=98304)
+    workload = probe._recurrent_workload(fixture, indices)
+    expected = {1693: 97365, 1695: 98942}
+    assert config["recurrent_sample_original_indices"] == [1693, 1695]
+    assert workload["recurrent_input_counts"] == [expected[index] for index in indices]
+    assert workload["P"] == 90112 and workload["common_prefix_token_count"] == 96631
+    assert workload["recurrent_common_rows"] == 6519
+    for row, index, sent in zip(workload["samples"], indices, payloads):
+        position = next(position for position, sample in enumerate(fixture["samples"]) if sample["sample_index"] == index)
+        sample = fixture["samples"][position]
+        assert row == {"sample_index": index, "source_uid": sample["source_uid"], "sample_position": position,
+                       "input_count": len(sent["input_ids"]), "extend": 7253 if index == 1693 else 8192}
+        assert sent == original(sample["tokens"]) and "cache_salt" not in sent
+    assert len(payloads) == 2 and json.dumps(fixture) == before
+
+
+@pytest.mark.parametrize("indices", [None, [], [1693], [1693, 1693], [1693, 1695, 1696], [True, 1695], [-1, 1695], ["1693", 1695]])
+def test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config(worker_config, tmp_path, indices):
+    path, config, _ = worker_config
+    config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True,
+                  kv_coherence_capture=True, kv_coherence_build_receipt="required.json")
+    if indices is not None:
+        config["recurrent_sample_original_indices"] = indices
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="recurrent_sample_original_indices"):
+        probe._config_input(path)
+
+
+@pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+    _cpu_coherence_contract(monkeypatch, window_start=2, window_end=6)
+    fixture = {"samples": [sample, {**sample, "sample_index": 8, "tokens": [10, 11, 12, 12, 13, 14]}]}
+    if fault == "absent":
+        fixture["samples"].pop()
+    elif fault == "ambiguous":
+        fixture["samples"].append({**sample, "source_uid": "different-source-same-index"})
+    elif fault == "same_length":
+        fixture["samples"][1]["tokens"] = sample["tokens"]
+    elif fault == "short":
+        fixture["samples"][0] = {**sample, "tokens": [10, 11]}
+    else:
+        fixture["samples"][1]["tokens"] = [99, 11, 12, 12, 13, 14]
+    with pytest.raises(ValueError):
+        probe._recurrent_workload(fixture, [7, 8])
+
+
+def test_recurrent_consumer_uses_one_existing_preparer_and_readback_without_native_or_metric_calls():
+    tree = ast.parse(Path(probe.__file__).read_text())
+    functions = {node.name: node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    run = functions["_run"]
+    preparers = [node for node in ast.walk(run) if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                 and isinstance(node.func.value, ast.Name) and node.func.value.id == "coherence" and node.func.attr == "prepare_source"]
+    assert len(preparers) == 1
+    assert {kw.arg for kw in preparers[0].keywords} == {
+        "image", "archive_dir", "build_receipt", "recurrent_input_counts", "recurrent_common_rows"}
+    assert sum(isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+               and node.func.id == "_recurrent_workload" for node in ast.walk(run)) == 1
+    for name in ("_recurrent_workload", "_recurrent_cases", "_recurrent_state", "_recurrent_states"):
+        nodes = list(ast.walk(functions[name]))
+        assert not any(isinstance(node, ast.Constant) and node.value in (97365, 98942, 6519, 1693, 1695) for node in nodes)
+        assert not any(isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                       and node.func.id in ("_http", "_request", "_comparison", "_scores") for node in nodes)
+        assert not any(isinstance(node, ast.Attribute) and node.attr in ("synchronize", "cpu", "cuda", "prepare_source") for node in nodes)
+
+
+def _cpu_coherence_contract(monkeypatch, *, window_start, window_end):
+    from tests.manual import agent_opd
+
+    module = SimpleNamespace(WINDOW_START=window_start, WINDOW_END=window_end, SCORING_REQUEST_COUNT=16)
+    monkeypatch.setattr(agent_opd, "sglang_kv_coherence", module, raising=False)
+    monkeypatch.setitem(sys.modules, "tests.manual.agent_opd.sglang_kv_coherence", module)

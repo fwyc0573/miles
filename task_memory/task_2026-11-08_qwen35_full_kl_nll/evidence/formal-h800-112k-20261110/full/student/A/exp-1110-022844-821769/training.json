@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "pair": "A",
+  "rank": 0,
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h800-112k-20261110/full/student/A/exp-1110-022844-821769",
+  "error_type": "TimeoutError",
+  "reason": "Ray did not register the requested two-node GPU allocation",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 405, in _run\n    _check_cluster(head, records, ray_args)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/rjob_warmup.py\", line 206, in _check_cluster\n    raise TimeoutError(\"Ray did not register the requested two-node GPU allocation\")\nTimeoutError: Ray did not register the requested two-node GPU allocation\n"
+}

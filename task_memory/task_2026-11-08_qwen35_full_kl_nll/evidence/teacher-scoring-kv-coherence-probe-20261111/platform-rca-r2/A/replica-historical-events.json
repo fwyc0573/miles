@@ -1,0 +1,80 @@
+{
+  "query": "replica-historical-events",
+  "job": "exp-1111-171524-888127",
+  "replica": "exp-1111-171524-888127-cfcd2084",
+  "rjob_uid": "39a80814-6600-4681-82c5-46d0cbea0767",
+  "replica_uid": "4e7006ed-d46c-440a-867e-e519e84d107b",
+  "started_at": "2026-11-11T09:33:59.863700+00:00",
+  "ok": true,
+  "response": {
+    "pages": [
+      {
+        "parameters": {
+          "name": "exp-1111-171524-888127-cfcd2084",
+          "kind": "Replica",
+          "uid": "4e7006ed-d46c-440a-867e-e519e84d107b",
+          "sortBy": "lastTimestamp:desc",
+          "page": 1,
+          "pageSize": 100
+        },
+        "response": {
+          "method": "GET",
+          "path": "/kapis/v1/tenants/shai/projects/shai-core/events",
+          "parameters": {
+            "name": "exp-1111-171524-888127-cfcd2084",
+            "kind": "Replica",
+            "uid": "4e7006ed-d46c-440a-867e-e519e84d107b",
+            "sortBy": "lastTimestamp:desc",
+            "page": 1,
+            "pageSize": 100
+          },
+          "timeout_seconds": 12.0,
+          "scope": "/shai/shai-core",
+          "http_status": 200,
+          "body": {
+            "status": "Success",
+            "code": 200,
+            "data": {
+              "total": 2,
+              "data": [
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "Pulling",
+                  "message": "Pulling image \"artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805\"",
+                  "source": {
+                    "host": "gpu-h800-0316.host.platform.shaipower.com"
+                  },
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-11T09:17:02Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                },
+                {
+                  "metadata": {
+                    "creationTimestamp": null
+                  },
+                  "involvedObject": {},
+                  "reason": "FailedScheduling",
+                  "message": "0/4550 nodes are available: 1 Insufficient cpu, 4542 node(s) didn't match Pod's node affinity/selector, 8 Insufficient nvidia.com/gpu. preemption: .",
+                  "source": {},
+                  "firstTimestamp": null,
+                  "lastTimestamp": "2026-11-11T09:16:48Z",
+                  "eventTime": null,
+                  "reportingComponent": "",
+                  "reportingInstance": ""
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "count": 2,
+    "pagination_complete": true
+  },
+  "finished_at": "2026-11-11T09:34:03.662373+00:00"
+}

@@ -1,0 +1,18 @@
+{
+  "task_id": "profile-recurrent-state-value-producer-20261111",
+  "scope": "CPU/source/DI only; no native, model, GPU or platform execution",
+  "files_sha256": {
+    "tests/manual/agent_opd/sglang_kv_coherence.py": "ebab712c16b8c152974a8ba11f85b4af7af4ecfeb16abdfc9c0e403a5ca227a1",
+    "tests/fast/test_sglang_kv_coherence.py": "05dd077abd059dda540af2b71d393749ad4f1653a744212f935dc6f2f6f60be6"
+  },
+  "installed_runtime_sha256": "3ed2d9e1c2d584afc6db23f889fd1b368d1133602a9f899e320882c0954038f3",
+  "source_preparation_di": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-focused-final/test_recurrent_selected_real_s0/recurrent/preflight.jsonl",
+  "recurrent_selection": {
+    "input_counts": [
+      97365,
+      98942
+    ],
+    "common_rows": 6519,
+    "status": "configured"
+  }
+}

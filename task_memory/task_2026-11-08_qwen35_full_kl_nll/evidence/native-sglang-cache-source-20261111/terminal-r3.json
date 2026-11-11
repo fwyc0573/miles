@@ -1,0 +1,21 @@
+{
+  "job": "exp-1111-042450-358109",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "source": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T20:26:06Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "files_retained": 175,
+  "missing_requested_paths": [
+    "srt/model_executor/runner.py"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "query": "replica-live-events",
+  "job": "exp-1111-171524-888127",
+  "replica": "exp-1111-171524-888127-cfcd2084",
+  "rjob_uid": "39a80814-6600-4681-82c5-46d0cbea0767",
+  "replica_uid": "4e7006ed-d46c-440a-867e-e519e84d107b",
+  "started_at": "2026-11-11T09:33:59.865568+00:00",
+  "ok": true,
+  "response": {
+    "request": {
+      "method": "GET",
+      "path": "/api/v1/namespaces/shai-core/events",
+      "field_selector": "involvedObject.name=exp-1111-171524-888127-cfcd2084"
+    },
+    "pages": [
+      {
+        "api_version": "v1",
+        "items": [],
+        "kind": "EventList",
+        "metadata": {
+          "_continue": null,
+          "remaining_item_count": null,
+          "resource_version": "45663114829",
+          "self_link": null,
+          "shard_info": null
+        }
+      }
+    ],
+    "count": 0,
+    "pagination_complete": true
+  },
+  "finished_at": "2026-11-11T09:34:00.280482+00:00"
+}

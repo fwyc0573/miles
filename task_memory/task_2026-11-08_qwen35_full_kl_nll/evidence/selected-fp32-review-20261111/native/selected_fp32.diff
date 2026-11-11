@@ -1,0 +1,102 @@
+--- a/kernels/ops/attention/fla/chunk.py
++++ b/kernels/ops/attention/fla/chunk.py
+@@ -45,6 +45,8 @@
+     cu_seqlens: Optional[torch.LongTensor] = None,
+     chunk_indices: torch.LongTensor | None = None,
+     inplace_update: bool = True,
++    track_state: Optional[torch.Tensor] = None,
++    track_chunk_idx: Optional[torch.Tensor] = None,
+ ):
+     g = chunk_local_cumsum(
+         g, chunk_size=CHUNK_SIZE, cu_seqlens=cu_seqlens, chunk_indices=chunk_indices
+@@ -70,6 +72,8 @@
+         cu_seqlens=cu_seqlens,
+         chunk_indices=chunk_indices,
+         inplace_update=inplace_update,
++        track_state=track_state,
++        track_chunk_idx=track_chunk_idx,
+     )
+     o = chunk_fwd_o(
+         q=q,
+@@ -103,6 +107,8 @@
+         cu_seqlens: Optional[torch.LongTensor] = None,
+         use_qk_l2norm_in_kernel: bool = False,
+         inplace_update: bool = True,
++        track_state: Optional[torch.Tensor] = None,
++        track_chunk_idx: Optional[torch.Tensor] = None,
+     ):
+         q_orig = q
+         k_orig = k
+@@ -128,6 +134,8 @@
+             cu_seqlens=cu_seqlens,
+             chunk_indices=chunk_indices,
+             inplace_update=inplace_update,
++            track_state=track_state,
++            track_chunk_idx=track_chunk_idx,
+         )
+         return o.to(q.dtype), h
+ 
+@@ -146,6 +154,8 @@
+     head_first: bool = False,
+     use_qk_l2norm_in_kernel: bool = False,
+     inplace_update: bool = True,
++    track_state: Optional[torch.Tensor] = None,
++    track_chunk_idx: Optional[torch.Tensor] = None,
+ ):
+     r"""
+     Args:
+@@ -176,6 +186,11 @@
+             Default: `False`.
+         inplace_update (Optional[bool]):
+             Whether to write final states back to `initial_state`. Default: `True`.
++        track_state (Optional[torch.Tensor]):
++            Selected FP32 state buffer of shape `[N, H, V, K]`; normal `h` is unchanged.
++        track_chunk_idx (Optional[torch.Tensor]):
++            Per-sequence chunk-entry index to snapshot; -1 skips that row.
++            Must be supplied together with `track_state`.
+ 
+     Returns:
+         o (torch.Tensor):
+@@ -263,6 +278,8 @@
+         cu_seqlens,
+         use_qk_l2norm_in_kernel,
+         inplace_update,
++        track_state,
++        track_chunk_idx,
+     )
+     if head_first:
+         o = rearrange(o, "b t h ... -> b h t ...")
+--- a/srt/layers/attention/linear/kernels/gdn_triton.py
++++ b/srt/layers/attention/linear/kernels/gdn_triton.py
+@@ -42,6 +42,10 @@
+ 
+     supports_packed_decode: bool = not is_cpu() and not is_npu()
+     supports_strided_target_verify_qkv: bool = True
++    # Only the native CUDA chunk kernel honors selected FP32 snapshots.
++    supports_track_state_snapshot: bool = (
++        not is_cpu() and not is_npu() and not is_xpu()
++    )
+ 
+     def packed_decode(
+         self,
+@@ -183,6 +187,12 @@
+         recurrent_state = ssm_states
+         recurrent_state_indices_args = {"initial_state_indices": cache_indices}
+         inplace_update_args = {"inplace_update": inplace_update}
++        snapshot_args = {}
++        if self.supports_track_state_snapshot:
++            snapshot_args = {
++                "track_state": kwargs.get("track_state"),
++                "track_chunk_idx": kwargs.get("track_chunk_idx"),
++            }
+         if is_cpu():
+             if not inplace_update:
+                 raise NotImplementedError(
+@@ -212,6 +222,7 @@
+             use_qk_l2norm_in_kernel=True,
+             **recurrent_state_indices_args,
+             **inplace_update_args,
++            **snapshot_args,
+         )
+ 
+     def target_verify(

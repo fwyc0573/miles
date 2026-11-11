@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py", line 532, in <module>
+    main()
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py", line 526, in main
+    _qualify(args)
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py", line 484, in _qualify
+    raise RuntimeError(f"Native CPU variant {name} failed; inspect retained stderr")
+RuntimeError: Native CPU variant original failed; inspect retained stderr

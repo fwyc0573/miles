@@ -1,0 +1,39 @@
+{
+  "base": "59d61941c937455ca15c9734662ef0822d0c93eb",
+  "candidate": "7d9938485ea86adf3911f9df80311885ddf39d74",
+  "changed_files": [
+    {
+      "path": "miles/rollout/generate_utils/prefill_logprobs.py",
+      "base": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/base/miles/rollout/generate_utils/prefill_logprobs.py",
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/miles/rollout/generate_utils/prefill_logprobs.py"
+    },
+    {
+      "path": "miles/rollout/on_policy_distillation.py",
+      "base": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/base/miles/rollout/on_policy_distillation.py",
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/miles/rollout/on_policy_distillation.py"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_teacher_scoring_scope.md",
+      "base": null,
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_teacher_scoring_scope.md"
+    },
+    {
+      "path": "tests/fast/rollout/generate_utils/test_prefill_logprobs.py",
+      "base": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/base/tests/fast/rollout/generate_utils/test_prefill_logprobs.py",
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/tests/fast/rollout/generate_utils/test_prefill_logprobs.py"
+    },
+    {
+      "path": "tests/fast/test_swe_replay.py",
+      "base": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/base/tests/fast/test_swe_replay.py",
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/tests/fast/test_swe_replay.py"
+    },
+    {
+      "path": "tests/manual/agent_opd/swe_replay.py",
+      "base": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/base/tests/manual/agent_opd/swe_replay.py",
+      "candidate": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/candidate/tests/manual/agent_opd/swe_replay.py"
+    }
+  ],
+  "diff": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-scope-review-20261111/change.diff",
+  "credential_value_matches": 0,
+  "scope": "Only shared sampled-token payload owner, its native student-prefill reuse, SWE teacher caller, affected CPU tests and owned test report. No source/model data or platform changes."
+}

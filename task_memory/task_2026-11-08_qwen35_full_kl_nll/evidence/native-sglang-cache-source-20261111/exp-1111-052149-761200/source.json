@@ -1,0 +1,62 @@
+{
+  "job": "exp-1111-052149-761200",
+  "gpu_requested": 0,
+  "sglang": "0.5.24.dev80+g056f871",
+  "files": [
+    {
+      "relative_path": "srt/model_executor/runner_utils/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/__init__.py",
+      "bytes": 532,
+      "sha256": "aec43915d8d9be907b31941ab3a6b5ce6eabb079e77464174cf83a9600256f57"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/buffers.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/buffers.py",
+      "bytes": 14158,
+      "sha256": "3c12f4b8f148ce32d5533a63fc178b56439d6b2ddba5694af0cbcd9d1115e0e1"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/capture_mode.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/capture_mode.py",
+      "bytes": 3977,
+      "sha256": "a75a3e72052229d934af0218fe4cefe6acecbdabc4c341cd9b01f57ed8426acc"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/deepep_adapter.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/deepep_adapter.py",
+      "bytes": 1771,
+      "sha256": "d97ecae40b3ce131994459af95ab425cec058e74d78b54ee7ed405d11a57c1f4"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/forked_metadata_prep.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/forked_metadata_prep.py",
+      "bytes": 1105,
+      "sha256": "7b5dc313d722bd650e003eafa19264d77258b470208a419a557fe512b457149e"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/forward_batch.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/forward_batch.py",
+      "bytes": 1747,
+      "sha256": "da117bbfb471aadd7ad9ef6281c1fec07d6119de6dd6c63ed4bc2f66f6629794"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/pool.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/pool.py",
+      "bytes": 14672,
+      "sha256": "6bf16a4fb162f057e8f66d5c57cf0a3108b30717df5af8a15c8b28a09828ba0b"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/prefill_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/prefill_graph.py",
+      "bytes": 1351,
+      "sha256": "bd606d314c7d82b320566e4e2ffef0f57b419860ebdb824e51f26cec6fc1f366"
+    },
+    {
+      "relative_path": "srt/model_executor/runner_utils/shared_read_event.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner_utils/shared_read_event.py",
+      "bytes": 1553,
+      "sha256": "244e6d8c74ac799f47428697f80c1fc3e1f1ea38a1821036e1be5e360efbd707"
+    }
+  ],
+  "scope": "Exact runner_utils package imported by retained eager_runner.py; includes shared-read publisher function body."
+}

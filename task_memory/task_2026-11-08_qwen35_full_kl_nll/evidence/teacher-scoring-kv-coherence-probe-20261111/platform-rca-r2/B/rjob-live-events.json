@@ -1,0 +1,33 @@
+{
+  "query": "rjob-live-events",
+  "job": "exp-1111-171526-099435",
+  "replica": "exp-1111-171526-099435-cfcd2084",
+  "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+  "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+  "started_at": "2026-11-11T09:33:59.959553+00:00",
+  "ok": true,
+  "response": {
+    "request": {
+      "method": "GET",
+      "path": "/api/v1/namespaces/shai-core/events",
+      "field_selector": "involvedObject.name=exp-1111-171526-099435"
+    },
+    "pages": [
+      {
+        "api_version": "v1",
+        "items": [],
+        "kind": "EventList",
+        "metadata": {
+          "_continue": null,
+          "remaining_item_count": null,
+          "resource_version": "45663114875",
+          "self_link": null,
+          "shard_info": null
+        }
+      }
+    ],
+    "count": 0,
+    "pagination_complete": true
+  },
+  "finished_at": "2026-11-11T09:34:00.325797+00:00"
+}

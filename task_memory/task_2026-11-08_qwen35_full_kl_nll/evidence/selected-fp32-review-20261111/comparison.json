@@ -1,0 +1,44 @@
+{
+  "base": "ab3f47d5cb824747b9d59c110e701ba46b4baa9a",
+  "candidate": "d7e7e30141619bebb8ff4a1a8dcbe4bcfdb2d7e4",
+  "diff_command": [
+    "git",
+    "diff",
+    "ab3f47d5cb824747b9d59c110e701ba46b4baa9a",
+    "d7e7e30141619bebb8ff4a1a8dcbe4bcfdb2d7e4",
+    "--",
+    "tests/manual/agent_opd/sglang_mamba_snapshots.py",
+    "tests/fast/test_sglang_mamba_snapshots.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_fp32_snapshots.md"
+  ],
+  "diff_sha256": "960e0fd520c82cc532b8acfc2825368bbfcd95900808d0aae44612d5a88627a1",
+  "commits": [
+    "d7e7e301 Wire native selected FP32 Mamba snapshots with qualified source preflight"
+  ],
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/sglang_mamba_snapshots.py",
+      "base_exists": false,
+      "candidate_sha256": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774",
+      "bytes": 11910
+    },
+    {
+      "path": "tests/fast/test_sglang_mamba_snapshots.py",
+      "base_exists": false,
+      "candidate_sha256": "50effde4978502ad93419d4be1bbc2342e8d16de58622415e57b6ae78c8568b6",
+      "bytes": 16439
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_fp32_snapshots.md",
+      "base_exists": false,
+      "candidate_sha256": "4eecafd1dc93692921ca089de585ed50cbd44314b8435d57d5e9d352b3e989ce",
+      "bytes": 16690
+    }
+  ],
+  "native_diff": "native/selected_fp32.diff",
+  "native_archive_scope": "Derived from pristine retained C3 bytes; no installed dependency changed; not a GPU application receipt",
+  "native_files_changed": [
+    "kernels/ops/attention/fla/chunk.py",
+    "srt/layers/attention/linear/kernels/gdn_triton.py"
+  ]
+}

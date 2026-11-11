@@ -1,0 +1,79 @@
+{
+  "job": "exp-1111-025238-968230",
+  "nfs_volumes": [],
+  "volume_names": [
+    "auth-info",
+    "dshm",
+    "tmp-0",
+    "client-tools",
+    "jobutils",
+    "host-config",
+    "jobutil-config"
+  ],
+  "containers": [
+    {
+      "command": [
+        "/kubebrain/worker-init",
+        "run",
+        "--enable-workspace-exporter",
+        "--enable-pid-monitor",
+        "--metrics-addr=",
+        "--",
+        "/jobutils/scripts/pull_submodule_cache.sh",
+        "https://rjob:QlJ5VXp0Q2tSYjJIMkNtSkJRMWoK@gitlab.basemind.com/basemind/steptron.git/UNKNOWN_COMMIT_ID:/mnt/shared-storage/tenant/_auto_cloned_code/steptron:/data/ycfeng/steptron",
+        "exec",
+        "bash",
+        "-lc",
+        "cd /data/ycfeng && exec bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport PROBE_REPO=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat:${LD_LIBRARY_PATH:-}\nexec /opt/sglang/bin/python3 -u -B - <<INSPECT_SCORING\n\nimport hashlib,json,os,platform\nfrom importlib import metadata\nfrom pathlib import Path\nrepo=Path(os.environ[\"PROBE_REPO\"])\nconfig=json.loads((repo/\"task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json\").read_text())\njob=os.environ[\"KUBEBRAIN_RJOB_NAME\"]\nroot=repo/\"task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-source-20261111\"/job\nroot.mkdir(parents=True,exist_ok=False)\npackage=Path(metadata.distribution(\"sglang\").locate_file(\"sglang\"))\npaths=[\"srt/layers/logits_processor.py\",\"srt/layers/logprob_processor.py\",\"srt/managers/schedule_batch.py\",\"srt/managers/tokenizer_manager.py\",\"srt/managers/logprob_result_processor.py\",\"srt/managers/scheduler.py\",\"srt/model_executor/forward_batch_info.py\",\"srt/mem_cache/radix_cache.py\",\"srt/mem_cache/hybrid_radix_cache.py\"]\nfiles=[]\nfor relative in paths:\n p=package/relative\n entry={\"path\":str(p),\"relative_path\":relative,\"exists\":p.exists()}\n if p.exists():\n  content=p.read_bytes();dest=root/\"source\"/relative;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(content)\n  entry.update(bytes=len(content),sha256=hashlib.sha256(content).hexdigest())\n files.append(entry)\nmodels={name:json.loads((Path(pair[\"teacher\"][\"path\"])/\"config.json\").read_text()) for name,pair in config[\"pairs\"].items()}\nrecord={\"job\":job,\"gpu_requested\":0,\"scope\":\"CPU worker source and whitelisted model metadata only\",\"python\":platform.python_version(),\"packages\":{name:metadata.version(name) for name in [\"sglang\",\"torch\",\"transformers\"]},\"source_files\":files,\"teacher_model_configs\":models}\nwith (root/\"source.json\").open(\"x\") as stream:json.dump(record,stream,indent=2);stream.write(\"\\n\")\nprint(\"SCORING_SOURCE_INSPECTION_COMPLETE\",str(root),flush=True)\n\nINSPECT_SCORING'"
+      ],
+      "args": null,
+      "workingDir": null,
+      "volumeMounts": [
+        {
+          "name": "auth-info",
+          "readOnly": true,
+          "mountPath": "/.auth/accesskey_id",
+          "subPath": "accesskey_id"
+        },
+        {
+          "name": "auth-info",
+          "readOnly": true,
+          "mountPath": "/.auth/accesskey_secret",
+          "subPath": "accesskey_secret"
+        },
+        {
+          "name": "dshm",
+          "mountPath": "/dev/shm"
+        },
+        {
+          "name": "tmp-0",
+          "mountPath": "/tmp"
+        },
+        {
+          "name": "client-tools",
+          "readOnly": true,
+          "mountPath": "/kubebrain",
+          "mountPropagation": "None"
+        },
+        {
+          "name": "jobutils",
+          "readOnly": true,
+          "mountPath": "/jobutils",
+          "mountPropagation": "None"
+        },
+        {
+          "name": "host-config",
+          "readOnly": true,
+          "mountPath": "/host-config",
+          "mountPropagation": "None"
+        },
+        {
+          "name": "jobutil-config",
+          "readOnly": true,
+          "mountPath": "/jobutil"
+        }
+      ]
+    }
+  ],
+  "observed_failure": "Direct RJobBackend call omitted the native spawn_tasks local-NFS annotation setup; source mount must be checked, not inferred from code_mount_point alone."
+}

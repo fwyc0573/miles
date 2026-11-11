@@ -1,0 +1,261 @@
+{
+  "observed_at": "2026-11-10T18:09:58.651766+00:00",
+  "job": "exp-1110-165312-132926",
+  "uid": "d780103e-a643-444d-a6a1-d21c75ad53b0",
+  "creator": "i-fengyicheng",
+  "labels": {
+    "quotagroup.brainpp.cn/preemptible": "no",
+    "quotagroup.brainpp.cn/quotagroup": "step_main"
+  },
+  "stop_annotations": {
+    "rjob.brainpp.cn/system-stop-reason": "Some critical tasks failed."
+  },
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [student]",
+    "taskStatuses": {
+      "student": {
+        "failed": 1,
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "teacher": {
+        "stopped": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T12:51:43Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "student": {
+      "replicas": 2,
+      "resources": [
+        {
+          "limits": {
+            "cpu": "64",
+            "mellanox.com/mlnx_rdma": "1",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8",
+            "rdma/mlnx_shared": "8"
+          },
+          "requests": {
+            "cpu": "64",
+            "memory": "500Gi",
+            "nvidia.com/gpu": "8"
+          }
+        }
+      ]
+    },
+    "teacher": {
+      "replicas": 1,
+      "resources": [
+        {
+          "limits": {
+            "cpu": "16",
+            "memory": "125Gi",
+            "nvidia.com/gpu": "2"
+          },
+          "requests": {
+            "cpu": "16",
+            "memory": "125Gi",
+            "nvidia.com/gpu": "2"
+          }
+        }
+      ]
+    }
+  },
+  "replicas": [
+    {
+      "name": "exp-1110-165312-132926-student-c4ca4238",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:20Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T09:00:20Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T09:00:20Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:20Z"
+          }
+        ],
+        "hostIP": "10.204.13.90",
+        "podIP": "10.204.13.90",
+        "podIPs": [
+          {
+            "ip": "10.204.13.90"
+          }
+        ],
+        "startTime": "2026-11-10T08:53:20Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-10T09:00:20Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://8f9956d61794eba170bd816d4362de6eb7301defe93e07021e717a76386864b9",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h200-0882.lgcm.sh.istep.fun",
+        "finishTimestamp": "2026-11-10T12:51:30Z"
+      },
+      "mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    },
+    {
+      "name": "exp-1110-165312-132926-student-cfcd2084",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:20Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T12:51:29Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T12:51:29Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:20Z"
+          }
+        ],
+        "hostIP": "10.204.8.36",
+        "podIP": "10.204.8.36",
+        "podIPs": [
+          {
+            "ip": "10.204.8.36"
+          }
+        ],
+        "startTime": "2026-11-10T08:53:20Z",
+        "containerStatuses": [
+          {
+            "name": "student",
+            "state": {
+              "terminated": {
+                "exitCode": 1,
+                "reason": "Error",
+                "message": "user command: exit status 1",
+                "startedAt": "2026-11-10T08:53:24Z",
+                "finishedAt": "2026-11-10T12:51:28Z",
+                "containerID": "containerd://fdadd7282c23b5e89a69a16170961a19dfa43f4e4acb6a7a40a6cb9823484a3a"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://fdadd7282c23b5e89a69a16170961a19dfa43f4e4acb6a7a40a6cb9823484a3a",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Failed",
+        "nodeName": "gpu-h200-0024.lgcm.sh.istep.fun",
+        "finishTimestamp": "2026-11-10T12:51:30Z"
+      },
+      "mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    },
+    {
+      "name": "exp-1110-165312-132926-teacher-cfcd2084",
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:27Z"
+          },
+          {
+            "type": "Ready",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:45Z"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:45Z"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T08:53:20Z"
+          }
+        ],
+        "hostIP": "10.204.24.44",
+        "podIP": "100.101.128.175",
+        "podIPs": [
+          {
+            "ip": "100.101.128.175"
+          }
+        ],
+        "startTime": "2026-11-10T08:53:27Z",
+        "containerStatuses": [
+          {
+            "name": "teacher",
+            "state": {
+              "running": {
+                "startedAt": "2026-11-10T08:53:44Z"
+              }
+            },
+            "lastState": {},
+            "ready": true,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://94e346ab0b9b26b2e54658ff6f70de0faa669bb5038b1b818a792e77540155fe",
+            "started": true
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Stopped",
+        "nodeName": "gpu-h200-0638.lgcm.sh.istep.fun",
+        "finishTimestamp": "2026-11-10T12:51:42Z"
+      },
+      "mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    }
+  ]
+}

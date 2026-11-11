@@ -1,0 +1,530 @@
+--- a/srt/layers/attention/linear/gdn_backend.py
++++ b/srt/layers/attention/linear/gdn_backend.py
+@@ -19,6 +19,10 @@
+     build_verify_intermediate_state_indices,
+     pp_spec_stable_rows_enabled,
+     select_verify_intermediate_state_indices,
++)
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
+ )
+ from sglang.srt.layers.radix_linear_attention import RadixLinearAttention
+ from sglang.srt.mem_cache.memory_pool import MambaPool
+@@ -451,6 +455,15 @@
+         query_start_loc: torch.Tensor,
+         **kwargs,
+     ) -> tuple:
++        _mamba_record("gdn_extend_dispatch", (
++            ("kernel", type(self.extend_kernel).__name__),
++            ("layer_id", kwargs.get("layer_id")),
++            ("track_state", _mamba_tensor(kwargs.get("track_state"))),
++            ("track_chunk_idx", _mamba_tensor(kwargs.get("track_chunk_idx"))),
++            ("temporal", _mamba_tensor(ssm_states)),
++            ("cache_indices", _mamba_tensor(cache_indices)),
++            ("query_start_loc", _mamba_tensor(query_start_loc)),
++        ))
+         return self.extend_kernel.extend(
+             q,
+             k,
+@@ -1177,6 +1190,22 @@
+                     dtype=torch.float32,
+                     device=ssm_states.device,
+                 )
++            _mamba_record("gdn_snapshot_allocation", (
++                ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                ("layer_id", layer.layer_id),
++                ("has_mamba_track_mask", forward_metadata.has_mamba_track_mask),
++                ("h_src", _mamba_tensor(forward_metadata.track_ssm_h_src)),
++                ("snapshot_capability", self.kernel_dispatcher.extend_kernel.supports_track_state_snapshot),
++                ("kernel", type(self.kernel_dispatcher.extend_kernel).__name__),
++                ("allocated", h_track_buf is not None),
++                ("track_state", _mamba_tensor(h_track_buf)),
++                ("track_chunk_idx", _mamba_tensor(forward_metadata.track_chunk_idx)),
++                ("temporal", _mamba_tensor(ssm_states)),
++                ("cache_indices", _mamba_tensor(cache_indices)),
++                ("needs_state_gather", needs_state_gather),
++                ("prefix_lens", tuple(forward_batch.extend_prefix_lens_cpu) if forward_batch.extend_prefix_lens_cpu is not None else None),
++                ("extend_lens", tuple(forward_batch.extend_seq_lens_cpu) if forward_batch.extend_seq_lens_cpu is not None else None),
++            ))
+             core_attn_out, last_recurrent_state, h = self.kernel_dispatcher.extend(
+                 q=query,
+                 k=key,
+--- a/srt/layers/attention/hybrid_linear_attn_backend.py
++++ b/srt/layers/attention/hybrid_linear_attn_backend.py
+@@ -17,6 +17,10 @@
+     track_mamba_states_if_needed,
+ )
+ from sglang.srt.environ import envs
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
+ from sglang.srt.layers.attention.base_attn_backend import (
+     AttentionBackend,
+     SharedReadEnds,
+@@ -194,6 +198,11 @@
+             forward_batch.mamba_track_indices = self._translate_mamba_indices(
+                 forward_batch.mamba_track_indices
+             )
++        _mamba_record("translated_track_metadata", (
++            ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++            ("cache_indices", _mamba_tensor(mamba_cache_indices)),
++            ("track_indices", _mamba_tensor(forward_batch.mamba_track_indices)),
++        ))
+         # Resolve the tracked-row selection once per forward
+         cpu_track_metadata = self._has_cpu_prefill_track_metadata(forward_batch)
+         if cpu_track_metadata:
+@@ -544,6 +553,25 @@
+             self.mamba_chunk_size,
+             mamba2=is_mamba2,
+         )
++        _mamba_record("prefill_track_plan", (
++            ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++            ("chunk_size", self.mamba_chunk_size),
++            ("mamba2", is_mamba2),
++            ("mask", tuple(forward_batch.mamba_prefill_track_mask_cpu)),
++            ("track_lens", tuple(forward_batch.mamba_track_seqlens_cpu)),
++            ("extend_lens", tuple(forward_batch.extend_seq_lens_cpu)),
++            ("prefix_lens", tuple(forward_batch.extend_prefix_lens_cpu)),
++            ("tracked_rows", tuple(plan.tracked_rows)),
++            ("final_rows", tuple(plan.final_rows)),
++            ("unaligned_rows", tuple(plan.unaligned_rows)),
++            ("h_rows", tuple(plan.h_rows)),
++            ("h_src", tuple(plan.h_src)),
++            ("recompute_rows", tuple(plan.recompute_rows)),
++            ("recompute_end_locs", tuple(plan.recompute_end_locs)),
++            ("chunk_indices", tuple(plan.chunk_indices)),
++            ("cache_indices", _mamba_tensor(mamba_cache_indices)),
++            ("track_indices", _mamba_tensor(forward_batch.mamba_track_indices)),
++        ))
+         to_device = self._track_indices_to_device
+         final_rows = to_device(plan.final_rows)
+         h_rows = to_device(plan.h_rows)
+@@ -1043,12 +1071,28 @@
+                     ssm_states[forward_metadata.track_ssm_h_dst] = h_track_buf[
+                         forward_metadata.track_ssm_h_batch_src
+                     ].to(ssm_states.dtype, copy=False)
++                    _mamba_record("snapshot_store_enqueued", (
++                        ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                        ("temporal", _mamba_tensor(ssm_states)),
++                        ("source", "h_track_buf"),
++                        ("track_state", _mamba_tensor(h_track_buf)),
++                        ("source_rows", _mamba_tensor(forward_metadata.track_ssm_h_batch_src)),
++                        ("destination_slots", _mamba_tensor(forward_metadata.track_ssm_h_dst)),
++                    ))
+                 else:
+                     assert h is not None
+                     h = h.squeeze(0)
+                     ssm_states[forward_metadata.track_ssm_h_dst] = h[
+                         forward_metadata.track_ssm_h_src
+                     ].to(ssm_states.dtype, copy=False)
++                    _mamba_record("snapshot_store_enqueued", (
++                        ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                        ("temporal", _mamba_tensor(ssm_states)),
++                        ("source", "per_chunk_h"),
++                        ("h", _mamba_tensor(h)),
++                        ("source_rows", _mamba_tensor(forward_metadata.track_ssm_h_src)),
++                        ("destination_slots", _mamba_tensor(forward_metadata.track_ssm_h_dst)),
++                    ))
+             if (
+                 forward_metadata.track_ssm_recompute_dst is not None
+                 and forward_metadata.track_ssm_recompute_dst.numel() > 0
+@@ -1057,10 +1101,24 @@
+                 ssm_states[forward_metadata.track_ssm_recompute_dst] = (
+                     track_states.squeeze(0).to(ssm_states.dtype, copy=False)
+                 )
++                _mamba_record("snapshot_store_enqueued", (
++                    ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                    ("temporal", _mamba_tensor(ssm_states)),
++                    ("source", "recompute"),
++                    ("track_states", _mamba_tensor(track_states)),
++                    ("destination_slots", _mamba_tensor(forward_metadata.track_ssm_recompute_dst)),
++                ))
+             if forward_metadata.track_ssm_final_src.numel() > 0:
+                 ssm_states[forward_metadata.track_ssm_final_dst] = ssm_states[
+                     forward_metadata.track_ssm_final_src
+                 ]
++                _mamba_record("snapshot_store_enqueued", (
++                    ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                    ("temporal", _mamba_tensor(ssm_states)),
++                    ("source", "final_state"),
++                    ("source_slots", _mamba_tensor(forward_metadata.track_ssm_final_src)),
++                    ("destination_slots", _mamba_tensor(forward_metadata.track_ssm_final_dst)),
++                ))
+ 
+ 
+ class Mamba2AttnBackend(MambaAttnBackendBase):
+--- a/srt/managers/schedule_batch.py
++++ b/srt/managers/schedule_batch.py
+@@ -82,6 +82,8 @@
+ import msgspec
+ import numpy as np
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import record as _mamba_record
+ 
+ from sglang.srt.beam_search.batch_tail import (
+     BeamTail,
+@@ -3234,6 +3236,23 @@
+                     mamba_track_seqlen_aligned = req.mamba_branching_seqlen
+             req.kv.mamba_last_track_seqlen = mamba_track_seqlen_aligned
+ 
++        _mamba_record("scheduler_track_boundary", (
++            ("rid", req.rid),
++            ("prefix_len", prefix_len),
++            ("seq_end", seq_end),
++            ("extend_len", req.extend_len),
++            ("cache_chunk_size", cache_chunk_size),
++            ("state_chunk_size", state_chunk_size),
++            ("checkpoint_grid", checkpoint_grid),
++            ("mask", mask),
++            ("track_position", track_position),
++            ("track_seqlen", mamba_track_seqlen),
++            ("aligned_seqlen", mamba_track_seqlen_aligned),
++            ("last_track_idx", req.kv.mamba_last_track_idx),
++            ("next_track_idx", req.kv.mamba_next_track_idx),
++            ("branching_seqlen", req.mamba_branching_seqlen),
++            ("last_track_seqlen", req.kv.mamba_last_track_seqlen),
++        ))
+         return _MambaRadixCacheV2TrackEntry(
+             track_mask=mask,
+             track_position=track_position,
+--- a/srt/mem_cache/unified_cache/components/mamba.py
++++ b/srt/mem_cache/unified_cache/components/mamba.py
+@@ -4,6 +4,11 @@
+ from typing import TYPE_CHECKING, Callable, Optional, Sequence
+ 
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
+ 
+ from sglang.srt.mem_cache.base_prefix_cache import (
+     DecLockRefParams,
+@@ -198,11 +203,19 @@
+     ) -> MatchResult:
+         # Copy-on-write the matched device mamba state into a per-request slot.
+         if not params.cow_mamba:
++            _mamba_record("cow_match_skipped", (
++                ("reason", "cow_not_requested"),
++                ("node_id", result.best_match_node),
++            ))
+             return result
+         src_index = self.tree_core.get_component_device_value(
+             result.best_match_node, self.component_type
+         )
+         if src_index is None:
++            _mamba_record("cow_match_skipped", (
++                ("reason", "no_device_state"),
++                ("node_id", result.best_match_node),
++            ))
+             return result
+         req = params.req
+         assert req is not None
+@@ -222,6 +235,13 @@
+             req.kv.mamba_pool_idx = dst_index[0]
+         req.kv.mamba_cow_src_index = src_index
+         req.kv.mamba_needs_clear = False
++        _mamba_record("cow_match_selected", (
++            ("rid", req.rid),
++            ("node_id", result.best_match_node),
++            ("source_slot", _mamba_tensor(src_index)),
++            ("destination_slot", _mamba_tensor(req.kv.mamba_pool_idx)),
++            ("needs_clear", req.kv.mamba_needs_clear),
++        ))
+         return result
+ 
+     def commit_insert_component_data(
+@@ -235,6 +255,12 @@
+         assert params.mamba_value is not None
+         if is_new_leaf:
+             node.component_data[self.component_type].value = params.mamba_value
++            _mamba_record("mamba_node_commit", (
++                ("node_id", node.id),
++                ("branch", "new_leaf"),
++                ("value", _mamba_tensor(params.mamba_value)),
++                ("mamba_exist", result.mamba_exist),
++            ))
+             self.tree_core.lru_lists[self.component_type].insert_mru(node)
+             self.tree_core.component_evictable_size_[self.component_type] += (
+                 self.reclaimable_value_len(node)
+@@ -245,12 +271,25 @@
+             self.tree_core.set_component_device_value(
+                 node.id, self.component_type, params.mamba_value
+             )
++            _mamba_record("mamba_node_commit", (
++                ("node_id", node.id),
++                ("branch", "fill_absent_state"),
++                ("value", _mamba_tensor(params.mamba_value)),
++                ("mamba_exist", result.mamba_exist),
++            ))
+             node.last_access_time = get_and_increase_time_counter()
+             self._emit_excess_path_states_eviction(node, cache_actions)
+             return
+         self.tree_core.lru_lists[self.component_type].reset_node_mru(node)
+         node.last_access_time = get_and_increase_time_counter()
+         result.mamba_exist = True
++        _mamba_record("mamba_node_commit", (
++            ("node_id", node.id),
++            ("branch", "retain_existing_state"),
++            ("existing_value", _mamba_tensor(node.component_data[self.component_type].value)),
++            ("candidate_value", _mamba_tensor(params.mamba_value)),
++            ("mamba_exist", result.mamba_exist),
++        ))
+ 
+     def _emit_excess_path_states_eviction(
+         self,
+@@ -631,6 +670,13 @@
+             if self.cache.enable_mamba_extra_buffer:
+                 checkpoint = self._select_finished_checkpoint(req, token_ids_len)
+                 if checkpoint is None:
++                    _mamba_record("mamba_donor_skipped", (
++                        ("rid", req.rid),
++                        ("reason", "no_finished_checkpoint"),
++                        ("token_ids_len", token_ids_len),
++                        ("last_track_seqlen", req.kv.mamba_last_track_seqlen),
++                        ("previous_track_seqlen", req.kv.mamba_prev_track_seqlen),
++                    ))
+                     return 0
+                 cache_len, keep_idx = checkpoint
+                 insert_params.mamba_keep_idx = keep_idx
+@@ -643,6 +689,15 @@
+                 insert_params.mamba_value = self._commit_int8_checkpoint(active_value)
+             else:
+                 insert_params.mamba_value = active_value
++            _mamba_record("mamba_donor_prepared", (
++                ("rid", req.rid),
++                ("is_finished", is_finished),
++                ("cache_len", cache_len),
++                ("token_ids_len", token_ids_len),
++                ("keep_idx", insert_params.mamba_keep_idx),
++                ("active_value", _mamba_tensor(active_value)),
++                ("insert_value", _mamba_tensor(insert_params.mamba_value)),
++            ))
+             return cache_len
+         else:
+             if cache_len is None:
+@@ -679,6 +734,15 @@
+                     translate(mamba_value_donated),
+                 )
+             insert_params.mamba_value = mamba_value_donated
++            _mamba_record("mamba_donor_prepared", (
++                ("rid", req.rid),
++                ("is_finished", is_finished),
++                ("cache_len", cache_len),
++                ("token_ids_len", token_ids_len),
++                ("insert_value", _mamba_tensor(mamba_value_donated)),
++                ("last_track_idx", req.kv.mamba_last_track_idx),
++                ("next_track_idx", req.kv.mamba_next_track_idx),
++            ))
+             return cache_len
+ 
+     def cleanup_after_caching_req(
+--- a/srt/model_executor/model_runner.py
++++ b/srt/model_executor/model_runner.py
+@@ -23,6 +23,11 @@
+ from typing import List, Optional, Union
+ 
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
+ import torch.distributed as dist
+ 
+ from sglang.srt.configs.draft_parallel import DraftParallelLayout
+@@ -1965,6 +1970,10 @@
+             pool.mamba_pool.clear_slots(
+                 pool.translate_mamba_indices(forward_batch.mamba_clear_indices)
+             )
++            _mamba_record("mamba_clear_enqueued", (
++                ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                ("clear_indices", _mamba_tensor(forward_batch.mamba_clear_indices)),
++            ))
+         if (
+             forward_batch.mamba_cow_src_indices is not None
+             and len(forward_batch.mamba_cow_src_indices) > 0
+@@ -1976,12 +1985,24 @@
+                     forward_batch.mamba_cow_src_indices,
+                     forward_batch.mamba_cow_dst_indices,
+                 )
++                _mamba_record("mamba_cow_enqueued", (
++                    ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                    ("branch", "int8_checkpoint"),
++                    ("source_slots", _mamba_tensor(forward_batch.mamba_cow_src_indices)),
++                    ("destination_slots", _mamba_tensor(forward_batch.mamba_cow_dst_indices)),
++                ))
+             else:
+                 # mamba_pool is a pure PHYSICAL store; translate both COW slot ids.
+                 pool.copy_mamba_state(
+                     pool.translate_mamba_indices(forward_batch.mamba_cow_src_indices),
+                     pool.translate_mamba_indices(forward_batch.mamba_cow_dst_indices),
+                 )
++                _mamba_record("mamba_cow_enqueued", (
++                    ("rids", tuple(forward_batch.rids) if forward_batch.rids is not None else None),
++                    ("branch", "active_state_copy"),
++                    ("source_slots", _mamba_tensor(forward_batch.mamba_cow_src_indices)),
++                    ("destination_slots", _mamba_tensor(forward_batch.mamba_cow_dst_indices)),
++                ))
+         forward_batch.mamba_clear_indices = None
+         forward_batch.mamba_cow_src_indices = None
+         forward_batch.mamba_cow_dst_indices = None
+--- a/srt/mem_cache/unified_cache/unified_tree_core.py
++++ b/srt/mem_cache/unified_cache/unified_tree_core.py
+@@ -25,6 +25,11 @@
+ 
+ import msgspec
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
+ 
+ from sglang.srt.disaggregation.kv_events import StorageMedium
+ from sglang.srt.environ import envs
+@@ -1363,6 +1368,14 @@
+                 )
+             if swa_already_freed < dup.numel():
+                 state.pending_actions.append(FreeDeviceKV([dup[swa_already_freed:]]))
++            _mamba_record("duplicate_kv_release_queued", (
++                ("node_id", node.id),
++                ("absolute_start", abs_start),
++                ("absolute_end", state.total_prefix_length + consumed_from),
++                ("full_only_end", abs_start + swa_already_freed),
++                ("duplicate_indices", _mamba_tensor(dup)),
++                ("mamba_exist", state.result.mamba_exist),
++            ))
+         self._finish_insert_walk_node(state, node, prefix_len)
+ 
+     def _finish_insert_walk_node(
+--- a/srt/mem_cache/unified_radix_cache.py
++++ b/srt/mem_cache/unified_radix_cache.py
+@@ -20,6 +20,11 @@
+ 
+ import msgspec
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
+ 
+ from sglang.srt.distributed.communication_tags import P2PTag
+ from sglang.srt.environ import envs
+@@ -1235,7 +1240,20 @@
+ 
+         insert_params.key = radix_key
+         insert_params.value = values
++        _mamba_record("checkpoint_insert_begin", (
++            ("rid", req.rid),
++            ("page_aligned_len", page_aligned_len),
++            ("protected_len", req.kv.cache_protected_len),
++            ("insert_value", _mamba_tensor(insert_params.mamba_value)),
++        ))
+         result = self.insert(insert_params)
++        _mamba_record("checkpoint_insert_returned", (
++            ("rid", req.rid),
++            ("mamba_exist", result.mamba_exist),
++            ("rotation_tail_declined", result.rotation_tail_declined),
++            ("node_id", result.last_device_node),
++            ("prefix_len", result.prefix_len),
++        ))
+ 
+         if result.rotation_tail_declined:
+             # Rotation-base discontinuity with the matched chain (pipelined
+@@ -1296,6 +1314,16 @@
+             (req.kv.req_pool_idx, slice(req.kv.cache_protected_len, len(new_indices))),
+             new_indices[req.kv.cache_protected_len :],
+         )
++        _mamba_record("canonical_kv_rebind_enqueued", (
++            ("rid", req.rid),
++            ("node_id", new_last_node),
++            ("prefix_len", new_prefix_len),
++            ("absolute_start", req.kv.cache_protected_len),
++            ("absolute_end", len(new_indices)),
++            ("page_aligned_len", page_aligned_len),
++            ("canonical_indices", _mamba_tensor(new_indices)),
++            ("mamba_exist", result.mamba_exist),
++        ))
+ 
+         self.unlock(req.lock)
+         # Opt-in: leave the matched-prefix mamba evictable during decode (it is
+@@ -1403,9 +1431,17 @@
+             # tree values are page-aligned copies of a kv row: page-exact segments
+             for indices in action.indices:
+                 self.token_to_kv_pool_allocator.free_segment(indices, start_pos=0)
++                _mamba_record("kv_allocator_release_returned", (
++                    ("branch", "full_and_swa"),
++                    ("indices", _mamba_tensor(indices)),
++                ))
+         elif isinstance(action, FreeDeviceKVFullOnly):
+             for indices in action.indices:
+                 self.token_to_kv_pool_allocator.free_full_segment(indices, start_pos=0)
++                _mamba_record("kv_allocator_release_returned", (
++                    ("branch", "full_only"),
++                    ("indices", _mamba_tensor(indices)),
++                ))
+         elif isinstance(action, BackupKV):
+             if self.linker is not None:
+                 self.linker.offload_nodes(action.node_ids)
+--- a/srt/managers/scheduler_components/internal_state.py
++++ b/srt/managers/scheduler_components/internal_state.py
+@@ -10,6 +10,7 @@
+ from typing import TYPE_CHECKING, Any, Callable, Dict, Optional
+ 
+ from sglang.srt.disaggregation.utils import DisaggregationMode
++from sglang.srt.mamba_runtime_metadata import drain as _mamba_drain
+ from sglang.srt.environ import envs, exportable_env_vars
+ from sglang.srt.managers.io_struct import (
+     GetInternalStateReq,
+@@ -60,6 +61,7 @@
+         # A bound signal handler is not msgpack-serializable, and no reader
+         # consumes it.
+         state.pop("custom_sigquit_handler", None)
++        state["mamba_runtime_metadata"] = _mamba_drain(get_parallel())
+         return GetInternalStateReqOutput(internal_state=msgspec_to_builtins(state))
+ 
+     def _add_topology(self, state: Dict[str, Any]) -> None:
+--- a/srt/mamba_runtime_metadata.py
++++ b/srt/mamba_runtime_metadata.py
+@@ -0,0 +1,35 @@
++"""Process-local CPU receipts; device values and completion remain unmeasured."""
++
++import os
++
++_rows = []
++_sequence = 0
++
++
++def tensor_metadata(tensor):
++    if tensor is None:
++        return None
++    return (id(tensor), str(tensor.dtype), tuple(tensor.shape),
++            tuple(tensor.stride()), str(tensor.device))
++
++
++def record(event, fields):
++    global _sequence
++    _sequence += 1
++    _rows.append((_sequence, event, fields))
++
++
++def drain(parallel):
++    rows = tuple(_rows)
++    _rows.clear()
++    return {
++        "schema": "mamba-runtime-metadata-v1",
++        "process_id": os.getpid(),
++        "rank": {name: getattr(parallel, name) for name in (
++            "dp_rank", "tp_rank", "pp_rank", "attn_dp_rank", "attn_tp_rank")},
++        "coverage": "responding scheduler process only; no all-TP gather",
++        "physical_slot_values": "UNMEASURED",
++        "tensor_metadata_fields": ("object_id", "dtype", "shape", "stride", "device"),
++        "device_store_completion": "UNMEASURED; receipts follow host enqueue only",
++        "rows": rows,
++    }

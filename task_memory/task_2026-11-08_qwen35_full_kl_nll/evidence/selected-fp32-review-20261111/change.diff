@@ -1,0 +1,856 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_fp32_snapshots.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_fp32_snapshots.md
+new file mode 100644
+index 00000000..e7c5fc27
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_fp32_snapshots.md
+@@ -0,0 +1,201 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-11 | Deliver the CPU-qualified, two-file selected-FP32 wiring candidate, exact native identities, RED/GREEN evidence, and future worker API. CUDA and warm probability semantics remain unverified. |
++| 2026-11-11 | Primary independently reran25 retained-source checks and froze the candidate for two-axis review; native acceptance remains open. |
++
++# Selected FP32 Mamba snapshots — source-fidelity fix candidate
++
++TaskID: `profile-native-mamba-fp32-snapshots-20261111`.
++
++**Result: CPU-ready candidate; 25 CPU tests PASS. No GPU, platform, SSH, network, delegation, staging, or commit operation was performed. Formal A/B remain blocked.**
++
++## Scope and deliverables
++
++The delegated request owns only these new files:
++
++- `tests/manual/agent_opd/sglang_mamba_snapshots.py`: standard-library source preparer and CLI.
++- `tests/fast/test_sglang_mamba_snapshots.py`: retained-native-source fixture copies and Python call-binding checks.
++- This report.
++
++No retained source, launcher, probe, formal/config file, requirement, plan, ticket, or other existing repository file was edited. No full dependency source is vendored. A separate supporting patch artifact is unnecessary: the preparer contains small reversible edits and generates its exact two-file diff in the runtime archive.
++
++The gain is the existing native FP32 checkpoint fidelity: connect the selected recurrence snapshot to the existing temporal-pool copy without changing the workload or introducing another recurrence. Parent authority remains [requirements D40](requirements.md#workflowparameter-rca--original-request-2026-11-11), [plan current frontier](plan.md#current-frontier), and [spec S8](spec.md#s8-gpu-与执行d16d19d33d39d40). The authoritative measured-drift evidence remains [the primary RCA report](test_report_2026-11-11_workflow_rca.md).
++
++## Native identity and inspected seams
++
++Supported image/version are owned by `source_manifest()` in the preparer:
++
++- Image: `artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805`.
++- SGLang: `0.5.24.dev80+g056f871`.
++- C3 retained root: `evidence/native-sglang-cache-source-20261111/exp-1111-042450-358109/source/`.
++- Observed native package path in the C3 receipt: `/sgl-workspace/sglang/python/sglang`.
++
++The preparer verifies six complete, narrowly selected source identities before any dependency write. Two are modified; four remain byte-identical. It checks both image and actual installed distribution version without importing SGLang, Torch, or Triton. The host's CPU SGLang `0.5.23` is explicitly unsupported.
++
++All line references below are to pristine C3 files relative to that root:
++
++| File / lines | Observation and candidate action |
++| --- | --- |
++| `kernels/ops/attention/fla/chunk_delta_h.py:102–108,171–207,331–348,364–378,397,419–436` | Existing FP32 recurrence and selected snapshot stores already exist. Ordinary `h` remains allocated from `k`; the final state retains the pool dtype. No kernel edit. |
++| `srt/layers/attention/linear/kernels/kernel_backend.py:18–24` | Existing capability defaults to False. No base-class edit. |
++| `srt/layers/attention/linear/gdn_backend.py:1166–1205,1219–1225` | Existing capability-selected FP32 buffer allocation and snapshot/position forwarding. No allocation or backend edit. |
++| `srt/layers/attention/hybrid_linear_attn_backend.py:503–529,1041–1063` | Existing chunk indices and batch-row mapping; selected-buffer copy already precedes the activation-rounded `h` path. No position, pool-dtype, or cache-policy edit. |
++| `srt/layers/attention/linear/kernels/gdn_triton.py:40–44,169–215` | Add the existing snapshot capability for native CUDA only; forward the two existing snapshot kwargs only on that supported implementation. CPU/NPU/XPU do not advertise support. |
++| `kernels/ops/attention/fla/chunk.py:36–73,93–132,136–149,254–266` | Append optional `track_state` and `track_chunk_idx` to public/forward/fwd signatures and transport both through `Function.apply` to the existing `fwd_h` consumer. Return values, normal output construction, and cold arithmetic are unchanged in source. |
++
++`input_guard` was also inspected in `fla/utils.py:145–179`: it makes tensors contiguous without changing dtype. Its CUDA `autocast_custom_fwd` definition at lines320–323 supplies no `cast_inputs` override. Neither decorator is edited; their GPU behavior is not exercised by these binding tests.
++
++C1 retains the same `hybrid_linear_attn_backend.py` SHA256 as C3. C2's retained `source.json` reports `all_gpu_reference_hashes_matched=true`, but does not retain the two candidate files. Therefore this preparer qualifies C3 directly; it does not extrapolate C2 into a complete kernel-source receipt or use host CPU source as a substitute.
++
++### Exact native edits
++
++The generated diff has **two files and 28 inserted lines**, including five API documentation lines. The recurrence, normal `h` allocation, intra-chunk computation, output computation, final-state stores, decode/target-verify methods, positions, interval, pool dtype, cache policy, and backend selection are not edited.
++
++| Native file | Before SHA256 | Candidate SHA256 |
++| --- | --- | --- |
++| `kernels/ops/attention/fla/chunk.py` | `0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85` | `b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c` |
++| `srt/layers/attention/linear/kernels/gdn_triton.py` | `ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a` | `7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf` |
++
++The other four before/after hashes are identical and are recorded in `source_manifest()` and every receipt. Hashes prevent changing the wrong dependency before a costly native launch, rather than serving as workload metadata.
++
++## CPU verification
++
++Environment: existing `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python3.12.13, pytest9.1.1, host SGLang0.5.23. No dependencies were installed. The fixture substitutes only the installed-version check with the retained native version; all source bytes are actual C3 files copied into the owned temporary directory. The host SGLang is never imported by these tests.
++
++### RED: missing wiring reproduced before implementation
++
++Exact command:
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python - <<'PY'
++import shutil,tempfile
++from pathlib import Path
++from tests.fast.test_sglang_mamba_snapshots import _RETAINED,_Tensor,_native_call
++root=Path(tempfile.mkdtemp(prefix='mamba-fp32-red-'))
++for relative in ['kernels/ops/attention/fla/chunk.py','kernels/ops/attention/fla/chunk_delta_h.py','srt/layers/attention/linear/kernels/gdn_triton.py']:
++ target=root/relative
++ target.parent.mkdir(parents=True,exist_ok=True)
++ shutil.copy2(_RETAINED/relative,target)
++snapshot=_Tensor((2,2,64,128),'float32')
++observed=_native_call(root,snapshot=snapshot,positions=_Tensor((2,),'int32'))
++print('fixture:',root)
++print('capability:',observed.capability,'TRACK_STATE:',observed.launch['TRACK_STATE'],'track_state:',observed.launch['track_state'])
++assert observed.launch['track_state'] is snapshot, 'native extend silently dropped the selected FP32 snapshot'
++PY
++```
++
++Observed fixture: `/data/ycfeng/tmp/opencode-v2-tmp/opencode/mamba-fp32-red-48lraaxb`.
++
++Observed signal: `capability: False TRACK_STATE: False track_state: None`, followed by `AssertionError: native extend silently dropped the selected FP32 snapshot`; exit1, **expected RED**. This reproduces the source-wiring defect, not the full-model teacher probability drift.
++
++### GREEN: required CPU acceptance
++
++Final exact command:
++
++```bash
++TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -m pytest tests/fast/test_sglang_mamba_snapshots.py --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/mamba-fp32-final-20261111 -q
++```
++
++Observed: **25 passed, 2 warnings in1.83s**, exit0. Warnings are pytest plugin import deprecations for `SwigPyPacked` / `SwigPyObject`; no warnings were suppressed.
++
++Primary independently reran the same25 checks: **25 passed,2 existing SWIG warnings in1.54s**, Python3.12.13/pytest9.1.1. No native GPU or installed dependency was modified. Exact command:
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_mamba_snapshots.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/mamba-fp32-primary-20261111
++```
++
++Passing conditions and observations:
++
++- Four equal/variable-length × inplace-writeback combinations: pristine source drops both snapshot inputs; candidate transports the same FP32 buffer and position objects to the native low-level launch and sets `TRACK_STATE=True`.
++- Ordinary `h` remains BF16, output/return binding and final-writeback control stay unchanged, and unchanged launch metadata retains the same values. Envelope slot stride is retained at the low-level binding.
++- Baseline verification is read-only. Applying twice and applying to an already-prepared source with a new archive is idempotent. Before/after archive bytes and source hashes match exactly. Baseline mode rejects prepared source rather than silently reverting it.
++- Unsupported changes to each of the six sources, wrong image/version/boolean, and a conflicting archive are rejected before any dependency source write; fixture bytes remain unchanged.
++- Existing low-level paired-input and FP32-dtype assertions are reached; they reject a missing partner or a rounded buffer.
++- CUDA-only capability is evaluated from the actual native class definition for CUDA/CPU/NPU/XPU flags. Non-CUDA kernels are not executed.
++- The four unmodified source files remain byte-identical. AST checks confirm unchanged output/intra/cumsum/l2norm calls, return statements, and packed-decode/decode/target-verify methods.
++- CLI emits the preflight receipt with exact source path, applied state, and `cuda_semantics=UNVERIFIED`.
++
++Initial suite iteration:23 PASS /1 FAIL in1.89s. The failure was a CPU test recorder incorrectly trying to execute the NPU gather with a non-subscriptable metadata object, not a native candidate defect. The test was narrowed to the actual CUDA call chain and separate non-CUDA capability evaluation. The corrected suite passed25/25 in1.59s, then passed again after final source formatting as above. No native behavior was changed to accommodate that harness failure.
++
++Additional observed checks:
++
++- `/usr/bin/python3`3.10.6 parsed both delivered modules and all candidate native bytes, imported the standard-library preparer, checked all six retained hashes unchanged, and verified the two candidate hashes: **PASS**.
++- `git diff --no-index --check /dev/null tests/manual/agent_opd/sglang_mamba_snapshots.py` and the analogous test-file command produced no whitespace diagnostics. Exit1 denotes the new-file difference under `--no-index`, not a whitespace error.
++- Black/Ruff/isort were unavailable in the existing CPU environment; no formatter/linter installation or package change was performed.
++
++Temporary exact candidate archive:
++
++`/data/ycfeng/tmp/opencode-v2-tmp/opencode/mamba-fp32-final-20261111/test_preparer_archives_exact_s0/candidate/`
++
++It contains `before/<native-relative-path>`, `after/<native-relative-path>`, `source_manifest.json`, `selected_fp32.diff`, and two append-only `preflight.jsonl` receipts. These are disposable CPU fixture artifacts, not a native worker application receipt. The source preparer regenerates them on the future worker; the report and retained C3 source are the persistent reproduction inputs.
++
++## Exact future worker API — PRIMARY only
++
++Run using the **pinned worker Python**, before importing SGLang attention code or starting engines, on every worker/container that will serve the candidate. The native package must be writable, and the actual run image must be supplied as `IMAGE`; do not forge the installed version check or replace it with host CPU metadata.
++
++```python
++from importlib import util
++import os
++from pathlib import Path
++
++from tests.manual.agent_opd.sglang_mamba_snapshots import prepare_source
++
++receipt = prepare_source(
++    Path(util.find_spec("sglang").origin).parent,
++    image=os.environ["IMAGE"],
++    selected_fp32=True,
++    archive_dir=Path(os.environ["SNAPSHOT_ARCHIVE"]),
++)
++```
++
++API: `prepare_source(root: Path, *, image: str, selected_fp32: bool, archive_dir: Path) -> dict`.
++
++CLI equivalent:
++
++```bash
++/opt/sglang/bin/python3 -B -m tests.manual.agent_opd.sglang_mamba_snapshots --sglang-path /sgl-workspace/sglang/python/sglang --image "$IMAGE" --archive-dir "$SNAPSHOT_ARCHIVE" --selected-fp32
++```
++
++Use a fresh, PRIMARY-selected attempt archive. Omitting `--selected-fp32` / passing False only verifies and archives the pristine baseline; it does not revert a prepared dependency. The receipt records all six observed before/after hashes, the two changed files, capability scope, dtype label, and whether the patch was actually applied. An idempotent application records `patch_applied=false` while retaining the exact candidate after hashes. The preparer rejects unsupported source or conflicting archive before writes; it is not a transaction/rollback system for an OS write failure and must not run concurrently with serving/imports.
++
++## Verification limits and remaining work
++
++This candidate makes no historical-root-cause claim. Tests execute the real native Python definitions from retained source, with metadata-only tensors, identity decorators, a positional `Function.apply` adapter, and a recorded Triton launch. They do not execute the recurrence, real PyTorch autograd/decorators, CUDA compilation, selected GPU stores, or full-model inference.
++
++No GPU `.item()`, `.cpu()`, `.tolist()`, synchronization, wait, broad logging, tolerance change, monkeypatch/fallback in runtime code, all-`h` FP32 conversion, interval/dtype/cache-policy/backend change, or new recurrence was added. Canonical-KV/full-warm changes and the deferred coarse-barrier question are outside this candidate.
++
++PRIMARY must integrate/execute the source preflight on an H800 worker, archive the actual installed-source receipt, and validate native cold/output/final-state and warm-response probabilities against independent cold references. A successful preflight or CPU GREEN is not acceptance of CUDA semantics, the teacher warm-cache correction, throughput, or formal04/05 readiness. Full-input warm cached0 is not an oracle because it still contains canonical-KV substitutions; this candidate may improve only response warm and may leave other warm-state defects.
++
++## Check-progress checkpoint
++
++### 1. Planned work completion
++
++PASS3 / TODO1: source preparer, CPU acceptance, and report are delivered; PRIMARY native integration and H800 revalidation are unfinished. This is a phase-status checkpoint, not a code-quality or native-correctness review.
++
++### 2. Drift detection
++
++Window: delegated CPU candidate scope through this report. Frontier: native selected-FP32 integration/revalidation by PRIMARY.
++
++| Pattern | Verdict | Evidence |
++| --- | --- | --- |
++| D1 Tooling polish | CLEAR | Tests stop at required wiring/identity/idempotence checks. |
++| D2 Retry loop | CLEAR | One recorder failure was identified and narrowed; no native workaround/retry loop. |
++| D3 Side quest | CLEAR | Only the three explicitly owned new files are delivered. |
++| D4 Stalled parallel frontier | CLEAR | Other investigations and native operations remain PRIMARY-owned; no delegation allowed here. |
++| D5 Gold-plating | CLEAR | Two existing snapshot inputs/capability only; no new algorithm or policy. |
++| D6 Analysis sprawl | CLEAR | Inspected seams yielded the preparer and reproducible tests. |
++| D7 Off-route | CLEAR | CPU-only; formal/config/probe/launcher/source evidence untouched. |
++
++S1–S6: no scoped document defect found.04/05 own the shared native correctness blocker, CPU versus native acceptance remain separate, requirements are measurable, and the delegated file ownership is explicit. Attribution: none.
++
++### 3. Route correction
++
++Branch A: leave spec/tickets unchanged. No drift behavior needs stopping. Next: PRIMARY worker preflight with source receipt → actual H800 cold/warm revalidation → only then the existing formal readiness/admission route.
++
++### 4. Three points to watch
++
++1. CPU25/25 settles wiring and source preparation only.
++2. Actual installed version/source hashes must match before importing serving code.
++3. Warm probabilities must be checked against cold references; formal hold is not released by this candidate.
+diff --git a/tests/fast/test_sglang_mamba_snapshots.py b/tests/fast/test_sglang_mamba_snapshots.py
+new file mode 100644
+index 00000000..04f28df2
+--- /dev/null
++++ b/tests/fast/test_sglang_mamba_snapshots.py
+@@ -0,0 +1,371 @@
++"""Execute retained native Python call bindings; never import host SGLang/CUDA.
++
++MILES_PINNED_SGLANG_SOURCE may point to another copy of the retained C3 package.
++The untracked local evidence is used when present; CI without that evidence skips
++these source-dependent tests rather than substituting the host's older SGLang.
++The Triton launch is a recorder, not a recurrence implementation.
++"""
++
++import ast
++import json
++import os
++from pathlib import Path
++from types import SimpleNamespace
++from typing import Optional, Tuple
++
++import pytest
++
++from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++
++_RETAINED = (
++    Path(__file__).resolve().parents[2]
++    / "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
++    / "exp-1111-042450-358109/source"
++)
++
++
++@pytest.fixture
++def native_root(tmp_path):
++    source = Path(os.environ.get("MILES_PINNED_SGLANG_SOURCE", _RETAINED))
++    if not source.is_dir():
++        pytest.skip("Actual retained native SGLang C3 source is not available")
++    root = tmp_path / "sglang"
++    for relative, identity in snapshots.source_manifest()["files"].items():
++        content = (source / relative).read_bytes()
++        assert snapshots._sha256(content) == identity["before_sha256"]
++        target = root / relative
++        target.parent.mkdir(parents=True, exist_ok=True)
++        target.write_bytes(content)
++    return root
++
++
++@pytest.fixture
++def qualified_version(monkeypatch):
++    monkeypatch.setattr(
++        snapshots.importlib.metadata, "version", lambda name: snapshots.source_manifest()["distribution_version"]
++    )
++
++
++def _prepare(root, archive, *, selected_fp32=True):
++    return snapshots.prepare_source(
++        root, image=snapshots.source_manifest()["image"], selected_fp32=selected_fp32, archive_dir=archive
++    )
++
++
++def _contents(root):
++    return {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
++
++
++class _Tensor:
++    def __init__(self, shape, dtype="bfloat16", slot_stride=None):
++        self.shape = shape
++        self.dtype = dtype
++        self.slot_stride = slot_stride
++
++    def __len__(self):
++        return self.shape[0]
++
++    def stride(self, axis):
++        assert axis == 0
++        if self.slot_stride is not None:
++            return self.slot_stride
++        result = 1
++        for dimension in self.shape[1:]:
++            result *= dimension
++        return result
++
++    def new_empty(self, *shape):
++        return _Tensor(shape, self.dtype)
++
++    def to(self, dtype):
++        assert dtype == self.dtype
++        return self
++
++
++class _AutogradFunction:
++    @classmethod
++    def apply(cls, *args):
++        return cls.forward(None, *args)
++
++
++def _identity(function):
++    return function
++
++
++def _definitions(path, names):
++    tree = ast.parse(path.read_bytes())
++    definitions = [node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.ClassDef)) and node.name in names]
++    assert {node.name for node in definitions} == set(names)
++    return definitions
++
++
++def _native_call(root, *, snapshot=None, positions=None, varlen=True, inplace_update=True):
++    """Run real extend -> public chunk -> apply/forward -> fwd -> fwd_h bindings."""
++    launch = {}
++
++    class Launch:
++        def __getitem__(self, grid):
++            def record(**kwargs):
++                launch.update(kwargs)
++                launch["grid"] = grid({"BV": 32})
++
++            return record
++
++    torch = SimpleNamespace(
++        Tensor=_Tensor,
++        LongTensor=_Tensor,
++        float32="float32",
++        empty_like=lambda tensor: _Tensor(tensor.shape, tensor.dtype),
++        compiler=SimpleNamespace(disable=_identity),
++        autograd=SimpleNamespace(Function=_AutogradFunction),
++    )
++    tensors = {name: _Tensor((1, 130, 2, 128)) for name in ("q", "k", "w")}
++    tensors.update(v=_Tensor((1, 130, 2, 64)), u=_Tensor((1, 130, 2, 64)))
++    namespace = {
++        "torch": torch,
++        "Optional": Optional,
++        "Tuple": Tuple,
++        "CHUNK_SIZE": 64,
++        "SUPPRESS_LEVEL": 2,
++        "LinearAttnKernelBase": type("LinearAttnKernelBase", (), {"supports_track_state_snapshot": False}),
++        "is_cpu": lambda: False,
++        "is_npu": lambda: False,
++        "is_xpu": lambda: False,
++        "input_guard": _identity,
++        "autocast_custom_fwd": _identity,
++        "l2norm_fwd": lambda tensor: tensor,
++        "prepare_chunk_indices": lambda *args: _Tensor((3,), "int64"),
++        "prepare_chunk_offsets": lambda *args: _Tensor((3,), "int64"),
++        "chunk_local_cumsum": lambda g, **kwargs: g,
++        "chunk_gated_delta_rule_fwd_intra": lambda **kwargs: (tensors["w"], tensors["u"], object()),
++        "chunk_fwd_o": lambda **kwargs: tensors["v"],
++        "triton": SimpleNamespace(cdiv=lambda a, b: (a + b - 1) // b),
++        "chunk_gated_delta_rule_fwd_kernel_h_blockdim64": Launch(),
++    }
++    definitions = _definitions(root / "kernels/ops/attention/fla/chunk_delta_h.py", ["chunk_gated_delta_rule_fwd_h"])
++    definitions += _definitions(
++        root / "kernels/ops/attention/fla/chunk.py",
++        ["chunk_gated_delta_rule_fwd", "ChunkGatedDeltaRuleFunction", "chunk_gated_delta_rule"],
++    )
++    kernel_class = _definitions(root / "srt/layers/attention/linear/kernels/gdn_triton.py", ["TritonGDNKernel"])[0]
++    # Only extend and capability declarations are reached; unrelated methods
++    # have annotations for dependencies that this CPU binding test does not load.
++    kernel_class.body = [
++        node for node in kernel_class.body if not isinstance(node, ast.FunctionDef) or node.name == "extend"
++    ]
++    module = ast.Module(body=definitions + [kernel_class], type_ignores=[])
++    exec(compile(module, "retained-native-SGLang-bindings.py", "exec"), namespace)
++    state = _Tensor((4, 2, 64, 128), "float32", slot_stride=65536)
++    cache_indices = _Tensor((2,), "int64")
++    query_start_loc = _Tensor((3,), "int64") if varlen else None
++    output = namespace["TritonGDNKernel"]().extend(
++        q=tensors["q"],
++        k=tensors["k"],
++        v=tensors["v"],
++        g=_Tensor((1, 130, 2)),
++        beta=_Tensor((1, 130, 2)),
++        ssm_states=state,
++        cache_indices=cache_indices,
++        query_start_loc=query_start_loc,
++        inplace_update=inplace_update,
++        track_state=snapshot,
++        track_chunk_idx=positions,
++    )
++    return SimpleNamespace(
++        launch=launch,
++        output=output,
++        tensors=tensors,
++        state=state,
++        cache_indices=cache_indices,
++        query_start_loc=query_start_loc,
++        capability=namespace["TritonGDNKernel"].supports_track_state_snapshot,
++    )
++
++
++@pytest.mark.parametrize("varlen", [False, True])
++@pytest.mark.parametrize("inplace_update", [False, True])
++def test_selected_snapshot_call_chain(native_root, qualified_version, tmp_path, varlen, inplace_update):
++    snapshot = _Tensor((2, 2, 64, 128), "float32")
++    positions = _Tensor((2,), "int32")
++    red = _native_call(native_root, snapshot=snapshot, positions=positions, varlen=varlen, inplace_update=inplace_update)
++    assert not red.capability and not red.launch["TRACK_STATE"]
++    assert red.launch["track_state"] is None and red.launch["track_chunk_idx"] is None
++    _prepare(native_root, tmp_path / "archive")
++    observed = _native_call(
++        native_root, snapshot=snapshot, positions=positions, varlen=varlen, inplace_update=inplace_update
++    )
++    assert observed.capability and observed.launch["TRACK_STATE"]
++    assert observed.launch["track_state"] is snapshot, "native extend silently dropped the selected FP32 snapshot"
++    assert observed.launch["track_chunk_idx"] is positions
++    assert observed.launch["stride_track_state"] == snapshot.stride(0)
++    assert observed.launch["initial_state"] is observed.state
++    assert observed.launch["initial_state_indices"] is observed.cache_indices
++    assert observed.launch["stride_init_state"] == 65536
++    assert observed.launch["cu_seqlens"] is observed.query_start_loc
++    assert observed.launch["INPLACE_UPDATE"] is inplace_update
++    assert observed.output[0] is observed.tensors["v"]
++    assert observed.output[1] is None
++    assert observed.output[2] is observed.launch["h"]
++    assert observed.launch["h"].dtype == observed.tensors["k"].dtype == "bfloat16"
++    assert observed.launch["h"].shape == red.launch["h"].shape
++    for key in (
++        "grid", "BT", "T", "H", "Hg", "K", "V", "USE_G", "USE_GK", "USE_INITIAL_STATE",
++        "SAVE_NEW_VALUE", "IS_VARLEN", "NT_BUCKET", "USE_EXP2",
++    ):
++        assert observed.launch[key] == red.launch[key]
++
++
++def test_preparer_archives_exact_sources_and_is_idempotent(native_root, qualified_version, tmp_path):
++    original = _contents(native_root)
++    red = _prepare(native_root, tmp_path / "baseline", selected_fp32=False)
++    assert not red["patch_applied"] and _contents(native_root) == original
++    green = _prepare(native_root, tmp_path / "candidate")
++    candidate = _contents(native_root)
++    assert set(green["changed_files"]) == {snapshots._CHUNK, snapshots._TRITON}
++    assert green["patch_applied"] and green["cuda_semantics"] == "UNVERIFIED"
++    for relative, identity in snapshots.source_manifest()["files"].items():
++        assert snapshots._sha256(candidate[relative]) == identity["after_sha256"]
++        assert (tmp_path / "candidate/before" / relative).read_bytes() == original[relative]
++        assert (tmp_path / "candidate/after" / relative).read_bytes() == candidate[relative]
++    again = _prepare(native_root, tmp_path / "candidate")
++    assert not again["patch_applied"] and again["changed_files"] == []
++    assert _contents(native_root) == candidate
++    assert len((tmp_path / "candidate/preflight.jsonl").read_text().splitlines()) == 2
++    fresh = _prepare(native_root, tmp_path / "idempotent-new-archive")
++    assert not fresh["patch_applied"]
++    for relative in original:
++        assert (tmp_path / "idempotent-new-archive/before" / relative).read_bytes() == original[relative]
++    diff = (tmp_path / "candidate/selected_fp32.diff").read_text()
++    assert diff.count("--- a/") == 2
++    with pytest.raises(ValueError, match="Unrecognized SGLang snapshot source"):
++        _prepare(native_root, tmp_path / "no-implicit-revert", selected_fp32=False)
++    assert _contents(native_root) == candidate
++    assert not (tmp_path / "no-implicit-revert").exists()
++
++
++@pytest.mark.parametrize("relative", list(snapshots.source_manifest()["files"]))
++def test_unsupported_source_has_no_partial_writes(native_root, qualified_version, tmp_path, relative):
++    target = native_root / relative
++    target.write_bytes(target.read_bytes() + b"\n# unsupported fixture change\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="Unrecognized SGLang snapshot source"):
++        _prepare(native_root, tmp_path / "archive")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "archive").exists()
++
++
++@pytest.mark.parametrize("field", ["image", "version", "boolean"])
++def test_unsupported_identity_has_no_partial_writes(native_root, tmp_path, monkeypatch, field):
++    manifest = snapshots.source_manifest()
++    image = manifest["image"] if field != "image" else "unqualified-image"
++    selected = True if field != "boolean" else "true"
++    version = manifest["distribution_version"] if field != "version" else "0.5.23"
++    monkeypatch.setattr(snapshots.importlib.metadata, "version", lambda name: version)
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="qualified pinned image|identity differs|JSON boolean"):
++        snapshots.prepare_source(native_root, image=image, selected_fp32=selected, archive_dir=tmp_path / "archive")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "archive").exists()
++
++
++def test_conflicting_archive_has_no_partial_writes(native_root, qualified_version, tmp_path):
++    before = _contents(native_root)
++    archive = tmp_path / "archive"
++    archive.mkdir()
++    (archive / "selected_fp32.diff").write_text("unrelated evidence\n")
++    with pytest.raises(ValueError, match="archive differs"):
++        _prepare(native_root, archive)
++    assert _contents(native_root) == before
++    assert sorted(path.name for path in archive.iterdir()) == ["selected_fp32.diff"]
++
++
++@pytest.mark.parametrize("failure", ["missing_positions", "missing_buffer", "rounded_buffer"])
++def test_existing_native_snapshot_contract_is_reached(native_root, qualified_version, tmp_path, failure):
++    _prepare(native_root, tmp_path / "archive")
++    snapshot = (
++        None
++        if failure == "missing_buffer"
++        else _Tensor((2, 2, 64, 128), "bfloat16" if failure == "rounded_buffer" else "float32")
++    )
++    positions = None if failure == "missing_positions" else _Tensor((2,), "int32")
++    with pytest.raises(AssertionError, match="passed together|must be fp32"):
++        _native_call(native_root, snapshot=snapshot, positions=positions)
++
++
++def test_cold_cuda_binding_is_unchanged(native_root, qualified_version, tmp_path):
++    red = _native_call(native_root)
++    _prepare(native_root, tmp_path / "archive")
++    green = _native_call(native_root)
++    assert green.capability
++    assert green.launch["TRACK_STATE"] is False
++    assert green.launch["track_state"] is green.launch["track_chunk_idx"] is None
++    assert green.launch["stride_track_state"] == 0
++    assert green.output[0].dtype == red.output[0].dtype
++    assert green.launch["h"].shape == red.launch["h"].shape
++    assert green.launch["h"].dtype == red.launch["h"].dtype
++
++
++@pytest.mark.parametrize("platform", ["cuda", "cpu", "npu", "xpu"])
++def test_snapshot_capability_is_native_cuda_only(native_root, qualified_version, tmp_path, platform):
++    _prepare(native_root, tmp_path / "archive")
++    definitions = _definitions(native_root / snapshots._TRITON, ["TritonGDNKernel"])
++    namespace = {
++        "LinearAttnKernelBase": type("LinearAttnKernelBase", (), {}),
++        "is_cpu": lambda: platform == "cpu",
++        "is_npu": lambda: platform == "npu",
++        "is_xpu": lambda: platform == "xpu",
++    }
++    future = ast.parse("from __future__ import annotations").body
++    exec(compile(ast.Module(body=future + definitions, type_ignores=[]), "native-GDN-capability.py", "exec"), namespace)
++    assert namespace["TritonGDNKernel"].supports_track_state_snapshot is (platform == "cuda")
++
++
++def test_kernel_recurrence_positions_allocation_copy_and_cold_output_are_unchanged(native_root, qualified_version, tmp_path):
++    original = _contents(native_root)
++    _prepare(native_root, tmp_path / "archive")
++    candidate = _contents(native_root)
++    for relative in original.keys() - {snapshots._CHUNK, snapshots._TRITON}:
++        assert candidate[relative] == original[relative]
++    before = ast.parse(original[snapshots._CHUNK])
++    after = ast.parse(candidate[snapshots._CHUNK])
++    unchanged_calls = {"chunk_local_cumsum", "chunk_gated_delta_rule_fwd_intra", "chunk_fwd_o", "l2norm_fwd"}
++
++    def unchanged(tree):
++        return [
++            ast.dump(node)
++            for node in ast.walk(tree)
++            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in unchanged_calls
++        ]
++
++    assert unchanged(before) == unchanged(after)
++    assert [ast.dump(node) for node in ast.walk(before) if isinstance(node, ast.Return)] == [
++        ast.dump(node) for node in ast.walk(after) if isinstance(node, ast.Return)
++    ]
++    for method in ("packed_decode", "decode", "target_verify"):
++        before_method = next(
++            node for node in ast.walk(ast.parse(original[snapshots._TRITON]))
++            if isinstance(node, ast.FunctionDef) and node.name == method
++        )
++        after_method = next(
++            node for node in ast.walk(ast.parse(candidate[snapshots._TRITON]))
++            if isinstance(node, ast.FunctionDef) and node.name == method
++        )
++        assert ast.dump(before_method) == ast.dump(after_method)
++
++
++def test_cli_returns_preflight_receipt(native_root, qualified_version, tmp_path, monkeypatch, capsys):
++    monkeypatch.setattr(
++        "sys.argv",
++        [
++            "sglang_mamba_snapshots",
++            "--sglang-path", str(native_root),
++            "--image", snapshots.source_manifest()["image"],
++            "--archive-dir", str(tmp_path / "archive"),
++            "--selected-fp32",
++        ],
++    )
++    snapshots.main()
++    receipt = json.loads(capsys.readouterr().out)
++    assert receipt["selected_fp32"] is True and receipt["patch_applied"] is True
++    assert receipt["sglang_path"] == str(native_root)
+diff --git a/tests/manual/agent_opd/sglang_mamba_snapshots.py b/tests/manual/agent_opd/sglang_mamba_snapshots.py
+new file mode 100644
+index 00000000..0ce96b32
+--- /dev/null
++++ b/tests/manual/agent_opd/sglang_mamba_snapshots.py
+@@ -0,0 +1,266 @@
++"""Wire existing selected FP32 GDN snapshots in one qualified native SGLang.
++
++Run with the pinned worker's Python before importing SGLang attention modules
++or launching engines. This standard-library preflight does not import SGLang,
++run kernels, change tracking policy, or change the normal h/output/final state.
++
++    python -m tests.manual.agent_opd.sglang_mamba_snapshots \
++        --sglang-path "$SGLANG_PACKAGE" --image "$IMAGE" \
++        --archive-dir "$ARCHIVE" --selected-fp32
++
++Only the retained C3 source identity is supported. The older host CPU package
++is not a substitute. CUDA and teacher warm-cache parity remain unverified.
++"""
++
++import argparse
++import ast
++import difflib
++import hashlib
++import importlib.metadata
++import json
++from pathlib import Path
++
++
++_IMAGE = (
++    "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:"
++    "165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805"
++)
++_VERSION = "0.5.24.dev80+g056f871"
++_CHUNK = "kernels/ops/attention/fla/chunk.py"
++_TRITON = "srt/layers/attention/linear/kernels/gdn_triton.py"
++_FILES = {
++    _CHUNK: {
++        "before_sha256": "0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85",
++        "after_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
++    },
++    _TRITON: {
++        "before_sha256": "ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a",
++        "after_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
++    },
++    "kernels/ops/attention/fla/chunk_delta_h.py": {
++        "before_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
++    },
++    "srt/layers/attention/linear/kernels/kernel_backend.py": {
++        "before_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
++    },
++    "srt/layers/attention/linear/gdn_backend.py": {
++        "before_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
++    },
++    "srt/layers/attention/hybrid_linear_attn_backend.py": {
++        "before_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
++    },
++}
++
++# Small reversible source edits, not copies of the dependency's algorithms.
++# Hash checks precede every edit; all candidate files are checked before writes.
++_EDITS = {
++    _TRITON: (
++        (
++            "    supports_strided_target_verify_qkv: bool = True\n",
++            "    supports_strided_target_verify_qkv: bool = True\n"
++            "    # Only the native CUDA chunk kernel honors selected FP32 snapshots.\n"
++            "    supports_track_state_snapshot: bool = (\n"
++            "        not is_cpu() and not is_npu() and not is_xpu()\n"
++            "    )\n",
++            1,
++        ),
++        (
++            '        inplace_update_args = {"inplace_update": inplace_update}\n',
++            '        inplace_update_args = {"inplace_update": inplace_update}\n'
++            "        snapshot_args = {}\n"
++            "        if self.supports_track_state_snapshot:\n"
++            "            snapshot_args = {\n"
++            '                "track_state": kwargs.get("track_state"),\n'
++            '                "track_chunk_idx": kwargs.get("track_chunk_idx"),\n'
++            "            }\n",
++            1,
++        ),
++        (
++            "            **inplace_update_args,\n",
++            "            **inplace_update_args,\n            **snapshot_args,\n",
++            1,
++        ),
++    ),
++    _CHUNK: (
++        (
++            "    inplace_update: bool = True,\n",
++            "    inplace_update: bool = True,\n"
++            "    track_state: Optional[torch.Tensor] = None,\n"
++            "    track_chunk_idx: Optional[torch.Tensor] = None,\n",
++            2,
++        ),
++        (
++            "        inplace_update: bool = True,\n",
++            "        inplace_update: bool = True,\n"
++            "        track_state: Optional[torch.Tensor] = None,\n"
++            "        track_chunk_idx: Optional[torch.Tensor] = None,\n",
++            1,
++        ),
++        (
++            "        chunk_indices=chunk_indices,\n        inplace_update=inplace_update,\n    )",
++            "        chunk_indices=chunk_indices,\n        inplace_update=inplace_update,\n"
++            "        track_state=track_state,\n        track_chunk_idx=track_chunk_idx,\n    )",
++            1,
++        ),
++        (
++            "            chunk_indices=chunk_indices,\n            inplace_update=inplace_update,\n        )",
++            "            chunk_indices=chunk_indices,\n            inplace_update=inplace_update,\n"
++            "            track_state=track_state,\n            track_chunk_idx=track_chunk_idx,\n        )",
++            1,
++        ),
++        (
++            "        inplace_update,\n    )",
++            "        inplace_update,\n        track_state,\n        track_chunk_idx,\n    )",
++            1,
++        ),
++        (
++            "            Whether to write final states back to `initial_state`. Default: `True`.\n",
++            "            Whether to write final states back to `initial_state`. Default: `True`.\n"
++            "        track_state (Optional[torch.Tensor]):\n"
++            "            Selected FP32 state buffer of shape `[N, H, V, K]`; normal `h` is unchanged.\n"
++            "        track_chunk_idx (Optional[torch.Tensor]):\n"
++            "            Per-sequence chunk-entry index to snapshot; -1 skips that row.\n"
++            "            Must be supplied together with `track_state`.\n",
++            1,
++        ),
++    ),
++}
++
++
++def source_manifest() -> dict:
++    """Return the qualified image/version and narrowly inspected file identities."""
++    return {
++        "image": _IMAGE,
++        "distribution_version": _VERSION,
++        "native_source_job": "exp-1111-042450-358109",
++        "files": {
++            relative: {"after_sha256": identity["before_sha256"], **identity} for relative, identity in _FILES.items()
++        },
++    }
++
++
++def _sha256(content: bytes) -> str:
++    return hashlib.sha256(content).hexdigest()
++
++
++def _rewrite(relative: str, content: bytes, *, reverse: bool = False) -> bytes:
++    text = content.decode("utf-8")
++    edits = _EDITS.get(relative, ())
++    for before, after, count in reversed(edits) if reverse else edits:
++        old, new = (after, before) if reverse else (before, after)
++        # Match complete lines so a four-space pattern never hits eight spaces.
++        old, new = "\n" + old, "\n" + new
++        if text.count(old) != count:
++            raise ValueError(f"Snapshot source seam differs: {relative}")
++        text = text.replace(old, new)
++    return text.encode("utf-8")
++
++
++def _source_versions(root: Path, selected_fp32: bool) -> tuple[dict, dict, dict]:
++    current, original, candidate = {}, {}, {}
++    for relative, identity in source_manifest()["files"].items():
++        content = (root / relative).read_bytes()
++        digest = _sha256(content)
++        allowed = {identity["before_sha256"]}
++        if selected_fp32:
++            allowed.add(identity["after_sha256"])
++        if digest not in allowed:
++            raise ValueError(f"Unrecognized SGLang snapshot source; refusing to alter {root / relative} ({digest})")
++        current[relative] = content
++        original[relative] = _rewrite(relative, content, reverse=True) if digest != identity["before_sha256"] else content
++        candidate[relative] = _rewrite(relative, original[relative]) if selected_fp32 else original[relative]
++        expected = identity["after_sha256" if selected_fp32 else "before_sha256"]
++        if _sha256(original[relative]) != identity["before_sha256"] or _sha256(candidate[relative]) != expected:
++            raise ValueError(f"Snapshot edit produced an unexpected source identity: {relative}")
++        ast.parse(candidate[relative], filename=str(root / relative))
++    return current, original, candidate
++
++
++def _archive_sources(archive_dir: Path, original: dict, candidate: dict, manifest: dict) -> None:
++    artifacts = {"source_manifest.json": (json.dumps(manifest, indent=2) + "\n").encode()}
++    diff = []
++    for relative in original:
++        artifacts[f"before/{relative}"] = original[relative]
++        artifacts[f"after/{relative}"] = candidate[relative]
++        diff.extend(
++            difflib.unified_diff(
++                original[relative].decode().splitlines(keepends=True),
++                candidate[relative].decode().splitlines(keepends=True),
++                fromfile=f"a/{relative}",
++                tofile=f"b/{relative}",
++            )
++        )
++    artifacts["selected_fp32.diff"] = "".join(diff).encode()
++    # A conflicting evidence directory is rejected before any source is touched.
++    for relative, content in artifacts.items():
++        path = archive_dir / relative
++        if path.exists() and path.read_bytes() != content:
++            raise ValueError(f"Snapshot source archive differs: {path}")
++    for relative, content in artifacts.items():
++        path = archive_dir / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        if not path.exists():
++            path.write_bytes(content)
++
++
++def prepare_source(root: Path, *, image: str, selected_fp32: bool, archive_dir: Path) -> dict:
++    """Verify all six source files before applying the two-file wiring candidate.
++
++    False verifies/archives the pristine baseline and never reverses a candidate.
++    True accepts pristine or exactly prepared files and is idempotent. Invalid
++    identity or conflicting archive fails before dependency source writes.
++    """
++    if type(selected_fp32) is not bool:
++        raise ValueError("selected_fp32 must be a JSON boolean")
++    manifest = source_manifest()
++    if image != manifest["image"]:
++        raise ValueError("Snapshot preflight requires the qualified pinned image")
++    version = importlib.metadata.version("sglang")
++    if version != manifest["distribution_version"]:
++        raise ValueError(f"Snapshot dependency identity differs: version={version}")
++    root, archive_dir = root.resolve(), archive_dir.resolve()
++    current, original, candidate = _source_versions(root, selected_fp32)
++    _archive_sources(archive_dir, original, candidate, manifest)
++    changed = [relative for relative in current if current[relative] != candidate[relative]]
++    for relative in changed:
++        (root / relative).write_bytes(candidate[relative])
++    observed_after = {relative: _sha256((root / relative).read_bytes()) for relative in candidate}
++    if observed_after != {relative: _sha256(content) for relative, content in candidate.items()}:
++        raise ValueError("Snapshot dependency changed during preflight")
++    receipt = {
++        **manifest,
++        "sglang_path": str(root),
++        "selected_fp32": selected_fp32,
++        "snapshot_dtype": "float32" if selected_fp32 else None,
++        "snapshot_capability": "native CUDA only" if selected_fp32 else "unchanged",
++        "observed_before_sha256": {relative: _sha256(content) for relative, content in current.items()},
++        "observed_after_sha256": observed_after,
++        "changed_files": changed,
++        "patch_applied": bool(changed),
++        "archive_dir": str(archive_dir),
++        "cuda_semantics": "UNVERIFIED",
++    }
++    with (archive_dir / "preflight.jsonl").open("a") as stream:
++        stream.write(json.dumps(receipt, allow_nan=False) + "\n")
++    return receipt
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--sglang-path", type=Path, required=True)
++    parser.add_argument("--image", required=True)
++    parser.add_argument("--archive-dir", type=Path, required=True)
++    parser.add_argument("--selected-fp32", action="store_true")
++    args = parser.parse_args()
++    print(
++        json.dumps(
++            prepare_source(
++                args.sglang_path, image=args.image, selected_fp32=args.selected_fp32, archive_dir=args.archive_dir
++            ),
++            indent=2,
++        )
++    )
++
++
++if __name__ == "__main__":
++    main()

@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "job": "exp-1110-014836-849060",
+  "pair": "A",
+  "rank": 0,
+  "returncode": -15,
+  "error_type": "SystemExit",
+  "reason": "143"
+}

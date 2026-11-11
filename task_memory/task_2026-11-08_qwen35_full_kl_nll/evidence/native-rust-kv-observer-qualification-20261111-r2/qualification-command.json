@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/opt/sglang/bin/python3",
+    "-B",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py",
+    "qualify",
+    "--root",
+    "/sgl-workspace/sglang/python/sglang",
+    "--archive-dir",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111",
+    "--output",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2"
+  ],
+  "returncode": 0
+}

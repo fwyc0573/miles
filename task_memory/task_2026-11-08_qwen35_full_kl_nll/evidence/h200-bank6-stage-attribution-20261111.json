@@ -1,0 +1,61 @@
+{
+  "bank": 6,
+  "native_generation_events_complete": true,
+  "generation_completed_count": 256,
+  "generation_statuses": [
+    "succeeded"
+  ],
+  "actual_generation_completion_elapsed_s": {
+    "count": 256,
+    "min": 194.54254484176636,
+    "median": 616.7481951713562,
+    "p90": 925.1286444664001,
+    "max": 1150.8895497322083
+  },
+  "generate_adapter_elapsed_s": {
+    "count": 256,
+    "min": 80.08116198703647,
+    "median": 460.1372166937217,
+    "p90": 768.1267448086292,
+    "max": 964.9087690357119
+  },
+  "generation_start_elapsed_s": {
+    "count": 256,
+    "min": 103.25898170471191,
+    "median": 145.64838874340057,
+    "p90": 180.37500309944153,
+    "max": 187.7926025390625
+  },
+  "teacher_start_minus_generation_end_s": {
+    "count": 256,
+    "min": 0.0005869865417480469,
+    "median": 0.001366257667541504,
+    "p90": 0.0014693737030029297,
+    "max": 0.010996341705322266
+  },
+  "generation_231st_completed_elapsed_s": 930.2187283039093,
+  "generation_256th_completed_elapsed_s": 1150.8895497322083,
+  "post_generation_wait_until_deadline_s": 649.1362810134888,
+  "teacher_prefill_log_rows": 2735,
+  "teacher_prefill_first_elapsed_s": 194.67407417297363,
+  "teacher_prefill_last_elapsed_s": 1799.6740741729736,
+  "teacher_logged_new_tokens": 21561962,
+  "teacher_logged_cached_tokens": 0,
+  "teacher_queue_peak": 128,
+  "teacher_latest_before_deadline": {
+    "line": 16313,
+    "timestamp": 1794315042.0,
+    "message": "[2026-11-10 12:50:42 TP0] Prefill batch, #new-seq: 1, #new-token: 8192, #cached-token: 0, full token usage: 0.05, mamba usage: 0.01, #running-req: 0, #queue-req: 30, #pending-token: 2895785, cuda graph: False, input throughput (token/s): 12194.31"
+  },
+  "teacher_new_seq_counts": [
+    1
+  ],
+  "teacher_input_token_total": 24457747,
+  "all_response_lengths": {
+    "count": 256,
+    "min": 52,
+    "median": 195.0,
+    "p90": 1223,
+    "max": 8124
+  }
+}

@@ -1,0 +1,497 @@
+{
+  "job": "exp-1111-094840-273565",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "package": "/sgl-workspace/sglang/python/sglang",
+  "sglang_version": "0.5.24.dev80+g056f871",
+  "requested_gpus": 0,
+  "selection": "Complete kernels/ops/kvcache source and native source files containing store_cache/store_kv",
+  "files": [
+    {
+      "path": "kernels/aot/csrc/cpu/kvcache.cpp",
+      "sha256": "e08fd253f6c61989c714e01420fcf80b322714e958d7dee6d239b20891b9f310",
+      "bytes": 7173
+    },
+    {
+      "path": "kernels/aot/csrc/cpu/torch_extension_cpu.cpp",
+      "sha256": "e0bc4c574f9e10c5c6c830c7e8d8ff400b9531a0b2098cd2498f4b56136b6afc",
+      "bytes": 43557
+    },
+    {
+      "path": "kernels/jit/csrc/elementwise/kvcache.cuh",
+      "sha256": "8b4cc36204b5623608c2467974bcd2a8daf283e96cdbd2f7ee268b07fa0f12e6",
+      "bytes": 7252
+    },
+    {
+      "path": "kernels/jit/csrc/minimax/fused_gemma_qknorm_rope.cuh",
+      "sha256": "95bd0eb538568ed29b3c2332ee6ff41691e2ca6b33dd46d8f34284d983b7b5c2",
+      "bytes": 12474
+    },
+    {
+      "path": "kernels/jit/csrc/minimax/fused_store_kv_index.cuh",
+      "sha256": "c0e84e5023448124a8fa224d1a2d3224315859855b5d8fed8db75b5c73ecdc63",
+      "bytes": 7411
+    },
+    {
+      "path": "kernels/jit/csrc/minimax/nvfp4_store_kv_index.cuh",
+      "sha256": "852190e654f8adfba8d46814aa85e4671cab6e8d96c11d82352a9b535aa502bf",
+      "bytes": 14026
+    },
+    {
+      "path": "kernels/ops/attention/dsv4/__init__.py",
+      "sha256": "a57a8df3badd02ac5af4307c0d584e37ee35c3e1d5aa5ec73b9188cde1dd94c8",
+      "bytes": 1383
+    },
+    {
+      "path": "kernels/ops/attention/dsv4/attn.py",
+      "sha256": "86cc4947862de5244b880d9536602b4aaf141d0ac24c996ca9aec95aaaede14f",
+      "bytes": 4297
+    },
+    {
+      "path": "kernels/ops/attention/fused_qk_norm_rope_store.py",
+      "sha256": "6c3b7f280316926e4e17b8b1d222a115f9c09254fda5239e7fae7b4dc4cb6412",
+      "bytes": 22006
+    },
+    {
+      "path": "kernels/ops/attention/minimax_qknorm_rope.py",
+      "sha256": "bfed667622ec635e492abcfd241c7ccddaa7826407256f15e1d9c20a81c084ae",
+      "bytes": 7703
+    },
+    {
+      "path": "kernels/ops/attention/muse_spark_qk_norm_rope_store.py",
+      "sha256": "af4a5bb8de205a99761e6959447748e2e00af0831e58e37fa0f862ce9e964a25",
+      "bytes": 16427
+    },
+    {
+      "path": "kernels/ops/kvcache/__init__.py",
+      "sha256": "255b040c5edc0280cf55d85eea70b9dc1b86c1cecbbf3623fc1a5a0aa147262a",
+      "bytes": 2626
+    },
+    {
+      "path": "kernels/ops/kvcache/cache_move.py",
+      "sha256": "8a345a31a71e12c0a8fe478e4d6f6b1a41ff191cc3cee25e7854c74eed8a1c25",
+      "bytes": 6625
+    },
+    {
+      "path": "kernels/ops/kvcache/cache_ops.py",
+      "sha256": "d2dbd0f5f916a624741cad98d55c82263ba5c617d0003f24cdd9d1b292592870",
+      "bytes": 6532
+    },
+    {
+      "path": "kernels/ops/kvcache/copy_pages.py",
+      "sha256": "1a2cfab41f99bedb68497db8654602e2606ab7cc06a0605f50d907a0b4223456",
+      "bytes": 2348
+    },
+    {
+      "path": "kernels/ops/kvcache/dsa_fused_store_index_cache.py",
+      "sha256": "7cef4342b1d8705e87baf7f41fad2b30e59958774b96a5cf5252f44a9cd40196",
+      "bytes": 3343
+    },
+    {
+      "path": "kernels/ops/kvcache/dsa_index_k_cache.py",
+      "sha256": "08af84312afd6dfbf22fc93daa5267d5cb1b85a32244408bb561ffa3b0fba471",
+      "bytes": 14270
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv41_window_layout.py",
+      "sha256": "4ca6d7d7d79340bb47b9f960d1cf4828674ede86c46f1858f04fe2b6165eb171",
+      "bytes": 5570
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_c128_cleanup.py",
+      "sha256": "140a1760c899abe8968189dd7fcad026b534c889954d8967888c25f4b1d8477b",
+      "bytes": 1500
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_fp4_index_k_cache.py",
+      "sha256": "82da938ee63923cf93f210f3df750ac1ce7d82196f44a8b154b8a76d3b18641c",
+      "bytes": 3796
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_fp4_index_k_cache_hip.py",
+      "sha256": "40683df0905d75b2a759ab69227c20697195743d77634826a9483c92075bd320",
+      "bytes": 3118
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_main_kv_store.py",
+      "sha256": "dae5ac2016deff9e530f930e38108f46995a11a3b1a075725663181f97c96a85",
+      "bytes": 5638
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_request_window_copy.py",
+      "sha256": "7a724fbe3266282577059d935fbd513ff42161f93976f352be20ac6aa54b288c",
+      "bytes": 3878
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_unified_kv_store.py",
+      "sha256": "af725af771b7529f7d1ee4795b265fcdb9e20302eb9c74aaee43ecf46805b71b",
+      "bytes": 6148
+    },
+    {
+      "path": "kernels/ops/kvcache/fused_fp8_qkv_kv_cache.py",
+      "sha256": "88755d730cec527a7135aabff1c57779d11752ea7b286343c47c285a0be39fa3",
+      "bytes": 2036
+    },
+    {
+      "path": "kernels/ops/kvcache/hicache.py",
+      "sha256": "f26aa62750f30ae9ce7a49ced671407daa97e3334288f8d335d51d666c5cc97d",
+      "bytes": 27973
+    },
+    {
+      "path": "kernels/ops/kvcache/hisparse.py",
+      "sha256": "f922d4a52f7d24d252d21e4b7f9a70f9264bb751710626c8610eb2fc662f7e99",
+      "bytes": 16874
+    },
+    {
+      "path": "kernels/ops/kvcache/hisparse_slot_mapping.py",
+      "sha256": "d197168890a797bdd81118d5bb9f50bb737fe2375a54052e5e7039df1a96d98c",
+      "bytes": 2272
+    },
+    {
+      "path": "kernels/ops/kvcache/kv_read_table.py",
+      "sha256": "9093285a4042e24989798ee82072f6c962ff28baa5da12b10b1b3153398d1076",
+      "bytes": 13589
+    },
+    {
+      "path": "kernels/ops/kvcache/kvcache.py",
+      "sha256": "fe75ca2abad09ee4911f1049f1c054d93f0470578f2a3e234452d19980e0ad81",
+      "bytes": 4481
+    },
+    {
+      "path": "kernels/ops/kvcache/minimax_store_kv_index.py",
+      "sha256": "a78a77be03fd8a809e42950a9fc893ade81c670d4c752654c2158ba199689cc9",
+      "bytes": 2441
+    },
+    {
+      "path": "kernels/ops/kvcache/mla_buffer.py",
+      "sha256": "55ca4d984f2e4d8cb0bd3932ace9fcac9464102e61f5561c2421fb5f2e2a1549",
+      "bytes": 17708
+    },
+    {
+      "path": "kernels/ops/kvcache/mxfp8_interleave_sf.py",
+      "sha256": "aee897c6cb92b654e975c4ab566d3ec16ac7840614d204eab7f82d8bda7c4320",
+      "bytes": 3699
+    },
+    {
+      "path": "kernels/ops/kvcache/mxfp8_quant_store_kv.py",
+      "sha256": "cf13baaa23a689c99c36a7b195e22d57886cb489201cc77420bbf893cb6a47f2",
+      "bytes": 3278
+    },
+    {
+      "path": "kernels/ops/kvcache/nvfp4_hicache.py",
+      "sha256": "714b76f0f85ee73e235b90797ab326cbe2c58a6b0d5e326e56ad10859d4c2e1a",
+      "bytes": 4671
+    },
+    {
+      "path": "kernels/ops/kvcache/nvfp4_store_kv_index.py",
+      "sha256": "9f865b3684f113b2235e21ce9b146b76f0d8c6c5ff7e1b6a1fc5b5bdffd9c5fb",
+      "bytes": 1924
+    },
+    {
+      "path": "kernels/ops/kvcache/pd_dcp_gather.py",
+      "sha256": "172f72c1eafcdb1beeba56319a4588220d9d2faf0c2196dee0449389a4fec8fe",
+      "bytes": 2406
+    },
+    {
+      "path": "kernels/ops/kvcache/set_mla_kv_buffer.py",
+      "sha256": "2cf73c0f3084516327007a1811d997566cb63bfe33ab2598f8072868a7b21e19",
+      "bytes": 3489
+    },
+    {
+      "path": "kernels/ops/kvcache/shuffle_5d_cache.py",
+      "sha256": "feb0d274711de565b243828513d23308242ea88a44c36a93116a0a98c7d5eaf8",
+      "bytes": 8425
+    },
+    {
+      "path": "kernels/ops/kvcache/triton_store_cache.py",
+      "sha256": "226d605667dd0428f706c81a41d9837b9883724a7fc54bcd2d47669f86198a6e",
+      "bytes": 7935
+    },
+    {
+      "path": "kernels/ops/kvcache/zero_pages.py",
+      "sha256": "3bd318b079219c4a103e5a5b82eedfee2d9da7464c9ed768ac4b9cb609fbcae7",
+      "bytes": 1529
+    },
+    {
+      "path": "multimodal_gen/runtime/pipelines_core/stages/realtime/text_encoding.py",
+      "sha256": "12ea51ba6407fdf89e895b78bfef8155f02d1a01fa994312f4c05e3a5ab1477b",
+      "bytes": 5439
+    },
+    {
+      "path": "srt/arg_groups/attention_hook.py",
+      "sha256": "19dfa039cc9c967ae0680721522ff22dc6457972bc3583dc26e2324aee38d4af",
+      "bytes": 31898
+    },
+    {
+      "path": "srt/disaggregation/decode.py",
+      "sha256": "55217b9cd8ef904bbf02fe2394e666e32b86ee7b448135242d9c3b1a15f59b15",
+      "bytes": 151342
+    },
+    {
+      "path": "srt/environ.py",
+      "sha256": "cbcd45243abc25a89d85a0fcf2e6e1bec4c9e73c2ce9982a9da6b96d1f04e429",
+      "bytes": 131241
+    },
+    {
+      "path": "srt/hardware_backend/mlx/kv_cache/auxiliary_state.py",
+      "sha256": "1185ed8bfbcc8cc0034b531a8cda2da796ffb37a5d2f9a11a60d9b68c3b80048",
+      "bytes": 15566
+    },
+    {
+      "path": "srt/hardware_backend/mlx/model_runner.py",
+      "sha256": "c7e7bff380386dba00fa903f5eb1cadf73f023d772dba3b79fb57500c2a77ec3",
+      "bytes": 70553
+    },
+    {
+      "path": "srt/hardware_backend/npu/attention/ascend_dsv4_backend.py",
+      "sha256": "799c099b689743ed74c165cfb7cf06f518c828402895455efe36a7961f745084",
+      "bytes": 104189
+    },
+    {
+      "path": "srt/hardware_backend/npu/dsv4/dsv4_memory_pool.py",
+      "sha256": "6c0b328a56a4258ac42fac88ac8edcb99921a02415bf90b6bc423397520b51b8",
+      "bytes": 27265
+    },
+    {
+      "path": "srt/hardware_backend/npu/memory_pool_npu.py",
+      "sha256": "2a6fdbeb9fdb495a8c01952f9077871f66e943f52f1697f7555dee483ffb9484",
+      "bytes": 47801
+    },
+    {
+      "path": "srt/kernel_plugins/nvidia/binding.py",
+      "sha256": "08bcecdc678908a62f1ee7925edb212f13ac98fd344a27be1e6ac9246a55c74b",
+      "bytes": 26261
+    },
+    {
+      "path": "srt/layers/attention/deepseek_v4_backend.py",
+      "sha256": "49af6e1e7f6f2f6f58f2f2db983e0b84243dbf114cdecae68f396a66271a094f",
+      "bytes": 216396
+    },
+    {
+      "path": "srt/layers/attention/deepseek_v4_backend_hip_radix.py",
+      "sha256": "5ff8fa4249e6abd8953d85356d7bf085654bd20ca704a18d7e0a47e95e7ed62e",
+      "bytes": 162620
+    },
+    {
+      "path": "srt/layers/attention/flashattention_backend.py",
+      "sha256": "a7b8d205742765e12bf0bad48b151007258736e31f6c97a03725cac6ca2c1d17",
+      "bytes": 167798
+    },
+    {
+      "path": "srt/layers/attention/hpc_ops_backend.py",
+      "sha256": "fcb076b5cba2576908cd4cab3681f4afe2c299b4f4a45ea45836e80fa5499365",
+      "bytes": 27652
+    },
+    {
+      "path": "srt/layers/attention/xpu_backend.py",
+      "sha256": "5b81880698f0fa252029abfe68bec1feacea5f56a386595790956896392c1451",
+      "bytes": 92053
+    },
+    {
+      "path": "srt/mem_cache/common.py",
+      "sha256": "59e2b5ce9902f7633bdcad54bd57e2e98d546b0c97cfc2e9de560c511e13ad81",
+      "bytes": 18662
+    },
+    {
+      "path": "srt/mem_cache/deepseek_v4_memory_pool.py",
+      "sha256": "bdccf8c9c2d30691fa71a183c6c51503335d42127498b6272c11742d87d3bd44",
+      "bytes": 92889
+    },
+    {
+      "path": "srt/mem_cache/memory_pool.py",
+      "sha256": "e077773e25c02be4dc597741e5f987375a221e595bccf92997dea684d5445a26",
+      "bytes": 259289
+    },
+    {
+      "path": "srt/mem_cache/minimax_m3_nvfp4_pool.py",
+      "sha256": "e83f3ec57d7f8214cd71e47e91a2d590fbd6b8f9a12132f272d37943d236526d",
+      "bytes": 29209
+    },
+    {
+      "path": "srt/mem_cache/page_interleave_pool.py",
+      "sha256": "952e3b9d82a4c5045f244cbe386175e868ed5eb4cb26fc5c726776e9389d27c4",
+      "bytes": 46495
+    },
+    {
+      "path": "srt/mem_cache/storage/flexkv/flexkv_connector.py",
+      "sha256": "97f4efc69c285ee48b52585ba238c87bafe08f84703b4d2c86e98b73a433f434",
+      "bytes": 37324
+    },
+    {
+      "path": "srt/mem_cache/storage/flexkv/flexkv_radix_cache.py",
+      "sha256": "86aa7de07081cf1b394355025033cb147697a5838f3b83e5f8afd311b7170543",
+      "bytes": 19711
+    },
+    {
+      "path": "srt/mem_cache/unified_radix_cache.py",
+      "sha256": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+      "bytes": 170037
+    },
+    {
+      "path": "srt/models/deepseek_v4.py",
+      "sha256": "5dc5cc82065110e9130afa8f92453e6d4d47766930219bbb4ea0a3890e36069f",
+      "bytes": 240072
+    },
+    {
+      "path": "srt/models/deepseek_v4_dspark.py",
+      "sha256": "5a2518ca5b16c9b0703e4b4ebb487f278fba594a97992395d8e1e6ac9b575044",
+      "bytes": 46926
+    },
+    {
+      "path": "srt/models/hunyuan_v3.py",
+      "sha256": "316c4c3627aeaed6e11f07dffc2bede19c1c4f1d4868ffde5b12173f30b39c57",
+      "bytes": 23036
+    }
+  ],
+  "store_files": [
+    {
+      "path": "kernels/ops/kvcache/__init__.py",
+      "sha256": "255b040c5edc0280cf55d85eea70b9dc1b86c1cecbbf3623fc1a5a0aa147262a",
+      "bytes": 2626
+    },
+    {
+      "path": "kernels/ops/kvcache/cache_move.py",
+      "sha256": "8a345a31a71e12c0a8fe478e4d6f6b1a41ff191cc3cee25e7854c74eed8a1c25",
+      "bytes": 6625
+    },
+    {
+      "path": "kernels/ops/kvcache/cache_ops.py",
+      "sha256": "d2dbd0f5f916a624741cad98d55c82263ba5c617d0003f24cdd9d1b292592870",
+      "bytes": 6532
+    },
+    {
+      "path": "kernels/ops/kvcache/copy_pages.py",
+      "sha256": "1a2cfab41f99bedb68497db8654602e2606ab7cc06a0605f50d907a0b4223456",
+      "bytes": 2348
+    },
+    {
+      "path": "kernels/ops/kvcache/dsa_fused_store_index_cache.py",
+      "sha256": "7cef4342b1d8705e87baf7f41fad2b30e59958774b96a5cf5252f44a9cd40196",
+      "bytes": 3343
+    },
+    {
+      "path": "kernels/ops/kvcache/dsa_index_k_cache.py",
+      "sha256": "08af84312afd6dfbf22fc93daa5267d5cb1b85a32244408bb561ffa3b0fba471",
+      "bytes": 14270
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv41_window_layout.py",
+      "sha256": "4ca6d7d7d79340bb47b9f960d1cf4828674ede86c46f1858f04fe2b6165eb171",
+      "bytes": 5570
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_c128_cleanup.py",
+      "sha256": "140a1760c899abe8968189dd7fcad026b534c889954d8967888c25f4b1d8477b",
+      "bytes": 1500
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_fp4_index_k_cache.py",
+      "sha256": "82da938ee63923cf93f210f3df750ac1ce7d82196f44a8b154b8a76d3b18641c",
+      "bytes": 3796
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_fp4_index_k_cache_hip.py",
+      "sha256": "40683df0905d75b2a759ab69227c20697195743d77634826a9483c92075bd320",
+      "bytes": 3118
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_main_kv_store.py",
+      "sha256": "dae5ac2016deff9e530f930e38108f46995a11a3b1a075725663181f97c96a85",
+      "bytes": 5638
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_request_window_copy.py",
+      "sha256": "7a724fbe3266282577059d935fbd513ff42161f93976f352be20ac6aa54b288c",
+      "bytes": 3878
+    },
+    {
+      "path": "kernels/ops/kvcache/dsv4_unified_kv_store.py",
+      "sha256": "af725af771b7529f7d1ee4795b265fcdb9e20302eb9c74aaee43ecf46805b71b",
+      "bytes": 6148
+    },
+    {
+      "path": "kernels/ops/kvcache/fused_fp8_qkv_kv_cache.py",
+      "sha256": "88755d730cec527a7135aabff1c57779d11752ea7b286343c47c285a0be39fa3",
+      "bytes": 2036
+    },
+    {
+      "path": "kernels/ops/kvcache/hicache.py",
+      "sha256": "f26aa62750f30ae9ce7a49ced671407daa97e3334288f8d335d51d666c5cc97d",
+      "bytes": 27973
+    },
+    {
+      "path": "kernels/ops/kvcache/hisparse.py",
+      "sha256": "f922d4a52f7d24d252d21e4b7f9a70f9264bb751710626c8610eb2fc662f7e99",
+      "bytes": 16874
+    },
+    {
+      "path": "kernels/ops/kvcache/hisparse_slot_mapping.py",
+      "sha256": "d197168890a797bdd81118d5bb9f50bb737fe2375a54052e5e7039df1a96d98c",
+      "bytes": 2272
+    },
+    {
+      "path": "kernels/ops/kvcache/kv_read_table.py",
+      "sha256": "9093285a4042e24989798ee82072f6c962ff28baa5da12b10b1b3153398d1076",
+      "bytes": 13589
+    },
+    {
+      "path": "kernels/ops/kvcache/kvcache.py",
+      "sha256": "fe75ca2abad09ee4911f1049f1c054d93f0470578f2a3e234452d19980e0ad81",
+      "bytes": 4481
+    },
+    {
+      "path": "kernels/ops/kvcache/minimax_store_kv_index.py",
+      "sha256": "a78a77be03fd8a809e42950a9fc893ade81c670d4c752654c2158ba199689cc9",
+      "bytes": 2441
+    },
+    {
+      "path": "kernels/ops/kvcache/mla_buffer.py",
+      "sha256": "55ca4d984f2e4d8cb0bd3932ace9fcac9464102e61f5561c2421fb5f2e2a1549",
+      "bytes": 17708
+    },
+    {
+      "path": "kernels/ops/kvcache/mxfp8_interleave_sf.py",
+      "sha256": "aee897c6cb92b654e975c4ab566d3ec16ac7840614d204eab7f82d8bda7c4320",
+      "bytes": 3699
+    },
+    {
+      "path": "kernels/ops/kvcache/mxfp8_quant_store_kv.py",
+      "sha256": "cf13baaa23a689c99c36a7b195e22d57886cb489201cc77420bbf893cb6a47f2",
+      "bytes": 3278
+    },
+    {
+      "path": "kernels/ops/kvcache/nvfp4_hicache.py",
+      "sha256": "714b76f0f85ee73e235b90797ab326cbe2c58a6b0d5e326e56ad10859d4c2e1a",
+      "bytes": 4671
+    },
+    {
+      "path": "kernels/ops/kvcache/nvfp4_store_kv_index.py",
+      "sha256": "9f865b3684f113b2235e21ce9b146b76f0d8c6c5ff7e1b6a1fc5b5bdffd9c5fb",
+      "bytes": 1924
+    },
+    {
+      "path": "kernels/ops/kvcache/pd_dcp_gather.py",
+      "sha256": "172f72c1eafcdb1beeba56319a4588220d9d2faf0c2196dee0449389a4fec8fe",
+      "bytes": 2406
+    },
+    {
+      "path": "kernels/ops/kvcache/set_mla_kv_buffer.py",
+      "sha256": "2cf73c0f3084516327007a1811d997566cb63bfe33ab2598f8072868a7b21e19",
+      "bytes": 3489
+    },
+    {
+      "path": "kernels/ops/kvcache/shuffle_5d_cache.py",
+      "sha256": "feb0d274711de565b243828513d23308242ea88a44c36a93116a0a98c7d5eaf8",
+      "bytes": 8425
+    },
+    {
+      "path": "kernels/ops/kvcache/triton_store_cache.py",
+      "sha256": "226d605667dd0428f706c81a41d9837b9883724a7fc54bcd2d47669f86198a6e",
+      "bytes": 7935
+    },
+    {
+      "path": "kernels/ops/kvcache/zero_pages.py",
+      "sha256": "3bd318b079219c4a103e5a5b82eedfee2d9da7464c9ed768ac4b9cb609fbcae7",
+      "bytes": 1529
+    }
+  ]
+}

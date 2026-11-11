@@ -1,0 +1,19 @@
+{
+  "job": "exp-1111-030539-334581",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "inspect": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T19:05:43Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "source_files_present": 11,
+  "source_files_requested": 13
+}

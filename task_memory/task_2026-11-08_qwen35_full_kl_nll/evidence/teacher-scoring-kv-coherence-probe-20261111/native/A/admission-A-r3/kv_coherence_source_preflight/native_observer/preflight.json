@@ -1,0 +1,166 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+  "features": [
+    "python-extension"
+  ],
+  "diagnostic_only": true,
+  "package_root": "/var/tmp/teacher-scoring-kv-5p3e6dq8/kv-coherence-runtime/sglang",
+  "compiled_sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+  "binary_target": "/var/tmp/teacher-scoring-kv-5p3e6dq8/kv-coherence-runtime/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so",
+  "build_receipt": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+  "build_receipt_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+  "original_binary_source_commit": "UNVERIFIED",
+  "native_cpu_qualification": "PASS",
+  "invalidation_failure_marker": "old_full_observer_invalidation_failed",
+  "cuda_thread_stream_payload_qualification": "PENDING",
+  "composition": {
+    "kernels/ops/attention/fla/chunk.py": {
+      "bytes": 10491,
+      "sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c"
+    },
+    "srt/layers/attention/linear/kernels/gdn_triton.py": {
+      "bytes": 9489,
+      "sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf"
+    },
+    "kernels/ops/attention/fla/chunk_delta_h.py": {
+      "bytes": 16571,
+      "sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2"
+    },
+    "srt/layers/attention/linear/kernels/kernel_backend.py": {
+      "bytes": 2282,
+      "sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505"
+    },
+    "srt/layers/attention/linear/gdn_backend.py": {
+      "bytes": 64891,
+      "sha256": "7296198be4586f2c703e719bc40ac657d2f6a0682d7851f58669b6ba33487025"
+    },
+    "srt/layers/attention/hybrid_linear_attn_backend.py": {
+      "bytes": 81293,
+      "sha256": "fa1331457e307f5d172fd62730be0dd026a36a10a10319b7ec630e1d097c3d36"
+    },
+    "srt/managers/schedule_batch.py": {
+      "bytes": 179919,
+      "sha256": "a119fce22fc7a093f078ad664bf76458730a62d0a7f539ed6ecea7e1462ec5cd"
+    },
+    "srt/mem_cache/unified_cache/components/mamba.py": {
+      "bytes": 48643,
+      "sha256": "ab8d467f61a0703b288e5d2f4239c0cd81c9890512c62b5f3e58c12bb441d404"
+    },
+    "srt/model_executor/model_runner.py": {
+      "bytes": 112784,
+      "sha256": "27eb08f7f3bb60b15725d0e7bfebab2a9677d38fefe46a2ecf4c015d4f0dd345"
+    },
+    "srt/mem_cache/unified_cache/unified_tree_core.py": {
+      "bytes": 144347,
+      "sha256": "34d3c93e8f97ffff36708ca0403cf6e4477516a2c5cb9818114043e3c73198b7"
+    },
+    "srt/mem_cache/unified_radix_cache.py": {
+      "bytes": 171570,
+      "sha256": "9241c4037103d605a8487e9914689f97e748d52e6442e70b71aa78a18f37c9dd"
+    },
+    "srt/managers/scheduler_components/internal_state.py": {
+      "bytes": 13207,
+      "sha256": "fc6f456aabcfebb927f8c5f988856d4bf359ddf432b4a311d60dfe685fd4c690"
+    },
+    "srt/layers/attention/mamba/prefill_track_metadata.py": {
+      "bytes": 1862,
+      "sha256": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a"
+    },
+    "srt/model_executor/forward_batch_info.py": {
+      "bytes": 106987,
+      "sha256": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56"
+    },
+    "srt/runtime_context.py": {
+      "bytes": 84398,
+      "sha256": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e"
+    },
+    "srt/model_executor/forward_context.py": {
+      "bytes": 3765,
+      "sha256": "6eaceb910915685ad010d8ca04a390c0295009769c36971e679508beb45fe19f"
+    },
+    "srt/mem_cache/memory_pool.py": {
+      "bytes": 264521,
+      "sha256": "74479b98fa3585d46de24f6f7f2f472a8841957ed9221cd6298041f37a2931ad"
+    },
+    "kernels/ops/kvcache/kvcache.py": {
+      "bytes": 6146,
+      "sha256": "ecb70382f151b7d519f9db674305f48109c80dc1b16b7848943b28f29940c0ea"
+    },
+    "kernels/jit/csrc/elementwise/kvcache.cuh": {
+      "bytes": 7390,
+      "sha256": "3e972568f8a731a5e79b5729fb2fc0bf3d823cad2ffd484b4c5c11a263599555"
+    },
+    "kernels/jit/include/sgl_kernel/utils.cuh": {
+      "bytes": 17371,
+      "sha256": "18b0bb2e27dccc20d7509e8b6b6c16e2b57a5ce98be648865fb75059be8a13db"
+    },
+    "kernels/jit/utils/compile/spec.py": {
+      "bytes": 4450,
+      "sha256": "f762d7d90adb2770988ab0d17b444496d9d611531ab136eb37b8c8707dd42b2f"
+    },
+    "kernels/jit/utils/compile/loader.py": {
+      "bytes": 11307,
+      "sha256": "f4437c88aae8ae55a315bef9f52e19b2dabd3ad8a2cf0ffaab2a6786dbb52993"
+    },
+    "kernels/jit/utils/compile/cache.py": {
+      "bytes": 19968,
+      "sha256": "3a9c277d676596e467d6a1e700e65ab2fb5ccf91b264ebe1c3cc06659fa470bf"
+    },
+    "srt/model_executor/runner/eager_runner.py": {
+      "bytes": 19721,
+      "sha256": "6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591"
+    },
+    "srt/mem_cache/kv_cache_configurator.py": {
+      "bytes": 156301,
+      "sha256": "1e31685151ea6ed110c2a659ea0ed975493d0eccf5295196567756bd5591887b"
+    },
+    "srt/mem_cache/allocator/base.py": {
+      "bytes": 12268,
+      "sha256": "17c07a9ab32c62932048d3579e620eaa2e2558b03b828df152b2ee953c4bfe32"
+    },
+    "srt/mem_cache/allocator/token.py": {
+      "bytes": 3093,
+      "sha256": "ee09d0021b69b111e3262811e2fdaf2f495ecfc2cf6ed142070a7f7e95a030ec"
+    },
+    "srt/utils/custom_op.py": {
+      "bytes": 14401,
+      "sha256": "16ce982c284ac85d437b9a6d3ccbe12e92b3ba59c9c1e3dbe0d54be48d8e0166"
+    },
+    "tvm_ffi/cython/function.pxi": {
+      "bytes": 43183,
+      "sha256": "40fba9880817d3b013e8978146491110434bd8b36d3a702ff4a93a230ff1c021"
+    },
+    "tvm_ffi/cython/tvm_ffi_python_helpers.h": {
+      "bytes": 47149,
+      "sha256": "a11be0560a2cc4b75845ab63fc7cb67f0dd890b8d89c32b58d7efb408172089f"
+    },
+    "tvm_ffi/src/ffi/extra/env_context.cc": {
+      "bytes": 6232,
+      "sha256": "941edd8415cca875c010f456f1f06f2f336b8978c64531f4953c1c4d848d490c"
+    },
+    "tvm_ffi/_optional_torch_c_dlpack.py": {
+      "bytes": 7874,
+      "sha256": "71fa7ff562ab5cb6a714200f31b5caa3d0a1c9cf949fd21c6a2a830580c60a18"
+    },
+    "tvm_ffi/include/tvm/ffi/function.h": {
+      "bytes": 41459,
+      "sha256": "42dd75a992d4fc9b5216709a5e115c6af91270843a7ab63cc3e9b6ba3d5a1236"
+    },
+    "tvm_ffi/include/tvm/ffi/extra/c_env_api.h": {
+      "bytes": 6158,
+      "sha256": "afca6fcd61cc385772c7bd0aef1d75b41195e40ed50075be9f7166dbeed6b0c9"
+    },
+    "srt/mamba_runtime_metadata.py": {
+      "bytes": 1047,
+      "sha256": "04d3f6f5e824dde5a924b774c73aaa8f4f57a74ea88bebfe7e92b3962decc371"
+    }
+  },
+  "adapter_before_sha256": "4caf80d2d909e548b04cc44a664b7dd7adb6c919d7d1d56f9c9d7c25e5f92635",
+  "adapter_after_sha256": "41e43448604b2a9c1f84296a41d780f555a9d89ed13aac434c188e06199ef7c4",
+  "changed_files": [
+    "srt/mem_cache/rust_tree_core/adapter.py",
+    "srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so"
+  ]
+}

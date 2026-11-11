@@ -1,0 +1,313 @@
+{
+  "job": "exp-1111-040603-422872",
+  "gpu_requested": 0,
+  "sglang": "0.5.24.dev80+g056f871",
+  "selection": "actual A GPU source manifest, including unified_radix_cache.py; no guessed filename guard",
+  "files": [
+    {
+      "relative_path": "srt/entrypoints/http_server.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/entrypoints/http_server.py",
+      "bytes": 121168,
+      "sha256": "329e4e1552b176f0753303a17df65dc49c0a59f1e642979a3537ad3a0d953b0a",
+      "gpu_reference_sha256": "329e4e1552b176f0753303a17df65dc49c0a59f1e642979a3537ad3a0d953b0a",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/io_struct.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/io_struct.py",
+      "bytes": 117766,
+      "sha256": "1f94aca08ed27f74280e87ec80999df32df3088be987ec1377ff2f572e13739b",
+      "gpu_reference_sha256": "1f94aca08ed27f74280e87ec80999df32df3088be987ec1377ff2f572e13739b",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/tokenizer_manager.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/tokenizer_manager.py",
+      "bytes": 189216,
+      "sha256": "65a92c050d33a9749a5f7f76fe98dba85a7fcb89d2fb20eddb2e89e6ed648f06",
+      "gpu_reference_sha256": "65a92c050d33a9749a5f7f76fe98dba85a7fcb89d2fb20eddb2e89e6ed648f06",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py",
+      "bytes": 283721,
+      "sha256": "54bbde812b4af9e01a00b62e12e95015fdb1c325b9e153706616ba59ea52b2a6",
+      "gpu_reference_sha256": "54bbde812b4af9e01a00b62e12e95015fdb1c325b9e153706616ba59ea52b2a6",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/schedule_batch.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/schedule_batch.py",
+      "bytes": 179046,
+      "sha256": "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d",
+      "gpu_reference_sha256": "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/layers/logits_processor.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/logits_processor.py",
+      "bytes": 71340,
+      "sha256": "67486f614043432cddeb3f7256b60d35ddba39457a32ed91313cbf7e3dc2fda7",
+      "gpu_reference_sha256": "67486f614043432cddeb3f7256b60d35ddba39457a32ed91313cbf7e3dc2fda7",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py",
+      "bytes": 110888,
+      "sha256": "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3",
+      "gpu_reference_sha256": "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/mem_cache/radix_cache.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/radix_cache.py",
+      "bytes": 31391,
+      "sha256": "eea7015fcf678167ac7296b08c8dc568ccbe42a4bb106da23b33a7c59debec01",
+      "gpu_reference_sha256": "eea7015fcf678167ac7296b08c8dc568ccbe42a4bb106da23b33a7c59debec01",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/models/qwen3_5.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5.py",
+      "bytes": 122945,
+      "sha256": "12d5a9850f3c4a23b40ba0c078aa9b3f70f475f01fd8da993efd2c4470122a51",
+      "gpu_reference_sha256": "12d5a9850f3c4a23b40ba0c078aa9b3f70f475f01fd8da993efd2c4470122a51",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_input_blocker.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_input_blocker.py",
+      "bytes": 3748,
+      "sha256": "edfe07948d75b3871bae173997914397878aca66aba0b42ffb8e26eb7e97102d",
+      "gpu_reference_sha256": "edfe07948d75b3871bae173997914397878aca66aba0b42ffb8e26eb7e97102d",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_pp_mixin.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_pp_mixin.py",
+      "bytes": 80629,
+      "sha256": "566d50ea85c14a4e8f715698d6a49388c071c5aa0cfb337741cc6a4d8c9d5c98",
+      "gpu_reference_sha256": "566d50ea85c14a4e8f715698d6a49388c071c5aa0cfb337741cc6a4d8c9d5c98",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu_reference_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/batch_result_processor.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+      "bytes": 72581,
+      "sha256": "bbc670ed5b31781c43b911e5c85f2f51c2229f02e358ba14254d8169a3a755a2",
+      "gpu_reference_sha256": "bbc670ed5b31781c43b911e5c85f2f51c2229f02e358ba14254d8169a3a755a2",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/dp_attn.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/dp_attn.py",
+      "bytes": 33255,
+      "sha256": "6a3c7c71ae4fbda49afbdd416d8e5948780f5097574ec927ed337237b588d1e2",
+      "gpu_reference_sha256": "6a3c7c71ae4fbda49afbdd416d8e5948780f5097574ec927ed337237b588d1e2",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/dynamic_chunk_sizer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/dynamic_chunk_sizer.py",
+      "bytes": 16433,
+      "sha256": "1c402977157f970697a7781eb07a76bc90d3ccc6d622e1017fe863b34142a1b6",
+      "gpu_reference_sha256": "1c402977157f970697a7781eb07a76bc90d3ccc6d622e1017fe863b34142a1b6",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/flush_wrapper.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/flush_wrapper.py",
+      "bytes": 2058,
+      "sha256": "f10ac3d5f4db13c4b0b09804e8c3fae18cbbadd5bca0076890c77ede52be2a9a",
+      "gpu_reference_sha256": "f10ac3d5f4db13c4b0b09804e8c3fae18cbbadd5bca0076890c77ede52be2a9a",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/idle_sleeper.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/idle_sleeper.py",
+      "bytes": 2698,
+      "sha256": "3643701ae7caae04c51e5d9f160b22decea3768b2ef1c00a6e476b24b266da7a",
+      "gpu_reference_sha256": "3643701ae7caae04c51e5d9f160b22decea3768b2ef1c00a6e476b24b266da7a",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/internal_state.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/internal_state.py",
+      "bytes": 13068,
+      "sha256": "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184",
+      "gpu_reference_sha256": "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/invariant_checker.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/invariant_checker.py",
+      "bytes": 22096,
+      "sha256": "c3beba8c7b1e5682c0731ca389db0868804de2a08139ac50f0abec63c7a3354e",
+      "gpu_reference_sha256": "c3beba8c7b1e5682c0731ca389db0868804de2a08139ac50f0abec63c7a3354e",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/ipc_channels.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/ipc_channels.py",
+      "bytes": 3192,
+      "sha256": "ec73fc4546bb75991daf1abf5be1b4f0fc23770eebcdb704ea0973e51285699e",
+      "gpu_reference_sha256": "ec73fc4546bb75991daf1abf5be1b4f0fc23770eebcdb704ea0973e51285699e",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/kv_events_publisher.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/kv_events_publisher.py",
+      "bytes": 3423,
+      "sha256": "3d545e90099067ba937ae13865747185c92472a576247f40c23b27382579dc04",
+      "gpu_reference_sha256": "3d545e90099067ba937ae13865747185c92472a576247f40c23b27382579dc04",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/load_inquirer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/load_inquirer.py",
+      "bytes": 11101,
+      "sha256": "9a3573552c22a2421759c1dadba617c3749781ffdf963b5b71f1fd347af3d830",
+      "gpu_reference_sha256": "9a3573552c22a2421759c1dadba617c3749781ffdf963b5b71f1fd347af3d830",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/load_publisher.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/load_publisher.py",
+      "bytes": 11925,
+      "sha256": "d33287bdf2d49f8e1a5df523a9fd360033d20410df1773c5ef1b8e7f9e1e26e9",
+      "gpu_reference_sha256": "d33287bdf2d49f8e1a5df523a9fd360033d20410df1773c5ef1b8e7f9e1e26e9",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/logprob_result_processor.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/logprob_result_processor.py",
+      "bytes": 16785,
+      "sha256": "a128fc8a3ddd22ee30f14c96fa38db3068fa8fba799f22073f4c8db941111f29",
+      "gpu_reference_sha256": "a128fc8a3ddd22ee30f14c96fa38db3068fa8fba799f22073f4c8db941111f29",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/memory_usage.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/memory_usage.py",
+      "bytes": 1230,
+      "sha256": "82844af91ffed25cf1468ce3ee9afa4bf7d170432d6e7a3242971bb886848e40",
+      "gpu_reference_sha256": "82844af91ffed25cf1468ce3ee9afa4bf7d170432d6e7a3242971bb886848e40",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/metrics_reporter.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/metrics_reporter.py",
+      "bytes": 65880,
+      "sha256": "db788b8f156a79823f43caadd2dc1e10660854a50e66a8fba1f30c1fb206cc5d",
+      "gpu_reference_sha256": "db788b8f156a79823f43caadd2dc1e10660854a50e66a8fba1f30c1fb206cc5d",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/new_token_ratio_tracker.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/new_token_ratio_tracker.py",
+      "bytes": 1586,
+      "sha256": "d6ad7ede11e9262318649cc5427ee44fb14973d22f8ada26b6d5383a1e77a271",
+      "gpu_reference_sha256": "d6ad7ede11e9262318649cc5427ee44fb14973d22f8ada26b6d5383a1e77a271",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/output_sender.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/output_sender.py",
+      "bytes": 800,
+      "sha256": "e1c4e17a45a69157a73396f2d46099cef2a48ec8a2c86ee652f460e58eef8611",
+      "gpu_reference_sha256": "e1c4e17a45a69157a73396f2d46099cef2a48ec8a2c86ee652f460e58eef8611",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/output_streamer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/output_streamer.py",
+      "bytes": 36638,
+      "sha256": "77c07830c2e2e9529d7490a515898848d2f844eff46782ac9dab6e675bf15287",
+      "gpu_reference_sha256": "77c07830c2e2e9529d7490a515898848d2f844eff46782ac9dab6e675bf15287",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/pool_stats_observer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/pool_stats_observer.py",
+      "bytes": 14511,
+      "sha256": "589867e574c3ff98212b4e9a966edcca7bc86054da866f0c2012040d60bd41e7",
+      "gpu_reference_sha256": "589867e574c3ff98212b4e9a966edcca7bc86054da866f0c2012040d60bd41e7",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/profiler_manager.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/profiler_manager.py",
+      "bytes": 19383,
+      "sha256": "5bf4828dbb4471c87cbd6c363fe1ddd211efb9bf8b4ab9bebec1de6b710af90d",
+      "gpu_reference_sha256": "5bf4828dbb4471c87cbd6c363fe1ddd211efb9bf8b4ab9bebec1de6b710af90d",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/recv_skipper.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/recv_skipper.py",
+      "bytes": 2818,
+      "sha256": "c71b6d1a1de23211a176f188860a77e413157c1221b4a9fc752a2764b7877ec0",
+      "gpu_reference_sha256": "c71b6d1a1de23211a176f188860a77e413157c1221b4a9fc752a2764b7877ec0",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/request_receiver.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/request_receiver.py",
+      "bytes": 12835,
+      "sha256": "101558ad106b28d70de7a72a3159dedb11b21af6d787d8d8b1e75993e64d1a5d",
+      "gpu_reference_sha256": "101558ad106b28d70de7a72a3159dedb11b21af6d787d8d8b1e75993e64d1a5d",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/managers/scheduler_components/weight_updater.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py",
+      "bytes": 30759,
+      "sha256": "19fdcc5b77a70ede2f95e7ac6835eda9243abe20b165aede22f970e3912950a4",
+      "gpu_reference_sha256": "19fdcc5b77a70ede2f95e7ac6835eda9243abe20b165aede22f970e3912950a4",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/mem_cache/pure_swa_radix_cache.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/pure_swa_radix_cache.py",
+      "bytes": 2223,
+      "sha256": "e214d736d2aa5388963707fc074af587058903be43d0b907e34a9f3aeaba03bf",
+      "gpu_reference_sha256": "e214d736d2aa5388963707fc074af587058903be43d0b907e34a9f3aeaba03bf",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/mem_cache/unified_radix_cache.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/unified_radix_cache.py",
+      "bytes": 170037,
+      "sha256": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+      "gpu_reference_sha256": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/models/qwen3_5_mtp.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5_mtp.py",
+      "bytes": 20124,
+      "sha256": "13c9feb1674e28083cd7b3364040a2f1d9f0e8b10d1d6dc06156abe54a695c36",
+      "gpu_reference_sha256": "13c9feb1674e28083cd7b3364040a2f1d9f0e8b10d1d6dc06156abe54a695c36",
+      "gpu_reference_matched": true
+    },
+    {
+      "relative_path": "srt/models/qwen3_5_text.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5_text.py",
+      "bytes": 13208,
+      "sha256": "2afcc1529ff4e89670723c68613ed407ccd4d429c7dc2c3594205db53e3a5309",
+      "gpu_reference_sha256": "2afcc1529ff4e89670723c68613ed407ccd4d429c7dc2c3594205db53e3a5309",
+      "gpu_reference_matched": true
+    }
+  ],
+  "all_gpu_reference_hashes_matched": true
+}

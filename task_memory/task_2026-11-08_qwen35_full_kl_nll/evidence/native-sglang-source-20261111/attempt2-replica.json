@@ -1,0 +1,99 @@
+{
+  "job": "exp-1111-025238-968230",
+  "infos": {
+    "default": [
+      {
+        "name": "exp-1111-025238-968230-cfcd2084",
+        "ip": "10.130.19.135",
+        "phase": "Failed"
+      }
+    ]
+  },
+  "replicas": [
+    {
+      "name": "exp-1111-025238-968230-cfcd2084",
+      "spec_keys": [
+        "volumes",
+        "containers",
+        "restartPolicy",
+        "terminationGracePeriodSeconds",
+        "dnsPolicy",
+        "hostNetwork",
+        "securityContext",
+        "imagePullSecrets",
+        "hostname",
+        "subdomain",
+        "affinity",
+        "dnsConfig",
+        "enableServiceLinks",
+        "type",
+        "selector"
+      ],
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T18:52:43Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T18:53:27Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T18:53:27Z",
+            "reason": "PodFailed"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T18:52:43Z"
+          }
+        ],
+        "hostIP": "10.130.19.135",
+        "podIP": "10.130.19.135",
+        "podIPs": [
+          {
+            "ip": "10.130.19.135"
+          }
+        ],
+        "startTime": "2026-11-10T18:52:43Z",
+        "containerStatuses": [
+          {
+            "name": "default",
+            "state": {
+              "terminated": {
+                "exitCode": 1,
+                "reason": "Error",
+                "message": "user command: exit status 1",
+                "startedAt": "2026-11-10T18:53:26Z",
+                "finishedAt": "2026-11-10T18:53:26Z",
+                "containerID": "containerd://365d32b4ba50b1056106f1c3da7fbf3d18390c19e1e5c9ce20a67292406a7bb4"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://365d32b4ba50b1056106f1c3da7fbf3d18390c19e1e5c9ce20a67292406a7bb4",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Failed",
+        "nodeName": "cpu-0131.host.platform.basemind.com",
+        "finishTimestamp": "2026-11-10T18:53:27Z"
+      },
+      "annotations": {}
+    }
+  ]
+}

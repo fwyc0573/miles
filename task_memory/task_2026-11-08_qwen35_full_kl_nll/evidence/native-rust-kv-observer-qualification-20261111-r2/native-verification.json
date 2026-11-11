@@ -1,0 +1,235 @@
+{
+  "task_id": "profile-rust-native-cpu-verification-20261111",
+  "status": "ACCEPTED_BOUNDED_WITH_REOPENED_ORACLE",
+  "scope": "Accepted bounded actual R2 serial CPU evidence; contended outside-getter/topology release oracle reopened without relabeling actual execution FAIL",
+  "primary_acceptance": "ACCEPTED",
+  "primary_acceptance_scope": "Preserved 4x5 exact semantics, source/dependency/library identities, selected Rust fixtures, normal CPU alias/Arc/barrier/abort/missing-FULL/Mamba and stderr marker evidence only; excludes reopened contended-getter release proof and full qualification/review acceptance",
+  "qualification_release": "HOLD",
+  "qualification_release_condition": "Owner retains Capture and checks rows plus no invalidations, then actual GPU0 R3 resume without extension rebuild; R3 not yet prepared or submitted",
+  "native_code_reference": {
+    "commit": "8683a032",
+    "basis": "Primary-reported native code phase commit covering 11 owned source files",
+    "fixed_source_standards_review": "OPEN 1 P2",
+    "fixed_source_spec_review": "OPEN 1 P2; same finding as Standards",
+    "shared_p2_source_reference": "8683a032:tests/manual/agent_opd/probe_rust_kv_observer.py:385-397",
+    "shared_p2": "Temporary Capture discarded; native isolates callback wait/Mutex assertion failures in invalidations, while caller only checks getter events/end, allowing reachable false PASS",
+    "r2_defect_path_observed": "NOT ESTABLISHED; source finding does not prove actual R2 encountered it",
+    "review_acceptance": "NOT ESTABLISHED",
+    "gpu_capture_approval": false
+  },
+  "native_execution_by_verifier": false,
+  "platform_operations_by_verifier": false,
+  "first_failure": {
+    "job": "exp-1111-140628-265232",
+    "preserved": true,
+    "qualification_returncode": 1,
+    "cause": "Fixture list does not export contiguous int64 PyBuffer; array('q') correction preserves key values",
+    "extension_rebuild_on_replay": false
+  },
+  "platform": {
+    "job": "exp-1111-145408-924409",
+    "job_uid": "30aee748-9927-4527-82b9-08e8909f3245",
+    "creator": "i-fengyicheng",
+    "charged_group_submission": "codesign",
+    "replica": "exp-1111-145408-924409-cfcd2084",
+    "owner_uid_matches_job": true,
+    "phase": "Succeeded",
+    "container_reason": "Completed",
+    "exit_code": 0,
+    "restart_count": 0,
+    "cpu": 2,
+    "memory": "8000Mi",
+    "gpu": 0,
+    "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "node": null,
+    "physical_h800": "UNVERIFIED; template prefers MachineType NotIn GPU"
+  },
+  "source_identity": {
+    "module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+    "library_name": "mem_cache",
+    "crate_type": "cdylib",
+    "features": ["python-extension"],
+    "loader": "Same hash-pinned public loader; isolated force builds, never qualification/serving",
+    "cargo_build_locked": "Source-backed loader argv; actual wrapper return0 and release compiler logs corroborate execution; full inner argv not printed independently",
+    "source_manifest_sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3",
+    "final_build_receipt": "../rust-kv-observer-qualification-receipts-20261111/observer-build-r2.json",
+    "final_build_bytes": 15835,
+    "final_build_sha256": "4c967246e2cb3ab54e454b87f1a22231c73a7829037dbd98f19ad19bfb2e017b",
+    "current_finalizer_path_reference": "../native-rust-kv-observer-build-20261111/observer-build.json",
+    "r2_receipt_reference_policy": "Bind R2 to selected immutable snapshot; mutable root may be overwritten by future R3 and is not current R2 evidence",
+    "qualification_sha256": "8b05f90ee8ae1f83cf36952692d7e51047617a17415af4bb201fbd4db1fa68f1",
+    "actual_observer_files_verified": 22,
+    "baseline_manifest_owner_pins_equal": 22,
+    "changed_files_from_baseline": [
+      "src/python_bindings.rs", "src/tests/components/base.rs", "src/tests/components/full.rs",
+      "src/tests/components/mamba.rs", "src/tests/components/swa.rs",
+      "src/tests/unified_tree_core.rs", "src/unified_tree_core.rs"
+    ],
+    "final_pending_standalone_source_manifests_equal": true,
+    "final_input_receipts_verified": 4,
+    "accepted_source_root_5501_621_sweep_repeated": false,
+    "helper_sha256": "bd289a0d2dfe2d6738b22f329ffab3ffc59a30549e0c20929a099fc7da456690",
+    "probe_sha256": "380f6aaea1ed2be28750b8eee0b6082146290dc52aff00af1574938d5602042b",
+    "original_binary_source_commit": "UNVERIFIED",
+    "variants": {
+      "original": {
+        "library": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "2c1e54965c8139358df1ef2a7751620c339ad1ff4988cee54cc35467a8b90f6c",
+        "identity_basis": "Pinned worker actual-byte loader check and runtime receipt; binary absent on verifier host",
+        "pid": 40
+      },
+      "rebuilt": {
+        "library": "../native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "workspace": "../native-rust-kv-observer-build-20261111/sources/baseline",
+        "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+        "actual_host_elf_sha256_verified": true,
+        "bytes": 3398568,
+        "pid": 44
+      },
+      "observer-none": {
+        "library": "../native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "workspace": "../native-rust-kv-observer-build-20261111/sources/observer",
+        "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+        "actual_host_elf_sha256_verified": true,
+        "bytes": 3411248,
+        "explicit_none": true,
+        "pid": 48
+      },
+      "observer-enabled": {
+        "library": "../native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "workspace": "../native-rust-kv-observer-build-20261111/sources/observer",
+        "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+        "actual_host_elf_sha256_verified": true,
+        "bytes": 3411248,
+        "pid": 52
+      }
+    }
+  },
+  "runtime": {
+    "raw_r2_qualification_status": "PASS",
+    "python": "3.12.16",
+    "executable": "/opt/sglang/bin/python3",
+    "torch": "2.14.1+cu130",
+    "cxx11_abi": true,
+    "cuda_initialized_all_four": false,
+    "qualification_returncode": 0,
+    "variant_returncodes": [0, 0, 0, 0],
+    "cases": ["ordinary", "partial_split", "missing_full", "end_abort", "mamba_barrier"],
+    "variant_case_executions": 20,
+    "recursive_semantics_equal_to_original": true,
+    "compared": ["actions", "Insert results", "Match results", "adopted ranges", "path topology", "FULL/Mamba indices"],
+    "insert_results_per_variant": 10,
+    "insert_fields": 10,
+    "match_results_per_variant": 11,
+    "match_fields": 13,
+    "all_field_sets_match_production_structs": true
+  },
+  "cpu_alias_and_lifetime": {
+    "status": "PASS for executed CPU fixtures",
+    "normal_enabled_rows": 5,
+    "present_tensor_aliases": 4,
+    "missing_full_rows": 1,
+    "callback_native_thread": 52,
+    "same_invoking_thread_asserted": true,
+    "alias_metadata_checked": ["data_ptr", "storage_ptr", "shape", "stride", "storage_offset", "dtype", "device"],
+    "tested_stride": [1],
+    "tested_storage_offset": 0,
+    "partial_split_original_shape": [4],
+    "partial_split_prefix_len": 2,
+    "partial_split_original_indices": [10, 11, 12, 13],
+    "missing_full_before_restoration": true,
+    "end_abort_resume_error": "no in-flight insert",
+    "suspended_arc_callback_lifetime": "Runtime assertions: alive after Python params/callback deletion across barrier; released after resume or end/abort",
+    "rust_retained_tensor_owner": "Original shallow owner values remain equal after partial split",
+    "extra_guarded_enabled_checks": {
+      "failure_injections": 2,
+      "sequentially_joined_thread_invocations": 8,
+      "contended_getter": 1,
+      "suspended_lifetime_paths": 2,
+      "outside_window": 1,
+      "evidence_basis": "Submission-pinned executed source and child PASS output; no separate per-check JSON. Contended callback assertions may be isolated into invalidations, so its oracle proof is reopened"
+    }
+  },
+  "gil": {
+    "static_core_call_methods_with_detach": 130,
+    "runtime_contended_outside_getter": {
+      "raw_result": "PASS",
+      "oracle_status": "REOPENED / UNVERIFIED",
+      "limitation": "Discarded temporary Capture prevents caller checking callback rows/invalidations; callback assertions can fail while outer getter/end checks still pass",
+      "review_reference": "Both fixed Native Standards and Spec OPEN same 1 P2 at8683a032:probe_rust_kv_observer.py:385-397",
+      "actual_r2_encountered_defect": "NOT ESTABLISHED",
+      "required_affected_verification": "Retained Capture, observed rows and no invalidations; actual GPU0 R3 resume, no extension rebuild",
+      "r3_status": "Not yet prepared or submitted"
+    },
+    "topology_release_proof": "REOPENED / UNVERIFIED; static130-detach and same-current-CPU-thread facts remain sourced",
+    "runtime_callback_thread_check": "PASS on invoking CPU thread",
+    "implementation": "PyO3 0.29.2 detach SaveThread/RestoreThread and attach Ensure/Release on current thread",
+    "standalone_gil_contrast_artifact": "NOT PRESENT in retained r2 artifacts; not a new acceptance gate",
+    "concurrent_unscheduled_mutex_reentry": "UNSUPPORTED",
+    "blanket_race_or_deadlock_freedom": "NOT ESTABLISHED"
+  },
+  "native_rust_fixtures": {
+    "command_receipt": "native-fixtures.json",
+    "locked_offline": true,
+    "returncode": 0,
+    "passed": 2,
+    "failed": 0,
+    "ignored": 0,
+    "filtered_out": 943,
+    "execution_seconds": 0.11,
+    "extension_rebuilt": false,
+    "temporary_test_target_retained": false
+  },
+  "dependency_implementations": {
+    "manifest": "dependency-source-manifest.json",
+    "actual_files_and_decisive_lines_verified": 6,
+    "files": [
+      "tch-0.24.0/src/wrappers/tensor.rs", "tch-0.24.0/src/wrappers/python.rs",
+      "torch-sys-0.24.0/libtch/torch_api.cpp", "torch-sys-0.24.0/libtch/torch_python.cpp",
+      "pyo3-0.29.2/src/marker.rs", "pyo3-0.29.2/src/internal/state.rs"
+    ],
+    "identity_basis": "Actual retained bytes/SHA256 and decisive-line equality; unchanged Cargo.lock and actual compilation versions"
+  },
+  "independent_error_marker": {
+    "status": "PASS",
+    "marker": "old_full_observer_invalidation_failed",
+    "actual_channel": "qualify-observer-enabled.stderr",
+    "stderr_bytes": 785,
+    "marker_count": 1,
+    "exact_context": "rid=cpu-rid P=0 E=32 stage=capture",
+    "capture_error_and_invalidation_error_both_visible": true,
+    "both_injected_semantics_equal_to_normal_partial_split": true,
+    "other_three_variant_stderr_bytes": [0, 0, 0],
+    "all_four_variant_stdout_bytes": [0, 0, 0, 0],
+    "caller_gate_compatibility": "Source-backed same imported marker; caller scans existing server log independently and marks measurement UNVERIFIED",
+    "actual_collector_server_log_injection": "NOT EXECUTED by CPU qualification"
+  },
+  "not_covered": [
+    "Contended outside-getter/topology release oracle pending correction and actual GPU0 R3 replay",
+    "Original binary source commit", "Noncontiguous/nonzero-offset tensor aliases",
+    "Python-retained callback tensor through CUDA completion", "Arbitrary unscheduled concurrent Mutex reentry",
+    "Actual CUDA scheduler stream S", "Physical KV payload/indices/RID binding", "Whole-FULL7955 model capture",
+    "All16/6804 scoring parity", "Private GPU module SHA", "All-TP coverage",
+    "Numerical root-cause correction", "Performance", "Formal200 acceptance"
+  ],
+  "raw_evidence": {
+    "paths_relative_to_this_json": true,
+    "qualification": ["qualification.json", "qualification-command.json", "qualification.stdout", "qualification.stderr"],
+    "variants": [
+      "qualify-original.json", "qualify-original-command.json", "qualify-original.stdout", "qualify-original.stderr",
+      "qualify-rebuilt.json", "qualify-rebuilt-command.json", "qualify-rebuilt.stdout", "qualify-rebuilt.stderr",
+      "qualify-observer-none.json", "qualify-observer-none-command.json", "qualify-observer-none.stdout", "qualify-observer-none.stderr",
+      "qualify-observer-enabled.json", "qualify-observer-enabled-command.json", "qualify-observer-enabled.stdout", "qualify-observer-enabled.stderr"
+    ],
+    "native_and_source": ["native-fixtures.json", "native-fixtures.stdout", "native-fixtures.stderr", "dependency-source-manifest.json", "source-topology.json", "resume-inputs.json"],
+    "build": "../rust-kv-observer-qualification-receipts-20261111/observer-build-r2.json",
+    "platform": [
+      "../rust-kv-observer-cpu-platform-20261111/exp-1111-145408-924409-submission.json",
+      "../rust-kv-observer-cpu-platform-20261111/exp-1111-145408-924409-initial-platform.json",
+      "../rust-kv-observer-cpu-platform-20261111/exp-1111-145408-924409-terminal.json",
+      "../rust-kv-observer-cpu-platform-20261111/exp-1111-145408-924409-terminal-platform.json"
+    ]
+  },
+  "verification_limits": "Raw R2 PASS and accepted bounded actual serial evidence preserved. Contended-getter/topology release oracle REOPENED UNVERIFIED; both fixed source reviews OPEN same 1 P2; qualification release HOLD pending corrected actual GPU0 R3 no-rebuild replay. R2 build reference pinned to immutable selected snapshot. Source commit/CUDA/GPU/7955/6804/all-TP/numerical/performance/formal limits unchanged; no blanket race/deadlock claim or new GIL-contrast gate"
+}

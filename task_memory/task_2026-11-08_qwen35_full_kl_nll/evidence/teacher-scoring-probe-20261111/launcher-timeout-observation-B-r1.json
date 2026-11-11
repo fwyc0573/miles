@@ -1,0 +1,83 @@
+{
+  "pair": "B",
+  "job": "exp-1111-033134-236473",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Starting",
+    "reason": "RJobStarting",
+    "message": "Tasks is starting: [probe]",
+    "taskStatuses": {
+      "probe": {
+        "pending": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "system_stop_reason": null,
+  "replicas": [
+    {
+      "name": "exp-1111-033134-236473-cfcd2084",
+      "info": {
+        "name": "exp-1111-033134-236473-cfcd2084",
+        "ip": "",
+        "phase": "Starting"
+      },
+      "status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:36Z"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:36Z",
+            "reason": "ContainersNotReady",
+            "message": "containers with unready status: [probe]"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:36Z",
+            "reason": "ContainersNotReady",
+            "message": "containers with unready status: [probe]"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T19:31:36Z"
+          }
+        ],
+        "hostIP": "10.191.6.43",
+        "startTime": "2026-11-10T19:31:36Z",
+        "containerStatuses": [
+          {
+            "name": "probe",
+            "state": {
+              "waiting": {
+                "reason": "ContainerCreating"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "imageID": "",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Starting",
+        "nodeName": "gpu-h800-0039.host.platform.shaipower.com"
+      },
+      "nfs_volumes": []
+    }
+  ],
+  "local_launcher_error": "OpenCode shell timeout120000ms; remote native status checked without control or resubmission"
+}

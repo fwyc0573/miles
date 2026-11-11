@@ -1,0 +1,51 @@
+{
+  "query": "incident-logs",
+  "job": "exp-1111-171526-099435",
+  "replica": "exp-1111-171526-099435-cfcd2084",
+  "rjob_uid": "85b88b38-cfc2-4903-8aaa-3fc133332f76",
+  "replica_uid": "f81ce794-39b9-4406-afa2-89d53bd15a1d",
+  "started_at": "2026-11-11T09:33:59.961228+00:00",
+  "finished_at": "2026-11-11T09:34:01.488879+00:00",
+  "ok": true,
+  "request": {
+    "method": "GET",
+    "path": "/kapis/rjob.brainpp.cn/v1alpha1/tenants/shai/projects/shai-core/rjobs/exp-1111-171526-099435/logs/query_range",
+    "parameters": {
+      "replicas": "exp-1111-171526-099435-cfcd2084",
+      "start": "1794389220000000000",
+      "end": "1794389460000000000",
+      "direction": "forward",
+      "limit": 3000
+    },
+    "timeout_seconds": 12.0,
+    "scope": "/shai/shai-core",
+    "http_status": 200
+  },
+  "returned_row_count": 12,
+  "has_more": false,
+  "selected_lines": [
+    {
+      "timestamp": "1794389338567552000",
+      "line": "[2026-11-11T17:28:58+08:00] exp-1111-171526-099435-cfcd2084 >> Traceback (most recent call last):",
+      "pod": "exp-1111-171526-099435-cfcd2084",
+      "node": "gpu-h800-0030.host.platform.shaipower.com",
+      "message": "Traceback (most recent call last):"
+    },
+    {
+      "timestamp": "1794389338569391000",
+      "line": "[2026-11-11T17:28:58+08:00] exp-1111-171526-099435-cfcd2084 >>     raise RuntimeError(f\"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}\")",
+      "pod": "exp-1111-171526-099435-cfcd2084",
+      "node": "gpu-h800-0030.host.platform.shaipower.com",
+      "message": "    raise RuntimeError(f\"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}\")"
+    },
+    {
+      "timestamp": "1794389338569443000",
+      "line": "[2026-11-11T17:28:58+08:00] exp-1111-171526-099435-cfcd2084 >> RuntimeError: Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Candidate cardinality/capture errors/unconsumed CPP witness",
+      "pod": "exp-1111-171526-099435-cfcd2084",
+      "node": "gpu-h800-0030.host.platform.shaipower.com",
+      "message": "RuntimeError: Scoring completed; independent runtime metadata readback failed: KV coherence diagnostic unverified: Candidate cardinality/capture errors/unconsumed CPP witness"
+    }
+  ],
+  "raw_path": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/rca-exp-1111-171526-099435-r2/incident-logs.json",
+  "selection": "Only traceback/readback-verdict lines; raw log rows retained in private temporary storage"
+}

@@ -1,0 +1,73 @@
+{
+  "base": "d7e7e30141619bebb8ff4a1a8dcbe4bcfdb2d7e4",
+  "candidate": "f992159c56ab5e98c44bffeeaed6b1eae59c8aed",
+  "diff_command": [
+    "git",
+    "diff",
+    "d7e7e30141619bebb8ff4a1a8dcbe4bcfdb2d7e4",
+    "f992159c56ab5e98c44bffeeaed6b1eae59c8aed",
+    "--",
+    "tests/manual/agent_opd/probe_teacher_scoring.py",
+    "tests/manual/agent_opd/submit_teacher_scoring_probe.py",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "tests/fast/test_teacher_scoring_submission.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md"
+  ],
+  "diff_sha256": "21192ecb9ded4e8e0e60973a929de05218a57572d64c6258c28b92d99fff9d9b",
+  "commits": [
+    "f992159c Run FP32 teacher probes with isolated inputs and independent cold references"
+  ],
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "base_exists": true,
+      "base_sha256": "dde048f55f94becd071ada7d9883cc506226a14986f858699d12f5a7ce082e0b",
+      "candidate_exists": true,
+      "candidate_sha256": "8b53251dd50e2d57a51b4ad2a1e180c5b67826ddcb765459883bf4e3cdf1daeb"
+    },
+    {
+      "path": "tests/manual/agent_opd/submit_teacher_scoring_probe.py",
+      "base_exists": true,
+      "base_sha256": "298dc4c7de1ee3d3dfb3237b65ded84f7333a96aebb2a3a3f74a6e28fecd11fa",
+      "candidate_exists": true,
+      "candidate_sha256": "71e92d5cf9a4ccf86bbd2a3741c7313618c74869cadd33ccdd08baa151bdd8e6"
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "base_exists": true,
+      "base_sha256": "aa00cedf532dd83b01d56013426a3a6b75d31ead8f705e3f9ecabc9ca24f8e04",
+      "candidate_exists": true,
+      "candidate_sha256": "bb2ea22887a60c2b1e9e5bb1d1194e474b07c38fb7ca2e84c4672cb81b68f30a"
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_submission.py",
+      "base_exists": true,
+      "base_sha256": "e0a1a5de29f1f18edf6b71eb6d617f197268443046095a26e33e81db696b4dc4",
+      "candidate_exists": true,
+      "candidate_sha256": "17fe581a7fb50244075dba75aff6ff8e08aa9cbeb9896b17c68de43a6777009c"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_fp32_probe_config.json",
+      "base_exists": false,
+      "candidate_exists": true,
+      "candidate_sha256": "32708010a8d7dc436faea058b862b0e241252ca74daca35db08c4e35850a6fa9"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_fp32_probe_integration.md",
+      "base_exists": false,
+      "candidate_exists": true,
+      "candidate_sha256": "c702b6170b15d690c9f5ab17bdc3f63c3ed7fb7c2a5d3377c745afe74ec9f148"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_workflow_rca.md",
+      "base_exists": true,
+      "base_sha256": "ab5f1f844cbd52ba3e7cf56ebe4c0c06b6c55ce27c2960cacb43c6d3bf8e32bc",
+      "candidate_exists": true,
+      "candidate_sha256": "79b45b3d4f7cfac0c1b477370468a14c18bd2a9637e9c6f27a3f585fa60afb2f"
+    }
+  ],
+  "prior_native_review": "../selected-fp32-review-20261111/",
+  "limits": "202 CPU checks pass; integration diff only, native CUDA/identity/probability acceptance pending"
+}

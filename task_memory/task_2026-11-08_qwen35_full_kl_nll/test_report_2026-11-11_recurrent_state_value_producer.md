@@ -1,0 +1,68 @@
+## Modification History
+
+| Date | Change |
+| --- | --- |
+| 2026-11-11 | Complete the delegated producer CPU/source preparation; retain the first module failure and final affected verification. |
+
+# Recurrent-state producer preparation
+
+TaskID: `profile-recurrent-state-value-producer-20261111`.
+
+**Outcome: CPU/source preparation PASS; native capture, replay fidelity and causal interpretation UNVERIFIED.** Accepted `281e` ordering/source/physical scope, `e2` scoped numeric audit and `7ae` source handoff are not reopened. Root remains UNRESOLVED, warm1/4 FAIL and formal HOLD. No native/model execution, GPU/platform/auth/network operation, delegation, staging or commit was performed. CPU tests copy retained source into disposable fixtures and use dependency-injected native/copy objects; they do not deploy a worker or execute the production native implementation.
+
+## Owned implementation and integration API
+
+Only `tests/manual/agent_opd/sglang_kv_coherence.py` and `tests/fast/test_sglang_kv_coherence.py` were edited as source/test files. Consumer sources/tests/configs, master task documents, accepted design, native/RCA archives, baseline sources, Rust/adapter/helper/binary files and README were not edited by this producer.
+
+- `sglang_kv_coherence.py:77,198,392`: named input data `recurrent_input_counts` and `recurrent_common_rows` reach `prepare_source` (`:1217`) through the generated model-runner initialization (`:988,1063`). Consumer derives them from its chosen original indices/full-input payloads. The original two FULL banks and their 98942-input selector remain unchanged. Recurrent registration independently selects four full-input scoring RIDs, with two captures per passed count. Native continuation rows are capped by the existing FULL window, not by new literal workload lengths.
+- `:489,547,568`: three read-only observations capture L0 initial conv/FP32 temporal before tracking or native mutation, real strided pre-conv input, post-conv QKV, pre-normalization q/k/v/g/beta, output and indexed final state. Generated calls use the installed actual forward context and authoritative `is_extend()` before CPU lens access. Native operations remain outside the observer wrapper and return their original values.
+- `:579,596,710`: the existing insert/rebind/pool seams freeze the translated incoming P donor before cleanup. Only a non-declined `mamba_exist=False` publication whose returned prefix/node matches P is identified as a new canonical publication. Other donors have field-level unavailable canonical evidence; paired active-state/input records remain usable. Cross-RID source-key/cache-event identity is explicitly left for the consumer join.
+- `:739,778,849,934`: only requested final drain, all16 completion and successful existing FULL capture/readback allow pinned reads and replay. FULL payload/index release precedes serial scratch replay. Exact controls preserve actual conv projection strides, cu-seqlens, flags, read-only weights/bias references, native dispatcher/indexed updates and actual tracking writes/buffer options. Shape calls truncate the actual longer capture to the derived shorter native length, comparing only passed common rows. Conditional unequal-state sensitivity compares two independent scratch executions with fixed captured input, never live state.
+- `:89,927,1016,1151`: compact finite/exact mismatch, first coordinate/absolute token, maxabs and RMS receipts; separate recurrent allocation/copy/observation/publication/replay errors; cached final summary and capture/scratch release. Temporal metrics inspect one state head at a time, not a full FP64 temporal-state copy. Metadata-only drains neither read host values nor replay. Repeated completed drains return the same summary without allocation or replay. No tolerance, new synchronization/event/wait, cache lock, native build, retry, tuning, cache bypass or fallback file was added.
+
+The existing `kv-coherence-v1` receipt now contains `recurrent_state` with schema `recurrent-state-v1`, `process_id`, existing `metadata_only`/`captured`/`unverified` status terminology, opaque-RID records with P/extend/input count/descriptors/options/publication, comparisons with left/right RID and common rows, explicit `control`/`shape`/`state-sensitivity` replay kind, coverage, errors and memory fields. Default preparer callers leave selection unconfigured and new evidence unverified without changing original FULL operation. `captured` reports evidence availability, not equality or causal PASS. Consumer owns after-all16 source/phase joins and preservation of the nested receipt.
+
+## Verification and retained evidence
+
+Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`. CPU interpreter: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python 3.12.13, torch 2.11.0+cu130, pytest 9.1.1. AST interpreter: `/usr/bin/python3`, Python 3.10.6. No conda activation or CUDA/native operator execution. Let `E` denote `task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/` solely for evidence links below.
+
+| Check | Expected | Observed |
+| --- | --- | --- |
+| First selected recurrent tests | Real retained source binding, independent selector/copy/lifecycle/metric contracts | 10 PASS, 54 deselected, 2.41s. |
+| Expanded selected tests | Add canonical publication and generated native-exception propagation | 12 PASS, 54 deselected, 2.57s. |
+| First affected module | All owned-file tests pass within 30s | 65 PASS / 1 FAIL, 21.15s; failure retained in `E/pytest.log` and `E/pytest.xml`. |
+| Affected selection after fixture correction | Recurrent plus existing import-order fixture | 14 PASS, 53 deselected, 4.86s; `E/pytest-focused.log`, `E/pytest-focused.xml`. |
+| Final affected module | No skip/failure; whole-file time <30s | 67 PASS, 0 SKIP, 20.63s; `E/pytest-final.log`, `E/pytest-final.xml`. |
+| Final exact-RMS assertion | No approximate/tolerance assertion | 1 PASS; `E/pytest-metrics-exact.log`. |
+| Final recurrent slice after head-wise state metrics | Actual-source generation and all recurrent contracts on final source bytes | 13 PASS, 54 deselected, 2.87s; `E/pytest-recurrent-final.log`, `E/pytest-recurrent-final.xml`. |
+| AST 3.10 and scoped whitespace | Both owned source/test files parse and diff has no whitespace error | PASS. |
+
+The first module failure was the old import-order test fixture omitting `recurrent_sample_original_indices`, now required by the independently edited consumer before the first SGLang import. Only the owned fixture was updated with `[1693,1695]`; the consumer behavior was not changed or bypassed. Final logs retain two existing SWIG deprecation warnings. No broader closed suite was rerun.
+
+Exact pytest invocations (all prefixed with `timeout 60s`; `--basetemp` paths are approved local temporary storage):
+
+```bash
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider -k recurrent --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-r1
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider -k recurrent --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-r2
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-module --junitxml=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest.xml > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest.log 2>&1
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider -k 'recurrent or worker_private_binding_precedes_real_transitive_sglang_import' --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-r3 --junitxml=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-focused.xml > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-focused.log 2>&1
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-module-final --junitxml=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-final.xml > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-final.log 2>&1
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider -k recurrent_metrics_common_rows_first_absolute_coordinate_and_nonfinite --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-metrics-exact > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-metrics-exact.log 2>&1
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_coherence.py -q -p no:cacheprovider -k recurrent --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-focused-final --junitxml=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-recurrent-final.xml > task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/producer/pytest-recurrent-final.log 2>&1
+git diff --check -- tests/manual/agent_opd/sglang_kv_coherence.py tests/fast/test_sglang_kv_coherence.py
+/usr/bin/python3 -B -c 'import ast; from pathlib import Path; paths=("tests/manual/agent_opd/sglang_kv_coherence.py", "tests/fast/test_sglang_kv_coherence.py"); [ast.parse(Path(p).read_text(), filename=p, feature_version=(3,10)) for p in paths]; print("AST_310_PASS")'
+```
+
+`E/source-preparation-di-receipt.json` retains the real-source DI preparation receipt, unchanged original pins, the generated per-file hashes and selection `(97365,98942)/6519`. The native preparer is explicitly dependency-injected; it is called once and is not a Rust/native qualification. The generated runtime hash matches the bytes used by preparation. `E/checksums.json` records final owned-file/runtime hashes. No raw tensors, weights or token-value archive is retained.
+
+## Source, ABI and lifetime limits
+
+- Source placement is checked against the actual retained composed `gdn_backend.py`, request/Mamba pool, native conv wrapper and dispatcher. Its reverse edit restores the original composed bytes. Fake-copy tests establish ordering/copy ownership and exception/lifecycle contracts only, not CUDA completion or production pointer/ABI proof.
+- Actual native tracking options are copied at capture rather than retaining mutable forward metadata. Conv controls reproduce original tracking writes on private slots, preserving aliases. Shape replays preserve original non-active tracking writes from captured values; an active/tracking alias on truncation is explicitly unavailable. Non-None conv block tables, gathered-state envelopes, or shortened state-checkpoint metadata outside the inspected supported call are unverified, never reconstructed by a fallback.
+- The native conv wrapper selects by actual stride; replay uses `empty_strided` and the retained native function/dispatcher. Native q/k normalization occurs inside the selected dispatcher, not in the captured pre-normalization inputs. Final temporal comparison uses the indexed updated private state pool, not the wrapper's documented-but-absent dense final-state return. Native replay fidelity remains to be measured.
+- Forward and scheduler captures own separate indexed GPU staging rows; conv input owns a reusable same-forward-stream slab. Pinned destinations are never read during serving. The existing FULL blocking readback, on the accepted S/F order chain, is the sole completion boundary before capture inspection. If it is unavailable, retain potentially in-flight pinned destinations until process teardown instead of freeing DMA targets or adding a replacement wait; no replay/reallocation occurs on repeated cached failed drains.
+- Runtime memory records current/peak allocated/reserved bytes without resets, plus actual descriptor/allocation-derived owned host/staging bytes. CPU DI's injected `123` allocator-stat value is not a GPU measurement. Accepted predicted design budgets remain predictions; no actual GPU peak, latency, transfer perturbation, all-TP equality or causal/warm/formal result is claimed. A poisoned native CUDA context cannot be promised safe merely because observation errors are isolated.
+
+## Completion and remaining ownership
+
+Producer preparation and affected CPU verification are complete. Consumer source/phase join and primary integration/phase acceptance remain outside this subagent. The final requirements re-read records the primary-accepted preparation design at `54a94b20` and producerCPU/consumerCPU RUNNING; primary owns accepting and closing those deliveries. Native actual-value capture/replays, canonical source-key joins and measured memory remain unverified; these limits do not reopen accepted qualification or create a new approval gate. The phase checkpoint is retained at `E/checkpoint.md`.

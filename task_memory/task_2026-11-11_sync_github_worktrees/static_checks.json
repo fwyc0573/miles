@@ -1,0 +1,21 @@
+{
+  "branch": "agent-opd-image",
+  "selected_file_count": 706,
+  "extensions": {
+    ".json": 550,
+    ".diff": 48,
+    ".patch": 8,
+    ".stderr": 12,
+    ".stdout": 12,
+    ".py": 54,
+    ".cuh": 2,
+    ".pxi": 1,
+    ".h": 3,
+    ".cc": 1,
+    ".xml": 8,
+    ".md": 7
+  },
+  "credential_pattern_hits": [],
+  "oversized_new_files": [],
+  "parse_errors": []
+}

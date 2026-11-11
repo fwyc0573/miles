@@ -1,0 +1,14 @@
+{
+  "nodes": [
+    {
+      "ip": "10.204.13.90",
+      "gpus": 8.0,
+      "node_id": "f85e3987601cf79e88782714ec4ebf2c2c18ee741caedc9a7cd9abeb"
+    },
+    {
+      "ip": "10.204.8.36",
+      "gpus": 8.0,
+      "node_id": "4cd5207d7c70c5bbbd047c497400d584209c9d2c896b35beebbbfd64"
+    }
+  ]
+}

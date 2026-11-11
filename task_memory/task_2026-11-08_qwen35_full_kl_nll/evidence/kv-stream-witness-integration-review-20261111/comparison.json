@@ -1,0 +1,58 @@
+{
+  "base": "3aba44fddb7f76dc0dde4cca63c37dca43395f27",
+  "candidate": "262f153998c3253f9b097c36659b20b093adf731",
+  "diff_command": "git diff 3aba44fddb7f76dc0dde4cca63c37dca43395f27...262f153998c3253f9b097c36659b20b093adf731 -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md",
+  "commits": [
+    "262f1539 Wire opt-in KV stream witness into teacher scoring probe"
+  ],
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "base": {
+        "exists": true,
+        "bytes": 38720,
+        "sha256": "31b18fc785d8b39601b77e84b5adadb6e1710aa0ec081a085aa3f90aef3dae72"
+      },
+      "candidate": {
+        "exists": true,
+        "bytes": 39896,
+        "sha256": "5b63f59917a45ad243b141dc5fc38dc92fe644135f0d3867478eb26978a43953"
+      }
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "base": {
+        "exists": true,
+        "bytes": 80183,
+        "sha256": "051bf6b17e698bd3af44328e5b180c43ac18a769ff057f3ad13c0d83ae6e8816"
+      },
+      "candidate": {
+        "exists": true,
+        "bytes": 97634,
+        "sha256": "c4468c7bde8064e24cd729bb2d42522b9075fe82eea891db7e6e31306b613dd7"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json",
+      "base": {
+        "exists": false
+      },
+      "candidate": {
+        "exists": true,
+        "bytes": 1771,
+        "sha256": "a6bc4fdb80e397bd1c36ca8bb213853591269c6a4cea0ffd67cdc0458fe63314"
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md",
+      "base": {
+        "exists": false
+      },
+      "candidate": {
+        "exists": true,
+        "bytes": 15901,
+        "sha256": "cad9ed05d61dbb2f939f40c0b2b0410a7c815e1eac75c165069e34eca03a3aa0"
+      }
+    }
+  ]
+}

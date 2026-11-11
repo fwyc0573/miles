@@ -1,0 +1,10 @@
+--- a/srt/mem_cache/rust_tree_core/adapter.py
++++ b/srt/mem_cache/rust_tree_core/adapter.py
+@@ -821,6 +821,7 @@
+                 priority=0 if params.priority is None else params.priority,
+                 track_adopted_ranges=params.track_adopted_ranges,
+                 rotation_base=params.rotation_base,
++                old_full_observer=getattr(params, "old_full_observer", None),
+             )
+         )
+         return self._insert_step_from_binding(step)

@@ -1,0 +1,18 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--locked",
+    "--offline",
+    "--manifest-path",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/Cargo.toml",
+    "--target-dir",
+    "/var/tmp/rust-kv-tests-z6_n6usl/target",
+    "old_full_observer",
+    "--",
+    "--nocapture"
+  ],
+  "returncode": 0,
+  "status": "PASS",
+  "target_retained": false
+}

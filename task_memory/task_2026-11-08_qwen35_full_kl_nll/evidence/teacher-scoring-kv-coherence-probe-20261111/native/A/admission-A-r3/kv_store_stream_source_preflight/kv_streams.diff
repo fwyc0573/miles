@@ -1,0 +1,229 @@
+--- a/srt/model_executor/model_runner.py
++++ b/srt/model_executor/model_runner.py
+@@ -1008,6 +1008,16 @@
+         self.req_to_token_pool = result.req_to_token_pool
+         self.token_to_kv_pool = result.token_to_kv_pool
+         self.token_to_kv_pool_allocator = result.token_to_kv_pool_allocator
++        _mamba_record("kv_allocator_created", (
++            ("allocator_class", (type(self.token_to_kv_pool_allocator).__module__, type(self.token_to_kv_pool_allocator).__qualname__)),
++            ("allocator_object_id", id(self.token_to_kv_pool_allocator)),
++            ("pool_class", (type(self.token_to_kv_pool).__module__, type(self.token_to_kv_pool).__qualname__)),
++            ("pool_object_id", id(self.token_to_kv_pool)),
++            ("page_size", self.token_to_kv_pool_allocator.page_size),
++            ("size", self.token_to_kv_pool_allocator.size),
++            ("dtype", str(self.token_to_kv_pool_allocator.dtype)),
++            ("device", str(self.token_to_kv_pool_allocator.device)),
++        ))
+         self.memory_pool_config = result.memory_pool_config
+         if self.is_hybrid_swa:
+             self.full_max_total_num_tokens = result.full_max_total_num_tokens
+--- a/srt/model_executor/forward_context.py
++++ b/srt/model_executor/forward_context.py
+@@ -45,6 +45,7 @@
+     attn_backend: AttentionBackend
+     # Resolve after batch preparation; captured calls retain the static buffer.
+     moe_num_token_non_padded: Optional[Callable[[], Optional[torch.Tensor]]] = None
++    forward_batch: Optional[ForwardBatch] = None
+ 
+ 
+ _current: Optional[ForwardContext] = None
+@@ -88,7 +89,8 @@
+ ):
+     if forward_batch is not None:
+         ctx = replace(
+-            ctx, moe_num_token_non_padded=forward_batch.moe_num_token_non_padded
++            ctx, moe_num_token_non_padded=forward_batch.moe_num_token_non_padded,
++            forward_batch=forward_batch,
+         )
+     elif ctx.moe_num_token_non_padded is None and _current is not None:
+         ctx = replace(ctx, moe_num_token_non_padded=_current.moe_num_token_non_padded)
+--- a/srt/mem_cache/memory_pool.py
++++ b/srt/mem_cache/memory_pool.py
+@@ -36,6 +36,14 @@
+ 
+ import numpy as np
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
++from sglang.srt.model_executor.forward_context import (
++    get_forward_context, has_forward_context,
++)
+ import triton
+ import triton.language as tl
+ 
+@@ -2983,6 +2991,27 @@
+             return
+ 
+         self._store_kv_layer(layer_id - self.start_layer, loc, cache_k, cache_v)
++        _kv_batch = get_forward_context().forward_batch if has_forward_context() else None
++        _mamba_record("kv_store_terminal", (
++            ("store_kind", 'mha_set_kv_buffer_impl'),
++            ("native_stream_scalar_observed", False),
++            ("native_actual_stream", None),
++            ("stream_qualification", 'UNVERIFIED; CPP scalar is a separate in-call receipt'),
++            ("pool_class", (type(self).__module__, type(self).__qualname__)),
++            ("pool_object_id", id(self)),
++            ("layer_id", layer.layer_id if layer is not None else layer_id),
++            ("pool_layer_id", layer_id),
++            ("buffer_layer_idx", layer_id - self.start_layer),
++            ("rids", tuple(_kv_batch.rids) if _kv_batch is not None and _kv_batch.rids is not None else None),
++            ("prefix_lens", tuple(_kv_batch.extend_prefix_lens_cpu) if _kv_batch is not None and _kv_batch.extend_prefix_lens_cpu is not None else None),
++            ("extend_lens", tuple(_kv_batch.extend_seq_lens_cpu) if _kv_batch is not None and _kv_batch.extend_seq_lens_cpu is not None else None),
++            ("k_cache", _mamba_tensor(self.k_buffer[layer_id - self.start_layer])),
++            ("k_cache_data_ptr", self.k_buffer[layer_id - self.start_layer].data_ptr()),
++            ("v_cache", _mamba_tensor(self.v_buffer[layer_id - self.start_layer])),
++            ("v_cache_data_ptr", self.v_buffer[layer_id - self.start_layer].data_ptr()),
++            ("writer_loc", _mamba_tensor(loc)),
++            ("writer_loc_data_ptr", loc.data_ptr()),
++        ))
+ 
+     def _store_kv_layer(
+         self,
+@@ -3387,6 +3416,29 @@
+                 k_scale_is_tensor=isinstance(k_scale, torch.Tensor) and k_scale.is_cuda,
+                 v_scale_is_tensor=isinstance(v_scale, torch.Tensor) and v_scale.is_cuda,
+             )
++            _kv_batch = get_forward_context().forward_batch if has_forward_context() else None
++            _mamba_record("kv_store_terminal", (
++                ("store_kind", 'mha_prefix_valid_triton_fp8'),
++                ("native_stream_scalar_observed", False),
++                ("native_actual_stream", None),
++                ("stream_qualification", 'UNVERIFIED; CPP scalar is a separate in-call receipt'),
++                ("pool_class", (type(self).__module__, type(self).__qualname__)),
++                ("pool_object_id", id(self)),
++                ("layer_id", layer.layer_id if layer is not None else layer_id),
++                ("pool_layer_id", layer_id),
++                ("buffer_layer_idx", layer_id - self.start_layer),
++                ("rids", tuple(_kv_batch.rids) if _kv_batch is not None and _kv_batch.rids is not None else None),
++                ("prefix_lens", tuple(_kv_batch.extend_prefix_lens_cpu) if _kv_batch is not None and _kv_batch.extend_prefix_lens_cpu is not None else None),
++                ("extend_lens", tuple(_kv_batch.extend_seq_lens_cpu) if _kv_batch is not None and _kv_batch.extend_seq_lens_cpu is not None else None),
++                ("k_cache", _mamba_tensor(self.k_buffer[layer_id - self.start_layer])),
++                ("k_cache_data_ptr", self.k_buffer[layer_id - self.start_layer].data_ptr()),
++                ("v_cache", _mamba_tensor(self.v_buffer[layer_id - self.start_layer])),
++                ("v_cache_data_ptr", self.v_buffer[layer_id - self.start_layer].data_ptr()),
++                ("writer_loc", _mamba_tensor(loc_2d)),
++                ("writer_loc_data_ptr", loc_2d.data_ptr()),
++                ("commit_lens", _mamba_tensor(commit_lens)),
++                ("commit_lens_data_ptr", commit_lens.data_ptr()),
++            ))
+             return
+ 
+         # fallback: eager quantization
+@@ -3419,6 +3471,29 @@
+             row_dim=self.row_dim,
+             store_dtype=self.store_dtype,
+         )
++        _kv_batch = get_forward_context().forward_batch if has_forward_context() else None
++        _mamba_record("kv_store_terminal", (
++            ("store_kind", 'mha_prefix_valid_triton'),
++            ("native_stream_scalar_observed", False),
++            ("native_actual_stream", None),
++            ("stream_qualification", 'UNVERIFIED; CPP scalar is a separate in-call receipt'),
++            ("pool_class", (type(self).__module__, type(self).__qualname__)),
++            ("pool_object_id", id(self)),
++            ("layer_id", layer.layer_id if layer is not None else layer_id),
++            ("pool_layer_id", layer_id),
++            ("buffer_layer_idx", layer_id - self.start_layer),
++            ("rids", tuple(_kv_batch.rids) if _kv_batch is not None and _kv_batch.rids is not None else None),
++            ("prefix_lens", tuple(_kv_batch.extend_prefix_lens_cpu) if _kv_batch is not None and _kv_batch.extend_prefix_lens_cpu is not None else None),
++            ("extend_lens", tuple(_kv_batch.extend_seq_lens_cpu) if _kv_batch is not None and _kv_batch.extend_seq_lens_cpu is not None else None),
++            ("k_cache", _mamba_tensor(self.k_buffer[layer_id - self.start_layer])),
++            ("k_cache_data_ptr", self.k_buffer[layer_id - self.start_layer].data_ptr()),
++            ("v_cache", _mamba_tensor(self.v_buffer[layer_id - self.start_layer])),
++            ("v_cache_data_ptr", self.v_buffer[layer_id - self.start_layer].data_ptr()),
++            ("writer_loc", _mamba_tensor(loc_2d)),
++            ("writer_loc_data_ptr", loc_2d.data_ptr()),
++            ("commit_lens", _mamba_tensor(commit_lens)),
++            ("commit_lens_data_ptr", commit_lens.data_ptr()),
++        ))
+ 
+     def move_kv_cache(self, tgt_loc: torch.Tensor, src_loc: torch.Tensor):
+         # Zero-layer pool (e.g. all-SWA model's full sub-pool) has no buffers.
+--- a/kernels/ops/kvcache/kvcache.py
++++ b/kernels/ops/kvcache/kvcache.py
+@@ -4,6 +4,14 @@
+ from typing import TYPE_CHECKING
+ 
+ import torch
++
++from sglang.srt.mamba_runtime_metadata import (
++    record as _mamba_record,
++    tensor_metadata as _mamba_tensor,
++)
++from sglang.srt.model_executor.forward_context import (
++    get_forward_context, has_forward_context,
++)
+ 
+ from sglang.kernels.jit.utils import (
+     cache_once,
+@@ -109,7 +117,8 @@
+     module = _jit_kvcache_module(row_bytes, v_row_bytes, num_split * _WARP_THREADS)
+     if size_limit <= 0:
+         size_limit = k_cache.shape[0]
+-    module.store_cache(
++    _kv_torch_stream = torch._C._cuda_getCurrentRawStream(k.device.index)
++    _kv_native_stream = module.store_cache(
+         k,
+         v,
+         k_cache,
+@@ -118,3 +127,25 @@
+         size_limit,
+         reserved_skip_index,
+     )
++    _kv_batch = get_forward_context().forward_batch if has_forward_context() else None
++    _mamba_record("kv_store_stream", (
++        ("store_kind", 'cpp_store_cache'),
++        ("native_stream_scalar_observed", _kv_native_stream != -1),
++        ("native_actual_stream", _kv_native_stream if _kv_native_stream != -1 else None),
++        ("torch_current_raw_stream", _kv_torch_stream),
++        ("launch_enqueued", _kv_native_stream != -1),
++        ("device_store_completion", 'UNVERIFIED'),
++        ("rids", tuple(_kv_batch.rids) if _kv_batch is not None and _kv_batch.rids is not None else None),
++        ("prefix_lens", tuple(_kv_batch.extend_prefix_lens_cpu) if _kv_batch is not None and _kv_batch.extend_prefix_lens_cpu is not None else None),
++        ("extend_lens", tuple(_kv_batch.extend_seq_lens_cpu) if _kv_batch is not None and _kv_batch.extend_seq_lens_cpu is not None else None),
++        ("k_cache", _mamba_tensor(k_cache)),
++        ("k_cache_data_ptr", k_cache.data_ptr()),
++        ("v_cache", _mamba_tensor(v_cache)),
++        ("v_cache_data_ptr", v_cache.data_ptr()),
++        ("writer_loc", _mamba_tensor(indices)),
++        ("writer_loc_data_ptr", indices.data_ptr()),
++        ("row_bytes", row_bytes),
++        ("v_row_bytes", v_row_bytes),
++        ("size_limit", size_limit),
++        ("reserved_skip_index", reserved_skip_index),
++    ))
+--- a/kernels/jit/csrc/elementwise/kvcache.cuh
++++ b/kernels/jit/csrc/elementwise/kvcache.cuh
+@@ -86,7 +86,7 @@
+   template <typename T>
+   static constexpr auto store_kernel = store_kvcache_kernel<kKBytes, kVBytes, kNumThreads, kUsePDL, T>;
+ 
+-  static void
++  static int64_t
+   run(const tvm::ffi::TensorView k,
+       const tvm::ffi::TensorView v,
+       const tvm::ffi::TensorView k_cache,
+@@ -148,7 +148,7 @@
+     CHECK_HOST(kKBytes == dtype_size * DK.unwrap());
+     CHECK_HOST(kVBytes == dtype_size * DV.unwrap());
+ 
+-    if (batch_size == 0) return;
++    if (batch_size == 0) return -1;
+ 
+     const auto params = StoreKVCacheParams{
+         .k = k.data_ptr(),
+@@ -177,8 +177,10 @@
+       return 8u;
+     }();
+     const auto num_blocks = div_ceil(total_warps, num_warps);
+-    LaunchKernel(num_blocks, {device::kWarpThreads, num_warps}, device)  //
++    const auto stream = LaunchKernel::resolve_device(device);
++    LaunchKernel(num_blocks, {device::kWarpThreads, num_warps}, stream)  //
+         .enable_pdl(kUsePDL)(kernel, params);
++    return static_cast<int64_t>(reinterpret_cast<uintptr_t>(stream));
+   }
+ };
+ 

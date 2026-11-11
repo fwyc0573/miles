@@ -1,0 +1,41 @@
+{
+  "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+  "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+  "module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+  "module_runtime_name": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+  "features": [
+    "python-extension"
+  ],
+  "loader_mode": "force",
+  "loader_artifact": "/var/tmp/rust-kv-build-m6w0r6_k/loader-cache/artifacts/sglang-radix-tree/f973ff3fa0af367e8dea78660e770778d6132380e533a48cb17b1f565205d554/mem_cache.cpython-312-x86_64-linux-gnu.so",
+  "loader_cache": "/var/tmp/rust-kv-build-m6w0r6_k/loader-cache",
+  "loader_cache_retained": false,
+  "workspace": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline",
+  "environment": {
+    "python": "3.12.16",
+    "executable": "/opt/sglang/bin/python3",
+    "torch": "2.14.1+cu130",
+    "cxx11_abi": true,
+    "cuda_initialized": false,
+    "pid": 37
+  },
+  "build_fingerprint": {
+    "torch_version": "2.14.1+cu130",
+    "torch_root": "/opt/sglang/lib/python3.12/site-packages/torch",
+    "torch_cxx11_abi": true,
+    "torch_cuda": "13.0",
+    "torch_hip": null,
+    "include_absolute_rpath": true,
+    "compat_header_sha256": "f619ac5d2a4b279a1808d6588118872de0800c954a8e0a97888460bd80cfdc71"
+  },
+  "build_environment": {
+    "LIBTORCH": "/opt/sglang/lib/python3.12/site-packages/torch",
+    "LIBTORCH_CXX11_ABI": "1",
+    "LIBTORCH_BYPASS_VERSION_CHECK": "1",
+    "PYO3_PYTHON": "/opt/sglang/bin/python3",
+    "CXXFLAGS": "-std=c++20 -include /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/torch_compat.h",
+    "RUSTFLAGS": "-C link-arg=-Wl,-rpath,$ORIGIN/../../../../torch/lib -C link-arg=-Wl,-rpath,/opt/sglang/lib/python3.12/site-packages/torch/lib",
+    "CARGO_NET_OFFLINE": "true"
+  },
+  "rustc": "rustc 1.99.1 (58cf8f9c3 2026-10-13)"
+}

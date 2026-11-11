@@ -1,0 +1,9 @@
+{
+  "status": "failed",
+  "pair": "A",
+  "rank": 1,
+  "run_dir": "/mnt/codesign-exp/ycfeng/miles-qwen35-full-kl-nll/formal-h200-112k-20261110/full/student/A/exp-1110-165312-132926",
+  "error_type": "SystemExit",
+  "reason": "143",
+  "traceback": "Traceback (most recent call last):\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 391, in _run\n    _wait_driver(records)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 324, in _wait_driver\n    time.sleep(1)\n  File \"/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/run_qwen35_opd.py\", line 316, in _terminate\n    raise SystemExit(128 + signum)\nSystemExit: 143\n"
+}

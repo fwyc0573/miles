@@ -1,0 +1,21 @@
+{
+  "job": "exp-1111-045750-493777",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "source": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T20:58:00Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "files_retained": 25,
+  "environment": {
+    "SGLANG_FORCE_COARSE_WAR_BARRIER": null
+  }
+}

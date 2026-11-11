@@ -1,0 +1,13 @@
+{
+  "task_id": "profile-recurrent-state-value-consumer-20261111",
+  "cwd": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+  "python": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+  "python_version": "3.12.13",
+  "pytest_version": "9.1.1",
+  "environment": {
+    "TMPDIR": "/data/ycfeng/tmp/opencode-v2-tmp/opencode",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "command": "timeout 60s env TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -p no:cacheprovider -k 'recurrent or coherence_true_only or coherence_required_dependencies or coherence_wrapper_opt_out or coherence_boolean_validation or coherence_numeric_predicates or kv_stream_witness_api_binding_order' --junitxml=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/recurrent-state-value-preparation-20261111/consumer/pytest.xml",
+  "limits": "Affected CPU/source-interface cases only. No actual native library, model, GPU, platform, authentication, network, delegation, staging or commit. Source-package fixture copies and teacher/server/HTTP mocks are not native measurement."
+}

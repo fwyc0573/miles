@@ -1,0 +1,27 @@
+{
+  "submitted": false,
+  "pair": "B",
+  "requested_gpus": 4,
+  "gpu_tag": "H800",
+  "charged_group": "codesign",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "tasks": {
+    "probe": {
+      "cpu": 32,
+      "gpu": 4,
+      "mem_gb": 256,
+      "replica": 1,
+      "host_network": false,
+      "gang_start": false,
+      "custom_resources": [],
+      "is_critical": true
+    }
+  },
+  "mounts": [
+    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+    "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
+  ],
+  "source_directory": "/data/ycfeng",
+  "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/native/B/admission-B-r1",
+  "worker_command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec timeout --signal=TERM --kill-after=90s 3600s /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.probe_teacher_scoring --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json --pair B --samples /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/retained-cases.json --output-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/native/B/admission-B-r1 --repeats 2 --request-timeout 3600'"
+}

@@ -1,0 +1,20 @@
+{
+  "branch": "agent-opd-image",
+  "initial_head": "4acfa47e8e09c7f4749355016261877ef46c881e",
+  "initial_untracked_count": 9775,
+  "initial_untracked_bytes": 1252213236,
+  "selected_untracked_count": 701,
+  "selected_untracked_bytes": 23245228,
+  "omitted_count": 9079,
+  "omitted_bytes": 1228981986,
+  "omissions_by_reason": {
+    "tool-local state": 1,
+    "raw sample/event stream": 82,
+    "exceeds existing 1000KB new-file hook limit": 21,
+    "copied source or historical review tree": 7391,
+    "raw build/source artifact": 1584
+  },
+  "required_pinned_source_count": 57,
+  "omitted_paths_inventory": "omitted_files.json.gz",
+  "max_added_file_bytes": 1024000
+}

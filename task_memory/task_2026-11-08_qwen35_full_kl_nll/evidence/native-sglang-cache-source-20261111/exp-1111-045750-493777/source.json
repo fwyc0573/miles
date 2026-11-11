@@ -1,0 +1,161 @@
+{
+  "job": "exp-1111-045750-493777",
+  "gpu_requested": 0,
+  "sglang": "0.5.24.dev80+g056f871",
+  "files": [
+    {
+      "relative_path": "srt/model_executor/model_runner_components/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/attention_backend_setup.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/attention_backend_setup.py",
+      "bytes": 10749,
+      "sha256": "e6db2f8136f45cabc4558dd26db54f3d3b887918b9302a74453f22346e285bb8"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/cuda_graph_setup.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/cuda_graph_setup.py",
+      "bytes": 30707,
+      "sha256": "42c746925eb3b1f10fe6aacabd2858c4a25764fb68576753ee48ab21bc90abf9"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/kv_pool_runtime.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/kv_pool_runtime.py",
+      "bytes": 8989,
+      "sha256": "5e20b0e7fe9850f8545f8609b546c114842f314542b0fb167664ca90694c8082"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/layer_setup.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/layer_setup.py",
+      "bytes": 9178,
+      "sha256": "8199c6885ab78694f9b16ef4158e8603eea5700b28a9fc187b068a58248c67a7"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/load_model_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/load_model_utils.py",
+      "bytes": 15459,
+      "sha256": "a96385e26e8e1c55d973c10e0b7ea63ad5c2ea2542ff2e3ecec93326ae4b6ae2"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/misc_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/misc_utils.py",
+      "bytes": 4236,
+      "sha256": "c63ff5bd8c30e7dcec1b82f3cab5864c70e7bdf5e4f9ebb83164a7e92845b91c"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/moe_ep_setup.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/moe_ep_setup.py",
+      "bytes": 6891,
+      "sha256": "342bdab3ad6ade992b38125ea2716b8206d430085ef0441e3526d8c33d185fee"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/ngram_embedding_manager.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/ngram_embedding_manager.py",
+      "bytes": 11069,
+      "sha256": "f3ad97f7409c92fe256f01e5a2c5587f2dee07439662e43a585982ef80098307"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/remote_instance_weight_transporter.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/remote_instance_weight_transporter.py",
+      "bytes": 9320,
+      "sha256": "1b43421a0d94fb3b6a7b5ed11a5d227e9791bba8a09babc198a0d8d040723f90"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/spec_aux_hidden_state.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/spec_aux_hidden_state.py",
+      "bytes": 11468,
+      "sha256": "949848764fcfd38125a61204517c89a71aadeba438206bc8a7593d082749dcfc"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/startup_weight_load.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/startup_weight_load.py",
+      "bytes": 22351,
+      "sha256": "e69d03cc82c66c97d58676adaab05b0480931b9b320a84254feeca86c2afb94a"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/weight_exporter.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/weight_exporter.py",
+      "bytes": 7000,
+      "sha256": "36ded4febd1682e387f537103ec8c099efd9a2df6c464c61b4226295ac88bf2a"
+    },
+    {
+      "relative_path": "srt/model_executor/model_runner_components/weight_updater.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner_components/weight_updater.py",
+      "bytes": 20312,
+      "sha256": "7be90bc1266541d10559b03e87ee95e900134b008ac08ffd9e696493063ff8ea"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/__init__.py",
+      "bytes": 2578,
+      "sha256": "34088a2b630207064b19c43e16a1948e53fd7ae45724e26c21fa865f60155c9f"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/base_cuda_graph_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_cuda_graph_runner.py",
+      "bytes": 7417,
+      "sha256": "e0deafbfe804b82c69e28636831c5aacc7a37d33e56860e19663e737708901df"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/base_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/base_runner.py",
+      "bytes": 32172,
+      "sha256": "0e70bd8d99d8ed9963f6685ae418ca1fc8362a672c04e392f2b9c0b95de5e9d5"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/decode_cuda_graph_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/decode_cuda_graph_runner.py",
+      "bytes": 94131,
+      "sha256": "cbae31f2b0ea4b419eb326415c862061699e2a195ccab98e6ced66b075fbd256"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/eager_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/eager_runner.py",
+      "bytes": 19721,
+      "sha256": "6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/early_verify_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/early_verify_metadata.py",
+      "bytes": 5628,
+      "sha256": "7f0b6f3fc1e9b220db8f8ca8335c1dfbdc3209a5b5905c7608515b0bfb8c5974"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/flashinfer_autotune.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/flashinfer_autotune.py",
+      "bytes": 20212,
+      "sha256": "9695cce0d73becb494a26272c5a8f1ad5ee000ba852cc297b2f1963f88fc0131"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/metadata_glue_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/metadata_glue_graph.py",
+      "bytes": 5582,
+      "sha256": "30b64a0f0ff9ed882cbb7ba7b733b142a8d857b76fea2b27e3175751cfb57892"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/prefill_cuda_graph_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/prefill_cuda_graph_runner.py",
+      "bytes": 109266,
+      "sha256": "57046f1310a963189621a3293a7c28d6daac0059cf71050fa8963ddd3e166870"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/row_bucket_graph_runner.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/row_bucket_graph_runner.py",
+      "bytes": 13803,
+      "sha256": "f40fe719775c2a87b01627ef312d73fd0321ab1cb57a1a46191e975f18ed6693"
+    },
+    {
+      "relative_path": "srt/model_executor/runner/shape_key.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/runner/shape_key.py",
+      "bytes": 1204,
+      "sha256": "f52324e74d2b9e7d11b494f273d8a841de33c56f68ba7a57d7e5f631b82a2984"
+    }
+  ],
+  "environment": {
+    "SGLANG_FORCE_COARSE_WAR_BARRIER": null
+  },
+  "scope": "Actual model_executor/runner package and worker/runner components; event publication implementation. CPU image environment is not retrospective GPU branch evidence."
+}

@@ -1,0 +1,88 @@
+{
+  "task_id": "profile-recurrent-state-value-consumer-20261111",
+  "status": "PASS",
+  "python": "3.10.6",
+  "executable": "/usr/bin/python3",
+  "ast_parsed": [
+    "tests/manual/agent_opd/probe_teacher_scoring.py",
+    "tests/fast/test_teacher_scoring_probe.py"
+  ],
+  "strict_json": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_coherence_probe_config.json",
+  "unchanged_baseline_functions": [
+    "_parser",
+    "_payload",
+    "_scores",
+    "_comparison",
+    "_request",
+    "_benchmark",
+    "_native_observer_errors",
+    "_coherence_native_bindings",
+    "_coherence_states"
+  ],
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "bytes": 64253,
+      "sha256": "7a578a6c301d610f8a98fd21601ef574b29a6487edd6122ad07a6287f780cb9b"
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "bytes": 141087,
+      "sha256": "2ba78eb18bf55c7dbcbbdbac867e8b8334df59920366596bcd1a2f742daad4e2"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_coherence_probe_config.json",
+      "bytes": 1880,
+      "sha256": "b1398fcc28c87e05002263ef04ccdef782dfcb815376a2faeb6a7991eef395b4"
+    }
+  ],
+  "fixture": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/retained-cases.json",
+    "bytes": 3703152,
+    "sha256": "c45424e8106c2beb7500acacb68aa0939da0088c926af8012dd9fbd780f0ffc9"
+  },
+  "selection": [
+    {
+      "sample_index": 1693,
+      "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+      "input_count": 97365
+    },
+    {
+      "sample_index": 1695,
+      "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+      "input_count": 98942
+    }
+  ],
+  "actual_common_token_prefix": 96631,
+  "limit": "Source/input/interface checks only; no producer inspection or native/model/GPU/platform action",
+  "pytest": {
+    "pytest.xml": {
+      "tests": "60",
+      "failures": "27",
+      "errors": "0",
+      "skipped": "0",
+      "time": "5.881"
+    },
+    "pytest-r2.xml": {
+      "tests": "53",
+      "failures": "1",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.426"
+    },
+    "pytest-r3.xml": {
+      "tests": "53",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.737"
+    },
+    "pytest-final.xml": {
+      "tests": "31",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "2.217"
+    }
+  }
+}

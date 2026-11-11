@@ -1,0 +1,38 @@
+{
+  "job": "exp-1110-165312-132926",
+  "pair": "A",
+  "role": "student",
+  "rank": 1,
+  "nodes": 2,
+  "hostname": "gpu-h200-0882.lgcm.sh.istep.fun",
+  "ip": "10.204.13.90",
+  "gpu_devices": [
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06",
+    "NVIDIA H200, 143771 MiB, 570.124.06"
+  ],
+  "model_path": "/mnt/codesign-exp/ycfeng/opd-assets/models/Qwen/Qwen3.5-4B/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "argv": [
+    "/opt/sglang/bin/python3",
+    "-B",
+    "-m",
+    "tests.manual.agent_opd.run_swe_opd",
+    "--config",
+    "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_h200_config.json",
+    "--pair",
+    "A",
+    "--protocol",
+    "full",
+    "--role",
+    "train",
+    "--teacher-url",
+    "http://100.101.128.175:30000/generate"
+  ],
+  "teacher_url": "http://100.101.128.175:30000/generate"
+}

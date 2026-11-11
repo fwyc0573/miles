@@ -1,0 +1,17 @@
+{
+  "job": "exp-1111-025238-968230",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [default]",
+    "taskStatuses": {
+      "default": {
+        "failed": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T18:53:28Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "logs": ""
+}

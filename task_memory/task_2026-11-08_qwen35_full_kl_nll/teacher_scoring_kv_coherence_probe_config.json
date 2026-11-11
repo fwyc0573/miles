@@ -11,6 +11,7 @@
   "mamba_runtime_metadata": true,
   "kv_store_stream_witness": true,
   "kv_coherence_capture": true,
+  "recurrent_sample_original_indices": [1693, 1695],
   "kv_coherence_build_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
   "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native",
   "acceptance": "CPU preparation and bounded production-native R3 serial CPU qualification accepted; actual CUDA capture remains unverified. Keep original first4/repetition0/16 scoring requests/10 flushes, unchanged engine argv and unsalted scientific payloads. Prepare FP32 -> metadata -> KV WIT -> compiled production Rust observer -> coherence before runtime/server. Two opaque RID banks, all actual FULL layers, pre-free CPP FRESH and inline original pre-split Rust OLD on native S/F dependencies; no Python walker or new wait. After all16, permit layerwise D2H and return compact scalar/coverage/index-equality receipts only; no large raw tensor archive or JSON arrays. Preserve scoring artifacts on auxiliary failure. Interpretation requires independent all16/6804 exact vectors, source/thread/stream/physical alignment and actual7955 warm/zero cold OLD coverage. No CUDA numeric, race, all-TP, cause, fix, performance or formal acceptance is implied. Formal A/B HOLD remains."

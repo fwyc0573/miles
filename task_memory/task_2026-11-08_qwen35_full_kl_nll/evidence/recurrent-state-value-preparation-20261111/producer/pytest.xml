@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="66" time="21.009" timestamp="2026-11-11T21:58:51.895773+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_source_composition_all_seams_receipt_and_original_attention" time="1.042" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preparation_rejects_missing_build_or_unknown_sources[missing_build]" time="0.447" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preparation_rejects_missing_build_or_unknown_sources[math]" time="0.502" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preparation_rejects_missing_build_or_unknown_sources[rpc]" time="0.457" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preparation_rejects_missing_build_or_unknown_sources[wit_absent]" time="0.448" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_two_opaque_banks_full_capture_indices_metrics_only_after_all16[order0]" time="0.007" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_two_opaque_banks_full_capture_indices_metrics_only_after_all16[order1]" time="0.004" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[none]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[duplicate]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[stream]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[triton]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[bank_exhaustion]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_capture_faults_are_observable_and_do_not_throw_serving[rebind]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_real_descriptor_budget_not_fixed_model_name[16-512-2.375-514.375]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_real_descriptor_budget_not_fixed_model_name[10-320-1.625-321.625]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_flattened_writer_offsets_native_fragment_math_and_coverage" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_callbacks_use_actual_mode_scope_and_restore_context[DECODE-None-None]" time="1.213" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_callbacks_use_actual_mode_scope_and_restore_context[EXTEND-prefix1-extend1]" time="0.867" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_extend_missing_or_malformed_metadata_still_invalidates_unselected_rid" time="0.947" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_extend_target_consumes_unchanged_cpp_key" time="0.935" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_binding_identity_before_selection_and_one_shot" time="1.235" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_binding_failure_isolated_once_and_blocks_complete_bank_metrics[export-differs from module export]" time="0.004" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_binding_failure_isolated_once_and_blocks_complete_bank_metrics[factory-differs from adapter factory class]" time="0.003" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_binding_failure_isolated_once_and_blocks_complete_bank_metrics[missing_file-FileNotFoundError]" time="0.003" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_missing_serving_identity_and_unavailable_collector_receipts" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_real_rpc_source_bindings_default_false_and_true_forwarding" time="1.018" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preallocation_fault_isolated_and_other_tp_inactive[0]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_preallocation_fault_isolated_and_other_tp_inactive[1]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_uses_resolved_page_and_preserves_raw_input" time="0.015" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[disable_cuda_graph-False]" time="0.015" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[page_size-64]" time="0.017" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[enable_memory_saver-True]" time="0.016" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[enable_unified_memory-True]" time="0.016" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[enable_hierarchical_cache-True]" time="0.016" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_rejects_resolved_config_difference_before_allocation[enable_unified_cache_external_linker-True]" time="0.017" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[allocator_page-live allocator root and page1]" time="0.016" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[allocator_class-TokenToKVPoolAllocator]" time="0.015" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[root_class-HybridLinearKVPool/MHATokenToKVPool]" time="0.015" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[full_class-HybridLinearKVPool/MHATokenToKVPool]" time="0.016" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[pp-PP1/CP1]" time="0.015" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[cp-PP1/CP1]" time="0.014" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_initializer_retains_independent_guards_before_allocation[missing_interface-resolved_dict]" time="0.014" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_retained_page_resolution_declares_without_mutating_raw_record" time="0.043" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_metrics_zero_reference_and_nonfinite_never_manufacture_equality" time="0.003" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_independent_all16_6804_completion_gate_uses_existing_comparison[None]" time="0.028" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_independent_all16_6804_completion_gate_uses_existing_comparison[values]" time="0.014" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_independent_all16_6804_completion_gate_uses_existing_comparison[tokens]" time="0.014" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_independent_all16_6804_completion_gate_uses_existing_comparison[count]" time="0.014" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_whole_private_package_binding_and_real_child_import_leave_baseline_unchanged" time="2.185" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_private_binding_rejects_prior_import_without_purge_copy_or_path_change[sglang]" time="0.005" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_private_binding_rejects_prior_import_without_purge_copy_or_path_change[sglang.srt.layers.attention]" time="0.004" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_private_binding_rejects_prior_import_without_purge_copy_or_path_change[sglang.srt.mem_cache.rust_tree_core.mem_cache]" time="0.004" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_real_native_preparer_join_is_blocked_on_pending_build_in_selected_private_root" time="3.586" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_worker_private_binding_precedes_real_transitive_sglang_import" time="2.616"><failure message="subprocess.CalledProcessError: Command '['/data/ycfeng/envs/miles-agent-opd-cpu/bin/python', '-B', '-c', &quot;import pytest\nfrom pathlib import Path\nfrom tests.fast import test_sglang_kv_coherence as module\ndirectory = Path('/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-module/test_worker_private_binding_pr0')\nwith pytest.MonkeyPatch.context() as patch:\n    module._worker_private_before_first_sglang_import(directory, patch)\nprint('CPU_PRIVATE_BINDING_TEST_PASS', '_worker_private_before_first_sglang_import')\n&quot;]' returned non-zero exit status 1.">tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-module/test_worker_private_binding_pr0')
+
+    def test_worker_private_binding_precedes_real_transitive_sglang_import(tmp_path):
+&gt;       _binding_in_fresh_process("_worker_private_before_first_sglang_import", tmp_path)
+
+tests/fast/test_sglang_kv_coherence.py:768: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/fast/test_sglang_kv_coherence.py:680: in _binding_in_fresh_process
+    stdout = subprocess.check_output([sys.executable, "-B", "-c", code], cwd=root, text=True, timeout=30)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../../../envs/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/subprocess.py:466: in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = False, timeout = 30, check = True
+popenargs = (['/data/ycfeng/envs/miles-agent-opd-cpu/bin/python', '-B', '-c', "import pytest\nfrom pathlib import Path\nfrom tests...ng_import(directory, patch)\nprint('CPU_PRIVATE_BINDING_TEST_PASS', '_worker_private_before_first_sglang_import')\n"],)
+kwargs = {'stdout': -1, 'cwd': PosixPath('/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image'), 'text': True}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output &amp; stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+&gt;               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/data/ycfeng/envs/miles-agent-opd-cpu/bin/python', '-B', '-c', "import pytest\nfrom pathlib import Path\nfrom tests.fast import test_sglang_kv_coherence as module\ndirectory = Path('/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-producer-tests-20261111-module/test_worker_private_binding_pr0')\nwith pytest.MonkeyPatch.context() as patch:\n    module._worker_private_before_first_sglang_import(directory, patch)\nprint('CPU_PRIVATE_BINDING_TEST_PASS', '_worker_private_before_first_sglang_import')\n"]' returned non-zero exit status 1.
+
+../../../../envs/cpython-3.12.13-linux-x86_64-gnu/lib/python3.12/subprocess.py:571: CalledProcessError</failure></testcase><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selected_real_source_anchors_hashes_and_once_only_preparer" time="0.968" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selection_rejects_unbound_or_noncommon_input[None-1]" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selection_rejects_unbound_or_noncommon_input[counts1-1]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selection_rejects_unbound_or_noncommon_input[counts2-1]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selection_rejects_unbound_or_noncommon_input[counts3-7254]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_selection_rejects_unbound_or_noncommon_input[counts4-0]" time="0.001" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_four_independent_candidates_copy_before_mutation_and_private_controls" time="0.041" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_error_isolation_mode_scope_publication_join_and_incomplete_drain" time="0.003" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_new_canonical_publication_is_field_level_and_compared_by_rid" time="0.003" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_generated_recurrent_observation_error_does_not_suppress_native_exception" time="1.284" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_allocation_error_preserves_full_and_unconfigured_default" time="0.002" /><testcase classname="tests.fast.test_sglang_kv_coherence" name="test_recurrent_metrics_common_rows_first_absolute_coordinate_and_nonfinite" time="0.003" /></testsuite></testsuites>

@@ -1,0 +1,1061 @@
+{
+  "job": "exp-1111-042450-358109",
+  "gpu_requested": 0,
+  "sglang": "0.5.24.dev80+g056f871",
+  "files": [
+    {
+      "relative_path": "kernels/ops/attention/cutedsl_gdn.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/cutedsl_gdn.py",
+      "bytes": 56648,
+      "sha256": "7a00919803d08dbdd16eb4a1872addec4bac9cb144cfbc9a5e2950294b386a08"
+    },
+    {
+      "relative_path": "kernels/ops/attention/cutedsl_gdn_mtp_ring.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/cutedsl_gdn_mtp_ring.py",
+      "bytes": 147207,
+      "sha256": "7449dcd2448ced22bcfbb11adbda52d0c63958af080648b096f758f635f5692f"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk.py",
+      "bytes": 9663,
+      "sha256": "0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk_delta_h.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk_delta_h.py",
+      "bytes": 16571,
+      "sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk_fwd.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk_fwd.py",
+      "bytes": 15962,
+      "sha256": "5a9df341c9c3365f9c8e05114b031f264203bc097190de641ed8284e125014ba"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk_intra.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk_intra.py",
+      "bytes": 40568,
+      "sha256": "137c173d4aabe90d089c25bb51e670ee3cb372d5101ea1e597dc4468ffcbec4e"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk_intra_token_parallel.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk_intra_token_parallel.py",
+      "bytes": 5348,
+      "sha256": "34fef08db9bb937a1c81b235690c7a628546403cc5ac876554095dd7181e96a5"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/chunk_o.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/chunk_o.py",
+      "bytes": 4934,
+      "sha256": "e567b8ea9e78e818ad6b86a8a2d5a002269abd1062150e478af1f1bdc5f60a8b"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/cumsum.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/cumsum.py",
+      "bytes": 8527,
+      "sha256": "d9b413e672d445f36b7ef60087e0a93f83748eeb7c49f7f06c78127c8f8fed45"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/fused_norm_gate.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/fused_norm_gate.py",
+      "bytes": 14950,
+      "sha256": "a8afd778e24990553cf2a3c685f23df5bdceffd46b764a9900862438255874cb"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/fused_recurrent.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/fused_recurrent.py",
+      "bytes": 45307,
+      "sha256": "d322d80e6e639fc002c3f3dc4f5eafc5a49c9d4d1ee20470e432ccb6b85b245c"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/index.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/index.py",
+      "bytes": 990,
+      "sha256": "bb0b99067ba9f2f24d4c52fa75e6c008ce3837c519e20c18c0bad1e4a3c5db0e"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/kda.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/kda.py",
+      "bytes": 39841,
+      "sha256": "83fcb9362f153c6e14b1ef15948a63dba6283ff4ef3134bf92fa56b532926ef8"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/l2norm.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/l2norm.py",
+      "bytes": 8363,
+      "sha256": "2add22daf3aff7b6a87b6fe6c8105bb9a4718f4e6cc2cf6f241e9ae69c59b5e6"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/layernorm_gated.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/layernorm_gated.py",
+      "bytes": 17630,
+      "sha256": "031b8c4fe8b710acdfb6737e2d5dff60ec1f95c1f8d37a9e7d3c954a866280ea"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/op.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/op.py",
+      "bytes": 1696,
+      "sha256": "592dc573983a1a20a00e1cea3b2d5a2a43ec8881d6bb45ad7a1f1faebb1cb7d0"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/utils.py",
+      "bytes": 10666,
+      "sha256": "a68e3e5994426250e58fec33033647a8d5bb9cd64865dca4cb9d16f33c0155f8"
+    },
+    {
+      "relative_path": "kernels/ops/attention/fla/wy_fast.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/fla/wy_fast.py",
+      "bytes": 4338,
+      "sha256": "4c612dea2d49aa574d5f4229b704430b6e83bb3e75aeb092133acd3bca072db4"
+    },
+    {
+      "relative_path": "kernels/ops/attention/linear/fused_gdn_gating.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/linear/fused_gdn_gating.py",
+      "bytes": 2147,
+      "sha256": "c7736d1e506fb2c3e5c0496a2ed8c23347c2507ebe73c08bc6745517495d0957"
+    },
+    {
+      "relative_path": "kernels/ops/attention/linear/gdn_replayssm_spec_decode.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/linear/gdn_replayssm_spec_decode.py",
+      "bytes": 49470,
+      "sha256": "71a49ecdef3f598263a2681839ba03106f95dba7b0e6bdba3d0496c7da830bc6"
+    },
+    {
+      "relative_path": "kernels/ops/attention/linear/gdn_replayssm_spec_fold.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/linear/gdn_replayssm_spec_fold.py",
+      "bytes": 9666,
+      "sha256": "5da0fb7ceb118037fc62827b09f8ad6676efacb257e7bc7b45a8e93da5ae745a"
+    },
+    {
+      "relative_path": "kernels/ops/attention/triton_gdn_fused_proj.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/attention/triton_gdn_fused_proj.py",
+      "bytes": 23633,
+      "sha256": "22382b37aed859cba1f2bf056dd09d263c87a248203972c34aa3eec29898c911"
+    },
+    {
+      "relative_path": "kernels/ops/diffusion/attention/sana_wm_gdn_chunkwise_triton.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/diffusion/attention/sana_wm_gdn_chunkwise_triton.py",
+      "bytes": 59340,
+      "sha256": "a248f8ad86391fdf97ceff3052d3f6e9033cf04cee5dba84877860287185344e"
+    },
+    {
+      "relative_path": "kernels/ops/diffusion/attention/sana_wm_gdn_triton.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/kernels/ops/diffusion/attention/sana_wm_gdn_triton.py",
+      "bytes": 5631,
+      "sha256": "5b0014c517e7bc74982784889b4d8021aa74f2eda2d0e4a5a1fb48e4262eb9ac"
+    },
+    {
+      "relative_path": "srt/arg_groups/fields/exec_.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/arg_groups/fields/exec_.py",
+      "bytes": 52124,
+      "sha256": "ecfe02e8f453bec4427a865246246f671eab17385ed29241bf45b25a087a18af"
+    },
+    {
+      "relative_path": "srt/configs/qwen3_5.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/configs/qwen3_5.py",
+      "bytes": 5186,
+      "sha256": "53f92b2be9d880716a1850cb4484ea2fa46408ab0b05be847ce0fa88edf71890"
+    },
+    {
+      "relative_path": "srt/hardware_backend/npu/attention/ascend_gdn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/hardware_backend/npu/attention/ascend_gdn_backend.py",
+      "bytes": 16058,
+      "sha256": "263f16351778a36abd0e108d1f4be0f2466fc46ca4e821106edab0aa7a4a8b0a"
+    },
+    {
+      "relative_path": "srt/hardware_backend/xpu/attention/xpu_gdn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/hardware_backend/xpu/attention/xpu_gdn_backend.py",
+      "bytes": 5887,
+      "sha256": "5bd787fc71c9b3d470c32abac7253db54b6dc4f1cff68ab5fbede1c460831e2e"
+    },
+    {
+      "relative_path": "srt/hardware_backend/xpu/kernels/fla/chunk_delta_h.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/hardware_backend/xpu/kernels/fla/chunk_delta_h.py",
+      "bytes": 12576,
+      "sha256": "1bca486f25cac53f2b96a55ce92b70e3774f213590c4999693e8af80061accd4"
+    },
+    {
+      "relative_path": "srt/hardware_backend/xpu/kernels/fla/chunk_fwd.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/hardware_backend/xpu/kernels/fla/chunk_fwd.py",
+      "bytes": 12967,
+      "sha256": "3ed3455447d142b1a61bd657e93e0fd979c4f2c1de7898f58268eb73b281ea14"
+    },
+    {
+      "relative_path": "srt/hardware_backend/xpu/kernels/fla/fused_sigmoid_gating_recurrent.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/hardware_backend/xpu/kernels/fla/fused_sigmoid_gating_recurrent.py",
+      "bytes": 4854,
+      "sha256": "abf555fab1aacaa8cc2fffcc1d6b682606c5f6ac4b0214ad055a7059f8819ced"
+    },
+    {
+      "relative_path": "srt/layers/attention/aiter_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/aiter_backend.py",
+      "bytes": 221600,
+      "sha256": "5f1d9abb3205e79c4dffc706916eeaa24bd2decb778bf0976186e07a8f0d2b17"
+    },
+    {
+      "relative_path": "srt/layers/attention/aiter_mla_gluon.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/aiter_mla_gluon.py",
+      "bytes": 4396,
+      "sha256": "e58462f6639f7db432088e202134a949f9170fb054e55ce03daeb9d06f4d43e3"
+    },
+    {
+      "relative_path": "srt/layers/attention/aiter_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/aiter_utils.py",
+      "bytes": 12039,
+      "sha256": "f740ae560e290e5f5519e6949d8afd39c04b2323e989bdb9b40289de039709f9"
+    },
+    {
+      "relative_path": "srt/layers/attention/attention_registry.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/attention_registry.py",
+      "bytes": 22139,
+      "sha256": "065f329ad66dcffa56afdbd53ee4bf7e9aad15d695d399bcfa452a907ac5281d"
+    },
+    {
+      "relative_path": "srt/layers/attention/base_attn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/base_attn_backend.py",
+      "bytes": 16468,
+      "sha256": "dcc8fa43b664e72c1b68a73c6dbc6bcd52e6cb837145547cc794c742911f5f53"
+    },
+    {
+      "relative_path": "srt/layers/attention/cutedsl_mla_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/cutedsl_mla_backend.py",
+      "bytes": 16941,
+      "sha256": "af1c37a4f2378199e59a25274d143c7c0115aa581f858bed28286b12a5ace1a2"
+    },
+    {
+      "relative_path": "srt/layers/attention/deepseek_v4_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/deepseek_v4_backend.py",
+      "bytes": 216396,
+      "sha256": "49af6e1e7f6f2f6f58f2f2db983e0b84243dbf114cdecae68f396a66271a094f"
+    },
+    {
+      "relative_path": "srt/layers/attention/deepseek_v4_backend_hip_radix.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/deepseek_v4_backend_hip_radix.py",
+      "bytes": 162620,
+      "sha256": "5ff8fa4249e6abd8953d85356d7bf085654bd20ca704a18d7e0a47e95e7ed62e"
+    },
+    {
+      "relative_path": "srt/layers/attention/deepseek_v4_mega_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/deepseek_v4_mega_backend.py",
+      "bytes": 3951,
+      "sha256": "ef9b21ebbb5354f56897212a055bb00b9ba149a42cf5a93dc2f83ccdb5c03804"
+    },
+    {
+      "relative_path": "srt/layers/attention/deepseek_v4_trtllm_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/deepseek_v4_trtllm_backend.py",
+      "bytes": 22706,
+      "sha256": "1686bb0b2c054c8eb057f1e8994a4305341ecd278563f344da298dd82118d713"
+    },
+    {
+      "relative_path": "srt/layers/attention/dots_hybrid_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dots_hybrid_backend.py",
+      "bytes": 22177,
+      "sha256": "9b21953d2972ce2c06ab070f36d7b9fb1c00cdc55714fc9bdc0b421bb6688389"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_backend_kpool.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_backend_kpool.py",
+      "bytes": 11686,
+      "sha256": "55dbd8d5fb432fb70443897cff066e4eb3a4d6b722e70ff78c5e4126272f059c"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_backend_mtp_precompute.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_backend_mtp_precompute.py",
+      "bytes": 14654,
+      "sha256": "b88957ef2be6c6cf4384dfe1a542b8b7ce3b84850687b58e8f8b39cda18b5ad0"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_dcp.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_dcp.py",
+      "bytes": 3771,
+      "sha256": "e4a85fc54d9b2a6151d8620090642a08be9eedb273eae977d90c2b642a153313"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_indexer.py",
+      "bytes": 92798,
+      "sha256": "c3041b734703daf5204e8d9945b815cd829b9dd3903db759d5085cc26b8cb894"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_indexer_kpool.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_indexer_kpool.py",
+      "bytes": 72687,
+      "sha256": "c2c0627e96a7f68021e996ac3648d0a540d85002889737246fd0591d7b17de05"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_indexer_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_indexer_metadata.py",
+      "bytes": 6100,
+      "sha256": "4cea52c9e2678df74033fd736f35a0f1f5631ef23ab1e2eac0bc996373ed1f58"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_metadata_manager.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_metadata_manager.py",
+      "bytes": 14224,
+      "sha256": "0a7dfc1a3e2b48f5265ed0f2bc757e597a041b44bc229e5a1fdbe4e6b3124c01"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_npu_indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_npu_indexer.py",
+      "bytes": 16729,
+      "sha256": "346e0b4be15b756a8af3e71d33b9f1bd4e4a1081afe3588e7ff3b4242b11da43"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_prefill_cuda_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_prefill_cuda_graph.py",
+      "bytes": 6048,
+      "sha256": "e02845c794ff1a691671f54395091547a0d5775ae29edb4b5a28c1ded2293f86"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/dsa_topk_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/dsa_topk_backend.py",
+      "bytes": 22659,
+      "sha256": "f67f94777626803a1f7e9a7382108de1d9d5c09612e0c23b9b6c806319a5bde6"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/gfx950_fused_indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/gfx950_fused_indexer.py",
+      "bytes": 14531,
+      "sha256": "dd72230ebd327b0daf548e64698aba7abc014783463db044b439c19816421426"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/head_gate.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/head_gate.py",
+      "bytes": 2009,
+      "sha256": "2edfd9a9b9fbb5480b41a1cf7564b56b78b83a3b8bcc4eafd90af9704a974cfc"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/kpool_fp8_index.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/kpool_fp8_index.py",
+      "bytes": 62258,
+      "sha256": "b47242f54991702a0de70150161654b8caac7eefe90f3df7c38a17059956e036"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/kpool_plan.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/kpool_plan.py",
+      "bytes": 28395,
+      "sha256": "ba5c3b80df17b415adc8983d081b464aee3254c3bb497eca50c502d7bb96475f"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/kpool_prefill_cuda_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/kpool_prefill_cuda_graph.py",
+      "bytes": 2625,
+      "sha256": "98c75f0f8a04ccadeb89ffb259960592d5ea15429fef951aaf3c667597dff689"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/paged_mqa_logits_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/paged_mqa_logits_backend.py",
+      "bytes": 1477,
+      "sha256": "9b0f159ae06b00698c7ba10dd7abb1520dfdca6d7a06695996e0f9ad2fe2dded"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa/utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa/utils.py",
+      "bytes": 18636,
+      "sha256": "277294e08c5df8b9a092dfc3c1992fe2a6d630da03b10248fee1af8727a9f558"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsa_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsa_backend.py",
+      "bytes": 185102,
+      "sha256": "7c645f1247df04c611514843caa1733d383395f3122406e3da42f29b82b4bb41"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/compressor.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/compressor.py",
+      "bytes": 8312,
+      "sha256": "dee47b51d64dff7f9b3a81a788602e5ef0430549b5c718977e9cc8d3bd46f474"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/compressor_trtllm.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/compressor_trtllm.py",
+      "bytes": 4000,
+      "sha256": "6872a4297de5837b0c4cfa26fccd52f216aada9421827fb3af6a6a2cb0bca0fa"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/compressor_v2.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/compressor_v2.py",
+      "bytes": 19002,
+      "sha256": "561ea9236fdb105a233e010f50ddea069d0da83a0d84c2088807992f7112954c"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/dsv41_sparse.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/dsv41_sparse.py",
+      "bytes": 11770,
+      "sha256": "829c867262dfeaf1284f3fd47ff9268f4e3bc01ffce62255e92d9293d27f4197"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/indexer.py",
+      "bytes": 46572,
+      "sha256": "4d0da92df2d73c9100ff9a235bb8312a02b412f457ea976a14fbd01825b0b9f6"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/low_ratio_backend_hip.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/low_ratio_backend_hip.py",
+      "bytes": 35169,
+      "sha256": "a262c54438f00bba397125f0f2320864a09674c5dbc6ebeb1894f2daccb133ae"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/metadata.py",
+      "bytes": 15919,
+      "sha256": "7e1dcba8c224477c86335fb0e0e2442c9d87d0b0bc416f328bc61a10633334e4"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/online_c128_mtp.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/online_c128_mtp.py",
+      "bytes": 8212,
+      "sha256": "581cef5bb068e5538caa37de390d854a33205e834106c0e9a6873fdbd5e78ae3"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/sparse_prefill_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/sparse_prefill_utils.py",
+      "bytes": 20736,
+      "sha256": "f2ea2a3026ea1c67edf7a0a57d322a55f74c2f525926eeb63b9b9aad5f17e56f"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/unified_kv_gate.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/unified_kv_gate.py",
+      "bytes": 1351,
+      "sha256": "6b4c787730a9c88fd19d5a8ec241619af514229af4450ce20472534bc4acab25"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/__init__.py",
+      "bytes": 3778,
+      "sha256": "51a68ac8b1147dc8f87b8ee47f983893df808cd7a0f6d08be2f2db0a3cd69b1d"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/dense_blocks.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/dense_blocks.py",
+      "bytes": 11878,
+      "sha256": "69c77ddaee7e6650a20fcfd1056e43beba57961bee0f4d3fa3ec2a44ad2aab9f"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/full_topk.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/full_topk.py",
+      "bytes": 5169,
+      "sha256": "19eada46ae2df4472ea155a7354aabdb1760a22e1f6aa3fdbeccd406e8bb4236"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/scoring.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/scoring.py",
+      "bytes": 21183,
+      "sha256": "d3e648d6ad1436a20adfce5fdd05f0e9f66849080220dc8d95260f88023ffc98"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/sparse_table.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/sparse_table.py",
+      "bytes": 22575,
+      "sha256": "15bf87055de6ab75716d91d1aede30f76415f77eb4ccf9232bd29a98233aa8b3"
+    },
+    {
+      "relative_path": "srt/layers/attention/dsv4/v41_indexer/types.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/dsv4/v41_indexer/types.py",
+      "bytes": 4978,
+      "sha256": "f450379193cb3909be0f35e4d4d0913ae9974139c033ecb2b71a37408cd57e50"
+    },
+    {
+      "relative_path": "srt/layers/attention/flashattention_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/flashattention_backend.py",
+      "bytes": 167798,
+      "sha256": "a7b8d205742765e12bf0bad48b151007258736e31f6c97a03725cac6ca2c1d17"
+    },
+    {
+      "relative_path": "srt/layers/attention/flashinfer_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/flashinfer_backend.py",
+      "bytes": 113493,
+      "sha256": "24caf1c0acd05835de9bbb8d95b027f2b09dccffc5701680c5ae11a48f5f8da6"
+    },
+    {
+      "relative_path": "srt/layers/attention/flashinfer_mla_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/flashinfer_mla_backend.py",
+      "bytes": 56217,
+      "sha256": "85ba5db394df47f12e8edc69282954b9f000b37c519194f56418424ee718bf2e"
+    },
+    {
+      "relative_path": "srt/layers/attention/flashmla_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/flashmla_backend.py",
+      "bytes": 27727,
+      "sha256": "bc38c9e9a9b07b0a4257bb7e298dceeff591612a27e0974739887feed73d8424"
+    },
+    {
+      "relative_path": "srt/layers/attention/graph_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/graph_utils.py",
+      "bytes": 9569,
+      "sha256": "1370da2606a7f18b6fa4d5f1137801834672182b7d8728612c270313122bedae"
+    },
+    {
+      "relative_path": "srt/layers/attention/graph_variants.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/graph_variants.py",
+      "bytes": 6613,
+      "sha256": "cfde06973258dcf957a3f10251c018b8d7930e82be72200cedbba2282adbd973"
+    },
+    {
+      "relative_path": "srt/layers/attention/hip_flash_mla.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/hip_flash_mla.py",
+      "bytes": 14262,
+      "sha256": "b409b098bc5e025c382e18c6bbc1e47da2a8040d4f95b0f0c8255264a9a02833"
+    },
+    {
+      "relative_path": "srt/layers/attention/hpc_ops_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/hpc_ops_backend.py",
+      "bytes": 27652,
+      "sha256": "fcb076b5cba2576908cd4cab3681f4afe2c299b4f4a45ea45836e80fa5499365"
+    },
+    {
+      "relative_path": "srt/layers/attention/hybrid_attn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/hybrid_attn_backend.py",
+      "bytes": 9925,
+      "sha256": "5ffe5403be9299b9ea73e003a617425573316f72cee5cd1db50011fe8a7ba89d"
+    },
+    {
+      "relative_path": "srt/layers/attention/hybrid_linear_attn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/hybrid_linear_attn_backend.py",
+      "bytes": 77719,
+      "sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef"
+    },
+    {
+      "relative_path": "srt/layers/attention/index_topk_share.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/index_topk_share.py",
+      "bytes": 3912,
+      "sha256": "c66979b1a295344ff70c68db5531c84b86828412224b80c41b2af0921b5e5174"
+    },
+    {
+      "relative_path": "srt/layers/attention/intel_amx_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/intel_amx_backend.py",
+      "bytes": 19400,
+      "sha256": "81aba8c49e3108ac9303f99e4c4eb2b047261c9fadd93fd43303a16bdbc65bd1"
+    },
+    {
+      "relative_path": "srt/layers/attention/kv_shard_hooks.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/kv_shard_hooks.py",
+      "bytes": 2353,
+      "sha256": "e9a8e5a2d15d2e59d0967376f0b1ef1249342d921c2cbe3b68d9716a11af299a"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/gdn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/gdn_backend.py",
+      "bytes": 63059,
+      "sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/inkling_sconv_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/inkling_sconv_backend.py",
+      "bytes": 32180,
+      "sha256": "c57bf25efe5ec6310d2ea71c9df7ee452e8caeafa26d72dda42630c38580fb02"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kda_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kda_backend.py",
+      "bytes": 80905,
+      "sha256": "68e28d7c28d8795aec8c6ac9aed1922b1858febd8b808729ab7a5ff81478a70f"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kda_flashinfer_prefill_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kda_flashinfer_prefill_graph.py",
+      "bytes": 4038,
+      "sha256": "eb7c637096478439770356abdf6baafaadaad83bc6f1f61b9a145c7695f78655"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kda_prefill_graph.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kda_prefill_graph.py",
+      "bytes": 15690,
+      "sha256": "d1bf6b93191ec5cca3a19c611a70b7c7f3a42da7da4188c6216c16abe147bbd3"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/gdn_cutedsl.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/gdn_cutedsl.py",
+      "bytes": 6004,
+      "sha256": "d6f51bb382e75e8ff0a46dfa2c1e4504fd0fb1d7ff182049c3c8e872bd72ca55"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/gdn_flashinfer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/gdn_flashinfer.py",
+      "bytes": 26981,
+      "sha256": "2a3092cef9ac5493ae2a52bb3dd129c729df44782bc27886935efac842687e02"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/gdn_triton.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/gdn_triton.py",
+      "bytes": 9041,
+      "sha256": "ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_cutedsl.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_cutedsl.py",
+      "bytes": 6418,
+      "sha256": "004acebb102bd0e766507e8090fd33f86ee5663f4879861466c084ff5f69573f"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_flashinfer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_flashinfer.py",
+      "bytes": 17059,
+      "sha256": "652e5d9f6c3183ae06f5ad17dade9293047f3f532d446dcc21bc08f713742002"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_flashinfer_prefill.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_flashinfer_prefill.py",
+      "bytes": 6050,
+      "sha256": "5ff8f57b73bb50d92ff5dbd9dccca9b435fb9cf3dac752602939eef67a4e169c"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_flashkda.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_flashkda.py",
+      "bytes": 9957,
+      "sha256": "11d434fddb33c0af6ffd84fbeefc2594c4197b9f68cbdd3e8c7067f5cb0bb51d"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_helion.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_helion.py",
+      "bytes": 8052,
+      "sha256": "1de40b31d97fd271d5a8c4a841e5d5593f7a87d3e1395eb619712a819eafeaa3"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_nvidia.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_nvidia.py",
+      "bytes": 18022,
+      "sha256": "27cd5e1f635df51aa5ce6625ad8890595e12f42b730aa8e7e954e481e7868d49"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_ptx.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_ptx.py",
+      "bytes": 14613,
+      "sha256": "8386482565ad1fc950ca32713e9065af75cde67ef1384d57eaace704d2379192"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kda_triton.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kda_triton.py",
+      "bytes": 10325,
+      "sha256": "b8f7691066148b3fc2b8bc7bf16561d49908e08f342c5b37c9979a101a7d7d59"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/kernels/kernel_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/kernels/kernel_backend.py",
+      "bytes": 2282,
+      "sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/lightning_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/lightning_backend.py",
+      "bytes": 19647,
+      "sha256": "03f3efe92b3e80a62dd582d60cbdf67c6768669df2d1bd65c62d1427fcd45ddb"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/linear_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/linear_metadata.py",
+      "bytes": 2541,
+      "sha256": "281621826248a9650fad6ef1189c7f1857cf154e73e6e6fecec3e5f393e48daf"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/short_conv_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/short_conv_backend.py",
+      "bytes": 10872,
+      "sha256": "c65a74cca0ff0000bb368116eb4c13ff5489c8f86ac414765b84e287964dbbd4"
+    },
+    {
+      "relative_path": "srt/layers/attention/linear/utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/linear/utils.py",
+      "bytes": 4944,
+      "sha256": "16f48557692b6909c1ac5685001775c177ff463696854ed206a592258f8a6349"
+    },
+    {
+      "relative_path": "srt/layers/attention/llada2_cfg_flashinfer_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/llada2_cfg_flashinfer_backend.py",
+      "bytes": 4906,
+      "sha256": "d003a8c27174ca1a79925ddfec4b64a38ce4cc1d38481eec08a1ac6e9aa790a1"
+    },
+    {
+      "relative_path": "srt/layers/attention/local_attention.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/local_attention.py",
+      "bytes": 16075,
+      "sha256": "a7c13baef438cffacc36235d2309a11753e515c2633bdd42fa8f1fb6eada126b"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/causal_conv1d.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/causal_conv1d.py",
+      "bytes": 6959,
+      "sha256": "dd73f433700978066cee0ccc2acc0bb49a3b222ca854d1e6c2cf1fdac60248ec"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/mamba.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/mamba.py",
+      "bytes": 31692,
+      "sha256": "0596e7c14a58e362ecb89c2777fa05d5bae973871735d2dcccc11d7ff6c6c053"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/mamba1.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/mamba1.py",
+      "bytes": 18942,
+      "sha256": "dd81535f1a57de3d83664d09a0fae3a52ee65d669a9d6bf15158a8d438a60c09"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/mamba2_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/mamba2_metadata.py",
+      "bytes": 15792,
+      "sha256": "90903cba575cc9bffd689ed1028078e872de89f7e83de5472178efe37364ef42"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/mixer2_rms_norm_gated.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/mixer2_rms_norm_gated.py",
+      "bytes": 5548,
+      "sha256": "6bdf7fadaf023d3c692c2289df0bd06fe1e9b299824cb7fd8e80211982fd0a02"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/prefill_track_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/prefill_track_metadata.py",
+      "bytes": 1862,
+      "sha256": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a"
+    },
+    {
+      "relative_path": "srt/layers/attention/mamba/replay_state_indices_validator.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mamba/replay_state_indices_validator.py",
+      "bytes": 3073,
+      "sha256": "18bf4b006387339c923424318d11763c6ea15a764f530e18ada3ad189ba9738b"
+    },
+    {
+      "relative_path": "srt/layers/attention/merge_state.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/merge_state.py",
+      "bytes": 1431,
+      "sha256": "04728c6bea33200b364a0ecd5a12ff01997b4011ada4e2c90b640c1b221cc3e2"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/attention_adapter.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/attention_adapter.py",
+      "bytes": 9321,
+      "sha256": "0f8fa82c79fe3336aa9ef377eacc53e615b022b8eb55f0ed827d95fcd5092b58"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/backend.py",
+      "bytes": 43220,
+      "sha256": "c7a81268e39944afacae4438a713ef0f73aae6d4b35ebec6ef24c3e68ae60559"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/cache.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/cache.py",
+      "bytes": 6603,
+      "sha256": "6d8f7b0b9e44493b013cd5d82cfa783a9755e3d2d3c14850e96033492f35b332"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/fuse_kernel.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/fuse_kernel.py",
+      "bytes": 18625,
+      "sha256": "57b919958fdbc31b1a5581acccaa5f9c079d2588029ec0b33fd61f859bd777ee"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/sparse_kernels.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/sparse_kernels.py",
+      "bytes": 8295,
+      "sha256": "29ecd058d0967669173a656db325313eb0d7bfd2492f7bd4138208b7b0719a99"
+    },
+    {
+      "relative_path": "srt/layers/attention/minicpm/sparse_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minicpm/sparse_utils.py",
+      "bytes": 24766,
+      "sha256": "6b350ba8aa325d62f77730028c3de1a320095628bf791fbfdbed34d9ddf05081"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_backend.py",
+      "bytes": 80703,
+      "sha256": "7f8e954d3dea6aa4a76c549a7854f3743b67be49289d578e83524b762623f042"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_nvfp4_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_nvfp4_backend.py",
+      "bytes": 15976,
+      "sha256": "09a8624549b275a5a9d75d02962c08cc954a1602f864535156ad06b12839ea6b"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_ops/indexer_cp.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_ops/indexer_cp.py",
+      "bytes": 7563,
+      "sha256": "9dd2018f67bf4b79c97ca4ad81e44561a6a4057e1d21c76ad6548db38329b1c5"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_ops/minimax_sparse.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_ops/minimax_sparse.py",
+      "bytes": 18991,
+      "sha256": "ed3386669a46a6a3a9478c37a8ff73841f60540fb970540f491a63347419a65f"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_ops/msa.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_ops/msa.py",
+      "bytes": 18963,
+      "sha256": "969a84ebc4430e087ac379d128da6aefdbe59e966898c5b7c7ca889c5d5cffde"
+    },
+    {
+      "relative_path": "srt/layers/attention/minimax_sparse_ops/msa_plan.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/minimax_sparse_ops/msa_plan.py",
+      "bytes": 37303,
+      "sha256": "3876bc3ddab959396b07b4d82a8b83f247a47d2c3323c1d2f072f4a59228713b"
+    },
+    {
+      "relative_path": "srt/layers/attention/mqa_logits_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/mqa_logits_utils.py",
+      "bytes": 3853,
+      "sha256": "531edaadd6607fdce72fbad58db48ec7257fc59cee2d80c0b541f5af73aa08e0"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/__init__.py",
+      "bytes": 413,
+      "sha256": "d495b896a7c369016e9c5a87f4d3b6bd5a9ff2b60447332ee3b691d5fe525758"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/dequant_k_cache.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/dequant_k_cache.py",
+      "bytes": 389,
+      "sha256": "ec1360d017a0c03fcdf7ad7edeacc11f4373c67401ba451f8e51b9cc46691b96"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/nsa_backend_mtp_precompute.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/nsa_backend_mtp_precompute.py",
+      "bytes": 431,
+      "sha256": "e74ca1e0b174c219f9aae462140f16d339903ead6e62988d6cd63ffce24d0547"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/nsa_indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/nsa_indexer.py",
+      "bytes": 371,
+      "sha256": "db51e44afa68cff2be1220416999539e850d1347e2aba74e4882d8fbf81223af"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/transform_index.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/transform_index.py",
+      "bytes": 389,
+      "sha256": "593131a485a3e9c39e07bd733d27bb905de16634118e5d562d09088df7e88bcb"
+    },
+    {
+      "relative_path": "srt/layers/attention/nsa/utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/nsa/utils.py",
+      "bytes": 347,
+      "sha256": "1abd4021f8ba49eb793faa3984dfb41fa5f40a32479066d8e26af258fbee8358"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/__init__.py",
+      "bytes": 1051,
+      "sha256": "e51d714ac268b8c70db70992c009a8c6644922d3e83595bdc779d0bfecaad1c5"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/config.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/config.py",
+      "bytes": 3182,
+      "sha256": "54a7f0f88f189b9174ef04f722abd03f125de524209274ff80c9794849f36e3e"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/fused_kv.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/fused_kv.py",
+      "bytes": 6320,
+      "sha256": "f02714d27d7af9c7604e0cc99bc9c6d3b3dc53ce8025a3e1d6bfd3f874b38a4b"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/glue.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/glue.py",
+      "bytes": 2248,
+      "sha256": "025fd7a4e72dd6948d692282dbe56f73c1c1d2b66e40d3b9e83b3a196f17115e"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/graph_metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/graph_metadata.py",
+      "bytes": 10044,
+      "sha256": "aa5925eb0f0984708c227d808b2e46f7507d87841d20b4282f0aeb5484b29683"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/kernel.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/kernel.py",
+      "bytes": 14427,
+      "sha256": "70e46af04aaf81fa0e75cf4ca2a9bb93dac1b781c6af5a6edb17794dff0fa491"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/metadata.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/metadata.py",
+      "bytes": 13452,
+      "sha256": "84105bc31aa3621887ef92fe44724b9077c175b54a9c95928bc97081cddca889"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/mqa.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/mqa.py",
+      "bytes": 27004,
+      "sha256": "452e71ca16cdc87055348b0d7d12489d283eecc2dc6bae1bd626e6c4479cd4ab"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/qsa_indexer.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/qsa_indexer.py",
+      "bytes": 34184,
+      "sha256": "4b31def7d5351815e77ba0ecc13e6425919bad2b759d68d0598e7f1676a7d335"
+    },
+    {
+      "relative_path": "srt/layers/attention/qsa/sparse_attn.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qsa/sparse_attn.py",
+      "bytes": 25004,
+      "sha256": "b579bc6741937a54e81d7c560cdc69a6ab1bef656f3b8946f1a580db12faca11"
+    },
+    {
+      "relative_path": "srt/layers/attention/qwen_sparse_attn_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/qwen_sparse_attn_backend.py",
+      "bytes": 95068,
+      "sha256": "d9c07424c44e946805feb9139ecbf4c7de01fc18892d84c5fccd6ca004a59747"
+    },
+    {
+      "relative_path": "srt/layers/attention/swa_mla_fallback/__init__.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/swa_mla_fallback/__init__.py",
+      "bytes": 66,
+      "sha256": "4a3811c9cb77254d683385d4e13ea55d4d6122fde4ee4e86c024a6d7c1914c8f"
+    },
+    {
+      "relative_path": "srt/layers/attention/swa_mla_fallback/forward.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/swa_mla_fallback/forward.py",
+      "bytes": 2199,
+      "sha256": "8c61ba067a082cc15b6da9a03fa8f1bfb97b2b33e8dcf74bcffda96280169a25"
+    },
+    {
+      "relative_path": "srt/layers/attention/swa_mla_fallback/ops.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/swa_mla_fallback/ops.py",
+      "bytes": 5654,
+      "sha256": "61c47ba0c3f8a490bda0a4fe9aba1c50944afcd58bcd8facf4dd8bd30c59fa76"
+    },
+    {
+      "relative_path": "srt/layers/attention/tbo_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/tbo_backend.py",
+      "bytes": 11916,
+      "sha256": "b94e745b1bfc8701ec909cab46c6c47b94969c957db09c00da462444b8f85729"
+    },
+    {
+      "relative_path": "srt/layers/attention/torch_flex_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/torch_flex_backend.py",
+      "bytes": 11915,
+      "sha256": "12876a0fbede05168a9e8f997385ec1b4f009783ce7bf9c98516f19476ad3480"
+    },
+    {
+      "relative_path": "srt/layers/attention/torch_native_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/torch_native_backend.py",
+      "bytes": 15008,
+      "sha256": "5da07edadf56f4f4e4b8319ed48216b5a8ddb989224d3e95011b76800bf9926b"
+    },
+    {
+      "relative_path": "srt/layers/attention/triton_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/triton_backend.py",
+      "bytes": 118259,
+      "sha256": "2e095cfafcd30ad0e720fd1ecd70c92f1a83f47a86a28da0ab739ab5717100aa"
+    },
+    {
+      "relative_path": "srt/layers/attention/trtllm_mha_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/trtllm_mha_backend.py",
+      "bytes": 90639,
+      "sha256": "1bd701fe800f4b03cb895803446ac2803b02ac77b59a778a35e00da3cef86862"
+    },
+    {
+      "relative_path": "srt/layers/attention/trtllm_mla_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/trtllm_mla_backend.py",
+      "bytes": 74284,
+      "sha256": "29bd30e687f4df94e52524855e4ae8dab1bf811f22c3070172d3febdb1c18c35"
+    },
+    {
+      "relative_path": "srt/layers/attention/verify_mask.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/verify_mask.py",
+      "bytes": 2747,
+      "sha256": "e1117a20ca18ab58fe2246a8a29a37fa722d29f797be4658ccf5bfcc1de6e822"
+    },
+    {
+      "relative_path": "srt/layers/attention/vision.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/vision.py",
+      "bytes": 54988,
+      "sha256": "6284dfe7c3f735a000f8217efe97cb4ea4dc4beab3015b5e73bf4012e6399c52"
+    },
+    {
+      "relative_path": "srt/layers/attention/vision_utils.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/vision_utils.py",
+      "bytes": 2762,
+      "sha256": "13f18a790d2a6c6b9c4b595fa21aad72e9a61ca69d040835d89e600e8d5b9c64"
+    },
+    {
+      "relative_path": "srt/layers/attention/wave_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/wave_backend.py",
+      "bytes": 20657,
+      "sha256": "c3965a4c02a1d477051578867b493c8001072c40b035cbbf6a80796f200788ed"
+    },
+    {
+      "relative_path": "srt/layers/attention/wave_ops/decode_attention.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/wave_ops/decode_attention.py",
+      "bytes": 6500,
+      "sha256": "056627b8a97fa16f4b16a633e59eb84ea184ac07f540e6b84c96cd607a23741b"
+    },
+    {
+      "relative_path": "srt/layers/attention/wave_ops/extend_attention.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/wave_ops/extend_attention.py",
+      "bytes": 3877,
+      "sha256": "2f2650408bc561f70870e6e0cbfb444cae49c512e0024398945f8a8467061280"
+    },
+    {
+      "relative_path": "srt/layers/attention/wave_ops/prefill_attention.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/wave_ops/prefill_attention.py",
+      "bytes": 2342,
+      "sha256": "76864c1a71632a4ba6629817b204e0eace71fbb90964ea891f0a9e73b4b0c33a"
+    },
+    {
+      "relative_path": "srt/layers/attention/xpu_backend.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/layers/attention/xpu_backend.py",
+      "bytes": 92053,
+      "sha256": "5b81880698f0fa252029abfe68bec1feacea5f56a386595790956896392c1451"
+    },
+    {
+      "relative_path": "srt/mem_cache/common.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/common.py",
+      "bytes": 18662,
+      "sha256": "59e2b5ce9902f7633bdcad54bd57e2e98d546b0c97cfc2e9de560c511e13ad81"
+    },
+    {
+      "relative_path": "srt/mem_cache/unified_cache/unified_tree_core.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/unified_cache/unified_tree_core.py",
+      "bytes": 143809,
+      "sha256": "4948b7861488a51fce728a4ada6c40c875519b8cecc07aae4d9d6bec8b6a7e47"
+    },
+    {
+      "relative_path": "srt/runtime_context.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/srt/runtime_context.py",
+      "bytes": 84398,
+      "sha256": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e"
+    },
+    {
+      "relative_path": "test/kits/attention_unittest/attention_methods/gdn_attention.py",
+      "source_path": "/sgl-workspace/sglang/python/sglang/test/kits/attention_unittest/attention_methods/gdn_attention.py",
+      "bytes": 40831,
+      "sha256": "e741de3557a04c35dc6da06116dd1acd5db7a89044bbfe45509121dc74fc6178"
+    }
+  ],
+  "missing_requested_paths": [
+    "srt/model_executor/runner.py"
+  ],
+  "scope": "Requested runtime/tree/tracking sources and actual GDN/attention/kernel Python sources; no GPU or model tensors"
+}

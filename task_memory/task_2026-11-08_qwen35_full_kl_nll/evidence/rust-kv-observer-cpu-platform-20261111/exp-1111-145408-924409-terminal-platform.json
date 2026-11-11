@@ -1,0 +1,53 @@
+{
+  "job": "exp-1111-145408-924409",
+  "uid": "30aee748-9927-4527-82b9-08e8909f3245",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "native-cpu": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T06:56:38Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "stop_annotations": {},
+  "replicas": [
+    {
+      "name": "exp-1111-145408-924409-cfcd2084",
+      "uid": "d0d0445f-94f0-4f29-8aad-b4f1867ccb78",
+      "owner_references": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1111-145408-924409",
+          "uid": "30aee748-9927-4527-82b9-08e8909f3245",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ],
+      "phase": "Succeeded",
+      "node": null,
+      "containers": [
+        {
+          "name": "native-cpu",
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "reason": "Completed",
+              "startedAt": "2026-11-11T06:54:30Z",
+              "finishedAt": "2026-11-11T06:56:36Z",
+              "containerID": "containerd://7c6f83c9ee417608cb3af28a0e848f5bf8402cfa52b8be81248c103fe4dd48ce"
+            }
+          },
+          "last_state": {},
+          "restart_count": 0
+        }
+      ]
+    }
+  ]
+}

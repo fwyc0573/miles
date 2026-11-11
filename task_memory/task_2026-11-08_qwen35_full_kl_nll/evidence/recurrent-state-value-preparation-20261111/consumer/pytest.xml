@@ -1,0 +1,1479 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="27" skipped="0" tests="60" time="5.881" timestamp="2026-11-11T21:52:47.278443+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[None-False-7-2-None]" time="0.123" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[False-False-7-2-None]" time="0.065" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[None-True-4-1-None]" time="0.024" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[False-True-4-1-None]" time="0.044" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[True-True-4-1-None]" time="0.023" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[True-True-4-1-missing]" time="0.057" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers[True-True-4-1-malformed]" time="0.222" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[None-None]" time="0.072" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[False-None]" time="0.041" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-None]" time="0.023"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cba8d0&gt;
+selection = True, failure = None
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cba8d0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-missing]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd3ef0&gt;
+selection = True, failure = 'missing'
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd3ef0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True
+coherence_failure = 'missing', recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-malformed]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd1910&gt;
+selection = True, failure = 'malformed'
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd1910&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True
+coherence_failure = 'malformed', recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-native_marker]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cbb560&gt;
+selection = True, failure = 'native_marker'
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cbb560&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True
+coherence_failure = 'native_marker', recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-native_binding]" time="0.023"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9e50&gt;
+selection = True, failure = 'native_binding'
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9e50&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True
+coherence_failure = 'native_binding', recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence[True-missing_expected]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9a90&gt;
+selection = True, failure = 'missing_expected'
+
+    @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                                   (True, "missing"), (True, "malformed"), (True, "native_marker"),
+                                                   (True, "native_binding"), (True, "missing_expected")])
+    def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+            worker_config, sample, tmp_path, monkeypatch, selection, failure):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=selection, coherence_failure=failure)
+
+tests/fast/test_teacher_scoring_probe.py:972: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_coherence_true_only_prepa7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9a90&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True
+coherence_failure = 'missing_expected', recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[0]" time="0.080" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[1]" time="0.013" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[true]" time="0.004" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[None]" time="0.005" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[value4]" time="0.066" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_boolean_validation[value5]" time="0.150" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_required_dependencies_before_runtime[selected_fp32_snapshots]" time="0.004" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_required_dependencies_before_runtime[mamba_runtime_metadata]" time="0.072" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_required_dependencies_before_runtime[kv_store_stream_witness]" time="0.006" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_required_dependencies_before_runtime[kv_coherence_build_receipt]" time="0.004" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt[absent]" time="0.005" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt[false]" time="0.005" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt[true]" time="0.136" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt[direct]" time="0.005" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_coherence_numeric_predicates_reuse_opt_in_constants" time="0.018" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[None]" time="0.023"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd95e0&gt;
+fault = None
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd95e0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = None
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[missing]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9790&gt;
+fault = 'missing'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd9790&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'missing'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[duplicate]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ccf530&gt;
+fault = 'duplicate'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join2')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ccf530&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'duplicate'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[wrong_rid]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ccd700&gt;
+fault = 'wrong_rid'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join3')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ccd700&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'wrong_rid'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[phase]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd3e30&gt;
+fault = 'phase'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join4')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd3e30&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'phase'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[shape]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd1730&gt;
+fault = 'shape'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join5')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1cd1730&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'shape'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[partial]" time="0.023"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08af920&gt;
+fault = 'partial'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join6')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08af920&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'partial'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[process]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08acef0&gt;
+fault = 'process'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join7')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08acef0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'process'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[descriptors]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ac050&gt;
+fault = 'descriptors'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join8')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ac050&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'descriptors'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[forward_missing]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ba360&gt;
+fault = 'forward_missing'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9/con...g/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join9')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ba360&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'forward_missing'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[common_rows]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08b9850&gt;
+fault = 'common_rows'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join10')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08b9850&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'common_rows'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[paired_missing]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ad490&gt;
+fault = 'paired_missing'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join11')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08ad490&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'paired_missing'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[replay_missing]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d507d0&gt;
+fault = 'replay_missing'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join12')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d507d0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'replay_missing'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores[metadata_only]" time="0.022"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d52cf0&gt;
+fault = 'metadata_only'
+
+    @pytest.mark.parametrize("fault", [None, "missing", "duplicate", "wrong_rid", "phase", "shape", "partial", "process",
+                                      "descriptors", "forward_missing", "common_rows", "paired_missing", "replay_missing", "metadata_only"])
+    def test_recurrent_post_all16_join_is_independent_and_retains_opaque_producer_and_scores(
+            worker_config, sample, tmp_path, monkeypatch, fault):
+&gt;       test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+            coherence_selection=True, recurrent_failure=fault)
+
+tests/fast/test_teacher_scoring_probe.py:2207: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+worker_config = (PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13/co.../tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13/approved-read-only/model'))
+sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/pytest-of-brainpp/pytest-335/test_recurrent_post_all16_join13')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d52cf0&gt;
+selection = True, diagnostic = True, count = 4, repeats = 1, failure = None
+inherited_witness = False, coherence_selection = True, coherence_failure = None
+recurrent_failure = 'metadata_only'
+
+    @pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+        (None, False, 7, 2, None), (False, False, 7, 2, None),
+        (None, True, 4, 1, None), (False, True, 4, 1, None),
+        (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+    def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+            worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
+            inherited_witness=False, coherence_selection=None, coherence_failure=None, recurrent_failure=None):
+        from tests.manual import agent_opd
+        from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+    
+        path, config, model = worker_config
+        if inherited_witness:
+            config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True)
+            path.write_text(json.dumps(config))
+        formal_before = path.read_bytes()
+        wrapper = {"formal_config": str(path)}
+        if diagnostic:
+            wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+        if selection is not None:
+            wrapper["kv_store_stream_witness"] = selection
+        if coherence_selection is not None:
+            wrapper["kv_coherence_capture"] = coherence_selection
+        if coherence_selection is True:
+            wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
+            wrapper["recurrent_sample_original_indices"] = [0, 2]
+        wrapper_path = tmp_path / "probe.json"
+        wrapper_path.write_text(json.dumps(wrapper))
+        samples = tmp_path / "samples.json"
+        fixture_samples = [{**sample, "sample_index": index} for index in range(count)]
+        if coherence_selection is True:
+            fixture_samples[2]["tokens"] = [10, 11, 12, 12, 13, 14]
+        samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": fixture_samples}))
+        output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+        source_root = root
+        real_popen = subprocess.Popen
+        if coherence_selection is True:
+&gt;           from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+E             File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E               "        self._init_post_memory_pool_components()\n"
+E               ^^^^^^^^^^^^^^^
+E           SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:674: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_derives_actual_full_payload_lengths_and_token_common_prefix[indices0]" time="0.151"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d5af00&gt;
+indices = [1693, 1695]
+
+    @pytest.mark.parametrize("indices", [[1693, 1695], [1695, 1693]])
+    def test_recurrent_workload_derives_actual_full_payload_lengths_and_token_common_prefix(monkeypatch, indices):
+        from miles.rollout import on_policy_distillation as native
+    
+        task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+        config = json.loads((task / "teacher_scoring_kv_coherence_probe_config.json").read_text())
+        fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+        before = json.dumps(fixture)
+        payloads, original = [], native._score_payload
+    
+        def payload(tokens, **kwargs):
+            assert kwargs == {}
+            result = original(tokens, **kwargs)
+            payloads.append(result)
+            return result
+    
+        monkeypatch.setattr(native, "_score_payload", payload)
+&gt;       workload = probe._recurrent_workload(fixture, indices)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_teacher_scoring_probe.py:2229: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fixture = {'job': 'exp-1110-165312-132926', 'bank': 6, 'source_file': '/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/formal-h200-1...plus shortest/longest input and longest response where distinct. Fixed diagnostic cases, not training selection.', ...}
+original_indices = [1693, 1695]
+
+    def _recurrent_workload(fixture, original_indices):
+&gt;       from tests.manual.agent_opd.sglang_kv_coherence import WINDOW_END, WINDOW_START
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/manual/agent_opd/probe_teacher_scoring.py:269: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_derives_actual_full_payload_lengths_and_token_common_prefix[indices1]" time="0.155"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1d597f0&gt;
+indices = [1695, 1693]
+
+    @pytest.mark.parametrize("indices", [[1693, 1695], [1695, 1693]])
+    def test_recurrent_workload_derives_actual_full_payload_lengths_and_token_common_prefix(monkeypatch, indices):
+        from miles.rollout import on_policy_distillation as native
+    
+        task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+        config = json.loads((task / "teacher_scoring_kv_coherence_probe_config.json").read_text())
+        fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+        before = json.dumps(fixture)
+        payloads, original = [], native._score_payload
+    
+        def payload(tokens, **kwargs):
+            assert kwargs == {}
+            result = original(tokens, **kwargs)
+            payloads.append(result)
+            return result
+    
+        monkeypatch.setattr(native, "_score_payload", payload)
+&gt;       workload = probe._recurrent_workload(fixture, indices)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/fast/test_teacher_scoring_probe.py:2229: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+fixture = {'job': 'exp-1110-165312-132926', 'bank': 6, 'source_file': '/mnt/ws-jfs/ycfeng/miles-qwen35-full-kl-nll/formal-h200-1...plus shortest/longest input and longest response where distinct. Fixed diagnostic cases, not training selection.', ...}
+original_indices = [1695, 1693]
+
+    def _recurrent_workload(fixture, original_indices):
+&gt;       from tests.manual.agent_opd.sglang_kv_coherence import WINDOW_END, WINDOW_START
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/manual/agent_opd/probe_teacher_scoring.py:269: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[None]" time="0.005" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices1]" time="0.033" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices2]" time="0.017" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices3]" time="0.008" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices4]" time="0.016" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices5]" time="0.004" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices6]" time="0.004" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_selector_is_required_data_at_existing_opt_in_config[indices7]" time="0.003" /><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input[absent]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ff8140&gt;
+fault = 'absent'
+
+    @pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+    def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+&gt;       from tests.manual.agent_opd import sglang_kv_coherence as coherence
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:2258: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input[ambiguous]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1ff94f0&gt;
+fault = 'ambiguous'
+
+    @pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+    def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+&gt;       from tests.manual.agent_opd import sglang_kv_coherence as coherence
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:2258: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input[same_length]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a1fbe060&gt;
+fault = 'same_length'
+
+    @pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+    def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+&gt;       from tests.manual.agent_opd import sglang_kv_coherence as coherence
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:2258: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input[short]" time="0.021"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08aeb70&gt;
+fault = 'short'
+
+    @pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+    def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+&gt;       from tests.manual.agent_opd import sglang_kv_coherence as coherence
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:2258: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input[divergent]" time="0.020"><failure message="  File &quot;/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py&quot;, line 1009&#10;    &quot;        self._init_post_memory_pool_components()\n&quot;&#10;    ^^^^^^^^^^^^^^^&#10;SyntaxError: invalid syntax. Perhaps you forgot a comma?">sample = {'source_uid': 'conversation-1:turn-2', 'sample_index': 7, 'tokens': [10, 11, 12, 13, 14], 'response_length': 2, ...}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f88a08adc40&gt;
+fault = 'divergent'
+
+    @pytest.mark.parametrize("fault", ["absent", "ambiguous", "same_length", "short", "divergent"])
+    def test_recurrent_workload_rejects_ambiguous_source_or_unsupported_common_input(sample, monkeypatch, fault):
+&gt;       from tests.manual.agent_opd import sglang_kv_coherence as coherence
+E         File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_kv_coherence.py", line 1009
+E           "        self._init_post_memory_pool_components()\n"
+E           ^^^^^^^^^^^^^^^
+E       SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+tests/fast/test_teacher_scoring_probe.py:2258: SyntaxError</failure></testcase><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_consumer_uses_one_existing_preparer_and_readback_without_native_or_metric_calls" time="0.036" /></testsuite></testsuites>

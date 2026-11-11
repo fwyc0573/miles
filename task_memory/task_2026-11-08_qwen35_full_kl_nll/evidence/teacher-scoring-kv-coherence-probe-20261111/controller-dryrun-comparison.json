@@ -1,0 +1,21 @@
+{
+  "scope": "CPU driver contracts only; no platform operation or native execution",
+  "submitted": false,
+  "pairs": [
+    "A",
+    "B"
+  ],
+  "requested_gpus_each": 4,
+  "gpu_tag": "H800",
+  "charged_group": "codesign",
+  "compared_with": [
+    "kv-stream-witness-controller-A-20261111.json",
+    "kv-stream-witness-controller-B-20261111.json"
+  ],
+  "allocation_mount_image_environment_unchanged": true,
+  "worker_command_differences": [
+    "config",
+    "output-dir"
+  ],
+  "qualification_release": "HOLD pending contended-getter correction and GPU0 R3 reuse qualification"
+}

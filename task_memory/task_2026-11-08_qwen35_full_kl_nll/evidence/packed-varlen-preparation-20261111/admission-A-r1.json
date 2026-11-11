@@ -1,0 +1,148 @@
+{
+  "pair": "A",
+  "submitted": true,
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "requested_gpus": 1,
+  "gpu_tag": "H800",
+  "charged_group": "codesign",
+  "tasks": {
+    "snapshot": {
+      "cpu": 8,
+      "gpu": 1,
+      "mem_gb": 64,
+      "replica": 1,
+      "host_network": false,
+      "gang_start": false,
+      "custom_resources": [],
+      "is_critical": true
+    }
+  },
+  "envs": {
+    "PYTHONPATH": "/data/ycfeng",
+    "MC_DISABLE_METACACHE": "1",
+    "EXP_ID": "packed-varlen-a-full-kl-nll-h800-only-2026111199a14",
+    "ENABLE_SUBMODULE_COMMIT_CACHE": "true"
+  },
+  "mounts": [
+    "juicefs+s3://oss.i.shaipower.com/codesign-exp:/mnt/codesign-exp",
+    "juicefs+s3://aliyun-sh/posttrain:/mnt/posttrain"
+  ],
+  "source_directory": "/data/ycfeng",
+  "source_sha256": {
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_A_config.json": "9b130869ecb6ec4fd091291939c553b8281619ed3e7716b0199d558758612d98",
+    "tests/manual/agent_opd/probe_mamba_fp32_snapshots.py": "a2c57daccc671d26b1975bb3f8c23a3f8c8fe7d5bd856e0058832b2f35df9fba",
+    "tests/manual/agent_opd/sglang_mamba_snapshots.py": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774"
+  },
+  "config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_A_config.json",
+  "output_parent": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/native/A",
+  "worker_command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec timeout --signal=TERM --kill-after=90s 3600s /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.probe_mamba_fp32_snapshots --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/mamba_snapshot_packed_prefix_A_config.json --image artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805 --output-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/native/A/\"$KUBEBRAIN_RJOB_NAME\"'",
+  "admission": {
+    "observed_at": "2026-11-11T14:13:03.574487+00:00",
+    "creator": "i-fengyicheng",
+    "gpu_tag": "H800",
+    "nonterminal_jobs": [
+      {
+        "name": "exp-1111-023630-717448",
+        "phase": "Running",
+        "roles": {
+          "server": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1111-052516-803745",
+        "phase": "Running",
+        "roles": {
+          "default": 8,
+          "inference": 8
+        },
+        "gpus": 16
+      },
+      {
+        "name": "exp-1111-145446-754263",
+        "phase": "Running",
+        "roles": {
+          "default": 8,
+          "inference": 8
+        },
+        "gpus": 16
+      },
+      {
+        "name": "exp-1111-184051-987556",
+        "phase": "Running",
+        "roles": {
+          "server": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1111-181142-017851",
+        "phase": "Running",
+        "roles": {
+          "server": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1111-174634-843509",
+        "phase": "Running",
+        "roles": {
+          "server": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1111-020531-143592",
+        "phase": "Running",
+        "roles": {
+          "server": 2
+        },
+        "gpus": 2
+      },
+      {
+        "name": "exp-1111-221303-041018",
+        "phase": "Pending",
+        "roles": {
+          "snapshot": 1
+        },
+        "gpus": 1
+      },
+      {
+        "name": "exp-1111-052516-649198",
+        "phase": "Running",
+        "roles": {
+          "default": 8,
+          "inference": 8
+        },
+        "gpus": 16
+      },
+      {
+        "name": "exp-1111-061633-993923",
+        "phase": "Running",
+        "roles": {
+          "default": 8,
+          "inference": 8
+        },
+        "gpus": 16
+      }
+    ],
+    "committed_gpus": 75,
+    "requested_gpus": 1,
+    "ceiling_gpus": null,
+    "admitted": true,
+    "scope": "personal",
+    "policy": {
+      "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+      "task_annotation": "miles.ycfeng/task",
+      "personal_nonpreemptible_gpus": null,
+      "temporary_task_allocation": {
+        "expires_at": "2026-11-08T21:00:00+00:00",
+        "nonpreemptible_gpus": null
+      }
+    },
+    "evaluated_at": "2026-11-11T14:13:03.574487+00:00",
+    "preemptible": false
+  },
+  "job": "exp-1111-221303-584851",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}

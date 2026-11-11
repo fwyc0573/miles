@@ -1,0 +1,232 @@
+{
+  "task_id": "profile-kv-coherence-collector-implementation-20261111",
+  "scope": "CPU_SOURCE_DI_ONLY",
+  "native_calls": 1,
+  "receipt": {
+    "schema": "kv-coherence-preparation-v1",
+    "native_observer": {
+      "scope": "EXPLICIT CPU SOURCE DI ONLY",
+      "production_native_build": "PENDING",
+      "production_native_load": "NOT PERFORMED",
+      "native_gpu_proof": "PENDING",
+      "adapter": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-source-di-gherdjd8/sglang/srt/mem_cache/rust_tree_core/adapter.py",
+      "package_root": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-source-di-gherdjd8/sglang",
+      "build_receipt_input": "PENDING-production-observer-build.json",
+      "no_fake_binary": true
+    },
+    "package_root": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-source-di-gherdjd8/sglang",
+    "manifest": {
+      "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+      "distribution_version": "0.5.24.dev80+g056f871",
+      "tvm_ffi_distribution_version": "0.1.11",
+      "composition": "selected-FP32 -> CPU metadata -> KV WIT -> production Rust observer -> coherence",
+      "files": {
+        "kernels/ops/attention/fla/chunk.py": {
+          "metadata_base_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/layers/attention/linear/kernels/gdn_triton.py": {
+          "metadata_base_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/ops/attention/fla/chunk_delta_h.py": {
+          "metadata_base_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/layers/attention/linear/kernels/kernel_backend.py": {
+          "metadata_base_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/layers/attention/linear/gdn_backend.py": {
+          "metadata_base_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/layers/attention/hybrid_linear_attn_backend.py": {
+          "metadata_base_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/managers/schedule_batch.py": {
+          "metadata_base_sha256": "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/unified_cache/components/mamba.py": {
+          "metadata_base_sha256": "22c0f2f5ec8c217c7b9bccd8753e8e5bf3914fd3c0d3ae52e64bfb7bd31df584",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/model_executor/model_runner.py": {
+          "metadata_base_sha256": "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/unified_cache/unified_tree_core.py": {
+          "metadata_base_sha256": "4948b7861488a51fce728a4ada6c40c875519b8cecc07aae4d9d6bec8b6a7e47",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/unified_radix_cache.py": {
+          "metadata_base_sha256": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/managers/scheduler_components/internal_state.py": {
+          "metadata_base_sha256": "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/layers/attention/mamba/prefill_track_metadata.py": {
+          "metadata_base_sha256": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/model_executor/forward_batch_info.py": {
+          "metadata_base_sha256": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/runtime_context.py": {
+          "metadata_base_sha256": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/model_executor/forward_context.py": {
+          "native_sha256": "e612cb6399e58a1c01d7ce72e5309148edbb4b0d28eccc053489c6cc5c6b3852",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/memory_pool.py": {
+          "native_sha256": "e077773e25c02be4dc597741e5f987375a221e595bccf92997dea684d5445a26",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/ops/kvcache/kvcache.py": {
+          "native_sha256": "fe75ca2abad09ee4911f1049f1c054d93f0470578f2a3e234452d19980e0ad81",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/jit/csrc/elementwise/kvcache.cuh": {
+          "native_sha256": "8b4cc36204b5623608c2467974bcd2a8daf283e96cdbd2f7ee268b07fa0f12e6",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/jit/include/sgl_kernel/utils.cuh": {
+          "native_sha256": "18b0bb2e27dccc20d7509e8b6b6c16e2b57a5ce98be648865fb75059be8a13db",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/jit/utils/compile/spec.py": {
+          "native_sha256": "f762d7d90adb2770988ab0d17b444496d9d611531ab136eb37b8c8707dd42b2f",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/jit/utils/compile/loader.py": {
+          "native_sha256": "f4437c88aae8ae55a315bef9f52e19b2dabd3ad8a2cf0ffaab2a6786dbb52993",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "kernels/jit/utils/compile/cache.py": {
+          "native_sha256": "3a9c277d676596e467d6a1e700e65ab2fb5ccf91b264ebe1c3cc06659fa470bf",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/model_executor/runner/eager_runner.py": {
+          "native_sha256": "6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/kv_cache_configurator.py": {
+          "native_sha256": "1e31685151ea6ed110c2a659ea0ed975493d0eccf5295196567756bd5591887b",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/allocator/base.py": {
+          "native_sha256": "17c07a9ab32c62932048d3579e620eaa2e2558b03b828df152b2ee953c4bfe32",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mem_cache/allocator/token.py": {
+          "native_sha256": "ee09d0021b69b111e3262811e2fdaf2f495ecfc2cf6ed142070a7f7e95a030ec",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/utils/custom_op.py": {
+          "native_sha256": "16ce982c284ac85d437b9a6d3ccbe12e92b3ba59c9c1e3dbe0d54be48d8e0166",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/cython/function.pxi": {
+          "native_sha256": "40fba9880817d3b013e8978146491110434bd8b36d3a702ff4a93a230ff1c021",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/cython/tvm_ffi_python_helpers.h": {
+          "native_sha256": "a11be0560a2cc4b75845ab63fc7cb67f0dd890b8d89c32b58d7efb408172089f",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/src/ffi/extra/env_context.cc": {
+          "native_sha256": "941edd8415cca875c010f456f1f06f2f336b8978c64531f4953c1c4d848d490c",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/_optional_torch_c_dlpack.py": {
+          "native_sha256": "71fa7ff562ab5cb6a714200f31b5caa3d0a1c9cf949fd21c6a2a830580c60a18",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/include/tvm/ffi/function.h": {
+          "native_sha256": "42dd75a992d4fc9b5216709a5e115c6af91270843a7ab63cc3e9b6ba3d5a1236",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "tvm_ffi/include/tvm/ffi/extra/c_env_api.h": {
+          "native_sha256": "afca6fcd61cc385772c7bd0aef1d75b41195e40ed50075be9f7166dbeed6b0c9",
+          "native_source_job": "exp-1111-102145-988437"
+        },
+        "srt/mamba_runtime_metadata.py": {
+          "metadata_recorder_sha256": "04d3f6f5e824dde5a924b774c73aaa8f4f57a74ea88bebfe7e92b3962decc371"
+        }
+      },
+      "additional_native_sha256": {
+        "srt/entrypoints/http_server.py": "329e4e1552b176f0753303a17df65dc49c0a59f1e642979a3537ad3a0d953b0a",
+        "srt/managers/tokenizer_control_mixin.py": "aadd92f9f77cc59c4a7496f24890b7e9c6361897408a8330e1141f6ece5ace46",
+        "srt/managers/io_struct.py": "1f94aca08ed27f74280e87ec80999df32df3088be987ec1377ff2f572e13739b",
+        "srt/managers/scheduler_components/output_streamer.py": "77c07830c2e2e9529d7490a515898848d2f844eff46782ac9dab6e675bf15287"
+      },
+      "runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed"
+    },
+    "archive_dir": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-source-di-gherdjd8/coherence",
+    "changed_files": [
+      "kernels/ops/kvcache/kvcache.py",
+      "srt/entrypoints/http_server.py",
+      "srt/managers/io_struct.py",
+      "srt/managers/schedule_batch.py",
+      "srt/managers/scheduler_components/internal_state.py",
+      "srt/managers/scheduler_components/output_streamer.py",
+      "srt/managers/tokenizer_control_mixin.py",
+      "srt/mem_cache/memory_pool.py",
+      "srt/mem_cache/unified_radix_cache.py",
+      "srt/model_executor/model_runner.py",
+      "srt/kv_coherence.py"
+    ],
+    "observed_after_sha256": {
+      "kernels/jit/csrc/elementwise/kvcache.cuh": "3e972568f8a731a5e79b5729fb2fc0bf3d823cad2ffd484b4c5c11a263599555",
+      "kernels/jit/include/sgl_kernel/utils.cuh": "18b0bb2e27dccc20d7509e8b6b6c16e2b57a5ce98be648865fb75059be8a13db",
+      "kernels/jit/utils/compile/cache.py": "3a9c277d676596e467d6a1e700e65ab2fb5ccf91b264ebe1c3cc06659fa470bf",
+      "kernels/jit/utils/compile/loader.py": "f4437c88aae8ae55a315bef9f52e19b2dabd3ad8a2cf0ffaab2a6786dbb52993",
+      "kernels/jit/utils/compile/spec.py": "f762d7d90adb2770988ab0d17b444496d9d611531ab136eb37b8c8707dd42b2f",
+      "kernels/ops/attention/fla/chunk.py": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+      "kernels/ops/attention/fla/chunk_delta_h.py": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "kernels/ops/kvcache/kvcache.py": "2c7f1bcc7abe011a5b10e3f4add12ad9c276795eb54fbc60d01f617fbe7234a1",
+      "srt/entrypoints/http_server.py": "b0cb4412bb57d6620a56ed5b43defda339ba91f5b70803246980469de58058b9",
+      "srt/layers/attention/hybrid_linear_attn_backend.py": "fa1331457e307f5d172fd62730be0dd026a36a10a10319b7ec630e1d097c3d36",
+      "srt/layers/attention/linear/gdn_backend.py": "7296198be4586f2c703e719bc40ac657d2f6a0682d7851f58669b6ba33487025",
+      "srt/layers/attention/linear/kernels/gdn_triton.py": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+      "srt/layers/attention/linear/kernels/kernel_backend.py": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "srt/layers/attention/mamba/prefill_track_metadata.py": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a",
+      "srt/mamba_runtime_metadata.py": "04d3f6f5e824dde5a924b774c73aaa8f4f57a74ea88bebfe7e92b3962decc371",
+      "srt/managers/io_struct.py": "905c07754a0f3477a36c42bd1b83a9a7e3b5ade5ec2a18839afee3904e22ac29",
+      "srt/managers/schedule_batch.py": "ee60c0102bdb9ccbc5f3c7ac1610a9768eb7f7adf8f8409001c2b61989653a7a",
+      "srt/managers/scheduler_components/internal_state.py": "138e091220ea50cb37db42fb9447839f3a567e5bb9dc0f2ffcdd7ecd1985be1c",
+      "srt/managers/scheduler_components/output_streamer.py": "a9f277169be1bd633821091aa4b6471b8f1c1d95618da644f7f251763fd432c8",
+      "srt/managers/tokenizer_control_mixin.py": "9116ea4d83eb2722d9ba615639d7c2588515ce909b4ad59b0a0c94019389c833",
+      "srt/mem_cache/allocator/base.py": "17c07a9ab32c62932048d3579e620eaa2e2558b03b828df152b2ee953c4bfe32",
+      "srt/mem_cache/allocator/token.py": "ee09d0021b69b111e3262811e2fdaf2f495ecfc2cf6ed142070a7f7e95a030ec",
+      "srt/mem_cache/kv_cache_configurator.py": "1e31685151ea6ed110c2a659ea0ed975493d0eccf5295196567756bd5591887b",
+      "srt/mem_cache/memory_pool.py": "45bb1e9fc217e05eca93679263ecef61a206668ed1feac1e9390fa36ec5df59d",
+      "srt/mem_cache/unified_cache/components/mamba.py": "ab8d467f61a0703b288e5d2f4239c0cd81c9890512c62b5f3e58c12bb441d404",
+      "srt/mem_cache/unified_cache/unified_tree_core.py": "34d3c93e8f97ffff36708ca0403cf6e4477516a2c5cb9818114043e3c73198b7",
+      "srt/mem_cache/unified_radix_cache.py": "809101c0f9432fe2d06542f6e6f7b83b4445f3ad694d96264b3d92612c763d9a",
+      "srt/model_executor/forward_batch_info.py": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56",
+      "srt/model_executor/forward_context.py": "6eaceb910915685ad010d8ca04a390c0295009769c36971e679508beb45fe19f",
+      "srt/model_executor/model_runner.py": "50c4a917e3499d4bf6e272267320c4ee551b7619d96fd82f98c22ca99a3b698c",
+      "srt/model_executor/runner/eager_runner.py": "6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591",
+      "srt/runtime_context.py": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e",
+      "srt/utils/custom_op.py": "16ce982c284ac85d437b9a6d3ccbe12e92b3ba59c9c1e3dbe0d54be48d8e0166",
+      "tvm_ffi/_optional_torch_c_dlpack.py": "71fa7ff562ab5cb6a714200f31b5caa3d0a1c9cf949fd21c6a2a830580c60a18",
+      "tvm_ffi/cython/function.pxi": "40fba9880817d3b013e8978146491110434bd8b36d3a702ff4a93a230ff1c021",
+      "tvm_ffi/cython/tvm_ffi_python_helpers.h": "a11be0560a2cc4b75845ab63fc7cb67f0dd890b8d89c32b58d7efb408172089f",
+      "tvm_ffi/include/tvm/ffi/extra/c_env_api.h": "afca6fcd61cc385772c7bd0aef1d75b41195e40ed50075be9f7166dbeed6b0c9",
+      "tvm_ffi/include/tvm/ffi/function.h": "42dd75a992d4fc9b5216709a5e115c6af91270843a7ab63cc3e9b6ba3d5a1236",
+      "tvm_ffi/src/ffi/extra/env_context.cc": "941edd8415cca875c010f456f1f06f2f336b8978c64531f4953c1c4d848d490c",
+      "srt/kv_coherence.py": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed"
+    },
+    "readback_key": "kv_coherence",
+    "preallocation": "two opaque RID banks after finalized backing; TP0 only",
+    "native_gpu_capture": "PENDING; CPU preparation is not original OLD/FRESH/CUDA proof"
+  }
+}

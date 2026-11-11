@@ -1,0 +1,79 @@
+{
+  "base": "5f6dfaaa0cbd60812668abe3485c0a518befa1b9",
+  "head": "9ee5f50489777542ed7e1459f21c2fc039df4743",
+  "files": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "base": {
+        "sha256": "8b53251dd50e2d57a51b4ad2a1e180c5b67826ddcb765459883bf4e3cdf1daeb",
+        "bytes": 29741
+      },
+      "candidate": {
+        "sha256": "ddefb059b1ccd60c1bde96606bbef44c9d2cbdafda7cd74f8c45d6723741d754",
+        "bytes": 36577
+      }
+    },
+    {
+      "path": "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py",
+      "base": null,
+      "candidate": {
+        "sha256": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1",
+        "bytes": 27623
+      }
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "base": {
+        "sha256": "bb2ea22887a60c2b1e9e5bb1d1194e474b07c38fb7ca2e84c4672cb81b68f30a",
+        "bytes": 39404
+      },
+      "candidate": {
+        "sha256": "39b1333d5cf83e3880093215c9a924c26aaa8542d709d7945f55c5a7949e12e5",
+        "bytes": 57469
+      }
+    },
+    {
+      "path": "tests/fast/test_sglang_mamba_runtime_metadata.py",
+      "base": null,
+      "candidate": {
+        "sha256": "04553316d4cab17b7ba91ef8cceb682606aa699c27e92ff921b0885475062c70",
+        "bytes": 33268
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json",
+      "base": null,
+      "candidate": {
+        "sha256": "66d2c57dab56bebf2bad9326155d2c08f5cb83d5ae5a6057b4f7afb66729aa62",
+        "bytes": 1377
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
+      "base": null,
+      "candidate": {
+        "sha256": "89519dd56ec07ce01f8ee18ff71b2ccfb3170698b29d9b5f4e0fe70c83c9a3e1",
+        "bytes": 107
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_runtime_metadata_probe_integration.md",
+      "base": null,
+      "candidate": {
+        "sha256": "bb7be2c41fb8de91983b2543a97b4970fe05ee0a2877126b25d9cb8795a852de",
+        "bytes": 13117
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_mamba_runtime_metadata_source.md",
+      "base": null,
+      "candidate": {
+        "sha256": "a8746056f23d9122284fb002482cc2032f493ab9bcecc83a64e7d6f4b50189c6",
+        "bytes": 15591
+      }
+    }
+  ],
+  "patch_sha256": "d9059871e8e83e562eb987470d003f57891f1ee1092441a17af6799393a29460",
+  "native_artifact_source": "/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-mamba-runtime-metadata-20261111-final-cybayqik/runtime",
+  "scope": "Eight source/integration files plus eight native insertion files and CPU recorder; pending server RID receipt follow-up is a separate revision, no GPU metadata run claimed"
+}

@@ -1,0 +1,37 @@
+{
+  "job": "exp-1111-024445-834088",
+  "observed_status": {
+    "phase": "Stopped",
+    "reason": "RJobStopped",
+    "message": "RJob stopped",
+    "taskStatuses": {
+      "default": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-10T18:44:46Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "failed_queries": [
+    {
+      "group": "kubebrain.brainpp.cn",
+      "version": "v1",
+      "namespace_source": "KUBEBRAIN_WORKSPACE_NAME",
+      "error": "ForbiddenException 403"
+    },
+    {
+      "group": "kubebrain.brainpp.cn",
+      "version": "v1",
+      "namespace_source": "client.namespace",
+      "error": "NotFoundException 404"
+    }
+  ],
+  "verified_query": {
+    "group": "rjob.brainpp.cn",
+    "version": "v1alpha1",
+    "namespace_source": "client.namespace",
+    "plural": "rjobs"
+  },
+  "gpu_requested": 0,
+  "stop_cause": "first launcher exited after query error and invoked native stop handler"
+}

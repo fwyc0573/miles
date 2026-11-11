@@ -49,7 +49,7 @@ def composed(tmp_path, monkeypatch):
     return root
 
 
-def _prepare_di(root, archive, monkeypatch):
+def _prepare_di(root, archive, monkeypatch, **selection):
     from tests.manual.agent_opd import sglang_rust_kv_observer as native
     calls = []
     nested = {"scope": "DI only: compiled production-native qualification PENDING", "package_root": str(root),
@@ -63,7 +63,7 @@ def _prepare_di(root, archive, monkeypatch):
 
     monkeypatch.setattr(native, "prepare_source", prepare)
     receipt = coherence.prepare_source(root, image=coherence.source_manifest()["image"], archive_dir=archive,
-                                       build_receipt=archive.parent / "not-a-real-build.json")
+                                       build_receipt=archive.parent / "not-a-real-build.json", **selection)
     return receipt, nested, calls
 
 
@@ -779,7 +779,8 @@ def _worker_private_before_first_sglang_import(tmp_path, monkeypatch):
     config = tmp_path / "config.json"
     config.write_text(json.dumps({"kv_coherence_capture": True, "selected_fp32_snapshots": True,
         "mamba_runtime_metadata": True, "kv_store_stream_witness": True,
-        "kv_coherence_build_receipt": "PENDING", "worker_local_root": str(tmp_path / "worker-local")}))
+        "kv_coherence_build_receipt": "PENDING", "recurrent_sample_original_indices": [1693, 1695],
+        "worker_local_root": str(tmp_path / "worker-local")}))
     owner, seen = builtins.__import__, []
     def importing(name, globals=None, locals=None, fromlist=(), level=0):
         if name == "sglang" or name.startswith("sglang."):
@@ -795,3 +796,318 @@ def _worker_private_before_first_sglang_import(tmp_path, monkeypatch):
         probe._run(SimpleNamespace(config=config))
     assert seen == ["sglang.srt.environ"]  # Real qwen worker -> training script import.
     assert "sglang" not in sys.modules
+
+
+def test_recurrent_selected_real_source_anchors_hashes_and_once_only_preparer(composed, tmp_path, monkeypatch):
+    selection = {"recurrent_input_counts": (97365, 98942), "recurrent_common_rows": 6519}
+    receipt, _, calls = _prepare_di(composed, tmp_path / "recurrent", monkeypatch, **selection)
+    assert len(calls) == 1
+    assert receipt["manifest"]["recurrent_selection"] == {
+        "input_counts": (97365, 98942), "common_rows": 6519, "status": "configured"}
+    runner = (composed / metadata._RUNNER).read_text()
+    assert "initialize_runner(self, recurrent_input_counts=(97365, 98942), recurrent_common_rows=6519)" in runner
+    source = (composed / metadata._GDN).read_text()
+    begin, inputs, end = (source.index(f'_kv_observe("recurrent_{name}"') for name in ("begin", "inputs", "end"))
+    assert source.index("needs_state_gather = (") < begin < source.index("conv_states_contig = conv_states[cache_indices]")
+    assert begin < source.index("conv_states[forward_metadata.conv_states_mask_indices] =")
+    assert source.index("mixed_qkv = self._convolve_prefill(") < inputs
+    assert source.index("g, beta = self._prefill_gates(layer, a, b)") < inputs
+    assert inputs < source.index("core_attn_out, last_recurrent_state, h = self.kernel_dispatcher.extend(") < end
+    assert end < source.index("if is_npu() and last_recurrent_state is not None:")
+    assert "_kv_batch = get_forward_context().forward_batch if has_forward_context() else None" in source
+    assert coherence._rewrite(metadata._GDN, (composed / metadata._GDN).read_bytes(), reverse=True, **selection) == (
+        tmp_path / "recurrent/before" / metadata._GDN).read_bytes()
+    for relative, digest in receipt["observed_after_sha256"].items():
+        assert hashlib.sha256((composed / relative).read_bytes()).hexdigest() == digest
+    assert receipt["manifest"]["runtime_sha256"] == receipt["observed_after_sha256"][coherence._RUNTIME]
+    # Changing the bound selection is tampering, not an idempotent second mode.
+    with pytest.raises(ValueError):
+        coherence._rewrite(metadata._RUNNER, (composed / metadata._RUNNER).read_bytes(), reverse=True)
+    runtime = ast.parse((composed / coherence._RUNTIME).read_text())
+    capture = {"recurrent_begin", "recurrent_inputs", "recurrent_end", "_recurrent_copy", "_recurrent_state_copy",
+               "_recurrent_publication", "_recurrent_rebind", "_recurrent_target"}
+    for node in ast.walk(runtime):
+        if isinstance(node, ast.FunctionDef) and node.name in capture:
+            attrs = {part.attr for part in ast.walk(node) if isinstance(part, ast.Attribute)}
+            assert not attrs & {"cpu", "item", "tolist", "synchronize", "wait_stream", "record_stream", "node_by_id"}
+    assert not any(isinstance(node, ast.Attribute) and node.attr in (
+        "synchronize", "wait_stream", "record_stream", "reset_peak_memory_stats", "empty_cache", "save")
+                   for node in ast.walk(runtime))
+
+
+@pytest.mark.parametrize("counts,common", [(None, 1), ((97365,), 1), ((97365, 97365), 1),
+    ((97365, 98942), 7254), ((97365, 98942), 0)])
+def test_recurrent_selection_rejects_unbound_or_noncommon_input(counts, common):
+    with pytest.raises(ValueError):
+        coherence.recurrent_selection(counts, common)
+
+
+def _recurrent_toy(monkeypatch):
+    collector, pool = _toy(monkeypatch, layers=1)
+    # CPU pinning and allocator-stat DI; no CUDA or real native implementation.
+    class CpuCopies:
+        def __getattr__(self, name):
+            return getattr(torch, name)
+
+        def empty(self, *args, **kwargs):
+            kwargs.pop("pin_memory", None)
+            return torch.empty(*args, **kwargs)
+
+        cuda = SimpleNamespace(**{name: lambda device: 123 for name in (
+            "memory_allocated", "memory_reserved", "max_memory_allocated", "max_memory_reserved")})
+    collector.torch = CpuCopies()
+    conv = torch.arange(24).reshape(4, 2, 3).to(torch.bfloat16)
+    temporal = torch.arange(16).reshape(4, 1, 2, 2).float()
+    req_pool = SimpleNamespace(layer_transfer_counter=None, mamba_map={0: 0},
+        mamba_pool=SimpleNamespace(mamba2_layer_cache=lambda layer: SimpleNamespace(conv=[conv], temporal=temporal)),
+        translate_mamba_indices=lambda indices: indices)
+    collector.initialize_recurrent(req_pool, (5, 8), 2)
+    assert not collector.recurrent["errors"]
+    return collector, pool, conv, temporal
+
+
+def _recurrent_capture(collector, conv, temporal, rid, input_count, *, delta=0, track=False):
+    req = _req(rid)
+    req.origin_input_ids = range(input_count)
+    collector.register(req)
+    rows = min(collector.rows, input_count - collector.start)
+    batch = SimpleNamespace(rids=[rid], extend_prefix_lens_cpu=[collector.start], extend_seq_lens_cpu=[rows],
+        extend_prefix_lens=torch.tensor([collector.start], dtype=torch.int32),
+        forward_mode=SimpleNamespace(is_extend=lambda: True))
+    indices = torch.tensor([1], dtype=torch.int32)
+    query = torch.tensor([0, rows], dtype=torch.int32)
+    layer = SimpleNamespace(layer_id=0, conv_weights=torch.ones(2, 4, dtype=torch.bfloat16),
+                            bias=None, activation="silu", head_k_dim=2)
+    calls = []
+    def conv_call(x, weight, bias, **kwargs):
+        calls.append(("conv", tuple(x.stride()), kwargs["seq_lens_cpu"], kwargs["cache_indices"].clone()))
+        assert x.stride() == (1, 3)
+        kwargs["conv_states"][kwargs["cache_indices"].long()] += 2
+        return x * 2
+    class Dispatcher:
+        extend_kernel = SimpleNamespace()
+        def extend(self, **kwargs):
+            calls.append(("temporal", kwargs["track_state"] is not None, kwargs["track_chunk_idx"]))
+            states, slots = kwargs["ssm_states"], kwargs["cache_indices"].long()
+            output = kwargs["v"] + states[slots[0], 0, 0, 0]
+            states[slots] += 3
+            if kwargs["track_state"] is not None:
+                kwargs["track_state"].copy_(states[slots])
+            return output, None, torch.empty(0)
+    forward = SimpleNamespace(query_start_loc=query, conv_block_table=None,
+        has_mamba_track_mask=track, num_state_checkpoints=None, state_checkpoint_every_n_tokens=None,
+        state_checkpoint_cu_starts=None, track_conv_indices=torch.tensor([[rows - 3, rows - 2, rows - 1]]),
+        conv_states_mask_indices=torch.tensor([2], dtype=torch.int64))
+    backend = SimpleNamespace(forward_metadata=forward, kernel_dispatcher=Dispatcher())
+    mixed = torch.empty_strided((rows, 2), (3, 1), dtype=torch.bfloat16)
+    mixed.copy_(torch.arange(rows * 2).reshape(rows, 2) + delta)
+    collector.recurrent_begin(backend, layer, batch, indices, conv, temporal, mixed,
+                              conv_fn=conv_call, needs_state_gather=False)
+    if track:
+        conv[forward.conv_states_mask_indices] = mixed[forward.track_conv_indices].transpose(1, 2)
+    post = conv_call(mixed.transpose(0, 1), layer.conv_weights, None, conv_states=conv,
+                     cache_indices=indices, seq_lens_cpu=[rows]).transpose(0, 1)
+    q, k, v = (post.reshape(1, rows, 1, 2).contiguous().clone() for _ in range(3))
+    g = torch.ones(1, rows, 1)
+    beta = torch.ones(1, rows, 1)
+    track_state = torch.empty((1, *temporal.shape[1:])) if track else None
+    track_idx = torch.tensor([0], dtype=torch.int32) if track else None
+    collector.recurrent_inputs(layer, batch, post, q, k, v, g, beta, query,
+                               track_state=track_state, track_chunk_idx=track_idx, output=None)
+    output, _, _ = backend.kernel_dispatcher.extend(q=q, k=k, v=v, g=g, beta=beta,
+        ssm_states=temporal, cache_indices=indices, track_state=track_state, track_chunk_idx=track_idx)
+    collector.recurrent_end(layer, batch, indices, conv, temporal, output)
+    return req, calls
+
+
+def test_recurrent_four_independent_candidates_copy_before_mutation_and_private_controls(monkeypatch):
+    collector, full, conv, temporal = _recurrent_toy(monkeypatch)
+    requests, calls = [], []
+    for rid, count in (("opaque-z", 8), ("opaque-a", 5), ("opaque-c", 8), ("opaque-b", 5)):
+        initial_conv, initial_temporal = conv[1:2].clone(), temporal[1:2].clone()
+        req, native_calls = _recurrent_capture(collector, conv, temporal, rid, count, track=True)
+        requests.append(req)
+        calls.append(native_calls)
+        bank = collector.recurrent["by_rid"][rid]
+        assert torch.equal(bank["host"]["initial_conv"], initial_conv)
+        assert torch.equal(bank["host"]["initial_temporal"], initial_temporal)
+        assert not torch.equal(bank["host"]["initial_temporal"], temporal[1:2])
+        assert bank["descriptors"]["conv_input"]["stride"] == (3, 1)
+    assert not collector.by_rid and len(collector.recurrent["by_rid"]) == 4
+    # Prove existing FULL selection remains two opaque 98942-input banks.
+    _capture_bank(collector, full, "full-one", 2)
+    _capture_bank(collector, full, "full-two", 5)
+    for req in requests:
+        collector.finish(req)
+    for rid in ("full-one", "full-two", *(f"ordinary-{i}" for i in range(10))):
+        collector.finish(_req(rid))
+    saved_conv, saved_temporal = conv.clone(), temporal.clone()
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Metadata-only drain must not inspect host captures or replay")
+    original = collector._recurrent_value
+    monkeypatch.setattr(collector, "_recurrent_value", forbidden)
+    assert collector.drain(False)["recurrent_state"]["status"] == "metadata_only"
+    monkeypatch.setattr(collector, "_recurrent_value", original)
+    receipt = collector.drain(True)
+    recurrent = receipt["recurrent_state"]
+    assert receipt["status"] == recurrent["status"] == "captured", recurrent
+    assert len(recurrent["records"]) == 4 and len(recurrent["comparisons"]) == 6
+    controls = [r for r in recurrent["replays"] if r["kind"] == "control"]
+    assert len(controls) == 8 and all(row["values_exact"] for row in controls)
+    shapes = [r for r in recurrent["replays"] if r["kind"] == "shape"]
+    assert len(shapes) == 4 and all(row["common_rows"] == 2 for row in shapes)
+    assert any(r["kind"] == "state-sensitivity" for r in recurrent["replays"])
+    assert torch.equal(conv, saved_conv) and torch.equal(temporal, saved_temporal)
+    assert all(record["publication"]["canonical_value_status"] == "unverified" for record in recurrent["records"])
+    assert all("host" not in bank and "dispatcher" not in bank for bank in collector.recurrent["banks"])
+    call_count = sum(map(len, calls))
+    assert collector.drain(True) is receipt and collector.drain(False) is receipt
+    assert sum(map(len, calls)) == call_count
+    assert recurrent["memory"]["after_replay"]["peak_allocated_bytes"] == 123
+    assert len(json.dumps(receipt, allow_nan=False)) < 100000
+
+
+def test_recurrent_error_isolation_mode_scope_publication_join_and_incomplete_drain(monkeypatch):
+    collector, _, conv, temporal = _recurrent_toy(monkeypatch)
+    monkeypatch.setattr(coherence, "_collector", collector)
+    # DECODE's missing CPU lens is not an error or a reason to touch it.
+    coherence.observe("recurrent_begin", None, SimpleNamespace(layer_id=0), SimpleNamespace(
+        forward_mode=SimpleNamespace(is_extend=lambda: False)), None, None, None, None,
+        conv_fn=None, needs_state_gather=False)
+    assert not collector.recurrent["errors"] and not collector.errors
+    req, _ = _recurrent_capture(collector, conv, temporal, "writer", 5)
+    bank = collector.recurrent["by_rid"][req.rid]
+    donor = SimpleNamespace(mamba_value=torch.tensor([1], dtype=torch.int32))
+    collector._recurrent_publication(req, donor, collector.start)
+    publication = bank["host"]["publication_temporal"].clone()
+    temporal[1].zero_()
+    assert torch.equal(bank["host"]["publication_temporal"], publication)
+    collector._recurrent_rebind(req, collector.start, SimpleNamespace(last_device_node=7,
+        prefix_len=collector.start, mamba_exist=True, rotation_tail_declined=False))
+    assert bank["publication"]["canonical_value_status"] == "unverified"
+    def error(*args, **kwargs):
+        raise RuntimeError("Injected observation error before native mutation")
+    monkeypatch.setattr(collector, "recurrent_inputs", error)
+    assert coherence.observe("recurrent_inputs") is None
+    assert collector.recurrent["errors"][-1]["stage"] == "recurrent_inputs" and not collector.errors
+    monkeypatch.setattr(collector, "_recurrent_value", error)
+    assert collector.drain(True)["recurrent_state"]["status"] == "unverified"
+    assert "host" in bank
+
+
+def test_recurrent_new_canonical_publication_is_field_level_and_compared_by_rid(monkeypatch):
+    collector, _, conv, temporal = _recurrent_toy(monkeypatch)
+    req, _ = _recurrent_capture(collector, conv, temporal, "opaque-writer", 5)
+    collector._recurrent_publication(req, SimpleNamespace(mamba_value=torch.tensor([1])), collector.start)
+    collector._recurrent_rebind(req, collector.start, SimpleNamespace(last_device_node=19,
+        prefix_len=collector.start, mamba_exist=False, rotation_tail_declined=False))
+    bank = collector.recurrent["by_rid"][req.rid]
+    assert bank["publication"]["canonical_value_status"] == "captured"
+    comparisons = collector._recurrent_publication_comparisons([bank])
+    assert comparisons[0]["left_rid"] == comparisons[0]["right_rid"] == "opaque-writer"
+    assert comparisons[0]["publication_node_id"] == 19
+    assert comparisons[0]["source_key_join"].startswith("unverified")
+    assert comparisons[0]["components"]["temporal"]["mismatch_count"] > 0
+
+
+def test_generated_recurrent_observation_error_does_not_suppress_native_exception(
+        composed, tmp_path, monkeypatch):
+    _prepare_di(composed, tmp_path / "recurrent-native-error", monkeypatch)
+    calls = []
+    def observe(method, *args, **kwargs):
+        calls.append(method)
+        # The installed observation wrapper isolates its own failures.
+        if method == "recurrent_inputs":
+            coherence.observe(method, *args, **kwargs)
+    collector, _, conv, temporal = _recurrent_toy(monkeypatch)
+    monkeypatch.setattr(coherence, "_collector", collector)
+    def observation_error(*args, **kwargs):
+        raise ValueError("Injected copy failure; no native operator executed")
+    monkeypatch.setattr(collector, "recurrent_inputs", observation_error)
+    def native_error(**kwargs):
+        raise RuntimeError("Injected native dispatcher failure remains visible")
+    batch = SimpleNamespace(forward_mode=SimpleNamespace(is_extend=lambda: True, is_target_verify=lambda: False),
+        rids=["opaque"], batch_size=1, extend_prefix_lens_cpu=[2], extend_seq_lens_cpu=[3],
+        extend_prefix_lens=torch.tensor([2]))
+    query = torch.tensor([0, 3], dtype=torch.int32)
+    forward_metadata = SimpleNamespace(query_start_loc=query, mamba_cache_indices=torch.tensor([1]),
+        retrieve_next_token=None, retrieve_next_sibling=None, retrieve_parent_token=None,
+        has_mamba_track_mask=False, track_ssm_h_src=None, track_chunk_idx=None,
+        state_checkpoint_cu_starts=None, num_state_checkpoints=None, state_checkpoint_every_n_tokens=None)
+    namespace = {"torch": torch, "_is_hip": False, "_kv_observe": observe,
+        "get_forward_context": lambda: SimpleNamespace(forward_batch=batch), "has_forward_context": lambda: True,
+        "causal_conv1d_fn": object(), "is_cpu": lambda: False, "is_cuda": lambda: True,
+        "is_hip": lambda: False, "is_xpu": lambda: False, "MAX_FUSED_QKV_SPLIT_DIM": 6,
+        "_mamba_record": lambda *args: None, "_mamba_tensor": lambda value: None,
+        "fused_qkv_split_gdn_prefill": lambda x, *args: tuple(torch.zeros(1, 3, 1, 2) for _ in range(3))}
+    forward = _bind(composed, metadata._GDN, "forward_extend", namespace)
+    backend = SimpleNamespace(forward_metadata=forward_metadata, mis_metadata=None, requires_contiguous_prefill_state=False,
+        _use_strided_target_verify_qkv=False, req_to_token_pool=SimpleNamespace(
+            mamba2_layer_cache=lambda layer: SimpleNamespace(conv=[conv], temporal=temporal)),
+        _convolve_prefill=lambda *args: args[2],
+        _prefill_gates=lambda *args: (torch.ones(1, 3, 1), torch.ones(1, 3, 1)),
+        kernel_dispatcher=SimpleNamespace(extend=native_error, extend_kernel=SimpleNamespace(
+            supports_track_state_snapshot=True)))
+    layer = SimpleNamespace(layer_id=0, q_dim=2, k_dim=2, v_dim=2, num_q_heads=1, num_k_heads=1,
+                            num_v_heads=1, head_q_dim=2, head_k_dim=2, head_v_dim=2)
+    with pytest.raises(RuntimeError, match="native dispatcher failure remains visible"):
+        forward(backend, layer, batch, torch.zeros(3, 6), torch.zeros(3, 1), torch.zeros(3, 1))
+    assert calls == ["recurrent_begin", "recurrent_inputs"]
+    assert not collector.errors and collector.recurrent["errors"][-1]["stage"] == "recurrent_inputs"
+
+
+def test_recurrent_allocation_error_preserves_full_and_unconfigured_default(monkeypatch):
+    collector, _ = _toy(monkeypatch)
+    assert collector.drain(False)["recurrent_state"]["coverage"]["configured"] is False
+    def fail(*args, **kwargs):
+        raise RuntimeError("Injected pinned allocation failure")
+    pool = SimpleNamespace(layer_transfer_counter=None, mamba_map={0: 0},
+        mamba_pool=SimpleNamespace(mamba2_layer_cache=fail))
+    collector.initialize_recurrent(pool, (5, 8), 2)
+    assert not collector.errors and collector.recurrent["errors"][0]["stage"] == "allocation"
+    collector.register(_req("full"))
+    assert len(collector.by_rid) == 1 and len(collector.banks) == 2
+
+
+def test_recurrent_requires_successful_existing_full_readback_and_never_substitutes_sync(monkeypatch):
+    collector, full, conv, temporal = _recurrent_toy(monkeypatch)
+    _recurrent_capture(collector, conv, temporal, "recurrent", 5)
+    _capture_bank(collector, full, "full-one", 2)
+    _capture_bank(collector, full, "full-two", 5)
+    for rid in ("full-one", "full-two", "recurrent", *(f"ordinary-{i}" for i in range(13))):
+        collector.finish(_req(rid))
+    def failure(*args, **kwargs):
+        raise RuntimeError("Injected failure of the existing FULL readback boundary")
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Unfinished pinned captures must not be read or replayed")
+    monkeypatch.setattr(collector, "_physical", failure)
+    monkeypatch.setattr(collector, "_recurrent_value", forbidden)
+    monkeypatch.setattr(collector, "_recurrent_conv_replay", forbidden)
+    receipt = collector.drain(True)
+    assert receipt["status"] == receipt["recurrent_state"]["status"] == "unverified"
+    assert "FULL completion/readback" in receipt["recurrent_state"]["reason"]
+    assert not receipt["recurrent_state"]["replays"]
+    assert collector.drain(True) is receipt
+    # Without a known completion boundary, retain destinations rather than free
+    # potentially in-flight DMA memory or invent a synchronize/event fallback.
+    assert "host" in collector.recurrent["by_rid"]["recurrent"]
+
+
+def test_recurrent_metrics_common_rows_first_absolute_coordinate_and_nonfinite():
+    a = torch.zeros(1, 3, 1, 2, dtype=torch.bfloat16)
+    b = a.clone()
+    b[0, 1, 0, 1] = 2
+    b[0, 2, 0, 0] = float("inf")
+    metric = coherence.recurrent_metrics(torch, a[:, :2], b[:, :2], token_axis=1, start=90112)
+    assert metric["mismatch_count"] == 1 and metric["first_mismatch"] == {
+        "coordinate": [0, 1, 0, 1], "absolute_token": 90113}
+    assert metric["max_absolute_error"] == 2 and metric["rms_error"] == 1.0
+    full = coherence.recurrent_metrics(torch, a, b, token_axis=1, start=90112)
+    assert full["right_nonfinite_count"] == 1 and not full["values_exact"]
+    json.dumps(full, allow_nan=False)
+    state = torch.zeros(1, 2, 2, 2)
+    other = state.clone()
+    other[0, 1, 0, 1] = 3
+    metric = coherence.recurrent_metrics(torch, state, other)
+    assert metric["first_mismatch"] == {"coordinate": [0, 1, 0, 1], "absolute_token": None}
+    assert metric["mismatch_count"] == 1 and metric["max_absolute_error"] == 3

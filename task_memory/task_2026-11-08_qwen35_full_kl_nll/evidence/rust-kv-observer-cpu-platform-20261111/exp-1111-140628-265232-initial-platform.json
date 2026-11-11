@@ -1,0 +1,98 @@
+{
+  "job": "exp-1111-140628-265232",
+  "uid": "46137f7f-3ac3-4978-8348-6deeb60e305e",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Failed",
+    "reason": "RJobFailed",
+    "message": "Tasks with failed status: [native-cpu]",
+    "taskStatuses": {
+      "native-cpu": {
+        "failed": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T06:12:35Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "native-cpu": {
+      "replicas": 1,
+      "mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "name": "native-cpu",
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "resources": {
+            "limits": {
+              "cpu": "2",
+              "memory": "8000Mi",
+              "nvidia.com/gpu": "0"
+            },
+            "requests": {
+              "cpu": "2",
+              "memory": "8000Mi",
+              "nvidia.com/gpu": "0"
+            }
+          }
+        }
+      ],
+      "node_selector": null,
+      "affinity": {
+        "nodeAffinity": {
+          "preferredDuringSchedulingIgnoredDuringExecution": [
+            {
+              "weight": 100,
+              "preference": {
+                "matchExpressions": [
+                  {
+                    "key": "MachineType",
+                    "operator": "NotIn",
+                    "values": [
+                      "GPU"
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "replicas": [
+    {
+      "name": "exp-1111-140628-265232-cfcd2084",
+      "uid": "ccd10960-0254-4f85-b819-08e05af151a3",
+      "owner_references": [
+        {
+          "apiVersion": "rjob.brainpp.cn/v1alpha1",
+          "kind": "RJob",
+          "name": "exp-1111-140628-265232",
+          "uid": "46137f7f-3ac3-4978-8348-6deeb60e305e",
+          "controller": true,
+          "blockOwnerDeletion": true
+        }
+      ],
+      "phase": "Failed",
+      "node": null,
+      "containers": [
+        {
+          "name": "native-cpu",
+          "state": {
+            "terminated": {
+              "exitCode": 1,
+              "reason": "Error",
+              "message": "user command: exit status 1",
+              "startedAt": "2026-11-11T06:07:30Z",
+              "finishedAt": "2026-11-11T06:12:33Z",
+              "containerID": "containerd://91d9b3fdb4657f5cc1eb76b7353590ff4c629452f81a349a078315133b40dfd6"
+            }
+          },
+          "last_state": {},
+          "restart_count": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1566 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_offline_inspection.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_offline_inspection.md
+new file mode 100644
+index 00000000..a7c808d9
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_offline_inspection.md
+@@ -0,0 +1,155 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-10 | Implement bounded read-only native/profile prefix inspection; record CPU readiness, retained failed-attempt disposition and remaining formal acceptance. |
++
++# Offline Distillation run inspection
++
++TaskID: `profile-offline-inspection-20261110`.
++
++Outcome: **CLI CPU-ready, 57 selected tests PASS in 1.78s**. This completes only the delegated offline entry and its tests. Ticket04/05 first-update and final formal acceptance remain pending; Ticket06 report computation belongs to another agent. No network, platform, SSH, GPU, delegation, training control or runtime/configuration edit was performed.
++
++## Owned deliverables
++
++- `tests/manual/agent_opd/inspect_distillation_run.py`
++- `tests/fast/test_distillation_run_inspection.py`
++- This report: `task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_offline_inspection.md`
++
++Existing runtime, report computation, configuration, master task documents, other tests and unrelated working changes are excluded from the commit. The existing fast profile fixture and `DistillationProfile` public APIs are reused; no second RKL/NLL/baseline/trend implementation was added.
++
++## Frozen Python and CLI interfaces
++
++```python
++from pathlib import Path
++from tests.manual.agent_opd.distillation_profile import DistillationProfile
++from tests.manual.agent_opd.inspect_distillation_run import inspect_run
++
++inspect_run(
++    training_dir: Path,
++    *,
++    job: str,
++    expected_updates: int,
++    terminal_path: Path | None = None,
++) -> tuple[dict, DistillationProfile | None]
++```
++
++- All minimum receipt keys requested by the primary are preserved: `job`, `expected_updates`, `paths`, `native` and `profile`, including both completion booleans and both progress/count fields.
++- `job` must match each native ACK's `attempt` and the supplied terminal's `job`. This follows `run_swe_opd._prepare_training`, which supplies `KUBEBRAIN_RJOB_NAME` as `swe_attempt`. ACK cell, teacher, protocol and run-kind identity must stay constant. Full mode uses bank `u-1`, visit1; skipped attempts advance attempted counters without advancing successful IDs or bank IDs.
++- `observed_successful_updates` counts successful receipts in the bounded parsed snapshot. `successful_updates` is null when the native sequence is absent, partial, discontinuous or outside the expected budget. When present, its explicitly recorded scope is the retained successful ACK sequence, not an inferred final count from exit status. Native completion requires the supplied expected count plus a matching `Succeeded` terminal with `native_execution_succeeded=true`.
++- Final formal inspection supplies `expected_updates=200`. A first-update/live snapshot may omit a terminal. Its verified prefix remains queryable, but native completion is unverified.
++- `verified_updates` requires complete paired rows, reproducible summaries, native counts/macros/estimator, and retained canonical bank UID/source-turn/mask evidence. Missing `bank_<id>.jsonl`, missing seal or mismatching UID/mask evidence ends the prefix; no UID verification is inferred from a native boolean alone.
++- Inclusive `unverified_ranges` covers everything after the verified prefix to the expected budget, including observed extra records. `missing_pair_ranges` separately identifies updates lacking either paired file row. `read_errors` preserves missing-file and malformed-tail evidence; `terminal_error` separately preserves terminal failure when native files are missing.
++- Return value two is a clean rebuilt profile of exactly the verified prefix, or `None` for zero verified updates. Error-tainted first-pass state is discarded. The returned object has no persistence directory and no runtime invalidation attached to later unverified updates.
++
++CLI: `python -m tests.manual.agent_opd.inspect_distillation_run --training-dir ... --job ... --expected-updates 200 [--terminal ...] [--output ...]`. Without `--output`, JSON is printed. Incomplete evidence returns a normal exit; it is not a native gate. Output cannot overwrite retained evidence inside `training_dir` or the supplied terminal.
++
++## Verification method
++
++Native and paired profile files are read only through the bounded snapshot: at most `expected_updates+1` records from each file. Complete newline-terminated rows are required. A sealed bank's candidate declaration bounds its events; only source UID/group/turn and original-mask counts are retained in memory, not large token/score payloads.
++
++The first pass calls real `DistillationProfile.record_update(..., native_record=..., bank_token_counts=...)`, checks its public observations and summary against the retained pair, and checks the existing native numerators/denominators against the resulting `UpdateRow`. Only accepted original pairs are copied under `/data/ycfeng/tmp` into a temporary prefix. The second pass calls strict `DistillationProfile.rebuild` on that prefix. Originals are never trimmed, repaired or appended. No parsing of rebuild error strings determines the prefix.
++
++## Environment and exact commands
++
++Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`.
++
++Python: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, 3.12.13; pytest9.1.1. No conda activation or dependency installation. Initial `python --version` failed with `zsh:1: command not found: python` (exit127). System `/usr/bin/python3` is 3.10.6 and has no pytest; the established CPU environment was used instead. Ruff, Black and isort are absent from that environment.
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q tests/fast/test_distillation_run_inspection.py tests/fast/test_distillation_profile.py -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-inspection-pytest --basetemp=/data/ycfeng/tmp/offline-inspection-tests
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q tests/fast/test_distillation_run_inspection.py tests/fast/test_distillation_profile.py -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-inspection-final-pytest --basetemp=/data/ycfeng/tmp/offline-inspection-final-v2-tests
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m ruff check tests/manual/agent_opd/inspect_distillation_run.py tests/fast/test_distillation_run_inspection.py
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'import ast; from pathlib import Path; paths = ["tests/manual/agent_opd/inspect_distillation_run.py", "tests/fast/test_distillation_run_inspection.py"]; [ast.parse(Path(p).read_text()) for p in paths]; print("AST PASS", len(paths), "owned Python files")'
++git diff --check
++git diff --cached --check
++```
++
++| Check | Expected / passing condition | Observed | Verdict |
++| --- | --- | --- | --- |
++| Initial selected suite | Inspection plus accepted profile tests pass | 53 passed in1.01s; no failures | PASS |
++| Final selected suite | Required additional missing/native-tail/extra-row cases and job binding pass | 57 passed in1.78s, two existing SWIG deprecation warnings | PASS |
++| Whole new fast CPU file budget | Less than30s; no explicit slow registration needed | New46 cases plus existing11 cases complete in1.78s | PASS |
++| CLI partial snapshot | Exit0, honest incomplete receipt, protected original bytes | Test passes; verified1, unverified2–200, overwrite attempt exits2 without modifying source | PASS |
++| Syntax | Both owned Python files parse | AST PASS2 | PASS |
++| Ruff | Selected files lint successfully | Original error: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python: No module named ruff`, exit1 | UNAVAILABLE |
++| Whitespace and staging scope | No whitespace errors; only three owned files staged | Final scoped checks and staged file list checked before commit | PASS |
++
++No unit-test assertion failed during implementation. The unavailable interpreter alias/lint tool are environment limitations, not repaired with new tooling.
++
++## Decisive synthetic CPU observations
++
++- Uneven turns reuse the existing hand-computed sequence: update1 has3 turns and8 tokens, RKL `6/8=0.75`, NLL `8/8=1`; its first conversation's equal-turn baseline is `(2/4+3/2)/2=1`, rather than its token-weighted mean. The run baseline after two updates is `(0.75+0.4375)/2=0.59375`; rebuilt historical remaining gap is `0.75/0.59375`. Tied best remains update2. Query results match the accepted fixture.
++- A skipped ACK between successful updates1/2 produces successful IDs1–4, attempted IDs0,2,3,4 and unchanged full bank numbering0–3. No skipped observation is fabricated.
++- Successful native completion with one profile file cut after update1, malformed final bytes, or valid JSON without a final newline still reports4 native successful updates and native complete=true, but only verified profile update1, first unverified2 and unverified/missing-pair range2–4. Returned baseline is null, so partly applied update2 cannot leak derived values.
++- Native token/turn counts, expected counts, both macros, numerator/denominator, estimator and verification flags fail only profile acceptance. Exchanging individual masks while keeping aggregate token totals fixed also fails. Unknown source UID, changed source turn, mismatching membership, missing bank and missing seal bound the profile prefix at1.
++- Corruption of an earlier derived baseline, best, alive count or configuration summary ends the prefix before that row even when later rows are present. A partial native receipt makes the total null while retaining the earlier paired prefix. One-file-only profile evidence cannot supply a first verified update. Extra records are explicitly unverified, not silently discarded.
++- A four-update fixture with expected200 is incomplete, covering unverified5–200. The separate synthetic200-update fixture verifies the full bounded path in0.10s and is identified as `run_kind=smoke`; it proves CPU readiness only.
++
++## Retained failed H800 receipt: identity/failure disposition only
++
++Only one existing terminal receipt was inspected; no cloud scan, platform query or log/RCA expansion was performed. The expected local `A/training` files are not retained in the inspected directory. Exact command:
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.inspect_distillation_run --training-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/formal-h800-112k-20261110/full/exp-1110-014836-849060/A/training --job exp-1110-014836-849060 --expected-updates 200 --terminal /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/admission-formal-A-20261110.terminal.json --output /data/ycfeng/tmp/opencode-v2-tmp/opencode/offline-inspection-failed-H800-verified.json
++```
++
++Observed output: exit0; matching job `exp-1110-014836-849060`, terminal UID `ccc4c4e4-3945-4159-8021-e0f0b17008f5`, phase `Failed`, and failure message `Tasks with failed status: [student]`. Native observed receipts=0, but successful_updates=null, not a proven0 actual updates. Native complete=false, profile verified_updates=0, profile=None, first unverified1, unverified/missing-pair range1–200. The missing paths and terminal failure remain separate error fields. PASS means honest offline disposition, not native/profile acceptance or an independent reconstruction of the historical startup failure.
++
++## Remaining verification limits
++
++- Actual A first-ACK/D16, per-turn GPU measurement acceptance, timing checks, B admission and both200-update formal results remain unverified by this work. H200 configuration/platform work is owned by the primary.
++- Canonical bank UID/group/training-turn/mask verification does not establish native SWE instance/repository identity, source-manifest provenance, model checksums, actual scoring timing or tensor values. Source conversation finish IDs are replayed from retained profile observations; the transient source finish report is not independently reconstructed, especially for rejected/missing last turns.
++- Native successful count is explicitly scoped to retained receipts. A terminal exit alone cannot establish a missing native counter or missing ACK sequence. Full runtime/scientific acceptance still requires the primary's actual evidence, not synthetic receipts.
++- The reporter must use this API on retained `training` directories and supply matching job/attempt identity. Fixtures exercising the joined CLI need canonical `bank_<id>.jsonl` files; without them the correct result is zero UID-verified prefix and no queryable profile. The other agent's reporter integration is not claimed complete here.
++- Ruff was unavailable; syntax and selected runtime tests passed. No lint dependency installation or unrelated formatting was attempted.
++
++## 1. 规划完成情况
++
++**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 1｜TODO 2
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| Ticket01 | PASS | 已有D34原位验收，本次不重跑 |
++| Ticket02 | TODO | CPU已接受，GPU验收仍需A首个真实update |
++| Ticket03 | PASS | 已有15186817 CPU接入验收 |
++| Ticket04离线准备 | PASS | 本slice接口、CLI和57个CPU测试已验证 |
++| Ticket05正式执行 | BLOCKED | 仍依赖A真实首个ACK、完成inspection和fresh资源 |
++| Ticket06最终报告 | TODO | 计算实现并行由另一agent负责；真实数据未完成 |
++
++## 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** 本TaskID委派开始至CPU CLI-ready｜**当前前沿：** primary H200准备、reporter联合CLI检查。
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | 仅交付指定离线入口和验收用例，CPU-ready后停止 |
++| D2 细节反复重试 | CLEAR | 测试无失败；无平台retry或新工具安装 |
++| D3 支线问题修补 | CLEAR | 只拥有指定三文件 |
++| D4 可并行任务停滞 | CLEAR | reporter文件并行出现，平台由primary负责 |
++| D5 超范围镀金 | CLEAR | 无新算法、runtime gate、配置或GPU smoke |
++| D6 分析空转 | CLEAR | 读代码后完成实现、CPU测试和真实失败处置 |
++| D7 路线违背 | CLEAR | 遵循D37和并行授权；未修改科学/native规则 |
++
++**文档检查：** S5：`plan.md` current frontier及`spec.md` S0/`tickets/04-a-full.md`仍有D36/H800等待文本，与`requirements.md` D37及plan当前H200阶段不一致；S1/S2/S3/S4/S6未发现新的明显缺陷。
++**归因：** 无执行偏离；旧阶段文字由primary维护，不作为本slice新增阻塞。
++
++## 3. 纠正建议
++
++**分支：** B：当前阶段记录存在旧文字；离线行为规格无需变更。
++
++**文档更新（先执行）：**
++1. Primary更新`plan.md` current frontier、`spec.md` S0和`tickets/04-a-full.md` current status，按已授权D37表述H200准备并保留历史H800失败（可直接执行；这些文件不在本slice所有权内）。
++
++**需停止的偏离行为：** 无。
++
++**接下去的路线：**
++1. Reporter联合CPU CLI：使用冻结接口和canonical bank fixture → 完成标志：S9报告只读取验证前缀，真实失败和合成值区分清楚。
++2. 并行：primary H200准备/准入 → A实际首个ACK及完成inspection → B fresh资源准入；不等待A200或辅助PASS。
++
++## 4. 最值得关注的 3 点
++
++1. 指定离线入口已CPU-ready；不能据此勾选正式cell验收。
++2. 缺少canonical bank或native ACK时不推断UID/实际更新数；只返回真实验证前缀。
++3. Reporter接口已冻结；H200执行和真实A/B数据仍归primary推进。
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_report_computation.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_report_computation.md
+new file mode 100644
+index 00000000..b678eea3
+--- /dev/null
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_report_computation.md
+@@ -0,0 +1,178 @@
++## Modification History
++
++| Date | Change |
++| --- | --- |
++| 2026-11-10 | Record independent Ticket06 CPU report computation, focused validation, public API and remaining integration/formal evidence work. |
++
++# Ticket06 report computation — synthetic CPU readiness
++
++Task ID: `profile-t06-report-20261110`.
++
++## Outcome and scope
++
++**CPU computation ready: 15 new report cases PASS; 26 cases PASS including the existing profile tests.** No fixture or number below is a formal A/B result. Ticket06 final acceptance remains pending.
++
++Owned deliverables:
++
++- `tests/manual/agent_opd/distillation_report.py`: pure S9 computation, JSON/Markdown output and minimal inspector-backed CLI.
++- `tests/fast/test_distillation_report.py`: independent hand-built CPU fixtures and output assertions.
++- This report: `task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-10_report_computation.md`.
++
++No core/runtime/inspection module, H200 configuration, task master document, README or other agent's test was edited. No GPU, platform, SSH, network, publication or further delegation was performed.
++
++Inspected authoritative inputs:
++
++- `AGENTS.md` and all ten Markdown rules under `.agents/rules/`.
++- `task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md`, including D28–D32, the parallel-execution request and D37.
++- `task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md`, S4–S9.
++- `task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md` and `tickets/06-profile-report.md`.
++- Existing queries in `tests/manual/agent_opd/distillation_profile.py`; existing CPU examples in `tests/fast/test_distillation_profile.py` and `tests/manual/agent_opd/time_distillation_profile.py`.
++- `pyproject.toml`, `.pre-commit-config.yaml` and the CPU environment command in `test_report_2026-11-10_profile_integration.md`.
++
++The frozen `inspect_run` contract came from the primary's task assignment. This slice neither inspected the other agent's progress nor implemented a second native/profile parser or profile state engine.
++
++## Public API and CLI
++
++```python
++build_report(receipt, profile, *, cell, milestones=S9_MILESTONES, limitations=()) -> dict
++quantile_summary(values) -> dict
++render_markdown(report) -> str
++write_report(report, *, output_prefix: Path) -> tuple[Path, Path]
++```
++
++`build_report` reads the inspector's queryable verified prefix and preserves its complete receipt, including job, expected updates, inspected paths, native counters/terminal/error and profile prefix/first-unverified/ranges/error. It does not derive native success from profile availability. Failed runtime memory and a profile whose length differs from the receipt are rejected rather than reported as verified.
++
++The default milestones are the explicit S9 tuple `(1, 10, 50, 100, 150, 200)`; callers can pass another strictly increasing positive sequence. Expected updates are an explicit receipt/CLI input. Estimator, B, N and default k come only from `DistillationProfile`. There are no new training flags, loss calculations, runtime hooks, plots or dashboards.
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 \
++  /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B \
++  -m tests.manual.agent_opd.distillation_report \
++  --training-dir /path/to/one-attempt/training \
++  --job exp-one-attempt --cell A/full --expected-updates 200 \
++  --terminal-path /path/to/one-attempt/terminal.json \
++  --output-prefix /path/to/reports/A-profile
++```
++
++The CLI imports `tests.manual.agent_opd.inspect_distillation_run.inspect_run` only after argument parsing, then calls its frozen signature. It writes `<output-prefix>.json` and `<output-prefix>.md`, refusing to overwrite either existing artifact. The example paths/job are placeholders, not inspected formal artifacts. The combined inspector-backed command remains primary-owned and was not run in this slice; `--help` works without that dependency.
++
++## Quantile convention
++
++Only conversation remaining gap, run-relative gap, RKL trend and recovery gap have distributions. Each uses the conversation's own latest entry within the verified prefix. Different conversations can therefore have different latest measurement updates.
++
++Each conversation has equal weight. Exclude only `None`; retain zero and negative defined values. Sort the `n` defined values. At probability `p`, set `h=(n-1)*p` and linearly interpolate between indices `floor(h)` and `ceil(h)`. Report P10/P25/P50/P75/P90. One value supplies every quantile; zero defined values supplies null quantiles. Each distribution separately reports defined and undefined counts. Nonpositive and incomplete conversation baselines are separate counts. No SciPy dependency is used; nonfinite inputs are rejected rather than silently omitted.
++
++## Environment and exact validation commands
++
++Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`.
++
++- Test interpreter: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python **3.12.13**, pytest **9.1.1**, no conda activation (`CONDA_PREFIX=None`).
++- System interpreter: `/usr/bin/python3`, Python **3.10.6**; pure module/quantile checks and CLI help pass on it.
++- Host: Linux 5.10.25-nvidia-gpu, x86_64, glibc 2.35. Tests are CPU-only despite the host kernel name.
++- Pytest caches and temporary artifacts were confined to `/data/ycfeng/tmp/opencode-v2-tmp/opencode/`.
++
++Initial shell checks found no `python` executable. `/usr/bin/python3` has no pytest package. No environment was installed or changed; the existing task's CPU environment was reused.
++
++First focused run (14 PASS, one FAIL in 0.33 s):
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q tests/fast/test_distillation_report.py -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-t06-report-cache --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-t06-report-tests
++```
++
++The only failure was exact float equality for interpolated P10: observed `3.0000000000000004`, hand value `3.0`. The assertion was changed to `pytest.approx`; no computed value was rounded, scaled or replaced.
++
++Final focused run and existing-query regression:
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/data/ycfeng/tmp /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q tests/fast/test_distillation_report.py tests/fast/test_distillation_profile.py -o cache_dir=/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-t06-report-final-cache --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/profile-t06-report-final-tests
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'import ast; from pathlib import Path; paths = ["tests/manual/agent_opd/distillation_report.py", "tests/fast/test_distillation_report.py"]; [ast.parse(Path(path).read_text()) for path in paths]; print("AST PASS", len(paths), "owned Python files")'
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 python3 -B -c 'from tests.manual.agent_opd.distillation_report import quantile_summary; result = quantile_summary([None, 0.0, 10.0, 20.0, 30.0]); assert result["defined_count"] == 4 and result["undefined_count"] == 1; assert result["quantiles"]["p50"] == 15.0; print("Python 3.10 pure reporting import and quantiles PASS")'
++python3 -m tests.manual.agent_opd.distillation_report --help
++git diff --check
++```
++
++Observed: **26 PASS in 0.39 s**, comprising 15 new report cases and 11 existing profile cases. Two pre-existing SWIG import deprecation warnings (`SwigPyPacked` / `SwigPyObject`) were observed. AST: **2 owned files PASS**. System Python pure import/quantiles and CLI help: **PASS**. Whitespace check: **PASS**.
++
++Tool availability command:
++
++```bash
++env PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -c 'import importlib.util; print({name: bool(importlib.util.find_spec(name)) for name in ("ruff", "black", "isort", "pre_commit")})'
++```
++
++Observed all four modules absent. Ruff/Black/isort/pre-commit validation is **UNAVAILABLE**, not PASS. No network install or unrelated tool repair was attempted.
++
++## Expected versus observed values
++
++All jobs here are hand-built receipts named `synthetic-cpu-report-fixture` (one output-escaping test uses `synthetic|cpu`). Receipt paths are `/synthetic/cell/training`, `/synthetic/cell/training/distillation_profile` and `/synthetic/cell/terminal.json`; these are fixture labels, not real inspected files.
++
++| Case / passing condition | Expected | Observed | Result |
++| --- | --- | --- | --- |
++| S9 milestones with B10/N8/k10 | Macro baseline mean(2..11)=6.5; RKL at 1/10/50/100/150/200 = 2/11/1/1/4/3; corresponding NLL = update+0.25; each remaining gap = RKL/6.5, including update1 | Exact profile/query values match every milestone and retrospective update1/update10 ratio | PASS |
++| Earliest macro RKL tie and associated NLL | Update50 and100 both RKL1; choose50 and NLL50.25, not minimum NLL | `{update_id:50, rkl:1, nll:50.25}` | PASS |
++| Default-k macro trend/recovery | At200: trend=(4−3)/6.5; recovery=(3−1)/6.5 | 1/6.5 and2/6.5 | PASS |
++| Conversation distributions, full synthetic sequence | Own baseline2; latest RKL3; remaining1.5, run-relative3/6.5, trend0.5, recovery1; all quantiles equal the one defined value | All values and defined1/undefined0 counts match | PASS |
++| Sparse own history and baseline-window reference | g entries1/3/5, own baseline4; k3 reference at1, not3; trend=(4−1)/4=0.75 | 0.75; macro baseline2 and retrospective milestone ratios2.5/−0.5/0.5 | PASS |
++| Undefined/nonpositive populations | Seen4, alive1, positive baseline1, nonpositive2, incomplete1, defined trend1 | Exact counts; remaining/trend/recovery defined1, undefined3 | PASS |
++| Run-relative values retain zero/negative | Sorted latest values [−1,0,0.5,1.5]; P10/P25/P50/P75/P90 = −0.7/−0.25/0.25/0.75/1.2 | Values match within float interpolation tolerance; defined4/undefined0 | PASS |
++| Macro baseline zero or−2 | Preserve raw RKL/NLL; dependent remaining/trend/recovery and all conversation ratios null | Raw NLL3 retained; nonpositive count1 and every distribution defined0/undefined1 | PASS |
++| No profile or empty profile | Missing macro/best/trend/recovery null; no milestone invented; empty quantiles null; scope explicitly verified prefix | All assertions match; absent profile config unavailable, empty configured profile baseline incomplete | PASS |
++| Native200 success with profile3 | Native COMPLETE, profile INCOMPLETE / UNVERIFIED, overall INCOMPLETE; first unverified4/range[4,200]; report only prefix3 | Receipt errors/ranges/counters preserved; later milestones null/UNVERIFIED; conversation scope3 | PASS |
++| Quantiles excluding None | [None,30,0,None,20,10] yields defined4/undefined2 and3/7.5/15/22.5/27 | Values match hand arithmetic within float tolerance; zero retained | PASS |
++| Written JSON/Markdown | JSON round-trips the report; exact fixture job/paths, limitations, multiline error and quantile convention visible; existing outputs never overwritten | Output files read back and asserted; second write raises FileExistsError without changing bytes | PASS |
++| Prefix and milestone contract | Reject failed runtime memory, mismatched/nonempty missing profile and invalid milestone order/types | Expected ValueError assertions pass | PASS |
++
++## Verification limits and next actions
++
++1. **Primary: combined CLI integration.** Join the report with the shared inspector, use retained failed-attempt evidence and independently checked synthetic paired records, and inspect both output artifacts. This slice verifies pure receipt+profile reporting and file output, not the inspector's parser or actual native terminal schema.
++2. **Formal A/B evidence remains pending.** No actual A/B milestone, source-identity coverage, native counter or terminal result was inspected here. A successful synthetic200 fixture is not a formal run, admission or acceptance receipt. The final task summary and Ticket06 checkboxes were not changed.
++3. **Preserve the scientific limits.** The generated reports describe only the verified prefix, do not fill missing updates, and do not claim cross-teacher causality/ranking or that remaining gap measures still-reducible capacity.
++
++## Scoped progress checkpoint
++
++### 1. 规划完成情况
++
++**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 1｜TODO 1
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| 06 CPU S9计算 | PASS | 15个新用例与原profile回归共26 PASS；不等价于正式结果验收 |
++| 06 JSON/Markdown输出 | PASS | 输出回读、路径、错误、quantile约定和不覆盖已有证据均通过 |
++| Inspector组合CLI | TODO | Primary负责；本slice不读取另一agent进度 |
++| 06真实A/B报告与最终验收 | BLOCKED | 仍需04/05实际运行和终态证据 |
++
++### 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** 本slice开始至CPU检查完成｜**当前前沿：** 组合CLI与正式执行
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | 测试仅覆盖S9与用户明确要求；通过后停止扩展 |
++| D2 细节反复重试 | CLEAR | 单次浮点精度断言修正，无重复参数试错 |
++| D3 支线问题修补 | CLEAR | 未修改runtime、H200、inspection或无关工具 |
++| D4 可并行任务停滞 | NO DATA | 本slice独立推进；其他agent执行状态不在观察范围 |
++| D5 超范围镀金 | CLEAR | 无dashboard、plot、依赖、训练flags或第二解析器 |
++| D6 分析空转 | CLEAR | 已交付计算、输出和可重复CPU检查 |
++| D7 路线违背 | CLEAR | 按显式03CPU→06准备依赖推进；未声明06done |
++
++**文档检查：** S1/S2/S3/S4/S6未发现明显缺陷。S5：本次读取时`spec.md` S0/S8和`plan.md`部分current-frontier文字仍描述D36/H800等待，而`requirements.md` D37与plan当前phase已经允许H200；主文档由primary维护，未在本slice改写。
++**归因：** 无执行偏离；已遵守最新明确请求，不以旧状态阻塞CPU交付。
++
++### 3. 纠正建议
++
++**分支：** B：主文档当前状态有过期文字，由primary同步；本slice已按最新要求执行。
++
++**文档更新（先执行）：**
++1. Primary同步`spec.md` S0/S8、`plan.md` current-frontier与D37当前阶段，保留D36和两个失败H800 attempt历史（可直接执行；本slice无文件所有权）。
++
++**需停止的偏离行为：** 无。
++
++**接下去的路线：**
++1. Primary组合CLI：共享inspector receipt+verified prefix生成两种输出 → 完成标志：保留失败证据与手算合成记录均得到正确独立处置。
++2. 并行：正式A/H200准备与执行；B仍依赖A实际首次ACK、完成inspection和fresh准入。06最终验收只使用真实终态证据。
++
++### 4. 最值得关注的 3 点
++
++1. CPU计算完成；没有真实A/B测量或完整profile验收。
++2. Native200成功不会掩盖profile3的不完整，未验证区间保持null。
++3. 组合CLI和D37主文档同步归primary；本slice不扩大所有权或执行GPU操作。
+diff --git a/tests/fast/test_distillation_report.py b/tests/fast/test_distillation_report.py
+new file mode 100644
+index 00000000..3e1bbcf7
+--- /dev/null
++++ b/tests/fast/test_distillation_report.py
+@@ -0,0 +1,242 @@
++"""Synthetic CPU-only S9 report values, undefined populations and partial-profile disposition.
++
++No fixture represents a formal A/B measurement, and no native/profile evidence parser is mocked
++into the pure report computation. The primary session checks the combined inspector CLI separately.
++"""
++
++import copy
++import json
++import math
++
++import pytest
++
++from tests.manual.agent_opd.distillation_profile import DistillationProfile, TurnSums
++from tests.manual.agent_opd.distillation_report import (
++    S9_MILESTONES, build_report, quantile_summary, render_markdown, write_report,
++)
++
++
++def _receipt(verified, *, expected=200, observed=None, native_complete=False, profile_complete=False):
++    observed = verified if observed is None else observed
++    return {
++        "job": "synthetic-cpu-report-fixture",
++        "expected_updates": expected,
++        "paths": {
++            "training_dir": "/synthetic/cell/training",
++            "profile_dir": "/synthetic/cell/training/distillation_profile",
++            "terminal": "/synthetic/cell/terminal.json",
++        },
++        "native": {
++            "observed_successful_updates": observed,
++            "successful_updates": observed,
++            "terminal_phase": "Succeeded" if native_complete else None,
++            "complete": native_complete,
++            "error": None,
++        },
++        "profile": {
++            "verified_updates": verified,
++            "first_unverified_update": None if profile_complete else verified + 1,
++            "unverified_ranges": [] if profile_complete else [[verified + 1, expected]],
++            "complete": profile_complete,
++            "error": None,
++        },
++    }
++
++
++def _profile(*, baseline_updates=10, baseline_turns=8, trend_window=10):
++    return DistillationProfile(estimator="sampled_token", trend_window=trend_window,
++                               baseline_updates=baseline_updates, baseline_turns=baseline_turns, directory=None)
++
++
++def _record(profile, update_id, turns, *, finished=()):
++    """Turns are (group_id, t_id, RKL mean, NLL mean, tokens); only the profile computes losses' means."""
++    sums, bank = [], {}
++    for group_id, t_id, rkl, nll, tokens in turns:
++        uid = f"{group_id}:{t_id}"
++        bank[uid] = (group_id, t_id)
++        sums.append(TurnSums(uid, rkl * tokens, nll * tokens, tokens))
++    profile.record_update(update_id, sums, bank, finished)
++    assert profile.unverified_from is None
++
++
++def _milestone_profile(updates):
++    profile = _profile()
++    for update in range(1, updates + 1):
++        rkl = float(update + 1) if update <= 10 else 4.0
++        if update in (50, 100):
++            rkl = 1.0
++        elif update == 200:
++            rkl = 3.0
++        _record(profile, update, [("g", (update - 1) * 8 + turn, rkl, update + 0.25, turn)
++                                  for turn in range(1, 9)])
++    return profile
++
++
++def test_s9_milestones_fixed_baseline_and_earliest_best():
++    profile = _milestone_profile(200)
++    receipt = _receipt(200, native_complete=True, profile_complete=True)
++    before = copy.deepcopy(receipt)
++    report = build_report(receipt, profile, cell="synthetic/full", limitations=("Synthetic CPU readiness only.",))
++    assert receipt == before
++    assert profile.latest_update == 200
++    assert report["configuration"] == {
++        "estimator": "sampled_token", "baseline_updates": 10, "baseline_turns": 8, "trend_window": 10,
++    }
++    macro = report["macro"]
++    assert macro["baseline"] == {"value": 6.5, "status": "POSITIVE"}  # mean of 2..11, fixed at update 10
++    assert [row["update_id"] for row in macro["milestones"]] == list(S9_MILESTONES)
++    for row, rkl in zip(macro["milestones"], (2.0, 11.0, 1.0, 1.0, 4.0, 3.0), strict=True):
++        assert row == {
++            "update_id": row["update_id"], "status": "VERIFIED", "rkl": rkl,
++            "nll": row["update_id"] + 0.25, "remaining_gap": rkl / 6.5,
++        }
++    assert macro["rkl_best"] == {"update_id": 50, "rkl": 1.0, "nll": 50.25}
++    assert macro["rkl_trend"] == (4.0 - 3.0) / 6.5
++    assert macro["recovery_gap"] == (3.0 - 1.0) / 6.5
++    stats = report["conversations"]
++    assert stats["counts"] == {
++        "seen": 1, "alive": 1, "positive_baseline": 1, "nonpositive_baseline": 0,
++        "defined_trend": 1, "incomplete_baseline": 0,
++    }
++    for name, value in {"remaining_gap": 1.5, "run_relative_gap": 3.0 / 6.5,
++                        "rkl_trend": 0.5, "recovery_gap": 1.0}.items():
++        distribution = stats["distributions"][name]
++        assert (distribution["defined_count"], distribution["undefined_count"]) == (1, 0)
++        assert all(actual == value for actual in distribution["quantiles"].values())
++    assert report["disposition"] == {"native_training": "COMPLETE", "profile": "COMPLETE", "overall": "COMPLETE"}
++
++
++def test_sparse_history_baseline_window_and_nonpositive_conversation_populations():
++    profile = _profile(baseline_updates=2, baseline_turns=2, trend_window=3)
++    _record(profile, 1, [("g", 1, 2.0, 1.0, 1), ("g", 2, 6.0, 2.0, 3)])
++    _record(profile, 2, [("n", 1, -2.0, 3.0, 1), ("n", 2, -2.0, 3.0, 1),
++                         ("z", 1, -1.0, 4.0, 1), ("z", 2, 1.0, 4.0, 1)], finished=("n", "z"))
++    _record(profile, 3, [("g", 3, 1.0, 9.0, 2)])
++    _record(profile, 4, [("s", 1, 3.0, 2.0, 1)])
++    _record(profile, 5, [("g", 4, 1.0, 7.0, 1)], finished=("g",))
++    report = build_report(_receipt(5), profile, cell="synthetic/sparse", milestones=(1, 2, 5, 10))
++    macro, stats = report["macro"], report["conversations"]
++    assert macro["baseline"] == {"value": 2.0, "status": "POSITIVE"}  # (token-weighted 5 + -1) / 2
++    assert [row["remaining_gap"] for row in macro["milestones"]] == [2.5, -0.5, 0.5, None]
++    assert macro["rkl_best"] == {"update_id": 2, "rkl": -1.0, "nll": 3.5}
++    assert (macro["rkl_trend"], macro["recovery_gap"]) == (-1.0, 1.0)
++    assert stats["counts"] == {
++        "seen": 4, "alive": 1, "positive_baseline": 1, "nonpositive_baseline": 2,
++        "defined_trend": 1, "incomplete_baseline": 1,
++    }
++    # g's latest is update 5; reference <= 2 is update 1, not the preceding appearance at 3.
++    for name, value in {"remaining_gap": 0.25, "rkl_trend": 0.75, "recovery_gap": 0.0}.items():
++        distribution = stats["distributions"][name]
++        assert (distribution["defined_count"], distribution["undefined_count"]) == (1, 3)
++        assert list(distribution["quantiles"].values()) == [value] * 5
++    relative = stats["distributions"]["run_relative_gap"]
++    assert (relative["defined_count"], relative["undefined_count"]) == (4, 0)
++    assert relative["quantiles"] == pytest.approx({"p10": -0.7, "p25": -0.25, "p50": 0.25,
++                                                  "p75": 0.75, "p90": 1.2})
++
++
++@pytest.mark.parametrize("baseline", [0.0, -2.0])
++def test_nonpositive_macro_baseline_does_not_hide_raw_metrics(baseline):
++    profile = _profile(baseline_updates=1, baseline_turns=2, trend_window=1)
++    _record(profile, 1, [("g", 1, baseline, 2.0, 1), ("g", 2, baseline, 4.0, 1)])
++    _record(profile, 2, [("g", 3, 1.0, 5.0, 1)])
++    report = build_report(_receipt(2), profile, cell="synthetic/nonpositive", milestones=(1, 2))
++    macro = report["macro"]
++    assert macro["baseline"] == {"value": baseline, "status": "NONPOSITIVE"}
++    assert macro["milestones"][0]["rkl"] == baseline
++    assert macro["milestones"][0]["nll"] == 3.0
++    assert [row["remaining_gap"] for row in macro["milestones"]] == [None, None]
++    assert (macro["rkl_trend"], macro["recovery_gap"]) == (None, None)
++    assert report["conversations"]["counts"]["nonpositive_baseline"] == 1
++    for distribution in report["conversations"]["distributions"].values():
++        assert (distribution["defined_count"], distribution["undefined_count"]) == (0, 1)
++        assert all(value is None for value in distribution["quantiles"].values())
++
++
++@pytest.mark.parametrize("profile", [None, _profile()])
++def test_empty_verified_prefix_never_fills_milestones(profile):
++    receipt = _receipt(0)
++    receipt["native"].update(successful_updates=None, terminal_phase="Failed", error="startup failed")
++    receipt["profile"]["error"] = "no paired profile records"
++    report = build_report(receipt, profile, cell="synthetic/empty")
++    macro = report["macro"]
++    assert macro["baseline"] == {"value": None, "status": "UNAVAILABLE" if profile is None else "INCOMPLETE"}
++    assert macro["latest"] is macro["rkl_best"] is macro["rkl_trend"] is macro["recovery_gap"] is None
++    assert all(row["status"] == "NOT_OBSERVED" and row["rkl"] is row["nll"] is row["remaining_gap"] is None
++               for row in macro["milestones"])
++    assert all(count == 0 for count in report["conversations"]["counts"].values())
++    for distribution in report["conversations"]["distributions"].values():
++        assert (distribution["defined_count"], distribution["undefined_count"]) == (0, 0)
++        assert all(value is None for value in distribution["quantiles"].values())
++    assert report["inspection"] == receipt
++
++
++def test_native200_success_with_partial_profile_stays_incomplete():
++    profile = _milestone_profile(3)
++    receipt = _receipt(3, observed=200, native_complete=True)
++    receipt["profile"]["error"] = "injected partial write at update 4"
++    report = build_report(receipt, profile, cell="synthetic/partial")
++    assert report["disposition"] == {
++        "native_training": "COMPLETE", "profile": "INCOMPLETE / UNVERIFIED", "overall": "INCOMPLETE",
++    }
++    assert report["macro"]["baseline"] == {"value": None, "status": "INCOMPLETE"}
++    assert report["macro"]["milestones"][0]["rkl"] == 2.0
++    assert report["macro"]["milestones"][0]["remaining_gap"] is None
++    assert all(row["status"] == "UNVERIFIED" and row["rkl"] is None for row in report["macro"]["milestones"][1:])
++    assert report["conversations"]["as_of_update"] == 3
++    assert report["conversations"]["counts"]["defined_trend"] == 0
++    assert report["conversations"]["distributions"]["run_relative_gap"]["undefined_count"] == 1
++    markdown = render_markdown(report)
++    assert "Observed successful updates: 200" in markdown
++    assert "Verified prefix: 3; first unverified update: 4; unverified ranges: [[4, 200]]" in markdown
++    assert "injected partial write at update 4" in markdown
++    assert "These are not counts for unverified later training." in markdown
++
++
++def test_quantile_convention_omits_none_without_omitting_zero():
++    summary = quantile_summary([None, 30.0, 0.0, None, 20.0, 10.0])
++    assert (summary["defined_count"], summary["undefined_count"]) == (4, 2)
++    assert summary["quantiles"] == pytest.approx({"p10": 3.0, "p25": 7.5, "p50": 15.0,
++                                                  "p75": 22.5, "p90": 27.0})
++    assert all(value is None for value in quantile_summary([None])["quantiles"].values())
++    assert set(quantile_summary([7.0, None])["quantiles"].values()) == {7.0}
++    for value in (math.inf, -math.inf, math.nan):
++        with pytest.raises(ValueError, match="finite or None"):
++            quantile_summary([value])
++
++
++def test_json_markdown_paths_and_no_overwrite(tmp_path):
++    receipt = _receipt(0)
++    receipt["job"] = "synthetic|cpu"
++    receipt["native"]["error"] = "line1|detail\nline2"
++    report = build_report(receipt, None, cell="synthetic/full", limitations=("Synthetic CPU readiness only.",))
++    prefix = tmp_path / "report" / "synthetic-profile"
++    json_path, markdown_path = write_report(report, output_prefix=prefix)
++    assert json.loads(json_path.read_text()) == report
++    markdown = markdown_path.read_text()
++    assert "Synthetic CPU readiness only." in markdown
++    assert "synthetic\\|cpu" in markdown
++    assert "line1\\|detail<br>line2" in markdown
++    assert all(path in markdown for path in receipt["paths"].values())
++    assert "h=(n-1)*p" in markdown and "exclude None" in markdown
++    before = (json_path.read_bytes(), markdown_path.read_bytes())
++    with pytest.raises(FileExistsError, match="already exists"):
++        write_report(report, output_prefix=prefix)
++    assert before == (json_path.read_bytes(), markdown_path.read_bytes())
++
++
++@pytest.mark.parametrize("milestones", [(0, 1), (2, 1), (1, 1), (True,), (1.5,)])
++def test_milestone_inputs_are_explicit_and_ordered(milestones):
++    with pytest.raises(ValueError, match="strictly increasing positive integers"):
++        build_report(_receipt(0), None, cell="synthetic", milestones=milestones)
++
++
++def test_nonqueryable_or_mismatched_prefix_is_rejected():
++    with pytest.raises(ValueError, match="nonempty verified prefix"):
++        build_report(_receipt(1), None, cell="synthetic")
++    profile = _milestone_profile(1)
++    with pytest.raises(ValueError, match="exactly the inspector's"):
++        build_report(_receipt(2), profile, cell="synthetic")
++    profile.invalidate(2, "synthetic failure; runtime memory is not an offline verified prefix")
++    with pytest.raises(ValueError, match="exactly the inspector's"):
++        build_report(_receipt(1), profile, cell="synthetic")
+diff --git a/tests/fast/test_distillation_run_inspection.py b/tests/fast/test_distillation_run_inspection.py
+new file mode 100644
+index 00000000..8f9d281a
+--- /dev/null
++++ b/tests/fast/test_distillation_run_inspection.py
+@@ -0,0 +1,321 @@
++"""Offline acceptance of synthetic ACK/profile pairs and preserved incomplete evidence."""
++
++import json
++import subprocess
++import sys
++import pytest
++
++from tests.fast.test_distillation_profile import UPDATES, _bank, _profile, _sums
++from tests.manual.agent_opd.distillation_profile import OBSERVATIONS_FILE, UPDATES_FILE, DistillationProfile
++from tests.manual.agent_opd.inspect_distillation_run import inspect_run
++
++
++JOB = "synthetic-offline-attempt"
++
++
++def _write_rows(path, rows):
++    path.write_text("".join(json.dumps(row, allow_nan=False) + "\n" for row in rows))
++
++
++def _rows(path):
++    return [json.loads(line) for line in path.read_text().splitlines()]
++
++
++def _terminal(path, *, phase="Succeeded", job=JOB):
++    path.write_text(json.dumps({"job": job, "status": {"phase": phase, "message": "synthetic terminal"},
++                                "native_execution_succeeded": phase == "Succeeded"}))
++    return path
++
++
++def _bank_evidence(path, turns):
++    # A failed candidate is not a trained/profile row. Bank slot order, not ACK
++    # turn-sum order, determines the first-appearance conversation IDs.
++    slots = [{"slot": index, "source_uid": turn[0]} for index, turn in enumerate(turns)]
++    slots.append({"slot": len(turns), "source_uid": "failed-candidate"})
++    rows = [{"event": "acquisition_start", "slots": slots}]
++    for slot, (uid, group, turn, _, _, tokens) in enumerate(turns):
++        rows.append({"event": "slot_finished", "slot": slot, "source_uid": uid, "status": "completed",
++                     "error": None, "sample": {"metadata": {"source": {"uid": uid, "group_id": group,
++                                                                            "assistant_turn_ordinal": turn}},
++                                                "loss_mask": [1] * tokens, "response_length": tokens}})
++    rows.append({"event": "slot_finished", "slot": len(turns), "source_uid": "failed-candidate",
++                 "status": "invalid", "error": "synthetic failure", "sample": None})
++    rows.append({"event": "acquisition_sealed", "actual_turns": len(turns),
++                 "membership": list(range(len(turns))), "missing_slots": [len(turns)]})
++    _write_rows(path, rows)
++
++
++def _run(tmp_path, count=4, *, skipped=False):
++    training = tmp_path / "training"
++    training.mkdir()
++    profile = _profile(training / "distillation_profile")
++    native = []
++    for update_id in range(1, count + 1):
++        if count <= len(UPDATES):
++            turns, finished = UPDATES[update_id - 1]
++        else:
++            turns, finished = [(f"g:{update_id}", "g", update_id, 2.0, 4.0, 2)], []
++        profile.record_update(update_id, _sums(turns), _bank(turns), finished)
++        summary = profile.summary()
++        attempted = update_id + int(skipped and update_id >= 2)
++        native.append({"update": update_id, "successful_updates": update_id, "update_successful": True,
++                       "native_attempted_count": attempted, "native_skipped_count": attempted - update_id,
++                       "attempted_rollout_id": attempted - 1, "bank": update_id - 1, "bank_visit": 1,
++                       "cell": "A/full", "attempt": JOB, "protocol": "full",
++                       "teacher_identity": "synthetic-teacher", "run_kind": "smoke",
++                       "turn_sums_verified": True, "unverified_turn_sums": [], "bank_membership_verified": True,
++                       "actual_turns": summary["turns"], "expected_bank_turns": summary["turns"],
++                       "original_tokens": summary["tokens"], "expected_bank_tokens": summary["tokens"],
++                       "kl_estimator": summary["estimator"], "kl_before_tis": summary["rkl"],
++                       "nll_before_tis": summary["nll"], "kl_before_tis_numerator": summary["rkl_sum"],
++                       "nll_before_tis_numerator": summary["nll_sum"],
++                       "kl_before_tis_denominator": summary["tokens"], "nll_before_tis_denominator": summary["tokens"]})
++        _bank_evidence(training / f"bank_{update_id - 1}.jsonl", turns)
++    _write_rows(training / UPDATES_FILE, native)
++    return training, _terminal(tmp_path / "terminal.json"), profile
++
++
++def _inspect(training, terminal=None, expected=4):
++    return inspect_run(training, job=JOB, expected_updates=expected, terminal_path=terminal)
++
++
++def test_hand_computed_uneven_turns_skipped_ack_and_read_only_rebuild(tmp_path):
++    training, terminal, original = _run(tmp_path, skipped=True)
++    before = {path: path.read_bytes() for path in training.rglob("*") if path.is_file()}
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"] is True
++    assert receipt["native"]["observed_successful_updates"] == receipt["native"]["successful_updates"] == 4
++    assert receipt["profile"]["verified_updates"] == receipt["profile"]["canonical_uid_verified_updates"] == 4
++    assert receipt["profile"]["complete"] is True
++    assert receipt["profile"]["first_unverified_update"] is None
++    assert receipt["profile"]["unverified_ranges"] == []
++    assert profile.summary() == original.summary()
++    assert profile.baseline == 0.59375
++    assert profile.update(1).rkl == 6 / 8
++    assert profile.update(1).nll == 8 / 8
++    assert profile.conversation(0).baseline == (2 / 4 + 3 / 2) / 2
++    assert profile.remaining_gap(1) == 0.75 / 0.59375
++    assert profile.conversation_states(2) == original.conversation_states(2)
++    assert profile.best_update().update_id == 2
++    assert profile.latest_update == profile.latest_verified_update == 4
++    assert profile.unverified_from is None and profile.directory is None
++    assert all(path.read_bytes() == contents for path, contents in before.items())
++
++
++def test_full_expected_200_is_distinct_from_a_four_update_fixture(tmp_path):
++    training, terminal, _ = _run(tmp_path)
++    receipt, profile = _inspect(training, terminal, expected=200)
++    assert receipt["native"]["successful_updates"] == 4 and not receipt["native"]["complete"]
++    assert not receipt["profile"]["complete"] and profile.latest_update == 4
++    assert receipt["profile"]["unverified_ranges"] == [[5, 200]]
++
++
++def test_synthetic_200_update_readiness(tmp_path):
++    training, terminal, original = _run(tmp_path, count=200)
++    receipt, profile = _inspect(training, terminal, expected=200)
++    assert receipt["native"]["complete"] and receipt["profile"]["complete"]
++    assert receipt["native"]["ack_identity"]["run_kind"] == "smoke"
++    assert profile.summary() == original.summary() and profile.latest_update == 200
++
++
++def test_first_update_live_inspection_needs_no_terminal(tmp_path):
++    training, _, _ = _run(tmp_path, count=1)
++    receipt, profile = _inspect(training, expected=200)
++    assert receipt["native"]["successful_updates"] == receipt["profile"]["verified_updates"] == 1
++    assert receipt["native"]["terminal_phase"] is None and not receipt["native"]["complete"]
++    assert "No terminal" in receipt["native"]["error"]
++    assert receipt["profile"]["unverified_ranges"] == [[2, 200]]
++    assert profile.update(1).rkl == 0.75 and profile.baseline is None
++
++
++@pytest.mark.parametrize("sink", [UPDATES_FILE, OBSERVATIONS_FILE])
++@pytest.mark.parametrize("tail", ["absent", "partial", "valid_without_newline"])
++def test_native_success_with_partial_profile_returns_only_clean_prefix(tmp_path, sink, tail):
++    training, terminal, _ = _run(tmp_path)
++    path = training / "distillation_profile" / sink
++    rows = _rows(path)
++    _write_rows(path, rows[:1])
++    if tail != "absent":
++        with path.open("a") as stream:
++            stream.write('{"update_id": 2, "incomplete":' if tail == "partial" else json.dumps(rows[1]))
++    before = path.read_bytes()
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"] and not receipt["profile"]["complete"]
++    assert receipt["profile"]["verified_updates"] == 1
++    assert receipt["profile"]["first_unverified_update"] == 2
++    assert receipt["profile"]["unverified_ranges"] == [[2, 4]]
++    assert receipt["profile"]["missing_pair_ranges"] == [[2, 4]]
++    assert profile.latest_update == 1 and profile.baseline is None
++    assert profile.summary()["rkl"] == 0.75 and profile.unverified_from is None
++    assert path.read_bytes() == before
++    with pytest.raises((ValueError, json.JSONDecodeError)):
++        DistillationProfile.rebuild(training / "distillation_profile")
++
++
++@pytest.mark.parametrize("field,value", [
++    ("original_tokens", 999), ("actual_turns", 999), ("expected_bank_tokens", 999),
++    ("kl_before_tis", 99.0), ("nll_before_tis", 99.0), ("kl_estimator", "wrong-estimator"),
++    ("kl_before_tis_numerator", 99.0), ("nll_before_tis_denominator", 999),
++    ("bank_membership_verified", False), ("turn_sums_verified", False),
++])
++def test_native_measurement_mismatch_bounds_profile_not_native_completion(tmp_path, field, value):
++    training, terminal, _ = _run(tmp_path)
++    path = training / UPDATES_FILE
++    rows = _rows(path)
++    rows[1][field] = value
++    if field == "turn_sums_verified":
++        rows[1]["unverified_turn_sums"] = ["first retained native measurement error"]
++    _write_rows(path, rows)
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"] and receipt["native"]["successful_updates"] == 4
++    assert receipt["profile"]["verified_updates"] == profile.latest_update == 1
++    assert receipt["profile"]["unverified_ranges"] == [[2, 4]]
++    assert profile.baseline is None
++    if field == "turn_sums_verified":
++        assert "first retained native measurement error" in receipt["profile"]["error"]
++
++
++@pytest.mark.parametrize("fault", ["uid", "turn", "per_uid_tokens", "membership", "missing_bank", "missing_seal"])
++def test_canonical_uid_identity_and_mask_evidence_are_required(tmp_path, fault):
++    training, terminal, _ = _run(tmp_path)
++    path = training / "bank_1.jsonl"
++    rows = _rows(path)
++    if fault == "uid":
++        rows[1]["sample"]["metadata"]["source"]["uid"] = "not-canonical"
++    elif fault == "turn":
++        rows[1]["sample"]["metadata"]["source"]["assistant_turn_ordinal"] = 99
++    elif fault == "per_uid_tokens":
++        # Keep the macro count fixed while exchanging two individual masks.
++        rows[1]["sample"]["loss_mask"].pop()
++        rows[1]["sample"]["response_length"] -= 1
++        rows[2]["sample"]["loss_mask"].append(1)
++        rows[2]["sample"]["response_length"] += 1
++    elif fault == "membership":
++        rows[-1]["membership"].pop()
++    elif fault == "missing_seal":
++        rows.pop()
++    if fault == "missing_bank":
++        path.unlink()
++    else:
++        _write_rows(path, rows)
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"] and receipt["profile"]["verified_updates"] == 1
++    assert receipt["profile"]["canonical_uid_verified_updates"] == 1
++    assert receipt["profile"]["first_unverified_update"] == 2 and profile.latest_update == 1
++
++
++@pytest.mark.parametrize("field", ["baseline", "rkl_best", "conversations_alive", "baseline_turns"])
++def test_earlier_derived_summary_corruption_bounds_prefix(tmp_path, field):
++    training, terminal, _ = _run(tmp_path)
++    path = training / "distillation_profile" / UPDATES_FILE
++    rows = _rows(path)
++    rows[1][field] = 999
++    _write_rows(path, rows)
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["profile"]["verified_updates"] == 1
++    assert "summary does not reproduce" in receipt["profile"]["error"]
++    assert profile.latest_update == 1 and profile.baseline is None
++
++
++@pytest.mark.parametrize("field,value", [("successful_updates", 3), ("native_skipped_count", 1),
++                                        ("attempt", "other-attempt"), ("update_successful", False)])
++def test_bad_native_sequence_keeps_observed_count_but_not_proven_total(tmp_path, field, value):
++    training, terminal, _ = _run(tmp_path)
++    path = training / UPDATES_FILE
++    rows = _rows(path)
++    rows[1][field] = value
++    _write_rows(path, rows)
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["observed_successful_updates"] == (3 if field == "update_successful" else 4)
++    assert receipt["native"]["successful_updates"] is None and not receipt["native"]["complete"]
++    assert "Native update 2" in receipt["native"]["error"]
++    assert receipt["profile"]["verified_updates"] == profile.latest_update == 1
++
++
++def test_missing_native_profile_and_failed_before_start_do_not_prove_zero(tmp_path):
++    terminal = _terminal(tmp_path / "failed.json", phase="Failed")
++    receipt, profile = _inspect(tmp_path / "not-retained", terminal, expected=200)
++    assert receipt["native"]["observed_successful_updates"] == 0
++    assert receipt["native"]["successful_updates"] is None
++    assert receipt["native"]["terminal_phase"] == "Failed" and receipt["native"]["terminal_job_verified"]
++    assert not receipt["native"]["complete"] and not receipt["profile"]["complete"]
++    assert receipt["profile"]["verified_updates"] == 0 and profile is None
++    assert receipt["profile"]["unverified_ranges"] == [[1, 200]]
++
++
++def test_missing_first_bank_never_claims_uid_verification(tmp_path):
++    training, terminal, _ = _run(tmp_path)
++    (training / "bank_0.jsonl").unlink()
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"]
++    assert receipt["profile"]["verified_updates"] == receipt["profile"]["canonical_uid_verified_updates"] == 0
++    assert profile is None and receipt["profile"]["unverified_ranges"] == [[1, 4]]
++
++
++def test_terminal_identity_mismatch_and_missing_native_success_field(tmp_path):
++    training, terminal, _ = _run(tmp_path)
++    _terminal(terminal, job="other-job")
++    receipt, _ = _inspect(training, terminal)
++    assert not receipt["native"]["complete"] and not receipt["native"]["terminal_job_verified"]
++    assert "Terminal job" in receipt["native"]["error"]
++    terminal.write_text(json.dumps({"job": JOB, "status": {"phase": "Succeeded"}}))
++    receipt, _ = _inspect(training, terminal)
++    assert not receipt["native"]["complete"]
++    assert "native_execution_succeeded" in receipt["native"]["error"]
++
++
++def test_partial_native_receipt_is_not_a_proven_final_count(tmp_path):
++    training, terminal, _ = _run(tmp_path)
++    path = training / UPDATES_FILE
++    rows = _rows(path)
++    _write_rows(path, rows[:1])
++    with path.open("a") as stream:
++        stream.write('{"update": 2, "successful_updates":')
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["observed_successful_updates"] == 1
++    assert receipt["native"]["successful_updates"] is None and not receipt["native"]["complete"]
++    assert "partial line 2" in receipt["native"]["error"]
++    assert receipt["profile"]["verified_updates"] == profile.latest_update == 1
++    assert receipt["profile"]["missing_pair_ranges"] == []
++    assert receipt["profile"]["unverified_ranges"] == [[2, 4]]
++
++
++@pytest.mark.parametrize("missing", [UPDATES_FILE, OBSERVATIONS_FILE])
++def test_one_profile_file_only_cannot_supply_a_verified_first_update(tmp_path, missing):
++    training, terminal, _ = _run(tmp_path)
++    (training / "distillation_profile" / missing).unlink()
++    receipt, profile = _inspect(training, terminal)
++    assert receipt["native"]["complete"] and receipt["profile"]["verified_updates"] == 0
++    assert receipt["profile"]["missing_pair_ranges"] == [[1, 4]] and profile is None
++    assert any(error is not None for error in receipt["profile"]["read_errors"].values())
++
++
++def test_extra_records_are_unverified_not_silently_discarded(tmp_path):
++    training, terminal, _ = _run(tmp_path)
++    receipt, profile = _inspect(training, terminal, expected=3)
++    assert receipt["native"]["observed_successful_updates"] == 4
++    assert receipt["native"]["successful_updates"] is None and not receipt["native"]["complete"]
++    assert receipt["profile"]["verified_updates"] == profile.latest_update == 3
++    assert not receipt["profile"]["complete"] and receipt["profile"]["unverified_ranges"] == [[4, 4]]
++
++
++def test_cli_writes_receipt_without_modifying_evidence(tmp_path):
++    training, terminal, _ = _run(tmp_path, count=1)
++    output = tmp_path / "inspection.json"
++    argv = [sys.executable, "-B", "-m", "tests.manual.agent_opd.inspect_distillation_run",
++            "--training-dir", str(training), "--job", JOB, "--expected-updates", "200",
++            "--terminal", str(terminal), "--output", str(output)]
++    result = subprocess.run(argv, capture_output=True, text=True, check=False)
++    assert result.returncode == 0, result.stderr
++    receipt = json.loads(output.read_text())
++    assert receipt["profile"]["verified_updates"] == 1 and receipt["profile"]["unverified_ranges"] == [[2, 200]]
++    retained = training / UPDATES_FILE
++    before = retained.read_bytes()
++    result = subprocess.run([*argv[:-1], str(retained)], capture_output=True, text=True, check=False)
++    assert result.returncode == 2 and retained.read_bytes() == before
++
++
++@pytest.mark.parametrize("expected", [0, -1, True, 1.5])
++def test_invalid_inspection_budget_is_not_a_run_verdict(tmp_path, expected):
++    with pytest.raises(ValueError, match="positive integer"):
++        inspect_run(tmp_path, job=JOB, expected_updates=expected)
+diff --git a/tests/manual/agent_opd/distillation_report.py b/tests/manual/agent_opd/distillation_report.py
+new file mode 100644
+index 00000000..d944482f
+--- /dev/null
++++ b/tests/manual/agent_opd/distillation_report.py
+@@ -0,0 +1,287 @@
++"""Report S9 values from the shared inspector's receipt and queryable verified profile prefix.
++
++Example (the training directory and terminal receipt must belong to the same attempt):
++    python -m tests.manual.agent_opd.distillation_report --training-dir /path/to/A/training \
++        --job exp-A --cell A/full --expected-updates 200 --terminal-path /path/to/A/terminal.json \
++        --output-prefix /path/to/reports/A-profile
++
++This module neither parses native/profile evidence nor computes model losses. Configuration and
++historical ratios belong to DistillationProfile; native and profile completeness belong to the
++shared inspector. Quantiles give each conversation equal weight and include only defined values.
++"""
++
++import argparse
++import copy
++import json
++import math
++from collections.abc import Mapping, Sequence
++from pathlib import Path
++
++from tests.manual.agent_opd.distillation_profile import DistillationProfile
++
++S9_MILESTONES = (1, 10, 50, 100, 150, 200)
++QUANTILES = {"p10": 0.10, "p25": 0.25, "p50": 0.50, "p75": 0.75, "p90": 0.90}
++QUANTILE_CONVENTION = (
++    "Equal weight per conversation; exclude None, never replace it with zero. Sort the n defined "
++    "values; for probability p use h=(n-1)*p and linearly interpolate between floor(h) and ceil(h). "
++    "One defined value supplies every quantile; no defined values gives null quantiles."
++)
++INTERPRETATION_LIMITS = (
++    "All metrics describe the verified profile prefix, not any later unverified native updates. "
++    "Unavailable milestones remain null; they are never extrapolated or filled from partial records.",
++    "RKL-best is the earliest minimum RKL, with NLL at that same update. NLL has no independent "
++    "best, trend or recovery statistic.",
++    "Conversation distributions use each conversation's own latest entry. These entries can have "
++    "different measurement updates; trend uses the latest reference at least k updates earlier.",
++    "Full-mode measurements mix training progress with turn position and actual turn/token membership. "
++    "Later conversations measure their own baseline on a student trained longer.",
++    "Remaining gap is an RKL-to-baseline ratio, not the fraction still reducible. Model size alone "
++    "does not prove a strictly positive minimum RKL.",
++    "Normalized gaps establish neither causal nor rank comparisons across teachers, models or runs. "
++    "This report performs no benchmark evaluation.",
++    "The report does not independently verify source SWE instance/repository identity, exact-text "
++    "proxy coverage or seed count. Consult the attempt's source and configuration evidence.",
++)
++
++
++def quantile_summary(values: Sequence[float | None]) -> dict:
++    """Summarize defined values using the documented (n-1)*p linear interpolation convention."""
++    defined = sorted(value for value in values if value is not None)
++    if any(not math.isfinite(value) for value in defined):
++        raise ValueError("Quantile values must be finite or None")
++    quantiles = {}
++    for name, probability in QUANTILES.items():
++        if not defined:
++            quantiles[name] = None
++            continue
++        position = (len(defined) - 1) * probability
++        lower, upper = math.floor(position), math.ceil(position)
++        fraction = position - lower
++        quantiles[name] = (1 - fraction) * defined[lower] + fraction * defined[upper]
++    return {
++        "defined_count": len(defined),
++        "undefined_count": len(values) - len(defined),
++        "quantiles": quantiles,
++    }
++
++
++def _baseline_status(profile: DistillationProfile | None) -> str:
++    if profile is None:
++        return "UNAVAILABLE"
++    if profile.baseline is None:
++        return "INCOMPLETE"
++    return "POSITIVE" if profile.baseline > 0 else "NONPOSITIVE"
++
++
++def _milestone(profile, update_id, *, verified_updates, observed_updates):
++    if update_id > verified_updates:
++        return {
++            "update_id": update_id,
++            "status": "UNVERIFIED" if update_id <= observed_updates else "NOT_OBSERVED",
++            "rkl": None, "nll": None, "remaining_gap": None,
++        }
++    row = profile.update(update_id)
++    return {
++        "update_id": update_id, "status": "VERIFIED", "rkl": row.rkl, "nll": row.nll,
++        # Query the now-fixed baseline, rather than the null persisted before it was complete.
++        "remaining_gap": profile.remaining_gap(update_id),
++    }
++
++
++def _conversation_report(profile, summary, *, verified_updates):
++    counts = {
++        "seen": summary["conversations_seen"],
++        "alive": summary["conversations_alive"],
++        "positive_baseline": summary["conversations_with_baseline"],
++        "nonpositive_baseline": summary["conversations_with_nonpositive_baseline"],
++        "defined_trend": summary["conversations_with_trend"],
++    } if summary is not None else {
++        "seen": 0, "alive": 0, "positive_baseline": 0, "nonpositive_baseline": 0, "defined_trend": 0,
++    }
++    counts["incomplete_baseline"] = counts["seen"] - counts["positive_baseline"] - counts["nonpositive_baseline"]
++    states = profile.conversation_states(profile.trend_window) if profile is not None else None
++    return {
++        "scope": "VERIFIED_PREFIX",
++        "profile_available": profile is not None,
++        "as_of_update": verified_updates,
++        "counts": counts,
++        "distributions": {
++            name: quantile_summary(getattr(states, name) if states is not None else ())
++            for name in ("remaining_gap", "run_relative_gap", "rkl_trend", "recovery_gap")
++        },
++    }
++
++
++def build_report(
++    receipt: Mapping,
++    profile: DistillationProfile | None,
++    *,
++    cell: str,
++    milestones: Sequence[int] = S9_MILESTONES,
++    limitations: Sequence[str] = (),
++) -> dict:
++    """Pure report computation; the receipt is authoritative for native/profile dispositions.
++
++    The profile must be the inspector's queryable, verified prefix, not failed runtime memory.
++    Hand-built CPU fixtures should identify their synthetic job/cell and pass that limitation here;
++    this function never promotes input numbers to formal results or recomputes inspection verdicts.
++    """
++    expected = receipt["expected_updates"]
++    if type(expected) is not int or expected < 1:
++        raise ValueError("Expected updates must be a positive integer")
++    if any(type(update) is not int or update < 1 for update in milestones) or list(milestones) != sorted(set(milestones)):
++        raise ValueError("Milestones must be strictly increasing positive integers")
++    verified = receipt["profile"]["verified_updates"]
++    if profile is None:
++        if verified != 0:
++            raise ValueError("A nonempty verified prefix requires the inspector's queryable profile")
++    elif profile.unverified_from is not None or profile.latest_update != verified:
++        raise ValueError("Profile must contain exactly the inspector's queryable verified prefix")
++
++    summary = profile.summary() if profile is not None and verified else None
++    configuration = {
++        name: getattr(profile, name) if profile is not None else None
++        for name in ("estimator", "baseline_updates", "baseline_turns", "trend_window")
++    }
++    native_complete, profile_complete = receipt["native"]["complete"], receipt["profile"]["complete"]
++    return {
++        "cell": cell,
++        "inspection": copy.deepcopy(dict(receipt)),
++        "disposition": {
++            "native_training": "COMPLETE" if native_complete else "INCOMPLETE",
++            "profile": "COMPLETE" if profile_complete else "INCOMPLETE / UNVERIFIED",
++            "overall": "COMPLETE" if native_complete and profile_complete else "INCOMPLETE",
++        },
++        "configuration": configuration,
++        "macro": {
++            "as_of_update": verified,
++            "baseline": {
++                "value": profile.baseline if profile is not None else None,
++                "status": _baseline_status(profile),
++            },
++            "latest": {name: summary[name] for name in (
++                "update_id", "rkl", "nll", "tokens", "turns", "conversations", "remaining_gap",
++            )} if summary is not None else None,
++            "rkl_best": summary["rkl_best"] if summary is not None else None,
++            "rkl_trend": summary["rkl_trend"] if summary is not None else None,
++            "recovery_gap": summary["recovery_gap"] if summary is not None else None,
++            "milestones": [
++                _milestone(profile, update, verified_updates=verified,
++                           observed_updates=receipt["native"]["observed_successful_updates"])
++                for update in milestones
++            ],
++        },
++        "conversations": _conversation_report(profile, summary, verified_updates=verified),
++        "quantile_convention": QUANTILE_CONVENTION,
++        "limitations": [*limitations, *INTERPRETATION_LIMITS],
++    }
++
++
++def _display(value) -> str:
++    if value is None:
++        return "null"
++    if isinstance(value, float):
++        return format(value, ".8g")
++    return str(value).replace("|", "\\|").replace("\n", "<br>")
++
++
++def render_markdown(report: Mapping) -> str:
++    """Render a single cell without comparing it with another teacher or attempt."""
++    receipt, macro = report["inspection"], report["macro"]
++    native, profile = receipt["native"], receipt["profile"]
++    config, conversations = report["configuration"], report["conversations"]
++    lines = [
++        f"# Distillation profile report: {_display(report['cell'])}", "",
++        f"- Job: `{_display(receipt['job'])}`",
++        f"- Expected successful updates: {receipt['expected_updates']}",
++        f"- Report disposition: **{report['disposition']['overall']}**", "",
++        "## Native training and profile verification", "",
++        "| Evidence | Disposition | Progress / terminal evidence | Error |",
++        "| --- | --- | --- | --- |",
++        f"| Native training | {report['disposition']['native_training']} | "
++        f"Observed successful updates: {native['observed_successful_updates']}; "
++        f"verified native counter: {_display(native['successful_updates'])}; "
++        f"terminal phase: {_display(native['terminal_phase'])} | {_display(native['error'])} |",
++        f"| Profile | {report['disposition']['profile']} | Verified prefix: {profile['verified_updates']}; "
++        f"first unverified update: {_display(profile['first_unverified_update'])}; "
++        f"unverified ranges: {_display(json.dumps(profile['unverified_ranges']))} | {_display(profile['error'])} |",
++        "", "## Inspected paths", "",
++    ]
++    lines.extend(f"- {name}: `{_display(path)}`" for name, path in receipt["paths"].items())
++    lines.extend([
++        "", "## Macro values", "",
++        f"Scope: verified prefix through update {macro['as_of_update']}; not any later native updates.",
++        f"Estimator: `{_display(config['estimator'])}`; baseline updates B={_display(config['baseline_updates'])}; "
++        f"conversation baseline turns N={_display(config['baseline_turns'])}; default k={_display(config['trend_window'])}.",
++        f"Macro baseline: {_display(macro['baseline']['value'])} ({macro['baseline']['status']}). "
++        "A missing or nonpositive baseline leaves dependent ratios, trend and recovery null.", "",
++        "| Update | Verification | RKL | Student NLL | Remaining gap |",
++        "| --- | --- | --- | --- | --- |",
++    ])
++    lines.extend("| " + " | ".join(_display(row[name]) for name in (
++        "update_id", "status", "rkl", "nll", "remaining_gap",
++    )) + " |" for row in macro["milestones"])
++    best = macro["rkl_best"]
++    lines.extend([
++        "", f"- RKL-best (earliest tie): {_display(json.dumps(best))}",
++        f"- Latest verified values: {_display(json.dumps(macro['latest']))}",
++        f"- Default-k RKL trend (positive means RKL decreased): {_display(macro['rkl_trend'])}",
++        f"- Recovery gap: {_display(macro['recovery_gap'])}",
++        "", "## Conversation statistics", "",
++        f"Scope: each conversation's latest entry within the verified prefix through update "
++        f"{conversations['as_of_update']}; profile available: {conversations['profile_available']}. "
++        "These are not counts for unverified later training.", "",
++    ])
++    lines.extend(f"- {name}: {value}" for name, value in conversations["counts"].items())
++    lines.extend([
++        "", report["quantile_convention"], "",
++        "| Quantity | Defined | Undefined | " + " | ".join(QUANTILES) + " |",
++        "| --- | --- | --- | " + " | ".join("---" for _ in QUANTILES) + " |",
++    ])
++    for name, distribution in conversations["distributions"].items():
++        values = [name, distribution["defined_count"], distribution["undefined_count"],
++                  *distribution["quantiles"].values()]
++        lines.append("| " + " | ".join(_display(value) for value in values) + " |")
++    lines.extend(["", "## Limitations", ""])
++    lines.extend(f"- {_display(limitation)}" for limitation in report["limitations"])
++    return "\n".join(lines) + "\n"
++
++
++def write_report(report: Mapping, *, output_prefix: Path) -> tuple[Path, Path]:
++    """Write new per-cell JSON and Markdown artifacts; never overwrite existing evidence."""
++    json_path, markdown_path = Path(f"{output_prefix}.json"), Path(f"{output_prefix}.md")
++    for path in (json_path, markdown_path):
++        if path.exists():
++            raise FileExistsError(f"Report output already exists: {path}; choose a new output prefix")
++    serialized = json.dumps(report, indent=2, allow_nan=False) + "\n"
++    markdown = render_markdown(report)
++    output_prefix.parent.mkdir(parents=True, exist_ok=True)
++    with json_path.open("x", encoding="utf-8") as stream:
++        stream.write(serialized)
++    with markdown_path.open("x", encoding="utf-8") as stream:
++        stream.write(markdown)
++    return json_path, markdown_path
++
++
++def main(argv: Sequence[str] | None = None) -> None:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--training-dir", type=Path, required=True)
++    parser.add_argument("--job", required=True)
++    parser.add_argument("--cell", required=True)
++    parser.add_argument("--expected-updates", type=int, required=True)
++    parser.add_argument("--terminal-path", type=Path)
++    parser.add_argument("--output-prefix", type=Path, required=True)
++    args = parser.parse_args(argv)
++    # The shared inspector is needed only for CLI execution, not pure CPU reporting tests.
++    from tests.manual.agent_opd.inspect_distillation_run import inspect_run
++
++    receipt, profile = inspect_run(args.training_dir, job=args.job, expected_updates=args.expected_updates,
++                                  terminal_path=args.terminal_path)
++    report = build_report(receipt, profile, cell=args.cell)
++    paths = write_report(report, output_prefix=args.output_prefix)
++    print(json.dumps({"cell": args.cell, "disposition": report["disposition"],
++                      "outputs": [str(path) for path in paths]}))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tests/manual/agent_opd/inspect_distillation_run.py b/tests/manual/agent_opd/inspect_distillation_run.py
+new file mode 100644
+index 00000000..07c14557
+--- /dev/null
++++ b/tests/manual/agent_opd/inspect_distillation_run.py
+@@ -0,0 +1,347 @@
++"""Read-only inspection of one full-mode attempt's native ACKs and retained profile.
++
++Only a paired prefix with native counts, canonical bank UIDs/masks and reproducible
++profile summaries is queryable. A bad update never exposes its partly applied state.
++This is an offline receipt writer, not a training gate; incomplete inspection exits
++normally and cannot control a worker. Run with ``python -m`` from the repository:
++
++    python -m tests.manual.agent_opd.inspect_distillation_run \
++        --training-dir /path/to/attempt --job exp-id --expected-updates 200 \
++        --terminal /path/to/terminal.json --output /path/to/inspection.json
++"""
++
++import argparse
++import json
++import math
++import tempfile
++from pathlib import Path
++
++from tests.manual.agent_opd.distillation_profile import (
++    OBSERVATIONS_FILE,
++    UPDATES_FILE,
++    DistillationProfile,
++    TurnSums,
++)
++
++
++def _jsonl_rows(path: Path, limit: int):
++    """Read complete lines only, with a bound on the retained record count."""
++    with path.open("rb") as stream:
++        for number in range(1, limit + 2):
++            line = stream.readline()
++            if not line:
++                return
++            if number > limit:
++                raise ValueError(f"{path}: more than {limit} records; inspection bound exceeded")
++            if not line.endswith(b"\n"):
++                raise ValueError(f"{path}: partial line {number}; no terminating newline")
++            try:
++                row = json.loads(line)
++            except (ValueError, UnicodeError) as error:
++                raise ValueError(f"{path}: invalid JSON at line {number}: {error}") from error
++            if not isinstance(row, dict):
++                raise ValueError(f"{path}: line {number} is not an object")
++            yield row
++
++
++def _read_rows(path: Path, limit: int) -> tuple[list[dict], str | None]:
++    rows = []
++    try:
++        rows.extend(_jsonl_rows(path, limit))
++    except (OSError, ValueError) as error:
++        return rows, f"{type(error).__name__}: {error}"
++    return rows, None
++
++
++def _terminal(path: Path | None, job: str) -> tuple[dict | None, str | None]:
++    if path is None:
++        return None, "No terminal receipt supplied; native completion is unverified"
++    try:
++        row = json.loads(path.read_bytes())
++        if row["job"] != job:
++            raise ValueError(f"Terminal job {row['job']!r} differs from requested {job!r}")
++        if not isinstance(row["status"]["phase"], str):
++            raise ValueError("Terminal status.phase is not a string")
++        return row, None
++    except (OSError, ValueError, KeyError, TypeError) as error:
++        return None, f"{type(error).__name__}: {error}"
++
++
++def _native_prefix(rows: list[dict], job: str) -> tuple[list[dict], str | None]:
++    """Successful update IDs are dense; attempted IDs include skipped ACKs."""
++    prefix = []
++    identity = None
++    previous_attempt = 0
++    for update_id, row in enumerate(rows, 1):
++        try:
++            for name, value in (("update", update_id), ("successful_updates", update_id),
++                                ("bank", update_id - 1), ("bank_visit", 1)):
++                if type(row[name]) is not int or row[name] != value:
++                    raise ValueError(f"Native {name}={row[name]!r}; expected {value}")
++            if row["update_successful"] is not True:
++                raise ValueError("updates.jsonl contains an unsuccessful ACK")
++            attempted, skipped, rollout = (row[name] for name in
++                                            ("native_attempted_count", "native_skipped_count", "attempted_rollout_id"))
++            if any(type(value) is not int for value in (attempted, skipped, rollout)):
++                raise ValueError("Native attempted/skipped/rollout counters must be integers")
++            if attempted <= previous_attempt or skipped != attempted - update_id or skipped < 0 or rollout != attempted - 1:
++                raise ValueError("Native attempted/skipped counters disagree with successful ACK sequence")
++            current = tuple(row[name] for name in ("cell", "attempt", "protocol", "teacher_identity", "run_kind"))
++            if any(not isinstance(value, str) or not value for value in current) or row["protocol"] != "full":
++                raise ValueError("Native full-mode attempt identity is missing or invalid")
++            if row["attempt"] != job:
++                raise ValueError(f"Native attempt {row['attempt']!r} differs from requested job {job!r}")
++            if identity is not None and current != identity:
++                raise ValueError("Native ACKs cross attempt/cell/protocol/teacher/run-kind identity")
++            identity, previous_attempt = current, attempted
++            prefix.append(row)
++        except (ValueError, KeyError, TypeError) as error:
++            return prefix, f"Native update {update_id}: {type(error).__name__}: {error}"
++    return prefix, None
++
++
++def _canonical_bank(path: Path) -> tuple[dict, dict]:
++    """Extract source identity and mask counts without retaining large token payloads."""
++    slots, completed, sealed = None, {}, None
++    # The first native record declares the candidate slots and therefore the bound.
++    with path.open("rb") as stream:
++        first = stream.readline()
++    if not first.endswith(b"\n"):
++        raise ValueError(f"{path}: missing complete acquisition_start")
++    start = json.loads(first)
++    if start["event"] != "acquisition_start":
++        raise ValueError(f"{path}: first record is not acquisition_start")
++    entries = start["slots"]
++    slots = {entry["slot"]: entry["source_uid"] for entry in entries}
++    if not slots or len(slots) != len(entries) or any(type(slot) is not int or slot < 0 for slot in slots):
++        raise ValueError(f"{path}: invalid or duplicate candidate slots")
++    if set(slots) != set(range(len(slots))) or len(set(slots.values())) != len(slots):
++        raise ValueError(f"{path}: noncanonical slots or duplicate source UIDs")
++    ended_slots = set()
++    for index, row in enumerate(_jsonl_rows(path, len(slots) + 2)):
++        if index == 0:
++            if row != start:
++                raise ValueError(f"{path}: acquisition_start changed during inspection")
++            continue
++        if sealed is not None:
++            raise ValueError(f"{path}: records follow acquisition_sealed")
++        if row["event"] == "acquisition_sealed":
++            sealed = row
++            continue
++        if row["event"] != "slot_finished":
++            raise ValueError(f"{path}: bank did not seal successfully")
++        slot = row["slot"]
++        if type(slot) is not int or slot not in slots or slot in ended_slots or row["source_uid"] != slots[slot]:
++            raise ValueError(f"{path}: duplicate or mismatching finished slot/UID")
++        ended_slots.add(slot)
++        if row["status"] == "invalid":
++            continue
++        if row["status"] != "completed" or row["error"] is not None:
++            raise ValueError(f"{path}: invalid slot status")
++        sample = row["sample"]
++        source = sample["metadata"]["source"]
++        if source["uid"] != slots[slot]:
++            raise ValueError(f"{path}: sample UID differs from canonical slot UID")
++        mask = sample["loss_mask"]
++        if not isinstance(mask, list) or len(mask) != sample["response_length"] or not mask:
++            raise ValueError(f"{path}: canonical original mask/response lengths disagree")
++        if any(type(value) is not int or value not in (0, 1) for value in mask) or not any(mask):
++            raise ValueError(f"{path}: canonical original mask is not nonempty binary targets")
++        completed[slot] = (source["uid"], source["group_id"], source["assistant_turn_ordinal"], sum(mask))
++    if sealed is None:
++        raise ValueError(f"{path}: no acquisition_sealed membership retained")
++    membership = sealed["membership"]
++    if (membership != sorted(completed) or any(type(slot) is not int for slot in membership)
++            or type(sealed["actual_turns"]) is not int or sealed["actual_turns"] != len(completed)
++            or sealed["missing_slots"] != sorted(set(slots) - completed.keys())):
++        raise ValueError(f"{path}: sealed membership differs from canonical completed slots")
++    bank = {uid: (group, turn) for uid, group, turn, _ in (completed[slot] for slot in membership)}
++    counts = {uid: tokens for uid, _, _, tokens in (completed[slot] for slot in membership)}
++    return bank, counts
++
++
++def _verify_update(profile: DistillationProfile, native: dict, summary: dict, observations: dict,
++                   bank: dict, counts: dict) -> None:
++    update_id = native["successful_updates"]
++    if any(type(row["update_id"]) is not int or row["update_id"] != update_id for row in (summary, observations)):
++        raise ValueError("Paired profile update IDs do not match the native successful ACK")
++    rows = observations["rows"]
++    if any(type(value) is not int for row in rows for value in row[1:4]):
++        raise ValueError("Profile conversation/turn/replay identities must be integers")
++    sums = [TurnSums(uid, rkl, nll, tokens) for uid, _, _, _, rkl, nll, tokens in rows]
++    old_count = profile.conversation_count
++    groups = [profile.conversation(c_id).group_id for c_id in range(old_count)]
++    for c_id, group in observations["new_conversations"]:
++        if type(c_id) is not int or c_id != len(groups) or group in groups:
++            raise ValueError("Invalid new conversation mapping")
++        groups.append(group)
++    finished = observations["finished"]
++    if any(type(c_id) is not int or not 0 <= c_id < len(groups) for c_id in finished):
++        raise ValueError("Invalid finished conversation identity")
++    offset = sum(profile.update(u).turns for u in range(1, profile.latest_update + 1))
++    profile.record_update(update_id, sums, bank, [groups[c_id] for c_id in finished],
++                          native_record=native, bank_token_counts=counts)
++    if profile.unverified_from is not None:
++        raise ValueError(profile.unverified_reason)
++    expected_rows = []
++    for index in range(offset, offset + len(sums)):
++        turn = profile.observation(index)
++        expected_rows.append([turn.uid, turn.c_id, turn.t_id, turn.replay_num,
++                              turn.rkl_sum, turn.nll_sum, turn.tokens])
++    expected_new = [[c_id, profile.conversation(c_id).group_id]
++                    for c_id in range(old_count, profile.conversation_count)]
++    if rows != expected_rows or observations["new_conversations"] != expected_new or finished != sorted(set(finished)):
++        raise ValueError("Profile observation identity/order/replay differs from canonical record semantics")
++    if any(turn[3] != 0 for turn in expected_rows):
++        raise ValueError("Full-mode profile contains replayed training turns")
++    if profile.summary() != summary:
++        raise ValueError("Profile update summary does not reproduce native/canonical observations")
++    update = profile.update(update_id)
++    for name, expected in (("kl_before_tis_numerator", update.rkl_sum),
++                           ("nll_before_tis_numerator", update.nll_sum),
++                           ("kl_before_tis_denominator", update.tokens),
++                           ("nll_before_tis_denominator", update.tokens)):
++        value = native[name]
++        if type(value) not in (int, float) or not math.isfinite(value) or not math.isclose(value, expected):
++            raise ValueError(f"Native {name}={value!r} differs from verified profile {expected}")
++
++
++def _profile_prefix(training_dir: Path, native: list[dict], summaries: list[dict], observations: list[dict]):
++    verified, error = 0, None
++    if not native or not summaries or not observations:
++        return 0, None, "No complete native/profile pair available; values and UID identity are unverified"
++    # A first pass uses record_update validation. Only accepted original pairs enter
++    # a temporary prefix; rebuild performs the second pass and returns clean state.
++    with tempfile.TemporaryDirectory(prefix="distillation-inspection-", dir="/data/ycfeng/tmp") as temporary:
++        directory = Path(temporary)
++        try:
++            first = summaries[0]
++            profile = DistillationProfile(estimator=first["estimator"], trend_window=first["trend_window"],
++                                          baseline_updates=first["baseline_updates"],
++                                          baseline_turns=first["baseline_turns"], directory=None)
++            for row, summary, observation in zip(native, summaries, observations, strict=False):
++                try:
++                    bank, counts = _canonical_bank(training_dir / f"bank_{row['bank']}.jsonl")
++                    _verify_update(profile, row, summary, observation, bank, counts)
++                except (OSError, ValueError, KeyError, TypeError, IndexError, OverflowError) as failure:
++                    error = f"Profile update {verified + 1}: {type(failure).__name__}: {failure}"
++                    break
++                for name, value in ((UPDATES_FILE, summary), (OBSERVATIONS_FILE, observation)):
++                    with (directory / name).open("a", encoding="utf-8") as stream:
++                        stream.write(json.dumps(value, allow_nan=False) + "\n")
++                verified += 1
++            rebuilt = DistillationProfile.rebuild(directory) if verified else None
++            return verified, rebuilt, error
++        except (OSError, ValueError, KeyError, TypeError, IndexError, OverflowError) as failure:
++            return 0, None, f"Prefix rebuild unavailable: {type(failure).__name__}: {failure}"
++
++
++def _missing_pairs(summaries: list[dict], observations: list[dict], horizon: int) -> list[list[int]]:
++    summary_ids = {row.get("update_id") for row in summaries if type(row.get("update_id")) is int}
++    observation_ids = {row.get("update_id") for row in observations if type(row.get("update_id")) is int}
++    ranges = []
++    for update_id in range(1, horizon + 1):
++        if update_id in summary_ids and update_id in observation_ids:
++            continue
++        if ranges and ranges[-1][1] == update_id - 1:
++            ranges[-1][1] = update_id
++        else:
++            ranges.append([update_id, update_id])
++    return ranges
++
++
++def inspect_run(training_dir: Path, *, job: str, expected_updates: int,
++                terminal_path: Path | None = None) -> tuple[dict, DistillationProfile | None]:
++    """Inspect one snapshot; never infer zero actual updates from missing receipts.
++
++    ``verified_updates`` requires canonical UID/mask evidence as well as paired
++    mathematical consistency. Ranges are inclusive, extending to the supplied
++    expected budget (200 for final formal acceptance). Missing terminal evidence
++    leaves native completion unverified but does not invalidate a live prefix.
++    Job identity is checked against the terminal, not inferred from ACK filenames.
++    """
++    if type(expected_updates) is not int or expected_updates < 1 or not isinstance(job, str) or not job:
++        raise ValueError("job must be nonempty and expected_updates must be a positive integer")
++    training_dir = Path(training_dir)
++    terminal_path = Path(terminal_path) if terminal_path is not None else None
++    profile_dir = training_dir / "distillation_profile"
++    rows, read_error = _read_rows(training_dir / UPDATES_FILE, expected_updates + 1)
++    native_rows, sequence_error = _native_prefix(rows, job)
++    native_error = sequence_error or read_error
++    observed = sum(row.get("update_successful") is True for row in rows)
++    successful = len(native_rows) if native_rows and native_error is None else None
++    if len(rows) > expected_updates:
++        native_error = native_error or "Native ACK count exceeds expected update budget"
++        successful = None
++    terminal, terminal_error = _terminal(terminal_path, job)
++    phase = terminal["status"]["phase"] if terminal is not None else None
++    if not rows:
++        native_error = native_error or "No native successful ACKs retained; actual update count is unverified"
++    native_complete = (native_error is None and successful == expected_updates and phase == "Succeeded"
++                       and terminal.get("native_execution_succeeded") is True)
++    if phase is not None and phase != "Succeeded":
++        terminal_error = f"Native terminal phase is {phase}: {terminal['status'].get('message', '')}"
++    elif phase == "Succeeded" and terminal.get("native_execution_succeeded") is not True:
++        terminal_error = "Succeeded terminal lacks native_execution_succeeded=true"
++    elif phase == "Succeeded" and successful != expected_updates:
++        terminal_error = f"Retained successful ACK count {successful!r} does not establish expected {expected_updates} updates"
++    summaries, summaries_error = _read_rows(profile_dir / UPDATES_FILE, expected_updates + 1)
++    observations, observations_error = _read_rows(profile_dir / OBSERVATIONS_FILE, expected_updates + 1)
++    verified, profile, profile_error = _profile_prefix(training_dir, native_rows[:expected_updates], summaries, observations)
++    profile_error = profile_error or sequence_error or read_error or summaries_error or observations_error
++    if not profile_error and (len(summaries) != verified or len(observations) != verified):
++        profile_error = "Unpaired or extra profile records beyond the verified native prefix"
++    if not profile_error and verified < expected_updates:
++        profile_error = f"Verified profile prefix ends at {verified}; expected {expected_updates} updates"
++    complete = verified == expected_updates and profile_error is None
++    horizon = max(expected_updates, len(rows), len(summaries), len(observations))
++    first_unverified = verified + 1 if verified < horizon else None
++    receipt = {
++        "job": job, "expected_updates": expected_updates,
++        "paths": {"training_dir": str(training_dir), "profile_dir": str(profile_dir),
++                  "terminal": str(terminal_path) if terminal_path is not None else None},
++        "native": {"observed_successful_updates": observed, "successful_updates": successful,
++                   "terminal_phase": phase, "complete": native_complete,
++                   "error": native_error or terminal_error,
++                   "terminal_error": terminal_error,
++                   "terminal_job_verified": terminal is not None,
++                   "terminal_uid": terminal.get("uid") if terminal is not None else None,
++                   "ack_identity": {name: native_rows[0][name] for name in
++                                    ("cell", "attempt", "protocol", "teacher_identity", "run_kind")} if native_rows else None,
++                   "count_scope": "retained_successful_ack_sequence" if successful is not None else "unverified"},
++        "profile": {"verified_updates": verified, "first_unverified_update": first_unverified,
++                    "unverified_ranges": [[first_unverified, horizon]] if first_unverified is not None else [],
++                    "complete": complete, "error": profile_error,
++                    "canonical_uid_verified_updates": verified,
++                    "identity_scope": "sealed_bank_source_uid_group_turn_and_original_mask",
++                    "missing_pair_ranges": _missing_pairs(summaries, observations, horizon),
++                    "read_errors": {"native_updates": read_error, "profile_updates": summaries_error,
++                                    "profile_observations": observations_error},
++                    "retained_update_rows": len(summaries), "retained_observation_rows": len(observations)},
++    }
++    return receipt, profile
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--training-dir", type=Path, required=True)
++    parser.add_argument("--job", required=True)
++    parser.add_argument("--expected-updates", type=int, required=True)
++    parser.add_argument("--terminal", type=Path)
++    parser.add_argument("--output", type=Path)
++    args = parser.parse_args()
++    if args.output is not None:
++        output = args.output.resolve()
++        if output.is_relative_to(args.training_dir.resolve()) or (args.terminal is not None and output == args.terminal.resolve()):
++            parser.error("output must not overwrite retained training/profile/bank or terminal evidence")
++    receipt, _ = inspect_run(args.training_dir, job=args.job, expected_updates=args.expected_updates,
++                             terminal_path=args.terminal)
++    text = json.dumps(receipt, indent=2, allow_nan=False) + "\n"
++    if args.output is None:
++        print(text, end="")
++    else:
++        args.output.write_text(text, encoding="utf-8")
++
++
++if __name__ == "__main__":
++    main()

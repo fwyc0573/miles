@@ -171,6 +171,11 @@ def _config_input(path):
             if not isinstance(value, str) or not value:
                 raise ValueError(f"{name} must be a required nonempty string when kv_coherence_capture=true")
             coherence_inputs[name] = value
+        indices = config.get("recurrent_sample_original_indices")
+        if (not isinstance(indices, list) or len(indices) != 2
+                or any(type(index) is not int or index < 0 for index in indices) or len(set(indices)) != len(indices)):
+            raise ValueError("recurrent_sample_original_indices requires two distinct nonnegative original indices")
+        coherence_inputs["recurrent_sample_original_indices"] = indices
     if runtime_metadata and not selected_fp32:
         raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
     cache_salt_full_input = config.get("cache_salt_full_input", False)
@@ -191,7 +196,7 @@ def _config_input(path):
         if kv_store_stream_witness:
             config["kv_store_stream_witness"] = True
         # The wrapper owns opt-in; inherited formal true must not activate capture.
-        for name in ("kv_coherence_capture", "kv_coherence_build_receipt"):
+        for name in ("kv_coherence_capture", "kv_coherence_build_receipt", "recurrent_sample_original_indices"):
             config.pop(name, None)
         if coherence:
             config.update(kv_coherence_capture=True, **coherence_inputs)
@@ -258,6 +263,39 @@ def _payload(sample, mode):
     if mode == "response_only":
         return _score_payload(sample["tokens"], response_length=sample["response_length"])
     return _score_payload(sample["tokens"])
+
+
+def _recurrent_workload(fixture, original_indices):
+    from tests.manual.agent_opd.sglang_kv_coherence import WINDOW_END, WINDOW_START
+
+    selected, inputs = [], []
+    for index in original_indices:
+        matches = [(position, sample) for position, sample in enumerate(fixture["samples"])
+                   if sample["sample_index"] == index]
+        if len(matches) != 1:
+            raise ValueError(f"Recurrent original index {index} must resolve exactly once in the approved first4")
+        position, sample = matches[0]
+        payload = _payload(sample, "full_input")
+        tokens = payload["input_ids"]
+        count = len(tokens)
+        if payload["logprob_start_len"] != 0 or count <= WINDOW_START:
+            raise ValueError("Recurrent candidates require full-input scoring extending beyond the existing window start")
+        inputs.append(tokens)
+        selected.append({"sample_index": index, "source_uid": sample["source_uid"], "sample_position": position,
+                         "input_count": count, "extend": min(count, WINDOW_END) - WINDOW_START})
+    counts = [item["input_count"] for item in selected]
+    if len(set(counts)) != len(counts):
+        raise ValueError("Recurrent input lengths must distinguish the two provisional native candidates")
+    common_prefix = 0
+    for left, right in zip(*inputs):
+        if left != right:
+            break
+        common_prefix += 1
+    common_rows = common_prefix - WINDOW_START
+    if not 0 < common_rows <= min(item["extend"] for item in selected):
+        raise ValueError("Recurrent common token prefix must lie in both actual native continuations")
+    return {"samples": selected, "P": WINDOW_START, "recurrent_input_counts": counts,
+            "recurrent_common_rows": common_rows, "common_prefix_token_count": common_prefix}
 
 
 def _meta_summary(value):
@@ -554,7 +592,7 @@ def _native_observer_errors(server_log):
 
 
 async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None,
-                                    native_observer=None):
+                                    native_observer=None, recurrent_workload=None):
     # The retained native /get_server_info alias delegates to /server_info.
     # Its internal_states list covers DP respondents, never all TP processes.
     endpoint = url + "/get_server_info"
@@ -562,6 +600,9 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
     record = {"status": "failed", "http": http,
               "coverage": "One responding scheduler process per DP; no all-TP gather or independent TP-rank verification",
               "runtime_semantics": "UNVERIFIED; CPU host-enqueue receipts do not prove device completion or numerical parity"}
+    if recurrent_workload is not None:
+        record["recurrent_state"] = {"status": "UNVERIFIED", "states": [],
+                                    "reason": "Existing all16/FULL readback has not completed"}
     raw = None
     try:
         if kv_coherence_capture:
@@ -586,6 +627,8 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
                 raise ValueError(f"KV coherence UNVERIFIED: {record['native_observer_errors']['marker']} in native server output")
             _coherence_native_bindings(info, native_observer)
             record["kv_coherence"] = _coherence_states(info, output)
+            if recurrent_workload is not None:
+                record["recurrent_state"] = _recurrent_states(info, rows, output, recurrent_workload)
         record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
     except Exception as error:
         record.update(error_type=type(error).__name__, reason=str(error))
@@ -623,6 +666,118 @@ def _coherence_native_bindings(info, native_observer):
         for name in ("class_is_module_attribute", "factory_class_matches"):
             if binding.get(name) is not True:
                 raise ValueError(f"DP response {index} KV coherence native_binding.{name} must be exactly true")
+
+
+def _recurrent_cases(requests, output, workload):
+    from tests.manual.agent_opd.sglang_kv_coherence import SCORING_REQUEST_COUNT
+
+    rids = [row["native_request_id"] for row in requests]
+    if (len(requests) != SCORING_REQUEST_COUNT or len(set(rids)) != SCORING_REQUEST_COUNT
+            or any(not isinstance(rid, str) or not rid for rid in rids)
+            or any(row["status"] != "scored" for row in requests)):
+        raise ValueError("Recurrent join requires all16 distinct completed response RIDs")
+    flushes = [json.loads(line) for line in (output / "cache.jsonl").read_text().splitlines()]
+    cases = {}
+    for source in workload["samples"]:
+        candidates = [row for row in requests if row["sample_index"] == source["sample_index"] and row["mode"] == "full_input"]
+        if len(candidates) != 2 or {row["phase"] for row in candidates} != {"cold", "warm_stream"}:
+            raise ValueError("Recurrent source must have exactly one actual cold and warm full-input response")
+        for case in candidates:
+            if (any(case[key] != source[key] for key in ("source_uid", "sample_position", "input_count"))
+                    or case["repetition"] != 0 or case["logprob_start_len"] != 0 or case["cache_salt"] is not None
+                    or case["meta_info"].get("num_retractions") != 0):
+                raise ValueError("Recurrent original source/full-input identity or phase is inconsistent")
+            rid = case["native_request_id"]
+            completion = json.loads(Path(case["completion_scores"]).read_text())
+            keys = ("native_request_id", "request_id", "pair", "phase", "mode", "source_uid", "sample_index",
+                    "repetition", "sample_position")
+            if case["meta_info"]["id"] != rid or any(completion[key] != case[key] for key in keys):
+                raise ValueError("Recurrent request/meta/completion identities differ")
+            matching = [(number, flush) for number, flush in enumerate(flushes, 1)
+                        if all(flush[key] == case[key] for key in ("phase", "repetition", "mode"))
+                        and (case["phase"] == "warm_stream" or flush["sample_position"] == case["sample_position"])]
+            expected_cache = ("cold_flushed" if case["phase"] == "cold" else
+                              "stream_first_after_flush" if case["sample_position"] == 0 else "ordered_stream_after_flush")
+            if len(matching) != 1 or matching[0][1]["status"] != "flushed" or case["cache_state"] != expected_cache:
+                raise ValueError("Recurrent phase does not join its actual verified cache flush")
+            cases[rid] = {**{key: case[key] for key in keys}, "input_count": case["input_count"],
+                          "cache_state": case["cache_state"], "cache_flush": {"line_number": matching[0][0],
+                              "record": matching[0][1]}, "extend": source["extend"]}
+    if len({case["pair"] for case in cases.values()}) != 1:
+        raise ValueError("Recurrent responses must belong to one actual teacher pair")
+    return cases
+
+
+def _recurrent_state(capture, metadata, cases, workload):
+    producer = capture.get("recurrent_state")
+    if not isinstance(producer, dict) or producer.get("schema") != "recurrent-state-v1":
+        raise ValueError("Missing or malformed recurrent-state-v1 producer receipt")
+    if (type(producer.get("process_id")) is not int or producer["process_id"] <= 0
+            or producer["process_id"] != capture["process_id"] or producer["process_id"] != metadata["process_id"]):
+        raise ValueError("Recurrent producer and responding metadata process identities differ")
+    if producer.get("status") != "captured":
+        raise ValueError("Recurrent producer evidence is not captured")
+    records = producer.get("records")
+    if (not isinstance(records, list) or len(records) != len(cases)
+            or any(not isinstance(row, dict) for row in records)
+            or {row.get("rid") for row in records} != set(cases)):
+        raise ValueError("Recurrent four opaque records do not join actual selected response RIDs")
+    annotated = []
+    for row in records:
+        case = cases[row["rid"]]
+        if (any(type(row.get(key)) is not int for key in ("P", "extend", "input_count"))
+                or row["P"] != workload["P"] or row["extend"] != case["extend"] or row["input_count"] != case["input_count"]
+                or not isinstance(row.get("descriptors"), dict) or not row["descriptors"]):
+            raise ValueError("Recurrent native RID/P/extend/input shape or descriptors are inconsistent")
+        forward = []
+        for sequence, event, fields in metadata["rows"]:
+            values = dict(fields)
+            if (event == "gdn_snapshot_allocation" and values.get("rids") == [row["rid"]]
+                    and values.get("layer_id") == 0 and values.get("prefix_lens") == [workload["P"]]):
+                if values.get("extend_lens") != [row["extend"]]:
+                    raise ValueError("Recurrent continuation shape differs from actual layer-0 forward metadata")
+                forward.append({"sequence": sequence, "event": event, "fields": values})
+        if len(forward) != 1:
+            raise ValueError("Recurrent record requires one actual layer-0 RID/P forward metadata observation")
+        annotated.append({"rid": row["rid"], "logical_case": case, "forward_metadata": forward[0]})
+    comparisons, replays = producer.get("comparisons"), producer.get("replays")
+    if (not isinstance(comparisons, list) or not comparisons or not isinstance(replays, list) or not replays
+            or not producer.get("coverage") or not isinstance(producer.get("errors"), list)):
+        raise ValueError("Recurrent comparison/replay/coverage/error evidence is incomplete")
+    pairs = set()
+    for comparison in comparisons:
+        if (not isinstance(comparison, dict) or comparison.get("left_rid") not in cases
+                or comparison.get("right_rid") not in cases or type(comparison.get("common_rows")) is not int
+                or comparison["common_rows"] != workload["recurrent_common_rows"]):
+            raise ValueError("Recurrent comparison RID/common-row identity differs from the actual source prefix")
+        pairs.add(frozenset((comparison["left_rid"], comparison["right_rid"])))
+    required = {frozenset((left, right)) for left, a in cases.items() for right, b in cases.items()
+                if left != right and (a["sample_index"] == b["sample_index"] or a["phase"] == b["phase"])}
+    if not required <= pairs:
+        raise ValueError("Recurrent paired source/phase comparison evidence is incomplete")
+    if any(not isinstance(replay, dict) or replay.get("rid") not in cases
+           or not isinstance(replay.get("kind"), str) or not replay["kind"] or not replay.get("status") for replay in replays):
+        raise ValueError("Recurrent replay identity/kind/status evidence is incomplete")
+    if {replay["rid"] for replay in replays} != set(cases):
+        raise ValueError("Recurrent replay evidence does not cover all four captured calls")
+    return {"process_id": producer["process_id"], "rank": metadata["rank"], "status": "joined", "records": annotated,
+            "producer_receipt": "server_info.internal_states[].kv_coherence.recurrent_state",
+            "interpretation": "Provenance join only; producer metrics unchanged, no causal/fix/global-state/formal acceptance"}
+
+
+def _recurrent_states(info, requests, output, workload):
+    result = {"status": "UNVERIFIED", "states": [], "coverage": "Responding scheduler process only; no all-TP gather"}
+    try:
+        cases = _recurrent_cases(requests, output, workload)
+        if not info["internal_states"]:
+            raise ValueError("Recurrent readback has no responding scheduler state")
+        for index, state in enumerate(info["internal_states"]):
+            joined = _recurrent_state(state["kv_coherence"], state["mamba_runtime_metadata"], cases, workload)
+            result["states"].append({"state_index": index, **joined})
+        result["status"] = "joined"
+    except Exception as error:
+        result.update(error_type=type(error).__name__, reason=str(error))
+    return result
 
 
 def _coherence_states(info, output):
@@ -726,6 +881,8 @@ def _run(args):
     fixture = _load_samples(args.samples, config["context_tokens"])
     if config.get("kv_coherence_capture", False) and (args.repeats != 1 or len(fixture["samples"]) != 4):
         raise ValueError("kv_coherence_capture requires the original first4/one-repetition 16-request workload")
+    recurrent_workload = (_recurrent_workload(fixture, config["recurrent_sample_original_indices"])
+                          if config.get("kv_coherence_capture", False) else None)
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
     if Path(job).name != job or job in ("", ".", ".."):
         raise ValueError("Platform job name must be a single directory component")
@@ -752,6 +909,7 @@ def _run(args):
         result["sample_manifest"] = fixture["sample_manifest"]
     if package is not None:
         result["kv_coherence_package"] = package
+        result["recurrent_workload"] = recurrent_workload
     try:
         _worker_environment(local)
         local_created = True
@@ -778,7 +936,8 @@ def _run(args):
                 build = Path(config["repo"]) / build
             result["kv_coherence_source_preflight"] = coherence.prepare_source(
                 root, image=config["image"], archive_dir=output / "kv_coherence_source_preflight",
-                build_receipt=build)
+                build_receipt=build, recurrent_input_counts=recurrent_workload["recurrent_input_counts"],
+                recurrent_common_rows=recurrent_workload["recurrent_common_rows"])
             if Path(importlib.util.find_spec("sglang").origin).parent.resolve() != root.resolve():
                 raise ValueError("Prepared private SGLang package is not the selected runtime import root")
         result["runtime"] = _runtime(config, args.pair)
@@ -814,13 +973,15 @@ def _run(args):
             if config.get("mamba_runtime_metadata", False):
                 result["native_measurements_completed"] = True
                 options = {"kv_coherence_capture": True, "server_log": local / "server.log",
-                           "native_observer": result["kv_coherence_source_preflight"].get("native_observer")} if config.get("kv_coherence_capture", False) else {}
+                           "native_observer": result["kv_coherence_source_preflight"].get("native_observer"),
+                           "recurrent_workload": recurrent_workload} if config.get("kv_coherence_capture", False) else {}
                 receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output, **options))
                 result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
                 if config.get("kv_coherence_capture", False):
                     result["kv_coherence"] = {"status": receipt["status"],
                                               "interpretation": "PENDING independent baseline/source/physical validation",
                                               "summaries": receipt.get("kv_coherence", [])}
+                    result["recurrent_state"] = receipt["recurrent_state"]
                 if receipt["status"] != "collected":
                     raise RuntimeError(f"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}")
         result.update(status="measurements_completed", native_measurements_completed=True)
