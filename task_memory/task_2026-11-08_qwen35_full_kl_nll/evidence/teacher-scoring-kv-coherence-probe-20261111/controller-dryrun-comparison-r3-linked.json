@@ -1,0 +1,21 @@
+{
+  "scope": "CPU controller and explicit R3 receipt linkage only; no native GPU or platform execution",
+  "submitted": false,
+  "pairs": [
+    "A",
+    "B"
+  ],
+  "requested_gpus_each": 4,
+  "gpu_tag": "H800",
+  "charged_group": "codesign",
+  "allocation_mount_image_environment_unchanged": true,
+  "worker_command_differences": [
+    "config",
+    "output-dir"
+  ],
+  "selected_build_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+  "selected_build_receipt_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+  "primary_cpu_acceptance": "ACCEPTED_BOUNDED_ACTUAL_SERIAL_CPU",
+  "prior_r2_receipt_unchanged": true,
+  "gpu_numeric_acceptance": "PENDING"
+}

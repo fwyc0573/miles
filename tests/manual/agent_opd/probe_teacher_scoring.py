@@ -18,6 +18,9 @@ sample manifest may reference the original fixture and its first sample_count
 entries without copying tokens or changing their source identities.
 The opt-in kv_store_stream_witness preparer follows both source overlays and
 uses the same metadata readback; preparation is not native stream validation.
+The isolated kv_coherence_capture overlay requires a compiled production Rust
+observer receipt. Its one post-loop drain returns compact numerical summaries,
+not raw tensor archives, and remains uninterpreted until independent gates pass.
 The cache_salt_full_input experiment namespaces only full-input requests by pair
 and pre-send probe request ID; response-only requests remain unsalted controls.
 
@@ -42,8 +45,10 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
+from urllib.parse import urlencode
 
 _TASK_ID = "profile-teacher-scoring-probe-20261111"
 _MODES = ("full_input", "response_only")
@@ -140,10 +145,8 @@ def _load_samples(path, context_tokens):
     return {**fixture, "samples": fixture["samples"][:count], "sample_manifest": manifest} if manifest else fixture
 
 
-def _load_config(path, pair, output):
-    # Worker-only imports keep Python 3.10 controller --help dependency-free.
-    from tests.manual.agent_opd.run_qwen35_opd import _PERSONAL_ROOT, _READ_ONLY_MODELS
-
+def _config_input(path):
+    # Resolve opt-in before runtime helpers transitively import SGLang.
     config = json.loads(path.read_text())
     selected_fp32 = config.get("selected_fp32_snapshots", False)
     if type(selected_fp32) is not bool:
@@ -156,11 +159,25 @@ def _load_config(path, pair, output):
         raise ValueError("kv_store_stream_witness must be a JSON boolean")
     if kv_store_stream_witness and not (selected_fp32 and runtime_metadata):
         raise ValueError("kv_store_stream_witness requires selected_fp32_snapshots=true and mamba_runtime_metadata=true")
+    coherence = config.get("kv_coherence_capture", False)
+    if type(coherence) is not bool:
+        raise ValueError("kv_coherence_capture must be a JSON boolean")
+    if coherence and not (selected_fp32 and runtime_metadata and kv_store_stream_witness):
+        raise ValueError("kv_coherence_capture requires selected_fp32_snapshots, mamba_runtime_metadata and kv_store_stream_witness=true")
+    coherence_inputs = {}
+    if coherence:
+        for name in ("kv_coherence_build_receipt",):
+            value = config.get(name)
+            if not isinstance(value, str) or not value:
+                raise ValueError(f"{name} must be a required nonempty string when kv_coherence_capture=true")
+            coherence_inputs[name] = value
     if runtime_metadata and not selected_fp32:
         raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
     cache_salt_full_input = config.get("cache_salt_full_input", False)
     if type(cache_salt_full_input) is not bool:
         raise ValueError("cache_salt_full_input must be a JSON boolean")
+    if coherence and cache_salt_full_input:
+        raise ValueError("kv_coherence_capture requires the original unsalted scoring workload")
     config_paths = [path.resolve()]
     if "formal_config" in config:
         formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
@@ -173,8 +190,25 @@ def _load_config(path, pair, output):
         config.pop("kv_store_stream_witness", None)
         if kv_store_stream_witness:
             config["kv_store_stream_witness"] = True
+        # The wrapper owns opt-in; inherited formal true must not activate capture.
+        for name in ("kv_coherence_capture", "kv_coherence_build_receipt"):
+            config.pop(name, None)
+        if coherence:
+            config.update(kv_coherence_capture=True, **coherence_inputs)
         if cache_salt_full_input:
             config["cache_salt_full_input"] = True
+    if coherence and config.get("cache_salt_full_input", False):
+        raise ValueError("kv_coherence_capture requires the original unsalted scoring workload")
+    return config, config_paths
+
+
+def _load_config(path, pair, output):
+    return _validate_config(*_config_input(path), pair, output)
+
+
+def _validate_config(config, config_paths, pair, output):
+    from tests.manual.agent_opd.run_qwen35_opd import _PERSONAL_ROOT, _READ_ONLY_MODELS
+
     teacher = config["pairs"][pair]["teacher"]
     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
         raise ValueError("This dedicated probe requires H800/codesign")
@@ -505,21 +539,51 @@ def _runtime_metadata_states(info):
     return observations
 
 
-async def _collect_runtime_metadata(url, timeout, output):
+def _native_observer_errors(server_log):
+    from tests.manual.agent_opd.sglang_rust_kv_observer import INVALIDATION_ERROR_MARKER as marker
+    if server_log is None:
+        raise ValueError("KV coherence requires the existing server log for independent native-error qualification")
+    matches = []
+    with server_log.open(errors="replace") as stream:
+        for number, line in enumerate(stream, 1):
+            if marker in line:
+                matches.append({"line_number": number, "text": line.rstrip("\n")})
+    return {"marker": marker, "server_log": str(server_log), "matches": matches,
+            "status": "UNVERIFIED" if matches else "no_marker_observed",
+            "qualification_limit": "Marker absence does not prove native alias/GIL/CUDA qualification"}
+
+
+async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None):
     # The retained native /get_server_info alias delegates to /server_info.
     # Its internal_states list covers DP respondents, never all TP processes.
-    http = {"endpoint": url + "/get_server_info"}
+    endpoint = url + "/get_server_info"
+    http = {"endpoint": endpoint}
     record = {"status": "failed", "http": http,
               "coverage": "One responding scheduler process per DP; no all-TP gather or independent TP-rank verification",
               "runtime_semantics": "UNVERIFIED; CPU host-enqueue receipts do not prove device completion or numerical parity"}
     raw = None
     try:
+        if kv_coherence_capture:
+            from tests.manual.agent_opd.sglang_kv_coherence import SCORING_REQUEST_COUNT
+
+            rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+            rids = [row["native_request_id"] for row in rows]
+            if (len(rows) != SCORING_REQUEST_COUNT or any(row["status"] != "scored" for row in rows)
+                    or any(not isinstance(rid, str) or not rid for rid in rids) or len(set(rids)) != SCORING_REQUEST_COUNT):
+                raise ValueError("KV coherence drain requires all16 distinct successfully scored native RIDs")
+            record["native_observer_errors"] = _native_observer_errors(server_log)
+            http["endpoint"] += "?" + urlencode({"kv_coherence_drain": "true"})
         raw = await _http("GET", http["endpoint"], None, timeout, http)
         info = _parse(raw, http)
         # Retain malformed readback as exact text if it cannot be strict JSON.
         json.dumps(info, allow_nan=False)
         record["server_info"] = info
         record["dp_responses"] = _runtime_metadata_states(info)
+        if kv_coherence_capture:
+            if record["native_observer_errors"]["matches"]:
+                record["kv_coherence_status"] = "UNVERIFIED"
+                raise ValueError(f"KV coherence UNVERIFIED: {record['native_observer_errors']['marker']} in native server output")
+            record["kv_coherence"] = _coherence_states(info, output)
         record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
     except Exception as error:
         record.update(error_type=type(error).__name__, reason=str(error))
@@ -528,6 +592,61 @@ async def _collect_runtime_metadata(url, timeout, output):
     finally:
         _write(output / "runtime_metadata.json", record)
     return record
+
+
+def _coherence_states(info, output):
+    from tests.manual.agent_opd.sglang_kv_coherence import (
+        BANK_COUNT, CANDIDATE_INPUT_COUNT, SCORING_REQUEST_COUNT, WINDOW_END, WINDOW_START, covered_once,
+    )
+
+    requests = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+    by_rid = {row["native_request_id"]: row for row in requests}
+    candidates = [row for row in requests if row["mode"] == "full_input"
+                  and row["input_count"] == CANDIDATE_INPUT_COUNT and row["logprob_start_len"] == 0]
+    expected = {row["native_request_id"] for row in candidates}
+    if (len(candidates) != BANK_COUNT or len(expected) != BANK_COUNT or {row["phase"] for row in candidates} != {"cold", "warm_stream"}
+            or any(row["sample_index"] != 1695 or row["repetition"] != 0 or row["sample_position"] != 2
+                   or row["meta_info"].get("num_retractions") != 0 for row in candidates)):
+        raise ValueError("KV coherence response RID join does not contain the two original sample1695 full-input cases")
+    summaries = []
+    for state in info["internal_states"]:
+        capture = state.get("kv_coherence")
+        if not isinstance(capture, dict) or capture.get("schema") != "kv-coherence-v1":
+            raise ValueError("Missing or malformed kv_coherence drain schema")
+        if capture.get("status") != "captured":
+            raise ValueError(f"KV coherence diagnostic unverified: {capture.get('reason', capture.get('errors'))}")
+        if (not isinstance(capture.get("completed_rids"), list) or len(capture["completed_rids"]) != SCORING_REQUEST_COUNT
+                or set(capture["completed_rids"]) != set(by_rid)):
+            raise ValueError("KV coherence drain does not match all16 actual response RIDs")
+        banks = capture.get("banks")
+        if not isinstance(banks, list) or len(banks) != BANK_COUNT or {bank.get("rid") for bank in banks} != expected:
+            raise ValueError("KV coherence opaque banks do not join the actual response RIDs")
+        for bank in banks:
+            case = by_rid[bank["rid"]]
+            completion = json.loads(Path(case["completion_scores"]).read_text())
+            if completion["native_request_id"] != case["native_request_id"] or case["meta_info"]["id"] != bank["rid"]:
+                raise ValueError("KV coherence request/meta/completion RID identities differ")
+            old_rows = bank.get("physical", {}).get("old_rows")
+            if old_rows != (7955 if case["phase"] == "warm_stream" else 0):
+                raise ValueError("KV coherence actual original OLD warm/cold coverage differs")
+            physical = bank["physical"]
+            if any(physical.get(name) is not True for name in ("writer_equals_FULL_insert_all_layers",
+                       "original_OLD_equals_rebind", "rebind_suffix_equals_insert", "indices_in_bounds")):
+                raise ValueError("KV coherence independent physical-index qualification missing or failed")
+            insert, rebind = bank.get("insert"), bank.get("rebind")
+            if (not isinstance(insert, dict) or not isinstance(rebind, dict)
+                    or any(item.get("rid") != bank["rid"] or item.get("P") != WINDOW_START or item.get("E") != WINDOW_END
+                           for item in (insert, rebind))
+                    or rebind.get("Q") != WINDOW_START + old_rows or rebind.get("rotation_tail_declined") is not False):
+                raise ValueError("KV coherence independent checkpoint RID/P/E/Q binding missing or changed")
+            fragments = bank.get("fragments")
+            if (not isinstance(fragments, list) or not covered_once([(f["lo"], f["hi"]) for f in fragments], WINDOW_START, rebind["Q"])
+                    or any(f.get("rid") != bank["rid"] or f.get("P") != WINDOW_START or f.get("E") != WINDOW_END for f in fragments)):
+                raise ValueError("KV coherence original pre-split OLD fragment coverage missing or changed")
+            bank["logical_case"] = {key: case[key] for key in ("pair", "phase", "mode", "source_uid", "sample_index", "repetition")}
+        capture["interpretation"] = "UNVERIFIED until independent all16/6804 baseline vectors and source/index gates pass"
+        summaries.append(capture)
+    return summaries
 
 
 def _runtime(config, pair):
@@ -556,12 +675,26 @@ def _runtime(config, pair):
 
 
 def _run(args):
+    config_input = _config_input(args.config.resolve(strict=True))
+    private_temporary, package = None, None
+    if config_input[0].get("kv_coherence_capture", False):
+        from tests.manual.agent_opd import sglang_kv_coherence as coherence
+
+        worker_root = Path(config_input[0]["worker_local_root"]).resolve()
+        if not worker_root.is_absolute() or worker_root.is_relative_to("/mnt"):
+            raise ValueError("Private SGLang package requires the configured worker-local temporary root")
+        worker_root.mkdir(parents=True, exist_ok=True)
+        private_temporary = tempfile.TemporaryDirectory(prefix="teacher-scoring-kv-", dir=worker_root)
+        root = Path(importlib.util.find_spec("sglang").origin).parent
+        package = coherence.prepare_package(root, worker_tmpdir=Path(private_temporary.name))
     from tests.manual.agent_opd import qwen35_pair_worker as paired
     from tests.manual.agent_opd.rjob_warmup import _worker_environment
 
     output = args.output_dir.resolve()
-    config = _load_config(args.config.resolve(strict=True), args.pair, output)
+    config = _validate_config(*config_input, args.pair, output)
     fixture = _load_samples(args.samples, config["context_tokens"])
+    if config.get("kv_coherence_capture", False) and (args.repeats != 1 or len(fixture["samples"]) != 4):
+        raise ValueError("kv_coherence_capture requires the original first4/one-repetition 16-request workload")
     job = os.environ["KUBEBRAIN_RJOB_NAME"]
     if Path(job).name != job or job in ("", ".", ".."):
         raise ValueError("Platform job name must be a single directory component")
@@ -586,6 +719,8 @@ def _run(args):
                          "acceptance": "No performance PASS or numerical tolerance; primary judges observed differences"}}
     if "sample_manifest" in fixture:
         result["sample_manifest"] = fixture["sample_manifest"]
+    if package is not None:
+        result["kv_coherence_package"] = package
     try:
         _worker_environment(local)
         local_created = True
@@ -606,6 +741,15 @@ def _run(args):
 
             result["kv_store_stream_source_preflight"] = kv_streams.prepare_source(
                 root, image=config["image"], archive_dir=output / "kv_store_stream_source_preflight")
+        if config.get("kv_coherence_capture", False):
+            build = Path(config["kv_coherence_build_receipt"])
+            if not build.is_absolute():
+                build = Path(config["repo"]) / build
+            result["kv_coherence_source_preflight"] = coherence.prepare_source(
+                root, image=config["image"], archive_dir=output / "kv_coherence_source_preflight",
+                build_receipt=build)
+            if Path(importlib.util.find_spec("sglang").origin).parent.resolve() != root.resolve():
+                raise ValueError("Prepared private SGLang package is not the selected runtime import root")
         result["runtime"] = _runtime(config, args.pair)
         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
@@ -619,6 +763,8 @@ def _run(args):
         if config.get("kv_store_stream_witness", False):
             result["native_scoring_sources"]["tests/manual/agent_opd/sglang_kv_streams.py"] = _file_identity(
                 Path(kv_streams.__file__))
+        if config.get("kv_coherence_capture", False):
+            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_kv_coherence.py"] = _file_identity(Path(coherence.__file__))
         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
         result["argv"] = command
         _write(output / "preload.json", result)
@@ -636,8 +782,13 @@ def _run(args):
             paired._check_server(process)
             if config.get("mamba_runtime_metadata", False):
                 result["native_measurements_completed"] = True
-                receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output))
+                options = {"kv_coherence_capture": True, "server_log": local / "server.log"} if config.get("kv_coherence_capture", False) else {}
+                receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output, **options))
                 result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
+                if config.get("kv_coherence_capture", False):
+                    result["kv_coherence"] = {"status": receipt["status"],
+                                              "interpretation": "PENDING independent baseline/source/physical validation",
+                                              "summaries": receipt.get("kv_coherence", [])}
                 if receipt["status"] != "collected":
                     raise RuntimeError(f"Scoring completed; independent runtime metadata readback failed: {receipt['reason']}")
         result.update(status="measurements_completed", native_measurements_completed=True)
@@ -664,6 +815,8 @@ def _run(args):
                 raise
             finally:
                 _write(output / "result.json", result)
+                if private_temporary is not None:
+                    private_temporary.cleanup()
                 print("TEACHER_SCORING_PROBE", result["status"], str(output), flush=True)
 
 

@@ -1,6 +1,7 @@
 """CPU contracts for the dedicated teacher probe; mock HTTP is not performance evidence."""
 
 import asyncio
+import ast
 import builtins
 import json
 import math
@@ -640,7 +641,7 @@ def test_kv_stream_witness_probe_selection_overrides_inherited_formal_true(worke
     (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
 def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
         worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure,
-        inherited_witness=False):
+        inherited_witness=False, coherence_selection=None, coherence_failure=None):
     from tests.manual import agent_opd
     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
 
@@ -654,18 +655,35 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
     if selection is not None:
         wrapper["kv_store_stream_witness"] = selection
+    if coherence_selection is not None:
+        wrapper["kv_coherence_capture"] = coherence_selection
+    if coherence_selection is True:
+        wrapper["kv_coherence_build_receipt"] = "required-production-build.json"
     wrapper_path = tmp_path / "probe.json"
     wrapper_path.write_text(json.dumps(wrapper))
     samples = tmp_path / "samples.json"
     samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": [
         {**sample, "sample_index": index} for index in range(count)]}))
     output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+    source_root = root
+    real_popen = subprocess.Popen
+    if coherence_selection is True:
+        from tests.manual.agent_opd import sglang_kv_coherence as coherence_owner
+        root.mkdir()
+        (root / "__init__.py").write_text('SOURCE = "CPU whole-package fixture"\n')
+        monkeypatch.setattr(sys, "path", list(sys.path))
+        monkeypatch.setenv("PYTHONPATH", os.environ.get("PYTHONPATH", ""))
     args = SimpleNamespace(config=wrapper_path, pair="A", samples=samples, output_dir=output,
                            repeats=repeats, request_timeout=17)
     for key, value in {"KUBEBRAIN_RJOB_NAME": "cpu-witness-test", "KUBEBRAIN_REPLICA": "0",
                        "KUBEBRAIN_REPLICA_TOTAL": "1", "MILES_NODE_EXTERNAL_IP": "192.0.2.10"}.items():
         monkeypatch.setenv(key, value)
-    monkeypatch.setattr(warmup, "_worker_environment", lambda local: local.mkdir(parents=True))
+    def worker_environment(local):
+        local.mkdir(parents=True)
+        temporary = local / "tmp"
+        temporary.mkdir()
+        monkeypatch.setenv("TMPDIR", str(temporary))
+    monkeypatch.setattr(warmup, "_worker_environment", worker_environment)
     monkeypatch.setattr(probe.importlib.util, "find_spec", lambda name: SimpleNamespace(origin=str(root / "__init__.py")))
     events, receipts, imports, scoring_calls, info_calls = [], {}, [], [], []
     attention_before = {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")}
@@ -693,12 +711,41 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         assert archive_dir == output / "kv_store_stream_source_preflight" and events == ["snapshots", "metadata"]
         return source_receipt("kv_streams", archive_dir)
 
+    def prepare_coherence(root_arg: Path, *, image: str, archive_dir: Path, build_receipt: Path) -> dict:
+        assert root_arg == root and image == config["image"]
+        assert build_receipt == Path(config["repo"]) / "required-production-build.json"
+        assert archive_dir == output / "kv_coherence_source_preflight" and events == ["snapshots", "metadata", "kv_streams"]
+        return source_receipt("coherence", archive_dir)
+
+    def prepare_package(root_arg: Path, *, worker_tmpdir: Path) -> dict:
+        nonlocal root
+        assert root_arg == source_root and not events
+        root = worker_tmpdir / "kv-coherence-runtime" / "sglang"
+        # Parent runtime/preparers are DI mocks and conftest already imported SG.
+        # Invoke the real copy/guard in a clean CPU child, never purge/reload parent.
+        code = ("import json\nfrom pathlib import Path\n"
+                "from tests.manual.agent_opd import sglang_kv_coherence as owner\n"
+                f"print(json.dumps(owner.prepare_package(Path({str(root_arg)!r}), worker_tmpdir=Path({str(worker_tmpdir)!r}))))\n")
+        with real_popen([sys.executable, "-B", "-c", code], stdout=subprocess.PIPE, stderr=subprocess.PIPE) as child:
+            stdout, stderr = child.communicate(timeout=30)
+            assert child.returncode == 0, stderr.decode()
+        result = json.loads(stdout)
+        sys.path.insert(0, str(root.parent))
+        os.environ["PYTHONPATH"] = result["child_pythonpath"]
+        assert result["package_root"] == str(root) and root != source_root
+        return result
+
     for name, prepare in (("sglang_mamba_snapshots", prepare_snapshots),
-                          ("sglang_mamba_runtime_metadata", prepare_metadata), ("sglang_kv_streams", prepare_streams)):
+                          ("sglang_mamba_runtime_metadata", prepare_metadata), ("sglang_kv_streams", prepare_streams),
+                          ("sglang_kv_coherence", prepare_coherence)):
         source = tmp_path / f"{name}.py"
         source.write_text('"""Injected CPU test module identity, not native source."""\n')
         module = SimpleNamespace(__file__=str(source))
         setattr(module, "prepare_runtime_metadata" if name.endswith("runtime_metadata") else "prepare_source", prepare)
+        if name == "sglang_kv_coherence":
+            module.prepare_package = prepare_package
+            if coherence_selection is True:
+                module.SCORING_REQUEST_COUNT = coherence_owner.SCORING_REQUEST_COUNT
         monkeypatch.setattr(agent_opd, name, module, raising=False)
         monkeypatch.setitem(sys.modules, f"tests.manual.agent_opd.{name}", module)
 
@@ -708,13 +755,21 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         if "sglang_kv_streams" in (fromlist or ()) or name.endswith("sglang_kv_streams"):
             assert selection is True, "False/absent witness must not import its source preparer"
             imports.append(name)
+        if "sglang_kv_coherence" in (fromlist or ()) or name.endswith("sglang_kv_coherence"):
+            assert coherence_selection is True, "False/absent coherence must not import its preparer"
+            imports.append(name)
         return original_import(name, globals, locals, fromlist, level)
 
     monkeypatch.setattr(builtins, "__import__", importing)
     prepared = (["snapshots", "metadata"] if diagnostic else []) + (["kv_streams"] if selection is True else [])
+    if coherence_selection is True:
+        prepared.append("coherence")
 
     def runtime(*args):
         assert events == prepared
+        if coherence_selection is True:
+            assert Path(probe.importlib.util.find_spec("sglang").origin).parent == root != source_root
+            assert Path(os.environ["PYTHONPATH"].split(os.pathsep)[0]) == root.parent
         events.append("runtime")
         return {"scope": "CPU mock; no GPU inspection"}
 
@@ -729,6 +784,12 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         if selection is True:
             assert preload["kv_store_stream_source_preflight"] == receipts["kv_streams"]
             assert preload["native_scoring_sources"][source] == probe._file_identity(Path(agent_opd.sglang_kv_streams.__file__))
+        if coherence_selection is True:
+            assert preload["kv_coherence_source_preflight"] == receipts["coherence"]
+            assert preload["kv_coherence_package"]["package_root"] == str(root)
+        if coherence_failure == "native_marker":
+            server_log = Path(os.environ["TMPDIR"]).parent / "server.log"
+            server_log.write_text("old_full_observer_invalidation_failed rid=opaque P=90112 E=98304 stage=capture capture_error=ValueError: capture failed invalidation_error=RuntimeError: invalidation failed\n")
         events.append("server")
         return SimpleNamespace(poll=lambda: None)
 
@@ -742,16 +803,24 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         assert events[-1] == "server"
         if url.endswith("/flush_cache"):
             return b"Cache flushed", 200
-        if url.endswith("/get_server_info"):
+        if url.partition("?")[0].endswith("/get_server_info"):
             info_calls.append(len(scoring_calls))
+            assert ("kv_coherence_drain=true" in url) == (coherence_selection is True and len(info_calls) == 2)
             if len(info_calls) == 1:
                 return b'{"version":"CPU mock only"}', 200
             before_readback.update({p.relative_to(output): p.read_bytes() for p in output.rglob("*") if p.is_file()})
             metadata = json.loads(json.dumps(cpu_metadata))
             if failure == "malformed":
                 metadata["rows"] = [[1, "kv_store_stream", [["missing-value"]]]]
-            return json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1, "internal_states": [
-                {} if failure == "missing" else {"mamba_runtime_metadata": metadata}]}).encode(), 200
+            state = {} if failure == "missing" else {"mamba_runtime_metadata": metadata}
+            if coherence_selection is True and coherence_failure != "missing":
+                state["kv_coherence"] = {"schema": "wrong" if coherence_failure == "malformed" else "kv-coherence-v1",
+                                         "status": "captured", "scope": "Injected CPU lifecycle contract only",
+                                         "banks": [{"rid": "opaque", "physical": {"old_rows": 7955,
+                                             "writer_equals_FULL_insert_all_layers": True,
+                                             "original_OLD_equals_rebind": True, "rebind_suffix_equals_insert": True,
+                                             "indices_in_bounds": True}, "metrics": [{"values_exact": True}]}]}
+            return json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1, "internal_states": [state]}).encode(), 200
         mode = "full_input" if kwargs["json"]["logprob_start_len"] == 0 else "response_only"
         assert kwargs["json"] == probe._payload(sample, mode) and "cache_salt" not in kwargs["json"]
         scoring_calls.append(kwargs["json"])
@@ -760,23 +829,32 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         return json.dumps(body).encode(), 200
 
     _, calls, _ = _mock_http(monkeypatch, response)
-    if failure:
+    if coherence_selection is True:
+        def cpu_only_join(info, destination):
+            assert coherence_failure != "native_marker", "Native error must independently reject a complete-looking bank"
+            assert len(scoring_calls) == 16 and destination == output
+            value = info["internal_states"][0].get("kv_coherence")
+            if not isinstance(value, dict) or value.get("schema") != "kv-coherence-v1":
+                raise ValueError("Missing or malformed kv_coherence drain schema (CPU DI)")
+            return [value]
+        monkeypatch.setattr(probe, "_coherence_states", cpu_only_join)
+    if failure or coherence_failure:
         with pytest.raises(RuntimeError, match="Scoring completed; independent runtime metadata readback failed"):
             probe._run(args)
     else:
         probe._run(args)
     result = json.loads((output / "result.json").read_text())
     assert events == prepared + ["runtime", "server"]
-    assert len(imports) == (1 if selection is True else 0)
+    assert len(imports) == (1 if selection is True else 0) + (2 if coherence_selection is True else 0)
     assert len(scoring_calls) == result["expected_scoring_requests"] == (16 if diagnostic else 56)
     assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == (10 if diagnostic else 32)
     assert info_calls == ([0, 16] if diagnostic else [0])
     assert result["argv"] == native_command and result["native_measurements_completed"] is True
-    assert result["status"] == ("failed" if failure else "measurements_completed")
+    assert result["status"] == ("failed" if failure or coherence_failure else "measurements_completed")
     assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
     if selection is True:
         assert result["kv_store_stream_source_preflight"] == receipts["kv_streams"]
-        assert len({json.dumps(receipt) for receipt in receipts.values()}) == 3
+        assert len({json.dumps(receipt) for receipt in receipts.values()}) == (4 if coherence_selection is True else 3)
         assert json.loads((output / "kv_store_stream_source_preflight/receipt.json").read_text()) == receipts["kv_streams"]
     else:
         assert "kv_store_stream_source_preflight" not in result
@@ -785,6 +863,142 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
         assert (output / name).read_bytes() == raw
     assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
     assert path.read_bytes() == formal_before
+    if coherence_selection is True:
+        assert (source_root / "__init__.py").read_text() == 'SOURCE = "CPU whole-package fixture"\n'
+    if coherence_failure == "native_marker":
+        receipt = json.loads((output / "runtime_metadata.json").read_text())
+        assert receipt["status"] == "failed" and receipt["kv_coherence_status"] == "UNVERIFIED"
+        assert receipt["server_info"]["internal_states"][0]["kv_coherence"]["banks"][0]["physical"]["indices_in_bounds"] is True
+        assert receipt["native_observer_errors"]["matches"] and "invalidation_error=RuntimeError" in (output / "server.log").read_text()
+        assert len(list((output / "completion_scores").glob("*.json"))) == 16
+
+
+@pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+                                               (True, "missing"), (True, "malformed"), (True, "native_marker")])
+def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+        worker_config, sample, tmp_path, monkeypatch, selection, failure):
+    test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+        worker_config, sample, tmp_path, monkeypatch, True, True, 4, 1, None,
+        coherence_selection=selection, coherence_failure=failure)
+
+
+@pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
+def test_coherence_boolean_validation(worker_config, tmp_path, value):
+    path, config, _ = worker_config
+    config["kv_coherence_capture"] = value
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="kv_coherence_capture must be a JSON boolean"):
+        probe._load_config(path, "A", tmp_path / "new")
+
+
+@pytest.mark.parametrize("missing", ["selected_fp32_snapshots", "mamba_runtime_metadata", "kv_store_stream_witness",
+                                      "kv_coherence_build_receipt"])
+def test_coherence_required_dependencies_before_runtime(worker_config, tmp_path, missing):
+    path, config, _ = worker_config
+    config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True,
+                  kv_coherence_capture=True, kv_coherence_build_receipt="required.json")
+    config.pop(missing)
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="requires|required"):
+        probe._load_config(path, "A", tmp_path / "new")
+
+
+@pytest.mark.parametrize("selection", ["absent", "false", "true", "direct"])
+def test_coherence_wrapper_opt_out_strips_inherited_true_and_receipt(worker_config, tmp_path, selection):
+    path, config, _ = worker_config
+    config.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=True,
+                  kv_coherence_capture=True, kv_coherence_build_receipt="formal-inherited.json")
+    path.write_text(json.dumps(config))
+    before = path.read_bytes()
+    wrapper = {"formal_config": str(path), "selected_fp32_snapshots": True,
+               "mamba_runtime_metadata": True, "kv_store_stream_witness": True}
+    if selection != "absent":
+        wrapper["kv_coherence_capture"] = selection == "true"
+    if selection == "true":
+        wrapper["kv_coherence_build_receipt"] = "wrapper-owned.json"
+    input_path = tmp_path / "wrapper.json"
+    input_path.write_text(json.dumps(wrapper))
+    loaded = probe._load_config(path if selection == "direct" else input_path, "A", tmp_path / "new")
+    assert bool(loaded.get("kv_coherence_capture")) == (selection in ("true", "direct"))
+    assert ("kv_coherence_build_receipt" in loaded) == (selection in ("true", "direct"))
+    if selection in ("true", "direct"):
+        assert loaded["kv_coherence_build_receipt"] == ("wrapper-owned.json" if selection == "true" else "formal-inherited.json")
+    assert path.read_bytes() == before
+
+
+@pytest.mark.parametrize("fault", [None, "schema", "bank_order", "coverage", "completion_rid", "retractions",
+                                    "physical_missing", "checkpoint", "fragments"])
+def test_coherence_schema_joins_only_native_response_identity_and_actual_old_coverage(tmp_path, fault):
+    output = tmp_path
+    (output / "completion_scores").mkdir()
+    rows = []
+    for n in range(16):
+        phase = "cold" if n < 8 else "warm_stream"
+        mode = "full_input" if n % 2 == 0 else "response_only"
+        index = 1695 if n in (4, 12) else n
+        rid = f"native-{n}"
+        path = output / "completion_scores" / f"{n}.json"
+        path.write_text(json.dumps({"native_request_id": "other" if fault == "completion_rid" and n == 12 else rid}))
+        rows.append({"native_request_id": rid, "meta_info": {"id": rid, "num_retractions": 1 if fault == "retractions" else 0},
+                     "phase": phase, "mode": mode, "input_count": 98942 if index == 1695 else 100,
+                     "logprob_start_len": 0 if mode == "full_input" else 50, "sample_index": index,
+                     "sample_position": 2 if index == 1695 else n, "repetition": 0,
+                     "pair": "B", "source_uid": "opaque-original-uid", "completion_scores": str(path)})
+    (output / "requests.jsonl").write_text("".join(json.dumps(row) + "\n" for row in rows))
+    banks = [{"rid": "native-12", "physical": {"old_rows": 0 if fault == "coverage" else 7955}},
+             {"rid": "native-4", "physical": {"old_rows": 0}}]
+    for bank in banks:
+        bank["physical"].update({name: True for name in ("writer_equals_FULL_insert_all_layers", "original_OLD_equals_rebind",
+                                                        "rebind_suffix_equals_insert", "indices_in_bounds")})
+        bank["insert"] = {"rid": bank["rid"], "P": 90112, "E": 98304}
+        bank["rebind"] = {**bank["insert"], "Q": 90112 + bank["physical"]["old_rows"], "rotation_tail_declined": False}
+        bank["fragments"] = [{**bank["insert"], "lo": 90112, "hi": 98067}] if bank["rid"] == "native-12" else []
+    if fault == "physical_missing":
+        banks[0]["physical"].pop("writer_equals_FULL_insert_all_layers")
+    elif fault == "checkpoint":
+        banks[0]["insert"]["rid"] = "unrelated"
+    elif fault == "fragments":
+        banks[0]["fragments"] = []
+    if fault == "bank_order":
+        banks[0]["rid"] = "native-0"
+    capture = {"schema": "wrong" if fault == "schema" else "kv-coherence-v1", "status": "captured", "banks": banks,
+               "completed_rids": [row["native_request_id"] for row in rows]}
+    info = {"internal_states": [{"kv_coherence": capture}]}
+    if fault:
+        with pytest.raises(ValueError):
+            probe._coherence_states(info, output)
+    else:
+        result = probe._coherence_states(info, output)
+        assert [bank["logical_case"]["phase"] for bank in result[0]["banks"]] == ["warm_stream", "cold"]
+        assert result[0]["interpretation"].startswith("UNVERIFIED until independent all16/6804")
+
+
+def test_coherence_numeric_predicates_reuse_opt_in_constants():
+    tree = ast.parse(Path(probe.__file__).read_text())
+    functions = {node.name: node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+    owner = "tests.manual.agent_opd.sglang_kv_coherence"
+    assert not any(isinstance(node, ast.ImportFrom) and node.module == owner for node in tree.body)
+    collect = functions["_collect_runtime_metadata"]
+    branch = next(node for node in ast.walk(collect) if isinstance(node, ast.If)
+                  and isinstance(node.test, ast.Name) and node.test.id == "kv_coherence_capture")
+    assert isinstance(branch.body[0], ast.ImportFrom) and branch.body[0].module == owner
+    assert {name.name for name in branch.body[0].names} == {"SCORING_REQUEST_COUNT"}
+    states = functions["_coherence_states"]
+    assert isinstance(states.body[0], ast.ImportFrom) and states.body[0].module == owner
+    names = {name.name for name in states.body[0].names}
+    assert names == {"BANK_COUNT", "CANDIDATE_INPUT_COUNT", "SCORING_REQUEST_COUNT", "WINDOW_START", "WINDOW_END", "covered_once"}
+    for function in (collect, states):
+        assert not any(isinstance(node, ast.Constant) and node.value in (90112, 98304, 98942, 16)
+                       for node in ast.walk(function))
+    comparisons = [node for node in ast.walk(states) if isinstance(node, ast.Compare)]
+    assert sum(any(isinstance(value, ast.Name) and value.id == "BANK_COUNT" for value in node.comparators)
+               for node in comparisons) == 3
+    for field, value in (("sample_index", 1695), ("sample_position", 2), ("repetition", 0)):
+        assert any(isinstance(node.left, ast.Subscript) and isinstance(node.left.slice, ast.Constant)
+                   and node.left.slice.value == field and isinstance(node.comparators[0], ast.Constant)
+                   and node.comparators[0].value == value for node in comparisons)
+    assert any(isinstance(node, ast.IfExp) and isinstance(node.body, ast.Constant) and node.body.value == 7955
+               for node in ast.walk(states))
 
 
 @pytest.mark.parametrize("selection", [None, False, True])
@@ -1315,6 +1529,39 @@ def test_kv_stream_witness_config_exact_clone_and_existing_controller_dry_run(mo
         for option in ("--config", "--output-dir"):
             command[command.index(option) + 1] = option
     assert commands[0] == commands[1] and not receipt_path.exists()
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+def test_coherence_variant_existing_controller_dry_run_and_unchanged_native_argv(monkeypatch, capsys, pair):
+    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    base_path, variant_path = (task / name for name in ("teacher_scoring_kv_stream_witness_probe_config.json",
+                                                     "teacher_scoring_kv_coherence_probe_config.json"))
+    base, variant = (json.loads(path.read_text()) for path in (base_path, variant_path))
+    allowed = {"task_id", "output_parent", "acceptance", "kv_coherence_capture", "kv_coherence_build_receipt"}
+    assert {k: v for k, v in base.items() if k not in allowed} == {k: v for k, v in variant.items() if k not in allowed}
+    assert variant["kv_coherence_capture"] is True and "kv_coherence_artifact_dir" not in variant
+    formal = json.loads((repo / variant["formal_config"]).read_text())
+    monkeypatch.setattr(sys, "executable", formal["worker_python"])
+    configs, constructions = [], []
+    receipt_path = task / "cpu-coherence-construction-only.json"
+    for path in (base_path, variant_path):
+        configs.append(probe._load_config(path, pair, repo / variant["output_parent"] / pair / "cpu-only"))
+        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(path), "--pair", pair,
+                                         "--receipt", str(receipt_path), "--dry-run"])
+        assert submission.main() == 0
+        constructions.append(json.loads(capsys.readouterr().out))
+    assert configs[1] == {**configs[0], "kv_coherence_capture": True,
+                          "kv_coherence_build_receipt": variant["kv_coherence_build_receipt"]}
+    assert paired._teacher_command(configs[0], pair, 0, {"ip": "192.0.2.10"}) == paired._teacher_command(
+        configs[1], pair, 0, {"ip": "192.0.2.10"})
+    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
+    for command in commands:
+        for option in ("--config", "--output-dir"):
+            command[command.index(option) + 1] = option
+    assert commands[0] == commands[1] and not receipt_path.exists()
+    assert all(record["submitted"] is False for record in constructions)
 
 
 @pytest.mark.parametrize("value", [None, 0, 1, "true", []])
