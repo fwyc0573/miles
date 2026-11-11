@@ -4,6 +4,7 @@
 | --- | --- |
 | 2026-11-11 | Complete scoped CPU integration/regression, preserve RED evidence and real-module skip, and verify actual A/B controller dry-run outputs. |
 | 2026-11-11 | Repair Spec P2 witness inheritance with RED/GREEN controls; qualify the now-available real preparer through pinned CPU distribution fixtures; record 190/451 passing checks. |
+| 2026-11-11 | Bind committed source 79dba51b with the full override, remove obsolete module-absence skip, verify CPP/TVM missing-evidence skips and 192/453 passing checks, and correct legacy mocked-request wording. |
 
 # KV store stream witness probe integration
 
@@ -177,7 +178,7 @@ TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-
 
 The earlier **381 PASS / 1 SKIP** is unchanged historical evidence. The new module became available during this continuation. Its first actual call exposed the older snapshot fixture's global `version` stub returning the SGLang version for every distribution. The joined test now derives both expected versions from the actual module's `source_manifest()`, stages only required retained files, and injects the TVM distribution's `locate_file` into a separate temporary `native-tvm-ffi` directory. Production source preparation still resolves TVM files through its own distribution API, not a nested SGLang snapshot. Missing retained source is explicitly skipped in CI; identity/seam failures are not suppressed. No source preparer, installed distribution or unrelated flag is changed.
 
-Actual joined receipt: **35 qualified source files**, five changed files (`model_runner.py`, `forward_context.py`, `memory_pool.py`, `kvcache.py`, `kvcache.cuh`); pinned CPU inputs SGLang `0.5.24.dev80+g056f871` and apache-tvm-ffi `0.1.11`. Retained source-preparer identity is **17,123 bytes**, SHA256 `6140cdc283c457938d34f06dc8adad3657465cbc800acf08c80cede6e378e51d`. Preload, result and `kv_store_stream_source_preflight/preflight.jsonl` contain the same independent real preparer receipt. The reused real-preparer joined scenario uses two synthetic samples/eight mocked scoring requests; the inherited-input `_run` watcher separately retains four synthetic samples/**16 requests / 10 flushes**, one post-loop metadata readback and unchanged native argv. The existing unsalted **56/32** baseline and original-first4 checks also pass. None of those CPU synthetic vectors establish native first4 reproduction.
+Actual joined receipt: **35 qualified source files**, five changed files (`model_runner.py`, `forward_context.py`, `memory_pool.py`, `kvcache.py`, `kvcache.cuh`); pinned CPU inputs SGLang `0.5.24.dev80+g056f871` and apache-tvm-ffi `0.1.11`. Retained source-preparer identity is **17,123 bytes**, SHA256 `6140cdc283c457938d34f06dc8adad3657465cbc800acf08c80cede6e378e51d`. Preload, result and `kv_store_stream_source_preflight/preflight.jsonl` contain the same independent real preparer receipt. Correction: the reused real-preparer joined scenario uses one synthetic sample/two repetitions with an eight-request expected budget, but its benchmark/readback are mocked and **no scoring HTTP requests are made**. The inherited-input `_run` watcher separately retains four synthetic samples/**16 requests / 10 flushes**, one post-loop metadata readback and unchanged native argv through mocked HTTP. The existing unsalted **56/32** baseline and original-first4 checks also pass. None of those CPU synthetic vectors establish native first4 reproduction.
 
 The receipt itself keeps `native_compilation=UNVERIFIED`, `actual_streams_allocator_class_vectors=UNVERIFIED; CPU binding is not native execution`, `physical_slot_values=UNMEASURED`; numerical acceptance remains null and performance acceptance false. Actual stream/class, CUDA compile, GPU parity, numeric coherence and performance remain unaccepted. Formal A/B remain HOLD. The primary's re-review of the repaired artifact and the separately owned source review are not completed by this test report.
 
@@ -256,3 +257,123 @@ git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/t
 1. False/absent 确实删除继承 witness，direct true 未受影响；实际 `_run` opt-out 无新 import/preparer。
 2. 真实 module CPU binding 已执行通过，但分布版本/HTTP/runtime 是明确 fixture inputs，不是安装或 native 证据。
 3. Primary 重审未完成；formal HOLD 与 actual stream/class、GPU/numeric/performance 限制保持不变。
+
+## Committed source delivery binding — 2026-11-11
+
+**[Original Request / dependency delivery]:** source `79dba51b` is CPU complete and exposes actual `prepare_source(root, *, image, archive_dir)`. Complete real binding after the opt-out repair using the full `MILES_PINNED_SGLANG_SOURCE` override and the source-owner manifest, redirect TVM distribution lookup only in the CPU fixture, retain honest missing-evidence skips, remove the obsolete module-absence skip, preserve the original 381-PASS/1-SKIP history, and recheck the 4-H800 driver dry-runs. Only the existing three integration-owned files are editable; source/module tests, shared docs and config are protected. Independent source reviews are not repeated. No GPU/auth/platform/delegation operation.
+
+**Changes:** the existing manifest-copy block is now the `kv_stream_source` CPU fixture so both real binding and missing-evidence cases use one preparation path. It copies 34 retained manifest inputs, lets the actual metadata preparer generate its recorder, and qualifies all 35 IDs through the actual KV preparer. It does not copy the 5,501-file source package. Normal import now requires the committed real module; there is no fake module, `importorskip`, or import suppression in this real binding. CPP/TVM missing files still raise an explicit pytest evidence skip. The test now compares the returned KV receipt with its actual archive as well as preload/result, without changing the receipt. Production probe/config/argv are unchanged from the opt-out repair.
+
+**Actual order:** real snapshots preparation -> real metadata preparation -> real `sglang_kv_streams.prepare_source` -> mocked runtime inspection -> mocked teacher startup -> mocked benchmark -> mocked metadata collector. The CPU distribution versions/TVM locator are injected from `source_manifest()`. The actual preparers and their native source rewrites are not faked. This proves source binding/order/receipt, not native execution or a real server readback.
+
+| Check | Expected | Actual | Disposition |
+| --- | --- | --- | --- |
+| Full override focused binding and missing CPP/TVM controls | Real source API called; the two incomplete overrides raise the precise expected evidence skip before launch | 3 passed, zero outer skips, 189 deselected, four warnings, 1.94 s | PASS |
+| Full override affected file | All available integration/config/HTTP/source contracts pass | 192 passed, zero skips, four existing warnings, 11.53 s | PASS |
+| Full override eight-file joined suite | All prior relevant tests plus actual source tests and new evidence controls pass | 453 passed, zero skips, 20 existing warnings, 50.07 s | PASS, CPU only |
+| Actual missing override invocation | Unavailable retained evidence must propagate as SKIP, never binding PASS | 1 skipped, 191 deselected, four warnings, 0.89 s; `Actual retained native SGLang C3 source is not available` | Expected SKIP; not acceptance |
+| A/B actual controller dry-runs | Each remains 4 H800/codesign, unsubmitted, identical worker argv except dated output directory | Both exit 0; `submitted=false`, 4 requested GPUs each; resource fields and normalized argv identical to the earlier actual A/B outputs | PASS, construction only |
+| Python 3.10/unchanged source/config/receipt readback | Both owned Python files compile; config equals 262f1539 bytes; real module equals 79dba51b bytes; real source receipt agrees across result/preload/archive | PASS, Python 3.10.6; 35 source IDs / five source edits, same 17,123-byte SHA256 identity recorded above | PASS |
+
+All commands use the same working directory and Python/pytest versions documented above. Exact commands:
+
+```bash
+MILES_PINNED_SGLANG_SOURCE=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'kv_stream_witness_real_preparers or kv_stream_source_override' --tb=short -rs -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-binding-20261111
+MILES_PINNED_SGLANG_SOURCE=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q --tb=short -rs --durations=5 -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-affected-20261111
+MILES_PINNED_SGLANG_SOURCE=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_swe_replay.py tests/fast/rollout/generate_utils/test_prefill_logprobs.py tests/fast/rollout/test_on_policy_distillation.py tests/fast/test_teacher_scoring_probe.py tests/fast/test_teacher_scoring_submission.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py tests/fast/test_sglang_kv_streams.py -q --tb=short -rs --durations=5 -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-joined-20261111
+MILES_PINNED_SGLANG_SOURCE=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-missing-evidence-20261111 TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py -q -k 'kv_stream_witness_real_preparers_join_before_runtime' --tb=short -rs -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-absence-20261111
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json --pair A --receipt /data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-dry-run-A-20261111.json --dry-run > /data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-controller-A-20261111.json
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B -m tests.manual.agent_opd.submit_teacher_scoring_probe --config task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json --pair B --receipt /data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-dry-run-B-20261111.json --dry-run > /data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-witness-source-delivery-controller-B-20261111.json
+```
+
+The old 381-PASS/1-SKIP and later 190/451 results remain historical. The current full-evidence run has no module/evidence skips. The missing-evidence invocation deliberately has one SKIP; the two persistent CPP/TVM controls catch their expected inner evidence skips and therefore count as passing tests, not completed real bindings for those incomplete inputs.
+
+**Readback-query correction:** an auxiliary report query incorrectly accessed `result['runtime_metadata']['scope']`, raising `KeyError: 'scope'`; the result owns only a summarized status/receipt reference. Following that reference then raised `FileNotFoundError`, because this legacy collector is mocked and returns without writing the raw metadata artifact. Inspection of the existing mock and result established the cause. The corrected query checks the real source archive but explicitly asserts the mock metadata artifact is absent. No receiver behavior, fallback or native error handling changed. The legacy real-source case made no scoring HTTP calls or actual metadata readback; its expected eight-request budget is not a measured request count. Separate HTTP-contract tests preserve 56/32 baseline and 16/10 diagnostic behavior.
+
+Decisive final readback and driver comparison:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -B - <<'PY'
+from pathlib import Path
+import json
+import platform
+import shlex
+import subprocess
+for path in [Path('tests/manual/agent_opd/probe_teacher_scoring.py'), Path('tests/fast/test_teacher_scoring_probe.py')]:
+    compile(path.read_text(), str(path), 'exec')
+config = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json')
+assert config.read_bytes() == subprocess.check_output(['git', 'show', f'262f1539:{config}'])
+source = Path('tests/manual/agent_opd/sglang_kv_streams.py')
+assert source.read_bytes() == subprocess.check_output(['git', 'show', f'79dba51b:{source}'])
+base = Path('/data/ycfeng/tmp/opencode-v2-tmp/opencode')
+output = base / 'kv-stream-witness-source-delivery-joined-20261111/test_kv_stream_witness_real_pr0/retained-new'
+preload, result = (json.loads((output / name).read_text()) for name in ('preload.json', 'result.json'))
+receipt = result['kv_store_stream_source_preflight']
+assert receipt == preload['kv_store_stream_source_preflight'] == json.loads((output / 'kv_store_stream_source_preflight/preflight.jsonl').read_text())
+assert receipt['native_compilation'] == 'UNVERIFIED' and receipt['physical_slot_values'] == 'UNMEASURED'
+assert result['cache_observations'] == {'scope': 'CPU mock; no requests made'}
+assert not Path(result['runtime_metadata']['receipt']).exists()  # The mocked collector returns without writing a readback artifact.
+assert result['numerical_acceptance'] is None and result['performance_accepted'] is False
+for pair in ('A', 'B'):
+    current = json.loads((base / f'kv-stream-witness-source-delivery-controller-{pair}-20261111.json').read_text())
+    previous = json.loads((base / f'kv-stream-witness-controller-{pair}-20261111.json').read_text())
+    assert current['submitted'] is False and current['requested_gpus'] == 4
+    assert {k: v for k, v in current.items() if k not in ('output', 'worker_command')} == {k: v for k, v in previous.items() if k not in ('output', 'worker_command')}
+    commands = [shlex.split(shlex.split(record['worker_command'])[2].splitlines()[-1]) for record in (previous, current)]
+    for command in commands:
+        command[command.index('--output-dir') + 1] = '--output-dir'
+    assert commands[0] == commands[1]
+    assert not Path(current['output']).exists()
+    assert not (base / f'kv-stream-witness-source-delivery-dry-run-{pair}-20261111.json').exists()
+print(json.dumps({'python': platform.python_version(), 'syntax_unchanged_config_source': 'PASS',
+                  'receipt_unchanged_preload_result_archive': 'PASS', 'source_ids': len(receipt['files']), 'native_files_changed': len(receipt['changed_files']),
+                  'source_identity': result['native_scoring_sources']['tests/manual/agent_opd/sglang_kv_streams.py'],
+                  'expected_request_budget_only': result['expected_scoring_requests'], 'scoring_http_executed': False,
+                  'driver_AB_submitted': False, 'driver_gpus_each': 4, 'driver_argv_unchanged': 'PASS',
+                  'native_scope': receipt['actual_streams_allocator_class_vectors']}, indent=2))
+PY
+git diff --check -- tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_teacher_scoring_probe.py task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md
+```
+
+## 1. 规划完成情况（source delivery checkpoint）
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 0｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| committed real API/order/receipt 与 missing-evidence controls | PASS | 3 focused PASS；真实 module 与 79dba51b 字节一致 |
+| full override affected/joined 与 driver/syntax checks | PASS | 192/453 PASS 零 skip；两个 4-H800 driver dry-run 未提交 |
+| history/limits/report correction | PASS | 原 381/1 历史保留；旧 mock 请求/metadata 说法已明确纠正 |
+| primary 与独立 source reviewers 的最终验收 | TODO | 本 slice 未重复 review，也未作 native 验收 |
+
+## 2. 偏离检测（source delivery checkpoint）
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** source 79dba51b 交付至 full override 验证｜**当前前沿：** scoped commit 与 primary review。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 只补 required evidence skips 与 receipt 比较；验证后停止 |
+| D2 细节反复重试 | CLEAR | 两次 auxiliary 查询失败定位 summary/mock 无文件；纠正证据查询，不改运行行为 |
+| D3 支线问题修补 | CLEAR | 不改 source/共享文档/config；仅维护授权 CPU fixture/report |
+| D4 可并行任务停滞 | CLEAR | focused/driver、affected/joined/absence 检查均并行 |
+| D5 超范围镀金 | CLEAR | 无 flags/launcher/native 功能增长，production probe 不变 |
+| D6 分析空转 | CLEAR | 真实 binding、absence 行为、完整 CPU aggregate 均有实际结果 |
+| D7 路线违背 | CLEAR | 无 GPU/auth/platform/delegation/re-review，formal HOLD 不变 |
+
+**文档检查：** 本次明确授权 scope 的 S1–S6 均未发现明显缺陷。
+**归因：** 无。
+
+## 3. 纠正建议（source delivery checkpoint）
+
+**分支：** A：scope 合理，不改 shared spec/tickets。
+**需停止的偏离行为：** 无。
+**接下去的路线：**
+1. 只提交授权 test/report 变更；production probe/config/source 保持不变，primary 使用固定 artifact review。
+2. 保留 native 全部 UNVERIFIED，不用 CPU source binding 或 driver dry-run 释放 formal HOLD。
+
+## 4. 最值得关注的 3 点（source delivery checkpoint）
+
+1. 完整 evidence 时真实 API 已运行、453 PASS 零 skip；缺 evidence 时诚实 SKIP，不假装完成 binding。
+2. 返回的 source receipt 原样保留；benchmark/collector 的 mock 不能当作请求、metadata 或 GPU 证据。
+3. 实际 stream/class、CUDA compile、GPU parity、numeric coherence、性能及独立 review 仍未验收。

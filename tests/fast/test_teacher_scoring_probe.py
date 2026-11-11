@@ -975,6 +975,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
     if kv_streams is not None:
         assert result["kv_store_stream_source_preflight"] == stream_receipts[0]
         assert stream_receipts[0] != receipts[0] and stream_receipts[0] != metadata_receipts[0]
+        assert json.loads((output / "kv_store_stream_source_preflight/preflight.jsonl").read_text()) == stream_receipts[0]
     else:
         assert "kv_store_stream_source_preflight" not in result and not stream_receipts
     if diagnostic:
@@ -995,9 +996,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
     assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
 
 
-def test_kv_stream_witness_real_preparers_join_before_runtime(worker_config, sample, tmp_path, monkeypatch, snapshot_source):
-    if not (Path(probe.__file__).parent / "sglang_kv_streams.py").is_file():
-        pytest.skip("Real KV stream source preparer is not yet available")
+@pytest.fixture
+def kv_stream_source(tmp_path, monkeypatch, snapshot_source):
     from tests.manual.agent_opd import sglang_kv_streams as kv_streams
     root, _ = snapshot_source
     retained = Path(os.environ.get("MILES_PINNED_SGLANG_SOURCE", Path(__file__).resolve().parents[2] / (
@@ -1025,8 +1025,39 @@ def test_kv_stream_witness_real_preparers_join_before_runtime(worker_config, sam
         return SimpleNamespace(locate_file=lambda relative: ffi_root / relative)
 
     monkeypatch.setattr(kv_streams.importlib.metadata, "distribution", distribution)
+    return kv_streams
+
+
+def test_kv_stream_witness_real_preparers_join_before_runtime(
+        worker_config, sample, tmp_path, monkeypatch, snapshot_source, kv_stream_source):
     test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
-        worker_config, sample, tmp_path, monkeypatch, snapshot_source, True, True, "collected", None, kv_streams)
+        worker_config, sample, tmp_path, monkeypatch, snapshot_source, True, True, "collected", None, kv_stream_source)
+
+
+@pytest.mark.parametrize("missing", ["kernels/jit/csrc/elementwise/kvcache.cuh", "tvm_ffi/cython/function.pxi"])
+def test_kv_stream_source_override_skips_missing_cpp_or_tvm_evidence(tmp_path, monkeypatch, snapshot_source, missing):
+    from tests.manual.agent_opd import sglang_kv_streams as kv_streams
+
+    retained = Path(os.environ.get("MILES_PINNED_SGLANG_SOURCE", Path(__file__).resolve().parents[2] / (
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
+        "/exp-1111-102145-988437/source")))
+    override = tmp_path / "incomplete-native-source"
+    for relative, identity in kv_streams.source_manifest()["files"].items():
+        if "metadata_recorder_sha256" in identity:
+            continue
+        source = retained / relative
+        if not source.is_file():
+            pytest.skip(f"Required retained KV stream source unavailable: {source}")
+        if relative != missing:
+            target = override / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+    monkeypatch.setenv("MILES_PINNED_SGLANG_SOURCE", str(override))
+    monkeypatch.setitem(globals(), "__file__", str(tmp_path / "repo-without-evidence/tests/fast/test_teacher_scoring_probe.py"))
+    with pytest.raises(pytest.skip.Exception) as skipped:
+        kv_stream_source.__wrapped__(tmp_path, monkeypatch, snapshot_source)
+    assert str(skipped.value) == f"Required retained KV stream source unavailable: {override / missing}"
+    assert not (tmp_path / "retained-new").exists()
 
 
 @pytest.mark.parametrize("override_available", [True, False])
