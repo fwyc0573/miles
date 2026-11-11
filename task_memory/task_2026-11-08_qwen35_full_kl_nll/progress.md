@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record actual metadata A/B terminal and first4 vector/identity verification; retain warm failure and append routine S5 checkpoint without changing protocol or final criteria. |
 | 2026-11-11 | Advance current frontier to CPU332/fixed dual-review acceptance and submitted metadata A/B with native vectors pending; retain the primary5170a86d checkpoint and append a status-only phase check. |
 | 2026-11-11 | Record completed legal-None receiver correction, two new phase-review repairs and two H800 controller dry-runs; keep native reproduction pending. |
 | 2026-11-11 | Record CPU metadata/caller/RID preparation, pending phase reviews and legal-None receiver correction; append a routine S5 checkpoint without scientific/checkbox changes. |
@@ -172,10 +173,10 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / RUNTIME_METADATA_PROBES_SUBMITTED; formal04/05 BLOCKED.** `79c5d0f8/67ac0d7f/4f1139b0`preserve RID/raw DP1 None and close fixture-override/HTTP-error-body P2s. Primary records332 CPU PASS/20 existing warnings/27.75s and14 affected GREEN; both fixed`5f6dfaaa→4f1139b0`reviews No findings, CPU/source only ([comparison](evidence/runtime-metadata-followup-review-20261111/comparison.json),[repair report](test_report_2026-11-11_runtime_metadata_probe_integration.md#phase-review-p2-follow-up-to67ac0d7f)). Metadata A`exp-1111-073826-369716`/B`exp-1111-073825-734134`submitted via personal`i-fengyicheng`/local NFS`100.96.128.195:/data/ycfeng:/data/ycfeng`,4 requested nonpreemptible H800/codesign each under uncapped policy. [A admission](evidence/teacher-scoring-runtime-metadata-probe-20261111/admission-A-r1.json)/[B admission](evidence/teacher-scoring-runtime-metadata-probe-20261111/admission-B-r1.json)/[single SDK snapshot](evidence/teacher-scoring-runtime-metadata-probe-20261111/initial-platform.json)at2026-11-10T23:40:44Z record A Starting/B Running, not actualGPU/source/runtime/vectors accepted. Original launchers remain alive without outer timeout; this docs slice does not query/poll them, resubmit, stop or run business tests. No new formal jobs/root fix.
-- **Minimization candidate, not native equivalence:** [config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json) declare first4/one rep/16 requests/10 flushes. Required H800 vectors must match original FP32 repetition0/sample2/3 drift; dropped1024-hit groups remain unverified. Original full FP32 stream and [actual warm FAIL](test_report_2026-11-11_fp32_teacher_scoring_results.md) remain references, not replaced by CPU preparation. Warmfull is not a cold oracle; no cache/dtype/concurrency/budget/tolerance change.
-- **Binding and identity limits:** raw DP1 None is preserved and the receiver's CPU contract is accepted; strict other-rank typing remains. `meta_info.id/native_request_id`+pair joins identity, not chronology; one post-scoring`/get_server_info`covers DP responders, not every TP. [Clarified source coverage](test_report_2026-11-11_mamba_runtime_metadata_source.md#receipt-coverage-and-limits)leaves release/allocator-return and skipped-COW events aggregate/noRID; node equality or row sequence does not manufacture request attribution. Existing actual RID boundary/plan/donor/canonical-rebind evidence suffices for the next bounded diagnostic, without additional recorder changes. Actual runtime/coherence/reproduction still pending; env1 DEFERRED/ordering unexcluded.
-- **History and final acceptance:** source numerical operator44 PASS (`bf833a8e`, equal-length same-candidate/no separate bytewise), model warm FAIL (`31df1033`) and actual source/vector/terminal archive (`b3307ccf`) remain independent. D39/D34/S7/D16/02/03/commoncycle/06CPU, raw decisions and all checkboxes are unchanged. Only required causal/native correctness acceptance permits freshformal04+05 admission when placement permits→each200/native/profile/terminal→06; no A200 gate or auto-loop. Primary owns code/config/reports/evidence/platform; frozen link errors remain deferred metadata, not native bugs, and no checker/artifact is altered.
+- **D40 / RUNTIME_METADATA_NATIVE_FIRST4_VERIFIED; formal04/05 BLOCKED.** Metadata A`exp-1111-073826-369716`/B`exp-1111-073825-734134`both Succeeded/Completed0/restart0 with4 actual H800 each. [Selected terminal containers](evidence/teacher-scoring-runtime-metadata-probe-20261111/terminal-platform-containers.json) retain actual image/resources and native local-NFS source annotation`100.96.128.195:/data/ycfeng:/data/ycfeng`; missing direct NFS volume fields do not imply an unmounted source. [A report](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[verification](evidence/teacher-scoring-runtime-metadata-probe-20261111/native-verification-A.json) and [B report](test_report_2026-11-11_runtime_metadata_native_results.md)/[verification](evidence/teacher-scoring-runtime-metadata-probe-20261111/native-verification-B.json) accept retained hardware/source/input and first4 reproduction independently of CPU332/fixed dual review. Original admission and23:40:44Z Starting/Running snapshot remain historical/unmodified. This docs task invokes no platform, job stop/resubmission or business suite; reports/evidence remain primary-owned and excluded from its commit.
+- **Native minimization equivalence, not a warm fix:** each16/16 original FP32 repetition0 first4 vectors exactly match, cold4/4 and warm1/4 preserve original sample2/3 drift; B's eight comparison groups are identical. [Config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json)still mean16 requests/10 flushes/one rep, not full56/second repetition/dropped1024-hit acceptance. A25387/B16333 typed rows join all16 native RIDs only within TP0/DP1. Warm-full remains no cold oracle; no tolerance/cache/dtype/interval/concurrency/budget change or performance PASS.
+- **Metadata interpretation and qualification frontier:** raw DP1 None and RID/pair identity-not-chronology are preserved; release/skipped-COW stays aggregate and no extra recorder paths are needed. Primary-pinned B facts narrow inactive selected-FP32/BF16-store/rejected96576-donor explanations: sample1 selected FP32 to FP32 temporal donor with`mamba_exist=false`/node145, response2/3 active COW, warm-full prefix0 clear still canonical-KV rebind. These are branch/dtype/mapping/host-enqueue metadata, not numerical KV–SSM inconsistency, physical slots, device-store completion, all-TP/race/history proof. Existing full-input-only `cache_salt` controlled namespace is a source/protocol-qualification candidate, not a chosen implementation/GPU experiment/fix. Env1 remainsDEFERRED and ordering unexcluded.
+- **History and final acceptance:** source numerical operator44 PASS (`bf833a8e`, equal-length same-candidate/no separate bytewise), model warm FAIL (`31df1033`) and original source/vector/terminal archive (`b3307ccf`) remain independent. D39/D34/S7/D16/02/03/commoncycle/06CPU, raw decisions/checklists, H200 native6/profile2 and all old/probe counters are unchanged. Formal04/05 remainBLOCKED until required numerical correctness and fresh admission→each200/native/profile/terminal→06; no A200 gate/auto-loop/new formal job. Primary owns code/config/reports/evidence/platform; frozen link errors stay deferred artifact metadata, not native bugs.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -1949,3 +1950,62 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. CPU332/14 GREEN与固定双review接受，不是native概率/physical slot/race或rootfix接受。
 2. A/B metadata已提交；单次SDK A Starting/B Running不能证明actual4H800/source/runtime/vector重现。
 3. First4/16requests/10flushes/1rep保持，1024-hit/全TP未覆盖；RID只identity、release/skipped-COW aggregate，formal04/05 BLOCKED/06等200。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 input | PASS | D34原source/32×8/长度检查已接受，未重开。 |
+| 02 per-turn sums | PASS | CPU/S7和D16真实首update已接受。 |
+| 03 profile integration | PASS | CPU/native consumer集成15186817已接受，正式200仍独立。 |
+| 04 A formal | BLOCKED | Metadata A实际完成、16向量/first4重现接受；warm1/4 FAIL，未提交新formal。 |
+| 05 B formal | BLOCKED | Metadata B实际完成、16向量/first4重现接受；warm1/4 FAIL，Aedge早已满足。 |
+| 06 final report | TODO | CPU slice已接受，仍等actualA/B200/terminal/profile，不以probe结果替代。 |
+
+## 2. 偏离检测
+
+**结论：** 未偏移，正常推进。
+**检测窗口：** 前次`a33e939f`checkpoint/最近CPU与review PASS至当前metadata A/B terminal、source、向量和identity verification｜**当前前沿：**04/05 warm概率RCA与既有controlled-namespace source/protocol资格调查，正式执行仍HOLD。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 已有metadata路径完成真实identity/向量验证后停止扩recorder；只做当前8-doc保存与链接检查，不修冻结artifact。 |
+| D2 细节反复重试 | CLEAR | 原A/B作业自然完成并验证16向量，未重提/stop/改knob；一次结果把minimization从PENDING推进到PASS但保留warm FAIL。 |
+| D3 支线问题修补 | CLEAR | Native source/first4/conditional donor/COW/rebind直接服务04/05；没有追逐无关问题。 |
+| D4 可并行任务停滞 | CLEAR | 两模型native verification/report独立完成；下一protocol资格调查不借A200/profile gate串行B。 |
+| D5 超范围镀金 | CLEAR | 仍16requests/10flushes/1rep、fixed科学与cold reference；cache_salt只是既有source链candidate，未接受实施或实验。 |
+| D6 分析空转 | CLEAR | 新actualGPU/source/向量与TP0/DP1 metadata证据收窄假设，明确不能从host trace推数值coherence；frontier发生具体变化。 |
+| D7 路线违背 | CLEAR | D39 H800-only/非抢占/personal/local源、D34与S7均保持；没有新formal/fix/科学决定或旧counter拼接。 |
+
+**文档检查：** S1 CLEAR（06 final edge与probe接受分开）；S2 CLEAR（04/05和primary拥有native blocker）；S3 CLEAR（所需概率/实际输出可验证，当前不伪造缺失证据）；S4 CLEAR（200/231/1800与profile标准不变）；S5 HIT（原requirements/plan/progress/summary/spec/review/04/05仍写native向量和GPU PENDING，反于已完成A/B proof，已作routine current修正）；S6 CLEAR（既有ticket/CPU/native slice不变）。
+**归因：** 无D执行命中；S5是后续actual terminal/verification完成后的记录滞后。旧Pending、primary5170a86d、此前D2及历史outcomes保持。
+
+## 3. 纠正建议
+
+**分支：** B：先更新routine S5，再继续既有D40调查。
+
+**文档更新（先执行）：**
+1. 八份owned current/frontier：两job实际Succeeded、source/16向量/first4等价已接受但warm FAIL，补identity/metadata和NFS annotation限制（可直接执行，已完成）。
+2. 保留raw/science/checklist/history；将full-input-only cache_salt写为source/protocol qualification，不创造决定、criterion、已选fix/实验或probability/performance PASS（可直接执行，已完成）。
+
+**需停止的偏离行为：** 无；不推数值KV–SSM inconsistency/物理slot/device完成/race，不扩recorder或把subsetPASS抬成formal readiness。
+
+**接下去的路线：**
+1. 基于已接受A/B向量和RID-bound conditional/donor/COW/rebind证据，资格核对既有full-input-only controlled namespace source链与protocol → 完成标志：明确可检验对照与范围，不擅自选择implementation/GPU实验或修改科学/precision/cache/tolerance。
+2. 并行：必要native数值coherence/causal调查 ‖ primary归档两模型独立report/evidence；metadata与first4范围以外1024/allTP/slots/device/race/history保持unverified，不制造count/node/chronology关联。
+3. 必要数值正确性接受后fresh H800 formal04+05并行（placement允许）→各200/native/profile/terminal→06；Aedge满足，不加A200/profile gate、stop权限或later-update auto-loop。
+
+**本次精确doc-only核验：** raw/全部decision、六ticket checkbox（A/B17）、S1–S9、六verification方法、原checkpoint/review历史和新四节3/2/1保持，scoped whitespace PASS。既有checker实际67文档/6tickets/441links/87anchors、exit1/62errors：原60个冻结副本相对依赖缺失，加primary未提交A报告中`ns['run']/'result.json'`与`ns['base']/'native-verification-A.json'`两个代码表达式被解析为链接；owned0，不改报告/checker/artifact，不计作native失败。报告与verification JSON仍由primary归档。精确命令执行于repo root，本任务无business/GPU/平台操作：
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+## 4. 最值得关注的 3 点
+
+1. 两model实际4H800/Succeeded/16向量精确复现、cold4/4/warm1/4；这是subset验证，warm问题仍未修复。
+2. A25387/B16333 TP0/DP1 rows覆盖16 RID和B条件路径只收窄metadata假设，不证明数值KV–SSM inconsistency/slots/device/race/历史root cause。
+3. cache_salt full-input namespace只在protocol资格调查；未接受实现/GPU/fix/performance，formal04/05仍BLOCKED、06等200，旧H2006/profile2和科学/checklist不变。

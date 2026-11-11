@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Add both actual native first4 verification scopes; preserve warm failure and metadata-only interpretation, without extending CPU or source review acceptance. |
 | 2026-11-11 | Close both runtime-metadata P2 findings on fixed5f6dfaaa→4f1139b0 with dual No findings/332 CPU; submitted A/B still lack native equivalence acceptance. |
 | 2026-11-11 | Record pending runtime-metadata phase/follow-up reviews and CPU-only first-four/RID preparation; preserve prior No-findings scopes and native/minimization limits. |
 | 2026-11-11 | Separate accepted bounded operator/source numerical scope from measured full-model warm FAIL; retain phase reviews and read-only next analysis without another selected fix. |
@@ -21,7 +22,7 @@
 
 # Runtime metadata preparation phase — 2026-11-11
 
-**Status: CPU_AND_FIXED_REVIEW_ACCEPTED / NATIVE_PENDING.** RID`79c5d0f8`, raw DP1 None receiver`67ac0d7f` and P2 repair`4f1139b0` preserve source/payload/contracts. Primary reports332 CPU PASS/20 existing warnings/27.75s and14 affected GREEN. Both reviewers accept the fixed`5f6dfaaa→4f1139b0`diff with No findings; this docs agent transcribes completed artifacts, does not query reviewers/rerun tests, and edits no code/config/report/evidence. Earlier pending-review/330-test wording remains a historical pre-repair snapshot in primary5170a86d progress/checkpoint, not current status.
+**Status: CPU_FIXED_REVIEW_AND_NATIVE_FIRST4_ACCEPTED / WARM_FAIL.** RID`79c5d0f8`, raw DP1 None receiver`67ac0d7f` and P2 repair`4f1139b0` preserve source/payload/contracts. Primary332 CPU/14 GREEN and both fixed`5f6dfaaa→4f1139b0`No findings remain CPU/source review scope. Separately completed [A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md) verification accepts retained actual hardware/source/input and exact original FP32 first4 repetition0 vectors. This is not a new code review or warm-correctness/fix acceptance. Earlier pending/330-test and startup snapshots remain historical; this docs agent queries no reviewer/platform and reruns no business tests.
 
 | Axis | Reviewer / task | Fixed result |
 | --- | --- | --- |
@@ -30,7 +31,9 @@
 
 Immutable [comparison](evidence/runtime-metadata-followup-review-20261111/comparison.json)and original/revised/followup diff triple preserve the inspected artifacts. The[primary repair report](test_report_2026-11-11_runtime_metadata_probe_integration.md#phase-review-p2-follow-up-to67ac0d7f)owns qualified RED/14 GREEN/332 joined commands and body-provenance/override/strict-rank limits; these are not GPU or model-probability results.
 
-**Current limits:** metadata A`exp-1111-073826-369716`/B`exp-1111-073825-734134`submitted4 requested nonpreemptible H800 each;[SDK snapshot](evidence/teacher-scoring-runtime-metadata-probe-20261111/initial-platform.json)is only A Starting/B Running, not actualGPU/source/runtime/vector acceptance. [Config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json)remain16 requests/10 flushes/one rep pending original FP32 repetition0/sample2/3 drift equivalence; dropped1024-hit groups unverified. Raw DP1 None is now CPU-accepted/preserved; RID/pair joins are identity-only, and server-info covers DP not all TP. [Source coverage](test_report_2026-11-11_mamba_runtime_metadata_source.md#receipt-coverage-and-limits)leaves release/skipped-COW aggregate, while native RID boundary/plan/donor/rebind rows support the next bounded diagnostic without extra recorder changes. No native cause/race/slot/completion/full-model/scientific acceptance follows; formal04/05 BLOCKED/06waiting200, no B A200gate or budget/cache/dtype/concurrency/tolerance change.
+**Current native scope:** A`exp-1111-073826-369716`/B`exp-1111-073825-734134`both Succeeded/Completed0/restart0 with4 actual H800 each. [Selected terminal containers](evidence/teacher-scoring-runtime-metadata-probe-20261111/terminal-platform-containers.json) retain native source NFS annotation/image/resources; absent direct volume fields are not an unmounted-source verdict. Each16/16 vector matches original FP32 repetition0 first4, cold4/4 and warm1/4; B's eight comparison groups match. A25387/B16333 typed rows cover all16 native RIDs only within TP0/DP1. Raw None and identity-not-chronology remain; dropped1024-hit groups/all-TP/device slot values/completion/race/history/performance remain unverified. Release/skipped-COW rows remain aggregate.
+
+**Interpretation and next qualification:** primary's B inspection narrows inactive selected-FP32/BF16-store/rejected96576-donor explanations: sample1 has selected FP32 to FP32 temporal donor metadata, `mamba_exist=false`/node145; response2/3 active COW; warm-full prefix0 clear still followed by canonical-KV rebind. These are host branch/dtype/mapping receipts, not numerical KV–SSM inconsistency or a root fix. Existing full-input-only `cache_salt` namespace diagnostic is under source/protocol qualification, not a selected implementation/GPU experiment/fix. Formal04/05 remain BLOCKED/06waiting200; no tolerance/cache-disable/precision/interval/concurrency/budget/science/checkbox or B A200 change. Original SDK Pending/Starting/Running stays unmodified historical evidence.
 
 # FP32 snapshot source-fidelity candidate — 2026-11-11
 

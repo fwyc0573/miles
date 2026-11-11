@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept bounded native first4 metadata reproduction, retain warm failure and qualify—not select—the existing controlled namespace diagnostic. |
 | 2026-11-11 | Advance current D40 to accepted CPU/fixed phase reviews and submitted metadata probes, without accepting native equivalence or changing scientific sections/checklists. |
 | 2026-11-11 | Align D40 current status with CPU runtime metadata/minimization and pending review/native equivalence; keep all scientific sections and legal-None/identity/coverage limits. |
 | 2026-11-11 | Record bounded source/CUDA PASS and completed model warm FAIL; retain all scientific criteria and read-only runtime/coherence RCA before formal readiness. |
@@ -68,7 +69,7 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D40）**：**RUNTIME_METADATA_PROBES_SUBMITTED；formal04/05因full-model warm FAIL仍BLOCKED**。`79c5d0f8/67ac0d7f/4f1139b0`完成RID/合法raw DP1 None及两项P2修复；332 CPU PASS、14 affected GREEN、固定`5f6dfaaa→4f1139b0`双review No findings只接受CPU/source阶段。Metadata A/B已各申请4非抢占H800/codesign并提交，personal/local NFS；[initial SDK](evidence/teacher-scoring-runtime-metadata-probe-20261111/initial-platform.json)仅A Starting/B Running，actualGPU/source/runtime/vectors仍PENDING。[Config](teacher_scoring_runtime_metadata_probe_config.json)/[manifest](teacher_scoring_runtime_metadata_first4_manifest.json)维持16requests/10flushes/1rep，需原FP32 rep0/sample2/3 H800向量等价；1024-hit组未覆盖。Raw None/RID identity/DP非全TP覆盖保持，release/skipped-COW仅aggregate，已有RID boundary/plan/donor/rebind足够下一bounded诊断，不扩recorder/推chronology。无rootfix或science/cache/dtype/concurrency/budget/tolerance/decision/checklist变化，B无A200gate；[Current](progress.md#current-execution--workflow-rca)。
+**当前状态（2026-11-11，D40）**：**RUNTIME_METADATA_NATIVE_FIRST4_VERIFIED；formal04/05因warm FAIL仍BLOCKED**。[A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md)均Succeeded/Completed0/restart0、各4实际H800；每模型16/16原FP32 rep0 first4向量精确相等，cold4/4、warm1/4漂移保留，仅接受16requests/10flushes/1rep的instrumented重现。A25387/B16333 typed rows覆盖各16 RID，仅TP0/DP1 host trace；native source NFS annotation不能因direct volume字段缺失否定。B的selected FP32/FP32 temporal donor、response2/3 active COW、prefix0 clear后仍canonical-KV rebind仅收窄metadata假设，不证明numeric KV–SSM inconsistency/slot值/device完成/race/全TP/history。既有full-input-only `cache_salt` controlled namespace仍是source/protocol资格调查candidate，未选择实现/GPU实验/fix或performance PASS。1024-hit未覆盖，raw None/RID identity/aggregate与D39/D34/S7/science/checkbox保持，B无A200gate；[Current](progress.md#current-execution--workflow-rca)。
 
 ## S1. 目标与实验矩阵
 
