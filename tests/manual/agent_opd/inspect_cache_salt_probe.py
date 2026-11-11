@@ -172,7 +172,24 @@ def _checkpoint_isolation(rows, by_rid, pair):
                 issues.append({"sequence": seq, "event": "checkpoint_insert_returned", "fields": f,
                                "error": "unbound ordinary returned row"})
     checks = [r["status"] == "PASS" for r in joined] + ([None] if issues or not joined else [])
+    target_rids = {rid for (request_pair, rid), key in by_rid.items() if request_pair == pair and key[-1] == "full_input"}
+    target_joins = [row for row in joined if row["logical_key"][-1] == "full_input"]
+    control_joins = [row for row in joined if row["logical_key"][-1] == "response_only"]
+    covered_rids = {row["native_rid"] for row in target_joins}
+    coverage_verified = len(target_rids) == 8 and covered_rids == target_rids
+    # Only full-input requests receive the intervention; control geometry stays observable.
+    target_checks = [row["status"] == "PASS" for row in target_joins]
+    target_checks += [True if coverage_verified else None] + ([None] if issues else [])
     return {"status": _status(checks), "event_counts": dict(counts), "ordinary_joined": len(joined),
+            "binding_status": "UNVERIFIED" if issues else "PASS",
+            "full_input_isolation": {"status": _status(target_checks), "target_rid_count": len(target_rids),
+                                     "covered_rid_count": len(covered_rids), "target_rids": sorted(target_rids),
+                                     "coverage_status": "PASS" if coverage_verified else "UNVERIFIED",
+                                     "ordinary_joined": len(target_joins), "failed_joins": sum(row["status"] == "FAIL" for row in target_joins)},
+            "control_observations": {"status": _status([row["status"] == "PASS" for row in control_joins]
+                                                       + ([None] if issues or not control_joins else [])),
+                                     "role": "Unsalted response-only geometry observations; not the counterfactual isolation gate",
+                                     "ordinary_joined": len(control_joins), "failed_joins": sum(row["status"] == "FAIL" for row in control_joins)},
             "declined_returned_rows": sum(f["rotation_tail_declined"] for bucket in returned.values() for _, f in bucket),
             "non_mamba_begin_rows": sum(f["insert_value"] is None for bucket in begins.values() for _, f in bucket),
             "joins": joined, "nonordinary": nonordinary, "issues": issues}
@@ -429,7 +446,8 @@ def inspect_probe(pair, output_dir, baseline_dir):
         statuses += [r["candidate"]["status"] for r in report["retractions"]] + [r["baseline"]["status"] for r in report["retractions"]]
         statuses.append(report["baseline_observation_status"])
         for scope in report["scopes"]:
-            statuses += [scope["rid_coverage_status"], scope["isolation"]["status"], scope["chunks"]["status"]]
+            statuses += [scope["rid_coverage_status"], scope["isolation"]["binding_status"],
+                         scope["isolation"]["full_input_isolation"]["status"], scope["chunks"]["status"]]
         report["cpu_verdict"] = _status([True if s == "PASS" else False if s == "FAIL" else None for s in statuses])
         report["interpretation"] = ("Controls/isolation qualified; inspect each same-run cold-to-warm comparison, not a source fix"
                                     if report["cpu_verdict"] == "PASS" else "INCONCLUSIVE: failed or unverified controls/isolation/evidence")

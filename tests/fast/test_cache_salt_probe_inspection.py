@@ -326,3 +326,63 @@ def test_missing_receipts_remain_unverified(synthetic_run, missing):
     path.write_text("".join(json.dumps(row) + "\n" for row in rows[1:]))
     report = inspection.inspect_probe("B", candidate, baseline)
     assert report["cpu_verdict"] == "UNVERIFIED"
+
+
+def test_only_full_input_isolation_gates_shared_response_control_observations(synthetic_run):
+    candidate, baseline = synthetic_run
+    path = candidate / "runtime_metadata.json"
+    receipt = inspection._read(path)
+    rows = receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]["rows"]
+    control_rids = {r["native_request_id"] for r in inspection._lines(candidate / "requests.jsonl")
+                    if r["mode"] == "response_only" and r["phase"] == "warm_stream" and r["sample_position"] > 0}
+    for i, row in enumerate(rows):
+        if _fields(row).get("rid") in control_rids and row[1] in ("checkpoint_insert_returned", "canonical_kv_rebind_enqueued"):
+            rows[i] = _replace(row, prefix_len=4)
+    path.write_text(json.dumps(receipt))
+    report = inspection.inspect_probe("B", candidate, baseline)
+    isolation = report["scopes"][0]["isolation"]
+    assert isolation["status"] == "FAIL" and isolation["ordinary_joined"] == 16
+    assert sum(j["status"] == "FAIL" for j in isolation["joins"]) == 3
+    assert all(j["status"] == "PASS" for j in isolation["joins"] if j["logical_key"][-1] == "full_input")
+    assert report["cpu_verdict"] == "PASS"
+    target = isolation["full_input_isolation"]
+    assert target["status"] == "PASS" and target["ordinary_joined"] == target["covered_rid_count"] == 8
+    controls = isolation["control_observations"]
+    assert controls["status"] == "FAIL" and controls["failed_joins"] == 3 and controls["ordinary_joined"] == 8
+
+
+@pytest.mark.parametrize("fault,expected", [("target_failure", "FAIL"), ("target_ambiguity", "UNVERIFIED"),
+                                           ("missing_target", "UNVERIFIED"), ("control_ambiguity", "UNVERIFIED")])
+def test_full_input_scope_preserves_target_failures_and_binding_integrity(synthetic_run, fault, expected):
+    candidate, baseline = synthetic_run
+    requests = inspection._lines(candidate / "requests.jsonl")
+    mode = "response_only" if fault == "control_ambiguity" else "full_input"
+    rid = next(r["native_request_id"] for r in requests if r["mode"] == mode and r["phase"] == "cold" and r["sample_position"] == 0)
+    path = candidate / "runtime_metadata.json"
+    receipt = inspection._read(path)
+    rows = receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]["rows"]
+    if fault == "target_failure":
+        for i, row in enumerate(rows):
+            if _fields(row).get("rid") == rid and row[1] in ("checkpoint_insert_returned", "canonical_kv_rebind_enqueued"):
+                rows[i] = _replace(row, prefix_len=4)
+    elif fault == "missing_target":
+        rows[:] = [row for row in rows if not (_fields(row).get("rid") == rid and row[1] in (
+            "checkpoint_insert_begin", "checkpoint_insert_returned", "canonical_kv_rebind_enqueued"))]
+    else:
+        begin = next(row for row in rows if _fields(row).get("rid") == rid and row[1] == "checkpoint_insert_begin")
+        rows.append([rows[-1][0] + 1, begin[1], copy.deepcopy(begin[2])])
+    path.write_text(json.dumps(receipt))
+    report = inspection.inspect_probe("B", candidate, baseline)
+    isolation = report["scopes"][0]["isolation"]
+    assert report["cpu_verdict"] == expected
+    assert isolation["full_input_isolation"]["status"] == expected
+    if fault == "target_failure":
+        failed = next(j for j in isolation["joins"] if j["native_rid"] == rid)
+        assert failed["join_status"] == "PASS" and failed["status"] == "FAIL"
+        assert isolation["full_input_isolation"]["failed_joins"] == 1
+    elif fault == "missing_target":
+        assert isolation["binding_status"] == "PASS"
+        assert isolation["full_input_isolation"]["target_rid_count"] == 8
+        assert isolation["full_input_isolation"]["covered_rid_count"] == 7
+    else:
+        assert isolation["binding_status"] == "UNVERIFIED" and isolation["issues"]

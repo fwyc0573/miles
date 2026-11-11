@@ -3,6 +3,7 @@
 | Date | Change |
 | --- | --- |
 | 2026-11-11 | Implement the CPU-only first4/rep0 inspector; verify synthetic faults and archived A/B negative cases without reading the new native runs. |
+| 2026-11-11 | Fix the diagnosed isolation gate scope with RED/GREEN regression; preserve all control FAIL observations and the original A/B FAIL JSON byte-for-byte. |
 
 # Cache-salt probe CPU inspection
 
@@ -10,7 +11,90 @@ TaskID: `profile-cache-salt-native-inspection-20261111`.
 
 ## Outcome and ownership
 
-**CPU preparation PASS: 41 new regressions, 36 affected existing comparison/receiver checks, and both archived A/B CLI negative cases pass their expectations. New counterfactual native results remain UNVERIFIED and were not read.** No GPU/auth/platform/SSH operation, new instrumentation, source overlay, configuration change, tolerance or performance claim was made.
+**Follow-up scope fix PASS: 46 inspector regressions and36 affected existing checks pass. All165 native A/B checkpoint joins remain unchanged; each pair's100 full-input joins pass, while three of65 response-control joins remain visibly FAIL. The original A/B FAIL JSON remains unchanged. Primary owns the fresh full-API r2 JSON.** No GPU/auth/platform/SSH operation, new instrumentation, source overlay, configuration change, tolerance or performance claim was made.
+
+Initial preparation at `5da6cfc1` passed41 new regressions,36 affected existing checks and both archived A/B CLI negative expectations before native counterfactual content was authorized. That preparation missed the gate-scoping defect; its original evidence below is retained as history, not a qualification of the new runs.
+
+## Follow-up: full-input gate, shared control observations
+
+[Original Request — follow-up] The primary diagnosed a CPU gate-scoping error: all16 requests were gated by checkpoint geometry even though only eight `full_input` requests receive salts. Join/report all rows and binding integrity; gate counterfactual isolation only on the eight full-input logical identities; preserve unsalted control inequalities as observations. Keep the original `native-inspection-{A,B}.json` immutable. No GPU rerun, new instrumentation, tolerance, math, flags or extra unchanged-chunk gate is authorized. Ownership remains the same three files.
+
+The pre-agreed regression seam is the public `inspect_probe(pair, output_dir, baseline_dir)` API. The already diagnosed cause justified skipping speculative hypotheses and instrumentation. One mixed synthetic native fixture reproduces three shared warm response-control inequalities while every full-input checkpoint remains exact.
+
+Exact RED and GREEN command, run before and after the minimal source change:
+
+```bash
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q -p no:cacheprovider tests/fast/test_cache_salt_probe_inspection.py -k only_full_input_isolation_gates
+```
+
+- RED actual: exit1, `1 failed,41 deselected`; eight full-input joins PASS and three response-control joins FAIL were confirmed before `AssertionError: assert 'FAIL' == 'PASS'` on `cpu_verdict`.
+- GREEN actual: exit0, `1 passed,41 deselected`; `cpu_verdict=PASS`, full-input coverage8/8 and target PASS, with original aggregate/control statuses still FAIL.
+- Final full inspector command from **Focused regressions**: exit0, **46 passed**, comprising the original41 plus the mixed-scope test and four target/control binding fault cases. The existing receiver/comparison command: exit0, **36 passed /115 deselected**. Target inequality still FAIL; duplicate target/control buckets and missing target checkpoint coverage stay UNVERIFIED. The old negative-inequality test, missing retraction checks, response-drift controls and report-only chunk/retraction changes all remain passing.
+
+Implementation is confined to the existing `_checkpoint_isolation` summary and the existing overall status selection. It still joins and reports every ordinary row with the unchanged independent identity buckets/equalities. Public keys under `scopes[i].isolation` now explicitly include:
+
+- `status`, `joins`, `event_counts`, `ordinary_joined`, `nonordinary`, `issues`: unchanged all-request observations, including control FAIL.
+- `binding_status`: UNVERIFIED for any missing/ambiguous ordinary binding, including controls.
+- `full_input_isolation`: counterfactual gate, eight explicitly bound intended salted full-input RIDs, ordinary joined coverage8/8, unchanged independent boundary checks and failed-join count. The existing salt protocol gate independently verifies sent salts; missing salts never remove a request from target scope.
+- `control_observations`: response-only geometric status/counts labeled observational, not a counterfactual gate. Every individual failed join remains in `joins`; no FAIL is rewritten to PASS.
+
+Overall `cpu_verdict` now uses target isolation and all existing source/protocol/vector/RID/chunk/retraction/binding integrity gates, not unsalted control geometry. No equality, matching rule, native behavior, comparison definition or unchanged-chunk acceptance gate changed.
+
+### Authorized read-only native scope regression and immutable originals
+
+These exact files remain the primary's original FAIL evidence:
+
+| Pair | Immutable path | SHA256 before and after |
+| --- | --- | --- |
+| A | `evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A.json` | `cc76e426ab3ad838a4fb460420de39f7815ac03f18f06470354c9ba5ff672730` |
+| B | `evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B.json` | `2bcc0ab925b627d957374942e8ac1c3500919a880c7d27ab6f6e20df26468a33` |
+
+The following focused CPU replay reads the authorized runtime rows, compares every original isolation output field against the preserved JSON, and checks only the repaired scope. It does not run the full actual API or write an r2 artifact; that remains the primary's follow-up.
+
+```bash
+timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B - <<'PY'
+import resource
+resource.setrlimit(resource.RLIMIT_AS,(30*1024**3,30*1024**3))
+import hashlib,json
+from pathlib import Path
+from tests.manual.agent_opd import inspect_cache_salt_probe as p
+root=Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-cache-salt-probe-20261111')
+expected={'A':'cc76e426ab3ad838a4fb460420de39f7815ac03f18f06470354c9ba5ff672730','B':'2bcc0ab925b627d957374942e8ac1c3500919a880c7d27ab6f6e20df26468a33'}
+normalize=lambda value:json.loads(json.dumps(value))
+for pair in ('A','B'):
+ path=root/f'native-inspection-{pair}.json'
+ before=path.read_bytes(); report=json.loads(before)
+ assert hashlib.sha256(before).hexdigest()==expected[pair] and report['cpu_verdict']=='FAIL'
+ by_rid={(r['pair'],r['native_rid']):tuple(r['logical_key']) for r in report['rid_joins']}
+ runtime=p._read(Path(report['output_dir'])/'runtime_metadata.json')
+ observations=p._runtime_metadata_states(runtime['server_info'])
+ for state,scope in zip(runtime['server_info']['internal_states'],report['scopes']):
+  actual=p._checkpoint_isolation(state['mamba_runtime_metadata']['rows'],by_rid,pair)
+  old=scope['isolation']
+  assert {name:normalize(actual[name]) for name in old}==old
+  target,controls=actual['full_input_isolation'],actual['control_observations']
+  assert actual['status']=='FAIL' and actual['binding_status']=='PASS' and actual['ordinary_joined']==165
+  assert target['status']==target['coverage_status']=='PASS'
+  assert (target['ordinary_joined'],target['failed_joins'],target['target_rid_count'],target['covered_rid_count'])==(100,0,8,8)
+  assert controls['status']=='FAIL' and (controls['ordinary_joined'],controls['failed_joins'])==(65,3)
+  print(pair,'FOCUSED_NATIVE_SCOPE_PASS','joins165 unchanged; full100 PASS/0 FAIL, RID8/8; controls62 PASS/3 FAIL retained; binding PASS')
+ assert report['vector_controls']['status']=='PASS' and len(report['vector_controls']['cases'])==12
+ assert all(r['comparison']['values_exact'] for r in report['warm_full_vs_own_cold'])
+ assert path.read_bytes()==before
+ print(pair,'ORIGINAL_FAIL_JSON_PRESERVED',str(path),expected[pair])
+old_dir=Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1')
+requests=p._lines(old_dir/'requests.jsonl')
+by_rid={(r['pair'],r['native_request_id']):p._key(r) for r in requests}
+rows=p._read(old_dir/'runtime_metadata.json')['server_info']['internal_states'][0]['mamba_runtime_metadata']['rows']
+isolation=p._checkpoint_isolation(rows,by_rid,'B')
+negative=next(j for j in isolation['joins'] if j['sequences']==[13596,13599,13600])
+assert isolation['status']=='FAIL' and negative['join_status']=='PASS' and negative['status']=='FAIL'
+assert (negative['begin']['protected_len'],negative['returned']['prefix_len'],negative['rebind']['absolute_end'])==(90112,98067,98304)
+print('OLD_B_BOUND_NEGATIVE_RETAINED_PASS','13596/13599/13600; 90112 != 98067; end98304')
+PY
+```
+
+Expected/actual: outer exit0, both `FOCUSED_NATIVE_SCOPE_PASS` and `ORIGINAL_FAIL_JSON_PRESERVED`; all165 joins per pair and every legacy isolation field identical to the original. Full-input100 PASS/0 FAIL, response-only62 PASS/3 FAIL, target RIDs8/8 and binding PASS. `OLD_B_BOUND_NEGATIVE_RETAINED_PASS` confirms the old13596/13599/13600 join still succeeds and fails the protected-prefix equality honestly. Checksums here preserve requested evidence, not source qualification or a new source-hash mechanism. Syntax/isolated CPU import and scoped `git diff --check` also exit0.
 
 Owned deliverables only:
 
@@ -27,14 +111,14 @@ from tests.manual.agent_opd.inspect_cache_salt_probe import inspect_probe
 report = inspect_probe(pair, output_dir, baseline_dir)
 ```
 
-After the primary receives native termination, it can run the following command with the exact terminated run and same-pair verified baseline directories. This example is **not an executed new-run command**:
+For its r2 rerun, the primary can use the following command with the exact terminated run and same-pair verified baseline directories. This example is **not an executed full actual API command in this subagent**:
 
 ```bash
 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m tests.manual.agent_opd.inspect_cache_salt_probe \
   --pair B --output-dir "$TERMINATED_COUNTERFACTUAL_DIR" --baseline-dir "$VERIFIED_SAME_PAIR_BASELINE_DIR"
 ```
 
-The CLI emits strict JSON to stdout and returns0 only for CPU controls/isolation/evidence qualification; otherwise it returns1. Native completion is a separate result-receipt observation, not a platform/container terminal assertion. A CPU PASS is not numerical warm acceptance: each of the four `warm_full_vs_own_cold` comparisons must be interpreted separately. Missing/ambiguous evidence stays UNVERIFIED; observed failed isolation equalities stay FAIL.
+The CLI emits strict JSON to stdout and returns0 only for CPU controls/full-input isolation/evidence qualification; otherwise it returns1. Native completion is a separate result-receipt observation, not a platform/container terminal assertion. A CPU PASS is not numerical warm acceptance: each of the four `warm_full_vs_own_cold` comparisons must be interpreted separately. Missing/ambiguous evidence stays UNVERIFIED; observed failed equalities stay FAIL, including control observations outside the target gate.
 
 Report fields retain:
 
@@ -42,7 +126,7 @@ Report fields retain:
 - Eight full-input salts equal to `pair + ':' + pre-send request_id`, eight response-only null-salt receipts, and the exact10 flush identities/statuses. Twelve controls compare eight response vectors and four cold-full vectors against the verified baseline using existing `_comparison`.
 - Four warm-full comparisons against their own run's cold-full only, including exactness, maximum absolute/defined relative error and undefined-zero-reference count. There is no new tolerance or full-vs-response gate.
 - Actual typed `request.meta_info.num_retractions`; missing/null/bool/string/negative/noninteger values remain unverified. Retraction and initial/complete chunk/tracking differences are observations, not an extra unchanged gate.
-- Each responding process/rank scope validated through existing `_runtime_metadata_states`; raw DP1 `dp_rank=None` is retained. Begin/rebind buckets use unique `(rid,page_aligned_len)`; returned/rebind buckets use unique `(rid,node_id,prefix_len,mamba_exist)`. Bind first, then test returned prefix/protected, rebind start/protected, and rebind end/page-aligned independently. All ordinary rows must be used exactly once; declined/non-Mamba observations retain scope and counts without manufactured matching.
+- Each responding process/rank scope validated through existing `_runtime_metadata_states`; raw DP1 `dp_rank=None` is retained. Begin/rebind buckets use unique `(rid,page_aligned_len)`; returned/rebind buckets use unique `(rid,node_id,prefix_len,mamba_exist)`. Bind first, then test returned prefix/protected, rebind start/protected, and rebind end/page-aligned independently. All ordinary rows must be used exactly once; only the eight full-input targets gate isolation, while shared unsalted control inequalities remain observations. Declined/non-Mamba observations retain scope and counts without manufactured matching.
 - Scheduler chunks keyed by `(rid,prefix_len,extend_len,seq_end)`, validated sum and contiguous token-position coverage. Plan batch row `i` binds through `rids[i]` and its CPU prefix/extend; native masks, track lengths, grids, chunk indices and logical batch context remain in the report. `h_src[k]` is retained as a flattened source index for `h_rows[k]`, never a request-chunk index. Identical normalized plan observations on a unique chunk deduplicate; conflicting plans remain unverified. Mask-false chunks remain present. Per-layer allocation/store counts are observations, not chunks. Tensor object addresses are not join or comparison identities.
 
 ## Environment and commands
@@ -51,7 +135,7 @@ Working directory: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`.
 
 CPU executable `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`, Python3.12.13, pytest9.1.1; `CONDA_DEFAULT_ENV` unset. Final pytest temporary files use the approved local `TMPDIR`; bytecode and pytest result-cache writes are disabled. Isolated inspector import loads neither `torch` nor `sglang`.
 
-### Focused regressions
+### Focused regressions (initial preparation; commands reused for follow-up)
 
 ```bash
 TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest -q -p no:cacheprovider tests/fast/test_cache_salt_probe_inspection.py
@@ -60,9 +144,9 @@ TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 timeo
 
 Expected: all selected tests pass, qualified synthetic controls with original response-only warm drift pass, valid-bound negative inequalities FAIL, ambiguity/missing evidence UNVERIFIED, changed observed retractions/tracking do not introduce an unchanged gate. Actual: **41 passed** and **36 passed /115 deselected**, respectively; both exit0. Each run has two existing SwigPy deprecation warnings. The new file fits the implicit fast CPU registration; no CI registry or shared GPU runner was changed.
 
-### Archived A/B CLI negative regressions
+### Archived A/B CLI negative regressions (initial preparation)
 
-These are the only native business outputs read. A/B each use their own old directory as both run and baseline deliberately: vector controls must be exact, but the absent full salts and actual cross-request isolation failures must remain negative. This does not simulate a successful native salt intervention.
+In the initial preparation these were the only native business outputs read. A/B each use their own old directory as both run and baseline deliberately: vector controls must be exact, but the absent full salts and actual cross-request isolation failures must remain negative. This historical check does not simulate a successful native salt intervention; the separately authorized follow-up replay above reads the counterfactual runtime rows.
 
 Exact final command:
 
@@ -142,7 +226,7 @@ Expected and actual: exit0; both files parse/compile, newline/trailing whitespac
 - Initial regression run:33 passed, one synthetic two-RID batch test failed because its fixture constructed only one prefix value. Corrected the test fixture to build one CPU prefix/extend entry per native batch RID. The inspector correctly rejected the malformed fixture; native behavior was not changed. Subsequent34/37/39 and final41-test runs pass. Final missing-request/flush injections confirm count shortages remain UNVERIFIED rather than a fabricated successful observation or a known numerical failure.
 - The required memory-limited old-archive read first attempted `systemd-run --user --scope -p MemoryMax=30G`, which failed with `Failed to connect to bus: No such file or directory`; non-user scope failed with `Interactive authentication required`. No service/system permission was changed. Final exact CPU reads instead apply process/inherited `RLIMIT_AS=30GiB` and60-second timeout before loading the two bounded archives. This is inspection resource control, not a diagnostic behavior fallback.
 - The qualification is responding CPU process/rank only. No global TP/device/physical slots, numerical state, coherence, race, loaded whole-model/source identity or performance proof follows. Baseline qualification comes from the existing reports; the inspector compares existing retained source identities and uses the existing source-fixture identity function, without creating another source-hash protocol.
-- New counterfactual output contents, terminal status and controls/isolation/numerical results remain UNVERIFIED. Primary owns termination notification and any follow-up native inspection. Formal04/05 hold and all scientific gates remain unchanged.
+- Initial preparation did not inspect new counterfactual content. The follow-up now verifies the authorized native checkpoint scope only and preserves the primary's original FAIL JSON; the primary's full actual API r2 verdict is still pending. Formal04/05 hold and all scientific gates remain unchanged.
 
 ## 1. 规划完成情况
 
@@ -150,28 +234,28 @@ Expected and actual: exit0; both files parse/compile, newline/trailing whitespac
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
-| 指定 inspector 与独立 RID/checkpoint/chunk 绑定 | PASS |165 个旧 archive join 和169 个 chunk；关键负例准确 FAIL。 |
-| CPU fault injection 与已有 helper 受影响检查 | PASS |41 新测试、36 已有测试通过。 |
-| 限定报告、语法/import/whitespace 交付 | PASS | 本报告与两个文件的实测证据；无额外 source/config 编辑。 |
-| 正在运行的新 native 输出检查 | SKIPPED | 用户明确禁止；由 primary 后续通知。 |
+| RED/GREEN 修正 full-input gate scope | PASS | 混合 full PASS/control FAIL 从错误整体 FAIL 到正确 target PASS；control FAIL 保留。 |
+| CPU 回归与只读 native scope 复验 | PASS |46+36 检查通过；A/B165 joins 与原始字段不变；旧 B 负例仍 FAIL。 |
+| 限定报告、语法/import/whitespace 交付 | PASS | 原始 FAIL JSON 字节保持；无额外 source/config 编辑。 |
+| Full actual API r2 输出 | SKIPPED | Primary 明确拥有后续重跑与新 JSON；本 slice 不写。 |
 | 仅三文件 commit 与返回 | TODO | 验证完成；下一步限定路径提交，不包含并行 parent 编辑。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 本 CPU 委派开始至已验证交付｜**当前前沿：** 三文件限定提交与返回
+**检测窗口：** gate-scoping follow-up 开始至已验证交付｜**当前前沿：** 三文件限定提交与返回
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
-| D1 工具打磨 | CLEAR | 此 inspector 正是委派交付；没有通用框架、额外 recorder 或 source-hash 机制。 |
-| D2 细节反复重试 | CLEAR | 一次明确的 synthetic batch fixture 修正；没有 native 重试或调参。 |
+| D1 工具打磨 | CLEAR | 仅既有函数内 scope 摘要与验收回归；无平行 validator/框架。 |
+| D2 细节反复重试 | CLEAR | 单一已诊断原因的 RED→GREEN；无 GPU 重跑或调参。 |
 | D3 支线问题修补 | CLEAR | 仅两个指定代码文件与报告。 |
-| D4 可并行任务停滞 | CLEAR | Primary 执行独立 native；本 slice 不等待、不查询且不再委派。 |
+| D4 可并行任务停滞 | CLEAR | Primary owns r2/evidence；本 slice 独立完成修复、不再委派。 |
 | D5 超范围镀金 | CLEAR | 仅 first4/rep0 exact scenario；未加 tolerance、策略或平台功能。 |
-| D6 分析空转 | CLEAR | 旧 schema 检查直接产出代码与可复现负例。 |
-| D7 路线违背 | CLEAR | 未访问新 native 内容；formal/science/source/config 保持不变。 |
+| D6 分析空转 | CLEAR | 明确混合请求回归直接产出最小修复与原始字段复验。 |
+| D7 路线违背 | CLEAR | 按最新授权只读 native scope；原始 FAIL 与 full equations/science 保持不变。 |
 
-**文档检查：** 此限定 slice 的 S1–S6 均未发现明显缺陷。Parent 状态记录由独立 owner 维护，不据本 CPU PASS 声称新 native 完成。
+**文档检查：** 此限定 slice 以最新 explicit follow-up 为准，S1–S6 均未发现影响执行的缺陷。Parent 的较早 phase snapshots 由其独立 owner 更新，不据本 CPU 修复声称 r2 或 formal 完成。
 **归因：** 无。
 
 ## 3. 纠正建议
@@ -182,10 +266,10 @@ Expected and actual: exit0; both files parse/compile, newline/trailing whitespac
 **接下去的路线：**
 
 1. 仅三个 owned 路径提交并返回 TaskID/API/验证结果 → 完成标志：commit 的 changed-file list 恰好三项。
-2. Primary 获得 native termination 通知后再做独立 native inspection → 完成标志：新 run 的 controls/isolation 与四个 warm case 均有真实记录；本 slice 不执行。
+2. Primary 重新运行实际 API 并写新 r2 JSON → 完成标志：overall uses full-input gate、control FAIL 保留且 original FAIL JSON 不变；本 slice 不写。
 
 ## 4. 最值得关注的 3 点
 
-1. 旧 B 关键三方 join 成功后边界 FAIL；没有用待测相等式筛掉负例。
-2. 41+36 CPU 检查与两个旧 archive CLI 负例通过；retraction/tracking 差异不是额外 unchanged gate。
-3. 新 native、TP/device/coherence/race 与 formal 正确性仍未验证；不得由 CPU 结果提前验收。
+1. target100/100 PASS 与 control62/65 PASS 在同一165-row observation 中区分；三个 control FAIL 没有擦除。
+2. 46+36 CPU 检查、target failure/ambiguity/coverage 和旧 B 负例通过；原始 A/B FAIL JSON 不变。
+3. Primary full-API r2 仍待执行；TP/device/coherence/race 与 formal 正确性不能由 scope 修复提前验收。
