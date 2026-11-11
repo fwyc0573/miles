@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept A bounded namespace controls/target isolation after inspector scope correction without closing formal correctness, source/cause/full-coverage or200 criteria. |
 | 2026-11-11 | Accept namespace CPU/review phase and A terminal execution only; canonical source/numerical/control/isolation and formal criteria stay open. |
 | 2026-11-11 | Advance D40 to pending namespace-counterfactual implementation/controls while retaining formal BLOCKED state and acceptance checkboxes. |
 | 2026-11-11 | Record actual A metadata first4 equivalence, retain warm failure and the unselected namespace diagnostic frontier; no acceptance checkbox change. |
@@ -40,9 +41,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/commoncycle、既有first4和namespace CPU/fixed review均接受；A execution terminal不是actualCUDA/source/vector/numerical/controls/isolation PASS。数值正确性/freshformal admission/独立200仍未解除，不resume/拼接旧probe/6。
+**Blocked by:** 01、02、03 及D16/commoncycle、first4/namespace CPU及bounded native controls/适用target isolation均接受；更广D40正确性/source/cause/fix资格/freshformal admission/本cell独立200仍未解除，不resume/拼接旧probe/6。
 
-**Status:** BLOCKED formal / CACHE_SALT_CPU_ACCEPTED_NATIVE_EXECUTING D40. 0c606967/24affected/350joined CPU/two no-submit dryruns、固定Spec No findings/864020c9 Standards Nit closure接受CPU/source only。[A admission](../evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.json)/[terminal](../evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.terminal.json)为exp-1111-083634-351665 requested4H800/nonpreemptible/personal/NFS/image165ff0be及execution Succeeded。GPU4/250Gi APIlimits不证明actualCUDA/source/vectors。A local verifier只读新local A结果，独立three-file CPU inspector prep并行nonblocking，未报PASS。Canonical[preregistration](../spec.md#d40-diagnostic-namespace-counterfactual-preregistration)8response/4cold controls/4warm-to-owncold、原comparison/errors/undefined-zero及conditional unique RID isolation/independent inequality PENDING。无count/order捷径，chunk/tracking/retractions报告差异而非must-unchanged。Immutable4f1139b0/source/engine/model/cache/dtype/16requests10flushes/science/checklists/history/TP0/1024保持。No numerical/control/isolation/warm/root/perf/fix/formal acceptance、A200gate/stop/resubmit/auto-loop或新formaljob；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / BOUNDED_NATIVE_NAMESPACE_COUNTERFACTUAL_ACCEPTED D40。[A terminal](../evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-A.json)Completed0/restart0/actual4H800及qualified source/caller verified；[A controls](../evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)12/12 baseline controls、4/4 salted warm-full exact/defined errors0/undefined1/1/1/3接受。[A r2](../evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)075e75ca corrected CPU PASS：165 conditional bindings、8 salted-full RIDs/100 target joins/3equalities PASS；65 unsalted geometry observations62PASS3expectedFAIL保留，不作target gate。初版globalFAIL保留，无GPU rerun/新tolerance/science；169 complete chunks/16 initial/fullchunk/tracking equal仅observed。First4/rep0/16/10必要sharing推断不证明numericalKV–SSM/historicalcause/root/perf/formal，warm-response仍drift。Source entry/full-component0GPU collection资格未PASS，original56rep2/1024/physicalslot/allTP/device/race未覆盖，R2 report delivery由primary追加未声称归档。No新decision/criterion/checkbox/A200gate/stop/fallback/policy/auto-loop；[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

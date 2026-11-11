@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept corrected bounded native namespace controls/target isolation; preserve initial inspector/control failures, source-seed/full-entry gaps and formal hold. |
 | 2026-11-11 | Accept cache-salt CPU/fixed reviews and A execution terminal/B Running snapshot; record nonblocking local verification and pending inspector/numerical outcomes. |
 | 2026-11-11 | Advance routine D40 namespace implementation, preregister controls/isolation and retain pending native/fix status with a new four-section checkpoint. |
 | 2026-11-11 | Record actual metadata A/B terminal and first4 vector/identity verification; retain warm failure and append routine S5 checkpoint without changing protocol or final criteria. |
@@ -175,10 +176,10 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / CACHE_SALT_CPU_ACCEPTED_NATIVE_EXECUTING; formal04/05 BLOCKED.** Delivered0c606967 has primary24 affected/350 joined PASS/two real no-submit dryruns. Fixed Spec No findings and Standards one documentation Nit closed by864020c9/follow-up No findings accept CPU/source only; [comparison](evidence/cache-salt-review-20261111/comparison.json)/[followup](evidence/cache-salt-review-20261111/followup.json)/[fixed report](evidence/cache-salt-review-20261111/fixed-report.txt)retain scope. Canonical observations add no unchanged gate. No business suite/platform/observer operation is run by this docs slice; code/config/reports/evidence remain outside its commit.
-- **Locked native submissions, limited outcomes:** [A](evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.json)/[B](evidence/teacher-scoring-cache-salt-probe-20261111/admission-B-r1.json)submitted exp-1111-083634-351665/881422 requesting4 nonpreemptible H800 each, personal_i-fengyicheng, local source100.96.128.195:/data/ycfeng:/data/ycfeng, image165ff0be, null personal ceiling (admission68+4/72+4). [API snapshot](evidence/teacher-scoring-cache-salt-probe-20261111/initial-platform-verification.json)A Succeeded/B Running; [A terminal](evidence/teacher-scoring-cache-salt-probe-20261111/admission-A-r1.terminal.json)proves execution succeeded only, B terminal unreceived. API GPU4/memory250Gi are requested limits, not actual CUDA/source/vector acceptance. Original background launchers have no short outer timeout; native3600 bound unchanged. No stop/resubmission/new formal job.
-- **Numerical/isolation work in progress:** local A controls verifier reads only new A results; independent three-file CPU inspector preparation supplies conditional unique joins. Both are nonblocking GPU harnesses, no inspector/controls PASS claimed. Preregistered8 unsalted response controls including original drift plus4 baseline-exact salted cold controls precede4 warm-to-same-run-cold with existing exact/absolute-relative/undefined-zero rules. NativeRID geometry/independent inequality is evaluated separately, not count/order/node joins. Fullchunk/tracking/retraction differences are compared/reported, not must-unchanged; initialmatch0 already existed. Salt intervention/native IDs/immutable4f1139b0 baseline remain unchanged. Control/isolation failure is inconclusive; no KV–SSM causality from metadata or an all-exact warm result alone.
-- **Limits/history/formal acceptance:** actual source/CUDA/numerical/control/isolation/warm/fix/performance/root outcome remains PENDING. Original B donor96576/node145/COW/canonical adoption and TP0/rawNone/identity/aggregate/slots/device/allTP/race/1024 limits remain. Cache/model/argv/RNG/input/science/FP32+metadata/dtype/concurrency/budgets/tolerance stay fixed; no core payload/runtime instrumentation/cache-off/WAR/formal fallback change. Prior first4/source/CUDA/D16/commoncycle/H2006/profile2 remain independent historical scopes. Formal04/05held→required correctness/fresh H800 admission→each200/native/profile/terminal→06, no A200 gate or later-update auto-loop; env1 DEFERRED.
+- **D40 / BOUNDED_NATIVE_NAMESPACE_COUNTERFACTUAL_ACCEPTED; formal04/05 BLOCKED.** [A terminal](evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-A.json)/[B terminal](evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-B.json)confirm Succeeded/Completed0/restart0; actual4 H800/source math6+overlay16/fixed caller0c and baseline4f are independently verified. Original startup snapshots remain historical; no GPU rerun/stop/newformal job. Primary source/CPU review0c606967/864020c9 remains separate from accepted native retained outcomes; this docs slice reruns no business/native tests and stages no reports/code/config/evidence.
+- **Accepted exact controls/limited warm-FULL scope:** [A controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)/[B controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)each12/12 controls (8 unsalted response preserve original warm drift,4 salted cold full exact) plus4/4 salted warm-full-to-owncold exact. Existing defined maxabs/relative errors0 retain undefined countsA1/1/1/3,B3/5/4/4. Bounded first4/rep0/16requests10flushes supports cross-request sharing as an important necessary condition for observed warm-FULL drift, not numerical KV–SSM coherence/historical cause/rootFIX/performance/formal acceptance. Warm-response controls still exhibit original drift; original56rep2/1024 coverage remains absent.
+- **Corrected inspector scope, original failures preserved:**075e75ca CPU RED/GREEN46 new+36 existing closes erroneous global gate on shared controls. [A r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)/[B r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)CPU PASS:165 conditional unique binding joins each;8 salted-full RIDs/100 applicable target joins/all3 equalities PASS.65 unsalted-control geometry joins retain62PASS/3expectedFAIL, not isolation gate. [Initial A](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A.json)/[initial B](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B.json)false-global-FAIL JSONs are protected.169 complete chunks/16 initial-fullchunk-tracking observations equal each, not must-unchanged gate. No count/order/node/zero/no-rebind shortcut, erased control failure, changed tolerance/science or GPU rerun. Primary A/B reports are appending r2 qualification, archive/delivery not declared complete here.
+- **Source qualifications and next work:** B live seed263946245 differs baseline596871011; sameRNG is not claimed. Retained prefill-only compute_logprobs_only/sampler bypass, stochastic Mamba=false/dynamic chunk=false leave the entry-source gap unresolved. Normal H_index No-finding copy=True/int64+clone is not full H_index clearance; FullComponent hook bodies remain missing. The launched0GPU full-component-source collector is not called PASS before retained receipt; no GPU failure/root fix inferred. TP0/DP1/host metadata does not prove physical slots/device completion/allTP/race/history, and B donor96576/node145/COW/canonical adoption does not prove numerical coherence. D39/D34/S7/raw/decisions/checkboxes/D16/commoncycle/H2006/profile2 remain fixed; formal04/05held→required correctness/fresh admission→each200/profile/terminal→06, no A200 gate/later-update loop or cache-off/precision/concurrency/budget/fallback change.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -2140,3 +2141,60 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. 0c606967/24affected350joined/two no-submit dryruns与864020c9闭Nit双review接受CPU/source；native数值尚未接受。
 2. A execution Succeeded、B snapshot Running/B终态未收到；4GPU/250Gi是APIlimits，actualCUDA/source/vector/controls/isolation PENDING。
 3. A local verification与three-file CPU inspector prep运行中、不先PASS且nonblocking；正式04/05BLOCKED06等200，无warm/root/perf接受或科学改变。
+
+## 1. 规划完成情况
+
+**TaskID：** profile-cache-salt-counterfactual-records-20261111。**Window：** 99658110上一checkpoint→actual A/B terminal/controls→075e75ca scope-corrected r2 qualified native16/10；只读当前requirements/plan/六ticket/retained JSON与primary最新source资格，不读取rawbank、不重跑业务/GPU、不改变criterion或decision。
+
+| Ticket | Status | Recorded evidence / remaining work |
+| --- | --- | --- |
+| 01 | PASS | D34原始来源及顺序已接受，本window无修改 |
+| 02 | PASS | D16真实GPU/CPU/S7已接受，不扩成新formal200 |
+| 03 | PASS | CPU/native integration已接受，历史scope保持 |
+| 04 | BLOCKED | A native12controls/4saltedwarm/适用target isolation通过；rootfix/source/fullcoverage/formal200未接受 |
+| 05 | BLOCKED | B同bounded acceptance；actualseed/entry-source gap未闭合，shared correctness/freshadmission/独立200仍需 |
+| 06 | TODO | CPU slice接受；待真实A/B200/profile/terminal最终数据 |
+
+**Totals：** PASS3/BLOCKED2/TODO1。**Mainline：** qualified bounded counterfactual→remaining source/entry/FullComponent/RCA qualification→required evidence-backed correctness/fix→fresh independent H80004/05 when admissible→each200/final06。旧H2006/profile2独立，无A200/B资源逻辑gate或taskclosed。
+
+## 2. 主线偏移检测
+
+| Pattern | Verdict | Actual signal / scope |
+| --- | --- | --- |
+| D1 Tooling polish | CLEAR | scope correction075e75ca直接settles prereg target/control ambiguity，非超验收扩展 |
+| D2 Retry/fix loop | CLEAR | 一次false-globalFAIL以expected shared-controls证据诊断，CPU46+36修正/保留raw；无GPU重跑或未许可后续loop |
+| D3 Scope expansion | CLEAR | 同first4/rep0/16/10，对照/geometry等既有判据；source0GPU只资格调查 |
+| D4 Parallel work | CLEAR | A/B数值、独立conditional inspector/source qualification按证据汇合；报告追加不被当成native gate |
+| D5 Auxiliary value | CLEAR | corrected scopes/undefined counts/source资格直接支持D40/04/05，不造新formal gate |
+| D6 Analysis without outcome | CLEAR | actualcontrols/target isolation给出bounded必要condition，同时明确entry-source下一步，无root猜测PASS |
+| D7 Intent divergence | CLEAR | D39H800/D34/S7及fixed science保持；status接受不等于newdecision/taskclosed |
+
+| Document pattern | Verdict | Actual records |
+| --- | --- | --- |
+| S1 Spec boundary | CLEAR | bounded nativecounterfactual与formal/root/perf分开；source gap不改science |
+| S2 Dependency ownership | CLEAR | 04/05剩余正确性/资格，06最终数据，source/report由primary |
+| S3 Checklist consistency | CLEAR | 六ticket checklist、D16/commoncycle/B既有edge保持，无A200gate |
+| S4 Acceptance/verification | CLEAR | target8RID100join与unsalted65observations区分；原comparison/zero undefined/初版FAIL保留 |
+| S5 Current status | HIT | 已CORRECTED：旧Aexecution/BRunning/controls及inspectorpending由actualterminal/controls/r2接受取代，只修ownedcurrent |
+| S6 Vertical slice | CLEAR | RCA→必要source/fix资格→freshformal独立200→06，没有新ticket/science选择 |
+
+## 3. 路线纠正
+
+**Branch：** B：先完成routine S5 correction（已完成），不以D7.status接受宣布task完成；raw/science/checklist/history及失败证据不变。**停止行为：** 不再将unsalted共享geometry失败作隔离gate，不删除原FAIL，不推allwarm-response/全覆盖/root/perf/formalPASS，不把B seed视为sameRNG，不以normal H_index或launched collector推fullcomponent/sourcejobPASS。
+
+1. 固定r2 native16/10接受及限定推断；A/B r2 report追加/curation由primary继续，报告是否committed不推定。
+2. 独立闭合prefill/logprobs-only entry/FullComponent source资格，保留B实际seed差异/normal-vs-full H_index边界；只据retained source receipt判定collector结果，不做GPU重跑。
+3. 残余warm-response/原56rep2/1024/physical/allTP/device/race/history及rootfix正确性未解除，formal04/05HOLD→required correctness/fresh admission→各自200→06；无新增tolerance/policy/criterion/decision或后续auto-loop。
+
+**本次doc-only验证（repo root，非CPU业务/GPU测试）：** exact8 owned paths、raw/all decisions、六ticket checkbox（A/B17）、S1–S9、六verification方法、旧review/history/validation及exact4 sections/3PASS2BLOCKED1TODO/BranchB/S5HIT已校正/D1–D7 CLEAR/限定source-seed状态全部PASS；scoped whitespace无错误。Existing checker实际71文档/6tickets/469links/88anchors，exit1/61errors=60known frozen缺相对依赖+primary A结果报告一个`artifact`链接，owned0；不改报告/checker/artifact、不消除旧FAIL。Current r2 JSON接受不推primary report交付/commit；source0GPU collector无receipt不推PASS，同一Native A/B没有重跑。精确命令：
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+## 4. 最值得关注的 3 点
+
+1. 每model12controls/4saltedwarmexact及target8RID100join通过；definederrors0保留undefinedcounts，支持bounded sharing重要必要condition而非KV–SSM数值/历史cause。
+2. 初版globalFAIL与unsalted62PASS3FAIL完整保留；075e75ca CPUscope修正无GPU重跑，169chunk/16观察相等不是额外unchangedgate。
+3. B resolvedseed不同/FullComponent入口缺口/collector资格未闭合，warm-response仍原drift；formal04/05BLOCKED/06待200，nativecounterfactual接受不等于root/perf/fix/task接受。
