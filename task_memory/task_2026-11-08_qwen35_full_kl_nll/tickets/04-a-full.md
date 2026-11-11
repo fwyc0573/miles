@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Verify already-aligned primary accepted native CPP/allocator witness; record1d69444a archive/closedBflag and qualified design frontier, preserving all final checkboxes. |
 | 2026-11-11 | Accept SOURCE79 CPU/fixed reviews only; retain integration opt-out P2/REAL joined pending and absent original global accessor/CPP–Triton native limits. |
 | 2026-11-11 | Correct missing global field and CPP/Triton coverage; record owner CPU delivery, partial integration and open opt-out P2 with native/formal hold. |
 | 2026-11-11 | Advance current D40 to witness-only source/integration preparation after static source closure; preserve formal criteria and pending actual stream/class/numeric evidence. |

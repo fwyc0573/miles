@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record accepted bounded actual native CPP/allocator/H800/source parity, dynamic16/10-layer design frontier and primary1d69444a archive/checkpoint; retain numerical/formal hold. |
 | 2026-11-11 | Correct absent global batch publication and accept79dba51b CPU/source review scope only; integration opt-out, real joined and native CPP/Triton coverage remain pending. |
 | 2026-11-11 | Advance from qualified static source to independent witness-only CPU preparation; preserve actual runtime/physical/numeric prerequisites and formal dependencies. |
 | 2026-11-11 | Close source/audit and archive status; advance D40 to read-only numerical measurement design without accepting a probe, cause, fix or formal readiness. |
@@ -56,7 +57,7 @@
 
 # Plan
 
-**Phase: SOURCE_AND_INTEGRATION_CPU_REVIEW_ACCEPTED / BOUNDED_WITNESS_A_B_SUBMITTED_RUNNING / D40; formal04/05 remain BLOCKED.** Source79 and integration709/266 fixed reviews both axes No findings accept CPU/source/integration only. Integration192affected/453joined PASS with completeSource590 override, zeroSKIP positive suite and one intentional missing-override SKIP; preparation uses MOCKED runtime/server/readback, not native scoring.381/1SKIP and190/451 remain historical. Bounded A exp-1111-113511-067358/B exp-1111-113511-669312 are personal Python SUBMITTED/initial CR Running, requested4nonpreemptibleH800 each, creator/image165/localNFS verified. CR4GPU limits are not actualCUDA/source/compile/class/stream/scalars/all16/terminal acceptance. Source inherited absent field is CPU-corrected; actual global writer/physical indices/commit_lens and CPP–Triton coverage remain pending. Outerlaunchers background timeout0, native3600/90 budgets unchanged; local query SyntaxError was before API, no job stop/retry/native failure. No KV/CUDA values/capture/fix/formal or scientific changes; B satisfied edge/D39/D34/S7/HF-eval disabled/bank_uses50 preserved.
+**Phase: BOUNDED_NATIVE_CPP_WITNESS_ACCEPTED / PHYSICAL_NUMERIC_DESIGN_QUALIFICATION / D40; formal04/05 remain BLOCKED.** Primary accepts both job/replicaSucceeded/Completed0/restart0/actual4H800 and all16 originalvectors/6804values exact, source35/fiveedits/caller266/helper79/math6/finalWIT match. A16FULLlayers/2704 uniqueCPPjoins andB10/1690 cover169chunks/16RIDs each; nativein-callCPPstream==TorchF and measuredTokenToKVPoolAllocator/page1CP1/graphs+alternateoff close selectedCPP/allocator prerequisite. KVprefixTriton0 business/startup unselected/streamUNVERIFIED, not GDNprefillTriton. Cold4/4/warm1/4 FAIL remainsbaseline, no root/fix/perf/formal. Next read-only design qualifies actual16/10layers/KV512bytes/2side8192bank A256MiB/B160MiB andderivesextra banks; not fixed10A. No KV/physicalindices/CUDAcommit_lens captured orauthorizedbyWIT, no allTP/race/coherence/56rep2/1024/freshcompile/binaryhash/CAPI-fallback attestation.1d69444a archived99byteexactselectedfiles/Bflagclosed; primaryphasecheckpoint3/2/1,D1–D7CLEAR,BranchB routineS5. InitialRunning/CPU453/reviews/mocks/381skip/failures/D39/D34/S7/HF-evaloff/bank_uses50/Bedge/science/checkboxes preserved.
 
 ## Scope and ownership
 
@@ -69,8 +70,8 @@ Behavior is owned by [spec.md](spec.md); raw requests and actual answers are in 
 | [01](tickets/01-interleaved-turn-order.md) | Interleaved turn order in the committed SWE input adapter, with the SWE-1003 loss-masked turn source and its source audit | Documentation freeze; D23–D27 |
 | [02](tickets/02-per-turn-sums.md) | Done: CPU/S7 and actual first-update GPU measurement/persistence accepted by D16 | Satisfied: D35 merge, CPU checks and retained real firstACK/canonical bank/paired rebuild |
 | [03](tickets/03-distillation-profile.md) | Done: Distillation profile module, persistence and CPU rollout integration15186817 | Satisfied: documentation freeze/module CPU and 02 CPU implementation-ready6129aefe |
-| [04](tickets/04-a-full.md) | BLOCKED formal: SOURCE/integration CPU/fixed dual reviews accepted → bounded native A/B submitted/Running → all16-exact/class/CPP–Triton coverage → numeric/RCA/correction → A200 | 01, 02, 03 accepted; requested4GPU/CR Running is not actualCUDA/compile/writer/stream/all16/terminal acceptance; fresh formal admission pending |
-| [05](tickets/05-b-full.md) | BLOCKED formal: same witness/numeric correctness prerequisite → independent B200 | 01, 02, 03 accepted; 04 firstACK/inspection/common cycle satisfied; remaining runtime/numeric/fix/fresh admission, no A200/profile or32-H200 gate |
+| [04](tickets/04-a-full.md) | BLOCKED formal: selected nativeCPP/allocator/H800/source/all16 accepted → dynamic physical/numeric design qualification → separate capture/RCA/correction → A200 | 01, 02, 03 accepted; physical indices/values/completion/coherence/race/numeric/fix/fresh formal admission pending; unselectedKV-Triton unverified |
+| [05](tickets/05-b-full.md) | BLOCKED formal: bounded selectedCPP/allocator accepted → qualified physical/numeric correctness → independent B200 | 01, 02, 03 accepted; 04 firstACK/inspection/common cycle satisfied; no A200/profile/32-H200 gate; physical/numeric/fix/fresh admission remain |
 | [06](tickets/06-profile-report.md) | TODO: CPU slice accepted, final data pending | CPU dependency 03 satisfied; final measurements still need 04, 05 actual native/terminal/profile evidence |
 
 Dependency graph:
@@ -103,8 +104,10 @@ D40 source collector ImportError corrected -> failed0GPU command/missing RJOB_NA
 D40 H_index/FULL copy-clone-retain-ref/free source audits and grammarNONE prefill-only Sampler entry CLOSED; same seed/general RNG-free/GPU ordering/allocator values not claimed
 D40 bounded16/10 + b20c780a canonical design/source qualification -> conditional static readiness/lifetime + actual CPU RID/lens host carry closed
 D40 source79/fixed SOURCE dual reviews + opt-out7091b068/real-module26664e81/192affected453joined positive CPU PASS/final integration dual No findings -> P2closed; mocks not native proof
-D40 personal Python A exp-1111-113511-067358/B exp-1111-113511-669312 SUBMITTED/initialCRRunning requested4nonpreemptibleH800/image165/localNFS -> actual source/CUDA/compile/allocatorclass/CPP stream/selected Triton coverage/all16/terminal still pending
-D40 separately qualified numerical capture -> actual writer/FULL physical indices/CUDA commit_lens + numeric RCA/correction/correctness; no capture/fix selected yet
+D40 A exp-1111-113511-067358/B exp-1111-113511-669312 initialRunning (historical) -> actual4H800/Succeeded/Completed0/source35/finalWIT/all16 exact accepted
+D40 A16/B10 FULL layers +2704/1690uniqueCPPjoins/169chunks/16RIDs -> actualCPPstream==TorchF + TokenToKVPoolAllocator/page1CP1 accepted; unselectedKV-Triton0 unverified
+D40 actual layers/KV512bytes/2side8192bank -> qualified A256MiB/B160MiB physical/numeric design, deriveextra banks (no fixed10A)
+D40 separate qualified physicalindexequality/two-sided values afterall16 -> numericRCA/correction/correctness; no payloadcapture/fix/formal authorized byWIT
 D40 verified RCA/fix -> parallel {04 final H800 preflight, 05 final H800 preflight} -> each fresh admission -> independent native attempts from original initialization
 05 A-firstACK/inspection via D16 + common native cycle already verified -> no A200/profile-PASS or32-H200 prerequisite
 planned A36 + B36 =72 non-preemptible H800/codesign; actual resources/placement require fresh verification, not a personal count cap

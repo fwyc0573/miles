@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Verify already-aligned bounded B native CPP/allocator/source acceptance; record1d69444a archive/closedreportflag and qualified design frontier without changing final criteria. |
 | 2026-11-11 | Accept SOURCE79 CPU/review only; integration P2/REAL joined and native CPP/Triton witness pending, satisfied A edge unchanged. |
 | 2026-11-11 | Correct global publication and CPP/Triton boundary; retain satisfied B edge with source/integration partial CPU and open opt-out P2. |
 | 2026-11-11 | Record witness-only preparation and closed static source; preserve B's satisfied edge and all pending numerical/formal acceptance criteria. |
