@@ -1,0 +1,13 @@
+{
+  "observed_at": "2026-11-11T22:18:58.214035+08:00",
+  "branch": "agent-opd-h800-capacity",
+  "local_head": "9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd",
+  "github_head": "9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd",
+  "sha_equal": true,
+  "upstream": "origin/agent-opd-h800-capacity",
+  "tracked_changes": 0,
+  "remaining_untracked_count": 1,
+  "remaining_untracked_bytes": 3584896,
+  "additional_receipts_staged_with_final_record": [],
+  "primary_checkout_head_preserved": "7d3f5253c5b48cfaec90a0496a411b2679052b06"
+}

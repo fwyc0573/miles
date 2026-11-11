@@ -6,19 +6,19 @@
 | --- | --- |
 | 2026-11-11 | Check the completed inventory and selected-content validation milestone. |
 
-**汇总：** PASS 2｜BLOCKED/FAILED/SKIPPED 0｜TODO 2
+**汇总：** PASS 4｜BLOCKED/FAILED/SKIPPED 0｜TODO 0
 
 | 子任务 | 状态 | 简要依据 |
 | --- | --- | --- |
 | 1 检查两个目标 worktree 和 GitHub 分支 | PASS | 两目标 remote refs 均不存在，上游未配置；已读取适用规则。 |
 | 2 保存范围与验证 | PASS | selected/omitted inventory 和 static_checks.json 已记录；image 原355项检查354通过，旧fixture缺少构造字段，补齐后单项通过。 |
-| 3 提交并推送两个分支 | TODO | 待独立提交与首次发布。 |
-| 4 核对 live SHA 并归档 | TODO | 推送后验证本地HEAD与GitHub一致。 |
+| 3 提交并推送两个分支 | PASS | Atomic push成功创建两refs并配置upstream。 |
+| 4 核对 live SHA 并归档 | PASS | verification.json记录live SHA等于HEAD、tracked为空和遗漏清单。 |
 
 ## 2. 偏离检测
 
 **结论：** 未偏移，正常推进。
-**检测窗口：** 用户同步请求至本检查点｜**当前前沿：** 3 提交并推送
+**检测窗口：** 用户同步请求至本检查点｜**当前前沿：** 完成归档提交的最后一次远端复核
 
 | 模式 | 判定 | 依据 |
 | --- | --- | --- |
@@ -40,8 +40,8 @@
 **需停止的偏离行为：** 无。
 
 **接下去的路线：**
-1. 分别提交两个branch的已选择内容，首次推送并建立upstream → 完成标志：两次push成功。
-2. 查询GitHub实时refs并核对HEAD、upstream、tracked状态 → 完成标志：两个SHA完全相同，遗漏仅限已记录原始产物。
+1. 提交完成归档并执行同一次atomic push → 完成标志：报告也在GitHub。
+2. 复核最终HEAD/upstream/live SHA和tracked状态 → 完成标志：两个SHA完全相同，遗漏仅限已记录原始产物。
 
 ## 4. 最值得关注的 3 点
 

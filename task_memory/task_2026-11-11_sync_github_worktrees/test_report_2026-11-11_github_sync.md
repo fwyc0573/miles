@@ -18,7 +18,7 @@ Date:2026-11-11, local timezone Asia/Hong_Kong. Working directory: `/data/ycfeng
 | Strong credential/private-key patterns | No selected content matches private-key/GitHub token/AWS access-key signatures | No pattern hits | PASS, pattern coverage only |
 | Selected content inventory | Preserve omitted raw content and record reasons | `1` omitted files, `3584896` bytes, inventory in omitted_files.json.gz | PASS |
 | Tracked whitespace | `git diff --check` passes | Exit0 in image worktree | PASS |
-| GitHub push/HEAD equality | Remote branch SHA equals local HEAD with upstream configured | Pending publication | TODO |
+| GitHub push/HEAD equality | Remote branch SHA equals local HEAD with upstream configured | Live remote equals local 9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd; upstream origin/agent-opd-h800-capacity; tracked status empty | PASS |
 
 The initial untracked sizes were3,832,196 bytes for capacity and approximately1.25GB for image. A live task committed some source/docs during this inspection, so the inventory snapshot counts and final new-file counts need not match. The selection is explicit in selected_files.csv; files added by this sync's own record are included at staging time. Raw sample/event streams, large runtime traces, copied review/source trees and tool-local state are retained on disk. The compressed inventory contains paths/sizes/reasons, not artifact contents.
 
@@ -65,3 +65,15 @@ Observed:1 passed,2 existing deprecation warnings in1.00s, exit0. The354 unaffec
 ## Verification Limits
 
 Branch publication is not scientific correctness, native CUDA capture, causal RCA completion, formal run approval or validation of every historical commit. No full repository/remote CI suite is claimed. Credential checking covers the named strong signatures rather than proving absence of every possible secret. Untracked raw artifacts remain local and explicitly enumerated.
+
+## Observed Publication
+
+```text
+git push --atomic --set-upstream origin agent-opd-h800-capacity agent-opd-image
+git ls-remote --heads origin agent-opd-h800-capacity agent-opd-image
+git rev-parse HEAD
+git rev-parse --abbrev-ref @{upstream}
+git status --short -uno
+```
+
+At2026-11-11T22:18:58.214035+08:00, live GitHub/local SHA for `agent-opd-h800-capacity` is `9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd`; upstream=`origin/agent-opd-h800-capacity`, tracked changes=0. The atomic push created both refs successfully. The final record commit is followed by the same atomic push and live-ref equality check; final HEAD is reported in the session completion.

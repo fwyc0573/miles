@@ -12,5 +12,6 @@
   },
   "required_pinned_source_count": 0,
   "omitted_paths_inventory": "omitted_files.json.gz",
-  "max_added_file_bytes": 1024000
+  "max_added_file_bytes": 1024000,
+  "additional_compact_receipts_during_sync": []
 }
