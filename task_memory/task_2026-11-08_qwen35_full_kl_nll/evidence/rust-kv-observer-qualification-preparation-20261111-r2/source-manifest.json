@@ -1,0 +1,131 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "status": "SOURCE_READY; native semantic qualification PENDING",
+  "host_python": "3.10.6",
+  "native_extension_rebuild": false,
+  "inputs": {
+    "observer-build-pending.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer-build-pending.json",
+      "sha256": "a881ff39a27aa6325ae7f7b858a2441bf457e772348198a4107a8e7fae64ebcf",
+      "bytes": 7974
+    },
+    "source-manifest.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/source-manifest.json",
+      "sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3",
+      "bytes": 6901
+    },
+    "build-baseline.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.json",
+      "sha256": "b4ac579706ce837b7a5caf1ced58f0aebdd7fe9ed71e28e21c5e096d6d39ec82",
+      "bytes": 2210
+    },
+    "build-observer.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.json",
+      "sha256": "627f35d5a5d7f73cf6f9a2b381e43be4cc30c11a9bbff1aafa4c875184f3eff9",
+      "bytes": 2212
+    },
+    "qualification-command.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification-command.json",
+      "sha256": "f19dbf70ecec00b571d772b3bb4d463d0836e2e450caa47a5962317a909604c6",
+      "bytes": 449
+    },
+    "qualify-original.stderr": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualify-original.stderr",
+      "sha256": "9e03df976a6f6913cabb123dd396502d235d6e24f5b4e4389b30d516219e7c68",
+      "bytes": 1287
+    }
+  },
+  "retained_libraries": {
+    "baseline": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+      "bytes": 3398568
+    },
+    "observer": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+      "bytes": 3411248
+    }
+  },
+  "owned_code": {
+    "tests/manual/agent_opd/sglang_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_rust_kv_observer.py",
+      "sha256": "bd289a0d2dfe2d6738b22f329ffab3ffc59a30549e0c20929a099fc7da456690",
+      "bytes": 30564
+    },
+    "tests/manual/agent_opd/probe_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py",
+      "sha256": "380f6aaea1ed2be28750b8eee0b6082146290dc52aff00af1574938d5602042b",
+      "bytes": 29697
+    },
+    "tests/fast/test_sglang_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/fast/test_sglang_rust_kv_observer.py",
+      "sha256": "7701f6cca8e9a6fa4e495a5895ea917de883b4b34007486874f0f46a3d15bdea",
+      "bytes": 26874
+    },
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r2/resume-config.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r2/resume-config.json",
+      "sha256": "2e04decbac9065982131b3d70d049e37578be70645839539f0069f5490eb79c4",
+      "bytes": 1238
+    }
+  },
+  "rust_after_unchanged": true,
+  "rust_file_count": 22,
+  "production_module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+  "abi_audit": {
+    "key_buffer": {
+      "format": "q",
+      "itemsize": 8,
+      "ndim": 1,
+      "c_contiguous": true
+    },
+    "insert_result_fields": [
+      "rotation_tail_declined",
+      "prefix_len",
+      "total_len",
+      "last_device_node",
+      "inserted_host_node",
+      "host_insert_dropped",
+      "mamba_exist",
+      "swa_branch_inserted",
+      "adopted_ranges",
+      "cache_actions"
+    ],
+    "match_result_fields": [
+      "device_prefix_len",
+      "last_device_node_id",
+      "last_host_node_id",
+      "best_match_node_id",
+      "last_visited_node_id",
+      "full_device_match_len",
+      "host_hit_length",
+      "swa_host_hit_length",
+      "swa_branching_seqlen",
+      "mamba_host_hit_length",
+      "mamba_branching_seqlen",
+      "full_kv_hit_length",
+      "cache_actions"
+    ],
+    "used_core_methods": [
+      "begin_insert",
+      "collect_path_info",
+      "commit_backup",
+      "demote",
+      "end_insert",
+      "evict_excess_path_states",
+      "get_component_device_value",
+      "has_ongoing_insert",
+      "match_prefix",
+      "resume_insert"
+    ],
+    "path_tuple_fields": [
+      "node_id",
+      "parent_id",
+      "path_start",
+      "path_end",
+      "full_value_len",
+      "num_children"
+    ]
+  },
+  "original_binary_source_commit": "UNVERIFIED"
+}
