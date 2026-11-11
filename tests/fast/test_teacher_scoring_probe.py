@@ -199,6 +199,49 @@ def _output(tmp_path):
     return output, local
 
 
+def test_cache_salt_full_input_is_pre_send_identity_and_preserves_native_rid(sample, tmp_path, monkeypatch):
+    original = probe._payload(sample, "full_input")
+    body = _body(sample, "full_input")
+    body["meta_info"]["id"] = "native-rid-not-the-probe-id"
+    _, calls, _ = _mock_http(monkeypatch, lambda *args: (json.dumps(body).encode(), 200))
+    output, local = _output(tmp_path)
+    identity = {"pair": "A", "phase": "cold", "repetition": 2, "sample_position": 3}
+    vector, request_id = asyncio.run(probe._request(
+        "mock://teacher", sample, "full_input", 17, output, local, identity, "cold_flushed",
+        cache_salt_full_input=True))
+    assert calls == [("POST", "mock://teacher/generate", {
+        "json": {**original, "cache_salt": "A:cold-r2-s3-full_input"}})]
+    assert request_id == "cold-r2-s3-full_input" and "cache_salt" not in original
+    row = json.loads((output / "requests.jsonl").read_text())
+    completion = json.loads(Path(row["completion_scores"]).read_text())
+    assert row["cache_salt"] == calls[0][2]["json"]["cache_salt"]
+    assert row["native_request_id"] == completion["native_request_id"] == body["meta_info"]["id"]
+    assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
+    assert vector == {"token_ids": [13, 14], "log_probs": [-0.5, -0.25]}
+
+
+@pytest.mark.parametrize("failure", ["http", "validation"])
+def test_cache_salt_known_sent_value_is_retained_on_failure_without_native_rid_overwrite(
+        sample, tmp_path, monkeypatch, failure):
+    body = _body(sample, "full_input")
+    body["meta_info"]["id"] = "native-failed-rid-independent"
+    if failure == "validation":
+        body["meta_info"]["input_token_logprobs"][-1][1] = 999
+    _, calls, _ = _mock_http(monkeypatch, lambda *args: (json.dumps(body).encode(), 503 if failure == "http" else 200))
+    output, local = _output(tmp_path)
+    identity = {"pair": "B", "phase": "warm_stream", "repetition": 0, "sample_position": 2}
+    with pytest.raises(aiohttp.ClientResponseError if failure == "http" else ValueError):
+        asyncio.run(probe._request("mock://teacher", sample, "full_input", 17, output, local, identity,
+                                   "ordered_stream_after_flush", cache_salt_full_input=True))
+    row = json.loads((output / "requests.jsonl").read_text())
+    assert row["status"] == "failed" and len(calls) == 1
+    assert row["cache_salt"] == calls[0][2]["json"]["cache_salt"] == "B:warm_stream-r0-s2-full_input"
+    assert row["request_id"] == "warm_stream-r0-s2-full_input"
+    assert row["native_request_id"] == (None if failure == "http" else body["meta_info"]["id"])
+    assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
+    assert not list((output / "completion_scores").iterdir())
+
+
 @pytest.mark.parametrize("mode", probe._MODES)
 def test_instrumented_mock_http_separates_headers_read_parse_validation(sample, tmp_path, monkeypatch, mode):
     raw = json.dumps(_body(sample, mode)).encode()
@@ -532,11 +575,13 @@ def test_runtime_metadata_requires_selected_fp32_and_preserves_formal_engine_con
     assert json.loads(path.read_text()) == config
 
 
-@pytest.mark.parametrize("selected,diagnostic,readback_status", [
-    (None, None, None), (False, False, None), (True, None, None), (True, False, None),
-    (True, True, "collected"), (True, True, "failed")])
+@pytest.mark.parametrize("selected,diagnostic,readback_status,cache_salt_full_input", [
+    (None, None, None, None), (False, False, None, None), (True, None, None, None), (True, False, None, None),
+    (True, True, "collected", None), (True, True, "failed", None),
+    (True, True, "collected", False), (True, True, "collected", True)])
 def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
-        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status):
+        worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status,
+        cache_salt_full_input):
     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
 
     path, config, model = worker_config
@@ -562,6 +607,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         wrapper["selected_fp32_snapshots"] = selected
     if diagnostic is not None:
         wrapper["mamba_runtime_metadata"] = diagnostic
+    if cache_salt_full_input is not None:
+        wrapper["cache_salt_full_input"] = cache_salt_full_input
     wrapper_path = tmp_path / "probe.json"
     wrapper_path.write_text(json.dumps(wrapper))
     samples = tmp_path / "samples.json"
@@ -656,7 +703,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
     monkeypatch.setattr(paired, "_check_server", lambda *args: None)
     monkeypatch.setattr(paired, "_stop_child", lambda *args: None)
 
-    async def benchmark(*args):
+    async def benchmark(*args, **kwargs):
+        assert kwargs == ({"cache_salt_full_input": True} if cache_salt_full_input else {})
         events.append("benchmark")
         return {"scope": "CPU mock; no requests made"}
 
@@ -733,11 +781,11 @@ def test_diagnostic_source_fixture_override_without_local_evidence_or_explicit_s
     try:
         if override_available:
             test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
-                worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
+                worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected", None)
         else:
             with pytest.raises(pytest.skip.Exception, match="Required retained native source unavailable"):
                 test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
-                    worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected")
+                    worker_config, sample, tmp_path, monkeypatch, copied, True, True, "collected", None)
     finally:
         assert {relative: (pristine / relative).read_bytes() for relative in original} == original
 
@@ -863,6 +911,58 @@ def test_runtime_metadata_config_uses_first4_once_and_exact_teacher_allocation_a
     assert original_path.read_bytes() == original_before and not (task / "cpu-construction-only.json").exists()
 
 
+@pytest.mark.parametrize("pair", ["A", "B"])
+def test_cache_salt_config_is_exact_isolated_clone_and_existing_dry_run_forwards_variant(monkeypatch, capsys, pair):
+    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
+
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    base_path = task / "teacher_scoring_runtime_metadata_probe_config.json"
+    variant_path = task / "teacher_scoring_cache_salt_probe_config.json"
+    base_text, variant_text = (path.read_text() for path in (base_path, variant_path))
+    base, variant = json.loads(base_text), json.loads(variant_text)
+    assert variant["cache_salt_full_input"] is True and variant["output_parent"] != base["output_parent"]
+    assert {key: value for key, value in variant.items() if key != "cache_salt_full_input"} == {
+        **base, "output_parent": variant["output_parent"]}
+    restored = variant_text.replace('  "cache_salt_full_input": true,\n', "", 1)
+    assert restored.replace(json.dumps(variant["output_parent"]), json.dumps(base["output_parent"]), 1) == base_text
+    assert variant["selected_fp32_snapshots"] and variant["mamba_runtime_metadata"]
+    assert variant["pairs"] == ["A", "B"] and variant["repeats"] == 1
+    formal = json.loads((repo / variant["formal_config"]).read_text())
+    monkeypatch.setattr(sys, "executable", formal["worker_python"])
+    configurations, constructions = [], []
+    receipt_path = task / "cpu-cache-salt-construction-only.json"
+    for path in (base_path, variant_path):
+        configurations.append(probe._load_config(path, pair, repo / variant["output_parent"] / pair / "cpu-only"))
+        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(path), "--pair", pair,
+                                          "--receipt", str(receipt_path), "--dry-run"])
+        assert submission.main() == 0
+        constructions.append(json.loads(capsys.readouterr().out))
+    assert configurations[1]["cache_salt_full_input"] is True
+    head = {"ip": "192.0.2.10"}
+    assert paired._teacher_command(configurations[0], pair, 0, head) == paired._teacher_command(
+        configurations[1], pair, 0, head) == paired._teacher_command(formal, pair, 0, head)
+    assert constructions[0]["requested_gpus"] == constructions[1]["requested_gpus"] == 4
+    assert constructions[0]["submitted"] is constructions[1]["submitted"] is False
+    assert {key: value for key, value in constructions[0].items() if key not in ("output", "worker_command")} == {
+        key: value for key, value in constructions[1].items() if key not in ("output", "worker_command")}
+    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
+    assert commands[1][commands[1].index("--config") + 1] == str(variant_path)
+    for command in commands:
+        for option in ("--config", "--output-dir"):
+            command[command.index(option) + 1] = option
+    assert commands[0] == commands[1] and not receipt_path.exists()
+
+
+@pytest.mark.parametrize("value", [None, 0, 1, "true", []])
+def test_cache_salt_config_requires_json_boolean(worker_config, tmp_path, value):
+    path, config, _ = worker_config
+    config["cache_salt_full_input"] = value
+    path.write_text(json.dumps(config))
+    with pytest.raises(ValueError, match="cache_salt_full_input must be a JSON boolean"):
+        probe._load_config(path, "A", tmp_path / "retained-new")
+
+
 def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
     from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
 
@@ -871,6 +971,93 @@ def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
     namespace["record"]("cpu_test_only", (("rids", rids), ("source", "CPU; no native execution")))
     rank = SimpleNamespace(dp_rank=dp_rank, tp_rank=tp_rank, pp_rank=0, attn_dp_rank=0, attn_tp_rank=tp_rank)
     return namespace["drain"](rank)
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+@pytest.mark.parametrize("experiment", [None, False, True])
+def test_cache_salt_first4_preserves_16_requests_10_flushes_controls_order_and_comparisons(
+        tmp_path, monkeypatch, pair, experiment):
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    fixture = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+    order = [
+        ("cold", 0, "full_input"), ("cold", 0, "response_only"),
+        ("cold", 1, "response_only"), ("cold", 1, "full_input"),
+        ("cold", 2, "full_input"), ("cold", 2, "response_only"),
+        ("cold", 3, "response_only"), ("cold", 3, "full_input"),
+        ("warm_stream", 0, "full_input"), ("warm_stream", 1, "full_input"),
+        ("warm_stream", 2, "full_input"), ("warm_stream", 3, "full_input"),
+        ("warm_stream", 0, "response_only"), ("warm_stream", 1, "response_only"),
+        ("warm_stream", 2, "response_only"), ("warm_stream", 3, "response_only")]
+    sent, returned_rids, info_calls = [], [], []
+
+    def response(method, url, kwargs):
+        if url.endswith("/get_server_info"):
+            info_calls.append(len(sent))
+            info = ({"version": "CPU mock only"} if len(info_calls) == 1 else {
+                "dp_size": 1, "tp_size": 4, "pp_size": 1,
+                "internal_states": [{"mamba_runtime_metadata": _cpu_metadata(
+                    dp_rank=None, rids=tuple(reversed(returned_rids)))}]})
+            return json.dumps(info).encode(), 200
+        if url.endswith("/flush_cache"):
+            assert kwargs == {}
+            return b"Cache flushed", 200
+        assert (method, url) == ("POST", "mock://teacher/generate")
+        phase, position, mode = order[len(sent)]
+        sample = fixture["samples"][position]
+        original = probe._payload(sample, mode)
+        expected = {**original, "cache_salt": f"{pair}:{phase}-r0-s{position}-full_input"} if (
+            experiment is True and mode == "full_input") else original
+        assert kwargs["json"] == expected
+        if mode == "response_only" or experiment is not True:
+            assert json.dumps(kwargs["json"]) == json.dumps(original)
+        sent.append(kwargs["json"])
+        returned_rids.append(f"cpu-native-{pair}-unrelated-{16 - len(sent)}")
+        value = -0.25 if (phase, position, mode) == ("warm_stream", 3, "full_input") else -0.125
+        tail = [[None, sample["tokens"][original["logprob_start_len"]], None]] + [
+            [value, token, None] for token in sample["tokens"][-sample["response_length"]:]]
+        return json.dumps({"text": "", "output_ids": [], "meta_info": {
+            "id": returned_rids[-1], "input_token_logprobs": tail, "output_token_logprobs": []}}).encode(), 200
+
+    _, calls, _ = _mock_http(monkeypatch, response)
+    output, local = _output(tmp_path)
+    args = SimpleNamespace(pair=pair, repeats=1, request_timeout=17)
+    options = {} if experiment is None else {"cache_salt_full_input": experiment}
+    cache = asyncio.run(probe._benchmark(args, fixture, "mock://teacher", output, local, **options))
+    receipt = asyncio.run(probe._collect_runtime_metadata("mock://teacher", 17, output))
+    assert cache == {"cold_cache_verified": True, "warm_stream_initial_flush_verified": True}
+    assert info_calls == [0, 16] and calls[-1] == ("GET", "mock://teacher/get_server_info", {})
+    assert sum(url.endswith("/generate") for _, url, _ in calls) == 16
+    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == 10
+    rows = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+    assert [(row["phase"], row["sample_position"], row["mode"]) for row in rows] == order
+    assert [row["native_request_id"] for row in rows] == returned_rids
+    salts = []
+    for row, payload in zip(rows, sent):
+        sample = fixture["samples"][row["sample_position"]]
+        assert row["pair"] == pair and row["repetition"] == 0 and row["status"] == "scored"
+        assert row["source_uid"] == sample["source_uid"] and row["sample_index"] == sample["sample_index"]
+        assert row["cache_salt"] == payload.get("cache_salt")
+        assert row["request_id"] == f"{row['phase']}-r0-s{row['sample_position']}-{row['mode']}"
+        assert row["native_request_id"] == row["meta_info"]["id"] != row["request_id"]
+        if row["cache_salt"] is not None:
+            assert row["cache_salt"] == f"{pair}:{row['request_id']}"
+            salts.append(row["cache_salt"])
+    assert len(salts) == len(set(salts)) == (8 if experiment is True else 0)
+    assert sum(row["mode"] == "response_only" and row["cache_salt"] is None for row in rows) == 8
+    assert sum(row["mode"] == "full_input" and row["phase"] == "cold" for row in rows) == 4
+    assert sum(row["mode"] == "full_input" and row["phase"] == "warm_stream" for row in rows) == 4
+    warm = [json.loads(line) for line in (output / "comparisons.jsonl").read_text().splitlines()
+            if json.loads(line)["phase"] == "warm_stream"]
+    assert len(warm) == 4
+    for row in warm:
+        comparison = row["cold_reference"]["cold_full_vs_warm_full"]
+        assert comparison["values_exact"] is (row["sample_position"] != 3)
+        assert comparison["max_absolute_error"] == (0.125 if row["sample_position"] == 3 else 0)
+        assert comparison["max_relative_error"] == (1 if row["sample_position"] == 3 else 0)
+        assert comparison["relative_error_undefined_count"] == 0 and comparison["accepted"] is None
+    metadata = receipt["server_info"]["internal_states"][0]["mamba_runtime_metadata"]
+    assert receipt["status"] == "collected" and dict(metadata["rows"][0][2])["rids"] == list(reversed(returned_rids))
 
 
 @pytest.mark.parametrize("pair", ["A", "B"])

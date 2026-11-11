@@ -1,0 +1,15 @@
+{
+  "task_id": "profile-mamba-live-metadata-integration-20261111",
+  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
+  "pairs": ["A", "B"],
+  "repeats": 1,
+  "request_timeout_seconds": 3600,
+  "worker_seconds": 3600,
+  "child_cleanup_grace_seconds": 90,
+  "selected_fp32_snapshots": true,
+  "mamba_runtime_metadata": true,
+  "cache_salt_full_input": true,
+  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-cache-salt-probe-20261111/native",
+  "acceptance": "Candidate minimized reproduction only: original first four fixtures, one repetition, 16 scoring requests and 10 flushes per pair. Preserve teacher model, source mounts, engine argv, cache, concurrency, chunk8192, BF16, deterministic inference and budgets. Prepare actual selected-FP32 source before the CPU-only metadata overlay; collect the existing server-info endpoint once after all scoring requests. Missing or malformed metadata is an independent probe failure, not scoring acceptance. Native H800 acceptance remains pending until first4 vectors compare to existing FP32 repetition0 and reproduce sample2/3 drift. Dropped 1024-hit boundary groups are not covered. No automatic tolerance or performance PASS; formal submission stays paused."
+}

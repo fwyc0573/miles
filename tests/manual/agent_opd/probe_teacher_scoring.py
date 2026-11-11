@@ -16,6 +16,8 @@ An opt-in mamba_runtime_metadata overlay follows selected-FP32 preparation and
 reads the existing server-info endpoint once after all scoring requests. A
 sample manifest may reference the original fixture and its first sample_count
 entries without copying tokens or changing their source identities.
+The cache_salt_full_input experiment namespaces only full-input requests by pair
+and pre-send probe request ID; response-only requests remain unsalted controls.
 
 Cold comparisons flush before each request. Separate warm passes flush once
 before each mode's ordered sample stream. Mode order alternates by repetition
@@ -149,6 +151,9 @@ def _load_config(path, pair, output):
         raise ValueError("mamba_runtime_metadata must be a JSON boolean")
     if runtime_metadata and not selected_fp32:
         raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
+    cache_salt_full_input = config.get("cache_salt_full_input", False)
+    if type(cache_salt_full_input) is not bool:
+        raise ValueError("cache_salt_full_input must be a JSON boolean")
     config_paths = [path.resolve()]
     if "formal_config" in config:
         formal_path = (Path(__file__).resolve().parents[3] / config["formal_config"]).resolve(strict=True)
@@ -158,6 +163,8 @@ def _load_config(path, pair, output):
         config["selected_fp32_snapshots"] = selected_fp32
         if runtime_metadata:
             config["mamba_runtime_metadata"] = True
+        if cache_salt_full_input:
+            config["cache_salt_full_input"] = True
     teacher = config["pairs"][pair]["teacher"]
     if config["gpu_tag"] != "H800" or config["charged_group"] != "codesign":
         raise ValueError("This dedicated probe requires H800/codesign")
@@ -327,16 +334,19 @@ async def _flush(url, timeout, path, identity):
     return record["status"]
 
 
-async def _request(url, sample, mode, timeout, output, local, identity, cache_state):
-    payload = _payload(sample, mode)
+async def _request(url, sample, mode, timeout, output, local, identity, cache_state, *, cache_salt_full_input=False):
     request_id = f"{identity['phase']}-r{identity['repetition']}-s{identity['sample_position']}-{mode}"
+    payload = _payload(sample, mode)
+    if cache_salt_full_input and mode == "full_input":
+        payload["cache_salt"] = f"{identity['pair']}:{request_id}"
     record = {**identity, "request_id": request_id, "mode": mode, "source_uid": sample["source_uid"],
               "sample_index": sample["sample_index"], "input_count": len(sample["tokens"]),
               "prompt_count": len(sample["tokens"]) - sample["response_length"],
               "response_count": sample["response_length"], "logprob_start_len": payload["logprob_start_len"],
               "expected_input_token_logprobs_count": len(sample["tokens"]) - payload["logprob_start_len"],
               "first_requested_input_token_id": sample["tokens"][payload["logprob_start_len"]],
-              "cache_state": cache_state, "status": "failed", "started_at": time.time(),
+              "cache_state": cache_state, "cache_salt": payload.get("cache_salt"),
+              "status": "failed", "started_at": time.time(),
               "token_ids_match": False, "finite_log_probs": False}
     record.update({key: None for key in ("http_time_to_headers_seconds", "http_elapsed_seconds", "body_read_seconds",
                                         "http_status", "body_bytes", "json_parse_seconds", "validation_seconds",
@@ -402,7 +412,8 @@ def _record_comparison(output, identity, results, sample, pair, cold_results=Non
     _append(output / "comparisons.jsonl", record)
 
 
-async def _benchmark(args, fixture, url, output, local):
+async def _benchmark(args, fixture, url, output, local, *, cache_salt_full_input=False):
+    request_options = {"cache_salt_full_input": True} if cache_salt_full_input else {}
     server_request = {"endpoint": url + "/get_server_info"}
     info = _parse(await _http("GET", server_request["endpoint"], None, args.request_timeout, server_request), server_request)
     _write(output / "server_info.json", {"http": server_request, "get_server_info": info})
@@ -416,7 +427,7 @@ async def _benchmark(args, fixture, url, output, local):
                 cache = await _flush(url, args.request_timeout, output / "cache.jsonl", {**identity, "mode": mode})
                 cache_observations["cold_cache_verified"] &= cache == "flushed"
                 results[mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity,
-                                               "cold_flushed" if cache == "flushed" else "cache_undefined")
+                                               "cold_flushed" if cache == "flushed" else "cache_undefined", **request_options)
             _record_comparison(output, identity, results, sample, args.pair)
             cold_results[(args.pair, repetition, sample["source_uid"], sample["sample_index"])] = results
     for repetition in range(args.repeats):
@@ -428,7 +439,8 @@ async def _benchmark(args, fixture, url, output, local):
             for position, sample in enumerate(fixture["samples"]):
                 identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
                 state = ("stream_first_after_flush" if position == 0 else "ordered_stream_after_flush") if cache == "flushed" else "cache_undefined"
-                results[position][mode] = await _request(url, sample, mode, args.request_timeout, output, local, identity, state)
+                results[position][mode] = await _request(
+                    url, sample, mode, args.request_timeout, output, local, identity, state, **request_options)
         for position, sample in enumerate(fixture["samples"]):
             identity = {"pair": args.pair, "phase": "warm_stream", "repetition": repetition, "sample_position": position}
             _record_comparison(output, identity, results[position], sample, args.pair,
@@ -601,7 +613,8 @@ def _run(args):
                 config["startup_timeout"])
             if result["model_info"] is None:
                 raise RuntimeError("Dedicated teacher readiness was interrupted")
-            result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local))
+            request_options = {"cache_salt_full_input": True} if config.get("cache_salt_full_input", False) else {}
+            result["cache_observations"] = asyncio.run(_benchmark(args, fixture, url, output, local, **request_options))
             paired._check_server(process)
             if config.get("mamba_runtime_metadata", False):
                 result["native_measurements_completed"] = True
