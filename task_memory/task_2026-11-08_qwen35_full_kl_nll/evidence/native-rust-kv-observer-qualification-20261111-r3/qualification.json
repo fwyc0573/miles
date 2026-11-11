@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "variants": [
+    "original",
+    "rebuilt",
+    "observer-none",
+    "observer-enabled"
+  ],
+  "cases": [
+    "ordinary",
+    "partial_split",
+    "missing_full",
+    "end_abort",
+    "mamba_barrier"
+  ],
+  "exact_actions_results_topology_indices": true,
+  "native_fixtures": {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--offline",
+      "--manifest-path",
+      "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/Cargo.toml",
+      "--target-dir",
+      "/var/tmp/rust-kv-tests-zt5r9pha/target",
+      "old_full_observer",
+      "--",
+      "--nocapture"
+    ],
+    "returncode": 0,
+    "status": "PASS",
+    "target_retained": false
+  },
+  "dependency_manifest": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/dependency-source-manifest.json",
+  "dependency_files": 6,
+  "thread_topology": "serial scheduler calls only",
+  "core_call_methods_with_detach": 130,
+  "contended_outside_getter": "PASS",
+  "invalidation_failure_marker": "old_full_observer_invalidation_failed",
+  "invalidation_failure_marker_verified": true,
+  "concurrent_unscheduled_mutex_reentry": "UNSUPPORTED; no new lock or release added",
+  "cuda_thread_stream_witness": "PENDING",
+  "original_binary_source_commit": "UNVERIFIED"
+}

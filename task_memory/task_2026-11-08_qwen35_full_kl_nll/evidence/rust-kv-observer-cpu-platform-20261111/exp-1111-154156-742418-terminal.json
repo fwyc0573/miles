@@ -1,0 +1,18 @@
+{
+  "job": "exp-1111-154156-742418",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "native-cpu": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T07:44:41Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "native_execution_succeeded": true
+}

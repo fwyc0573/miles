@@ -1,0 +1,11 @@
+old_full_observer_invalidation_failed rid=cpu-rid P=0 E=32 stage=capture
+Exception ignored in: <__main__._Capture object at 0x7f7b873ca4b0>
+Traceback (most recent call last):
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py", line 226, in __call__
+    raise ValueError("injected OLD capture failure")
+ValueError: injected OLD capture failure
+Exception ignored in: <bound method _Capture.invalidate of <__main__._Capture object at 0x7f7b873ca4b0>>
+Traceback (most recent call last):
+  File "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py", line 231, in invalidate
+    raise ValueError("injected invalidation failure")
+ValueError: injected invalidation failure

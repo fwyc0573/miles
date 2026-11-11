@@ -1,0 +1,46 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "input_receipts": {
+    "pending": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer-build-pending.json",
+      "sha256": "a881ff39a27aa6325ae7f7b858a2441bf457e772348198a4107a8e7fae64ebcf",
+      "bytes": 7974
+    },
+    "source_manifest": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/source-manifest.json",
+      "sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3",
+      "bytes": 6901
+    },
+    "baseline": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.json",
+      "sha256": "b4ac579706ce837b7a5caf1ced58f0aebdd7fe9ed71e28e21c5e096d6d39ec82",
+      "bytes": 2210
+    },
+    "observer": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.json",
+      "sha256": "627f35d5a5d7f73cf6f9a2b381e43be4cc30c11a9bbff1aafa4c875184f3eff9",
+      "bytes": 2212
+    }
+  },
+  "failed_qualification": {
+    "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification-command.json",
+    "sha256": "f19dbf70ecec00b571d772b3bb4d463d0836e2e450caa47a5962317a909604c6",
+    "bytes": 449
+  },
+  "libraries": {
+    "baseline": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa"
+    },
+    "observer": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba"
+    }
+  },
+  "fixture_source": {
+    "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py",
+    "sha256": "e8a7944bcf9fbf3601b5d1f4c386bc39d9398cd59cf6627707e600cf3365310c",
+    "bytes": 29796
+  }
+}

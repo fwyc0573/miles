@@ -1,0 +1,25 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "requested_gpus": 0,
+  "cpu": 2,
+  "memory_gb": 8,
+  "charged_group": "codesign",
+  "positive_tags": [
+    "H800"
+  ],
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "command": "/opt/sglang/bin/python3 -B -c 'import json,os,runpy,sys; os.chdir('\"'\"'/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image'\"'\"'); c=json.load(open('\"'\"'/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r3/resume-config.json'\"'\"')); os.environ.update(c['\"'\"'environment'\"'\"']); sys.path.insert(0,os.getcwd()); sys.argv=[c['\"'\"'script'\"'\"'],*c['\"'\"'argv'\"'\"']]; runpy.run_path(c['\"'\"'script'\"'\"'],run_name='\"'\"'__main__'\"'\"')'",
+  "source_sha256": {
+    "tests/manual/agent_opd/sglang_rust_kv_observer.py": "acf89c7425ba38a0a497adfd27cf2fe71979f77922d7af5f6b66a6685175442d",
+    "tests/manual/agent_opd/probe_rust_kv_observer.py": "e8a7944bcf9fbf3601b5d1f4c386bc39d9398cd59cf6627707e600cf3365310c",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r3/resume-config.json": "ad1e1d7f85cf429d86954ba4b1465afa8dc92d7f008859afca8e3c66047fe042"
+  },
+  "expected_build_receipt": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+  "formal_build_mode_change": false,
+  "action": "resume",
+  "extension_rebuild": false,
+  "job": "exp-1111-154156-742418",
+  "creator": "i-fengyicheng",
+  "submitted_at": "2026-11-11T07:41:57.051668+00:00"
+}

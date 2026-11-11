@@ -1,0 +1,6084 @@
+{
+  "tch-0.24.0/src/wrappers/tensor.rs": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tch-0.24.0/src/wrappers/tensor.rs",
+    "bytes": 29651,
+    "sha256": "965eea22e487b9cc801c6c96730dd297c9f18d22c2fc8104bc698e5d4eceeb60",
+    "decisive_lines": [
+      [
+        51,
+        "    ///"
+      ],
+      [
+        52,
+        "    /// A shallow copy of the pointer is made so there is no need for"
+      ],
+      [
+        53,
+        "    /// this pointer to remain valid for the whole lifetime of the Rust"
+      ],
+      [
+        54,
+        "    /// object."
+      ],
+      [
+        55,
+        "    pub unsafe fn clone_from_ptr(c_tensor: *mut C_tensor) -> Self {"
+      ],
+      [
+        56,
+        "        let c_tensor = at_shallow_clone(c_tensor);"
+      ],
+      [
+        57,
+        "        crate::wrappers::utils::read_and_clean_error().unwrap();"
+      ],
+      [
+        58,
+        "        Self { c_tensor }"
+      ],
+      [
+        59,
+        "    }"
+      ],
+      [
+        60,
+        ""
+      ],
+      [
+        61,
+        "    /// Returns a pointer to the underlying C++ tensor."
+      ],
+      [
+        62,
+        "    ///"
+      ],
+      [
+        63,
+        "    /// The caller must ensures that the Rust tensor object outlives"
+      ],
+      [
+        64,
+        "    /// this pointer."
+      ],
+      [
+        65,
+        "    pub fn as_ptr(&self) -> *const C_tensor {"
+      ],
+      [
+        66,
+        "        self.c_tensor"
+      ],
+      [
+        67,
+        "    }"
+      ],
+      [
+        68,
+        ""
+      ],
+      [
+        69,
+        "    /// Returns a mutable pointer to the underlying C++ tensor."
+      ],
+      [
+        70,
+        "    ///"
+      ],
+      [
+        71,
+        "    /// The caller must ensures that the Rust tensor object outlives"
+      ],
+      [
+        72,
+        "    /// this pointer."
+      ],
+      [
+        73,
+        "    pub fn as_mut_ptr(&mut self) -> *mut C_tensor {"
+      ],
+      [
+        74,
+        "        self.c_tensor"
+      ],
+      [
+        75,
+        "    }"
+      ],
+      [
+        76,
+        ""
+      ],
+      [
+        77,
+        "    /// Returns the number of dimension of the tensor."
+      ],
+      [
+        78,
+        "    pub fn dim(&self) -> usize {"
+      ],
+      [
+        79,
+        "        unsafe_torch!(at_dim(self.c_tensor))"
+      ],
+      [
+        272,
+        "    // Returns true if the tensor if contiguous"
+      ],
+      [
+        273,
+        "    pub fn is_contiguous(&self) -> bool {"
+      ],
+      [
+        274,
+        "        unsafe_torch!(at_is_contiguous(self.c_tensor) != 0)"
+      ],
+      [
+        275,
+        "    }"
+      ],
+      [
+        276,
+        ""
+      ],
+      [
+        277,
+        "    /// Zeroes the gradient tensor attached to this tensor if defined."
+      ],
+      [
+        278,
+        "    pub fn zero_grad(&mut self) {"
+      ],
+      [
+        279,
+        "        let mut grad = self.grad();"
+      ],
+      [
+        280,
+        "        if grad.defined() {"
+      ],
+      [
+        281,
+        "            let _ = grad.detach_().zero_();"
+      ],
+      [
+        282,
+        "        }"
+      ],
+      [
+        283,
+        "    }"
+      ],
+      [
+        284,
+        ""
+      ],
+      [
+        285,
+        "    /// Runs the backward pass, populating the gradient tensors for tensors"
+      ],
+      [
+        286,
+        "    /// which gradients are tracked."
+      ],
+      [
+        287,
+        "    ///"
+      ],
+      [
+        288,
+        "    /// Gradients tracking can be turned on via `set_requires_grad`."
+      ],
+      [
+        289,
+        "    pub fn f_backward(&self) -> Result<(), TchError> {"
+      ],
+      [
+        290,
+        "        unsafe_torch_err!(at_backward(self.c_tensor, 0, 0));"
+      ],
+      [
+        291,
+        "        Ok(())"
+      ],
+      [
+        292,
+        "    }"
+      ],
+      [
+        293,
+        ""
+      ],
+      [
+        294,
+        "    /// Runs the backward pass, populating the gradient tensors for tensors"
+      ],
+      [
+        295,
+        "    /// which gradients are tracked."
+      ],
+      [
+        296,
+        "    ///"
+      ],
+      [
+        297,
+        "    /// Gradients tracking can be turned on via `set_requires_grad`."
+      ],
+      [
+        298,
+        "    /// Panics if the C++ api returns an exception."
+      ],
+      [
+        299,
+        "    pub fn backward(&self) {"
+      ],
+      [
+        300,
+        "        self.f_backward().unwrap()"
+      ],
+      [
+        301,
+        "    }"
+      ],
+      [
+        302,
+        ""
+      ],
+      [
+        303,
+        "    pub fn f_run_backward<T1, T2>("
+      ],
+      [
+        304,
+        "        tensors: &[T1],"
+      ],
+      [
+        506,
+        "    pub fn from_data_size(data: &[u8], size: &[i64], kind: Kind) -> Tensor {"
+      ],
+      [
+        507,
+        "        Self::f_from_data_size(data, size, kind).unwrap()"
+      ],
+      [
+        508,
+        "    }"
+      ],
+      [
+        509,
+        ""
+      ],
+      [
+        510,
+        "    /// Returns a new tensor that share storage with the input tensor."
+      ],
+      [
+        511,
+        "    pub fn shallow_clone(&self) -> Tensor {"
+      ],
+      [
+        512,
+        "        let c_tensor = unsafe_torch!(at_shallow_clone(self.c_tensor));"
+      ],
+      [
+        513,
+        "        Tensor { c_tensor }"
+      ],
+      [
+        514,
+        "    }"
+      ],
+      [
+        515,
+        ""
+      ],
+      [
+        516,
+        "    /// Gets the sub-tensor at the given index."
+      ],
+      [
+        517,
+        "    pub fn f_get(&self, index: i64) -> Result<Tensor, TchError> {"
+      ],
+      [
+        518,
+        "        let c_tensor = unsafe_torch_err!(at_get(self.c_tensor, index as c_int));"
+      ],
+      [
+        519,
+        "        Ok(Tensor { c_tensor })"
+      ],
+      [
+        520,
+        "    }"
+      ],
+      [
+        521,
+        ""
+      ],
+      [
+        522,
+        "    /// Gets the sub-tensor at the given index."
+      ],
+      [
+        523,
+        "    pub fn get(&self, index: i64) -> Tensor {"
+      ],
+      [
+        524,
+        "        self.f_get(index).unwrap()"
+      ],
+      [
+        525,
+        "    }"
+      ],
+      [
+        526,
+        ""
+      ],
+      [
+        527,
+        "    /// Copies values from the argument tensor to the input tensor."
+      ],
+      [
+        528,
+        "    pub fn f_copy_(&mut self, src: &Tensor) -> Result<(), TchError> {"
+      ],
+      [
+        529,
+        "        unsafe_torch_err!(at_copy_(self.c_tensor, src.c_tensor));"
+      ],
+      [
+        530,
+        "        Ok(())"
+      ],
+      [
+        531,
+        "    }"
+      ],
+      [
+        532,
+        ""
+      ],
+      [
+        533,
+        "    /// Copies values from the argument tensor to the input tensor."
+      ],
+      [
+        534,
+        "    pub fn copy_(&mut self, src: &Tensor) {"
+      ],
+      [
+        535,
+        "        self.f_copy_(src).unwrap()"
+      ]
+    ]
+  },
+  "tch-0.24.0/src/wrappers/python.rs": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tch-0.24.0/src/wrappers/python.rs",
+    "bytes": 1155,
+    "sha256": "85e660baa0735954d4003fad47d24a8066451131c56303bf9fee88025eb44bd3",
+    "decisive_lines": [
+      [
+        12,
+        "    Ok(v)"
+      ],
+      [
+        13,
+        "}"
+      ],
+      [
+        14,
+        ""
+      ],
+      [
+        15,
+        "impl Tensor {"
+      ],
+      [
+        16,
+        "    /// Wrap a tensor in a Python object."
+      ],
+      [
+        17,
+        "    pub fn pyobject_wrap(&self) -> Result<*mut CPyObject, TchError> {"
+      ],
+      [
+        18,
+        "        let v = unsafe_torch_err!(python::thp_variable_wrap(self.c_tensor));"
+      ],
+      [
+        19,
+        "        Ok(v)"
+      ],
+      [
+        20,
+        "    }"
+      ],
+      [
+        21,
+        ""
+      ],
+      [
+        22,
+        "    /// Unwrap a tensor stored in a Python object. This returns `Ok(None)` if"
+      ],
+      [
+        23,
+        "    /// the object is not a wrapped tensor."
+      ],
+      [
+        24,
+        "    ///"
+      ],
+      [
+        25,
+        "    /// # Safety"
+      ],
+      [
+        26,
+        "    /// Undefined behavior if the given pointer is not a valid PyObject."
+      ],
+      [
+        27,
+        "    pub unsafe fn pyobject_unpack(pyobject: *mut CPyObject) -> Result<Option<Self>, TchError> {"
+      ],
+      [
+        28,
+        "        if !pyobject_check(pyobject)? {"
+      ],
+      [
+        29,
+        "            return Ok(None);"
+      ],
+      [
+        30,
+        "        }"
+      ],
+      [
+        31,
+        "        let v = unsafe_torch_err!(python::thp_variable_unpack(pyobject));"
+      ],
+      [
+        32,
+        "        Ok(Some(Tensor::from_ptr(v)))"
+      ],
+      [
+        33,
+        "    }"
+      ],
+      [
+        34,
+        "}"
+      ]
+    ]
+  },
+  "torch-sys-0.24.0/libtch/torch_api.cpp": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.24.0/libtch/torch_api.cpp",
+    "bytes": 46928,
+    "sha256": "3b416a34ff5a6dda9ec6e88ef8e6e8735228e2501ec3c2a01919d93217eaccea",
+    "decisive_lines": [
+      [
+        113,
+        "        void *tensor_data = tmp_tensor.data_ptr();"
+      ],
+      [
+        114,
+        "        memcpy(vs, tensor_data, numel * elt_size_in_bytes);"
+      ],
+      [
+        115,
+        "      })"
+      ],
+      [
+        116,
+        "}"
+      ],
+      [
+        117,
+        ""
+      ],
+      [
+        118,
+        "tensor at_shallow_clone(tensor t) {"
+      ],
+      [
+        119,
+        "  PROTECT(return new torch::Tensor(*t);)"
+      ],
+      [
+        120,
+        "  return nullptr;"
+      ],
+      [
+        121,
+        "}"
+      ],
+      [
+        122,
+        ""
+      ],
+      [
+        123,
+        "void *at_data_ptr(tensor t) {"
+      ],
+      [
+        124,
+        "  PROTECT(return t->data_ptr();)"
+      ],
+      [
+        125,
+        "  return nullptr;"
+      ],
+      [
+        126,
+        "}"
+      ],
+      [
+        127,
+        ""
+      ],
+      [
+        128,
+        "int at_defined(tensor t) {"
+      ],
+      [
+        129,
+        "  PROTECT(return t->defined();)"
+      ],
+      [
+        130,
+        "  return -1;"
+      ],
+      [
+        131,
+        "}"
+      ],
+      [
+        132,
+        ""
+      ],
+      [
+        133,
+        "int at_is_mkldnn(tensor t) {"
+      ],
+      [
+        134,
+        "  PROTECT(return t->is_mkldnn();)"
+      ],
+      [
+        135,
+        "  return -1;"
+      ],
+      [
+        136,
+        "}"
+      ],
+      [
+        137,
+        ""
+      ],
+      [
+        138,
+        "int at_is_sparse(tensor t) {"
+      ],
+      [
+        139,
+        "  PROTECT(return t->is_sparse();)"
+      ],
+      [
+        140,
+        "  return -1;"
+      ],
+      [
+        141,
+        "}"
+      ]
+    ]
+  },
+  "torch-sys-0.24.0/libtch/torch_python.cpp": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/torch-sys-0.24.0/libtch/torch_python.cpp",
+    "bytes": 394,
+    "sha256": "fdfd9bb88687fb47e7066a9358af97292a7fdb3c6222c62f6a8b1f554b613b2f",
+    "decisive_lines": [
+      [
+        7,
+        "  return false;"
+      ],
+      [
+        8,
+        "}"
+      ],
+      [
+        9,
+        ""
+      ],
+      [
+        10,
+        "PyObject* thp_variable_wrap(tensor t) {"
+      ],
+      [
+        11,
+        "  PROTECT("
+      ],
+      [
+        12,
+        "      return THPVariable_Wrap(*t);"
+      ],
+      [
+        13,
+        "  )"
+      ],
+      [
+        14,
+        "  return nullptr;"
+      ],
+      [
+        15,
+        "}"
+      ],
+      [
+        16,
+        ""
+      ],
+      [
+        17,
+        "tensor thp_variable_unpack(PyObject* pyobj) {"
+      ],
+      [
+        18,
+        "  PROTECT("
+      ],
+      [
+        19,
+        "      return new torch::Tensor(THPVariable_Unpack(pyobj));"
+      ],
+      [
+        20,
+        "  )"
+      ],
+      [
+        21,
+        "  return nullptr;"
+      ],
+      [
+        22,
+        "}"
+      ]
+    ]
+  },
+  "pyo3-0.29.2/src/marker.rs": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-0.29.2/src/marker.rs",
+    "bytes": 37142,
+    "sha256": "3255f90c8eba236f0cc5594adca4a3cb0bf17c26b9c242d803e6d5d6a7dc7182",
+    "decisive_lines": [
+      [
+        15,
+        "//! - Drop the GIL, so that other Python threads can acquire it and make progress themselves"
+      ],
+      [
+        16,
+        "//! - Do something independently of the Python interpreter, like IO, a long running calculation or"
+      ],
+      [
+        17,
+        "//!   awaiting a future"
+      ],
+      [
+        18,
+        "//! - Once that is done, reacquire the GIL"
+      ],
+      [
+        19,
+        "//!"
+      ],
+      [
+        20,
+        "//! That API is provided by [`Python::detach`] and enforced via the [`Ungil`] bound on the"
+      ],
+      [
+        21,
+        "//! closure and the return type. This is done by relying on the [`Send`] auto trait. `Ungil` is"
+      ],
+      [
+        22,
+        "//! defined as the following:"
+      ],
+      [
+        23,
+        "//!"
+      ],
+      [
+        24,
+        "//! ```rust,no_run"
+      ],
+      [
+        25,
+        "//! # #![allow(dead_code)]"
+      ],
+      [
+        26,
+        "//! pub unsafe trait Ungil {}"
+      ],
+      [
+        27,
+        "//!"
+      ],
+      [
+        28,
+        "//! unsafe impl<T: Send> Ungil for T {}"
+      ],
+      [
+        29,
+        "//! ```"
+      ],
+      [
+        30,
+        "//!"
+      ],
+      [
+        31,
+        "//! We piggy-back off the `Send` auto trait because it is not possible to implement custom auto"
+      ],
+      [
+        32,
+        "//! traits on stable Rust. This is the solution which enables it for as many types as possible while"
+      ],
+      [
+        33,
+        "//! making the API usable."
+      ],
+      [
+        34,
+        "//!"
+      ],
+      [
+        35,
+        "//! In practice this API works quite well, but it comes with some drawbacks:"
+      ],
+      [
+        36,
+        "//!"
+      ],
+      [
+        37,
+        "//! ## Drawbacks"
+      ],
+      [
+        38,
+        "//!"
+      ],
+      [
+        39,
+        "//! There is no reason to prevent `!Send` types like [`Rc`] from crossing the closure. After all,"
+      ],
+      [
+        40,
+        "//! [`Python::detach`] just lets other Python threads run - it does not itself launch a new"
+      ],
+      [
+        41,
+        "//! thread."
+      ],
+      [
+        42,
+        "//!"
+      ],
+      [
+        43,
+        "//! ```rust, compile_fail"
+      ],
+      [
+        44,
+        "//! # #[cfg(feature = \"nightly\")]"
+      ],
+      [
+        45,
+        "//! # compile_error!(\"this actually works on nightly\")"
+      ],
+      [
+        46,
+        "//! use pyo3::prelude::*;"
+      ],
+      [
+        47,
+        "//! use alloc::rc::Rc;"
+      ],
+      [
+        48,
+        "//!"
+      ],
+      [
+        49,
+        "//! fn main() {"
+      ],
+      [
+        50,
+        "//!     Python::attach(|py| {"
+      ],
+      [
+        51,
+        "//!         let rc = Rc::new(5);"
+      ],
+      [
+        52,
+        "//!"
+      ],
+      [
+        53,
+        "//!         py.detach(|| {"
+      ],
+      [
+        54,
+        "//!             // This would actually be fine..."
+      ],
+      [
+        55,
+        "//!             println!(\"{:?}\", *rc);"
+      ],
+      [
+        56,
+        "//!         });"
+      ],
+      [
+        57,
+        "//!     });"
+      ],
+      [
+        58,
+        "//! }"
+      ],
+      [
+        59,
+        "//! ```"
+      ],
+      [
+        60,
+        "//!"
+      ],
+      [
+        61,
+        "//! Because we are using `Send` for something it's not quite meant for, other code that"
+      ],
+      [
+        62,
+        "//! (correctly) upholds the invariants of [`Send`] can cause problems."
+      ],
+      [
+        63,
+        "//!"
+      ],
+      [
+        64,
+        "//! [`SendWrapper`] is one of those. Per its documentation:"
+      ],
+      [
+        65,
+        "//!"
+      ],
+      [
+        66,
+        "//! > A wrapper which allows you to move around non-Send-types between threads, as long as you"
+      ],
+      [
+        67,
+        "//! > access the contained value only from within the original thread and make sure that it is"
+      ],
+      [
+        68,
+        "//! > dropped from within the original thread."
+      ],
+      [
+        69,
+        "//!"
+      ],
+      [
+        70,
+        "//! This will \"work\" to smuggle Python references across the closure, because we're not actually"
+      ],
+      [
+        71,
+        "//! doing anything with threads:"
+      ],
+      [
+        72,
+        "//!"
+      ],
+      [
+        73,
+        "//! ```rust, no_run"
+      ],
+      [
+        74,
+        "//! use pyo3::prelude::*;"
+      ],
+      [
+        75,
+        "//! use pyo3::types::PyString;"
+      ],
+      [
+        76,
+        "//! use send_wrapper::SendWrapper;"
+      ],
+      [
+        77,
+        "//!"
+      ],
+      [
+        78,
+        "//! Python::attach(|py| {"
+      ],
+      [
+        79,
+        "//!     let string = PyString::new(py, \"foo\");"
+      ],
+      [
+        80,
+        "//!"
+      ],
+      [
+        81,
+        "//!     let wrapped = SendWrapper::new(string);"
+      ],
+      [
+        82,
+        "//!"
+      ],
+      [
+        83,
+        "//!     py.detach(|| {"
+      ],
+      [
+        84,
+        "//! # #[cfg(not(feature = \"nightly\"))]"
+      ],
+      [
+        85,
+        "//! # {"
+      ],
+      [
+        86,
+        "//!         // \ud83d\udca5 Unsound! \ud83d\udca5"
+      ],
+      [
+        87,
+        "//!         let smuggled: &Bound<'_, PyString> = &*wrapped;"
+      ],
+      [
+        88,
+        "//!         println!(\"{:?}\", smuggled);"
+      ],
+      [
+        89,
+        "//! # }"
+      ],
+      [
+        90,
+        "//!     });"
+      ],
+      [
+        91,
+        "//! });"
+      ],
+      [
+        92,
+        "//! ```"
+      ],
+      [
+        93,
+        "//!"
+      ],
+      [
+        94,
+        "//! For now the answer to that is \"don't do that\"."
+      ],
+      [
+        95,
+        "//!"
+      ],
+      [
+        96,
+        "//! # A proper implementation using an auto trait"
+      ],
+      [
+        97,
+        "//!"
+      ],
+      [
+        98,
+        "//! However on nightly Rust and when PyO3's `nightly` feature is"
+      ],
+      [
+        99,
+        "//! enabled, `Ungil` is defined as the following:"
+      ],
+      [
+        100,
+        "//!"
+      ],
+      [
+        101,
+        "//! ```rust,no_run"
+      ],
+      [
+        102,
+        "//! # #[cfg(any())]"
+      ],
+      [
+        103,
+        "//! # {"
+      ],
+      [
+        104,
+        "//! #![feature(auto_traits, negative_impls)]"
+      ],
+      [
+        105,
+        "//!"
+      ],
+      [
+        106,
+        "//! pub unsafe auto trait Ungil {}"
+      ],
+      [
+        149,
+        "///"
+      ],
+      [
+        150,
+        "/// ```compile_fail"
+      ],
+      [
+        151,
+        "/// # use pyo3::prelude::*;"
+      ],
+      [
+        152,
+        "/// use alloc::rc::Rc;"
+      ],
+      [
+        153,
+        "///"
+      ],
+      [
+        154,
+        "/// Python::attach(|py| {"
+      ],
+      [
+        155,
+        "///     let rc = Rc::new(42);"
+      ],
+      [
+        156,
+        "///"
+      ],
+      [
+        157,
+        "///     py.detach(|| {"
+      ],
+      [
+        158,
+        "///         println!(\"{:?}\", rc);"
+      ],
+      [
+        159,
+        "///     });"
+      ],
+      [
+        160,
+        "/// });"
+      ],
+      [
+        161,
+        "/// ```"
+      ],
+      [
+        162,
+        "///"
+      ],
+      [
+        163,
+        "/// This also implies that the interplay between `attach` and `detach` is unsound, for example"
+      ],
+      [
+        164,
+        "/// one can circumvent this protection using the [`send_wrapper`](https://docs.rs/send_wrapper/) crate:"
+      ],
+      [
+        165,
+        "///"
+      ],
+      [
+        166,
+        "/// ```no_run"
+      ],
+      [
+        167,
+        "/// # use pyo3::prelude::*;"
+      ],
+      [
+        168,
+        "/// # use pyo3::types::PyString;"
+      ],
+      [
+        169,
+        "/// use send_wrapper::SendWrapper;"
+      ],
+      [
+        170,
+        "///"
+      ],
+      [
+        171,
+        "/// Python::attach(|py| {"
+      ],
+      [
+        172,
+        "///     let string = PyString::new(py, \"foo\");"
+      ],
+      [
+        173,
+        "///"
+      ],
+      [
+        174,
+        "///     let wrapped = SendWrapper::new(string);"
+      ],
+      [
+        175,
+        "///"
+      ],
+      [
+        176,
+        "///     py.detach(|| {"
+      ],
+      [
+        177,
+        "///         let sneaky: &Bound<'_, PyString> = &*wrapped;"
+      ],
+      [
+        178,
+        "///"
+      ],
+      [
+        179,
+        "///         println!(\"{:?}\", sneaky);"
+      ],
+      [
+        180,
+        "///     });"
+      ],
+      [
+        181,
+        "/// });"
+      ],
+      [
+        182,
+        "/// ```"
+      ],
+      [
+        183,
+        "///"
+      ],
+      [
+        184,
+        "/// Fixing this loophole on stable Rust has significant ergonomic issues, but it is fixed when using"
+      ],
+      [
+        185,
+        "/// nightly Rust and the `nightly` feature, c.f. [#2141](https://github.com/PyO3/pyo3/issues/2141)."
+      ],
+      [
+        186,
+        "#[cfg_attr(docsrs, doc(cfg(all())))] // Hide the cfg flag"
+      ],
+      [
+        187,
+        "#[cfg(not(feature = \"nightly\"))]"
+      ],
+      [
+        188,
+        "pub unsafe trait Ungil {}"
+      ],
+      [
+        189,
+        ""
+      ],
+      [
+        190,
+        "#[cfg_attr(docsrs, doc(cfg(all())))] // Hide the cfg flag"
+      ],
+      [
+        191,
+        "#[cfg(not(feature = \"nightly\"))]"
+      ],
+      [
+        192,
+        "unsafe impl<T: Send> Ungil for T {}"
+      ],
+      [
+        193,
+        ""
+      ],
+      [
+        194,
+        "#[cfg(feature = \"nightly\")]"
+      ],
+      [
+        195,
+        "mod nightly {"
+      ],
+      [
+        196,
+        "    macro_rules! define {"
+      ],
+      [
+        197,
+        "        ($($tt:tt)*) => { $($tt)* }"
+      ],
+      [
+        198,
+        "    }"
+      ],
+      [
+        199,
+        ""
+      ],
+      [
+        212,
+        "        /// Types which are `Ungil` cannot be used in contexts where the GIL was released, e.g."
+      ],
+      [
+        213,
+        "        ///"
+      ],
+      [
+        214,
+        "        /// ```compile_fail"
+      ],
+      [
+        215,
+        "        /// # use pyo3::prelude::*;"
+      ],
+      [
+        216,
+        "        /// # use pyo3::types::PyString;"
+      ],
+      [
+        217,
+        "        /// Python::attach(|py| {"
+      ],
+      [
+        218,
+        "        ///     let string = PyString::new(py, \"foo\");"
+      ],
+      [
+        219,
+        "        ///"
+      ],
+      [
+        220,
+        "        ///     py.detach(|| {"
+      ],
+      [
+        221,
+        "        ///         println!(\"{:?}\", string);"
+      ],
+      [
+        222,
+        "        ///     });"
+      ],
+      [
+        223,
+        "        /// });"
+      ],
+      [
+        224,
+        "        /// ```"
+      ],
+      [
+        225,
+        "        ///"
+      ],
+      [
+        226,
+        "        /// This applies to the [`Python`] token itself as well, e.g."
+      ],
+      [
+        227,
+        "        ///"
+      ],
+      [
+        228,
+        "        /// ```compile_fail"
+      ],
+      [
+        229,
+        "        /// # use pyo3::prelude::*;"
+      ],
+      [
+        230,
+        "        /// Python::attach(|py| {"
+      ],
+      [
+        231,
+        "        ///     py.detach(|| {"
+      ],
+      [
+        232,
+        "        ///         drop(py);"
+      ],
+      [
+        233,
+        "        ///     });"
+      ],
+      [
+        234,
+        "        /// });"
+      ],
+      [
+        235,
+        "        /// ```"
+      ],
+      [
+        236,
+        "        ///"
+      ],
+      [
+        237,
+        "        /// On nightly Rust, this is not based on the [`Send`] auto trait and hence we are able"
+      ],
+      [
+        238,
+        "        /// to prevent incorrectly circumventing it using e.g. the [`send_wrapper`](https://docs.rs/send_wrapper/) crate:"
+      ],
+      [
+        239,
+        "        ///"
+      ],
+      [
+        240,
+        "        /// ```compile_fail"
+      ],
+      [
+        241,
+        "        /// # use pyo3::prelude::*;"
+      ],
+      [
+        242,
+        "        /// # use pyo3::types::PyString;"
+      ],
+      [
+        243,
+        "        /// use send_wrapper::SendWrapper;"
+      ],
+      [
+        244,
+        "        ///"
+      ],
+      [
+        245,
+        "        /// Python::attach(|py| {"
+      ],
+      [
+        246,
+        "        ///     let string = PyString::new(py, \"foo\");"
+      ],
+      [
+        247,
+        "        ///"
+      ],
+      [
+        248,
+        "        ///     let wrapped = SendWrapper::new(string);"
+      ],
+      [
+        249,
+        "        ///"
+      ],
+      [
+        250,
+        "        ///     py.detach(|| {"
+      ],
+      [
+        251,
+        "        ///         let sneaky: &PyString = *wrapped;"
+      ],
+      [
+        252,
+        "        ///"
+      ],
+      [
+        253,
+        "        ///         println!(\"{:?}\", sneaky);"
+      ],
+      [
+        254,
+        "        ///     });"
+      ],
+      [
+        255,
+        "        /// });"
+      ],
+      [
+        256,
+        "        /// ```"
+      ],
+      [
+        257,
+        "        ///"
+      ],
+      [
+        258,
+        "        /// This also enables using non-[`Send`] types in `detach`,"
+      ],
+      [
+        259,
+        "        /// at least if they are not also bound to the GIL:"
+      ],
+      [
+        260,
+        "        ///"
+      ],
+      [
+        261,
+        "        /// ```rust"
+      ],
+      [
+        262,
+        "        /// # use pyo3::prelude::*;"
+      ],
+      [
+        263,
+        "        /// use std::rc::Rc;"
+      ],
+      [
+        264,
+        "        ///"
+      ],
+      [
+        265,
+        "        /// Python::attach(|py| {"
+      ],
+      [
+        266,
+        "        ///     let rc = Rc::new(42);"
+      ],
+      [
+        267,
+        "        ///"
+      ],
+      [
+        268,
+        "        ///     py.detach(|| {"
+      ],
+      [
+        269,
+        "        ///         println!(\"{:?}\", rc);"
+      ],
+      [
+        270,
+        "        ///     });"
+      ],
+      [
+        271,
+        "        /// });"
+      ],
+      [
+        272,
+        "        /// ```"
+      ],
+      [
+        273,
+        "        pub unsafe auto trait Ungil {}"
+      ],
+      [
+        274,
+        ""
+      ],
+      [
+        275,
+        "        impl !Ungil for crate::Python<'_> {}"
+      ],
+      [
+        276,
+        ""
+      ],
+      [
+        277,
+        "        // This means that PyString, PyList, etc all inherit !Ungil from  this."
+      ],
+      [
+        278,
+        "        impl !Ungil for crate::PyAny {}"
+      ],
+      [
+        279,
+        ""
+      ],
+      [
+        280,
+        "        impl<T> !Ungil for crate::PyRef<'_, T> {}"
+      ],
+      [
+        281,
+        "        impl<T> !Ungil for crate::PyRefMut<'_, T> {}"
+      ],
+      [
+        282,
+        ""
+      ],
+      [
+        283,
+        "        // FFI pointees"
+      ],
+      [
+        284,
+        "        impl !Ungil for crate::ffi::PyObject {}"
+      ],
+      [
+        285,
+        "        impl !Ungil for crate::ffi::PyLongObject {}"
+      ],
+      [
+        286,
+        ""
+      ],
+      [
+        287,
+        "        impl !Ungil for crate::ffi::PyThreadState {}"
+      ],
+      [
+        288,
+        "        impl !Ungil for crate::ffi::PyInterpreterState {}"
+      ],
+      [
+        289,
+        "        #[cfg(not(any(PyPy, GraalPy)))]"
+      ],
+      [
+        290,
+        "        impl !Ungil for crate::ffi::PyWeakReference {}"
+      ],
+      [
+        291,
+        "        impl !Ungil for crate::ffi::PyFrameObject {}"
+      ],
+      [
+        319,
+        "/// - If you already have something with a lifetime bound to the GIL, such as [`Bound<'py, PyAny>`], you can"
+      ],
+      [
+        320,
+        "///   use its `.py()` method to get a token."
+      ],
+      [
+        321,
+        "/// - In a function or method annotated with [`#[pyfunction]`](crate::pyfunction) or [`#[pymethods]`](crate::pymethods) you can declare it"
+      ],
+      [
+        322,
+        "///   as a parameter, and PyO3 will pass in the token when Python code calls it."
+      ],
+      [
+        323,
+        "/// - When you need to acquire the GIL yourself, such as when calling Python code from Rust, you"
+      ],
+      [
+        324,
+        "///   should call [`Python::attach`] to do that and pass your code as a closure to it."
+      ],
+      [
+        325,
+        "///"
+      ],
+      [
+        326,
+        "/// The first two options are zero-cost; [`Python::attach`] requires runtime checking and may need to block"
+      ],
+      [
+        327,
+        "/// to acquire the GIL."
+      ],
+      [
+        328,
+        "///"
+      ],
+      [
+        329,
+        "/// # Deadlocks"
+      ],
+      [
+        330,
+        "///"
+      ],
+      [
+        331,
+        "/// Note that the GIL can be temporarily released by the Python interpreter during a function call"
+      ],
+      [
+        332,
+        "/// (e.g. importing a module). In general, you don't need to worry about this because the GIL is"
+      ],
+      [
+        333,
+        "/// reacquired before returning to the Rust code:"
+      ],
+      [
+        334,
+        "///"
+      ],
+      [
+        335,
+        "/// ```text"
+      ],
+      [
+        336,
+        "/// `Python` exists   |=====================================|"
+      ],
+      [
+        337,
+        "/// GIL actually held |==========|         |================|"
+      ],
+      [
+        338,
+        "/// Rust code running |=======|                |==|  |======|"
+      ],
+      [
+        339,
+        "/// ```"
+      ],
+      [
+        340,
+        "///"
+      ],
+      [
+        341,
+        "/// This behaviour can cause deadlocks when trying to lock a Rust mutex while holding the GIL:"
+      ],
+      [
+        342,
+        "///"
+      ],
+      [
+        343,
+        "///  * Thread 1 acquires the GIL"
+      ],
+      [
+        344,
+        "///  * Thread 1 locks a mutex"
+      ],
+      [
+        345,
+        "///  * Thread 1 makes a call into the Python interpreter which releases the GIL"
+      ],
+      [
+        346,
+        "///  * Thread 2 acquires the GIL"
+      ],
+      [
+        347,
+        "///  * Thread 2 tries to locks the mutex, blocks"
+      ],
+      [
+        348,
+        "///  * Thread 1's Python interpreter call blocks trying to reacquire the GIL held by thread 2"
+      ],
+      [
+        349,
+        "///"
+      ],
+      [
+        350,
+        "/// To avoid deadlocking, you should release the GIL before trying to lock a mutex or `await`ing in"
+      ],
+      [
+        351,
+        "/// asynchronous code, e.g. with [`Python::detach`]."
+      ],
+      [
+        352,
+        "///"
+      ],
+      [
+        353,
+        "/// # Releasing and freeing memory"
+      ],
+      [
+        354,
+        "///"
+      ],
+      [
+        355,
+        "/// The [`Python<'py>`] type can be used to create references to variables owned by the Python"
+      ],
+      [
+        356,
+        "/// interpreter, using functions such as [`Python::eval`] and [`PyModule::import`]."
+      ],
+      [
+        357,
+        "#[derive(Copy, Clone)]"
+      ],
+      [
+        358,
+        "pub struct Python<'py>(PhantomData<&'py AttachGuard>, PhantomData<NotSend>);"
+      ],
+      [
+        359,
+        ""
+      ],
+      [
+        360,
+        "/// A marker type that makes the type !Send."
+      ],
+      [
+        361,
+        "/// Workaround for lack of !Send on stable (<https://github.com/rust-lang/rust/issues/68318>)."
+      ],
+      [
+        362,
+        "struct NotSend(PhantomData<*mut Python<'static>>);"
+      ],
+      [
+        363,
+        ""
+      ],
+      [
+        364,
+        "impl Python<'_> {"
+      ],
+      [
+        365,
+        "    /// Acquires the global interpreter lock, allowing access to the Python interpreter. The"
+      ],
+      [
+        366,
+        "    /// provided closure `F` will be executed with the acquired `Python` marker token."
+      ],
+      [
+        367,
+        "    ///"
+      ],
+      [
+        368,
+        "    /// If implementing [`#[pymethods]`](crate::pymethods) or [`#[pyfunction]`](crate::pyfunction),"
+      ],
+      [
+        369,
+        "    /// declare `py: Python` as an argument. PyO3 will pass in the token to grant access to the GIL"
+      ],
+      [
+        370,
+        "    /// context in which the function is running, avoiding the need to call `attach`."
+      ],
+      [
+        371,
+        "    ///"
+      ],
+      [
+        372,
+        "    /// If the [`auto-initialize`] feature is enabled and the Python runtime is not already"
+      ],
+      [
+        373,
+        "    /// initialized, this function will initialize it. See"
+      ],
+      [
+        374,
+        "    #[cfg_attr("
+      ],
+      [
+        375,
+        "        not(any(PyPy, GraalPy)),"
+      ],
+      [
+        376,
+        "        doc = \"[`Python::initialize`](crate::marker::Python::initialize)\""
+      ],
+      [
+        377,
+        "    )]"
+      ],
+      [
+        378,
+        "    #[cfg_attr(PyPy, doc = \"`Python::initialize\")]"
+      ],
+      [
+        379,
+        "    /// for details."
+      ],
+      [
+        380,
+        "    ///"
+      ],
+      [
+        381,
+        "    /// If the current thread does not yet have a Python \"thread state\" associated with it,"
+      ],
+      [
+        382,
+        "    /// a new one will be automatically created before `F` is executed and destroyed after `F`"
+      ],
+      [
+        383,
+        "    /// completes."
+      ],
+      [
+        384,
+        "    ///"
+      ],
+      [
+        385,
+        "    /// # Panics"
+      ],
+      [
+        386,
+        "    ///"
+      ],
+      [
+        387,
+        "    /// - If the [`auto-initialize`] feature is not enabled and the Python interpreter is not"
+      ],
+      [
+        388,
+        "    ///   initialized."
+      ],
+      [
+        389,
+        "    /// - If the Python interpreter is in the process of [shutting down]."
+      ],
+      [
+        390,
+        "    /// - If the current thread is currently in the middle of a GC traversal (i.e. called from"
+      ],
+      [
+        391,
+        "    ///   within a `__traverse__` method)."
+      ],
+      [
+        392,
+        "    ///"
+      ],
+      [
+        393,
+        "    /// To avoid possible initialization or panics if calling in a context where the Python"
+      ],
+      [
+        394,
+        "    /// interpreter might be unavailable, consider using [`Python::try_attach`]."
+      ],
+      [
+        395,
+        "    ///"
+      ],
+      [
+        396,
+        "    /// # Examples"
+      ],
+      [
+        397,
+        "    ///"
+      ],
+      [
+        398,
+        "    /// ```"
+      ],
+      [
+        399,
+        "    /// use pyo3::prelude::*;"
+      ],
+      [
+        400,
+        "    ///"
+      ],
+      [
+        401,
+        "    /// # fn main() -> PyResult<()> {"
+      ],
+      [
+        402,
+        "    /// Python::attach(|py| -> PyResult<()> {"
+      ],
+      [
+        403,
+        "    ///     let x: i32 = py.eval(c\"5\", None, None)?.extract()?;"
+      ],
+      [
+        404,
+        "    ///     assert_eq!(x, 5);"
+      ],
+      [
+        405,
+        "    ///     Ok(())"
+      ],
+      [
+        406,
+        "    /// })"
+      ],
+      [
+        407,
+        "    /// # }"
+      ],
+      [
+        408,
+        "    /// ```"
+      ],
+      [
+        409,
+        "    ///"
+      ],
+      [
+        410,
+        "    /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize"
+      ],
+      [
+        411,
+        "    /// [shutting down]: https://docs.python.org/3/glossary.html#term-interpreter-shutdown"
+      ],
+      [
+        412,
+        "    #[inline]"
+      ],
+      [
+        413,
+        "    #[track_caller]"
+      ],
+      [
+        414,
+        "    pub fn attach<F, R>(f: F) -> R"
+      ],
+      [
+        415,
+        "    where"
+      ],
+      [
+        416,
+        "        F: for<'py> FnOnce(Python<'py>) -> R,"
+      ],
+      [
+        417,
+        "    {"
+      ],
+      [
+        418,
+        "        let guard = AttachGuard::attach();"
+      ],
+      [
+        419,
+        "        f(guard.python())"
+      ],
+      [
+        420,
+        "    }"
+      ],
+      [
+        421,
+        ""
+      ],
+      [
+        422,
+        "    /// Variant of [`Python::attach`] which will return without attaching to the Python"
+      ],
+      [
+        423,
+        "    /// interpreter if the interpreter is in a state where it cannot be attached to:"
+      ],
+      [
+        424,
+        "    ///"
+      ],
+      [
+        425,
+        "    /// - If the Python interpreter is not initialized."
+      ],
+      [
+        426,
+        "    /// - If the Python interpreter is in the process of [shutting down]."
+      ],
+      [
+        427,
+        "    /// - If the current thread is currently in the middle of a GC traversal (i.e. called from"
+      ],
+      [
+        428,
+        "    ///   within a `__traverse__` method)."
+      ],
+      [
+        429,
+        "    ///"
+      ],
+      [
+        430,
+        "    /// Unlike `Python::attach`, this function will not initialize the Python interpreter,"
+      ],
+      [
+        431,
+        "    /// even if the [`auto-initialize`] feature is enabled."
+      ],
+      [
+        432,
+        "    ///"
+      ],
+      [
+        433,
+        "    /// Note that due to the nature of the underlying Python APIs used to implement this,"
+      ],
+      [
+        434,
+        "    /// the behavior is currently provided on a best-effort basis; it is expected that a"
+      ],
+      [
+        435,
+        "    /// future CPython version will introduce APIs which guarantee this behaviour. This"
+      ],
+      [
+        436,
+        "    /// function is still recommended for use in the meanwhile as it provides the best"
+      ],
+      [
+        437,
+        "    /// possible behaviour and should transparently change to an optimal implementation"
+      ],
+      [
+        438,
+        "    /// once such APIs are available."
+      ],
+      [
+        439,
+        "    ///"
+      ],
+      [
+        440,
+        "    /// [`auto-initialize`]: https://pyo3.rs/main/features.html#auto-initialize"
+      ],
+      [
+        441,
+        "    /// [shutting down]: https://docs.python.org/3/glossary.html#term-interpreter-shutdown"
+      ],
+      [
+        442,
+        "    #[inline]"
+      ],
+      [
+        443,
+        "    #[track_caller]"
+      ],
+      [
+        444,
+        "    pub fn try_attach<F, R>(f: F) -> Option<R>"
+      ],
+      [
+        445,
+        "    where"
+      ],
+      [
+        446,
+        "        F: for<'py> FnOnce(Python<'py>) -> R,"
+      ],
+      [
+        447,
+        "    {"
+      ],
+      [
+        448,
+        "        let guard = AttachGuard::try_attach().ok()?;"
+      ],
+      [
+        449,
+        "        Some(f(guard.python()))"
+      ],
+      [
+        450,
+        "    }"
+      ],
+      [
+        451,
+        ""
+      ],
+      [
+        452,
+        "    /// Prepares the use of Python."
+      ],
+      [
+        453,
+        "    ///"
+      ],
+      [
+        454,
+        "    /// If the Python interpreter is not already initialized, this function will initialize it with"
+      ],
+      [
+        455,
+        "    /// signal handling disabled (Python will not raise the `KeyboardInterrupt` exception). Python"
+      ],
+      [
+        456,
+        "    /// signal handling depends on the notion of a 'main thread', which must be the thread that"
+      ],
+      [
+        457,
+        "    /// initializes the Python interpreter."
+      ],
+      [
+        458,
+        "    ///"
+      ],
+      [
+        459,
+        "    /// If the Python interpreter is already initialized, this function has no effect."
+      ],
+      [
+        460,
+        "    ///"
+      ],
+      [
+        461,
+        "    /// This function is unavailable under PyPy because PyPy cannot be embedded in Rust (or any other"
+      ],
+      [
+        462,
+        "    /// software). Support for this is tracked on the"
+      ],
+      [
+        463,
+        "    /// [PyPy issue tracker](https://github.com/pypy/pypy/issues/3836)."
+      ],
+      [
+        464,
+        "    ///"
+      ],
+      [
+        465,
+        "    /// # Examples"
+      ],
+      [
+        466,
+        "    /// ```rust"
+      ],
+      [
+        467,
+        "    /// use pyo3::prelude::*;"
+      ],
+      [
+        468,
+        "    ///"
+      ],
+      [
+        469,
+        "    /// # fn main() -> PyResult<()> {"
+      ],
+      [
+        470,
+        "    /// Python::initialize();"
+      ],
+      [
+        471,
+        "    /// Python::attach(|py| py.run(c\"print('Hello World')\", None, None))"
+      ],
+      [
+        472,
+        "    /// # }"
+      ],
+      [
+        473,
+        "    /// ```"
+      ],
+      [
+        474,
+        "    #[cfg(not(any(PyPy, GraalPy)))]"
+      ],
+      [
+        475,
+        "    pub fn initialize() {"
+      ],
+      [
+        476,
+        "        crate::interpreter_lifecycle::initialize();"
+      ],
+      [
+        477,
+        "    }"
+      ],
+      [
+        478,
+        ""
+      ],
+      [
+        479,
+        "    /// Like [`Python::attach`] except Python interpreter state checking is skipped."
+      ],
+      [
+        480,
+        "    ///"
+      ],
+      [
+        481,
+        "    /// Normally when attaching to the Python interpreter, PyO3 checks that it is in"
+      ],
+      [
+        482,
+        "    /// an appropriate state (e.g. it is fully initialized). This function skips"
+      ],
+      [
+        483,
+        "    /// those checks."
+      ],
+      [
+        484,
+        "    ///"
+      ],
+      [
+        485,
+        "    /// # Safety"
+      ],
+      [
+        486,
+        "    ///"
+      ],
+      [
+        487,
+        "    /// If [`Python::attach`] would succeed, it is safe to call this function."
+      ],
+      [
+        488,
+        "    #[inline]"
+      ],
+      [
+        489,
+        "    #[track_caller]"
+      ],
+      [
+        490,
+        "    pub unsafe fn attach_unchecked<F, R>(f: F) -> R"
+      ],
+      [
+        491,
+        "    where"
+      ],
+      [
+        492,
+        "        F: for<'py> FnOnce(Python<'py>) -> R,"
+      ],
+      [
+        493,
+        "    {"
+      ],
+      [
+        494,
+        "        let guard = unsafe { AttachGuard::attach_unchecked() };"
+      ],
+      [
+        495,
+        ""
+      ],
+      [
+        496,
+        "        f(guard.python())"
+      ],
+      [
+        497,
+        "    }"
+      ],
+      [
+        498,
+        "}"
+      ],
+      [
+        499,
+        ""
+      ],
+      [
+        500,
+        "impl<'py> Python<'py> {"
+      ],
+      [
+        501,
+        "    /// Temporarily releases the GIL, thus allowing other Python threads to run. The GIL will be"
+      ],
+      [
+        502,
+        "    /// reacquired when `F`'s scope ends."
+      ],
+      [
+        503,
+        "    ///"
+      ],
+      [
+        504,
+        "    /// If you don't need to touch the Python"
+      ],
+      [
+        505,
+        "    /// interpreter for some time and have other Python threads around, this will let you run"
+      ],
+      [
+        506,
+        "    /// Rust-only code while letting those other Python threads make progress."
+      ],
+      [
+        507,
+        "    ///"
+      ],
+      [
+        508,
+        "    /// Only types that implement [`Ungil`] can cross the closure. See the"
+      ],
+      [
+        509,
+        "    /// [module level documentation](self) for more information."
+      ],
+      [
+        510,
+        "    ///"
+      ],
+      [
+        511,
+        "    /// If you need to pass Python objects into the closure you can use [`Py`]`<T>`to create a"
+      ],
+      [
+        512,
+        "    /// reference independent of the GIL lifetime. However, you cannot do much with those without a"
+      ],
+      [
+        513,
+        "    /// [`Python`] token, for which you'd need to reacquire the GIL."
+      ],
+      [
+        514,
+        "    ///"
+      ],
+      [
+        515,
+        "    /// # Example: Releasing the GIL while running a computation in Rust-only code"
+      ],
+      [
+        516,
+        "    ///"
+      ],
+      [
+        517,
+        "    /// ```"
+      ],
+      [
+        518,
+        "    /// use pyo3::prelude::*;"
+      ],
+      [
+        519,
+        "    ///"
+      ],
+      [
+        520,
+        "    /// #[pyfunction]"
+      ],
+      [
+        521,
+        "    /// fn sum_numbers(py: Python<'_>, numbers: Vec<u32>) -> PyResult<u32> {"
+      ],
+      [
+        522,
+        "    ///     // We release the GIL here so any other Python threads get a chance to run."
+      ],
+      [
+        523,
+        "    ///     py.detach(move || {"
+      ],
+      [
+        524,
+        "    ///         // An example of an \"expensive\" Rust calculation"
+      ],
+      [
+        525,
+        "    ///         let sum = numbers.iter().sum();"
+      ],
+      [
+        526,
+        "    ///"
+      ],
+      [
+        527,
+        "    ///         Ok(sum)"
+      ],
+      [
+        528,
+        "    ///     })"
+      ],
+      [
+        529,
+        "    /// }"
+      ],
+      [
+        530,
+        "    /// #"
+      ],
+      [
+        531,
+        "    /// # fn main() -> PyResult<()> {"
+      ],
+      [
+        532,
+        "    /// #     Python::attach(|py| -> PyResult<()> {"
+      ],
+      [
+        533,
+        "    /// #         let fun = pyo3::wrap_pyfunction!(sum_numbers, py)?;"
+      ],
+      [
+        534,
+        "    /// #         let res = fun.call1((vec![1_u32, 2, 3],))?;"
+      ],
+      [
+        535,
+        "    /// #         assert_eq!(res.extract::<u32>()?, 6_u32);"
+      ],
+      [
+        536,
+        "    /// #         Ok(())"
+      ],
+      [
+        537,
+        "    /// #     })"
+      ],
+      [
+        538,
+        "    /// # }"
+      ],
+      [
+        539,
+        "    /// ```"
+      ],
+      [
+        540,
+        "    ///"
+      ],
+      [
+        541,
+        "    /// Please see the [Parallelism] chapter of the guide for a thorough discussion of using"
+      ],
+      [
+        542,
+        "    /// [`Python::detach`] in this manner."
+      ],
+      [
+        543,
+        "    ///"
+      ],
+      [
+        544,
+        "    /// # Example: Passing borrowed Python references into the closure is not allowed"
+      ],
+      [
+        545,
+        "    ///"
+      ],
+      [
+        546,
+        "    /// ```compile_fail"
+      ],
+      [
+        547,
+        "    /// use pyo3::prelude::*;"
+      ],
+      [
+        548,
+        "    /// use pyo3::types::PyString;"
+      ],
+      [
+        549,
+        "    ///"
+      ],
+      [
+        550,
+        "    /// fn parallel_print(py: Python<'_>) {"
+      ],
+      [
+        551,
+        "    ///     let s = PyString::new(py, \"This object cannot be accessed without holding the GIL >_<\");"
+      ],
+      [
+        552,
+        "    ///     py.detach(move || {"
+      ],
+      [
+        553,
+        "    ///         println!(\"{:?}\", s); // This causes a compile error."
+      ],
+      [
+        554,
+        "    ///     });"
+      ],
+      [
+        555,
+        "    /// }"
+      ],
+      [
+        556,
+        "    /// ```"
+      ],
+      [
+        557,
+        "    ///"
+      ],
+      [
+        558,
+        "    /// [`Py`]: crate::Py"
+      ],
+      [
+        559,
+        "    /// [`PyString`]: crate::types::PyString"
+      ],
+      [
+        560,
+        "    /// [auto-traits]: https://doc.rust-lang.org/nightly/unstable-book/language-features/auto-traits.html"
+      ],
+      [
+        561,
+        "    /// [Parallelism]: https://pyo3.rs/main/parallelism.html"
+      ],
+      [
+        562,
+        "    pub fn detach<T, F>(self, f: F) -> T"
+      ],
+      [
+        563,
+        "    where"
+      ],
+      [
+        564,
+        "        F: Ungil + FnOnce() -> T,"
+      ],
+      [
+        565,
+        "        T: Ungil,"
+      ],
+      [
+        566,
+        "    {"
+      ],
+      [
+        567,
+        "        // Use a guard pattern to handle reacquiring the GIL,"
+      ],
+      [
+        568,
+        "        // so that the GIL will be reacquired even if `f` panics."
+      ],
+      [
+        569,
+        "        // The `Send` bound on the closure prevents the user from"
+      ],
+      [
+        570,
+        "        // transferring the `Python` token into the closure."
+      ],
+      [
+        571,
+        "        let _guard = unsafe { SuspendAttach::new() };"
+      ],
+      [
+        572,
+        "        f()"
+      ],
+      [
+        573,
+        "    }"
+      ],
+      [
+        574,
+        ""
+      ],
+      [
+        575,
+        "    /// Evaluates a Python expression in the given context and returns the result."
+      ],
+      [
+        576,
+        "    ///"
+      ],
+      [
+        577,
+        "    /// If `globals` is `None`, it defaults to Python module `__main__`."
+      ],
+      [
+        578,
+        "    /// If `locals` is `None`, it defaults to the value of `globals`."
+      ],
+      [
+        579,
+        "    ///"
+      ],
+      [
+        580,
+        "    /// If `globals` doesn't contain `__builtins__`, default `__builtins__`"
+      ],
+      [
+        581,
+        "    /// will be added automatically."
+      ],
+      [
+        582,
+        "    ///"
+      ],
+      [
+        583,
+        "    /// # Examples"
+      ],
+      [
+        584,
+        "    ///"
+      ],
+      [
+        585,
+        "    /// ```"
+      ],
+      [
+        586,
+        "    /// # use pyo3::prelude::*;"
+      ],
+      [
+        587,
+        "    /// # Python::attach(|py| {"
+      ],
+      [
+        588,
+        "    /// let result = py.eval(c\"[i * 10 for i in range(5)]\", None, None).unwrap();"
+      ],
+      [
+        589,
+        "    /// let res: Vec<i64> = result.extract().unwrap();"
+      ],
+      [
+        590,
+        "    /// assert_eq!(res, vec![0, 10, 20, 30, 40])"
+      ],
+      [
+        591,
+        "    /// # });"
+      ],
+      [
+        592,
+        "    /// ```"
+      ],
+      [
+        593,
+        "    pub fn eval("
+      ],
+      [
+        594,
+        "        self,"
+      ],
+      [
+        595,
+        "        code: &CStr,"
+      ],
+      [
+        596,
+        "        globals: Option<&Bound<'py, PyDict>>,"
+      ],
+      [
+        597,
+        "        locals: Option<&Bound<'py, PyDict>>,"
+      ],
+      [
+        598,
+        "    ) -> PyResult<Bound<'py, PyAny>> {"
+      ],
+      [
+        599,
+        "        let code = PyCode::compile(self, code, c\"<string>\", crate::types::PyCodeInput::Eval)?;"
+      ],
+      [
+        600,
+        "        code.run(globals, locals)"
+      ],
+      [
+        601,
+        "    }"
+      ],
+      [
+        602,
+        ""
+      ],
+      [
+        603,
+        "    /// Executes one or more Python statements in the given context."
+      ],
+      [
+        604,
+        "    ///"
+      ],
+      [
+        605,
+        "    /// If `globals` is `None`, it defaults to Python module `__main__`."
+      ],
+      [
+        606,
+        "    /// If `locals` is `None`, it defaults to the value of `globals`."
+      ],
+      [
+        607,
+        "    ///"
+      ],
+      [
+        608,
+        "    /// If `globals` doesn't contain `__builtins__`, default `__builtins__`"
+      ],
+      [
+        609,
+        "    /// will be added automatically."
+      ],
+      [
+        610,
+        "    ///"
+      ],
+      [
+        612,
+        "    /// ```"
+      ],
+      [
+        613,
+        "    /// use pyo3::{"
+      ],
+      [
+        614,
+        "    ///     prelude::*,"
+      ],
+      [
+        615,
+        "    ///     types::{PyBytes, PyDict},"
+      ],
+      [
+        616,
+        "    /// };"
+      ],
+      [
+        617,
+        "    /// Python::attach(|py| {"
+      ],
+      [
+        618,
+        "    ///     let locals = PyDict::new(py);"
+      ],
+      [
+        619,
+        "    ///     py.run(cr#\""
+      ],
+      [
+        620,
+        "    /// import base64"
+      ],
+      [
+        621,
+        "    /// s = 'Hello Rust!'"
+      ],
+      [
+        622,
+        "    /// ret = base64.b64encode(s.encode('utf-8'))"
+      ],
+      [
+        623,
+        "    /// \"#,"
+      ],
+      [
+        624,
+        "    ///         None,"
+      ],
+      [
+        625,
+        "    ///         Some(&locals),"
+      ],
+      [
+        626,
+        "    ///     )"
+      ],
+      [
+        627,
+        "    ///     .unwrap();"
+      ],
+      [
+        628,
+        "    ///     let ret = locals.get_item(\"ret\").unwrap().unwrap();"
+      ],
+      [
+        629,
+        "    ///     let b64 = ret.cast::<PyBytes>().unwrap();"
+      ],
+      [
+        630,
+        "    ///     assert_eq!(b64.as_bytes(), b\"SGVsbG8gUnVzdCE=\");"
+      ],
+      [
+        631,
+        "    /// });"
+      ],
+      [
+        632,
+        "    /// ```"
+      ],
+      [
+        633,
+        "    ///"
+      ],
+      [
+        634,
+        "    /// You can use [`py_run!`](macro.py_run.html) for a handy alternative of `run`"
+      ],
+      [
+        635,
+        "    /// if you don't need `globals` and unwrapping is OK."
+      ],
+      [
+        636,
+        "    pub fn run("
+      ],
+      [
+        637,
+        "        self,"
+      ],
+      [
+        638,
+        "        code: &CStr,"
+      ],
+      [
+        639,
+        "        globals: Option<&Bound<'py, PyDict>>,"
+      ],
+      [
+        640,
+        "        locals: Option<&Bound<'py, PyDict>>,"
+      ],
+      [
+        710,
+        "    /// `sys.version_info`."
+      ],
+      [
+        711,
+        "    ///"
+      ],
+      [
+        712,
+        "    /// # Examples"
+      ],
+      [
+        713,
+        "    /// ```rust"
+      ],
+      [
+        714,
+        "    /// # use pyo3::Python;"
+      ],
+      [
+        715,
+        "    /// Python::attach(|py| {"
+      ],
+      [
+        716,
+        "    ///     // PyO3 supports Python 3.8 and up."
+      ],
+      [
+        717,
+        "    ///     assert!(py.version_info() >= (3, 8));"
+      ],
+      [
+        718,
+        "    ///     assert!(py.version_info() >= (3, 8, 0));"
+      ],
+      [
+        719,
+        "    /// });"
+      ],
+      [
+        720,
+        "    /// ```"
+      ],
+      [
+        721,
+        "    pub fn version_info(self) -> PythonVersionInfo {"
+      ],
+      [
+        722,
+        "        let version_str = Python::version_str();"
+      ],
+      [
+        723,
+        ""
+      ],
+      [
+        724,
+        "        // Portion of the version string returned by Py_GetVersion up to the first space is the"
+      ],
+      [
+        725,
+        "        // version number."
+      ],
+      [
+        726,
+        "        let version_number_str = version_str.split(' ').next().unwrap_or(version_str);"
+      ],
+      [
+        727,
+        ""
+      ],
+      [
+        728,
+        "        PythonVersionInfo::from_str(version_number_str).unwrap()"
+      ],
+      [
+        729,
+        "    }"
+      ],
+      [
+        730,
+        ""
+      ],
+      [
+        731,
+        "    /// Lets the Python interpreter check and handle any pending signals. This will invoke the"
+      ],
+      [
+        732,
+        "    /// corresponding signal handlers registered in Python (if any)."
+      ],
+      [
+        733,
+        "    ///"
+      ],
+      [
+        734,
+        "    /// Returns `Err(`[`PyErr`](crate::PyErr)`)` if any signal handler raises an exception."
+      ],
+      [
+        735,
+        "    ///"
+      ],
+      [
+        736,
+        "    /// These signals include `SIGINT` (normally raised by CTRL + C), which by default raises"
+      ],
+      [
+        737,
+        "    /// `KeyboardInterrupt`. For this reason it is good practice to call this function regularly"
+      ],
+      [
+        738,
+        "    /// as part of long-running Rust functions so that users can cancel it."
+      ],
+      [
+        776,
+        "}"
+      ],
+      [
+        777,
+        ""
+      ],
+      [
+        778,
+        "impl<'unbound> Python<'unbound> {"
+      ],
+      [
+        779,
+        "    /// Unsafely creates a Python token with an unbounded lifetime."
+      ],
+      [
+        780,
+        "    ///"
+      ],
+      [
+        781,
+        "    /// Many of PyO3 APIs use [`Python<'_>`] as proof that the calling thread is attached to the"
+      ],
+      [
+        782,
+        "    /// interpreter, but this function can be used to call them unsafely."
+      ],
+      [
+        783,
+        "    ///"
+      ],
+      [
+        784,
+        "    /// # Safety"
+      ],
+      [
+        785,
+        "    ///"
+      ],
+      [
+        786,
+        "    /// - This token and any borrowed Python references derived from it can only be safely used"
+      ],
+      [
+        787,
+        "    ///   whilst the currently executing thread is actually attached to the interpreter."
+      ],
+      [
+        788,
+        "    /// - This function creates a token with an *unbounded* lifetime. Safe code can assume that"
+      ],
+      [
+        789,
+        "    ///   holding a [`Python<'py>`] token means the thread is attached and stays attached for the"
+      ],
+      [
+        790,
+        "    ///   lifetime `'py`. If you let it or borrowed Python references escape to safe code you are"
+      ],
+      [
+        791,
+        "    ///   responsible for bounding the lifetime `'unbound` appropriately. For more on unbounded"
+      ],
+      [
+        792,
+        "    ///   lifetimes, see the [nomicon]."
+      ],
+      [
+        793,
+        "    ///"
+      ],
+      [
+        794,
+        "    /// [nomicon]: https://doc.rust-lang.org/nomicon/unbounded-lifetimes.html"
+      ],
+      [
+        795,
+        "    #[inline]"
+      ],
+      [
+        796,
+        "    pub unsafe fn assume_attached() -> Python<'unbound> {"
+      ],
+      [
+        797,
+        "        Python(PhantomData, PhantomData)"
+      ],
+      [
+        798,
+        "    }"
+      ],
+      [
+        799,
+        "}"
+      ],
+      [
+        800,
+        ""
+      ],
+      [
+        801,
+        "#[cfg(test)]"
+      ],
+      [
+        802,
+        "mod tests {"
+      ],
+      [
+        803,
+        "    use super::*;"
+      ],
+      [
+        804,
+        "    use crate::{"
+      ],
+      [
+        805,
+        "        internal::state::ForbidAttaching,"
+      ],
+      [
+        806,
+        "        types::{IntoPyDict, PyList},"
+      ],
+      [
+        807,
+        "    };"
+      ],
+      [
+        808,
+        ""
+      ],
+      [
+        809,
+        "    #[test]"
+      ],
+      [
+        810,
+        "    fn test_eval() {"
+      ],
+      [
+        811,
+        "        Python::attach(|py| {"
+      ],
+      [
+        812,
+        "            // Make sure builtin names are accessible"
+      ],
+      [
+        813,
+        "            let v: i32 = py"
+      ],
+      [
+        814,
+        "                .eval(c\"min(1, 2)\", None, None)"
+      ],
+      [
+        815,
+        "                .map_err(|e| e.display(py))"
+      ],
+      [
+        816,
+        "                .unwrap()"
+      ],
+      [
+        817,
+        "                .extract()"
+      ],
+      [
+        818,
+        "                .unwrap();"
+      ],
+      [
+        819,
+        "            assert_eq!(v, 1);"
+      ],
+      [
+        820,
+        ""
+      ],
+      [
+        821,
+        "            let d = [(\"foo\", 13)].into_py_dict(py).unwrap();"
+      ],
+      [
+        822,
+        ""
+      ],
+      [
+        823,
+        "            // Inject our own global namespace"
+      ],
+      [
+        824,
+        "            let v: i32 = py"
+      ],
+      [
+        825,
+        "                .eval(c\"foo + 29\", Some(&d), None)"
+      ],
+      [
+        826,
+        "                .unwrap()"
+      ],
+      [
+        827,
+        "                .extract()"
+      ],
+      [
+        828,
+        "                .unwrap();"
+      ],
+      [
+        829,
+        "            assert_eq!(v, 42);"
+      ],
+      [
+        830,
+        ""
+      ],
+      [
+        831,
+        "            // Inject our own local namespace"
+      ],
+      [
+        832,
+        "            let v: i32 = py"
+      ],
+      [
+        833,
+        "                .eval(c\"foo + 29\", None, Some(&d))"
+      ],
+      [
+        834,
+        "                .unwrap()"
+      ],
+      [
+        846,
+        "        });"
+      ],
+      [
+        847,
+        "    }"
+      ],
+      [
+        848,
+        ""
+      ],
+      [
+        849,
+        "    #[test]"
+      ],
+      [
+        850,
+        "    #[cfg(not(target_arch = \"wasm32\"))] // We are building wasm Python with pthreads disabled"
+      ],
+      [
+        851,
+        "    fn test_detach_releases_and_acquires_gil() {"
+      ],
+      [
+        852,
+        "        Python::attach(|py| {"
+      ],
+      [
+        853,
+        "            let b = alloc::sync::Arc::new(std::sync::Barrier::new(2));"
+      ],
+      [
+        854,
+        ""
+      ],
+      [
+        855,
+        "            let b2 = b.clone();"
+      ],
+      [
+        856,
+        "            std::thread::spawn(move || Python::attach(|_| b2.wait()));"
+      ],
+      [
+        857,
+        ""
+      ],
+      [
+        858,
+        "            py.detach(|| {"
+      ],
+      [
+        859,
+        "                // If `detach` does not release the GIL, this will deadlock because"
+      ],
+      [
+        860,
+        "                // the thread spawned above will never be able to acquire the GIL."
+      ],
+      [
+        861,
+        "                b.wait();"
+      ],
+      [
+        862,
+        "            });"
+      ],
+      [
+        863,
+        ""
+      ],
+      [
+        864,
+        "            unsafe {"
+      ],
+      [
+        865,
+        "                // If the GIL is not reacquired at the end of `detach`, this call"
+      ],
+      [
+        866,
+        "                // will crash the Python interpreter."
+      ],
+      [
+        867,
+        "                let tstate = ffi::PyEval_SaveThread();"
+      ],
+      [
+        868,
+        "                ffi::PyEval_RestoreThread(tstate);"
+      ],
+      [
+        869,
+        "            }"
+      ],
+      [
+        870,
+        "        });"
+      ],
+      [
+        871,
+        "    }"
+      ],
+      [
+        872,
+        ""
+      ],
+      [
+        873,
+        "    #[test]"
+      ],
+      [
+        874,
+        "    #[cfg(panic = \"unwind\")]"
+      ],
+      [
+        875,
+        "    fn test_detach_panics_safely() {"
+      ],
+      [
+        876,
+        "        Python::attach(|py| {"
+      ],
+      [
+        877,
+        "            let result = std::panic::catch_unwind(|| unsafe {"
+      ],
+      [
+        878,
+        "                let py = Python::assume_attached();"
+      ],
+      [
+        879,
+        "                py.detach(|| {"
+      ],
+      [
+        880,
+        "                    panic!(\"There was a panic!\");"
+      ],
+      [
+        881,
+        "                });"
+      ],
+      [
+        882,
+        "            });"
+      ],
+      [
+        883,
+        ""
+      ],
+      [
+        884,
+        "            // Check panic was caught"
+      ],
+      [
+        885,
+        "            assert!(result.is_err());"
+      ],
+      [
+        886,
+        ""
+      ],
+      [
+        887,
+        "            // If `detach` is implemented correctly, this thread still owns the GIL here"
+      ],
+      [
+        888,
+        "            // so the following Python calls should not cause crashes."
+      ],
+      [
+        889,
+        "            let list = PyList::new(py, [1, 2, 3, 4]).unwrap();"
+      ],
+      [
+        890,
+        "            assert_eq!(list.extract::<Vec<i32>>().unwrap(), vec![1, 2, 3, 4]);"
+      ],
+      [
+        891,
+        "        });"
+      ],
+      [
+        892,
+        "    }"
+      ],
+      [
+        893,
+        ""
+      ],
+      [
+        894,
+        "    #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        895,
+        "    #[test]"
+      ],
+      [
+        896,
+        "    fn test_detach_pass_stuff_in() {"
+      ],
+      [
+        897,
+        "        let list = Python::attach(|py| PyList::new(py, vec![\"foo\", \"bar\"]).unwrap().unbind());"
+      ],
+      [
+        898,
+        "        let mut v = vec![1, 2, 3];"
+      ],
+      [
+        899,
+        "        let a = alloc::sync::Arc::new(String::from(\"foo\"));"
+      ],
+      [
+        900,
+        ""
+      ],
+      [
+        901,
+        "        Python::attach(|py| {"
+      ],
+      [
+        902,
+        "            py.detach(|| {"
+      ],
+      [
+        903,
+        "                drop((list, &mut v, a));"
+      ],
+      [
+        904,
+        "            });"
+      ],
+      [
+        905,
+        "        });"
+      ],
+      [
+        906,
+        "    }"
+      ],
+      [
+        907,
+        ""
+      ],
+      [
+        908,
+        "    #[test]"
+      ],
+      [
+        909,
+        "    #[cfg(not(Py_LIMITED_API))]"
+      ],
+      [
+        910,
+        "    fn test_acquire_gil() {"
+      ],
+      [
+        911,
+        "        use core::ffi::c_int;"
+      ],
+      [
+        912,
+        ""
+      ],
+      [
+        913,
+        "        const GIL_NOT_HELD: c_int = 0;"
+      ],
+      [
+        914,
+        "        const GIL_HELD: c_int = 1;"
+      ],
+      [
+        915,
+        ""
+      ],
+      [
+        916,
+        "        // Before starting the interpreter the state of calling `PyGILState_Check`"
+      ],
+      [
+        917,
+        "        // seems to be undefined, so let's ensure that Python is up."
+      ],
+      [
+        918,
+        "        #[cfg(not(any(PyPy, GraalPy)))]"
+      ],
+      [
+        919,
+        "        Python::initialize();"
+      ],
+      [
+        920,
+        ""
+      ],
+      [
+        921,
+        "        let state = unsafe { crate::ffi::PyGILState_Check() };"
+      ],
+      [
+        922,
+        "        assert_eq!(state, GIL_NOT_HELD);"
+      ],
+      [
+        923,
+        ""
+      ],
+      [
+        924,
+        "        Python::attach(|_| {"
+      ],
+      [
+        925,
+        "            let state = unsafe { crate::ffi::PyGILState_Check() };"
+      ],
+      [
+        926,
+        "            assert_eq!(state, GIL_HELD);"
+      ],
+      [
+        927,
+        "        });"
+      ],
+      [
+        928,
+        ""
+      ],
+      [
+        929,
+        "        let state = unsafe { crate::ffi::PyGILState_Check() };"
+      ],
+      [
+        930,
+        "        assert_eq!(state, GIL_NOT_HELD);"
+      ],
+      [
+        931,
+        "    }"
+      ],
+      [
+        932,
+        ""
+      ],
+      [
+        933,
+        "    #[test]"
+      ],
+      [
+        934,
+        "    fn test_ellipsis() {"
+      ],
+      [
+        935,
+        "        Python::attach(|py| {"
+      ],
+      [
+        936,
+        "            assert_eq!(py.Ellipsis().to_string(), \"Ellipsis\");"
+      ],
+      [
+        937,
+        ""
+      ],
+      [
+        938,
+        "            let v = py"
+      ],
+      [
+        939,
+        "                .eval(c\"...\", None, None)"
+      ],
+      [
+        940,
+        "                .map_err(|e| e.display(py))"
+      ],
+      [
+        941,
+        "                .unwrap();"
+      ],
+      [
+        942,
+        ""
+      ],
+      [
+        943,
+        "            assert!(v.eq(py.Ellipsis()).unwrap());"
+      ],
+      [
+        944,
+        "        });"
+      ],
+      [
+        945,
+        "    }"
+      ],
+      [
+        946,
+        ""
+      ],
+      [
+        947,
+        "    #[test]"
+      ],
+      [
+        948,
+        "    fn test_py_run_inserts_globals() {"
+      ],
+      [
+        949,
+        "        use crate::types::dict::PyDictMethods;"
+      ],
+      [
+        950,
+        ""
+      ],
+      [
+        951,
+        "        Python::attach(|py| {"
+      ],
+      [
+        952,
+        "            let namespace = PyDict::new(py);"
+      ],
+      [
+        953,
+        "            py.run("
+      ],
+      [
+        954,
+        "                c\"class Foo: pass\\na = int(3)\","
+      ],
+      [
+        955,
+        "                Some(&namespace),"
+      ],
+      [
+        956,
+        "                Some(&namespace),"
+      ],
+      [
+        957,
+        "            )"
+      ],
+      [
+        958,
+        "            .unwrap();"
+      ],
+      [
+        959,
+        "            assert!(matches!(namespace.get_item(\"Foo\"), Ok(Some(..))));"
+      ],
+      [
+        960,
+        "            assert!(matches!(namespace.get_item(\"a\"), Ok(Some(..))));"
+      ],
+      [
+        961,
+        "            // 3.9 and older did not automatically insert __builtins__ if it wasn't inserted \"by hand\""
+      ],
+      [
+        962,
+        "            #[cfg(not(Py_3_10))]"
+      ],
+      [
+        963,
+        "            assert!(matches!(namespace.get_item(\"__builtins__\"), Ok(Some(..))));"
+      ],
+      [
+        964,
+        "        })"
+      ],
+      [
+        965,
+        "    }"
+      ],
+      [
+        966,
+        ""
+      ],
+      [
+        967,
+        "    #[cfg(feature = \"macros\")]"
+      ],
+      [
+        968,
+        "    #[test]"
+      ],
+      [
+        969,
+        "    fn test_py_run_inserts_globals_2() {"
+      ],
+      [
+        970,
+        "        use alloc::ffi::CString;"
+      ],
+      [
+        971,
+        ""
+      ],
+      [
+        972,
+        "        #[crate::pyclass(crate = \"crate\", skip_from_py_object)]"
+      ],
+      [
+        973,
+        "        #[derive(Clone)]"
+      ],
+      [
+        974,
+        "        struct CodeRunner {"
+      ],
+      [
+        1001,
+        "                .to_string(),"
+      ],
+      [
+        1002,
+        "            )"
+      ],
+      [
+        1003,
+        "            .unwrap(),"
+      ],
+      [
+        1004,
+        "        };"
+      ],
+      [
+        1005,
+        ""
+      ],
+      [
+        1006,
+        "        Python::attach(|py| {"
+      ],
+      [
+        1007,
+        "            runner.reproducer(py).unwrap();"
+      ],
+      [
+        1008,
+        "        });"
+      ],
+      [
+        1009,
+        "    }"
+      ],
+      [
+        1010,
+        ""
+      ],
+      [
+        1011,
+        "    #[test]"
+      ],
+      [
+        1012,
+        "    fn python_is_zst() {"
+      ],
+      [
+        1013,
+        "        assert_eq!(core::mem::size_of::<Python<'_>>(), 0);"
+      ],
+      [
+        1014,
+        "    }"
+      ],
+      [
+        1015,
+        ""
+      ],
+      [
+        1016,
+        "    #[test]"
+      ],
+      [
+        1017,
+        "    fn test_try_attach_fail_during_gc() {"
+      ],
+      [
+        1018,
+        "        Python::attach(|_| {"
+      ],
+      [
+        1019,
+        "            assert!(Python::try_attach(|_| {}).is_some());"
+      ],
+      [
+        1020,
+        ""
+      ],
+      [
+        1021,
+        "            let guard = ForbidAttaching::during_traverse();"
+      ],
+      [
+        1022,
+        "            assert!(Python::try_attach(|_| {}).is_none());"
+      ],
+      [
+        1023,
+        "            drop(guard);"
+      ],
+      [
+        1024,
+        ""
+      ],
+      [
+        1025,
+        "            assert!(Python::try_attach(|_| {}).is_some());"
+      ],
+      [
+        1026,
+        "        })"
+      ],
+      [
+        1027,
+        "    }"
+      ],
+      [
+        1028,
+        ""
+      ],
+      [
+        1029,
+        "    #[test]"
+      ],
+      [
+        1030,
+        "    fn test_try_attach_ok_when_detached() {"
+      ],
+      [
+        1031,
+        "        Python::attach(|py| {"
+      ],
+      [
+        1032,
+        "            py.detach(|| {"
+      ],
+      [
+        1033,
+        "                assert!(Python::try_attach(|_| {}).is_some());"
+      ],
+      [
+        1034,
+        "            });"
+      ],
+      [
+        1035,
+        "        });"
+      ],
+      [
+        1036,
+        "    }"
+      ],
+      [
+        1037,
+        "}"
+      ]
+    ]
+  },
+  "pyo3-0.29.2/src/internal/state.rs": {
+    "source": "/root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/pyo3-0.29.2/src/internal/state.rs",
+    "bytes": 20581,
+    "sha256": "9bc1baee1c3f6ad86d860bc23297ad15aed5e7a6eeec19c93a3b78255789ec85",
+    "decisive_lines": [
+      [
+        1,
+        "// TODO https://github.com/PyO3/pyo3/issues/5487"
+      ],
+      [
+        2,
+        "#![allow(clippy::undocumented_unsafe_blocks)]"
+      ],
+      [
+        3,
+        ""
+      ],
+      [
+        4,
+        "//! Interaction with attachment of the current thread to the Python interpreter."
+      ],
+      [
+        5,
+        ""
+      ],
+      [
+        6,
+        "#[cfg(pyo3_disable_reference_pool)]"
+      ],
+      [
+        7,
+        "use crate::impl_::panic::PanicTrap;"
+      ],
+      [
+        8,
+        "use crate::{ffi, Python};"
+      ],
+      [
+        9,
+        ""
+      ],
+      [
+        10,
+        "use core::cell::Cell;"
+      ],
+      [
+        11,
+        "#[cfg_attr(pyo3_disable_reference_pool, allow(unused_imports))]"
+      ],
+      [
+        12,
+        "use core::{mem, ptr::NonNull};"
+      ],
+      [
+        13,
+        "#[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        14,
+        "use std::sync::{Mutex, OnceLock};"
+      ],
+      [
+        15,
+        ""
+      ],
+      [
+        16,
+        "std::thread_local! {"
+      ],
+      [
+        17,
+        "    /// This is an internal counter in pyo3 monitoring whether this thread is attached to the interpreter."
+      ],
+      [
+        18,
+        "    ///"
+      ],
+      [
+        19,
+        "    /// It will be incremented whenever an AttachGuard is created, and decremented whenever"
+      ],
+      [
+        20,
+        "    /// they are dropped."
+      ],
+      [
+        21,
+        "    ///"
+      ],
+      [
+        22,
+        "    /// As a result, if this thread is attached to the interpreter, ATTACH_COUNT is greater than zero."
+      ],
+      [
+        23,
+        "    ///"
+      ],
+      [
+        24,
+        "    /// Additionally, we sometimes need to prevent safe access to the Python interpreter,"
+      ],
+      [
+        25,
+        "    /// e.g. when implementing `__traverse__`, which is represented by a negative value."
+      ],
+      [
+        26,
+        "    static ATTACH_COUNT: Cell<isize> = const { Cell::new(0) };"
+      ],
+      [
+        27,
+        "}"
+      ],
+      [
+        28,
+        ""
+      ],
+      [
+        29,
+        "const ATTACH_FORBIDDEN_DURING_TRAVERSE: isize = -1;"
+      ],
+      [
+        30,
+        ""
+      ],
+      [
+        31,
+        "/// Checks whether the thread is attached to the Python interpreter."
+      ],
+      [
+        32,
+        "///"
+      ],
+      [
+        33,
+        "/// Note: This uses pyo3's internal count rather than PyGILState_Check for two reasons:"
+      ],
+      [
+        34,
+        "///  1) for performance"
+      ],
+      [
+        35,
+        "///  2) PyGILState_Check always returns 1 if the sub-interpreter APIs have ever been called,"
+      ],
+      [
+        36,
+        "///     which could lead to incorrect conclusions that the thread is attached."
+      ],
+      [
+        37,
+        "#[inline(always)]"
+      ],
+      [
+        38,
+        "pub(crate) fn thread_is_attached() -> bool {"
+      ],
+      [
+        39,
+        "    ATTACH_COUNT.try_with(|c| c.get() > 0).unwrap_or(false)"
+      ],
+      [
+        40,
+        "}"
+      ],
+      [
+        41,
+        ""
+      ],
+      [
+        42,
+        "/// RAII type that represents thread attachment to the interpreter."
+      ],
+      [
+        43,
+        "pub(crate) enum AttachGuard {"
+      ],
+      [
+        44,
+        "    /// Indicates the thread was already attached when this AttachGuard was acquired."
+      ],
+      [
+        45,
+        "    Assumed,"
+      ],
+      [
+        46,
+        "    /// Indicates that we attached when this AttachGuard was acquired"
+      ],
+      [
+        47,
+        "    Ensured { gstate: ffi::PyGILState_STATE },"
+      ],
+      [
+        48,
+        "}"
+      ],
+      [
+        49,
+        ""
+      ],
+      [
+        50,
+        "/// Possible error when calling `try_attach()`"
+      ],
+      [
+        51,
+        "pub(crate) enum AttachError {"
+      ],
+      [
+        52,
+        "    /// Forbidden during GC traversal."
+      ],
+      [
+        53,
+        "    ForbiddenDuringTraverse,"
+      ],
+      [
+        54,
+        "    /// The interpreter is not initialized."
+      ],
+      [
+        55,
+        "    NotInitialized,"
+      ],
+      [
+        56,
+        "    #[cfg(Py_3_13)]"
+      ],
+      [
+        57,
+        "    /// The interpreter is finalizing."
+      ],
+      [
+        58,
+        "    Finalizing,"
+      ],
+      [
+        59,
+        "}"
+      ],
+      [
+        60,
+        ""
+      ],
+      [
+        61,
+        "impl AttachGuard {"
+      ],
+      [
+        62,
+        "    /// PyO3 internal API for attaching to the Python interpreter. The public API is Python::attach."
+      ],
+      [
+        63,
+        "    ///"
+      ],
+      [
+        64,
+        "    /// If the thread was already attached via PyO3, this returns"
+      ],
+      [
+        65,
+        "    /// `AttachGuard::Assumed`. Otherwise, the thread will attach now and"
+      ],
+      [
+        66,
+        "    /// `AttachGuard::Ensured` will be returned."
+      ],
+      [
+        67,
+        "    pub(crate) fn attach() -> Self {"
+      ],
+      [
+        68,
+        "        match Self::try_attach() {"
+      ],
+      [
+        69,
+        "            Ok(guard) => guard,"
+      ],
+      [
+        70,
+        "            Err(AttachError::ForbiddenDuringTraverse) => {"
+      ],
+      [
+        71,
+        "                panic!(\"{}\", ForbidAttaching::FORBIDDEN_DURING_TRAVERSE)"
+      ],
+      [
+        72,
+        "            }"
+      ],
+      [
+        73,
+        "            Err(AttachError::NotInitialized) => {"
+      ],
+      [
+        74,
+        "                // try to initialize the interpreter and try again"
+      ],
+      [
+        75,
+        "                crate::interpreter_lifecycle::ensure_initialized();"
+      ],
+      [
+        76,
+        "                unsafe { Self::do_attach_unchecked() }"
+      ],
+      [
+        77,
+        "            }"
+      ],
+      [
+        78,
+        "            #[cfg(Py_3_13)]"
+      ],
+      [
+        79,
+        "            Err(AttachError::Finalizing) => {"
+      ],
+      [
+        80,
+        "                panic!(\"Cannot attach to the Python interpreter while it is finalizing.\");"
+      ],
+      [
+        81,
+        "            }"
+      ],
+      [
+        82,
+        "        }"
+      ],
+      [
+        83,
+        "    }"
+      ],
+      [
+        84,
+        ""
+      ],
+      [
+        85,
+        "    /// Variant of the above which will will return gracefully if the interpreter cannot be attached to."
+      ],
+      [
+        86,
+        "    pub(crate) fn try_attach() -> Result<Self, AttachError> {"
+      ],
+      [
+        87,
+        "        match ATTACH_COUNT.try_with(|c| c.get()) {"
+      ],
+      [
+        88,
+        "            Ok(i) if i > 0 => {"
+      ],
+      [
+        89,
+        "                // SAFETY: We just checked that the thread is already attached."
+      ],
+      [
+        90,
+        "                return Ok(unsafe { Self::assume() });"
+      ],
+      [
+        91,
+        "            }"
+      ],
+      [
+        92,
+        "            // Cannot attach during GC traversal."
+      ],
+      [
+        93,
+        "            Ok(ATTACH_FORBIDDEN_DURING_TRAVERSE) => {"
+      ],
+      [
+        94,
+        "                return Err(AttachError::ForbiddenDuringTraverse)"
+      ],
+      [
+        95,
+        "            }"
+      ],
+      [
+        96,
+        "            // other cases handled below"
+      ],
+      [
+        97,
+        "            _ => {}"
+      ],
+      [
+        98,
+        "        }"
+      ],
+      [
+        99,
+        ""
+      ],
+      [
+        100,
+        "        // SAFETY: always safe to call this"
+      ],
+      [
+        101,
+        "        if unsafe { ffi::Py_IsInitialized() } == 0 {"
+      ],
+      [
+        102,
+        "            return Err(AttachError::NotInitialized);"
+      ],
+      [
+        103,
+        "        }"
+      ],
+      [
+        104,
+        ""
+      ],
+      [
+        105,
+        "        // Py_IsInitialized() can return 1 while Py_InitializeEx is still"
+      ],
+      [
+        106,
+        "        // running (e.g. importing site.py). Block until any in-progress PyO3"
+      ],
+      [
+        107,
+        "        // initialization has fully completed."
+      ],
+      [
+        108,
+        "        crate::interpreter_lifecycle::wait_for_initialization();"
+      ],
+      [
+        109,
+        ""
+      ],
+      [
+        110,
+        "        // Calling `PyGILState_Ensure` while finalizing may crash CPython in unpredictable"
+      ],
+      [
+        111,
+        "        // ways, we'll make a best effort attempt here to avoid that. (There's a time of"
+      ],
+      [
+        112,
+        "        // check to time-of-use issue, but it's better than nothing.)"
+      ],
+      [
+        113,
+        "        //"
+      ],
+      [
+        114,
+        "        // SAFETY: always safe to call this"
+      ],
+      [
+        115,
+        "        #[cfg(Py_3_13)]"
+      ],
+      [
+        116,
+        "        if unsafe { ffi::Py_IsFinalizing() } != 0 {"
+      ],
+      [
+        117,
+        "            // If the interpreter is not initialized, we cannot attach."
+      ],
+      [
+        118,
+        "            return Err(AttachError::Finalizing);"
+      ],
+      [
+        119,
+        "        }"
+      ],
+      [
+        120,
+        ""
+      ],
+      [
+        121,
+        "        // SAFETY: We have done everything reasonable to ensure we're in a safe state to"
+      ],
+      [
+        122,
+        "        // attach to the Python interpreter."
+      ],
+      [
+        123,
+        "        Ok(unsafe { Self::do_attach_unchecked() })"
+      ],
+      [
+        124,
+        "    }"
+      ],
+      [
+        125,
+        ""
+      ],
+      [
+        126,
+        "    /// Acquires the `AttachGuard` without performing any state checking."
+      ],
+      [
+        127,
+        "    ///"
+      ],
+      [
+        128,
+        "    /// This can be called in \"unsafe\" contexts where the normal interpreter state"
+      ],
+      [
+        129,
+        "    /// checking performed by `AttachGuard::try_attach` may fail. This includes calling"
+      ],
+      [
+        130,
+        "    /// as part of multi-phase interpreter initialization."
+      ],
+      [
+        131,
+        "    ///"
+      ],
+      [
+        132,
+        "    /// # Safety"
+      ],
+      [
+        133,
+        "    ///"
+      ],
+      [
+        134,
+        "    /// The caller must ensure that the Python interpreter is sufficiently initialized"
+      ],
+      [
+        135,
+        "    /// for a thread to be able to attach to it."
+      ],
+      [
+        136,
+        "    pub(crate) unsafe fn attach_unchecked() -> Self {"
+      ],
+      [
+        137,
+        "        if thread_is_attached() {"
+      ],
+      [
+        138,
+        "            return unsafe { Self::assume() };"
+      ],
+      [
+        139,
+        "        }"
+      ],
+      [
+        140,
+        ""
+      ],
+      [
+        141,
+        "        unsafe { Self::do_attach_unchecked() }"
+      ],
+      [
+        142,
+        "    }"
+      ],
+      [
+        143,
+        ""
+      ],
+      [
+        144,
+        "    /// Attach to the interpreter, without a fast-path to check if the thread is already attached."
+      ],
+      [
+        145,
+        "    #[cold]"
+      ],
+      [
+        146,
+        "    unsafe fn do_attach_unchecked() -> Self {"
+      ],
+      [
+        147,
+        "        // SAFETY: interpreter is sufficiently initialized to attach a thread."
+      ],
+      [
+        148,
+        "        let gstate = unsafe { ffi::PyGILState_Ensure() };"
+      ],
+      [
+        149,
+        "        increment_attach_count();"
+      ],
+      [
+        150,
+        "        // SAFETY: just attached to the interpreter"
+      ],
+      [
+        151,
+        "        drop_deferred_references(unsafe { Python::assume_attached() });"
+      ],
+      [
+        152,
+        "        AttachGuard::Ensured { gstate }"
+      ],
+      [
+        153,
+        "    }"
+      ],
+      [
+        154,
+        ""
+      ],
+      [
+        155,
+        "    /// Acquires the `AttachGuard` while assuming that the thread is already attached"
+      ],
+      [
+        156,
+        "    /// to the interpreter."
+      ],
+      [
+        157,
+        "    pub(crate) unsafe fn assume() -> Self {"
+      ],
+      [
+        158,
+        "        increment_attach_count();"
+      ],
+      [
+        159,
+        "        // SAFETY: invariant of calling this function"
+      ],
+      [
+        160,
+        "        drop_deferred_references(unsafe { Python::assume_attached() });"
+      ],
+      [
+        161,
+        "        AttachGuard::Assumed"
+      ],
+      [
+        162,
+        "    }"
+      ],
+      [
+        163,
+        ""
+      ],
+      [
+        164,
+        "    /// Gets the Python token associated with this [`AttachGuard`]."
+      ],
+      [
+        165,
+        "    #[inline]"
+      ],
+      [
+        166,
+        "    pub(crate) fn python(&self) -> Python<'_> {"
+      ],
+      [
+        167,
+        "        // SAFETY: this guard guarantees the thread is attached"
+      ],
+      [
+        168,
+        "        unsafe { Python::assume_attached() }"
+      ],
+      [
+        169,
+        "    }"
+      ],
+      [
+        170,
+        "}"
+      ],
+      [
+        171,
+        ""
+      ],
+      [
+        172,
+        "/// The Drop implementation for `AttachGuard` will decrement the attach count (and potentially detach)."
+      ],
+      [
+        173,
+        "impl Drop for AttachGuard {"
+      ],
+      [
+        174,
+        "    fn drop(&mut self) {"
+      ],
+      [
+        175,
+        "        match self {"
+      ],
+      [
+        176,
+        "            AttachGuard::Assumed => {}"
+      ],
+      [
+        177,
+        "            AttachGuard::Ensured { gstate } => unsafe {"
+      ],
+      [
+        178,
+        "                // Drop the objects in the pool before attempting to release the thread state"
+      ],
+      [
+        179,
+        "                ffi::PyGILState_Release(*gstate);"
+      ],
+      [
+        180,
+        "            },"
+      ],
+      [
+        181,
+        "        }"
+      ],
+      [
+        182,
+        "        decrement_attach_count();"
+      ],
+      [
+        183,
+        "    }"
+      ],
+      [
+        184,
+        "}"
+      ],
+      [
+        185,
+        ""
+      ],
+      [
+        186,
+        "#[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        187,
+        "type PyObjVec = Vec<NonNull<ffi::PyObject>>;"
+      ],
+      [
+        188,
+        ""
+      ],
+      [
+        189,
+        "#[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        190,
+        "/// Thread-safe storage for objects which were dec_ref while not attached."
+      ],
+      [
+        191,
+        "struct ReferencePool {"
+      ],
+      [
+        192,
+        "    pending_decrefs: Mutex<PyObjVec>,"
+      ],
+      [
+        193,
+        "}"
+      ],
+      [
+        194,
+        ""
+      ],
+      [
+        195,
+        "#[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        196,
+        "impl ReferencePool {"
+      ],
+      [
+        197,
+        "    const fn new() -> Self {"
+      ],
+      [
+        198,
+        "        Self {"
+      ],
+      [
+        199,
+        "            pending_decrefs: Mutex::new(Vec::new()),"
+      ],
+      [
+        200,
+        "        }"
+      ],
+      [
+        201,
+        "    }"
+      ],
+      [
+        202,
+        ""
+      ],
+      [
+        203,
+        "    fn register_decref(&self, obj: NonNull<ffi::PyObject>) {"
+      ],
+      [
+        204,
+        "        self.pending_decrefs.lock().unwrap().push(obj);"
+      ],
+      [
+        205,
+        "    }"
+      ],
+      [
+        206,
+        ""
+      ],
+      [
+        207,
+        "    fn drop_deferred_references(&self, _py: Python<'_>) {"
+      ],
+      [
+        208,
+        "        let mut pending_decrefs = self.pending_decrefs.lock().unwrap();"
+      ],
+      [
+        209,
+        "        if pending_decrefs.is_empty() {"
+      ],
+      [
+        210,
+        "            return;"
+      ],
+      [
+        211,
+        "        }"
+      ],
+      [
+        212,
+        ""
+      ],
+      [
+        213,
+        "        let decrefs = mem::take(&mut *pending_decrefs);"
+      ],
+      [
+        240,
+        "    if let Some(pool) = POOL.get() {"
+      ],
+      [
+        241,
+        "        pool.drop_deferred_references(py);"
+      ],
+      [
+        242,
+        "    }"
+      ],
+      [
+        243,
+        "}"
+      ],
+      [
+        244,
+        ""
+      ],
+      [
+        245,
+        "/// A guard which can be used to temporarily detach from the interpreter and restore on `Drop`."
+      ],
+      [
+        246,
+        "pub(crate) struct SuspendAttach {"
+      ],
+      [
+        247,
+        "    count: isize,"
+      ],
+      [
+        248,
+        "    tstate: *mut ffi::PyThreadState,"
+      ],
+      [
+        249,
+        "}"
+      ],
+      [
+        250,
+        ""
+      ],
+      [
+        251,
+        "impl SuspendAttach {"
+      ],
+      [
+        252,
+        "    pub(crate) unsafe fn new() -> Self {"
+      ],
+      [
+        253,
+        "        let count = ATTACH_COUNT.with(|c| c.replace(0));"
+      ],
+      [
+        254,
+        "        let tstate = unsafe { ffi::PyEval_SaveThread() };"
+      ],
+      [
+        255,
+        ""
+      ],
+      [
+        256,
+        "        Self { count, tstate }"
+      ],
+      [
+        257,
+        "    }"
+      ],
+      [
+        258,
+        "}"
+      ],
+      [
+        259,
+        ""
+      ],
+      [
+        260,
+        "impl Drop for SuspendAttach {"
+      ],
+      [
+        261,
+        "    fn drop(&mut self) {"
+      ],
+      [
+        262,
+        "        ATTACH_COUNT.with(|c| c.set(self.count));"
+      ],
+      [
+        263,
+        "        unsafe {"
+      ],
+      [
+        264,
+        "            ffi::PyEval_RestoreThread(self.tstate);"
+      ],
+      [
+        265,
+        ""
+      ],
+      [
+        266,
+        "            // Update counts of `Py<T>` that were dropped while not attached."
+      ],
+      [
+        267,
+        "            #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        268,
+        "            if let Some(pool) = POOL.get() {"
+      ],
+      [
+        269,
+        "                pool.drop_deferred_references(Python::assume_attached());"
+      ],
+      [
+        270,
+        "            }"
+      ],
+      [
+        271,
+        "        }"
+      ],
+      [
+        272,
+        "    }"
+      ],
+      [
+        273,
+        "}"
+      ],
+      [
+        274,
+        ""
+      ],
+      [
+        275,
+        "/// Used to lock safe access to the interpreter"
+      ],
+      [
+        276,
+        "pub(crate) struct ForbidAttaching {"
+      ],
+      [
+        277,
+        "    count: isize,"
+      ],
+      [
+        278,
+        "}"
+      ],
+      [
+        279,
+        ""
+      ],
+      [
+        280,
+        "impl ForbidAttaching {"
+      ],
+      [
+        281,
+        "    const FORBIDDEN_DURING_TRAVERSE: &'static str = \"Attaching a thread to the interpreter is prohibited while a __traverse__ implementation is running.\";"
+      ],
+      [
+        282,
+        ""
+      ],
+      [
+        283,
+        "    /// Lock access to the interpreter while an implementation of `__traverse__` is running"
+      ],
+      [
+        284,
+        "    pub fn during_traverse() -> Self {"
+      ],
+      [
+        285,
+        "        Self::new(ATTACH_FORBIDDEN_DURING_TRAVERSE)"
+      ],
+      [
+        286,
+        "    }"
+      ],
+      [
+        287,
+        ""
+      ],
+      [
+        288,
+        "    fn new(reason: isize) -> Self {"
+      ],
+      [
+        289,
+        "        let count = ATTACH_COUNT.with(|c| c.replace(reason));"
+      ],
+      [
+        290,
+        ""
+      ],
+      [
+        291,
+        "        Self { count }"
+      ],
+      [
+        292,
+        "    }"
+      ],
+      [
+        305,
+        "        ATTACH_COUNT.with(|c| c.set(self.count));"
+      ],
+      [
+        306,
+        "    }"
+      ],
+      [
+        307,
+        "}"
+      ],
+      [
+        308,
+        ""
+      ],
+      [
+        309,
+        "/// Registers a Python object pointer inside the release pool, to have its reference count decreased"
+      ],
+      [
+        310,
+        "/// the next time the thread is attached in pyo3."
+      ],
+      [
+        311,
+        "///"
+      ],
+      [
+        312,
+        "/// If the thread is attached, the reference count will be decreased immediately instead of being queued"
+      ],
+      [
+        313,
+        "/// for later."
+      ],
+      [
+        314,
+        "///"
+      ],
+      [
+        315,
+        "/// # Safety"
+      ],
+      [
+        316,
+        "/// - The object must be an owned Python reference."
+      ],
+      [
+        317,
+        "/// - The reference must not be used after calling this function."
+      ],
+      [
+        318,
+        "#[inline]"
+      ],
+      [
+        319,
+        "pub unsafe fn register_decref(obj: NonNull<ffi::PyObject>) {"
+      ],
+      [
+        320,
+        "    #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        321,
+        "    {"
+      ],
+      [
+        322,
+        "        get_pool().register_decref(obj);"
+      ],
+      [
+        323,
+        "    }"
+      ],
+      [
+        324,
+        "    #[cfg(all("
+      ],
+      [
+        325,
+        "        pyo3_disable_reference_pool,"
+      ],
+      [
+        326,
+        "        not(pyo3_leak_on_drop_without_reference_pool)"
+      ],
+      [
+        327,
+        "    ))]"
+      ],
+      [
+        328,
+        "    {"
+      ],
+      [
+        329,
+        "        let _trap = PanicTrap::new(\"Aborting the process to avoid panic-from-drop.\");"
+      ],
+      [
+        330,
+        "        panic!(\"Cannot drop pointer into Python heap without the thread being attached.\");"
+      ],
+      [
+        331,
+        "    }"
+      ],
+      [
+        332,
+        "}"
+      ],
+      [
+        333,
+        ""
+      ],
+      [
+        334,
+        "/// Private helper function to check if we are currently in a GC traversal (as detected by PyO3)."
+      ],
+      [
+        335,
+        "#[cfg(any(not(Py_LIMITED_API), Py_3_11))]"
+      ],
+      [
+        336,
+        "pub(crate) fn is_in_gc_traversal() -> bool {"
+      ],
+      [
+        337,
+        "    ATTACH_COUNT"
+      ],
+      [
+        338,
+        "        .try_with(|c| c.get() == ATTACH_FORBIDDEN_DURING_TRAVERSE)"
+      ],
+      [
+        339,
+        "        .unwrap_or(false)"
+      ],
+      [
+        340,
+        "}"
+      ],
+      [
+        341,
+        ""
+      ],
+      [
+        342,
+        "/// Increments pyo3's internal attach count - to be called whenever an AttachGuard is created."
+      ],
+      [
+        343,
+        "#[inline(always)]"
+      ],
+      [
+        344,
+        "fn increment_attach_count() {"
+      ],
+      [
+        345,
+        "    // Ignores the error in case this function called from `atexit`."
+      ],
+      [
+        346,
+        "    let _ = ATTACH_COUNT.try_with(|c| {"
+      ],
+      [
+        347,
+        "        let current = c.get();"
+      ],
+      [
+        348,
+        "        if current < 0 {"
+      ],
+      [
+        349,
+        "            ForbidAttaching::bail(current);"
+      ],
+      [
+        350,
+        "        }"
+      ],
+      [
+        351,
+        "        c.set(current + 1);"
+      ],
+      [
+        352,
+        "    });"
+      ],
+      [
+        353,
+        "}"
+      ],
+      [
+        354,
+        ""
+      ],
+      [
+        355,
+        "/// Decrements pyo3's internal attach count - to be called whenever AttachGuard is dropped."
+      ],
+      [
+        356,
+        "#[inline(always)]"
+      ],
+      [
+        357,
+        "fn decrement_attach_count() {"
+      ],
+      [
+        358,
+        "    // Ignores the error in case this function called from `atexit`."
+      ],
+      [
+        359,
+        "    let _ = ATTACH_COUNT.try_with(|c| {"
+      ],
+      [
+        360,
+        "        let current = c.get();"
+      ],
+      [
+        361,
+        "        debug_assert!("
+      ],
+      [
+        362,
+        "            current > 0,"
+      ],
+      [
+        363,
+        "            \"Negative attach count detected. Please report this error to the PyO3 repo as a bug.\""
+      ],
+      [
+        364,
+        "        );"
+      ],
+      [
+        365,
+        "        c.set(current - 1);"
+      ],
+      [
+        366,
+        "    });"
+      ],
+      [
+        367,
+        "}"
+      ],
+      [
+        368,
+        ""
+      ],
+      [
+        369,
+        "#[cfg(test)]"
+      ],
+      [
+        370,
+        "mod tests {"
+      ],
+      [
+        371,
+        "    use super::*;"
+      ],
+      [
+        372,
+        ""
+      ],
+      [
+        373,
+        "    use crate::{Py, PyAny, Python};"
+      ],
+      [
+        374,
+        ""
+      ],
+      [
+        375,
+        "    fn get_object(py: Python<'_>) -> Py<PyAny> {"
+      ],
+      [
+        376,
+        "        py.eval(c\"object()\", None, None).unwrap().unbind()"
+      ],
+      [
+        377,
+        "    }"
+      ],
+      [
+        378,
+        ""
+      ],
+      [
+        379,
+        "    #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        380,
+        "    fn pool_dec_refs_does_not_contain(obj: &Py<PyAny>) -> bool {"
+      ],
+      [
+        381,
+        "        !get_pool()"
+      ],
+      [
+        382,
+        "            .pending_decrefs"
+      ],
+      [
+        383,
+        "            .lock()"
+      ],
+      [
+        384,
+        "            .unwrap()"
+      ],
+      [
+        385,
+        "            .contains(&unsafe { NonNull::new_unchecked(obj.as_ptr()) })"
+      ],
+      [
+        386,
+        "    }"
+      ],
+      [
+        395,
+        "            .unwrap()"
+      ],
+      [
+        396,
+        "            .contains(&unsafe { NonNull::new_unchecked(obj.as_ptr()) })"
+      ],
+      [
+        397,
+        "    }"
+      ],
+      [
+        398,
+        ""
+      ],
+      [
+        399,
+        "    #[test]"
+      ],
+      [
+        400,
+        "    fn test_pyobject_drop_attached_decreases_refcnt() {"
+      ],
+      [
+        401,
+        "        Python::attach(|py| {"
+      ],
+      [
+        402,
+        "            let obj = get_object(py);"
+      ],
+      [
+        403,
+        ""
+      ],
+      [
+        404,
+        "            // Create a reference to drop while attached."
+      ],
+      [
+        405,
+        "            let reference = obj.clone_ref(py);"
+      ],
+      [
+        406,
+        ""
+      ],
+      [
+        407,
+        "            assert_eq!(obj._get_refcnt(py), 2);"
+      ],
+      [
+        408,
+        "            #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        409,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        410,
+        ""
+      ],
+      [
+        411,
+        "            // While attached, reference count will be decreased immediately."
+      ],
+      [
+        412,
+        "            drop(reference);"
+      ],
+      [
+        413,
+        ""
+      ],
+      [
+        414,
+        "            assert_eq!(obj._get_refcnt(py), 1);"
+      ],
+      [
+        415,
+        "            #[cfg(not(any(pyo3_disable_reference_pool)))]"
+      ],
+      [
+        416,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        417,
+        "        });"
+      ],
+      [
+        418,
+        "    }"
+      ],
+      [
+        419,
+        ""
+      ],
+      [
+        420,
+        "    #[test]"
+      ],
+      [
+        421,
+        "    #[cfg(all(not(pyo3_disable_reference_pool), not(target_arch = \"wasm32\")))] // We are building wasm Python with pthreads disabled"
+      ],
+      [
+        422,
+        "    fn test_pyobject_drop_detached_doesnt_decrease_refcnt() {"
+      ],
+      [
+        423,
+        "        let obj = Python::attach(|py| {"
+      ],
+      [
+        424,
+        "            let obj = get_object(py);"
+      ],
+      [
+        425,
+        "            // Create a reference to drop while detached."
+      ],
+      [
+        426,
+        "            let reference = obj.clone_ref(py);"
+      ],
+      [
+        427,
+        ""
+      ],
+      [
+        428,
+        "            assert_eq!(obj._get_refcnt(py), 2);"
+      ],
+      [
+        429,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        430,
+        ""
+      ],
+      [
+        431,
+        "            // Drop reference in a separate (detached) thread."
+      ],
+      [
+        432,
+        "            std::thread::spawn(move || drop(reference)).join().unwrap();"
+      ],
+      [
+        433,
+        ""
+      ],
+      [
+        434,
+        "            // The reference count should not have changed, it is remembered"
+      ],
+      [
+        435,
+        "            // to release later."
+      ],
+      [
+        436,
+        "            assert_eq!(obj._get_refcnt(py), 2);"
+      ],
+      [
+        437,
+        "            #[cfg(not(Py_GIL_DISABLED))]"
+      ],
+      [
+        438,
+        "            assert!(pool_dec_refs_contains(&obj));"
+      ],
+      [
+        439,
+        "            obj"
+      ],
+      [
+        440,
+        "        });"
+      ],
+      [
+        441,
+        ""
+      ],
+      [
+        442,
+        "        // On next attach, the reference is released"
+      ],
+      [
+        443,
+        "        #[allow(unused)]"
+      ],
+      [
+        444,
+        "        Python::attach(|py| {"
+      ],
+      [
+        445,
+        "            // With free-threading, another thread could still be processing"
+      ],
+      [
+        446,
+        "            // DECREFs after releasing the lock on the POOL, so the"
+      ],
+      [
+        447,
+        "            // refcnt could still be 2 when this assert happens"
+      ],
+      [
+        448,
+        "            #[cfg(not(Py_GIL_DISABLED))]"
+      ],
+      [
+        449,
+        "            assert_eq!(obj._get_refcnt(py), 1);"
+      ],
+      [
+        450,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        451,
+        "        });"
+      ],
+      [
+        452,
+        "    }"
+      ],
+      [
+        453,
+        ""
+      ],
+      [
+        454,
+        "    #[test]"
+      ],
+      [
+        455,
+        "    fn test_attach_counts() {"
+      ],
+      [
+        456,
+        "        // Check `attach` and AttachGuard both increase counts correctly"
+      ],
+      [
+        457,
+        "        let get_attach_count = || ATTACH_COUNT.with(|c| c.get());"
+      ],
+      [
+        458,
+        ""
+      ],
+      [
+        459,
+        "        assert_eq!(get_attach_count(), 0);"
+      ],
+      [
+        460,
+        "        Python::attach(|_| {"
+      ],
+      [
+        461,
+        "            assert_eq!(get_attach_count(), 1);"
+      ],
+      [
+        462,
+        ""
+      ],
+      [
+        463,
+        "            let pool = unsafe { AttachGuard::assume() };"
+      ],
+      [
+        464,
+        "            assert_eq!(get_attach_count(), 2);"
+      ],
+      [
+        465,
+        ""
+      ],
+      [
+        466,
+        "            let pool2 = unsafe { AttachGuard::assume() };"
+      ],
+      [
+        467,
+        "            assert_eq!(get_attach_count(), 3);"
+      ],
+      [
+        468,
+        ""
+      ],
+      [
+        469,
+        "            drop(pool);"
+      ],
+      [
+        470,
+        "            assert_eq!(get_attach_count(), 2);"
+      ],
+      [
+        471,
+        ""
+      ],
+      [
+        472,
+        "            Python::attach(|_| {"
+      ],
+      [
+        473,
+        "                // nested `attach` updates attach count"
+      ],
+      [
+        474,
+        "                assert_eq!(get_attach_count(), 3);"
+      ],
+      [
+        475,
+        "            });"
+      ],
+      [
+        476,
+        "            assert_eq!(get_attach_count(), 2);"
+      ],
+      [
+        477,
+        ""
+      ],
+      [
+        478,
+        "            drop(pool2);"
+      ],
+      [
+        479,
+        "            assert_eq!(get_attach_count(), 1);"
+      ],
+      [
+        480,
+        "        });"
+      ],
+      [
+        481,
+        "        assert_eq!(get_attach_count(), 0);"
+      ],
+      [
+        482,
+        "    }"
+      ],
+      [
+        483,
+        ""
+      ],
+      [
+        484,
+        "    #[test]"
+      ],
+      [
+        485,
+        "    fn test_detach() {"
+      ],
+      [
+        486,
+        "        assert!(!thread_is_attached());"
+      ],
+      [
+        487,
+        ""
+      ],
+      [
+        488,
+        "        Python::attach(|py| {"
+      ],
+      [
+        489,
+        "            assert!(thread_is_attached());"
+      ],
+      [
+        490,
+        ""
+      ],
+      [
+        491,
+        "            py.detach(move || {"
+      ],
+      [
+        492,
+        "                assert!(!thread_is_attached());"
+      ],
+      [
+        493,
+        ""
+      ],
+      [
+        494,
+        "                Python::attach(|_| assert!(thread_is_attached()));"
+      ],
+      [
+        495,
+        ""
+      ],
+      [
+        496,
+        "                assert!(!thread_is_attached());"
+      ],
+      [
+        497,
+        "            });"
+      ],
+      [
+        498,
+        ""
+      ],
+      [
+        499,
+        "            assert!(thread_is_attached());"
+      ],
+      [
+        500,
+        "        });"
+      ],
+      [
+        501,
+        ""
+      ],
+      [
+        502,
+        "        assert!(!thread_is_attached());"
+      ],
+      [
+        503,
+        "    }"
+      ],
+      [
+        504,
+        ""
+      ],
+      [
+        505,
+        "    #[cfg(feature = \"py-clone\")]"
+      ],
+      [
+        506,
+        "    #[test]"
+      ],
+      [
+        507,
+        "    #[should_panic]"
+      ],
+      [
+        508,
+        "    fn test_detach_updates_refcounts() {"
+      ],
+      [
+        509,
+        "        Python::attach(|py| {"
+      ],
+      [
+        510,
+        "            // Make a simple object with 1 reference"
+      ],
+      [
+        511,
+        "            let obj = get_object(py);"
+      ],
+      [
+        512,
+        "            assert_eq!(obj._get_refcnt(py), 1);"
+      ],
+      [
+        513,
+        "            // Cloning the object when detached should panic"
+      ],
+      [
+        514,
+        "            py.detach(|| obj.clone());"
+      ],
+      [
+        515,
+        "        });"
+      ],
+      [
+        516,
+        "    }"
+      ],
+      [
+        517,
+        ""
+      ],
+      [
+        518,
+        "    #[test]"
+      ],
+      [
+        519,
+        "    fn recursive_attach_ok() {"
+      ],
+      [
+        520,
+        "        Python::attach(|py| {"
+      ],
+      [
+        521,
+        "            let obj = Python::attach(|_| py.eval(c\"object()\", None, None).unwrap());"
+      ],
+      [
+        522,
+        "            assert_eq!(obj._get_refcnt(), 1);"
+      ],
+      [
+        523,
+        "        })"
+      ],
+      [
+        524,
+        "    }"
+      ],
+      [
+        525,
+        ""
+      ],
+      [
+        526,
+        "    #[cfg(feature = \"py-clone\")]"
+      ],
+      [
+        527,
+        "    #[test]"
+      ],
+      [
+        528,
+        "    fn test_clone_attached() {"
+      ],
+      [
+        529,
+        "        Python::attach(|py| {"
+      ],
+      [
+        530,
+        "            let obj = get_object(py);"
+      ],
+      [
+        531,
+        "            let count = obj._get_refcnt(py);"
+      ],
+      [
+        532,
+        ""
+      ],
+      [
+        533,
+        "            // Cloning when attached should increase reference count immediately"
+      ],
+      [
+        534,
+        "            #[expect(clippy::redundant_clone)]"
+      ],
+      [
+        535,
+        "            let c = obj.clone();"
+      ],
+      [
+        536,
+        "            assert_eq!(count + 1, c._get_refcnt(py));"
+      ],
+      [
+        537,
+        "        })"
+      ],
+      [
+        538,
+        "    }"
+      ],
+      [
+        539,
+        ""
+      ],
+      [
+        540,
+        "    #[test]"
+      ],
+      [
+        541,
+        "    #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        542,
+        "    fn test_drop_deferred_references_does_not_deadlock() {"
+      ],
+      [
+        543,
+        "        // drop_deferred_references can run arbitrary Python code during Py_DECREF."
+      ],
+      [
+        544,
+        "        // if the locking is implemented incorrectly, it will deadlock."
+      ],
+      [
+        545,
+        ""
+      ],
+      [
+        546,
+        "        use crate::ffi;"
+      ],
+      [
+        547,
+        ""
+      ],
+      [
+        548,
+        "        Python::attach(|py| {"
+      ],
+      [
+        549,
+        "            let obj = get_object(py);"
+      ],
+      [
+        550,
+        ""
+      ],
+      [
+        551,
+        "            unsafe extern \"C\" fn capsule_drop(capsule: *mut ffi::PyObject) {"
+      ],
+      [
+        552,
+        "                // This line will implicitly call drop_deferred_references"
+      ],
+      [
+        553,
+        "                // -> and so cause deadlock if drop_deferred_references is not handling recursion correctly."
+      ],
+      [
+        554,
+        "                let pool = unsafe { AttachGuard::assume() };"
+      ],
+      [
+        555,
+        ""
+      ],
+      [
+        556,
+        "                // Rebuild obj so that it can be dropped"
+      ],
+      [
+        557,
+        "                unsafe {"
+      ],
+      [
+        558,
+        "                    use crate::Bound;"
+      ],
+      [
+        559,
+        ""
+      ],
+      [
+        560,
+        "                    Bound::from_owned_ptr("
+      ],
+      [
+        561,
+        "                        pool.python(),"
+      ],
+      [
+        562,
+        "                        ffi::PyCapsule_GetPointer(capsule, core::ptr::null()) as _,"
+      ],
+      [
+        563,
+        "                    )"
+      ],
+      [
+        564,
+        "                };"
+      ],
+      [
+        565,
+        "            }"
+      ],
+      [
+        566,
+        ""
+      ],
+      [
+        567,
+        "            let ptr = obj.into_ptr();"
+      ],
+      [
+        568,
+        ""
+      ],
+      [
+        569,
+        "            let capsule ="
+      ],
+      [
+        570,
+        "                unsafe { ffi::PyCapsule_New(ptr as _, core::ptr::null(), Some(capsule_drop)) };"
+      ],
+      [
+        571,
+        ""
+      ],
+      [
+        576,
+        "        })"
+      ],
+      [
+        577,
+        "    }"
+      ],
+      [
+        578,
+        ""
+      ],
+      [
+        579,
+        "    #[test]"
+      ],
+      [
+        580,
+        "    #[cfg(not(pyo3_disable_reference_pool))]"
+      ],
+      [
+        581,
+        "    fn test_attach_guard_drop_deferred_references() {"
+      ],
+      [
+        582,
+        "        Python::attach(|py| {"
+      ],
+      [
+        583,
+        "            let obj = get_object(py);"
+      ],
+      [
+        584,
+        ""
+      ],
+      [
+        585,
+        "            // For AttachGuard::attach"
+      ],
+      [
+        586,
+        ""
+      ],
+      [
+        587,
+        "            get_pool().register_decref(NonNull::new(obj.clone_ref(py).into_ptr()).unwrap());"
+      ],
+      [
+        588,
+        "            #[cfg(not(Py_GIL_DISABLED))]"
+      ],
+      [
+        589,
+        "            assert!(pool_dec_refs_contains(&obj));"
+      ],
+      [
+        590,
+        "            let _guard = AttachGuard::attach();"
+      ],
+      [
+        591,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        592,
+        ""
+      ],
+      [
+        593,
+        "            // For AttachGuard::assume"
+      ],
+      [
+        594,
+        ""
+      ],
+      [
+        595,
+        "            get_pool().register_decref(NonNull::new(obj.clone_ref(py).into_ptr()).unwrap());"
+      ],
+      [
+        596,
+        "            #[cfg(not(Py_GIL_DISABLED))]"
+      ],
+      [
+        597,
+        "            assert!(pool_dec_refs_contains(&obj));"
+      ],
+      [
+        598,
+        "            let _guard2 = unsafe { AttachGuard::assume() };"
+      ],
+      [
+        599,
+        "            assert!(pool_dec_refs_does_not_contain(&obj));"
+      ],
+      [
+        600,
+        "        })"
+      ],
+      [
+        601,
+        "    }"
+      ],
+      [
+        602,
+        "}"
+      ]
+    ]
+  }
+}
