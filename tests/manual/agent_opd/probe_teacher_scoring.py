@@ -16,6 +16,8 @@ An opt-in mamba_runtime_metadata overlay follows selected-FP32 preparation and
 reads the existing server-info endpoint once after all scoring requests. A
 sample manifest may reference the original fixture and its first sample_count
 entries without copying tokens or changing their source identities.
+The opt-in kv_store_stream_witness preparer follows both source overlays and
+uses the same metadata readback; preparation is not native stream validation.
 The cache_salt_full_input experiment namespaces only full-input requests by pair
 and pre-send probe request ID; response-only requests remain unsalted controls.
 
@@ -149,6 +151,11 @@ def _load_config(path, pair, output):
     runtime_metadata = config.get("mamba_runtime_metadata", False)
     if type(runtime_metadata) is not bool:
         raise ValueError("mamba_runtime_metadata must be a JSON boolean")
+    kv_store_stream_witness = config.get("kv_store_stream_witness", False)
+    if type(kv_store_stream_witness) is not bool:
+        raise ValueError("kv_store_stream_witness must be a JSON boolean")
+    if kv_store_stream_witness and not (selected_fp32 and runtime_metadata):
+        raise ValueError("kv_store_stream_witness requires selected_fp32_snapshots=true and mamba_runtime_metadata=true")
     if runtime_metadata and not selected_fp32:
         raise ValueError("mamba_runtime_metadata requires selected_fp32_snapshots=true")
     cache_salt_full_input = config.get("cache_salt_full_input", False)
@@ -163,6 +170,8 @@ def _load_config(path, pair, output):
         config["selected_fp32_snapshots"] = selected_fp32
         if runtime_metadata:
             config["mamba_runtime_metadata"] = True
+        if kv_store_stream_witness:
+            config["kv_store_stream_witness"] = True
         if cache_salt_full_input:
             config["cache_salt_full_input"] = True
     teacher = config["pairs"][pair]["teacher"]
@@ -591,6 +600,11 @@ def _run(args):
 
             result["runtime_metadata_source_preflight"] = metadata.prepare_runtime_metadata(
                 root, image=config["image"], archive_dir=output / "runtime_metadata_source_preflight")
+        if config.get("kv_store_stream_witness", False):
+            from tests.manual.agent_opd import sglang_kv_streams as kv_streams
+
+            result["kv_store_stream_source_preflight"] = kv_streams.prepare_source(
+                root, image=config["image"], archive_dir=output / "kv_store_stream_source_preflight")
         result["runtime"] = _runtime(config, args.pair)
         result["native_scoring_sources"] = {name: _file_identity(Path(config["repo"]) / name) for name in (
             "miles/rollout/on_policy_distillation.py", "tests/manual/agent_opd/swe_replay.py",
@@ -601,6 +615,9 @@ def _run(args):
         if config.get("mamba_runtime_metadata", False):
             result["native_scoring_sources"]["tests/manual/agent_opd/sglang_mamba_runtime_metadata.py"] = _file_identity(
                 Path(metadata.__file__))
+        if config.get("kv_store_stream_witness", False):
+            result["native_scoring_sources"]["tests/manual/agent_opd/sglang_kv_streams.py"] = _file_identity(
+                Path(kv_streams.__file__))
         command = paired._teacher_command(config, args.pair, 0, {"ip": os.environ["MILES_NODE_EXTERNAL_IP"]})
         result["argv"] = command
         _write(output / "preload.json", result)

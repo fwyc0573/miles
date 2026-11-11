@@ -1,10 +1,12 @@
 """CPU contracts for the dedicated teacher probe; mock HTTP is not performance evidence."""
 
 import asyncio
+import builtins
 import json
 import math
 import os
 import shlex
+import shutil
 import signal
 import subprocess
 import sys
@@ -575,13 +577,194 @@ def test_runtime_metadata_requires_selected_fp32_and_preserves_formal_engine_con
     assert json.loads(path.read_text()) == config
 
 
+@pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
+@pytest.mark.parametrize("probe_input", [False, True])
+def test_kv_stream_witness_requires_json_boolean_at_config_owner(worker_config, tmp_path, value, probe_input):
+    path, config, _ = worker_config
+    invalid = {"formal_config": str(path)} if probe_input else config
+    invalid.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True, kv_store_stream_witness=value)
+    input_path = tmp_path / "invalid-witness.json"
+    input_path.write_text(json.dumps(invalid))
+    with pytest.raises(ValueError, match="kv_store_stream_witness must be a JSON boolean"):
+        probe._load_config(input_path, "A", tmp_path / "new-output")
+
+
+@pytest.mark.parametrize("selected,metadata", [(None, None), (False, False), (True, None), (True, False), (True, True)])
+@pytest.mark.parametrize("probe_input", [False, True])
+def test_kv_stream_witness_dependencies_and_existing_formal_merge(worker_config, tmp_path, selected, metadata, probe_input):
+    path, config, _ = worker_config
+    value = {"formal_config": str(path)} if probe_input else {**config}
+    value["kv_store_stream_witness"] = True
+    if selected is not None:
+        value["selected_fp32_snapshots"] = selected
+    if metadata is not None:
+        value["mamba_runtime_metadata"] = metadata
+    input_path = tmp_path / "witness.json"
+    input_path.write_text(json.dumps(value))
+    if selected is not True or metadata is not True:
+        with pytest.raises(ValueError, match="kv_store_stream_witness requires selected_fp32_snapshots=true and mamba_runtime_metadata=true"):
+            probe._load_config(input_path, "A", tmp_path / "new-output")
+    else:
+        assert probe._load_config(input_path, "A", tmp_path / "new-output") == {
+            **config, "selected_fp32_snapshots": True, "mamba_runtime_metadata": True,
+            "kv_store_stream_witness": True, "startup_timeout": 17.0}
+    assert json.loads(path.read_text()) == config
+
+
+@pytest.mark.parametrize("selection,diagnostic,count,repeats,failure", [
+    (None, False, 7, 2, None), (False, False, 7, 2, None),
+    (None, True, 4, 1, None), (False, True, 4, 1, None),
+    (True, True, 4, 1, None), (True, True, 4, 1, "missing"), (True, True, 4, 1, "malformed")])
+def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+        worker_config, sample, tmp_path, monkeypatch, selection, diagnostic, count, repeats, failure):
+    from tests.manual import agent_opd
+    from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
+
+    path, config, model = worker_config
+    wrapper = {"formal_config": str(path)}
+    if diagnostic:
+        wrapper.update(selected_fp32_snapshots=True, mamba_runtime_metadata=True)
+    if selection is not None:
+        wrapper["kv_store_stream_witness"] = selection
+    wrapper_path = tmp_path / "probe.json"
+    wrapper_path.write_text(json.dumps(wrapper))
+    samples = tmp_path / "samples.json"
+    samples.write_text(json.dumps({"job": "CPU-contract-only", "samples": [
+        {**sample, "sample_index": index} for index in range(count)]}))
+    output, root = tmp_path / "retained-new", tmp_path / "native-sglang"
+    args = SimpleNamespace(config=wrapper_path, pair="A", samples=samples, output_dir=output,
+                           repeats=repeats, request_timeout=17)
+    for key, value in {"KUBEBRAIN_RJOB_NAME": "cpu-witness-test", "KUBEBRAIN_REPLICA": "0",
+                       "KUBEBRAIN_REPLICA_TOTAL": "1", "MILES_NODE_EXTERNAL_IP": "192.0.2.10"}.items():
+        monkeypatch.setenv(key, value)
+    monkeypatch.setattr(warmup, "_worker_environment", lambda local: local.mkdir(parents=True))
+    monkeypatch.setattr(probe.importlib.util, "find_spec", lambda name: SimpleNamespace(origin=str(root / "__init__.py")))
+    events, receipts, imports, scoring_calls, info_calls = [], {}, [], [], []
+    attention_before = {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")}
+    cpu_metadata = _cpu_metadata(dp_rank=None)
+
+    def source_receipt(name, archive_dir):
+        assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
+        receipt = {"source": name, "scope": "Injected CPU API contract; native execution UNVERIFIED"}
+        archive_dir.mkdir()
+        probe._write(archive_dir / "receipt.json", receipt)
+        receipts[name] = receipt
+        events.append(name)
+        return receipt
+
+    def prepare_snapshots(root_arg: Path, *, image: str, selected_fp32: bool, archive_dir: Path) -> dict:
+        assert root_arg == root and image == config["image"] and selected_fp32 is True and not events
+        return source_receipt("snapshots", archive_dir)
+
+    def prepare_metadata(root_arg: Path, *, image: str, archive_dir: Path) -> dict:
+        assert root_arg == root and image == config["image"] and events == ["snapshots"]
+        return source_receipt("metadata", archive_dir)
+
+    def prepare_streams(native_sglang_package_root: Path, *, image: str, archive_dir: Path) -> dict:
+        assert native_sglang_package_root == root and image == config["image"]
+        assert archive_dir == output / "kv_store_stream_source_preflight" and events == ["snapshots", "metadata"]
+        return source_receipt("kv_streams", archive_dir)
+
+    for name, prepare in (("sglang_mamba_snapshots", prepare_snapshots),
+                          ("sglang_mamba_runtime_metadata", prepare_metadata), ("sglang_kv_streams", prepare_streams)):
+        source = tmp_path / f"{name}.py"
+        source.write_text('"""Injected CPU test module identity, not native source."""\n')
+        module = SimpleNamespace(__file__=str(source))
+        setattr(module, "prepare_runtime_metadata" if name.endswith("runtime_metadata") else "prepare_source", prepare)
+        monkeypatch.setattr(agent_opd, name, module, raising=False)
+        monkeypatch.setitem(sys.modules, f"tests.manual.agent_opd.{name}", module)
+
+    original_import = builtins.__import__
+
+    def importing(name, globals=None, locals=None, fromlist=(), level=0):
+        if "sglang_kv_streams" in (fromlist or ()) or name.endswith("sglang_kv_streams"):
+            assert selection is True, "False/absent witness must not import its source preparer"
+            imports.append(name)
+        return original_import(name, globals, locals, fromlist, level)
+
+    monkeypatch.setattr(builtins, "__import__", importing)
+    prepared = (["snapshots", "metadata"] if diagnostic else []) + (["kv_streams"] if selection is True else [])
+
+    def runtime(*args):
+        assert events == prepared
+        events.append("runtime")
+        return {"scope": "CPU mock; no GPU inspection"}
+
+    monkeypatch.setattr(probe, "_runtime", runtime)
+    native_command = paired._teacher_command(config, "A", 0, {"ip": "192.0.2.10"})
+
+    def launch(command, **kwargs):
+        assert command == native_command and events == prepared + ["runtime"]
+        preload = json.loads((output / "preload.json").read_text())
+        source = "tests/manual/agent_opd/sglang_kv_streams.py"
+        assert (source in preload["native_scoring_sources"]) == (selection is True)
+        if selection is True:
+            assert preload["kv_store_stream_source_preflight"] == receipts["kv_streams"]
+            assert preload["native_scoring_sources"][source] == probe._file_identity(Path(agent_opd.sglang_kv_streams.__file__))
+        events.append("server")
+        return SimpleNamespace(poll=lambda: None)
+
+    monkeypatch.setattr(probe.subprocess, "Popen", launch)
+    monkeypatch.setattr(paired, "_wait_teacher_ready", lambda *args: {"model_path": str(model)})
+    monkeypatch.setattr(paired, "_check_server", lambda *args: None)
+    monkeypatch.setattr(paired, "_stop_child", lambda *args: None)
+    before_readback = {}
+
+    def response(method, url, kwargs):
+        assert events[-1] == "server"
+        if url.endswith("/flush_cache"):
+            return b"Cache flushed", 200
+        if url.endswith("/get_server_info"):
+            info_calls.append(len(scoring_calls))
+            if len(info_calls) == 1:
+                return b'{"version":"CPU mock only"}', 200
+            before_readback.update({p.relative_to(output): p.read_bytes() for p in output.rglob("*") if p.is_file()})
+            metadata = json.loads(json.dumps(cpu_metadata))
+            if failure == "malformed":
+                metadata["rows"] = [[1, "kv_store_stream", [["missing-value"]]]]
+            return json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1, "internal_states": [
+                {} if failure == "missing" else {"mamba_runtime_metadata": metadata}]}).encode(), 200
+        mode = "full_input" if kwargs["json"]["logprob_start_len"] == 0 else "response_only"
+        assert kwargs["json"] == probe._payload(sample, mode) and "cache_salt" not in kwargs["json"]
+        scoring_calls.append(kwargs["json"])
+        body = _body(sample, mode)
+        body["meta_info"]["id"] = f"native-rid-independent-{len(scoring_calls)}"
+        return json.dumps(body).encode(), 200
+
+    _, calls, _ = _mock_http(monkeypatch, response)
+    if failure:
+        with pytest.raises(RuntimeError, match="Scoring completed; independent runtime metadata readback failed"):
+            probe._run(args)
+    else:
+        probe._run(args)
+    result = json.loads((output / "result.json").read_text())
+    assert events == prepared + ["runtime", "server"]
+    assert len(imports) == (1 if selection is True else 0)
+    assert len(scoring_calls) == result["expected_scoring_requests"] == (16 if diagnostic else 56)
+    assert sum(url.endswith("/flush_cache") for _, url, _ in calls) == (10 if diagnostic else 32)
+    assert info_calls == ([0, 16] if diagnostic else [0])
+    assert result["argv"] == native_command and result["native_measurements_completed"] is True
+    assert result["status"] == ("failed" if failure else "measurements_completed")
+    assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
+    if selection is True:
+        assert result["kv_store_stream_source_preflight"] == receipts["kv_streams"]
+        assert len({json.dumps(receipt) for receipt in receipts.values()}) == 3
+        assert json.loads((output / "kv_store_stream_source_preflight/receipt.json").read_text()) == receipts["kv_streams"]
+    else:
+        assert "kv_store_stream_source_preflight" not in result
+        assert not (output / "kv_store_stream_source_preflight").exists()
+    for name, raw in before_readback.items():
+        assert (output / name).read_bytes() == raw
+    assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
+
+
 @pytest.mark.parametrize("selected,diagnostic,readback_status,cache_salt_full_input", [
     (None, None, None, None), (False, False, None, None), (True, None, None, None), (True, False, None, None),
     (True, True, "collected", None), (True, True, "failed", None),
     (True, True, "collected", False), (True, True, "collected", True)])
 def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
         worker_config, sample, tmp_path, monkeypatch, snapshot_source, selected, diagnostic, readback_status,
-        cache_salt_full_input):
+        cache_salt_full_input, kv_streams=None):
     from tests.manual.agent_opd import qwen35_pair_worker as paired, rjob_warmup as warmup
 
     path, config, model = worker_config
@@ -609,6 +792,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         wrapper["mamba_runtime_metadata"] = diagnostic
     if cache_salt_full_input is not None:
         wrapper["cache_salt_full_input"] = cache_salt_full_input
+    if kv_streams is not None:
+        wrapper["kv_store_stream_witness"] = True
     wrapper_path = tmp_path / "probe.json"
     wrapper_path.write_text(json.dumps(wrapper))
     samples = tmp_path / "samples.json"
@@ -623,6 +808,7 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
                        "CUDA_VISIBLE_DEVICES": "0,1,2,3", "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items():
         monkeypatch.setenv(key, value)
     events, receipts, metadata_receipts = [], [], []
+    stream_receipts = []
     original_prepare = snapshots.prepare_source
     before = {relative: (root / relative).read_bytes() for relative in snapshots.source_manifest()["files"]}
     # Other CPU tests may already import host attention; this worker path must not add imports before preparation.
@@ -650,6 +836,19 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
             return metadata_receipts[-1]
 
         monkeypatch.setattr(metadata, "prepare_runtime_metadata", prepare_metadata)
+    if kv_streams is not None:
+        original_stream_prepare = kv_streams.prepare_source
+
+        def prepare_streams(native_sglang_package_root: Path, *, image: str, archive_dir: Path) -> dict:
+            assert native_sglang_package_root == root and image == config["image"]
+            assert archive_dir == output / "kv_store_stream_source_preflight"
+            assert events == ["prepared", "metadata_prepared"]
+            assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
+            stream_receipts.append(original_stream_prepare(native_sglang_package_root, image=image, archive_dir=archive_dir))
+            events.append("kv_streams_prepared")
+            return stream_receipts[-1]
+
+        monkeypatch.setattr(kv_streams, "prepare_source", prepare_streams)
 
     def find_spec(name):
         assert name == "sglang" and selected is True
@@ -664,7 +863,8 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
     monkeypatch.setattr(warmup, "_worker_environment", environment)
 
     def runtime(*args):
-        assert events == (["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
+        assert events == ((["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
+                          + (["kv_streams_prepared"] if kv_streams is not None else []))
         events.append("runtime")
         return {"scope": "CPU mock; native CUDA unverified"}
 
@@ -692,6 +892,11 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
             assert preload["native_scoring_sources"][metadata_source] == probe._file_identity(Path(metadata.__file__))
         else:
             assert "runtime_metadata_source_preflight" not in preload
+        stream_source = "tests/manual/agent_opd/sglang_kv_streams.py"
+        assert (stream_source in preload["native_scoring_sources"]) == (kv_streams is not None)
+        if kv_streams is not None:
+            assert preload["kv_store_stream_source_preflight"] == stream_receipts[0]
+            assert preload["native_scoring_sources"][stream_source] == probe._file_identity(Path(kv_streams.__file__))
         assert all(os.environ[key] == value for key, value in {
             "NCCL_FROM_PLATFORM": "preserved", "CUDA_VISIBLE_DEVICES": "0,1,2,3",
             "SGLANG_FORCE_COARSE_WAR_BARRIER": "0"}.items())
@@ -730,7 +935,13 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         assert result["cache_observations"] == {"scope": "CPU mock; no requests made"}
         assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
     assert events == ((["prepared"] if selected is True else []) + (["metadata_prepared"] if diagnostic else [])
+                      + (["kv_streams_prepared"] if kv_streams is not None else [])
                       + ["runtime", "teacher", "benchmark"] + (["metadata_readback"] if diagnostic else []))
+    if kv_streams is not None:
+        assert result["kv_store_stream_source_preflight"] == stream_receipts[0]
+        assert stream_receipts[0] != receipts[0] and stream_receipts[0] != metadata_receipts[0]
+    else:
+        assert "kv_store_stream_source_preflight" not in result and not stream_receipts
     if diagnostic:
         assert result["runtime_metadata_source_preflight"] == metadata_receipts[0]
         assert json.loads((output / "runtime_metadata_source_preflight/preflight.jsonl").read_text()) == metadata_receipts[0]
@@ -747,6 +958,22 @@ def test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_re
         assert not receipts and not (output / "source_preflight").exists()
         assert {relative: (root / relative).read_bytes() for relative in before} == before
     assert json.loads(path.read_text()) == config and json.loads(wrapper_path.read_text()) == wrapper
+
+
+def test_kv_stream_witness_real_preparers_join_before_runtime(worker_config, sample, tmp_path, monkeypatch, snapshot_source):
+    if not (Path(probe.__file__).parent / "sglang_kv_streams.py").is_file():
+        pytest.skip("Real KV stream source preparer is not yet available")
+    from tests.manual.agent_opd import sglang_kv_streams as kv_streams
+    root, _ = snapshot_source
+    retained = Path(os.environ.get("MILES_PINNED_SGLANG_SOURCE", Path(__file__).resolve().parents[2] / (
+        "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
+        "/exp-1111-102145-988437/source")))
+    if not retained.is_dir():
+        pytest.skip(f"Required retained native package source unavailable: {retained}")
+    # Copy the package evidence once; the production preparer decides which exact native files it qualifies.
+    shutil.copytree(retained, root, dirs_exist_ok=True)
+    test_selected_source_preparation_precedes_runtime_and_teacher_and_retains_real_receipt(
+        worker_config, sample, tmp_path, monkeypatch, snapshot_source, True, True, "collected", None, kv_streams)
 
 
 @pytest.mark.parametrize("override_available", [True, False])
@@ -944,6 +1171,58 @@ def test_cache_salt_config_is_exact_isolated_clone_and_existing_dry_run_forwards
         configurations[1], pair, 0, head) == paired._teacher_command(formal, pair, 0, head)
     assert constructions[0]["requested_gpus"] == constructions[1]["requested_gpus"] == 4
     assert constructions[0]["submitted"] is constructions[1]["submitted"] is False
+    assert {key: value for key, value in constructions[0].items() if key not in ("output", "worker_command")} == {
+        key: value for key, value in constructions[1].items() if key not in ("output", "worker_command")}
+    commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
+    assert commands[1][commands[1].index("--config") + 1] == str(variant_path)
+    for command in commands:
+        for option in ("--config", "--output-dir"):
+            command[command.index(option) + 1] = option
+    assert commands[0] == commands[1] and not receipt_path.exists()
+
+
+@pytest.mark.parametrize("pair", ["A", "B"])
+def test_kv_stream_witness_config_exact_clone_and_existing_controller_dry_run(monkeypatch, capsys, pair):
+    from tests.manual.agent_opd import qwen35_pair_worker as paired, submit_teacher_scoring_probe as submission
+
+    repo = Path(__file__).resolve().parents[2]
+    task = repo / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    base_path = task / "teacher_scoring_runtime_metadata_probe_config.json"
+    variant_path = task / "teacher_scoring_kv_stream_witness_probe_config.json"
+    base_text, variant_text = (path.read_text() for path in (base_path, variant_path))
+    base, variant = json.loads(base_text), json.loads(variant_text)
+    allowed = {"task_id", "output_parent", "acceptance", "kv_store_stream_witness"}
+    assert {key: value for key, value in variant.items() if key not in allowed} == {
+        key: value for key, value in base.items() if key not in allowed}
+    assert variant["kv_store_stream_witness"] is True
+    assert variant["task_id"] != base["task_id"] and variant["output_parent"] != base["output_parent"]
+    restored = variant_text.replace('  "kv_store_stream_witness": true,\n', "", 1)
+    for key in ("task_id", "output_parent", "acceptance"):
+        restored = restored.replace(json.dumps(variant[key]), json.dumps(base[key]), 1)
+    assert restored == base_text and variant.get("envs", {}) == {} and "cache_salt_full_input" not in variant
+    formal = json.loads((repo / variant["formal_config"]).read_text())
+    fixture = probe._load_samples(repo / variant["samples"], formal["context_tokens"])
+    assert [item["sample_index"] for item in fixture["samples"]] == [1693, 1694, 1695, 1696]
+    assert variant["repeats"] == 1 and variant["pairs"] == ["A", "B"]
+    assert 4 * len(fixture["samples"]) * variant["repeats"] == 16
+    assert 2 * (len(fixture["samples"]) + 1) * variant["repeats"] == 10
+    monkeypatch.setattr(sys, "executable", formal["worker_python"])
+    configurations, constructions = [], []
+    receipt_path = task / "cpu-kv-stream-witness-construction-only.json"
+    for path in (base_path, variant_path):
+        configurations.append(probe._load_config(path, pair, repo / variant["output_parent"] / pair / "cpu-only"))
+        monkeypatch.setattr(sys, "argv", ["submit", "--config", str(path), "--pair", pair,
+                                          "--receipt", str(receipt_path), "--dry-run"])
+        assert submission.main() == 0
+        constructions.append(json.loads(capsys.readouterr().out))
+    assert configurations[1] == {**configurations[0], "kv_store_stream_witness": True}
+    head = {"ip": "192.0.2.10"}
+    argv = paired._teacher_command(configurations[1], pair, 0, head)
+    assert argv == paired._teacher_command(configurations[0], pair, 0, head) == paired._teacher_command(formal, pair, 0, head)
+    assert argv[argv.index("--dtype") + 1] == "bfloat16"
+    assert argv[argv.index("--chunked-prefill-size") + 1] == "8192"
+    assert "--enable-deterministic-inference" in argv and "--disable-radix-cache" not in argv
+    assert all(record["requested_gpus"] == 4 and record["submitted"] is False for record in constructions)
     assert {key: value for key, value in constructions[0].items() if key not in ("output", "worker_command")} == {
         key: value for key, value in constructions[1].items() if key not in ("output", "worker_command")}
     commands = [shlex.split(shlex.split(record["worker_command"])[2].splitlines()[-1]) for record in constructions]
