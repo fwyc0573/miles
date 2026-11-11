@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record witness-only preparation and closed static source; preserve B's satisfied edge and all pending numerical/formal acceptance criteria. |
 | 2026-11-11 | Close B source/archive scope despite different seed; hold formal B on numeric correctness/design/full coverage without a new A200 gate or checkbox change. |
 | 2026-11-11 | Accept B bounded namespace controls/target isolation while qualifying different resolved seed and pending entry-source/full-coverage evidence; keep formal criteria open. |
 | 2026-11-11 | Accept namespace CPU/fixed reviews and record B Running snapshot, keeping terminal/native controls and formal acceptance pending. |
@@ -39,9 +40,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle、bounded native controls/target isolation/source audits/archive接受。Shared数值正确性/design qualification/cause/fix/freshformal admission/本cell200仍PENDING，无A200/profile/32-H200 gate/stop权限。
+**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle/native16/10/static source已接受。Shared witness CPU/review/native stream-class、physical/numeric capture/RCA/correction/freshB200仍pending，无A200/profile/32-H200 gate/stop权限。
 
-**Status:** BLOCKED formal / SOURCE_AUDITS_CLOSED / NUMERICAL_DESIGN_IN_PROGRESS D40; formal B not started。Bounded native16/10/target scope及18dc354b archive接受，原false-scope FAIL/3expected shared-control failures/raw refs保留。[0GPU retry](../evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[manifest](../evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)闭合exactH_index/FULL clone/retain/ref/free与这些grammarNONE prefill-only/logprobs-only Sampler source。Actual seed263946245≠baseline596871011，source default/once-only TP-WORLD broadcast闭合不等于SameSeed/general RNG-free；unexercised delayed grammar不作本请求blocker。Read-only numeric design ranked old-KV/fresh-SSM、varlen values、ordering/lifetime，无accepted design/code/CPU/GPU/fix/perf。Warm-response/56rep2/1024/allTP/physical/coherence/history/200未解除；无新A200/profile/32-H200 gate/科学/checklist变化；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / WITNESS_ONLY_SOURCE_INTEGRATION_PREPARATION D40; formal B not started。b20c780a[design](../design_kv_coherence_measurement.md)/[source report](../test_report_2026-11-11_kv_store_source_closure.md)闭合conditional static allocator/Cython/CAPI/fallback；recordedB allocator仅推断，actual class/call stream未测，unified MEMORY off不等于radixcache off。Source/integration独立CPU准备，CPP scalar/Python None/CPUtuple existingreadback，保持16/10/teacher参数且不复制KV/读CUDA值/新增buffers/events/waits/locks/intervention；tests/reviews/native witness未PASS或提交。All16 exact vectors+actual stream/class后单独qualify numeric capture；CPU eager RID/lens已闭合，physical writer/FULL indices/device commit_lens仍pending。Native16/10/原FAIL/shared-control3fail/raw history/seed不同/grammarNONE scope/D39/S7/Bedge/checklists保持；不是formal fallback/new gate，warm-response/56rep2/1024/allTP/physical/coherence/history/root/perf/200待验，无A200 gate；[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

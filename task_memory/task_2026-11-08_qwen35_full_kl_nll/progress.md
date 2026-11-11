@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Preserve primary prerequisite/source-retention additions, update final static qualification and select independent witness-only preparation; no CPU/review/native or numeric acceptance invented. |
+| 2026-11-11 | Record blocked two-stage KV design, three prerequisite findings, zero-GPU complete kernel/TVM source retention and applied read-only route checkpoint. |
 | 2026-11-11 | Record selected archive/source audit closure and read-only numeric design; preserve failed collector/inspection evidence and all formal/scientific limits. |
 | 2026-11-11 | Accept corrected bounded native namespace controls/target isolation; preserve initial inspector/control failures, source-seed/full-entry gaps and formal hold. |
 | 2026-11-11 | Accept cache-salt CPU/fixed reviews and A execution terminal/B Running snapshot; record nonblocking local verification and pending inspector/numerical outcomes. |
@@ -65,6 +67,13 @@
 # Progress
 
 ## completed
+- **Witness-frontier document validation — `profile-kv-stream-witness-frontier-records-20261111`:** Scoped whitespace and the exact eight-document preservation check PASS: original requests/decisions, six-ticket checkboxes including A/B17, S1–S9, six verification methods, historical records, primary prerequisite/host-carry facts and primary applied checkpoint are retained. The new checkpoint has exactly four sections, PASS3/BLOCKED2/TODO1, seven evaluated D rows and Branch B/routine S5 correction. Existing canonical design/source-report references resolve; no replacement report was created. Global checker snapshot: 79 Markdown documents / 6 tickets / 513 links / 90 anchors / 61 errors, consisting of 60 known frozen-context missing links and one primary A-report `artifact` link, with zero owned errors. These links are not native failures and were not changed or excluded. Verification ran locally from the repository root; no business suite or GPU/platform operation was run.
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
 
 - **Native FP32 frontier records verification — 2026-11-11, TaskID`profile-fp32-native-frontier-records-20261111`:** local systemPython3.10.6, commands from repository root. Raw/all decisions/history, six-ticket checkbox rows(A8+B9=17), scientific S1–S7/S9, actualverification-strategy span and historical review/progress PASS; exact-four checkpoint3PASS/2BLOCKED/1TODO. Local metadata patches/guard initially assumed stale headers/overwide tails; actual file headings settled the check without historical or scientific changes, and its doc-only D2 is recorded below. No business tests/native calls or candidate/report/evidence edits.
   - Existing globaldocchecker at this snapshot:57documents/6tickets/350links/89anchors,20errors/all frozen review-copy dependencies,0owned errors. Breakdown: previous2scoring-scope links+4selected-source-candidate links+14integration base/candidate links; no checker/artifact exclusion/mutation, no native/fix verdict inferred. Scoped whitespace PASS; source/integrationCPU/native facts are retained primary results, not rerun here.
@@ -177,10 +186,25 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / SOURCE_AUDITS_CLOSED / NUMERICAL_MEASUREMENT_DESIGN_IN_PROGRESS; formal04/05 BLOCKED.** Primary18dc354b archives70 selected evidence/report/inspection/scoped-review/new33 pinned source files; raw98MB native outputs remain persistent workspace references, not original staged files. Immutable raw.diff context whitespace is not normalized; ignored emptyfailure.log remains untracked. Native A/B16/10 accepted controls/target scope and source/CPU reviews remain separate from numeric/historical cause/root/performance/formal acceptance. No new GPU/formal/source-code fix or business test is claimed by this docs slice.
+### KV measurement design prerequisite checkpoint — 2026-11-11
+
+- **TODO / numerical capture BLOCKED; witness-only preparation selected:** the earlier two-stage physical KV proposal remains in [the design artifact](design_kv_coherence_measurement.md), with canonical [design](design_kv_coherence_measurement.md)/[source report](test_report_2026-11-11_kv_store_source_closure.md) committed b20c780a. Earlier review identified OLD readiness/lifetime, launch/TVM/PDL ordering and CPU RID/flattened-row prerequisites. Final source qualification closes conditional static readiness/lifetime and CPU host carry, not actual native launchstream/allocator class, physical writer/FULL indices or CUDA prefix-valid commit_lens. Witness source/integration CPU tests/fixed reviews remain pending; no numerical instrumentation, GPU witness, causal fix or formal submission is accepted.
+- **Completed source retention only:** zero-GPU `exp-1111-094840-273565` Succeeded with 67 verified files / 30 store files / nine prior matches / zero mismatches. One complete source-closure submission `exp-1111-100210-790198` then Succeeded with 1,537 verified files / 21,897,427 bytes / 97 prior matches / zero mismatches, including installed `apache-tvm-ffi=0.1.11`. Both used the existing personal local backend and pinned image. Receipts are in `evidence/native-sglang-cache-source-20261111/`; collector success does not prove dependencies or physical lifetime.
+- Verification commands: local `/usr/bin/python3 -B` independently recomputed SHA256 and byte counts from each retained `source.json`, compared overlapping prior sources and asserted zero mismatches. Launches used `/data/ycfeng/tmp/stepmind-env/bin/python -B /data/ycfeng/tmp/opencode-v2-tmp/opencode/submit-full-component-source-20261111.py`; the worker command and image are retained in the two submission receipts. Neither job requested a GPU.
+- Exact source verification scope, commands, environment, actual counts and unverified interpreter/runtime limits are archived in [the source-closure test report](test_report_2026-11-11_kv_store_source_closure.md).
+- Read-only writer TaskID `profile-kv-coherence-writer-row-binding-20261111` statically confirms existing eager `get_forward_context().forward_batch` and request-ordered flattened writer rows; graph-only `runner_utils.get_forward_batch()` is not an eager accessor. Actual A/B CPU host propagation is closed by the retained rows below and final source qualification; actual physical indices/all-layer capture remain unmeasured.
+- The prefix-valid follow-up confirms CUDA terminals bypass `_store_kv_layer`; a class-owned post-store boundary must preserve every reachable layer identity without double-counting CPU paths. Writer-versus-FULL physical-index equality remains an independent real-row check, not an inferred allocator result. CPU host fields are verified below; CUDA prefix-valid commit_lens/physical writer-FULL rows are not. No further fragmented source job is selected.
+- Final launch/lifetime qualification closes Cython argument-setter/Torch CAPI/fallback stream-source chains. Recorded-B TokenToKVPoolAllocator is inferred, not historically measured; unified MEMORY off is not unified radixcache off. The allocator changes only indices, never KV payload. Existing S.wait(F)→OLD gather(S)→split/free IDs→next F.wait(S)→payload writes closes conditional static readiness/lifetime without added waits/locks, not actual native launchstream/class or GPU race exclusion. Zero-GPU `exp-1111-102145-988437` Succeeded with5,501files/79,478,292bytes/12Cython/hash+bytes PASS/1,805matching prior paths/0unmatched. No payload capture/forced FFI/new waits/locks/writer-only substitute/formal submission is selected.
+- Primary independently verified actual A/B CPU host-field carry: all 8,112/5,070 GDN allocation rows and 165 prefill plans per pair contain native RIDs plus CPU prefix/extend lengths, with zero missing fields, length mismatches or RIDs outside the 16 actual response IDs. Each pair's 169 translated-track rows contain RIDs only, not lens fields. This closes host carry but not actual writer/FULL-index equality or prefix-valid token semantics; the local probe request labels are not native RIDs.
+Historical checkpoints below are the primary package/host-carry stage before final static qualification and current witness preparation; their recorded decisions/results remain unchanged.
+
+- Self-check after the package-source/host-carry deliverable: PASS 3 / BLOCKED 2 / TODO 1; D1-D7 CLEAR, no new S1-S6 defect, Branch A. The new package source closes selection omissions and host carry closes an actual prerequisite, but OLD physical lifetime and actual launch qualification still own the next frontier. No further source submission is planned before that qualification returns. A safe source design plus actual-call stream/real-row evidence is the next done condition, not a larger archive or a successful process exit. Formal source/input/profile dependencies and acceptance criteria are unchanged.
+- **Applied progress checkpoint:** `profile-kv-coherence-progress-checkpoint-20261111` reports PASS 3 / BLOCKED 2 / TODO 1, D1-D7 CLEAR in the window from `35e2d814`, no new S1-S6 defect, Branch A. Spec and ticket acceptance criteria remain unchanged. Primary recorded the completed source reads and launched independent read-only launch/lifetime qualification and CPU writer-row binding. Stop fragmented fetches; accept a safe design or state a concrete blocker, without new waits/locks, post-free fresh reads or an unapproved writer-only substitution. All16 diagnostic vectors must reproduce before interpreting capture; this is not a new formal gate or a race exclusion.
+
+- **D40 / WITNESS_ONLY_SOURCE_INTEGRATION_PREPARATION; formal04/05 BLOCKED.** b20c780a commits canonical design/source report and final5501-file source qualification. Primary18dc354b native16/10/archive70/raw98MB refs/immutable.diff whitespace/ignoredlog/initial FAIL/shared-control observations remain unchanged. Source agent independently owns `sglang_kv_streams.py:prepare_source`/test/report; integration owns opt-in `kv_store_stream_witness`/config/existing first4 caller/test/report. Source CPU tests/fixed reviews/native witness are pending; no new numerical capture/GPU/formal/fix/performance acceptance.
 - **Archived native scope, original failures preserved:** [A controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)/[B controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)each12 exact controls/four salted warm-FULL cases retain original warm-response drift and undefined-zero counts. Corrected[A r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)/[B r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)accept100 applicable target triples, not65 shared-control geometry observations62PASS3expectedFAIL; initial false-scope FAILs/169chunks/16 observations remain archived, with no GPU rerun or extra unchanged gate. Necessary cross-request-sharing inference stays bounded first4/rep0/16/10, not numeric coherence/root/perf.
 - **Source/collector audits CLOSED, not GPU ordering:** pre-submit wrong-module ImportError corrected to StepMindController; first actual0GPU command failed with absentRJOB_NAME/private TMP700/file600 dependency. No stderr means permission denial is not directly observed. ActualKUBEBRAIN_RJOB_NAME and inline python-c eliminate private-temp dependence. [Retry terminal](evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[33-source manifest](evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)prove Succeeded/five components/SHA/SG0.5.24.dev80+g056f871/image165 and submit/terminal creator/mount;16 private literals were sanitized before primary commit. Exact H_index int64/copy=True/clone, FULL split/host/device clones, retained/no-overwrite and lock-ref/free paths have no source finding—not ordering/allocator values. Seed default random.randint[0,2^30], once-only TP/WORLD scheduler broadcast and grammarNONE prefill/logprobs-only Sampler bypass close these requests' entry scope; B seed still differs, no SameSeed/general RNG-free claim. Unexercised delayed grammar/Sampler is outside scope, not blocker.
-- **Current work only:** read-only analyzer `profile-kv-recurrent-coherence-measurement-design-20261111` prepares numerical design, ranked canonical old-KV/fresh-SSM relation, varlen snapshot values, GPU ordering/slot lifetime. Proposed16 baseline/control reuse, preallocated original-producer-stream buffers and readback after ALL requests is not yet selected/approved code/CPU/GPU; no CUDA-critical item/cpu/tolist/sync/wait measurement is approved. All16 reproduction is diagnostic adequacy, not a new formal gate. TP0-only/warm-RESPONSE/56rep2/1024/physical/allTP/device/coherence/history limits remain; D39/D34/S7/raw/science/checkboxes/D16/B edge/H2006-profile2 stay unchanged. Required correctness/fresh admission→independent200→06, no A200 gate/policy/tolerance/new decision or later-update auto-loop.
+- **Current witness scope/next route:** call prepare_source after selectedFP32/CPUmetadata before runtime/teacher imports. CPP returns actual launchstream scalar; custom-op Python None unchanged; existing readback appends CPU tuple/actual allocator class only. No KV copy/CUDA values/new buffers/events/waits/locks/cache/dtype/stream or16requests/10flushes/teacher/argv/payload/sync intervention. Independent source/integration CPU+fixed reviews → boundedH800 witness with all16 baseline vectors exactly reproduced and actual call stream/class → separately qualified numeric capture → RCA/correction/correctness → fresh independent formal200→06. Host A8112/B5070 GDN rows+165plans each close CPU eager carry;169 translated rows only RID, physical writer/FULL indices/CUDA prefix-valid commit_lens remain unmeasured. Witness is not formal fallback/new scientific gate. No new GPU witness/numeric capture submitted or CPU/review PASS assumed; TP0/warm-response/56rep2/1024/allTP/physical/device/coherence/history/D39/D34/S7/seed differences/raw/checklists/B edge/H2006-profile2 unchanged, no A200 gate or later-update auto-loop.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -2256,3 +2280,58 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. Source/audit CLOSED＋archive70/33newSRC交付；没有GPU ordering/allocator数值或新的rootfix/performance结果。
 2. Native16/10接受scope不变：12controls/4warm-full、target100triples/169chunk；初版FAIL与unsalted3expectedFAIL完整保留，warm-response仍drift。
 3. Numeric measurementdesign只读IN-PROGRESS，ranked hypotheses不是已选实验；actual B seed不同，sourceSampler bypass只覆盖这些prefill-only请求，formal04/05HOLD/06等待200。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 | PASS | D34原始source/input/parity已接受，未重开 |
+| 02 | PASS | CPU/S7及D16真实first-update测量已接受 |
+| 03 | PASS | CPU module/integration已接受 |
+| 04 | BLOCKED | D40 witness source/integration准备；actual stream/class、physical/numeric/fix及formal200未接受 |
+| 05 | BLOCKED | firstA ACK/inspection/commoncycle已满足；shared正确性/fresh B200仍pending，无A200 gate |
+| 06 | TODO | CPU slice已接受，真实A/B200 finaldata未完成 |
+
+## 2. 偏离检测
+
+**结论：** 当前未发现execution drift；routine S5 stale-frontier correction已应用，不把source qualification当native/numeric PASS。
+**检测窗口：** 前次source-closure checkpoint/最近PASS至b20c780a及当前8-doc修正｜**当前前沿：** 04/05内独立witness SOURCE ‖ INTEGRATION CPU准备，phase reviewer独立反馈未预判。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 此次只更新必要8docs/既有检查；witness是获得actual stream/class的最小当前依赖，不扩recorder |
+| D2 细节反复重试 | CLEAR | Source5501资格推进，未重投GPU/反复改参数；doc patch一次文本不匹配未写入，按实际文本修正，引用按b20文件名校正 |
+| D3 支线问题修补 | CLEAR | Source/runtime资格均归04/05 D40，无新ticket或unowned修补 |
+| D4 可并行任务停滞 | CLEAR | source API/test/report与integration flag/config/caller独立已分配；不等另一方完成才准备 |
+| D5 超范围镀金 | CLEAR | 仅CPP launchstream scalar/actual class CPU tuple；不捕KV值、不加buffers/events/waits/locks/政策 |
+| D6 分析空转 | CLEAR | canonical source报告闭合static/CAPI/hostcarry后，具体转向可验收的actual witness，不继续扩大source archive |
+| D7 路线违背 | CLEAR | D39 H800/16-10/科学/S7/原B边保持；没有新GPU/numeric提交或scope/criterion/decision改变 |
+
+**文档检查：**
+- S1 CLEAR：01/02/03与B已满足边保持；独立source/integration准备不虚构串行依赖，formal200仍等正确性。
+- S2 CLEAR：source `prepare_source`与integration `kv_store_stream_witness`及后续numeric/RCA均归04/05，owners明确。
+- S3 CLEAR：witness只要求existing16-vector fidelity及actual stream/class；physical indices/commit_lens另列未测，不拿host RID替代。
+- S4 CLEAR：CPU+fixed reviews→boundedH800实际见证→numeric qualification，各有量化/明确完成标志，没加formal gate。
+- S5 HIT→已纠正：requirements phase/plan/current progress/spec/tickets旧numeric-proposal/allocator-Cython gap与b20 source qualification及selected witness准备不符；八份current状态/引用已修正。
+- S6 CLEAR：source API与caller/config两个scope互不覆盖、可各自CPU验收；native/physical/final200边界仍分开，未以准备宣称完成。
+**归因：** 无D HIT；S5是当前状态文字滞后。Primary earlier prerequisite块的67/1537/5501收集、commands、actual host rows与historical applied checkpoint保留，旧执行偏离不改写。
+
+## 3. 纠正建议
+
+**分支：** B：routine S5 factual status/reference correction已执行；无scope/criterion/user-decision更新或额外确认需要。
+
+**文档更新（先执行）：** requirements/plan/progress/summary/spec/review/tickets04/05 current状态更新static source CLOSED→witness-only preparation；primary旧prerequisite/current claims按证据更新、历史checkpoint原样保留。b20 canonical filenames核对为`design_kv_coherence_measurement.md`与`test_report_2026-11-11_kv_store_source_closure.md`，没有创建/编辑报告。
+**需停止的偏离行为：** 无当前D HIT；不得把推断allocator/source stream/cpuRID当actual class/launchstream/physical values，不假造CPU/review/native PASS。
+
+**接下去的路线：**
+1. 并行source `sglang_kv_streams.py:prepare_source`/test/report ‖ integration opt-in flag/config/first4 caller/test/report；完成标志为实际CPU测试与fixed-diff reviews交付，不预判。
+2. 再boundedH800 witness：API在selectedFP32/CPUmetadata后/runtime imports前，Python None不变、CPP actual scalar/CPUtuple/class；all16 baseline vectors必须精确复现。不复制KV/读CUDA值/加buffer/event/wait/lock或改teacher参数。
+3. Actual stream/class后单独qualify numerical capture/physical writer-FULL indices/commit_lens→RCA/correction/correctness→freshindependent A/B200→06。Witness非formal fallback/scientific gate，B不等A200/profile，无后续auto-rerun许可。
+
+## 4. 最值得关注的 3 点
+
+1. b20 static allocator/Cython/CAPI/fallback和CPU host carry闭合；actual native launchstream/class未测，inferredB allocator与MEMORY-off不等于cache-off。
+2. A8112/B5070/165plans each与169 RID translations不证明physical writer/FULL indices/CUDA prefix-valid commit_lens；no native/numeric causal/performance PASS。
+3. Source/integration witness准备已选，CPU/tests/reviews/native还pending且无新GPU提交；formal04/05 HOLD/06waiting200与原raw/科学/checklists/失败/B edge均不变。
