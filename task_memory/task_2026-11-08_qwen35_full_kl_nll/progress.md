@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Correct absent global batch accessor/CPP–Triton scope; accept79dba51b source CPU/fixed reviews only, keep integration opt-out/REAL joined pending and preserve prior source blockers. |
+| 2026-11-11 | Correct absent global ForwardContext batch field and CPP/Triton terminal scope; retain original source blocker, partial owner CPU delivery and open integration opt-out P2. |
 | 2026-11-11 | Preserve primary prerequisite/source-retention additions, update final static qualification and select independent witness-only preparation; no CPU/review/native or numeric acceptance invented. |
 | 2026-11-11 | Record blocked two-stage KV design, three prerequisite findings, zero-GPU complete kernel/TVM source retention and applied read-only route checkpoint. |
 | 2026-11-11 | Record selected archive/source audit closure and read-only numeric design; preserve failed collector/inspection evidence and all formal/scientific limits. |
@@ -188,12 +190,13 @@ PY
 
 ### KV measurement design prerequisite checkpoint — 2026-11-11
 
-- **TODO / numerical capture BLOCKED; witness-only preparation selected:** the earlier two-stage physical KV proposal remains in [the design artifact](design_kv_coherence_measurement.md), with canonical [design](design_kv_coherence_measurement.md)/[source report](test_report_2026-11-11_kv_store_source_closure.md) committed b20c780a. Earlier review identified OLD readiness/lifetime, launch/TVM/PDL ordering and CPU RID/flattened-row prerequisites. Final source qualification closes conditional static readiness/lifetime and CPU host carry, not actual native launchstream/allocator class, physical writer/FULL indices or CUDA prefix-valid commit_lens. Witness source/integration CPU tests/fixed reviews remain pending; no numerical instrumentation, GPU witness, causal fix or formal submission is accepted.
+- **SOURCE/integration CPU fixed reviews accepted; bounded A/B witness SUBMITTED/Running; numerical capture/formal BLOCKED:** Source79 and integration709/266 source/final integration Standards+Spec No findings accept CPU/source/integration only.192affected/453joined positive completeSource590 override PASS zeroSKIP, one intentional missingoverride SKIP notPASS; source preparation executes before MOCKED runtime/server/readback.381/1SKIP/190/451 and3aba absent-field/zero-native-edit blocker remain history. [Initial CR](evidence/teacher-scoring-kv-stream-witness-probe-20261111/initial-platform-verification.json) A exp-1111-113511-067358/B exp-1111-113511-669312 Running proves requested4GPUlimits/image165/creator/localNFS, not actual CUDA/source/compile/class/CPP–Triton stream/scalars/all16 vectors/terminal. No KV/CUDA commit_lens values/capture/fix/formal; budgets/science unchanged.
 - **Completed source retention only:** zero-GPU `exp-1111-094840-273565` Succeeded with 67 verified files / 30 store files / nine prior matches / zero mismatches. One complete source-closure submission `exp-1111-100210-790198` then Succeeded with 1,537 verified files / 21,897,427 bytes / 97 prior matches / zero mismatches, including installed `apache-tvm-ffi=0.1.11`. Both used the existing personal local backend and pinned image. Receipts are in `evidence/native-sglang-cache-source-20261111/`; collector success does not prove dependencies or physical lifetime.
 - Verification commands: local `/usr/bin/python3 -B` independently recomputed SHA256 and byte counts from each retained `source.json`, compared overlapping prior sources and asserted zero mismatches. Launches used `/data/ycfeng/tmp/stepmind-env/bin/python -B /data/ycfeng/tmp/opencode-v2-tmp/opencode/submit-full-component-source-20261111.py`; the worker command and image are retained in the two submission receipts. Neither job requested a GPU.
 - Exact source verification scope, commands, environment, actual counts and unverified interpreter/runtime limits are archived in [the source-closure test report](test_report_2026-11-11_kv_store_source_closure.md).
-- Read-only writer TaskID `profile-kv-coherence-writer-row-binding-20261111` statically confirms existing eager `get_forward_context().forward_batch` and request-ordered flattened writer rows; graph-only `runner_utils.get_forward_batch()` is not an eager accessor. Actual A/B CPU host propagation is closed by the retained rows below and final source qualification; actual physical indices/all-layer capture remain unmeasured.
+- **Corrected writer publication/source-stage acceptance:** the prior read-only assertion of existing eager `get_forward_context().forward_batch` was false; original context/eager source and3aba BLOCKED/zero edits stay historical. Source79 and integration709/266 fixed CPU/reviews now accept minimal existing context/replace/restoration publication and opt-out/real-module CPU wiring, not global native writer binding/CPP native compile/runtime/future RID propagation. No global/getterfallback/math/sync or native scalar coverage is inferred from mocks; all business results/terminal verification pending.
 - The prefix-valid follow-up confirms CUDA terminals bypass `_store_kv_layer`; a class-owned post-store boundary must preserve every reachable layer identity without double-counting CPU paths. Writer-versus-FULL physical-index equality remains an independent real-row check, not an inferred allocator result. CPU host fields are verified below; CUDA prefix-valid commit_lens/physical writer-FULL rows are not. No further fragmented source job is selected.
+- **CPP versus Triton:** CUDA prefix-valid terminals are Triton, not CPP. CPP actual-call scalar/CPU branch-selection metadata cannot certify Triton native stream; selected-without-actual-native-witness leaves payload arming insufficient. No CUDA commit_lens values are captured in witness preparation; do not substitute guessed Torch current stream.
 - Final launch/lifetime qualification closes Cython argument-setter/Torch CAPI/fallback stream-source chains. Recorded-B TokenToKVPoolAllocator is inferred, not historically measured; unified MEMORY off is not unified radixcache off. The allocator changes only indices, never KV payload. Existing S.wait(F)→OLD gather(S)→split/free IDs→next F.wait(S)→payload writes closes conditional static readiness/lifetime without added waits/locks, not actual native launchstream/class or GPU race exclusion. Zero-GPU `exp-1111-102145-988437` Succeeded with5,501files/79,478,292bytes/12Cython/hash+bytes PASS/1,805matching prior paths/0unmatched. No payload capture/forced FFI/new waits/locks/writer-only substitute/formal submission is selected.
 - Primary independently verified actual A/B CPU host-field carry: all 8,112/5,070 GDN allocation rows and 165 prefill plans per pair contain native RIDs plus CPU prefix/extend lengths, with zero missing fields, length mismatches or RIDs outside the 16 actual response IDs. Each pair's 169 translated-track rows contain RIDs only, not lens fields. This closes host carry but not actual writer/FULL-index equality or prefix-valid token semantics; the local probe request labels are not native RIDs.
 Historical checkpoints below are the primary package/host-carry stage before final static qualification and current witness preparation; their recorded decisions/results remain unchanged.
@@ -201,10 +204,10 @@ Historical checkpoints below are the primary package/host-carry stage before fin
 - Self-check after the package-source/host-carry deliverable: PASS 3 / BLOCKED 2 / TODO 1; D1-D7 CLEAR, no new S1-S6 defect, Branch A. The new package source closes selection omissions and host carry closes an actual prerequisite, but OLD physical lifetime and actual launch qualification still own the next frontier. No further source submission is planned before that qualification returns. A safe source design plus actual-call stream/real-row evidence is the next done condition, not a larger archive or a successful process exit. Formal source/input/profile dependencies and acceptance criteria are unchanged.
 - **Applied progress checkpoint:** `profile-kv-coherence-progress-checkpoint-20261111` reports PASS 3 / BLOCKED 2 / TODO 1, D1-D7 CLEAR in the window from `35e2d814`, no new S1-S6 defect, Branch A. Spec and ticket acceptance criteria remain unchanged. Primary recorded the completed source reads and launched independent read-only launch/lifetime qualification and CPU writer-row binding. Stop fragmented fetches; accept a safe design or state a concrete blocker, without new waits/locks, post-free fresh reads or an unapproved writer-only substitution. All16 diagnostic vectors must reproduce before interpreting capture; this is not a new formal gate or a race exclusion.
 
-- **D40 / WITNESS_ONLY_SOURCE_INTEGRATION_PREPARATION; formal04/05 BLOCKED.** b20c780a commits canonical design/source report and final5501-file source qualification. Primary18dc354b native16/10/archive70/raw98MB refs/immutable.diff whitespace/ignoredlog/initial FAIL/shared-control observations remain unchanged. Source agent independently owns `sglang_kv_streams.py:prepare_source`/test/report; integration owns opt-in `kv_store_stream_witness`/config/existing first4 caller/test/report. Source CPU tests/fixed reviews/native witness are pending; no new numerical capture/GPU/formal/fix/performance acceptance.
+- **D40 / SOURCE_AND_INTEGRATION_CPU_REVIEW_ACCEPTED; BOUNDED_WITNESS_A_B_SUBMITTED_RUNNING; formal04/05 BLOCKED.** Primary18dc native16/10/initial FAIL/shared-control history remains. Source79 fixed SOURCE bothaxesNo findings and integration709/266 FINAL Standards/Spec No findings accept CPU/source/integration only; originalP2 closed.192affected/453joined positive zeroSKIP, one intentional missingoverrideSKIP notPASS, three preparations before MOCKED runtime/server/readback; eight requestediterations not8 realScoringLoop. [A admission](evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-A-r1.json) exp-1111-113511-067358/[B admission](evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-B-r1.json) exp-1111-113511-669312 bothpersonalPython SUBMITTED/initialCRRunning, requested4nonpreemptibleH800 with creator/image165/localNFS verified; initiallimits are not actualnvidia/source/compile/stream/class/scalars/all16/terminal acceptance. Outerlaunchers timeout0; native3600/90 unchanged. Initial querylocal f-stringSyntaxError was beforeAPI, corrected without stop/retry/resubmit/nativeerror. No KV/CUDA values/capture/fix/formal submission.
 - **Archived native scope, original failures preserved:** [A controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)/[B controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)each12 exact controls/four salted warm-FULL cases retain original warm-response drift and undefined-zero counts. Corrected[A r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)/[B r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)accept100 applicable target triples, not65 shared-control geometry observations62PASS3expectedFAIL; initial false-scope FAILs/169chunks/16 observations remain archived, with no GPU rerun or extra unchanged gate. Necessary cross-request-sharing inference stays bounded first4/rep0/16/10, not numeric coherence/root/perf.
 - **Source/collector audits CLOSED, not GPU ordering:** pre-submit wrong-module ImportError corrected to StepMindController; first actual0GPU command failed with absentRJOB_NAME/private TMP700/file600 dependency. No stderr means permission denial is not directly observed. ActualKUBEBRAIN_RJOB_NAME and inline python-c eliminate private-temp dependence. [Retry terminal](evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[33-source manifest](evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)prove Succeeded/five components/SHA/SG0.5.24.dev80+g056f871/image165 and submit/terminal creator/mount;16 private literals were sanitized before primary commit. Exact H_index int64/copy=True/clone, FULL split/host/device clones, retained/no-overwrite and lock-ref/free paths have no source finding—not ordering/allocator values. Seed default random.randint[0,2^30], once-only TP/WORLD scheduler broadcast and grammarNONE prefill/logprobs-only Sampler bypass close these requests' entry scope; B seed still differs, no SameSeed/general RNG-free claim. Unexercised delayed grammar/Sampler is outside scope, not blocker.
-- **Current witness scope/next route:** call prepare_source after selectedFP32/CPUmetadata before runtime/teacher imports. CPP returns actual launchstream scalar; custom-op Python None unchanged; existing readback appends CPU tuple/actual allocator class only. No KV copy/CUDA values/new buffers/events/waits/locks/cache/dtype/stream or16requests/10flushes/teacher/argv/payload/sync intervention. Independent source/integration CPU+fixed reviews → boundedH800 witness with all16 baseline vectors exactly reproduced and actual call stream/class → separately qualified numeric capture → RCA/correction/correctness → fresh independent formal200→06. Host A8112/B5070 GDN rows+165plans each close CPU eager carry;169 translated rows only RID, physical writer/FULL indices/CUDA prefix-valid commit_lens remain unmeasured. Witness is not formal fallback/new scientific gate. No new GPU witness/numeric capture submitted or CPU/review PASS assumed; TP0/warm-response/56rep2/1024/allTP/physical/device/coherence/history/D39/D34/S7/seed differences/raw/checklists/B edge/H2006-profile2 unchanged, no A200 gate or later-update auto-loop.
+- **Current witness scope/next route:** SOURCE/integration CPU/fixed reviews accepted; actual bounded A/B witness now submitted, all native business/scalar/terminal/16-vector checks PENDING. Nativeall16 exact+actualclass/CPP stream+selected Tritoncoverage qualify separate physical/numeric capture/RCA/correction→fresh independent200→06. Prepare after selectedFP32/CPUmetadata before runtime/teacher imports; CPP scalar/Python None/CPU tuples only, no KV/CUDA commit_lens values/waits/locks/cache/dtype/16/10/science change. GDN carry/169RID translations do not prove actual writer; historical A path `evidence/kv-source-analysis-recovered-20261111/design-A.md` is now absent and kept plain-code, with only own-RID CPU geometry retained in [existing canonical design](design_kv_coherence_measurement.md), not numerical fault/future RID carry. CPP scalar cannot certify selected CUDA prefix-valid Triton; lacking actual coverage keeps capture insufficient. D39/D34/S7/HF-eval disabled/bank_uses50/B edge/oldfailures/H2006profile2/science/checkboxes/noA200gate unchanged, no capture/fix/formal submission.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -2335,3 +2338,111 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. b20 static allocator/Cython/CAPI/fallback和CPU host carry闭合；actual native launchstream/class未测，inferredB allocator与MEMORY-off不等于cache-off。
 2. A8112/B5070/165plans each与169 RID translations不证明physical writer/FULL indices/CUDA prefix-valid commit_lens；no native/numeric causal/performance PASS。
 3. Source/integration witness准备已选，CPU/tests/reviews/native还pending且无新GPU提交；formal04/05 HOLD/06waiting200与原raw/科学/checklists/失败/B edge均不变。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 | PASS | source/input CPU资格已接受，未重开 |
+| 02 | PASS | CPU/S7及retained D16 GPU已接受 |
+| 03 | PASS | integration CPU已接受，不扩成formal200 |
+| 04 | BLOCKED | SOURCE79 CPU/fixed reviews已接受；integration opt-outP2/REALjoined/fixedintegration rechecks及native CPP/Triton/global writer未完成 |
+| 05 | BLOCKED | B旧firstACK/inspection/commoncycle已满足；同integration P2/REALjoined/native/physical/numeric/fresh admission阻塞，无A200 gate |
+| 06 | TODO | CPU report已有，实际A/B200/native final data仍待 |
+
+## 2. 偏离检测
+
+**结论：** 本次docs-only执行命中D2；source/native进展不能据此宣称失败或接受。
+**检测窗口：** `0337da86`/上一checkpoint→`d9070605`、原`3aba44fd` BLOCKED、`262f1539` partial integration，以及后续`79dba51b` source CPU/fixed双review接受；包含本次8-doc更新trace。**当前前沿：** integration inherited-true opt-out P2修复、REAL source/integration joined/fixed integration rechecks；SOURCE CPU/source阶段已接受，不是GPU/数值capture。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | 修正false current getter/phase boundaries及必要8-doc checks，未改checker/frozen artifact或扩测试机器 |
+| D2 细节反复重试 | HIT | docs agent重复复用旧大patch上下文，progress/summary校验多次未命中，挤占状态同步；已停止，逐文件按实际文本更新 |
+| D3 支线问题修补 | CLEAR | unowned frozen/report links只报告；不修source/test/config/report或额外边题 |
+| D4 可并行任务停滞 | CLEAR | SOURCE79 CPU62focused/137priorstagePASS62SKIP/双review已接受；integration381/1SKIP+P2/REALjoined独立未完成，不串成B等A200 |
+| D5 超范围镀金 | CLEAR | authorized existing context field/restoration和opt-out均为原witness/RCA所需；无global/getterfallback/math/sync或新科学gate |
+| D6 分析空转 | CLEAR | direct source否定getter，CPP/Triton区分和A7955独立target得到具体source/P2修复路线，非继续泛化source archive |
+| D7 路线违背 | CLEAR | D39H800/D34/S7/16–10/source-only范围保持，SOURCE CPU/review仅依实际receipt接受；未提交GPU witness/capture/formal、未推定Spec P2/native接受 |
+
+**文档检查：**
+- S1 CLEAR：plan/04–05保留B已满足边；source+P2 rechecks→native CPP/Triton实际覆盖→qualified capture是真实依赖，不是A200 gate。
+- S2 CLEAR：missing原global publication由source79 CPU/source reviews闭合该阶段；formal-inherited-true P2/REALjoined由integration owner继续负责，均在04/05现有D40范围。
+- S3 CLEAR：all16 baseline/class/native覆盖与最终200仍可验证；CPP不足Triton不掩盖为PASS，不更改criterion。
+- S4 CLEAR：CPU/real joined/fixed reviews与实际stream/class/coverage数值/200区分done/notdone，未加入额外“unchanged”或模糊gate。
+- S5 HIT→已纠正：旧progress195把不存在的ForwardContext.forward_batch写为确认；各current字段把backend host carry泛化、CPP stream覆盖Triton及partial CPU状态需纠正。
+- S6 CLEAR：source CPU publication和integration injected/real-module rechecks可独立交付，native阶段明确另待；不把module历史SKIP当全native接受。
+
+**归因：** D2是本次docs执行偏离，不由spec/ticket导致；source/direct-read事实修正S5不修改原科学/验收/决策。
+
+## 3. 纠正建议
+
+**分支：** B：routine S5事实与phase边界校正已执行，无scope/criterion/userdecision更新。
+**文档更新（先执行）：** 8 owned current sections纠正原absent global field，随后实际79dba51b CPU/fixed SOURCE双review接受只覆盖source阶段；integration Standards0/Spec1P2、REALjoined/fixedintegration rechecks与CPP/Triton实际覆盖仍pending。原3aba BLOCKED/zero edits、historical A ownRID CPU target与raw/history/checklists保留，不推未来RID carry。
+
+**需停止的偏离行为：** D2停止复用旧大patch/假定context；按实际文件逐项修改，一次精确scope/raw/science/checkbox/link核验后commit，不延伸unowned link/artifact修补。
+
+**接下去的路线：**
+1. SOURCE79 existing context/replace/restoration publication CPU/fixedreviews已接受；integration inherited-true移除、wrapperfalse/absent opt-out P2、REAL source/integration joined和fixed integration rechecks仍PENDING。以实际receipt闭合，不假造62/137或381/skip为native接受。
+2. 后续boundedH800 all16 exact+actual allocator/global writer/CPP和选中Triton native覆盖；selected-without-actual-witness仍不足。无KV/commit_lens值/new waits/locks或当前GPU提交。
+3. 分别qualified physical/numeric capture/RCA/correction→fresh independent200 A/B→06。保留B edge/D39/S7/原failure及raw科学，没有A200/profile/fallback新gate或后续auto-loop。
+
+## 4. 最值得关注的 3 点
+
+1. 原global getter断言是错的；minimal existing-context publication79 CPU/fixed SOURCE reviews已接受，不是新global/fallback或GDN host carry证明native writer。
+2. CPP scalar不能certify CUDA prefix-valid Triton；actual compile/stream/class/global writer/all16/physical indices/commit_lens未测，integration P2/REALjoined/fixedintegration rechecks pending。
+3. Original3aba零edit BLOCKED与SOURCE79接受独立保留；integration历史381/1SKIP/Standards0/Spec1 P2未关闭。Formal04/05 HOLD/06waiting200、B满足边与科学不变；本次doc-only D2改为逐文件真实文本后已停止。
+
+## 1. 规划完成情况
+
+**汇总：** PASS 3｜BLOCKED/FAILED/SKIPPED 2｜TODO 1
+
+| 子任务 | 状态 | 简要依据 |
+| --- | --- | --- |
+| 01 | PASS | source/input已接受，未重开 |
+| 02 | PASS | CPU/S7/retained D16已接受 |
+| 03 | PASS | integration CPU原acceptance保留 |
+| 04 | BLOCKED | SOURCE79/integration709–266 CPU/fixed双review已接受；bounded A witness已submitted/CRRunning，actualCUDA/source/compile/class/CPP–Triton/all16/terminal未接受 |
+| 05 | BLOCKED | B firstACK/inspection/commoncycle满足；bounded B witness已submitted/CRRunning，native/numeric/fix/freshformal admission未接受，无A200 gate |
+| 06 | TODO | CPU report已有；actualA/B200/final data等待 |
+
+## 2. 偏离检测
+
+**结论：** Primary提供的SOURCE/integration acceptance阶段D1–D7 CLEAR；此前本次docs-only D2 HIT保留在前一checkpoint，不迁移为native失败或被删除。
+**检测窗口：** source79 CPU/fixed双review→optout7091b068/real-source26664e81、192affected/453joined positive zeroSKIP、FINAL双reviewNo findings→locked A/B admission/initialCRRunning。**当前前沿：** actual CUDA/source/CPPnativecompile/class/CPP–Triton scalar coverage/globalwriter/all16 vectors/terminal witness verification，not numeric/formal。
+
+| 模式 | 判定 | 依据 |
+| --- | --- | --- |
+| D1 工具打磨 | CLEAR | completeSource590 CPU fixture与fixedreview闭合实际opt-out/real-module scope，不再扩checker/artifact工具 |
+| D2 细节反复重试 | CLEAR | source/integration CPU从381/1SKIP经190/451到192/453推进；native只submit每pair一次，local querySyntaxError在API前校正无GPU重投 |
+| D3 支线问题修补 | CLEAR | publication/opt-out属于04/05 D40；unowned报告/冻结链接只记录 |
+| D4 可并行任务停滞 | CLEAR | SOURCE/integration与固定rechecks均落地；locked A/B witness并行submitted，不等待A200 |
+| D5 超范围镀金 | CLEAR | sourceCPU/source-review接受仅phase；MOCKED runtime/readback和8budget不夸成8nativeScoringLoop，KVcapture/formal未做 |
+| D6 分析空转 | CLEAR | direct source更正accessor与Triton范围后实现CPU修复/复验/真实admission，下一步是限定native输出核验 |
+| D7 路线违背 | CLEAR | D39H800/D34/S7/16–10/HF-eval关闭/bank_uses50/原Bedge保持；无scientific/fallback/extra gate或数字capture批准 |
+
+**文档检查：** S1 CLEAR（B满足边/并行witness）；S2 CLEAR（SOURCE/integration/native范围owners明确）；S3 CLEAR（16vector/class/CPP–Triton实际覆盖可验证且未假PASS）；S4 CLEAR（CPU与actual witness/200区分）；S5 HIT→已纠正（current原P2/REALjoined pending更新为accepted以及submitted/Running）；S6 CLEAR（sourceAPI/opt-out/real-source片段交付边界明确，MOCKS仍是MOCKS）。
+**归因：** 本段是实际source-phase primary checkpoint，非把先前docs-only D2改写CLEAR；它及原BLOCKED/381SKIP/190451/failure/raw记录均保留。
+
+## 3. 纠正建议
+
+**分支：** B：routine S5 factual current-state correction，无scope/criterion/new scientific decision。
+**文档更新（先执行）：** 八份current records按79/709/266/final reviews/initial admissions同步；旧source blocker/partialintegration/初始snapshot/history保留，missing历史A证据路径仅plain-code+明确现缺失，不伪造或删FAIL。此前docs-onlyD2停止context猜测，按实际文件编辑，8-doc精确核验后commit；不延伸unownedartifact修补。
+**接下去的路线：**
+1. Native A exp-1111-113511-067358/B exp-1111-113511-669312 requested4nonpreemptH800/CRRunning，不等documentation；primary只读核验actualnvidia/source/image/localNFS/compile/business/actualclass/streams/all16/terminal。Launchers outertimeout0/native3600–90不变，无重投或stop。
+2. All16 exact+actualCPP/Triton覆盖后再separatelyqualifiedphysical/numericcapture；无KV/CUDAcommit_lens值或新wait/lock/cache/dtype/sync/science。CPP scalar/CPU选中metadata或Torch current不是Tritonactualstream。
+3. NumericRCA/correction/correctness/freshadmission→independentformal A/B200→06，保持B已满足edge/no A200/profile gate、HF/eval关闭、bank_uses50。无native/fix/perf/formal接受和后续auto-loop。
+
+**本次8-doc verification（非business/source/GPU tests）：** existing raw/decisions、六ticket checkbox（A/B17）、S1–S9、六verification方法和历史plan/review/checkpoint保存PASS；source79/integration709–266 acceptance与initialCRRunning/native-unaccepted边界已核对。Latest four-section3/2/1 source-phaseD1–D7 CLEAR，earlier docs-onlyD2保留。Scope whitespace PASS。Global existingchecker实际81documents/6tickets/472links/88anchors/64errors：62在冻结snapshot/copied reports，2在primary root reports的代码表达式/`artifact`链接，owned0；不改checker/报告/冻结证据、不补写缺失历史证据、不因此撤销CPU/source接受或阻塞native tests。先前doc guard多余字面token/每ticket jobID假设已移除，仅检验实际raw/science/checkbox/histories/current proofs；不为通过检查改docs/科学。Executed repo-root commands:
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+## 4. 最值得关注的 3 点
+
+1. Source79/integration709–266 CPU/fixedSOURCE及FINALintegration双review全部接受；453positivezeroSKIP、intentionalmissingoverrideSKIP不当PASS，actualsource准备beforeMOCKED runtime/readback，不是GPU运行证明。
+2. A/B lockedpersonalPython admission/CRRunning只证submit/request4GPU/image165/creator/localNFS；actualCUDA/source/CPPcompile/class/CPP–Triton/scalars/all16/terminal全部pending。NoKVcopy/capture/formal。
+3. 原3aba blocker/zeroNativeEdits与D2 docs trace保留；unmodified globalbatch断言已纠正，sourcefield只是CPU阶段接受。Formal04/05 HOLD、06waiting200和原scientific/raw/checklists/Bedge全部不变。

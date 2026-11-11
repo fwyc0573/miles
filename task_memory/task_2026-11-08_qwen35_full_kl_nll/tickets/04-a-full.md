@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept SOURCE79 CPU/fixed reviews only; retain integration opt-out P2/REAL joined pending and absent original global accessor/CPP–Triton native limits. |
+| 2026-11-11 | Correct missing global field and CPP/Triton coverage; record owner CPU delivery, partial integration and open opt-out P2 with native/formal hold. |
 | 2026-11-11 | Advance current D40 to witness-only source/integration preparation after static source closure; preserve formal criteria and pending actual stream/class/numeric evidence. |
 | 2026-11-11 | Close retained source/archive qualification and advance read-only numeric design; preserve formal A hold and every acceptance checkbox. |
 | 2026-11-11 | Accept A bounded namespace controls/target isolation after inspector scope correction without closing formal correctness, source/cause/full-coverage or200 criteria. |
@@ -43,9 +45,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/commoncycle/native16/10/static source资格均接受；witness CPU/review/native actual stream/class、physical/numeric capture/RCA/correction/freshindependent200仍pending，不resume或拼接旧probe/6。
+**Blocked by:** 01、02、03 及D16/commoncycle/native16/10/source79/integration709–266 CPU双review已接受；opt-out P2已关闭。Bounded A/B witness已submitted/Running，actualCUDA/source/compile/class/globalwriter/CPP–Triton scalar/all16/terminal及physical/numeric/RCA/fresh200仍pending。Historical CPU geometry不证明future RID carry，不resume或拼接旧probe/6。
 
-**Status:** BLOCKED formal / WITNESS_ONLY_SOURCE_INTEGRATION_PREPARATION D40。b20c780a[design](../design_kv_coherence_measurement.md)/[source report](../test_report_2026-11-11_kv_store_source_closure.md)及5501-file qualification闭合conditional static allocator/Cython/CAPI/fallback source；actual launchstream/class/physical writer-FULL indices/CUDA prefix-valid commit_lens仍未测。Source/integration在selectedFP32/CPUmetadata后、runtime/teacher imports前独立准备witness：CPP launchstream scalar、Python None不变、existing readback仅CPUtuple/class。CPU tests/fixed reviews/native witness仍PENDING；all16 baseline exact+actual stream/class后再单独qualify numerical capture。无KV复制/值读/buffers/events/waits/locks/cache/dtype/stream/16-10/teacher变更，无新GPU提交。Bounded16/10/原FAIL/shared-control observations/seed差异/raw history/D39/S7/checklists保持；非formal fallback/new scientific gate，warm-response/56rep2/1024/allTP/physical/coherence/history/root/perf/200未解除；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / SOURCE_AND_INTEGRATION_CPU_ACCEPTED–BOUNDED_WITNESS_SUBMITTED_RUNNING D40。[Source79](../test_report_2026-11-11_kv_stream_witness_source.md)与[integration709/266](../test_report_2026-11-11_kv_stream_witness_integration.md) fixed双review No findings/P2关闭接受CPU/source/integration：192affected/453joined completeoverride PASS零SKIP，intentional missingoverride SKIP非PASS；runtime/server/readback为MOCKS，非8真实scoring。381/1SKIP/190–451/3aba原blocker保留。[A admission](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-A-r1.json) exp-1111-113511-067358 requested4nonpreemptibleH800，[初始CR](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/initial-platform-verification.json) Running/creator/image165/localNFS/limits4不等于actualCUDA/source/compile/class/scalars/globalwriter/all16/terminal。CPP scalar不能certify selectedTriton stream；无KV/CUDA commit_lens值/capture/fix/formal提交，16/10/native3600/90/D39/D34/S7/HF-eval禁用/bank_uses50/raw/checklist/Bedge不变。Nativewitness资格→独立numeric/RCA/fresh200→06，无A200 gate/fallback。[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

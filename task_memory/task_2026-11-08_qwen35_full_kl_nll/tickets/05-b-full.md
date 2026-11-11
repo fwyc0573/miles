@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept SOURCE79 CPU/review only; integration P2/REAL joined and native CPP/Triton witness pending, satisfied A edge unchanged. |
+| 2026-11-11 | Correct global publication and CPP/Triton boundary; retain satisfied B edge with source/integration partial CPU and open opt-out P2. |
 | 2026-11-11 | Record witness-only preparation and closed static source; preserve B's satisfied edge and all pending numerical/formal acceptance criteria. |
 | 2026-11-11 | Close B source/archive scope despite different seed; hold formal B on numeric correctness/design/full coverage without a new A200 gate or checkbox change. |
 | 2026-11-11 | Accept B bounded namespace controls/target isolation while qualifying different resolved seed and pending entry-source/full-coverage evidence; keep formal criteria open. |
@@ -40,9 +42,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle/native16/10/static source已接受。Shared witness CPU/review/native stream-class、physical/numeric capture/RCA/correction/freshB200仍pending，无A200/profile/32-H200 gate/stop权限。
+**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle/native16/10/source79/integration709–266 CPU双review/P2关闭已满足。Bounded B witness submitted/Running但actualCUDA/source/class/scalars/all16/terminal及physical/numeric/RCA/freshB200仍pending。无A200/profile/32-H200 gate/stop权限，CPP/source reviews非native接受。
 
-**Status:** BLOCKED formal / WITNESS_ONLY_SOURCE_INTEGRATION_PREPARATION D40; formal B not started。b20c780a[design](../design_kv_coherence_measurement.md)/[source report](../test_report_2026-11-11_kv_store_source_closure.md)闭合conditional static allocator/Cython/CAPI/fallback；recordedB allocator仅推断，actual class/call stream未测，unified MEMORY off不等于radixcache off。Source/integration独立CPU准备，CPP scalar/Python None/CPUtuple existingreadback，保持16/10/teacher参数且不复制KV/读CUDA值/新增buffers/events/waits/locks/intervention；tests/reviews/native witness未PASS或提交。All16 exact vectors+actual stream/class后单独qualify numeric capture；CPU eager RID/lens已闭合，physical writer/FULL indices/device commit_lens仍pending。Native16/10/原FAIL/shared-control3fail/raw history/seed不同/grammarNONE scope/D39/S7/Bedge/checklists保持；不是formal fallback/new gate，warm-response/56rep2/1024/allTP/physical/coherence/history/root/perf/200待验，无A200 gate；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / SOURCE_AND_INTEGRATION_CPU_ACCEPTED–BOUNDED_WITNESS_SUBMITTED_RUNNING D40; formal B not started。[Source79](../test_report_2026-11-11_kv_stream_witness_source.md)/[integration709/266](../test_report_2026-11-11_kv_stream_witness_integration.md)固定双review No findings/P2关闭只接受CPU/source/integration；192affected/453joined positive completeoverride PASS零SKIP，intentional missingoverride SKIP非PASS，runtime/server/readback为MOCKS非真实scoring，381/1SKIP/190–451历史保留。[B admission](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-B-r1.json) exp-1111-113511-669312 requested4nonpreemptibleH800，[初始CR](../evidence/teacher-scoring-kv-stream-witness-probe-20261111/initial-platform-verification.json) Running/creator/image165/localNFS/limits4不等于actualCUDA/source/compile/class/CPP–Triton scalar/globalwriter/all16/terminal。无KV/CUDA commit_lens值/capture/fix/formal提交；16/10/native3600/90/D39/D34/S7/HF-eval禁用/bank_uses50/Bedge/raw/checklists保持。Nativewitness资格后独立numeric/RCA/fresh200→06，无A200/profilegate/fallback。[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
