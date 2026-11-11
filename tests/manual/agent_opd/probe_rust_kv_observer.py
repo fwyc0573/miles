@@ -392,9 +392,11 @@ def _contended_getter(torch, module) -> None:
 
     thread = threading.Thread(target=read_outside_callback, daemon=True)
     thread.start()
-    _walk(core, _params(module, torch, [1, 2, 8], [20, 21, 28], capture=Capture(expected)), torch)
+    capture = Capture(expected)
+    _walk(core, _params(module, torch, [1, 2, 8], [20, 21, 28], capture=capture), torch)
     thread.join(10)
     assert completed.is_set() and not thread.is_alive() and not failures, failures
+    assert capture.rows and not capture.invalidations, capture.invalidations
 
 
 def _suspended_observer_lifetime(torch, module, *, abort: bool) -> None:

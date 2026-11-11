@@ -1,0 +1,690 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "status": "SOURCE_READY; contended getter topology P2 native requalification PENDING",
+  "host_python": "3.10.6",
+  "native_extension_rebuild": false,
+  "inputs": {
+    "observer-build-pending.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer-build-pending.json",
+      "sha256": "a881ff39a27aa6325ae7f7b858a2441bf457e772348198a4107a8e7fae64ebcf",
+      "bytes": 7974
+    },
+    "source-manifest.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/source-manifest.json",
+      "sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3",
+      "bytes": 6901
+    },
+    "build-baseline.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.json",
+      "sha256": "b4ac579706ce837b7a5caf1ced58f0aebdd7fe9ed71e28e21c5e096d6d39ec82",
+      "bytes": 2210
+    },
+    "build-observer.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.json",
+      "sha256": "627f35d5a5d7f73cf6f9a2b381e43be4cc30c11a9bbff1aafa4c875184f3eff9",
+      "bytes": 2212
+    },
+    "qualification-command.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification-command.json",
+      "sha256": "f19dbf70ecec00b571d772b3bb4d463d0836e2e450caa47a5962317a909604c6",
+      "bytes": 449
+    },
+    "qualify-original.stderr": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualify-original.stderr",
+      "sha256": "9e03df976a6f6913cabb123dd396502d235d6e24f5b4e4389b30d516219e7c68",
+      "bytes": 1287
+    },
+    "r2-source-manifest.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r2/source-manifest.json",
+      "sha256": "09ac39547c700fc7437551aef200b8ab9b43ca2a3f98dc7c1e60d23a28b1958b",
+      "bytes": 5789
+    },
+    "r2-resume-config.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r2/resume-config.json",
+      "sha256": "2e04decbac9065982131b3d70d049e37578be70645839539f0069f5490eb79c4",
+      "bytes": 1238
+    }
+  },
+  "retained_libraries": {
+    "baseline": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+      "bytes": 3398568
+    },
+    "observer": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+      "bytes": 3411248
+    }
+  },
+  "owned_code": {
+    "tests/manual/agent_opd/sglang_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_rust_kv_observer.py",
+      "sha256": "acf89c7425ba38a0a497adfd27cf2fe71979f77922d7af5f6b66a6685175442d",
+      "bytes": 30521
+    },
+    "tests/manual/agent_opd/probe_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_rust_kv_observer.py",
+      "sha256": "e8a7944bcf9fbf3601b5d1f4c386bc39d9398cd59cf6627707e600cf3365310c",
+      "bytes": 29796
+    },
+    "tests/fast/test_sglang_rust_kv_observer.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/fast/test_sglang_rust_kv_observer.py",
+      "sha256": "1ff4d69cf016ee6bef8f264723b83ea137493ca67dd3fb06f3c8c36b0009f49a",
+      "bytes": 36000
+    },
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r3/resume-config.json": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/rust-kv-observer-qualification-preparation-20261111-r3/resume-config.json",
+      "sha256": "ad1e1d7f85cf429d86954ba4b1465afa8dc92d7f008859afca8e3c66047fe042",
+      "bytes": 1318
+    }
+  },
+  "rust_after_unchanged": true,
+  "rust_file_count": 22,
+  "production_module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+  "abi_audit": {
+    "key_buffer": {
+      "format": "q",
+      "itemsize": 8,
+      "ndim": 1,
+      "c_contiguous": true
+    },
+    "insert_result_fields": [
+      "rotation_tail_declined",
+      "prefix_len",
+      "total_len",
+      "last_device_node",
+      "inserted_host_node",
+      "host_insert_dropped",
+      "mamba_exist",
+      "swa_branch_inserted",
+      "adopted_ranges",
+      "cache_actions"
+    ],
+    "match_result_fields": [
+      "device_prefix_len",
+      "last_device_node_id",
+      "last_host_node_id",
+      "best_match_node_id",
+      "last_visited_node_id",
+      "full_device_match_len",
+      "host_hit_length",
+      "swa_host_hit_length",
+      "swa_branching_seqlen",
+      "mamba_host_hit_length",
+      "mamba_branching_seqlen",
+      "full_kv_hit_length",
+      "cache_actions"
+    ],
+    "used_core_methods": [
+      "begin_insert",
+      "collect_path_info",
+      "commit_backup",
+      "demote",
+      "end_insert",
+      "evict_excess_path_states",
+      "get_component_device_value",
+      "has_ongoing_insert",
+      "match_prefix",
+      "resume_insert"
+    ],
+    "path_tuple_fields": [
+      "node_id",
+      "parent_id",
+      "path_start",
+      "path_end",
+      "full_value_len",
+      "num_children"
+    ]
+  },
+  "original_binary_source_commit": "UNVERIFIED",
+  "raw_attempt_inputs": {
+    "evidence/native-rust-kv-observer-build-20261111": {
+      "adapter.patch": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/adapter.patch",
+        "sha256": "53213be5a19517a0b3ac9591ba5c71d38aaafca33c169b2bfe17c4078482e07e",
+        "bytes": 467
+      },
+      "build-baseline-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline-command.json",
+        "sha256": "6881637f03ea98da984ca578ab1332365cee8e24d3da937be3ee6ab566de0533",
+        "bytes": 677
+      },
+      "build-baseline.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.json",
+        "sha256": "b4ac579706ce837b7a5caf1ced58f0aebdd7fe9ed71e28e21c5e096d6d39ec82",
+        "bytes": 2210
+      },
+      "build-baseline.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.stderr",
+        "sha256": "c233f21a1c61ab774b5b3641344eb7ce6a7c460b657dfd5759200820c8f53347",
+        "bytes": 2964
+      },
+      "build-baseline.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-baseline.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "build-observer-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer-command.json",
+        "sha256": "516a01b191654c192ff97dcd16bdaf2d9d5121dbfe6a839357b8c75b786529c5",
+        "bytes": 677
+      },
+      "build-observer.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.json",
+        "sha256": "627f35d5a5d7f73cf6f9a2b381e43be4cc30c11a9bbff1aafa4c875184f3eff9",
+        "bytes": 2212
+      },
+      "build-observer.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.stderr",
+        "sha256": "a9701948034ea9d05f2942d9253f288209494246b88c31444978ca66052bffe3",
+        "bytes": 2964
+      },
+      "build-observer.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/build-observer.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+        "bytes": 3398568
+      },
+      "libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+        "bytes": 3411248
+      },
+      "observer-build-pending.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer-build-pending.json",
+        "sha256": "a881ff39a27aa6325ae7f7b858a2441bf457e772348198a4107a8e7fae64ebcf",
+        "bytes": 7974
+      },
+      "observer-build.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer-build.json",
+        "sha256": "4c967246e2cb3ab54e454b87f1a22231c73a7829037dbd98f19ad19bfb2e017b",
+        "bytes": 15835
+      },
+      "observer.patch": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/observer.patch",
+        "sha256": "91754871e394cdab9fda0a1f1b75d1399546b92d0d23b5e77a62d55c4777b213",
+        "bytes": 12201
+      },
+      "qualification-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification-command.json",
+        "sha256": "f19dbf70ecec00b571d772b3bb4d463d0836e2e450caa47a5962317a909604c6",
+        "bytes": 449
+      },
+      "qualification.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification.stderr",
+        "sha256": "47767d97ecb3d60fd215b5bf45fd0a454e4c0965dedb97718e77a4ed375c7361",
+        "bytes": 637
+      },
+      "qualification.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualification.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-original-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualify-original-command.json",
+        "sha256": "1440cf66849e2201e53a5d2f7bcb3c0bc581d98d27c0d96c286bf2f706998ed4",
+        "bytes": 411
+      },
+      "qualify-original.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualify-original.stderr",
+        "sha256": "9e03df976a6f6913cabb123dd396502d235d6e24f5b4e4389b30d516219e7c68",
+        "bytes": 1287
+      },
+      "qualify-original.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/qualify-original.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "source-manifest.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/source-manifest.json",
+        "sha256": "41bc2e1788d0c423530a91a26f37beaff3100aa81ce100563ebdfb183ca061d3",
+        "bytes": 6901
+      },
+      "sources/baseline/Cargo.lock": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/Cargo.lock",
+        "sha256": "361d0a6948c2a3c178fc6b07eb9a2321a44b21d41fc14929e672a0bd1ae9e4da",
+        "bytes": 22141
+      },
+      "sources/baseline/Cargo.toml": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/Cargo.toml",
+        "sha256": "3b69d62195db3c1e1d9c0da0e4c355f444e68cebfb11354dde9ca6f0b9ddb2f3",
+        "bytes": 1214
+      },
+      "sources/baseline/src/cache_action.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/cache_action.rs",
+        "sha256": "ec60c4daa878d3ee345b14a4ba13e18e41d6ce1a73e1def5b2d2266dda37c5c4",
+        "bytes": 4921
+      },
+      "sources/baseline/src/components/full.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/components/full.rs",
+        "sha256": "fc7f8302390743626d94f4756f68ecba4340a5a53aaafb5d1cb7a6f496125510",
+        "bytes": 21673
+      },
+      "sources/baseline/src/components/mamba.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/components/mamba.rs",
+        "sha256": "e49a2e4d654427a72ce667e8cf3015862673e1306d8f4908a8e006d13232634d",
+        "bytes": 31285
+      },
+      "sources/baseline/src/components/mod.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/components/mod.rs",
+        "sha256": "c6f7a9126fd54613c94ac898be3a7891e5110a6d4f05cd3089f5327adaec8fdc",
+        "bytes": 24283
+      },
+      "sources/baseline/src/components/swa.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/components/swa.rs",
+        "sha256": "5f209168ae589c449ea47484112823095a93773e262f1fa8b9f324238bd4e52f",
+        "bytes": 54642
+      },
+      "sources/baseline/src/lib.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/lib.rs",
+        "sha256": "2a607d116c44d1ed045b70bd675b537c94724275c9eec386b68daafbae4ddd0a",
+        "bytes": 739
+      },
+      "sources/baseline/src/node.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/node.rs",
+        "sha256": "826ef0bed6c15a53e67fff3b7dd0797dc945de73fb97d2af6df3588507ce111f",
+        "bytes": 63373
+      },
+      "sources/baseline/src/python_bindings/cache_action.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/python_bindings/cache_action.rs",
+        "sha256": "28bf650a12426df6c20a75f9f6b5bb58564be80cb16d92bcaca99e6292c33fac",
+        "bytes": 3119
+      },
+      "sources/baseline/src/python_bindings.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/python_bindings.rs",
+        "sha256": "d6f55c307b99195902f6e2c24f8c013b6a1aace0edd51982fedac17bb67adf61",
+        "bytes": 163894
+      },
+      "sources/baseline/src/tests/components/base.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/components/base.rs",
+        "sha256": "061f6eede709b2b97280681dff4264c9a84e436761c3711d273cc72b69649ab6",
+        "bytes": 14290
+      },
+      "sources/baseline/src/tests/components/full.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/components/full.rs",
+        "sha256": "1416c7c35c77aa912a6639542bb658ba983dac757a50bc006aecbdc26b542199",
+        "bytes": 99001
+      },
+      "sources/baseline/src/tests/components/mamba.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/components/mamba.rs",
+        "sha256": "69c83d0c712003bef3275ed82cf0250349722025dbeaa36025fe5d2a6ca9d422",
+        "bytes": 86874
+      },
+      "sources/baseline/src/tests/components/swa.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/components/swa.rs",
+        "sha256": "837c98eeb431d127431347bccd58e3d177d20817fd53eca95ad37ec233a0df92",
+        "bytes": 239925
+      },
+      "sources/baseline/src/tests/node.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/node.rs",
+        "sha256": "e8d37e7eb647ab9b49f98c4eed4157640560252557a360871323f49ffe58f360",
+        "bytes": 61318
+      },
+      "sources/baseline/src/tests/test_utils.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/test_utils.rs",
+        "sha256": "ca576b74d1aca874a3a6f3705b808a97610cd978798f20187ad3d15965d543eb",
+        "bytes": 1635
+      },
+      "sources/baseline/src/tests/unified_lru_list.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/unified_lru_list.rs",
+        "sha256": "500d68b6ce132461ac254ff2e4af8d76c336bab2d4de3ea962b9cfaa3172dde6",
+        "bytes": 33715
+      },
+      "sources/baseline/src/tests/unified_tree_core.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/tests/unified_tree_core.rs",
+        "sha256": "4a189155528655c017674e59f7bfd057c898514efa382990aa44dba376f578d7",
+        "bytes": 325370
+      },
+      "sources/baseline/src/unified_lru_list.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/unified_lru_list.rs",
+        "sha256": "c8f1e4a22fbe9683caac3f5ebb45d6a9bc42a9f165b535a0584cc483a106ee5b",
+        "bytes": 19081
+      },
+      "sources/baseline/src/unified_tree_core.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/src/unified_tree_core.rs",
+        "sha256": "e0af738c0fadcaa5a471e17d1d618a2f4aa0a20e336751b6da3b534111a837c6",
+        "bytes": 241586
+      },
+      "sources/baseline/torch_compat.h": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/baseline/torch_compat.h",
+        "sha256": "f619ac5d2a4b279a1808d6588118872de0800c954a8e0a97888460bd80cfdc71",
+        "bytes": 2361
+      },
+      "sources/observer/Cargo.lock": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/Cargo.lock",
+        "sha256": "361d0a6948c2a3c178fc6b07eb9a2321a44b21d41fc14929e672a0bd1ae9e4da",
+        "bytes": 22141
+      },
+      "sources/observer/Cargo.toml": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/Cargo.toml",
+        "sha256": "3b69d62195db3c1e1d9c0da0e4c355f444e68cebfb11354dde9ca6f0b9ddb2f3",
+        "bytes": 1214
+      },
+      "sources/observer/src/cache_action.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/cache_action.rs",
+        "sha256": "ec60c4daa878d3ee345b14a4ba13e18e41d6ce1a73e1def5b2d2266dda37c5c4",
+        "bytes": 4921
+      },
+      "sources/observer/src/components/full.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/components/full.rs",
+        "sha256": "fc7f8302390743626d94f4756f68ecba4340a5a53aaafb5d1cb7a6f496125510",
+        "bytes": 21673
+      },
+      "sources/observer/src/components/mamba.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/components/mamba.rs",
+        "sha256": "e49a2e4d654427a72ce667e8cf3015862673e1306d8f4908a8e006d13232634d",
+        "bytes": 31285
+      },
+      "sources/observer/src/components/mod.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/components/mod.rs",
+        "sha256": "c6f7a9126fd54613c94ac898be3a7891e5110a6d4f05cd3089f5327adaec8fdc",
+        "bytes": 24283
+      },
+      "sources/observer/src/components/swa.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/components/swa.rs",
+        "sha256": "5f209168ae589c449ea47484112823095a93773e262f1fa8b9f324238bd4e52f",
+        "bytes": 54642
+      },
+      "sources/observer/src/lib.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/lib.rs",
+        "sha256": "2a607d116c44d1ed045b70bd675b537c94724275c9eec386b68daafbae4ddd0a",
+        "bytes": 739
+      },
+      "sources/observer/src/node.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/node.rs",
+        "sha256": "826ef0bed6c15a53e67fff3b7dd0797dc945de73fb97d2af6df3588507ce111f",
+        "bytes": 63373
+      },
+      "sources/observer/src/python_bindings/cache_action.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/python_bindings/cache_action.rs",
+        "sha256": "28bf650a12426df6c20a75f9f6b5bb58564be80cb16d92bcaca99e6292c33fac",
+        "bytes": 3119
+      },
+      "sources/observer/src/python_bindings.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/python_bindings.rs",
+        "sha256": "1e4f7d60918e2d6f8cc110d59f2b1564c31801a73547027b22597ad3b9ecb0fe",
+        "bytes": 166257
+      },
+      "sources/observer/src/tests/components/base.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/components/base.rs",
+        "sha256": "ecb4383c1a1125daa2557932d70eca1fa4cef6c6336280ea24d0ae5d8a9dec16",
+        "bytes": 14327
+      },
+      "sources/observer/src/tests/components/full.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/components/full.rs",
+        "sha256": "c7a428288026d2125ee39b76e12d80b6d413eb5781611e11b92bc54867207c9f",
+        "bytes": 99067
+      },
+      "sources/observer/src/tests/components/mamba.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/components/mamba.rs",
+        "sha256": "25b1394f195a4ab074c6ac94acf2d76695e0ecca10d2b13118a7babbc417d93e",
+        "bytes": 86907
+      },
+      "sources/observer/src/tests/components/swa.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/components/swa.rs",
+        "sha256": "5c54e78c6be86e5348c4db2fbf6666910931ff18d066edd894f60898e0fce467",
+        "bytes": 239958
+      },
+      "sources/observer/src/tests/node.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/node.rs",
+        "sha256": "e8d37e7eb647ab9b49f98c4eed4157640560252557a360871323f49ffe58f360",
+        "bytes": 61318
+      },
+      "sources/observer/src/tests/test_utils.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/test_utils.rs",
+        "sha256": "ca576b74d1aca874a3a6f3705b808a97610cd978798f20187ad3d15965d543eb",
+        "bytes": 1635
+      },
+      "sources/observer/src/tests/unified_lru_list.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/unified_lru_list.rs",
+        "sha256": "500d68b6ce132461ac254ff2e4af8d76c336bab2d4de3ea962b9cfaa3172dde6",
+        "bytes": 33715
+      },
+      "sources/observer/src/tests/unified_tree_core.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/tests/unified_tree_core.rs",
+        "sha256": "f2aa225f2b15fec42366d2a90b0ee07bf75d9a34c65a1fb9b06ad5da7c7a9250",
+        "bytes": 327594
+      },
+      "sources/observer/src/unified_lru_list.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/unified_lru_list.rs",
+        "sha256": "c8f1e4a22fbe9683caac3f5ebb45d6a9bc42a9f165b535a0584cc483a106ee5b",
+        "bytes": 19081
+      },
+      "sources/observer/src/unified_tree_core.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/src/unified_tree_core.rs",
+        "sha256": "152aa1e579f246d5b1beca04f4a80970e470a42eb94a8ed1e378fa0e1719fb0d",
+        "bytes": 242183
+      },
+      "sources/observer/torch_compat.h": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/sources/observer/torch_compat.h",
+        "sha256": "f619ac5d2a4b279a1808d6588118872de0800c954a8e0a97888460bd80cfdc71",
+        "bytes": 2361
+      }
+    },
+    "evidence/native-rust-kv-observer-qualification-20261111-r2": {
+      "dependencies/pyo3-0.29.2/src/internal/state.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/pyo3-0.29.2/src/internal/state.rs",
+        "sha256": "9bc1baee1c3f6ad86d860bc23297ad15aed5e7a6eeec19c93a3b78255789ec85",
+        "bytes": 20581
+      },
+      "dependencies/pyo3-0.29.2/src/marker.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/pyo3-0.29.2/src/marker.rs",
+        "sha256": "3255f90c8eba236f0cc5594adca4a3cb0bf17c26b9c242d803e6d5d6a7dc7182",
+        "bytes": 37142
+      },
+      "dependencies/tch-0.24.0/src/wrappers/python.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/tch-0.24.0/src/wrappers/python.rs",
+        "sha256": "85e660baa0735954d4003fad47d24a8066451131c56303bf9fee88025eb44bd3",
+        "bytes": 1155
+      },
+      "dependencies/tch-0.24.0/src/wrappers/tensor.rs": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/tch-0.24.0/src/wrappers/tensor.rs",
+        "sha256": "965eea22e487b9cc801c6c96730dd297c9f18d22c2fc8104bc698e5d4eceeb60",
+        "bytes": 29651
+      },
+      "dependencies/torch-sys-0.24.0/libtch/torch_api.cpp": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/torch-sys-0.24.0/libtch/torch_api.cpp",
+        "sha256": "3b416a34ff5a6dda9ec6e88ef8e6e8735228e2501ec3c2a01919d93217eaccea",
+        "bytes": 46928
+      },
+      "dependencies/torch-sys-0.24.0/libtch/torch_python.cpp": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependencies/torch-sys-0.24.0/libtch/torch_python.cpp",
+        "sha256": "fdfd9bb88687fb47e7066a9358af97292a7fdb3c6222c62f6a8b1f554b613b2f",
+        "bytes": 394
+      },
+      "dependency-source-manifest.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/dependency-source-manifest.json",
+        "sha256": "d8bbd6b5a6f594ac238f88b393a8b3c8f41f749a149adac2dacc2e7983013e73",
+        "bytes": 114207
+      },
+      "native-fixtures.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/native-fixtures.json",
+        "sha256": "17ae81214b4135564aece1e0d5cd509bbac3e3df8ec313fbfb7a520bd106d078",
+        "bytes": 478
+      },
+      "native-fixtures.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/native-fixtures.stderr",
+        "sha256": "2e1085d2daa1be50a12377b9f7a761b3105bee58a4f12de25de4c8247a72b9b0",
+        "bytes": 2827
+      },
+      "native-fixtures.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/native-fixtures.stdout",
+        "sha256": "2a77125c08c80b60958d09dee3ac46caf6b4688b3fa21f6ddf61b9d021db6afb",
+        "bytes": 314
+      },
+      "native-verification.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/native-verification.json",
+        "sha256": "3867da15a6a14fcce1a5418400f68059dc0d59e12c2f820773a14eea771bc9a6",
+        "bytes": 13730
+      },
+      "qualification-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualification-command.json",
+        "sha256": "d350cdf0801ba3b2254c8f001cd273bdb8bb87b608c795980c0289f0d3412a25",
+        "bytes": 636
+      },
+      "qualification.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualification.json",
+        "sha256": "8b05f90ee8ae1f83cf36952692d7e51047617a17415af4bb201fbd4db1fa68f1",
+        "bytes": 1495
+      },
+      "qualification.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualification.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualification.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualification.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-observer-enabled-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-enabled-command.json",
+        "sha256": "bced3db1d9fe56bc7d0329e768fc6af7810b2cb6016b4a99e468c68cef07484a",
+        "bytes": 685
+      },
+      "qualify-observer-enabled.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-enabled.json",
+        "sha256": "35939f32875298368f4c2a1ae17e58f74b44291c5ab1e14c5cb9a6370f86a37e",
+        "bytes": 25794
+      },
+      "qualify-observer-enabled.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-enabled.stderr",
+        "sha256": "67f1093df6e2aedd25c23578cff9101a30b11341548547b2029d262b6df7f3e5",
+        "bytes": 785
+      },
+      "qualify-observer-enabled.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-enabled.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-observer-none-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-none-command.json",
+        "sha256": "759e030c95623d3d05615de8f62cb46f72030c147107930a7eb622cdbfbc0462",
+        "bytes": 688
+      },
+      "qualify-observer-none.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-none.json",
+        "sha256": "b6593511344b7779cd6116fa4dbdb6ace710edcfe68bc1199b02c9eb49f0b970",
+        "bytes": 23022
+      },
+      "qualify-observer-none.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-none.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-observer-none.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-observer-none.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-original-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-original-command.json",
+        "sha256": "c8b8dced60746efac84c61185f786f223c58078a2a17613f30297b4fb2addd92",
+        "bytes": 422
+      },
+      "qualify-original.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-original.json",
+        "sha256": "7c10e64b2693bd57791dfbe9c5482f773f99283350317f205d975f2f801d827e",
+        "bytes": 22915
+      },
+      "qualify-original.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-original.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-original.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-original.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-rebuilt-command.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-rebuilt-command.json",
+        "sha256": "f1e79e39ed763518c0346f083ac68e1c4d904e3736f7e3778029b07dc743b756",
+        "bytes": 659
+      },
+      "qualify-rebuilt.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-rebuilt.json",
+        "sha256": "40628ae58d2313ef08050f2b58a7a4c7838a7bc0d62caa28b4a219f4e659b1ed",
+        "bytes": 23022
+      },
+      "qualify-rebuilt.stderr": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-rebuilt.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "qualify-rebuilt.stdout": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/qualify-rebuilt.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "resume-inputs.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/resume-inputs.json",
+        "sha256": "8a5ce65cac32288131f9e94bb14d1005b1f7a460c4a28449a97cebfdb7266732",
+        "bytes": 2811
+      },
+      "source-topology.json": {
+        "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r2/source-topology.json",
+        "sha256": "d89821347b1c22bec5b40f13e5a0762b283b3f1d8accb2f30f6b8970d3a6a977",
+        "bytes": 10539
+      }
+    }
+  },
+  "review_followup": {
+    "base_commit": "8683a032",
+    "axes": [
+      "Standards",
+      "Spec"
+    ],
+    "original_probe_lines": [
+      385,
+      397
+    ],
+    "source": "Primary follow-up: same P2 on both fixed native reviews; callback assertion invalidation was ignored by the contended getter oracle.",
+    "session_id": "ses_e36f67b43ffeCtpPz1jzklAxEE",
+    "source_red": {
+      "tests": 3,
+      "expected_failures": 2,
+      "seconds": 0.004,
+      "cases": [
+        "attempt_timeout",
+        "premature_getter"
+      ],
+      "controls": [
+        "getter_failure",
+        "missing_callback"
+      ]
+    },
+    "source_green": {
+      "focused_tests": 3,
+      "focused_seconds": 0.004,
+      "affected_tests": 26,
+      "affected_seconds": 0.361
+    },
+    "native_status": "R2 actual 4 variants x 5 cases/alias/fixtures accepted by PRIMARY; contended getter topology gate reopened; R3 execution PENDING",
+    "primary_prerequisite": "Keep the old root observer-build.json byte-unchanged. Resume uses its new output directory; sole finalizer writes that qualification directory/observer-build.json. Submitter validates existing build root and a new output directory; no old receipt removal.",
+    "receipt_routing": {
+      "source_red": {"tests": 3, "failures": 1, "errors": 1, "seconds": 0.024},
+      "source_green": {"focused_tests": 3, "focused_seconds": 0.007, "affected_tests": 29, "affected_seconds": 0.194},
+      "scope": "CPU orchestration/preflight only; real R2 JSON validation inputs, source-only receipt destination writer, no manufactured PASS/native qualification artifact",
+      "expected_final_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+      "original_failed_qualification_prerequisite_retained": true,
+      "old_root_receipt_preserved": true,
+      "actual_r3_status": "PENDING"
+    },
+    "held_scope": [
+      "CUDA actual S",
+      "7955",
+      "all16",
+      "6804",
+      "allTP",
+      "private GPU model",
+      "performance",
+      "formal A/B"
+    ]
+  }
+}

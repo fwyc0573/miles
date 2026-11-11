@@ -324,10 +324,10 @@ def _receipt_identity(path: Path) -> dict:
 
 
 def _retained_build(root: Path, *, image: str, archive_dir: Path) -> dict:
-    """Verify retained completed builds; never compile, import, copy or write."""
+    """Verify completed source/libraries independently of prior qualifications."""
     root, archive = root.resolve(), archive_dir.resolve()
-    if image != IMAGE or (archive / "observer-build.json").exists():
-        raise ValueError("An unfinished pinned CPU build is required")
+    if image != IMAGE:
+        raise ValueError("A pinned CPU build image is required")
     pending = archive / "observer-build-pending.json"
     receipt = json.loads(pending.read_text())
     if (receipt.get("status") != "PENDING" or receipt.get("task_id") != TASK_ID
@@ -372,7 +372,7 @@ def _retained_build(root: Path, *, image: str, archive_dir: Path) -> dict:
 
 
 def finalize_build(root: Path, *, image: str, archive_dir: Path, qualification_dir: Path) -> dict:
-    """The sole finalizer for initial builds and explicit post-build resumes."""
+    """Finalize beside this qualification, preserving all earlier receipts."""
     archive, qualification_dir = archive_dir.resolve(), qualification_dir.resolve()
     receipt = _retained_build(root, image=image, archive_dir=archive)
     path = qualification_dir / "qualification.json"
@@ -391,7 +391,7 @@ def finalize_build(root: Path, *, image: str, archive_dir: Path, qualification_d
             raise ValueError(f"Actual native qualification/library binding differs: {variant}")
     receipt.update(status="PASS", qualification=qualification,
                    qualification_receipt=_receipt_identity(path))
-    _json_new(archive / "observer-build.json", receipt)
+    _json_new(qualification_dir / "observer-build.json", receipt)
     return receipt
 
 

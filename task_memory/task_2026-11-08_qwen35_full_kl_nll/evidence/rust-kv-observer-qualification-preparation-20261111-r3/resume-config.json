@@ -1,0 +1,24 @@
+{
+  "task_id": "profile-native-rust-kv-observer-implementation-20261111",
+  "python": "/opt/sglang/bin/python3",
+  "script": "tests/manual/agent_opd/probe_rust_kv_observer.py",
+  "argv": [
+    "resume",
+    "--root", "/sgl-workspace/sglang/python/sglang",
+    "--image", "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "--archive-dir", "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111",
+    "--output", "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3"
+  ],
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "SGLANG_RUST_BUILD_MODE": "never",
+    "CARGO_NET_OFFLINE": "true",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/var/tmp"
+  },
+  "gpu_count": 0,
+  "extension_rebuild": false,
+  "qualification_status": "PENDING",
+  "expected_final_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+  "failure_cause_before_replay": "The contended getter oracle ignored callback assertions converted to capture invalidations; retain capture and require rows with no invalidations after walk/join, independently of getter completion."
+}

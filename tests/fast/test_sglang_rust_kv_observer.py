@@ -303,6 +303,180 @@ class ObserverCPUWorkflow(unittest.TestCase):
             probe._injected_invalidation_failure("\n".join(errors + [marker]))
 
 
+class ObserverReceiptLocation(unittest.TestCase):
+    """Receipt routing/preflight only; never new native qualification evidence."""
+
+    def test_existing_final_receipt_does_not_mask_source_identity_gate(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            archive, root = Path(temporary) / "archive", Path(temporary) / "package"
+            archive.mkdir()
+            old = archive / "observer-build.json"
+            old.write_bytes(b"old retained receipt; source-only location fixture")
+            original = old.read_bytes()
+            pending = {"status": "PENDING", "task_id": observer.TASK_ID, "image": observer.IMAGE,
+                       "module": observer.MODULE, "features": ["python-extension"],
+                       "original": {"package_root": str(root)}}
+            (archive / "observer-build-pending.json").write_text(json.dumps(pending))
+            with patch.object(observer, "_qualified_files", side_effect=ValueError("source identity differs")) as validate:
+                with self.assertRaisesRegex(ValueError, "source identity differs"):
+                    observer._retained_build(root, image=observer.IMAGE, archive_dir=archive)
+                validate.assert_called_once_with(root.parents[1] / "rust/sglang-radix-tree", observer._RUST_PINS)
+            self.assertEqual(old.read_bytes(), original)
+
+    @unittest.skipUnless((_TASK / "evidence/native-rust-kv-observer-qualification-20261111-r2/qualification.json").is_file(),
+                         "Actual R2 receipt inputs are not available")
+    def test_finalizer_routes_only_to_new_qualification_receipt(self):
+        actual = _TASK / "evidence/native-rust-kv-observer-build-20261111/observer-build.json"
+        if not actual.is_file():
+            self.skipTest("Actual retained root receipt is not available")
+        r2 = _TASK / "evidence/native-rust-kv-observer-qualification-20261111-r2"
+        with tempfile.TemporaryDirectory() as temporary:
+            archive, output = Path(temporary) / "archive", Path(temporary) / "qualification"
+            archive.mkdir()
+            output.mkdir()
+            old = archive / "observer-build.json"
+            old.write_bytes(actual.read_bytes())
+            original = old.read_bytes()
+            for name in ["qualification.json", "qualification-command.json", *(
+                    f"qualify-{variant}.json" for variant in ("original", "rebuilt", "observer-none", "observer-enabled"))]:
+                (output / name).write_bytes((r2 / name).read_bytes())
+            paths = []
+
+            def write_destination(path, receipt):
+                paths.append(path)
+                # Real R2 JSON supplies validation inputs, but this source-only
+                # writer cannot manufacture a new PASS/native proof artifact.
+                observer._write_new(path, b"source-only receipt destination; not native qualification")
+
+            with patch.object(observer, "_retained_build", return_value=json.loads(original)), patch.object(
+                    observer, "_json_new", side_effect=write_destination):
+                observer.finalize_build(Path(temporary), image=observer.IMAGE,
+                                        archive_dir=archive, qualification_dir=output)
+            self.assertEqual(paths, [output / "observer-build.json"])
+            self.assertTrue((output / "observer-build.json").is_file())
+            self.assertEqual(old.read_bytes(), original)
+
+    def test_failed_qualification_never_writes_either_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            archive, output = Path(temporary) / "archive", Path(temporary) / "qualification"
+            archive.mkdir()
+            output.mkdir()
+            old = archive / "observer-build.json"
+            old.write_bytes(b"old receipt bytes, not a new qualification")
+            original = old.read_bytes()
+            (output / "qualification.json").write_text('{"status":"FAIL"}')
+            with patch.object(observer, "_retained_build", return_value={}), patch.object(observer, "_json_new") as write:
+                with self.assertRaisesRegex(ValueError, "required production scenarios"):
+                    observer.finalize_build(Path(temporary), image=observer.IMAGE,
+                                            archive_dir=archive, qualification_dir=output)
+                write.assert_not_called()
+            self.assertFalse((output / "observer-build.json").exists())
+            self.assertEqual(old.read_bytes(), original)
+
+
+class ObserverContendedGetter(unittest.TestCase):
+    """Real harness oracle with deterministic scheduling, not native/GIL proof."""
+
+    def _contended_getter(self, scenario):
+        events, threads, captures, completed_getters = [], [], [], []
+
+        class Event:
+            def __init__(self):
+                self.set_value = False
+                events.append(self)
+
+            def set(self):
+                self.set_value = True
+                if self is events[0] and scenario == "premature_getter":
+                    threads[0].join(0)
+
+            def is_set(self):
+                return self.set_value
+
+            def wait(self, timeout):
+                return self.is_set()
+
+        class Thread:
+            def __init__(self, *, target, daemon):
+                self.target = target
+                self.finished = False
+                threads.append(self)
+
+            def start(self):
+                pass
+
+            def join(self, timeout):
+                if not self.finished:
+                    self.finished = True
+                    self.target()
+
+            def is_alive(self):
+                return False
+
+        indices = SimpleNamespace(tolist=lambda: [10, 11, 12, 13])
+
+        def get_value(node, component):
+            if events:
+                if scenario == "getter_failure":
+                    raise RuntimeError("injected outside getter failure")
+                completed_getters.append(node)
+            return indices
+
+        core = SimpleNamespace(match_prefix=lambda params: SimpleNamespace(last_device_node_id=1),
+                               get_component_device_value=get_value)
+        module = SimpleNamespace(TreeCoreInitParamsBinding=lambda **kwargs: kwargs,
+                                 RustUnifiedTreeCoreBinding=lambda *args: core,
+                                 MatchParamsBinding=lambda key: key,
+                                 InsertParamsBinding=lambda **kwargs: SimpleNamespace(**kwargs))
+        torch = SimpleNamespace(int64="int64", tensor=lambda values, **kwargs: values)
+
+        def walk(core, params, torch):
+            if not hasattr(params, "old_full_observer"):
+                return
+            capture, rid, start, end = params.old_full_observer
+            captures.append(capture)
+            if scenario == "missing_callback":
+                return
+            # Model only the existing native error route: callback exceptions
+            # invalidate rather than escape _walk. No native PASS is fabricated.
+            try:
+                capture(rid, start, end, 1, 0, 2, indices)
+            except Exception as error:
+                capture.invalidate(rid, start, end, "capture", f"{type(error).__name__}: {error}")
+
+        with patch.object(probe.threading, "Event", Event), patch.object(probe.threading, "Thread", Thread), patch.object(
+                probe.time, "sleep"), patch.object(probe, "_metadata", return_value={}), patch.object(
+                probe, "_walk", side_effect=walk):
+            try:
+                probe._contended_getter(torch, module)
+            except AssertionError as error:
+                return error, captures[0], completed_getters
+        return None, captures[0], completed_getters
+
+    def test_rejects_invalidated_callback_when_outside_getter_completes(self):
+        for scenario in ("attempt_timeout", "premature_getter"):
+            with self.subTest(scenario=scenario):
+                error, capture, completed_getters = self._contended_getter(scenario)
+                self.assertTrue(capture.rows)
+                self.assertEqual(completed_getters, [1])
+                self.assertEqual(capture.invalidations[0][:4], ["cpu-rid", 0, 32, "capture"])
+                self.assertIn("AssertionError", capture.invalidations[0][4])
+                self.assertIsNotNone(error, "Old oracle falsely accepted an invalidated callback after getter completion")
+                self.assertIn("capture", str(error))
+
+    def test_outside_getter_failure_still_rejects(self):
+        error, capture, completed_getters = self._contended_getter("getter_failure")
+        self.assertIsNotNone(error)
+        self.assertIn("injected outside getter failure", str(error))
+        self.assertTrue(capture.invalidations)
+        self.assertEqual(completed_getters, [])
+
+    def test_missing_callback_rejects_without_real_timeout(self):
+        error, capture, completed_getters = self._contended_getter("missing_callback")
+        self.assertIsNotNone(error)
+        self.assertEqual((capture.rows, capture.invalidations, completed_getters), ([], [], []))
+
+
 @unittest.skipUnless(_RUST.is_dir() and _PYTHON.is_dir(), "Retained pinned production sources are not available")
 class ObserverPinnedSource(unittest.TestCase):
     @classmethod
