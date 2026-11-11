@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Primary accepted actual bounded R3 serial CPU qualification and the repaired executed contended-getter oracle in `79ff8bcc`; the disposition is `ACCEPTED_BOUNDED_ACTUAL_SERIAL_CPU`, not GPU or general concurrency acceptance. Both source P2 rechecks are CLOSED with no new findings. The frozen collector/probe/tests/config in `b9e1ebb6` select the R3 receipt through the sole kv_coherence_build_receipt input; 283/283 affected/joined CPU checks and both unchanged four-H800 dry-runs PASS. See the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md), [collector preparation report](test_report_2026-11-11_kv_coherence_preparation.md) and [current route](progress.md#current-execution--workflow-rca). Diagnostic A/B admission receipts are not created and neither H800 diagnostic is submitted; primary will submit after this synchronization lands. R2 acceptance and immutable evidence remain preserved. Formal04/05 HOLD and06 pending actual independent200 remain; B does not wait for A200. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw requests, science and all53 checkboxes are unchanged.
+**Current execution:** Primary submitted both D40-authorized bounded H800 diagnostics using frozen source `b9e1ebb6`, accepted CPU archive `79ff8bcc` and the unchanged selected R3 receipt. The Initial snapshot is A Running / B Pending, each requesting four nonpreemptible H800; it is not an eventual or native acceptance verdict. See the [current submission record](progress.md#current-execution--workflow-rca). Accepted source/CPU prerequisites and both P2 closures remain unchanged. Physical GPUs, CUDA/private SO/new stream, newly instrumented all16/6804,7955 physical binding,KV numbers/results and formal200 remain PENDING. Formal04/05 HOLD,06 waiting independent200 and B's satisfied edge/no A200 gate remain. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw decisions, science and all53 checkboxes are unchanged. The next substantive checkpoint follows native verification, not this Initial update.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record actual bounded H800 A/B submission and Initial Running/Pending snapshot; retain pending native acceptance and all scientific decisions. |
 | 2026-11-11 | Record primary acceptance of actual bounded R3 CPU and fixed oracle, completed R3 collector linkage/283 checks, and the authorized unsubmitted H800 frontier; preserve all decisions. |
 | 2026-11-11 | Close the source P2 at17cb6fc6 and record actual R3 terminal/receipt PASS with primary raw acceptance pending; preserve all decisions and formal holds. |
 | 2026-11-11 | Preserve accepted R2 serial CPU evidence and immutable receipts; record the shared OPEN P2, pending R3 reuse/rechecks and unchanged H800/formal hold. |

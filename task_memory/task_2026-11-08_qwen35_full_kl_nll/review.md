@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Both source P2 rechecks remain CLOSED/no new findings. Primary independently accepted actual bounded R3 serial CPU qualification and the repaired executed contended-getter oracle in `79ff8bcc`; see the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md). The reviewed collector/probe/tests/config are frozen in `b9e1ebb6`, with sole R3 receipt linkage,283/283 CPU checks and two unchanged four-H800 dry-runs PASS in the [collector preparation report](test_report_2026-11-11_kv_coherence_preparation.md). R2 raw/CPU acceptance and unchanged libraries are preserved, with no extension rebuild. These are bounded CPU/source dispositions, not CUDA/private GPU module/new SO SHA, physical-index, new scoring, KV numeric, race, root-cause, performance or formal acceptance. Neither H800 diagnostic is submitted; primary will submit after this synchronization lands. Earlier Current/Active notes below are historical snapshots.
+**Current execution:** Both D40-authorized bounded H800 diagnostics are SUBMITTED using frozen source `b9e1ebb6`, accepted CPU archive `79ff8bcc` and the fixed R3 receipt. The [current submission record](progress.md#current-execution--workflow-rca) preserves exact Initial A Running / B Pending snapshots, each requesting four nonpreemptible H800. Existing source P2 closures and CPU acceptance remain unchanged; submission/input allocation is not physical GPU/CUDA/private SO/new stream/all16/7955/KV/results acceptance. Those native fields remain PENDING for primary and separate pair verification; no partial numeric artifact is assessed here. Formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain unchanged. Earlier notes below are historical snapshots; the next substantive checkpoint follows native verification.
 
 **Active CPU stage:** PREP17/17 and realGPU0 COMPILE+LOAD PASS. Originalconstructor fixture ABI FAIL beforeinsert; not compiler/numeric/root failure. Exactkeycontract replay unsubmitted, alias/GIL/thread/lifetime/actions/Cargo/collector followup pending; no new nativeCPU or fixed-review acceptance. Earlier pending-delivery statements historical.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record actual submitted H800 diagnostics and exact Initial Running/Pending scope; retain source/CPU review acceptance and pending native verification. |
 | 2026-11-11 | Record primary acceptance of actual bounded R3 CPU/fixed oracle and frozen R3-bound collector/283 checks; preserve source closures and explicit pending GPU/formal limits. |
 | 2026-11-11 | Record both source axes' original P2 CLOSED/no new findings at17cb6fc6 and distinguish actual R3 SDK terminal/receipt PASS from pending primary raw acceptance. |
 | 2026-11-11 | Record both fixed native-source axes' shared OPEN P2, preserve bounded R2 PASS and collector nit closure, and retain pending R3/affected rechecks without a quality verdict. |
