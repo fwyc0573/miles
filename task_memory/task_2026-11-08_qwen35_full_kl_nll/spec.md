@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Preregister the routine D40 diagnostic namespace protocol and pending implementation without changing formal/scientific sections or checkboxes. |
 | 2026-11-11 | Accept bounded native first4 metadata reproduction, retain warm failure and qualify—not select—the existing controlled namespace diagnostic. |
 | 2026-11-11 | Advance current D40 to accepted CPU/fixed phase reviews and submitted metadata probes, without accepting native equivalence or changing scientific sections/checklists. |
 | 2026-11-11 | Align D40 current status with CPU runtime metadata/minimization and pending review/native equivalence; keep all scientific sections and legal-None/identity/coverage limits. |
@@ -69,7 +70,20 @@
 - 新 DeepSWE D12 attempt `exp-1109-010244-280221` 在 1800 s 得到 227/256，有效数低于 231；0 个 successful update，未进入 scoring/backward/optimizer。日志分析 PASS 只表示证据核对通过。证据：[round-robin acquisition report](/data/ycfeng/sota-engine/miles/task_memory/task_2026-11-08_qwen35_swe_full_r256/test_report_2026-11-09_round_robin_acquisition.md)。
 - 解锁需要复用Ticket02按其自身验收获得接受，包括当前来源的代表性256-turn native capacity、实际successful optimizer ACK和后续fresh scoring等未完成项目；提交了修复、短smoke或acquisition改善不能代替。合并时记录实际commit和通过的证据，科学契约以fork与本task的后续明确决定（当前D1–D34）为准。
 
-**当前状态（2026-11-11，D40）**：**RUNTIME_METADATA_NATIVE_FIRST4_VERIFIED；formal04/05因warm FAIL仍BLOCKED**。[A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md)均Succeeded/Completed0/restart0、各4实际H800；每模型16/16原FP32 rep0 first4向量精确相等，cold4/4、warm1/4漂移保留，仅接受16requests/10flushes/1rep的instrumented重现。A25387/B16333 typed rows覆盖各16 RID，仅TP0/DP1 host trace；native source NFS annotation不能因direct volume字段缺失否定。B的selected FP32/FP32 temporal donor、response2/3 active COW、prefix0 clear后仍canonical-KV rebind仅收窄metadata假设，不证明numeric KV–SSM inconsistency/slot值/device完成/race/全TP/history。既有full-input-only `cache_salt` controlled namespace仍是source/protocol资格调查candidate，未选择实现/GPU实验/fix或performance PASS。1024-hit未覆盖，raw None/RID identity/aggregate与D39/D34/S7/science/checkbox保持，B无A200gate；[Current](progress.md#current-execution--workflow-rca)。
+**当前状态（2026-11-11，D40）**：**CACHE_SALT_COUNTERFACTUAL_IMPLEMENTATION_IN_PROGRESS；formal04/05仍BLOCKED**。Primary已选择下述bounded namespace diagnostic的实现，属于既有D40例行执行，不增加科学决定或formal cache policy。四文件实现由独立owner推进；本记录不提前验收code/CPU/nativeGPU/controls/isolation/sourcefix/perf/rootcause。[A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md)和`92f3b9a0`archive、`5c6ebce5`pinned replay是已验证baseline；caller固定`4f1139b0`Git blobs，不是pre-FP32。实际B liveFP32 donor96576/node145、S2/3 COW与fresh recurrent state/canonical-KV adoption共存，仅host metadata。TP0/slots/device/allTP/race/1024-hit边界、raw/science/checkbox和B无A200gate均保持；[Current](progress.md#current-execution--workflow-rca)。
+
+### D40 diagnostic namespace counterfactual preregistration
+
+This diagnostic is not a formal policy/fallback, a tolerance change or a claim of source/root-cause correction.
+
+- **Fixed experiment:** each A/B uses original FP32 repetition0 first4,16 scoring requests,10 flushes and one repetition. Keep cache ON, model/engine argv/RNG/input/scientific fields, FP32+metadata overlay, dtype, concurrency, budgets and existing comparison unchanged. Dropped1024-hit groups are outside acceptance.
+- **Only intervention:** `full_input` payload gets `cache_salt = pair + ':' + pre_send_probe_request_id`; require the existing pre-send ID and resulting salt to be nonempty and unique per request. `response_only` payload stays unchanged. Retain the actual sent salt in request receipts; native RID/pair identity joins stay unchanged. Do not edit core `score_payload`, add runtime instrumentation, change tolerance/cache/WAR flags or introduce a formal fallback.
+- **Pinned baseline:** use immutable `4f1139b0` caller Git blobs and exact retained comparisons in the verified A/B reports, not a pre-FP32 or developing caller. Compare cases by phase/mode/sample/repetition rather than a generic warm1/4 summary.
+- **Initial behavior:** full-input starts at0 already had initialmatch0. Compare initial prefix, chunks, tracking/full-chunk decomposition and `num_retractions`; do not assume salt introduces a new initial recompute.
+- **Ordinary checkpoint isolation, per native RID:** require `returned.prefix_len == begin.protected_len`, `rebind.start == begin.protected_len`, and `rebind.end == begin.page_aligned_len`. Each request's protected prefix may grow. Do not substitute all-zero prefixes, no-rebind, node-ID or count joins for these boundaries.
+- **Controls first:** eight unsalted response vectors must exactly match qualified baseline, including original warm drift. Four salted cold-full vectors must exactly match baseline. Then compare four salted warm-full vectors with their corresponding same-run salted cold reference using existing `_comparison`, exact equality, actual absolute/relative errors and undefined-zero-reference count. Do not relax tolerance or replace the error definition.
+- **Interpretation:** all warm cases exact, with controls/isolation valid, supports a shared cross-request path being necessary only within this bounded scope, not numerical KV–SSM causality. Report partial or persistent drift per case. Any control/isolation failure is inconclusive, not a fix or permission to change policy.
+- **Limits and state:** TP0-only metadata does not prove physical slots/device completion/all-TP/race; B live FP32 donor96576/node145, S2/3 COW and fresh recurrence plus canonical-KV adoption remain metadata. Implementation is IN-PROGRESS; native GPU/controls/isolation/sourcefix/perf/root causality are PENDING. Formal04/05 remainBLOCKED,06awaits200; no new A200/profile gate, cache-off or scientific change.
 
 ## S1. 目标与实验矩阵
 

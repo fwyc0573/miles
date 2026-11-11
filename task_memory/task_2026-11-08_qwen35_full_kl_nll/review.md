@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record unreviewed D40 namespace implementation and preregistered controls/isolation, preserving prior fixed reviews and bounded native acceptance. |
 | 2026-11-11 | Add both actual native first4 verification scopes; preserve warm failure and metadata-only interpretation, without extending CPU or source review acceptance. |
 | 2026-11-11 | Close both runtime-metadata P2 findings on fixed5f6dfaaa→4f1139b0 with dual No findings/332 CPU; submitted A/B still lack native equivalence acceptance. |
 | 2026-11-11 | Record pending runtime-metadata phase/follow-up reviews and CPU-only first-four/RID preparation; preserve prior No-findings scopes and native/minimization limits. |
@@ -22,7 +23,7 @@
 
 # Runtime metadata preparation phase — 2026-11-11
 
-**Status: CPU_FIXED_REVIEW_AND_NATIVE_FIRST4_ACCEPTED / WARM_FAIL.** RID`79c5d0f8`, raw DP1 None receiver`67ac0d7f` and P2 repair`4f1139b0` preserve source/payload/contracts. Primary332 CPU/14 GREEN and both fixed`5f6dfaaa→4f1139b0`No findings remain CPU/source review scope. Separately completed [A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md) verification accepts retained actual hardware/source/input and exact original FP32 first4 repetition0 vectors. This is not a new code review or warm-correctness/fix acceptance. Earlier pending/330-test and startup snapshots remain historical; this docs agent queries no reviewer/platform and reruns no business tests.
+**Status: PRIOR_CPU_AND_NATIVE_FIRST4_ACCEPTED / COUNTERFACTUAL_IMPLEMENTATION_IN_PROGRESS.** Prior RID/raw None/P2 repairs,332 CPU/14 GREEN and fixed`5f6dfaaa→4f1139b0`No findings retain their original CPU/source scope. Verified [A](test_report_2026-11-11_runtime_metadata_native_A_results.md)/[B](test_report_2026-11-11_runtime_metadata_native_results.md)and archive`92f3b9a0`/pinned replay`5c6ebce5`retain bounded native first4 equivalence. Routine D40 now selects a four-file namespace diagnostic implementation, not a root fix or formal policy. Its code/source review, CPU/native/control/isolation/performance/root-cause acceptance is PENDING until owner delivery; earlier No findings does not cover new code. This docs task performs no reviewer/platform query or business rerun.
 
 | Axis | Reviewer / task | Fixed result |
 | --- | --- | --- |
@@ -33,7 +34,7 @@ Immutable [comparison](evidence/runtime-metadata-followup-review-20261111/compar
 
 **Current native scope:** A`exp-1111-073826-369716`/B`exp-1111-073825-734134`both Succeeded/Completed0/restart0 with4 actual H800 each. [Selected terminal containers](evidence/teacher-scoring-runtime-metadata-probe-20261111/terminal-platform-containers.json) retain native source NFS annotation/image/resources; absent direct volume fields are not an unmounted-source verdict. Each16/16 vector matches original FP32 repetition0 first4, cold4/4 and warm1/4; B's eight comparison groups match. A25387/B16333 typed rows cover all16 native RIDs only within TP0/DP1. Raw None and identity-not-chronology remain; dropped1024-hit groups/all-TP/device slot values/completion/race/history/performance remain unverified. Release/skipped-COW rows remain aggregate.
 
-**Interpretation and next qualification:** primary's B inspection narrows inactive selected-FP32/BF16-store/rejected96576-donor explanations: sample1 has selected FP32 to FP32 temporal donor metadata, `mamba_exist=false`/node145; response2/3 active COW; warm-full prefix0 clear still followed by canonical-KV rebind. These are host branch/dtype/mapping receipts, not numerical KV–SSM inconsistency or a root fix. Existing full-input-only `cache_salt` namespace diagnostic is under source/protocol qualification, not a selected implementation/GPU experiment/fix. Formal04/05 remain BLOCKED/06waiting200; no tolerance/cache-disable/precision/interval/concurrency/budget/science/checkbox or B A200 change. Original SDK Pending/Starting/Running stays unmodified historical evidence.
+**Interpretation and current implementation:** actual B accepted live FP32 donor96576/node145 with S2/3 COW; fresh recurrent state and canonical-KV adoption coexist. This is host metadata, not physical values or numerical coherence. [Preregistration](spec.md#d40-diagnostic-namespace-counterfactual-preregistration) requires only full-input per-request salt, eight unchanged response controls, four baseline-exact salted cold-full controls, four same-run cold/warm case comparisons and per-RID ordinary protected-prefix/rebind boundaries. Initialmatch0 was already present, so no assumed extra initial recompute. Controls/isolation failure is inconclusive; all exact warm cases support shared cross-request path necessity only in scope, not KV–SSM causality. TP0/physical-slot/device/all-TP/race/1024 limits persist. No code/CPU/GPU/native/source-fix/performance PASS is asserted for implementation in progress; formal04/05 stay BLOCKED/06waiting200, original policies/science/checkboxes and no A200 gate remain.
 
 # FP32 snapshot source-fidelity candidate — 2026-11-11
 
