@@ -1,7 +1,14 @@
 ## Modification History
 
+**Active CPU stage:** PREP17/17; actualGPU0 baseline/observer COMPILE+LOAD PASS, originalfixture constructor FAIL list/int64-buffer beforeinsert. Reuse-library replay unsubmitted. Alias/GIL/lifetime/Cargo/nativeCPU semantics pending; no numerical/H800/formal acceptance. Science and prior scope unchanged.
+
+**Active D40 CPU scope:** PREP17/17 and actualGPU0 productionABI baseline/observer COMPILELOADPASS, notnativeSemantic. QualificationFAIL atconstructor list vsrequiredC-contiguous int64 PyBuffer beforeinsert; compiledlibraryreuse replay pending/notSubmitted. No alias/GIL/thread/lifetime/actions/Cargo/physical/KV/H800/root/formalacceptance. Collector380/246CPU runtime/error-gate followup pending; science/checkbox/Bedge/D39/HFdisabled/50/S7 andcompactafter-allstats unchanged. Older design/sourcepending statements below are historical.
+
+**Active D40 CPU status:** actualGPU0 baseline/observer productionABIcompile-load PASS, sourcePREP17/17; qualificationFAIL atconstructor fixture Pythonlist/PyBuffer<int64> contract. No insert/alias/GIL/thread/lifetime/actions/Cargo proof, no numeric/H800/root/formal PASS. Fixturefix+compiled-library reuse replay pending/notsubmitted, collector runtime/errorgate followup pending. ExistingWIT/science/checkboxes/D7compactstats/HFdisabled50/Bedge remainunchanged; older pendingdelivery is historical.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record SOURCE/PROVENANCE accepted9d1d821f, actualRust originalobserver/compiledABI still pending; science/raw/checkboxes and acceptedCPP witness unchanged. |
 | 2026-11-11 | Accept selected actual native CPP/allocator/source/H800/all16 scope; retain unselected Triton, baseline warm failure and dynamic physical/numeric qualification limits. |
@@ -81,6 +88,10 @@
 **当前状态（2026-11-11，D40）**：**BOUNDED_NATIVE_CPP_WITNESS_ACCEPTED / PHYSICAL_NUMERIC_DESIGN_QUALIFICATION；formal04/05 HOLD**。Primary接受[A](test_report_2026-11-11_kv_stream_witness_native_A_results.md)/[B](test_report_2026-11-11_kv_stream_witness_native_B_results.md)job/replicaSucceeded/Completed0/restart0、actual4H800 each、各16originalvectors/6804values精确；source35/fiveedits/caller266/helper79/math6/finalWIT匹配。A16FULLlayers/2704 CPPuniquejoins、B10/1690，各169chunks/16RIDs；actualCPPin-callstream==TorchF、TokenToKVPoolAllocator/page1CP1/graphs及alt-off实测，selectedCPP/allocator前置闭合。KVprefixTriton0 business/startup未选/streamUNVERIFIED，不是GDNprefillTriton。Owncold4/4/warm1/4 FAIL原样保留。WIT不授权KV/FULLindices/CUDAcommit_lens数值capture，nextdesign按actual16/10layers、K/V512bytes、2side8192bank256/160MiB且deriveextra banks，不固定A10。allTP/physicalSSM/KV/completion/race/56rep2/1024/freshcompile/binaryhash/CAPI-fallback/numeric/root/perf/formal未测或接受。1d69444a byteexactarchive/Bflag关闭、primary四节3/2/1 BranchB S5已确认；raw/science/CPU453/reviews/initialRunning/381skip/403/D39/D34/S7/HF-evaloff/bank_uses50/Bedge保持。qualified numericRCA/correction/fresh独立200→06，无A200gate，[Current](progress.md#current-execution--workflow-rca)。
 
 ### D40 diagnostic namespace counterfactual preregistration
+
+**Active CPU qualification:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS; noCUDAinitialized. Originalqualification failed constructor key Pythonlist vsrequired contiguousint64 PyBuffer beforeinsert. Exactfixture ABI repair/reuse retainedlibraries/newattempt notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/physical/CPPstream/KV/H800 acceptance; originalbundledSourceCommitUNVERIFIED. Collector runtime/error-gate followup pending; compactafter-all policy/D7withdrawal/science/checklists/Bedge/formalHOLD preserved.
+
+**Active CPU-only observer prerequisite:** PREP17/17/baseline+observerproductionABI COMPILELOADPASS; semanticqualification failed beforeinsert atfixturelist vsint64contiguousPyBuffer. Reusecompiledlibraries afterexactfixturefix/newGPU0attempt notsubmitted. Alias/GIL/thread/lifetime/actions/Cargo/currentcollectorimport-errorgate pending, no physical/KV/H800/nativeCPU/root/formal PASS. Source/WIT/D39/D10/50/S7/science/checkboxes unchanged; no new numericalpolicy or payload authorization.
 
 **Active d9751b80:** inline Rust original-FULL pre-split observer design accepted for CPU implementation only; lookup/concat withdrawn. Parallel source/build/staging and collector/injection pending. One existing builder composed once; no native compile/alias/GIL/CUDA/physical/numeric acceptance. Serving uses same production ABI/never policy; force only isolated CPU prep. Compact after-all16 scalar/index summaries, no raw KV archive/retention flag. Preserve science,16/10,B edge,source/WIT acceptance and warm/formal HOLD.
 

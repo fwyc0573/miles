@@ -1,7 +1,14 @@
 ## Modification History
 
+**Active CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS; constructorfixturelist vsint64contiguousbuffer FAIL beforeinsert. Exactkeyfix/reusequalification attempt pending/notsubmitted. Alias/GIL/thread/lifetime/actions/Cargo/collectorfollowup unaccepted; nextGPU0affectedqualification→fixedreviews→separateH800authorization/16/6804/7955→RCA/correctness/freshown200→06, noBwaitA200. Oldpending-delivery blocks historical; D7compactstats/no rawarchive/science unchanged.
+
+**Active D40 CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. QualificationFAILED atconstructor beforeinsert becausefixture list is notrequiredint64 contiguousbuffer. Sourceowner correctsexactcontract/reusesretainedbinaries, replaynotSubmitted; collector380/246CPU private-runtime/error-gate followup pending. Next affectedGPU0replay→fixedreviews→separateH80016/6804/7955 qualification→RCA/correctness/freshown200→06. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantic/rootPASS; formal04/05HOLD/BnotA200/science/raw/checkboxes/D7withdrawnrawarchive remain. Earlier pendingdelivery descriptions are historical.
+
+**Active D40 CPU frontier:** PREP17/17; actualGPU0 baseline/observer productionABIcompile-load PASS. QualificationFAIL beforeinsert: fixture Pythonlist vsrequired C-contiguous int64buffer/array.array('q'). Fix/replayreusecompiledlibraries pending/not submitted; collectorruntime/errorgate followup pending. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantic PASS. Next affectedGPU0reuse qualification→fixedreviews→separateH800authorization→correctness/freshown200→06, noBwaitA200. D7rawarchivewithdrawal/compactstats/science unchanged; older design-only pendingdelivery is historical.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record source/provenance accepted9d1d821f and actual originalRust observer/runtimeABI pending; preserve CPP WIT and scientific/edge criteria. |
 | 2026-11-11 | Record accepted bounded actual native CPP/allocator/H800/source parity, dynamic16/10-layer design frontier and primary1d69444a archive/checkpoint; retain numerical/formal hold. |
@@ -134,6 +141,10 @@ The original02/03 CPU checkpoints,02/D16 and B's firstACK/inspection/common-cycl
 Each ticket records commands and evidence in `progress.md` and a dated test report in this directory.
 
 ## Current frontier
+
+**Active CPU stage:** PREP17/17; actualGPU0 COMPILE+LOAD PASS, constructor qualificationFAIL list/int64-buffer. Reuse-library replay notsubmitted. Alias/GIL/lifetime/Cargo pending; collector runtime/error followup active. Exactfixture replay→reviews→separateH800 qualification, not nativeCPU/rootfix/formal PASS. Prior helperpending claims historical.
+
+**Active CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. Qualification failed beforeinsert duefixture list vsC-contiguous int64buffer; owner fixesexactkeycontract, reusesretainedlibraries/newattempt notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantic PASS. Collector380/246CPU and runtime/error-gate followup pending. Next affectedGPU0qualificationreuse→fixedreviews→separatelyauthorizedH80016/6804/7955 verification→RCA/correctness/freshown200→06, BnotwaitA200. D7rawarchivewithdrawal/compactstats andscienceunchanged. Older d975 pending-delivery statements are historical.
 
 **Active d9751b80:** CPU implementation design accepted, two source/build/staging and collector/injection tasks pending. Inline Rust original FULL borrow after prefix length/before split replaces lookup/concat. One builder composed once; force only isolated CPU prep before import, production serving ABI/never unchanged. No helper/compile/GIL/alias/native stream or numeric acceptance. After-all16 compact stats/index summaries, no raw KV archive/retention flag; raw-archive steering withdrawn before native submission. CPU/fixed reviews→approved16/10/all16 exact/7955 FULL/independent indices→RCA fix/warm correctness→freshA||B own200→06. Existing source/WIT accepted, formal HOLD/B edge/science unchanged.
 

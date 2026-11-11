@@ -1,9 +1,14 @@
 ## Modification History
 
+**Active CPU prerequisite:** sourcePREP17/17/actualGPU0 baseline+observerCOMPILELOADPASS; fixtureconstructor failed list vsrequiredint64 contiguousbuffer beforeinsert. Affectedcompiledlibraryreuse replay notsubmitted; alias/GIL/thread/lifetime/actions/Cargo and collector runtime/error-gate followup pending. No nativeCPU/physical/H80016/6804/7955/root/formal acceptance. Source/WIT/science/checkboxes/Bedge unchanged; earlier sourcepending blocks historical.
+
+**Active frontier:** sourcePREP17/17 andGPU0 baseline/observer COMPILE+LOAD PASS; qualificationFAIL constructor list/PyBuffer<int64> beforeinsert. Owner fixturefix/reusecompiledlibraries replay notsubmitted; alias/GIL/thread/lifetime/actions/Cargo/nativeCPU semantics unexecuted, collector runtime/errorgate followup pending. FormalHOLD/noKVH800rootPASS; source/WIT/Bedge/science/checkboxes unchanged. Older pendingdelivery descriptions are historical.
+
 **Active d9751b80:** CPU-only inline Rust original-FULL pre-split design accepted; source/build/staging and collector/injection pending, no helper compile/alias/GIL/native or KV evidence accepted. One builder composed once; no raw archive/new retention flag, only compact after-all16 statistics/index summaries. Source/WIT accepted, warm/formal HOLD and all criteria unchanged; B does not wait A200.
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS and fixture qualification FAIL; replay pending, formal HOLD unchanged. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Synchronize accepted CPP witness and Rust source provenance; actual original-tensor observer and numerical correctness remain blocked. |
 | 2026-11-11 | Record SOURCE/PROVENANCE closed and actualRust originalobserver/runtimeABI pending; preserve A514.375MiB two-bank budget and formal warm hold. |

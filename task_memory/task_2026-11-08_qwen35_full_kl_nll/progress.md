@@ -1,7 +1,10 @@
 ## Modification History
 
+**Active D40 CPU frontier:** sourcePREP17/17, collector380composed/246affectedCPU PASS0skip; private-runtime/error-independentgate followup pending. ActualGPU0 exp-1111-140628-265232 Failed/exit1/restart0 at06:12:33Z, launcherstopfollowedfailure. BothproductionABIbaseline/observer COMPILE+LOAD successful freshprocess Python3.12.16/Torch2.14.1cu130/ABItrue/rustc1.99.1/CUDAinitializedfalse. Qualification firstconstructor failed Pythonlist vsrequiredC-contiguousint64PyBuffer/array.array('q'), beforeinsert. Baseline fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa andobserver0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba retained. Fixturekeyfix/replayreusepending/not submitted; alias/GIL/thread/lifetime/actions/Cargo fixtures NOTexecuted/accepted. No H800/numeric/root/formal PASS; originalrawfailure/D7withdrawal/compactafter-allstats/science/Bedge unchanged. Earlier pending-source-delivery milestones below are historical.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record9d1d821f primarySOURCE/PROVENANCE acceptance and exact reviewer169 four-part source checkpoint; actualRust observer/producer/thread/lifetime remains blocked. |
 | 2026-11-11 | Record primary accepted bounded native A/B source/H800/CPP/allocator scope and1d69444a byte-exact archive; advance qualified dynamic physical/numeric design, retaining warm/formal holds. |
@@ -190,6 +193,14 @@ PY
 - Independent CPU slice accepted:69/27 repair tests and[postfix CLI4 PASS](evidence/offline-report-join-review-fixed-20261110.json), followed by219489ef with12 affected tests and[2 prefix-zero joined CLI PASS](evidence/offline-report-prefix-zero-20261110.json). Both review axes are closed; [current review](review.md#offline-review-repair-state--2026-11-10). All final06 criteria still need actual A/B data.
 
 ## Current execution — workflow RCA
+
+**Active CPU stage:** PREP17/17 and actualGPU0 baseline/observer COMPILE+LOAD PASS. QualificationFAIL constructor: list instead of contiguousint64 buffer. Reuse-library replay notsubmitted; alias/GIL/lifetime/Cargo/nativeCPU semantics unaccepted. Stop followedfailure. No GPUKV/rootfix/formal acceptance; prior pending-delivery claims historical.
+
+**Active GPU0 CPU qualification:** exp-1111-140628-265232 Failed/containerError exit1/restart0 at06:12:33Z; launcherstop followsfailure. Baseline andobserver productionABI COMPILE+LOAD PASS in freshprocess: Python3.12.16/Torch2.14.1cu130/CXX11/rustc1.99.1, CUDAuninitialized. Originalfixtureconstructor failed beforeinsert: Pythonlist vsPyBuffer<int64> contiguousarray.array('q'). Rawfailedattempt/buildlibraries retained; exactfixturefix plusreusequalification replay pending/notsubmitted. Baselinehashfbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa, observer0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba. SourcePREP17/17/cachevartmp/ERROR-only markers ready; collector380/246CPU runtime/error-gate followup pending. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/H80016/6804/7955/physical/root acceptance. Older design-only pending-delivery blocks are historical; priorWIT/science/D7rawarchivewithdrawal/formalHOLD unchanged. [Report](test_report_2026-11-11_rust_native_cpu_qualification.md).
+
+**Active actualCPU qualification:** sourcePREP17/17 plus actualGPU0 job exp-1111-140628-265232 baseline/observer COMPILEANDLOADPASS in freshprocess Python3.12.16/Torch2.14.1cu130/ABItrue/rustc1.99.1/CUDAinitializedfalse. JobFailed/containerError1/restart0 at06:12:33Z: originalfixture constructor Pythonlist notPyBuffer<int64>/array.array('q'), beforeinsert; launcherstop followsfailure. This is fixtureABI input, notRustcompiler/numeric/rootfailure. BaselineSHAfbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa/observer0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba retained. CPU2/8000Mi/GPU0; H800tag notphysicalGPUallocation. Owner fixesexactkeycontract and replays affectedqualification reusinglibs, NOTsubmitted. Alias/GIL/thread/lifetime/actions/Cargo notexecuted/accepted; collector380/246CPU runtime/error-gate followup pending. No SourceCommit/H80016/6804/7955/physical/KV/root/formal acceptance. Source/WIT/D7rawarchivewithdrawal/compactstats/science/HFdisabled50/S7/Bedge remain; prior pendinghelper/source blocks below are historical.
+
+**Active CPU qualification frontier:** source PREP17/17 and baseline/observer production-ABI COMPILE+LOAD PASS in actualGPU0 exp-1111-140628-265232. Original fixture failed at constructor beforeinsert: Python list violates required C-contiguous PyBuffer<int64>/array.array('q'). Job Failed/exit1/restart0 at06:12:33Z; launcherstop followedfailure, notcause. Baselinefbe6ea7c/observer0dc763cc binaries retained; CUDAinitializedfalse. Source owner correcting only fixture keycontract; reusecompiledlibs/newqualification attempt NOTsubmitted, originals preserved. Four-way semantic/alias/GIL/thread/lifetime/Cargo fixtures NOTexecuted/accepted. Collector380composed/246affectedCPU is notnative; private-runtime/error-independent followupPENDING. Source/WIT acceptedunchanged, D7 rawarchive HIT withdrawal/compactafter-allstats preserved; formal04/05HOLD/06waiting200. No compiler/numerical/rootfix accepted. Older d975 design-stage paragraphs below are historical scope, notcurrenthelperdelivery status.
 
 **Active d9751b80 CPU-design milestone:** primary stdlib replay PASS19 contracts/11 Rust behavior files/5 fixtures; native source/build/staging and collector/injection implementations run independently, both pending delivery. Existing inline Rust pre-split original FULL borrow selected; lookup/concat withdrawn. Observer15-file slice does not cover parent/pool/readback4 APIs. One source builder, one composed prep afterFP32→CPUmetadata→KVWIT; no extra builder. Compile/alias/GIL/actualCUDA S/physical KV/numeric evidence pending. D7 raw-archive steering withdrawn before native submission: compact after-all16 layerwise scalar/index summaries only, no raw archive/flag/base64. Prior source/WIT accepted, warm FAIL/formal HOLD/B edge unchanged. Earlier current blocks below are historical source milestones, not helper/native acceptance.
 
@@ -2523,3 +2534,42 @@ BranchB只更新current事实：inline1984 prefixlen后、1985 split前借node.t
 1. d9751b80仅CPU implementation design接受，producerthread/GIL/pointeralias/actualCUDA Sscalar/helper/compile仍PENDING。
 2. D7 HIT已在任何native submission前resolved，保留compact after-allstats，不批准rawKV archive。
 3. Source/WIT已接受但warmFAIL/formal04/05HOLD、06等200；科学256/32x8/231/1800/50/S7/HFdisabled与两bank514.375/321.625不变。
+
+## 1. 规划完成情况
+
+Checkpoint `profile-rust-kv-CPU-frontier-records-20261111`: sourcePREP17/17，actualGPU0 baseline/observer COMPILE+LOAD PASS；qualification在originalfixture constructor因list非contiguousint64buffer FAIL，尚未insert。JobFailed先于launcherstop。Source/WIT/旧D7withdrawal保留。
+
+|Ticket|Status|Evidence/remaining|
+|---|---|---|
+|01|PASS|CPU accepted|
+|02|PASS|CPU/D16 accepted|
+|03|PASS|CPU integration accepted|
+|04|BLOCKED|compileloadPASS/fixtureABI qualifyFAIL，replay pending|
+|05|BLOCKED|samequalification/fix/freshadmission，不等A200|
+|06|TODO|actualA/B200 finaldata缺失|
+
+Totals3PASS/2BLOCKED/1TODO。No nativeRust semantics/GIL/alias/actions/Cargo/physical/KV/H80016-vector acceptance。
+
+## 2. 主线执行漂移检查
+
+|Pattern|Verdict|Evidence|
+|---|---|---|
+|D1|CLEAR|actualbuild/load记录，no polish扩展|
+|D2|CLEAR|未重投；先修exactfixtureABI，reusecompiledlibraries|
+|D3|CLEAR|qualification是D40主线|
+|D4|CLEAR|source修fixture与collectorfollowup独立|
+|D5|CLEAR|no newbuilder/extra gate|
+|D6|CLEAR|构造前FAIL与compilePASS已区分|
+|D7|CLEAR|当前no rawarchive；旧D7 HIT withdrawal保留|
+
+S1–S4/S6既有scope/owner/criteria/slice保持；S5旧pendinghelper/compile状态已按实际证据routine修正。
+
+## 3. 文档问题与建议
+
+BranchB仅currentS5。Nextowner修list为existingPyBuffercontract→GPU0 affectedqualification reuse原compiledlibraries/newattempt→fixedreviews→separateauthorizedH80016/6804/7955→causalcorrectness/freshown200→06。REPLAY未提交，collector privateimport/errorgatefollowup仍pending；原stdout/stderr/FAILED evidence不覆写。No numeric/rootfix/nativeCPU接受。
+
+## 4. 最值得关注的 3 点
+
+1. Actualcompile/loadPASS不等于fixture/native semantic PASS。
+2. Failure是fixtureABI key contract，非Rustcompiler或launcherstop；alias/GIL/thread/lifetime/actions/Cargo未执行。
+3. Formal04/05HOLD、BnotA200、06等own200；无GPU/KV/rootfix，科学/HFdisabled/50/compactstats不改。

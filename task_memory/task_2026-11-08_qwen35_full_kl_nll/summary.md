@@ -1,7 +1,14 @@
 ## Modification History
 
+**Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
+
+**Current CPU frontier:** PREP17/17 and actualGPU0 productionABI baseline/observer compile-load passed; semantic qualification failed before insertion because the fixture supplied a Python list rather than the required contiguous int64 buffer. Compiled-library reuse replay is not submitted. Alias/GIL/thread/lifetime/actions/Cargo acceptance and collector runtime/error-gate followup remain pending, with no nativeCPU/physical/numeric/root/formal PASS. Existing source/WIT/science/history/formalholds are unchanged; earlier pending-delivery descriptions below are historical.
+
+**Current CPU frontier:** source PREP17/17 and actualGPU0 baseline/observer productionABI compile-load PASS. Original fixture constructor rejected Pythonlist instead of C-contiguous int64buffer; qualificationFAIL beforeinsert, notRustcompiler or rootfix. Affected replay reusesretainedbinaries and is notsubmitted. Alias/GIL/thread/lifetime/actions/Cargo semanticproof and collector runtime/errorgate followup remainpending. Formal04/05held,06awaitsown200; prior design-only pendingdelivery is historical.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record accepted621-source provenance archive9d1d821f and pending nativeRust originaltensor observer/ABI qualification without numerical/formal acceptance. |
 | 2026-11-11 | Archive primary accepted bounded A/B native H800/source/CPP and actual allocator witness; keep baseline warm failure and qualify dynamic physical/numeric design, not capture/formal. |
@@ -81,6 +88,10 @@ Historical draft repair commit:`a0b0d113`. Both remediation reviews closed all o
 - Primary archivee2feca95(13 files) retains R1 numerical summary and isolated submission/env/runtime contracts. The source report owns matching38-source donor records and supplemental175-source r3`exp-1111-042450-358109`under`evidence/native-sglang-cache-source-20261111/`; requestedrunner.py absent is documented, not fabricated. Candidate module/report belongs to the native generalagent, not this eight-document slice; [candidate review limits](review.md#fp32-snapshot-source-fidelity-candidate--2026-11-11).
 
 ## Observed validation
+
+- **Active CPU stage:** PREP17/17 and actualGPU0 baseline/observer COMPILE+LOAD PASS. Constructor qualificationFAIL: list versus contiguousint64 buffer. Reuse-library replay notsubmitted; alias/GIL/lifetime/Cargo/collector followup pending, no nativeCPU/rootfix/formal acceptance. Prior helperpending claims historical.
+
+- **Current CPU frontier:** source preparation17/17 and actualGPU0 baseline/observer productionABI compilation/load passed; semantic qualification failed at original fixture constructor because a Python list is not the required C-contiguous int64 buffer. Compiled binaries are retained for an affected replay, not yet submitted. Alias/GIL/thread/lifetime/actions/Cargo fixtures remain unexecuted; collector runtime/error-gate followup pending. This is a fixture ABI defect, not compiler or numerical root repair. Formal04/05 remainheld and06 awaitsown200; prior design-only pending-delivery statements are historical.
 
 - **Active d9751b80 CPU-design milestone:** inline original FULL Rust pre-split observer design accepted, not compiled/native helper or numerical acceptance. Source/build/staging and collector preparation parallel; one Rust builder. Producer/GIL/alias/CUDA stream and fixed reviews pending. After-all16 compact scalar/index summaries only; large raw-KV archive steering withdrawn before submission. Existing source/CPP witness acceptance, warm failure/formal HOLD, scientific inputs and B edge unchanged; B does not wait A200. Earlier source/design-pending observations remain historical.
 

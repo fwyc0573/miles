@@ -1,7 +1,14 @@
 ## Modification History
 
+**Active CPU stage:** PREP17/17 and realGPU0 COMPILE+LOAD PASS. Originalconstructor fixture ABI FAIL beforeinsert; not compiler/numeric/root failure. Exactkeycontract replay unsubmitted, alias/GIL/thread/lifetime/actions/Cargo/collector followup pending; no new nativeCPU or fixed-review acceptance. Earlier pending-delivery statements historical.
+
+**Active CPU qualification:** sourcePREP17/17 and actualGPU0 baseline/observer compilation/load successful; constructor fixtureABI failure is Pythonlist vsint64 contiguousbuffer, beforeinsert, notcompiler/numericdefect. Ownerfix/reuse-binaryreplay and collector private-runtime/error-independent-gate followup pending. No alias/GIL/thread/lifetime/actions/nativeCargo/nativeCPUsemantic acceptance; sourceBinaryCommit remainsunverified. Existing source/WIT reviews stay scoped, no newreviews/fix/native/formalPASS claimed.
+
+**Active D40 CPU qualification scope:** sourcePREP17/17 and actualGPU0 baseline/observerproductionABIcompile-load PASS; firstfixtureconstructorFAIL Pythonlist vsC-contiguousint64buffer. This is fixture ABI input defect, notcompiler/rootrepair. Reusequalification pending/notsubmitted; no alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantics acceptance. Collector private-runtime/errorgate followup pending. Source/WIT/design reviews remain scoped; formalheld/06awaits200, science/D7compactstats/checkboxes unchanged.
+
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record9d1d821f SOURCE/PROVENANCE-only acceptance, no binarycommit/nativeRust observer proof; primary reviewer169 current3/2/1 retained. |
 | 2026-11-11 | Accept bounded native A/B source/H800/selected CPP and allocator witness, not warm correctness/numeric values; retain reviewed CPU/history and byte-exact archive qualification. |
@@ -31,6 +38,8 @@
 | 2026-11-09 | Record separate Standards and Spec reviews, fixes, and the upstream gate. |
 
 # Runtime metadata preparation phase — 2026-11-11
+
+**Active CPU qualification:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. Semantic four-way fixture failed beforeinsert because Pythonlist violatesint64 contiguousPyBuffer contract; ownerfix/reuse replay notsubmitted. This is not compiler/rootfix; alias/GIL/thread/lifetime/actions/Cargo/runtimecollectorfollowup pending. CPU/source reports do not replace fixed reviews/native acceptance; original bundledsourceCommit unverified. Historical pending-source statements below are superseded only for prep/compile-load.
 
 **Active d9751b80 scope:** exact stdlib design/source contracts accepted for CPU implementation only. Two source/build/staging and collector/injection tasks pending; no helper compile, native pointer/GIL/stream, physical KV, cause or formal acceptance. Inline Rust original FULL borrow before split replaces lookup/concat. No extra matches/cache locks/backend flip; one builder composed once, production ABI/serving policy unchanged. D7 large raw-archive steering withdrawn before any native submission: retain compact after-all16 layerwise scalar/index summaries, no raw archive/flag. Existing source/WIT reviews remain scoped; future helper CPU/fixed reviews/native qualification still required.
 
