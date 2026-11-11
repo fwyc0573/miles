@@ -1,0 +1,31 @@
+{
+  "scope": "CONTROLLER_DRY_RUN_ONLY",
+  "selected_R3_receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-qualification-20261111-r3/observer-build.json",
+  "selected_R3_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+  "collector_sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43",
+  "same_scoring_protocol": {
+    "requests": 16,
+    "flushes": 10,
+    "repeats": 1
+  },
+  "checks": [
+    {
+      "pair": "A",
+      "submitted": false,
+      "requested_gpus": 4,
+      "gpu_tag": "H800",
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r2",
+      "allocation_environment_and_worker_argv_except_output": "PASS"
+    },
+    {
+      "pair": "B",
+      "submitted": false,
+      "requested_gpus": 4,
+      "gpu_tag": "H800",
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/B/admission-B-r2",
+      "allocation_environment_and_worker_argv_except_output": "PASS"
+    }
+  ],
+  "actual_native_capture": "UNVERIFIED",
+  "formal": "HOLD"
+}

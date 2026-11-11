@@ -305,6 +305,7 @@ def test_preallocation_fault_isolated_and_other_tp_inactive(monkeypatch, tp_rank
     config = SimpleNamespace(disable_cuda_graph=True, page_size=1, enable_memory_saver=False,
                              enable_unified_memory=False, enable_hierarchical_cache=False,
                              enable_unified_cache_external_linker=False)
+    config.resolved_dict = lambda: {name: value for name, value in vars(config).items() if name != "resolved_dict"}
     allocator = type("TokenToKVPoolAllocator", (), {})()
     allocator.get_kvcache = lambda: collector.root
     allocator.page_size, allocator.size = 1, 8
@@ -319,6 +320,116 @@ def test_preallocation_fault_isolated_and_other_tp_inactive(monkeypatch, tp_rank
     assert bool(allocations) == (tp_rank == 0)
     assert bool(coherence._startup_error) == (tp_rank == 0)
     assert coherence.drain(True)["status"] == "unverified"
+
+
+def _initializer_case(monkeypatch):
+    collector, _ = _toy(monkeypatch)
+    runtime = ModuleType("cpu_generated_kv_coherence")
+    exec(compile(coherence._runtime_source(), "generated/srt/kv_coherence.py", "exec"), vars(runtime))
+    runtime.WINDOW_START, runtime.WINDOW_END = 2, 6
+    context = ModuleType("sglang.srt.runtime_context")
+    context.get_parallel = lambda: SimpleNamespace(tp_rank=0, pp_size=1, attn_cp_size=1)
+    monkeypatch.setitem(sys.modules, context.__name__, context)
+    resolved = {"disable_cuda_graph": True, "page_size": 1, "enable_memory_saver": False,
+                "enable_unified_memory": False, "enable_hierarchical_cache": False,
+                "enable_unified_cache_external_linker": False}
+    config = SimpleNamespace(**{**resolved, "page_size": None})
+    reads = []
+    def resolved_dict():
+        reads.append("resolved_dict")
+        return dict(resolved)
+    config.resolved_dict = resolved_dict
+    allocator = type("TokenToKVPoolAllocator", (), {})()
+    allocator.page_size, allocator.size = 1, 8
+    allocator.get_kvcache = lambda: collector.root
+    runner = SimpleNamespace(server_args=config, token_to_kv_pool_allocator=allocator, token_to_kv_pool=collector.root)
+    allocations, empty = [], torch.empty
+    def allocate(*args, **kwargs):
+        allocations.append((args, kwargs))
+        return empty(*args, **kwargs)
+    monkeypatch.setattr(torch, "empty", allocate)
+    return runtime, runner, resolved, reads, allocations
+
+
+def test_generated_initializer_uses_resolved_page_and_preserves_raw_input(monkeypatch):
+    runtime, runner, resolved, reads, allocations = _initializer_case(monkeypatch)
+    raw = {name: getattr(runner.server_args, name) for name in resolved}
+    runtime.initialize_runner(runner)
+    assert runner.server_args.page_size is None
+    assert {name: getattr(runner.server_args, name) for name in resolved} == raw
+    assert runtime._startup_error is None, runtime._startup_error
+    assert runtime._collector is not None and len(runtime._collector.banks) == 2
+    assert reads == ["resolved_dict"] and allocations
+
+
+@pytest.mark.parametrize("field,value", [("disable_cuda_graph", False), ("page_size", 64),
+    ("enable_memory_saver", True), ("enable_unified_memory", True), ("enable_hierarchical_cache", True),
+    ("enable_unified_cache_external_linker", True)])
+def test_generated_initializer_rejects_resolved_config_difference_before_allocation(monkeypatch, field, value):
+    runtime, runner, resolved, reads, allocations = _initializer_case(monkeypatch)
+    resolved[field] = value
+    runtime.initialize_runner(runner)
+    assert runtime._collector is None and not allocations
+    assert reads == ["resolved_dict"] and runner.server_args.page_size is None
+    assert runtime._startup_error["message"] == "Collector actual graph/page/memory/cache config differs from qualified WIT"
+
+
+@pytest.mark.parametrize("fault,message", [
+    ("allocator_page", "live allocator root and page1"), ("allocator_class", "TokenToKVPoolAllocator"),
+    ("root_class", "HybridLinearKVPool/MHATokenToKVPool"), ("full_class", "HybridLinearKVPool/MHATokenToKVPool"),
+    ("pp", "PP1/CP1"), ("cp", "PP1/CP1"), ("missing_interface", "resolved_dict")])
+def test_generated_initializer_retains_independent_guards_before_allocation(monkeypatch, fault, message):
+    runtime, runner, _, reads, allocations = _initializer_case(monkeypatch)
+    allocator, root = runner.token_to_kv_pool_allocator, runner.token_to_kv_pool
+    if fault == "allocator_page":
+        allocator.page_size = 64
+    elif fault == "allocator_class":
+        runner.token_to_kv_pool_allocator = SimpleNamespace(**vars(allocator))
+    elif fault == "root_class":
+        runner.token_to_kv_pool = SimpleNamespace(**vars(root))
+        allocator.get_kvcache = lambda: runner.token_to_kv_pool
+    elif fault == "full_class":
+        root.full_kv_pool = SimpleNamespace(**vars(root.full_kv_pool))
+    elif fault in ("pp", "cp"):
+        sys.modules["sglang.srt.runtime_context"].get_parallel = lambda: SimpleNamespace(
+            tp_rank=0, pp_size=2 if fault == "pp" else 1, attn_cp_size=2 if fault == "cp" else 1)
+    else:
+        del runner.server_args.resolved_dict
+    runtime.initialize_runner(runner)
+    assert runtime._collector is None and not allocations
+    assert reads == ([] if fault == "missing_interface" else ["resolved_dict"])
+    assert message in runtime._startup_error["message"]
+    assert runner.server_args.page_size is None
+
+
+def test_retained_page_resolution_declares_without_mutating_raw_record():
+    schedule = ast.parse((_SOURCE / "srt/arg_groups/fields/schedule.py").read_bytes())
+    page = next(node for node in ast.walk(schedule) if isinstance(node, ast.AnnAssign)
+                and isinstance(node.target, ast.Name) and node.target.id == "page_size")
+    assert isinstance(page.value, ast.Constant) and page.value.value is None
+    assert any(isinstance(node, ast.keyword) and node.arg == "resolvable"
+               and isinstance(node.value, ast.Constant) and node.value.value is True for node in ast.walk(page.annotation))
+    relative = "srt/arg_groups/overrides.py"
+    default = _bind(_SOURCE, relative, "_page_size_default", {
+        "get_platform": lambda: SimpleNamespace(is_hip=False, is_musa=False)})
+    declare = _bind(_SOURCE, relative, "declare_resolution", {
+        "is_record": lambda cfg: False, "get_context": lambda: SimpleNamespace(server_args=None)})
+    def unexpected_fallback(*args):
+        raise AssertionError("Declared page_size must be resolved before any fallback")
+    result = _bind(_SOURCE, relative, "resolution_result", {"with_fallback": unexpected_fallback})
+    # Exact retained functions, but plain CPU inputs/platform predicates, not full ServerArgs bootstrap.
+    config = SimpleNamespace(page_size=None, _raw_input={"page_size": None})
+    decision = default(config)
+    assert decision == {"page_size": 1} and config.page_size is None
+    declare(config, "_page_size_default", **decision)
+    assert config._resolved_overrides == [("_page_size_default", {"page_size": 1})]
+    assert result(config, "page_size") == 1
+    assert config.page_size is None and config._raw_input == {"page_size": None}
+    setter = _bind(_SOURCE, "srt/server_args.py", "__setattr__", {})
+    config._resolution_finished = True
+    with pytest.raises(AttributeError, match="read-only"):
+        setter(config, "page_size", 1)
+    assert config.page_size is None
 
 
 def test_metrics_zero_reference_and_nonfinite_never_manufacture_equality(monkeypatch):

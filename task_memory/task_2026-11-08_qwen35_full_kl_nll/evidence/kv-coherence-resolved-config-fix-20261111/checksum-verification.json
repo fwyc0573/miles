@@ -1,0 +1,27 @@
+{
+  "task_id": "profile-kv-coherence-resolved-config-review-20261111",
+  "base": "9da079197bcd97eeab2f2677f4854e49d46728b5",
+  "checks": [
+    {
+      "path": "tests/manual/agent_opd/sglang_kv_coherence.py",
+      "sha256": "e9e4798c2260db26f1cc532641bb3f02eec3897c8d744953648a53d1d1d0fc43",
+      "frozen_hash_and_current_byte_equality": "PASS"
+    },
+    {
+      "path": "tests/fast/test_sglang_kv_coherence.py",
+      "sha256": "cec800d69ca89a5fc3a8d403c884b13bfa9504bee4f84b77a66f9090f9680f92",
+      "frozen_hash_and_current_byte_equality": "PASS"
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_preparation.md",
+      "sha256": "be6ebe33c23358cd5f6c64b11fe5877dc9f85c7edf00942df9ce0a3377469b9e",
+      "frozen_hash_and_current_byte_equality": "PASS"
+    }
+  ],
+  "patch_sha256": "29ff01ef7e6cace7e3b157c42eb82e3f85eac84508543718d48c5b0aadb88b21",
+  "patch_integrity": "PASS",
+  "standards_static_review": "NO_FINDINGS",
+  "spec_static_review": "NO_FINDINGS",
+  "reviewer_checksum_limit_closed_by_primary": true,
+  "native_cuda_capture": "UNVERIFIED"
+}

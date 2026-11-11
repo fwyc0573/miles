@@ -386,11 +386,11 @@ def initialize_runner(runner):
     try:
         if _collector is not None:
             raise ValueError("Collector initialized more than once")
-        config = runner.server_args
+        config = runner.server_args.resolved_dict()
         required = {"disable_cuda_graph": True, "page_size": 1, "enable_memory_saver": False,
                     "enable_unified_memory": False, "enable_hierarchical_cache": False,
                     "enable_unified_cache_external_linker": False}
-        if any(getattr(config, name) != value for name, value in required.items()):
+        if any(config[name] != value for name, value in required.items()):
             raise ValueError("Collector actual graph/page/memory/cache config differs from qualified WIT")
         if get_parallel().pp_size != 1 or get_parallel().attn_cp_size != 1:
             raise ValueError("Collector requires qualified PP1/CP1")
