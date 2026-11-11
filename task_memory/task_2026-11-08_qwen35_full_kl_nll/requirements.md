@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Primary submitted both D40-authorized bounded H800 diagnostics using frozen source `b9e1ebb6`, accepted CPU archive `79ff8bcc` and the unchanged selected R3 receipt. The Initial snapshot is A Running / B Pending, each requesting four nonpreemptible H800; it is not an eventual or native acceptance verdict. See the [current submission record](progress.md#current-execution--workflow-rca). Accepted source/CPU prerequisites and both P2 closures remain unchanged. Physical GPUs, CUDA/private SO/new stream, newly instrumented all16/6804,7955 physical binding,KV numbers/results and formal200 remain PENDING. Formal04/05 HOLD,06 waiting independent200 and B's satisfied edge/no A200 gate remain. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw decisions, science and all53 checkboxes are unchanged. The next substantive checkpoint follows native verification, not this Initial update.
+**Current execution:** Both original bounded H800 diagnostics are terminal Failed with container Error/exit1/restart0. Scoring completed16 requests per pair and both business completion/cleanup flags are true, but separate vector/identity parity verification is IN PROGRESS, not accepted. Capture is FAIL/UNVERIFIED: the startup guard rejected raw ServerArgs.page_size=None before topology/bank allocation although the sealed resolved view and runtime allocator use page1. See the [current outcome and source-only RCA](progress.md#current-execution--workflow-rca). Original runs remain frozen at `b9e1ebb6`; the minimal resolved_dict guard correction, focused tests/reviews and updated native run are pending, distinct from accepted CPU archive `79ff8bcc`/R3/source/WIT. This auxiliary correction is not a teacher warm/root fix or formal acceptance. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw decisions, science, all53 checkboxes, formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record both original H800 capture failures and completed scoring/cleanup, source-only raw/resolved guard RCA, and pending fix/control verification without changing science. |
 | 2026-11-11 | Record actual bounded H800 A/B submission and Initial Running/Pending snapshot; retain pending native acceptance and all scientific decisions. |
 | 2026-11-11 | Record primary acceptance of actual bounded R3 CPU and fixed oracle, completed R3 collector linkage/283 checks, and the authorized unsubmitted H800 frontier; preserve all decisions. |
 | 2026-11-11 | Close the source P2 at17cb6fc6 and record actual R3 terminal/receipt PASS with primary raw acceptance pending; preserve all decisions and formal holds. |
