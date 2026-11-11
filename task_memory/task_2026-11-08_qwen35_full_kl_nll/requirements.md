@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** D40 bounded r3 A exp-1111-194637-456465 and B exp-1111-194636-897299 are SUBMITTED;first filtered Initial snapshot is A Starting/B Running only,not eventual status or native proof. Each requests4 nonpreemptible H800/codesign as input,not physical measurement. The [current submission/frontier](progress.md#current-execution--workflow-rca) records local receipts and unchanged source f8b6b43a/closure c089f0b3/docs4f76ae41/16 requests/10 flushes/first4rep0. Serving Rust binding/path/SHA/PID/object ties,CUDA S/thread,active16-6804,independent7955 physical,complete FRESH/KV/formal200 remain UNVERIFIED. Accepted source/R3 CPU/mode49/WIT/controls,history/raw/science/six methods/all53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain unchanged. Both primary-managed launchers are alive;no duplicate/retry/stop/control authorization. Keep the prior four-section checkpoint;next substantive checkpoint follows native verification.
+**Current execution:** r3 A/B Succeeded,owner-bound Completed/exit0/restart0;platform archived10a607fc and primary bounded controls ACCEPTED4da5c3eb. Both all16/6804 EXACT,cold4/4,zero errors;warm1/4 FAIL unchanged. Actual serving private SO/file-class-PID/callback thread/S scope and primary's scoped compact physical source gate PASS are accepted,not full measurement/numeric acceptance. The [current frontier](progress.md#current-execution--workflow-rca) is original source-producer/lifetime/F→S ordering IN PROGRESS,then measurement acceptance/existing compact KV interpretation/RCA/minimal warm fix/fresh A || B200→06. F differs from S;scalar equality/readiness is not claimed. Old source/R3 CPU/alias/barrier lifetime/mode49/WIT/controls/history/raw/science/six methods/all53 checkboxes,formal04/05 HOLD,06 own200/B no A200 edge remain. No new gate,raw-index/hash archive,mapped-ELF/allTP/kernel-completion criterion,code change or retry. Independent fixed-bundle progress review is pending/non-blocking,not awaited.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record successful r3/accepted bounded controls and scoped physical source gate;advance original ordering qualification without KV interpretation,new gates or resetting prior acceptance. |
 | 2026-11-11 | Record actual r3 submissions and first Initial A Starting/B Running as platform/input facts only;preserve native/formal limits and prior checkpoint. |
 | 2026-11-11 | Close committed serving-binding CPU/source/fixed-review/checksum/final-driver records;advance to primary existing D40 native decision without claiming paid r3/native acceptance. |
 | 2026-11-11 | Record concrete missing live serving binding and two parallel CPU units IN PROGRESS; retain accepted mode-fix/driver baselines and original identity criterion. |

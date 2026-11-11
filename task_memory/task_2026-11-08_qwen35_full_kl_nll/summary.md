@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Actual D40 bounded r3 A/B are SUBMITTED;first filtered Initial A Starting/B Running only. The [current submission/frontier](progress.md#current-execution--workflow-rca) records exact jobs/local receipts and requested4 nonpreemptible H800/codesign each,input not physical proof. Source f8b6b43a/closure c089f0b3/docs4f76ae41 and unchanged16 requests/10 flushes/first4rep0 remain. Actual serving binding/path/SHA/PID/ties,CUDA S/thread,active16-6804,independent7955 physical,complete FRESH/KV/formal200 remain UNVERIFIED. Accepted source/R3 CPU/mode49/WIT/controls,history/raw/science/six methods/53 checkboxes,warm1of4 FAIL,formal04/05 HOLD,06 own200 and B no A200 edge remain. Primary launchers are alive/background-managed,no duplicate/retry/stop/control authorization. Prior four-section checkpoint is preserved,next substantive checkpoint after native verification;no partial business/metrics or eventual state is inferred.
+**Current execution:** A/B r3 Succeeded/owner-bound Completed0/restart0;platform10a607fc and bounded controls primary ACCEPTED4da5c3eb. All16/6804 EXACT,cold4/4,zero errors,actual serving file/class/PID/callback thread/S and scoped compact physical source-gate PASS are accepted;warm1/4 FAIL remains. The [current frontier](progress.md#current-execution--workflow-rca) is original source-producer/lifetime/F→S ordering IN PROGRESS,then full measurement acceptance/compact KV interpretation/RCA/minimal warm fix/fresh A || B own200→06. F!=S,no readiness from scalar;numeric/root/performance/formal200 remain unaccepted. Source/R3 CPU/alias/lifetime/mode49/WIT/controls,all history/raw/science/six methods/53 checkboxes,formal04/05 HOLD/06 own200/B no A200 edge remain. No live physical-owner/KV-value read,new gate/descriptor/archive/mapped-ELF/allTP/kernel-completion/code/retry. Fixed4da phase progress review pending/non-blocking;Initial snapshots are historical.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive successful actual r3/accepted bounded controls/scoped physical source gate;keep original ordering and full measurement/numeric/formal acceptance pending. |
 | 2026-11-11 | Archive actual bounded r3 submission and first Initial Starting/Running without native acceptance;preserve old CPU closure and checkpoint. |
 | 2026-11-11 | Archive committed accepted serving-binding CPU/source/fixed reviews/checksum/final-driver closure;advance only to primary existing-D40 native decision. |
 | 2026-11-11 | Archive the concrete live serving-binding gap and parallel CPU units IN PROGRESS while preserving old acceptance,history and native/formal limits. |
