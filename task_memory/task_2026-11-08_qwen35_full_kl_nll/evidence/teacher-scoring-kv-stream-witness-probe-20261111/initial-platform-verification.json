@@ -1,0 +1,79 @@
+{
+  "queried_at_utc": "2026-11-11T03:36:35.612575+00:00",
+  "submission_host": "kun-workspace-vgen2",
+  "expected_source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "jobs": {
+    "A": {
+      "job": "exp-1111-113511-067358",
+      "uid": "b189b721-e543-42ef-99f1-da9871663c96",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [probe]",
+        "taskStatuses": {
+          "probe": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "probe": {
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "probe",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "limits": {
+                "cpu": "32",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4"
+              }
+            }
+          ]
+        }
+      },
+      "receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-A-r1.json",
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-stream-witness-probe-20261111/native/A/admission-A-r1"
+    },
+    "B": {
+      "job": "exp-1111-113511-669312",
+      "uid": "a7bb5844-c428-465c-80f2-b62ad8e70600",
+      "creator": "i-fengyicheng",
+      "preemptible": "no",
+      "status": {
+        "phase": "Running",
+        "reason": "RJobRunning",
+        "message": "Tasks is running: [probe]",
+        "taskStatuses": {
+          "probe": {
+            "active": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "tasks": {
+        "probe": {
+          "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+          "containers": [
+            {
+              "name": "probe",
+              "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+              "limits": {
+                "cpu": "32",
+                "memory": "250Gi",
+                "nvidia.com/gpu": "4"
+              }
+            }
+          ]
+        }
+      },
+      "receipt": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-stream-witness-probe-20261111/admission-B-r1.json",
+      "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-stream-witness-probe-20261111/native/B/admission-B-r1"
+    }
+  }
+}

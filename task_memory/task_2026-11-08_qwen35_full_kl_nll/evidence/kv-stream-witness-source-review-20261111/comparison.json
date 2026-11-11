@@ -1,0 +1,65 @@
+{
+  "task_id": "profile-kv-stream-witness-source-review-20261111",
+  "base": "d907060562eea7f8cbb10483ada922ee6ef309e4",
+  "candidate": "79dba51b956ab0de779f3e0d953355982091f5aa",
+  "diff_command": [
+    "git",
+    "diff",
+    "d9070605...79dba51b",
+    "--",
+    "tests/manual/agent_opd/sglang_kv_streams.py",
+    "tests/fast/test_sglang_kv_streams.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md"
+  ],
+  "commits": "79dba51b test: prepare pinned CPU KV stream witnesses\n",
+  "changed_files": [
+    "tests/manual/agent_opd/sglang_kv_streams.py",
+    "tests/fast/test_sglang_kv_streams.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md"
+  ],
+  "change_diff_sha256": "fb7d87498c743c861019d40734242c19becc930ffb9a990afe9b60ba116f5670",
+  "source_blobs": [
+    {
+      "path": "tests/manual/agent_opd/sglang_kv_streams.py",
+      "base": {
+        "absent": true
+      },
+      "candidate": {
+        "sha256": "6140cdc283c457938d34f06dc8adad3657465cbc800acf08c80cede6e378e51d",
+        "bytes": 17123
+      }
+    },
+    {
+      "path": "tests/fast/test_sglang_kv_streams.py",
+      "base": {
+        "absent": true
+      },
+      "candidate": {
+        "sha256": "02ea81f0c1fa6132bdc647afa94032819fdb59f6039079155229dfb5ab4c99f0",
+        "bytes": 23597
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md",
+      "base": {
+        "sha256": "36f1b00b22ecae333b0f5df0dd467fdce6f73927e6f975423d625b6faa56f79c",
+        "bytes": 14025
+      },
+      "candidate": {
+        "sha256": "8a04eea496f02c7ea50c994ac727aa6db1389b08c3911a3047bcc1a5f3490d6d",
+        "bytes": 28861
+      }
+    }
+  ],
+  "native_manifest_sha256": "076b60a28b3c5de49154e42cdd8ede7f7f99091e4860293cbc61de2b5d4228d0",
+  "native_diff_sha256": "a6b72b26c5f257ad3c8d5caefb88edfb72bdb3cd60e023a6b95a928c354bc8a2",
+  "native_files_qualified": 35,
+  "native_changed_files": [
+    "srt/model_executor/model_runner.py",
+    "srt/model_executor/forward_context.py",
+    "srt/mem_cache/memory_pool.py",
+    "kernels/ops/kvcache/kvcache.py",
+    "kernels/jit/csrc/elementwise/kvcache.cuh"
+  ],
+  "scope": "CPU source/binding review only; native compile, stream/class,16 vectors,ordering and numerical capture unverified"
+}

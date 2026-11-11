@@ -1,0 +1,996 @@
+diff --git a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md
+index 77536750..b6dcb5b6 100644
+--- a/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md
++++ b/task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md
+@@ -2,12 +2,210 @@
+ 
+ | Date | Change |
+ | --- | --- |
++| 2026-11-11 | Deliver the explicitly authorized context publication, CPP scalar/None wrapper and CPU terminal/allocator receipts; retain original BLOCKED evidence below. |
+ | 2026-11-11 | Record Source590 qualification and the reproduced missing forward-batch accessor; stop before implementing an unsupported witness. |
+ 
+-# Native KV stream witness source prerequisite
++# Native KV stream witness source preparation
+ 
+ TaskID: `profile-native-kv-stream-witness-source-20261111`.
+ 
++## Current outcome after explicit publication authorization
++
++**CPU SOURCE/BINDING PASS; native execution UNVERIFIED.** The parent accepted
++the missing-field finding and explicitly authorized an optional `ForwardBatch`
++field in the existing frozen/slotted `ForwardContext`, set only by the existing
++`replace` when a batch is supplied. The original set/yield/finally restoration
++is unchanged. The parent also corrected prefix-valid scope: its CUDA terminals
++are Triton, and must remain native-stream-UNVERIFIED rather than claiming a CPP
++scalar or substituting Torch current stream. These are the follow-up decisions
++for this assignment; canonical requirements/design/progress remain parent-owned.
++
++Delivered API:
++
++```python
++prepare_source(native_sglang_package_root: Path, *, image: str, archive_dir: Path) -> dict
++```
++
++Owned files:
++
++- `tests/manual/agent_opd/sglang_kv_streams.py`
++- `tests/fast/test_sglang_kv_streams.py`
++- This report, updated in place.
++
++The preparer requires the completed selected-FP32 and existing CPU-metadata
++stages; it never reruns them. The prior metadata identity is qualified through
++its owner's `source_manifest` and reversible `_rewrite`, not an independent
++after-overlay hash guess. All **35** source identities, pinned image, SGLang
++version and `apache-tvm-ffi=0.1.11` are checked before source writes. TVM source
++paths use the installed distribution's `locate_file`, not a nested snapshot
++fallback; tests redirect that locator to a temporary combined clone.
++
++Only five native files change in the isolated opted-in package:
++
++| Native path | Change and gain |
++| --- | --- |
++| `srt/model_executor/forward_context.py` | Publish the actual per-call batch through the existing context; direct RID and CPU prefix/extend-length access becomes possible without another receiver. |
++| `kernels/jit/csrc/elementwise/kvcache.cuh` | Return the in-call resolved launch stream as `int64_t`; call the existing device resolver once and existing raw-stream constructor. Empty batch returns `-1` before stream resolution, preserving its original no-launch path. |
++| `kernels/ops/kvcache/kvcache.py` | Capture Torch current raw stream before the original native call and consume its scalar inside the existing custom-op body. Append existing CPU tuples; keep the registered `-> None` contract and all native arguments. Stream0 is valid; `-1` means no launch/scalar, not an observed stream. |
++| `srt/mem_cache/memory_pool.py` | Record the plain class-owned return and both CUDA prefix-valid terminal branches, including original layer ID, resolved pool/dense buffer index, direct CPU batch fields and pointer/shape/stride descriptors. No commit-length tensor contents are read. |
++| `srt/model_executor/model_runner.py` | Append the actual selected allocator's module/class, object identity and CPU configuration immediately after the existing result assignment. No model-name inference or resizing-module hook. |
++
++Readback remains the **existing `mamba_runtime_metadata` record/drain** with
++unchanged recorder/schema. `kv_store_stream` observes a native scalar only for
++`cpp_store_cache`; `kv_store_terminal` records source-specific class/branch
++identity, and does not claim a scalar at its boundary. Plain terminal and CPP
++rows expose actual buffer addresses and direct RID/CPU length fields, not an
++assumed one-request batch or adjacency-based RID guess. Pointer descriptors are
++host metadata, not captured physical values. Both prefix-valid Triton terminal
++rows set `native_stream_scalar_observed=False` and `native_actual_stream=None`;
++they omit Torch raw stream entirely. If either occurs in native execution, its
++launch stream remains insufficient for later payload arming.
++
++The native kernel body, matching/params, launch geometry, PDL argument, dtype,
++cache policy, earlier snapshot math and existing recorder are unchanged. No
++payload read/copy/gather, GPU allocation, CUDA commit-count value read, event,
++wait, lock, synchronization, new stream, FFI context forcing or native execution
++was added. Source export uses the unchanged typed TVM FFI wrapper; CPU inspection
++and a mocked scalar prove the intended plumbing, not native ABI compilation.
++The retained `utils.cuh:397-418` constructors differ only in whether
++`resolve_device(device)` supplies the stream to `s_make_config`; the candidate
++resolves it once immediately before the raw constructor. Both reach the same
++`config.stream` assignment at493 and unchanged `cudaLaunchKernelEx` at474.
++The pinned `tvm_ffi/include/tvm/ffi/function.h:946-956` export wrapper infers
++`FuncInfo::RetType` from the function and unpacks into the existing FFI result;
++no second export or return-channel API is introduced.
++
++### Current CPU checks and exact commands
++
++Workdir: `/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image`.
++Pytest environment: `/data/ycfeng/envs/miles-agent-opd-cpu/bin/python`,
++**Python3.12.13 / pytest9.1.1 / Torch2.11.0**. System syntax/source reads use
++**Python3.10.6**. No conda activation or dependency installation. All test
++clones/archives are under the approved local temporary directory; no retained
++source snapshot or platform state was edited.
++
++```bash
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_streams.py -q --tb=short -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-source-first-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_streams.py -q --tb=short --durations=5 -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-source-green-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 MILES_PINNED_SGLANG_SOURCE=task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_streams.py tests/fast/test_sglang_mamba_snapshots.py tests/fast/test_sglang_mamba_runtime_metadata.py -q --tb=short --durations=5 -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-source-joined-20261111
++TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 MILES_PINNED_SGLANG_SOURCE=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-missing-evidence-20261111 /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_sglang_kv_streams.py -q --tb=short -p no:cacheprovider --basetemp=/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-source-skip-20261111
++```
++
++| Check | Expected | Observed | Verdict |
++| --- | --- | --- | --- |
++| First full CPU iteration | Scope restoration must remain exact | 61 PASS / 1 FAIL,54.97s: test compared the authorized `replace` change as well as restoration | Initial test FAIL preserved; not a native behavior failure |
++| Focused final suite | All62 cases pass | **62 PASS**,7.85s | PASS; fast CPU file within30s budget |
++| Complete-source override plus prior-stage regressions | New and existing suites pass against Source590 | **137 PASS**,33.46s | PASS; includes25 snapshot and50 metadata cases |
++| Missing override source | Explicit skip, never fallback to repo/host evidence | **62 SKIPPED**,0.32s | PASS skip behavior, not binding acceptance |
++| Context RED/GREEN | Old accessor fails; prepared accessor exposes actual batch and restores on normal/exceptional exits | Real retained context code satisfies both, including frozen-field protection and unchanged set/try/finally AST | PASS / CPU only |
++| CPP/allocator RED and prepared GREEN | Original CPP lacks return and runner lacks receipt; prepared code records actual supplied scalar/class | Source assertions plus bound native Python methods pass | PASS / mocked native scalar and allocator instances only |
++| Python custom-op ABI contract | Registered no-output schema and CPU dispatch remain `None` | Actual Torch `infer_schema` ends `-> ()`; actual CPU custom-op returns `None` after a mocked native integer | PASS / not native FFI execution |
++| CPU-only observation | No device-value operations; original arguments/algorithm preserved | Descriptor-only tensors trap indexing/value conversion; removing receipts restores complete Python algorithm AST; reversible source edits restore bytes | PASS |
++| Source/archive/idempotence | All identities checked before writes; exact repeat is a no-op; conflicts reject before writes | 35 identities,5 changes;35 before/after archive hashes verified; wrong image/versions/prior stages/each file/archive reject | PASS |
++
++The initial restoration-test failure was corrected by comparing only the
++unchanged `prev=set_forward_context(...)` and original `try/yield/finally`,
++rather than the newly authorized `replace` statement. No runtime change was
++made to fix it. Repeated prior-stage fixture setup was reduced to one prepared
++temporary baseline cloned per case. The source preflight compiles its four
++edited Python files; unchanged sources are hash-qualified rather than parsed
++again, and unchanged archive files do not undergo redundant diff computation.
++The final fast file remains below30 seconds without CI registration changes.
++Existing SwigPyPacked/SwigPyObject deprecation warnings are retained observations.
++
++### Current source artifacts and limits
++
++Verified temporary archive:
++
++```text
++/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-stream-source-green-20261111/test_exact_stage_binding_archi0/witness/
++```
++
++It contains complete `before/`, `after/`, `source_manifest.json`,
++`kv_streams.diff`, and two idempotence `preflight.jsonl` receipts. The new native
++diff is **11,615 bytes / 229 lines / 5 files**. The original blocked attempt
++below had0 bytes; its observation is not overwritten by the later candidate.
++
++- Manifest SHA256: `076b60a28b3c5de49154e42cdd8ede7f7f99091e4860293cbc61de2b5d4228d0`.
++- Diff SHA256: `a6b72b26c5f257ad3c8d5caefb88edfb72bdb3cd60e023a6b95a928c354bc8a2`.
++- `before` and `after` for all35 entries match their recorded SHA256 values.
++- Both owned Python files also compile under systemPython3.10.6.
++- A fresh systemPython3.10.6 import loads neither Torch nor SGLang; the fixed
++  API has exactly one positional root plus keyword-only image/archive fields.
++- Final retained-source check after all CPU preparation: all5,501 file hashes
++  and byte counts still match `source.json`, totaling79,478,292 bytes. The
++  canonical raw snapshot remains unchanged.
++- Final three-owned-file staged whitespace check: PASS using
++  `git diff --cached --check -- tests/manual/agent_opd/sglang_kv_streams.py tests/fast/test_sglang_kv_streams.py task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_source.md`.
++
++Exact fresh-import/API command:
++
++```bash
++python3 -B - <<'PY'
++import inspect,sys
++from tests.manual.agent_opd import sglang_kv_streams as w
++assert not any(n=='torch' or n.startswith('torch.') or n=='sglang' or n.startswith('sglang.') for n in sys.modules)
++s=inspect.signature(w.prepare_source)
++assert list(s.parameters)==['native_sglang_package_root','image','archive_dir']
++assert s.parameters['image'].kind is inspect.Parameter.KEYWORD_ONLY
++assert s.parameters['archive_dir'].kind is inspect.Parameter.KEYWORD_ONLY
++print('IMPORT_ISOLATION_AND_FIXED_API_PASS',s)
++PY
++```
++
++**Still UNVERIFIED:** native C++/TVM FFI compilation and execution, actual
++process-selected stream/CAPI branch, actual allocator class, all16 scoring
++vectors, actual layer/RID/row coverage, Triton launch streams, CUDA completion
++and PDL ordering, physical K/V values/lifetime and all-TP coherence. This stage
++does not arm payload capture or release formal04/05. Integration/review and
++H800-only native validation remain parent-owned.
++
++### Current scoped progress checkpoint
++
++#### 1. 规划完成情况
++
++**汇总：** PASS 3｜BLOCKED 0｜TODO 0（assignment CPU scope only）
++
++| 子任务 | 状态 | 简要依据 |
++| --- | --- | --- |
++| Source590 and completed-overlay qualification | PASS | 35 preflight identities; pinned image/version and owner derivation checked. |
++| Authorized narrow witness preparation | PASS | Five native edits; fixed API; existing recorder/drain and custom-opNone preserved. |
++| Focused CPU checks/report | PASS | 62 focused /137 joined PASS;62 explicit missing-evidence skips; exact archive retained. |
++
++#### 2. 偏离检测
++
++**结论：** 未偏移，正常推进。
++**检测窗口：** Explicit continuation authorization to final CPU checks｜**当前前沿：** Parent source/integration review and native qualification, not payload capture.
++
++| 模式 | 判定 | 依据 |
++| --- | --- | --- |
++| D1 工具打磨 | CLEAR | Test correction and duplicate-work removal stopped at focused acceptance. |
++| D2 细节反复重试 | CLEAR | One overbroad AST assertion corrected; no runtime workaround/retry loop. |
++| D3 支线问题修补 | CLEAR | All edits serve assigned stream/RID/allocator prerequisites. |
++| D4 可并行任务停滞 | NO DATA | Parent parallel coordination is outside this agent's ownership. |
++| D5 超范围镀金 | CLEAR | No new receiver, graph/CP/TBO generalization, collector or payload capture. |
++| D6 分析空转 | CLEAR | Delivered code and CPU artifacts after the premise correction. |
++| D7 路线违背 | CLEAR | Explicit context authorization honored; no GPU/platform operations. |
++
++**文档检查：** Earlier S3/S5 source-premise defects are resolved by the explicit continuation decision and preserved historical evidence. Canonical design correction remains parent-owned. No additional S1/S2/S4/S6 defect established within this slice.
++**归因：** 无。
++
++#### 3. 纠正建议
++
++**分支：** A：current assignment decisions are sound; no further owned spec/ticket change needed.
++**需停止的偏离行为：** 无。
++**接下去的路线：**
++1. Parent source/integration review of the delivered five-file native diff and three owned files; done means reviewed CPU source compatibility, not observed native streams.
++2. Parent native H800 qualification; done means actual CPP stream/allocator receipts and16 baseline vector reproduction. Triton use remains insufficient for payload arming without its own actual stream qualification.
++
++#### 4. 最值得关注的 3 点
++
++1. The original missing-field blocker is resolved by an explicitly authorized, source-qualified publication edit; its historical RED remains.
++2. CPP scalar and Torch custom-opNone contracts pass CPU binding; they do not prove native ABI or real launch streams.
++3. Prefix-valid Triton and all payload/native/vector/formal acceptance remain explicitly unverified.
++
++## Historical prerequisite failure before publication authorization
++
+ **Outcome: BLOCKED before native edits.** The required
+ `get_forward_context().forward_batch` accessor does not exist in the complete
+ pinned Source590 package. The selected-FP32 and existing CPU-metadata preparers
+diff --git a/tests/fast/test_sglang_kv_streams.py b/tests/fast/test_sglang_kv_streams.py
+new file mode 100644
+index 00000000..034a6c09
+--- /dev/null
++++ b/tests/fast/test_sglang_kv_streams.py
+@@ -0,0 +1,458 @@
++"""CPU bindings of Source590; native streams, compilation and scores unverified.
++
++MILES_PINNED_SGLANG_SOURCE supplies a complete pristine retained package. Missing
++evidence skips explicitly; installed host SGLang is never a source substitute.
++Only temporary clones are prepared, with the two earlier stages applied once.
++"""
++
++import ast
++import copy
++import dataclasses
++import json
++import os
++import sys
++from pathlib import Path
++from types import ModuleType, SimpleNamespace
++
++import pytest
++
++from tests.manual.agent_opd import sglang_kv_streams as witness
++from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++from tests.manual.agent_opd import sglang_mamba_snapshots as snapshots
++
++
++_EVIDENCE = (Path(__file__).resolve().parents[2]
++             / "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111"
++             / witness._SOURCE_JOB / "source")
++
++
++@pytest.fixture(scope="session")
++def prepared_source(tmp_path_factory):
++    retained = Path(os.environ["MILES_PINNED_SGLANG_SOURCE"]) if "MILES_PINNED_SGLANG_SOURCE" in os.environ else _EVIDENCE
++    stage = tmp_path_factory.mktemp("kv-prior-stages")
++    root = stage / "sglang"
++    for relative, identity in witness.source_manifest()["files"].items():
++        if relative == witness._RECORDER:
++            continue
++        path = retained / relative
++        if not path.is_file():
++            pytest.skip(f"Required retained Source590 evidence unavailable: {path}")
++        content = path.read_bytes()
++        expected = identity.get("native_sha256")
++        if expected is None:
++            expected = snapshots.source_manifest()["files"].get(relative, {}).get(
++                "before_sha256", identity["metadata_base_sha256"]
++            )
++        assert metadata._sha256(content) == expected, path
++        target = root / relative
++        target.parent.mkdir(parents=True, exist_ok=True)
++        target.write_bytes(content)
++    with pytest.MonkeyPatch.context() as patch:
++        patch.setattr(witness.importlib.metadata, "version", lambda name: witness.source_manifest()["distribution_version"])
++        snapshots.prepare_source(root, image=witness.source_manifest()["image"],
++                                 selected_fp32=True, archive_dir=stage / "fp32")
++        metadata.prepare_runtime_metadata(root, image=witness.source_manifest()["image"], archive_dir=stage / "metadata")
++    return _contents(root)
++
++
++@pytest.fixture
++def native_root(prepared_source, tmp_path, monkeypatch):
++    root = tmp_path / "sglang"
++    for relative, content in prepared_source.items():
++        path = root / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_bytes(content)
++    versions = {"sglang": witness.source_manifest()["distribution_version"], "apache-tvm-ffi": "0.1.11"}
++    monkeypatch.setattr(witness.importlib.metadata, "version", versions.__getitem__)
++    monkeypatch.setattr(witness.importlib.metadata, "distribution",
++                        lambda name: SimpleNamespace(locate_file=lambda relative: root / relative))
++    return root
++
++
++def _prepare(root, archive):
++    return witness.prepare_source(root, image=witness.source_manifest()["image"], archive_dir=archive)
++
++
++def _contents(root):
++    return {str(path.relative_to(root)): path.read_bytes() for path in root.rglob("*") if path.is_file()}
++
++
++def _context(root, monkeypatch):
++    module = ModuleType("qualified_kv_forward_context")
++    monkeypatch.setitem(sys.modules, module.__name__, module)
++    exec(compile((root / witness._CONTEXT).read_bytes(), witness._CONTEXT, "exec"), module.__dict__)
++    return module
++
++
++def _recorder(root):
++    scope = {}
++    exec(compile((root / witness._RECORDER).read_bytes(), witness._RECORDER, "exec"), scope)
++    return scope
++
++
++def _rows(recorder):
++    parallel = SimpleNamespace(dp_rank=0, tp_rank=0, pp_rank=0, attn_dp_rank=0, attn_tp_rank=0)
++    drained = recorder["drain"](parallel)
++    assert drained["physical_slot_values"] == "UNMEASURED"
++    json.dumps(drained, allow_nan=False)
++    return [(event, dict(fields)) for _, event, fields in drained["rows"]]
++
++
++def _method(root, relative, name, class_name=None):
++    tree = ast.parse((root / relative).read_bytes())
++    if class_name:
++        tree = next(node for node in ast.walk(tree) if isinstance(node, ast.ClassDef) and node.name == class_name)
++    return copy.deepcopy(next(node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name == name))
++
++
++def _bind(root, relative, name, recorder, context, *, class_name=None, **namespace):
++    node = _method(root, relative, name, class_name)
++    node.decorator_list = []
++    scope = {"_mamba_record": recorder["record"], "_mamba_tensor": recorder["tensor_metadata"],
++             "get_forward_context": context.get_forward_context, "has_forward_context": context.has_forward_context,
++             **namespace}
++    module = ast.Module(body=ast.parse("from __future__ import annotations").body + [node], type_ignores=[])
++    exec(compile(module, relative, "exec"), scope)
++    return scope[name]
++
++
++class _Batch:
++    rids = ["rid-first", "rid-second"]
++    extend_prefix_lens_cpu = [90112, 64]
++    extend_seq_lens_cpu = [8192, 2]
++
++    def moe_num_token_non_padded(self):
++        return None
++
++
++class _Tensor:
++    """Only metadata and original native reshape/cast operations are available."""
++
++    _next_ptr = 4096
++
++    def __init__(self, shape=(2, 4), dtype="bfloat16", ptr=None):
++        self.shape, self.dtype = tuple(shape), dtype
++        self.device = SimpleNamespace(index=0)
++        self.ndim = len(shape)
++        self.ptr = ptr if ptr is not None else type(self)._next_ptr
++        type(self)._next_ptr += 256
++
++    def stride(self):
++        result, product = [], 1
++        for dim in reversed(self.shape):
++            result.insert(0, product)
++            product *= dim
++        return tuple(result)
++
++    def data_ptr(self):
++        return self.ptr
++
++    def numel(self):
++        product = 1
++        for dim in self.shape:
++            product *= dim
++        return product
++
++    def element_size(self):
++        return 2
++
++    def view(self, *shape):
++        if len(shape) == 1 and isinstance(shape[0], str):
++            return _Tensor(self.shape, shape[0], self.ptr)
++        shape = tuple(self.numel() // shape[-1] if dim == -1 else dim for dim in shape)
++        return _Tensor(shape, self.dtype, self.ptr)
++
++    def contiguous(self):
++        return self
++
++    def __getattr__(self, name):
++        raise AssertionError(f"Forbidden tensor operation: {name}")
++
++    def __getitem__(self, index):
++        raise AssertionError("Device contents must not be indexed by witness")
++
++    def __iter__(self):
++        raise AssertionError("Device contents must not be iterated")
++
++    def __bool__(self):
++        raise AssertionError("Device values must not be tested")
++
++
++def test_exact_stage_binding_archive_and_idempotence(native_root, tmp_path, monkeypatch):
++    before = _contents(native_root)
++    # The new stage must not call either earlier preparer, including on repeat.
++    def forbidden(*args, **kwargs):
++        raise AssertionError("Earlier source preparer rerun")
++    monkeypatch.setattr(snapshots, "prepare_source", forbidden)
++    monkeypatch.setattr(metadata, "prepare_runtime_metadata", forbidden)
++    archive = tmp_path / "witness"
++    receipt = _prepare(native_root, archive)
++    after = _contents(native_root)
++    assert set(receipt["changed_files"]) == set(witness._EDITS)
++    assert receipt["native_compilation"] == "UNVERIFIED"
++    assert receipt["readback_key"] == "mamba_runtime_metadata"
++    assert receipt["stream_witness_scope"] == "CPP calls only; CUDA prefix-valid Triton remains UNVERIFIED"
++    for relative, identity in receipt["files"].items():
++        assert (archive / "before" / relative).read_bytes() == before[relative]
++        assert (archive / "after" / relative).read_bytes() == after[relative]
++        assert identity["before_sha256"] == metadata._sha256(before[relative])
++        assert identity["after_sha256"] == metadata._sha256(after[relative])
++        if relative not in witness._EDITS:
++            assert after[relative] == before[relative]
++    assert (archive / "kv_streams.diff").read_text().count("--- a/") == 5
++    assert not _prepare(native_root, archive)["patch_applied"]
++    assert not _prepare(native_root, tmp_path / "second-archive")["patch_applied"]
++    assert _contents(native_root) == after
++    assert len((archive / "preflight.jsonl").read_text().splitlines()) == 2
++
++
++@pytest.mark.parametrize("relative", list(witness.source_manifest()["files"]))
++def test_every_unknown_source_rejected_before_writes(native_root, tmp_path, relative):
++    path = native_root / relative
++    path.write_bytes(path.read_bytes() + b"\n// unsupported change\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="KV stream|Runtime metadata"):
++        _prepare(native_root, tmp_path / "witness")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "witness").exists()
++
++
++@pytest.mark.parametrize("precondition", ["image", "sglang", "ffi", "fp32", "metadata", "recorder", "missing", "archive"])
++def test_wrong_precondition_rejected_before_writes(native_root, tmp_path, monkeypatch, precondition):
++    image = witness.source_manifest()["image"]
++    archive = tmp_path / "witness"
++    if precondition == "image":
++        image = "wrong-image"
++    elif precondition in ("sglang", "ffi"):
++        wrong = "sglang" if precondition == "sglang" else "apache-tvm-ffi"
++        original = witness.importlib.metadata.version
++        monkeypatch.setattr(witness.importlib.metadata, "version", lambda name: "wrong-version" if name == wrong else original(name))
++    elif precondition == "fp32":
++        path = native_root / snapshots._TRITON
++        path.write_bytes(snapshots._rewrite(snapshots._TRITON, path.read_bytes(), reverse=True))
++    elif precondition == "metadata":
++        path = native_root / metadata._GDN
++        path.write_bytes(metadata._rewrite(metadata._GDN, path.read_bytes(), reverse=True))
++    elif precondition in ("missing", "recorder"):
++        path = native_root / (witness._CONTEXT if precondition == "missing" else witness._RECORDER)
++        path.rename(path.with_suffix(".absent"))
++    else:
++        archive.mkdir()
++        (archive / "kv_streams.diff").write_text("other evidence\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError):
++        witness.prepare_source(native_root, image=image, archive_dir=archive)
++    assert _contents(native_root) == before
++    assert not (archive / "source_manifest.json").exists()
++
++
++def test_post_preparation_source_mutation_is_not_idempotence(native_root, tmp_path):
++    _prepare(native_root, tmp_path / "witness")
++    path = native_root / witness._CPP
++    path.write_bytes(path.read_bytes() + b"\n// changed after preparation\n")
++    before = _contents(native_root)
++    with pytest.raises(ValueError, match="Unrecognized KV stream"):
++        _prepare(native_root, tmp_path / "other")
++    assert _contents(native_root) == before
++    assert not (tmp_path / "other").exists()
++
++
++def test_real_context_red_green_and_exact_restoration(native_root, tmp_path, monkeypatch):
++    original = _context(native_root, monkeypatch)
++    batch = _Batch()
++    with original.forward_context(original.ForwardContext(attn_backend=object()), forward_batch=batch):
++        with pytest.raises(AttributeError, match="forward_batch"):
++            original.get_forward_context().forward_batch
++    assert original._current is None
++    _prepare(native_root, tmp_path / "witness")
++    context = _context(native_root, monkeypatch)
++    ctx = context.ForwardContext(attn_backend=object())
++    assert ctx.forward_batch is None
++    with context.forward_context(ctx, forward_batch=batch):
++        active = context.get_forward_context()
++        assert active.forward_batch is batch
++        assert active.forward_batch.rids == _Batch.rids
++        assert active.forward_batch.extend_prefix_lens_cpu == [90112, 64]
++        assert active.forward_batch.extend_seq_lens_cpu == [8192, 2]
++        assert active.moe_num_token_non_padded.__self__ is batch
++        with pytest.raises(dataclasses.FrozenInstanceError):
++            active.forward_batch = None
++        with pytest.raises(RuntimeError, match="scope exit"):
++            with context.forward_context(ctx, forward_batch=_Batch()):
++                raise RuntimeError("scope exit")
++        assert context.get_forward_context() is active
++    assert context._current is None and ctx.forward_batch is None
++    old_tail = ast.parse((tmp_path / "witness/before" / witness._CONTEXT).read_bytes()).body[-1].body[-2:]
++    new_tail = ast.parse((native_root / witness._CONTEXT).read_bytes()).body[-1].body[-2:]
++    assert ast.dump(ast.Module(body=old_tail, type_ignores=[])) == ast.dump(ast.Module(body=new_tail, type_ignores=[]))
++
++
++@pytest.mark.parametrize("actual,torch_stream", [(0, 0), (96, 96), (128, 96), (-1, 96)])
++@pytest.mark.parametrize("has_batch", [True, False])
++def test_cpp_wrapper_keeps_none_and_observes_return_without_context_force(native_root, tmp_path, monkeypatch, actual, torch_stream, has_batch):
++    _prepare(native_root, tmp_path / "witness")
++    context, recorder = _context(native_root, monkeypatch), _recorder(native_root)
++    calls, raw_calls = [], []
++    def cpp(*args):
++        calls.append(args)
++        return actual
++    def raw(index):
++        raw_calls.append(index)
++        return torch_stream
++    store = _bind(native_root, witness._STORE, "store_cache", recorder, context,
++                  torch=SimpleNamespace(_C=SimpleNamespace(_cuda_getCurrentRawStream=raw)),
++                  _WARP_THREADS=32, _jit_kvcache_module=lambda *args: SimpleNamespace(store_cache=cpp))
++    tensors = [_Tensor(), _Tensor(), _Tensor((4, 4)), _Tensor((4, 4)), _Tensor((2,))]
++    def call():
++        assert store(*tensors, row_bytes=8, v_row_bytes=8, num_split=2, size_limit=4, reserved_skip_index=-1) is None
++    if has_batch:
++        with context.forward_context(context.ForwardContext(attn_backend=object()), forward_batch=_Batch()):
++            call()
++    else:
++        call()
++    assert raw_calls == [0] and calls == [tuple(tensors) + (4, -1)]
++    rows = _rows(recorder)
++    assert len(rows) == 1 and rows[0][0] == "kv_store_stream"
++    row = rows[0][1]
++    assert row["store_kind"] == "cpp_store_cache"
++    assert row["native_actual_stream"] == (actual if actual != -1 else None)
++    assert row["native_stream_scalar_observed"] is (actual != -1)
++    assert row["launch_enqueued"] is (actual != -1)
++    assert row["torch_current_raw_stream"] == torch_stream
++    assert row["rids"] == (tuple(_Batch.rids) if has_batch else None)
++    assert row["k_cache_data_ptr"] == tensors[2].data_ptr()
++    assert context._current is None
++
++
++def test_real_torch_custom_op_schema_and_cpu_dispatch_still_return_none(native_root, tmp_path, monkeypatch):
++    import torch
++    _prepare(native_root, tmp_path / "witness")
++    context, recorder = _context(native_root, monkeypatch), _recorder(native_root)
++    monkeypatch.setattr(torch._C, "_cuda_getCurrentRawStream", lambda index: 96, raising=False)
++    store = _bind(native_root, witness._STORE, "store_cache", recorder, context, torch=torch, _WARP_THREADS=32,
++                  _jit_kvcache_module=lambda *args: SimpleNamespace(store_cache=lambda *args: 128))
++    schema = torch.library.infer_schema(store, mutates_args={"k_cache", "v_cache"})
++    assert schema.endswith(" -> ()")
++    op = torch.library.custom_op("kv_stream_cpu_binding::store_cache", store,
++                                 mutates_args={"k_cache", "v_cache"}, device_types="cpu")
++    tensors = [torch.empty((2, 4)) for _ in range(4)] + [torch.empty((2,), dtype=torch.int64)]
++    assert op(*tensors) is None
++    row = _rows(recorder)[0][1]
++    assert row["native_actual_stream"] == 128 and row["torch_current_raw_stream"] == 96
++
++
++@pytest.mark.parametrize("kind", ["plain", "prefix", "prefix_fp8"])
++def test_class_owned_terminals_preserve_layer_batch_and_unverified_triton(native_root, tmp_path, monkeypatch, kind):
++    _prepare(native_root, tmp_path / "witness")
++    context, recorder = _context(native_root, monkeypatch), _recorder(native_root)
++    calls = []
++    dtype = "fp8" if kind == "prefix_fp8" else "bfloat16"
++    pool = SimpleNamespace(start_layer=1, dtype=dtype, store_dtype=dtype,
++                           k_buffer=[_Tensor((4, 4)), _Tensor((4, 4))],
++                           v_buffer=[_Tensor((4, 4)), _Tensor((4, 4))],
++                           row_dim=4, v_row_dim=4, size=4, page_size=1, use_hnd=False,
++                           is_quantized_kv_cache=False, _check_physical_write_loc=lambda *args: None,
++                           _store_kv_layer=lambda *args: calls.append(("plain", args)))
++    layer = SimpleNamespace(layer_id=9)
++    inputs = [_Tensor((2, 4)), _Tensor((2, 4))]
++    with context.forward_context(context.ForwardContext(attn_backend=object()), forward_batch=_Batch()):
++        if kind == "plain":
++            store = _bind(native_root, witness._POOL, "set_kv_buffer", recorder, context,
++                          class_name="MHATokenToKVPool", unwrap_write_loc=lambda loc: (loc, None, None),
++                          maybe_detect_oob=lambda *args: None)
++            loc = _Tensor((2,))
++            assert store(pool, layer, loc, *inputs, layer_id_override=2) is None
++            assert calls == [("plain", (1, loc, *inputs))]
++        else:
++            store = _bind(native_root, witness._POOL, "set_kv_buffer_prefix_valid", recorder, context,
++                          class_name="MHATokenToKVPool", _is_cuda=True, _is_hip=False, fp8_dtype="fp8",
++                          torch=SimpleNamespace(Tensor=_Tensor, int64="bfloat16", int32="bfloat16"),
++                          _resolve_fused_scale=lambda *args: 1.0,
++                          _set_kv_buffer_prefix_valid_impl=lambda *args, **kwargs: calls.append(("prefix", args, kwargs)),
++                          _set_kv_buffer_prefix_valid_impl_fp8=lambda *args, **kwargs: calls.append(("prefix_fp8", args, kwargs)))
++            loc, commit = _Tensor((1, 2)), _Tensor((1,))
++            assert store(pool, layer, loc, commit, *inputs, layer_id_override=2) is None
++            assert len(calls) == 1 and calls[0][0] == kind
++            assert calls[0][1][-2:] == (loc, commit)
++    rows = _rows(recorder)
++    assert len(rows) == 1 and rows[0][0] == "kv_store_terminal"
++    row = rows[0][1]
++    expected = {"plain": "mha_set_kv_buffer_impl", "prefix": "mha_prefix_valid_triton", "prefix_fp8": "mha_prefix_valid_triton_fp8"}
++    assert row["store_kind"] == expected[kind]
++    assert row["layer_id"] == 9 and row["pool_layer_id"] == 2 and row["buffer_layer_idx"] == 1
++    assert row["rids"] == tuple(_Batch.rids) and row["extend_lens"] == (8192, 2)
++    assert row["native_actual_stream"] is None and row["native_stream_scalar_observed"] is False
++    assert "torch_current_raw_stream" not in row
++    assert row["k_cache_data_ptr"] == pool.k_buffer[1].data_ptr()
++    if kind != "plain":
++        assert row["commit_lens_data_ptr"] == commit.data_ptr()
++
++
++@pytest.mark.parametrize("class_name", ["TokenToKVPoolAllocator", "DifferentAllocator"])
++def test_actual_runner_assignment_records_selected_class_not_model_inference(native_root, tmp_path, monkeypatch, class_name):
++    before = _method(native_root, witness._RUNNER, "alloc_memory_pool")
++    assert not any(isinstance(node, ast.Constant) and node.value == "kv_allocator_created" for node in ast.walk(before))
++    _prepare(native_root, tmp_path / "witness")
++    context, recorder = _context(native_root, monkeypatch), _recorder(native_root)
++    allocator = type(class_name, (), {"page_size": 1, "size": 4, "dtype": "bfloat16", "device": "cuda:0"})()
++    pool = object()
++    result = SimpleNamespace(max_total_num_tokens=4, max_running_requests=2, req_to_token_pool=object(),
++                             token_to_kv_pool=pool, token_to_kv_pool_allocator=allocator,
++                             memory_pool_config=object(), unified_memory_pool=None)
++    calls = []
++    runner = SimpleNamespace(is_hybrid_swa=False, pre_model_load_memory=1,
++                             init_kv_cache_configurator=lambda *args: calls.append("init"),
++                             kv_cache_configurator=SimpleNamespace(configure=lambda **kwargs: result),
++                             _init_post_memory_pool_components=lambda: calls.append("post"))
++    allocate = _bind(native_root, witness._RUNNER, "alloc_memory_pool", recorder, context)
++    assert allocate(runner) is None and calls == ["init", "post"]
++    assert runner.token_to_kv_pool_allocator is allocator and runner.token_to_kv_pool is pool
++    rows = _rows(recorder)
++    assert len(rows) == 1 and rows[0][0] == "kv_allocator_created"
++    row = rows[0][1]
++    assert row["allocator_class"] == (type(allocator).__module__, class_name)
++    assert row["allocator_object_id"] == id(allocator) and row["pool_object_id"] == id(pool)
++
++
++def test_cpp_source_kernel_params_pdl_export_and_context_restoration_unchanged(native_root, tmp_path):
++    before = _contents(native_root)
++    cpp = before[witness._CPP].decode()
++    assert "static void\n  run(" in cpp and "if (batch_size == 0) return;" in cpp
++    assert "return static_cast<int64_t>" not in cpp
++    _prepare(native_root, tmp_path / "witness")
++    after = _contents(native_root)
++    for relative in witness._EDITS:
++        assert witness._rewrite(relative, after[relative], reverse=True) == before[relative]
++    rewritten = after[witness._CPP].decode()
++    assert rewritten.count("LaunchKernel::resolve_device(device)") == 1
++    assert "LaunchKernel(num_blocks, {device::kWarpThreads, num_warps}, stream)" in rewritten
++    assert "if (batch_size == 0) return -1;" in rewritten
++    assert ".enable_pdl(kUsePDL)(kernel, params);" in rewritten
++    assert cpp.split("  static void\n  run(")[0] == rewritten.split("  static int64_t\n  run(")[0]
++    assert after["kernels/jit/include/sgl_kernel/utils.cuh"] == before["kernels/jit/include/sgl_kernel/utils.cuh"]
++    assert after["kernels/jit/utils/compile/spec.py"] == before["kernels/jit/utils/compile/spec.py"]
++    assert b"TVM_FFI_DLL_EXPORT_TYPED_FUNC({export_name}, ({kernel_name}))" in after["kernels/jit/utils/compile/spec.py"]
++
++
++def test_removing_cpu_receipts_restores_original_python_algorithm_ast(native_root, tmp_path):
++    before = _contents(native_root)
++    _prepare(native_root, tmp_path / "witness")
++    class RemoveReceipts(ast.NodeTransformer):
++        def visit_ImportFrom(self, node):
++            if node.module in ("sglang.srt.mamba_runtime_metadata", "sglang.srt.model_executor.forward_context"):
++                return None
++            return node
++        def visit_Assign(self, node):
++            if any(isinstance(target, ast.Name) and target.id.startswith("_kv_") for target in node.targets):
++                if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Attribute) and node.value.func.attr == "store_cache":
++                    return ast.Expr(value=node.value)
++                return None
++            return self.generic_visit(node)
++        def visit_Expr(self, node):
++            if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name) and node.value.func.id == "_mamba_record":
++                return None
++            return self.generic_visit(node)
++    for relative in (witness._POOL, witness._STORE, witness._RUNNER):
++        original = RemoveReceipts().visit(ast.parse(before[relative]))
++        rewritten = RemoveReceipts().visit(ast.parse((native_root / relative).read_bytes()))
++        assert ast.dump(original) == ast.dump(rewritten), relative
+diff --git a/tests/manual/agent_opd/sglang_kv_streams.py b/tests/manual/agent_opd/sglang_kv_streams.py
+new file mode 100644
+index 00000000..57e8defc
+--- /dev/null
++++ b/tests/manual/agent_opd/sglang_kv_streams.py
+@@ -0,0 +1,310 @@
++"""Prepare CPU-only KV stream receipts in the opted-in pinned CUDA diagnostic.
++
++Call after selected-FP32 and Mamba CPU-metadata preparation, before any native
++runtime/attention imports or teacher startup. Only CPP stores return an actual
++in-call stream scalar; prefix-valid Triton terminals remain stream-UNVERIFIED.
++No payload capture, device allocation/readback, synchronization, or policy edit
++is installed. CPU source binding is not native compilation or runtime acceptance.
++"""
++
++import difflib
++import importlib.metadata
++import json
++from pathlib import Path
++
++from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
++
++
++_CONTEXT = "srt/model_executor/forward_context.py"
++_POOL = "srt/mem_cache/memory_pool.py"
++_STORE = "kernels/ops/kvcache/kvcache.py"
++_CPP = "kernels/jit/csrc/elementwise/kvcache.cuh"
++_RUNNER = metadata._RUNNER
++_RECORDER = metadata._RECORDER
++_SOURCE_JOB = "exp-1111-102145-988437"
++_FFI_VERSION = "0.1.11"
++
++# Complete Source590, not the earlier collection that omitted Cython/allocators.
++# Unedited dependencies qualify the publication, launcher, export and allocator
++# paths; they are archived unchanged alongside the five actual source edits.
++_NATIVE_FILES = {
++    _CONTEXT: "e612cb6399e58a1c01d7ce72e5309148edbb4b0d28eccc053489c6cc5c6b3852",
++    _POOL: "e077773e25c02be4dc597741e5f987375a221e595bccf92997dea684d5445a26",
++    _STORE: "fe75ca2abad09ee4911f1049f1c054d93f0470578f2a3e234452d19980e0ad81",
++    _CPP: "8b4cc36204b5623608c2467974bcd2a8daf283e96cdbd2f7ee268b07fa0f12e6",
++    "kernels/jit/include/sgl_kernel/utils.cuh": "18b0bb2e27dccc20d7509e8b6b6c16e2b57a5ce98be648865fb75059be8a13db",
++    "kernels/jit/utils/compile/spec.py": "f762d7d90adb2770988ab0d17b444496d9d611531ab136eb37b8c8707dd42b2f",
++    "kernels/jit/utils/compile/loader.py": "f4437c88aae8ae55a315bef9f52e19b2dabd3ad8a2cf0ffaab2a6786dbb52993",
++    "kernels/jit/utils/compile/cache.py": "3a9c277d676596e467d6a1e700e65ab2fb5ccf91b264ebe1c3cc06659fa470bf",
++    "srt/model_executor/runner/eager_runner.py": "6ac59ed3d5758e52298054b822852e877a17c75de47c3e83709a00b92967d591",
++    "srt/mem_cache/kv_cache_configurator.py": "1e31685151ea6ed110c2a659ea0ed975493d0eccf5295196567756bd5591887b",
++    "srt/mem_cache/allocator/base.py": "17c07a9ab32c62932048d3579e620eaa2e2558b03b828df152b2ee953c4bfe32",
++    "srt/mem_cache/allocator/token.py": "ee09d0021b69b111e3262811e2fdaf2f495ecfc2cf6ed142070a7f7e95a030ec",
++    "srt/utils/custom_op.py": "16ce982c284ac85d437b9a6d3ccbe12e92b3ba59c9c1e3dbe0d54be48d8e0166",
++    "tvm_ffi/cython/function.pxi": "40fba9880817d3b013e8978146491110434bd8b36d3a702ff4a93a230ff1c021",
++    "tvm_ffi/cython/tvm_ffi_python_helpers.h": "a11be0560a2cc4b75845ab63fc7cb67f0dd890b8d89c32b58d7efb408172089f",
++    "tvm_ffi/src/ffi/extra/env_context.cc": "941edd8415cca875c010f456f1f06f2f336b8978c64531f4953c1c4d848d490c",
++    "tvm_ffi/_optional_torch_c_dlpack.py": "71fa7ff562ab5cb6a714200f31b5caa3d0a1c9cf949fd21c6a2a830580c60a18",
++    "tvm_ffi/include/tvm/ffi/function.h": "42dd75a992d4fc9b5216709a5e115c6af91270843a7ab63cc3e9b6ba3d5a1236",
++    "tvm_ffi/include/tvm/ffi/extra/c_env_api.h": "afca6fcd61cc385772c7bd0aef1d75b41195e40ed50075be9f7166dbeed6b0c9",
++}
++
++_IMPORT = metadata._IMPORT + (
++    "from sglang.srt.model_executor.forward_context import (\n"
++    "    get_forward_context, has_forward_context,\n"
++    ")\n"
++)
++_BATCH_LOCAL = "_kv_batch = get_forward_context().forward_batch if has_forward_context() else None\n"
++_BATCH_FIELDS = tuple(
++    (name, f"tuple(_kv_batch.{attribute}) if _kv_batch is not None and _kv_batch.{attribute} is not None else None")
++    for name, attribute in (
++        ("rids", "rids"), ("prefix_lens", "extend_prefix_lens_cpu"),
++        ("extend_lens", "extend_seq_lens_cpu"),
++    )
++)
++
++
++def _descriptor(name: str, expression: str) -> tuple:
++    return ((name, f"_mamba_tensor({expression})"), (f"{name}_data_ptr", f"{expression}.data_ptr()"))
++
++
++def _terminal(kind: str, *, indent: int, prefix_valid: bool) -> str:
++    """Emit only CPU fields at the class-owned, already-completed host call."""
++    fields = (
++        ("store_kind", repr(kind)),
++        ("native_stream_scalar_observed", "False"),
++        ("native_actual_stream", "None"),
++        ("stream_qualification", repr("UNVERIFIED; CPP scalar is a separate in-call receipt")),
++        ("pool_class", "(type(self).__module__, type(self).__qualname__)"),
++        ("pool_object_id", "id(self)"),
++        ("layer_id", "layer.layer_id if layer is not None else layer_id"),
++        ("pool_layer_id", "layer_id"),
++        ("buffer_layer_idx", "layer_id - self.start_layer"),
++        *_BATCH_FIELDS,
++        *_descriptor("k_cache", "self.k_buffer[layer_id - self.start_layer]"),
++        *_descriptor("v_cache", "self.v_buffer[layer_id - self.start_layer]"),
++        *_descriptor("writer_loc", "loc_2d" if prefix_valid else "loc"),
++    )
++    if prefix_valid:
++        fields += _descriptor("commit_lens", "commit_lens")
++    return " " * indent + _BATCH_LOCAL + metadata._receipt("kv_store_terminal", fields, indent)
++
++
++_EDITS = {
++    _CONTEXT: (
++        (
++            "    moe_num_token_non_padded: Optional[Callable[[], Optional[torch.Tensor]]] = None\n",
++            "    moe_num_token_non_padded: Optional[Callable[[], Optional[torch.Tensor]]] = None\n"
++            "    forward_batch: Optional[ForwardBatch] = None\n",
++        ),
++        (
++            "            ctx, moe_num_token_non_padded=forward_batch.moe_num_token_non_padded\n",
++            "            ctx, moe_num_token_non_padded=forward_batch.moe_num_token_non_padded,\n"
++            "            forward_batch=forward_batch,\n",
++        ),
++    ),
++    _CPP: (
++        ("  static void\n  run(", "  static int64_t\n  run("),
++        ("    if (batch_size == 0) return;\n", "    if (batch_size == 0) return -1;\n"),
++        (
++            "    LaunchKernel(num_blocks, {device::kWarpThreads, num_warps}, device)  //\n"
++            "        .enable_pdl(kUsePDL)(kernel, params);\n",
++            "    const auto stream = LaunchKernel::resolve_device(device);\n"
++            "    LaunchKernel(num_blocks, {device::kWarpThreads, num_warps}, stream)  //\n"
++            "        .enable_pdl(kUsePDL)(kernel, params);\n"
++            "    return static_cast<int64_t>(reinterpret_cast<uintptr_t>(stream));\n",
++        ),
++    ),
++    _STORE: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "    module.store_cache(\n",
++            "    _kv_torch_stream = torch._C._cuda_getCurrentRawStream(k.device.index)\n"
++            "    _kv_native_stream = module.store_cache(\n",
++        ),
++        (
++            "        reserved_skip_index,\n    )\n",
++            "        reserved_skip_index,\n    )\n"
++            "    " + _BATCH_LOCAL + metadata._receipt("kv_store_stream", (
++                ("store_kind", repr("cpp_store_cache")),
++                ("native_stream_scalar_observed", "_kv_native_stream != -1"),
++                ("native_actual_stream", "_kv_native_stream if _kv_native_stream != -1 else None"),
++                ("torch_current_raw_stream", "_kv_torch_stream"),
++                ("launch_enqueued", "_kv_native_stream != -1"),
++                ("device_store_completion", repr("UNVERIFIED")),
++                *_BATCH_FIELDS,
++                *_descriptor("k_cache", "k_cache"), *_descriptor("v_cache", "v_cache"),
++                *_descriptor("writer_loc", "indices"),
++                ("row_bytes", "row_bytes"), ("v_row_bytes", "v_row_bytes"),
++                ("size_limit", "size_limit"), ("reserved_skip_index", "reserved_skip_index"),
++            ), 4),
++        ),
++    ),
++    _POOL: (
++        ("import torch\n", "import torch\n\n" + _IMPORT),
++        (
++            "        self._store_kv_layer(layer_id - self.start_layer, loc, cache_k, cache_v)\n",
++            "        self._store_kv_layer(layer_id - self.start_layer, loc, cache_k, cache_v)\n"
++            + _terminal("mha_set_kv_buffer_impl", indent=8, prefix_valid=False),
++        ),
++        (
++            "                v_scale_is_tensor=isinstance(v_scale, torch.Tensor) and v_scale.is_cuda,\n"
++            "            )\n            return\n",
++            "                v_scale_is_tensor=isinstance(v_scale, torch.Tensor) and v_scale.is_cuda,\n"
++            "            )\n" + _terminal("mha_prefix_valid_triton_fp8", indent=12, prefix_valid=True)
++            + "            return\n",
++        ),
++        (
++            "            store_dtype=self.store_dtype,\n        )\n",
++            "            store_dtype=self.store_dtype,\n        )\n"
++            + _terminal("mha_prefix_valid_triton", indent=8, prefix_valid=True),
++        ),
++    ),
++    _RUNNER: (
++        (
++            "        self.token_to_kv_pool_allocator = result.token_to_kv_pool_allocator\n",
++            "        self.token_to_kv_pool_allocator = result.token_to_kv_pool_allocator\n"
++            + metadata._receipt("kv_allocator_created", (
++                ("allocator_class", "(type(self.token_to_kv_pool_allocator).__module__, type(self.token_to_kv_pool_allocator).__qualname__)"),
++                ("allocator_object_id", "id(self.token_to_kv_pool_allocator)"),
++                ("pool_class", "(type(self.token_to_kv_pool).__module__, type(self.token_to_kv_pool).__qualname__)"),
++                ("pool_object_id", "id(self.token_to_kv_pool)"),
++                ("page_size", "self.token_to_kv_pool_allocator.page_size"),
++                ("size", "self.token_to_kv_pool_allocator.size"),
++                ("dtype", "str(self.token_to_kv_pool_allocator.dtype)"),
++                ("device", "str(self.token_to_kv_pool_allocator.device)"),
++            ), 8),
++        ),
++    ),
++}
++
++
++def source_manifest() -> dict:
++    owner = metadata.source_manifest()
++    files = {
++        relative: {"metadata_base_sha256": identity["before_sha256"], "native_source_job": _SOURCE_JOB}
++        for relative, identity in owner["files"].items()
++    }
++    files.update({relative: {"native_sha256": digest, "native_source_job": _SOURCE_JOB}
++                  for relative, digest in _NATIVE_FILES.items()})
++    files[_RECORDER] = {"metadata_recorder_sha256": metadata._sha256(metadata._RECORDER_SOURCE.encode())}
++    return {"image": owner["image"], "distribution_version": owner["distribution_version"],
++            "tvm_ffi_distribution_version": _FFI_VERSION, "native_source_job": _SOURCE_JOB, "files": files}
++
++
++def _rewrite(relative: str, content: bytes, *, reverse: bool = False) -> bytes:
++    text = content.decode()
++    edits = _EDITS.get(relative, ())
++    for before, after in reversed(edits) if reverse else edits:
++        old, new = (after, before) if reverse else (before, after)
++        old, new = "\n" + old, "\n" + new
++        if text.count(old) != 1:
++            raise ValueError(f"KV stream source seam differs: {relative}")
++        text = text.replace(old, new)
++    return text.encode()
++
++
++def _qualified_baseline(relative: str, content: bytes, identity: dict) -> None:
++    if "metadata_base_sha256" in identity:
++        # Reuse the owner exactly: require its completed overlay, not its input.
++        base = metadata._rewrite(relative, content, reverse=True)
++        if metadata._sha256(base) != identity["metadata_base_sha256"] or metadata._rewrite(relative, base) != content:
++            raise ValueError(f"KV stream metadata precondition differs: {relative}")
++    else:
++        expected = identity.get("native_sha256", identity.get("metadata_recorder_sha256"))
++        if metadata._sha256(content) != expected:
++            raise ValueError(f"KV stream source identity differs: {relative}; sha256={metadata._sha256(content)}")
++
++
++def _sources(paths: dict, manifest: dict) -> tuple[dict, dict, dict]:
++    current, original, candidate = {}, {}, {}
++    for relative, identity in manifest["files"].items():
++        path = paths[relative]
++        if not path.is_file():
++            raise ValueError(f"Required KV stream source absent: {path}; identity={identity}")
++        content = path.read_bytes()
++        baseline = content
++        try:
++            _qualified_baseline(relative, baseline, identity)
++        except ValueError:
++            if relative not in _EDITS:
++                raise
++            try:
++                baseline = _rewrite(relative, content, reverse=True)
++                _qualified_baseline(relative, baseline, identity)
++            except ValueError as unsupported:
++                raise ValueError(f"Unrecognized KV stream source: {path}; sha256={metadata._sha256(content)}") from unsupported
++        rewritten = _rewrite(relative, baseline)
++        if content not in (baseline, rewritten):
++            raise ValueError(f"Unrecognized KV stream source: {path}")
++        if relative in _EDITS and path.suffix == ".py":
++            compile(rewritten, str(path), "exec")
++        current[relative], original[relative], candidate[relative] = content, baseline, rewritten
++    return current, original, candidate
++
++
++def _archive(archive: Path, original: dict, candidate: dict, manifest: dict) -> None:
++    artifacts = {"source_manifest.json": (json.dumps(manifest, indent=2) + "\n").encode()}
++    diff = []
++    for relative in original:
++        artifacts[f"before/{relative}"], artifacts[f"after/{relative}"] = original[relative], candidate[relative]
++        if original[relative] != candidate[relative]:
++            diff.extend(difflib.unified_diff(original[relative].decode().splitlines(keepends=True),
++                                             candidate[relative].decode().splitlines(keepends=True),
++                                             fromfile=f"a/{relative}", tofile=f"b/{relative}"))
++    artifacts["kv_streams.diff"] = "".join(diff).encode()
++    for relative, content in artifacts.items():
++        path = archive / relative
++        if path.exists() and path.read_bytes() != content:
++            raise ValueError(f"KV stream archive differs: {path}")
++    for relative, content in artifacts.items():
++        path = archive / relative
++        path.parent.mkdir(parents=True, exist_ok=True)
++        if not path.exists():
++            path.write_bytes(content)
++
++
++def prepare_source(native_sglang_package_root: Path, *, image: str, archive_dir: Path) -> dict:
++    """Qualify both earlier overlays and every dependency before source writes.
++
++    Idempotent only for this exact witness. TVM sources are located through the
++    installed distribution, never substituted from a nested retained snapshot.
++    No previous preparer, runtime import, compiler or GPU operation is invoked.
++    """
++    manifest = source_manifest()
++    if image != manifest["image"]:
++        raise ValueError("KV stream witness requires the qualified pinned image")
++    for name, expected in (("sglang", manifest["distribution_version"]),
++                           ("apache-tvm-ffi", manifest["tvm_ffi_distribution_version"])):
++        version = importlib.metadata.version(name)
++        if version != expected:
++            raise ValueError(f"KV stream dependency identity differs: {name}={version}; expected={expected}")
++    root, archive = native_sglang_package_root.resolve(), archive_dir.resolve()
++    ffi = importlib.metadata.distribution("apache-tvm-ffi")
++    paths = {relative: Path(ffi.locate_file(relative)).resolve() if relative.startswith("tvm_ffi/")
++             else root / relative for relative in manifest["files"]}
++    current, original, candidate = _sources(paths, manifest)
++    manifest["files"] = {relative: {**identity, "before_sha256": metadata._sha256(original[relative]),
++                                    "after_sha256": metadata._sha256(candidate[relative])}
++                         for relative, identity in manifest["files"].items()}
++    _archive(archive, original, candidate, manifest)
++    changed = [relative for relative in candidate if current[relative] != candidate[relative]]
++    for relative in changed:
++        paths[relative].write_bytes(candidate[relative])
++    observed = {relative: metadata._sha256(path.read_bytes()) for relative, path in paths.items()}
++    if observed != {relative: metadata._sha256(content) for relative, content in candidate.items()}:
++        raise ValueError("KV stream source changed during preflight")
++    receipt = {
++        **manifest, "sglang_path": str(root), "archive_dir": str(archive),
++        "source_paths": {relative: str(path) for relative, path in paths.items()},
++        "observed_before_sha256": {relative: metadata._sha256(content) for relative, content in current.items()},
++        "observed_after_sha256": observed, "changed_files": changed, "patch_applied": bool(changed),
++        "diagnostic_only": True, "selected_fp32_precondition": True, "cpu_metadata_precondition": True,
++        "readback_key": "mamba_runtime_metadata", "readback": "existing process-local internal-state drain",
++        "stream_witness_scope": "CPP calls only; CUDA prefix-valid Triton remains UNVERIFIED",
++        "physical_slot_values": "UNMEASURED", "native_compilation": "UNVERIFIED",
++        "actual_streams_allocator_class_vectors": "UNVERIFIED; CPU binding is not native execution",
++    }
++    with (archive / "preflight.jsonl").open("a") as stream:
++        stream.write(json.dumps(receipt, allow_nan=False) + "\n")
++    return receipt

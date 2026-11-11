@@ -1,0 +1,84 @@
+{
+  "task_id": "profile-kv-stream-witness-integration-recheck-20261111",
+  "base": "3aba44fddb7f76dc0dde4cca63c37dca43395f27",
+  "candidate": "26664e81099d71a995e4b91183431a7c13f2862b",
+  "diff_command": [
+    "git",
+    "diff",
+    "3aba44fd...26664e81",
+    "--",
+    "tests/manual/agent_opd/probe_teacher_scoring.py",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md"
+  ],
+  "commits": "26664e81 Verify delivered KV witness binding and evidence skips\n7091b068 Honor probe opt-out over inherited KV stream witness\n79dba51b test: prepare pinned CPU KV stream witnesses\nd9070605 docs: correct diagnostic batch publication and bind A KV target\n0337da86 docs(profile): close source prerequisites and select witness-only preparation\n262f1539 Wire opt-in KV stream witness into teacher scoring probe\n",
+  "changed_files": [
+    "tests/manual/agent_opd/probe_teacher_scoring.py",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md"
+  ],
+  "change_diff_sha256": "f1bf99f9139527d9923f9e6e6f399c29c51e3245cdfe3fa52e567be9c6906f5e",
+  "source_blobs": [
+    {
+      "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+      "base": {
+        "sha256": "31b18fc785d8b39601b77e84b5adadb6e1710aa0ec081a085aa3f90aef3dae72",
+        "bytes": 38720
+      },
+      "candidate": {
+        "sha256": "94cd9f0c93d2f693172367fcce347fb6d2564877d523fa06bf020633c0b3c86f",
+        "bytes": 39948
+      }
+    },
+    {
+      "path": "tests/fast/test_teacher_scoring_probe.py",
+      "base": {
+        "sha256": "051bf6b17e698bd3af44328e5b180c43ac18a769ff057f3ad13c0d83ae6e8816",
+        "bytes": 80183
+      },
+      "candidate": {
+        "sha256": "806e90fbfa5061414d83848c7cb1438e8c055fa263e0b019dd5fb1a8547b4e73",
+        "bytes": 102311
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_kv_stream_witness_probe_config.json",
+      "base": {
+        "absent": true
+      },
+      "candidate": {
+        "sha256": "a6bc4fdb80e397bd1c36ca8bb213853591269c6a4cea0ffd67cdc0458fe63314",
+        "bytes": 1771
+      }
+    },
+    {
+      "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_stream_witness_integration.md",
+      "base": {
+        "absent": true
+      },
+      "candidate": {
+        "sha256": "1658d49d96be9ed374fd4dda34fc20ab3be43af3660547cde354e60593fb60df",
+        "bytes": 43661
+      }
+    }
+  ],
+  "reference_config": {
+    "commit": "26664e81099d71a995e4b91183431a7c13f2862b",
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json",
+    "sha256": "66d2c57dab56bebf2bad9326155d2c08f5cb83d5ae5a6057b4f7afb66729aa62"
+  },
+  "source_dependency": {
+    "commit": "79dba51b956ab0de779f3e0d953355982091f5aa",
+    "path": "tests/manual/agent_opd/sglang_kv_streams.py",
+    "sha256": "6140cdc283c457938d34f06dc8adad3657465cbc800acf08c80cede6e378e51d",
+    "review_artifact_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-stream-witness-source-review-20261111"
+  },
+  "fix_commits": [
+    "7091b068",
+    "26664e81"
+  ],
+  "recorded_cpu": "192 affected /453 joined PASS with complete source override; missing override1explicitSKIP; historical381PASS/1skip retained",
+  "scope": "Opt-out closure and real source CPU binding only; native compile/stream/class/all16vectors/numerical/performance/formal unverified"
+}

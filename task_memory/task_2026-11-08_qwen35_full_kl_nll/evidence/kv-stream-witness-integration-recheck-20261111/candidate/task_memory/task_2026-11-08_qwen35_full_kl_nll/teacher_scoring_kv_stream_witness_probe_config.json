@@ -1,0 +1,15 @@
+{
+  "task_id": "profile-kv-stream-witness-integration-20261111",
+  "formal_config": "task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+  "samples": "task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
+  "pairs": ["A", "B"],
+  "repeats": 1,
+  "request_timeout_seconds": 3600,
+  "worker_seconds": 3600,
+  "child_cleanup_grace_seconds": 90,
+  "selected_fp32_snapshots": true,
+  "mamba_runtime_metadata": true,
+  "kv_store_stream_witness": true,
+  "output_parent": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-stream-witness-probe-20261111/native",
+  "acceptance": "Witness-only minimized diagnostic: original first four fixtures, one repetition, 16 scoring requests and 10 flushes per pair. Preserve teacher model, source mounts, engine argv, unsalted payloads, cache, concurrency, chunk8192, BF16, deterministic inference and budgets. Prepare selected-FP32 snapshots, CPU runtime metadata, then the actual native store stream and allocator witness source before runtime inspection and server startup. Retain the witness source receipt independently; reuse the existing server-info endpoint once after all scoring requests. Missing or malformed auxiliary metadata remains independent of scoring artifacts. Source preparation is not native stream validation and no witness PASS is automatic. Native H800 evidence and exact reproduction of all 16 verified first4 repetition0 vectors remain pending before future numeric capture. No KV payload capture, CUDA tensor value reads, waits, events, locks or stream changes. Dropped 1024-hit groups, all-TP coverage, CUDA compile, numeric coherence, GPU parity and performance acceptance are unverified. Formal A/B remain on HOLD."
+}
