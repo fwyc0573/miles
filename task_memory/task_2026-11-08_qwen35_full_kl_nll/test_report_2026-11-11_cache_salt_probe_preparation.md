@@ -6,6 +6,7 @@
 | --- | --- |
 | 2026-11-11 | Record the scoped request, source qualification and first request-boundary RED/GREEN checkpoint. |
 | 2026-11-11 | Complete config/worker RED/GREEN,24 affected and350 joined CPU checks, real A/B controller dry-runs, syntax validation and the pre-commit checkpoint. |
+| 2026-11-11 | Resolve the Standards documentation Nit by referencing canonical native preregistration instead of adding an unchanged-observations acceptance condition. |
 
 ## 1. Plan completion
 
@@ -129,7 +130,7 @@ git diff --cached --check -- tests/manual/agent_opd/probe_teacher_scoring.py tes
 
 Observed the scoped source/test diff described above and no whitespace errors in the worktree or staged four-file diff; PASS. The pre-commit parent HEAD is272c12dd; no unrelated native evidence is staged by this slice.
 
-**Future native contract:**8 response-only control vectors must be exact against the accepted unsalted baseline;4 salted cold-full vectors must also be baseline-exact. Initial/full-chunk/tracking/num_retractions must be unchanged. Compare4 warm-full vectors against their own cold-full using existing exact/absolute/relative/error-undefined-at-zero reporting, with no new tolerance. All warm-full exact would support cross-request sharing being necessary for the warm-full effect, not KV–SSM numerical causality. Partial/persisting drift or failed controls/isolation must be reported honestly. Trace covers TP0/DP1 only, not all TP; first4 does not cover dropped1024-hit groups. No native execution, performance, root-fix or formal acceptance is claimed.
+**Future native contract:** follow the [canonical preregistration](spec.md) for controls, per-RID checkpoint isolation and numerical comparisons. Compare and report initial/full-chunk/tracking/num_retractions observations and their differences; this report adds no unchanged-observations acceptance condition. Native execution, performance, root-fix and formal acceptance remain unverified.
 
 ## 2. Drift detection
 
