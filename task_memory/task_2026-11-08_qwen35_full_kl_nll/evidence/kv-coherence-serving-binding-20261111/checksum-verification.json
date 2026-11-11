@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "scope": "Five frozen candidate blobs/live/base hashes, full diff checksum,35 source/image/native pin equality, selected immutable R3 and both retained ELF file hashes; not serving runtime identity",
+  "base": "95dd94f243a37d170844775817d894a8242ed857",
+  "files": {
+    "tests/manual/agent_opd/sglang_kv_coherence.py": {
+      "before_sha256": "762507650bad68655301edc6693d10096a6ab9e6a9fd8a77865fb1ca153f5000",
+      "after_sha256": "6be5ef8642f33512fb463f30040247750b472716289eba0c139cb65e5d005721",
+      "bytes": 41066,
+      "new": false
+    },
+    "tests/manual/agent_opd/probe_teacher_scoring.py": {
+      "before_sha256": "45715a95212cc034c0b19e363ba380de457778df48453a521d8f973b1e354601",
+      "after_sha256": "19bf42be9802a9160dad9c80d4a7a2465c9af0c0c4fabf305283ce073bd812df",
+      "bytes": 52828,
+      "new": false
+    },
+    "tests/fast/test_sglang_kv_coherence.py": {
+      "before_sha256": "ecb323b90d5ab6ae2c9d0782abeaa6de643d1c5a4c54df35eab48966c0f1b78a",
+      "after_sha256": "16c5b496eb28f91feec390993d98e9abb282c2fd9d6c011b5b10f56f07b0d78c",
+      "bytes": 45686,
+      "new": false
+    },
+    "tests/fast/test_teacher_scoring_probe.py": {
+      "before_sha256": "655abf07fafbec57bf07563e89453a62c2fd3f88c589c6e513e9e8151fb38ff6",
+      "after_sha256": "584db1ee77830dfcea8df37a247a52d36b1b6373ff8eb5127c14c934dd2aefad",
+      "bytes": 127182,
+      "new": false
+    },
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_serving_binding.md": {
+      "before_sha256": null,
+      "after_sha256": "2e96676054467cfe6dedf0e466126bc0d43cc216e6f00641a8290aef7a530d89",
+      "bytes": 14229,
+      "new": true
+    }
+  },
+  "diff_sha256": "4ea3f9b51f6cd852a77176a3851155a4aba01bf31497d9fb52d25a3557551d9d",
+  "source_pins": {
+    "count": 35,
+    "unchanged": true,
+    "old_runtime_sha256": "773e2c6186d95e10e2fc287f9c6f37e9489df068267257ae3c3ba6ad4e8733ed",
+    "current_runtime_sha256": "7ed5b5fb56ef736afee2c9e9aefa7543a779e53f18b3cf3cf7c0943618816308"
+  },
+  "R3_receipt_sha256": "91458ef4659b03e4a867c6be474b09d92653d4e85c763c4054fee18e0934f4c7",
+  "libraries": {
+    "baseline": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/baseline/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa",
+      "bytes": 3398568
+    },
+    "observer": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-kv-observer-build-20261111/libraries/observer/mem_cache.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba",
+      "bytes": 3411248
+    }
+  }
+}

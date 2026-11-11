@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "timeout",
+    "60s",
+    "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "tests/fast/test_sglang_kv_coherence.py",
+    "tests/fast/test_teacher_scoring_probe.py",
+    "--junitxml=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-serving-binding-20261111/joined/pytest.xml"
+  ],
+  "cwd": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+  "env": {
+    "TMPDIR": "/data/ycfeng/tmp/opencode-v2-tmp/opencode",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "MILES_PINNED_SGLANG_SOURCE": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source"
+  },
+  "scope": "composed producer/consumer, source/preparation/readback and existing controls; no native execution"
+}

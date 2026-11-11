@@ -1,0 +1,221 @@
+diff --git a/tests/fast/test_sglang_kv_coherence.py b/tests/fast/test_sglang_kv_coherence.py
+index d92332c0..c9568d34 100644
+--- a/tests/fast/test_sglang_kv_coherence.py
++++ b/tests/fast/test_sglang_kv_coherence.py
+@@ -2,6 +2,7 @@
+ 
+ import ast
+ import copy
++import hashlib
+ import json
+ import os
+ import sys
+@@ -140,7 +141,19 @@ def _toy(monkeypatch, layers=2):
+ def _req(rid, *, eligible=True):
+     return SimpleNamespace(rid=rid, return_logprob=True, logprob_start_len=0 if eligible else 100,
+                            origin_input_ids=range(98942), kv=SimpleNamespace(cache_protected_len=2),
+-                           finished=lambda: True)
++                            finished=lambda: True)
++
++
++def _tree_core(module_file):
++    # CPU fixture: exported object identity, not a loaded Rust ABI claim.
++    bindings = ModuleType("cpu_fixture.mem_cache")
++    bindings.__file__ = str(module_file)
++    binding_class = type("RustUnifiedTreeCoreBinding", (), {"__module__": "builtins"})
++    bindings.RustUnifiedTreeCoreBinding = binding_class
++    core = type("RustUnifiedTreeCore", (), {"_bindings": bindings,
++                "_binding_class": lambda self: bindings.RustUnifiedTreeCoreBinding})()
++    core._binding = binding_class()
++    return core
+ 
+ 
+ def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
+@@ -153,7 +166,7 @@ def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
+         collector.note_cpp(batch, k, v, loc, 17, 17)
+         collector.fresh(pool, dense, loc, batch, "cpp")
+     params = SimpleNamespace(prev_prefix_len=2, value=torch.tensor([6, 7, 0, 1, 2, 3], dtype=torch.int64))
+-    collector.insert(req, params, 6, type("RustUnifiedTreeCore", (), {})())
++    collector.insert(req, params, 6, _tree_core(__file__))
+     if q > 2:
+         # A different original tensor owns the matching physical indices.
+         original = torch.tensor([6, 7, 0, 1, 2, 3, 5], dtype=torch.int64)
+@@ -336,6 +349,87 @@ def test_generated_extend_target_consumes_unchanged_cpp_key(generated_callbacks,
+     assert bank["fresh_layers"] == {0} and torch.equal(bank["indices"]["writer"][0], loc)
+ 
+ 
++def test_generated_binding_identity_before_selection_and_one_shot(generated_callbacks, tmp_path, monkeypatch):
++    collector, _, _ = generated_callbacks
++    module_file = tmp_path / "cpu-binding-file"
++    data = b"CPU disk bytes; not an actual native library"
++    module_file.write_bytes(data)
++    alias = tmp_path / "module-file-alias"
++    alias.symlink_to(module_file)
++    core = _tree_core(alias)
++    reads, read_bytes = [], Path.read_bytes
++    def read(path):
++        reads.append(path)
++        return read_bytes(path)
++    monkeypatch.setattr(Path, "read_bytes", read)
++    collector.insert(_req("ordinary-request", eligible=False), None, 0, core)
++    assert not collector.by_rid and reads == [module_file.resolve()]
++    identity = collector.native_binding
++    assert identity == {"module": "cpu_fixture.mem_cache", "module_file": str(module_file.resolve()),
++                        "module_sha256": hashlib.sha256(data).hexdigest(), "module_bytes": len(data),
++                        "class": "RustUnifiedTreeCoreBinding", "class_module": "builtins",
++                        "class_is_module_attribute": True, "factory_class_matches": True,
++                        "process_id": os.getpid()}
++    assert identity["class_module"] != identity["module"] and collector.binding_error is None
++    def forbidden_read(path):
++        raise AssertionError("Serving binding identity must not reread after its first attempt")
++    monkeypatch.setattr(Path, "read_bytes", forbidden_read)
++    collector.insert(_req("second-request", eligible=False), None, 0, object())
++    receipt = collector.drain(False)
++    assert receipt["native_binding"] is identity and receipt["binding_error"] is None
++    assert not collector.errors and reads == [module_file.resolve()]
++
++
++@pytest.mark.parametrize("fault,message", [("export", "differs from module export"),
++    ("factory", "differs from adapter factory class"), ("missing_file", "FileNotFoundError")])
++def test_binding_failure_isolated_once_and_blocks_complete_bank_metrics(monkeypatch, tmp_path, fault, message):
++    collector, pool = _toy(monkeypatch)
++    module_file = tmp_path / "cpu-binding-file"
++    module_file.write_bytes(b"CPU binding failure fixture")
++    core = _tree_core(module_file)
++    if fault == "export":
++        core._bindings.RustUnifiedTreeCoreBinding = type("RustUnifiedTreeCoreBinding", (), {})
++    elif fault == "factory":
++        core._binding_class = lambda: type("DifferentFactoryBinding", (), {})
++    else:
++        core._bindings.__file__ = str(tmp_path / "missing-binding-file")
++    collector.insert(_req("ordinary-request", eligible=False), None, 0, core)
++    error = collector.binding_error
++    assert message in error and collector.errors[0]["stage"] == "native_binding"
++    assert collector.drain(False)["status"] == "unverified"
++    if fault != "missing_file":
++        field = "class_is_module_attribute" if fault == "export" else "factory_class_matches"
++        assert collector.native_binding[field] is False
++    def forbidden(*args, **kwargs):
++        raise AssertionError("Invalid/missing identity must not reread or compute tensor metrics")
++    monkeypatch.setattr(Path, "read_bytes", forbidden)
++    _capture_bank(collector, pool, "cold", 2)
++    _capture_bank(collector, pool, "warm", 5)
++    for rid in ("cold", "warm", *(f"scoring-{n}" for n in range(14))):
++        collector.finish(_req(rid))
++    monkeypatch.setattr(collector, "_physical", forbidden)
++    monkeypatch.setattr(collector, "_metrics", forbidden)
++    receipt = collector.drain(True)
++    assert receipt["status"] == "unverified" and "binding identity" in receipt["reason"]
++    assert receipt["binding_error"] == error and len(receipt["completed_rids"]) == 16
++    assert len(collector.errors) == 1 and all(bank["fresh_layers"] == {0, 1} for bank in collector.banks)
++    assert all("metrics" not in bank for bank in receipt["banks"])
++
++
++def test_missing_serving_identity_and_unavailable_collector_receipts(monkeypatch):
++    collector, _ = _toy(monkeypatch)
++    for rid in range(16):
++        collector.finish(_req(str(rid)))
++    def forbidden(*args):
++        raise AssertionError("Missing serving binding must disqualify before tensor metrics")
++    monkeypatch.setattr(collector, "_metrics", forbidden)
++    receipt = collector.drain(True)
++    assert receipt["status"] == "unverified" and "binding identity" in receipt["reason"]
++    assert receipt["native_binding"] is None and receipt["binding_error"] is None
++    monkeypatch.setattr(coherence, "_collector", None)
++    assert coherence.drain()["native_binding"] is None and coherence.drain()["binding_error"] is None
++
++
+ def test_real_rpc_source_bindings_default_false_and_true_forwarding(composed, tmp_path, monkeypatch):
+     import asyncio
+     _prepare_di(composed, tmp_path / "coherence", monkeypatch)
+diff --git a/tests/manual/agent_opd/sglang_kv_coherence.py b/tests/manual/agent_opd/sglang_kv_coherence.py
+index fe299a85..cac758ad 100644
+--- a/tests/manual/agent_opd/sglang_kv_coherence.py
++++ b/tests/manual/agent_opd/sglang_kv_coherence.py
+@@ -7,6 +7,7 @@ Only the explicit after-all internal-state drain reads device contents.
+ 
+ import ast
+ import difflib
++import hashlib
+ import importlib.metadata
+ import importlib.util
+ import json
+@@ -81,6 +82,7 @@ class Collector:
+         self.rows = self.end - self.start
+         self.banks, self.by_rid, self.completed = [], {}, set()
+         self.errors, self.pending_cpp, self.summary = [], {}, None
++        self.native_binding, self.binding_error = None, None
+         self.root, self.pool = root, root.full_kv_pool
+         if allocator.get_kvcache() is not root or allocator.page_size != 1:
+             raise ValueError("Collector requires the live allocator root and page1")
+@@ -199,7 +201,32 @@ class Collector:
+                 or indices.device != self.buffers[0][0].device):
+             raise ValueError("Physical indices require device-local int64 vector of exact length")
+ 
++    def _capture_native_binding(self, tree_core):
++        if self.native_binding is not None or self.binding_error is not None:
++            return
++        try:
++            bindings = type(tree_core)._bindings
++            actual_class = type(tree_core._binding)
++            factory_class = tree_core._binding_class()
++            module_file = Path(bindings.__file__).resolve(strict=True)
++            module_data = module_file.read_bytes()
++            self.native_binding = {"module": bindings.__name__, "module_file": str(module_file),
++                                   "module_sha256": hashlib.sha256(module_data).hexdigest(),
++                                   "module_bytes": len(module_data), "class": actual_class.__name__,
++                                   "class_module": actual_class.__module__,
++                                   "class_is_module_attribute": getattr(bindings, actual_class.__name__) is actual_class,
++                                   "factory_class_matches": factory_class is actual_class,
++                                   "process_id": os.getpid()}
++            if not self.native_binding["class_is_module_attribute"]:
++                raise ValueError("Actual native binding class differs from module export")
++            if not self.native_binding["factory_class_matches"]:
++                raise ValueError("Actual native binding class differs from adapter factory class")
++        except Exception as error:
++            self.binding_error = f"{type(error).__name__}: {error}"
++            self.invalidate(None, self.start, self.end, "native_binding", self.binding_error)
++
+     def insert(self, req, params, page_aligned_len, tree_core):
++        self._capture_native_binding(tree_core)
+         bank = self.by_rid.get(req.rid)
+         if bank is None or page_aligned_len != self.end or req.kv.cache_protected_len != self.start:
+             return
+@@ -337,7 +364,9 @@ class Collector:
+         if self.summary is not None:
+             return self.summary
+         receipt = {"schema": "kv-coherence-v1", "process_id": os.getpid(),
+-                   "status": "metadata_only", "topology": self.topology, "errors": tuple(self.errors),
++                   "status": "unverified" if self.binding_error is not None else "metadata_only",
++                   "topology": self.topology, "errors": tuple(self.errors),
++                   "native_binding": self.native_binding, "binding_error": self.binding_error,
+                    "completed_rids": tuple(sorted(self.completed)),
+                    "banks": [{"rid": bank["rid"], "insert": bank["insert"], "rebind": bank["rebind"],
+                               "fragments": tuple(bank["fragments"]), "fresh_layers": tuple(sorted(bank["fresh_layers"])),
+@@ -348,6 +377,9 @@ class Collector:
+         if len(self.completed) != SCORING_REQUEST_COUNT:
+             receipt.update(status="unverified", reason="Drain requires all16 distinct completed native scoring RIDs")
+             return receipt
++        if self.native_binding is None or self.binding_error is not None:
++            receipt.update(status="unverified", reason="Missing/errored serving native binding identity")
++            return receipt
+         if len(self.by_rid) != BANK_COUNT or self.errors or self.pending_cpp:
+             receipt.update(status="unverified", reason="Candidate cardinality/capture errors/unconsumed CPP witness")
+             return receipt
+@@ -415,6 +447,7 @@ def observe(method, *args):
+ def drain(requested=False):
+     if _collector is None:
+         return {"schema": "kv-coherence-v1", "process_id": os.getpid(), "status": "unverified",
++                "native_binding": None, "binding_error": None,
+                 "errors": (_startup_error,) if _startup_error else (), "numeric_acceptance": None,
+                 "reason": "Responding collector unavailable; no device readback"}
+     return _collector.drain(requested)
+@@ -438,7 +471,7 @@ _EXTRA_PINS = {
+ def _runtime_source():
+     source = Path(__file__).read_text().split("# BEGIN INSTALLED RUNTIME\n", 1)[1].split("# END INSTALLED RUNTIME", 1)[0]
+     return ('"""CUDA-only opt-in FULL KV observer; no cache decisions or new waits."""\n'
+-            "import math\nimport os\nimport threading\n\n" + source).encode()
++            "import hashlib\nimport math\nimport os\nimport threading\nfrom pathlib import Path\n\n" + source).encode()
+ 
+ 
+ def _edits():

@@ -1,0 +1,49 @@
+--- prior/tests/fast/test_teacher_scoring_probe.py
++++ current/tests/fast/test_teacher_scoring_probe.py
+@@ -961,6 +961,46 @@
+     assert json.dumps({"info": info, "receipt": receipt}, sort_keys=True) == before
+ 
+ 
++def test_coherence_serving_binding_consumes_actual_collector_receipt_cpu_only(tmp_path):
++    from types import ModuleType
++    from tests.manual.agent_opd import sglang_kv_coherence as coherence
++
++    pid = os.getpid()
++    expected, _ = _cpu_native_observer(tmp_path, pid)
++    module_file = Path(expected["binary_target"])
++    module_file.write_bytes(b"CPU binding schema fixture; not a native library")
++    bindings = ModuleType("cpu.native_bindings")
++    bindings.__file__ = str(module_file)
++    binding_class = type("RustUnifiedTreeCoreBinding", (), {"__module__": "builtins"})
++    bindings.RustUnifiedTreeCoreBinding = binding_class
++    core = type("RustUnifiedTreeCore", (), {"_bindings": bindings,
++                "_binding_class": lambda self: bindings.RustUnifiedTreeCoreBinding})()
++    core._binding = binding_class()
++    collector = coherence.Collector.__new__(coherence.Collector)
++    collector.native_binding, collector.binding_error = None, None
++    collector.by_rid, collector.summary, collector.topology = {}, None, {}
++    collector.errors, collector.completed, collector.banks = [], set(), []
++
++    collector.insert(SimpleNamespace(rid="ordinary-cpu-request"), None, 0, core)
++    receipt = collector.drain(False)
++    probe._coherence_native_bindings({"internal_states": [{"kv_coherence": receipt}]}, expected)
++
++    identity = receipt["native_binding"]
++    disk = probe._file_identity(module_file)
++    assert identity is collector.native_binding and receipt["binding_error"] is None
++    assert identity["module_file"] == expected["binary_target"] == str(module_file.resolve())
++    assert identity["module_sha256"] == expected["compiled_sha256"] == disk["sha256"]
++    assert identity["module_bytes"] == disk["bytes"]
++    assert identity["process_id"] == receipt["process_id"] == pid
++    assert identity["module"] == bindings.__name__ and type(core)._bindings is bindings
++    assert identity["class"] == type(core._binding).__name__
++    assert getattr(bindings, identity["class"]) is type(core._binding) is core._binding_class()
++    assert identity["class_is_module_attribute"] is True and identity["factory_class_matches"] is True
++    assert identity["class_module"] != identity["module"]
++    assert receipt["status"] == "metadata_only" and receipt["numeric_acceptance"] is None
++    assert not collector.by_rid and not collector.errors
++
++
+ @pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
+ def test_coherence_boolean_validation(worker_config, tmp_path, value):
+     path, config, _ = worker_config

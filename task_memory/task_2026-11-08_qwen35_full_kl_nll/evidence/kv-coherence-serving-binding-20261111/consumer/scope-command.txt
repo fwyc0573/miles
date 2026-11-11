@@ -1,0 +1,73 @@
+TMPDIR=/data/ycfeng/tmp/opencode-v2-tmp/opencode PYTHONDONTWRITEBYTECODE=1 timeout 60s /usr/bin/python3 -B - <<'PY'
+import ast
+import copy
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+paths = ['tests/manual/agent_opd/probe_teacher_scoring.py', 'tests/fast/test_teacher_scoring_probe.py']
+evidence = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-serving-binding-20261111/consumer')
+identities = {}
+for name in paths:
+    content = Path(name).read_bytes()
+    tree = ast.parse(content, filename=name, feature_version=(3, 10))
+    compile(tree, name, 'exec')
+    identities[name] = {'sha256': hashlib.sha256(content).hexdigest(), 'bytes': len(content)}
+
+source = paths[0]
+before = ast.parse(subprocess.check_output(['git', 'show', 'HEAD:' + source], text=True))
+after = ast.parse(Path(source).read_text())
+def functions(tree):
+    return {node.name: node for node in tree.body if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
+def same(left, right):
+    return ast.dump(left, include_attributes=False) == ast.dump(right, include_attributes=False)
+old, new = functions(before), functions(after)
+changed = [name for name in old if not same(old[name], new[name])]
+assert changed == ['_collect_runtime_metadata', '_run'], changed
+assert set(new) - set(old) == {'_coherence_native_bindings'}
+normalized = copy.deepcopy(after)
+normalized_functions = functions(normalized)
+collect = normalized_functions['_collect_runtime_metadata']
+assert [node.arg for node in collect.args.kwonlyargs] == [node.arg for node in old['_collect_runtime_metadata'].args.kwonlyargs] + ['native_observer']
+collect.args.kwonlyargs.pop()
+collect.args.kw_defaults.pop()
+removed = 0
+for node in ast.walk(collect):
+    if hasattr(node, 'body') and isinstance(node.body, list):
+        for statement in list(node.body):
+            if isinstance(statement, ast.Expr) and isinstance(statement.value, ast.Call) and isinstance(statement.value.func, ast.Name) and statement.value.func.id == '_coherence_native_bindings':
+                node.body.remove(statement)
+                removed += 1
+assert removed == 1 and same(collect, old['_collect_runtime_metadata'])
+run = normalized_functions['_run']
+removed = 0
+for node in ast.walk(run):
+    if isinstance(node, ast.Dict):
+        for index, key in enumerate(list(node.keys)):
+            if isinstance(key, ast.Constant) and key.value == 'native_observer':
+                node.keys.pop(index)
+                node.values.pop(index)
+                removed += 1
+assert removed == 1 and same(run, old['_run'])
+normalized.body = [node for node in normalized.body if not isinstance(node, ast.FunctionDef) or node.name != '_coherence_native_bindings']
+assert same(normalized, before), 'An unapproved source change remains after normalizing the permitted gate and receipt argument'
+subprocess.run(['git', 'diff', '--check', '--', *paths], check=True)
+diff = subprocess.check_output(['git', 'diff', '--', *paths])
+with (evidence / 'consumer.diff').open('xb') as stream:
+    stream.write(diff)
+result = {'task_id': 'profile-kv-coherence-serving-binding-consumer-20261111', 'status': 'PASS',
+          'python': subprocess.check_output(['/usr/bin/python3', '--version'], text=True).strip(),
+          'base': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+          'files': identities, 'changed_existing_source_functions': changed,
+          'new_source_functions': sorted(set(new) - set(old)),
+          'ast_scope': 'Whole source AST equals HEAD after removing only the new gate function, its one drain-branch call, one optional argument, and the enabled main receipt option',
+          'unchanged_source_functions': sorted(set(old) - set(changed)),
+          'python_3_10_parse_and_compile': 'PASS', 'scoped_git_diff_check': 'PASS',
+          'diff_sha256': hashlib.sha256(diff).hexdigest(),
+          'native_identity_claim': False, 'producer_or_full_join_verification': False}
+with (evidence / 'scope.json').open('x') as stream:
+    json.dump(result, stream, indent=2)
+    stream.write('\n')
+print(json.dumps(result, indent=2))
+PY

@@ -553,7 +553,8 @@ def _native_observer_errors(server_log):
             "qualification_limit": "Marker absence does not prove native alias/GIL/CUDA qualification"}
 
 
-async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None):
+async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None,
+                                    native_observer=None):
     # The retained native /get_server_info alias delegates to /server_info.
     # Its internal_states list covers DP respondents, never all TP processes.
     endpoint = url + "/get_server_info"
@@ -583,6 +584,7 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
             if record["native_observer_errors"]["matches"]:
                 record["kv_coherence_status"] = "UNVERIFIED"
                 raise ValueError(f"KV coherence UNVERIFIED: {record['native_observer_errors']['marker']} in native server output")
+            _coherence_native_bindings(info, native_observer)
             record["kv_coherence"] = _coherence_states(info, output)
         record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
     except Exception as error:
@@ -592,6 +594,35 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
     finally:
         _write(output / "runtime_metadata.json", record)
     return record
+
+
+def _coherence_native_bindings(info, native_observer):
+    # Staged bytes alone do not identify the serving process's factory binding.
+    if not isinstance(native_observer, dict):
+        raise ValueError("KV coherence requires the prepared native_observer receipt")
+    for name in ("binary_target", "compiled_sha256"):
+        if not isinstance(native_observer.get(name), str) or not native_observer[name]:
+            raise ValueError(f"KV coherence prepared native_observer is missing {name}")
+    for index, state in enumerate(info["internal_states"]):
+        capture = state.get("kv_coherence")
+        if not isinstance(capture, dict):
+            raise ValueError(f"DP response {index} is missing kv_coherence")
+        if "binding_error" not in capture:
+            raise ValueError(f"DP response {index} KV coherence is missing binding_error")
+        if capture["binding_error"] is not None:
+            raise ValueError(f"DP response {index} KV coherence binding_error must be null: {capture['binding_error']!r}")
+        binding = capture.get("native_binding")
+        if not isinstance(binding, dict):
+            raise ValueError(f"DP response {index} KV coherence is missing native_binding")
+        for actual, expected in (("module_file", "binary_target"), ("module_sha256", "compiled_sha256")):
+            if binding.get(actual) != native_observer[expected]:
+                raise ValueError(f"DP response {index} KV coherence native_binding.{actual} differs from prepared {expected}")
+        pid = capture.get("process_id")
+        if type(pid) is not int or pid <= 0 or type(binding.get("process_id")) is not int or binding["process_id"] != pid:
+            raise ValueError(f"DP response {index} KV coherence native_binding.process_id differs from capture process_id")
+        for name in ("class_is_module_attribute", "factory_class_matches"):
+            if binding.get(name) is not True:
+                raise ValueError(f"DP response {index} KV coherence native_binding.{name} must be exactly true")
 
 
 def _coherence_states(info, output):
@@ -782,7 +813,8 @@ def _run(args):
             paired._check_server(process)
             if config.get("mamba_runtime_metadata", False):
                 result["native_measurements_completed"] = True
-                options = {"kv_coherence_capture": True, "server_log": local / "server.log"} if config.get("kv_coherence_capture", False) else {}
+                options = {"kv_coherence_capture": True, "server_log": local / "server.log",
+                           "native_observer": result["kv_coherence_source_preflight"].get("native_observer")} if config.get("kv_coherence_capture", False) else {}
                 receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output, **options))
                 result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
                 if config.get("kv_coherence_capture", False):

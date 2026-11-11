@@ -1,0 +1,229 @@
+diff --git a/tests/fast/test_teacher_scoring_probe.py b/tests/fast/test_teacher_scoring_probe.py
+index bf9321ab..5f9c3c80 100644
+--- a/tests/fast/test_teacher_scoring_probe.py
++++ b/tests/fast/test_teacher_scoring_probe.py
+@@ -692,6 +692,8 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+     def source_receipt(name, archive_dir):
+         assert {name for name in sys.modules if name.startswith("sglang.srt.layers.attention")} == attention_before
+         receipt = {"source": name, "scope": "Injected CPU API contract; native execution UNVERIFIED"}
++        if name == "coherence" and coherence_failure != "missing_expected":
++            receipt["native_observer"], _ = _cpu_native_observer(root, cpu_metadata["process_id"])
+         archive_dir.mkdir()
+         probe._write(archive_dir / "receipt.json", receipt)
+         receipts[name] = receipt
+@@ -807,6 +809,10 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+             info_calls.append(len(scoring_calls))
+             assert ("kv_coherence_drain=true" in url) == (coherence_selection is True and len(info_calls) == 2)
+             if len(info_calls) == 1:
++                if coherence_selection is True:
++                    return json.dumps({"dp_size": 1, "tp_size": 4, "pp_size": 1, "internal_states": [{
++                        "kv_coherence": {"schema": "kv-coherence-v1", "status": "metadata_only",
++                                         "native_binding": None, "binding_error": None}}]}).encode(), 200
+                 return b'{"version":"CPU mock only"}', 200
+             before_readback.update({p.relative_to(output): p.read_bytes() for p in output.rglob("*") if p.is_file()})
+             metadata = json.loads(json.dumps(cpu_metadata))
+@@ -814,8 +820,12 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+                 metadata["rows"] = [[1, "kv_store_stream", [["missing-value"]]]]
+             state = {} if failure == "missing" else {"mamba_runtime_metadata": metadata}
+             if coherence_selection is True and coherence_failure != "missing":
++                _, binding = _cpu_native_observer(root, cpu_metadata["process_id"])
+                 state["kv_coherence"] = {"schema": "wrong" if coherence_failure == "malformed" else "kv-coherence-v1",
+                                          "status": "captured", "scope": "Injected CPU lifecycle contract only",
++                                         "process_id": cpu_metadata["process_id"],
++                                         "native_binding": None if coherence_failure == "native_binding" else binding,
++                                         "binding_error": None,
+                                          "banks": [{"rid": "opaque", "physical": {"old_rows": 7955,
+                                              "writer_equals_FULL_insert_all_layers": True,
+                                              "original_OLD_equals_rebind": True, "rebind_suffix_equals_insert": True,
+@@ -829,6 +839,16 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+         return json.dumps(body).encode(), 200
+ 
+     _, calls, _ = _mock_http(monkeypatch, response)
++    binding_checks = []
++    native_bindings = probe._coherence_native_bindings
++
++    def qualify_bindings(info, expected):
++        assert coherence_selection is True and len(scoring_calls) == 16
++        assert expected is receipts["coherence"].get("native_observer")
++        binding_checks.append(expected)
++        return native_bindings(info, expected)
++
++    monkeypatch.setattr(probe, "_coherence_native_bindings", qualify_bindings)
+     if coherence_selection is True:
+         def cpu_only_join(info, destination):
+             assert coherence_failure != "native_marker", "Native error must independently reject a complete-looking bank"
+@@ -852,6 +872,7 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+     assert result["argv"] == native_command and result["native_measurements_completed"] is True
+     assert result["status"] == ("failed" if failure or coherence_failure else "measurements_completed")
+     assert result["numerical_acceptance"] is None and result["performance_accepted"] is False
++    assert len(binding_checks) == (1 if coherence_selection is True and coherence_failure != "native_marker" else 0)
+     if selection is True:
+         assert result["kv_store_stream_source_preflight"] == receipts["kv_streams"]
+         assert len({json.dumps(receipt) for receipt in receipts.values()}) == (4 if coherence_selection is True else 3)
+@@ -865,6 +886,16 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+     assert path.read_bytes() == formal_before
+     if coherence_selection is True:
+         assert (source_root / "__init__.py").read_text() == 'SOURCE = "CPU whole-package fixture"\n'
++        assert result["kv_coherence_source_preflight"] == receipts["coherence"]
++        initial = json.loads((output / "server_info.json").read_text())["get_server_info"]
++        assert initial["internal_states"][0]["kv_coherence"]["native_binding"] is None
++        assert len(list((output / "completion_scores").glob("*.json"))) == 16
++        if coherence_failure:
++            assert not result["kv_coherence"]["summaries"]
++            receipt = json.loads((output / "runtime_metadata.json").read_text())
++            assert receipt["server_info"] == json.loads(receipt["response_text"])
++            if coherence_failure in ("native_binding", "missing_expected"):
++                assert ("native_binding" if coherence_failure == "native_binding" else "prepared native_observer receipt") in receipt["reason"]
+     if coherence_failure == "native_marker":
+         receipt = json.loads((output / "runtime_metadata.json").read_text())
+         assert receipt["status"] == "failed" and receipt["kv_coherence_status"] == "UNVERIFIED"
+@@ -874,7 +905,8 @@ def test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injecte
+ 
+ 
+ @pytest.mark.parametrize("selection,failure", [(None, None), (False, None), (True, None),
+-                                               (True, "missing"), (True, "malformed"), (True, "native_marker")])
++                                               (True, "missing"), (True, "malformed"), (True, "native_marker"),
++                                               (True, "native_binding"), (True, "missing_expected")])
+ def test_coherence_true_only_preparation_after_wit_and_after_all16_error_independence(
+         worker_config, sample, tmp_path, monkeypatch, selection, failure):
+     test_kv_stream_witness_api_binding_order_and_baseline_artifacts_with_injected_preparers(
+@@ -882,6 +914,53 @@ def test_coherence_true_only_preparation_after_wit_and_after_all16_error_indepen
+         coherence_selection=selection, coherence_failure=failure)
+ 
+ 
++@pytest.mark.parametrize("part,field,value,reason", [
++    (None, None, None, None),
++    ("binding", "module_file", "/not-the-private-package/_bindings.so", "module_file"),
++    ("binding", "module_file", ..., "module_file"),
++    ("binding", "module_sha256", "different-bytes", "module_sha256"),
++    ("binding", "module_sha256", ..., "module_sha256"),
++    ("binding", "process_id", 1235, "process_id"),
++    ("binding", "process_id", ..., "process_id"),
++    ("binding", "process_id", True, "process_id"),
++    ("capture", "process_id", ..., "process_id"),
++    ("binding", "class_is_module_attribute", False, "class_is_module_attribute"),
++    ("binding", "class_is_module_attribute", 1, "class_is_module_attribute"),
++    ("binding", "class_is_module_attribute", ..., "class_is_module_attribute"),
++    ("binding", "factory_class_matches", False, "factory_class_matches"),
++    ("binding", "factory_class_matches", 1, "factory_class_matches"),
++    ("binding", "factory_class_matches", ..., "factory_class_matches"),
++    ("capture", "native_binding", None, "native_binding"),
++    ("capture", "native_binding", ..., "native_binding"),
++    ("capture", "binding_error", {"type": "ValueError", "message": "wrong factory class"}, "binding_error"),
++    ("capture", "binding_error", ..., "binding_error"),
++    ("expected", "binary_target", ..., "binary_target"),
++    ("expected", "compiled_sha256", ..., "compiled_sha256"),
++    ("receipt", "native_observer", None, "prepared native_observer receipt"),
++    ("receipt", "native_observer", ..., "prepared native_observer receipt"),
++])
++def test_coherence_serving_binding_joins_expected_receipt_without_native_claim(tmp_path, part, field, value, reason):
++    expected, binding = _cpu_native_observer(tmp_path, 1234)
++    capture = {"status": "captured", "process_id": 1234, "native_binding": binding, "binding_error": None,
++               "errors": [{"reason": "Independent gate evidence must not be cleared"}]}
++    receipt = {"native_observer": expected}
++    if part is not None:
++        destination = {"binding": binding, "capture": capture, "expected": expected, "receipt": receipt}[part]
++        if value is Ellipsis:
++            destination.pop(field)
++        else:
++            destination[field] = value
++    info = {"internal_states": [{"kv_coherence": capture}]}
++    before = json.dumps({"info": info, "receipt": receipt}, sort_keys=True)
++    if reason:
++        with pytest.raises(ValueError, match=reason):
++            probe._coherence_native_bindings(info, receipt.get("native_observer"))
++    else:
++        assert binding["class_module"] != binding["module"]
++        probe._coherence_native_bindings(info, receipt["native_observer"])
++    assert json.dumps({"info": info, "receipt": receipt}, sort_keys=True) == before
++
++
+ @pytest.mark.parametrize("value", [0, 1, "true", None, {}, []])
+ def test_coherence_boolean_validation(worker_config, tmp_path, value):
+     path, config, _ = worker_config
+@@ -1573,6 +1652,17 @@ def test_cache_salt_config_requires_json_boolean(worker_config, tmp_path, value)
+         probe._load_config(path, "A", tmp_path / "retained-new")
+ 
+ 
++def _cpu_native_observer(package_root, process_id):
++    content = b"CPU binding schema fixture; not a native library"
++    expected = {"binary_target": str((package_root / "_cpu_bindings.so").resolve()),
++                "compiled_sha256": probe.hashlib.sha256(content).hexdigest()}
++    binding = {"module": "cpu.native_bindings", "module_file": expected["binary_target"],
++               "module_sha256": expected["compiled_sha256"], "module_bytes": len(content),
++               "class": "CPUFixtureTree", "class_module": "builtins", "class_is_module_attribute": True,
++               "factory_class_matches": True, "process_id": process_id}
++    return expected, binding
++
++
+ def _cpu_metadata(dp_rank=0, tp_rank=0, *, rids=("cpu-request",)):
+     from tests.manual.agent_opd import sglang_mamba_runtime_metadata as metadata
+ 
+diff --git a/tests/manual/agent_opd/probe_teacher_scoring.py b/tests/manual/agent_opd/probe_teacher_scoring.py
+index 8dca70c3..fd3cc8d1 100644
+--- a/tests/manual/agent_opd/probe_teacher_scoring.py
++++ b/tests/manual/agent_opd/probe_teacher_scoring.py
+@@ -553,7 +553,8 @@ def _native_observer_errors(server_log):
+             "qualification_limit": "Marker absence does not prove native alias/GIL/CUDA qualification"}
+ 
+ 
+-async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None):
++async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_capture=False, server_log=None,
++                                    native_observer=None):
+     # The retained native /get_server_info alias delegates to /server_info.
+     # Its internal_states list covers DP respondents, never all TP processes.
+     endpoint = url + "/get_server_info"
+@@ -583,6 +584,7 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
+             if record["native_observer_errors"]["matches"]:
+                 record["kv_coherence_status"] = "UNVERIFIED"
+                 raise ValueError(f"KV coherence UNVERIFIED: {record['native_observer_errors']['marker']} in native server output")
++            _coherence_native_bindings(info, native_observer)
+             record["kv_coherence"] = _coherence_states(info, output)
+         record.update(status="collected", dp_size=info["dp_size"], tp_size=info["tp_size"], pp_size=info["pp_size"])
+     except Exception as error:
+@@ -594,6 +596,35 @@ async def _collect_runtime_metadata(url, timeout, output, *, kv_coherence_captur
+     return record
+ 
+ 
++def _coherence_native_bindings(info, native_observer):
++    # Staged bytes alone do not identify the serving process's factory binding.
++    if not isinstance(native_observer, dict):
++        raise ValueError("KV coherence requires the prepared native_observer receipt")
++    for name in ("binary_target", "compiled_sha256"):
++        if not isinstance(native_observer.get(name), str) or not native_observer[name]:
++            raise ValueError(f"KV coherence prepared native_observer is missing {name}")
++    for index, state in enumerate(info["internal_states"]):
++        capture = state.get("kv_coherence")
++        if not isinstance(capture, dict):
++            raise ValueError(f"DP response {index} is missing kv_coherence")
++        if "binding_error" not in capture:
++            raise ValueError(f"DP response {index} KV coherence is missing binding_error")
++        if capture["binding_error"] is not None:
++            raise ValueError(f"DP response {index} KV coherence binding_error must be null: {capture['binding_error']!r}")
++        binding = capture.get("native_binding")
++        if not isinstance(binding, dict):
++            raise ValueError(f"DP response {index} KV coherence is missing native_binding")
++        for actual, expected in (("module_file", "binary_target"), ("module_sha256", "compiled_sha256")):
++            if binding.get(actual) != native_observer[expected]:
++                raise ValueError(f"DP response {index} KV coherence native_binding.{actual} differs from prepared {expected}")
++        pid = capture.get("process_id")
++        if type(pid) is not int or pid <= 0 or type(binding.get("process_id")) is not int or binding["process_id"] != pid:
++            raise ValueError(f"DP response {index} KV coherence native_binding.process_id differs from capture process_id")
++        for name in ("class_is_module_attribute", "factory_class_matches"):
++            if binding.get(name) is not True:
++                raise ValueError(f"DP response {index} KV coherence native_binding.{name} must be exactly true")
++
++
+ def _coherence_states(info, output):
+     from tests.manual.agent_opd.sglang_kv_coherence import (
+         BANK_COUNT, CANDIDATE_INPUT_COUNT, SCORING_REQUEST_COUNT, WINDOW_END, WINDOW_START, covered_once,
+@@ -782,7 +813,8 @@ def _run(args):
+             paired._check_server(process)
+             if config.get("mamba_runtime_metadata", False):
+                 result["native_measurements_completed"] = True
+-                options = {"kv_coherence_capture": True, "server_log": local / "server.log"} if config.get("kv_coherence_capture", False) else {}
++                options = {"kv_coherence_capture": True, "server_log": local / "server.log",
++                           "native_observer": result["kv_coherence_source_preflight"].get("native_observer")} if config.get("kv_coherence_capture", False) else {}
+                 receipt = asyncio.run(_collect_runtime_metadata(url, args.request_timeout, output, **options))
+                 result["runtime_metadata"] = {"status": receipt["status"], "receipt": str(output / "runtime_metadata.json")}
+                 if config.get("kv_coherence_capture", False):

@@ -2,6 +2,7 @@
 
 import ast
 import copy
+import hashlib
 import json
 import os
 import sys
@@ -140,7 +141,19 @@ def _toy(monkeypatch, layers=2):
 def _req(rid, *, eligible=True):
     return SimpleNamespace(rid=rid, return_logprob=True, logprob_start_len=0 if eligible else 100,
                            origin_input_ids=range(98942), kv=SimpleNamespace(cache_protected_len=2),
-                           finished=lambda: True)
+                            finished=lambda: True)
+
+
+def _tree_core(module_file):
+    # CPU fixture: exported object identity, not a loaded Rust ABI claim.
+    bindings = ModuleType("cpu_fixture.mem_cache")
+    bindings.__file__ = str(module_file)
+    binding_class = type("RustUnifiedTreeCoreBinding", (), {"__module__": "builtins"})
+    bindings.RustUnifiedTreeCoreBinding = binding_class
+    core = type("RustUnifiedTreeCore", (), {"_bindings": bindings,
+                "_binding_class": lambda self: bindings.RustUnifiedTreeCoreBinding})()
+    core._binding = binding_class()
+    return core
 
 
 def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
@@ -153,7 +166,7 @@ def _capture_bank(collector, pool, rid, q, *, fresh_delta=0):
         collector.note_cpp(batch, k, v, loc, 17, 17)
         collector.fresh(pool, dense, loc, batch, "cpp")
     params = SimpleNamespace(prev_prefix_len=2, value=torch.tensor([6, 7, 0, 1, 2, 3], dtype=torch.int64))
-    collector.insert(req, params, 6, type("RustUnifiedTreeCore", (), {})())
+    collector.insert(req, params, 6, _tree_core(__file__))
     if q > 2:
         # A different original tensor owns the matching physical indices.
         original = torch.tensor([6, 7, 0, 1, 2, 3, 5], dtype=torch.int64)
@@ -334,6 +347,87 @@ def test_generated_extend_target_consumes_unchanged_cpp_key(generated_callbacks,
     assert not collector.pending_cpp and not collector.errors
     bank = collector.by_rid["target"]
     assert bank["fresh_layers"] == {0} and torch.equal(bank["indices"]["writer"][0], loc)
+
+
+def test_generated_binding_identity_before_selection_and_one_shot(generated_callbacks, tmp_path, monkeypatch):
+    collector, _, _ = generated_callbacks
+    module_file = tmp_path / "cpu-binding-file"
+    data = b"CPU disk bytes; not an actual native library"
+    module_file.write_bytes(data)
+    alias = tmp_path / "module-file-alias"
+    alias.symlink_to(module_file)
+    core = _tree_core(alias)
+    reads, read_bytes = [], Path.read_bytes
+    def read(path):
+        reads.append(path)
+        return read_bytes(path)
+    monkeypatch.setattr(Path, "read_bytes", read)
+    collector.insert(_req("ordinary-request", eligible=False), None, 0, core)
+    assert not collector.by_rid and reads == [module_file.resolve()]
+    identity = collector.native_binding
+    assert identity == {"module": "cpu_fixture.mem_cache", "module_file": str(module_file.resolve()),
+                        "module_sha256": hashlib.sha256(data).hexdigest(), "module_bytes": len(data),
+                        "class": "RustUnifiedTreeCoreBinding", "class_module": "builtins",
+                        "class_is_module_attribute": True, "factory_class_matches": True,
+                        "process_id": os.getpid()}
+    assert identity["class_module"] != identity["module"] and collector.binding_error is None
+    def forbidden_read(path):
+        raise AssertionError("Serving binding identity must not reread after its first attempt")
+    monkeypatch.setattr(Path, "read_bytes", forbidden_read)
+    collector.insert(_req("second-request", eligible=False), None, 0, object())
+    receipt = collector.drain(False)
+    assert receipt["native_binding"] is identity and receipt["binding_error"] is None
+    assert not collector.errors and reads == [module_file.resolve()]
+
+
+@pytest.mark.parametrize("fault,message", [("export", "differs from module export"),
+    ("factory", "differs from adapter factory class"), ("missing_file", "FileNotFoundError")])
+def test_binding_failure_isolated_once_and_blocks_complete_bank_metrics(monkeypatch, tmp_path, fault, message):
+    collector, pool = _toy(monkeypatch)
+    module_file = tmp_path / "cpu-binding-file"
+    module_file.write_bytes(b"CPU binding failure fixture")
+    core = _tree_core(module_file)
+    if fault == "export":
+        core._bindings.RustUnifiedTreeCoreBinding = type("RustUnifiedTreeCoreBinding", (), {})
+    elif fault == "factory":
+        core._binding_class = lambda: type("DifferentFactoryBinding", (), {})
+    else:
+        core._bindings.__file__ = str(tmp_path / "missing-binding-file")
+    collector.insert(_req("ordinary-request", eligible=False), None, 0, core)
+    error = collector.binding_error
+    assert message in error and collector.errors[0]["stage"] == "native_binding"
+    assert collector.drain(False)["status"] == "unverified"
+    if fault != "missing_file":
+        field = "class_is_module_attribute" if fault == "export" else "factory_class_matches"
+        assert collector.native_binding[field] is False
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Invalid/missing identity must not reread or compute tensor metrics")
+    monkeypatch.setattr(Path, "read_bytes", forbidden)
+    _capture_bank(collector, pool, "cold", 2)
+    _capture_bank(collector, pool, "warm", 5)
+    for rid in ("cold", "warm", *(f"scoring-{n}" for n in range(14))):
+        collector.finish(_req(rid))
+    monkeypatch.setattr(collector, "_physical", forbidden)
+    monkeypatch.setattr(collector, "_metrics", forbidden)
+    receipt = collector.drain(True)
+    assert receipt["status"] == "unverified" and "binding identity" in receipt["reason"]
+    assert receipt["binding_error"] == error and len(receipt["completed_rids"]) == 16
+    assert len(collector.errors) == 1 and all(bank["fresh_layers"] == {0, 1} for bank in collector.banks)
+    assert all("metrics" not in bank for bank in receipt["banks"])
+
+
+def test_missing_serving_identity_and_unavailable_collector_receipts(monkeypatch):
+    collector, _ = _toy(monkeypatch)
+    for rid in range(16):
+        collector.finish(_req(str(rid)))
+    def forbidden(*args):
+        raise AssertionError("Missing serving binding must disqualify before tensor metrics")
+    monkeypatch.setattr(collector, "_metrics", forbidden)
+    receipt = collector.drain(True)
+    assert receipt["status"] == "unverified" and "binding identity" in receipt["reason"]
+    assert receipt["native_binding"] is None and receipt["binding_error"] is None
+    monkeypatch.setattr(coherence, "_collector", None)
+    assert coherence.drain()["native_binding"] is None and coherence.drain()["binding_error"] is None
 
 
 def test_real_rpc_source_bindings_default_false_and_true_forwarding(composed, tmp_path, monkeypatch):

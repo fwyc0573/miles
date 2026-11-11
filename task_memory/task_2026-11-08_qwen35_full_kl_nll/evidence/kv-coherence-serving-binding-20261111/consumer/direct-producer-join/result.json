@@ -1,0 +1,50 @@
+{
+  "task_id": "profile-kv-coherence-serving-binding-consumer-20261111",
+  "status": "PASS",
+  "new_test": {
+    "name": "test_coherence_serving_binding_consumes_actual_collector_receipt_cpu_only",
+    "path": "tests/fast/test_teacher_scoring_probe.py",
+    "start_line": 964,
+    "end_line": 1001
+  },
+  "pytest": {
+    "passed": 24,
+    "new_direct_case": 1,
+    "existing_table_cases": 23,
+    "skipped": 0,
+    "deselected": 226,
+    "warnings": 2,
+    "elapsed_seconds": 1.01,
+    "runs": 1
+  },
+  "python": {
+    "test": "3.12.13",
+    "pytest": "9.1.1",
+    "ast": "3.10.6"
+  },
+  "current_test_sha256": "584db1ee77830dfcea8df37a247a52d36b1b6373ff8eb5127c14c934dd2aefad",
+  "prior_test_sha256": "9fccf667b7d55f300b5c20e4dc85577e0ab6227f27f7be8272b906d4f57ec57e",
+  "scope": "Removing only the new function and its trailing two blank lines exactly restores the previous frozen consumer test file; probe remains unchanged",
+  "scope_and_python_3_10_ast": "PASS",
+  "scoped_whitespace": "PASS",
+  "contract": "Actual coherence.Collector.__new__, insert(nonselected request), drain(False) receipt directly consumed by unmocked probe._coherence_native_bindings; real CPU disk bytes; path/SHA/bytes/PID/module export/factory object ties asserted",
+  "limits": [
+    "CPU schema/object/disk contract only",
+    "No Torch constructor, native ABI, GPU, platform, delegation, staging or commit",
+    "No full joined rerun; primary owns reviews and acceptance"
+  ],
+  "artifacts": {
+    "command.txt": {
+      "sha256": "ef957c50f02d7f5ef47a9ec444ff4dd6c35e48843528411227905bad99bfaf56",
+      "bytes": 386
+    },
+    "direct-case.diff": {
+      "sha256": "84eabebe7675e6b674fe56db4769c396dd3fd9569555e7b840afff194210f441",
+      "bytes": 2777
+    },
+    "pytest.log": {
+      "sha256": "a677f94d17e374814f5d2496a9472a85e98c34f68d56a1f9bbbaeff21f1cda73",
+      "bytes": 1714
+    }
+  }
+}

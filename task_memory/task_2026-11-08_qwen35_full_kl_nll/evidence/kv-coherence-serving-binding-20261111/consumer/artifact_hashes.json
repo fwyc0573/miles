@@ -1,0 +1,48 @@
+{
+  "task_id": "profile-kv-coherence-serving-binding-consumer-20261111",
+  "status": "PASS",
+  "source_and_diff_match_frozen_scope": true,
+  "pytest": {
+    "passed": 83,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 166,
+    "elapsed_seconds": 6.05
+  },
+  "artifact_sha256": {
+    "checkpoint.md": {
+      "sha256": "0121e9c08cdd461fa9a69c8a34132dd8df3a4f88b255a3b9f8054dbbb3e6eebc",
+      "bytes": 2910
+    },
+    "consumer.diff": {
+      "sha256": "6f01e3887576ae416854c0f9de51ef28436941b720cd97a18d2f9afbd768a655",
+      "bytes": 15751
+    },
+    "progress.md": {
+      "sha256": "c8167ada382db855a0bb3872fab37cfc7e6c73dd22e19efa01f7fef384d439f4",
+      "bytes": 2932
+    },
+    "pytest.log": {
+      "sha256": "a0b2204c0f903c0e890fc85d9e4a3b0125aa3db4b66a56f2fc8f685843839609",
+      "bytes": 8016
+    },
+    "pytest.xml": {
+      "sha256": "a67ba3c77ea475297eeff66d7c38b31df225a0038be0a1be80f7509225a20aea",
+      "bytes": 15269
+    },
+    "scope-command.txt": {
+      "sha256": "df378df4e5cf5deb6570aabc9a35f0a7b458fdb121e243cd2dee4743ff4a2e75",
+      "bytes": 4134
+    },
+    "scope.json": {
+      "sha256": "be669b471ca931b0c43d608f6bfc307bc3a9113ee3d06ad5a4b9f98ba4914c53",
+      "bytes": 1661
+    },
+    "test_report_2026-11-11_consumer_serving_binding.md": {
+      "sha256": "ad261f52d6354cd11278ff9aed9c3368569e59a4da232f6de6b1278bef401eb8",
+      "bytes": 6650
+    }
+  },
+  "native_or_full_join_claim": false
+}

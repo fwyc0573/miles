@@ -1,0 +1,42 @@
+{
+  "task_id": "profile-kv-coherence-serving-binding-source-review-20261111",
+  "base": "95dd94f243a37d170844775817d894a8242ed857",
+  "candidate": "unstaged five-file source/test/report snapshot; not whole task branch",
+  "commits": [],
+  "diff_command": "git diff 95dd94f243a37d170844775817d894a8242ed857 -- tests/manual/agent_opd/sglang_kv_coherence.py tests/manual/agent_opd/probe_teacher_scoring.py tests/fast/test_sglang_kv_coherence.py tests/fast/test_teacher_scoring_probe.py; append new report as /dev/null diff",
+  "files": {
+    "tests/manual/agent_opd/sglang_kv_coherence.py": {
+      "before_sha256": "762507650bad68655301edc6693d10096a6ab9e6a9fd8a77865fb1ca153f5000",
+      "after_sha256": "6be5ef8642f33512fb463f30040247750b472716289eba0c139cb65e5d005721",
+      "bytes": 41066,
+      "new": false
+    },
+    "tests/manual/agent_opd/probe_teacher_scoring.py": {
+      "before_sha256": "45715a95212cc034c0b19e363ba380de457778df48453a521d8f973b1e354601",
+      "after_sha256": "19bf42be9802a9160dad9c80d4a7a2465c9af0c0c4fabf305283ce073bd812df",
+      "bytes": 52828,
+      "new": false
+    },
+    "tests/fast/test_sglang_kv_coherence.py": {
+      "before_sha256": "ecb323b90d5ab6ae2c9d0782abeaa6de643d1c5a4c54df35eab48966c0f1b78a",
+      "after_sha256": "16c5b496eb28f91feec390993d98e9abb282c2fd9d6c011b5b10f56f07b0d78c",
+      "bytes": 45686,
+      "new": false
+    },
+    "tests/fast/test_teacher_scoring_probe.py": {
+      "before_sha256": "655abf07fafbec57bf07563e89453a62c2fd3f88c589c6e513e9e8151fb38ff6",
+      "after_sha256": "584db1ee77830dfcea8df37a247a52d36b1b6373ff8eb5127c14c934dd2aefad",
+      "bytes": 127182,
+      "new": false
+    },
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_serving_binding.md": {
+      "before_sha256": null,
+      "after_sha256": "2e96676054467cfe6dedf0e466126bc0d43cc216e6f00641a8290aef7a530d89",
+      "bytes": 14229,
+      "new": true
+    }
+  },
+  "diff_sha256": "4ea3f9b51f6cd852a77176a3851155a4aba01bf31497d9fb52d25a3557551d9d",
+  "diff_bytes": 45372,
+  "evidence_root": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/kv-coherence-serving-binding-20261111"
+}

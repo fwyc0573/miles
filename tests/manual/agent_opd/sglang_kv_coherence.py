@@ -7,6 +7,7 @@ Only the explicit after-all internal-state drain reads device contents.
 
 import ast
 import difflib
+import hashlib
 import importlib.metadata
 import importlib.util
 import json
@@ -81,6 +82,7 @@ class Collector:
         self.rows = self.end - self.start
         self.banks, self.by_rid, self.completed = [], {}, set()
         self.errors, self.pending_cpp, self.summary = [], {}, None
+        self.native_binding, self.binding_error = None, None
         self.root, self.pool = root, root.full_kv_pool
         if allocator.get_kvcache() is not root or allocator.page_size != 1:
             raise ValueError("Collector requires the live allocator root and page1")
@@ -199,7 +201,32 @@ class Collector:
                 or indices.device != self.buffers[0][0].device):
             raise ValueError("Physical indices require device-local int64 vector of exact length")
 
+    def _capture_native_binding(self, tree_core):
+        if self.native_binding is not None or self.binding_error is not None:
+            return
+        try:
+            bindings = type(tree_core)._bindings
+            actual_class = type(tree_core._binding)
+            factory_class = tree_core._binding_class()
+            module_file = Path(bindings.__file__).resolve(strict=True)
+            module_data = module_file.read_bytes()
+            self.native_binding = {"module": bindings.__name__, "module_file": str(module_file),
+                                   "module_sha256": hashlib.sha256(module_data).hexdigest(),
+                                   "module_bytes": len(module_data), "class": actual_class.__name__,
+                                   "class_module": actual_class.__module__,
+                                   "class_is_module_attribute": getattr(bindings, actual_class.__name__) is actual_class,
+                                   "factory_class_matches": factory_class is actual_class,
+                                   "process_id": os.getpid()}
+            if not self.native_binding["class_is_module_attribute"]:
+                raise ValueError("Actual native binding class differs from module export")
+            if not self.native_binding["factory_class_matches"]:
+                raise ValueError("Actual native binding class differs from adapter factory class")
+        except Exception as error:
+            self.binding_error = f"{type(error).__name__}: {error}"
+            self.invalidate(None, self.start, self.end, "native_binding", self.binding_error)
+
     def insert(self, req, params, page_aligned_len, tree_core):
+        self._capture_native_binding(tree_core)
         bank = self.by_rid.get(req.rid)
         if bank is None or page_aligned_len != self.end or req.kv.cache_protected_len != self.start:
             return
@@ -337,7 +364,9 @@ class Collector:
         if self.summary is not None:
             return self.summary
         receipt = {"schema": "kv-coherence-v1", "process_id": os.getpid(),
-                   "status": "metadata_only", "topology": self.topology, "errors": tuple(self.errors),
+                   "status": "unverified" if self.binding_error is not None else "metadata_only",
+                   "topology": self.topology, "errors": tuple(self.errors),
+                   "native_binding": self.native_binding, "binding_error": self.binding_error,
                    "completed_rids": tuple(sorted(self.completed)),
                    "banks": [{"rid": bank["rid"], "insert": bank["insert"], "rebind": bank["rebind"],
                               "fragments": tuple(bank["fragments"]), "fresh_layers": tuple(sorted(bank["fresh_layers"])),
@@ -347,6 +376,9 @@ class Collector:
             return receipt
         if len(self.completed) != SCORING_REQUEST_COUNT:
             receipt.update(status="unverified", reason="Drain requires all16 distinct completed native scoring RIDs")
+            return receipt
+        if self.native_binding is None or self.binding_error is not None:
+            receipt.update(status="unverified", reason="Missing/errored serving native binding identity")
             return receipt
         if len(self.by_rid) != BANK_COUNT or self.errors or self.pending_cpp:
             receipt.update(status="unverified", reason="Candidate cardinality/capture errors/unconsumed CPP witness")
@@ -415,6 +447,7 @@ def observe(method, *args):
 def drain(requested=False):
     if _collector is None:
         return {"schema": "kv-coherence-v1", "process_id": os.getpid(), "status": "unverified",
+                "native_binding": None, "binding_error": None,
                 "errors": (_startup_error,) if _startup_error else (), "numeric_acceptance": None,
                 "reason": "Responding collector unavailable; no device readback"}
     return _collector.drain(requested)
@@ -438,7 +471,7 @@ _EXTRA_PINS = {
 def _runtime_source():
     source = Path(__file__).read_text().split("# BEGIN INSTALLED RUNTIME\n", 1)[1].split("# END INSTALLED RUNTIME", 1)[0]
     return ('"""CUDA-only opt-in FULL KV observer; no cache decisions or new waits."""\n'
-            "import math\nimport os\nimport threading\n\n" + source).encode()
+            "import hashlib\nimport math\nimport os\nimport threading\nfrom pathlib import Path\n\n" + source).encode()
 
 
 def _edits():

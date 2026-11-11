@@ -1,0 +1,58 @@
+{
+  "task_id": "profile-kv-coherence-serving-binding-consumer-20261111",
+  "status": "PASS",
+  "python": "Python 3.10.6",
+  "base": "71c3560b84870d39179d5bd63a9c8ce67cf431ee",
+  "files": {
+    "tests/manual/agent_opd/probe_teacher_scoring.py": {
+      "sha256": "19bf42be9802a9160dad9c80d4a7a2465c9af0c0c4fabf305283ce073bd812df",
+      "bytes": 52828
+    },
+    "tests/fast/test_teacher_scoring_probe.py": {
+      "sha256": "9fccf667b7d55f300b5c20e4dc85577e0ab6227f27f7be8272b906d4f57ec57e",
+      "bytes": 124833
+    }
+  },
+  "changed_existing_source_functions": [
+    "_collect_runtime_metadata",
+    "_run"
+  ],
+  "new_source_functions": [
+    "_coherence_native_bindings"
+  ],
+  "ast_scope": "Whole source AST equals HEAD after removing only the new gate function, its one drain-branch call, one optional argument, and the enabled main receipt option",
+  "unchanged_source_functions": [
+    "_append",
+    "_benchmark",
+    "_coherence_states",
+    "_comparison",
+    "_config_input",
+    "_file_identity",
+    "_flush",
+    "_http",
+    "_load_config",
+    "_load_samples",
+    "_meta_summary",
+    "_mode_order",
+    "_native_observer_errors",
+    "_parse",
+    "_parser",
+    "_payload",
+    "_positive_float",
+    "_positive_int",
+    "_record_comparison",
+    "_request",
+    "_runtime",
+    "_runtime_metadata_states",
+    "_scores",
+    "_terminate",
+    "_validate_config",
+    "_write",
+    "main"
+  ],
+  "python_3_10_parse_and_compile": "PASS",
+  "scoped_git_diff_check": "PASS",
+  "diff_sha256": "6f01e3887576ae416854c0f9de51ef28436941b720cd97a18d2f9afbd768a655",
+  "native_identity_claim": false,
+  "producer_or_full_join_verification": false
+}

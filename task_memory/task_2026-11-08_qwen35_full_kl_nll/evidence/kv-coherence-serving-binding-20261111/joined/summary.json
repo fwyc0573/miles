@@ -1,0 +1,17 @@
+{
+  "cases": 303,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "by_class": {
+    "tests.fast.test_sglang_kv_coherence": {
+      "cases": 54,
+      "testcase_seconds": 21.372999999999998
+    },
+    "tests.fast.test_teacher_scoring_probe": {
+      "cases": 249,
+      "testcase_seconds": 11.664000000000021
+    }
+  },
+  "limit": "CPU schema/source/mock validation, not native ABI or serving artifact acceptance"
+}
