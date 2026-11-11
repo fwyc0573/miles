@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Primary accepts archived r2 RCA and committed `eeaaa4f6` harness CPU/source fix,RED1/GREEN9/final49 PASS/zero skip/19.77s,both fixed axes No findings and selected checksum closure. [Current route](../plan.md#current-frontier) stops at qualified A/B four-H800 r3 driver PASS/submitted=false; no r3 admission/business output exists. Startup DECODE is source/event inference,not native enum capture. Actual source/readback/private SO/S/7955/active all16/KV,teacher root/warm and formal acceptance remain unverified. Original D40 authorization,source/R3/WIT/A-B controls,warm FAIL,formal A HOLD,science/all checklists,06 own200 and B's no-A200 edge remain; no new submission/retry/formal permission is inferred.
+**Current execution:** Serving-binding producer/consumer are RUNNING in parallel ordinary D40 CPU work,IN PROGRESS/not accepted;new counts/results pending. [Current route](../plan.md#current-frontier) supplies actual server-module identity missing from literal PENDING/copied SHA,using live tree_core before native insertion/bank selection and existing READY S/thread/PID capability,no extra stream probe. Parent after-all16 matches actual path/SHA/PID/two class ties with unchanged native receipt;class.__module__ text is not a gate. Old eeaaa4f6/49 PASS/19.77s/No findings/71c3560b,source/R3/WIT/controls/dry-runs=false remain baselines,not new binding acceptance. r3 unsubmitted,no admission/business output;native/7955/KV,warm FAIL,formal A HOLD,science/all checklists,06 own200,B no A200 edge remain. Stop at this record,no new criterion/permission/native execution.
 
 **Historical prerequisite snapshots:** The earlier Active paragraphs below preserve their failed R1 and design-stage evidence, not current R2 acceptance or blockers.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record A serving-binding producer/consumer IN PROGRESS under the unchanged identity criterion;retain old CPU acceptance,formal hold and all checkboxes. |
 | 2026-11-11 | Close A forward-mode harness CPU/source and qualified r3 driver records; retain native/physical/warm/formal hold and every checkbox. |
 | 2026-11-11 | Record A r2 Failed with bounded controls accepted and metadata-only capture; combine B steering in the same CPU RED RCA/current-state pass. |
 | 2026-11-11 | Record actual A r2 submission/Initial Starting with frozen inputs and pending native acceptance; retain formal hold and all checkboxes. |
@@ -67,9 +68,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01/02/03,D16/common-cycle,source/R3/WIT/r1-r2 controls and eeaaa4f6 harness CPU/source/review/checksum/qualified-driver records are accepted. Formal A still needs actual complete source/readback/private SO/S/active all16/physical7955/KV qualification,teacher root/warm correctness and fresh independent A200. No CPU redo,scope change or new user-approval gate is added.
+**Blocked by:** 01/02/03,D16/common-cycle,source/R3/WIT/r1-r2 controls and old eeaaa4f6 CPU/review/checksum/driver closure remain accepted. Concrete missing live binding is owned by parallel producer/consumer;their new CPU/join/fixed reviews/checksum/primary acceptance is pending,not an old-49-test redo or new criterion. Actual SO/S/all16/physical7955/KV,teacher warm/root and fresh independent A200 still block formal A. No new approval gate is added.
 
-**Status:** BLOCKED formal under D40. Accepted eeaaa4f6 harness CPU/source fix and qualified A/B r3 dry-runs close this record phase only; submitted=false,no r3 admission/business output or actual GPU submission. Stop at closure; primary may decide existing bounded D40 qualification within unchanged authorization after docs land,no new submission/retry/formal permission inferred. Actual source/readback/private SO/S/active all16/physical7955/KV remain unaccepted before numerical interpretation → teacher RCA/minimal fix/warm correctness → fresh independent A || B200 →06. A r2 failed capture and bounded16/6804/CPP2704 controls remain preserved; startup DECODE is inference,not native enum capture. Warm FAIL,all checkboxes and B's no-A200 edge remain unchanged; issues.md owns audit gaps.
+**Status:** BLOCKED formal under D40;serving-binding CPU units IN PROGRESS/RUNNING,not accepted. Producer || consumer → join → fixed reviews/checksum → primary CPU acceptance/commit/driver → primary existing bounded-D40 native decision → actual SO/S/all16/independent7955 physical/KV before interpretation → teacher RCA/warm fix → fresh independent A || B200 →06. Existing live-instance/S-thread-PID capabilities are READY,no new stream probe/build/flag/RPC/adapter/helper. Original identity criterion is preserved;old49 PASS/mode/source/R3/WIT/r2 controls and submitted=false drivers remain unchanged,not new receipt acceptance. r3 unsubmitted/no admission/business output;warm FAIL,all checkboxes,B no A200 edge and issues.md audit-gap ownership remain. Stop at IN PROGRESS records,no native execution/new permission.
 
 **Historical initial witness snapshot:** A exp-1111-113511-067358 was submitted/Running with requested4H800; that initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453、source/integration reviews and original3aba/403 failure evidence remain historical. Later bounded actual CPP/source acceptance is recorded above and does not splice formal counters.
 

@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** `eeaaa4f6` commits the primary-accepted forward-mode harness CPU/source fix; RED1/GREEN9/final49 PASS,zero skip,19.77s,both fixed axes No findings and selected checksum limitation CLOSED. Accepted startup RCA covers224/140 errors and169 business chunks,with DECODE explicitly source/event inference rather than native enum capture. The [current record closure](progress.md#current-execution--workflow-rca) ends at qualified A/B r3 driver PASS/submitted=false; no r3 admission/business output or GPU job exists. This is not a teacher root fix or native/physical/warm/formal acceptance. Original D40 authorization,source/R3/WIT/controls,failed r1/r2 evidence,science/six methods/all53 checkboxes,formal04/05 HOLD,06 own200 and B's no-A200 edge remain unchanged. Primary may decide existing bounded qualification after docs land; no new submission/retry/formal permission is inferred,and earlier RCA-pending checkpoints remain historical.
+**Current execution:** Serving binding is IN PROGRESS/not accepted: the live server lacks module identity despite PENDING/copied staging hashes. Primary-selected producer/consumer are RUNNING in parallel ordinary D40 CPU scope;new results and acceptance are pending. The [current frontier](progress.md#current-execution--workflow-rca) uses the existing actual tree_core insert and READY S/thread/PID capability without another stream probe,build or criterion. Old eeaaa4f6/49 PASS/19.77s/No findings,71c3560b closure,source/R3/WIT/controls and submitted=false drivers remain accepted baselines,not new receipt proof. r3 remains unsubmitted/no admission/business output. Native/7955/KV,warm FAIL,formal04/05 HOLD,06 own200,B no A200 edge,raw/science/six methods/all53 checkboxes are unchanged. Stop at this IN PROGRESS record,no native execution/new permission;earlier closure/failure checkpoints remain historical.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive the concrete live serving-binding gap and parallel CPU units IN PROGRESS while preserving old acceptance,history and native/formal limits. |
 | 2026-11-11 | Archive accepted committed harness CPU/source fix and qualified r3 driver closure; preserve native/physical/warm/formal limits and unsubmitted r3 state. |
 | 2026-11-11 | Archive combined r2 Failed/A-B bounded-control acceptance,metadata-only capture evidence and ongoing CPU RED RCA with no new approval or retry gate. |
 | 2026-11-11 | Archive actual r2 submission/Initial Starting only with frozen source and unchanged native/formal limits; retain the latest four-section checkpoint. |
