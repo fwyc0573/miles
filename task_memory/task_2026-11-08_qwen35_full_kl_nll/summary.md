@@ -1,5 +1,7 @@
 ## Modification History
 
+**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted; raw R2 PASS remains unchanged. Standards and Spec each retain the same OPEN P2: discarded Capture can hide callback assertion invalidations. Contended topology release is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 reuse without rebuilding and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. The [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) and [current route](progress.md#current-execution--workflow-rca) own the evidence and next actions. No H800 numeric or formal job has been submitted. Tickets 04/05 remain BLOCKED and 06 TODO; B does not wait for A200. Earlier Active/Current paragraphs below are historical snapshots.
+
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
 **Current CPU frontier:** PREP17/17 and actualGPU0 productionABI baseline/observer compile-load passed; semantic qualification failed before insertion because the fixture supplied a Python list rather than the required contiguous int64 buffer. Compiled-library reuse replay is not submitted. Alias/GIL/thread/lifetime/actions/Cargo acceptance and collector runtime/error-gate followup remain pending, with no nativeCPU/physical/numeric/root/formal PASS. Existing source/WIT/science/history/formalholds are unchanged; earlier pending-delivery descriptions below are historical.
@@ -8,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive the accepted bounded R2 serial CPU scope, immutable receipts and shared OPEN P2; retain pending R3/rechecks, H800 verification and formal completion. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record accepted621-source provenance archive9d1d821f and pending nativeRust originaltensor observer/ABI qualification without numerical/formal acceptance. |
@@ -52,6 +55,8 @@
 | 2026-11-09 | Archive the review repair milestone and ongoing, prerequisite-limited execution. |
 
 # D40 bounded native CPP witness accepted — physical/numeric qualification and formal hold
+
+**Historical witness milestone:** The following frontier paragraph records the earlier accepted SOURCE/WIT phase. The current R2/P2/R3 status above supersedes its next-action wording, without resetting the qualified all16 evidence.
 
 Current frontier is **primary accepted bounded native H800/source/selected CPP stream and allocator witness; physical/numeric design qualification, formal04/05 HOLD**. A/B each completed Succeeded/exit0/restart0 with actual4H800, all16 original first4/rep0 vectors/6804 values exact, fixed source35/five witness edits/caller266/helper79 and unchanged attentionmath6; finalWIT runner is distinct from Stage16. A actual16 FULL layers/2704 unique CPP-terminal joins and B10/1690 cover169 chunks/16 RIDs each; measured in-call stream equalsTorchF and actual TokenToKVPoolAllocator/page1/CP1/graphs-off/alternate-off closes this selected branch. KV-prefix Triton0 business/startup is unselected/streamUNVERIFIED; GDN-prefill Triton is not that terminal. Cold4/4/warm1/4 FAIL exactlybaseline, no correctness repair. Next canonical design uses A16/B10 and512-byte K/V rows: two-side8192bank costs256/160MiB, additional banks derived, not fixed10 onA. No KV/physicalindices/commit_lens capture authorized/done byWIT; source binaryhash/cachemiss/CAPI-fallback, allTP/race/coherence/56rep2/1024/root/performance/formal remain unmeasured. InitialRunning/original403/381skip/sourceCPU history/D39/D34/S7/HF-eval disabled/bank_uses50/raw/checkboxes/Bedge unchanged. Qualified numerical/RCA/correction/fresh independent200→06, no A200 gate. [A report](test_report_2026-11-11_kv_stream_witness_native_A_results.md)/[B report](test_report_2026-11-11_kv_stream_witness_native_B_results.md)/[Current](progress.md#current-execution--workflow-rca).
 

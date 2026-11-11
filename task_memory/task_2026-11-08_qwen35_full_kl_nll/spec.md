@@ -1,5 +1,7 @@
 ## Modification History
 
+**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted; raw R2 PASS remains unchanged. Both native-source review axes retain the same OPEN P2: discarded Capture can hide callback invalidations. Contended topology release is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 library reuse and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. See the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) and [current frontier](plan.md#current-frontier). No new GIL artifact gate, rebuild, numeric H800/formal submission or scientific criterion is added. Earlier Active/Current stage paragraphs below are historical snapshots.
+
 **Active CPU stage:** PREP17/17; actualGPU0 baseline/observer COMPILE+LOAD PASS, originalfixture constructor FAIL list/int64-buffer beforeinsert. Reuse-library replay unsubmitted. Alias/GIL/lifetime/Cargo/nativeCPU semantics pending; no numerical/H800/formal acceptance. Science and prior scope unchanged.
 
 **Active D40 CPU scope:** PREP17/17 and actualGPU0 productionABI baseline/observer COMPILELOADPASS, notnativeSemantic. QualificationFAIL atconstructor list vsrequiredC-contiguous int64 PyBuffer beforeinsert; compiledlibraryreuse replay pending/notSubmitted. No alias/GIL/thread/lifetime/actions/Cargo/physical/KV/H800/root/formalacceptance. Collector380/246CPU runtime/error-gate followup pending; science/checkbox/Bedge/D39/HFdisabled/50/S7 andcompactafter-allstats unchanged. Older design/sourcepending statements below are historical.
@@ -8,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Synchronize accepted R2 serial CPU and collector scope with the shared OPEN P2 and pending R3/rechecks; leave scientific sections and final criteria unchanged. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record SOURCE/PROVENANCE accepted9d1d821f, actualRust originalobserver/compiledABI still pending; science/raw/checkboxes and acceptedCPP witness unchanged. |
@@ -89,7 +92,9 @@
 
 ### D40 diagnostic namespace counterfactual preregistration
 
-**Active CPU qualification:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS; noCUDAinitialized. Originalqualification failed constructor key Pythonlist vsrequired contiguousint64 PyBuffer beforeinsert. Exactfixture ABI repair/reuse retainedlibraries/newattempt notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/physical/CPPstream/KV/H800 acceptance; originalbundledSourceCommitUNVERIFIED. Collector runtime/error-gate followup pending; compactafter-all policy/D7withdrawal/science/checklists/Bedge/formalHOLD preserved.
+**Current D40 qualification:** Accepted R2 serial CPU/compile-load and collector CPU scope do not close the shared OPEN P2, contended topology, CUDA/private-model physical indices or numeric correctness. The [current frontier](plan.md#current-frontier) requires retained Capture with rows and zero invalidations, GPU0 R3 reuse without native rebuilding and two affected rechecks before the already-authorized bounded H800 A16/B10 verification. All 16 vectors and 6,804 values must reproduce exactly; all 7,955 FULL physical indices remain an independent check. A514.375/B321.625 MiB budgets and compact statistics after all16 remain unchanged. R3 delivery/submission, numeric RCA, warm correction and fresh independent formal200 are pending. No standalone GIL artifact gate, new mode/flag, raw KV archive or scientific change is introduced.
+
+**Historical prerequisite snapshots:** The earlier current-status line in S0 and the Active paragraphs below retain prior SOURCE/WIT, failed R1 and design-stage evidence. They are not current R2 acceptance or blockers; the preregistered diagnostic/scientific criteria remain unchanged.
 
 **Active CPU-only observer prerequisite:** PREP17/17/baseline+observerproductionABI COMPILELOADPASS; semanticqualification failed beforeinsert atfixturelist vsint64contiguousPyBuffer. Reusecompiledlibraries afterexactfixturefix/newGPU0attempt notsubmitted. Alias/GIL/thread/lifetime/actions/Cargo/currentcollectorimport-errorgate pending, no physical/KV/H800/nativeCPU/root/formal PASS. Source/WIT/D39/D10/50/S7/science/checkboxes unchanged; no new numericalpolicy or payload authorization.
 

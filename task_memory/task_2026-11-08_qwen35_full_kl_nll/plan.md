@@ -1,5 +1,7 @@
 ## Modification History
 
+**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted; raw R2 PASS remains unchanged. Both native-source review axes have the same OPEN P2: discarded Capture can hide callback invalidations. Contended topology release is HOLD / UNVERIFIED pending the Capture fix, GPU0 R3 reuse without a native rebuild and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. The [current frontier](#current-frontier) owns the next route; no H800 numeric or formal submission is recorded. Older Active/Current paragraphs below are historical snapshots, not current blockers.
+
 **Active CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS; constructorfixturelist vsint64contiguousbuffer FAIL beforeinsert. Exactkeyfix/reusequalification attempt pending/notsubmitted. Alias/GIL/thread/lifetime/actions/Cargo/collectorfollowup unaccepted; nextGPU0affectedqualification→fixedreviews→separateH800authorization/16/6804/7955→RCA/correctness/freshown200→06, noBwaitA200. Oldpending-delivery blocks historical; D7compactstats/no rawarchive/science unchanged.
 
 **Active D40 CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. QualificationFAILED atconstructor beforeinsert becausefixture list is notrequiredint64 contiguousbuffer. Sourceowner correctsexactcontract/reusesretainedbinaries, replaynotSubmitted; collector380/246CPU private-runtime/error-gate followup pending. Next affectedGPU0replay→fixedreviews→separateH80016/6804/7955 qualification→RCA/correctness/freshown200→06. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantic/rootPASS; formal04/05HOLD/BnotA200/science/raw/checkboxes/D7withdrawnrawarchive remain. Earlier pendingdelivery descriptions are historical.
@@ -8,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Synchronize the accepted R2 serial CPU phase, shared OPEN P2 and pending R3 reuse/rechecks; preserve independent A/B execution and all acceptance criteria. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record source/provenance accepted9d1d821f and actual originalRust observer/runtimeABI pending; preserve CPP WIT and scientific/edge criteria. |
@@ -142,7 +145,9 @@ Each ticket records commands and evidence in `progress.md` and a dated test repo
 
 ## Current frontier
 
-**Active CPU stage:** PREP17/17; actualGPU0 COMPILE+LOAD PASS, constructor qualificationFAIL list/int64-buffer. Reuse-library replay notsubmitted. Alias/GIL/lifetime/Cargo pending; collector runtime/error followup active. Exactfixture replay→reviews→separateH800 qualification, not nativeCPU/rootfix/formal PASS. Prior helperpending claims historical.
+**Current frontier:** Within 04/05, fix the retained-Capture oracle and existing qualification finalizer, then run GPU0 R3 using the retained R2 native sources and libraries without rebuilding. R2 raw/root receipts remain immutable; completed source validation must be retained and one finalizer must write the new qualification directory's observer-build.json. R3 delivery/submission is pending. Require Capture rows, zero invalidations and rejection of a bad callback while the getter completes, then close both affected review axes. Next, D40-authorized bounded H800 A16/B10 verification must reproduce all 16 vectors and 6,804 values exactly, independently verify all 7,955 FULL physical indices and respect A514.375/B321.625 MiB budgets. Proceed through numeric RCA, a minimal evidence-backed fix and warm correctness to fresh A || B, each with 200 successful updates, then 06. B does not wait for A200. See the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md), [canonical design](design_kv_coherence_measurement.md) and [current evidence](progress.md#current-execution--workflow-rca). No new GIL artifact gate, native rebuild, mode or flag is added.
+
+**Historical frontier snapshots:** The earlier Active/Current paragraphs below retain their milestone evidence; they are superseded by the current frontier above.
 
 **Active CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. Qualification failed beforeinsert duefixture list vsC-contiguous int64buffer; owner fixesexactkeycontract, reusesretainedlibraries/newattempt notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPUsemantic PASS. Collector380/246CPU and runtime/error-gate followup pending. Next affectedGPU0qualificationreuse→fixedreviews→separatelyauthorizedH80016/6804/7955 verification→RCA/correctness/freshown200→06, BnotwaitA200. D7rawarchivewithdrawal/compactstats andscienceunchanged. Older d975 pending-delivery statements are historical.
 

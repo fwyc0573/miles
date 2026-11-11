@@ -1,6 +1,8 @@
 ## Modification History
 
-**Active CPU prerequisite:** sourcePREP17/17/actualGPU0 baseline+observerCOMPILELOADPASS; fixtureconstructor failed list vsrequiredint64 contiguousbuffer beforeinsert. Affectedcompiledlibraryreuse replay notsubmitted; alias/GIL/thread/lifetime/actions/Cargo and collector runtime/error-gate followup pending. No nativeCPU/physical/H80016/6804/7955/root/formal acceptance. Source/WIT/science/checkboxes/satisfiedBedge/noA200gate unchanged; earlier sourcepending blocks historical.
+**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted; raw PASS is unchanged. Both native-source review axes retain the same OPEN P2: discarded Capture can hide callback invalidations. Contended topology release is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 reuse without rebuilding and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. No numeric H800 or formal job has been submitted. See the [current route](../plan.md#current-frontier) and [canonical native report](../test_report_2026-11-11_rust_native_cpu_qualification.md). B's A-firstACK/inspection edge remains satisfied; B does not wait for A200. All science and checkboxes are unchanged.
+
+**Historical prerequisite snapshots:** The earlier Active paragraphs below preserve failed R1 and design-stage evidence, not current R2 acceptance or blockers.
 
 **Active frontier:** sourcePREP17/17 andGPU0 baseline/observer COMPILE+LOAD PASS; qualificationFAIL constructor list/PyBuffer<int64> beforeinsert. Owner fixturefix/reusecompiledlibraries replay notsubmitted; alias/GIL/thread/lifetime/actions/Cargo/nativeCPU semantics unexecuted, collector runtime/errorgate followup pending. FormalHOLD/noKVH800rootPASS; source/WIT/Bedge/science/checkboxes unchanged. Older pendingdelivery descriptions are historical.
 
@@ -8,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Preserve R2 serial CPU PASS and B's satisfied edge; record shared OPEN P2, pending R3/rechecks and B BLOCKED without an A200 gate or checkbox change. |
 | 2026-11-11 | Record compile/load PASS and fixture qualification FAIL; replay pending, formal HOLD unchanged. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Close stale WIT Running status; record accepted CPP witness/source provenance and pending actual Rust original-tensor observer. |
@@ -53,9 +56,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle及bounded actual CPP/H800/allocator/all16已满足。9d1d821f SOURCE/PROVENANCE已接受；actual Rust original-tensor observer/producer/thread/lifetime、production-ABI runtime qualification、physical/numeric RCA/correction/freshB200仍pending。无A200/profile/32-H200 gate或stop权限。
+**Blocked by:** 01、02、03 are accepted; 04 first-A ACK/inspection/common-cycle and bounded SOURCE/WIT/all16 are satisfied. R2 serial CPU/production-ABI compile-load is accepted, but the shared native-source OPEN P2 and contended topology release require retained Capture, GPU0 R3 reuse and two affected rechecks. Bounded H800 physical/numeric qualification, RCA/fix, warm correctness and fresh B200 remain pending. No A200/profile/32-H200 gate or stop authority is added.
 
-**Status:** BLOCKED formal / RUST_SOURCE_PROVENANCE_ACCEPTED–ORIGINAL_OBSERVER_PENDING D40; formal B not started。[Bounded B witness](../test_report_2026-11-11_kv_stream_witness_native_B_results.md) actual4H800/Completed0、all16 vectors及selectedCPP stream/class已接受，warm FAIL保持。[9d1 source report](../test_report_2026-11-11_rust_binding_source.md)接受621/621 source replay、old5501 unchanged、三Rust trees相同及isolated crate source完整；仅SOURCE/PROVENANCE。ABI declared/loadonly、binary sourceCommit UNVERIFIED；Rust source edit alone不会执行。Actual RustUnifiedTreeCore不走Pythoninsertwalk；originalFULL pre-split observer sameS/RID/P/E、FRESH post-store/pre-free、FULL insert_params.value、wholeFULL7955及independent indices待qualification。Two-bankB321.625MiB/A514.375MiB、perBANK160/256及16/10/science/D39/S7/HFdisabled/50/Bedge不变。无implementation/GPU/numeric/root/perf/formal接受。[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal under D40; formal B has not started. Shared OPEN P2, contended topology release, R3 delivery/submission and two affected rechecks remain pending. The [current route](../plan.md#current-frontier) proceeds to already-authorized bounded H800 A16/B10 verification with all16 / 6,804 exact, independent 7,955 FULL physical indices and A514.375/B321.625 MiB budgets, then numeric RCA/minimal fix/warm correctness and fresh independent B200 before 06. Previous [B witness](../test_report_2026-11-11_kv_stream_witness_native_B_results.md) and [Rust source provenance](../test_report_2026-11-11_rust_binding_source.md) remain accepted only in their recorded scopes; warm FAIL and binary sourceCommit UNVERIFIED remain. B's A-firstACK/inspection edge is satisfied; no A200/profile gate, new GIL artifact gate, rebuild, raw archive, flag or science change is added. [Current evidence](../progress.md#current-execution--workflow-rca).
 
 **Historical initial witness snapshot:** B exp-1111-113511-669312 was submitted/Running with requested4H800; this initial CR alone did not establish native acceptance. CPU381/1SKIP、190/451、453及固定reviews保留；later bounded CPP acceptance不拼接formal counters。
 

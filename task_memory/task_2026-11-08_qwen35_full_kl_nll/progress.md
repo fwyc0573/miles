@@ -1,9 +1,12 @@
 ## Modification History
 
+**Current execution:** R2 serial CPU semantics and production ABI compile/load are accepted, with raw PASS preserved. Standards and Spec each retain the same OPEN P2: discarded Capture can hide callback assertion invalidations. Contended topology qualification is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 library reuse and two affected rechecks. R3 delivery/submission is pending. Collector CPU qualification and constants nit closure are accepted. No H800 numeric or formal job has been submitted. CUDA, private-model physical indices/origin, race, all-TP, root cause, performance and formal200 remain unverified. Earlier Active/Current paragraphs below are historical milestones, not current blockers.
+
 **Active D40 CPU frontier:** sourcePREP17/17, collector380composed/246affectedCPU PASS0skip; private-runtime/error-independentgate followup pending. ActualGPU0 exp-1111-140628-265232 Failed/exit1/restart0 at06:12:33Z, launcherstopfollowedfailure. BothproductionABIbaseline/observer COMPILE+LOAD successful freshprocess Python3.12.16/Torch2.14.1cu130/ABItrue/rustc1.99.1/CUDAinitializedfalse. Qualification firstconstructor failed Pythonlist vsrequiredC-contiguousint64PyBuffer/array.array('q'), beforeinsert. Baseline fbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa andobserver0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba retained. Fixturekeyfix/replayreusepending/not submitted; alias/GIL/thread/lifetime/actions/Cargo fixtures NOTexecuted/accepted. No H800/numeric/root/formal PASS; originalrawfailure/D7withdrawal/compactafter-allstats/science/Bedge unchanged. Earlier pending-source-delivery milestones below are historical.
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Synchronize accepted R2 serial CPU and collector evidence, retain immutable R2 receipts and shared OPEN P2, and append the routine S5 checkpoint for pending R3/H800/formal work. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record9d1d821f primarySOURCE/PROVENANCE acceptance and exact reviewer169 four-part source checkpoint; actualRust observer/producer/thread/lifetime remains blocked. |
@@ -194,7 +197,13 @@ PY
 
 ## Current execution — workflow RCA
 
-**Active CPU stage:** PREP17/17 and actualGPU0 baseline/observer COMPILE+LOAD PASS. QualificationFAIL constructor: list instead of contiguousint64 buffer. Reuse-library replay notsubmitted; alias/GIL/lifetime/Cargo/nativeCPU semantics unaccepted. Stop followedfailure. No GPUKV/rootfix/formal acceptance; prior pending-delivery claims historical.
+**Current CPU qualification:** Primary accepts bounded serial R2 evidence from exp-1111-145408-924409: GPU0, 2 CPUs, 8,000 Mi memory, Succeeded / Completed, exit0 and restart0, not physical H800. Four variants × five cases match 40 Insert results × 10 fields and 44 Match results × 13 fields exactly. The 22 native sources, six dependencies, two shared libraries, two locked Rust fixtures and bounded alias/Arc lifetime checks remain accepted; the original binary source commit is UNVERIFIED. The [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) and [R2 verification](evidence/native-rust-kv-observer-qualification-20261111-r2/native-verification.json) own the detailed evidence. Both fixed reviews of 8683a032 retain the same OPEN P2 at probe:385–397: discarded temporary Capture and unchecked invalidations can cause a false PASS. This is not an observed R2 execution error. Contended topology release is HOLD / UNVERIFIED; standalone GIL contrast and arbitrary Mutex reentry are evidence limits, not a new GIL artifact gate.
+
+**Pending correction and replay:** The native actor is preparing the retained-Capture/required-rows/zero-invalidations fix; delivery and GPU0 R3 submission are pending. The primary is also correcting the existing Python finalizer so a completed retained root receipt does not block qualification replay: keep completed source validation, preserve all R2 raw/root receipts, require the original failed R1 as before, and write the new qualification directory's observer-build.json through one finalizer. The immutable [R2 build snapshot](evidence/rust-kv-observer-qualification-receipts-20261111/observer-build-r2.json) is 15,835 bytes; native source and shared-library identities stay stable while orchestration-only Python identity may change. Planned R3 output is `evidence/native-rust-kv-observer-qualification-20261111-r3`, not yet created. No new mode, flag or native rebuild is planned.
+
+**Collector and next route:** Source-private binding and independent error-gate CPU qualification are accepted: 407 source checks; Spec No findings; the sole Standards constants nit is CLOSED, with No new findings and 25 affected / 254 joined checks, zero skips. Two A/B controller dry-runs for requested four-H800 configurations PASS with submitted=false; only config/output paths differ from WIT base (`/data/ycfeng/tmp/opencode-v2-tmp/opencode/kv-coherence-controller-{A,B}-dryrun-20261111.json`). No numeric H800 job was submitted. Fix → GPU0 R3 reuse → two affected rechecks → bounded H800 A16/B10, all 16 vectors / 6,804 values exact, independent 7,955 FULL physical indices and A514.375/B321.625 MiB budgets → numeric RCA/minimal fix/warm correctness → fresh A || B, each200 → 06. Previously qualified SOURCE/WIT/all16 evidence is not reset. CUDA actual S, private GPU origin, physical indices, all-TP, race, root cause, performance and formal200 remain unverified. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, fixed science, raw requests and all six-ticket checkboxes remain unchanged; B does not wait for A200.
+
+**Historical CPU frontier snapshots:** The earlier Active paragraphs below preserve the original failed R1, compile/load and design-stage evidence; they do not describe current R2 acceptance or blockers.
 
 **Active GPU0 CPU qualification:** exp-1111-140628-265232 Failed/containerError exit1/restart0 at06:12:33Z; launcherstop followsfailure. Baseline andobserver productionABI COMPILE+LOAD PASS in freshprocess: Python3.12.16/Torch2.14.1cu130/CXX11/rustc1.99.1, CUDAuninitialized. Originalfixtureconstructor failed beforeinsert: Pythonlist vsPyBuffer<int64> contiguousarray.array('q'). Rawfailedattempt/buildlibraries retained; exactfixturefix plusreusequalification replay pending/notsubmitted. Baselinehashfbe6ea7c5e48216daa34f13b792b38ecf39090a99a3f9a72f776a388d67124aa, observer0dc763cc3b53bae4b62116407cdd5e0a30d3a9353bab9fe15424c30ce41b49ba. SourcePREP17/17/cachevartmp/ERROR-only markers ready; collector380/246CPU runtime/error-gate followup pending. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/H80016/6804/7955/physical/root acceptance. Older design-only pending-delivery blocks are historical; priorWIT/science/D7rawarchivewithdrawal/formalHOLD unchanged. [Report](test_report_2026-11-11_rust_native_cpu_qualification.md).
 
@@ -2573,3 +2582,49 @@ BranchB仅currentS5。Nextowner修list为existingPyBuffercontract→GPU0 affecte
 1. Actualcompile/loadPASS不等于fixture/native semantic PASS。
 2. Failure是fixtureABI key contract，非Rustcompiler或launcherstop；alias/GIL/thread/lifetime/actions/Cargo未执行。
 3. Formal04/05HOLD、BnotA200、06等own200；无GPU/KV/rootfix，科学/HFdisabled/50/compactstats不改。
+
+## 1. Planned completion
+
+**Checkpoint:** `profile-rust-kv-CPU-frontier-records-20261111`, recovery of the previous uncommitted eight-document task. **Summary:** PASS 3 | BLOCKED 2 | TODO 1. PASS records completion, not correctness or quality approval.
+
+| Ticket | Status | Recorded evidence |
+| --- | --- | --- |
+| 01 | PASS | Original-source input audit and D34 accepted. |
+| 02 | PASS | CPU measurements and actual D16 evidence accepted. |
+| 03 | PASS | CPU integration and S7 isolation accepted. |
+| 04 | BLOCKED | Shared native P2, contended topology and physical/numeric correction remain open. |
+| 05 | BLOCKED | Same shared blockers; A-firstACK/inspection is satisfied, with no A200 gate. |
+| 06 | TODO | CPU reporting slice accepted; each cell's actual200 final data is pending. |
+
+## 2. Drift detection
+
+**Conclusion:** No current route drift. **Window:** previous records at9f84711c through native8683a032, accepted R2/collector evidence and this eight-document synchronization. **Frontier/mainline:** the 04/05 Capture oracle and retained-root finalizer correction, then GPU0 R3 reuse and two affected rechecks. Documentation checks do not replace or delay native execution.
+
+| Pattern | Verdict | Evidence |
+| --- | --- | --- |
+| D1 Tooling polish | CLEAR | Only the eight owned records and existing scoped checks; no new harness or report. |
+| D2 Retry loop | CLEAR | Known P2 and finalizer causes own the next fix; no native rerun in this slice. Earlier failed R1 and historical doc-only D2 remain separate. |
+| D3 Side quest | CLEAR | The fixes clear recorded 04/05 blockers; no unrelated work. |
+| D4 Stalled frontier | CLEAR | Capture and finalizer preparation have separate actors; H800 interpretation depends on qualification release. |
+| D5 Gold-plating | CLEAR | No new flag, mode, rebuild, GIL artifact gate or criterion. |
+| D6 Analysis sprawl | CLEAR | Bounded record synchronization ends with validation and one eight-file commit. |
+| D7 Off-route | CLEAR | D39 H800-only/D40 bounded verification, fixed science and B's satisfied edge remain unchanged. |
+
+**Document checks:** S5 HIT, corrected routinely: six master records and tickets 04/05 contained superseded constructor-failure/design-stage blockers. Current paragraphs and ticket status now preserve accepted serial R2 while retaining OPEN P2 and pending R3. Historical milestones are explicitly labeled. S1/S2/S3/S4/S6 CLEAR: shared blockers have 04/05 ownership; no edge, scope, criterion or ticket slice changed. **Attribution:** no execution drift; S5 was stale status only.
+
+## 3. Route correction
+
+**Branch B:** The routine S5 update is applied to requirements.md, plan.md, progress.md, summary.md, spec.md, review.md and tickets/04-a-full.md / tickets/05-b-full.md. No user confirmation is needed because raw decisions, science and acceptance criteria are unchanged. **Behavior to stop:** none.
+
+1. Finish Capture and existing finalizer corrections; retain immutable R2 raw/root receipts and completed source validation. Done: Capture rows and zero invalidations reject a bad callback while the getter completes, and one finalizer writes the new qualification directory receipt.
+2. Run GPU0 R3 using the retained 22 native sources, six dependencies and two libraries without rebuilding; then close both affected review axes. R3 delivery/submission remains pending; the original failed R1 prerequisite is unchanged.
+3. Perform D40-authorized bounded H800 A16/B10 verification: all 16 vectors and 6,804 values exact, independently verified 7,955 FULL physical indices, A 514.375 MiB / B 321.625 MiB budgets. Then evidence-backed numeric RCA, minimal fix and warm correctness.
+4. After required correctness and fresh admission, run A || B from independent original initialization, each with 200 successful updates and separate native/profile dispositions; then 06. B does not wait for A200. S7 remains a soft profile gate.
+
+**Scoped validation:** Local repository root, system Python3.10.6; existing `python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll` reports87 documents / 6 tickets / 507 links / 98 anchors, exit1 with64 known unowned errors:62 frozen evidence dependencies and two primary report-expression links. Owned errors:0; checker, reports and frozen artifacts were not changed or excluded. Existing DAG is01→02→03→04→05→06; arithmetic remains51,200/cell,102,400 total,81 trend turns. The read-only `python3 -B -` preservation assertions PASS:353-line raw-request/decision tail with15 Original Request markers; all53 six-ticket checkbox rows unchanged (A8+B9=17); scientific S1–S9 and six verification methods unchanged; immutable R2 snapshot15,835 bytes/SHA2564c967246e2cb3ab54e454b87f1a22231c73a7829037dbd98f19ad19bfb2e017b. Scoped `git diff --check --` for the eight owned paths PASS. These are documentation checks, not CPU business tests or native/platform evidence.
+
+## 4. Three priorities
+
+1. R2 serial CPU/raw PASS is preserved; the same OPEN P2 on both review axes keeps contended topology release HOLD / UNVERIFIED, not R2 execution FAIL.
+2. R3 delivery/submission and two affected rechecks are pending. No numeric H800 job or new formal job was submitted; actual CUDA S, private GPU origin/indices, all-TP, race, root cause, performance and formal200 remain unverified.
+3. D39/D40/D10, HF/eval disabled, bank_uses=50, S7,256 candidates/32×8,231/1800 seconds,600-second sync,200 fresh updates, seeds, timeouts, original failures and all six-ticket checkboxes remain unchanged. No code/config/report/raw/binary/README/checker/platform/auth/GPU/delegation work belongs to this slice.

@@ -1,5 +1,7 @@
 ## Modification History
 
+**Current execution:** Fixed native-source Standards and Spec each report the same OPEN P2 at 8683a032/probe:385–397: discarded temporary Capture can hide callback PyErr recorded as unchecked invalidations. This is not an observed R2 execution error; accepted serial CPU/compile-load and raw PASS remain unchanged. Contended topology release is HOLD / UNVERIFIED pending retained Capture, required rows, zero invalidations, GPU0 R3 reuse and two affected rechecks. R3 delivery/submission is pending. Collector Spec No findings is unchanged; its sole Standards constants nit is CLOSED with No new findings. No H800 numeric, race, root-cause, performance or formal acceptance is implied. Earlier Current/Active notes below are historical snapshots.
+
 **Active CPU stage:** PREP17/17 and realGPU0 COMPILE+LOAD PASS. Originalconstructor fixture ABI FAIL beforeinsert; not compiler/numeric/root failure. Exactkeycontract replay unsubmitted, alias/GIL/thread/lifetime/actions/Cargo/collector followup pending; no new nativeCPU or fixed-review acceptance. Earlier pending-delivery statements historical.
 
 **Active CPU qualification:** sourcePREP17/17 and actualGPU0 baseline/observer compilation/load successful; constructor fixtureABI failure is Pythonlist vsint64 contiguousbuffer, beforeinsert, notcompiler/numericdefect. Ownerfix/reuse-binaryreplay and collector private-runtime/error-independent-gate followup pending. No alias/GIL/thread/lifetime/actions/nativeCargo/nativeCPUsemantic acceptance; sourceBinaryCommit remainsunverified. Existing source/WIT reviews stay scoped, no newreviews/fix/native/formalPASS claimed.
@@ -8,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record both fixed native-source axes' shared OPEN P2, preserve bounded R2 PASS and collector nit closure, and retain pending R3/affected rechecks without a quality verdict. |
 | 2026-11-11 | Record compile/load PASS, fixture ABI qualification FAIL and pending replay; no native semantic acceptance. |
 | 2026-11-11 | Record d9751b80 CPU-only observer design acceptance and parallel implementation; native proof pending, raw-archive steering withdrawn. |
 | 2026-11-11 | Record9d1d821f SOURCE/PROVENANCE-only acceptance, no binarycommit/nativeRust observer proof; primary reviewer169 current3/2/1 retained. |
@@ -39,7 +42,9 @@
 
 # Runtime metadata preparation phase — 2026-11-11
 
-**Active CPU qualification:** sourcePREP17/17 and actualGPU0 productionABI baseline/observercompile-load PASS. Semantic four-way fixture failed beforeinsert because Pythonlist violatesint64 contiguousPyBuffer contract; ownerfix/reuse replay notsubmitted. This is not compiler/rootfix; alias/GIL/thread/lifetime/actions/Cargo/runtimecollectorfollowup pending. CPU/source reports do not replace fixed reviews/native acceptance; original bundledsourceCommit unverified. Historical pending-source statements below are superseded only for prep/compile-load.
+**Current review scope:** Both fixed native-source axes retain OPEN 1 P2 with one shared cause; the [canonical native report](test_report_2026-11-11_rust_native_cpu_qualification.md) records the finding, reopened contended-getter oracle and immutable R2 build reference. The correction must retain Capture, require rows and zero invalidations, and reject a bad callback while the getter completes; GPU0 R3 reuse and both affected rechecks remain pending. Collector source-private binding/error-gate CPU qualification is accepted, with 407 source checks, 25 affected / 254 joined checks and zero skips; Spec No findings and Standards constants nit CLOSED / No new findings are separate from native-source release. Original binary sourceCommit, standalone GIL contrast, arbitrary Mutex reentry, physical GPU origin/indices, all-TP, race, root cause, performance and formal200 remain unverified. The GIL evidence limit is not a new gate.
+
+**Historical review snapshots:** The earlier Active/Status/Next-work paragraphs below retain their original phase scopes and findings. They are superseded only for current acceptance and next actions by the review scope above; no prior failure or qualified SOURCE/WIT/all16 result is reset.
 
 **Active d9751b80 scope:** exact stdlib design/source contracts accepted for CPU implementation only. Two source/build/staging and collector/injection tasks pending; no helper compile, native pointer/GIL/stream, physical KV, cause or formal acceptance. Inline Rust original FULL borrow before split replaces lookup/concat. No extra matches/cache locks/backend flip; one builder composed once, production ABI/serving policy unchanged. D7 large raw-archive steering withdrawn before any native submission: retain compact after-all16 layerwise scalar/index summaries, no raw archive/flag. Existing source/WIT reviews remain scoped; future helper CPU/fixed reviews/native qualification still required.
 
