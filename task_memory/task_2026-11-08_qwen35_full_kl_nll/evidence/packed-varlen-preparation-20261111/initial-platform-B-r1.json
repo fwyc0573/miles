@@ -1,0 +1,40 @@
+{
+  "observed_at": "2026-11-11T14:15:40.274329+00:00",
+  "pair": "B",
+  "job": "exp-1111-221303-041018",
+  "uid": "a2898114-543e-4ff7-a74c-1a5b51c6d8df",
+  "creator": "i-fengyicheng",
+  "charged_group": "codesign",
+  "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+  "preemptible": "no",
+  "positiveTags": [
+    "H800"
+  ],
+  "replicas": 1,
+  "resources": {
+    "limits": {
+      "cpu": "8",
+      "memory": "64000Mi",
+      "nvidia.com/gpu": "1"
+    },
+    "requests": {
+      "cpu": "8",
+      "memory": "64000Mi",
+      "nvidia.com/gpu": "1"
+    }
+  },
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+  "status": {
+    "phase": "Pending",
+    "reason": "RJob is queuing",
+    "message": "RJob is queuing",
+    "taskStatuses": {
+      "snapshot": {
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "source_sha256_match": true,
+  "qualification": "Initial API declared-resource identity only, not physical GPU/native/operator acceptance"
+}

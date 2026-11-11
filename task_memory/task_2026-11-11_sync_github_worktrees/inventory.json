@@ -16,5 +16,9 @@
   },
   "required_pinned_source_count": 57,
   "omitted_paths_inventory": "omitted_files.json.gz",
-  "max_added_file_bytes": 1024000
+  "max_added_file_bytes": 1024000,
+  "additional_compact_receipts_during_sync": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-A-r1.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-B-r1.json"
+  ]
 }

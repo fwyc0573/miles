@@ -12,3 +12,5 @@
 4. Query live GitHub refs, compare exact SHAs, inspect final tracked status, and archive outcomes/omissions. Complete when the acceptance in requirements.md is verified.
 
 Dependencies: `1 -> {2 capacity, 2 image} -> {3 capacity, 3 image} -> 4`. Read-only inspections and CPU checks may run concurrently; index/ref mutations stay sequential. The two branches retain their existing ownership. This record belongs to `agent-opd-image`; the counterpart worktree carries its own local record.
+
+Current completion: steps1–4 completed for initial source publication; final original-task documentation/receipts and this completion archive use the same authorized atomic publication and live SHA comparison.

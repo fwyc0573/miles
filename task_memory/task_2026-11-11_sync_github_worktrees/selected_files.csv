@@ -700,3 +700,5 @@ task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_recurrent_
 task_memory/task_2026-11-11_sync_github_worktrees/plan.md,1299
 task_memory/task_2026-11-11_sync_github_worktrees/progress.md,1277
 task_memory/task_2026-11-11_sync_github_worktrees/requirements.md,1713
+task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-A-r1.json,1107
+task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-B-r1.json,1107

@@ -18,7 +18,7 @@ Date:2026-11-11, local timezone Asia/Hong_Kong. Working directory: `/data/ycfeng
 | Strong credential/private-key patterns | No selected content matches private-key/GitHub token/AWS access-key signatures | No pattern hits | PASS, pattern coverage only |
 | Selected content inventory | Preserve omitted raw content and record reasons | `9079` omitted files, `1228981986` bytes, inventory in omitted_files.json.gz | PASS |
 | Tracked whitespace | `git diff --check` passes | Exit0 in image worktree | PASS |
-| GitHub push/HEAD equality | Remote branch SHA equals local HEAD with upstream configured | Pending publication | TODO |
+| GitHub push/HEAD equality | Remote branch SHA equals local HEAD with upstream configured | Initial live remote/local 6db1d79af40fb40f9c510738ebe1c9d92dafb1aa with origin/agent-opd-image; final archive publication follows | PASS |
 
 The initial untracked sizes were3,832,196 bytes for capacity and approximately1.25GB for image. A live task committed some source/docs during this inspection, so the inventory snapshot counts and final new-file counts need not match. The selection is explicit in selected_files.csv; files added by this sync's own record are included at staging time. Raw sample/event streams, large runtime traces, copied review/source trees and tool-local state are retained on disk. The compressed inventory contains paths/sizes/reasons, not artifact contents.
 
@@ -75,3 +75,9 @@ git diff --cached --check -- . :(exclude)*.diff :(exclude)*.patch :(exclude)*.st
 ```
 
 All staged source, configuration, Markdown and inventories remain in the check. This does not change archive contents or production behavior. Full diagnostic output is retained at `/data/ycfeng/tmp/sync-worktrees-20261111-image-cached-whitespace.txt`.
+
+## Observed Publication
+
+`git push --atomic --set-upstream origin agent-opd-h800-capacity agent-opd-image` created both branches; `git ls-remote --heads origin agent-opd-h800-capacity agent-opd-image` confirmed9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd for capacity and6db1d79af40fb40f9c510738ebe1c9d92dafb1aa for image, equal to both local source HEADs. `git status --short -uno` was empty immediately after publication. During final record creation, the original image task changed6 Markdown files; include those small documentation changes and2 fresh JSON receipts in the final archive commit. Scoped `git diff --check` passed. No new production behavior or test case was introduced.
+
+Final commands are `git push --atomic origin agent-opd-h800-capacity agent-opd-image`, `git ls-remote --heads origin agent-opd-h800-capacity agent-opd-image`, `git rev-parse HEAD`, `git rev-parse --abbrev-ref @{upstream}`, and `git status --short -uno`; final commit equality is checked and reported in the session after the archive commit.

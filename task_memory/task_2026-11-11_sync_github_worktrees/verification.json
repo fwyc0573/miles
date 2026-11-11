@@ -1,0 +1,23 @@
+{
+  "observed_at": "2026-11-11T22:20:05.758859+08:00",
+  "branch": "agent-opd-image",
+  "local_head": "6db1d79af40fb40f9c510738ebe1c9d92dafb1aa",
+  "github_head": "6db1d79af40fb40f9c510738ebe1c9d92dafb1aa",
+  "initial_publication_sha_equal": true,
+  "upstream": "origin/agent-opd-image",
+  "tracked_changes_immediately_after_initial_publication": 0,
+  "additional_task_markdown_saved_with_archive": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/plan.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/progress.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/requirements.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/review.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/spec.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/summary.md"
+  ],
+  "additional_compact_receipts_saved_with_archive": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-A-r1.json",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/packed-varlen-preparation-20261111/initial-platform-B-r1.json"
+  ],
+  "remaining_untracked_count": 9079,
+  "remaining_untracked_bytes": 1228981986
+}

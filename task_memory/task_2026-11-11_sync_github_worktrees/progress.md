@@ -25,3 +25,6 @@ Initial tool observation: unqualified `python` is absent; `/usr/bin/python3`3.10
 - resolved: Cached whitespace check found CRLF rows from Python csv writer in this task's new selected_files.csv. Normalize only these new inventory files to LF before committing; no evidence values changed.
 
 - observation: Full cached whitespace check diagnoses52 archival diff/patch/stdout/JUnit XML files, including original failure trace indentation and legal diff context markers. These are preserved byte-for-byte. Run cached whitespace validation over all staged content excluding those four archival suffixes; current source/config/docs/inventories have no whitespace error. Full diagnostics: `/data/ycfeng/tmp/sync-worktrees-20261111-image-cached-whitespace.txt`.
+
+- completed: Atomic publication created both remote branches with upstreams; live image/localHEAD equals6db1d79af40fb40f9c510738ebe1c9d92dafb1aa. Tracked status was empty immediately after publication. The original task then modified6 small Markdown files, saved with this completion archive. Current raw omissions:9079 files/1228981986 bytes, all preserved locally.
+- completed: Requirements.md reread. Final docs and2 newly produced compact JSON receipts are included; final atomic push and live equality check cover this latest snapshot. No production changes after the isolated fixture repair.
