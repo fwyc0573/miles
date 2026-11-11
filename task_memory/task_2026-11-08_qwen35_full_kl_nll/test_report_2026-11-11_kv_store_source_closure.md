@@ -2,7 +2,7 @@
 
 | Date | Change |
 | --- | --- |
-| 2026-11-11 | Record conditional static allocator/FFI source qualification separately from pending actual-call witness and payload capture. |
+| 2026-11-11 | Record conditional allocator/FFI source qualification, correct the missing writer-context field, and retain pending actual-call/payload limits. |
 | 2026-11-11 | Extend retention verification to the complete installed allocator/Cython package scope; all source identities pass, execution qualification remains pending. |
 | 2026-11-11 | Record two zero-GPU source jobs and independent archive checks; stream, lifetime and numerical qualification remain pending. |
 
@@ -98,4 +98,4 @@ Logs contain Paramiko TripleDES deprecation warnings; all three jobs nonetheless
 
 The initial archive revealed missing generic `LaunchKernel` and TVM stream dependencies. The second collection retained SGLang kernels and selected installed TVM FFI source/header suffixes, but omitted Cython and the complete allocator scope. The third retained complete installed SGLang and TVM FFI Python/Cython/C/CUDA source/header suffixes plus extension inventory. Source collection alone does not establish actual launch stream, PDL completion ordering, OLD index readiness, physical-slot lifetime, writer RID/row binding or numerical fidelity.
 
-Read-only source qualification closes both Cython stream-source branches and the index-only allocator lifetime chain for the recorded B configuration's inferred `TokenToKVPoolAllocator`. Actual class/launch stream are not measured. Actual CPU host-field carry is independently verified, but writer/FULL-index equality and prefix-valid per-row writes are not. The canonical design records the witness-only next stage. No additional wait/lock, cache policy change, fresh-slot read after release, tolerance change, formal admission or numerical GPU probe is accepted by this report.
+Read-only source qualification closes both Cython stream-source branches and the index-only allocator lifetime chain for the recorded B configuration's inferred `TokenToKVPoolAllocator`. Actual class/launch stream are not measured. Actual GDN CPU host-field carry is independently verified, but global writer-context publication is not: the specified `ForwardContext.forward_batch` is absent in the unmodified pinned source. Writer/FULL-index equality and prefix-valid per-row writes remain unverified. The canonical design records the corrected witness-only next stage and distinguishes CPP from Triton terminals. No additional wait/lock, cache policy change, fresh-slot read after release, tolerance change, formal admission or numerical GPU probe is accepted by this report.
