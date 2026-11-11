@@ -3,6 +3,8 @@
 import asyncio
 import ast
 import builtins
+import copy
+import hashlib
 import json
 import math
 import os
@@ -12,7 +14,7 @@ import signal
 import subprocess
 import sys
 from pathlib import Path
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 import aiohttp
 import pytest
@@ -2322,3 +2324,141 @@ def _cpu_coherence_contract(monkeypatch, *, window_start, window_end):
     module = SimpleNamespace(WINDOW_START=window_start, WINDOW_END=window_end, SCORING_REQUEST_COUNT=16)
     monkeypatch.setattr(agent_opd, "sglang_kv_coherence", module, raising=False)
     monkeypatch.setitem(sys.modules, "tests.manual.agent_opd.sglang_kv_coherence", module)
+
+
+def test_recurrent_actual_generated_producer_receipt_joins_consumer_after_all16(tmp_path, monkeypatch):
+    from tests.fast import test_sglang_kv_coherence as producer
+    from tests.manual.agent_opd import sglang_kv_coherence as coherence
+
+    task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+    original = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+    actual_workload = probe._recurrent_workload(original, [1693, 1695])
+    composed = producer.composed.__wrapped__(tmp_path / "source", monkeypatch)
+    prepared, nested, preparer_calls = producer._prepare_di(
+        composed, tmp_path / "preparation", monkeypatch,
+        recurrent_input_counts=actual_workload["recurrent_input_counts"],
+        recurrent_common_rows=actual_workload["recurrent_common_rows"])
+    assert len(preparer_calls) == 1 and prepared["native_observer"] is nested
+    runtime_bytes = (composed / coherence._RUNTIME).read_bytes()
+    assert hashlib.sha256(runtime_bytes).hexdigest() == prepared["manifest"]["runtime_sha256"]
+    runtime = ModuleType("cpu_recurrent_producer_consumer_contract")
+    exec(compile(runtime_bytes, coherence._RUNTIME, "exec"), vars(runtime))
+    toy, full, conv, temporal = producer._recurrent_toy(monkeypatch)
+    # Reuse producer's reduced geometry/device DI with the actual generated methods.
+    # This is schema/lifecycle evidence, not the production FULL or native ABI gate.
+    collector = runtime.Collector.__new__(runtime.Collector)
+    vars(collector).update(vars(toy))
+    runtime._collector = collector
+    fixture = {"samples": [{**sample, "tokens": tokens, "response_length": 2, "expected_teacher_log_probs": None}
+                          for sample, tokens in zip(original["samples"], (
+                              [10, 11, 12, 13, 14], [10, 11, 91, 92, 93, 94],
+                              [10, 11, 12, 13, 30, 31, 32, 33], [10, 11, 95, 96, 97, 98, 99]))]}
+    workload = probe._recurrent_workload(fixture, [1693, 1695])
+    assert workload["recurrent_input_counts"] == [5, 8] and workload["recurrent_common_rows"] == 2
+    output, local = tmp_path / "readback", tmp_path / "responses"
+    output.mkdir()
+    (output / "completion_scores").mkdir()
+    local.mkdir()
+    scored = []
+
+    def response(method, url, kwargs):
+        if url.endswith("/get_server_info"):
+            assert not scored
+            return b'{"fixture":"CPU transport; no serving process"}', 200
+        if url.endswith("/flush_cache"):
+            return b"Cache flushed", 200
+        sample = next(sample for sample in fixture["samples"] if sample["tokens"] == kwargs["json"]["input_ids"])
+        mode = "full_input" if kwargs["json"]["logprob_start_len"] == 0 else "response_only"
+        assert kwargs["json"] == probe._payload(sample, mode)
+        body = _body(sample, mode)
+        # Opaque response identity is independent of later capture/registration order.
+        body["meta_info"].update(id=f"opaque-cpu-{(len(scored) * 7 + 5) % 16}", num_retractions=0)
+        scored.append(body["meta_info"]["id"])
+        return json.dumps(body).encode(), 200
+
+    _, http_calls, _ = _mock_http(monkeypatch, response)
+    observations = asyncio.run(probe._benchmark(SimpleNamespace(pair="A", repeats=1, request_timeout=17),
+                                               fixture, "mock://teacher", output, local))
+    assert all(observations.values()) and len(scored) == 16
+    assert sum(url.endswith("/flush_cache") for _, url, _ in http_calls) == 10
+    requests = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+    candidates = [row for row in requests if row["sample_index"] in (1693, 1695) and row["mode"] == "full_input"]
+    for case in (candidates[3], candidates[0], candidates[2], candidates[1]):
+        producer._recurrent_capture(collector, conv, temporal, case["native_request_id"], case["input_count"], track=True)
+    publication_rid = candidates[3]["native_request_id"]
+    collector._recurrent_publication(producer._req(publication_rid),
+                                    SimpleNamespace(mamba_value=producer.torch.tensor([1])), collector.start)
+    collector._recurrent_rebind(producer._req(publication_rid), collector.start, SimpleNamespace(
+        last_device_node=19, prefix_len=collector.start, mamba_exist=False, rotation_tail_declined=False))
+    # Existing independent FULL fixture supplies the sole completion/readback boundary.
+    producer._capture_bank(collector, full, "full-one", 2)
+    producer._capture_bank(collector, full, "full-two", 5)
+    for rid in scored[:-1]:
+        collector.finish(producer._req(rid))
+    assert runtime.drain(False)["recurrent_state"]["status"] == "metadata_only"
+    assert runtime.drain(True)["status"] == "unverified" and collector.summary is None
+    collector.finish(producer._req(scored[-1]))
+    emitted = runtime.drain(True)
+    assert emitted["status"] == emitted["recurrent_state"]["status"] == "captured"
+    assert runtime.drain(True) is emitted
+    # Match the real JSON transport boundary; do not fabricate the positive receipt.
+    raw = json.dumps(emitted, allow_nan=False).encode()
+    capture = json.loads(raw)
+    (output / "emitted-receipt.json").write_bytes(raw)
+    metadata = json.loads(json.dumps(_cpu_metadata(dp_rank=None)))
+    metadata["rows"].extend([[sequence, "gdn_snapshot_allocation", [["rids", [case["native_request_id"]]],
+        ["layer_id", 0], ["prefix_lens", [workload["P"]]], ["extend_lens", [case["input_count"] - workload["P"]
+        if case["input_count"] - workload["P"] < collector.rows else collector.rows]]]]
+        for sequence, case in enumerate(candidates, 2)])
+    info = {"dp_size": 1, "tp_size": 4, "pp_size": 1,
+            "internal_states": [{"kv_coherence": capture, "mamba_runtime_metadata": metadata}]}
+    cases = probe._recurrent_cases(requests, output, workload)
+    result = probe._recurrent_states(info, requests, output, workload)
+    probe._write(output / "direct-contract.json", {"status": result["status"], "consumer": result,
+        "actual_workload": actual_workload, "cpu_workload": workload, "runtime_sha256": hashlib.sha256(runtime_bytes).hexdigest(),
+        "emitted_receipt_sha256": hashlib.sha256(raw).hexdigest(), "scoring_requests": len(scored), "flushes": 10,
+        "scope": "Actual generated producer and unmocked consumer; reduced CPU geometry/operator/device DI only"})
+    assert result["status"] == "joined", result
+    assert probe._recurrent_state(capture, metadata, cases, workload)["status"] == "joined"
+    recurrent = capture["recurrent_state"]
+    assert len(recurrent["records"]) == 4 and len(recurrent["comparisons"]) == 10
+    assert len([row for row in recurrent["replays"] if row["kind"] == "control"]) == 8
+    assert len([row for row in recurrent["replays"] if row["kind"] == "shape"]) == 4
+    canonical = [row for row in recurrent["comparisons"] if row.get("kind") == "active-initial/canonical-publication"]
+    assert len(canonical) == 4 and all(row["common_rows"] is None for row in canonical)
+    assert all(row["source_key_join"].startswith("unverified") for row in canonical)
+    assert sum(row["publication"]["canonical_value_status"] == "captured" for row in recurrent["records"]) == 1
+    assert any(row["kind"] == "state-sensitivity" and len(row["compared_rids"]) == 2 for row in recurrent["replays"])
+    assert set(recurrent["comparisons"][0]["components"]) == {
+        "initial_conv", "initial_temporal", "final_conv", "final_temporal", "conv_input", "conv_output",
+        "q", "k", "v", "g", "beta", "output"}
+    assert set(recurrent["records"][0]["descriptors"]["conv_input"]) == {"data_ptr", "shape", "stride", "dtype", "device"}
+    annotations = result["states"][0]["records"]
+    assert [(row["logical_case"]["sample_index"], row["logical_case"]["phase"]) for row in annotations] == [
+        (1695, "warm_stream"), (1693, "cold"), (1693, "warm_stream"), (1695, "cold")]
+    retained = {path: path.read_bytes() for path in (output / "completion_scores").glob("*.json")}
+    assert len(retained) == 16 and json.dumps(capture, allow_nan=False).encode() == raw
+    failures = {}
+    for fault in ("canonical_rows", "canonical_only", "replay_kind", "compared_rid", "missing_metrics"):
+        malformed = copy.deepcopy(info)
+        value = malformed["internal_states"][0]["kv_coherence"]["recurrent_state"]
+        if fault == "canonical_rows":
+            value["comparisons"][-1]["common_rows"] = workload["recurrent_common_rows"]
+        elif fault == "canonical_only":
+            value["comparisons"] = value["comparisons"][-4:]
+        elif fault == "replay_kind":
+            value["replays"][0]["kind"] = "unknown-control"
+        elif fault == "compared_rid":
+            next(row for row in value["replays"] if row["kind"] == "state-sensitivity")["compared_rids"][1] = "wrong-rid"
+        else:
+            value["replays"][0].pop("metrics")
+        before = json.dumps(malformed, allow_nan=False)
+        diagnostic = probe._recurrent_states(malformed, requests, output, workload)
+        assert diagnostic["status"] == "UNVERIFIED", (fault, diagnostic)
+        assert json.dumps(malformed, allow_nan=False) == before
+        assert malformed["internal_states"][0]["kv_coherence"]["status"] == "captured"
+        assert malformed["internal_states"][0]["kv_coherence"]["banks"] == capture["banks"]
+        assert all(path.read_bytes() == content for path, content in retained.items())
+        failures[fault] = diagnostic
+    probe._write(output / "malformed-contracts.json", failures)
+    assert json.dumps(capture, allow_nan=False).encode() == raw and runtime.drain(True) is emitted

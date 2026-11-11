@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="2.585" timestamp="2026-11-11T22:21:28.513116+08:00" hostname="kun-workspace-vgen2"><testcase classname="tests.fast.test_teacher_scoring_probe" name="test_recurrent_actual_generated_producer_receipt_joins_consumer_after_all16" time="1.619"><failure message="AttributeError: 'tuple' object has no attribute 'extend'">tmp_path = PosixPath('/data/ycfeng/tmp/opencode-v2-tmp/opencode/recurrent-consumer-direct-20261111-red/test_recurrent_actual_generate0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f050a360cb0&gt;
+
+    def test_recurrent_actual_generated_producer_receipt_joins_consumer_after_all16(tmp_path, monkeypatch):
+        from tests.fast import test_sglang_kv_coherence as producer
+        from tests.manual.agent_opd import sglang_kv_coherence as coherence
+    
+        task = Path(__file__).resolve().parents[2] / "task_memory/task_2026-11-08_qwen35_full_kl_nll"
+        original = probe._load_samples(task / "teacher_scoring_runtime_metadata_first4_manifest.json", 131072)
+        actual_workload = probe._recurrent_workload(original, [1693, 1695])
+        composed = producer.composed.__wrapped__(tmp_path / "source", monkeypatch)
+        prepared, nested, preparer_calls = producer._prepare_di(
+            composed, tmp_path / "preparation", monkeypatch,
+            recurrent_input_counts=actual_workload["recurrent_input_counts"],
+            recurrent_common_rows=actual_workload["recurrent_common_rows"])
+        assert len(preparer_calls) == 1 and prepared["native_observer"] is nested
+        runtime_bytes = (composed / coherence._RUNTIME).read_bytes()
+        assert hashlib.sha256(runtime_bytes).hexdigest() == prepared["manifest"]["runtime_sha256"]
+        runtime = ModuleType("cpu_recurrent_producer_consumer_contract")
+        exec(compile(runtime_bytes, coherence._RUNTIME, "exec"), vars(runtime))
+        toy, full, conv, temporal = producer._recurrent_toy(monkeypatch)
+        # Reuse producer's reduced geometry/device DI with the actual generated methods.
+        # This is schema/lifecycle evidence, not the production FULL or native ABI gate.
+        collector = runtime.Collector.__new__(runtime.Collector)
+        vars(collector).update(vars(toy))
+        runtime._collector = collector
+        fixture = {"samples": [{**sample, "tokens": tokens, "response_length": 2, "expected_teacher_log_probs": None}
+                              for sample, tokens in zip(original["samples"], (
+                                  [10, 11, 12, 13, 14], [10, 11, 91, 92, 93, 94],
+                                  [10, 11, 12, 13, 30, 31, 32, 33], [10, 11, 95, 96, 97, 98, 99]))]}
+        workload = probe._recurrent_workload(fixture, [1693, 1695])
+        assert workload["recurrent_input_counts"] == [5, 8] and workload["recurrent_common_rows"] == 2
+        output, local = tmp_path / "readback", tmp_path / "responses"
+        output.mkdir()
+        (output / "completion_scores").mkdir()
+        local.mkdir()
+        scored = []
+    
+        def response(method, url, kwargs):
+            if url.endswith("/get_server_info"):
+                assert not scored
+                return b'{"fixture":"CPU transport; no serving process"}', 200
+            if url.endswith("/flush_cache"):
+                return b"Cache flushed", 200
+            sample = next(sample for sample in fixture["samples"] if sample["tokens"] == kwargs["json"]["input_ids"])
+            mode = "full_input" if kwargs["json"]["logprob_start_len"] == 0 else "response_only"
+            assert kwargs["json"] == probe._payload(sample, mode)
+            body = _body(sample, mode)
+            # Opaque response identity is independent of later capture/registration order.
+            body["meta_info"].update(id=f"opaque-cpu-{(len(scored) * 7 + 5) % 16}", num_retractions=0)
+            scored.append(body["meta_info"]["id"])
+            return json.dumps(body).encode(), 200
+    
+        _, http_calls, _ = _mock_http(monkeypatch, response)
+        observations = asyncio.run(probe._benchmark(SimpleNamespace(pair="A", repeats=1, request_timeout=17),
+                                                   fixture, "mock://teacher", output, local))
+        assert all(observations.values()) and len(scored) == 16
+        assert sum(url.endswith("/flush_cache") for _, url, _ in http_calls) == 10
+        requests = [json.loads(line) for line in (output / "requests.jsonl").read_text().splitlines()]
+        candidates = [row for row in requests if row["sample_index"] in (1693, 1695) and row["mode"] == "full_input"]
+        for case in (candidates[3], candidates[0], candidates[2], candidates[1]):
+            producer._recurrent_capture(collector, conv, temporal, case["native_request_id"], case["input_count"], track=True)
+        publication_rid = candidates[3]["native_request_id"]
+        collector._recurrent_publication(producer._req(publication_rid),
+                                        SimpleNamespace(mamba_value=producer.torch.tensor([1])), collector.start)
+        collector._recurrent_rebind(producer._req(publication_rid), collector.start, SimpleNamespace(
+            last_device_node=19, prefix_len=collector.start, mamba_exist=False, rotation_tail_declined=False))
+        # Existing independent FULL fixture supplies the sole completion/readback boundary.
+        producer._capture_bank(collector, full, "full-one", 2)
+        producer._capture_bank(collector, full, "full-two", 5)
+        for rid in scored[:-1]:
+            collector.finish(producer._req(rid))
+        assert runtime.drain(False)["recurrent_state"]["status"] == "metadata_only"
+        assert runtime.drain(True)["status"] == "unverified" and collector.summary is None
+        collector.finish(producer._req(scored[-1]))
+        emitted = runtime.drain(True)
+        assert emitted["status"] == emitted["recurrent_state"]["status"] == "captured"
+        assert runtime.drain(True) is emitted
+        # Match the real JSON transport boundary; do not fabricate the positive receipt.
+        raw = json.dumps(emitted, allow_nan=False).encode()
+        capture = json.loads(raw)
+        (output / "emitted-receipt.json").write_bytes(raw)
+        metadata = _cpu_metadata(dp_rank=None)
+&gt;       metadata["rows"].extend([[sequence, "gdn_snapshot_allocation", [["rids", [case["native_request_id"]]],
+        ^^^^^^^^^^^^^^^^^^^^^^^
+            ["layer_id", 0], ["prefix_lens", [workload["P"]]], ["extend_lens", [case["input_count"] - workload["P"]
+            if case["input_count"] - workload["P"] &lt; collector.rows else collector.rows]]]]
+            for sequence, case in enumerate(candidates, 2)])
+E       AttributeError: 'tuple' object has no attribute 'extend'
+
+tests/fast/test_teacher_scoring_probe.py:2409: AttributeError</failure></testcase></testsuite></testsuites>

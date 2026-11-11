@@ -81,3 +81,15 @@ All staged source, configuration, Markdown and inventories remain in the check. 
 `git push --atomic --set-upstream origin agent-opd-h800-capacity agent-opd-image` created both branches; `git ls-remote --heads origin agent-opd-h800-capacity agent-opd-image` confirmed9f5a4bfe4e159d57894b8947a45ef667f9d7c4fd for capacity and6db1d79af40fb40f9c510738ebe1c9d92dafb1aa for image, equal to both local source HEADs. `git status --short -uno` was empty immediately after publication. During final record creation, the original image task changed6 Markdown files; include those small documentation changes and2 fresh JSON receipts in the final archive commit. Scoped `git diff --check` passed. No new production behavior or test case was introduced.
 
 Final commands are `git push --atomic origin agent-opd-h800-capacity agent-opd-image`, `git ls-remote --heads origin agent-opd-h800-capacity agent-opd-image`, `git rev-parse HEAD`, `git rev-parse --abbrev-ref @{upstream}`, and `git status --short -uno`; final commit equality is checked and reported in the session after the archive commit.
+
+## Concurrent New WIP Test
+
+The original task added a direct producer/consumer test after the initial publication. Exact check:
+
+```bash
+env TMPDIR=/data/ycfeng/tmp PYTHONDONTWRITEBYTECODE=1 timeout 60s /data/ycfeng/envs/miles-agent-opd-cpu/bin/python -B -m pytest tests/fast/test_teacher_scoring_probe.py::test_recurrent_actual_generated_producer_receipt_joins_consumer_after_all16 -q -p no:cacheprovider --basetemp=/data/ycfeng/tmp/sync-worktrees-20261111-latest-test --junitxml=task_memory/task_2026-11-11_sync_github_worktrees/pytest_latest.xml
+```
+
+Expected: test completes its reduced CPU producer/consumer fixture. Actual:1 FAIL in3.01s, exit1; `metadata["rows"]` is a tuple and the new fixture calls `.extend`, raising `AttributeError` at test_teacher_scoring_probe.py:2409. Preserve this WIP test and failure XML; no current all-tests-green or native correctness claim is made. This test's implementation belongs to the ongoing original task.
+
+At22:20:48+08 both committed HEADs still equaled live GitHub refs, but new tracked edits appeared in image. Save and push those latest edits with this report, then query live refs once more. Synchronization refers to the observed saved snapshot, not future writes by the continuing original task.
