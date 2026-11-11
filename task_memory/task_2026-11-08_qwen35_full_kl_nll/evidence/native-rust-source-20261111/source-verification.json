@@ -1,0 +1,202 @@
+{
+  "modification_history": [
+    {"date": "2026-11-11", "change": "Verify retained source, production binding receipts and zero-GPU lifecycle without changing raw evidence or inferring a binary source commit."}
+  ],
+  "task_id": "profile-rust-cache-source-provenance-20261111",
+  "status": "PASS",
+  "scope": "Local retained-artifact verification; native pre-split acceptance not assessed.",
+  "primary_acceptance": {
+    "retained_source_and_provenance": "ACCEPTED after exact report replay and input receipt hash reconciliation",
+    "pre_split_observer_and_numeric_capture": "NOT_ACCEPTED",
+    "formal_04_05": "HOLD"
+  },
+  "source_root": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-rust-source-20261111",
+  "source_archive": "exp-1111-124522-553024",
+  "local_python": "3.10.6",
+  "worker_python": "3.12.16",
+  "worker_executable": "/opt/sglang/bin/python3",
+  "verification_execution": {
+    "command": "python3 -B -",
+    "retained_script": "test_report_2026-11-11_rust_binding_source.md:first python fenced block",
+    "replay_expected_match": "PASS",
+    "input_receipt_hashes_and_sizes": "PASS",
+    "critical_crate_hashes_and_sizes": "PASS",
+    "worker_binary_receipt_field_reconciliation": "PASS",
+    "report_line_limit": 160
+  },
+  "inputs": {
+    "exp-1111-124522-553024/source.json": {"bytes": 237364, "sha256": "b4d43779e0a6801772d4bc81c5cf73dee4ff8aaff489eee5d2a81fc74061003b"},
+    "submission.json": {"bytes": 9444, "sha256": "cf2c61f9c8f99b2c4bc424e2437d2f10df9a891d060ffda32b5f8aa1bd4e3e03"},
+    "terminal.json": {"bytes": 422, "sha256": "8431970f5371dab0b0c3abfd86ee3e9eb91ce0b02fbfda76a999e2fed2bb84d7"},
+    "platform-verification.json": {"bytes": 1500, "sha256": "90b4f7c3a7038ec790a0d891c5be1d4cfa960fceeb41a406618d828825085916"},
+    "worker.py": {"bytes": 8147, "sha256": "c8b67896ad11b846c42cf126f46c17045801f25165b5e2f8372ee0524a6c5b3f"}
+  },
+  "retained_files": {
+    "expected": 621,
+    "actual": 621,
+    "unique_paths": 621,
+    "sha256_size_matches": 621,
+    "bytes": 13491926,
+    "rust_rows": 567,
+    "copied_native_binaries": 0,
+    "failures": []
+  },
+  "original_archive": {
+    "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437",
+    "files": 5501,
+    "sha256_size_matches": 5501,
+    "bytes": 79478292,
+    "rust_rows": 0,
+    "selector_includes_rs": false,
+    "image_version_package_matches": true,
+    "generated_version": "0.5.24.dev80+g056f871",
+    "generated_python_commit_label": "g056f871",
+    "failures": []
+  },
+  "distribution": {
+    "version": "0.5.24.dev80+g056f871",
+    "metadata_version_matches_original_and_generated_version": true,
+    "metadata_location": "/opt/sglang/lib/python3.12/site-packages/sglang-0.5.24.dev80+g056f871.dist-info",
+    "editable": true,
+    "direct_url": "file:///sgl-workspace/sglang/python",
+    "wheel_tag": "py3-none-any",
+    "wheel_tag_attests_native_binary_build": false
+  },
+  "selected_source_comparison": {
+    "checkout_head": "056f871a7ee8b4573832049011f0fdf52589cfd8",
+    "environment_build_commit_label": "297e54fd105e974cdf401e5b4d20253a22c16f90",
+    "candidate_objects_available_in_worker_receipt": true,
+    "worker_scoped_git_status": "",
+    "worker_last_rust_change": "297e54fd105e974cdf401e5b4d20253a22c16f90",
+    "files_per_tree": 206,
+    "rust_files_per_tree": 189,
+    "bytes_per_tree": 4494866,
+    "checkout_vs_head": {"missing": [], "extra": [], "changed": []},
+    "head_vs_environment_candidate": {"missing": [], "extra": [], "changed": []},
+    "all_selected_source_bytes_identical": true,
+    "all_file_loader_source_digest_equality": "NOT_ASSERTED",
+    "fingerprint_format": "SHA-256 of UTF-8 canonical JSON mapping relative path to {bytes,sha256}, sort_keys=true, separators=(',',':')."
+  },
+  "radix_crate": {
+    "path": "checkout/rust/sglang-radix-tree",
+    "package": "sglang-radix-tree",
+    "declared_package_version": "0.1.0",
+    "declared_library": "mem_cache",
+    "declared_crate_type": "cdylib",
+    "declared_python_module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+    "declared_features": ["python-extension"],
+    "isolated_workspace": true,
+    "parent_workspace_extension_manifest": "sglang-radix-tree/Cargo.toml",
+    "files": 22,
+    "rust_files": 19,
+    "bytes": 1516440,
+    "explicit_rust_path_references": 8,
+    "missing_explicit_rust_path_references": [],
+    "build_rs_files": 0,
+    "literal_include_macros": 0,
+    "declared_external_source_inputs": [],
+    "declared_path_dependencies": [],
+    "concrete_missing_inputs_for_selected_crate_inspection": [],
+    "declared_lock_versions": {"sglang-radix-tree": "0.1.0", "pyo3": "0.29.2", "tch": "0.24.0", "torch-sys": "0.24.0"},
+    "lock_versions_attest_compiled_dependencies": false,
+    "critical_files": {
+      "Cargo.toml": {"bytes": 1214, "sha256": "3b69d62195db3c1e1d9c0da0e4c355f444e68cebfb11354dde9ca6f0b9ddb2f3"},
+      "Cargo.lock": {"bytes": 22141, "sha256": "361d0a6948c2a3c178fc6b07eb9a2321a44b21d41fc14929e672a0bd1ae9e4da"},
+      "torch_compat.h": {"bytes": 2361, "sha256": "f619ac5d2a4b279a1808d6588118872de0800c954a8e0a97888460bd80cfdc71"}
+    }
+  },
+  "wider_rust_tree_limitations": {
+    "selection": [".rs", ".toml", ".lock", ".h", ".hpp", ".cpp", ".cc", "rust-toolchain*"],
+    "missing_literal_includes_outside_selected_crate": [
+      {"source": "sglang-api-types/tests/json_parity.rs:11", "input": "sglang-api-types/testdata/json_parity.json"},
+      {"source": "sglang-server/src/api_server/core/frame.rs:466", "input": "sglang-server/testdata/frame_metadata.json"},
+      {"source": "sglang-server/src/api_server/core/metrics.rs:702", "input": "sglang-server/testdata/tokenizer_metrics.json"},
+      {"source": "sglang-server/src/api_server/http/loads.rs:405", "input": "sglang-server/testdata/load_snapshot.json"},
+      {"source": "sglang-server/src/utils/prometheus.rs:605", "input": "sglang-server/testdata/prometheus_multiprocess.json"}
+    ],
+    "radix_observer_gate_from_other_crate_fixtures": false,
+    "hermetic_build_or_vendor_archive": false
+  },
+  "loaded_binding_observation": {
+    "evidence": "exp-1111-124522-553024/source.json.loaded_binding",
+    "module": "sglang.srt.mem_cache.rust_tree_core.mem_cache",
+    "origin": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/rust_tree_core/mem_cache.cpython-312-x86_64-linux-gnu.so",
+    "bundled": true,
+    "bytes": 3399272,
+    "sha256": "2c1e54965c8139358df1ef2a7751620c339ad1ff4988cee54cc35467a8b90f6c",
+    "gnu_build_id": "849599cc340045a6ed34eb52de0fdc2a3ff9a236",
+    "binary_retained_locally": false,
+    "binary_rehashed_locally": false,
+    "module_version": null,
+    "torch_version": "2.14.1+cu130",
+    "torch_cxx11_abi": true,
+    "cuda_initialized_after_load": false,
+    "native_binary_source_commit": "UNVERIFIED"
+  },
+  "compiler_hints": {
+    "binary_comment_rustc": "1.99.1 (58cf8f9c3 2026-10-13)",
+    "installed_rustc_commit": "58cf8f9c35b355199727627d07ae34a4e2846d67",
+    "installed_cargo_version": "1.99.1",
+    "installed_cargo_commit": "5f94df4789f005f9a352888e8355ffc645b7ed0e",
+    "declared_workspace_toolchain_channel": "1.92",
+    "direct_installed_binaries_queried_by_worker": true,
+    "rustup_downloads": false,
+    "hints_attest_binary_source_commit": false,
+    "previous_absolute_build_path_commit_inference": "WITHDRAWN"
+  },
+  "lifecycle_reconciliation": {
+    "status": "PASS",
+    "local_filtered_evidence": "platform-verification.json",
+    "job": "exp-1111-124522-553024",
+    "uid": "b85fb8fd-6418-4a0b-97d0-876abf864315",
+    "creator": "i-fengyicheng",
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+    "actual_container_limits": {"cpu": "2", "memory": "8000Mi", "nvidia.com/gpu": "0"},
+    "replicas": 1,
+    "replica_owner_uid_matches_job": true,
+    "job_phase": "Succeeded",
+    "replica_phase": "Succeeded",
+    "source_container_reason": "Completed",
+    "source_container_exit_code": 0,
+    "source_container_restarts": 0,
+    "source_container_finished_at": "2026-11-11T04:46:41Z",
+    "job_finished_at": "2026-11-11T04:46:43Z",
+    "native_execution_succeeded": true,
+    "this_agent_live_platform_calls": 0
+  },
+  "replay_expected": {
+    "files": 621,
+    "rust_rows": 567,
+    "source_bytes": 13491926,
+    "original_files": 5501,
+    "original_bytes": 79478292,
+    "artifact_map_sha256": "196c50d483b6c9a35750afb52b6c1acc06a390900c1065d4fee03c5d80b39001",
+    "workspace_files": 206,
+    "workspace_map_sha256": "1062188e9d6414a7d4921dfdda1b0b55747fd25ebc06037a9d07d3fea0da3229",
+    "radix_files": 22,
+    "radix_map_sha256": "7724cf68db0c73211bfee5dfe1e7af5d122cf43a0a16739e88d13c62ce854f4a",
+    "candidate_revisions": ["056f871a7ee8b4573832049011f0fdf52589cfd8", "297e54fd105e974cdf401e5b4d20253a22c16f90"],
+    "all_selected_sources_equal": true,
+    "other_crate_missing_includes": ["sglang-api-types/testdata/json_parity.json", "sglang-server/testdata/frame_metadata.json", "sglang-server/testdata/load_snapshot.json", "sglang-server/testdata/prometheus_multiprocess.json", "sglang-server/testdata/tokenizer_metrics.json"],
+    "platform": "PASS",
+    "binary_source_commit": "UNVERIFIED"
+  },
+  "checkpoint": {
+    "followup_hash_size_and_source_comparison": "PASS",
+    "D1": "CLEAR", "D2": "CLEAR", "D3": "CLEAR", "D4": "CLEAR", "D5": "CLEAR", "D6": "CLEAR", "D7": "CLEAR",
+    "S1": "CLEAR", "S2": "CLEAR", "S3": "CLEAR", "S4": "CLEAR", "S5": "HIT: parent plan/ticket status text retains historical Running/pending WIT versus progress.md:194 accepted evidence; primary owns reconciliation.", "S6": "CLEAR",
+    "route": "Deliver two owned local artifacts; independent analyzer owns actual walker/seam qualification; parent records remain untouched."
+  },
+  "acceptance_limits": {
+    "source_abi": "DECLARED candidate source ABI only; successful production import is not a pre-split observer test.",
+    "pre_split_original_full_tensor_readiness": "NOT_ASSESSED",
+    "native_binary_rebuild_equivalence": "NOT_ASSESSED",
+    "cargo_build_performed": false,
+    "kv_capture_performed": false,
+    "existing_cpp_wit_acceptance": "UNCHANGED",
+    "warm_failure": "UNCHANGED",
+    "formal_04_05": "HOLD",
+    "shared_source_or_task_records_modified": false
+  }
+}

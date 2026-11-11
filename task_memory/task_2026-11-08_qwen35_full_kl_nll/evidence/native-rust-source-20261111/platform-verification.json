@@ -1,0 +1,56 @@
+{
+  "job": "exp-1111-124522-553024",
+  "uid": "b85fb8fd-6418-4a0b-97d0-876abf864315",
+  "creator": "i-fengyicheng",
+  "status": {
+    "phase": "Succeeded",
+    "reason": "RJobSucceeded",
+    "message": "RJob succeeded",
+    "taskStatuses": {
+      "source": {
+        "succeeded": 1,
+        "taskStage": "stepmind-task-stage-1"
+      }
+    },
+    "finishTime": "2026-11-11T04:46:43Z",
+    "taskStage": "stepmind-task-stage-1"
+  },
+  "tasks": {
+    "source": {
+      "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng",
+      "containers": [
+        {
+          "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+          "limits": {
+            "cpu": "2",
+            "memory": "8000Mi",
+            "nvidia.com/gpu": "0"
+          }
+        }
+      ]
+    }
+  },
+  "replicas": [
+    {
+      "name": "exp-1111-124522-553024-cfcd2084",
+      "owner_uid_matches_job": true,
+      "phase": "Succeeded",
+      "containers": [
+        {
+          "name": "source",
+          "restart_count": 0,
+          "state": {
+            "terminated": {
+              "exitCode": 0,
+              "reason": "Completed",
+              "startedAt": "2026-11-11T04:46:24Z",
+              "finishedAt": "2026-11-11T04:46:41Z",
+              "containerID": "containerd://bd3c4ac8088c581b03a87fd98c899f5b7b0259e7981f13a3690097c4efd30b04"
+            }
+          },
+          "last_state": {}
+        }
+      ]
+    }
+  ]
+}

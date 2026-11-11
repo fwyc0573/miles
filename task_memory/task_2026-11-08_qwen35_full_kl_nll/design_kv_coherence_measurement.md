@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Accept zero-GPU Rust source/provenance retention and identical candidate inputs; separate the completed source dependency from pending original-tensor observer, producer and runtime qualification. |
 | 2026-11-11 | Consume accepted A/B native CPP witnesses; specify RID-bound two-bank payload/index captures, exact budgets, post-loop drain, physical alignment checks and bounded CPU/native qualification. |
 | 2026-11-11 | Correct the executable OLD seam: both native runs use RustUnifiedTreeCore, not the Python insert walker. Mark original pre-split OLD capture BLOCKED on the version-matched Rust implementation/observer, without changing backend or substituting a post-insert measurement. |
 | 2026-11-11 | Bind A's partial-overlap target independently from its original native RID and unique checkpoint receipt keys. |
@@ -12,9 +13,9 @@
 
 # KV coherence measurement proposal
 
-Status: **A/B bounded CPP witnesses ACCEPTED; selection/budget/FRESH/readback protocol specified; executable original pre-split OLD capture BLOCKED on the actual Rust backend seam. Payload capture and formal 04/05 remain unaccepted.**
+Status: **A/B bounded CPP witnesses and retained Rust source/provenance ACCEPTED; selection/budget/FRESH/readback protocol specified; executable original pre-split OLD capture BLOCKED on the actual Rust observer, producer and runtime qualification. Payload capture and formal 04/05 remain unaccepted.**
 
-TaskID: `profile-kv-recurrent-coherence-measurement-design-20261111`. This revision edits only this design. It consumes primary acceptance of the native witnesses, not authorization to implement or run a numerical collector. Requirements/plan were reread without editing: `requirements.md:82` and `plan.md:60` now record the accepted WIT/design frontier; older running-witness entries remain history.
+TaskID: `profile-kv-recurrent-coherence-measurement-design-20261111`. This design consumes primary acceptance of the bounded native witnesses and retained Rust source/provenance, not authorization to run a numerical collector. Shared requirements/plan are maintained by their existing owner; older running-witness entries remain history.
 
 This is D40 correctness RCA, not a new training/evaluation population, cache fallback or science change. Rank the remaining candidates as: (1) canonical KV payload versus the current recurrent trajectory; (2) erroneous live varlen checkpoint values despite the selected-FP32 path; (3) slot lifetime or GPU ordering. Index-storage ownership is not KV-payload truth. This revision does not re-audit or change the earlier H_index disposition.
 
@@ -92,16 +93,18 @@ Decisive actual-path evidence:
 - `M/unified_cache/tree_core_registry.py:153-168` constructs Python and Rust separately.
 - `M/rust_tree_core/adapter.py:308` implements `UnifiedTreeCoreInterface`, not Python `UnifiedTreeCore`; `801-829` calls the native binding's begin/resume directly. Therefore a Python `_insert_walk_step` patch produces no valid OLD evidence.
 - `adapter.py:524-531` raises `NotImplementedError` for `node_by_id`/`root_node`; `796-799` exposes collected path indices, not a demonstrated original pre-split per-node tensor.
-- `M/rust_tree_core/extension.py:11-29,33-39` loads `sglang.srt.mem_cache.rust_tree_core.mem_cache`; the corresponding crate is repository `rust/sglang-radix-tree`. The retained installed-package tree contains no `.rs` source. Its 5,501 files close the Python/Cython/allocator omissions, not this native Rust observer.
+- `M/rust_tree_core/extension.py:11-29,33-39` loads `sglang.srt.mem_cache.rust_tree_core.mem_cache`; the corresponding crate is repository `rust/sglang-radix-tree`. The original 5,501-file Python-package archive excluded `.rs`; that selection never proved absence on the worker.
+- Zero-GPU `exp-1111-124522-553024` now retains the Rust workspace under `evidence/native-rust-source-20261111/exp-1111-124522-553024/checkout/rust/`. Primary accepted 621/621 retained hash/size checks, the original 5,501 unchanged files and the filtered GPU0/Completed0/restart0 platform proof. Checkout and both Git candidates (`056f871a7ee8b4573832049011f0fdf52589cfd8`, `297e54fd105e974cdf401e5b4d20253a22c16f90`) have identical 206 selected inputs; the isolated radix crate has 22 files/19 Rust files with no concrete missing source input. See [source report](test_report_2026-11-11_rust_binding_source.md) and [verification](evidence/native-rust-source-20261111/source-verification.json).
+- The production bundled `.so` was actually loaded without CUDA initialization: 3,399,272 bytes, SHA-256 `2c1e54965c8139358df1ef2a7751620c339ad1ff4988cee54cc35467a8b90f6c`, GNU build ID `849599cc340045a6ed34eb52de0fdc2a3ff9a236`. Binary source commit remains **UNVERIFIED**: paths/compiler strings and differing checkout/base labels do not identify it. `SGLANG_RUST_BUILD_MODE=never` trusts the bundled module; Rust source edits alone would not execute. Source retention and successful import are not observer/runtime acceptance.
 
-**Minimal missing dependency:** version-matched source/ABI of that bundled Rust binding's insert walker and FULL tensor handling, plus a verified existing or purpose-specific observation seam that supplies the original FULL tensor, absolute range and insert context before split/free. The native source must also establish the original index tensor's producer/dependency and that the observer executes on the scheduler's S thread; a callback location or held tensor reference alone does not prove readiness of a native clone on an unknown stream. Do not invent a getter or assume inspection-only APIs exist in production. The test-only inspection extension is a different module and is not an approved backend replacement.
+**Remaining dependency:** qualify the retained native insert/FULL implementation and an existing or purpose-specific production observer that supplies the original FULL tensor, absolute range and insert context before split/free. Establish the original index tensor's producer/dependency and execution on the scheduler's S thread; a callback location or held tensor reference alone does not prove readiness of a native clone on an unknown stream. Any new native ABI requires its own compile and behavior checks. Do not invent a getter, substitute a concatenated path for the original tensor, or use the test-only inspection extension as a backend replacement. No further source collector is indicated by the selected radix inputs.
 
 Primary choices, neither performed here:
 
-1. Close this bounded native dependency and qualify an inline observer on the same S thread before the original split/actions, without changing key decisions, locks, waits or cache policy. Then validate the unchanged native outputs after installing the diagnostic overlay.
+1. Use the retained native sources to qualify an inline observer on the same S thread before the original split/actions, without changing key decisions, locks, waits or cache policy. Then validate the unchanged native outputs after installing the diagnostic overlay.
 2. Explicitly approve a different measurement question using post-insert actually adopted canonical slots through existing collected indices. That is not the required original pre-split measurement; provenance/lifetime would need its own qualification. Do not silently substitute it.
 
-Until choice1 is qualified or the question is explicitly revised, the two-sided native numerical arm is **BLOCKED**. No new source collector, inspection run, payload probe or code implementation is executed by this design task.
+Until choice1 is qualified or the question is explicitly revised, the two-sided native numerical arm is **BLOCKED**. The completed zero-GPU source read did not perform a payload probe, observer implementation or backend change.
 
 ## Existing dependency and slot-lifetime argument
 
@@ -177,15 +180,15 @@ Native arm conditions: OLD seam/source and same-S call path qualified; prepared 
 
 ## Readiness, records and scope checkpoint
 
-Completed prerequisites: primary-accepted WIT A/B, actual selected allocator/CPP streams, published host context and source-level root/child topology. Specified deliverables: selection, two-bank budgets, FRESH/indices, desired OLD range, physical checks, after-all transport/readout and falsifiable interpretations. Remaining implementation work is not acceptance evidence.
+Completed prerequisites: primary-accepted WIT A/B, actual selected allocator/CPP streams, published host context, source-level root/child topology and retained Rust source/provenance. Specified deliverables: selection, two-bank budgets, FRESH/indices, desired OLD range, physical checks, after-all transport/readout and falsifiable interpretations. Remaining observer qualification and implementation work are not acceptance evidence.
 
-**Critical blocker:** actual Rust original-node/pre-split observer is not available in the retained source/API. Resolve only that version-matched dependency or obtain an explicit revised measurement decision; do not repeat launcher/FFI/source-fragment investigations or switch cache backends. No source collector/fetch/run was performed in this revision. Accepted WIT completion is already reflected in shared requirements/plan; the newly identified Rust dependency should be reflected there by the primary. This agent does not edit those records.
+**Critical blocker:** the actual Rust original-node/pre-split observer and producer/thread/lifetime contract remain unqualified. The Rust source dependency is now retained and accepted; do not repeat launcher/FFI/source-fragment investigations, switch backends or reset accepted CPP witnesses. Qualify the required original-tensor observer from these sources, or obtain an explicit revised measurement decision. Shared records must distinguish completed source retention from pending observer/API/readiness; their existing owner handles that synchronization.
 
-Source-reference validation, candidate cardinality and budget arithmetic were checked offline without importing Torch/SGLang or re-running numerical suites. No supporting report/archive was created. Self-check frontier is D40's bounded diagnostic: no GPU collector, platform/auth action, delegation, code/shared-doc edit or unrelated audit was performed. Earlier progress checkpoints remain history, not current payload approval.
+The original design-only validation checked source references, candidate cardinality and budget arithmetic offline without Torch/SGLang imports or numerical suites. The later zero-GPU source report/archive and primary replay establish retained-source/provenance acceptance only. Self-check frontier remains D40's original-tensor diagnostic; no payload capture or formal correctness acceptance follows from either check. Earlier progress checkpoints remain history.
 
 ### Offline verification of this revision
 
-Environment: local host, workspace worktree, Python3.10.6; standard-library-only script from stdin. Expected: existing evidence links/source paths, two distinct candidate RIDs in each16-row request file, phases cold/warm_stream, sample1695/position2, integer retraction0, and the stated memory arithmetic. Actual: **PASS**, five evidence links present; both pair candidate checks pass; A total514.375 MiB, B321.625 MiB; no retained Rust source. This is not collector CPU/native qualification or vector re-verification.
+Environment: local host, workspace worktree, Python3.10.6; standard-library-only script from stdin. Expected: existing evidence links/source paths, two distinct candidate RIDs in each16-row request file, phases cold/warm_stream, sample1695/position2, integer retraction0, and the stated memory arithmetic. Actual: **PASS**, originally five evidence links; the updated design includes two source-verification links. Both pair candidate checks pass; A total514.375 MiB, B321.625 MiB. The original 5,501-file archive still excludes Rust; the new native archive is independently verified by the linked report. This is not collector CPU/native qualification or vector re-verification.
 
 Initial audit assumptions failed with `KeyError: 'input_token_count'` and a phase `AssertionError` from assuming `cold_request`. Raw-field inspection established the actual `input_count` and phase `cold`; the corrected audit passes. These were offline checker/schema corrections, not teacher/runtime fixes.
 
