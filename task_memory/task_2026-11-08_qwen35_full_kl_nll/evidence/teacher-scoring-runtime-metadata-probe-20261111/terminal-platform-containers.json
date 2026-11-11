@@ -1,0 +1,310 @@
+{
+  "observed_at": "2026-11-10T23:56:25.694462+00:00",
+  "method": "read-only exact-name personal SDK CR/replica inspection; selected status/resources/mounts only; no credential environment archived",
+  "jobs": [
+    {
+      "pair": "A",
+      "job": "exp-1111-073826-369716",
+      "creator": "i-fengyicheng",
+      "job_status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "probe": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-10T23:48:55Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replica": "exp-1111-073826-369716-cfcd2084",
+      "replica_status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:38:28Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:48:54Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:48:54Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:38:28Z"
+          }
+        ],
+        "hostIP": "10.191.6.68",
+        "podIP": "100.102.169.66",
+        "podIPs": [
+          {
+            "ip": "100.102.169.66"
+          }
+        ],
+        "startTime": "2026-11-10T23:38:28Z",
+        "containerStatuses": [
+          {
+            "name": "probe",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-10T23:43:40Z",
+                "finishedAt": "2026-11-10T23:48:53Z",
+                "containerID": "containerd://47729da86a9a0fc743b456c843ae791bd7b3d1485bbc25447a178be3bde25c8a"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://47729da86a9a0fc743b456c843ae791bd7b3d1485bbc25447a178be3bde25c8a",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Succeeded",
+        "nodeName": "gpu-h800-0528.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-10T23:48:55Z"
+      },
+      "containers": [
+        {
+          "name": "probe",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            },
+            "requests": {
+              "cpu": "32",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            }
+          },
+          "volume_mounts": [
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_id",
+              "subPath": "accesskey_id"
+            },
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_secret",
+              "subPath": "accesskey_secret"
+            },
+            {
+              "name": "dshm",
+              "mountPath": "/dev/shm"
+            },
+            {
+              "name": "tmp-0",
+              "mountPath": "/tmp"
+            },
+            {
+              "name": "client-tools",
+              "readOnly": true,
+              "mountPath": "/kubebrain",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutils",
+              "readOnly": true,
+              "mountPath": "/jobutils",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "host-config",
+              "readOnly": true,
+              "mountPath": "/host-config",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutil-config",
+              "readOnly": true,
+              "mountPath": "/jobutil"
+            },
+            {
+              "name": "hostpath",
+              "mountPath": "/mnt/host0"
+            }
+          ]
+        }
+      ],
+      "source_volumes": [],
+      "source_annotation": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-073825-734134",
+      "creator": "i-fengyicheng",
+      "job_status": {
+        "phase": "Succeeded",
+        "reason": "RJobSucceeded",
+        "message": "RJob succeeded",
+        "taskStatuses": {
+          "probe": {
+            "succeeded": 1,
+            "taskStage": "stepmind-task-stage-1"
+          }
+        },
+        "finishTime": "2026-11-10T23:42:03Z",
+        "taskStage": "stepmind-task-stage-1"
+      },
+      "replica": "exp-1111-073825-734134-cfcd2084",
+      "replica_status": {
+        "conditions": [
+          {
+            "type": "Initialized",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:38:28Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "Ready",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:42:02Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "ContainersReady",
+            "status": "False",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:42:02Z",
+            "reason": "PodCompleted"
+          },
+          {
+            "type": "PodScheduled",
+            "status": "True",
+            "lastProbeTime": null,
+            "lastTransitionTime": "2026-11-10T23:38:27Z"
+          }
+        ],
+        "hostIP": "10.191.4.32",
+        "podIP": "100.96.127.62",
+        "podIPs": [
+          {
+            "ip": "100.96.127.62"
+          }
+        ],
+        "startTime": "2026-11-10T23:38:28Z",
+        "containerStatuses": [
+          {
+            "name": "probe",
+            "state": {
+              "terminated": {
+                "exitCode": 0,
+                "reason": "Completed",
+                "startedAt": "2026-11-10T23:38:45Z",
+                "finishedAt": "2026-11-10T23:42:02Z",
+                "containerID": "containerd://34d56cb05e0955413ec26fbdd5f5dd8777b9035c9371df43dfb1dacf63c4aefc"
+              }
+            },
+            "lastState": {},
+            "ready": false,
+            "restartCount": 0,
+            "image": "sha256:b58475dbbe8386648157b485da7cc6984d12a3f4f436498c3f448f64c25867c0",
+            "imageID": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+            "containerID": "containerd://34d56cb05e0955413ec26fbdd5f5dd8777b9035c9371df43dfb1dacf63c4aefc",
+            "started": false
+          }
+        ],
+        "qosClass": "Guaranteed",
+        "phase": "Succeeded",
+        "nodeName": "gpu-h800-0415.host.platform.shaipower.com",
+        "finishTimestamp": "2026-11-10T23:42:03Z"
+      },
+      "containers": [
+        {
+          "name": "probe",
+          "resources": {
+            "limits": {
+              "cpu": "32",
+              "mellanox.com/mlnx_rdma": "1",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            },
+            "requests": {
+              "cpu": "32",
+              "memory": "250Gi",
+              "nvidia.com/gpu": "4"
+            }
+          },
+          "volume_mounts": [
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_id",
+              "subPath": "accesskey_id"
+            },
+            {
+              "name": "auth-info",
+              "readOnly": true,
+              "mountPath": "/.auth/accesskey_secret",
+              "subPath": "accesskey_secret"
+            },
+            {
+              "name": "dshm",
+              "mountPath": "/dev/shm"
+            },
+            {
+              "name": "tmp-0",
+              "mountPath": "/tmp"
+            },
+            {
+              "name": "client-tools",
+              "readOnly": true,
+              "mountPath": "/kubebrain",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutils",
+              "readOnly": true,
+              "mountPath": "/jobutils",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "host-config",
+              "readOnly": true,
+              "mountPath": "/host-config",
+              "mountPropagation": "None"
+            },
+            {
+              "name": "jobutil-config",
+              "readOnly": true,
+              "mountPath": "/jobutil"
+            },
+            {
+              "name": "hostpath",
+              "mountPath": "/mnt/host0"
+            }
+          ]
+        }
+      ],
+      "source_volumes": [],
+      "source_annotation": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "native_code_commit": "4f1139b09f6d040cfdc3fe9fffacb9833e7f7aff",
+  "scope": "Native caller/module bytes verified against immutable git blobs; later working-tree edits do not replace the retained source reference",
+  "pairs": [
+    {
+      "pair": "A",
+      "job": "exp-1111-073826-369716",
+      "files": [
+        {
+          "path": "miles/rollout/on_policy_distillation.py",
+          "sha256": "42e1055fce349e30f2a52d37fa56388102ccc9b46d7ea6d37f087a85d91f82ef",
+          "bytes": 17736
+        },
+        {
+          "path": "tests/manual/agent_opd/swe_replay.py",
+          "sha256": "2ec0834f5eba14d6cac64ed3ce923be4a1369409e659af82115e9327824fa97d",
+          "bytes": 26903
+        },
+        {
+          "path": "tests/manual/agent_opd/qwen35_pair_worker.py",
+          "sha256": "7322d55b9ed206d2f48bc5c264b7403b83ff92cc580a141c6a8c95181faee74f",
+          "bytes": 19109
+        },
+        {
+          "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+          "sha256": "4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7",
+          "bytes": 37760
+        },
+        {
+          "path": "tests/manual/agent_opd/sglang_mamba_snapshots.py",
+          "sha256": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774",
+          "bytes": 11910
+        },
+        {
+          "path": "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py",
+          "sha256": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1",
+          "bytes": 27623
+        }
+      ]
+    },
+    {
+      "pair": "B",
+      "job": "exp-1111-073825-734134",
+      "files": [
+        {
+          "path": "miles/rollout/on_policy_distillation.py",
+          "sha256": "42e1055fce349e30f2a52d37fa56388102ccc9b46d7ea6d37f087a85d91f82ef",
+          "bytes": 17736
+        },
+        {
+          "path": "tests/manual/agent_opd/swe_replay.py",
+          "sha256": "2ec0834f5eba14d6cac64ed3ce923be4a1369409e659af82115e9327824fa97d",
+          "bytes": 26903
+        },
+        {
+          "path": "tests/manual/agent_opd/qwen35_pair_worker.py",
+          "sha256": "7322d55b9ed206d2f48bc5c264b7403b83ff92cc580a141c6a8c95181faee74f",
+          "bytes": 19109
+        },
+        {
+          "path": "tests/manual/agent_opd/probe_teacher_scoring.py",
+          "sha256": "4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7",
+          "bytes": 37760
+        },
+        {
+          "path": "tests/manual/agent_opd/sglang_mamba_snapshots.py",
+          "sha256": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774",
+          "bytes": 11910
+        },
+        {
+          "path": "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py",
+          "sha256": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1",
+          "bytes": 27623
+        }
+      ]
+    }
+  ]
+}

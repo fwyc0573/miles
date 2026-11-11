@@ -1,0 +1,1186 @@
+{
+  "reference_scope": "Actual previous selected-FP32 teacher probe first4/repetition0, no new measurement",
+  "expected_new_requests_per_pair": 16,
+  "expected_new_flushes_per_pair": 10,
+  "acceptance": "Match actual vectors by pair/phase/mode/source_uid/sample_index/repetition, require reproduced sample2/3 drift. A non-reproducing instrumented run does not exclude a race. Relative error remains undefined where the actual reference is zero.",
+  "reference": [
+    {
+      "pair": "A",
+      "comparisons_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/comparisons.jsonl",
+      "comparisons_sha256": "deac5ef6a60062745233a91852edc1981af7d2482e43dd0418277f44291a617e",
+      "score_files": [
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s0-full_input.json",
+          "sha256": "74d40e6e37455423d8492fd12af1865b010f7d47127b2a0044f625136094af1e",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s0-response_only.json",
+          "sha256": "54b272d2b8c1c62cb29e4d21022752171004963823cd2acc19a3bbe24c7f052e",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s1-full_input.json",
+          "sha256": "bb488601feda97edeebe2aad39661d2f999152fde6929e5f07891fa9685c4fcd",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s1-response_only.json",
+          "sha256": "d77ea33c1d1c0e1592fe39e2552c6a8dcd9a75cfd2ed77e18e906df877532c40",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s2-full_input.json",
+          "sha256": "e16473bac48194c400b2d563d9e5a96627f674f1826286aad30508c7ab2c1b5e",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s2-response_only.json",
+          "sha256": "ab32571a1bcc8e29256875b20c81499821adf0ef8f5bd4eb73e5769d142553b2",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s3-full_input.json",
+          "sha256": "d7f0a1a7f8a18637940b28b168f17ed41262c7c48982b86749d6c6de30309c59",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/cold-r0-s3-response_only.json",
+          "sha256": "d4ca355cb597b450eab9bb27ff46f9458aeefc0fd2f2ccd370563f41a6611601",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s0-full_input.json",
+          "sha256": "f8a1b67a73c65ef1eaf77dbb653d76355772ffe5579995a7f792ab02a9b7ed95",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s0-response_only.json",
+          "sha256": "e18415160e6a8a3e318c35436f76ce0bb6d09d0cab05af553861dec6c235bac9",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s1-full_input.json",
+          "sha256": "a1708b6e6521f000801f3debb95be09e755ccad3143c1c13a8cb460586a2ae3b",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s1-response_only.json",
+          "sha256": "8661f2dcb10bf236f220eaee2bdd232e9bdb7ea77674b5eb6dbe99e4406be4ef",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s2-full_input.json",
+          "sha256": "020b2cd271a9c9adffc91fdb23f4a555648b447f71b659182d36d616d6179a94",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s2-response_only.json",
+          "sha256": "f274ddcc04128dfaacedff2f380043f4869388cdbfdc84cce017922209b513d5",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s3-full_input.json",
+          "sha256": "bcd17e19cb13d22cb724799bf569228cd3e114a090af94486e2f5caaf088c3ef",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/A/admission-A-r1/completion_scores/warm_stream-r0-s3-response_only.json",
+          "sha256": "b66b58715027064348e9db9b698fc9484639f37835deb1066e9470842767b6dc",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        }
+      ],
+      "comparisons": [
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "full_request_id": "cold-r0-s0-full_input",
+          "response_request_id": "cold-r0-s0-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.20721435546875,
+              "max_relative_error": 0.47554620755676924,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.20721435546875,
+              "max_relative_error": 0.47554620755676924,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "full_request_id": "cold-r0-s1-full_input",
+          "response_request_id": "cold-r0-s1-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.18491601943969727,
+              "max_relative_error": 0.4999999403953481,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.18491601943969727,
+              "max_relative_error": 0.4999999403953481,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "full_request_id": "cold-r0-s2-full_input",
+          "response_request_id": "cold-r0-s2-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.15662717819213867,
+              "max_relative_error": 0.9999997615813925,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.15662717819213867,
+              "max_relative_error": 0.9999997615813925,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "full_request_id": "cold-r0-s3-full_input",
+          "response_request_id": "cold-r0-s3-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 3,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12409734725952148,
+              "max_relative_error": 0.7046076739712477,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12409734725952148,
+              "max_relative_error": 0.7046076739712477,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "full_request_id": "warm_stream-r0-s0-full_input",
+          "response_request_id": "warm_stream-r0-s0-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s0-full_input",
+            "response_request_id": "cold-r0-s0-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          },
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.20721435546875,
+              "max_relative_error": 0.47554620755676924,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.20721435546875,
+              "max_relative_error": 0.47554620755676924,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "full_request_id": "warm_stream-r0-s1-full_input",
+          "response_request_id": "warm_stream-r0-s1-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 7.152048056013882e-07,
+            "max_relative_error": 0.14285706500614642,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s1-full_input",
+            "response_request_id": "cold-r0-s1-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 2.3841676011215895e-07,
+              "max_relative_error": 0.04545451786888886,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 7.152048056013882e-07,
+              "max_relative_error": 0.14285706500614642,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 2.3841676011215895e-07,
+              "max_relative_error": 0.04545451786888886,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 7.152048056013882e-07,
+              "max_relative_error": 0.14285706500614642,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          },
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.18491601943969727,
+              "max_relative_error": 0.4999999403953481,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.18491601943969727,
+              "max_relative_error": 0.4999999403953481,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "full_request_id": "warm_stream-r0-s2-full_input",
+          "response_request_id": "warm_stream-r0-s2-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 0.19622063636779785,
+            "max_relative_error": 0.6111100632456284,
+            "relative_error_undefined_count": 1,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s2-full_input",
+            "response_request_id": "cold-r0-s2-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.17278575897216797,
+              "max_relative_error": 0.2727263348137287,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.1781916618347168,
+              "max_relative_error": 0.9333317481132808,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.17278575897216797,
+              "max_relative_error": 0.2727263348137287,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.1781916618347168,
+              "max_relative_error": 0.9333317481132808,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          },
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.23560762405395508,
+              "max_relative_error": 0.4999999403953481,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.17243576049804688,
+              "max_relative_error": 0.8124986290918628,
+              "relative_error_undefined_count": 1,
+              "accepted": null
+            }
+          }
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "pair": "A",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "full_request_id": "warm_stream-r0-s3-full_input",
+          "response_request_id": "warm_stream-r0-s3-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 0.24439287185668945,
+            "max_relative_error": 1.3806473175677756,
+            "relative_error_undefined_count": 3,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s3-full_input",
+            "response_request_id": "cold-r0-s3-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12412643432617188,
+              "max_relative_error": 0.6187940669273067,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.1765437126159668,
+              "max_relative_error": 1.0611983494486865,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12412643432617188,
+              "max_relative_error": 0.6187940669273067,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.1765437126159668,
+              "max_relative_error": 1.0611983494486865,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          },
+          "historical_expected": {
+            "scope": "Caller-provided historical A teacher scores; not a B teacher reference",
+            "full_input": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12295293807983398,
+              "max_relative_error": 0.5218206552087992,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.12792348861694336,
+              "max_relative_error": 0.39113782514972745,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "pair": "B",
+      "comparisons_path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/comparisons.jsonl",
+      "comparisons_sha256": "3c663d65e531e747c1e3d323b8dbfba14c801af6ae6bf5e3a0c54411905b33c3",
+      "score_files": [
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s0-full_input.json",
+          "sha256": "af46c2c35e7fe70517479121e6933f135c4b3441c1693442120d414fed90acd8",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s0-response_only.json",
+          "sha256": "ba31a4be13ac3e338e893adbcf46b50e54b3b3b1f02a95e9ec1a92b40c7f62be",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s1-full_input.json",
+          "sha256": "139df653e014c4ec6a7058508c3b11bb38fede9e1e7d267e5441095fde20e626",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s1-response_only.json",
+          "sha256": "f4228d10829aeb4dfa716d1b4fa2860aaffd7cbc9a728782a37685743bed2e83",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s2-full_input.json",
+          "sha256": "37253642fb2b258b3eb4de5103793971ff9e1d03a4500268c15f2c0dfe21c7a1",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s2-response_only.json",
+          "sha256": "b6caeffe5df6e6f743a8e86f7977b6394c13ddeabc6134d9b5902f44661b2719",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s3-full_input.json",
+          "sha256": "adb84a83a15eec06d0efdeef81d40fafefb6017786cbb684010298236631569d",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/cold-r0-s3-response_only.json",
+          "sha256": "662909ea6f226e603f335d98b1c783b0203f08023349ae4bfd3f2320339c7741",
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s0-full_input.json",
+          "sha256": "c0c88a5ee1cef44df97440b25bb300a9bba2f3fd5c2f55e90c5d65897aedacf1",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s0-response_only.json",
+          "sha256": "c8b4b72c847293ac871d63e333598b2b687cbd687f2d0129b4b6ba706008b8ff",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "response_tokens": 734
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s1-full_input.json",
+          "sha256": "1e5ade2baab0179dc39d0b9c9ff7909c107de48ad552b7bbf763031139bdd299",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s1-response_only.json",
+          "sha256": "67754ad868825808851057ec660cefea55951d943c42e930625640a5c3ec8097",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "response_tokens": 246
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s2-full_input.json",
+          "sha256": "e6cdaa7b1d11731a1e1f35f86e864532b637198afeea7510bccb63acf4328a73",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s2-response_only.json",
+          "sha256": "05677179ec2e49eb5f262f4eafbaecd19dda35f16f9c5294c64b3364dfe90f11",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "response_tokens": 431
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s3-full_input.json",
+          "sha256": "bb4fc1729a429864da13a191f51c444ce74050be5b530eef3753e4e5b9096790",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "full_input",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        },
+        {
+          "path": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-fp32-probe-20261111/native/B/admission-B-r1/completion_scores/warm_stream-r0-s3-response_only.json",
+          "sha256": "507c43263dbef9ec3695dd6bf9b0d4e1a9d21317847ac838aeca2269f0322523",
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "mode": "response_only",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "response_tokens": 290
+        }
+      ],
+      "comparisons": [
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 0,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "full_request_id": "cold-r0-s0-full_input",
+          "response_request_id": "cold-r0-s0-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 3,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": null
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 1,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "full_request_id": "cold-r0-s1-full_input",
+          "response_request_id": "cold-r0-s1-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 5,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": null
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 2,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "full_request_id": "cold-r0-s2-full_input",
+          "response_request_id": "cold-r0-s2-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 4,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": null
+        },
+        {
+          "phase": "cold",
+          "repetition": 0,
+          "sample_position": 3,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "full_request_id": "cold-r0-s3-full_input",
+          "response_request_id": "cold-r0-s3-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 4,
+            "accepted": null
+          },
+          "cold_reference": null,
+          "historical_expected": null
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 0,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:123",
+          "sample_index": 1693,
+          "full_request_id": "warm_stream-r0-s0-full_input",
+          "response_request_id": "warm_stream-r0-s0-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": true,
+            "max_absolute_error": 0.0,
+            "max_relative_error": 0.0,
+            "relative_error_undefined_count": 3,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s0-full_input",
+            "response_request_id": "cold-r0-s0-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": true,
+              "max_absolute_error": 0.0,
+              "max_relative_error": 0.0,
+              "relative_error_undefined_count": 3,
+              "accepted": null
+            }
+          },
+          "historical_expected": null
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 1,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:125",
+          "sample_index": 1694,
+          "full_request_id": "warm_stream-r0-s1-full_input",
+          "response_request_id": "warm_stream-r0-s1-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 2.9801958589814603e-06,
+            "max_relative_error": 0.3055551434731875,
+            "relative_error_undefined_count": 5,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s1-full_input",
+            "response_request_id": "cold-r0-s1-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 4.529893885774072e-06,
+              "max_relative_error": 0.31249958276708867,
+              "relative_error_undefined_count": 5,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 3.4569602576084435e-06,
+              "max_relative_error": 0.1071427598289923,
+              "relative_error_undefined_count": 5,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 4.529893885774072e-06,
+              "max_relative_error": 0.31249958276708867,
+              "relative_error_undefined_count": 5,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 3.4569602576084435e-06,
+              "max_relative_error": 0.1071427598289923,
+              "relative_error_undefined_count": 5,
+              "accepted": null
+            }
+          },
+          "historical_expected": null
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 2,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+          "sample_index": 1695,
+          "full_request_id": "warm_stream-r0-s2-full_input",
+          "response_request_id": "warm_stream-r0-s2-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 0.33083581924438477,
+            "max_relative_error": 10.83576074484674,
+            "relative_error_undefined_count": 4,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s2-full_input",
+            "response_request_id": "cold-r0-s2-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.43444275856018066,
+              "max_relative_error": 12.818066557496891,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.5321998596191406,
+              "max_relative_error": 12.296145876202624,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.43444275856018066,
+              "max_relative_error": 12.818066557496891,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.5321998596191406,
+              "max_relative_error": 12.296145876202624,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            }
+          },
+          "historical_expected": null
+        },
+        {
+          "phase": "warm_stream",
+          "repetition": 0,
+          "sample_position": 3,
+          "pair": "B",
+          "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:129",
+          "sample_index": 1696,
+          "full_request_id": "warm_stream-r0-s3-full_input",
+          "response_request_id": "warm_stream-r0-s3-response_only",
+          "full_vs_response_only": {
+            "token_ids_match": true,
+            "finite_log_probs": true,
+            "values_exact": false,
+            "max_absolute_error": 0.24397611618041992,
+            "max_relative_error": 2.1428543402212714,
+            "relative_error_undefined_count": 5,
+            "accepted": null
+          },
+          "cold_reference": {
+            "full_request_id": "cold-r0-s3-full_input",
+            "response_request_id": "cold-r0-s3-response_only",
+            "cold_full_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.4388699531555176,
+              "max_relative_error": 1.4485754510908142,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_full_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.3178117275238037,
+              "max_relative_error": 2.99999928474422,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_full": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.4388699531555176,
+              "max_relative_error": 1.4485754510908142,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            },
+            "cold_response_only_vs_warm_response_only": {
+              "token_ids_match": true,
+              "finite_log_probs": true,
+              "values_exact": false,
+              "max_absolute_error": 0.3178117275238037,
+              "max_relative_error": 2.99999928474422,
+              "relative_error_undefined_count": 4,
+              "accepted": null
+            }
+          },
+          "historical_expected": null
+        }
+      ]
+    }
+  ]
+}

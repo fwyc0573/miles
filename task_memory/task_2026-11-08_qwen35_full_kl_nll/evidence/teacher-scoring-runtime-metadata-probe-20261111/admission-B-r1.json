@@ -1,0 +1,102 @@
+{
+  "observed_at": "2026-11-10T23:38:25.722944+00:00",
+  "creator": "i-fengyicheng",
+  "gpu_tag": "H800",
+  "nonterminal_jobs": [
+    {
+      "name": "exp-1111-061633-993923",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-020531-143592",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-052116-955488",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-052516-803745",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-052117-150427",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-023630-717448",
+      "phase": "Running",
+      "roles": {
+        "server": 2
+      },
+      "gpus": 2
+    },
+    {
+      "name": "exp-1111-052516-766330",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    },
+    {
+      "name": "exp-1111-052516-649198",
+      "phase": "Running",
+      "roles": {
+        "default": 8,
+        "inference": 8
+      },
+      "gpus": 16
+    }
+  ],
+  "committed_gpus": 72,
+  "requested_gpus": 4,
+  "ceiling_gpus": null,
+  "admitted": true,
+  "scope": "personal",
+  "policy": {
+    "task_id": "task_2026-11-08_qwen35_full_kl_nll",
+    "task_annotation": "miles.ycfeng/task",
+    "personal_nonpreemptible_gpus": null,
+    "temporary_task_allocation": {
+      "expires_at": "2026-11-08T21:00:00+00:00",
+      "nonpreemptible_gpus": null
+    }
+  },
+  "evaluated_at": "2026-11-10T23:38:25.722944+00:00",
+  "preemptible": false,
+  "pair": "B",
+  "submitted": true,
+  "config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/formal_config.json",
+  "probe_config": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json",
+  "output": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1",
+  "worker_command": "bash -lc 'export PYTHONPATH=/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image\nexport LD_LIBRARY_PATH=/usr/local/cuda-13.0/compat\"${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec timeout --signal=TERM --kill-after=90s 3600s /opt/sglang/bin/python3 -u -B -m tests.manual.agent_opd.probe_teacher_scoring --config /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json --pair B --samples /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json --output-dir /data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1 --repeats 1 --request-timeout 3600'",
+  "envs": {
+    "PYTHONPATH": "/data/ycfeng"
+  },
+  "job": "exp-1111-073825-734134",
+  "source_mount": "100.96.128.195:/data/ycfeng:/data/ycfeng"
+}

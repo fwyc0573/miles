@@ -1,0 +1,557 @@
+{
+  "task_id": "profile-teacher-scoring-probe-20261111",
+  "job": "exp-1111-073826-369716",
+  "pair": "A",
+  "historical_job": "exp-1110-165312-132926",
+  "status": "failed",
+  "native_measurements_completed": false,
+  "cleanup_completed": false,
+  "performance_accepted": false,
+  "numerical_acceptance": null,
+  "request_timeout": 3600.0,
+  "repeats": 1,
+  "sample_count": 4,
+  "worker_local_directory": "/var/tmp/teacher-scoring-exp-1111-073826-369716-A",
+  "fixture": {
+    "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_first4_manifest.json",
+    "bytes": 107,
+    "sha256": "89519dd56ec07ce01f8ee18ff71b2ccfb3170698b29d9b5f4e0fe70c83c9a3e1"
+  },
+  "config": {
+    "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/teacher_scoring_runtime_metadata_probe_config.json",
+    "bytes": 1377,
+    "sha256": "66d2c57dab56bebf2bad9326155d2c08f5cb83d5ae5a6057b4f7afb66729aa62"
+  },
+  "expected_scoring_requests": 16,
+  "method": {
+    "cold": "Flush before each mode/sample request; alternate order by repetition+sample position",
+    "warm_stream": "Flush once per mode stream; fixed sample order; alternate mode order by repetition",
+    "cold_reference": "Both independently flushed modes from this run, matched by pair/repetition/source_uid/sample_index; warm-full is descriptive, not a cold oracle",
+    "requests": "Sequential, same input IDs, native zero-generation payload; one aiohttp session per request",
+    "order_limit": "One repetition cannot balance both first-mode positions for each individual sample",
+    "timing": "perf_counter; headers include request serialization/server work; decoded body read, JSON parse and native tail validation measured separately",
+    "acceptance": "No performance PASS or numerical tolerance; primary judges observed differences"
+  },
+  "sample_manifest": {
+    "source_fixture": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-probe-20261111/retained-cases.json",
+      "bytes": 3703152,
+      "sha256": "c45424e8106c2beb7500acacb68aa0939da0088c926af8012dd9fbd780f0ffc9"
+    },
+    "sample_count": 4,
+    "original_sample_count": 7,
+    "selection": "Original fixture prefix, unchanged identities"
+  },
+  "source_preflight": {
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "distribution_version": "0.5.24.dev80+g056f871",
+    "native_source_job": "exp-1111-042450-358109",
+    "files": {
+      "kernels/ops/attention/fla/chunk.py": {
+        "after_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+        "before_sha256": "0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85"
+      },
+      "srt/layers/attention/linear/kernels/gdn_triton.py": {
+        "after_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+        "before_sha256": "ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a"
+      },
+      "kernels/ops/attention/fla/chunk_delta_h.py": {
+        "after_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+        "before_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2"
+      },
+      "srt/layers/attention/linear/kernels/kernel_backend.py": {
+        "after_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+        "before_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505"
+      },
+      "srt/layers/attention/linear/gdn_backend.py": {
+        "after_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+        "before_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13"
+      },
+      "srt/layers/attention/hybrid_linear_attn_backend.py": {
+        "after_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
+        "before_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef"
+      }
+    },
+    "sglang_path": "/sgl-workspace/sglang/python/sglang",
+    "selected_fp32": true,
+    "snapshot_dtype": "float32",
+    "snapshot_capability": "native CUDA only",
+    "observed_before_sha256": {
+      "kernels/ops/attention/fla/chunk.py": "0fa7c1a0c1b9a9f1b5548dfeed58181df88ded8e4bbb36e27ce63e16c3d7fd85",
+      "srt/layers/attention/linear/kernels/gdn_triton.py": "ede52671dd880b4317c2308ad58d21d33544044b7bddda93d24bc08216fa812a",
+      "kernels/ops/attention/fla/chunk_delta_h.py": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "srt/layers/attention/linear/kernels/kernel_backend.py": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "srt/layers/attention/linear/gdn_backend.py": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+      "srt/layers/attention/hybrid_linear_attn_backend.py": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef"
+    },
+    "observed_after_sha256": {
+      "kernels/ops/attention/fla/chunk.py": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+      "srt/layers/attention/linear/kernels/gdn_triton.py": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+      "kernels/ops/attention/fla/chunk_delta_h.py": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "srt/layers/attention/linear/kernels/kernel_backend.py": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "srt/layers/attention/linear/gdn_backend.py": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+      "srt/layers/attention/hybrid_linear_attn_backend.py": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef"
+    },
+    "changed_files": [
+      "kernels/ops/attention/fla/chunk.py",
+      "srt/layers/attention/linear/kernels/gdn_triton.py"
+    ],
+    "patch_applied": true,
+    "archive_dir": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1/source_preflight",
+    "cuda_semantics": "UNVERIFIED"
+  },
+  "runtime_metadata_source_preflight": {
+    "image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "distribution_version": "0.5.24.dev80+g056f871",
+    "files": {
+      "kernels/ops/attention/fla/chunk.py": {
+        "before_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c"
+      },
+      "srt/layers/attention/linear/kernels/gdn_triton.py": {
+        "before_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf"
+      },
+      "kernels/ops/attention/fla/chunk_delta_h.py": {
+        "before_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2"
+      },
+      "srt/layers/attention/linear/kernels/kernel_backend.py": {
+        "before_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505"
+      },
+      "srt/layers/attention/linear/gdn_backend.py": {
+        "before_sha256": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "7296198be4586f2c703e719bc40ac657d2f6a0682d7851f58669b6ba33487025"
+      },
+      "srt/layers/attention/hybrid_linear_attn_backend.py": {
+        "before_sha256": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "fa1331457e307f5d172fd62730be0dd026a36a10a10319b7ec630e1d097c3d36"
+      },
+      "srt/managers/schedule_batch.py": {
+        "before_sha256": "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d",
+        "native_source_job": "exp-1111-040603-422872",
+        "after_sha256": "a119fce22fc7a093f078ad664bf76458730a62d0a7f539ed6ecea7e1462ec5cd"
+      },
+      "srt/mem_cache/unified_cache/components/mamba.py": {
+        "before_sha256": "22c0f2f5ec8c217c7b9bccd8753e8e5bf3914fd3c0d3ae52e64bfb7bd31df584",
+        "native_source_job": "exp-1111-035902-035439",
+        "after_sha256": "ab8d467f61a0703b288e5d2f4239c0cd81c9890512c62b5f3e58c12bb441d404"
+      },
+      "srt/model_executor/model_runner.py": {
+        "before_sha256": "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3",
+        "native_source_job": "exp-1111-040603-422872",
+        "after_sha256": "5d07424971c85b63aa1ff0b7e788a6b7938f012a09c86352ccb8785817505181"
+      },
+      "srt/mem_cache/unified_cache/unified_tree_core.py": {
+        "before_sha256": "4948b7861488a51fce728a4ada6c40c875519b8cecc07aae4d9d6bec8b6a7e47",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "34d3c93e8f97ffff36708ca0403cf6e4477516a2c5cb9818114043e3c73198b7"
+      },
+      "srt/mem_cache/unified_radix_cache.py": {
+        "before_sha256": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+        "native_source_job": "exp-1111-040603-422872",
+        "after_sha256": "9241c4037103d605a8487e9914689f97e748d52e6442e70b71aa78a18f37c9dd"
+      },
+      "srt/managers/scheduler_components/internal_state.py": {
+        "before_sha256": "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184",
+        "native_source_job": "exp-1111-040603-422872",
+        "after_sha256": "fc6f456aabcfebb927f8c5f988856d4bf359ddf432b4a311d60dfe685fd4c690"
+      },
+      "srt/layers/attention/mamba/prefill_track_metadata.py": {
+        "before_sha256": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a"
+      },
+      "srt/model_executor/forward_batch_info.py": {
+        "before_sha256": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56",
+        "native_source_job": "exp-1111-035902-035439",
+        "after_sha256": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56"
+      },
+      "srt/runtime_context.py": {
+        "before_sha256": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e",
+        "native_source_job": "exp-1111-042450-358109",
+        "after_sha256": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e"
+      },
+      "srt/mamba_runtime_metadata.py": {
+        "created": true,
+        "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "after_sha256": "04d3f6f5e824dde5a924b774c73aaa8f4f57a74ea88bebfe7e92b3962decc371"
+      }
+    },
+    "sglang_path": "/sgl-workspace/sglang/python/sglang",
+    "archive_dir": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-runtime-metadata-probe-20261111/native/A/admission-A-r1/runtime_metadata_source_preflight",
+    "observed_before_sha256": {
+      "kernels/ops/attention/fla/chunk.py": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+      "srt/layers/attention/linear/kernels/gdn_triton.py": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+      "kernels/ops/attention/fla/chunk_delta_h.py": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "srt/layers/attention/linear/kernels/kernel_backend.py": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "srt/layers/attention/linear/gdn_backend.py": "04f4d78226b0c91e97fe5b1768ccba2719bcf1996faffb32e37ef580d66fab13",
+      "srt/layers/attention/hybrid_linear_attn_backend.py": "e6f797a346bf7534026c963188e7383ec5eded10b94a75811ddb7867cc9980ef",
+      "srt/managers/schedule_batch.py": "455b597607f9ae753272666b4d3d07e9390d620d7ce400fda6f4686a74d84c0d",
+      "srt/mem_cache/unified_cache/components/mamba.py": "22c0f2f5ec8c217c7b9bccd8753e8e5bf3914fd3c0d3ae52e64bfb7bd31df584",
+      "srt/model_executor/model_runner.py": "0109f0d51947a646c643f1c56b55a7a0ef2638eaf20203159884588f8be7f4f3",
+      "srt/mem_cache/unified_cache/unified_tree_core.py": "4948b7861488a51fce728a4ada6c40c875519b8cecc07aae4d9d6bec8b6a7e47",
+      "srt/mem_cache/unified_radix_cache.py": "9c1a1116081c266301ecfeef4faf4178d18114a8996010765d9aa238cd83deb3",
+      "srt/managers/scheduler_components/internal_state.py": "3879413625ca0991e3a64ca6a969a67afd1209aeb5c5760c4ab4ba7f46e98184",
+      "srt/layers/attention/mamba/prefill_track_metadata.py": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a",
+      "srt/model_executor/forward_batch_info.py": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56",
+      "srt/runtime_context.py": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e",
+      "srt/mamba_runtime_metadata.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "observed_after_sha256": {
+      "kernels/ops/attention/fla/chunk.py": "b2c1cd76ab3558b893e082f07a8c587520e624e9988d19c0c1afa4f32a72e43c",
+      "srt/layers/attention/linear/kernels/gdn_triton.py": "7060585d86347561a2caf36492163b584152e32efddea17b5b4cc8c33c5774bf",
+      "kernels/ops/attention/fla/chunk_delta_h.py": "e37fa6885dd50e945fb470ef3b858573f812c2d7590ed8decc627f15f4bea1c2",
+      "srt/layers/attention/linear/kernels/kernel_backend.py": "bb75a7e69b7c3fdc5274137f215a0118ef8f999db4c9175e871953db33bd8505",
+      "srt/layers/attention/linear/gdn_backend.py": "7296198be4586f2c703e719bc40ac657d2f6a0682d7851f58669b6ba33487025",
+      "srt/layers/attention/hybrid_linear_attn_backend.py": "fa1331457e307f5d172fd62730be0dd026a36a10a10319b7ec630e1d097c3d36",
+      "srt/managers/schedule_batch.py": "a119fce22fc7a093f078ad664bf76458730a62d0a7f539ed6ecea7e1462ec5cd",
+      "srt/mem_cache/unified_cache/components/mamba.py": "ab8d467f61a0703b288e5d2f4239c0cd81c9890512c62b5f3e58c12bb441d404",
+      "srt/model_executor/model_runner.py": "5d07424971c85b63aa1ff0b7e788a6b7938f012a09c86352ccb8785817505181",
+      "srt/mem_cache/unified_cache/unified_tree_core.py": "34d3c93e8f97ffff36708ca0403cf6e4477516a2c5cb9818114043e3c73198b7",
+      "srt/mem_cache/unified_radix_cache.py": "9241c4037103d605a8487e9914689f97e748d52e6442e70b71aa78a18f37c9dd",
+      "srt/managers/scheduler_components/internal_state.py": "fc6f456aabcfebb927f8c5f988856d4bf359ddf432b4a311d60dfe685fd4c690",
+      "srt/layers/attention/mamba/prefill_track_metadata.py": "2ed82663640db555113b519efffa0f5ba8002129d44c92c2c2647b662be8a68a",
+      "srt/model_executor/forward_batch_info.py": "5e01fa474ca1b838fd8fdca69b8ce9a13c3582cde22bda3f559df409c3016b56",
+      "srt/runtime_context.py": "c36673ec3abb38e7f95c840fd6da8552de3b3f5e4ab5a498c22958e3988b4b1e",
+      "srt/mamba_runtime_metadata.py": "04d3f6f5e824dde5a924b774c73aaa8f4f57a74ea88bebfe7e92b3962decc371"
+    },
+    "changed_files": [
+      "srt/layers/attention/linear/gdn_backend.py",
+      "srt/layers/attention/hybrid_linear_attn_backend.py",
+      "srt/managers/schedule_batch.py",
+      "srt/mem_cache/unified_cache/components/mamba.py",
+      "srt/model_executor/model_runner.py",
+      "srt/mem_cache/unified_cache/unified_tree_core.py",
+      "srt/mem_cache/unified_radix_cache.py",
+      "srt/managers/scheduler_components/internal_state.py",
+      "srt/mamba_runtime_metadata.py"
+    ],
+    "patch_applied": true,
+    "diagnostic_only": true,
+    "selected_fp32_precondition": true,
+    "readback_key": "mamba_runtime_metadata",
+    "readback": "existing /server_info internal_state Dict; drains responding process only",
+    "coverage": "no all-TP gather; DP responses retain individual process/rank receipts",
+    "physical_slot_values": "UNMEASURED",
+    "cuda_semantics": "UNVERIFIED",
+    "runtime_semantics": "UNVERIFIED; host-enqueue receipts do not prove device completion or parity"
+  },
+  "runtime": {
+    "python": "3.12.16",
+    "executable": "/opt/sglang/bin/python3",
+    "sglang": "0.5.24.dev80+g056f871",
+    "torch": "2.14.1+cu130",
+    "sglang_sources": {
+      "srt/entrypoints/http_server.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/entrypoints/http_server.py",
+        "bytes": 121168,
+        "sha256": "329e4e1552b176f0753303a17df65dc49c0a59f1e642979a3537ad3a0d953b0a"
+      },
+      "srt/managers/io_struct.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/io_struct.py",
+        "bytes": 117766,
+        "sha256": "1f94aca08ed27f74280e87ec80999df32df3088be987ec1377ff2f572e13739b"
+      },
+      "srt/managers/tokenizer_manager.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/tokenizer_manager.py",
+        "bytes": 189216,
+        "sha256": "65a92c050d33a9749a5f7f76fe98dba85a7fcb89d2fb20eddb2e89e6ed648f06"
+      },
+      "srt/managers/scheduler.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler.py",
+        "bytes": 283721,
+        "sha256": "54bbde812b4af9e01a00b62e12e95015fdb1c325b9e153706616ba59ea52b2a6"
+      },
+      "srt/managers/schedule_batch.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/schedule_batch.py",
+        "bytes": 179919,
+        "sha256": "a119fce22fc7a093f078ad664bf76458730a62d0a7f539ed6ecea7e1462ec5cd"
+      },
+      "srt/layers/logits_processor.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/layers/logits_processor.py",
+        "bytes": 71340,
+        "sha256": "67486f614043432cddeb3f7256b60d35ddba39457a32ed91313cbf7e3dc2fda7"
+      },
+      "srt/model_executor/model_runner.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/model_executor/model_runner.py",
+        "bytes": 112077,
+        "sha256": "5d07424971c85b63aa1ff0b7e788a6b7938f012a09c86352ccb8785817505181"
+      },
+      "srt/mem_cache/radix_cache.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/radix_cache.py",
+        "bytes": 31391,
+        "sha256": "eea7015fcf678167ac7296b08c8dc568ccbe42a4bb106da23b33a7c59debec01"
+      },
+      "srt/models/qwen3_5.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5.py",
+        "bytes": 122945,
+        "sha256": "12d5a9850f3c4a23b40ba0c078aa9b3f70f475f01fd8da993efd2c4470122a51"
+      },
+      "srt/managers/scheduler_input_blocker.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_input_blocker.py",
+        "bytes": 3748,
+        "sha256": "edfe07948d75b3871bae173997914397878aca66aba0b42ffb8e26eb7e97102d"
+      },
+      "srt/managers/scheduler_pp_mixin.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_pp_mixin.py",
+        "bytes": 80629,
+        "sha256": "566d50ea85c14a4e8f715698d6a49388c071c5aa0cfb337741cc6a4d8c9d5c98"
+      },
+      "srt/managers/scheduler_components/__init__.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/__init__.py",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "srt/managers/scheduler_components/batch_result_processor.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/batch_result_processor.py",
+        "bytes": 72581,
+        "sha256": "bbc670ed5b31781c43b911e5c85f2f51c2229f02e358ba14254d8169a3a755a2"
+      },
+      "srt/managers/scheduler_components/dp_attn.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/dp_attn.py",
+        "bytes": 33255,
+        "sha256": "6a3c7c71ae4fbda49afbdd416d8e5948780f5097574ec927ed337237b588d1e2"
+      },
+      "srt/managers/scheduler_components/dynamic_chunk_sizer.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/dynamic_chunk_sizer.py",
+        "bytes": 16433,
+        "sha256": "1c402977157f970697a7781eb07a76bc90d3ccc6d622e1017fe863b34142a1b6"
+      },
+      "srt/managers/scheduler_components/flush_wrapper.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/flush_wrapper.py",
+        "bytes": 2058,
+        "sha256": "f10ac3d5f4db13c4b0b09804e8c3fae18cbbadd5bca0076890c77ede52be2a9a"
+      },
+      "srt/managers/scheduler_components/idle_sleeper.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/idle_sleeper.py",
+        "bytes": 2698,
+        "sha256": "3643701ae7caae04c51e5d9f160b22decea3768b2ef1c00a6e476b24b266da7a"
+      },
+      "srt/managers/scheduler_components/internal_state.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/internal_state.py",
+        "bytes": 13207,
+        "sha256": "fc6f456aabcfebb927f8c5f988856d4bf359ddf432b4a311d60dfe685fd4c690"
+      },
+      "srt/managers/scheduler_components/invariant_checker.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/invariant_checker.py",
+        "bytes": 22096,
+        "sha256": "c3beba8c7b1e5682c0731ca389db0868804de2a08139ac50f0abec63c7a3354e"
+      },
+      "srt/managers/scheduler_components/ipc_channels.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/ipc_channels.py",
+        "bytes": 3192,
+        "sha256": "ec73fc4546bb75991daf1abf5be1b4f0fc23770eebcdb704ea0973e51285699e"
+      },
+      "srt/managers/scheduler_components/kv_events_publisher.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/kv_events_publisher.py",
+        "bytes": 3423,
+        "sha256": "3d545e90099067ba937ae13865747185c92472a576247f40c23b27382579dc04"
+      },
+      "srt/managers/scheduler_components/load_inquirer.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/load_inquirer.py",
+        "bytes": 11101,
+        "sha256": "9a3573552c22a2421759c1dadba617c3749781ffdf963b5b71f1fd347af3d830"
+      },
+      "srt/managers/scheduler_components/load_publisher.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/load_publisher.py",
+        "bytes": 11925,
+        "sha256": "d33287bdf2d49f8e1a5df523a9fd360033d20410df1773c5ef1b8e7f9e1e26e9"
+      },
+      "srt/managers/scheduler_components/logprob_result_processor.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/logprob_result_processor.py",
+        "bytes": 16785,
+        "sha256": "a128fc8a3ddd22ee30f14c96fa38db3068fa8fba799f22073f4c8db941111f29"
+      },
+      "srt/managers/scheduler_components/memory_usage.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/memory_usage.py",
+        "bytes": 1230,
+        "sha256": "82844af91ffed25cf1468ce3ee9afa4bf7d170432d6e7a3242971bb886848e40"
+      },
+      "srt/managers/scheduler_components/metrics_reporter.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/metrics_reporter.py",
+        "bytes": 65880,
+        "sha256": "db788b8f156a79823f43caadd2dc1e10660854a50e66a8fba1f30c1fb206cc5d"
+      },
+      "srt/managers/scheduler_components/new_token_ratio_tracker.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/new_token_ratio_tracker.py",
+        "bytes": 1586,
+        "sha256": "d6ad7ede11e9262318649cc5427ee44fb14973d22f8ada26b6d5383a1e77a271"
+      },
+      "srt/managers/scheduler_components/output_sender.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/output_sender.py",
+        "bytes": 800,
+        "sha256": "e1c4e17a45a69157a73396f2d46099cef2a48ec8a2c86ee652f460e58eef8611"
+      },
+      "srt/managers/scheduler_components/output_streamer.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/output_streamer.py",
+        "bytes": 36638,
+        "sha256": "77c07830c2e2e9529d7490a515898848d2f844eff46782ac9dab6e675bf15287"
+      },
+      "srt/managers/scheduler_components/pool_stats_observer.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/pool_stats_observer.py",
+        "bytes": 14511,
+        "sha256": "589867e574c3ff98212b4e9a966edcca7bc86054da866f0c2012040d60bd41e7"
+      },
+      "srt/managers/scheduler_components/profiler_manager.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/profiler_manager.py",
+        "bytes": 19383,
+        "sha256": "5bf4828dbb4471c87cbd6c363fe1ddd211efb9bf8b4ab9bebec1de6b710af90d"
+      },
+      "srt/managers/scheduler_components/recv_skipper.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/recv_skipper.py",
+        "bytes": 2818,
+        "sha256": "c71b6d1a1de23211a176f188860a77e413157c1221b4a9fc752a2764b7877ec0"
+      },
+      "srt/managers/scheduler_components/request_receiver.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/request_receiver.py",
+        "bytes": 12835,
+        "sha256": "101558ad106b28d70de7a72a3159dedb11b21af6d787d8d8b1e75993e64d1a5d"
+      },
+      "srt/managers/scheduler_components/weight_updater.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/managers/scheduler_components/weight_updater.py",
+        "bytes": 30759,
+        "sha256": "19fdcc5b77a70ede2f95e7ac6835eda9243abe20b165aede22f970e3912950a4"
+      },
+      "srt/mem_cache/pure_swa_radix_cache.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/pure_swa_radix_cache.py",
+        "bytes": 2223,
+        "sha256": "e214d736d2aa5388963707fc074af587058903be43d0b907e34a9f3aeaba03bf"
+      },
+      "srt/mem_cache/unified_radix_cache.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/mem_cache/unified_radix_cache.py",
+        "bytes": 171570,
+        "sha256": "9241c4037103d605a8487e9914689f97e748d52e6442e70b71aa78a18f37c9dd"
+      },
+      "srt/models/qwen3_5_mtp.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5_mtp.py",
+        "bytes": 20124,
+        "sha256": "13c9feb1674e28083cd7b3364040a2f1d9f0e8b10d1d6dc06156abe54a695c36"
+      },
+      "srt/models/qwen3_5_text.py": {
+        "path": "/sgl-workspace/sglang/python/sglang/srt/models/qwen3_5_text.py",
+        "bytes": 13208,
+        "sha256": "2afcc1529ff4e89670723c68613ed407ccd4d429c7dc2c3594205db53e3a5309"
+      }
+    },
+    "configured_image": "artifactory.stepfun-inc.com/docker-public/radixark/miles@sha256:165ff0beecf87a5acde0528e13298a5a274c500950d7eacf5ab6bd1cd5737805",
+    "image_identity_limit": "Image digest is the parent allocation input, not independently inspected container metadata",
+    "gpu_devices": [
+      "NVIDIA H800, 81559 MiB, 570.124.06",
+      "NVIDIA H800, 81559 MiB, 570.124.06",
+      "NVIDIA H800, 81559 MiB, 570.124.06",
+      "NVIDIA H800, 81559 MiB, 570.124.06"
+    ],
+    "model_path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "model_manifest_identity": {
+      "config.json": {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model/config.json",
+        "bytes": 4134,
+        "sha256": "f8d190c5b89c1521220f935d2567a587d6e291ed69066a45a106560b05a2174c"
+      },
+      "model.safetensors.index.json": {
+        "path": "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model/model.safetensors.index.json",
+        "bytes": 126601,
+        "sha256": "b3737e9d00bda0e37f0b873629d98bf9b407bef35735b9193c23d9844bcc96a6"
+      }
+    },
+    "checkpoint_identity_limit": "Mounted source path and manifest hashes; no whole-weight checksum",
+    "sglang_environment": {
+      "SGLANG_FORCE_COARSE_WAR_BARRIER": null
+    },
+    "nccl_environment": {
+      "NCCL_IB_TC": "186",
+      "NCCL_IB_FIFO_TC": "192",
+      "NCCL_IB_PCI_RELAXED_ORDERING": "1",
+      "NCCL_RAS_ENABLE": "1",
+      "NCCL_VERSION": "2.28.3-1",
+      "NCCL_SOCKET_IFNAME": "eth0",
+      "NCCL_NVLS_ENABLE": "0",
+      "NCCL_IB_HCA": "",
+      "NCCL_RAS_ADDR": "0.0.0.0:28028",
+      "NCCL_IB_GID_INDEX": "",
+      "NCCL_PXN_DISABLE": "1",
+      "NCCL_SET_THREAD_NAME": "1",
+      "NCCL_IB_QPS_PER_CONNECTION": "8",
+      "NCCL_IB_TIMEOUT": "21",
+      "NCCL_IB_DISABLE": "0",
+      "NCCL_IB_RETRY_CNT": "7"
+    },
+    "cuda_visible_devices": null
+  },
+  "native_scoring_sources": {
+    "miles/rollout/on_policy_distillation.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/miles/rollout/on_policy_distillation.py",
+      "bytes": 17736,
+      "sha256": "42e1055fce349e30f2a52d37fa56388102ccc9b46d7ea6d37f087a85d91f82ef"
+    },
+    "tests/manual/agent_opd/swe_replay.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/swe_replay.py",
+      "bytes": 26903,
+      "sha256": "2ec0834f5eba14d6cac64ed3ce923be4a1369409e659af82115e9327824fa97d"
+    },
+    "tests/manual/agent_opd/qwen35_pair_worker.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/qwen35_pair_worker.py",
+      "bytes": 19109,
+      "sha256": "7322d55b9ed206d2f48bc5c264b7403b83ff92cc580a141c6a8c95181faee74f"
+    },
+    "tests/manual/agent_opd/probe_teacher_scoring.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/probe_teacher_scoring.py",
+      "bytes": 37760,
+      "sha256": "4991f40181e157738ea0baaa0016d76ef860050fd5a21650eaaf3fcb277f4db7"
+    },
+    "tests/manual/agent_opd/sglang_mamba_snapshots.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_mamba_snapshots.py",
+      "bytes": 11910,
+      "sha256": "b4f7738a2c17a11d8fab7952983c26045aeeff4d9a4ff6ebbabeaa0d52feb774"
+    },
+    "tests/manual/agent_opd/sglang_mamba_runtime_metadata.py": {
+      "path": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image/tests/manual/agent_opd/sglang_mamba_runtime_metadata.py",
+      "bytes": 27623,
+      "sha256": "c820ff7aa4a820b7f81ced8e2567eef51c0534c7f6cace074f905176a6c160e1"
+    }
+  },
+  "argv": [
+    "/opt/sglang/bin/python3",
+    "-B",
+    "-m",
+    "sglang.launch_server",
+    "--model-path",
+    "/mnt/posttrain/checkpoints/open-models/Qwen/Qwen3.5-27B/model",
+    "--host",
+    "0.0.0.0",
+    "--port",
+    "30000",
+    "--nnodes",
+    "1",
+    "--node-rank",
+    "0",
+    "--dist-init-addr",
+    "100.102.169.66:29501",
+    "--tp-size",
+    "4",
+    "--dtype",
+    "bfloat16",
+    "--context-length",
+    "131072",
+    "--mem-fraction-static",
+    "0.85",
+    "--max-running-requests",
+    "1",
+    "--chunked-prefill-size",
+    "8192",
+    "--disable-cuda-graph",
+    "--enable-deterministic-inference",
+    "--attention-backend",
+    "fa3",
+    "--linear-attn-prefill-backend",
+    "triton"
+  ]
+}
