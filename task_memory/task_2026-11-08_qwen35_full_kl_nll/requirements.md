@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Original producer/lifetime/F→S readiness and all scoped A/B measurement prerequisites are PRIMARY ACCEPTED281e70f7,source-backed,consuming already-accepted4da controls/same0dc serving library/R3 CPU alias lifetime. The [current frontier](progress.md#current-execution--workflow-rca) is existing compact warm OLD/FRESH7955×1×256 interpretation for A16/B10 FULL layers,NEXT/PENDING,no values read yet. S.wait(F) precedes selected next-loop stash;it need not first pass host-copy synchronize,and F!=S remains. No new collection/probe/descriptor/archive/allTP/mapped-ELF/global-race/event-timestamp gate. Fixed4da progress review returned PASS3/BLOCKED2/TODO1/D1–D7 CLEAR;667 corrected its routine S5 locations. Numerical/root/warm fix/performance/formal200 are not accepted;warm1/4 FAIL,formal04/05 HOLD,06 each own200/B no A200 edge,all source/R3/WIT/controls/history/raw/science/six methods/53 checkboxes remain. No new scope/approval/flags/tests/GPU permission.
+**Current execution:** e2ab706a PRIMARY ACCEPTED_SCOPED_NUMERIC_AUDIT for A/B,not equality PASS:A32/32 and B20/20 rows nonexact. Qualified local FULL K/V equality FAIL supports candidate1 canonical-versus-fresh trajectory difference only in responding TP0/warm7955/A16-B10 FULL scope. The [current frontier](progress.md#current-execution--workflow-rca) is request FULL/recurrent handoff source RCA IN PROGRESS,cause UNRESOLVED;four hypotheses were registered before analysis,no behavior change or new approval.281e readiness/4da controls/source f8/R3/0dc/alias-lifetime remain accepted;S.wait(F) before stash/future F.wait(S),not scalar equality/host-sync-first. Numeric-progress D1–D6 CLEAR/D7 corrected frozen-reference read,S5 routine sync. No invalid SSM/warm cause/earliest divergence/global race/fix/performance/formal200 acceptance. Warm1/4 FAIL/formal04/05 HOLD/06 each own200/B no A200 edge/history/raw/science/six methods/53 checkboxes remain. No repeated numeric/native/source/hash/CPU checks,new gate/flags/GPU permission.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record accepted e2 scoped numeric audit/local equality FAIL and source-RCA IN PROGRESS;retain candidate1 causal limits and corrected frozen-reference D7 checkpoint. |
 | 2026-11-11 | Close primary source-backed original ordering/measurement readiness at281e70f7;advance only existing compact numerical interpretation NEXT/PENDING and record returned fixed4da progress result. |
 | 2026-11-11 | Record successful r3/accepted bounded controls and scoped physical source gate;advance original ordering qualification without KV interpretation,new gates or resetting prior acceptance. |
 | 2026-11-11 | Record actual r3 submissions and first Initial A Starting/B Running as platform/input facts only;preserve native/formal limits and prior checkpoint. |
