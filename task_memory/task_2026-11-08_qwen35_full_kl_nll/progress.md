@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record selected archive/source audit closure and read-only numeric design; preserve failed collector/inspection evidence and all formal/scientific limits. |
 | 2026-11-11 | Accept corrected bounded native namespace controls/target isolation; preserve initial inspector/control failures, source-seed/full-entry gaps and formal hold. |
 | 2026-11-11 | Accept cache-salt CPU/fixed reviews and A execution terminal/B Running snapshot; record nonblocking local verification and pending inspector/numerical outcomes. |
 | 2026-11-11 | Advance routine D40 namespace implementation, preregister controls/isolation and retain pending native/fix status with a new four-section checkpoint. |
@@ -176,10 +177,10 @@ PY
 
 ## Current execution — workflow RCA
 
-- **D40 / BOUNDED_NATIVE_NAMESPACE_COUNTERFACTUAL_ACCEPTED; formal04/05 BLOCKED.** [A terminal](evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-A.json)/[B terminal](evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-B.json)confirm Succeeded/Completed0/restart0; actual4 H800/source math6+overlay16/fixed caller0c and baseline4f are independently verified. Original startup snapshots remain historical; no GPU rerun/stop/newformal job. Primary source/CPU review0c606967/864020c9 remains separate from accepted native retained outcomes; this docs slice reruns no business/native tests and stages no reports/code/config/evidence.
-- **Accepted exact controls/limited warm-FULL scope:** [A controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)/[B controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)each12/12 controls (8 unsalted response preserve original warm drift,4 salted cold full exact) plus4/4 salted warm-full-to-owncold exact. Existing defined maxabs/relative errors0 retain undefined countsA1/1/1/3,B3/5/4/4. Bounded first4/rep0/16requests10flushes supports cross-request sharing as an important necessary condition for observed warm-FULL drift, not numerical KV–SSM coherence/historical cause/rootFIX/performance/formal acceptance. Warm-response controls still exhibit original drift; original56rep2/1024 coverage remains absent.
-- **Corrected inspector scope, original failures preserved:**075e75ca CPU RED/GREEN46 new+36 existing closes erroneous global gate on shared controls. [A r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)/[B r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)CPU PASS:165 conditional unique binding joins each;8 salted-full RIDs/100 applicable target joins/all3 equalities PASS.65 unsalted-control geometry joins retain62PASS/3expectedFAIL, not isolation gate. [Initial A](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A.json)/[initial B](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B.json)false-global-FAIL JSONs are protected.169 complete chunks/16 initial-fullchunk-tracking observations equal each, not must-unchanged gate. No count/order/node/zero/no-rebind shortcut, erased control failure, changed tolerance/science or GPU rerun. Primary A/B reports are appending r2 qualification, archive/delivery not declared complete here.
-- **Source qualifications and next work:** B live seed263946245 differs baseline596871011; sameRNG is not claimed. Retained prefill-only compute_logprobs_only/sampler bypass, stochastic Mamba=false/dynamic chunk=false leave the entry-source gap unresolved. Normal H_index No-finding copy=True/int64+clone is not full H_index clearance; FullComponent hook bodies remain missing. The launched0GPU full-component-source collector is not called PASS before retained receipt; no GPU failure/root fix inferred. TP0/DP1/host metadata does not prove physical slots/device completion/allTP/race/history, and B donor96576/node145/COW/canonical adoption does not prove numerical coherence. D39/D34/S7/raw/decisions/checkboxes/D16/commoncycle/H2006/profile2 remain fixed; formal04/05held→required correctness/fresh admission→each200/profile/terminal→06, no A200 gate/later-update loop or cache-off/precision/concurrency/budget/fallback change.
+- **D40 / SOURCE_AUDITS_CLOSED / NUMERICAL_MEASUREMENT_DESIGN_IN_PROGRESS; formal04/05 BLOCKED.** Primary18dc354b archives70 selected evidence/report/inspection/scoped-review/new33 pinned source files; raw98MB native outputs remain persistent workspace references, not original staged files. Immutable raw.diff context whitespace is not normalized; ignored emptyfailure.log remains untracked. Native A/B16/10 accepted controls/target scope and source/CPU reviews remain separate from numeric/historical cause/root/performance/formal acceptance. No new GPU/formal/source-code fix or business test is claimed by this docs slice.
+- **Archived native scope, original failures preserved:** [A controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)/[B controls](evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)each12 exact controls/four salted warm-FULL cases retain original warm-response drift and undefined-zero counts. Corrected[A r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)/[B r2](evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)accept100 applicable target triples, not65 shared-control geometry observations62PASS3expectedFAIL; initial false-scope FAILs/169chunks/16 observations remain archived, with no GPU rerun or extra unchanged gate. Necessary cross-request-sharing inference stays bounded first4/rep0/16/10, not numeric coherence/root/perf.
+- **Source/collector audits CLOSED, not GPU ordering:** pre-submit wrong-module ImportError corrected to StepMindController; first actual0GPU command failed with absentRJOB_NAME/private TMP700/file600 dependency. No stderr means permission denial is not directly observed. ActualKUBEBRAIN_RJOB_NAME and inline python-c eliminate private-temp dependence. [Retry terminal](evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[33-source manifest](evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)prove Succeeded/five components/SHA/SG0.5.24.dev80+g056f871/image165 and submit/terminal creator/mount;16 private literals were sanitized before primary commit. Exact H_index int64/copy=True/clone, FULL split/host/device clones, retained/no-overwrite and lock-ref/free paths have no source finding—not ordering/allocator values. Seed default random.randint[0,2^30], once-only TP/WORLD scheduler broadcast and grammarNONE prefill/logprobs-only Sampler bypass close these requests' entry scope; B seed still differs, no SameSeed/general RNG-free claim. Unexercised delayed grammar/Sampler is outside scope, not blocker.
+- **Current work only:** read-only analyzer `profile-kv-recurrent-coherence-measurement-design-20261111` prepares numerical design, ranked canonical old-KV/fresh-SSM relation, varlen snapshot values, GPU ordering/slot lifetime. Proposed16 baseline/control reuse, preallocated original-producer-stream buffers and readback after ALL requests is not yet selected/approved code/CPU/GPU; no CUDA-critical item/cpu/tolist/sync/wait measurement is approved. All16 reproduction is diagnostic adequacy, not a new formal gate. TP0-only/warm-RESPONSE/56rep2/1024/physical/allTP/device/coherence/history limits remain; D39/D34/S7/raw/science/checkboxes/D16/B edge/H2006-profile2 stay unchanged. Required correctness/fresh admission→independent200→06, no A200 gate/policy/tolerance/new decision or later-update auto-loop.
 
 ### Completed cold/warm milestone — historical before e2feca95
 
@@ -2198,3 +2199,60 @@ git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements
 1. 每model12controls/4saltedwarmexact及target8RID100join通过；definederrors0保留undefinedcounts，支持bounded sharing重要必要condition而非KV–SSM数值/历史cause。
 2. 初版globalFAIL与unsalted62PASS3FAIL完整保留；075e75ca CPUscope修正无GPU重跑，169chunk/16观察相等不是额外unchangedgate。
 3. B resolvedseed不同/FullComponent入口缺口/collector资格未闭合，warm-response仍原drift；formal04/05BLOCKED/06待200，nativecounterfactual接受不等于root/perf/fix/task接受。
+
+## 1. 规划完成情况
+
+**TaskID：** `profile-cache-salt-counterfactual-records-20261111`；**检测窗口：** `0f840f57` bounded native checkpoint→primary18dc354b archive/source33 closure→本次read-only numeric-design状态。只核对retained records，不查询platform或运行CPU业务/GPU测试。
+
+| Ticket | 判定 | 已记录证据/未完成项 |
+| --- | --- | --- |
+| 01 | PASS | 原始source/D34/parity接受，scope不变 |
+| 02 | PASS | CPU/S7/D16真实GPU接受 |
+| 03 | PASS | CPU integration/profile接受 |
+| 04 | BLOCKED | Native16/10＋source audit/archive接受；numeric design/cause/correctness/独立200未完成 |
+| 05 | BLOCKED | A edge满足、B请求source闭合但seed不同；numeric正确性/fresh admission/独立200未完成，无A200gate |
+| 06 | TODO | CPU slice接受；实际A/B200/report/terminal数据仍缺 |
+
+**计数：** PASS3｜BLOCKED/FAILED/SKIPPED2｜TODO1。**主线：** read-only numeric proposal→必要证据/设计接受→因果correctness验证→freshH800 formal04+05→独立200→06；没有批准probe/code/GPU或新增criterion。Source audits closed不等于GPU ordering/allocator值；SameSeed/general RNG-free不成立。
+
+## 2. 主线偏离检测
+
+| 编号 | 结论 | 当前窗口记录 |
+| --- | --- | --- |
+| D1 Tooling polish | CLEAR | Selected archive/source identity闭合前置证据，numeric设计面向实际未测量量，不新增工具功能 |
+| D2 Repeated-fix sink | CLEAR | 单次source command失败后按实际env/inline证据retry成功；无重复同故障GPU/无不变参数自动loop，旧失败不删 |
+| D3 Side quest | CLEAR | Source审计与numeric设计属于D40/04/05，未新增ticket/science/cache政策 |
+| D4 Parallel work | CLEAR | Source/archive已landed，read-only analyzer设计与primary证据维护独立；不把方案准备当批准probe |
+| D5 Unrelated tests | CLEAR | 此slice只做scoped docs，source/code/CPU/GPU结果来自retained receipts，不加business smoke |
+| D6 Analysis sprawl | CLEAR | Source gap具体闭合，下一步排优先级numeric量；没有反复泛化或宣称cause |
+| D7 Beyond authorization | CLEAR | D39/D40、S7/原256/预算/硬件及checkbox固定；无新GPU/CPU probe/code/decision/RootFIX批准 |
+
+| 文档模式 | 结论 | 实际证据/处理 |
+| --- | --- | --- |
+| S1 Scope edges | CLEAR | Bounded controls/source/diagnostic adequate与formal200分层；无额外A200 gate |
+| S2 Ownership | CLEAR | Primary owns archive/report/platform；read-only analyzer ownsnumeric proposal；此agent只8docs |
+| S3 Dependency soundness | CLEAR | Source闭合不阻塞同请求，numeric correctness/fresh resources仍必要；05 A edge已满足 |
+| S4 Measurable outcomes | CLEAR | 既有native/profile/200保持；16vector reproduction仅proposal诊断adequacy，非新增formalcriterion |
+| S5 Current state | HIT→corrected | 旧headers仍source/FullComponent/report未交付；已按18dc354b/retry33/auditclosed改，当前design未批准 |
+| S6 Vertical slice | CLEAR | Numeric evidence→correctness→freshformal→200→06；不以source闭合宣布RCA/task完成 |
+
+## 3. 路线纠正
+
+**Branch：** B；routine S5 correction已完成，raw/science/checklists/history保留。**停止行为：** 不把source clone/ref审计当device/order值、不说sameSeed/general RNG-free、不从无stderr推permissiondenial、不删除false-scopeFAIL/3共享control观察、不以archive选定numericprobe/rootfix/formal接受。
+
+1. 保留18dc354b source/native archive及Failed source command，r2 Succeeded qualification已闭合；unexercised delayed grammar不扩成本请求blocker，raw98MB refs/raw.diff/context/ignoredlog不动。
+2. Read-only analyzer提出numeric设计：优先old-KV/fresh-SSM数值、varlen snapshot、ordering/slot lifetime；若提出producer-stream preallocation/postALLreadback，必须证明16 baselinevectors复现，否则诊断不足，不批准criticalCUDA item/cpu/tolist/syncwait。
+3. Proposal未接受之前不实现/提交numeric CPU/GPU probe；残余warm-response/56rep2/1024/allTP/physical/coherence/history及formal200保持open。因果验证/fresh admission后formalA+B可并行，无新A200 gate/政策/tolerance/decision/后续autoloop。
+
+**本次doc-only核验（repo root，非业务/CPU/GPU实验）：** 精确8docs、raw/all decisions、六ticket checkbox（A/B17）、S1–S9、六verification方法及旧review/history/checkpoints不变PASS；最新exact4sections/3PASS2BLOCKED1TODO/BranchB/S5routine correction/七条D-row CLEAR及source-CLOSED/numeric-proposal未批准范围PASS。Patch字形上下文/patch文本格式校验失败均未写入，按实际文本/格式校正；guard全局CLEAR计数误含S表，改为仅7D-row，未修改结果/科学参数。Existing checker实际71文档/6tickets/454links/88anchors、exit1/61errors=60known frozen相对依赖缺失＋primary A报告`artifact`链接、owned0；不编辑报告/checker/冻结artifact，也不把外部doc错误当source失败。原始.raw/.diff/log及报告/evidence/code/config不纳入此commit。精确命令：
+
+```bash
+python3 -B tests/manual/agent_opd/check_profile_docs.py task_memory/task_2026-11-08_qwen35_full_kl_nll
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/{requirements.md,plan.md,progress.md,summary.md,spec.md,review.md,tickets/04-a-full.md,tickets/05-b-full.md}
+```
+
+## 4. 最值得关注的 3 点
+
+1. Source/audit CLOSED＋archive70/33newSRC交付；没有GPU ordering/allocator数值或新的rootfix/performance结果。
+2. Native16/10接受scope不变：12controls/4warm-full、target100triples/169chunk；初版FAIL与unsalted3expectedFAIL完整保留，warm-response仍drift。
+3. Numeric measurementdesign只读IN-PROGRESS，ranked hypotheses不是已选实验；actual B seed不同，sourceSampler bypass只覆盖这些prefill-only请求，formal04/05HOLD/06等待200。

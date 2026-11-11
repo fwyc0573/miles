@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close B source/archive scope despite different seed; hold formal B on numeric correctness/design/full coverage without a new A200 gate or checkbox change. |
 | 2026-11-11 | Accept B bounded namespace controls/target isolation while qualifying different resolved seed and pending entry-source/full-coverage evidence; keep formal criteria open. |
 | 2026-11-11 | Accept namespace CPU/fixed reviews and record B Running snapshot, keeping terminal/native controls and formal acceptance pending. |
 | 2026-11-11 | Record D40 namespace implementation pending and correct live donor metadata; preserve formal hold, satisfied A edge and all checkboxes. |
@@ -38,9 +39,9 @@
 
 **What to build:** 与 04 相同的协议，teacher 换为 Qwen3.5-35B-A3B。
 
-**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle、first4/namespace CPU及bounded native controls/适用target isolation接受。更广shared正确性/entry-source/fix资格/freshformal admission/本cell200仍PENDING，无A200/profile/32-H200 gate/stop权限。
+**Blocked by:** 01、02、03 已接受；04 firstA ACK/inspection/commoncycle、bounded native controls/target isolation/source audits/archive接受。Shared数值正确性/design qualification/cause/fix/freshformal admission/本cell200仍PENDING，无A200/profile/32-H200 gate/stop权限。
 
-**Status:** BLOCKED formal / BOUNDED_NATIVE_NAMESPACE_COUNTERFACTUAL_ACCEPTED D40; formal B not started。[B terminal](../evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-B.json)Completed0/restart0/actual4H800及qualified source/caller verified；[B controls](../evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-B-controls.json)12/12 controls、4/4 salted warm-full exact/defined errors0/undefined3/5/4/4接受。[B r2](../evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-B-r2.json)075e75ca corrected CPU PASS：165conditionalbindings/8fullRIDs100targetjoins3equalitiesPASS；65unsalted observations62PASS3expectedFAIL不是target gate，初版globalFAIL保留，无GPU rerun/科学或tolerance变化。169 chunks/16 initial-fullchunk-tracking equal只是observed；unsalted warm-response仍原drift。B actual seed263946245≠baseline596871011，不声称sameRNG；retained prefill-only compute_logprobs_only/sampler bypass及false stochastic/dynamicchunk不闭合entry-source/FullComponent gap，0GPU collector无receipt不声称PASS/fullH_index cleared。Bounded first4/rep0/16/10不证明numericalKV–SSM/历史cause/rootfix/perf/formal，56rep2/1024/physical/allTP/device/race未覆盖，R2 report archive待primary交付。No新decision/criterion/checkbox/A200/profile/32-H200gate/stop/fallback/policy/auto-loop；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / SOURCE_AUDITS_CLOSED / NUMERICAL_DESIGN_IN_PROGRESS D40; formal B not started。Bounded native16/10/target scope及18dc354b archive接受，原false-scope FAIL/3expected shared-control failures/raw refs保留。[0GPU retry](../evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[manifest](../evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)闭合exactH_index/FULL clone/retain/ref/free与这些grammarNONE prefill-only/logprobs-only Sampler source。Actual seed263946245≠baseline596871011，source default/once-only TP-WORLD broadcast闭合不等于SameSeed/general RNG-free；unexercised delayed grammar不作本请求blocker。Read-only numeric design ranked old-KV/fresh-SSM、varlen values、ordering/lifetime，无accepted design/code/CPU/GPU/fix/perf。Warm-response/56rep2/1024/allTP/physical/coherence/history/200未解除；无新A200/profile/32-H200 gate/科学/checklist变化；[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。

@@ -2,6 +2,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Close retained source/archive qualification and advance read-only numeric design; preserve formal A hold and every acceptance checkbox. |
 | 2026-11-11 | Accept A bounded namespace controls/target isolation after inspector scope correction without closing formal correctness, source/cause/full-coverage or200 criteria. |
 | 2026-11-11 | Accept namespace CPU/review phase and A terminal execution only; canonical source/numerical/control/isolation and formal criteria stay open. |
 | 2026-11-11 | Advance D40 to pending namespace-counterfactual implementation/controls while retaining formal BLOCKED state and acceptance checkboxes. |
@@ -41,9 +42,9 @@
 
 **What to build:** 使用 SWE-1003 0913 数据、interleaved turn order（32 × 8）和 Distillation profile，完成 200 个 successful update；不保存 HF，不做评测。
 
-**Blocked by:** 01、02、03 及D16/commoncycle、first4/namespace CPU及bounded native controls/适用target isolation均接受；更广D40正确性/source/cause/fix资格/freshformal admission/本cell独立200仍未解除，不resume/拼接旧probe/6。
+**Blocked by:** 01、02、03 及D16/commoncycle、bounded native controls/target isolation/source audits/archive均接受；D40数值正确性/design qualification/cause/fix/freshformal admission/本cell独立200仍未解除，不resume/拼接旧probe/6。
 
-**Status:** BLOCKED formal / BOUNDED_NATIVE_NAMESPACE_COUNTERFACTUAL_ACCEPTED D40。[A terminal](../evidence/teacher-scoring-cache-salt-probe-20261111/terminal-replica-A.json)Completed0/restart0/actual4H800及qualified source/caller verified；[A controls](../evidence/teacher-scoring-cache-salt-probe-20261111/native-verification-A-controls.json)12/12 baseline controls、4/4 salted warm-full exact/defined errors0/undefined1/1/1/3接受。[A r2](../evidence/teacher-scoring-cache-salt-probe-20261111/native-inspection-A-r2.json)075e75ca corrected CPU PASS：165 conditional bindings、8 salted-full RIDs/100 target joins/3equalities PASS；65 unsalted geometry observations62PASS3expectedFAIL保留，不作target gate。初版globalFAIL保留，无GPU rerun/新tolerance/science；169 complete chunks/16 initial/fullchunk/tracking equal仅observed。First4/rep0/16/10必要sharing推断不证明numericalKV–SSM/historicalcause/root/perf/formal，warm-response仍drift。Source entry/full-component0GPU collection资格未PASS，original56rep2/1024/physicalslot/allTP/device/race未覆盖，R2 report delivery由primary追加未声称归档。No新decision/criterion/checkbox/A200gate/stop/fallback/policy/auto-loop；[Current](../progress.md#current-execution--workflow-rca)。
+**Status:** BLOCKED formal / SOURCE_AUDITS_CLOSED / NUMERICAL_DESIGN_IN_PROGRESS D40。Bounded A controls12/warm-FULL4/conditional target scope与18dc354b archive接受，原false-scope FAIL/3 expected共享geometry failures保留，raw outputs留workspace refs。[0GPU retry](../evidence/native-sglang-cache-source-20261111/full-component-seed-terminal-r2.json)/[33-source manifest](../evidence/native-sglang-cache-source-20261111/exp-1111-091926-052191/source.json)闭合exact H_index/FULL clone-retain/ref/free及这些grammarNONE prefill/Sampler source，仅source而非GPU ordering/allocator/numeric cause。Read-only numeric proposal ranked old-KV/fresh-SSM、varlen snapshots、ordering/slot lifetime；无accepted design/code/CPU/GPU/fix/perf。Warm-response/56rep2/1024/allTP/physical/coherence/history/200仍未通过，raw/science/checklists/D39/S7/无A200 gate保持；[Current](../progress.md#current-execution--workflow-rca)。
 
 - [ ] 冻结attempt identity、源代码、解析后的配置、输入和模型identity；按spec S8和D33在H800/codesign提交，无task GPU数量上限，正式cell非抢占。
 - [ ] 输入使用 `loss_masked` turn source 和 01 审计生成的源文件 manifest；作业另挂载 posttrain 卷，原位读取源文件（spec S8）。
