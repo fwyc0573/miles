@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Both original bounded H800 diagnostics are terminal Failed with container Error/exit1/restart0. Scoring completed16 requests per pair and both business completion/cleanup flags are true, but separate vector/identity parity verification is IN PROGRESS, not accepted. Capture is FAIL/UNVERIFIED: the startup guard rejected raw ServerArgs.page_size=None before topology/bank allocation although the sealed resolved view and runtime allocator use page1. See the [current outcome and source-only RCA](progress.md#current-execution--workflow-rca). Original runs remain frozen at `b9e1ebb6`; the minimal resolved_dict guard correction, focused tests/reviews and updated native run are pending, distinct from accepted CPU archive `79ff8bcc`/R3/source/WIT. This auxiliary correction is not a teacher warm/root fix or formal acceptance. D39/D40/D10, HF/eval disabled, bank_uses=50, S7, raw decisions, science, all53 checkboxes, formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged.
+**Current execution:** `9da07919` accepts bounded original A/B controls: all16/6804 EXACT and selected CPP2704/1690 only. `6119bee1` commits the resolved-config CPU/source fix:17 affected/69 composed checks, zero skips, both fixed review axes No findings and primary checksum limits CLOSED. Warm1/4 FAIL and original capture FAIL/no KV remain; this is not teacher warm/root or native capture acceptance. Fresh D40 bounded H800 r2 is NOT SUBMITTED; primary will submit after this record synchronization is accepted. See the [current frontier](progress.md#current-execution--workflow-rca). Original r1/b9 evidence, accepted R3/source/WIT, raw decisions,science,all53 checkboxes,D39/D40/D10,HF/eval disabled,bank_uses=50,S7,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record accepted bounded r1 controls and committed CPU/source fix6119bee1 with closed reviews/checksums; advance current frontier to unsubmitted D40 r2 without changing science. |
 | 2026-11-11 | Record both original H800 capture failures and completed scoring/cleanup, source-only raw/resolved guard RCA, and pending fix/control verification without changing science. |
 | 2026-11-11 | Record actual bounded H800 A/B submission and Initial Running/Pending snapshot; retain pending native acceptance and all scientific decisions. |
 | 2026-11-11 | Record primary acceptance of actual bounded R3 CPU and fixed oracle, completed R3 collector linkage/283 checks, and the authorized unsubmitted H800 frontier; preserve all decisions. |

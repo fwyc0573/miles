@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Both original H800 diagnostics are terminal Failed with capture FAIL/UNVERIFIED at the preallocation startup guard. Both scored16 requests and completed business measurements/cleanup, but vector/identity parity remains IN PROGRESS, not accepted. The [current outcome/RCA](progress.md#current-execution--workflow-rca) records the raw sealed page_size=None versus resolved schedule/allocator page1 cause; this is not later mutation or a teacher warm/root fix. Original `b9e1ebb6` runs remain separate from the uncommitted minimal resolved_dict correction and pending tests/reviews/updated native run. No topology/banks/KV payload/7955 physical proof exists; accepted source/R3 CPU/WIT and R2 evidence are not reset. Formal04/05 HOLD,06 waiting independent200,science/all53 checkboxes and B's no-A200 edge remain unchanged. Initial snapshots and earlier checkpoints remain historical.
+**Current execution:** Bounded original A/B controls are primary accepted at `9da07919`: all16/6804 EXACT and selected CPP2704/1690 only. `6119bee1` commits the CPU/source guard correction with RED1 FAIL/GREEN1 PASS,17 affected/69 composed zero-skip checks, fixed axes No findings and closed primary checksum limits. The [current frontier](progress.md#current-execution--workflow-rca) is fresh D40 H800 A/B r2, NOT SUBMITTED; both controller dry-runs are submitted=false with unchanged protocol/args/environment/allocation and the same R3 receipt. Warm1/4 FAIL, original capture FAIL/no KV, new source/private SO/S/7955/native/KV UNVERIFIED and formal04/05 HOLD remain. Original b9/r1 raw/source baselines,source/R3 CPU/WIT,science/all53 checkboxes,06 waiting independent200 and B's no-A200 edge are preserved. Earlier pending-fix checkpoints remain historical.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive accepted bounded controls and committed CPU/source guard fix with closed reviews/checksums; retain unsubmitted native r2, warm/capture failures and formal hold. |
 | 2026-11-11 | Archive original H800 capture FAIL, completed scoring/cleanup and source-only raw/resolved guard cause; retain pending parity, fix/reviews/native rerun and formal hold. |
 | 2026-11-11 | Archive actual authorized A/B submission and Initial A Running/B Pending snapshot without promoting input allocation to native or numerical acceptance. |
 | 2026-11-11 | Archive accepted actual bounded R3 CPU/fixed oracle and frozen R3-bound collector/283 checks; advance current records to authorized unsubmitted H800 physical/numeric work. |
