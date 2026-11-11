@@ -2,6 +2,8 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Consume accepted A/B native CPP witnesses; specify RID-bound two-bank payload/index captures, exact budgets, post-loop drain, physical alignment checks and bounded CPU/native qualification. |
+| 2026-11-11 | Correct the executable OLD seam: both native runs use RustUnifiedTreeCore, not the Python insert walker. Mark original pre-split OLD capture BLOCKED on the version-matched Rust implementation/observer, without changing backend or substituting a post-insert measurement. |
 | 2026-11-11 | Bind A's partial-overlap target independently from its original native RID and unique checkpoint receipt keys. |
 | 2026-11-11 | Correct the nonexistent forward-batch accessor; authorize minimal diagnostic context publication and distinguish CPP from Triton prefix-valid witnesses. |
 | 2026-11-11 | Qualify the selected allocator and both FFI stream-source branches; select witness-only preparation before numerical capture. |
@@ -10,95 +12,227 @@
 
 # KV coherence measurement proposal
 
-Status: **STATIC BRANCH QUALIFIED; witness-only preparation in progress. Numerical payload capture remains unaccepted; no new GPU run submitted.**
+Status: **A/B bounded CPP witnesses ACCEPTED; selection/budget/FRESH/readback protocol specified; executable original pre-split OLD capture BLOCKED on the actual Rust backend seam. Payload capture and formal 04/05 remain unaccepted.**
 
-This proposal serves the D40 correctness blocker in tickets 04 and 05. It does not change the experiment matrix, cache policy, scientific inputs, tolerances, or formal admission criteria. The earlier namespace counterfactual establishes that shared cross-request cache participates in the bounded warm-full deviation; it does not establish numerical incoherence or its cause.
+TaskID: `profile-kv-recurrent-coherence-measurement-design-20261111`. This revision edits only this design. It consumes primary acceptance of the native witnesses, not authorization to implement or run a numerical collector. Requirements/plan were reread without editing: `requirements.md:82` and `plan.md:60` now record the accepted WIT/design frontier; older running-witness entries remain history.
 
-## Question and controlled workload
+This is D40 correctness RCA, not a new training/evaluation population, cache fallback or science change. Rank the remaining candidates as: (1) canonical KV payload versus the current recurrent trajectory; (2) erroneous live varlen checkpoint values despite the selected-FP32 path; (3) slot lifetime or GPU ordering. Index-storage ownership is not KV-payload truth. This revision does not re-audit or change the earlier H_index disposition.
 
-Compare the fresh physical K/V values written by the current request with the live canonical K/V values that the cache will adopt for the same token positions. Record both actual index sets independently. A tensor reference alone does not protect the physical slots referenced by its indices.
+## Accepted evidence and its limits
 
-Retain the verified selected-FP32 plus CPU-metadata baseline: first four fixtures, repetition zero, original unsalted payloads and order, 16 scoring requests and 10 flushes per pair. All 16 completion vectors must reproduce their corresponding verified baseline exactly before interpreting numerical receipts. This diagnostic adequacy condition is not a new formal gate. Native execution takes minutes because it retains the actual long inputs and teacher; CPU tests cannot certify the warm deviation.
+Paths are relative to this task directory. `S` below means `evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source/`; `M=S/srt/mem_cache`, `R=S/srt/model_executor`. `W_B` means `evidence/teacher-scoring-kv-stream-witness-probe-20261111/native/B/admission-B-r1/kv_store_stream_source_preflight/after/`. `C_B` is the retained CPU-metadata cache/boundary overlay at `evidence/teacher-scoring-runtime-metadata-probe-20261111/native/B/admission-B-r1/runtime_metadata_source_preflight/after/`; it is used for instrumentation-site references, not as a substitute for the accepted final WIT context.
 
-The first proposed target is B's warm-full sample 2, with checkpoint protected prefix `P=90112`, page-aligned end `E=98304`, and old overlapping prefix end `Q=98067`. Its overlap has `Q-P=7955` rows. Bind the native request through its actual CPU input tokens and scoring range, then join cache calls by `(native_request_id, P, E)`. Verify the target against the existing response RID after all requests. Do not use request counts, node IDs, recycled addresses, or adjacency to identify it. [Independent A CPU verification](test_report_2026-11-11_kv_coherence_target_A.md) establishes the same window for A sample1695 from its own original rows21138/21141/21142, not by copying B's geometry. This identifies a bounded measurement window, not a numerical fault.
-
-## Proposed capture boundaries
-
-1. **Fresh payload:** immediately after each reachable physical store, freeze the selected K/V rows from the full-attention pool on the qualified producer stream, before fresh slots can be released. `_store_kv_layer` alone is insufficient: CUDA `set_kv_buffer_prefix_valid` terminals bypass it. The proposed class-owned capture boundary must also cover those terminals without double-counting the CPU path that already calls `set_kv_buffer`. Retain layer identity, pool buffers and the writer `loc` slice. Use the actual global-to-dense layer mapping and all local KV heads.
-2. **Old payload:** before the tree walk splits the existing FULL node, freeze every live fragment intersecting `[P,Q)` on the schedule stream. The original node index tensor avoids reading a just-created split clone. Existing dependencies establish readiness and physical-slot lifetime for the statically selected `TokenToKVPoolAllocator` branch; the actual allocator class and store stream still need runtime confirmation before capture.
-3. **Independent indices:** freeze the actual FULL `InsertParams.value[P:E]` and actual canonical rebind indices on their respective producer streams. Existing metadata named `insert_value` contains a Mamba value, not these FULL indices.
-
-Never read fresh slots after `insert()` returns: duplicate ownership may already have been released, and neither payload preservation nor clearing is guaranteed.
-
-## Three prerequisites from source/design review
-
-| Prerequisite | Required proof | Current disposition |
+| Witness | A | B |
 | --- | --- | --- |
-| OLD dual-input dependency and lifetime | Each fragment's index producer is covered by an existing dependency, and its physical KV rows cannot be reused before gather finishes. Post-insert locks are not pre-split protection. | Source-qualified for the recorded B configuration's inferred `TokenToKVPoolAllocator`: index bookkeeping does not overwrite KV payload, and the next forward waits on the schedule stream. Actual class receipt pending; no new wait or lock. |
-| Actual store launch stream | Resolve the JIT `LaunchKernel`, TVM FFI stream bridge and PDL completion contract. A Python return alone does not prove that a subsequent physical gather is ordered after the store. | Both Cython CAPI/fallback stream-source chains are qualified. Actual in-call stream scalar remains unmeasured; witness-only preparation is selected. |
-| Writer row/RID binding | Establish actual CPU forward context, native RIDs and prefix/extend lengths at the store hook. Sum preceding extend lengths to locate flattened rows, slice writer locations consistently, and verify exactly-once K/V coverage for every actual FULL layer. | GDN host-field carry qualified, but the specified global-context batch field is absent. Minimal CPU-only diagnostic publication is authorized; implementation, writer/FULL-index and prefix-valid real-row coverage remain pending. |
+| Native job | `exp-1111-113511-067358` | `exp-1111-113511-669312` |
+| Business reproduction | 16/16 vectors exact, 6,804 values | 16/16 vectors exact, 6,804 values |
+| Workload / terminal | 16 requests / 10 flushes; four actual H800; Completed0/restart0 | Same |
+| Actual allocator | `TokenToKVPoolAllocator`, page1/CP1 | Same |
+| Responding-process CPP/terminal joins | 2,704 unique joins / 169 chunks / 16 FULL layers | 1,690 / 169 / 10 FULL layers |
+| Global FULL layers | 3,7,...,63 | 3,7,...,39 |
+| Recorded in-call native stream = Torch F | PID391: `1266433792` | PID335: `655895424` |
+| CUDA Triton prefix-valid KV terminals | 0 startup and business | 0 startup and business |
 
-The store hook itself has no `Req`. Neither row identity nor stream safety may be inferred from an assumed one-request batch. Missing or duplicate captures must be reported as insufficient.
+Sources: [A report](test_report_2026-11-11_kv_stream_witness_native_A_results.md):27-44,77-94; [B report](test_report_2026-11-11_kv_stream_witness_native_B_results.md):50-68,94-116; [A JSON](evidence/teacher-scoring-kv-stream-witness-probe-20261111/native-verification-A.json); [B JSON](evidence/teacher-scoring-kv-stream-witness-probe-20261111/native-verification-B.json). Primary accepts the bounded WIT result even where the report's original acceptance text predates that decision.
 
-The earlier writer analysis incorrectly called `get_forward_context().forward_batch` an existing accessor. The complete pinned `forward_context.py:39–47,85–99` has a frozen/slotted context with only `attn_backend` and a MoE getter. Passing `forward_batch` at `eager_runner.py:351` publishes that getter, not the batch. Source preparer report `test_report_2026-11-11_kv_stream_witness_source.md` reproduces `AttributeError` with the real context manager. Do not substitute the graph-only `runner_utils.get_forward_batch()` or infer identity through a bound getter.
+The fixed source composition is caller `26664e81`, witness helper `79dba51b`, 35 qualified final paths / five witness edits; six attention-math identities remain unchanged. Raw `native_compilation=UNVERIFIED` stays truthful: successful integer-return ABI and nonempty CPP specialization were observed, not a fresh-build/binary hash or CAPI-versus-fallback classification. Those missing classifications do not negate the observed actual resolved scalar. Stream equality is not completion, PDL readiness, global TP or numerical-coherence evidence. Do not hard-code these run-specific stream IDs into the next collector.
 
-Primary authorizes a minimal diagnostic-only field in the existing `ForwardContext` and publication through its existing `dataclasses.replace` call, preserving the existing scope restoration. No second global or receiver is added. This is an in-scope D40 CPU metadata change, not an engine math or synchronization change; its RED/GREEN binding is pending. Native CPU extend lengths and RIDs follow request order, with writer offsets equal to the sum of preceding extend lengths. Actual A/B metadata still proves GDN host carry: 8,112/5,070 allocation rows and 165 prefill-plan rows each have non-null native RIDs/CPU lengths with no mismatches; 169 translated rows carry RIDs only. Those backend observations do not certify global writer-context publication, physical indices or actual store coverage.
+The final WIT `ForwardContext.forward_batch` is real, published through the existing `replace`/restore scope (`W_B/srt/model_executor/forward_context.py:39-48,86-101`). It was not exposed by the original pre-WIT manager. Use this owner; add no global eager getter. Triton stream remains UNVERIFIED if a later path actually selects it.
 
-The prefix-valid follow-up establishes that CPU calls converge through `_store_kv_layer`, whereas two CUDA terminals call a module-level implementation without a layer index. A class-owned post-store boundary is therefore needed to retain layer identity. For request `i`, compute `offset=sum(extend_lengths[:i])`, `lo=max(window_start,prefix[i])` and `hi=min(window_end,prefix[i]+extend_lengths[i])`; the corresponding writer rows are `[offset+lo-prefix[i], offset+hi-prefix[i])`. Capture both writer locations and actual FULL insert/rebind indices, then compare their values only after the requests. This direct comparison does not require inferring allocator values from source. CPU host-field preservation is qualified; actual CUDA prefix-valid rows are not. `num_rows` is capacity, whereas `commit_lens` controls actual writes. A future selected prefix-valid capture must retain per-row commit lengths on the original stream and inspect them only after all requests; neither a total count nor a critical-path CUDA value read is sufficient.
+## Controlled workload and target identity
 
-## Qualified stream join and runtime conditions
+Keep the original unsalted first four fixtures, repetition0, sequential order, 16 scoring requests and 10 flushes per pair. Do not add salt, explicit native RID, seed, warmup, namespace, or scoring payload fields. Cache, dtype, grid/interval, sampling, concurrency, PDL flag and native dependencies remain unchanged.
 
-The source follow-up identifies the callback on schedule stream `S` and this candidate order using only native dependencies:
+Target fixture: sample1695, opaque UID `00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127`, original input98942, FULL scoring start0. Window parameters from the accepted fixture/receipts are `P=90112`, `E=98304`, capacity `R=E-P=8192`. The original shared target has returned end `Q=98067`, hence 7955 old rows and237 new-suffix rows. Q is recorded dynamically, not used to choose a request or manufacture a join.
+
+- A original target proof: [JSON](evidence/kv-coherence-target-A-20261111.json), RID `4b0a4f32c0a4431a964188b979fd3719`, rows21138/21141/21142. Its accepted WIT counterpart has RID `c1745ed1548e4b12885700dc3d5c0617`, scheduler25695 and layer3 CPP25707/terminal25708. Old/new RIDs are not interchangeable.
+- B accepted WIT target RID `ea2093c6cc3f4c1e98b42fa0b9ef4e92`; begin16557, returned16560 and rebind16561 independently supply P/E/Q. Row numbers are evidence references, never pairing rules.
+
+### Selection before the OLD decision
+
+The writer has no Req, and native RID is unknown before send. Register candidates from the actual CPU Req beside the existing `scheduler_track_boundary` emission, before forward submission: `return_logprob`, `logprob_start_len==0`, and `len(req.origin_input_ids)==98942`; preserve `req.rid`. Req's actual field is `origin_input_ids`, not an invented `original_input_ids` (`S/srt/managers/schedule_batch.py:1091-1095`). The instrumented prepare method is `_mamba_radix_cache_v2_req_prepare_for_extend`, with boundary emission at `C_B/srt/managers/schedule_batch.py:3142,3239-3260`.
+
+Exactly two distinct RIDs satisfy this predicate in the fixed16 loop: cold-full and warm-full sample1695. Allocate two opaque banks and bind a free bank to each RID once. Allocation order is not phase identity: never label bank0 cold, infer warm from Q, or overwrite a bank. Store only CPU keys, not a retained Req/InsertParams object. Arm its FRESH window only on the matching `(RID,prefix=P,extend=R)` chunk.
+
+After all responses, map each bank RID through `requests.jsonl.native_request_id == meta_info.id == completion_scores.native_request_id`, then through `(pair, source_uid, sample_index, repetition, phase, mode)`. The actual request schema uses `input_count`, `logprob_start_len`, global `sample_index=1695`, local `sample_position=2`, and phases `cold` / `warm_stream` (not `cold_request`). Offline inspection finds two eligible full-input RIDs per pair: A cold `39d26b2d48454ea4820b92cb70d7dc13` / warm `c1745ed1548e4b12885700dc3d5c0617`; B cold `84fff0a5acdb465bb4653a1aed484a33` / warm `ea2093c6cc3f4c1e98b42fa0b9ef4e92`. These are historical checks, not next-run constants. Require exactly the two expected logical full-input cases, zero retractions and unchanged input/scoring descriptors. Unexpected/missing candidates make diagnostic evidence insufficient; do not alter or retry serving to force them.
+
+## Pool topology and writer binding
+
+The allocator's live root is `HybridLinearKVPool`; the writer is its distinct inner `MHATokenToKVPool`. Equality of their object IDs is wrong. Source ownership is explicit: `S/srt/mem_cache/memory_pool.py:4281-4306` assigns/constructs `root.full_kv_pool`; `4352-4357` publishes `model_layer_ids` and `full_attention_layer_id_mapping`.
+
+At the proposed collector initialization, after native backing finalization and before requests, record one CPU topology receipt from simultaneous live objects: actual allocator/module/page/config, `allocator.get_kvcache()` root, `root.full_kv_pool`, global-to-dense mapping, and each inner K/V shape/stride/dtype/backing pointer. Verify each later writer `self` is that same live child and uses the mapped buffers. This closes the historical absence of an explicit runtime parent link without treating recycled IDs as permanent keys.
+
+Consume the existing scoped batch's `rids`, `extend_prefix_lens_cpu`, `extend_seq_lens_cpu`. For row i, let `offset=sum(extend_lens[:i])`, `lo=max(P,prefix_i)`, `hi=min(E,prefix_i+extend_i)`. Writer rows are `[offset+lo-prefix_i, offset+hi-prefix_i)`. Keep CPU row index tied to its actual RID array. Accepted native batches each have one RID; verify, do not infer identity from that count.
+
+Reuse the accepted complete CPP/terminal key `(rids,prefix_lens,extend_lens,Kptr,Vptr,writer_loc_ptr)` plus writer descriptor within a live process/call. A small target-only CPU map can carry the existing CPP scalar to the matching class terminal; duplicate or absent keys do not authorize capture. Do not read the FFI context after return, use a sequence-adjacent CPP row, or scan the entire receipt history on every store.
+
+## FRESH and index capture specification
+
+Use only the currently exercised ordinary CPP/NHD class-owned post-store terminal: `W_B/srt/mem_cache/memory_pool.py:2993-3014`, after the unchanged `_store_kv_layer` call (`3016-3063`). Immediately gather physical rows from `self.k_buffer[dense]` / `self.v_buffer[dense]` using the same writer `loc` slice; copy writer locations into that layer's int64 receipt. Perform both on the original F stream, using preallocated output slices. Require the matching existing in-call CPP scalar to equal the current Torch F stream and indicate a nonempty launch before adding gathers. Native store has already launched; this is an observer/arming check, not launch-before preflight or stream correction.
+
+Freeze all R rows for both candidates before Q is known, all measured FULL layers and local heads. Fresh payload must never be gathered after `insert()` returns or at rebind: duplicate slots may already be released. The earlier loop may already have queued a later chunk; immediate producer capture is essential.
+
+At the cache bridge, materialize the existing inline InsertParams constructor as a local `insert_params` without changing its arguments, then before `self.insert(insert_params)` copy the actual FULL `insert_params.value[P:E]` into its preallocated receipt on S (`M/unified_radix_cache.py:1230-1238`; `C_B/srt/mem_cache/unified_radix_cache.py:1239-1249`). This tensor is the real int64 copy. Metadata field `insert_value` refers to `mamba_value` and cannot substitute for it.
+
+At the native rebind site, copy `new_indices[P:E]` on S alongside the unchanged mapping write (`M/unified_radix_cache.py:1284-1298`; `C_B/srt/mem_cache/unified_radix_cache.py:1304-1326`). Record the dynamically returned Q, rotation status and direct RID. These are index-byte copies, not post-free fresh-payload reads.
+
+Carry `(collector,RID,P,E)` with the exact insert invocation, independently of Q/node/result: the Python InsertParams dataclass is nonslotted (`M/base_prefix_cache.py:75-108`), so a diagnostic-only transient attribute is possible without modifying key/value semantics. However, the actual Rust adapter reconstructs a native binding with enumerated fields; it does not forward that attribute. Any future qualified OLD native observer must receive the same plain context explicitly. Do not pretend the attribute alone reaches Rust.
+
+CUDA prefix-valid KV terminals are not selected in WIT and are excluded from the first numeric collector. Unexpected selection is unsupported/insufficient, not a reason to implement a generic Triton path or force a CPP fallback. A separately authorized future path would need its own stream witness and per-row CUDA `commit_lens` receipt; CPU `num_rows` is capacity, not proof of valid rows. No such value capture is part of this revision.
+
+## OLD specification and the newly identified executable blocker
+
+The required observation is the original, live FULL index tensor before the native walker splits/retains the node. For each live matched fragment, derive its absolute interval from the native walk's total-prefix position and matched prefix length, intersect with `[P,E)`, and gather all FULL-layer K/V into the corresponding OLD output rows on S. Copy the exact same original index slice into the OLD int64 receipt. No collected path tensor, fresh value, post-insert rebind tensor, new split clone or Mamba value is an original-node substitute. Do not fill uncovered rows and call them equal.
+
+The pure-Python candidate would be after `prefix_len` calculation and before `_split_node` (`M/unified_cache/unified_tree_core.py:1282-1294`); its FULL value is `node.component(BASE_COMPONENT_TYPE).value` (`159-172`, `component_type.py:31`), not an assumed `node.value` property. **That is not the executed backend in these runs.**
+
+Decisive actual-path evidence:
+
+- B WIT `server.log:120-121` and A `server.log:126` identify TP0 `RustUnifiedTreeCore` with FULL+MAMBA; neither switches to the Python core for this diagnostic.
+- `M/unified_cache/tree_core_registry.py:153-168` constructs Python and Rust separately.
+- `M/rust_tree_core/adapter.py:308` implements `UnifiedTreeCoreInterface`, not Python `UnifiedTreeCore`; `801-829` calls the native binding's begin/resume directly. Therefore a Python `_insert_walk_step` patch produces no valid OLD evidence.
+- `adapter.py:524-531` raises `NotImplementedError` for `node_by_id`/`root_node`; `796-799` exposes collected path indices, not a demonstrated original pre-split per-node tensor.
+- `M/rust_tree_core/extension.py:11-29,33-39` loads `sglang.srt.mem_cache.rust_tree_core.mem_cache`; the corresponding crate is repository `rust/sglang-radix-tree`. The retained installed-package tree contains no `.rs` source. Its 5,501 files close the Python/Cython/allocator omissions, not this native Rust observer.
+
+**Minimal missing dependency:** version-matched source/ABI of that bundled Rust binding's insert walker and FULL tensor handling, plus a verified existing or purpose-specific observation seam that supplies the original FULL tensor, absolute range and insert context before split/free. The native source must also establish the original index tensor's producer/dependency and that the observer executes on the scheduler's S thread; a callback location or held tensor reference alone does not prove readiness of a native clone on an unknown stream. Do not invent a getter or assume inspection-only APIs exist in production. The test-only inspection extension is a different module and is not an approved backend replacement.
+
+Primary choices, neither performed here:
+
+1. Close this bounded native dependency and qualify an inline observer on the same S thread before the original split/actions, without changing key decisions, locks, waits or cache policy. Then validate the unchanged native outputs after installing the diagnostic overlay.
+2. Explicitly approve a different measurement question using post-insert actually adopted canonical slots through existing collected indices. That is not the required original pre-split measurement; provenance/lifetime would need its own qualification. Do not silently substitute it.
+
+Until choice1 is qualified or the question is explicitly revised, the two-sided native numerical arm is **BLOCKED**. No new source collector, inspection run, payload probe or code implementation is executed by this design task.
+
+## Existing dependency and slot-lifetime argument
+
+The intended observer adds work only at the original producer/dependency join:
 
 ```text
-F.wait(S) -> forward/store
-S.wait(F) -> result callback
-S: OLD gather -> split/cache actions
-next F.wait(S) -> subsequent payload writes
+F.wait(S) -> native forward/store -> immediate FRESH(F)
+S.wait(F) -> result callback -> original-node OLD(S)
+S: native split/free/index bookkeeping
+next F.wait(S) -> subsequent physical payload writes
 ```
 
-OLD gather on `S` would consume the original pre-split index after its schedule producers and after the existing forward barrier. This avoids consuming a newly cloned schedule index on an earlier forward dependency. The complete source closes the allocator gap for the recorded B branch: `kv_cache_configurator.py:2795–2923` selects `TokenToKVPoolAllocator` for page size 1, CP1, graphs off and the recorded disabled unified-memory/hicache/memory-saver/sharding settings. Disabling unified memory does not disable the unified radix cache under investigation. This is an inference, not a historical class observation.
+C2 scheduler:2023-2025 establishes callback S;2032-2038/2122-2135 provides the native coarse dependency for normal EAGER EXTEND;4696-4697 supplies next-F's native S gate. Preserve the original PDL flag. An ordinary non-PDL gather remains behind completion of its same-stream store; a PDL trigger is not permission to read early.
 
-`allocator/base.py:284–293` routes `free_segment` to `free`; `allocator/token.py:42–75` and `allocator/base.py:217–233` clear, slice, concatenate, group or sort index lists without clearing, moving or deallocating KV payload. No other-stream payload compaction exists in this branch. CPU ID release can precede gather completion without overwriting payload: subsequent forward writes remain behind the existing `F.wait(S)` gate. Startup backing finalization (`model_runner_components/kv_pool_runtime.py:151–155`) is not per-request freeing. These facts do not qualify other allocators or substitute a tensor reference for a slot lock.
+Actual WIT allocator/config now supports applying `M/allocator/base.py:284-293`, `M/allocator/token.py:42-75`, `M/allocator/base.py:217-233`: free/clear/alloc/group/sort manipulate indices, not KV payload or another-stream compaction. CPU ID release can precede gather completion without a physical overwrite because future writers wait on S. Native backing remains alive; memory-saver/unified/hicache/sharding are off. Startup finalization (`R/model_runner_components/kv_pool_runtime.py:151-155`) is not student TrainTMS or per-request payload freeing.
 
-The retained launcher resolves a device stream through `TVMFFIEnvGetStream`; the argument context is set for the call and restored on return. Therefore reading the FFI raw stream after `module.store_cache` returns is not an actual-call witness. Complete `tvm_ffi/cython/function.pxi` source qualifies both branches: the factory selects CAPI or fallback at lines 783–799, CAPI obtains the producer's current stream at 204–219, and fallback reads the Torch current raw stream at 284–289. The helper sets/restores that context (`tvm_ffi_python_helpers.h:470–495`), and the launcher uses it (`utils.cuh:397–418,474,493`). The historically selected branch and actual launch stream remain unobserved. Do not force the context. With a qualified identical stream, ordinary non-PDL gather uses normal same-stream completion ordering; PDL early trigger does not authorize it to read before the store finishes.
+Retain original index references through gather enqueue; they protect index storage, not slots. Add no lock, CUDA event, wait, query, synchronization, `record_stream`, forced FFI context or cache-policy branch. The argument requires the actual native OLD seam to be at the stated frontier; it cannot turn an unreachable Python hook into a qualified observation.
 
-The package-level source completion Succeeded as `exp-1111-102145-988437`: 5,501 files / 79,478,292 bytes, including 12 Cython files. All manifest hashes/bytes pass, with 1,805 matching prior paths and no repeated path lacking a match. Read-only qualification TaskID `profile-kv-recurrent-coherence-measurement-design-20261111` closes the source gaps above. Source retention or qualification alone does not admit payload capture; no further fragment collector is selected.
+## Preallocation: two opaque banks, actual A and B budgets
 
-## Witness-only stage selected before payload capture
+Allocate after native KV capacity/backing is finalized, before any scoring request. Do not reduce that capacity or allocate transient gather results. Use `index_select(...,out=preallocated_view)` or equivalent ordinary same-stream copies. Derive R from the retained target window; layer counts, row shapes/bytes and mapping from the actual pool, not a fixed ten-layer assumption.
 
-Prepare a pinned source overlay that returns the stream scalar actually used inside `CPPStore.run`, using the existing resolver/raw-stream constructor without changing the chosen stream. The Python custom-op retains its `None` return and appends only CPU tuple metadata through the existing drain. Record the actual allocator class and publish the diagnostic CPU batch field through the existing context owner. Preserve the baseline first4 workload, order, payloads and 16 requests/10 flushes; no KV copy, CUDA tensor value read, new buffer, event, wait, lock, cache/dtype change or new endpoint is part of this stage.
+Each bank holds FRESH K/V and OLD K/V for every FULL layer and all R rows. Accepted descriptors are BF16, one local head, dimension256; each K row and V row is512 bytes. Two banks avoid discarding a candidate based on inferred phase/chronology. The cold bank's unwritten OLD region is never read as numeric data.
 
-CUDA prefix-valid terminals are separate Triton implementations, not CPPStore calls (`memory_pool.py:3377–3390,3412–3421`). Record their actual selection with CPU terminal metadata, but do not label the Torch current stream as their native launch witness. If those terminals occur without a qualified actual-call stream receipt, coverage is insufficient for later payload arming. Witness-only does not copy CUDA `commit_lens`; the later numerical stage must validate its real per-row values if this path is selected.
+| Pair | FULL layers | Payload per bank: `2*R*L*(512+512)` | Two-bank payload | Int64 receipts: `2*(L+3)*R*8` | Explicit allocated total |
+| --- | --- | --- | --- | --- | --- |
+| A | 16 | 268,435,456 bytes =256 MiB | 512 MiB | 2.375 MiB | **514.375 MiB** |
+| B | 10 | 167,772,160 bytes =160 MiB | 320 MiB | 1.625 MiB | **321.625 MiB** |
 
-Source/integration CPU verification and fixed-diff review precede any bounded H800 witness run. Its acceptance requires all 16 baseline scoring vectors to reproduce exactly and actual stream/class receipts to support the qualified branch. A native stream scalar obtained after launch is not a launch-before preflight. Missing, mismatched or incomplete evidence prevents arming a later payload capture; it must not trigger a stream correction or a fallback. Actual writer/FULL-index equality and any selected prefix-valid real-row validation remain separate numerical-stage requirements. Formal A/B remain paused.
+The int64 allocation includes writer locations per layer plus one OLD, FULL-insert and rebind vector per bank. CPU coverage intervals, layer-presence masks and keys are small metadata. Keep only needed source index references through enqueue, not whole Req/InsertParams/Mamba-state objects until drain; avoid additional persistent native index-storage retention. Pool tensor objects themselves remain natively owned. Runtime shapes/dtypes must agree before using these estimates; insufficient memory is a readiness issue, not permission to shrink coverage silently.
 
-## Buffers and readback
+## Post-loop readback and physical qualification
 
-Allocate diagnostic buffers after the native KV pool has selected and allocated its capacity, and before the scoring requests. The maximum window is `E-P=8192` rows. Use preallocated gather outputs; avoid transient gather allocations. Compute the required bytes from actual per-layer shapes, strides, dtypes and local head counts:
+All capture-time operations are GPU stores into the preallocated receipts or CPU metadata. No CUDA `.item()`, `.cpu()`, `.tolist()`, explicit synchronization, new event/wait, or critical-path file logging. No SSM pre/post sample: the callback may already follow a later submitted forward and does not establish equal token boundaries.
 
-`2 sides * 8192 * sum(K row bytes + V row bytes)`.
+Use the existing post-loop `/server_info` route and internal-state RPC, with a proposed diagnostic-only `kv_coherence_drain` request marker defaulting false. Startup/normal getters remain CPU-only. Only the caller after all16 successful scoring responses requests the one-shot numeric drain; record that lifecycle and the distinct completed RIDs in CPU metadata. Completion bookkeeping is not request identity or device-completion proof. Reject an early/incomplete drain without CUDA readback.
 
-For illustration only, ten FULL layers with one local KV head, K/V dimensions 256 and BF16 storage require 160 MiB, plus index receipts. This is not an asserted runtime configuration or a replacement for measured shapes.
+This marker is a small extension of the existing readback path, not a new endpoint, compute/cache flag or generic framework: `http_server.py:854-879` -> `tokenizer_control_mixin.py:1122-1129` -> currently empty `GetInternalStateReq` (`io_struct.py:2442-2450`) -> `scheduler_components/internal_state.py:45-63`. Its API plumbing is a required future implementation detail; the existing empty request cannot already carry it. Keep inherited/formal diagnostics opt-out and all scoring payloads unchanged.
 
-Startup getters remain CPU-only. Numerical D2H readback is a manual diagnostic drain after all 16 scoring responses. Return per-layer K/V coverage, exact equality, maximum absolute error, maximum relative error with old values as reference, undefined zero-reference counts and nonfinite counts. Add no epsilon or tolerance. The final design must establish producer-stream ordering for the drain as well as capture.
+Selected captures occur before multiple later forwards in the fixed loop. Those native F.wait(S) dependencies and completed subsequent scoring responses establish the target S work has ended; immediate FRESH work is before its producer's native scoring completion. The post-loop controller performs permitted D2H only then, on S, without adding an explicit wait. Compute metrics layer-by-layer on CPU and return compact scalar metadata through the existing dict response; do not serialize hundreds of millions of payload elements into JSON or add a large raw archive. Cache the drained summary for later CPU-only reads.
 
-The first round does not sample active SSM state before/after cache callbacks: overlap may already have submitted the next chunk, so the callback does not establish that state is still at `E`.
+First qualify physical rows, without selecting a pairing using the equations being tested:
 
-## Interpretation and stopping rules
+1. Within each RID, bind begin/rebind by their independently emitted page-aligned end when unique; bind returned/rebind by RID/node/result-prefix signature when unique. Node IDs are not request identities. Never choose begin because Q equals P. Require the selected `(RID,P,E)` invocation and dynamic Q to be complete/unambiguous.
+2. Per FULL layer, frozen writer locations equal frozen real FULL `InsertParams.value[P:E]` exactly.
+3. OLD fragment intervals cover `[P,Q)` once per layer, with no gaps/duplicates/restored-from-fresh substitution; for the warm target expect7955 rows dynamically confirmed, not zero-initialized evidence.
+4. Frozen original OLD indices equal frozen actual rebind indices on `[P,Q)` exactly; rebind's new suffix equals frozen insert indices on `[Q,E)`.
+5. Validate bounds/dtypes and the mapped physical buffer topology. A mismatch disqualifies the proposed same-row old/fresh interpretation; it is not automatically a diagnosed historical corruption.
 
-- Baseline vectors differ: instrumentation is not equivalent; do not use it to exclude ordering or races.
-- Nonzero local KV differences: supports the local coherence candidate, not a causal fix or proof that this is the first divergence.
-- All local KV values equal: narrows only this checkpoint, these FULL layers and TP0; earlier adoptions and other TP ranks remain unmeasured.
-- Unproven dependencies or lifetime: leave the diagnostic BLOCKED and present a concrete proposal. Do not continue fragmented source fetches, add waits/locks, or silently replace physical capture with a writer-only measurement.
+Then compare K and V separately for every warm FULL layer, all7955 rows, all local heads/dimensions. Report numeric exact equality, mismatch count, maximum absolute error, maximum relative error using OLD as reference, undefined count where OLD is zero, and nonfinite counts. No epsilon, scale correction or new tolerance. Preserve layer/token/head/dimension and values for extrema. With two banks, cold-FRESH versus warm-FRESH at the same coordinates is an optional descriptive comparison using already captured data, not an additional run or SSM oracle. Cold OLD with no actual overlap remains absent.
 
-Even exact reproduction cannot exclude a race. Physical slots, all-TP coherence, warm-response correctness, original 56-request/two-repeat coverage, 1024-hit cases, historical causality and end-to-end performance remain outside this proposal's demonstrated scope. No new mandatory 56-request gate is introduced. Formal A/B remain paused.
+## Expected falsifiable interpretation
 
-## Retained source evidence
+- All16 completion vectors/token IDs and original comparison records must reproduce the accepted WIT/baseline exactly, including existing warm errors. If not, the instrumented run is not equivalent and cannot exclude ordering/races. Exact reproduction is necessary, not sufficient to exclude a race.
+- Qualified nonzero OLD/FRESH K or V differences establish a local physical difference at actual adoption. They support candidate1 but do not prove an invalid SSM state, warm causality, earliest divergence or a fix. Existing shape/chunk-dependent arithmetic may contribute.
+- Complete local equality narrows candidate1 only for this checkpoint/TP0/full-layer span. It does not exclude earlier adoption, live checkpoint-value errors, later slot/order failures or other TP ranks.
+- Missing OLD native observer, stream mismatch, unsupported terminal, incomplete topology/index alignment or changed geometry means insufficient evidence, not numerical equality. Do not force a stream, add a wait/lock, widen tolerance, change cache policy, or stop native training through an auxiliary verdict.
 
-- `evidence/native-sglang-cache-source-20261111/exp-1111-094840-273565/source.json`: zero-GPU job Succeeded; 67 source files, including 30 store-package files; all hashes/bytes verified, nine prior matches, zero mismatches. It exposed the missing generic launch/bridge dependency.
-- `evidence/native-sglang-cache-source-20261111/exp-1111-100210-790198/source.json`: zero-GPU source-closure job Succeeded; 1,537 files / 21,897,427 bytes; all hashes/bytes verified, 97 prior matches, zero mismatches; installed `apache-tvm-ffi=0.1.11`. Complete SGLang kernel and installed TVM FFI source/header retention is not itself launch-stream or runtime qualification.
-- `evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source.json`: zero-GPU package-source job Succeeded; 5,501 files / 79,478,292 bytes; all hashes/bytes verified, 1,805 prior matching paths, zero paths without a matching prior copy. Full installed SGLang source and 12 TVM FFI Cython files close the earlier selection omissions; source availability is not execution qualification.
-- Submission and terminal provenance remain in the adjacent `kvcache-store-stream-*.json`, `kvcache-stream-closure-*.json` and `allocator-cython-package-*.json` receipts. All three jobs used the pinned formal image, personal creator, local NFS source and zero GPUs.
+This first measurement is KV-only. No active SSM, fresh independent200 acceptance, formal cache-off/salt fallback, science changes or mandatory original56 gate. Formal04/05 remain HOLD; cold/startup source checks, CPP ABI execution and zero-restart platform success do not lift it.
 
-Read-only design review TaskID: `profile-kv-coherence-design-review-20261111`. Progress checkpoint TaskID: `profile-kv-coherence-progress-checkpoint-20261111`; tickets 01/02/03 PASS, 04/05 BLOCKED, 06 TODO; D1-D7 CLEAR in the inspected window, no new S1-S6 defect. This records progress, not design acceptance.
+## Minimal future patch and qualification plan
+
+No files below are edited by this task; this is the proposed ownership list, contingent on the OLD source blocker/primary decision.
+
+- One purpose-specific manual helper/preparer, `tests/manual/agent_opd/sglang_kv_coherence.py`, plus focused CPU tests and the existing probe's isolated numeric configuration. Reuse selected-FP32 -> CPU metadata -> accepted WIT composition; archive reversible before/after identities and keep six attention-math hashes and original CPP kernel/PDL launch unchanged.
+- Native initialization/topology and FRESH: existing `model_runner.py` finalization and `memory_pool.py` ordinary class terminal. Reuse WIT's published ForwardContext and in-call scalar; a small target-only note at `kvcache.py` can pass the existing scalar without another bridge/native ABI change.
+- Candidate registration: existing `schedule_batch.py` boundary. FULL insert/rebind bytes and direct invocation context: `unified_radix_cache.py`. The Python `unified_tree_core.py` is **not** an executable OLD patch for Rust; actual OLD requires the version-matched native seam identified above.
+- After-all readback only: the existing HTTP, tokenizer-control, IO request and scheduler internal-state files carry the manual marker and compact summary. No separate endpoint, runtime cache switch, training gate or per-critical-path file writer.
+
+CPU tests should cover: two candidate RIDs allocated in either order; response-only exclusion; RID-to-logical-case binding; bank exhaustion/missing cases without serving modification; flattened row offsets; 16-layer A versus10-layer B budgets; unique independent checkpoint/CPP joins with negative mismatches; fragment coverage and dynamic-Q clipping; pre-free FRESH ordering; original OLD source and before-split ordering on the actual backend; scoped batch restoration; early drain performs no CUDA content operation; all16-before-readback; strict opt-out; and zero-reference/nonfinite metric rules. Fake Python walkers cannot claim Rust-native coverage. Reuse existing tests; add no generalized framework.
+
+Native arm conditions: OLD seam/source and same-S call path qualified; prepared source pins/composition reviewed; CPU tests pass; actual allocator/config/topology and CPP stream witnesses match; bounded banks allocated after native capacity selection; primary authorizes the one original16/10 H800 diagnostic. Native adequacy additionally requires all16 original vectors exact, all target layer/index/7955-row coverage complete, and post-loop-only D2H. None are claimed completed by this design revision.
+
+## Readiness, records and scope checkpoint
+
+Completed prerequisites: primary-accepted WIT A/B, actual selected allocator/CPP streams, published host context and source-level root/child topology. Specified deliverables: selection, two-bank budgets, FRESH/indices, desired OLD range, physical checks, after-all transport/readout and falsifiable interpretations. Remaining implementation work is not acceptance evidence.
+
+**Critical blocker:** actual Rust original-node/pre-split observer is not available in the retained source/API. Resolve only that version-matched dependency or obtain an explicit revised measurement decision; do not repeat launcher/FFI/source-fragment investigations or switch cache backends. No source collector/fetch/run was performed in this revision. Accepted WIT completion is already reflected in shared requirements/plan; the newly identified Rust dependency should be reflected there by the primary. This agent does not edit those records.
+
+Source-reference validation, candidate cardinality and budget arithmetic were checked offline without importing Torch/SGLang or re-running numerical suites. No supporting report/archive was created. Self-check frontier is D40's bounded diagnostic: no GPU collector, platform/auth action, delegation, code/shared-doc edit or unrelated audit was performed. Earlier progress checkpoints remain history, not current payload approval.
+
+### Offline verification of this revision
+
+Environment: local host, workspace worktree, Python3.10.6; standard-library-only script from stdin. Expected: existing evidence links/source paths, two distinct candidate RIDs in each16-row request file, phases cold/warm_stream, sample1695/position2, integer retraction0, and the stated memory arithmetic. Actual: **PASS**, five evidence links present; both pair candidate checks pass; A total514.375 MiB, B321.625 MiB; no retained Rust source. This is not collector CPU/native qualification or vector re-verification.
+
+Initial audit assumptions failed with `KeyError: 'input_token_count'` and a phase `AssertionError` from assuming `cold_request`. Raw-field inspection established the actual `input_count` and phase `cold`; the corrected audit passes. These were offline checker/schema corrections, not teacher/runtime fixes.
+
+The final command was `set -e; python3 - <<'PY'` with the following body, followed by the two scoped Git commands below:
+
+```python
+import json, platform, re
+from pathlib import Path
+T = Path('task_memory/task_2026-11-08_qwen35_full_kl_nll')
+text = (T / 'design_kv_coherence_measurement.md').read_text()
+assert text.startswith('## Modification History\n')
+links = re.findall(r'\]\(([^)]+)\)', text)
+for link in links:
+    assert (T / link).is_file(), link
+S = T / 'evidence/native-sglang-cache-source-20261111/exp-1111-102145-988437/source'
+for rel in ['srt/mem_cache/rust_tree_core/adapter.py',
+            'srt/mem_cache/rust_tree_core/extension.py',
+            'srt/mem_cache/unified_cache/unified_tree_core.py',
+            'srt/mem_cache/base_prefix_cache.py',
+            'srt/mem_cache/allocator/token.py']:
+    assert (S / rel).is_file(), rel
+assert not list(S.rglob('*.rs'))
+W = T / 'evidence/teacher-scoring-kv-stream-witness-probe-20261111/native/B/admission-B-r1/kv_store_stream_source_preflight/after'
+assert (W / 'srt/model_executor/forward_context.py').is_file()
+assert (W / 'srt/mem_cache/memory_pool.py').is_file()
+for pair, layers in [('A', 16), ('B', 10)]:
+    P = T / f'evidence/teacher-scoring-kv-stream-witness-probe-20261111/native/{pair}/admission-{pair}-r1'
+    rows = [json.loads(line) for line in (P / 'requests.jsonl').read_text().splitlines() if line]
+    candidates = [r for r in rows if r['mode'] == 'full_input'
+                  and r['input_count'] == 98942 and r['logprob_start_len'] == 0]
+    assert len(rows) == 16 and len(candidates) == 2
+    assert len({r['native_request_id'] for r in candidates}) == 2
+    assert {r['phase'] for r in candidates} == {'cold', 'warm_stream'}
+    for r in candidates:
+        assert r['native_request_id'] == r['meta_info']['id']
+        assert (r['sample_index'], r['sample_position']) == (1695, 2)
+        assert type(r['meta_info']['num_retractions']) is int
+        assert r['meta_info']['num_retractions'] == 0
+    payload = 2 * 2 * 8192 * layers * (512 + 512)
+    indices = 2 * (layers + 3) * 8192 * 8
+    print(pair, payload / 2**20, indices / 2**20, (payload + indices) / 2**20)
+print('PASS', len(links), platform.python_version())
+```
+
+```bash
+git diff --check -- task_memory/task_2026-11-08_qwen35_full_kl_nll/design_kv_coherence_measurement.md
+git diff --numstat -- task_memory/task_2026-11-08_qwen35_full_kl_nll/design_kv_coherence_measurement.md
+```
+
+The scoped whitespace check passed. No unrelated working-file content was inspected; the only written artifact is this owned design.
