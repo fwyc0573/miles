@@ -1,0 +1,415 @@
+{
+  "schema": "kv-coherence-native-A-r3-numeric-v1",
+  "task_id": "profile-kv-coherence-native-A-r3-numeric-20261111",
+  "primary_acceptance": {
+    "status": "ACCEPTED_SCOPED_NUMERIC_AUDIT",
+    "date": "2026-11-11",
+    "basis": "Read both artifacts and check all32 rows against the retained small result, all64 FP32 extrema and aggregate totals; consume prior same-RPC projection checks without repeating full runtime/control/source/native verification.",
+    "measurement_equality": "FAIL_LOCAL_FULL_KV",
+    "causal_root_or_fix": "NOT_ACCEPTED",
+    "formal04_05": "HOLD"
+  },
+  "date": "2026-11-11",
+  "pair": "A",
+  "job": "exp-1111-194637-456465",
+  "verdicts": {
+    "measurement_prerequisites": "PRIMARY_ACCEPTED_SCOPED_CONSUMED_281e70f7",
+    "compact_metric_projection": "PASS_SAME_RPC_RAW_NORMALIZED_RESULT",
+    "all32_metric_consistency": "PASS",
+    "all64_extremum_FP32_arithmetic": "PASS_EXACT",
+    "scoped_OLD_FRESH_equality": "FAIL_NONZERO_32_OF_32_ROWS",
+    "candidate1": "SUPPORTED_LOCAL_PAYLOAD_DIFFERENCE_AT_ADOPTION_ONLY",
+    "cold_OLD": "ABSENT_METRICS_NULL",
+    "optional_cold_FRESH_vs_warm_FRESH": "SKIPPED_NOT_RETAINED_PAYLOAD_CLEARED",
+    "raw_payload_count_maxima_replay": "NOT_POSSIBLE_INTENTIONALLY_ABSENT",
+    "warm_correctness": "FAIL_UNCHANGED_1_OF_4",
+    "formal04_05": "HOLD",
+    "formal06": "EACH_BRANCH_REQUIRES_OWN_INDEPENDENT_200_UNCHANGED"
+  },
+  "prerequisites": {
+    "accepted_commit": "281e70f7",
+    "controls_commit": "4da5c3eb",
+    "physical_artifact": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/physical-index-verification-r3.json",
+    "physical_report": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_r3_physical_indices.md",
+    "submission_report": "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_r3_submission.md",
+    "A_controls_artifact": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native-verification-A-r3.json",
+    "original_producer_lifetime_F_to_S": "PASS_SOURCE_BACKED",
+    "all_layer_FRESH": "PASS",
+    "fresh_layers_raw_hash_paired_descriptor_new_gate": false,
+    "F_scalar": 642383120,
+    "S_scalar": 647954864,
+    "F_equals_S": false,
+    "baseline_hash_CPU_native_qualification_repeated": false
+  },
+  "measurement_scope": {
+    "scope_id": "A-r3-TP0-OLD90112-98067",
+    "warm_rid": "d1f39efbb85546309cb149c82d6341e3",
+    "cold_rid": "2743596029b34b6a93ede6fe881e55a4",
+    "sample_index": 1695,
+    "sample_position": 2,
+    "repetition": 0,
+    "source_uid": "00e890ea9815f44285414507e5bdfd69e4e67d3a1768d70d1f57393e0ecc17e6:5:127",
+    "mode": "full_input",
+    "input_count": 98942,
+    "logprob_start_len": 0,
+    "identity_basis": "Actual result.logical_case plus already-accepted original request identities; no repeated baseline/score reads",
+    "responding_process_id": 333,
+    "responding_rank": "TP0",
+    "configured_tp_size": 4,
+    "coverage": "responding TP0 only; no all-TP gather",
+    "P": 90112,
+    "E": 98304,
+    "Q": 98067,
+    "old_rows": 7955,
+    "uncompared_suffix_rows": 237,
+    "FULL_global_to_dense_mapping": [[3,0],[7,1],[11,2],[15,3],[19,4],[23,5],[27,6],[31,7],[35,8],[39,9],[43,10],[47,11],[51,12],[55,13],[59,14],[63,15]],
+    "K_V_backing_shape": [1833689,1,256],
+    "dtype": "torch.bfloat16",
+    "device": "cuda:0",
+    "local_KV_heads": 1,
+    "head_dimension": 256,
+    "per_layer_side_comparison_shape": [7955,1,256],
+    "per_layer_side_comparison_elements": 2036480,
+    "total_layer_side_comparison_elements": 65167360,
+    "relative_reference": "OLD",
+    "relative_undefined": "OLD==0; not replaced by epsilon",
+    "arithmetic": "BF16 to FP32; rounded FP32 subtraction/absolute/division",
+    "cold_old_rows": 0,
+    "cold_metrics": null
+  },
+  "metric_provenance": {
+    "result": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3/result.json",
+    "runtime_metadata": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3/runtime_metadata.json",
+    "projections": ["result.kv_coherence.summaries[0]","runtime_metadata.kv_coherence[0]","runtime_metadata.server_info.internal_states[0].kv_coherence"],
+    "metric_projection_exact_equal": true,
+    "projection_copies": 3,
+    "independent_measurement_count": 1,
+    "source_metric_definition": "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/native/A/admission-A-r3/kv_coherence_source_preflight/after/srt/kv_coherence.py:311-344",
+    "source_payload_release": "same file:392-395; captured receipt has no raw payload/indices",
+    "collector_numeric_acceptance_unchanged": null,
+    "collector_interpretation_unchanged": "UNVERIFIED until independent all16/6804 baseline vectors and source/index gates pass",
+    "counts_and_maxima_basis": "Source-backed computed compact metrics; not independent raw-payload replay"
+  },
+  "checks": {
+    "rows_checked": 32,
+    "extrema_checked": 64,
+    "extremum_OLD_FRESH_scalars_checked": 128,
+    "row_keys_types_finiteness_count_bounds": "PASS_ALL32",
+    "exact_flags_mismatch_maxima_consistency": "PASS_ALL32",
+    "extremum_token_head_dimension_bounds": "PASS_ALL64",
+    "FP32_absolute_extremum_error_exact_matches": 32,
+    "FP32_relative_extremum_ratio_exact_matches": 32,
+    "extremum_cross_maximum_bounds": "PASS_ALL64",
+    "epsilon_tolerance": null,
+    "metric_consistency_failures": [],
+    "nonfinite_reported": 0,
+    "zero_reference_undefined_reported": 0
+  },
+  "aggregate": {
+    "metric_rows": 32,
+    "comparison_elements": 65167360,
+    "exact_rows": 0,
+    "different_rows": 32,
+    "mismatch_count": 32424908,
+    "equal_element_count": 32742452,
+    "mismatch_fraction": 0.49756362694453177,
+    "relative_error_undefined_count": 0,
+    "old_nonfinite_count": 0,
+    "fresh_nonfinite_count": 0,
+    "minimum_row_mismatch_count": 728399,
+    "maximum_row_mismatch_count": 1122820,
+    "max_absolute_error": {
+      "scope_id": "A-r3-TP0-OLD90112-98067-L63-V", "layer_id": 63, "side": "V", "value": 59.03125,
+      "extremum": {"token":94985,"head":0,"dimension":5,"OLD":-58.5,"FRESH":0.53125}
+    },
+    "max_relative_error": {
+      "scope_id": "A-r3-TP0-OLD90112-98067-L47-V", "layer_id": 47, "side": "V", "value": 5800634.0,
+      "extremum": {"token":95115,"head":0,"dimension":172,"OLD":-4.377216100692749e-08,"FRESH":0.25390625}
+    }
+  },
+  "by_side": {
+    "K": {
+      "metric_rows":16,"comparison_elements":32583680,"exact_rows":0,"different_rows":16,
+      "mismatch_count":15794225,"equal_element_count":16789455,"mismatch_fraction":0.48472809087248586,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "minimum_row_mismatch_count":728399,"maximum_row_mismatch_count":1090671,
+      "max_absolute_error": {
+        "scope_id":"A-r3-TP0-OLD90112-98067-L47-K","layer_id":47,"side":"K","value":12.4345703125,
+        "extremum":{"token":95747,"head":0,"dimension":95,"OLD":-0.0595703125,"FRESH":12.375}
+      },
+      "max_relative_error": {
+        "scope_id":"A-r3-TP0-OLD90112-98067-L59-K","layer_id":59,"side":"K","value":275332.625,
+        "extremum":{"token":94508,"head":0,"dimension":188,"OLD":7.404014468193054e-08,"FRESH":0.0203857421875}
+      }
+    },
+    "V": {
+      "metric_rows":16,"comparison_elements":32583680,"exact_rows":0,"different_rows":16,
+      "mismatch_count":16630683,"equal_element_count":15952997,"mismatch_fraction":0.5103991630165776,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "minimum_row_mismatch_count":843425,"maximum_row_mismatch_count":1122820,
+      "max_absolute_error": {
+        "scope_id":"A-r3-TP0-OLD90112-98067-L63-V","layer_id":63,"side":"V","value":59.03125,
+        "extremum":{"token":94985,"head":0,"dimension":5,"OLD":-58.5,"FRESH":0.53125}
+      },
+      "max_relative_error": {
+        "scope_id":"A-r3-TP0-OLD90112-98067-L47-V","layer_id":47,"side":"V","value":5800634.0,
+        "extremum":{"token":95115,"head":0,"dimension":172,"OLD":-4.377216100692749e-08,"FRESH":0.25390625}
+      }
+    }
+  },
+  "rows": [
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L3-K","layer_id":3,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":728399,"max_absolute_error":0.125,"max_relative_error":3343.3359375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94117,"head":0,"dimension":57,"OLD":4.625,"FRESH":4.5},
+      "relative_extremum":{"token":94515,"head":0,"dimension":77,"OLD":9.313225746154785e-07,"FRESH":-0.00311279296875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L3-V","layer_id":3,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":843425,"max_absolute_error":0.09375,"max_relative_error":7815.533203125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94153,"head":0,"dimension":62,"OLD":4.40625,"FRESH":4.5},
+      "relative_extremum":{"token":92317,"head":0,"dimension":0,"OLD":1.1175870895385742e-07,"FRESH":0.000873565673828125}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L7-K","layer_id":7,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":832337,"max_absolute_error":0.07421875,"max_relative_error":4675.40478515625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":93864,"head":0,"dimension":56,"OLD":-0.7421875,"FRESH":-0.66796875},
+      "relative_extremum":{"token":92975,"head":0,"dimension":196,"OLD":4.600733518600464e-07,"FRESH":0.0021514892578125}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L7-V","layer_id":7,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":916654,"max_absolute_error":0.0625,"max_relative_error":5285.15283203125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":92094,"head":0,"dimension":221,"OLD":2.390625,"FRESH":2.453125},
+      "relative_extremum":{"token":94471,"head":0,"dimension":27,"OLD":-2.4400651454925537e-07,"FRESH":0.00128936767578125}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L11-K","layer_id":11,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":873896,"max_absolute_error":0.09375,"max_relative_error":11069.3017578125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96229,"head":0,"dimension":126,"OLD":-4.15625,"FRESH":-4.0625},
+      "relative_extremum":{"token":92621,"head":0,"dimension":63,"OLD":-4.1909515857696533e-07,"FRESH":0.004638671875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L11-V","layer_id":11,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":952029,"max_absolute_error":0.078125,"max_relative_error":12920.9541015625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95774,"head":0,"dimension":236,"OLD":3.078125,"FRESH":3.15625},
+      "relative_extremum":{"token":92320,"head":0,"dimension":221,"OLD":-1.6298145055770874e-07,"FRESH":0.002105712890625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L15-K","layer_id":15,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":893582,"max_absolute_error":0.078125,"max_relative_error":23578.08984375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":91946,"head":0,"dimension":161,"OLD":1.515625,"FRESH":1.59375},
+      "relative_extremum":{"token":95394,"head":0,"dimension":90,"OLD":-7.040798664093018e-07,"FRESH":-0.0166015625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L15-V","layer_id":15,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":963511,"max_absolute_error":0.0625,"max_relative_error":4587.3076171875,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":92061,"head":0,"dimension":253,"OLD":-3.59375,"FRESH":-3.53125},
+      "relative_extremum":{"token":92246,"head":0,"dimension":232,"OLD":7.748603820800781e-07,"FRESH":0.0035552978515625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L19-K","layer_id":19,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":909556,"max_absolute_error":0.103515625,"max_relative_error":13398.75390625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":93766,"head":0,"dimension":230,"OLD":-0.283203125,"FRESH":-0.1796875},
+      "relative_extremum":{"token":93767,"head":0,"dimension":153,"OLD":7.562339305877686e-07,"FRESH":-0.0101318359375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L19-V","layer_id":19,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1015907,"max_absolute_error":0.0546875,"max_relative_error":102731.1171875,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":92054,"head":0,"dimension":47,"OLD":-0.84765625,"FRESH":-0.90234375},
+      "relative_extremum":{"token":94615,"head":0,"dimension":89,"OLD":-8.614733815193176e-08,"FRESH":-0.00885009765625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L23-K","layer_id":23,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":953780,"max_absolute_error":0.1953125,"max_relative_error":28277.955078125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94978,"head":0,"dimension":98,"OLD":-1.8046875,"FRESH":-2.0},
+      "relative_extremum":{"token":96162,"head":0,"dimension":174,"OLD":9.173527359962463e-08,"FRESH":-0.002593994140625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L23-V","layer_id":23,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1026282,"max_absolute_error":0.1435546875,"max_relative_error":8227.5712890625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96208,"head":0,"dimension":139,"OLD":0.1572265625,"FRESH":0.30078125},
+      "relative_extremum":{"token":92716,"head":0,"dimension":13,"OLD":-1.6689300537109375e-06,"FRESH":-0.01373291015625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L27-K","layer_id":27,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":985711,"max_absolute_error":0.5625,"max_relative_error":4433.65771484375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96354,"head":0,"dimension":69,"OLD":-4.65625,"FRESH":-4.09375},
+      "relative_extremum":{"token":94872,"head":0,"dimension":173,"OLD":-1.7404556274414062e-05,"FRESH":0.0771484375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L27-V","layer_id":27,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1033334,"max_absolute_error":0.399658203125,"max_relative_error":24465.7734375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96102,"head":0,"dimension":105,"OLD":-0.032470703125,"FRESH":0.3671875},
+      "relative_extremum":{"token":93145,"head":0,"dimension":185,"OLD":-5.587935447692871e-07,"FRESH":-0.013671875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L31-K","layer_id":31,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1022910,"max_absolute_error":1.484375,"max_relative_error":11916.63671875,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94966,"head":0,"dimension":204,"OLD":1.296875,"FRESH":2.78125},
+      "relative_extremum":{"token":96519,"head":0,"dimension":245,"OLD":7.539987564086914e-06,"FRESH":-0.08984375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L31-V","layer_id":31,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1063691,"max_absolute_error":0.734375,"max_relative_error":133758.90625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94843,"head":0,"dimension":188,"OLD":-0.283203125,"FRESH":0.451171875},
+      "relative_extremum":{"token":96041,"head":0,"dimension":163,"OLD":-2.2724270820617676e-07,"FRESH":0.0303955078125}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L35-K","layer_id":35,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1050905,"max_absolute_error":2.888671875,"max_relative_error":19561.490234375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94966,"head":0,"dimension":246,"OLD":-0.392578125,"FRESH":-3.28125},
+      "relative_extremum":{"token":94131,"head":0,"dimension":81,"OLD":1.4603137969970703e-06,"FRESH":-0.028564453125}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L35-V","layer_id":35,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1095105,"max_absolute_error":1.830078125,"max_relative_error":17977.119140625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94966,"head":0,"dimension":143,"OLD":0.404296875,"FRESH":2.234375},
+      "relative_extremum":{"token":94762,"head":0,"dimension":239,"OLD":-6.891787052154541e-07,"FRESH":-0.01239013671875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L39-K","layer_id":39,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1055722,"max_absolute_error":3.65234375,"max_relative_error":4873.240234375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94854,"head":0,"dimension":56,"OLD":0.77734375,"FRESH":-2.875},
+      "relative_extremum":{"token":92367,"head":0,"dimension":150,"OLD":2.9802322387695312e-06,"FRESH":0.0145263671875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L39-V","layer_id":39,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1107459,"max_absolute_error":2.94921875,"max_relative_error":144918.640625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94844,"head":0,"dimension":108,"OLD":2.359375,"FRESH":-0.58984375},
+      "relative_extremum":{"token":96157,"head":0,"dimension":31,"OLD":5.289912223815918e-07,"FRESH":-0.07666015625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L43-K","layer_id":43,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1072794,"max_absolute_error":7.953125,"max_relative_error":53490.546875,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":126,"OLD":3.984375,"FRESH":11.9375},
+      "relative_extremum":{"token":93668,"head":0,"dimension":88,"OLD":-2.7567148208618164e-06,"FRESH":-0.1474609375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L43-V","layer_id":43,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1098291,"max_absolute_error":20.375,"max_relative_error":46810.4296875,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":15,"OLD":-8.0,"FRESH":-28.375},
+      "relative_extremum":{"token":94919,"head":0,"dimension":40,"OLD":2.5033950805664062e-06,"FRESH":0.1171875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L47-K","layer_id":47,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1079545,"max_absolute_error":12.4345703125,"max_relative_error":68311.0078125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":95,"OLD":-0.0595703125,"FRESH":12.375},
+      "relative_extremum":{"token":96390,"head":0,"dimension":114,"OLD":-5.632638931274414e-06,"FRESH":0.384765625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L47-V","layer_id":47,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1109138,"max_absolute_error":29.65234375,"max_relative_error":5800634.0,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":90,"OLD":-0.59765625,"FRESH":-30.25},
+      "relative_extremum":{"token":95115,"head":0,"dimension":172,"OLD":-4.377216100692749e-08,"FRESH":0.25390625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L51-K","layer_id":51,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1084856,"max_absolute_error":8.84375,"max_relative_error":143306.375,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":206,"OLD":0.71875,"FRESH":-8.125},
+      "relative_extremum":{"token":95301,"head":0,"dimension":249,"OLD":1.6763806343078613e-06,"FRESH":-0.240234375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L51-V","layer_id":51,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1121485,"max_absolute_error":23.5234375,"max_relative_error":97138.65625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":95747,"head":0,"dimension":88,"OLD":-1.2265625,"FRESH":-24.75},
+      "relative_extremum":{"token":94670,"head":0,"dimension":0,"OLD":7.338821887969971e-07,"FRESH":0.0712890625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L55-K","layer_id":55,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1077669,"max_absolute_error":6.84375,"max_relative_error":56901.515625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96306,"head":0,"dimension":102,"OLD":-4.8125,"FRESH":2.03125},
+      "relative_extremum":{"token":92077,"head":0,"dimension":71,"OLD":3.888271749019623e-08,"FRESH":0.0022125244140625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L55-V","layer_id":55,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1122820,"max_absolute_error":37.4296875,"max_relative_error":181421.828125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94985,"head":0,"dimension":136,"OLD":36.0,"FRESH":-1.4296875},
+      "relative_extremum":{"token":96414,"head":0,"dimension":33,"OLD":2.4437904357910156e-06,"FRESH":0.443359375}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L59-K","layer_id":59,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1081892,"max_absolute_error":6.2890625,"max_relative_error":275332.625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":96391,"head":0,"dimension":104,"OLD":5.0,"FRESH":-1.2890625},
+      "relative_extremum":{"token":94508,"head":0,"dimension":188,"OLD":7.404014468193054e-08,"FRESH":0.0203857421875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L59-V","layer_id":59,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1100839,"max_absolute_error":31.19140625,"max_relative_error":48452.15625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94985,"head":0,"dimension":111,"OLD":-31.75,"FRESH":-0.55859375},
+      "relative_extremum":{"token":96085,"head":0,"dimension":62,"OLD":0.00010061264038085938,"FRESH":4.875}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L63-K","layer_id":63,"side":"K","old_rows":7955,"values_exact":false,
+      "mismatch_count":1090671,"max_absolute_error":6.572265625,"max_relative_error":29215.7890625,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94854,"head":0,"dimension":90,"OLD":6.09375,"FRESH":-0.478515625},
+      "relative_extremum":{"token":93509,"head":0,"dimension":228,"OLD":-1.2099742889404297e-05,"FRESH":-0.353515625}
+    },
+    {
+      "scope_id":"A-r3-TP0-OLD90112-98067-L63-V","layer_id":63,"side":"V","old_rows":7955,"values_exact":false,
+      "mismatch_count":1060713,"max_absolute_error":59.03125,"max_relative_error":615279.125,
+      "relative_error_undefined_count":0,"old_nonfinite_count":0,"fresh_nonfinite_count":0,
+      "absolute_extremum":{"token":94985,"head":0,"dimension":5,"OLD":-58.5,"FRESH":0.53125},
+      "relative_extremum":{"token":94713,"head":0,"dimension":45,"OLD":-1.8030405044555664e-06,"FRESH":-1.109375}
+    }
+  ],
+  "environment": {
+    "workspace": "/data/ycfeng/sota-engine/miles/.worktrees/agent-opd-image",
+    "local_python": "3.12.13",
+    "local_executable": "/data/ycfeng/envs/miles-agent-opd-cpu/bin/python",
+    "local_platform": "Linux-5.10.25-nvidia-gpu-x86_64-with-glibc2.35",
+    "native_receipt": {"python":"3.12.16","torch":"2.14.1+cu130","sglang":"0.5.24.dev80+g056f871"},
+    "execution": "Standard-library JSON/text/scalar checks only; no runtime/native imports",
+    "timeout_seconds": 60,
+    "address_space_limit_bytes": 32212254720
+  },
+  "limits": [
+    "Nonzero qualified OLD/FRESH metrics support candidate1 only: local payload difference at actual adoption.",
+    "No invalid-SSM, causal warm-failure, earliest-token/layer, root-fix or performance claim.",
+    "No allTP, other-window, earliest-Mamba-state, universal-race or mapped-ELF claim.",
+    "Equality would narrow only this TP0/window/FULL-layer span; it is not observed here.",
+    "Relative maxima may be large because OLD is close to zero; they do not independently measure causal severity.",
+    "Full counts/maxima cannot be independently replayed from intentionally absent raw payload.",
+    "Cold OLD is absent, not fabricated zero-error evidence; optional cross-bank FRESH comparison is skipped.",
+    "Original warm1/4 FAIL, formal04/05 HOLD and06 each-own200 conditions remain unchanged.",
+    "Concurrent routine shared-document synchronization is not a new approval or dependency gate."
+  ],
+  "inspection_history": {
+    "offline_schema_error": "KeyError: 'layers' in an initial topology inspection; corrected to actual mapping/buffers before numerical verification; not a runtime failure",
+    "read_only_scope_deviation": "One design symbol grep accidentally read the live design_kv_coherence_measurement.md; final criteria were reread from281e70f7 through Git, no live shared document was changed or used as current acceptance authority"
+  },
+  "owned_artifacts": [
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/test_report_2026-11-11_kv_coherence_native_A_r3_numeric_results.md",
+    "task_memory/task_2026-11-08_qwen35_full_kl_nll/evidence/teacher-scoring-kv-coherence-probe-20261111/numeric-verification-A-r3.json"
+  ]
+}
