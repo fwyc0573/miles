@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Fresh D40 bounded H800 A/B r2 is SUBMITTED; both filtered Initial snapshots are Starting, not native capture PASS. Source6119bee1/data code remain frozen, with the same R3 receipt and16 requests/10 flushes/first4/repetition0. See the [current submission/frontier](progress.md#current-execution--workflow-rca). Source CPU/review/checksum prerequisites and9da07919 bounded original controls remain accepted; warm1/4 FAIL and original r1 capture FAIL/no KV persist. New physical GPU/source/private SO/S/OLD/7955/native vector/KV acceptance is pending. Raw decisions,science,all53 checkboxes,D39/D40/D10,HF/eval disabled,bank_uses=50,S7,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged. No duplicate/retry/control permission is added.
+**Current execution:** Both r2 diagnostics are Failed after16 scores/10 flushes, container Error/exit1/restart0. Primary accepts both A/B bounded controls after explicit B steering; platform acceptance covers failed status/timeline only, not native success. Topology/preallocation budgets and OLD7955 fragments are metadata only; global note_cpp/fresh NoneType length errors are A224/B140, with no physical/KV acceptance. See the [current failure/RCA frontier](progress.md#current-execution--workflow-rca). The read-only batch-metadata owner is building an actual RED-capable CPU repro; cause and production correction are not established or delegated. D40 ordinary CPU work remains authorized, not a new user-approval gate. Source6119/R3 CPU/CPP/WIT/r1 controls,warm1/4 FAIL,raw decisions,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge are unchanged; no GPU retry permission is inferred.
 
 **Historical stage notes:** All earlier Active/Current milestone paragraphs below are preserved snapshots, not current acceptance or blockers; the current execution paragraph above supersedes them.
 
@@ -18,6 +18,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Combine r2 Failed/capture-metadata evidence with primary A/B bounded-control acceptance and ongoing CPU RED RCA; retain ordinary CPU authorization and all science. |
 | 2026-11-11 | Record actual r2 submission and Initial Starting snapshots only; preserve pending native acceptance, frozen inputs and all scientific decisions. |
 | 2026-11-11 | Record accepted bounded r1 controls and committed CPU/source fix6119bee1 with closed reviews/checksums; advance current frontier to unsubmitted D40 r2 without changing science. |
 | 2026-11-11 | Record both original H800 capture failures and completed scoring/cleanup, source-only raw/resolved guard RCA, and pending fix/control verification without changing science. |

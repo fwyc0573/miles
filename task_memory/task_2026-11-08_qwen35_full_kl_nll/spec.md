@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Fresh D40 A/B r2 is SUBMITTED; both filtered Initial snapshots are Starting, not native capture PASS. Source6119bee1/data code,same R3 and16/10/first4/repetition0 stay frozen with four requested nonpreemptible H800 each. The [current frontier](plan.md#current-frontier) is actual physical GPU/source/private SO/S/OLD/7955/native vector/KV verification, still pending. Source CPU/review/checksum and9da07919 original bounded controls remain accepted; warm1/4 FAIL and original r1 capture FAIL/no KV persist. Science/all53 checkboxes,source/R3 CPU/WIT,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain unchanged. No new checkpoint, duplicate/retry/control authority or acceptance criterion is added for this Initial update.
+**Current execution:** Both r2 attempts are Failed,Error/exit1/restart0 after16 scores/10 flushes. A/B bounded controls are primary accepted,with explicit B steering merged in this pass; platform acceptance is failed-status/timeline only. Metadata budgets/OLD7955 and note_cpp/fresh errors A224/B140 do not establish physical/KV correctness. The [current frontier](plan.md#current-frontier) is actual RED-capable CPU capture RCA under the read-only batch-metadata owner; no source cause/production fix or GPU retry is inferred. D40 ordinary CPU work remains authorized,not a new user-approval gate. Source6119/R3 CPU/CPP/WIT/r1 controls,warm1/4 FAIL,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain unchanged. No new ticket/scope/criterion is added.
 
 **Active CPU stage:** PREP17/17; actualGPU0 baseline/observer COMPILE+LOAD PASS, originalfixture constructor FAIL list/int64-buffer beforeinsert. Reuse-library replay unsubmitted. Alias/GIL/lifetime/Cargo/nativeCPU semantics pending; no numerical/H800/formal acceptance. Science and prior scope unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Record r2 failure/metadata-only capture and both accepted bounded controls; retain unchanged physical/numeric criteria and ordinary CPU authorization for RED RCA. |
 | 2026-11-11 | Update execution to actual submitted r2/Initial Starting without inferring native proof or changing scientific criteria and control permissions. |
 | 2026-11-11 | Close bounded control and committed CPU/source fix prerequisites; preserve unchanged native physical/KV criteria for fresh unsubmitted D40 r2. |
 | 2026-11-11 | Record original capture failure and source-only raw/resolved guard RCA in execution status; keep parity/fix/reviews/native acceptance pending and scientific criteria unchanged. |
@@ -98,7 +99,7 @@
 
 ### D40 diagnostic namespace counterfactual preregistration
 
-**Current D40 qualification:** Closed source6119bee1 CPU/review/checksum and bounded original controls remain accepted. Fresh A || B r2 is actually SUBMITTED with Initial Starting only,A16/B10/four requested nonpreemptible H800 each/same R3 and unchanged16/10/first4/repetition0. Actual physical GPU/source/private SO/S/OLD,active-capture all16/6804 EXACT and independent7955 physical binding remain unaccepted and must qualify BEFORE KV interpretation. Preserve A514.375/B321.625 MiB budgets,compact statistics/no raw KV archive,warm1/4 FAIL,original r1 capture FAIL/no KV and all scientific/checklist criteria. Formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge remain; no new gate/ticket/duplicate/retry/control authority or full checkpoint is added until native verification.
+**Current D40 qualification:** Source6119 CPU/review/checksum and both r2 bounded controls remain accepted; both actual r2 attempts Failed and capture is UNVERIFIED. Metadata A539361280/B337248256 and OLD6519+1436=7955 do not satisfy complete FRESH,physical-index,private callback/SO/S or KV numerical criteria. Actual RED-capable CPU RCA is ongoing under the read-only batch-metadata owner; no production fix is assigned before primary assesses evidence,and this owner scope is not an additional user approval requirement. D40 ordinary in-scope CPU work remains authorized; no new GPU submission/retry follows automatically. Preserve A16/B10,A514.375/B321.625 MiB,physical/native qualification BEFORE KV interpretation,compact statistics/no raw KV archive,warm1/4 FAIL,original r1 capture FAIL,formal04/05 HOLD,06 waiting independent200,B no A200 edge and all science/checklists. Audit timeouts are evidence gaps,not proof that no stop or preemption occurred.
 
 **Historical prerequisite snapshots:** The earlier current-status line in S0 and the Active paragraphs below retain prior SOURCE/WIT, failed R1 and design-stage evidence. They are not current R2 acceptance or blockers; the preregistered diagnostic/scientific criteria remain unchanged.
 

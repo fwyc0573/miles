@@ -1,6 +1,6 @@
 ## Modification History
 
-**Current execution:** Fresh D40 H800 A/B r2 is SUBMITTED, with both filtered Initial snapshots Starting only. Frozen source6119bee1/data code,same R3 and16/10/first4/repetition0 remain; each requests four nonpreemptible H800. The [current submission/frontier](progress.md#current-execution--workflow-rca) records exact jobs/receipts. Accepted source CPU/review/checksum and9da07919 bounded controls are unchanged; new physical GPU/source/private SO/S/OLD/7955/native vector/KV acceptance remains pending. Warm1/4 FAIL,original r1 capture FAIL/no KV,source/R3 CPU/WIT,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge persist. Previous checkpoints are historical; no new full checkpoint until native verification, and no duplicate/retry/control permission is added.
+**Current execution:** Both r2 attempts are Failed after16 scores/10 flushes; primary accepts A/B bounded controls and failed-status/exit timelines only. Topology/preallocation budgets and OLD7955 fragments are metadata only; capture errors are A224/B140 with NoneType length messages,not physical/KV acceptance. The [current RCA frontier](progress.md#current-execution--workflow-rca) is the read-only batch-metadata owner's actual RED-capable CPU repro; no cause/production fix is established or delegated. D40 ordinary CPU work remains authorized without a new user-approval gate; no GPU retry permission is inferred. Explicit B acceptance is merged into this same pass/one checkpoint. Source6119/R3 CPU/CPP/WIT/r1 controls,warm1/4 FAIL,science/all53 checkboxes,formal04/05 HOLD,06 waiting independent200 and B's no-A200 edge persist; audit ReadTimeouts remain evidence gaps and earlier snapshots remain historical.
 
 **Current CPU frontier:** sourcePREP17/17 and actualGPU0 productionABI baseline/observer COMPILE+LOADPASS; semanticqualification failed atconstructor list vscontiguousint64buffer beforeinsert. Compiledlibraries retained, exactfixturefix/reuse replay notsubmitted. No alias/GIL/thread/lifetime/actions/Cargo/nativeCPU/physical/H800/root/formal acceptance; collector runtime/errorgate pending. Earlier source/helperpending blocks historical; source/WIT/science/HFdisabled/50/Bedge/formalHOLD unchanged.
 
@@ -10,6 +10,7 @@
 
 | Date | Change |
 | --- | --- |
+| 2026-11-11 | Archive combined r2 Failed/A-B bounded-control acceptance,metadata-only capture evidence and ongoing CPU RED RCA with no new approval or retry gate. |
 | 2026-11-11 | Archive actual r2 submission/Initial Starting only with frozen source and unchanged native/formal limits; retain the latest four-section checkpoint. |
 | 2026-11-11 | Archive accepted bounded controls and committed CPU/source guard fix with closed reviews/checksums; retain unsubmitted native r2, warm/capture failures and formal hold. |
 | 2026-11-11 | Archive original H800 capture FAIL, completed scoring/cleanup and source-only raw/resolved guard cause; retain pending parity, fix/reviews/native rerun and formal hold. |
